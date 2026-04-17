@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { EventEmitter, Readable } from 'node:stream';
+import { EventEmitter } from 'node:events';
+import { Readable } from 'node:stream';
 import { StdioReader } from './stdio-reader.js';
 
 /** Build a framed LSP message string. */
