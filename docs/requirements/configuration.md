@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Config.Precedence.Layering
+**User Req:** User.Config.CustomiseLinkStyle
 **Gist:** Project-level `.flavor-grenade.toml` values override user-level config values, which in turn override built-in defaults; each layer must affect only the keys it explicitly defines, leaving all other keys at their inherited value.
 **Ambition:** A three-tier configuration stack is standard practice for developer tools (editors, linters, LSPs) and provides the correct layering for both personal and team usage: team-wide project settings in the project file, personal preferences in the user file, and safe defaults for unconfigured scenarios. The critical property is that each tier is additive, not total: a project file that sets only `wiki.style` must not reset `completion.candidates` to an unexpected value. Violating this contract creates configuration surprises that are extremely difficult to debug because the symptom (unexpected LSP behaviour) appears far removed from the cause (a missing key in a config file resetting to default).
 **Scale:** Percentage of test cases in which a key defined at a higher-priority tier takes the expected value when the same key is also defined at a lower-priority tier, and in which a key defined only at a lower-priority tier retains its lower-tier value. Scope: at least 5 distinct configuration keys across at least 3 test scenarios per key.
@@ -37,6 +38,7 @@ aliases:
 ---
 
 **Tag:** Config.Validation.Candidates
+**User Req:** User.Config.TuneCompletions
 **Gist:** The `completion.candidates` configuration value must be rejected if it is zero, negative, or non-integer, and the server must silently substitute the built-in default value (50) rather than crashing or surfacing the error to the author.
 **Ambition:** `completion.candidates` controls a performance-critical aspect of the completion feature: how many items are returned per request. A value of zero would cause completion to return nothing, silently disabling a core LSP feature. A negative value would produce undefined behaviour in the candidate-capping logic. Authors who misconfigure this value are unlikely to connect a completion outage to a config file entry without a clear signal; substituting the default ensures the server remains functional and the error is observable at the debug log level where tooling-aware developers can find it.
 **Scale:** Percentage of server startups with an invalid `completion.candidates` value (zero, negative integer, floating-point, or non-numeric string) in which the server (a) does not crash, (b) uses the built-in default of 50 for the effective `completion.candidates` value, and (c) emits at least one debug-level log message identifying the invalid value and the substitution.
