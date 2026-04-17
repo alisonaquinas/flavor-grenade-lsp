@@ -34,7 +34,7 @@ docs/requirements/
 ├── user/
 │   ├── index.md                  ← master UR tag table + cross-ref
 │   ├── navigating-notes.md       ← 3 user reqs
-│   ├── authoring-links.md        ← 3 user reqs
+│   ├── authoring-links.md        ← 4 user reqs
 │   ├── embedding-content.md      ← 2 user reqs
 │   ├── writing-with-tags.md      ← 3 user reqs
 │   ├── referencing-blocks.md     ← 2 user reqs
@@ -123,7 +123,7 @@ Each functional requirement that has a user-level mapping carries a `User Req:` 
 
 ## Complete User Requirement Inventory
 
-22 user requirements across 9 themes.
+23 user requirements across 9 themes.
 
 ### navigating-notes (3)
 
@@ -133,12 +133,13 @@ Each functional requirement that has a user-level mapping carries a `User Req:` 
 | User.Navigate.FindAllReferences | See everywhere a note or heading is referenced | Navigation.References.Completeness |
 | User.Navigate.SeeReferenceCount | See at a glance how many notes link to a heading | Navigation.CodeLens.Count |
 
-### authoring-links (3)
+### authoring-links (4)
 
 | Tag | Goal | Maps to |
 |-----|------|---------|
 | User.Author.CompleteWikiLink | Get suggestions when starting a `[[link` | Completion.Trigger.Coverage, Completion.WikiStyle.Binding, Completion.Candidates.Cap, Link.Resolution.IgnoreGlob |
 | User.Author.CompleteHeading | Get heading suggestions after `[[note#` | Completion.Trigger.Coverage |
+| User.Author.CompleteCallout | Get callout type suggestions when starting `> [!` | Completion.CalloutType.Coverage, Completion.Trigger.Coverage |
 | User.Author.FollowLinkStyle | Have the server respect the vault's link style convention | Link.Wiki.StyleBinding, Completion.WikiStyle.Binding, Rename.StyleBinding.Consistency |
 
 ### embedding-content (2)
@@ -167,9 +168,9 @@ Each functional requirement that has a user-level mapping carries a `User Req:` 
 
 | Tag | Goal | Maps to |
 |-----|------|---------|
-| User.Diagnose.SpotBrokenLinks | See immediately which links point to non-existent notes | Diagnostic.Severity.WikiLink, Diagnostic.Debounce.Latency, Diagnostic.SingleFile.Suppression |
+| User.Diagnose.SpotBrokenLinks | See immediately which links point to non-existent notes | Diagnostic.Severity.WikiLink, Diagnostic.Code.Assignment, Diagnostic.Debounce.Latency, Diagnostic.SingleFile.Suppression |
 | User.Diagnose.SpotAmbiguousLinks | Be warned when a link could resolve to more than one note | Diagnostic.Ambiguous.RelatedInfo |
-| User.Diagnose.SpotBrokenEmbeds | Be warned when an embedded file is missing | Diagnostic.Severity.Embed, Diagnostic.Debounce.Latency |
+| User.Diagnose.SpotBrokenEmbeds | Be warned when an embedded file is missing | Diagnostic.Severity.Embed, Diagnostic.Code.Assignment, Diagnostic.Debounce.Latency |
 
 ### renaming-safely (2)
 
@@ -218,8 +219,8 @@ Which `User Req:` values each functional requirement file gains:
 | Block.Completion.Offer | User.Blocks.CompleteBlockRef |
 | Block.Anchor.Lineend | User.Blocks.CompleteBlockRef |
 | Completion.Candidates.Cap | User.Author.CompleteWikiLink, User.Config.TuneCompletions |
-| Completion.Trigger.Coverage | User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Tags.CompleteTag |
-| Completion.CalloutType.Coverage | User.Author.CompleteWikiLink |
+| Completion.Trigger.Coverage | User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Author.CompleteCallout, User.Tags.CompleteTag |
+| Completion.CalloutType.Coverage | User.Author.CompleteCallout |
 | Completion.WikiStyle.Binding | User.Author.CompleteWikiLink, User.Author.FollowLinkStyle |
 | Diagnostic.Severity.WikiLink | User.Diagnose.SpotBrokenLinks |
 | Diagnostic.Severity.Embed | User.Diagnose.SpotBrokenEmbeds |
