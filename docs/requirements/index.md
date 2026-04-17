@@ -67,6 +67,13 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[diagnostics]] |
 | **Diagnostic.Ambiguous.RelatedInfo** | FG002 diagnostics must list all duplicate definition locations in `relatedInformation`. | [[diagnostics]] |
 | **Diagnostic.SingleFile.Suppression** | All cross-file diagnostics must be suppressed in single-file mode. | [[diagnostics]] |
+| **CA-001** | The server surfaces a `fg.createMissingFile` code action when a wiki-link target does not exist; execution creates the file and clears FG001. | [[code-actions]] |
+| **CA-002** | The server surfaces a `fg.toc` code action for documents with headings; execution inserts or replaces a correctly formatted TOC block. | [[code-actions]] |
+| **CA-003** | The server surfaces a `fg.tagToYaml` code action when the cursor is on an inline body tag; execution moves the tag to frontmatter and removes it from the body. | [[code-actions]] |
+| **HV-001** | Hovering a wiki-link returns the target document's title, vault-relative path, and first-paragraph preview truncated to `hover.preview_chars`. | [[hover]] |
+| **HV-002** | Hovering an embed link returns the embedded target's resolved vault-relative path and detected file type. | [[hover]] |
+| **ST-001** | The server emits semantic token ranges for wiki-links, embed links, block anchors, inline tags, and callout markers. | [[semantic-tokens]] |
+| **ST-002** | Semantic tokens are not emitted for OFM constructs inside fenced code blocks or display math blocks. | [[semantic-tokens]] |
 | **Navigation.Definition.AllLinkTypes** | Go-to-definition must work for wiki-links, embed links, block references, and tags. | [[navigation]] |
 | **Navigation.References.Completeness** | Find-references must return all references in the folder that resolve to the target. | [[navigation]] |
 | **Navigation.CodeLens.Count** | Each heading must display a "N references" code lens with an accurate count. | [[navigation]] |

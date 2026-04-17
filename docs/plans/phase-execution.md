@@ -55,9 +55,39 @@ A phase cannot be marked `complete` in [[plans/execution-ledger]] if any ticket 
 
 ---
 
+## Rule 5 — Every Issue Found in Steps E–L Must Be Ticketed Before It Is Fixed
+
+Any defect, warning, code smell, security finding, or test failure discovered during steps E through L must be captured as a ticket **before** any corrective action is taken. Silent fixes — edits made without a corresponding ticket — are a process violation.
+
+**Applies to all sweep and test steps:**
+
+| Step | Ticket type to open | Severity guidance |
+|---|---|---|
+| E (Lint sweep) | `CHORE-NNN` or `BUG-NNN` | Lint errors that change behaviour → BUG; style/config → CHORE |
+| F (Code quality sweep) | `CHORE-NNN` or `BUG-NNN` | Structural violations → CHORE; logic defects → BUG |
+| G (Security sweep) | `BUG-NNN` with `severity: high` or `critical` | All security findings are BUGs, never CHOREs |
+| H (Fix sweep tickets) | Follow existing ticket lifecycle | No new code outside a ticket's declared scope |
+| I (Unit tests) | `BUG-NNN` per non-trivial failure | Trivial fixture typos may be fixed inline; logic failures require a ticket |
+| J (Integration tests) | `BUG-NNN` per failure | All integration failures require a ticket |
+| K (Verification tests) | `BUG-NNN` per failure | All verification failures require a ticket |
+| L (Validation / BDD) | `BUG-NNN` per failing scenario | Each failing BDD scenario is a separate ticket |
+
+**Workflow for each finding:**
+
+1. Open the ticket (assign next globally-sequential ID for that type)
+2. Set status to `open`
+3. Transition to `triaged` once root cause is confirmed
+4. Fix via the ticket's lifecycle (regression test first for BUGs)
+5. Close the ticket before moving to the next phase step
+6. Append the ticket ID to the relevant step's output in the Workflow Log of the phase's FEAT ticket
+
+> [!WARNING] An agent that fixes a failing test, lint error, or security finding without first opening a ticket is in violation of this rule. The corrective commit will be rejected in code review.
+
+---
+
 ## Phase Lifecycle Checklist
 
-Every phase must complete steps A through L in order. No step may be skipped.
+Every phase must complete steps A through M in order. No step may be skipped.
 
 ### Step A — Evaluate Phase Tickets
 
@@ -150,23 +180,69 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 
 ### Step J — Run Integration Tests
 
-1. Run `bun test tests/integration/`
-2. Fix all failures; open `BUG` tickets as needed
+1. Check whether `tests/integration/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note "no integration tests in this phase" in the Step M retrospective; proceed to Step K
+   - **If test files exist:** run `bun test tests/integration/`
+2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step K — Run Verification Tests
 
-1. Run `bun test tests/verification/`
-2. Fix all failures; open `BUG` tickets as needed
+1. Check whether `tests/verification/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to Step L
+   - **If test files exist:** run `bun test tests/verification/`
+2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step L — Run Validation Tests
 
-1. Run `bun test tests/validation/`
-2. Fix all failures
-3. Run all BDD `@smoke` scenarios: `bun run bdd -- --tags @smoke`
-4. Fix any failing BDD scenarios
-5. Repeat until all pass
+1. Check whether `tests/validation/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to BDD check
+   - **If test files exist:** run `bun test tests/validation/`; fix all failures
+2. Run all BDD `@smoke` scenarios: `bun run bdd -- --tags @smoke`
+   - **If cucumber is not yet configured for this phase:** mark BDD check **N/A** and note in retrospective
+3. Fix any failing BDD scenarios; open `BUG` tickets per Rule 5
+4. Repeat until all pass
+
+### Step M — Phase Retrospective
+
+Document what was learned during this phase. The retrospective is written directly into the phase's `FEAT-NNN.md` ticket under a `## Retrospective` section appended to the file. It is **not** a separate document.
+
+The retrospective must cover:
+
+1. **What went as planned** — tasks or estimates that proved accurate; approaches that worked well
+2. **What deviated from the plan** — tasks that took longer or shorter than expected; approaches that had to change mid-flight; tickets that were opened during sweeps or tests (list by ID)
+3. **Process observations** — anything the A–M checklist did not anticipate; steps that felt redundant or were missing
+4. **Carry-forward actions** — concrete changes to apply to the *next* phase's planning: updated time estimates, scope adjustments, new SPIKE tickets opened, ADR amendments needed
+5. **Rule or template updates** — if any process rule (Rules 1–5), ticket template, or lifecycle document should be amended based on this phase's experience, open a documentation CHORE ticket and reference it here
+
+**Format:** append to `FEAT-NNN.md` as follows:
+
+```markdown
+## Retrospective
+
+> Written after Step L passes. Date: YYYY-MM-DD.
+
+### What went as planned
+...
+
+### Deviations and surprises
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-NNN | Bug | ... | +N h |
+| CHORE-NNN | Chore | ... | +N h |
+
+### Process observations
+...
+
+### Carry-forward actions
+- [ ] ...
+
+### Rule / template amendments
+- [ ] CHORE-NNN — <description> (or "none")
+```
+
+> [!NOTE] A retrospective with all sections left blank is a documentation defect. Write at least one sentence per section. "Nothing to report" is acceptable only for carry-forward actions and rule amendments when truly nothing changed.
 
 ---
 
@@ -174,11 +250,12 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 
 A phase is complete **only** when ALL of the following are true:
 
-- [ ] Steps A through L executed to completion (no step skipped)
+- [ ] Steps A through **M** executed to completion (no step skipped)
 - [ ] All `TASK`, `CHORE`, and `BUG` tickets in the phase folder are in a terminal state
 - [ ] The phase gate command passes in CI on all three platforms (linux-x64, darwin-arm64, win-x64)
 - [ ] The execution ledger row shows `✅ complete` with a completion date
 - [ ] A PR linking the phase work is open or merged
+- [ ] `FEAT-NNN.md` contains a completed `## Retrospective` section
 
 The AI agent must NOT mark a phase `complete` without CI confirmation. The CI gate is authoritative. See [[plans/execution-ledger]] for gate commands.
 

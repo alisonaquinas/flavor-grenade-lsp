@@ -3,7 +3,7 @@ id: "TASK-001"
 title: "Complete Documentation Scaffold to AGENTS.md Quality Gates"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "0"
 parent: "FEAT-001"
@@ -144,3 +144,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-16
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-001]].
+
+> [!CHECK] Done — 2026-04-17
+> All 8 AGENTS.md quality gates verified passing. Gate 3: 14 missing ubiquitous-language terms added. Gate 5: 23 user requirements converted to full 7-field Planguage format. Gate 7: requirements created for code-actions, hover, semantic-tokens. Gate 8: transport.feature, code-actions.feature, and scaffold BDD scenario created. Remaining gates 1, 2, 4, 6 were already passing. Status: `done`.

@@ -1,9 +1,18 @@
 @lsp
+@adr:ADR001
 @adr:ADR003
 Feature: Vault and workspace management
 
   Background:
     Given a temporary working directory for each scenario
+
+  @smoke
+  @phase:phase-01-scaffold
+  Scenario: Server process starts and responds to initialize (phase-01 scaffold verification)
+    Given a flavor-grenade-lsp server process started via stdio transport
+    When the client sends an "initialize" request with processId and rootUri null
+    Then the server returns an "initialize" response containing a non-null capabilities object
+    And the server process is still running after the response is received
 
   @smoke
   Scenario: Vault detected via .obsidian/ directory

@@ -3,7 +3,7 @@ id: "FEAT-001"
 title: "Phase 0 — Documentation Scaffold"
 type: feature
 # status: draft | ready | in-progress | blocked | in-review | done | cancelled
-status: in-progress
+status: done
 priority: "high"
 phase: "0"
 created: "2026-04-16"
@@ -101,7 +101,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | `open` |
+| [[tickets/TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | `done` |
 
 ---
 
@@ -152,3 +152,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-16
 > Ticket created. Status: `in-progress`. Documentation scaffold phase initiated; TASK-001 created as child task.
+
+> [!CHECK] Done — 2026-04-17
+> All 8 AGENTS.md quality gates verified passing via independent re-audit. TASK-001 closed. Execution ledger updated: Phase 0 ✅ complete. Status: `done`.

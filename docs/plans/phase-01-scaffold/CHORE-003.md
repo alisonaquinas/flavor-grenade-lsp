@@ -3,7 +3,7 @@ id: "CHORE-003"
 title: "Phase 1 Security Sweep"
 type: chore
 # status: open | in-progress | blocked | in-review | done | cancelled
-status: open
+status: done
 priority: "high"
 phase: "1"
 created: "2026-04-17"
@@ -122,3 +122,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: [[adr/ADR013-path-traversal-prevention]], [[adr/ADR014-supply-chain-policy]]. Blocked until CHORE-002 (Code Quality Sweep) is done.
+
+> [!CHECK] Done — 2026-04-17
+> Sweep complete. All findings ticketed and resolved. Status: `done`.

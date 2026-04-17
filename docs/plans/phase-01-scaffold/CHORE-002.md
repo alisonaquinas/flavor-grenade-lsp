@@ -3,7 +3,7 @@ id: "CHORE-002"
 title: "Phase 1 Code Quality Sweep"
 type: chore
 # status: open | in-progress | blocked | in-review | done | cancelled
-status: open
+status: done
 priority: "high"
 phase: "1"
 created: "2026-04-17"
@@ -121,3 +121,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: [[requirements/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
+
+> [!CHECK] Done — 2026-04-17
+> Sweep complete. All findings ticketed and resolved. Status: `done`.

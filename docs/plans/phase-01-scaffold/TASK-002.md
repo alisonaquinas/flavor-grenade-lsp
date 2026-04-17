@@ -2,8 +2,8 @@
 id: "TASK-002"
 title: "Initialize Bun project"
 type: task
-# status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+# status: in-review | red | green | refactor | in-review | done | blocked | cancelled
+status: done
 priority: "high"
 phase: "1"
 parent: "FEAT-002"
@@ -128,3 +128,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+
+> [!INFO] In-review — 2026-04-17
+> Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

@@ -1,0 +1,38 @@
+{
+  "name": "flavor-grenade-lsp",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Language Server Protocol server for Obsidian Flavored Markdown",
+  "scripts": {
+    "dev": "bun --watch src/main.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/main.js",
+    "test": "bun test",
+    "bdd": "cucumber-js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "gate:1": "bun run build && bun test"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.19",
+    "@nestjs/core": "^11.1.19",
+    "@nestjs/platform-express": "^11.1.19",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "vscode-languageserver-protocol": "^3.17.5",
+    "vscode-languageserver-types": "^3.17.5"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.8.1",
+    "@jest/globals": "^30.3.0",
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "@typescript-eslint/parser": "^8.58.2",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}

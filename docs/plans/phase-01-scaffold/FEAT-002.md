@@ -3,7 +3,7 @@ id: "FEAT-002"
 title: "Project Scaffold"
 type: feature
 # status: draft | ready | in-progress | blocked | in-review | done | cancelled
-status: draft
+status: done
 priority: "high"
 phase: "1"
 created: "2026-04-17"
@@ -172,3 +172,46 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Phase 1 Project Scaffold feature defined; all child tasks (TASK-002 through TASK-016) and chores (CHORE-001 through CHORE-003) created. Blocked by FEAT-001 until Phase 0 documentation quality gates pass.
+
+> [!INFO] In-progress — 2026-04-17
+> Phase 0 documentation scaffold complete and committed. Phase 1 execution begins. Execution ledger updated: Phase 0 ✅ complete, Phase 1 🔄 in-progress. Feature branch `feature/phase-01-scaffold` created from develop. Status: `in-progress`.
+
+> [!CHECK] Done — 2026-04-17
+> All acceptance criteria met. TASK-002–016 done. CHORE-001–003 done. CHORE-040, CHORE-041 opened and closed (quality sweep). BUG-001 opened and closed (process fix). gate:1 passes. Retrospective written. Status: `done`.
+
+---
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-04-17.
+
+### What went as planned
+
+All 15 tasks (TASK-002–016) executed in the correct dependency order. Package installation completed without conflicts. TypeScript compilation (`tsc --project tsconfig.json`) passed first time after one tsconfig correction. Lint was clean with zero warnings from the start. The 3-commit structure (init/install → config files → src skeleton) kept the history readable and reviewable.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-040 | Chore | `LspModule` exported without JSDoc — missing from phase plan's DoD | +low |
+| CHORE-041 | Chore | `tsconfig.json` excluded `src/test/**/*` but not colocated `*.test.ts` files; test artefacts would emit to `dist/` | +low |
+| BUG-001 | Bug | `bun test <tier>/` exits 1 when no `.test.ts` files exist — phase-execution.md Steps J–L had no N/A path for scaffold phases | +medium |
+| Inline fix (Step D) | — | `tsc` failed with `Cannot find name 'console'` — `"types": ["node"]` missing from tsconfig. Fixed inline during Step D (before Rule 5 scope). | +low |
+| Inline fix (Step D) | — | `bun test` exited 1 with zero test files — added trivial `lsp.module.test.ts` smoke test. Fixed inline during Step D. | +low |
+
+### Process observations
+
+- **Rule 5 scope clarification needed:** The two inline fixes above happened during Step D's gate run, not during Steps E–L. Rule 5 currently only covers E–L. For completeness, gate failures discovered in Step D that require fixes should also be ticketed; this was not enforced here.
+- **BDD smoke run (Step L):** `cucumber-js` is installed but no `cucumber.js` config exists yet. BDD step marked N/A for Phase 1 — this is expected and correct, but the process could be clearer that scaffold phases are exempt from BDD execution.
+- **`@nestjs/platform-express` may be unnecessary:** `createApplicationContext` does not need the HTTP platform. Consider removing in Phase 2 if no HTTP adapter is needed.
+
+### Carry-forward actions
+
+- [ ] Consider extending Rule 5 to cover gate failures in Step D (low priority)
+- [ ] Remove `@nestjs/platform-express` in Phase 2 if the HTTP platform is confirmed unused
+- [ ] Add `cucumber.js` config in the phase where BDD is first exercised (Phase 2 or 3)
+- [ ] Codify "JSDoc required on all exported symbols" as an explicit DoD item in TASK ticket template
+
+### Rule / template amendments
+
+- [ ] CHORE-042 — Update TASK ticket template to include "JSDoc on all exported symbols" in the Definition of Done checklist (carry forward to next phase)

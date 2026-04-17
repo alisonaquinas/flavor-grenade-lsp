@@ -1,0 +1,6 @@
+[test]
+root = "src"
+coverage = true
+
+[install]
+exact = true
