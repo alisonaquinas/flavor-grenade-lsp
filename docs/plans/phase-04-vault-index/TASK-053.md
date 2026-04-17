@@ -2,7 +2,7 @@
 id: "TASK-053"
 title: "Implement flavorGrenade/awaitIndexReady request"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -130,3 +130,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/handlers/await-index-ready.handler.ts` implemented. Promise queue resolved when markReady() called. Resolves immediately if already ready. Registered as flavorGrenade/awaitIndexReady handler in VaultModule.onModuleInit(). Status: `done`.

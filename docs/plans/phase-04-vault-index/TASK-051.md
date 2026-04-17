@@ -2,7 +2,7 @@
 id: "TASK-051"
 title: "Implement .gitignore/.ignore filtering"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -139,3 +139,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/ignore-filter.ts` implemented. Uses 'ignore' npm package (types bundled). Reads .gitignore and .ignore from vault root. Always excludes .obsidian/ prefix. All 6 tests pass. Status: `done`.

@@ -2,7 +2,7 @@
 id: "TASK-047"
 title: "Implement VaultIndex"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -152,3 +152,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/vault-index.ts` implemented. Map-backed store with set/get/delete/has/values/entries/size/clear. All 9 CRUD tests pass. Status: `done`.

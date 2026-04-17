@@ -2,7 +2,7 @@
 id: "CHORE-012"
 title: "Phase 4 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "4"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 security sweep covering path traversal in VaultScanner (ADR013), IgnoreFilter boundary enforcement, and FileWatcher out-of-root event discard.
+
+> [!CHECK] Done — 2026-04-17
+> VaultScanner: `walkAndIndex` only follows paths returned by `fs.readdir` (OS-controlled) from vault root downward — no user-controlled path injection possible. IgnoreFilter: only evaluates vault-relative paths; cannot bypass vault root boundary. FileWatcher: confinement check updated to use `path.sep` separator after `resolvedRoot` to prevent `vaultRoot`-prefixed sibling-directory bypass (e.g., `/vault-other` would not match `/vault`). No absolute paths in error messages. Status: `done`.

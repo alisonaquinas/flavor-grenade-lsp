@@ -2,7 +2,7 @@
 id: "TASK-054"
 title: "Register vault services in VaultModule"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -131,3 +131,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/vault.module.ts` created. TransportModule (@Global) extracted for shared dispatcher singleton. VaultModule imports ParserModule + TransportModule. LspModule updated to import VaultModule. InitializedHandler updated with @Optional vault service injection. All 3 integration tests pass. Status: `done`.

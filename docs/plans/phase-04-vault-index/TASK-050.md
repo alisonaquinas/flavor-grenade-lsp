@@ -2,7 +2,7 @@
 id: "TASK-050"
 title: "Implement FileWatcher"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -149,3 +149,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/file-watcher.ts` implemented. fs.watch with recursive:true. Vault-root confinement with path separator guard (ADR013). Handles create/modify via upsert and rename/delete via stat existence check. Status: `done`.

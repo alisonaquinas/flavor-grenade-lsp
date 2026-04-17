@@ -2,7 +2,7 @@
 id: "TASK-049"
 title: "Implement VaultScanner"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -135,3 +135,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/vault-scanner.ts` implemented. Recursively walks vault root using fs.promises.readdir, filters via IgnoreFilter, parses .md files with OFMParser, indexes into VaultIndex, rebuilds FolderLookup, sends flavorGrenade/status 'ready' via JsonRpcDispatcher. Skips walk in single-file mode. Status: `done`.

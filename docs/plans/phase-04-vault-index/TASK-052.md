@@ -2,7 +2,7 @@
 id: "TASK-052"
 title: "Implement single-file mode fallback"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -138,3 +138,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/single-file-mode.ts` implemented. Static utility class. isActive() delegates to VaultDetector. uriToPath() handles Windows drive letter stripping. Used by VaultScanner.scan() and InitializedHandler.handle(). Status: `done`.

@@ -2,7 +2,7 @@
 id: "TASK-046"
 title: "Define DocId value type"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -140,3 +140,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/doc-id.ts` implemented. `DocId` branded string type. `toDocId` produces vault-relative path without `.md` extension using forward slashes. `fromDocId` reconstructs absolute path adding `.md` if no extension. Round-trip tested. Status: `done`.

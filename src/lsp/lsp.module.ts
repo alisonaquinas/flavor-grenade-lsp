@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Module, OnModuleInit } from '@nestjs/common';
+import { TransportModule } from '../transport/transport.module.js';
 import { StdioReader } from '../transport/stdio-reader.js';
-import { StdioWriter } from '../transport/stdio-writer.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { DocumentStore } from './services/document-store.js';
 import { LifecycleState } from './services/lifecycle-state.js';
@@ -15,14 +15,7 @@ import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
 import { ParserModule } from '../parser/parser.module.js';
-
-/**
- * Factory that constructs a {@link JsonRpcDispatcher} wired to `process.stdout`
- * via a {@link StdioWriter}.
- */
-function dispatcherFactory(writer: StdioWriter): JsonRpcDispatcher {
-  return new JsonRpcDispatcher((msg) => writer.write(process.stdout, msg));
-}
+import { VaultModule } from '../vault/vault.module.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -32,15 +25,8 @@ function dispatcherFactory(writer: StdioWriter): JsonRpcDispatcher {
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [ParserModule],
+  imports: [TransportModule, ParserModule, VaultModule],
   providers: [
-    StdioReader,
-    StdioWriter,
-    {
-      provide: JsonRpcDispatcher,
-      useFactory: dispatcherFactory,
-      inject: [StdioWriter],
-    },
     DocumentStore,
     LifecycleState,
     CapabilityRegistry,
