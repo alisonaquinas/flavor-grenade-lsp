@@ -2,7 +2,7 @@
 id: "CHORE-010"
 title: "Phase 4 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "4"
 created: "2026-04-17"
@@ -121,3 +121,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 lint sweep to reach zero-warning gate.
+
+> [!CHECK] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passes with 0 warnings (1 unused-import error found and fixed in initialized.handler.ts). `tsc --noEmit` exits 0. All 150 unit tests pass. No behaviour-affecting changes. Status: `done`.

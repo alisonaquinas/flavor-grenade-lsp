@@ -56,7 +56,10 @@ export class FileWatcher {
     const absPath = path.resolve(this.resolvedRoot, filename);
 
     // ADR013: confine all access to vault root.
-    if (!absPath.startsWith(this.resolvedRoot)) {
+    const rootWithSep = this.resolvedRoot.endsWith(path.sep)
+      ? this.resolvedRoot
+      : `${this.resolvedRoot}${path.sep}`;
+    if (!absPath.startsWith(rootWithSep)) {
       return;
     }
 

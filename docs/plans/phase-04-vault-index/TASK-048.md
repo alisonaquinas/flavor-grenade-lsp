@@ -2,7 +2,7 @@
 id: "TASK-048"
 title: "Implement FolderLookup suffix tree"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -155,3 +155,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/folder-lookup.ts` implemented. Map<stem, DocId[]> rebuilt from VaultIndex.entries(). lookupByStem and path-qualified lookupByPath. All 7 tests pass. Status: `done`.

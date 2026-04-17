@@ -2,7 +2,7 @@
 id: "TASK-055"
 title: "Write unit tests for VaultDetector"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "4"
 parent: "FEAT-005"
@@ -137,3 +137,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+
+> [!CHECK] Done — 2026-04-17
+> `src/vault/__tests__/vault-detector.test.ts` created with 6 tests covering obsidian, flavor-grenade, both-markers (obsidian precedence), single-file (isolated tmp dir), nested parent walk-up, and caching. Fixtures created under src/test/fixtures/vault-detection/. Status: `done`.

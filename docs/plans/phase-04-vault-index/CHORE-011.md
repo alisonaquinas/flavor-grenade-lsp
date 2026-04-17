@@ -2,7 +2,7 @@
 id: "CHORE-011"
 title: "Phase 4 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "4"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 code quality sweep focusing on VaultScanner async correctness, FileWatcher event handler coverage, and FolderLookup trie correctness.
+
+> [!CHECK] Done — 2026-04-17
+> VaultScanner: all async paths properly awaited, no fire-and-forget Promises, `walkAndIndex` handles unreadable directories gracefully. FileWatcher: `void` expression used correctly for the fs.watch callback (sync wrapper calling async handler), upsert/delete paths handle all event types. FolderLookup: simplified `lookupByPath` iteration to nested for-loops (no iterator flatMap chaining). All async methods catch errors. 150 unit tests pass. Status: `done`.

@@ -2,7 +2,7 @@
 id: "FEAT-005"
 title: "Vault Index"
 type: feature
-status: in-progress
+status: in-review
 priority: "high"
 phase: "4"
 created: "2026-04-17"
@@ -95,21 +95,21 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-045]] | Implement VaultDetector | `open` |
-| [[tickets/TASK-046]] | Define DocId value type | `open` |
-| [[tickets/TASK-047]] | Implement VaultIndex | `open` |
-| [[tickets/TASK-048]] | Implement FolderLookup suffix tree | `open` |
-| [[tickets/TASK-049]] | Implement VaultScanner | `open` |
-| [[tickets/TASK-050]] | Implement FileWatcher | `open` |
-| [[tickets/TASK-051]] | Implement .gitignore/.ignore filtering | `open` |
-| [[tickets/TASK-052]] | Implement single-file mode fallback | `open` |
-| [[tickets/TASK-053]] | Implement flavorGrenade/awaitIndexReady request | `open` |
-| [[tickets/TASK-054]] | Register vault services in VaultModule | `open` |
-| [[tickets/TASK-055]] | Write unit tests for VaultDetector | `open` |
-| [[tickets/TASK-056]] | Write unit tests for FolderLookup | `open` |
-| [[tickets/CHORE-010]] | Phase 4 Lint Sweep | `open` |
-| [[tickets/CHORE-011]] | Phase 4 Code Quality Sweep | `open` |
-| [[tickets/CHORE-012]] | Phase 4 Security Sweep | `open` |
+| [[tickets/TASK-045]] | Implement VaultDetector | `done` |
+| [[tickets/TASK-046]] | Define DocId value type | `done` |
+| [[tickets/TASK-047]] | Implement VaultIndex | `done` |
+| [[tickets/TASK-048]] | Implement FolderLookup suffix tree | `done` |
+| [[tickets/TASK-049]] | Implement VaultScanner | `done` |
+| [[tickets/TASK-050]] | Implement FileWatcher | `done` |
+| [[tickets/TASK-051]] | Implement .gitignore/.ignore filtering | `done` |
+| [[tickets/TASK-052]] | Implement single-file mode fallback | `done` |
+| [[tickets/TASK-053]] | Implement flavorGrenade/awaitIndexReady request | `done` |
+| [[tickets/TASK-054]] | Register vault services in VaultModule | `done` |
+| [[tickets/TASK-055]] | Write unit tests for VaultDetector | `done` |
+| [[tickets/TASK-056]] | Write unit tests for FolderLookup | `done` |
+| [[tickets/CHORE-010]] | Phase 4 Lint Sweep | `done` |
+| [[tickets/CHORE-011]] | Phase 4 Code Quality Sweep | `done` |
+| [[tickets/CHORE-012]] | Phase 4 Security Sweep | `done` |
 
 ---
 
@@ -160,3 +160,39 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!CHECK] In-review — 2026-04-17
+> All 12 TASK + 3 CHORE tickets done. 150 unit tests pass, 3 integration tests pass. Lint clean, tsc clean. Status: `in-review`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-04-17.
+
+### What went as planned
+
+- TDD red-green process followed strictly: 3 RED commits followed by 3 GREEN commits
+- All TASK implementations matched the spec shapes exactly
+- `ignore` npm package was already installed — no `bun add` needed
+- `@Global()` on `TransportModule` solved the dispatcher singleton problem cleanly
+- Vault-root confinement (ADR013) applied in FileWatcher with path separator guard
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| TASK-055 | Test fix | `no-markers` fixture walks up tree to project root's `.flavor-grenade.toml` — had to use `os.tmpdir()` isolated directory | Low |
+| TASK-054 | DI fix | `VaultScanner` injecting `StatusNotifier` caused NestJS resolution failure since `StatusNotifier` is in `LspModule` not `VaultModule`; resolved by injecting `JsonRpcDispatcher` directly | Medium |
+| TASK-054 | Integration regression | `TransportModule` without `@Global()` created duplicate dispatcher/reader instances; adding `@Global()` fixed it | Medium |
+
+### Process observations
+
+- Splitting `TransportModule` from `LspModule` early in GREEN-3 was the right call — it cleanly broke the potential circular dependency between `LspModule` and `VaultModule`
+- The vault-detection test caching behaviour required a design decision: the `VaultDetector` caches on the _instance_, so `beforeEach` creates fresh instances, making caching tests work correctly by checking same reference on second call with different arg
+- Windows path handling (forward slash normalization in `toDocId`, URI-to-path in `SingleFileModeGuard`) needed explicit handling
+
+### Carry-forward actions
+- [ ] Phase 5 (wiki-link resolution) will use `FolderLookup.lookupByStem` and `lookupByPath` — test at integration level before wiring
+- [ ] `VaultScanner` sends `flavorGrenade/status 'ready'` directly via dispatcher; consider centralising all status notifications through a `StatusNotifier` that lives in `TransportModule` instead of `LspModule` (avoids DI complexity for future phases)
+
+### Rule / template amendments
+- [ ] Add rule: when injecting cross-module services in NestJS, prefer `TransportModule`-level providers over `LspModule`-level for services used by multiple modules
