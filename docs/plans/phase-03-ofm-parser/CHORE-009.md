@@ -2,7 +2,7 @@
 id: "CHORE-009"
 title: "Phase 3 Security Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 3
 created: "2026-04-17"
@@ -122,3 +122,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: parser safety per ADR012 (no ReDoS patterns, bounded input), no file I/O in parsers.
+
+> [!SUCCESS] Done — 2026-04-17
+> Security sweep completed. No fs/path/os imports in any parser file. Updated `js-yaml` call to use `CORE_SCHEMA` (prevents !!js/... tag execution). All regexes reviewed: no nested quantifier patterns, no ReDoS risk. No absolute paths in error messages. All 117 tests pass, lint clean, tsc clean. Status: `done`.

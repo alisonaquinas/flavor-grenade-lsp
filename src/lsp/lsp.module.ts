@@ -14,6 +14,7 @@ import { ExitHandler } from './handlers/exit.handler.js';
 import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
+import { ParserModule } from '../parser/parser.module.js';
 
 /**
  * Factory that constructs a {@link JsonRpcDispatcher} wired to `process.stdout`
@@ -31,7 +32,7 @@ function dispatcherFactory(writer: StdioWriter): JsonRpcDispatcher {
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [],
+  imports: [ParserModule],
   providers: [
     StdioReader,
     StdioWriter,

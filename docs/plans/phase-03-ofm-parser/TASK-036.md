@@ -2,7 +2,7 @@
 id: "TASK-036"
 title: "Implement EmbedParser"
 type: task
-status: open
+status: done
 priority: high
 phase: 3
 parent: "FEAT-004"
@@ -123,3 +123,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+
+> [!SUCCESS] Done — 2026-04-17
+> Implemented and tested. All acceptance criteria met. Status: `done`.

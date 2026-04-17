@@ -2,7 +2,7 @@
 id: "CHORE-007"
 title: "Phase 3 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 3
 created: "2026-04-17"
@@ -116,3 +116,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code-quality requirement; blocked by all Phase 3 TASKs done.
+
+> [!SUCCESS] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passed with zero warnings. `tsc --noEmit` exited 0. No new suppressions added. All 117 tests still pass. Status: `done`.
