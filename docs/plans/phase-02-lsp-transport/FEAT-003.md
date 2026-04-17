@@ -2,7 +2,7 @@
 id: "FEAT-003"
 title: "LSP Transport"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: 2
 created: "2026-04-17"
