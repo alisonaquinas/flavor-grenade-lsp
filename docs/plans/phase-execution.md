@@ -55,6 +55,36 @@ A phase cannot be marked `complete` in [[plans/execution-ledger]] if any ticket 
 
 ---
 
+## Rule 5 — Every Issue Found in Steps E–L Must Be Ticketed Before It Is Fixed
+
+Any defect, warning, code smell, security finding, or test failure discovered during steps E through L must be captured as a ticket **before** any corrective action is taken. Silent fixes — edits made without a corresponding ticket — are a process violation.
+
+**Applies to all sweep and test steps:**
+
+| Step | Ticket type to open | Severity guidance |
+|---|---|---|
+| E (Lint sweep) | `CHORE-NNN` or `BUG-NNN` | Lint errors that change behaviour → BUG; style/config → CHORE |
+| F (Code quality sweep) | `CHORE-NNN` or `BUG-NNN` | Structural violations → CHORE; logic defects → BUG |
+| G (Security sweep) | `BUG-NNN` with `severity: high` or `critical` | All security findings are BUGs, never CHOREs |
+| H (Fix sweep tickets) | Follow existing ticket lifecycle | No new code outside a ticket's declared scope |
+| I (Unit tests) | `BUG-NNN` per non-trivial failure | Trivial fixture typos may be fixed inline; logic failures require a ticket |
+| J (Integration tests) | `BUG-NNN` per failure | All integration failures require a ticket |
+| K (Verification tests) | `BUG-NNN` per failure | All verification failures require a ticket |
+| L (Validation / BDD) | `BUG-NNN` per failing scenario | Each failing BDD scenario is a separate ticket |
+
+**Workflow for each finding:**
+
+1. Open the ticket (assign next globally-sequential ID for that type)
+2. Set status to `open`
+3. Transition to `triaged` once root cause is confirmed
+4. Fix via the ticket's lifecycle (regression test first for BUGs)
+5. Close the ticket before moving to the next phase step
+6. Append the ticket ID to the relevant step's output in the Workflow Log of the phase's FEAT ticket
+
+> [!WARNING] An agent that fixes a failing test, lint error, or security finding without first opening a ticket is in violation of this rule. The corrective commit will be rejected in code review.
+
+---
+
 ## Phase Lifecycle Checklist
 
 Every phase must complete steps A through L in order. No step may be skipped.
