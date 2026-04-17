@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Completion.Candidates.Cap
+**User Req:** User.Author.CompleteWikiLink, User.Config.TuneCompletions
 **Gist:** The completion candidate list must be capped at the integer value configured by `completion.candidates`, and `CompletionList.isIncomplete` must be set to `true` whenever the cap is reached.
 **Ambition:** Unbounded completion lists degrade editor performance and overwhelm the author with irrelevant candidates. The cap setting lets teams tune the trade-off between completeness and responsiveness. The `isIncomplete` flag is the LSP protocol's mechanism for signalling to the client that further typing will refine the list, ensuring the client triggers a new request rather than assuming the list is final — which would silently hide matching candidates that fell outside the cap.
 **Scale:** Two sub-scales: (1) percentage of completion responses where the returned item count does not exceed the configured `completion.candidates` value; (2) percentage of responses where the total matching candidates exceed the cap in which `CompletionList.isIncomplete` is set to `true`.
@@ -36,6 +37,7 @@ aliases:
 ---
 
 **Tag:** Completion.Trigger.Coverage
+**User Req:** User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Author.CompleteCallout, User.Tags.CompleteTag
 **Gist:** Each of the three LSP trigger characters (`[`, `#`, `(`) must return a non-empty candidate list when the cursor is at an appropriate syntactic context.
 **Ambition:** Trigger characters are the entry points to the server's completion surface. If a trigger character fires but returns an empty list, the author receives no feedback and must rely on manual typing — the core value proposition of the LSP is lost. Complete trigger-character coverage ensures that every authoring affordance Obsidian provides has a corresponding LSP completion path.
 **Scale:** Percentage of trigger-character invocations at appropriate positions in a vault of at least 5 documents and at least 5 tags that return a non-empty `CompletionList.items` array. Appropriate positions are: `[` at the start of a wiki-link context; `#` at the start of a tag context; `(` at the start of a standard Markdown link URL context.
@@ -57,6 +59,7 @@ aliases:
 ---
 
 **Tag:** Completion.CalloutType.Coverage
+**User Req:** User.Author.CompleteCallout
 **Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 23 standard Obsidian callout type names as candidates.
 **Ambition:** Obsidian defines 23 built-in callout types (`note`, `abstract`, `info`, `tip`, `success`, `question`, `warning`, `failure`, `danger`, `bug`, `example`, `quote`, and their documented aliases). Authors must currently type callout names from memory or consult the Obsidian documentation. Completion at the `> [!` trigger position makes callout authoring discoverable, consistent with Obsidian's own UI affordances, and prevents misspelled callout types that render as unstyled blockquotes.
 **Scale:** Percentage of the 23 standard Obsidian callout type names (as documented in [[ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
@@ -75,6 +78,7 @@ aliases:
 ---
 
 **Tag:** Completion.WikiStyle.Binding
+**User Req:** User.Author.CompleteWikiLink, User.Author.FollowLinkStyle
 **Gist:** Completion items for wiki-links must use the link text format prescribed by the active `wiki.style` configuration, and must not mix formats from different style modes in the same response.
 **Ambition:** This is the completion-specific formulation of [[wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
 **Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
