@@ -18,7 +18,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 0     | Documentation Scaffold   | ✅ complete    | All docs/ files written and committed              | 2026-04-16 | 2026-04-17 |
 | 1     | Project Scaffold         | ✅ complete    | `bun run build` exits 0; `bun test` exits 0        | 2026-04-17 | 2026-04-17 |
 | 2     | LSP Transport            | ✅ complete    | `initialize` handshake roundtrip passes            | 2026-04-17 | 2026-04-17 |
-| 3     | OFM Parser               | ⏳ planned     | `bun test src/parser/**` all pass; @smoke BDD pass | —          | —         |
+| 3     | OFM Parser               | 🔄 in-progress | `bun test src/parser/**` all pass; @smoke BDD pass | 2026-04-17 | —         |
 | 4     | Vault Index              | ⏳ planned     | `bun test src/vault/**` all pass; vault-detection @smoke pass | — | —      |
 | 5     | Wiki-Link Resolution     | ⏳ planned     | wiki-links.feature all pass; FG001/FG002/FG003 pass | —         | —         |
 | 6     | Tags                     | ⏳ planned     | tags.feature all scenarios pass                    | —          | —         |

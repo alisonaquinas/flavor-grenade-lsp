@@ -2,7 +2,7 @@
 id: "FEAT-004"
 title: "OFM Parser"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 3
 created: "2026-04-17"
