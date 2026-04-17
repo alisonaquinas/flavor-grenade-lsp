@@ -2,7 +2,7 @@
 id: "CHORE-040"
 title: "Add JSDoc to LspModule exported class"
 type: chore
-status: open
+status: done
 priority: "low"
 phase: "1"
 created: "2026-04-17"
@@ -61,3 +61,6 @@ aliases: ["CHORE-040"]
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Discovered during Phase 1 Step F code quality sweep. Rule 5 compliance: ticket opened before fix applied.
+
+> [!CHECK] Done — 2026-04-17
+> Sweep complete. All findings ticketed and resolved. Status: `done`.

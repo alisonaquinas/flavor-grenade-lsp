@@ -3,7 +3,7 @@ id: "TASK-016"
 title: "Create .gitignore"
 type: task
 # status: in-review | red | green | refactor | in-review | done | blocked | cancelled
-status: in-review
+status: done
 priority: "high"
 phase: "1"
 parent: "FEAT-002"

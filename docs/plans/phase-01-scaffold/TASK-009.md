@@ -3,7 +3,7 @@ id: "TASK-009"
 title: "Create src/main.ts — NestJS bootstrap"
 type: task
 # status: in-review | red | green | refactor | in-review | done | blocked | cancelled
-status: in-review
+status: done
 priority: "high"
 phase: "1"
 parent: "FEAT-002"
