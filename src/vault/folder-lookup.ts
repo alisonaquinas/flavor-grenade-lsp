@@ -50,9 +50,11 @@ export class FolderLookup {
    */
   lookupByPath(pathFragment: string): DocId[] {
     const results: DocId[] = [];
-    for (const [docId] of this.stemMap.values().flatMap((ids) => ids.map((id) => [id] as [DocId]))) {
-      if (docId === pathFragment || docId.endsWith(`/${pathFragment}`)) {
-        results.push(docId);
+    for (const ids of this.stemMap.values()) {
+      for (const docId of ids) {
+        if (docId === pathFragment || docId.endsWith(`/${pathFragment}`)) {
+          results.push(docId);
+        }
       }
     }
     return results;
