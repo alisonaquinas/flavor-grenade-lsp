@@ -2,7 +2,7 @@
 id: "FEAT-003"
 title: "LSP Transport"
 type: feature
-status: draft
+status: in-review
 priority: high
 phase: 2
 created: "2026-04-17"
@@ -93,22 +93,22 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-017]] | Implement stdio Content-Length reader | `open` |
-| [[tickets/TASK-018]] | Implement stdio Content-Length writer | `open` |
-| [[tickets/TASK-019]] | Implement JSON-RPC dispatcher | `open` |
-| [[tickets/TASK-020]] | Handle initialize request | `open` |
-| [[tickets/TASK-021]] | Handle initialized notification | `open` |
-| [[tickets/TASK-022]] | Handle shutdown request | `open` |
-| [[tickets/TASK-023]] | Handle exit notification | `open` |
-| [[tickets/TASK-024]] | Handle textDocument/didOpen | `open` |
-| [[tickets/TASK-025]] | Handle textDocument/didChange | `open` |
-| [[tickets/TASK-026]] | Handle textDocument/didClose | `open` |
-| [[tickets/TASK-027]] | Implement flavorGrenade/status notification | `open` |
-| [[tickets/TASK-028]] | Register all handlers in LspModule | `open` |
-| [[tickets/TASK-029]] | Write TDD integration tests using stdio pipe | `open` |
-| [[tickets/CHORE-004]] | Phase 2 Lint Sweep | `open` |
-| [[tickets/CHORE-005]] | Phase 2 Code Quality Sweep | `open` |
-| [[tickets/CHORE-006]] | Phase 2 Security Sweep | `open` |
+| [[tickets/TASK-017]] | Implement stdio Content-Length reader | `done` |
+| [[tickets/TASK-018]] | Implement stdio Content-Length writer | `done` |
+| [[tickets/TASK-019]] | Implement JSON-RPC dispatcher | `done` |
+| [[tickets/TASK-020]] | Handle initialize request | `done` |
+| [[tickets/TASK-021]] | Handle initialized notification | `done` |
+| [[tickets/TASK-022]] | Handle shutdown request | `done` |
+| [[tickets/TASK-023]] | Handle exit notification | `done` |
+| [[tickets/TASK-024]] | Handle textDocument/didOpen | `done` |
+| [[tickets/TASK-025]] | Handle textDocument/didChange | `done` |
+| [[tickets/TASK-026]] | Handle textDocument/didClose | `done` |
+| [[tickets/TASK-027]] | Implement flavorGrenade/status notification | `done` |
+| [[tickets/TASK-028]] | Register all handlers in LspModule | `done` |
+| [[tickets/TASK-029]] | Write TDD integration tests using stdio pipe | `done` |
+| [[tickets/CHORE-004]] | Phase 2 Lint Sweep | `done` |
+| [[tickets/CHORE-005]] | Phase 2 Code Quality Sweep | `done` |
+| [[tickets/CHORE-006]] | Phase 2 Security Sweep | `done` |
 
 ---
 
@@ -157,3 +157,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started — 2026-04-17
+> Status: `draft` → `in-progress`. Feature branch `feature/phase-02-lsp-transport` created. Steps A–C confirmed: all 13 TASK tickets reviewed, cross-refs verified, implementation details complete. Beginning Step D TDD cycles.
+
+> [!INFO] In-Review — 2026-04-17
+> All 13 TASK tickets done. CHORE-004/005/006 done. 27 unit tests + 3 integration tests pass. lint and tsc clean. Status: `in-review`.

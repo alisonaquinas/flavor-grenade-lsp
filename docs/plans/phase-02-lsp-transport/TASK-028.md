@@ -2,7 +2,7 @@
 id: "TASK-028"
 title: "Register all handlers in LspModule"
 type: task
-status: open
+status: done
 priority: high
 phase: 2
 parent: "FEAT-003"
@@ -124,3 +124,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-003]].
+
+> [!SUCCESS] Done — 2026-04-17
+> RED and GREEN commits landed. All tests pass. Status: `done`.

@@ -2,7 +2,7 @@
 id: "CHORE-004"
 title: "Phase 2 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 2
 created: "2026-04-17"
@@ -116,3 +116,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code-quality requirement; blocked by all Phase 2 TASKs done.
+
+> [!SUCCESS] Done — 2026-04-17
+> Sweep complete. No violations found or fixed. Status: `done`.

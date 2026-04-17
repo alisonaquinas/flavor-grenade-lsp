@@ -2,7 +2,7 @@
 id: "CHORE-005"
 title: "Phase 2 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 2
 created: "2026-04-17"
@@ -120,3 +120,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: verify StdioReader/Writer don't leak, JSON-RPC dispatcher error paths covered.
+
+> [!SUCCESS] Done — 2026-04-17
+> Sweep complete. No violations found or fixed. Status: `done`.
