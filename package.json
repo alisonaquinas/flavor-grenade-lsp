@@ -12,7 +12,8 @@
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
-    "gate:1": "bun run build && bun test"
+    "gate:1": "bun run build && bun test",
+    "gate:2": "bun test src/test/integration/transport.test.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.19",
@@ -21,6 +22,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "vscode-languageserver-protocol": "^3.17.5",
+    "vscode-languageserver-textdocument": "1.0.12",
     "vscode-languageserver-types": "^3.17.5"
   },
   "devDependencies": {
