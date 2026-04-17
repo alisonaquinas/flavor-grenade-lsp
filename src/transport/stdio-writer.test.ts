@@ -6,7 +6,7 @@ import { StdioWriter } from './stdio-writer.js';
 function collectWritable(): { stream: Writable; getBytes: () => Buffer } {
   const chunks: Buffer[] = [];
   const stream = new Writable({
-    write(chunk: Buffer, _encoding, callback) {
+    write(chunk: Buffer, _encoding: BufferEncoding, callback: () => void): void {
       chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
       callback();
     },
