@@ -1,4 +1,5 @@
 @ofm
+@adr:ADR006
 Feature: Block reference indexing and resolution
 
   Background:

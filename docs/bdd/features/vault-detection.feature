@@ -1,4 +1,5 @@
 @smoke @lsp
+@adr:ADR003
 Feature: Vault root detection
 
   Background:

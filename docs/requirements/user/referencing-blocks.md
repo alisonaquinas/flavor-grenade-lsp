@@ -2,6 +2,8 @@
 title: Referencing Blocks User Requirements
 tags:
   - requirements/user/referencing-blocks
+aliases:
+  - Referencing Blocks
 ---
 
 # Referencing Blocks User Requirements

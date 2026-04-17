@@ -155,9 +155,9 @@ Bootstrap a working NestJS + Bun + TypeScript monolith that compiles cleanly, ha
 
   [lsp]
   # Maximum number of completion candidates returned
-  completion.candidates = 100
+  completion.candidates = 50
 
-  # Wiki-link style: "file-stem" | "title-slug" | "path-relative"
+  # Wiki-link style: "file-stem" | "title-slug" | "file-path-stem"
   linkStyle = "file-stem"
 
   [diagnostics]

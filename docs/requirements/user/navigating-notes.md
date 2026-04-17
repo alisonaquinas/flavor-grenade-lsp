@@ -2,6 +2,8 @@
 title: Navigation User Requirements
 tags:
   - requirements/user/navigating-notes
+aliases:
+  - Navigating Notes
 ---
 
 # Navigation User Requirements

@@ -82,7 +82,7 @@ Implementation plan: [[plans/phase-08-block-refs]]
 
 ### Phase 9 — Completions
 
-Consolidate all completion providers from phases 5–8 into a unified `CompletionProvider`. Implement heading completion (`[[doc#` → offer headings from resolved doc). Implement inline link completion (Markdown `[text](` prefix). Implement callout type completion (`> [!` → 26 standard types). Apply `completion.candidates` cap (default 100) with `isIncomplete: true` when the list is truncated. See [[features/completions]].
+Consolidate all completion providers from phases 5–8 into a unified `CompletionProvider`. Implement heading completion (`[[doc#` → offer headings from resolved doc). Implement inline link completion (Markdown `[text](` prefix). Implement callout type completion (`> [!` → 13 standard types). Apply `completion.candidates` cap (default 50) with `isIncomplete: true` when the list is truncated. See [[features/completions]].
 
 Implementation plan: [[plans/phase-09-completions]]
 

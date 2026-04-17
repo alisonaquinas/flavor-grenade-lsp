@@ -17,6 +17,14 @@ Official reference: [Properties](https://help.obsidian.md/Editing+and+formatting
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-FM-001` | YAML frontmatter must start on line 1 with an opening `---`. |
+| `OFM-FM-002` | `aliases`, `tags`, `tag`, `cssclasses`, `publish`, and `disabled rules` are recognized keys. |
+| `OFM-FM-003` | `aliases` and `tags` accept block arrays, inline arrays, or single scalar values. |
+
 ## Delimiter Rules
 
 - The opening `---` must be on the **very first line** of the file — no blank lines, no BOM, nothing before it.

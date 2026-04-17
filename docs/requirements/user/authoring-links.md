@@ -2,6 +2,8 @@
 title: Authoring Links User Requirements
 tags:
   - requirements/user/authoring-links
+aliases:
+  - Authoring Links
 ---
 
 # Authoring Links User Requirements

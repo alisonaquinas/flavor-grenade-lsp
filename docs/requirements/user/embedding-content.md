@@ -2,6 +2,8 @@
 title: Embedding Content User Requirements
 tags:
   - requirements/user/embedding-content
+aliases:
+  - Embedding Content
 ---
 
 # Embedding Content User Requirements

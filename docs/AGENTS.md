@@ -53,7 +53,7 @@ Documentation layers must be completed in this order. Do not begin a layer until
 9. `features/` — Feature layer specifications
 10. `plans/` — Phase-by-phase implementation plans
 
-This order mirrors the specification section 9 of the OFM spec. Implementation of TypeScript files in `src/` begins only after step 10 is complete.
+This order mirrors the layer order in `[[ofm-spec/index]]`. Implementation of TypeScript files in `src/` begins only after step 10 is complete.
 
 ## Quality Gates
 

@@ -1,5 +1,5 @@
 ---
-adr: ADR012
+adr: "012"
 title: Parser Safety Policy — Timeouts, Depth Limits, ReDoS-Safe Regex Discipline
 status: accepted
 date: 2026-04-17

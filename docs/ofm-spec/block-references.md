@@ -17,6 +17,14 @@ Official reference: [Internal links — Block links](https://help.obsidian.md/Li
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-BLOCK-001` | A block anchor uses `^blockid` syntax at the end of a block-level line. |
+| `OFM-BLOCK-002` | A block reference uses `[[doc#^blockid]]` or `[[#^blockid]]`. |
+| `OFM-BLOCK-003` | Only line-end anchors are indexed; a `^` in mid-line text is ignored. |
+
 ## Anchor Syntax
 
 A block ID anchor is placed at the **end of a line**, separated from content by a space:

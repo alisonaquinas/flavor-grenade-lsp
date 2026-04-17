@@ -226,7 +226,7 @@ Set up continuous integration, packaging, and release automation. After this pha
         settings = {
           flavorGrenade = {
             linkStyle = 'file-stem',
-            completion = { candidates = 100 },
+            completion = { candidates = 50 },
           }
         },
       },
@@ -251,7 +251,7 @@ Set up continuous integration, packaging, and release automation. After this pha
       "editor.suggest.showFiles": true
     },
     "flavorGrenade.linkStyle": "file-stem",
-    "flavorGrenade.completion.candidates": 100,
+    "flavorGrenade.completion.candidates": 50,
     "flavorGrenade.diagnostics.suppress": []
   }
   ```

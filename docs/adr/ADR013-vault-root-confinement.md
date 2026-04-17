@@ -1,5 +1,5 @@
 ---
-adr: ADR013
+adr: "013"
 title: Vault Root Confinement — Path Canonicalization and Bounds-Checking Contract
 status: accepted
 date: 2026-04-17

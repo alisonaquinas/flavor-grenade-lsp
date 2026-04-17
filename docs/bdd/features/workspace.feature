@@ -1,4 +1,5 @@
 @lsp
+@adr:ADR003
 Feature: Vault and workspace management
 
   Background:

@@ -1,4 +1,4 @@
-@lsp
+@lsp @adr:ADR002
 Feature: Completion provider
 
   Background:
@@ -34,14 +34,22 @@ Feature: Completion provider
     And the completion list includes "journal"
     And each completion item has kind "Value"
 
-  Scenario: Callout completion returns all 23 types after "> [!" trigger
+  Scenario: Callout completion returns all 13 types after "> [!" trigger
     When a textDocument/completion request is made after "> [!" in "notes/new.md"
     Then the completion list includes "NOTE"
     And the completion list includes "WARNING"
     And the completion list includes "TIP"
-    And the completion list includes "CAUTION"
-    And the completion list includes "IMPORTANT"
-    And the completion list has exactly 23 or more items
+    And the completion list includes "INFO"
+    And the completion list includes "SUCCESS"
+    And the completion list includes "QUESTION"
+    And the completion list includes "DANGER"
+    And the completion list includes "FAILURE"
+    And the completion list includes "BUG"
+    And the completion list includes "EXAMPLE"
+    And the completion list includes "QUOTE"
+    And the completion list includes "ABSTRACT"
+    And the completion list includes "TODO"
+    And the completion list has exactly 13 or more items
     And each completion item has kind "EnumMember"
 
   Scenario: Heading completion returns heading candidates after [[doc# trigger

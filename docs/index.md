@@ -52,7 +52,7 @@ When a document's YAML frontmatter contains `aliases: [...]`, all aliases are in
 
 ### Callout Type Completion
 
-Typing `> [!` inside a blockquote triggers a completion list of all 23 standard Obsidian callout types (NOTE, TIP, WARNING, DANGER, INFO, SUCCESS, QUESTION, FAILURE, EXAMPLE, QUOTE, and more). See [[features/completions]].
+Typing `> [!` inside a blockquote triggers a completion list of the 13 primary Obsidian callout types. Aliases are accepted by the parser, but completion emits only the primary names. See [[features/completions]].
 
 ### Tag Hierarchy Awareness
 

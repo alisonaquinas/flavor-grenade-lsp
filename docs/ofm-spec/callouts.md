@@ -61,6 +61,16 @@ Each additional `>` level creates one nesting depth. The LSP should track nestin
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-CALLOUT-001` | A callout opens with `[!TYPE]` on the first line of a blockquote. |
+| `OFM-CALLOUT-002` | Fold modifiers are limited to `+`, `-`, or no modifier after the closing `]`. |
+| `OFM-CALLOUT-003` | Completion offers the 13 primary callout type names; aliases are accepted input but are not separate completion candidates. |
+
+---
+
 ## Standard Callout Types
 
 | Type | Common Aliases |
@@ -115,7 +125,7 @@ To extract the callout type and optional fold modifier from the first line:
 
 | Feature | Detail |
 |---|---|
-| Completion | Trigger: `[!` after `> `. Offer all 13 standard types (with aliases). Insert with title placeholder. |
+| Completion | Trigger: `[!` after `> `. Offer all 13 primary types. Accept aliases as input, but do not emit them as separate completion candidates. Insert with title placeholder. |
 | Semantic tokens | Mark callout type (`NOTE`, `WARNING`, etc.) as a distinct token type for syntax coloring. |
 | Diagnostics | Optionally warn on unknown callout types. Do not warn by default — custom types are valid. |
 | Fold range | Each callout block (from opening `> [!...]` to last `>` line) is a fold range. |

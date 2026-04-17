@@ -60,17 +60,17 @@ aliases:
 
 **Tag:** Completion.CalloutType.Coverage
 **User Req:** User.Author.CompleteCallout
-**Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 23 standard Obsidian callout type names as candidates.
-**Ambition:** Obsidian defines 23 built-in callout types (`note`, `abstract`, `info`, `tip`, `success`, `question`, `warning`, `failure`, `danger`, `bug`, `example`, `quote`, and their documented aliases). Authors must currently type callout names from memory or consult the Obsidian documentation. Completion at the `> [!` trigger position makes callout authoring discoverable, consistent with Obsidian's own UI affordances, and prevents misspelled callout types that render as unstyled blockquotes.
-**Scale:** Percentage of the 23 standard Obsidian callout type names (as documented in [[ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
+**Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 13 primary standard Obsidian callout type names as candidates.
+**Ambition:** Obsidian defines 13 built-in callout types (`note`, `info`, `tip`, `warning`, `danger`, `success`, `question`, `failure`, `bug`, `example`, `quote`, `abstract`, `todo`) plus documented aliases. Authors must currently type callout names from memory or consult the Obsidian documentation. Completion at the `> [!` trigger position makes callout authoring discoverable, consistent with Obsidian's own UI affordances, and prevents misspelled callout types that render as unstyled blockquotes.
+**Scale:** Percentage of the 13 primary standard Obsidian callout type names (as documented in [[ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
 **Meter:**
 1. Open any document with the cursor placed at the end of `> [!` on an otherwise empty blockquote line.
 2. Issue `textDocument/completion`.
 3. Collect all `CompletionItem.label` or `insertText` values from the response.
-4. Check each of the 23 standard callout types against the collected labels (case-insensitive).
-5. Compute: (standard callout types present in response / 23) × 100.
-**Fail:** Any of the 23 standard callout types absent from the completion response at the `> [!` position.
-**Goal:** 100% (all 23 types present).
+4. Check each of the 13 primary standard callout types against the collected labels (case-insensitive).
+5. Compute: (primary standard callout types present in response / 13) × 100.
+**Fail:** Any of the 13 primary standard callout types absent from the completion response at the `> [!` position.
+**Goal:** 100% (all 13 types present).
 **Stakeholders:** Note authors, documentation writers, anyone using Obsidian callouts.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[ofm-spec/callouts#standard-types]], [[design/api-layer#completion-handler]], Obsidian Help: Callouts.

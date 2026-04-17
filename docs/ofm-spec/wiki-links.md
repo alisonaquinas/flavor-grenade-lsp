@@ -16,6 +16,14 @@ Official reference: [Internal links](https://help.obsidian.md/Linking+notes+and+
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-WIKI-001` | Wiki-links use `[[...]]` with an optional `!` prefix for embeds. |
+| `OFM-WIKI-002` | The target supports file stems, aliases, headings, and block references. |
+| `OFM-WIKI-003` | Empty or malformed targets such as `[[]]` and `[[doc#^]]` are invalid. |
+
 ## Syntax Variants
 
 | Syntax | Meaning |

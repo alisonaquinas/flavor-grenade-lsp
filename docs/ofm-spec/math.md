@@ -18,6 +18,14 @@ Official reference: [Math](https://help.obsidian.md/Editing+and+formatting/Advan
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-MATH-001` | Block math uses `$$...$$` delimiters on their own lines. |
+| `OFM-MATH-002` | Inline math uses single-dollar delimiters without surrounding whitespace. |
+| `OFM-MATH-003` | Math regions are opaque to OFM analysis, diagnostics, and completion. |
+
 ## Block Math
 
 Block math uses `$$` delimiters on their own lines:

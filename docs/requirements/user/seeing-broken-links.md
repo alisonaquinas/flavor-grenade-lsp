@@ -2,6 +2,8 @@
 title: Seeing Broken Links User Requirements
 tags:
   - requirements/user/seeing-broken-links
+aliases:
+  - Seeing Broken Links
 ---
 
 # Seeing Broken Links User Requirements
