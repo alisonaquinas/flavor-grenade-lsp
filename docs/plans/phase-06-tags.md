@@ -93,7 +93,9 @@ Build the tag subsystem: vault-wide tag registry, tag hierarchy, inline completi
 
   Used by the workspace symbol provider (Phase 12).
 
-- [ ] **6. Implement "Move tag to frontmatter" code action**
+- [ ] **6. Implement "Move tag to frontmatter" code action (MVP)**
+
+  > **Scope:** This task implements the basic happy-path only. Edge cases (tag already in frontmatter, multiple occurrences) are handled in Phase 12 task 4.
 
   Create `src/code-actions/tag-to-yaml.action.ts`. When cursor is on an inline `#tag`:
   1. Offer code action: "Move #tag to frontmatter"
