@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Navigation.Definition.AllLinkTypes
+**User Req:** User.Navigate.JumpToNote, User.Blocks.ReferenceSpecificText
 **Gist:** The `textDocument/definition` handler must return a valid `Location` response for cursor positions on wiki-links, embed links, block references, and tag occurrences.
 **Ambition:** Go-to-definition is the single most important navigation feature in a knowledge graph context — it is the LSP equivalent of clicking a hyperlink. If any link type is unsupported, authors must fall back to manual search for that type, which undermines the server's value as a seamless navigation layer. Complete link-type coverage establishes the server as a reliable replacement for Obsidian's own Ctrl+Click navigation, applicable in any LSP-compatible editor.
 **Scale:** Percentage of the four defined OFM link types (wiki-link, embed link, block reference, tag) for which `textDocument/definition` returns a non-null, non-empty `Location` result when the cursor is on a valid (resolvable) occurrence. Scope: all four types must be tested with at least 3 valid occurrences each.
@@ -36,6 +37,7 @@ aliases:
 ---
 
 **Tag:** Navigation.References.Completeness
+**User Req:** User.Navigate.FindAllReferences
 **Gist:** The `textDocument/references` handler must return every reference in the vault folder that resolves to the target document, heading, block anchor, or tag — with no omissions.
 **Ambition:** Find-references in a vault context is a graph traversal problem: the author needs to know every note that links to or mentions a given target before safely renaming or deleting it. An incomplete references list gives a false sense of safety — the author believes they have found all dependents, renames the target, and discovers later that orphaned links remain. Completeness is therefore a hard correctness property, not a quality-of-life improvement.
 **Scale:** Percentage of actual references in the vault folder (as determined by an independent full-text scan of all indexed documents) that are returned in the `textDocument/references` response for a given target. Scope: wiki-link, embed, block-reference, and tag references to the target.
@@ -54,6 +56,7 @@ aliases:
 ---
 
 **Tag:** Navigation.CodeLens.Count
+**User Req:** User.Navigate.SeeReferenceCount
 **Gist:** Each heading in an indexed document must display a `textDocument/codeLens` entry showing the exact count of vault-wide references that resolve to that heading, and the count must be updated when the vault index changes.
 **Ambition:** Reference counts on headings give authors an at-a-glance measure of how well-connected each section of their vault is. A heading with 0 references is a candidate for pruning or promotion; a heading with many references signals high-value content that should be protected during refactoring. Inaccurate counts would misguide these decisions, and a count that becomes stale after indexing changes would erode trust in the entire code lens feature.
 **Scale:** Percentage of headings across all indexed documents whose displayed code lens reference count exactly matches the actual count of vault-wide references resolving to that heading (including `[[doc#Heading]]` and `![[doc#Heading]]` syntax). Scope: all headings in all indexed documents in a vault of at least 10 documents.

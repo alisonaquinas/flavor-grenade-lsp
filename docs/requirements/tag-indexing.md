@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Tag.Index.Completeness
+**User Req:** User.Tags.CompleteTag
 **Gist:** All `#tag` occurrences in vault body text must be discovered and indexed by VaultIndex, excluding only occurrences inside fenced code blocks, indented code blocks, math blocks, and HTML comments.
 **Ambition:** A tag index that silently misses occurrences is unreliable for completion, navigation, and find-references. Authors who trust the tag index to represent their vault's knowledge graph will make incorrect decisions if the index is incomplete. Full coverage of body-text tags is the foundational guarantee on which all other tag features depend.
 **Scale:** Percentage of actual `#tag` tokens present in vault body text (as parsed by the OFM parser, excluding excluded regions) that appear in the VaultIndex tag entry for that document and vault scope.
@@ -36,6 +37,7 @@ aliases:
 ---
 
 **Tag:** Tag.Hierarchy.Awareness
+**User Req:** User.Tags.FindTaggedNotes, User.Tags.UseHierarchicalTags
 **Gist:** The tag index must support hierarchical parent-tag queries such that querying `#project` also returns documents and positions tagged with `#project/active` and `#project/done`.
 **Ambition:** Obsidian's tag hierarchy (slash-separated) is a deliberate organisational feature. An index that treats `#project` and `#project/active` as entirely unrelated tokens breaks the mental model users have built around tag trees. LSP features like find-references and completion must reflect the hierarchical relationship, or the server becomes less useful than Obsidian's own built-in tag panel.
 **Scale:** Percentage of parent-tag completion and find-references requests that return the full set of child-tag matches. A parent-tag request is one where the query tag has at least one child tag in the vault. Scope: all unique parent tags with at least one child in the test vault.
@@ -54,6 +56,7 @@ aliases:
 ---
 
 **Tag:** Tag.YAML.Equivalence
+**User Req:** User.Tags.FindTaggedNotes
 **Gist:** Tag values declared in `tags:` YAML frontmatter must be indexed identically to the same tag value appearing as inline `#tag` syntax in the document body, with no distinction between the two sources in the tag index.
 **Ambition:** Obsidian treats frontmatter `tags:` and inline `#tags` as equivalent for filtering, graph view, and search. An LSP that indexes them separately or that privileges one source over the other breaks the user's mental model and produces asymmetric find-references results — some references found, others missed — which is worse than finding none, because it misleads rather than simply falling short.
 **Scale:** Percentage of tag values declared in `tags:` frontmatter (across all documents in the test vault) that appear in the VaultIndex tag entry with the same key and document association as equivalent inline `#tag` occurrences would.
@@ -74,6 +77,7 @@ aliases:
 ---
 
 **Tag:** Tag.Completion.Unicode
+**User Req:** User.Tags.CompleteTag
 **Gist:** Tag completion must successfully parse and return candidates for tag names containing Unicode letters (including non-Latin scripts) and emoji characters.
 **Ambition:** Obsidian's tag parser accepts any Unicode letter sequence after `#`, enabling multilingual vault authors and users who include emoji in their organisational tags (e.g., `#日本語`, `#📚reading`). An LSP that silently drops these tags from the index or fails to complete them excludes a significant segment of non-English-speaking users and creates a false sense that their vault is correctly handled when it is not.
 **Scale:** Binary pass/fail per test case. A test case is a tag name containing at least one non-ASCII Unicode letter or emoji character. The scale is the percentage of such test cases that (a) parse without error, (b) appear in VaultIndex, and (c) appear in completion candidates when the prefix is typed.

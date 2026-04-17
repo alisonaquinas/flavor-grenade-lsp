@@ -121,6 +121,10 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[security/information-disclosure]] |
 | **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[security/information-disclosure]] |
 
+## User Requirements
+
+The user requirements layer lives in [[requirements/user/index]]. It contains 23 implementation-agnostic user goals across 9 themes, each mapping to one or more functional requirements in this index. Every functional requirement that has a user-level mapping carries a `User Req:` field directly below its `Tag` field.
+
 ## Related Documents
 
 - [[design/domain-layer]] — domain model: VaultIndex, OFMIndex, document entities
