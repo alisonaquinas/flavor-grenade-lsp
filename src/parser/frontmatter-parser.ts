@@ -1,4 +1,4 @@
-import { load as yamlLoad } from 'js-yaml';
+import { load as yamlLoad, CORE_SCHEMA } from 'js-yaml';
 
 /** Result of parsing the YAML frontmatter block from a document. */
 export interface FrontmatterResult {
@@ -39,7 +39,8 @@ export class FrontmatterParser {
     const bodyOffset = closeMatch + this.closingDelimiterLength(text, closeMatch);
 
     try {
-      const parsed = yamlLoad(yamlContent);
+      // CORE_SCHEMA prevents execution of !!js/... YAML tags (security requirement)
+      const parsed = yamlLoad(yamlContent, { schema: CORE_SCHEMA });
       const frontmatter =
         parsed != null && typeof parsed === 'object' && !Array.isArray(parsed)
           ? (parsed as Record<string, unknown>)

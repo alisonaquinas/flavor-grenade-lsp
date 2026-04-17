@@ -2,7 +2,7 @@
 id: "CHORE-008"
 title: "Phase 3 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 3
 created: "2026-04-17"
@@ -121,3 +121,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: FSM parser implementations reviewed for complexity, opaque region marker correctness.
+
+> [!SUCCESS] Done — 2026-04-17
+> Code quality review completed. All functions ≤40 lines. Max nesting depth 3 (parseIndented). All exports carry JSDoc. ParseCache lifecycle is correct: delete() called on didClose. OpaqueRegionMarker handles empty documents and overlapping regions correctly (merge algorithm). No behaviour-changing refactors needed. Status: `done`.
