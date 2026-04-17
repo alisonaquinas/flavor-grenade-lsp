@@ -1,17 +1,17 @@
 ---
-title: "Phase 11: Rename Refactoring"
+title: "Phase 11: Rename"
 phase: 11
 status: planned
 tags: [rename, refactoring, workspace-edit, prepare-rename]
 updated: 2026-04-16
 ---
 
-# Phase 11: Rename Refactoring
+# Phase 11: Rename
 
 | Field      | Value |
 |------------|-------|
 | Phase      | 11 |
-| Title      | Rename Refactoring |
+| Title      | Rename |
 | Status     | ⏳ planned |
 | Gate       | `bdd/features/rename.feature` all scenarios pass |
 | Depends on | Phase 10 (Navigation) |

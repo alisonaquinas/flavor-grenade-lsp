@@ -172,7 +172,7 @@ Set up continuous integration, packaging, and release automation. After this pha
 
   ```json
   {
-    "name": "flavor-grenade-lsp",
+    "name": "@flavor-grenade/lsp-server",
     "version": "0.1.0",
     "bin": {
       "flavor-grenade-lsp": "dist/flavor-grenade-lsp"
@@ -297,5 +297,5 @@ The gate is considered passing when:
 
 ## References
 
-- `[[adr/ADR004-release-strategy]]`
+- `[[adr/ADR012-release-strategy]]`
 - `[[concepts/packaging]]`

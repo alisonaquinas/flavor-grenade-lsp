@@ -15,7 +15,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 
 | Phase | Title                    | Status        | Gate                                               | Started    | Completed |
 |-------|--------------------------|---------------|----------------------------------------------------|------------|-----------|
-| 0     | Documentation Scaffold   | ✅ in-progress | All docs/ files written and committed              | 2026-04-16 | —         |
+| 0     | Documentation Scaffold   | 🔄 in-progress | All docs/ files written and committed              | 2026-04-16 | —         |
 | 1     | Project Scaffold         | ⏳ planned     | `bun run build` exits 0; `bun test` exits 0        | —          | —         |
 | 2     | LSP Transport            | ⏳ planned     | `initialize` handshake roundtrip passes            | —          | —         |
 | 3     | OFM Parser               | ⏳ planned     | `bun test src/parser/**` all pass; @smoke BDD pass | —          | —         |
@@ -27,7 +27,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 9     | Completions              | ⏳ planned     | completions.feature all scenarios pass             | —          | —         |
 | 10    | Navigation               | ⏳ planned     | navigation.feature all scenarios pass              | —          | —         |
 | 11    | Rename                   | ⏳ planned     | rename.feature all scenarios pass                  | —          | —         |
-| 12    | Code Actions             | ⏳ planned     | code-action scenarios pass                         | —          | —         |
+| 12    | Code Actions             | ⏳ planned     | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | —          | —         |
 | 13    | CI & Delivery            | ⏳ planned     | CI green on all PRs; binary artifacts published    | —          | —         |
 
 ---
@@ -36,7 +36,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 
 | Symbol | Meaning |
 |--------|---------|
-| ✅ in-progress | Work has started; gate not yet passing |
+| 🔄 in-progress | Work has started; gate not yet passing |
 | ✅ complete | Gate verified passing in CI |
 | ⏳ planned | Work not yet started; prerequisites not met |
 | 🚫 blocked | Blocked by an unresolved dependency or decision |
@@ -53,7 +53,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
    bun run bdd -- --tags @smoke
    ```
 2. Update the row in this table:
-   - Change **Status** from `⏳ planned` / `✅ in-progress` to `✅ complete`
+   - Change **Status** from `⏳ planned` / `🔄 in-progress` to `✅ complete`
    - Set **Completed** to today's date in `YYYY-MM-DD` format
    - Do NOT modify the **Started** date retroactively
 3. Commit the ledger change with the message:
@@ -71,7 +71,7 @@ A phase is **not** complete if:
 
 ## How to Mark a Phase as Started
 
-1. Update **Status** to `✅ in-progress`
+1. Update **Status** to `🔄 in-progress`
 2. Set **Started** to today's date
 3. Commit:
    ```
