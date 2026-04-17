@@ -180,23 +180,29 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 
 ### Step J — Run Integration Tests
 
-1. Run `bun test tests/integration/`
-2. Fix all failures; open `BUG` tickets as needed
+1. Check whether `tests/integration/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note "no integration tests in this phase" in the Step M retrospective; proceed to Step K
+   - **If test files exist:** run `bun test tests/integration/`
+2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step K — Run Verification Tests
 
-1. Run `bun test tests/verification/`
-2. Fix all failures; open `BUG` tickets as needed
+1. Check whether `tests/verification/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to Step L
+   - **If test files exist:** run `bun test tests/verification/`
+2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step L — Run Validation Tests
 
-1. Run `bun test tests/validation/`
-2. Fix all failures
-3. Run all BDD `@smoke` scenarios: `bun run bdd -- --tags @smoke`
-4. Fix any failing BDD scenarios
-5. Repeat until all pass
+1. Check whether `tests/validation/` contains any `.test.ts` or `.spec.ts` files
+   - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to BDD check
+   - **If test files exist:** run `bun test tests/validation/`; fix all failures
+2. Run all BDD `@smoke` scenarios: `bun run bdd -- --tags @smoke`
+   - **If cucumber is not yet configured for this phase:** mark BDD check **N/A** and note in retrospective
+3. Fix any failing BDD scenarios; open `BUG` tickets per Rule 5
+4. Repeat until all pass
 
 ### Step M — Phase Retrospective
 
