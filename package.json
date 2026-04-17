@@ -3,6 +3,17 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
+  "scripts": {
+    "dev": "bun --watch src/main.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/main.js",
+    "test": "bun test",
+    "bdd": "cucumber-js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "gate:1": "bun run build && bun test"
+  },
   "dependencies": {
     "@nestjs/common": "^11.1.19",
     "@nestjs/core": "^11.1.19",
