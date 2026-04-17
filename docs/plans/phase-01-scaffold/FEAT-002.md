@@ -3,7 +3,7 @@ id: "FEAT-002"
 title: "Project Scaffold"
 type: feature
 # status: draft | ready | in-progress | blocked | in-review | done | cancelled
-status: draft
+status: in-progress
 priority: "high"
 phase: "1"
 created: "2026-04-17"
@@ -172,3 +172,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Phase 1 Project Scaffold feature defined; all child tasks (TASK-002 through TASK-016) and chores (CHORE-001 through CHORE-003) created. Blocked by FEAT-001 until Phase 0 documentation quality gates pass.
+
+> [!INFO] In-progress — 2026-04-17
+> Phase 0 documentation scaffold complete and committed. Phase 1 execution begins. Execution ledger updated: Phase 0 ✅ complete, Phase 1 🔄 in-progress. Feature branch `feature/phase-01-scaffold` created from develop. Status: `in-progress`.
