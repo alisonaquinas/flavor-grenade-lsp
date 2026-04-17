@@ -72,7 +72,7 @@ Ticket IDs are **globally sequential** across all phases. Never reuse a ticket I
 
 **Rule 5 (sweep and test steps E–L):** Every issue discovered during lint, quality, security sweeps, or any test step must be captured in a ticket *before* any fix is applied. Silent fixes without tickets are a process violation. See [[plans/phase-execution]] Rule 5 for the full table of ticket types per step.
 
-The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–L lifecycle checklist — is documented in [[plans/phase-execution]].
+The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–M lifecycle checklist — is documented in [[plans/phase-execution]].
 
 ---
 

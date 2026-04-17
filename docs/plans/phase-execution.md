@@ -87,7 +87,7 @@ Any defect, warning, code smell, security finding, or test failure discovered du
 
 ## Phase Lifecycle Checklist
 
-Every phase must complete steps A through L in order. No step may be skipped.
+Every phase must complete steps A through M in order. No step may be skipped.
 
 ### Step A — Evaluate Phase Tickets
 
@@ -198,17 +198,58 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 4. Fix any failing BDD scenarios
 5. Repeat until all pass
 
+### Step M — Phase Retrospective
+
+Document what was learned during this phase. The retrospective is written directly into the phase's `FEAT-NNN.md` ticket under a `## Retrospective` section appended to the file. It is **not** a separate document.
+
+The retrospective must cover:
+
+1. **What went as planned** — tasks or estimates that proved accurate; approaches that worked well
+2. **What deviated from the plan** — tasks that took longer or shorter than expected; approaches that had to change mid-flight; tickets that were opened during sweeps or tests (list by ID)
+3. **Process observations** — anything the A–M checklist did not anticipate; steps that felt redundant or were missing
+4. **Carry-forward actions** — concrete changes to apply to the *next* phase's planning: updated time estimates, scope adjustments, new SPIKE tickets opened, ADR amendments needed
+5. **Rule or template updates** — if any process rule (Rules 1–5), ticket template, or lifecycle document should be amended based on this phase's experience, open a documentation CHORE ticket and reference it here
+
+**Format:** append to `FEAT-NNN.md` as follows:
+
+```markdown
+## Retrospective
+
+> Written after Step L passes. Date: YYYY-MM-DD.
+
+### What went as planned
+...
+
+### Deviations and surprises
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-NNN | Bug | ... | +N h |
+| CHORE-NNN | Chore | ... | +N h |
+
+### Process observations
+...
+
+### Carry-forward actions
+- [ ] ...
+
+### Rule / template amendments
+- [ ] CHORE-NNN — <description> (or "none")
+```
+
+> [!NOTE] A retrospective with all sections left blank is a documentation defect. Write at least one sentence per section. "Nothing to report" is acceptable only for carry-forward actions and rule amendments when truly nothing changed.
+
 ---
 
 ## Phase Completion
 
 A phase is complete **only** when ALL of the following are true:
 
-- [ ] Steps A through L executed to completion (no step skipped)
+- [ ] Steps A through **M** executed to completion (no step skipped)
 - [ ] All `TASK`, `CHORE`, and `BUG` tickets in the phase folder are in a terminal state
 - [ ] The phase gate command passes in CI on all three platforms (linux-x64, darwin-arm64, win-x64)
 - [ ] The execution ledger row shows `✅ complete` with a completion date
 - [ ] A PR linking the phase work is open or merged
+- [ ] `FEAT-NNN.md` contains a completed `## Retrospective` section
 
 The AI agent must NOT mark a phase `complete` without CI confirmation. The CI gate is authoritative. See [[plans/execution-ledger]] for gate commands.
 
