@@ -100,6 +100,26 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Process.TestIndex.Matrix** | `docs/test/matrix.md` updated for every new test file added. | [[development-process]] |
 | **Process.Scripts.Automation** | Repetitive procedures automated in `scripts/` shell scripts. | [[development-process]] |
 | **Process.BinaryFiles.LFS** | All binary files tracked via Git LFS; no binary blobs committed directly. | [[development-process]] |
+| **Security.Parser.ReDoS** | All OFM parser regexes must be audited for catastrophic backtracking; super-linear patterns are prohibited. | [[security/parser-safety]] |
+| **Security.Parser.ParseTimeout** | Any single vault file must complete parsing within 200 ms; timeouts produce empty results without crashing. | [[security/parser-safety]] |
+| **Security.Parser.YAMLLimits** | Frontmatter YAML parsed with alias cap (50), size limit (64 KB), safe mode; parse failures caught as malformed frontmatter. | [[security/parser-safety]] |
+| **Security.Parser.EmbedDepth** | Embed resolution detects cycles via visited-URI set and enforces max depth 10; circular embeds produce FG005. | [[security/parser-safety]] |
+| **Security.Parser.VaultFileLimit** | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage`. | [[security/parser-safety]] |
+| **Security.Vault.PathConfinement** | All file paths from vault content or LSP params are canonicalized and vault-root-checked before any I/O. | [[security/vault-confinement]] |
+| **Security.Vault.SymlinkConfinement** | Symlinks resolving outside the vault root are treated as non-existent; real symlink target path is checked, not symlink path. | [[security/vault-confinement]] |
+| **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[security/vault-confinement]] |
+| **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[security/vault-confinement]] |
+| **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[security/input-validation]] |
+| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 10 MB rejected at transport layer; stdin closed, no buffering or parsing attempted. | [[security/input-validation]] |
+| **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[security/input-validation]] |
+| **Security.Supply.ExactPinning** | All `package.json` dependencies use exact versions; range specifiers (`^`, `~`) fail CI linting. | [[security/supply-chain]] |
+| **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[security/supply-chain]] |
+| **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[security/supply-chain]] |
+| **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[security/supply-chain]] |
+| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` never added as a dependency (CVE-2025-54782 RCE); enforced by ESLint `no-restricted-imports`. | [[security/supply-chain]] |
+| **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[security/information-disclosure]] |
+| **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[security/information-disclosure]] |
+| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[security/information-disclosure]] |
 
 ## Related Documents
 
