@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Link.Wiki.StyleBinding
+**User Req:** User.Navigate.JumpToNote, User.Author.CompleteWikiLink, User.Author.FollowLinkStyle, User.Config.CustomiseLinkStyle
 **Gist:** Completion items and rename edits must conform to the wiki link style that is active in the current configuration.
 **Ambition:** Obsidian vaults commit to one of three link-text conventions (file-stem, title-slug, file-path-stem). LSP edits that violate that convention corrupt the vault's internal consistency and break Obsidian's own link resolution. Enforcing style at the LSP layer prevents silent divergence between what the server proposes and what Obsidian accepts.
 **Scale:** Percentage of completion items and rename `WorkspaceEdit` text edits in a given test session whose link text conforms to the active `wiki.style` setting. Scope: all wiki-link positions across all documents in the test vault.
@@ -34,6 +35,7 @@ aliases:
 ---
 
 **Tag:** Link.Wiki.AliasResolution
+**User Req:** User.Navigate.JumpToNote
 **Gist:** YAML `aliases:` frontmatter values must be treated as valid link targets equivalent to the document's primary name.
 **Ambition:** Obsidian natively allows `[[My Alias]]` to resolve to a document that declares `aliases: [My Alias]` in its frontmatter. An LSP that ignores aliases rejects valid vault links, generates false-positive FG001 diagnostics, and breaks go-to-definition for an important authoring pattern widely used in Zettelkasten workflows.
 **Scale:** Percentage of `[[alias-text]]` wiki-link completions and definition requests in a test vault that correctly resolve to the document declaring that alias in its `aliases:` frontmatter property. Scope: all alias values across all indexed documents.
@@ -53,6 +55,7 @@ aliases:
 ---
 
 **Tag:** Link.Resolution.ModeScope
+**User Req:** User.Diagnose.SpotBrokenLinks
 **Gist:** Single-file mode must suppress all cross-file link resolution and must not return cross-file results in any LSP response.
 **Ambition:** Single-file mode is used when the LSP client opens an isolated document without a workspace root, such as a standalone markdown file in a text editor without vault context. Returning cross-file resolution results in this mode is both incorrect (no VaultIndex is populated) and potentially confusing or harmful (stale data from a previous session). This mirrors the requirement as specified for the marksman LSP.
 **Scale:** Percentage of LSP responses (completions, definitions, diagnostics, references) issued while the server is operating in single-file mode that contain any result referencing a file other than the currently open document.
@@ -72,6 +75,7 @@ aliases:
 ---
 
 **Tag:** Link.Inline.URLSkip
+**User Req:** User.Diagnose.SpotBrokenLinks
 **Gist:** Standard inline Markdown links whose URL is not a markdown file path must produce no FG001 (BrokenWikiLink) diagnostic.
 **Ambition:** Vault documents commonly contain external hyperlinks in the form `[text](https://example.com)` or `[text](mailto:user@example.com)`. These are not wiki-links and their targets are not resolvable by the LSP. Emitting FG001 for them would create noise that trains users to ignore real broken-link diagnostics, undermining the diagnostic system's signal value.
 **Scale:** Percentage of inline link occurrences in a test vault whose URL is not a path to a `.md` file (or configured extension) that produce zero FG001 diagnostic entries.
@@ -91,6 +95,7 @@ aliases:
 ---
 
 **Tag:** Link.Resolution.IgnoreGlob
+**User Req:** User.Author.CompleteWikiLink
 **Gist:** Files matching `.gitignore`-style glob patterns in the server configuration must be absent from all completion candidates and go-to-definition results.
 **Ambition:** Vaults often contain generated files, template directories, or attachment folders that should be invisible to the link-resolution layer. Exposing ignored files in completions degrades user experience with irrelevant candidates and may leak private or auto-generated content into links that are then committed to version control.
 **Scale:** Percentage of completion-candidate lists and definition-result sets that contain zero entries whose file path matches a currently active ignore pattern. Scope: all LSP requests issued after the ignore configuration is applied.
