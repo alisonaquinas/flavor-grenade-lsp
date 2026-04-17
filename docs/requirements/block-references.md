@@ -15,6 +15,7 @@ aliases:
 ---
 
 **Tag:** Block.Anchor.Indexing
+**User Req:** User.Blocks.ReferenceSpecificText
 **Gist:** All `^blockid` anchors present in a document's body text must be discovered during indexing and registered in OFMIndex.blockAnchors for that document.
 **Ambition:** Block anchors are the mechanism Obsidian uses for precise transclusion and deep linking. An index that misses anchors produces silent gaps: users believe their block can be linked, create a `[[doc#^anchor]]` reference, and see no FG005 diagnostic — but the reference resolves to nothing at render time. Complete indexing is the prerequisite for every other block-reference feature (completion, diagnostics, go-to-definition).
 **Scale:** Percentage of actual `^blockid` anchor definitions present in a document's body text that appear in OFMIndex.blockAnchors for that document after indexing. Scope: all documents in the test vault; only end-of-line anchors in body text (not inside code blocks or math blocks).
@@ -37,6 +38,7 @@ aliases:
 ---
 
 **Tag:** Block.CrossRef.Diagnostic
+**User Req:** User.Blocks.ReferenceSpecificText
 **Gist:** A `[[doc#^nonexistent]]` wiki-link referencing a block anchor that does not exist in OFMIndex.blockAnchors for the target document must produce one FG005 (BrokenBlockRef) diagnostic; this diagnostic must be suppressed when the server is in single-file mode.
 **Ambition:** Block cross-references are unforgiving: a misspelled or stale anchor ID produces a broken link that renders without any visual indication in most Obsidian themes. Early, precise diagnostics allow authors to correct the reference before it propagates through transclusion chains. The single-file suppression rule mirrors the behaviour required for all cross-file diagnostics and is a safety property of the single-file mode contract.
 **Scale:** Percentage of `[[doc#^nonexistent]]` references in a test vault that produce exactly one FG005 diagnostic in multi-file mode, and zero diagnostics of code FG005 in single-file mode. Scope covers both the positive case (broken anchor) and the negative case (valid anchor, no diagnostic).
@@ -58,6 +60,7 @@ aliases:
 ---
 
 **Tag:** Block.Completion.Offer
+**User Req:** User.Blocks.CompleteBlockRef
 **Gist:** When the cursor is positioned after `[[doc#^` in a wiki-link, the completion response must offer all `^blockid` values registered in OFMIndex.blockAnchors for the resolved target document.
 **Ambition:** Block anchor identifiers are opaque strings with no predictable structure — authors cannot guess them without consulting the source document. Completion at the `[[doc#^` position transforms an otherwise unguessable string into a discoverable, typo-free selection. Without this completion, block cross-referencing requires the author to context-switch to the source document, memorise or copy the anchor ID, and manually type it — a friction that discourages use of the feature entirely.
 **Scale:** Percentage of `^blockid` values registered in OFMIndex.blockAnchors for a resolved target document that appear as completion candidates when the cursor is at the `[[targetDoc#^` trigger position. Scope: all documents in the test vault that contain at least one block anchor.
@@ -77,6 +80,7 @@ aliases:
 ---
 
 **Tag:** Block.Anchor.Lineend
+**User Req:** User.Blocks.CompleteBlockRef
 **Gist:** Only `^id` patterns that appear at the end of a line of body text are treated as block anchor definitions; `^id` patterns occurring mid-sentence or inside code blocks must not be indexed as block anchors.
 **Ambition:** Obsidian's block anchor specification is unambiguous: an anchor is a `^` immediately followed by an alphanumeric identifier at the end of a line, optionally preceded by whitespace. Mid-sentence `^id` occurrences (common in mathematical notation, e.g., `x^2`, or in text like "refer to section^note") are not block anchors. Incorrectly indexing them pollutes OFMIndex.blockAnchors with phantom entries, causing false-positive completion candidates and corrupting the block reference graph.
 **Scale:** Binary pass/fail per syntactic position tested. A position is a `^id`-like token in body text. The scale is the percentage of positions correctly classified: end-of-line body-text positions indexed as anchors, all other positions not indexed.
