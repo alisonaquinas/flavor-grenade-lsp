@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Minimal permissions — CI only reads the repository.
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    name: TypeScript typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # tsc --noEmit; fails on any type error.
+      - run: bun run typecheck
+
+  lint:
+    name: Lint (ESLint, zero warnings)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # The lint script must pass --max-warnings 0 so any warning is a failure.
+      - run: bun run lint
+
+  format:
+    name: Format check (Prettier)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # format:check runs `prettier --check` — exits non-zero if any file differs.
+      - run: bun run format:check
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # --coverage writes to coverage/ which is uploaded as an artifact below.
+      - run: bun test --coverage
+
+      # Upload coverage even on failure so we can inspect partial results.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: coverage/
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    # Only build if type check, lint, and tests all pass. Format is independent
+    # of the build output so it does not gate here.
+    needs: [typecheck, lint, test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+
+  markdown-lint-docs:
+    name: Markdown lint (docs/ — markdownlint-obsidian)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # markdownlint-obsidian is the obsidian-linter CLI package.
+      # It enforces Obsidian-specific Markdown conventions defined in
+      # .obsidian-linter.jsonc. Only applied to docs/ — not .github/.
+      - run: bunx markdownlint-obsidian --config .obsidian-linter.jsonc docs/
+
+  markdown-lint-other:
+    name: Markdown lint (other — markdownlint-cli2)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Lints all Markdown files that are NOT under docs/ or .github/ or
+      # node_modules/. Those directories are handled separately or skipped.
+      - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**"

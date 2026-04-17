@@ -81,6 +81,24 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |
 | **Config.Fault.Isolation** | Malformed TOML must be dropped without crashing the server. | [[configuration]] |
 | **Config.TextSync.Default** | Absent `core.text_sync` must default to `"full"`. | [[configuration]] |
+| **Quality.SOLID.SingleResponsibility** | Each class or service must have exactly one reason to change. | [[code-quality]] |
+| **Quality.SOLID.DependencyInversion** | All cross-module dependencies must point toward abstractions, never concrete implementations. | [[code-quality]] |
+| **Quality.Coherence.OneClassPerFile** | Each non-barrel `.ts` file exports exactly one primary entity. | [[code-quality]] |
+| **Quality.Coupling.ModuleBoundaries** | Cross-module imports only via a module's public `index.ts` barrel. | [[code-quality]] |
+| **Quality.Docs.Docstrings** | Every exported class, public method, and public property must carry a JSDoc docstring. | [[code-quality]] |
+| **Quality.Lint.ZeroWarnings** | All linters must produce zero errors and zero warnings; `--max-warnings 0` enforced. | [[code-quality]] |
+| **Quality.Types.StrictMode** | TypeScript strict mode enabled; `tsc --noEmit` must exit 0 with zero errors. | [[code-quality]] |
+| **CICD.Workflow.PRGate** | Every PR to `main` or `develop` must pass all CI checks before merge. | [[ci-cd]] |
+| **CICD.Markdown.DocsFolderLinting** | `docs/` markdown linted by markdownlint-obsidian in CI; violations fail CI. | [[ci-cd]] |
+| **CICD.Markdown.SourceLinting** | Non-docs, non-.github markdown linted by markdownlint-cli2 in CI. | [[ci-cd]] |
+| **CICD.Publish.OIDC** | npm and Bun publishing use OIDC provenance; `npm publish --provenance` required. | [[ci-cd]] |
+| **CICD.Publish.Trigger** | Publishing triggered only by semver tag push to `main`. | [[ci-cd]] |
+| **CICD.PreCommit.Gate** | `lefthook` pre-commit runs typecheck + lint + format:check + test before each commit. | [[ci-cd]] |
+| **Process.Branching.MainReleasesOnly** | `main` receives only release/hotfix merges; direct pushes prohibited. | [[development-process]] |
+| **Process.Testing.DirectoryStructure** | All tests under `tests/`; unit tests mirror `src/` under `tests/unit/`. | [[development-process]] |
+| **Process.TestIndex.Matrix** | `docs/test/matrix.md` updated for every new test file added. | [[development-process]] |
+| **Process.Scripts.Automation** | Repetitive procedures automated in `scripts/` shell scripts. | [[development-process]] |
+| **Process.BinaryFiles.LFS** | All binary files tracked via Git LFS; no binary blobs committed directly. | [[development-process]] |
 
 ## Related Documents
 

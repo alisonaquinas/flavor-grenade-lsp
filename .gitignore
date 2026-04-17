@@ -1,0 +1,43 @@
+# ── Build artifacts ──────────────────────────────────────────────────────────
+dist/
+out/
+build/
+*.js.map
+*.d.ts.map
+
+# ── Runtime / Bun ────────────────────────────────────────────────────────────
+node_modules/
+.bun/
+bun.lock           # prefer bun.lockb (binary); exclude text lock if both exist
+
+# ── Coverage & reporting ─────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+reports/
+*.lcov
+
+# ── Environment secrets ──────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Editor / OS noise ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/settings.json
+.idea/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+bun-debug.log*
+
+# ── Scratch / temporary ──────────────────────────────────────────────────────
+tmp/
+.tmp/
+
+# ── Published packages (avoid accidentally committing tarballs) ───────────────
+*.tgz

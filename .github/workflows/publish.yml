@@ -1,0 +1,68 @@
+name: Publish
+
+on:
+  push:
+    # Only trigger on semver tags, e.g. v1.2.3
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+  # id-token: write is required for OIDC provenance attestation via npm publish
+  # --provenance. Without this permission the publish step will fail.
+  id-token: write
+
+jobs:
+  publish-npm:
+    name: Publish to npm (OIDC)
+    runs-on: ubuntu-latest
+    # The npm-publish environment can require a manual approval gate in the
+    # GitHub repository settings, providing an extra layer before publishing.
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # setup-node configures the npm registry URL and sets up the token from
+      # NODE_AUTH_TOKEN. The OIDC token is handled separately by npm publish
+      # --provenance, which calls the Sigstore API during publish.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+
+      # --provenance generates a signed attestation via OIDC; requires the
+      # id-token: write permission above and a public package.
+      # NPM_TOKEN is still required for authentication to the registry itself;
+      # OIDC only provides the provenance attestation, not auth.
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-bun:
+    name: Publish to Bun registry
+    runs-on: ubuntu-latest
+    # Wait for the npm publish to succeed before publishing to the Bun registry.
+    # This ensures the npm package is the canonical "source of truth" release.
+    needs: publish-npm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+
+      - run: bun publish --access public
+        env:
+          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
