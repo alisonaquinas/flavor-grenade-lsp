@@ -16,6 +16,14 @@ This directory is the ground-truth reference for `flavor-grenade-lsp`. Every LSP
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-INDEX-001` | Parse precedence is fixed: fenced code, math, comments, templater, embeds, then wiki-links. |
+| `OFM-INDEX-002` | Fenced code, math, comments, and templater regions are opaque to OFM analysis. |
+| `OFM-INDEX-003` | The applicability matrix is the canonical map for which OFM features are active per element type. |
+
 ## Element Taxonomy
 
 | Element | Syntax Example | Spec Page |

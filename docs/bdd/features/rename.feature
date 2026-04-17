@@ -1,4 +1,5 @@
 @lsp
+@adr:ADR005
 Feature: Rename refactoring
 
   Background:

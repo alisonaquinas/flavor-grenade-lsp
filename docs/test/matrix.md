@@ -116,7 +116,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 |---|---|---|---|---|---|
 | `Completion.Candidates.Cap` | Candidate list capped at `completion.candidates` config value | — | ⬜ not-yet-written | Phase 9 | |
 | `Completion.Trigger.Coverage` | All trigger characters return candidates in context | — | ⬜ not-yet-written | Phase 9 | |
-| `Completion.CalloutType.Coverage` | 23 Obsidian callout types offered at `> [!` | — | ⬜ not-yet-written | Phase 9 | |
+| `Completion.CalloutType.Coverage` | 13 primary Obsidian callout types offered at `> [!` | — | ⬜ not-yet-written | Phase 9 | |
 | `Completion.WikiStyle.Binding` | Completion items conform to active wiki link style | — | ⬜ not-yet-written | Phase 9 | |
 
 ---

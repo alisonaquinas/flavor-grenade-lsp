@@ -2,6 +2,8 @@
 title: Configuring Behaviour User Requirements
 tags:
   - requirements/user/configuring-behaviour
+aliases:
+  - Configuring Behaviour
 ---
 
 # Configuring Behaviour User Requirements

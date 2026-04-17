@@ -1,4 +1,5 @@
 @lsp
+@adr:ADR002 @adr:ADR003 @adr:ADR005 @adr:ADR006
 Feature: LSP diagnostics
 
   Background:
@@ -25,7 +26,7 @@ Feature: LSP diagnostics
     Then a diagnostic is published for "notes/multi-ref.md" with:
       | field    | value             |
       | code     | FG002             |
-      | severity | Warning           |
+      | severity | Error             |
       | source   | flavor-grenade    |
     And the diagnostic relatedInformation contains a location for "notes/ambig-a.md"
     And the diagnostic relatedInformation contains a location for "notes/sub/ambig-b.md"

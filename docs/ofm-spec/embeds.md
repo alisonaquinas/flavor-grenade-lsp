@@ -17,6 +17,14 @@ Official reference: [Embed files](https://help.obsidian.md/Linking+notes+and+fil
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-EMBED-001` | An embed is a wiki-link prefixed with `!`. |
+| `OFM-EMBED-002` | Embed resolution follows the same target rules as wiki-links. |
+| `OFM-EMBED-003` | Image width/height hints live in the alias slot and use numeric syntax. |
+
 ## Syntax Variants
 
 | Syntax | Meaning |

@@ -59,9 +59,9 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Block.Anchor.Lineend** | Only `^id` patterns at end-of-line are treated as block anchors. | [[block-references]] |
 | **Completion.Candidates.Cap** | Completion candidate list must be capped at `completion.candidates` config value with `isIncomplete` set. | [[completions]] |
 | **Completion.Trigger.Coverage** | All trigger characters must return candidates when cursor is in appropriate context. | [[completions]] |
-| **Completion.CalloutType.Coverage** | The 23 standard Obsidian callout types must appear as candidates at `> [!` position. | [[completions]] |
+| **Completion.CalloutType.Coverage** | The 13 primary standard Obsidian callout types must appear as candidates at `> [!` position. | [[completions]] |
 | **Completion.WikiStyle.Binding** | Completion items must conform to the active wiki link style configuration. | [[completions]] |
-| **Diagnostic.Severity.WikiLink** | FG001/FG002 must carry Error severity. | [[diagnostics]] |
+| **Diagnostic.Severity.WikiLink** | FG001/FG002/FG003 must carry Error severity. | [[diagnostics]] |
 | **Diagnostic.Severity.Embed** | FG004 must carry Warning severity. | [[diagnostics]] |
 | **Diagnostic.Code.Assignment** | Each diagnostic type must carry its assigned FG-prefixed numeric code. | [[diagnostics]] |
 | **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[diagnostics]] |
@@ -132,4 +132,4 @@ The user requirements layer lives in [[requirements/user/index]]. It contains 23
 - [[bdd/features]] — Gherkin scenarios that exercise requirements as acceptance tests
 - [[architecture/overview]] — system decomposition, NestJS module boundaries, Bun runtime constraints
 - [[ofm-spec/index]] — Obsidian Flavored Markdown specification used as primary evidence source
-- [[plans/roadmap]] — delivery milestones and requirement prioritisation
+- [[roadmap]] — delivery milestones and requirement prioritisation

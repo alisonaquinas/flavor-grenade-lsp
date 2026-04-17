@@ -2,6 +2,8 @@
 title: Vault Setup User Requirements
 tags:
   - requirements/user/vault-setup
+aliases:
+  - Vault Setup
 ---
 
 # Vault Setup User Requirements

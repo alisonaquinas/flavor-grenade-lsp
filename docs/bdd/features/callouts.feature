@@ -1,4 +1,5 @@
 @ofm
+@adr:ADR002
 Feature: Callout block detection
 
   Background:
@@ -19,37 +20,24 @@ Feature: Callout block detection
     Then the OFM index for "notes/callouts.md" contains a callout of type "NOTE"
     And no diagnostics are published for "notes/callouts.md"
 
-  Scenario: All 23 standard callout types are recognized
-    Given a file containing one of each standard callout type:
+  Scenario: All 13 primary callout types are recognized
+    Given a file containing one of each primary callout type:
       | type        |
       | NOTE        |
-      | TIP         |
-      | IMPORTANT   |
-      | WARNING     |
-      | CAUTION     |
-      | ABSTRACT    |
-      | SUMMARY     |
-      | TLDR        |
       | INFO        |
-      | TODO        |
-      | HINT        |
-      | CHECK       |
-      | DONE        |
-      | HELP        |
-      | FAQ         |
-      | QUESTION    |
-      | ATTENTION   |
-      | FAILURE     |
-      | FAIL        |
-      | MISSING     |
+      | TIP         |
+      | WARNING     |
       | DANGER      |
-      | ERROR       |
+      | SUCCESS     |
+      | QUESTION    |
+      | FAILURE     |
       | BUG         |
       | EXAMPLE     |
       | QUOTE       |
-      | CITE        |
+      | ABSTRACT    |
+      | TODO        |
     When the LSP processes textDocument/didOpen for that file
-    Then the OFM index contains callouts for all 23 standard types
+    Then the OFM index contains callouts for all 13 primary types
     And no diagnostics are published
 
   Scenario: Foldable callout with dash suffix is detected
@@ -86,7 +74,7 @@ Feature: Callout block detection
     Then the completion list includes "NOTE"
     And the completion list includes "WARNING"
     And the completion list includes "TIP"
-    And the completion list includes all 23 standard callout types
+    And the completion list includes all 13 primary callout types
     And each completion item has kind "EnumMember"
 
   Scenario: Nested callout at depth 2 is detected

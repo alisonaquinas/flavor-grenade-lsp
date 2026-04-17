@@ -2,6 +2,8 @@
 title: Writing With Tags User Requirements
 tags:
   - requirements/user/writing-with-tags
+aliases:
+  - Writing With Tags
 ---
 
 # Writing With Tags User Requirements

@@ -1,4 +1,17 @@
+---
+title: Phase 1 Project Scaffold Plan
+tags:
+  - plans/phase-01
+aliases:
+  - Phase 1 Scaffold Plan
+status: active
+date: 2026-04-17
+---
+
 # Phase 1: Project Scaffold Implementation Plan
+
+> [!NOTE]
+> This plan supersedes [[2026-04-16-phase-01-project-scaffold]] and is the current Phase 1 source of truth.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Complete every checkbox before declaring the task done. Do not skip the TDD steps — write the failing test before writing any implementation code.
 

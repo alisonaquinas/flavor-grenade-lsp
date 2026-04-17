@@ -17,6 +17,14 @@ Official reference: [Tags](https://help.obsidian.md/Editing+and+formatting/Tags)
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-TAG-001` | Inline tags start with `#` and may contain Unicode letters, numbers, emoji, hyphens, underscores, and `/`. |
+| `OFM-TAG-002` | YAML frontmatter tags are equivalent to inline tags and omit the leading `#`. |
+| `OFM-TAG-003` | Tags inside opaque regions or all-numeric tags are ignored. |
+
 ## Inline Tag Syntax
 
 An inline tag is `#` followed by one or more Unicode word characters, digits, emoji, hyphens, underscores, or `/` separators. The `#` must **not** be immediately preceded by an alphanumeric character (to avoid matching URL fragments like `https://example.com#section`).

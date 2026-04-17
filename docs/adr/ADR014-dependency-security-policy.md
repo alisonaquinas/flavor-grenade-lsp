@@ -1,5 +1,5 @@
 ---
-adr: ADR014
+adr: "014"
 title: Dependency Security Policy — Supply Chain Hardening
 status: accepted
 date: 2026-04-17

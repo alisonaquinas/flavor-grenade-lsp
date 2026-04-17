@@ -66,7 +66,7 @@ Implement LSP rename refactoring for headings and files. A rename produces a `Wo
 
   The rename engine must produce edits that match the link style of each existing reference:
   - If the existing link uses `file-stem` style: update using stem only
-  - If the existing link uses `path-relative` style: update the full path including the path prefix
+  - If the existing link uses `file-path-stem` style: update the full path including the path prefix
   - The server does NOT convert between link styles during rename — it preserves each link's existing style
 
 - [ ] **5. Handle pipe aliases during heading rename**

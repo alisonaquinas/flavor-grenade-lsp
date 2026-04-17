@@ -2,6 +2,8 @@
 title: Renaming Safely User Requirements
 tags:
   - requirements/user/renaming-safely
+aliases:
+  - Renaming Safely
 ---
 
 # Renaming Safely User Requirements
