@@ -2,7 +2,7 @@
 id: "FEAT-006"
 title: "Wiki-Link Resolution"
 type: feature
-status: draft
+status: in-progress
 priority: "high"
 phase: "5"
 created: "2026-04-17"

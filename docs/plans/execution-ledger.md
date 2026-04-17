@@ -20,7 +20,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 2     | LSP Transport            | ✅ complete    | `initialize` handshake roundtrip passes            | 2026-04-17 | 2026-04-17 |
 | 3     | OFM Parser               | ✅ complete    | `bun test src/parser/**` all pass; @smoke BDD pass | 2026-04-17 | 2026-04-17 |
 | 4     | Vault Index              | ✅ complete    | `bun test src/vault/**` all pass; vault-detection @smoke pass | 2026-04-17 | 2026-04-17 |
-| 5     | Wiki-Link Resolution     | ⏳ planned     | wiki-links.feature all pass; FG001/FG002/FG003 pass | —         | —         |
+| 5     | Wiki-Link Resolution     | 🔄 in-progress | wiki-links.feature all pass; FG001/FG002/FG003 pass | 2026-04-17 | —         |
 | 6     | Tags                     | ⏳ planned     | tags.feature all scenarios pass                    | —          | —         |
 | 7     | Embeds                   | ⏳ planned     | embeds.feature all scenarios pass                  | —          | —         |
 | 8     | Block References         | ⏳ planned     | block-references.feature all scenarios pass        | —          | —         |
