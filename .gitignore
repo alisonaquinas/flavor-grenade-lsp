@@ -39,5 +39,8 @@ bun-debug.log*
 tmp/
 .tmp/
 
+# ── Claude Code internal ──────────────────────────────────────────────────────
+.claude/
+
 # ── Published packages (avoid accidentally committing tarballs) ───────────────
 *.tgz
