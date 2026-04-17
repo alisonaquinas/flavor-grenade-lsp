@@ -163,3 +163,41 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] In-Review — 2026-04-17
 > All 13 TASK tickets done. CHORE-004/005/006 done. 27 unit tests + 3 integration tests pass. lint and tsc clean. Status: `in-review`.
+
+---
+
+## Retrospective
+
+### 1. What Went as Planned
+
+- All 13 TASK tickets (TASK-017 through TASK-029) were implemented in strict RED → GREEN TDD order with separate commits.
+- Transport layer (StdioReader, StdioWriter, JsonRpcDispatcher) passed all unit tests on the first implementation attempt.
+- DocumentStore integration with `vscode-languageserver-textdocument` was straightforward.
+- Integration test design (subprocess LspClient helper) worked cleanly and did not require importing from `src/`.
+- All three sweep gates (lint, quality, security) passed with minor fixes only.
+
+### 2. Deviations
+
+| Ticket | Type | Description |
+|--------|------|-------------|
+| CHORE-004 | Lint | ESLint `no-unused-vars` did not recognize `_params` convention by default; fixed by adding `argsIgnorePattern`/`varsIgnorePattern` to config. |
+| CHORE-004 | Lint | `Writable.write` callback in test needed explicit `BufferEncoding` and `void` return type annotation to satisfy `explicit-function-return-type`. |
+
+No new CHORE or BUG tickets were required beyond the pre-planned ones.
+
+### 3. Process Observations
+
+- **Notification ordering** was the only non-trivial issue: the `flavorGrenade/status` notification sent from inside `InitializeHandler.handle()` arrived at the client *before* the `initialize` response because `queueMicrotask` still fires before I/O. `setImmediate` correctly defers it to the next I/O tick after the response write.
+- `bun test` with `@jest/globals` works well for both unit and integration tests.
+- The `LspModule.onModuleInit` pattern for wiring all handlers is clean and NestJS-idiomatic; no lifecycle hook ordering issues arose.
+- The `EventEmitter` import must come from `node:events`, not `node:stream` — a minor import hygiene point.
+
+### 4. Carry-Forward Actions
+
+- Phase 3 (OFM Parser) will need to add a `ParseCache` service and hook into `DidOpenHandler` and `DidCloseHandler` via the comments left in those files.
+- Phase 4 (Vault Detection) will be triggered from `InitializedHandler` (comment already in place).
+- The `setImmediate` deferral pattern in `InitializeHandler` should be documented in the ADR or a design note so future phases follow the same convention for post-response notifications.
+
+### 5. Rule/Template Amendments
+
+- ESLint config template should include `argsIgnorePattern: '^_'` in `no-unused-vars` by default for TypeScript projects to avoid false positives on intentionally-unused parameters named with underscore convention.
