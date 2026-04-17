@@ -16,17 +16,17 @@ aliases:
 
 **Tag:** Diagnostic.Severity.WikiLink
 **User Req:** User.Diagnose.SpotBrokenLinks
-**Gist:** Diagnostics with codes FG001 (BrokenWikiLink) and FG002 (AmbiguousWikiLink) must be published with LSP `DiagnosticSeverity.Error` (value 1).
-**Ambition:** Broken and ambiguous wiki-links are not cosmetic issues — they represent a failure of the vault's link graph that will cause incorrect rendering, navigation failures, or silent data-loss when following links. Error severity ensures that LSP clients display these diagnostics with maximum visual prominence (red underlines, error counts in the status bar) and that CI tooling treating errors as blocking can act on them. Downgrading to Warning would cause them to be ignored alongside stylistic suggestions.
-**Scale:** Percentage of FG001 and FG002 diagnostics published by the server that carry `severity: 1` (DiagnosticSeverity.Error). Scope: all `textDocument/publishDiagnostics` notifications issued during a full vault analysis session.
+**Gist:** Diagnostics with codes FG001 (BrokenWikiLink), FG002 (AmbiguousWikiLink), and FG003 (MalformedWikiLink) must be published with LSP `DiagnosticSeverity.Error` (value 1).
+**Ambition:** Broken, ambiguous, and malformed wiki-links are not cosmetic issues — they represent a failure of the vault's link graph that will cause incorrect rendering, navigation failures, or silent data-loss when following links. Error severity ensures that LSP clients display these diagnostics with maximum visual prominence (red underlines, error counts in the status bar) and that CI tooling treating errors as blocking can act on them. Downgrading to Warning would cause them to be ignored alongside stylistic suggestions.
+**Scale:** Percentage of FG001, FG002, and FG003 diagnostics published by the server that carry `severity: 1` (DiagnosticSeverity.Error). Scope: all `textDocument/publishDiagnostics` notifications issued during a full vault analysis session.
 **Meter:**
-1. Create a test vault with at least 5 broken wiki-links (FG001 cases) and at least 2 ambiguous wiki-links (FG002 cases — two documents with the same stem).
+1. Create a test vault with at least 5 broken wiki-links (FG001 cases), at least 2 ambiguous wiki-links (FG002 cases — two documents with the same stem), and at least 2 malformed wiki-links (FG003 cases — e.g. `[[]]` or `[[|]]`).
 2. Open all documents; collect all `textDocument/publishDiagnostics` notifications.
-3. Filter to diagnostics with code `FG001` or `FG002`.
+3. Filter to diagnostics with code `FG001`, `FG002`, or `FG003`.
 4. Verify every such diagnostic has `severity: 1`.
-5. Compute: (FG001/FG002 diagnostics with severity=1 / total FG001/FG002 diagnostics) × 100.
-**Fail:** Any FG001 or FG002 diagnostic with severity other than 1.
-**Goal:** 100% of FG001 and FG002 diagnostics carry severity Error.
+5. Compute: (FG001/FG002/FG003 diagnostics with severity=1 / total FG001/FG002/FG003 diagnostics) × 100.
+**Fail:** Any FG001, FG002, or FG003 diagnostic with severity other than 1.
+**Goal:** 100% of FG001, FG002, and FG003 diagnostics carry severity Error.
 **Stakeholders:** LSP client developers, CI pipeline maintainers, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[wiki-link-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticSeverity.

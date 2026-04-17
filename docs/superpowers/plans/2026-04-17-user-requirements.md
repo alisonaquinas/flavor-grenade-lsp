@@ -4,11 +4,13 @@ tags:
   - plans/user-requirements
 aliases:
   - User Requirements Plan
-status: active
+status: completed
 date: 2026-04-17
 ---
 
 # User Requirements Layer Implementation Plan
+
+> **NOTE:** All deliverables described in this plan (theme files, user requirements index, `User Req:` back-reference fields, and `requirements/index.md` link) were created and committed as part of commit `ed0c293`. The task checkboxes below reflect the pre-completion draft state. Do not attempt to re-create files that already exist.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
