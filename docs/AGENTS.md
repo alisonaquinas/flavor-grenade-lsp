@@ -55,6 +55,25 @@ Documentation layers must be completed in this order. Do not begin a layer until
 
 This order mirrors the layer order in `[[ofm-spec/index]]`. Implementation of TypeScript files in `src/` begins only after step 10 is complete.
 
+## Phase Ticket Structure
+
+Each implementation phase has a ticket folder at `docs/plans/phase-<NN>-<slug>/` that mirrors the phase plan file name. Each folder contains:
+
+| File | Type | Purpose |
+|---|---|---|
+| `index.md` | — | Phase ticket index: all tickets listed with current status |
+| `FEAT-NNN.md` | Feature | One per phase; tracks child tasks and BDD acceptance criteria |
+| `TASK-NNN.md` | Task | One per implementation task in the phase plan; follows TDD lifecycle |
+| `CHORE-NNN.md` | Chore | Three per phase (phases 1–13): lint sweep, code quality sweep, security sweep |
+| `BUG-NNN.md` | Bug | Created as needed during implementation or quality sweeps |
+| `SPIKE-NNN.md` | Spike | Created as needed when investigation is required before implementation |
+
+Ticket IDs are **globally sequential** across all phases. Never reuse a ticket ID. The ID counter per type starts at 001 and increases across the full project lifetime.
+
+The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–L lifecycle checklist — is documented in [[plans/phase-execution]].
+
+---
+
 ## Quality Gates
 
 Before any implementation file (`src/**/*.ts`) is written, ALL of the following must be true:
@@ -106,7 +125,8 @@ Tags must use the prefix conventions listed below. Aliases must be distinct from
 | `bdd/` | BDD scenario files |
 | `adr` | ADR files (no sub-prefix; use the ADR number as an additional tag) |
 | `features/` | Feature specification files |
-| `plans/` | Phase plan files |
+| `plans/` | Phase plan files. Each plan has a matching `plans/phase-NN-*/` ticket folder. |
+| `plans/phase-*/` | Ticket instances per phase: `FEAT`, `TASK`, `CHORE`, `BUG`, `SPIKE`. |
 | `concepts/` | Concept explainer files |
 | `design/` | Design document files |
 | `meta` | Files about the project itself (this file, `index.md`, `roadmap.md`) |
@@ -168,3 +188,6 @@ When multiple agents are working on this repository simultaneously:
 - [[ddd/bounded-contexts]]
 - [[ddd/ubiquitous-language]]
 - [[architecture/overview]]
+- [[plans/phase-execution]]
+- [[templates/tickets/index]]
+- [[plans/execution-ledger]]
