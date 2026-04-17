@@ -2,7 +2,7 @@
 id: "FEAT-005"
 title: "Vault Index"
 type: feature
-status: draft
+status: in-progress
 priority: "high"
 phase: "4"
 created: "2026-04-17"
