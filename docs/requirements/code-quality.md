@@ -128,3 +128,19 @@ aliases:
 **Stakeholders:** All contributors, CI pipeline, type safety reviewers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[plans/phase-01-scaffold]], [[adr/ADR009-precommit-hooks-zero-warnings]], TypeScript Handbook §Compiler Options.
+
+---
+
+**Tag:** Quality.TDD.StrictRedGreen
+**Gist:** Every piece of production code must be preceded by a failing test; no implementation may be written without a red test that drives it.
+**Ambition:** Test-Driven Development in its strict form — write the failing test, see it fail for the right reason, then write the minimal implementation to make it pass — is not optional in this project. Skipping the red phase breaks the causal chain between requirement and code: the test no longer proves the implementation is needed, only that it exists. Strict TDD also prevents test code from being retrofitted to match an implementation that may already be wrong. In a project where the correctness of the LSP wire protocol and vault index is non-negotiable, every new behaviour must be demonstrated to fail before it passes.
+**Scale:** Percentage of implementation commits that are preceded in the git history by a failing-test commit covering the same behaviour. A "failing-test commit" is a commit where the test file exists, the implementation does not yet exist (or exists in stub-only form), and `bun test` on that test file would exit non-zero.
+**Meter:**
+1. For each implementation PR, verify the git log contains at least one commit with the pattern `test(red):` or equivalent that precedes the implementation commit.
+2. Check that the plan task for the implemented behaviour includes a "run test — verify FAIL" step that was checked off before the implementation step.
+3. Compute: (implementation commits with a preceding red-test commit / total implementation commits) × 100.
+**Fail:** Any implementation commit with no preceding failing test commit for the same behaviour; any plan task where the red step was skipped.
+**Goal:** 100% of new production code is preceded by a failing test in the git history.
+**Stakeholders:** All contributors, code reviewers, phase auditors.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** Kent Beck, *Test-Driven Development by Example*; [[plans/phase-01-scaffold#Task-9]], [[requirements/development-process#Process.Testing.DirectoryStructure]].

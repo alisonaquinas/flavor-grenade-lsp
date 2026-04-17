@@ -88,6 +88,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Quality.Docs.Docstrings** | Every exported class, public method, and public property must carry a JSDoc docstring. | [[code-quality]] |
 | **Quality.Lint.ZeroWarnings** | All linters must produce zero errors and zero warnings; `--max-warnings 0` enforced. | [[code-quality]] |
 | **Quality.Types.StrictMode** | TypeScript strict mode enabled; `tsc --noEmit` must exit 0 with zero errors. | [[code-quality]] |
+| **Quality.TDD.StrictRedGreen** | Every implementation commit must be preceded by a failing test that drives it; no code without a red test first. | [[code-quality]] |
 | **CICD.Workflow.PRGate** | Every PR to `main` or `develop` must pass all CI checks before merge. | [[ci-cd]] |
 | **CICD.Markdown.DocsFolderLinting** | `docs/` markdown linted by markdownlint-obsidian in CI; violations fail CI. | [[ci-cd]] |
 | **CICD.Markdown.SourceLinting** | Non-docs, non-.github markdown linted by markdownlint-cli2 in CI. | [[ci-cd]] |

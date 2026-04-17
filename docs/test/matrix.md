@@ -36,6 +36,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Quality.Docs.Docstrings` | All exported symbols carry JSDoc docstrings | — | ⏳ planned | Phase 1 | Enforced by `eslint-plugin-jsdoc`; verified by `bun run lint` |
 | `Quality.Lint.ZeroWarnings` | All linters produce 0 errors and 0 warnings | — | ⏳ planned | Phase 1 | Verified by `bun run lint --max-warnings 0`; gate script |
 | `Quality.Types.StrictMode` | TypeScript strict mode; `tsc --noEmit` exits 0 | — | ⏳ planned | Phase 1 | Verified by `bun run typecheck`; gate script |
+| `Quality.TDD.StrictRedGreen` | Every implementation preceded by a failing test | — | ⏳ planned | Phase 1 | Verified by git log discipline; red commit before green commit |
 
 ---
 
