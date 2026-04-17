@@ -9,6 +9,8 @@ phase: "{{PHASE-NUMBER}}"
 time-box: "{{TIME-BOX-DESCRIPTION}}"
 created: "{{DATE}}"
 updated: "{{DATE}}"
+# dependencies: list of ticket IDs this ticket is blocked by
+dependencies: []
 tags: [tickets/spike, "phase/{{PHASE-NUMBER}}"]
 aliases: ["{{TICKET-ID}}"]
 ---
@@ -80,6 +82,20 @@ aliases: ["{{TICKET-ID}}"]
 | ADR | Relation |
 |---|---|
 | [[adr/ADR{{NNN}}-{{SLUG}}]] | {{HOW-RELATED}} |
+
+---
+
+## Dependencies
+
+> Other tickets, spikes, or ADR decisions that must exist before this investigation can start or conclude. Also list tickets unblocked by this spike's output. Update the `dependencies` frontmatter list to match **Blocked by** entries.
+
+**Blocked by:**
+
+- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+
+**Unblocks:**
+
+- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
 
 ---
 

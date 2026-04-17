@@ -8,6 +8,8 @@ priority: "{{PRIORITY}}"
 phase: "{{PHASE-NUMBER}}"
 created: "{{DATE}}"
 updated: "{{DATE}}"
+# dependencies: list of ticket IDs this ticket is blocked by
+dependencies: []
 tags: [tickets/feature, "phase/{{PHASE-NUMBER}}"]
 aliases: ["{{TICKET-ID}}"]
 ---

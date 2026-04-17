@@ -10,6 +10,8 @@ phase: "{{PHASE-NUMBER}}"
 introduced-in: "{{PHASE-OR-COMMIT-WHERE-BUG-APPEARED}}"
 created: "{{DATE}}"
 updated: "{{DATE}}"
+# dependencies: list of ticket IDs this ticket is blocked by
+dependencies: []
 tags: [tickets/bug, "phase/{{PHASE-NUMBER}}"]
 aliases: ["{{TICKET-ID}}"]
 ---
@@ -101,6 +103,20 @@ aliases: ["{{TICKET-ID}}"]
 | ADR | Relevance |
 |---|---|
 | [[adr/ADR{{NNN}}-{{SLUG}}]] | {{HOW-THIS-ADR-RELATES}} |
+
+---
+
+## Dependencies
+
+> Other tickets or phase gates that must resolve before this fix can proceed. Also list tickets that this fix unblocks. Update the `dependencies` frontmatter list to match **Blocked by** entries.
+
+**Blocked by:**
+
+- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+
+**Unblocks:**
+
+- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
 
 ---
 

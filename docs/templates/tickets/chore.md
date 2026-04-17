@@ -8,6 +8,8 @@ priority: "{{PRIORITY}}"
 phase: "{{PHASE-NUMBER}}"
 created: "{{DATE}}"
 updated: "{{DATE}}"
+# dependencies: list of ticket IDs this ticket is blocked by
+dependencies: []
 tags: [tickets/chore, "phase/{{PHASE-NUMBER}}"]
 aliases: ["{{TICKET-ID}}"]
 ---
@@ -73,6 +75,20 @@ aliases: ["{{TICKET-ID}}"]
 | ADR | Constraint |
 |---|---|
 | [[adr/ADR{{NNN}}-{{SLUG}}]] | {{CONSTRAINT-SUMMARY}} |
+
+---
+
+## Dependencies
+
+> Other tickets or phase gates that must complete before this chore can start. Also list tickets this chore unblocks. Update the `dependencies` frontmatter list to match **Blocked by** entries.
+
+**Blocked by:**
+
+- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+
+**Unblocks:**
+
+- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
 
 ---
 

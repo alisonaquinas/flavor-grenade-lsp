@@ -9,6 +9,8 @@ phase: "{{PHASE-NUMBER}}"
 parent: "{{PARENT-FEAT-ID}}"
 created: "{{DATE}}"
 updated: "{{DATE}}"
+# dependencies: list of ticket IDs this ticket is blocked by
+dependencies: []
 tags: [tickets/task, "phase/{{PHASE-NUMBER}}"]
 aliases: ["{{TICKET-ID}}"]
 ---
