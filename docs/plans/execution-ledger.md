@@ -22,7 +22,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 4     | Vault Index              | ✅ complete    | `bun test src/vault/**` all pass; vault-detection @smoke pass | 2026-04-17 | 2026-04-17 |
 | 5     | Wiki-Link Resolution     | ✅ complete    | wiki-links.feature all pass; FG001/FG002/FG003 pass | 2026-04-17 | 2026-04-17 |
 | 6     | Tags                     | ✅ complete    | tags.feature all scenarios pass                    | 2026-04-17 | 2026-04-17 |
-| 7     | Embeds                   | 🔄 in-progress     | embeds.feature all scenarios pass                  | —          | —         |
+| 7     | Embeds                   | ✅ complete    | embeds.feature all scenarios pass                  | 2026-04-17 | 2026-04-17 |
 | 8     | Block References         | ⏳ planned     | block-references.feature all scenarios pass        | —          | —         |
 | 9     | Completions              | ⏳ planned     | completions.feature all scenarios pass             | —          | —         |
 | 10    | Navigation               | ⏳ planned     | navigation.feature all scenarios pass              | —          | —         |
