@@ -3,8 +3,7 @@ import { HoverHandler } from '../hover.handler.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import type { OFMDoc, EmbedEntry, WikiLinkEntry, HeadingEntry } from '../../parser/types.js';
-import type { EmbedResolution } from '../../resolution/embed-resolver.js';
-import type { EmbedResolver } from '../../resolution/embed-resolver.js';
+import type { EmbedResolution, EmbedResolver } from '../../resolution/embed-resolver.js';
 import type { DocId } from '../../vault/doc-id.js';
 
 // ---------------------------------------------------------------------------
@@ -245,9 +244,6 @@ describe('HoverHandler', () => {
   // 8. Embed → broken resolution → null
   // -------------------------------------------------------------------------
   it('returns null when the embed resolves to broken', () => {
-    embedResolver = makeMockEmbedResolver({ kind: 'broken' });
-    handler = new HoverHandler(parseCache, vaultIndex, embedResolver);
-
     const embed = makeEmbed('nowhere');
     const sourceDoc = makeDoc('file:///vault/alpha.md', [], [], [embed]);
     parseCache.set('file:///vault/alpha.md', sourceDoc);
@@ -273,7 +269,7 @@ describe('HoverHandler', () => {
     vaultIndex.set(targetId, betaDoc);
     parseCache.set('file:///vault/beta.md', betaDoc);
 
-    const wikiLink = makeWikiLink('beta'); // [[beta]] chars 0-7
+    const wikiLink = makeWikiLink('beta'); // [[beta]] chars 0–8 (end.character = 'beta'.length + 4 = 8)
     const sourceDoc = makeDoc('file:///vault/alpha.md', [], [wikiLink]);
     parseCache.set('file:///vault/alpha.md', sourceDoc);
 
@@ -310,14 +306,6 @@ describe('HoverHandler', () => {
   // 11. positionInRange boundary: cursor BEFORE start.character on start line → not in range
   // -------------------------------------------------------------------------
   it('does not match embed when cursor is before start.character on start line', () => {
-    const targetId = id('beta');
-    const betaDoc = makeDoc('file:///vault/beta.md', [makeHeading('H', 1, 0)]);
-    vaultIndex.set(targetId, betaDoc);
-    parseCache.set('file:///vault/beta.md', betaDoc);
-
-    embedResolver = makeMockEmbedResolver({ kind: 'markdown', targetDocId: targetId });
-    handler = new HoverHandler(parseCache, vaultIndex, embedResolver);
-
     // Embed starts at character 5 on line 0
     const embed = makeEmbed('beta', 0, 5);
     const sourceDoc = makeDoc('file:///vault/alpha.md', [], [], [embed]);
@@ -334,6 +322,55 @@ describe('HoverHandler', () => {
   // 12. positionInRange boundary: cursor AFTER end.character on end line → not in range
   // -------------------------------------------------------------------------
   it('does not match embed when cursor is after end.character on end line', () => {
+    // makeEmbed('beta', 0, 0) → end.character = 0 + 'beta'.length + 5 = 9
+    const embed = makeEmbed('beta', 0, 0);
+    const sourceDoc = makeDoc('file:///vault/alpha.md', [], [], [embed]);
+    parseCache.set('file:///vault/alpha.md', sourceDoc);
+
+    const result = handler.handle({
+      textDocument: { uri: 'file:///vault/alpha.md' },
+      position: { line: 0, character: 10 }, // one after end.character=9
+    });
+    expect(result).toBeNull();
+  });
+
+  // -------------------------------------------------------------------------
+  // positionInRange boundary: cursor on a line BEFORE start.line → not in range
+  // -------------------------------------------------------------------------
+  it('does not match embed when cursor line is before start.line', () => {
+    // makeEmbed('beta', 2, 0) → range starts at line 2
+    const embed = makeEmbed('beta', 2, 0);
+    const sourceDoc = makeDoc('file:///vault/alpha.md', [], [], [embed]);
+    parseCache.set('file:///vault/alpha.md', sourceDoc);
+
+    const result = handler.handle({
+      textDocument: { uri: 'file:///vault/alpha.md' },
+      position: { line: 1, character: 0 }, // one line before start.line=2
+    });
+    expect(result).toBeNull();
+  });
+
+  // -------------------------------------------------------------------------
+  // positionInRange boundary: cursor on a line AFTER end.line → not in range
+  // -------------------------------------------------------------------------
+  it('does not match embed when cursor line is after end.line', () => {
+    // makeEmbed('beta', 0, 0, 2) → range ends at line 2
+    const embed = makeEmbed('beta', 0, 0, 2);
+    const sourceDoc = makeDoc('file:///vault/alpha.md', [], [], [embed]);
+    parseCache.set('file:///vault/alpha.md', sourceDoc);
+
+    const result = handler.handle({
+      textDocument: { uri: 'file:///vault/alpha.md' },
+      position: { line: 3, character: 0 }, // one line after end.line=2
+    });
+    expect(result).toBeNull();
+  });
+
+  // -------------------------------------------------------------------------
+  // positionInRange boundary: cursor exactly at end.character on end line → IS in range
+  // (handler uses character > end.character, so end.character itself is included)
+  // -------------------------------------------------------------------------
+  it('matches embed when cursor is exactly at end.character on end line', () => {
     const targetId = id('beta');
     const betaDoc = makeDoc('file:///vault/beta.md', [makeHeading('H', 1, 0)]);
     vaultIndex.set(targetId, betaDoc);
@@ -349,9 +386,10 @@ describe('HoverHandler', () => {
 
     const result = handler.handle({
       textDocument: { uri: 'file:///vault/alpha.md' },
-      position: { line: 0, character: 10 }, // one after end.character=9
+      position: { line: 0, character: 9 }, // exactly at end.character=9
     });
-    expect(result).toBeNull();
+    expect(result).not.toBeNull();
+    expect(result!.contents.kind).toBe('markdown');
   });
 
   // -------------------------------------------------------------------------
