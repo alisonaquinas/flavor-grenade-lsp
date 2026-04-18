@@ -2,7 +2,7 @@
 id: "FEAT-007"
 title: "Tags"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: 6
 created: "2026-04-17"
