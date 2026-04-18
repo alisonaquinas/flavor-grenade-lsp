@@ -2,7 +2,7 @@
 id: "TASK-071"
 title: "Implement tag hierarchy queries"
 type: task
-status: open
+status: done
 priority: high
 phase: 6
 parent: "FEAT-007"
@@ -123,3 +123,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-007]].
+
+> [!SUCCESS] Done — 2026-04-17
+> Implemented in GREEN commit 2af7882. All 225 tests pass; lint and tsc clean. Status: `done`.

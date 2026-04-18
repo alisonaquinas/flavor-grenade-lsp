@@ -2,11 +2,11 @@
 id: "CHORE-016"
 title: "Phase 6 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 6
 created: "2026-04-17"
-updated: "2026-04-17"
+updated: "2026-04-17T00:00:00Z"
 dependencies: []
 tags: [tickets/chore, "phase/6"]
 aliases: ["CHORE-016"]
@@ -116,3 +116,9 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: lint sweep for all Phase 6 source files.
+
+> [!SUCCESS] Done — 2026-04-17
+> Phase 6 lint sweep complete. `bun run lint --max-warnings 0` passes. One warning
+> (`@typescript-eslint/explicit-function-return-type` on the `R` helper in
+> `tag-registry.test.ts`) was fixed by adding an explicit return type annotation.
+> No new lint suppressions added. `tsc --noEmit` exits 0. 225 tests pass.

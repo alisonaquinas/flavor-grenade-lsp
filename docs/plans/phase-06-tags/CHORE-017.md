@@ -2,7 +2,7 @@
 id: "CHORE-017"
 title: "Phase 6 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 6
 created: "2026-04-17"
@@ -117,3 +117,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep for Phase 6 — incremental update correctness and unicode tag regex coverage.
+
+> [!SUCCESS] Done — 2026-04-17
+> Code quality sweep complete. TagRegistry.removeDoc() correctly filters out all
+> occurrences by docId before re-indexing on addDoc() — no stale occurrences possible.
+> Unicode tag character handling delegates to TagParser (already validated in Phase 5);
+> TagRegistry stores and queries the already-parsed `TagEntry.tag` strings verbatim.
+> No code changes required. 225 tests pass; lint and tsc clean.

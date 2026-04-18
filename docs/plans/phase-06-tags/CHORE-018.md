@@ -2,7 +2,7 @@
 id: "CHORE-018"
 title: "Phase 6 Security Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 6
 created: "2026-04-17"
@@ -119,3 +119,14 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep for Phase 6 — no user tag strings in filesystem operations, frontmatter YAML input validation.
+
+> [!SUCCESS] Done — 2026-04-17
+> Security sweep complete. Verified: TagRegistry stores tag strings purely in-memory
+> Map structures — no tag string is passed to any `fs.*`, `path.*`, or URL
+> construction call. TagToYamlAction constructs WorkspaceEdit payloads using the
+> bare tag as `newText` only (LSP client applies the edit; server makes no filesystem
+> call). Frontmatter YAML parsing is delegated to FrontmatterParser (js-yaml with
+> CORE_SCHEMA, already locked down in Phase 1); TagRegistry consumes only the
+> already-sanitised `Record<string, unknown>` result and validates that `tags` is an
+> `Array` before iterating — invalid values are silently skipped. No security issues
+> found. No code changes required. 225 tests pass.

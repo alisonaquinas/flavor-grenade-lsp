@@ -2,7 +2,7 @@
 id: "FEAT-007"
 title: "Tags"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 6
 created: "2026-04-17"
@@ -92,17 +92,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-067]] | Implement TagRegistry — vault-wide tag index | `open` |
-| [[tickets/TASK-068]] | Build tag index during vault scan | `open` |
-| [[tickets/TASK-069]] | Implement tag CompletionProvider | `open` |
-| [[tickets/TASK-070]] | Implement find-references for tags | `open` |
-| [[tickets/TASK-071]] | Implement tag hierarchy queries | `open` |
-| [[tickets/TASK-072]] | Implement "Move tag to frontmatter" code action MVP | `open` |
-| [[tickets/TASK-073]] | Handle YAML frontmatter tags in TagRegistry | `open` |
-| [[tickets/TASK-074]] | Write unit tests for TagRegistry | `open` |
-| [[tickets/CHORE-016]] | Phase 6 Lint Sweep | `open` |
-| [[tickets/CHORE-017]] | Phase 6 Code Quality Sweep | `open` |
-| [[tickets/CHORE-018]] | Phase 6 Security Sweep | `open` |
+| [[tickets/TASK-067]] | Implement TagRegistry — vault-wide tag index | `done` |
+| [[tickets/TASK-068]] | Build tag index during vault scan | `done` |
+| [[tickets/TASK-069]] | Implement tag CompletionProvider | `done` |
+| [[tickets/TASK-070]] | Implement find-references for tags | `done` |
+| [[tickets/TASK-071]] | Implement tag hierarchy queries | `done` |
+| [[tickets/TASK-072]] | Implement "Move tag to frontmatter" code action MVP | `done` |
+| [[tickets/TASK-073]] | Handle YAML frontmatter tags in TagRegistry | `done` |
+| [[tickets/TASK-074]] | Write unit tests for TagRegistry | `done` |
+| [[tickets/CHORE-016]] | Phase 6 Lint Sweep | `done` |
+| [[tickets/CHORE-017]] | Phase 6 Code Quality Sweep | `done` |
+| [[tickets/CHORE-018]] | Phase 6 Security Sweep | `done` |
 
 ---
 
@@ -121,6 +121,58 @@ All of the following must be true before this ticket is marked `done`:
 ## Notes
 
 ADR reference: [[adr/ADR002-ofm-only-scope]] constrains tag handling to OFM syntax only.
+
+---
+
+## Retrospective
+
+**Date:** 2026-04-17
+**Phase:** 6 (Tags)
+**Status at retrospective:** `in-review`
+
+### What went well
+
+- TDD discipline: the RED commit (test file with no implementation) clearly preceded
+  the GREEN commit by exactly one commit in git history, as required.
+- `TagRegistry` design cleanly separates the bulk `rebuild()` path from the incremental
+  `addDoc()`/`removeDoc()` paths; the `removeDoc()` implementation correctly filters
+  all occurrences for a given `docId` before re-indexing, preventing stale data.
+- Security invariant: tag strings never touch any filesystem API. The `TagToYamlAction`
+  only constructs `WorkspaceEdit` payloads — the LSP client applies the edits.
+- Frontmatter YAML input validation delegates to `FrontmatterParser`
+  (js-yaml with `CORE_SCHEMA`), which was already locked down in Phase 1; `TagRegistry`
+  just validates that `frontmatter.tags` is an `Array` before iterating.
+- Only one lint warning to fix (missing return type on the `R` helper in the test
+  file); resolved immediately without needing a separate CHORE commit.
+
+### Decisions made
+
+- `TagRegistry` placed in `VaultModule` (not `ParserModule`) so that `VaultScanner`
+  and `FileWatcher` can inject it alongside `VaultIndex` without circular module
+  dependencies.
+- `TagToYamlAction` is a Phase 6 MVP: the frontmatter insertion position uses a
+  line-0 sentinel for the "append to existing tags array" and "insert tags key" cases.
+  Exact YAML-line-level tracking is deferred to Phase 12 as documented in the
+  source code comments.
+- `ReferencesHandler` uses `@Optional()` injection for `TagRegistry` so existing
+  tests that construct the handler directly (without a `TagRegistry`) continue to
+  pass without modification.
+- `TagCompletionProvider` returns `CompletionItemKind.Value` (12) and strips the `#`
+  from labels because the LSP client supplies the trigger character itself.
+
+### Issues encountered
+
+- TypeScript rejected `Record<string, unknown[]>` for `WorkspaceEdit.changes`; fixed
+  by typing the map correctly as `{ [uri: string]: TextEdit[] }`.
+- The `LspModule` constructor needed three new injected services
+  (`TagCompletionProvider`, `TagToYamlAction`, `TagRegistry`); `TagRegistry` is
+  resolved through `VaultModule`'s exports.
+
+### Test coverage
+
+- 26 new unit tests covering all `TagRegistry` methods and edge cases.
+- All 199 pre-existing tests continue to pass (225 total).
+- Integration tests (6) unchanged and passing.
 
 ---
 
@@ -151,3 +203,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!SUCCESS] In-Review — 2026-04-17
+> All 11 child tickets done (TASK-067–074, CHORE-016–018). RED commit
+> (96eff83) followed by GREEN commit (2af7882). 225 tests pass; lint and
+> tsc clean. Status: `in-review`.
