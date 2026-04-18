@@ -7,6 +7,7 @@ import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { toDocId } from './doc-id.js';
 import { OFMParser } from '../parser/ofm-parser.js';
+import { TagRegistry } from '../tags/tag-registry.js';
 
 /**
  * Watches the vault root directory for filesystem changes and keeps the
@@ -25,6 +26,7 @@ export class FileWatcher {
     private readonly folderLookup: FolderLookup,
     private readonly ignoreFilter: IgnoreFilter,
     private readonly ofmParser: OFMParser,
+    private readonly tagRegistry: TagRegistry,
   ) {}
 
   /**
@@ -92,6 +94,8 @@ export class FileWatcher {
       const id = toDocId(this.resolvedRoot, absPath);
       this.vaultIndex.set(id, doc);
       this.folderLookup.rebuild(this.vaultIndex);
+      this.tagRegistry.removeDoc(id);
+      this.tagRegistry.addDoc(id, doc);
     } catch {
       // Skip unreadable files.
     }
@@ -101,6 +105,7 @@ export class FileWatcher {
     const id = toDocId(this.resolvedRoot, absPath);
     this.vaultIndex.delete(id);
     this.folderLookup.rebuild(this.vaultIndex);
+    this.tagRegistry.removeDoc(id);
   }
 
   private async fileExists(absPath: string): Promise<boolean> {

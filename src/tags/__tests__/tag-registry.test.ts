@@ -13,7 +13,7 @@ const R = (
   startChar: number,
   endLine: number,
   endChar: number,
-) => ({
+): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: startLine, character: startChar },
   end: { line: endLine, character: endChar },
 });

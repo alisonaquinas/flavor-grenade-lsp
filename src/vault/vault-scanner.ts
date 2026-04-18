@@ -10,10 +10,12 @@ import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
+import { TagRegistry } from '../tags/tag-registry.js';
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
- * files and populating the {@link VaultIndex} and {@link FolderLookup}.
+ * files and populating the {@link VaultIndex}, {@link FolderLookup}, and
+ * {@link TagRegistry}.
  *
  * After scanning, sends a `flavorGrenade/status` `'ready'` notification via
  * the {@link JsonRpcDispatcher}.
@@ -27,6 +29,7 @@ export class VaultScanner {
     private readonly ignoreFilter: IgnoreFilter,
     private readonly ofmParser: OFMParser,
     private readonly dispatcher: JsonRpcDispatcher,
+    private readonly tagRegistry: TagRegistry,
   ) {}
 
   /**
@@ -50,6 +53,7 @@ export class VaultScanner {
     this.ignoreFilter.load(vaultRoot);
     await this.walkAndIndex(vaultRoot, vaultRoot);
     this.folderLookup.rebuild(this.vaultIndex);
+    this.tagRegistry.rebuild(this.vaultIndex);
     this.dispatcher.sendNotification('flavorGrenade/status', { status: 'ready' });
   }
 

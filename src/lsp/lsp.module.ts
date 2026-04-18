@@ -22,6 +22,9 @@ import { ReferencesHandler } from '../handlers/references.handler.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
+import { TagCompletionProvider } from '../completion/tag-completion-provider.js';
+import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
+import { TagRegistry } from '../tags/tag-registry.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -44,6 +47,8 @@ import { VaultDetector } from '../vault/vault-detector.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
+    TagCompletionProvider,
+    TagToYamlAction,
   ],
   exports: [],
 })
@@ -64,6 +69,9 @@ export class LspModule implements OnModuleInit {
     private readonly completionProvider: WikiLinkCompletionProvider,
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
+    private readonly tagCompletionProvider: TagCompletionProvider,
+    private readonly tagToYamlAction: TagToYamlAction,
+    private readonly tagRegistry: TagRegistry,
   ) {}
 
   /**
@@ -75,7 +83,8 @@ export class LspModule implements OnModuleInit {
     this.capabilityRegistry.merge({
       definitionProvider: true,
       referencesProvider: true,
-      completionProvider: { triggerCharacters: ['['], resolveProvider: false },
+      completionProvider: { triggerCharacters: ['[', '#'], resolveProvider: false },
+      codeActionProvider: true,
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -95,6 +104,9 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onRequest('textDocument/completion', (p) =>
       Promise.resolve(this.handleCompletion(p)),
     );
+    this.dispatcher.onRequest('textDocument/codeAction', (p) =>
+      Promise.resolve(this.handleCodeAction(p)),
+    );
 
     this.reader.on('message', (raw: string) => {
       this.dispatcher.dispatch(raw).catch((err: unknown) => {
@@ -108,10 +120,28 @@ export class LspModule implements OnModuleInit {
   /**
    * Handle a `textDocument/completion` request.
    *
-   * Returns all vault document stems as completion items. Partial extraction
-   * from document text is deferred to a future phase.
+   * Dispatches to tag completion when triggered by `#`, otherwise falls back
+   * to wiki-link completion.
    */
-  private handleCompletion(_params: unknown): { items: unknown[]; isIncomplete: boolean } {
+  private handleCompletion(params: unknown): { items: unknown[]; isIncomplete: boolean } {
+    const p = params as Record<string, unknown> | null | undefined;
+    const context = p?.['context'] as Record<string, unknown> | null | undefined;
+    const triggerChar = context?.['triggerCharacter'];
+    if (triggerChar === '#') {
+      return this.tagCompletionProvider.getCompletions('');
+    }
     return this.completionProvider.getCompletions('');
+  }
+
+  /**
+   * Handle a `textDocument/codeAction` request.
+   *
+   * Returns an array of applicable code actions (at most the tag-to-YAML action).
+   */
+  private handleCodeAction(params: unknown): unknown[] {
+    const p = params as Parameters<TagToYamlAction['handle']>[0] | null | undefined;
+    if (p == null) return [];
+    const action = this.tagToYamlAction.handle(p);
+    return action !== null ? [action] : [];
   }
 }

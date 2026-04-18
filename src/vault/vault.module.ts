@@ -10,6 +10,7 @@ import { VaultScanner } from './vault-scanner.js';
 import { FileWatcher } from './file-watcher.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js';
+import { TagRegistry } from '../tags/tag-registry.js';
 
 /**
  * NestJS module that wires all vault indexing services.
@@ -27,6 +28,7 @@ import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js'
     FileWatcher,
     IgnoreFilter,
     AwaitIndexReadyHandler,
+    TagRegistry,
   ],
   exports: [
     VaultDetector,
@@ -36,6 +38,7 @@ import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js'
     FileWatcher,
     IgnoreFilter,
     AwaitIndexReadyHandler,
+    TagRegistry,
   ],
 })
 export class VaultModule implements OnModuleInit {

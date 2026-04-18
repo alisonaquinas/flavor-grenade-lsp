@@ -6,6 +6,8 @@ import type { DefKey } from '../resolution/ref-graph.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
+import { TagRegistry } from '../tags/tag-registry.js';
+import type { TagEntry } from '../parser/types.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -26,6 +28,7 @@ export class ReferencesHandler {
     private readonly refGraph: RefGraph,
     private readonly parseCache: ParseCache,
     @Optional() private readonly vaultIndex?: VaultIndex,
+    @Optional() private readonly tagRegistry?: TagRegistry,
   ) {}
 
   /**
@@ -37,6 +40,12 @@ export class ReferencesHandler {
   handle(params: ReferencesParams): Location[] {
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return [];
+
+    // Check if the cursor is on a tag entry — if so, use TagRegistry.
+    const tagEntry = this.findTagAtPosition(doc.index.tags, params.position);
+    if (tagEntry !== undefined && this.tagRegistry !== undefined) {
+      return this.handleTagReferences(tagEntry, params);
+    }
 
     const defKey = this.resolveDefKey(params.textDocument.uri);
     const refs = this.refGraph.getRefsTo(defKey);
@@ -59,6 +68,32 @@ export class ReferencesHandler {
     }
 
     return locations;
+  }
+
+  /**
+   * Return all vault locations where a tag is used.
+   *
+   * No parent-tag traversal — exact tag matches only (Phase 6 scope).
+   */
+  private handleTagReferences(tagEntry: TagEntry, params: ReferencesParams): Location[] {
+    const occs = this.tagRegistry!.occurrences(tagEntry.tag);
+    return occs.map((occ) => ({
+      uri: this.docIdToUri(occ.docId, params.textDocument.uri),
+      range: occ.range,
+    }));
+  }
+
+  /**
+   * Find a tag entry whose range contains the given position.
+   */
+  private findTagAtPosition(tags: TagEntry[], position: Position): TagEntry | undefined {
+    return tags.find((entry) => {
+      const { start, end } = entry.range;
+      if (position.line < start.line || position.line > end.line) return false;
+      if (position.line === start.line && position.character < start.character) return false;
+      if (position.line === end.line && position.character > end.character) return false;
+      return true;
+    });
   }
 
   /**
