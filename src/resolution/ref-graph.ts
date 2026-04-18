@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
-import type { WikiLinkEntry, EmbedEntry } from '../parser/types.js';
+import type { WikiLinkEntry, EmbedEntry, BlockAnchorEntry } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import { Oracle } from './oracle.js';
@@ -37,6 +37,37 @@ export interface EmbedRef {
 }
 
 /**
+ * A resolved or unresolved block reference from one document to a block anchor
+ * in the same or another document.
+ */
+export interface CrossBlockRef {
+  /** DocId of the document containing the wiki-link with blockRef. */
+  sourceDocId: DocId;
+  /** DocId of the target document, or null for intra-document block refs. */
+  targetDocId: DocId | null;
+  /** The block anchor ID (without the `^` sigil). */
+  anchorId: string;
+  /** The wiki-link entry that contains the blockRef. */
+  entry: WikiLinkEntry;
+  /** The resolved block anchor entry, or null if not found. */
+  resolvedAnchor: BlockAnchorEntry | null;
+  /** FG005 if the anchor was not found; null if resolved. */
+  diagnostic: 'FG005' | null;
+}
+
+/**
+ * Composite key for block ref lookup: `docId\0anchorId`.
+ *
+ * `docId` is always the document that *owns* the anchor — i.e. `targetDocId`
+ * for cross-document refs and `sourceDocId` for intra-document refs.
+ */
+type BlockRefKey = string;
+
+function blockRefKey(docId: DocId, anchorId: string): BlockRefKey {
+  return `${docId}\0${anchorId}`;
+}
+
+/**
  * Maintains a graph of all wiki-link and embed references across the vault.
  *
  * Must be rebuilt after each vault scan or file change.
@@ -55,6 +86,11 @@ export class RefGraph {
   /** All embed refs that could not be resolved. */
   private brokenEmbeds: EmbedRef[] = [];
 
+  /** Map from BlockRefKey to all CrossBlockRefs for that anchor. */
+  private blockRefsMap = new Map<BlockRefKey, CrossBlockRef[]>();
+  /** All CrossBlockRefs with diagnostic === 'FG005'. */
+  private brokenBlockRefsList: CrossBlockRef[] = [];
+
   /**
    * Rebuild the reference graph from all documents in the vault index.
    *
@@ -69,14 +105,32 @@ export class RefGraph {
     this.ambiguousRefs = [];
     this.embedRefsMap = new Map();
     this.brokenEmbeds = [];
+    this.blockRefsMap = new Map();
+    this.brokenBlockRefsList = [];
 
     oracle.invalidateAliasIndex();
 
     for (const [sourceDocId, doc] of index.entries()) {
       for (const entry of doc.index.wikiLinks) {
-        const result = oracle.resolve(entry.target, entry.heading, entry.blockRef);
-        const ref = this.buildRef(sourceDocId, entry, result);
-        this.registerRef(ref, result);
+        if (entry.blockRef !== undefined) {
+          // Block ref wiki-link: handle separately
+          const crossRef = this.buildCrossBlockRef(sourceDocId, entry, index, oracle);
+          if (crossRef !== null) {
+            this.registerBlockRef(crossRef);
+          }
+          // Also register as a normal ref for doc-level resolution
+          const result = oracle.resolve(entry.target, entry.heading, entry.blockRef);
+          // Only register as wiki-link ref if it resolves to a document
+          // (intra-doc block refs have empty target → malformed from oracle's view)
+          if (entry.target !== '') {
+            const ref = this.buildRef(sourceDocId, entry, result);
+            this.registerRef(ref, result);
+          }
+        } else {
+          const result = oracle.resolve(entry.target, entry.heading, entry.blockRef);
+          const ref = this.buildRef(sourceDocId, entry, result);
+          this.registerRef(ref, result);
+        }
       }
 
       if (embedResolver !== undefined) {
@@ -129,6 +183,93 @@ export class RefGraph {
   /** Get all embed references that could not be resolved (broken embeds). */
   getBrokenEmbedRefs(): EmbedRef[] {
     return [...this.brokenEmbeds];
+  }
+
+  /**
+   * Add a single block reference to the graph.
+   *
+   * @param ref - The block reference to register.
+   */
+  addBlockRef(ref: CrossBlockRef): void {
+    this.registerBlockRef(ref);
+  }
+
+  /**
+   * Get all block references that point to the given anchor in the given doc.
+   *
+   * `docId` is the document that owns the anchor. For cross-document refs this
+   * is the target document; for intra-document refs this is the source document
+   * (since the anchor lives in the same file).
+   *
+   * @param docId    - DocId of the document containing the anchor.
+   * @param anchorId - Block anchor ID.
+   */
+  getBlockRefsToAnchor(docId: DocId, anchorId: string): CrossBlockRef[] {
+    return this.blockRefsMap.get(blockRefKey(docId, anchorId)) ?? [];
+  }
+
+  /** Get all block references that could not be resolved (FG005). */
+  getBrokenBlockRefs(): CrossBlockRef[] {
+    return [...this.brokenBlockRefsList];
+  }
+
+  private buildCrossBlockRef(
+    sourceDocId: DocId,
+    entry: WikiLinkEntry,
+    index: VaultIndex,
+    oracle: Oracle,
+  ): CrossBlockRef | null {
+    const anchorId = entry.blockRef!;
+
+    if (entry.target === '') {
+      // Intra-document block ref: [[#^id]]
+      const sourceDoc = index.get(sourceDocId);
+      const resolvedAnchor =
+        sourceDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+      return {
+        sourceDocId,
+        targetDocId: null,
+        anchorId,
+        entry,
+        resolvedAnchor,
+        diagnostic: resolvedAnchor === null ? 'FG005' : null,
+      };
+    }
+
+    // Cross-document block ref: [[target#^id]] or [[target^id]]
+    const result = oracle.resolve(entry.target);
+    if (result.kind !== 'resolved') {
+      // Target doc not found — FG001 handles this via normal wiki-link path
+      return null;
+    }
+    const targetDocId = result.targetDocId;
+    const targetDoc = index.get(targetDocId);
+    const resolvedAnchor =
+      targetDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+    return {
+      sourceDocId,
+      targetDocId,
+      anchorId,
+      entry,
+      resolvedAnchor,
+      diagnostic: resolvedAnchor === null ? 'FG005' : null,
+    };
+  }
+
+  private registerBlockRef(ref: CrossBlockRef): void {
+    // For intra-doc refs, the anchor lives in sourceDocId; use that as the
+    // lookup key so getBlockRefsToAnchor(sourceDocId, anchorId) works.
+    const ownerDocId = ref.targetDocId ?? ref.sourceDocId;
+    const key = blockRefKey(ownerDocId, ref.anchorId);
+    const existing = this.blockRefsMap.get(key);
+    if (existing !== undefined) {
+      existing.push(ref);
+    } else {
+      this.blockRefsMap.set(key, [ref]);
+    }
+    if (ref.diagnostic === 'FG005') {
+      this.brokenBlockRefsList.push(ref);
+    }
   }
 
   private buildRef(

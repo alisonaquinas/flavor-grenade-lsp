@@ -1,10 +1,11 @@
 import 'reflect-metadata';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import type { Position, Location } from 'vscode-languageserver-types';
 import { pathToFileURL } from 'url';
 import { Oracle } from '../resolution/oracle.js';
 import { EmbedResolver } from '../resolution/embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
+import { VaultIndex } from '../vault/vault-index.js';
 import type { WikiLinkEntry, EmbedEntry } from '../parser/types.js';
 import { fromDocId } from '../vault/doc-id.js';
 
@@ -31,6 +32,7 @@ export class DefinitionHandler {
     private readonly oracle: Oracle,
     private readonly embedResolver: EmbedResolver,
     private readonly parseCache: ParseCache,
+    @Optional() private readonly vaultIndex?: VaultIndex,
   ) {}
 
   /**
@@ -48,10 +50,7 @@ export class DefinitionHandler {
     // Check wiki-links first.
     const wikiEntry = this.findEntryAtPosition(doc.index.wikiLinks, params.position);
     if (wikiEntry !== null) {
-      const result = this.oracle.resolve(wikiEntry.target, wikiEntry.heading, wikiEntry.blockRef);
-      if (result.kind !== 'resolved') return null;
-      const absPath = fromDocId(vaultRoot, result.targetDocId);
-      return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
+      return this.resolveWikiLinkDefinition(wikiEntry, doc.uri, vaultRoot);
     }
 
     // Then check embed entries.
@@ -68,6 +67,48 @@ export class DefinitionHandler {
     }
 
     return null;
+  }
+
+  private resolveWikiLinkDefinition(
+    wikiEntry: WikiLinkEntry,
+    sourceUri: string,
+    vaultRoot: string,
+  ): Location | null {
+    if (wikiEntry.blockRef !== undefined) {
+      return this.resolveBlockRefDefinition(wikiEntry, sourceUri, vaultRoot);
+    }
+    const result = this.oracle.resolve(wikiEntry.target, wikiEntry.heading);
+    if (result.kind !== 'resolved') return null;
+    const absPath = fromDocId(vaultRoot, result.targetDocId);
+    return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
+  }
+
+  private resolveBlockRefDefinition(
+    entry: WikiLinkEntry,
+    sourceUri: string,
+    vaultRoot: string,
+  ): Location | null {
+    const anchorId = entry.blockRef!;
+
+    if (entry.target === '') {
+      // Intra-document block ref [[#^id]]: anchor lives in the source doc
+      const sourceDoc = this.parseCache.get(sourceUri);
+      if (sourceDoc === undefined) return null;
+      const anchor = sourceDoc.index.blockAnchors.find((a) => a.id === anchorId);
+      if (anchor === undefined) return null;
+      return { uri: sourceUri, range: anchor.range };
+    }
+
+    // Cross-document block ref [[target#^id]]
+    const result = this.oracle.resolve(entry.target);
+    if (result.kind !== 'resolved') return null;
+    if (this.vaultIndex === undefined) return null;
+    const targetDoc = this.vaultIndex.get(result.targetDocId);
+    if (targetDoc === undefined) return null;
+    const anchor = targetDoc.index.blockAnchors.find((a) => a.id === anchorId);
+    if (anchor === undefined) return null;
+    const absPath = fromDocId(vaultRoot, result.targetDocId);
+    return { uri: pathToFileURL(absPath).toString(), range: anchor.range };
   }
 
   private findEntryAtPosition(

@@ -2,7 +2,7 @@
 id: "CHORE-023"
 title: "Phase 8 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "8"
 created: "2026-04-17"
@@ -121,3 +121,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep focusing on CrossBlockRef null-target handling and FG005/FG001 discrimination.
+
+> [!SUCCESS] Done — 2026-04-17
+> CrossBlockRef null-target path confirmed: `targetDocId === null` for intra-doc, `DocId` for cross-doc — checked at every call site before doc lookup. FG005/FG001 discrimination confirmed correct: FG001 fires when target doc is not found (via oracle), FG005 fires only when target doc resolves but anchor is absent. `@Optional()` decorators on VaultIndex and VaultIndex fields preserve backward compatibility with existing tests. Status: `done`.

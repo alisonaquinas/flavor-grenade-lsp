@@ -2,7 +2,7 @@
 id: "TASK-088"
 title: "Implement find-references for block anchors"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

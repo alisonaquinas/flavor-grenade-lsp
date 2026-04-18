@@ -2,7 +2,7 @@
 id: "CHORE-022"
 title: "Phase 8 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "8"
 created: "2026-04-17"
@@ -112,3 +112,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: lint sweep at Phase 8 boundary.
+
+> [!SUCCESS] Done — 2026-04-17
+> `bun run lint` (ESLint) exits clean with 0 warnings. `tsc --noEmit` exits 0. `bun test` passes 263/263. No suppressions added. No behaviour-affecting changes. Status: `done`.

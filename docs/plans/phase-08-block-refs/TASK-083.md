@@ -2,7 +2,7 @@
 id: "TASK-083"
 title: "Ensure BlockAnchorEntry is fully populated"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

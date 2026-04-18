@@ -8,6 +8,7 @@ import { LinkResolver } from './link-resolver.js';
 import { RefGraph } from './ref-graph.js';
 import { DiagnosticService } from './diagnostic-service.js';
 import { WikiLinkCompletionProvider } from './wiki-link-completion-provider.js';
+import { BlockRefCompletionProvider } from './block-ref-completion-provider.js';
 import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
 import { HoverHandler } from '../handlers/hover.handler.js';
@@ -27,6 +28,7 @@ import { HoverHandler } from '../handlers/hover.handler.js';
     RefGraph,
     DiagnosticService,
     WikiLinkCompletionProvider,
+    BlockRefCompletionProvider,
     DefinitionHandler,
     ReferencesHandler,
     HoverHandler,
@@ -38,6 +40,7 @@ import { HoverHandler } from '../handlers/hover.handler.js';
     RefGraph,
     DiagnosticService,
     WikiLinkCompletionProvider,
+    BlockRefCompletionProvider,
     DefinitionHandler,
     ReferencesHandler,
     HoverHandler,

@@ -2,7 +2,7 @@
 id: "TASK-087"
 title: "Implement go-to-definition for block refs"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

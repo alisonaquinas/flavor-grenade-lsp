@@ -21,6 +21,7 @@ import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
 import { HoverHandler } from '../handlers/hover.handler.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
+import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-provider.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
 import { TagCompletionProvider } from '../completion/tag-completion-provider.js';
@@ -69,6 +70,7 @@ export class LspModule implements OnModuleInit {
     private readonly references: ReferencesHandler,
     private readonly hover: HoverHandler,
     private readonly completionProvider: WikiLinkCompletionProvider,
+    private readonly blockRefCompletionProvider: BlockRefCompletionProvider,
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
     private readonly tagCompletionProvider: TagCompletionProvider,
@@ -85,7 +87,7 @@ export class LspModule implements OnModuleInit {
     this.capabilityRegistry.merge({
       definitionProvider: true,
       referencesProvider: true,
-      completionProvider: { triggerCharacters: ['[', '#'], resolveProvider: false },
+      completionProvider: { triggerCharacters: ['[', '#', '^'], resolveProvider: false },
       codeActionProvider: true,
       hoverProvider: true,
     });
@@ -135,6 +137,9 @@ export class LspModule implements OnModuleInit {
     const triggerChar = context?.['triggerCharacter'];
     if (triggerChar === '#') {
       return this.tagCompletionProvider.getCompletions('');
+    }
+    if (triggerChar === '^') {
+      return this.blockRefCompletionProvider.getCompletions('');
     }
     return this.completionProvider.getCompletions('');
   }

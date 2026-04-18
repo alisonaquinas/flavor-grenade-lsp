@@ -2,7 +2,7 @@
 id: "TASK-085"
 title: "Implement block ref resolution in LinkResolver"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

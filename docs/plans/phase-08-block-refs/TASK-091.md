@@ -2,7 +2,7 @@
 id: "TASK-091"
 title: "Write unit tests for block ref resolution"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"
