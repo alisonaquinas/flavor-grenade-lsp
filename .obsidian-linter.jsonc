@@ -1,0 +1,6 @@
+// markdownlint-obsidian configuration for flavor-grenade-lsp docs/
+// Enforces Obsidian Flavored Markdown conventions.
+// See: https://github.com/alisonaquinas/obsidian-linter
+{
+  "default": true
+}

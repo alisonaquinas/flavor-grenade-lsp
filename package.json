@@ -25,6 +25,8 @@
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check src/",
     "gate:1": "bun run build && bun test",
     "gate:2": "bun test src/test/integration/transport.test.ts"
   },
