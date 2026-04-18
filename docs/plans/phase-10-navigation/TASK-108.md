@@ -2,7 +2,7 @@
 id: "TASK-108"
 title: "Write integration tests for navigation"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "10"
 parent: "FEAT-011"

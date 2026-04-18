@@ -2,7 +2,7 @@
 id: "TASK-107"
 title: "Implement textDocument/documentHighlight"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "10"
 parent: "FEAT-011"
