@@ -2,7 +2,7 @@
 id: "FEAT-009"
 title: "Block References"
 type: feature
-status: in-review
+status: done
 priority: "high"
 phase: "8"
 created: "2026-04-17"
