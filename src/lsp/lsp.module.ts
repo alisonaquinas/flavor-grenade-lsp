@@ -18,10 +18,13 @@ import { ParserModule } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
 import { CompletionModule } from '../completion/completion.module.js';
+import { NavigationModule } from '../navigation/navigation.module.js';
 import { CompletionRouter } from '../completion/completion-router.js';
 import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
 import { HoverHandler } from '../handlers/hover.handler.js';
+import { CodeLensHandler } from '../handlers/code-lens.handler.js';
+import { DocumentHighlightHandler } from '../handlers/document-highlight.handler.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
 import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
@@ -34,7 +37,7 @@ import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule],
+  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule, NavigationModule],
   providers: [
     DocumentStore,
     LifecycleState,
@@ -66,6 +69,8 @@ export class LspModule implements OnModuleInit {
     private readonly definition: DefinitionHandler,
     private readonly references: ReferencesHandler,
     private readonly hover: HoverHandler,
+    private readonly codeLens: CodeLensHandler,
+    private readonly documentHighlight: DocumentHighlightHandler,
     private readonly completionRouter: CompletionRouter,
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
@@ -80,6 +85,7 @@ export class LspModule implements OnModuleInit {
    */
   onModuleInit(): void {
     // TASK-101: Updated completion capabilities with all trigger characters
+    // TASK-104: codeLensProvider; TASK-107: documentHighlightProvider
     this.capabilityRegistry.merge({
       definitionProvider: true,
       referencesProvider: true,
@@ -90,6 +96,8 @@ export class LspModule implements OnModuleInit {
       },
       codeActionProvider: true,
       hoverProvider: true,
+      codeLensProvider: { resolveProvider: false },
+      documentHighlightProvider: true,
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -141,6 +149,16 @@ export class LspModule implements OnModuleInit {
     );
     this.dispatcher.onRequest('textDocument/hover', (p) =>
       Promise.resolve(this.hover.handle(p as Parameters<HoverHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/codeLens', (p) =>
+      Promise.resolve(this.codeLens.handle(p as Parameters<CodeLensHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/documentHighlight', (p) =>
+      Promise.resolve(
+        this.documentHighlight.handle(
+          p as Parameters<DocumentHighlightHandler['handle']>[0],
+        ),
+      ),
     );
 
     this.reader.on('message', (raw: string) => {

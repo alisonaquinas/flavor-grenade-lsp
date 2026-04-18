@@ -1,13 +1,15 @@
 import 'reflect-metadata';
 import { Injectable, Optional } from '@nestjs/common';
-import type { Position, Location } from 'vscode-languageserver-types';
+import type { Position, Location, LocationLink } from 'vscode-languageserver-types';
 import { pathToFileURL } from 'url';
 import { Oracle } from '../resolution/oracle.js';
 import { EmbedResolver } from '../resolution/embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
-import type { WikiLinkEntry, EmbedEntry } from '../parser/types.js';
+import type { WikiLinkEntry } from '../parser/types.js';
 import { fromDocId } from '../vault/doc-id.js';
+import { entityAtPosition } from './cursor-entity.js';
+import type { DocId } from '../vault/doc-id.js';
 
 /** Parameters for a `textDocument/definition` request. */
 interface DefinitionParams {
@@ -21,10 +23,20 @@ function zeroRange(): Location['range'] {
 }
 
 /**
- * Handles `textDocument/definition` requests for wiki-links and embeds.
+ * Handles `textDocument/definition` requests.
  *
- * Finds the wiki-link or embed token under the cursor, resolves it, and
- * returns the target document's Location.
+ * Resolves the entity under the cursor using {@link entityAtPosition} and
+ * returns the appropriate definition location:
+ *
+ * - wiki-link `[[target]]` → target doc at line 0
+ * - wiki-link `[[target#heading]]` → heading range in target doc
+ * - wiki-link `[[target#^blockid]]` → block anchor range in target doc
+ * - wiki-link `[[#heading]]` → heading in current doc
+ * - wiki-link `[[#^blockid]]` → block anchor in current doc
+ * - embed `![[embed]]` → embed target location
+ * - tag `#tag` → first occurrence of the tag
+ * - ambiguous link → `LocationLink[]` (one per candidate)
+ * - plain text → null
  */
 @Injectable()
 export class DefinitionHandler {
@@ -39,46 +51,100 @@ export class DefinitionHandler {
    * Handle a `textDocument/definition` request.
    *
    * @param params - LSP definition request parameters.
-   * @returns Target Location or null if not resolvable.
+   * @returns Target Location, LocationLink[], or null if not resolvable.
    */
-  handle(params: DefinitionParams): Location | null {
+  handle(params: DefinitionParams): Location | LocationLink[] | null {
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return null;
 
     const vaultRoot = this.extractVaultRoot(params.textDocument.uri);
+    const entity = entityAtPosition(doc, params.position);
 
-    // Check wiki-links first.
-    const wikiEntry = this.findEntryAtPosition(doc.index.wikiLinks, params.position);
-    if (wikiEntry !== null) {
-      return this.resolveWikiLinkDefinition(wikiEntry, doc.uri, vaultRoot);
-    }
+    switch (entity.kind) {
+      case 'wiki-link':
+        return this.resolveWikiLinkDefinition(entity.entry, doc.uri, vaultRoot);
 
-    // Then check embed entries.
-    const embedEntry = this.findEmbedAtPosition(doc.index.embeds, params.position);
-    if (embedEntry !== null) {
-      const resolution = this.embedResolver.resolve(embedEntry);
-      if (resolution.kind === 'markdown') {
-        const absPath = fromDocId(vaultRoot, resolution.targetDocId);
-        return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
-      } else if (resolution.kind === 'asset') {
-        return { uri: pathToFileURL(resolution.assetPath).href, range: zeroRange() };
+      case 'embed': {
+        const resolution = this.embedResolver.resolve(entity.entry);
+        if (resolution.kind === 'markdown') {
+          const absPath = fromDocId(vaultRoot, resolution.targetDocId);
+          return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
+        } else if (resolution.kind === 'asset') {
+          return { uri: pathToFileURL(resolution.assetPath).href, range: zeroRange() };
+        }
+        return null;
       }
-      return null;
-    }
 
-    return null;
+      case 'tag': {
+        // Go to first occurrence of the tag in the vault
+        if (this.vaultIndex === undefined) return null;
+        const tagStr = entity.entry.tag;
+        for (const [, indexDoc] of this.vaultIndex.entries()) {
+          for (const tagEntry of indexDoc.index.tags) {
+            if (tagEntry.tag === tagStr) {
+              return { uri: indexDoc.uri, range: tagEntry.range };
+            }
+          }
+        }
+        return null;
+      }
+
+      default:
+        return null;
+    }
   }
 
   private resolveWikiLinkDefinition(
     wikiEntry: WikiLinkEntry,
     sourceUri: string,
     vaultRoot: string,
-  ): Location | null {
+  ): Location | LocationLink[] | null {
     if (wikiEntry.blockRef !== undefined) {
       return this.resolveBlockRefDefinition(wikiEntry, sourceUri, vaultRoot);
     }
+
+    // Intra-document heading reference [[#heading]]
+    if (wikiEntry.target === '' && wikiEntry.heading !== undefined) {
+      const sourceDoc = this.parseCache.get(sourceUri);
+      if (sourceDoc === undefined) return null;
+      const heading = sourceDoc.index.headings.find(
+        (h) => h.text === wikiEntry.heading,
+      );
+      if (heading === undefined) return null;
+      return { uri: sourceUri, range: heading.range };
+    }
+
     const result = this.oracle.resolve(wikiEntry.target, wikiEntry.heading);
+
+    if (result.kind === 'ambiguous') {
+      // TASK-106: return LocationLink[] for each candidate
+      return result.candidates.map((candidateDocId) => {
+        const absPath = fromDocId(vaultRoot, candidateDocId as DocId);
+        return {
+          originSelectionRange: wikiEntry.range,
+          targetUri: pathToFileURL(absPath).toString(),
+          targetRange: zeroRange(),
+          targetSelectionRange: zeroRange(),
+        } satisfies LocationLink;
+      });
+    }
+
     if (result.kind !== 'resolved') return null;
+
+    // Heading-fragment link [[target#heading]]
+    if (wikiEntry.heading !== undefined && this.vaultIndex !== undefined) {
+      const targetDoc = this.vaultIndex.get(result.targetDocId);
+      if (targetDoc !== undefined) {
+        const heading = targetDoc.index.headings.find(
+          (h) => h.text === wikiEntry.heading,
+        );
+        if (heading !== undefined) {
+          const absPath = fromDocId(vaultRoot, result.targetDocId);
+          return { uri: pathToFileURL(absPath).toString(), range: heading.range };
+        }
+      }
+    }
+
     const absPath = fromDocId(vaultRoot, result.targetDocId);
     return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
   }
@@ -111,40 +177,8 @@ export class DefinitionHandler {
     return { uri: pathToFileURL(absPath).toString(), range: anchor.range };
   }
 
-  private findEntryAtPosition(
-    wikiLinks: WikiLinkEntry[],
-    position: Position,
-  ): WikiLinkEntry | null {
-    for (const entry of wikiLinks) {
-      if (this.positionInRange(position, entry.range)) return entry;
-    }
-    return null;
-  }
-
-  private findEmbedAtPosition(
-    embeds: EmbedEntry[],
-    position: Position,
-  ): EmbedEntry | null {
-    for (const entry of embeds) {
-      if (this.positionInRange(position, entry.range)) return entry;
-    }
-    return null;
-  }
-
-  private positionInRange(position: Position, range: WikiLinkEntry['range']): boolean {
-    const { start, end } = range;
-    if (position.line < start.line || position.line > end.line) return false;
-    if (position.line === start.line && position.character < start.character) return false;
-    if (position.line === end.line && position.character > end.character) return false;
-    return true;
-  }
-
   /**
    * Extract a best-effort vault root from a document URI.
-   *
-   * This is used only to reconstruct the absolute path for the target.
-   * The actual vault root determination is handled by VaultDetector in
-   * full-server mode; this fallback just uses the URI's parent directory.
    */
   private extractVaultRoot(uri: string): string {
     try {

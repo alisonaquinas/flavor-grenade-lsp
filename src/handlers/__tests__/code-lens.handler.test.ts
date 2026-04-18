@@ -85,13 +85,16 @@ describe('CodeLensHandler', () => {
 
   it('each CodeLens has the heading range', () => {
     const result = handler.handle({ textDocument: { uri: 'file:///vault/beta.md' } });
+    // makeHeading: end.character = text.length + level + 1
+    // 'Introduction': 12 + 2 + 1 = 15
     expect(result[0].range).toEqual({
       start: { line: 0, character: 0 },
-      end: { line: 0, character: 14 },
+      end: { line: 0, character: 15 },
     });
+    // 'Summary': 7 + 2 + 1 = 10
     expect(result[1].range).toEqual({
       start: { line: 5, character: 0 },
-      end: { line: 5, character: 9 },
+      end: { line: 5, character: 10 },
     });
   });
 
