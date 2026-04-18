@@ -15,6 +15,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "bun --watch src/main.ts",
     "build": "tsc --project tsconfig.json",
     "build:binary": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp",
@@ -50,6 +51,7 @@
     "@typescript-eslint/parser": "^8.58.2",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
+    "lefthook": "2.1.6",
     "prettier": "^3.8.3",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
