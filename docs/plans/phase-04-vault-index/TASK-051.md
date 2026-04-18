@@ -15,7 +15,7 @@ aliases: ["TASK-051"]
 
 # Implement .gitignore/.ignore filtering
 
-> [!INFO] `TASK-051` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-051` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -53,8 +53,8 @@ Create `src/vault/ignore-filter.ts`. The `IgnoreFilter` reads `.gitignore` from 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server respects .gitignore exclusions` |
-| [[bdd/features/workspace]] | `Server respects .ignore exclusions` |
+| `bdd/features/workspace.feature` | `Server respects .gitignore exclusions` |
+| `bdd/features/workspace.feature` | `Server respects .ignore exclusions` |
 
 ---
 
@@ -76,7 +76,7 @@ Create `src/vault/ignore-filter.ts`. The `IgnoreFilter` reads `.gitignore` from 
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -84,11 +84,11 @@ Create `src/vault/ignore-filter.ts`. The `IgnoreFilter` reads `.gitignore` from 
 
 **Blocked by:**
 
-- [[tickets/TASK-045]] — VaultDetector must resolve vault root path before IgnoreFilter can load
+- [[TASK-045]] — VaultDetector must resolve vault root path before IgnoreFilter can load
 
 **Unblocks:**
 
-- [[tickets/TASK-049]] — VaultScanner uses IgnoreFilter during recursive walk
+- [[TASK-049]] — VaultScanner uses IgnoreFilter during recursive walk
 
 ---
 
@@ -103,7 +103,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -138,7 +138,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/ignore-filter.ts` implemented. Uses 'ignore' npm package (types bundled). Reads .gitignore and .ignore from vault root. Always excludes .obsidian/ prefix. All 6 tests pass. Status: `done`.

@@ -9,7 +9,7 @@ aliases:
 # Renaming Safely User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors rename notes and headings with confidence that all references are updated. Implementation details are in [[rename]].
+> These user requirements cover how vault authors rename notes and headings with confidence that all references are updated. Implementation details are in [[requirements/rename]].
 
 ---
 

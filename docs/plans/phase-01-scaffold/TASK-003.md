@@ -17,7 +17,7 @@ aliases: ["TASK-003"]
 
 # Install NestJS core packages
 
-> [!INFO] `TASK-003` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-003` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -68,7 +68,7 @@ Install the NestJS runtime dependencies required for the LSP server application 
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -76,12 +76,12 @@ Install the NestJS runtime dependencies required for the LSP server application 
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — `package.json` must exist before packages can be installed.
+- [[TASK-002]] — `package.json` must exist before packages can be installed.
 
 **Unblocks:**
 
-- [[tickets/TASK-009]] — `src/main.ts` references NestJS imports; those packages must be installed first.
-- [[tickets/TASK-010]] — `LspModule` references `@nestjs/common`; must be installed first.
+- [[TASK-009]] — `src/main.ts` references NestJS imports; those packages must be installed first.
+- [[TASK-010]] — `LspModule` references `@nestjs/common`; must be installed first.
 
 ---
 
@@ -92,7 +92,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun add` command completes without error
 - [ ] `package.json` `dependencies` contains all five packages: `@nestjs/core`, `@nestjs/common`, `@nestjs/platform-express`, `reflect-metadata`, `rxjs`
 - [ ] `bun.lockb` (or `bun.lock`) updated
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -113,7 +113,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

@@ -14,7 +14,7 @@ aliases:
 
 This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values to BC4 and BC5.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[vault/domain-model]], [[lsp-protocol/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
 > Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its only job is to merge TOML files in the correct priority order and expose a typed, immutable `FlavorConfig` value.

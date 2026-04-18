@@ -47,7 +47,7 @@ aliases:
 **Goal:** 100% of CI `bun install` calls use `--frozen-lockfile`.
 **Stakeholders:** Supply chain security, CI integrity.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#2-frozen-lockfile-in-all-ci-runs]], [[.github/workflows/ci.yml]].
+**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#2-frozen-lockfile-in-all-ci-runs]], `.github/workflows/ci.yml`.
 
 ---
 

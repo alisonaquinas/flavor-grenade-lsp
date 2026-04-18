@@ -38,7 +38,7 @@ Two design options were considered for flavor-grenade-lsp's scope:
 
 ## Decision
 
-flavor-grenade-lsp **exclusively targets OFM**. There is no CommonMark-only code path and no graceful degradation to CommonMark-only features. The parser — described in [[ddd/ofm-parser/domain-model]] — treats every `.md` file as an OFM document regardless of which OFM constructs actually appear in the file.
+flavor-grenade-lsp **exclusively targets OFM**. There is no CommonMark-only code path and no graceful degradation to CommonMark-only features. The parser — described in `ddd/ofm-parser` — treats every `.md` file as an OFM document regardless of which OFM constructs actually appear in the file.
 
 Files that happen to contain only CommonMark-compatible syntax are still valid OFM documents; they just do not use the OFM-specific features. Such files work correctly with the server because OFM is a strict superset.
 
@@ -67,4 +67,4 @@ The `ofm-spec/` directory is the normative specification for every language cons
 - [[ofm-spec/index]]
 - [[ADR003-vault-detection]]
 - [[architecture/overview]]
-- [[ddd/ofm-parser/domain-model]]
+- `ddd/ofm-parser`

@@ -15,7 +15,7 @@ aliases: ["TASK-126"]
 
 # Create GitHub Actions CI workflow
 
-> [!INFO] `TASK-126` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-126` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | All `@smoke`-tagged scenarios |
+| `bdd/features/code-actions.feature` | All `@smoke`-tagged scenarios |
 
 ---
 
@@ -69,7 +69,7 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -81,8 +81,8 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 
 **Unblocks:**
 
-- [[tickets/TASK-127]] — coverage upload requires the CI workflow job to exist
-- [[tickets/TASK-128]] — full BDD job needs the base CI job to complete first (`needs: test`)
+- [[TASK-127]] — coverage upload requires the CI workflow job to exist
+- [[TASK-128]] — full BDD job needs the base CI job to complete first (`needs: test`)
 
 ---
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] CI green on all three matrix platforms for a test PR
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -124,4 +124,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

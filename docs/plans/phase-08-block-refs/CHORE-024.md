@@ -30,7 +30,7 @@ Audit all Phase 8 code for security concerns with focus on two areas: block anch
 
 Block anchor IDs are user-supplied strings extracted from vault documents. Without strict validation, a malformed or malicious anchor ID could be injected into path-building operations. OFM-BLOCK-001/002 define the permitted character set; this sweep verifies enforcement.
 
-- Motivated by: `Security.InputValidation.BlockAnchorId` (see [[requirements/security]])
+- Motivated by: `Security.InputValidation.BlockAnchorId` (see [[requirements/security/index]])
 
 ---
 
@@ -38,7 +38,7 @@ Block anchor IDs are user-supplied strings extracted from vault documents. Witho
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Block anchor ID input validation (OFM-BLOCK-001/002) | [[requirements/security]] |
+| — | Block anchor ID input validation (OFM-BLOCK-001/002) | [[requirements/security/index]] |
 
 ---
 

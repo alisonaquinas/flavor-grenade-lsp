@@ -34,7 +34,7 @@ aliases:
 **Goal:** 100% of keys resolve to the correct effective value in all precedence permutations.
 **Stakeholders:** Vault authors, team leads setting project conventions, editor integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], [[plans/roadmap#config]].
+**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], plans/roadmap.
 
 ---
 
@@ -55,7 +55,7 @@ aliases:
 **Goal:** 100% of invalid values handled with default substitution, no crash, and debug log.
 **Stakeholders:** Vault authors, editor integrators, DevOps engineers deploying the server.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[completions#Completion.Candidates.Cap]], [[design/api-layer#config-loader]], [[architecture/overview#configuration-layer]].
+**Source:** [[requirements/completions#Completion.Candidates.Cap]], [[design/api-layer#config-loader]], [[architecture/overview#configuration-layer]].
 
 ---
 
@@ -76,7 +76,7 @@ aliases:
 **Goal:** 100% of malformed-file startups isolated correctly.
 **Stakeholders:** All server operators, vault authors, DevOps engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], [[Config.Precedence.Layering]].
+**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], `Config.Precedence.Layering`.
 
 ---
 

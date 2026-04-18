@@ -15,7 +15,7 @@ aliases: ["TASK-041"]
 
 # Implement OFMParser orchestrator
 
-> [!INFO] `TASK-041` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-041` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -54,10 +54,10 @@ export class OFMParser {
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Server indexes wiki-links in opened document` |
-| [[bdd/features/tags]] | `Server indexes tags in opened document` |
-| [[bdd/features/callouts]] | `Server indexes callouts in opened document` |
-| [[bdd/features/frontmatter]] | `Server parses frontmatter from opened document` |
+| `bdd/features/wiki-links.feature` | `Server indexes wiki-links in opened document` |
+| `bdd/features/tags.feature` | `Server indexes tags in opened document` |
+| `bdd/features/callouts.feature` | `Server indexes callouts in opened document` |
+| `bdd/features/frontmatter.feature` | `Server parses frontmatter from opened document` |
 
 ---
 
@@ -81,7 +81,7 @@ export class OFMParser {
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -93,8 +93,8 @@ export class OFMParser {
 
 **Unblocks:**
 
-- [[tickets/TASK-042]] — NestJS DI registration wraps `OFMParser`
-- [[tickets/TASK-044]] — Wiring into `didOpen`/`didChange` calls `OFMParser.parse()`
+- [[TASK-042]] — NestJS DI registration wraps `OFMParser`
+- [[TASK-044]] — Wiring into `didOpen`/`didChange` calls `OFMParser.parse()`
 
 ---
 
@@ -110,7 +110,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] Integration test using sample vault fixture passes
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -136,7 +136,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

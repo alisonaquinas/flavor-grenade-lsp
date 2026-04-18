@@ -28,7 +28,7 @@ aliases:
 **Goal:** 0% of merges bypass the gate — 100% of merged PRs have all required checks green.
 **Stakeholders:** All contributors, CI pipeline maintainers, release engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[.github/workflows/ci.yml]], GitHub Actions documentation §Branch Protection.
+**Source:** [[adr/ADR007-git-flow-branching]], `.github/workflows/ci.yml`, GitHub Actions documentation §Branch Protection.
 
 ---
 
@@ -46,7 +46,7 @@ aliases:
 **Goal:** 0% silent failures — every `docs/` Markdown violation fails CI.
 **Stakeholders:** Documentation maintainers, contributors, Obsidian vault users of this project.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[.github/workflows/ci.yml#markdown-lint-docs]], [[requirements/development-process]], markdownlint-obsidian documentation.
+**Source:** `.github/workflows/ci.yml`, [[requirements/development-process]], markdownlint-obsidian documentation.
 
 ---
 
@@ -64,7 +64,7 @@ aliases:
 **Goal:** 0% silent failures.
 **Stakeholders:** All contributors, GitHub profile visitors, documentation reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[.github/workflows/ci.yml#markdown-lint-other]], `.markdownlint-cli2.jsonc`, markdownlint-cli2 documentation.
+**Source:** `.github/workflows/ci.yml`, `.markdownlint-cli2.jsonc`, markdownlint-cli2 documentation.
 
 ---
 
@@ -83,7 +83,7 @@ aliases:
 **Goal:** 100% of published versions carry provenance — `npm audit signatures` exits 0.
 **Stakeholders:** Package consumers, security auditors, supply-chain integrity reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR008-oidc-publishing]], [[.github/workflows/publish.yml]], npm documentation §Provenance.
+**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/publish.yml`, npm documentation §Provenance.
 
 ---
 
@@ -101,7 +101,7 @@ aliases:
 **Goal:** 0% non-tag publishes — 100% of published versions have a corresponding `v*.*.*` git tag on `main`.
 **Stakeholders:** Release engineers, consumers, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], [[.github/workflows/publish.yml]].
+**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/publish.yml`.
 
 ---
 

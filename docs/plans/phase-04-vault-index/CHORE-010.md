@@ -70,11 +70,11 @@ Phase 4 introduces multiple new source files. The lint sweep consolidates all li
 
 **Blocked by:**
 
-- [[tickets/TASK-054]] — all Phase 4 implementation tasks must be complete before the lint sweep
+- [[TASK-054]] — all Phase 4 implementation tasks must be complete before the lint sweep
 
 **Unblocks:**
 
-- [[tickets/CHORE-011]] — code quality sweep proceeds after lint is clean
+- [[CHORE-011]] — code quality sweep proceeds after lint is clean
 
 ---
 
@@ -122,5 +122,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 lint sweep to reach zero-warning gate.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `bun run lint --max-warnings 0` passes with 0 warnings (1 unused-import error found and fixed in initialized.handler.ts). `tsc --noEmit` exits 0. All 150 unit tests pass. No behaviour-affecting changes. Status: `done`.

@@ -72,7 +72,7 @@ Phase 4 is the first phase to perform real filesystem access. ADR013 establishes
 
 **Blocked by:**
 
-- [[tickets/CHORE-011]] — code quality sweep must be done before security review
+- [[CHORE-011]] — code quality sweep must be done before security review
 
 **Unblocks:**
 
@@ -127,5 +127,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 security sweep covering path traversal in VaultScanner (ADR013), IgnoreFilter boundary enforcement, and FileWatcher out-of-root event discard.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > VaultScanner: `walkAndIndex` only follows paths returned by `fs.readdir` (OS-controlled) from vault root downward — no user-controlled path injection possible. IgnoreFilter: only evaluates vault-relative paths; cannot bypass vault root boundary. FileWatcher: confinement check updated to use `path.sep` separator after `resolvedRoot` to prevent `vaultRoot`-prefixed sibling-directory bypass (e.g., `/vault-other` would not match `/vault`). No absolute paths in error messages. Status: `done`.

@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 5: LSP Protocol**. BC5 is a Generic subdomain. It does not contain original business logic — it is a conformist adapter to the Language Server Protocol 3.17 specification. Its primary artefact is `LspServer`, an application service that maps JSON-RPC method calls to BC4 workspace mutations and BC3 query services.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[vault/domain-model]], [[reference-resolution/domain-model]], [[document-lifecycle/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]].
 
 > [!NOTE]
 > BC5 is a **Conformist** to the LSP 3.17 specification. Do not invent protocol deviations. Custom extensions are scoped to the `flavorGrenade/` namespace. Everything else must conform to the spec verbatim.

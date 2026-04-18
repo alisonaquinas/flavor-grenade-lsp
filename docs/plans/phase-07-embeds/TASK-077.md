@@ -15,7 +15,7 @@ aliases: ["TASK-077"]
 
 # Add asset tracking to VaultScanner
 
-> [!INFO] `TASK-077` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-077` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -54,7 +54,7 @@ Update `src/vault/vault-scanner.ts` to maintain an `AssetIndex` alongside the ex
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Image embed resolves to asset path` |
+| `bdd/features/embeds.feature` | `Image embed resolves to asset path` |
 
 ---
 
@@ -78,7 +78,7 @@ Update `src/vault/vault-scanner.ts` to maintain an `AssetIndex` alongside the ex
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -90,7 +90,7 @@ Update `src/vault/vault-scanner.ts` to maintain an `AssetIndex` alongside the ex
 
 **Unblocks:**
 
-- [[tickets/TASK-076]] — EmbedDest resolution requires AssetIndex to check non-markdown files
+- [[TASK-076]] — EmbedDest resolution requires AssetIndex to check non-markdown files
 
 ---
 
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `VaultScanner` now maintains `assetIndex: Set<string>` (vault-relative paths of non-.md files). Added `getAssetIndex()` and `hasAsset()` methods. `FileWatcher` updated to inject `VaultScanner` and maintain asset index on rename events. Status: `done`.

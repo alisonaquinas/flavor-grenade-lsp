@@ -15,7 +15,7 @@ aliases: ["TASK-118"]
 
 # Implement codeAction dispatcher + introduce FG006 diagnostic
 
-> [!INFO] `TASK-118` · Task · Phase 12 · Parent: [[tickets/FEAT-013]] · Status: `open`
+> [!INFO] `TASK-118` · Task · Phase 12 · Parent: [[FEAT-013]] · Status: `open`
 
 ## Description
 
@@ -49,8 +49,8 @@ Create `src/handlers/code-action.handler.ts` implementing the `textDocument/code
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | `Code action dispatcher routes FG001 to create-missing-note` |
-| [[bdd/features/diagnostics]] | `FG006 non-breaking space diagnostic is emitted` |
+| `bdd/features/code-actions.feature` | `Code action dispatcher routes FG001 to create-missing-note` |
+| `bdd/features/diagnostics.feature` | `FG006 non-breaking space diagnostic is emitted` |
 
 ---
 
@@ -74,7 +74,7 @@ Create `src/handlers/code-action.handler.ts` implementing the `textDocument/code
 
 ## Parent Feature
 
-[[tickets/FEAT-013]] — Code Actions
+[[FEAT-013]] — Code Actions
 
 ---
 
@@ -86,10 +86,10 @@ Create `src/handlers/code-action.handler.ts` implementing the `textDocument/code
 
 **Unblocks:**
 
-- [[tickets/TASK-119]] — create-missing-note requires the dispatcher to exist
-- [[tickets/TASK-120]] — TOC generator requires the dispatcher to exist
-- [[tickets/TASK-121]] — tag-to-yaml edge cases require the dispatcher to exist
-- [[tickets/TASK-122]] — fix-nbsp quick-fix requires the dispatcher and FG006 diagnostic to exist
+- [[TASK-119]] — create-missing-note requires the dispatcher to exist
+- [[TASK-120]] — TOC generator requires the dispatcher to exist
+- [[TASK-121]] — tag-to-yaml edge cases require the dispatcher to exist
+- [[TASK-122]] — fix-nbsp quick-fix requires the dispatcher and FG006 diagnostic to exist
 
 ---
 
@@ -104,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-013]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-013]] child task row updated to `in-review`
 
 ---
 
@@ -130,4 +130,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-013]].
+> Ticket created. Status: `open`. Parent: [[FEAT-013]].

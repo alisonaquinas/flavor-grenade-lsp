@@ -15,7 +15,7 @@ aliases: ["TASK-120"]
 
 # Implement "Generate Table of Contents" code action
 
-> [!INFO] `TASK-120` · Task · Phase 12 · Parent: [[tickets/FEAT-013]] · Status: `open`
+> [!INFO] `TASK-120` · Task · Phase 12 · Parent: [[FEAT-013]] · Status: `open`
 
 ## Description
 
@@ -54,8 +54,8 @@ Create `src/code-actions/toc-generator.action.ts`. When the cursor is anywhere i
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | `Generate Table of Contents inserts TOC after first heading` |
-| [[bdd/features/code-actions]] | `Generate Table of Contents replaces existing TOC` |
+| `bdd/features/code-actions.feature` | `Generate Table of Contents inserts TOC after first heading` |
+| `bdd/features/code-actions.feature` | `Generate Table of Contents replaces existing TOC` |
 
 ---
 
@@ -79,7 +79,7 @@ Create `src/code-actions/toc-generator.action.ts`. When the cursor is anywhere i
 
 ## Parent Feature
 
-[[tickets/FEAT-013]] — Code Actions
+[[FEAT-013]] — Code Actions
 
 ---
 
@@ -87,7 +87,7 @@ Create `src/code-actions/toc-generator.action.ts`. When the cursor is anywhere i
 
 **Blocked by:**
 
-- [[tickets/TASK-118]] — dispatcher must exist before sub-action providers can be wired in
+- [[TASK-118]] — dispatcher must exist before sub-action providers can be wired in
 
 **Unblocks:**
 
@@ -106,7 +106,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-013]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-013]] child task row updated to `in-review`
 
 ---
 
@@ -132,4 +132,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-013]].
+> Ticket created. Status: `open`. Parent: [[FEAT-013]].

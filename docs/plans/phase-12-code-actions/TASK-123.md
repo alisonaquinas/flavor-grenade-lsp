@@ -15,7 +15,7 @@ aliases: ["TASK-123"]
 
 # Implement workspace/symbol provider
 
-> [!INFO] `TASK-123` · Task · Phase 12 · Parent: [[tickets/FEAT-013]] · Status: `open`
+> [!INFO] `TASK-123` · Task · Phase 12 · Parent: [[FEAT-013]] · Status: `open`
 
 ## Description
 
@@ -46,7 +46,7 @@ Create `src/handlers/workspace-symbol.handler.ts` implementing the `workspace/sy
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | `workspace/symbol returns matching headings across vault` |
+| `bdd/features/code-actions.feature` | `workspace/symbol returns matching headings across vault` |
 
 ---
 
@@ -70,7 +70,7 @@ Create `src/handlers/workspace-symbol.handler.ts` implementing the `workspace/sy
 
 ## Parent Feature
 
-[[tickets/FEAT-013]] — Code Actions
+[[FEAT-013]] — Code Actions
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-013]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-013]] child task row updated to `in-review`
 
 ---
 
@@ -123,4 +123,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-013]].
+> Ticket created. Status: `open`. Parent: [[FEAT-013]].

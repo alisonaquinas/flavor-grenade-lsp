@@ -15,7 +15,7 @@ aliases: ["TASK-113"]
 
 # Handle pipe aliases during heading rename
 
-> [!INFO] `TASK-113` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-113` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -29,7 +29,7 @@ Implement the alias identity-check rule during heading rename. When renaming hea
 - Identity check: `alias === oldHeadingText` — string equality, case-sensitive
 - Three cases must all be handled correctly
 - The identity check must use the raw heading text (without `##` prefix, without trailing whitespace)
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -45,9 +45,9 @@ Implement the alias identity-check rule during heading rename. When renaming hea
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `Heading rename with no alias updates target` |
-| [[bdd/features/rename]] | `Heading rename with non-identical alias preserves alias` |
-| [[bdd/features/rename]] | `Heading rename with alias identical to heading updates alias too` |
+| `bdd/features/rename.feature` | `Heading rename with no alias updates target` |
+| `bdd/features/rename.feature` | `Heading rename with non-identical alias preserves alias` |
+| `bdd/features/rename.feature` | `Heading rename with alias identical to heading updates alias too` |
 
 ---
 
@@ -69,7 +69,7 @@ Implement the alias identity-check rule during heading rename. When renaming hea
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -77,11 +77,11 @@ Implement the alias identity-check rule during heading rename. When renaming hea
 
 **Blocked by:**
 
-- [[tickets/TASK-110]] — heading rename must exist before alias handling can be layered on
+- [[TASK-110]] — heading rename must exist before alias handling can be layered on
 
 **Unblocks:**
 
-- [[tickets/TASK-117]] — integration tests cover pipe alias scenarios
+- [[TASK-117]] — integration tests cover pipe alias scenarios
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -133,4 +133,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

@@ -15,7 +15,7 @@ aliases: ["TASK-081"]
 
 # Handle embed size syntax
 
-> [!INFO] `TASK-081` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-081` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -46,8 +46,8 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Image embed with size specifier produces no diagnostic` |
-| [[bdd/features/embeds]] | `Non-image embed pipe content treated as display alias` |
+| `bdd/features/embeds.feature` | `Image embed with size specifier produces no diagnostic` |
+| `bdd/features/embeds.feature` | `Non-image embed pipe content treated as display alias` |
 
 ---
 
@@ -71,7 +71,7 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -79,7 +79,7 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 
 **Blocked by:**
 
-- [[tickets/TASK-076]] — size specifier handling is an extension of the embed resolver
+- [[TASK-076]] — size specifier handling is an extension of the embed resolver
 
 **Unblocks:**
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -124,7 +124,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Verified: `EmbedParser` already handles size specifiers in Phase 3. `EmbedEntry` already has `width?` and `height?` fields in `types.ts`. Size specifier vs alias distinction confirmed present. No code changes required. Status: `done`.

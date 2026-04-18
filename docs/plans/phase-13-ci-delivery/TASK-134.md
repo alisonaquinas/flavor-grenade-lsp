@@ -15,7 +15,7 @@ aliases: ["TASK-134"]
 
 # Write Helix editor configuration
 
-> [!INFO] `TASK-134` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-134` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Create `editors/helix/languages.toml` with the Helix editor LSP configuration fo
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | — (documentation task, no Gherkin scenario) |
+| `bdd/features/code-actions.feature` | — (documentation task, no Gherkin scenario) |
 
 ---
 
@@ -69,7 +69,7 @@ Create `editors/helix/languages.toml` with the Helix editor LSP configuration fo
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -121,4 +121,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

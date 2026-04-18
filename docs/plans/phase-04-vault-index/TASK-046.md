@@ -15,7 +15,7 @@ aliases: ["TASK-046"]
 
 # Define DocId value type
 
-> [!INFO] `TASK-046` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-046` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -52,7 +52,7 @@ Create `src/vault/doc-id.ts`. `DocId` is a branded string representing a vault-r
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/vault-detection]] | `DocId is computed relative to vault root` |
+| `bdd/features/vault-detection.feature` | `DocId is computed relative to vault root` |
 
 ---
 
@@ -74,7 +74,7 @@ Create `src/vault/doc-id.ts`. `DocId` is a branded string representing a vault-r
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -86,8 +86,8 @@ Create `src/vault/doc-id.ts`. `DocId` is a branded string representing a vault-r
 
 **Unblocks:**
 
-- [[tickets/TASK-047]] — VaultIndex uses DocId as its key type
-- [[tickets/TASK-048]] — FolderLookup returns LookupResult containing DocId
+- [[TASK-047]] — VaultIndex uses DocId as its key type
+- [[TASK-048]] — FolderLookup returns LookupResult containing DocId
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -139,7 +139,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/doc-id.ts` implemented. `DocId` branded string type. `toDocId` produces vault-relative path without `.md` extension using forward slashes. `fromDocId` reconstructs absolute path adding `.md` if no extension. Round-trip tested. Status: `done`.

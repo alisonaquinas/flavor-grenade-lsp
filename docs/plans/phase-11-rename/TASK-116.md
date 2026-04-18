@@ -15,7 +15,7 @@ aliases: ["TASK-116"]
 
 # Reject rename in opaque regions
 
-> [!INFO] `TASK-116` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-116` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -30,7 +30,7 @@ Extend `prepareRename` so that if the cursor is inside an opaque region — a co
 - Opaque region types: fenced code block, inline code, math block (`$...$`, `$$...$$`), HTML comment
 - Error code `-32602` is the LSP `InvalidParams` code
 - This check should be the first guard in `prepareRename` — before entity resolution
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -46,9 +46,9 @@ Extend `prepareRename` so that if the cursor is inside an opaque region — a co
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `prepareRename returns error when cursor is in code block` |
-| [[bdd/features/rename]] | `prepareRename returns error when cursor is in math block` |
-| [[bdd/features/rename]] | `prepareRename returns error when cursor is in HTML comment` |
+| `bdd/features/rename.feature` | `prepareRename returns error when cursor is in code block` |
+| `bdd/features/rename.feature` | `prepareRename returns error when cursor is in math block` |
+| `bdd/features/rename.feature` | `prepareRename returns error when cursor is in HTML comment` |
 
 ---
 
@@ -70,7 +70,7 @@ Extend `prepareRename` so that if the cursor is inside an opaque region — a co
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -78,11 +78,11 @@ Extend `prepareRename` so that if the cursor is inside an opaque region — a co
 
 **Blocked by:**
 
-- [[tickets/TASK-109]] — prepareRename must exist before opaque region check can be added to it
+- [[TASK-109]] — prepareRename must exist before opaque region check can be added to it
 
 **Unblocks:**
 
-- [[tickets/TASK-117]] — integration tests cover opaque region rejection scenarios
+- [[TASK-117]] — integration tests cover opaque region rejection scenarios
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -134,4 +134,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

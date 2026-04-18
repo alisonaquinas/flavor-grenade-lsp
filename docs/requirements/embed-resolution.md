@@ -10,7 +10,7 @@ aliases:
 # Embed Resolution Requirements
 
 > [!NOTE] Scope
-> These requirements govern the server's handling of Obsidian embed syntax (`![[target]]`), including resolution of markdown document embeds, image-file embeds, heading-scoped embeds, and block-anchor embeds. Diagnostic codes referenced here are defined in [[diagnostics]]. Wiki-link resolution without the `!` prefix is specified in [[wiki-link-resolution]].
+> These requirements govern the server's handling of Obsidian embed syntax (`![[target]]`), including resolution of markdown document embeds, image-file embeds, heading-scoped embeds, and block-anchor embeds. Diagnostic codes referenced here are defined in [[requirements/diagnostics]]. Wiki-link resolution without the `!` prefix is specified in [[wiki-link-resolution]].
 
 ---
 
@@ -30,7 +30,7 @@ aliases:
 **Goal:** 100% correct classification.
 **Stakeholders:** Vault authors, technical writers using transclusion, Obsidian Publish users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#markdown-embeds]], [[design/domain-layer#vault-index]], [[diagnostics#FG004]].
+**Source:** [[ofm-spec/embeds#markdown-embeds]], [[design/domain-layer#vault-index]], [[requirements/diagnostics#FG004]].
 
 ---
 
@@ -51,7 +51,7 @@ aliases:
 **Goal:** 100% correct diagnostic assignment.
 **Stakeholders:** Vault authors who embed images, presentation creators, Obsidian Publish users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#image-embeds]], [[diagnostics#FG001]], [[diagnostics#FG004]], [[design/domain-layer#asset-index]].
+**Source:** [[ofm-spec/embeds#image-embeds]], [[requirements/diagnostics#FG001]], [[requirements/diagnostics#FG004]], [[design/domain-layer#asset-index]].
 
 ---
 
@@ -76,7 +76,7 @@ aliases:
 **Goal:** 100% correct diagnosis across all three cases.
 **Stakeholders:** Vault authors using section transclusion, knowledge base curators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#heading-embeds]], [[design/domain-layer#heading-index]], [[diagnostics#FG004]].
+**Source:** [[ofm-spec/embeds#heading-embeds]], [[design/domain-layer#heading-index]], [[requirements/diagnostics#FG004]].
 
 ---
 
@@ -100,4 +100,4 @@ aliases:
 **Goal:** 100% correct diagnosis.
 **Stakeholders:** Vault authors using block transclusion, Zettelkasten practitioners, evergreen note authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-embeds]], [[block-references]], [[design/domain-layer#block-anchor-index]], [[diagnostics#FG004]].
+**Source:** [[ofm-spec/embeds#block-embeds]], [[requirements/block-references]], [[design/domain-layer#block-anchor-index]], [[requirements/diagnostics#FG004]].

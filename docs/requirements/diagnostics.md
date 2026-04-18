@@ -10,7 +10,7 @@ aliases:
 # Diagnostic Requirements
 
 > [!NOTE] Scope
-> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[wiki-link-resolution]], [[embed-resolution]], [[block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
+> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
 
 ---
 
@@ -70,7 +70,7 @@ aliases:
 **Goal:** 100% of diagnostics carry their correct assigned FG code; 0 code collisions.
 **Stakeholders:** CI engineers, LSP client plugin authors, tool integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[block-references]].
+**Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]].
 
 ---
 
@@ -136,4 +136,4 @@ aliases:
 **Goal:** 0 cross-file diagnostics in single-file mode.
 **Stakeholders:** Text editor users opening individual files, developers testing isolated documents.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution#Link.Resolution.ModeScope]], [[block-references#Block.CrossRef.Diagnostic]], [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]].
+**Source:** [[wiki-link-resolution#Link.Resolution.ModeScope]], [[requirements/block-references#Block.CrossRef.Diagnostic]], [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]].

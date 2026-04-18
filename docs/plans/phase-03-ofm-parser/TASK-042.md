@@ -15,7 +15,7 @@ aliases: ["TASK-042"]
 
 # Register OFMParser in NestJS DI
 
-> [!INFO] `TASK-042` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-042` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Create `src/parser/parser.module.ts` as a NestJS `@Module` that registers `OFMPa
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Server indexes wiki-links in opened document` |
+| `bdd/features/wiki-links.feature` | `Server indexes wiki-links in opened document` |
 
 ---
 
@@ -69,7 +69,7 @@ Create `src/parser/parser.module.ts` as a NestJS `@Module` that registers `OFMPa
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -77,11 +77,11 @@ Create `src/parser/parser.module.ts` as a NestJS `@Module` that registers `OFMPa
 
 **Blocked by:**
 
-- [[tickets/TASK-041]] — `OFMParser` must be implemented before it can be registered
+- [[TASK-041]] — `OFMParser` must be implemented before it can be registered
 
 **Unblocks:**
 
-- [[tickets/TASK-044]] — Handler wiring requires `OFMParser` and `ParseCache` to be available via DI
+- [[TASK-044]] — Handler wiring requires `OFMParser` and `ParseCache` to be available via DI
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -122,7 +122,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

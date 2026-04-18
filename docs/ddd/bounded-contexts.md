@@ -13,7 +13,7 @@ aliases:
 
 This document is the canonical context map for `flavor-grenade-lsp`. It describes the five bounded contexts (BCs), their ownership, integration styles, and public interfaces. Read this before touching any module boundary.
 
-See also: [[ubiquitous-language]], [[vault/domain-model]], [[lsp-protocol/domain-model]], [[reference-resolution/domain-model]], [[document-lifecycle/domain-model]], [[config/domain-model]].
+See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]], [[ddd/config/domain-model]].
 
 ---
 
@@ -289,7 +289,7 @@ BC5 LSP wire types. BC3 RefGraph internals (BC4 owns an opaque `RefGraph` value 
 
 ### BC4 Public Interface
 
-See [[vault/domain-model]] for the full command and event table.
+See [[ddd/vault/domain-model]] for the full command and event table.
 
 ### BC4 Key Invariants
 
@@ -323,7 +323,7 @@ BC3 internals. BC5 calls BC4 workspace mutations and BC3 query services through 
 
 ### BC5 Public Interface
 
-See [[lsp-protocol/domain-model]] for the full method-to-command mapping table.
+See [[ddd/lsp-protocol/domain-model]] for the full method-to-command mapping table.
 
 ### BC5 Key Invariants
 

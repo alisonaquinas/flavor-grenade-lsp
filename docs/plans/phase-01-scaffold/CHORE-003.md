@@ -32,7 +32,7 @@ Review all new code and dependencies introduced in Phase 1 for three categories 
 
 Security issues are cheapest to fix at the scaffolding phase before business logic accumulates. Path traversal is the primary attack surface for an LSP server operating on a user's vault (file system). Supply chain vulnerabilities in newly added packages must be triaged before they are relied upon in production logic.
 
-- Motivated by: [[adr/ADR013-path-traversal-prevention]], [[adr/ADR014-supply-chain-policy]]
+- Motivated by: [[adr/ADR013-vault-root-confinement]], [[adr/ADR014-dependency-security-policy]]
 
 ---
 
@@ -67,8 +67,8 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-path-traversal-prevention]] | All file path construction from LSP-received workspace URIs must be sanitised; no `../` traversal permitted |
-| [[adr/ADR014-supply-chain-policy]] | All new packages must pass `bun audit` with no high/critical CVEs; exceptions require a documented SPIKE ticket |
+| [[adr/ADR013-vault-root-confinement]] | All file path construction from LSP-received workspace URIs must be sanitised; no `../` traversal permitted |
+| [[adr/ADR014-dependency-security-policy]] | All new packages must pass `bun audit` with no high/critical CVEs; exceptions require a documented SPIKE ticket |
 
 ---
 
@@ -76,11 +76,11 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 
 **Blocked by:**
 
-- [[tickets/CHORE-002]] — Code quality sweep must be done before security sweep; code smells can obscure security issues.
+- [[CHORE-002]] — Code quality sweep must be done before security sweep; code smells can obscure security issues.
 
 **Unblocks:**
 
-- [[tickets/FEAT-002]] can move to `in-review` once CHORE-003 is done (all three chores complete).
+- [[FEAT-002]] can move to `in-review` once CHORE-003 is done (all three chores complete).
 
 ---
 
@@ -89,7 +89,7 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 All of the following must be true before this ticket is marked `done`:
 
 - [ ] `bun audit` run and output reviewed; no unaddressed high/critical CVEs
-- [ ] All Phase 1 `src/` files reviewed for path traversal risks per [[adr/ADR013-path-traversal-prevention]]
+- [ ] All Phase 1 `src/` files reviewed for path traversal risks per [[adr/ADR013-vault-root-confinement]]
 - [ ] All Phase 1 `src/` files reviewed for LSP input validation patterns
 - [ ] All high/critical findings have corresponding BUG tickets opened with `priority: high` or `priority: critical`
 - [ ] `bun run lint --max-warnings 0` still passes
@@ -121,7 +121,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[adr/ADR013-path-traversal-prevention]], [[adr/ADR014-supply-chain-policy]]. Blocked until CHORE-002 (Code Quality Sweep) is done.
+> Chore created. Status: `open`. Motivation: [[adr/ADR013-vault-root-confinement]], [[adr/ADR014-dependency-security-policy]]. Blocked until CHORE-002 (Code Quality Sweep) is done.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

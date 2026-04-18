@@ -17,7 +17,7 @@ aliases: ["TASK-014"]
 
 # Create package.json scripts
 
-> [!INFO] `TASK-014` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-014` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -75,7 +75,7 @@ Add the canonical `scripts` block to `package.json`. The scripts defined here ar
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -83,16 +83,16 @@ Add the canonical `scripts` block to `package.json`. The scripts defined here ar
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — `package.json` must exist to add scripts.
-- [[tickets/TASK-005]] — `eslint`, `prettier`, `typescript` must be installed for scripts to be meaningful.
-- [[tickets/TASK-006]] — `cucumber-js` must be installed for the `bdd` script.
-- [[tickets/TASK-007]] — `tsconfig.json` must exist for `tsc --project tsconfig.json` to work.
-- [[tickets/TASK-008]] — `bunfig.toml` must exist for `bun test` to pick up test configuration.
+- [[TASK-002]] — `package.json` must exist to add scripts.
+- [[TASK-005]] — `eslint`, `prettier`, `typescript` must be installed for scripts to be meaningful.
+- [[TASK-006]] — `cucumber-js` must be installed for the `bdd` script.
+- [[TASK-007]] — `tsconfig.json` must exist for `tsc --project tsconfig.json` to work.
+- [[TASK-008]] — `bunfig.toml` must exist for `bun test` to pick up test configuration.
 
 **Unblocks:**
 
-- [[tickets/CHORE-001]] — Lint sweep runs `bun run lint --max-warnings 0`.
-- [[tickets/FEAT-002]] acceptance criteria — `bun run build` and `bun test` gate.
+- [[CHORE-001]] — Lint sweep runs `bun run lint --max-warnings 0`.
+- [[FEAT-002]] acceptance criteria — `bun run build` and `bun test` gate.
 
 ---
 
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun test` invokes Bun's test runner (verified by running it)
 - [ ] `bun run lint` invokes `eslint src/` (verified by running it)
 - [ ] `bun run gate:1` runs both build and test sequentially
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -126,7 +126,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

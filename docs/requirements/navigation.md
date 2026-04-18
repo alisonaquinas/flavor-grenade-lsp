@@ -10,7 +10,7 @@ aliases:
 # Navigation Requirements
 
 > [!NOTE] Scope
-> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[rename]].
+> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[requirements/rename]].
 
 ---
 
@@ -33,7 +33,7 @@ aliases:
 **Goal:** 100% of link types supported; 100% of valid occurrences return correct Location.
 **Stakeholders:** Vault authors navigating their knowledge graph, editor users expecting Ctrl+Click behaviour.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#definition-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/properties#inline-tags]], LSP specification §3.14 textDocument/definition.
+**Source:** [[design/api-layer#definition-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/tags#inline-tag-syntax]], LSP specification §3.14 textDocument/definition.
 
 ---
 

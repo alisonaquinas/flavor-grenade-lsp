@@ -15,7 +15,7 @@ aliases: ["TASK-093"]
 
 # Implement ContextAnalyzer
 
-> [!INFO] `TASK-093` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-093` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -51,8 +51,8 @@ Create `src/completion/context-analyzer.ts`. The `ContextAnalyzer` scans backwar
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `ContextAnalyzer returns correct kind for each trigger` |
-| [[bdd/features/completions]] | `ContextAnalyzer returns none inside code block` |
+| `bdd/features/completions.feature` | `ContextAnalyzer returns correct kind for each trigger` |
+| `bdd/features/completions.feature` | `ContextAnalyzer returns none inside code block` |
 
 ---
 
@@ -76,7 +76,7 @@ Create `src/completion/context-analyzer.ts`. The `ContextAnalyzer` scans backwar
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -84,13 +84,13 @@ Create `src/completion/context-analyzer.ts`. The `ContextAnalyzer` scans backwar
 
 **Blocked by:**
 
-- [[tickets/TASK-092]] — `CompletionRouter` structure must exist before `ContextAnalyzer` can be wired into it
+- [[TASK-092]] — `CompletionRouter` structure must exist before `ContextAnalyzer` can be wired into it
 
 **Unblocks:**
 
-- [[tickets/TASK-094]] — heading provider receives context from `ContextAnalyzer`
-- [[tickets/TASK-095]] — callout provider receives context from `ContextAnalyzer`
-- [[tickets/TASK-096]] — embed provider receives context from `ContextAnalyzer`
+- [[TASK-094]] — heading provider receives context from `ContextAnalyzer`
+- [[TASK-095]] — callout provider receives context from `ContextAnalyzer`
+- [[TASK-096]] — embed provider receives context from `ContextAnalyzer`
 
 ---
 
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -129,7 +129,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

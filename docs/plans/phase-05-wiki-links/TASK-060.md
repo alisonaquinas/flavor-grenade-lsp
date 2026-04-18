@@ -15,7 +15,7 @@ aliases: ["TASK-060"]
 
 # Implement DiagnosticService FG001/FG002/FG003
 
-> [!INFO] `TASK-060` · Task · Phase 5 · Parent: [[tickets/FEAT-006]] · Status: `open`
+> [!INFO] `TASK-060` · Task · Phase 5 · Parent: [[FEAT-006]] · Status: `open`
 
 ## Description
 
@@ -48,11 +48,11 @@ Create `src/diagnostics/diagnostic-service.ts`. After resolving all wiki-links i
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `DiagnosticService emits FG001 for broken link` |
-| [[bdd/features/diagnostics]] | `FG001 BrokenWikiLink emitted with Error severity` |
-| [[bdd/features/diagnostics]] | `FG002 AmbiguousWikiLink includes candidate relatedInformation` |
-| [[bdd/features/diagnostics]] | `FG003 MalformedWikiLink emitted for empty target` |
-| [[bdd/features/diagnostics]] | `No wiki-link diagnostics in single-file mode` |
+| `bdd/features/wiki-links.feature` | `DiagnosticService emits FG001 for broken link` |
+| `bdd/features/diagnostics.feature` | `FG001 BrokenWikiLink emitted with Error severity` |
+| `bdd/features/diagnostics.feature` | `FG002 AmbiguousWikiLink includes candidate relatedInformation` |
+| `bdd/features/diagnostics.feature` | `FG003 MalformedWikiLink emitted for empty target` |
+| `bdd/features/diagnostics.feature` | `No wiki-link diagnostics in single-file mode` |
 
 ---
 
@@ -74,7 +74,7 @@ Create `src/diagnostics/diagnostic-service.ts`. After resolving all wiki-links i
 
 ## Parent Feature
 
-[[tickets/FEAT-006]] — Wiki-Link Resolution
+[[FEAT-006]] — Wiki-Link Resolution
 
 ---
 
@@ -82,12 +82,12 @@ Create `src/diagnostics/diagnostic-service.ts`. After resolving all wiki-links i
 
 **Blocked by:**
 
-- [[tickets/TASK-057]] — RefGraph provides unresolved/ambiguous refs for bulk diagnostic computation
-- [[tickets/TASK-059]] — LinkResolver provides per-link resolution results
+- [[TASK-057]] — RefGraph provides unresolved/ambiguous refs for bulk diagnostic computation
+- [[TASK-059]] — LinkResolver provides per-link resolution results
 
 **Unblocks:**
 
-- [[tickets/TASK-065]] — LspModule registers DiagnosticService as a handler
+- [[TASK-065]] — LspModule registers DiagnosticService as a handler
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-006]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-006]] child task row updated to `in-review`
 
 ---
 
@@ -139,4 +139,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-006]].
+> Ticket created. Status: `open`. Parent: [[FEAT-006]].

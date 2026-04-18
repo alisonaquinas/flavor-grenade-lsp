@@ -38,7 +38,7 @@ The OFM parsers operate on untrusted content from vault files opened by the LSP 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Parser safety: no ReDoS, no file I/O | [[requirements/security]] |
+| — | Parser safety: no ReDoS, no file I/O | [[requirements/security/index]] |
 
 ---
 
@@ -78,7 +78,7 @@ The OFM parsers operate on untrusted content from vault files opened by the LSP 
 
 **Unblocks:**
 
-- Phase 3 feature ticket [[tickets/FEAT-004]] can transition to `in-review` once all three Phase 3 chores are `done`
+- Phase 3 feature ticket [[FEAT-004]] can transition to `in-review` once all three Phase 3 chores are `done`
 
 ---
 

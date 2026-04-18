@@ -9,7 +9,7 @@ aliases:
 # Vault Setup User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors expect the server to discover and work with their vault without manual configuration. Implementation details are in [[workspace]].
+> These user requirements cover how vault authors expect the server to discover and work with their vault without manual configuration. Implementation details are in [[requirements/workspace]].
 
 ---
 

@@ -15,7 +15,7 @@ aliases: ["TASK-094"]
 
 # Implement heading CompletionProvider
 
-> [!INFO] `TASK-094` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-094` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -48,7 +48,7 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Heading completion after [[doc# | [[requirements/completions]] |
+| — | Heading completion after `[[doc#` | [[requirements/completions]] |
 
 ---
 
@@ -56,8 +56,8 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `Heading completion returns headings from target doc` |
-| [[bdd/features/completions]] | `Heading completion filters by typed prefix` |
+| `bdd/features/completions.feature` | `Heading completion returns headings from target doc` |
+| `bdd/features/completions.feature` | `Heading completion filters by typed prefix` |
 
 ---
 
@@ -81,7 +81,7 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -89,12 +89,12 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
 
 **Blocked by:**
 
-- [[tickets/TASK-092]] — `CompletionRouter` routing structure must exist
-- [[tickets/TASK-093]] — `ContextAnalyzer` must produce `wiki-link-heading` context before this provider is invoked
+- [[TASK-092]] — `CompletionRouter` routing structure must exist
+- [[TASK-093]] — `ContextAnalyzer` must produce `wiki-link-heading` context before this provider is invoked
 
 **Unblocks:**
 
-- [[tickets/TASK-099]] — intra-doc heading completion after `[[#` extends this provider
+- [[TASK-099]] — intra-doc heading completion after `[[#` extends this provider
 
 ---
 
@@ -109,7 +109,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -133,7 +133,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

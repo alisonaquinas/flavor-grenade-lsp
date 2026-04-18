@@ -15,7 +15,7 @@ aliases: ["TASK-099"]
 
 # Implement intra-document heading completion after `[[#`
 
-> [!INFO] `TASK-099` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-099` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -38,7 +38,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Intra-document heading completion after [[# | [[requirements/completions]] |
+| — | Intra-document heading completion after `[[#` | [[requirements/completions]] |
 
 ---
 
@@ -46,7 +46,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `Intra-doc heading completion after [[# returns current doc headings` |
+| `bdd/features/completions.feature` | `Intra-doc heading completion after [[# returns current doc headings` |
 
 ---
 
@@ -70,7 +70,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -78,7 +78,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 **Blocked by:**
 
-- [[tickets/TASK-094]] — cross-doc heading provider must exist before the intra-doc path is added
+- [[TASK-094]] — cross-doc heading provider must exist before the intra-doc path is added
 
 **Unblocks:**
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 4: Vault & Workspace**. BC4 is a Supporting subdomain that owns the top-level state of the server: which vaults are known, which documents are loaded, and how those documents are indexed for reference resolution.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/domain-model]], [[reference-resolution/domain-model]], [[config/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/config/domain-model]].
 
 > [!NOTE]
 > BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4.

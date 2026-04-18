@@ -62,7 +62,7 @@ Vault authors gain a vault-wide tag registry that tracks every `#tag` occurrence
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/tags]] | Tag completion, find-references, hierarchy, and code action scenarios |
+| `bdd/features/tags.feature` | Tag completion, find-references, hierarchy, and code action scenarios |
 
 ---
 
@@ -92,17 +92,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-067]] | Implement TagRegistry — vault-wide tag index | `done` |
-| [[tickets/TASK-068]] | Build tag index during vault scan | `done` |
-| [[tickets/TASK-069]] | Implement tag CompletionProvider | `done` |
-| [[tickets/TASK-070]] | Implement find-references for tags | `done` |
-| [[tickets/TASK-071]] | Implement tag hierarchy queries | `done` |
-| [[tickets/TASK-072]] | Implement "Move tag to frontmatter" code action MVP | `done` |
-| [[tickets/TASK-073]] | Handle YAML frontmatter tags in TagRegistry | `done` |
-| [[tickets/TASK-074]] | Write unit tests for TagRegistry | `done` |
-| [[tickets/CHORE-016]] | Phase 6 Lint Sweep | `done` |
-| [[tickets/CHORE-017]] | Phase 6 Code Quality Sweep | `done` |
-| [[tickets/CHORE-018]] | Phase 6 Security Sweep | `done` |
+| [[TASK-067]] | Implement TagRegistry — vault-wide tag index | `done` |
+| [[TASK-068]] | Build tag index during vault scan | `done` |
+| [[TASK-069]] | Implement tag CompletionProvider | `done` |
+| [[TASK-070]] | Implement find-references for tags | `done` |
+| [[TASK-071]] | Implement tag hierarchy queries | `done` |
+| [[TASK-072]] | Implement "Move tag to frontmatter" code action MVP | `done` |
+| [[TASK-073]] | Handle YAML frontmatter tags in TagRegistry | `done` |
+| [[TASK-074]] | Write unit tests for TagRegistry | `done` |
+| [[CHORE-016]] | Phase 6 Lint Sweep | `done` |
+| [[CHORE-017]] | Phase 6 Code Quality Sweep | `done` |
+| [[CHORE-018]] | Phase 6 Security Sweep | `done` |
 
 ---
 
@@ -110,11 +110,11 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete before the tag subsystem can be built
+- [[FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete before the tag subsystem can be built
 
 **Unblocks:**
 
-- [[tickets/FEAT-010]] — Phase 9 (Completions) requires Phases 6, 7, and 8 to all be done
+- [[FEAT-010]] — Phase 9 (Completions) requires Phases 6, 7, and 8 to all be done
 
 ---
 

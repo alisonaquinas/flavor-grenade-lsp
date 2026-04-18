@@ -63,7 +63,7 @@ Vault authors gain the ability to rename headings and files using their editor's
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/rename]] | prepareRename, heading rename, file rename, alias handling, opaque region rejection scenarios |
+| `bdd/features/rename.feature` | prepareRename, heading rename, file rename, alias handling, opaque region rejection scenarios |
 
 ---
 
@@ -78,7 +78,7 @@ Vault authors gain the ability to rename headings and files using their editor's
 
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
-- [ ] All scenarios in [[bdd/features/rename]] pass in CI
+- [ ] All scenarios in `bdd/features/rename.feature` pass in CI
 - [ ] `bun test tests/integration/rename.test.ts` passes
 - [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
 - [ ] [[test/matrix]] updated with every new test file introduced
@@ -93,18 +93,18 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-109]] | Implement textDocument/prepareRename | `done` |
-| [[tickets/TASK-110]] | Implement textDocument/rename for heading rename | `done` |
-| [[tickets/TASK-111]] | Implement textDocument/rename for file rename | `done` |
-| [[tickets/TASK-112]] | Handle link style variants in rename edits | `done` |
-| [[tickets/TASK-113]] | Handle pipe aliases during heading rename | `done` |
-| [[tickets/TASK-114]] | Handle zero-reference rename | `done` |
-| [[tickets/TASK-115]] | Implement WorkspaceEditBuilder | `done` |
-| [[tickets/TASK-116]] | Reject rename in opaque regions | `done` |
-| [[tickets/TASK-117]] | Write integration tests for rename | `done` |
-| [[tickets/CHORE-031]] | Phase 11 Lint Sweep | `done` |
-| [[tickets/CHORE-032]] | Phase 11 Code Quality Sweep | `done` |
-| [[tickets/CHORE-033]] | Phase 11 Security Sweep | `done` |
+| [[TASK-109]] | Implement textDocument/prepareRename | `done` |
+| [[TASK-110]] | Implement textDocument/rename for heading rename | `done` |
+| [[TASK-111]] | Implement textDocument/rename for file rename | `done` |
+| [[TASK-112]] | Handle link style variants in rename edits | `done` |
+| [[TASK-113]] | Handle pipe aliases during heading rename | `done` |
+| [[TASK-114]] | Handle zero-reference rename | `done` |
+| [[TASK-115]] | Implement WorkspaceEditBuilder | `done` |
+| [[TASK-116]] | Reject rename in opaque regions | `done` |
+| [[TASK-117]] | Write integration tests for rename | `done` |
+| [[CHORE-031]] | Phase 11 Lint Sweep | `done` |
+| [[CHORE-032]] | Phase 11 Code Quality Sweep | `done` |
+| [[CHORE-033]] | Phase 11 Security Sweep | `done` |
 
 ---
 
@@ -112,11 +112,11 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-011]] — Phase 10 (Navigation) must be complete; rename depends on `entityAtPosition` and `RefGraph` navigation infrastructure
+- [[FEAT-011]] — Phase 10 (Navigation) must be complete; rename depends on `entityAtPosition` and `RefGraph` navigation infrastructure
 
 **Unblocks:**
 
-- [[tickets/FEAT-013]] — Phase 12 (Code Actions) can leverage the WorkspaceEdit infrastructure built here
+- [[FEAT-013]] — Phase 12 (Code Actions) can leverage the WorkspaceEdit infrastructure built here
 
 ---
 

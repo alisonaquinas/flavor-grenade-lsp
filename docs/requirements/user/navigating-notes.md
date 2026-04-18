@@ -9,7 +9,7 @@ aliases:
 # Navigation User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors move between notes, discover connections, and understand the structure of their knowledge graph. Implementation details are in [[navigation]], [[wiki-link-resolution]], and [[block-references]].
+> These user requirements cover how vault authors move between notes, discover connections, and understand the structure of their knowledge graph. Implementation details are in [[requirements/navigation]], [[wiki-link-resolution]], and [[requirements/block-references]].
 
 ---
 

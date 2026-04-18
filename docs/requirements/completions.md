@@ -10,7 +10,7 @@ aliases:
 # Completion Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
+> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[requirements/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
 
 ---
 
@@ -56,7 +56,7 @@ aliases:
 **Goal:** 100% of appropriate trigger positions return non-empty candidate lists.
 **Stakeholders:** Editor users, LSP client integrators, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#completion-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/properties#inline-tags]], LSP specification §3.16 trigger characters.
+**Source:** [[design/api-layer#completion-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/tags#inline-tag-syntax]], LSP specification §3.16 trigger characters.
 
 ---
 

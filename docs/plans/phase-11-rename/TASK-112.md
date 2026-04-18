@@ -15,7 +15,7 @@ aliases: ["TASK-112"]
 
 # Handle link style variants in rename edits
 
-> [!INFO] `TASK-112` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-112` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -29,7 +29,7 @@ Ensure rename edits preserve each link's existing style. Two styles are supporte
 - Inspect each `Ref` in `RefGraph.refsFor(defKey)` to determine its existing link style
 - ADR constraint: [[adr/ADR005-wiki-style-binding]] defines the two styles and their resolution rules
 - The rename engine reads the existing link text to detect style — do not infer from the vault structure alone
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -45,9 +45,9 @@ Ensure rename edits preserve each link's existing style. Two styles are supporte
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `Rename preserves file-stem link style` |
-| [[bdd/features/rename]] | `Rename preserves file-path-stem link style` |
-| [[bdd/features/rename]] | `Rename does not convert between link styles` |
+| `bdd/features/rename.feature` | `Rename preserves file-stem link style` |
+| `bdd/features/rename.feature` | `Rename preserves file-path-stem link style` |
+| `bdd/features/rename.feature` | `Rename does not convert between link styles` |
 
 ---
 
@@ -69,7 +69,7 @@ Ensure rename edits preserve each link's existing style. Two styles are supporte
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -77,12 +77,12 @@ Ensure rename edits preserve each link's existing style. Two styles are supporte
 
 **Blocked by:**
 
-- [[tickets/TASK-110]] — heading rename must exist before style variant handling can be layered on
-- [[tickets/TASK-111]] — file rename must exist before style variant handling can be layered on
+- [[TASK-110]] — heading rename must exist before style variant handling can be layered on
+- [[TASK-111]] — file rename must exist before style variant handling can be layered on
 
 **Unblocks:**
 
-- [[tickets/TASK-117]] — integration tests cover link style variant scenarios
+- [[TASK-117]] — integration tests cover link style variant scenarios
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -134,4 +134,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

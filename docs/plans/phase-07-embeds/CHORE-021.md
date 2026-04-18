@@ -30,7 +30,7 @@ Audit all Phase 7 source files for security issues and resolve them without alte
 
 Phase 7 resolves user-controlled strings (embed target paths from document content) to filesystem locations. Without proper confinement checks, a crafted embed target like `![[../../etc/passwd]]` could leak information. Hover content that includes resolved paths must similarly be sanitised before being sent to the LSP client.
 
-- Motivated by: [[requirements/security]], [[adr/ADR013-vault-root-confinement]], path traversal prevention
+- Motivated by: [[requirements/security/index]], [[adr/ADR013-vault-root-confinement]], path traversal prevention
 
 ---
 
@@ -38,9 +38,9 @@ Phase 7 resolves user-controlled strings (embed target paths from document conte
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Asset path confinement to vault root (ADR013) | [[requirements/security]] |
-| — | No user-controlled embed target strings in raw filesystem reads without validation | [[requirements/security]] |
-| — | Hover content must not leak server paths | [[requirements/security]] |
+| — | Asset path confinement to vault root (ADR013) | [[requirements/security/index]] |
+| — | No user-controlled embed target strings in raw filesystem reads without validation | [[requirements/security/index]] |
+| — | Hover content must not leak server paths | [[requirements/security/index]] |
 
 ---
 

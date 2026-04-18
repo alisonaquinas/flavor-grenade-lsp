@@ -64,7 +64,7 @@ Code actions that produce `WorkspaceEdit` or `CreateFile` document changes opera
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root]] | CreateFile URI must resolve to within vault root; reject path traversal attempts |
+| [[adr/ADR013-vault-root-confinement]] | CreateFile URI must resolve to within vault root; reject path traversal attempts |
 
 ---
 

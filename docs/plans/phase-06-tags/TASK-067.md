@@ -15,7 +15,7 @@ aliases: ["TASK-067"]
 
 # Implement TagRegistry — vault-wide tag index
 
-> [!INFO] `TASK-067` · Task · Phase 6 · Parent: [[tickets/FEAT-007]] · Status: `open`
+> [!INFO] `TASK-067` · Task · Phase 6 · Parent: [[FEAT-007]] · Status: `open`
 
 ## Description
 
@@ -47,7 +47,7 @@ Create `src/tags/tag-registry.ts` containing the `TagRegistry` class. The regist
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/tags]] | `Tag registry indexes all vault tags` |
+| `bdd/features/tags.feature` | `Tag registry indexes all vault tags` |
 
 ---
 
@@ -71,7 +71,7 @@ Create `src/tags/tag-registry.ts` containing the `TagRegistry` class. The regist
 
 ## Parent Feature
 
-[[tickets/FEAT-007]] — Tags
+[[FEAT-007]] — Tags
 
 ---
 
@@ -83,10 +83,10 @@ Create `src/tags/tag-registry.ts` containing the `TagRegistry` class. The regist
 
 **Unblocks:**
 
-- [[tickets/TASK-068]] — tag index during vault scan requires TagRegistry to exist
-- [[tickets/TASK-071]] — tag hierarchy queries extend TagRegistry
-- [[tickets/TASK-073]] — frontmatter tag integration requires TagRegistry
-- [[tickets/TASK-074]] — unit tests target TagRegistry
+- [[TASK-068]] — tag index during vault scan requires TagRegistry to exist
+- [[TASK-071]] — tag hierarchy queries extend TagRegistry
+- [[TASK-073]] — frontmatter tag integration requires TagRegistry
+- [[TASK-074]] — unit tests target TagRegistry
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-007]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-007]] child task row updated to `in-review`
 
 ---
 
@@ -127,7 +127,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-007]].
+> Ticket created. Status: `open`. Parent: [[FEAT-007]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented in GREEN commit 2af7882. All 225 tests pass; lint and tsc clean. Status: `done`.

@@ -65,10 +65,10 @@ Vault authors gain an LSP server that understands the full vocabulary of Obsidia
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/wiki-links]] | Wiki-link extraction and validation scenarios |
-| [[bdd/features/tags]] | Tag extraction scenarios |
-| [[bdd/features/callouts]] | Callout detection scenarios |
-| [[bdd/features/frontmatter]] | Frontmatter parsing scenarios |
+| `bdd/features/wiki-links.feature` | Wiki-link extraction and validation scenarios |
+| `bdd/features/tags.feature` | Tag extraction scenarios |
+| `bdd/features/callouts.feature` | Callout detection scenarios |
+| `bdd/features/frontmatter.feature` | Frontmatter parsing scenarios |
 
 ---
 
@@ -98,24 +98,24 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-030]] | Define OFMIndex and OFMDoc types | `done` |
-| [[tickets/TASK-031]] | Implement FrontmatterParser | `done` |
-| [[tickets/TASK-032]] | Implement CommentParser | `done` |
-| [[tickets/TASK-033]] | Implement MathParser | `done` |
-| [[tickets/TASK-034]] | Implement CodeParser | `done` |
-| [[tickets/TASK-035]] | Implement WikiLinkParser | `done` |
-| [[tickets/TASK-036]] | Implement EmbedParser | `done` |
-| [[tickets/TASK-037]] | Implement BlockAnchorParser | `done` |
-| [[tickets/TASK-038]] | Implement TagParser | `done` |
-| [[tickets/TASK-039]] | Implement CalloutParser | `done` |
-| [[tickets/TASK-040]] | Implement OpaqueRegionMarker | `done` |
-| [[tickets/TASK-041]] | Implement OFMParser orchestrator | `done` |
-| [[tickets/TASK-042]] | Register OFMParser in NestJS DI | `done` |
-| [[tickets/TASK-043]] | Write unit tests for parser sub-components | `done` |
-| [[tickets/TASK-044]] | Wire parser into didOpen/didChange | `done` |
-| [[tickets/CHORE-007]] | Phase 3 Lint Sweep | `done` |
-| [[tickets/CHORE-008]] | Phase 3 Code Quality Sweep | `done` |
-| [[tickets/CHORE-009]] | Phase 3 Security Sweep | `done` |
+| [[TASK-030]] | Define OFMIndex and OFMDoc types | `done` |
+| [[TASK-031]] | Implement FrontmatterParser | `done` |
+| [[TASK-032]] | Implement CommentParser | `done` |
+| [[TASK-033]] | Implement MathParser | `done` |
+| [[TASK-034]] | Implement CodeParser | `done` |
+| [[TASK-035]] | Implement WikiLinkParser | `done` |
+| [[TASK-036]] | Implement EmbedParser | `done` |
+| [[TASK-037]] | Implement BlockAnchorParser | `done` |
+| [[TASK-038]] | Implement TagParser | `done` |
+| [[TASK-039]] | Implement CalloutParser | `done` |
+| [[TASK-040]] | Implement OpaqueRegionMarker | `done` |
+| [[TASK-041]] | Implement OFMParser orchestrator | `done` |
+| [[TASK-042]] | Register OFMParser in NestJS DI | `done` |
+| [[TASK-043]] | Write unit tests for parser sub-components | `done` |
+| [[TASK-044]] | Wire parser into didOpen/didChange | `done` |
+| [[CHORE-007]] | Phase 3 Lint Sweep | `done` |
+| [[CHORE-008]] | Phase 3 Code Quality Sweep | `done` |
+| [[CHORE-009]] | Phase 3 Security Sweep | `done` |
 
 ---
 
@@ -123,11 +123,11 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-003]] — Phase 2 LSP Transport must be complete; the parser wires into the document lifecycle handlers established in Phase 2
+- [[FEAT-003]] — Phase 2 LSP Transport must be complete; the parser wires into the document lifecycle handlers established in Phase 2
 
 **Unblocks:**
 
-- [[tickets/FEAT-005]] — Phase 4 Vault Index requires a working per-document parser
+- [[FEAT-005]] — Phase 4 Vault Index requires a working per-document parser
 
 ---
 

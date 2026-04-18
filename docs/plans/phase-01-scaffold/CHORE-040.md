@@ -62,5 +62,5 @@ aliases: ["CHORE-040"]
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Discovered during Phase 1 Step F code quality sweep. Rule 5 compliance: ticket opened before fix applied.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

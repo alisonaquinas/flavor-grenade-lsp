@@ -15,7 +15,7 @@ aliases: ["TASK-080"]
 
 # Implement embed hover
 
-> [!INFO] `TASK-080` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-080` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -34,7 +34,7 @@ Create `src/handlers/hover.handler.ts`. When the cursor is positioned on a `![[e
 - Unresolved embed: return `null` (no hover)
 - Register `hoverProvider: true` in `initialize` response capabilities
 - Hover content must NOT expose server-local filesystem paths (only vault-relative paths or file URIs)
-- See also: [[design/hover-handler]]
+- See also: design/hover-handler
 
 ---
 
@@ -50,8 +50,8 @@ Create `src/handlers/hover.handler.ts`. When the cursor is positioned on a `![[e
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Hover on markdown embed shows first 5 lines` |
-| [[bdd/features/embeds]] | `Hover on image embed shows inline image` |
+| `bdd/features/embeds.feature` | `Hover on markdown embed shows first 5 lines` |
+| `bdd/features/embeds.feature` | `Hover on image embed shows inline image` |
 
 ---
 
@@ -76,7 +76,7 @@ Create `src/handlers/hover.handler.ts`. When the cursor is positioned on a `![[e
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -84,7 +84,7 @@ Create `src/handlers/hover.handler.ts`. When the cursor is positioned on a `![[e
 
 **Blocked by:**
 
-- [[tickets/TASK-076]] — hover requires a resolved embed target to fetch content
+- [[TASK-076]] — hover requires a resolved embed target to fetch content
 
 **Unblocks:**
 
@@ -103,7 +103,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -129,7 +129,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `HoverHandler` created at `src/handlers/hover.handler.ts`. Handles embeds (markdown preview / asset `![](uri)`) and wiki-links (heading-based preview). Registered in `ResolutionModule` and `LspModule`. `hoverProvider: true` added to capability registry. Status: `done`.

@@ -15,7 +15,7 @@ aliases: ["TASK-130"]
 
 # Create release workflow
 
-> [!INFO] `TASK-130` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-130` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -49,7 +49,7 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | — (release infrastructure task, no Gherkin scenario) |
+| `bdd/features/code-actions.feature` | — (release infrastructure task, no Gherkin scenario) |
 
 ---
 
@@ -73,7 +73,7 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -81,11 +81,11 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
 
 **Blocked by:**
 
-- [[tickets/TASK-129]] — release workflow invokes `bun run build:binary` scripts
+- [[TASK-129]] — release workflow invokes `bun run build:binary` scripts
 
 **Unblocks:**
 
-- [[tickets/TASK-131]] — npm publish step is added to the release workflow
+- [[TASK-131]] — npm publish step is added to the release workflow
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] GitHub Release created with all 4 binaries attached
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -127,4 +127,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

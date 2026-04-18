@@ -17,7 +17,7 @@ aliases: ["TASK-001"]
 
 # Complete Documentation Scaffold to AGENTS.md Quality Gates
 
-> [!INFO] `TASK-001` · Task · Phase 0 · Parent: [[tickets/FEAT-001]] · Status: `open`
+> [!INFO] `TASK-001` · Task · Phase 0 · Parent: [[FEAT-001]] · Status: `open`
 
 ## Description
 
@@ -78,7 +78,7 @@ Ensure every file in `docs/` satisfies the quality gates enumerated in `docs/AGE
 
 ## Parent Feature
 
-[[tickets/FEAT-001]] — Phase 0 — Documentation Scaffold
+[[FEAT-001]] — Phase 0 — Documentation Scaffold
 
 ---
 
@@ -90,7 +90,7 @@ Ensure every file in `docs/` satisfies the quality gates enumerated in `docs/AGE
 
 **Unblocks:**
 
-- [[tickets/FEAT-002]] — Phase 1 can begin once this task is done and FEAT-001 is marked `done`.
+- [[FEAT-002]] — Phase 1 can begin once this task is done and FEAT-001 is marked `done`.
 
 ---
 
@@ -106,7 +106,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] Every feature in `features/` has at least one linked requirement in `requirements/`
 - [ ] Every bounded context in `ddd/bounded-contexts` has a corresponding domain model file
 - [ ] Every term used in implementation docs appears in `ddd/ubiquitous-language`
-- [ ] Parent feature [[tickets/FEAT-001]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-001]] child task row updated to `in-review`
 
 ---
 
@@ -143,7 +143,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-16
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-001]].
+> Ticket created. Status: `open`. Parent: [[FEAT-001]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > All 8 AGENTS.md quality gates verified passing. Gate 3: 14 missing ubiquitous-language terms added. Gate 5: 23 user requirements converted to full 7-field Planguage format. Gate 7: requirements created for code-actions, hover, semantic-tokens. Gate 8: transport.feature, code-actions.feature, and scaffold BDD scenario created. Remaining gates 1, 2, 4, 6 were already passing. Status: `done`.

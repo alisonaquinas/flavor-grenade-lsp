@@ -15,7 +15,7 @@ aliases: ["TASK-068"]
 
 # Build tag index during vault scan
 
-> [!INFO] `TASK-068` · Task · Phase 6 · Parent: [[tickets/FEAT-007]] · Status: `open`
+> [!INFO] `TASK-068` · Task · Phase 6 · Parent: [[FEAT-007]] · Status: `open`
 
 ## Description
 
@@ -30,7 +30,7 @@ Integrate `TagRegistry` into the `VaultScanner` initial scan and into `FileWatch
 - On `FileWatcher` `change` event: remove old occurrences for the `DocId`, parse the new document, and add new occurrences
 - On `FileWatcher` `delete` event: remove all occurrences for the deleted `DocId`
 - On `FileWatcher` `create` event: parse the new document and add occurrences
-- See also: [[design/vault-scanner]]
+- See also: design/vault-scanner
 
 ---
 
@@ -46,7 +46,7 @@ Integrate `TagRegistry` into the `VaultScanner` initial scan and into `FileWatch
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/tags]] | `Tag index updates on file change` |
+| `bdd/features/tags.feature` | `Tag index updates on file change` |
 
 ---
 
@@ -70,7 +70,7 @@ Integrate `TagRegistry` into the `VaultScanner` initial scan and into `FileWatch
 
 ## Parent Feature
 
-[[tickets/FEAT-007]] — Tags
+[[FEAT-007]] — Tags
 
 ---
 
@@ -78,11 +78,11 @@ Integrate `TagRegistry` into the `VaultScanner` initial scan and into `FileWatch
 
 **Blocked by:**
 
-- [[tickets/TASK-067]] — TagRegistry must exist before it can be wired into VaultScanner
+- [[TASK-067]] — TagRegistry must exist before it can be wired into VaultScanner
 
 **Unblocks:**
 
-- [[tickets/TASK-069]] — tag completion requires a populated TagRegistry
+- [[TASK-069]] — tag completion requires a populated TagRegistry
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-007]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-007]] child task row updated to `in-review`
 
 ---
 
@@ -123,7 +123,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-007]].
+> Ticket created. Status: `open`. Parent: [[FEAT-007]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented in GREEN commit 2af7882. All 225 tests pass; lint and tsc clean. Status: `done`.

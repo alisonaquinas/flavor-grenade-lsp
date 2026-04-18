@@ -15,7 +15,7 @@ aliases: ["TASK-040"]
 
 # Implement OpaqueRegionMarker
 
-> [!INFO] `TASK-040` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-040` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -57,8 +57,8 @@ export function isInsideOpaqueRegion(offset: number, regions: OpaqueRegion[]): b
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Wiki-link inside code block is not indexed` |
-| [[bdd/features/tags]] | `Tag inside math block is not indexed` |
+| `bdd/features/wiki-links.feature` | `Wiki-link inside code block is not indexed` |
+| `bdd/features/tags.feature` | `Tag inside math block is not indexed` |
 
 ---
 
@@ -82,7 +82,7 @@ export function isInsideOpaqueRegion(offset: number, regions: OpaqueRegion[]): b
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -90,14 +90,14 @@ export function isInsideOpaqueRegion(offset: number, regions: OpaqueRegion[]): b
 
 **Blocked by:**
 
-- [[tickets/TASK-030]] — `OpaqueRegion` type must be defined
-- [[tickets/TASK-032]] — `CommentParser` must be implemented
-- [[tickets/TASK-033]] — `MathParser` must be implemented
-- [[tickets/TASK-034]] — `CodeParser` must be implemented
+- [[TASK-030]] — `OpaqueRegion` type must be defined
+- [[TASK-032]] — `CommentParser` must be implemented
+- [[TASK-033]] — `MathParser` must be implemented
+- [[TASK-034]] — `CodeParser` must be implemented
 
 **Unblocks:**
 
-- [[tickets/TASK-035]] through [[tickets/TASK-039]] — all OFM token parsers depend on `isInsideOpaqueRegion`
+- [[TASK-035]] through [[TASK-039]] — all OFM token parsers depend on `isInsideOpaqueRegion`
 
 ---
 
@@ -112,7 +112,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -138,7 +138,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

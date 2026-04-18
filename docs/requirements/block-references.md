@@ -10,7 +10,7 @@ aliases:
 # Block Reference Requirements
 
 > [!NOTE] Scope
-> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a line of body text. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[diagnostics#Diagnostic.SingleFile.Suppression]].
+> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a line of body text. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
 
 ---
 
@@ -57,7 +57,7 @@ aliases:
 **Goal:** 100% correct diagnostic behaviour in both modes.
 **Stakeholders:** Vault authors using block cross-references, transclusion chain maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[diagnostics#FG005]], [[diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/diagnostics#FG005]], [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
 
 ---
 
@@ -78,7 +78,7 @@ aliases:
 **Goal:** 100% of known block anchors appear in the completion list.
 **Stakeholders:** Vault authors composing transclusion networks, evergreen note systems users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
 
 ---
 
@@ -103,4 +103,4 @@ aliases:
 **Goal:** 100% correct classification.
 **Stakeholders:** All vault authors; particularly those using mathematical notation or footnote-style markers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#ofm-parser]], [[Block.Anchor.Indexing]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#ofm-parser]], `Block.Anchor.Indexing`.

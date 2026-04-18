@@ -8,17 +8,17 @@ aliases: ["Phase 9 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[tickets/FEAT-010]] | Completions | Feature | `draft` |
-| [[tickets/TASK-092]] | Implement unified CompletionRouter | Task | `open` |
-| [[tickets/TASK-093]] | Implement ContextAnalyzer | Task | `open` |
-| [[tickets/TASK-094]] | Implement heading CompletionProvider | Task | `open` |
-| [[tickets/TASK-095]] | Implement callout type CompletionProvider | Task | `open` |
-| [[tickets/TASK-096]] | Implement embed CompletionProvider | Task | `open` |
-| [[tickets/TASK-097]] | Implement completion.candidates cap with isIncomplete | Task | `open` |
-| [[tickets/TASK-098]] | Implement linkStyle formatting in completion insert texts | Task | `open` |
-| [[tickets/TASK-099]] | Implement intra-document heading completion after [[# | Task | `open` |
-| [[tickets/TASK-100]] | Implement intra-document block ref completion after [[#^ | Task | `open` |
-| [[tickets/TASK-101]] | Register updated completion capabilities | Task | `open` |
-| [[tickets/CHORE-025]] | Phase 9 Lint Sweep | Chore | `open` |
-| [[tickets/CHORE-026]] | Phase 9 Code Quality Sweep | Chore | `open` |
-| [[tickets/CHORE-027]] | Phase 9 Security Sweep | Chore | `open` |
+| [[FEAT-010]] | Completions | Feature | `draft` |
+| [[TASK-092]] | Implement unified CompletionRouter | Task | `open` |
+| [[TASK-093]] | Implement ContextAnalyzer | Task | `open` |
+| [[TASK-094]] | Implement heading CompletionProvider | Task | `open` |
+| [[TASK-095]] | Implement callout type CompletionProvider | Task | `open` |
+| [[TASK-096]] | Implement embed CompletionProvider | Task | `open` |
+| [[TASK-097]] | Implement completion.candidates cap with isIncomplete | Task | `open` |
+| [[TASK-098]] | Implement linkStyle formatting in completion insert texts | Task | `open` |
+| [[TASK-099]] | Implement intra-document heading completion after `[[#` | Task | `open` |
+| [[TASK-100]] | Implement intra-document block ref completion after `[[#^` | Task | `open` |
+| [[TASK-101]] | Register updated completion capabilities | Task | `open` |
+| [[CHORE-025]] | Phase 9 Lint Sweep | Chore | `open` |
+| [[CHORE-026]] | Phase 9 Code Quality Sweep | Chore | `open` |
+| [[CHORE-027]] | Phase 9 Security Sweep | Chore | `open` |

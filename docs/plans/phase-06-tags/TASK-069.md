@@ -15,7 +15,7 @@ aliases: ["TASK-069"]
 
 # Implement tag CompletionProvider
 
-> [!INFO] `TASK-069` · Task · Phase 6 · Parent: [[tickets/FEAT-007]] · Status: `open`
+> [!INFO] `TASK-069` · Task · Phase 6 · Parent: [[FEAT-007]] · Status: `open`
 
 ## Description
 
@@ -31,7 +31,7 @@ Create `src/completion/tag-completion-provider.ts`. The provider is triggered by
 - Set `kind: CompletionItemKind.Value` (= 12) on each item
 - Apply `completion.candidates` cap to limit result count
 - Register `#` as a trigger character in the server's `completionProvider` capabilities
-- See also: [[design/completion-system]]
+- See also: design/completion-system
 
 ---
 
@@ -47,7 +47,7 @@ Create `src/completion/tag-completion-provider.ts`. The provider is triggered by
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `Tag completion returns known tags` |
+| `bdd/features/completions.feature` | `Tag completion returns known tags` |
 
 ---
 
@@ -71,7 +71,7 @@ Create `src/completion/tag-completion-provider.ts`. The provider is triggered by
 
 ## Parent Feature
 
-[[tickets/FEAT-007]] — Tags
+[[FEAT-007]] — Tags
 
 ---
 
@@ -79,7 +79,7 @@ Create `src/completion/tag-completion-provider.ts`. The provider is triggered by
 
 **Blocked by:**
 
-- [[tickets/TASK-068]] — tag index must be populated before completion can query it
+- [[TASK-068]] — tag index must be populated before completion can query it
 
 **Unblocks:**
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-007]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-007]] child task row updated to `in-review`
 
 ---
 
@@ -124,7 +124,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-007]].
+> Ticket created. Status: `open`. Parent: [[FEAT-007]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented in GREEN commit 2af7882. All 225 tests pass; lint and tsc clean. Status: `done`.

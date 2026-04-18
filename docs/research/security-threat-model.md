@@ -76,7 +76,7 @@ The stdio transport model eliminates an entire class of network-facing threats (
 
 ## Threat Category 1: Malicious Vault Content
 
-#### Severity: High | Likelihood: Medium
+### Severity: High | Likelihood: Medium
 
 ### Background
 
@@ -133,7 +133,7 @@ Additionally, frontmatter `aliases:` values flow directly into the VaultIndex as
 
 ## Threat Category 2: JSON-RPC Input Validation
 
-#### Severity: Medium | Likelihood: Medium
+### Severity: Medium | Likelihood: Medium
 
 ### Background: JSON-RPC
 
@@ -182,7 +182,7 @@ In flavor-grenade-lsp the JSON-RPC message body is parsed from stdin as a JSON s
 
 ## Threat Category 3: Supply Chain
 
-#### Severity: High | Likelihood: Low-Medium
+### Severity: High | Likelihood: Low-Medium
 
 ### Background: Supply Chain
 
@@ -221,7 +221,7 @@ An attacker registers an npm package with a name similar to a dependency (e.g., 
 
 ## Threat Category 4: Process Privilege and Information Disclosure
 
-#### Severity: Medium | Likelihood: Low
+### Severity: Medium | Likelihood: Low
 
 ### Background: Process Privilege
 
@@ -261,7 +261,7 @@ The `workspace/applyEdit` rename path writes to files. If the resolved rename ta
 
 ## Threat Category 5: Denial of Service / Resource Exhaustion
 
-#### Severity: Medium | Likelihood: Medium (DoS)
+### Severity: Medium | Likelihood: Medium (DoS)
 
 ### Background: Denial of Service
 
@@ -299,7 +299,7 @@ YAML supports anchors and references that can produce exponentially large object
 
 ## Threat Category 6: LSP Workspace URI Injection
 
-#### Severity: Low-Medium | Likelihood: Low
+### Severity: Low-Medium | Likelihood: Low
 
 ### Background: Workspace URI Injection
 
@@ -317,7 +317,7 @@ This is less a server-side vulnerability and more a client-side configuration in
 
 ## Threat Category 7: LSP Configuration as Code Execution Vector
 
-#### Severity: High | Likelihood: Low → Medium
+### Severity: High | Likelihood: Low → Medium
 
 ### Background: Config as Code Execution
 
@@ -362,7 +362,7 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 |---|---|---|
 | stdio-only transport (no network socket) | ✅ Architecture decision | [[adr/ADR001-stdio-transport]] |
 | Exact dependency pinning (`exact = true` in bunfig.toml) | ✅ Phase 1 | [[plans/phase-01-scaffold]] |
-| `--frozen-lockfile` in CI | ✅ Phase 1 | [[.github/workflows/ci.yml]] |
+| `--frozen-lockfile` in CI | ✅ Phase 1 | `.github/workflows/ci.yml` |
 | OIDC provenance publishing | ✅ Phase 13 planned | [[adr/ADR008-oidc-publishing]] |
 | TypeScript strict mode (eliminates whole class of type errors) | ✅ Phase 1 | [[requirements/code-quality#Quality.Types.StrictMode]] |
 | No `@nestjs/devtools-integration` dependency | ✅ By design | [[plans/phase-01-scaffold]] |

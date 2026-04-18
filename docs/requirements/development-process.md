@@ -63,7 +63,7 @@ aliases:
 **Goal:** 100% of test files have matrix entries — `docs/test/matrix.md` is always current.
 **Stakeholders:** Phase reviewers, requirements auditors, CI maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/test/matrix]], [[docs/test/index]], [[requirements/index]], `scripts/update-test-index.sh`.
+**Source:** [[test/matrix]], [[test/index]], [[requirements/index]], `scripts/update-test-index.sh`.
 
 ---
 

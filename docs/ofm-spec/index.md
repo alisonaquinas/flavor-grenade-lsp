@@ -30,7 +30,7 @@ This directory is the ground-truth reference for `flavor-grenade-lsp`. Every LSP
 |---|---|---|
 | Wiki-link | `[[doc]]`, `[[doc\|alias]]` | [[wiki-links]] |
 | Embed | `![[file.md]]`, `![[image.png]]` | [[embeds]] |
-| Block reference | `[[doc#^abc123]]`, `^abc123` anchor | [[block-references]] |
+| Block reference | `[[doc#^abc123]]`, `^abc123` anchor | [[ofm-spec/block-references]] |
 | Inline tag | `#project/active` | [[tags]] |
 | YAML frontmatter | `---\ntitle: ...\n---` | [[frontmatter]] |
 | Callout | `> [!NOTE] Title` | [[callouts]] |

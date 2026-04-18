@@ -15,7 +15,7 @@ aliases: ["TASK-076"]
 
 # Implement EmbedDest resolution
 
-> [!INFO] `TASK-076` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-076` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -50,9 +50,9 @@ Create `src/resolution/embed-resolver.ts` containing the `EmbedResolver` class. 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Markdown embed resolves to document` |
-| [[bdd/features/embeds]] | `Image embed resolves to asset path` |
-| [[bdd/features/embeds]] | `Heading embed resolves to heading line` |
+| `bdd/features/embeds.feature` | `Markdown embed resolves to document` |
+| `bdd/features/embeds.feature` | `Image embed resolves to asset path` |
+| `bdd/features/embeds.feature` | `Heading embed resolves to heading line` |
 
 ---
 
@@ -77,7 +77,7 @@ Create `src/resolution/embed-resolver.ts` containing the `EmbedResolver` class. 
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -85,16 +85,16 @@ Create `src/resolution/embed-resolver.ts` containing the `EmbedResolver` class. 
 
 **Blocked by:**
 
-- [[tickets/TASK-075]] — EmbedRef must exist in RefGraph before resolver can populate it
-- [[tickets/TASK-077]] — AssetIndex must exist before non-markdown resolution can work
+- [[TASK-075]] — EmbedRef must exist in RefGraph before resolver can populate it
+- [[TASK-077]] — AssetIndex must exist before non-markdown resolution can work
 
 **Unblocks:**
 
-- [[tickets/TASK-078]] — FG004 diagnostic depends on resolver returning null
-- [[tickets/TASK-079]] — embed go-to-definition depends on resolved target
-- [[tickets/TASK-080]] — embed hover depends on resolved target
-- [[tickets/TASK-081]] — size syntax handling extends the resolver
-- [[tickets/TASK-082]] — unit tests test the resolver directly
+- [[TASK-078]] — FG004 diagnostic depends on resolver returning null
+- [[TASK-079]] — embed go-to-definition depends on resolved target
+- [[TASK-080]] — embed hover depends on resolved target
+- [[TASK-081]] — size syntax handling extends the resolver
+- [[TASK-082]] — unit tests test the resolver directly
 
 ---
 
@@ -109,7 +109,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -135,7 +135,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `EmbedResolver` created at `src/resolution/embed-resolver.ts`. Resolves image extensions via `VaultScanner.hasAsset()`, markdown docs via `Oracle.resolve()`. Returns `EmbedResolution` union type (`markdown | asset | broken`). Added to `ResolutionModule`. Status: `done`.

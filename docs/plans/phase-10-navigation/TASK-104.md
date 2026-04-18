@@ -15,7 +15,7 @@ aliases: ["TASK-104"]
 
 # Implement CodeLensProvider
 
-> [!INFO] `TASK-104` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-104` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -41,7 +41,7 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
   ```
 
 - Register `codeLensProvider: { resolveProvider: false }` in capabilities — no resolve step needed
-- See also: [[bdd/features/navigation]]
+- See also: `bdd/features/navigation.feature`
 
 ---
 
@@ -57,8 +57,8 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Code lens shows reference count on heading with references` |
-| [[bdd/features/navigation]] | `Code lens shows zero references on unreferenced heading` |
+| `bdd/features/navigation.feature` | `Code lens shows reference count on heading with references` |
+| `bdd/features/navigation.feature` | `Code lens shows zero references on unreferenced heading` |
 
 ---
 
@@ -80,7 +80,7 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -92,7 +92,7 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
 
 **Unblocks:**
 
-- [[tickets/TASK-108]] — integration tests cover code lens scenarios
+- [[TASK-108]] — integration tests cover code lens scenarios
 
 ---
 
@@ -107,7 +107,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -144,4 +144,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

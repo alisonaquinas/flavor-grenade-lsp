@@ -66,7 +66,7 @@ Every pull request to the repository is automatically tested across three operat
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/code-actions]] | Smoke-tagged scenarios run in CI on every PR |
+| `bdd/features/code-actions.feature` | Smoke-tagged scenarios run in CI on every PR |
 
 ---
 
@@ -95,20 +95,20 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-126]] | Create GitHub Actions CI workflow | `open` |
-| [[tickets/TASK-127]] | Add coverage upload step (Codecov) | `open` |
-| [[tickets/TASK-128]] | Create full BDD workflow (separate job) | `open` |
-| [[tickets/TASK-129]] | Implement bun build single-file binary | `open` |
-| [[tickets/TASK-130]] | Create release workflow | `open` |
-| [[tickets/TASK-131]] | Configure npm publish | `open` |
-| [[tickets/TASK-132]] | Write Neovim lspconfig example | `open` |
-| [[tickets/TASK-133]] | Write VS Code settings example | `open` |
-| [[tickets/TASK-134]] | Write Helix editor configuration | `open` |
-| [[tickets/TASK-135]] | Set up branch protection rules (manual) | `open` |
-| [[tickets/TASK-136]] | Add CHANGELOG.md automation | `open` |
-| [[tickets/CHORE-037]] | Phase 13 Lint Sweep | `open` |
-| [[tickets/CHORE-038]] | Phase 13 Code Quality Sweep | `open` |
-| [[tickets/CHORE-039]] | Phase 13 Security Sweep | `open` |
+| [[TASK-126]] | Create GitHub Actions CI workflow | `open` |
+| [[TASK-127]] | Add coverage upload step (Codecov) | `open` |
+| [[TASK-128]] | Create full BDD workflow (separate job) | `open` |
+| [[TASK-129]] | Implement bun build single-file binary | `open` |
+| [[TASK-130]] | Create release workflow | `open` |
+| [[TASK-131]] | Configure npm publish | `open` |
+| [[TASK-132]] | Write Neovim lspconfig example | `open` |
+| [[TASK-133]] | Write VS Code settings example | `open` |
+| [[TASK-134]] | Write Helix editor configuration | `open` |
+| [[TASK-135]] | Set up branch protection rules (manual) | `open` |
+| [[TASK-136]] | Add CHANGELOG.md automation | `open` |
+| [[CHORE-037]] | Phase 13 Lint Sweep | `open` |
+| [[CHORE-038]] | Phase 13 Code Quality Sweep | `open` |
+| [[CHORE-039]] | Phase 13 Security Sweep | `open` |
 
 ---
 
@@ -116,7 +116,7 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-013]] — Phase 12 (Code Actions) must be complete before CI & Delivery phase begins
+- [[FEAT-013]] — Phase 12 (Code Actions) must be complete before CI & Delivery phase begins
 
 **Unblocks:**
 
@@ -161,7 +161,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > [!INFO] In-progress — 2026-04-17
 > Phase 13 implementation started. TASK-126–136 + 3 CHORE tickets defined. TASK-135 is manual (human). Status: `in-progress`.
 
-> [!CHECK] In-review — 2026-04-17
+> [!SUCCESS] In-review — 2026-04-17
 > All automated tasks complete. 419 tests pass, lint clean, tsc clean. TASK-135 (branch protection) deferred — requires human GitHub Settings action. Status: `in-review`.
 
 ## Retrospective

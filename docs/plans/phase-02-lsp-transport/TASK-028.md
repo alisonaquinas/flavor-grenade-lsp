@@ -15,7 +15,7 @@ aliases: ["TASK-028"]
 
 # Register all handlers in LspModule
 
-> [!INFO] `TASK-028` · Task · Phase 2 · Parent: [[tickets/FEAT-003]] · Status: `open`
+> [!INFO] `TASK-028` · Task · Phase 2 · Parent: [[FEAT-003]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Wire the `JsonRpcDispatcher`, `StdioReader`, `StdioWriter`, `DocumentStore`, `Li
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server completes LSP handshake` |
+| `bdd/features/workspace.feature` | `Server completes LSP handshake` |
 
 ---
 
@@ -69,7 +69,7 @@ Wire the `JsonRpcDispatcher`, `StdioReader`, `StdioWriter`, `DocumentStore`, `Li
 
 ## Parent Feature
 
-[[tickets/FEAT-003]] — LSP Transport
+[[FEAT-003]] — LSP Transport
 
 ---
 
@@ -77,12 +77,12 @@ Wire the `JsonRpcDispatcher`, `StdioReader`, `StdioWriter`, `DocumentStore`, `Li
 
 **Blocked by:**
 
-- [[tickets/TASK-019]] — Dispatcher must be implemented
-- [[tickets/TASK-020]] through [[tickets/TASK-027]] — All handler classes must be implemented before they can be wired
+- [[TASK-019]] — Dispatcher must be implemented
+- [[TASK-020]] through [[TASK-027]] — All handler classes must be implemented before they can be wired
 
 **Unblocks:**
 
-- [[tickets/TASK-029]] — Integration tests require the full module to be bootstrapped
+- [[TASK-029]] — Integration tests require the full module to be bootstrapped
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-003]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
 
@@ -123,7 +123,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-003]].
+> Ticket created. Status: `open`. Parent: [[FEAT-003]].
 
 > [!SUCCESS] Done — 2026-04-17
 > RED and GREEN commits landed. All tests pass. Status: `done`.

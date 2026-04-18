@@ -15,7 +15,7 @@ aliases: ["TASK-117"]
 
 # Write integration tests for rename
 
-> [!INFO] `TASK-117` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-117` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -33,7 +33,7 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
   - One document with pipe-aliased links (both identical and non-identical alias cases)
 - Assert exact `WorkspaceEdit` — check `changes` or `documentChanges` field, URI keys, and `TextEdit` ranges
 - Cover: heading rename, file rename, zero-reference rename, pipe alias handling, opaque region rejection
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -49,7 +49,7 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | All rename scenarios |
+| `bdd/features/rename.feature` | All rename scenarios |
 
 ---
 
@@ -73,7 +73,7 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -81,8 +81,8 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
 
 **Blocked by:**
 
-- [[tickets/TASK-110]] — heading rename must be complete before integration tests can pass
-- [[tickets/TASK-111]] — file rename must be complete before integration tests can pass
+- [[TASK-110]] — heading rename must be complete before integration tests can pass
+- [[TASK-111]] — file rename must be complete before integration tests can pass
 
 **Unblocks:**
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 - [ ] `bun test tests/integration/rename.test.ts` passes with no failures
 
 ---
@@ -139,4 +139,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

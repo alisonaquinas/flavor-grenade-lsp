@@ -10,7 +10,7 @@ aliases:
 # Wiki-Link Resolution Requirements
 
 > [!NOTE] Scope
-> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[diagnostics]].
+> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[requirements/diagnostics]].
 
 ---
 
@@ -52,7 +52,7 @@ aliases:
 **Goal:** 100% of alias links resolve correctly.
 **Stakeholders:** Obsidian vault authors, Zettelkasten practitioners, anyone using the aliases frontmatter property.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/properties#aliases]], [[design/domain-layer#alias-index]], [[bdd/features/alias-resolution]].
+**Source:** [[ofm-spec/frontmatter#aliases]], [[design/domain-layer#alias-index]], `docs/bdd/features/wiki-links.feature`.
 
 ---
 
@@ -94,7 +94,7 @@ aliases:
 **Goal:** 0% of non-markdown inline links produce FG001.
 **Stakeholders:** Vault authors who mix external links with wiki-links, technical writers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/wiki-links#inline-links]], [[design/api-layer#diagnostic-handler]], [[diagnostics]].
+**Source:** [[ofm-spec/wiki-links#inline-links]], [[design/api-layer#diagnostic-handler]], [[requirements/diagnostics]].
 
 ---
 

@@ -15,7 +15,7 @@ aliases: ["TASK-055"]
 
 # Write unit tests for VaultDetector
 
-> [!INFO] `TASK-055` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-055` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -49,7 +49,7 @@ Write comprehensive unit tests for `VaultDetector` using fixture directories und
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/vault-detection]] | All vault detection scenarios |
+| `bdd/features/vault-detection.feature` | All vault detection scenarios |
 
 ---
 
@@ -58,7 +58,7 @@ Write comprehensive unit tests for `VaultDetector` using fixture directories und
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
 | `tests/unit/vault/vault-detector.spec.ts` | Unit | — | 🔴 failing |
-| [[tests/unit/unit-vault-module.md]] | Unit test plan | — | — |
+| `tests/unit/unit-vault-module.md` | Unit test plan | — | — |
 
 ---
 
@@ -72,7 +72,7 @@ Write comprehensive unit tests for `VaultDetector` using fixture directories und
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -80,7 +80,7 @@ Write comprehensive unit tests for `VaultDetector` using fixture directories und
 
 **Blocked by:**
 
-- [[tickets/TASK-045]] — VaultDetector must be implemented before tests can be written
+- [[TASK-045]] — VaultDetector must be implemented before tests can be written
 
 **Unblocks:**
 
@@ -99,7 +99,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -136,7 +136,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/__tests__/vault-detector.test.ts` created with 6 tests covering obsidian, flavor-grenade, both-markers (obsidian precedence), single-file (isolated tmp dir), nested parent walk-up, and caching. Fixtures created under src/test/fixtures/vault-detection/. Status: `done`.

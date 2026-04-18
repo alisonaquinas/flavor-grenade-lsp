@@ -17,7 +17,7 @@ aliases: ["TASK-012"]
 
 # Configure ESLint
 
-> [!INFO] `TASK-012` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-012` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -70,7 +70,7 @@ Create `eslint.config.js` at the project root using ESLint's flat config format 
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -78,11 +78,11 @@ Create `eslint.config.js` at the project root using ESLint's flat config format 
 
 **Blocked by:**
 
-- [[tickets/TASK-005]] — ESLint and `@typescript-eslint` packages must be installed.
+- [[TASK-005]] — ESLint and `@typescript-eslint` packages must be installed.
 
 **Unblocks:**
 
-- [[tickets/CHORE-001]] — Lint sweep depends on ESLint being configured.
+- [[CHORE-001]] — Lint sweep depends on ESLint being configured.
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] Includes `@typescript-eslint/no-explicit-any: 'error'`
 - [ ] Includes `@typescript-eslint/explicit-function-return-type: 'warn'`
 - [ ] `bun run lint` runs without crashing (warnings/errors from skeleton code resolved in CHORE-001)
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -117,7 +117,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

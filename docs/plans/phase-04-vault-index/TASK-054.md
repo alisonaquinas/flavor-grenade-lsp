@@ -15,7 +15,7 @@ aliases: ["TASK-054"]
 
 # Register vault services in VaultModule
 
-> [!INFO] `TASK-054` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-054` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `All vault services are available to feature modules` |
+| `bdd/features/workspace.feature` | `All vault services are available to feature modules` |
 
 ---
 
@@ -68,7 +68,7 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -76,11 +76,11 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 
 **Blocked by:**
 
-- [[tickets/TASK-045]] through [[tickets/TASK-053]] — all vault service implementations must be complete
+- [[TASK-045]] through [[TASK-053]] — all vault service implementations must be complete
 
 **Unblocks:**
 
-- [[tickets/FEAT-006]] — Phase 5 Wiki-Link Resolution depends on vault services exported from VaultModule
+- [[FEAT-006]] — Phase 5 Wiki-Link Resolution depends on vault services exported from VaultModule
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -130,7 +130,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/vault.module.ts` created. TransportModule (@Global) extracted for shared dispatcher singleton. VaultModule imports ParserModule + TransportModule. LspModule updated to import VaultModule. InitializedHandler updated with @Optional vault service injection. All 3 integration tests pass. Status: `done`.

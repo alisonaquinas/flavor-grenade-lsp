@@ -15,7 +15,7 @@ aliases: ["TASK-106"]
 
 # Handle multi-location definition results
 
-> [!INFO] `TASK-106` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-106` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -55,7 +55,7 @@ For ambiguous links (FG002 candidates — where a wiki-link matches more than on
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Go to definition returns LocationLink array for ambiguous link` |
+| `bdd/features/navigation.feature` | `Go to definition returns LocationLink array for ambiguous link` |
 
 ---
 
@@ -77,7 +77,7 @@ For ambiguous links (FG002 candidates — where a wiki-link matches more than on
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -85,11 +85,11 @@ For ambiguous links (FG002 candidates — where a wiki-link matches more than on
 
 **Blocked by:**
 
-- [[tickets/TASK-102]] — DefinitionService must exist before multi-location behaviour can be layered on top
+- [[TASK-102]] — DefinitionService must exist before multi-location behaviour can be layered on top
 
 **Unblocks:**
 
-- [[tickets/TASK-108]] — integration tests cover multi-location scenarios
+- [[TASK-108]] — integration tests cover multi-location scenarios
 
 ---
 
@@ -104,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -141,4 +141,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

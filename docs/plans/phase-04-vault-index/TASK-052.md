@@ -15,7 +15,7 @@ aliases: ["TASK-052"]
 
 # Implement single-file mode fallback
 
-> [!INFO] `TASK-052` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-052` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -47,8 +47,8 @@ When `VaultDetector` returns `mode: 'single-file'`, the server operates in a red
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/vault-detection]] | `Single-file mode suppresses cross-file diagnostics` |
-| [[bdd/features/vault-detection]] | `Single-file mode does not start file watcher` |
+| `bdd/features/vault-detection.feature` | `Single-file mode suppresses cross-file diagnostics` |
+| `bdd/features/vault-detection.feature` | `Single-file mode does not start file watcher` |
 
 ---
 
@@ -71,7 +71,7 @@ When `VaultDetector` returns `mode: 'single-file'`, the server operates in a red
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -79,9 +79,9 @@ When `VaultDetector` returns `mode: 'single-file'`, the server operates in a red
 
 **Blocked by:**
 
-- [[tickets/TASK-045]] — single-file mode is determined by VaultDetector result
-- [[tickets/TASK-047]] — VaultIndex must exist to receive open-document entries
-- [[tickets/TASK-048]] — FolderLookup must exist (as an empty/no-op instance)
+- [[TASK-045]] — single-file mode is determined by VaultDetector result
+- [[TASK-047]] — VaultIndex must exist to receive open-document entries
+- [[TASK-048]] — FolderLookup must exist (as an empty/no-op instance)
 
 **Unblocks:**
 
@@ -100,7 +100,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -137,7 +137,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/single-file-mode.ts` implemented. Static utility class. isActive() delegates to VaultDetector. uriToPath() handles Windows drive letter stripping. Used by VaultScanner.scan() and InitializedHandler.handle(). Status: `done`.

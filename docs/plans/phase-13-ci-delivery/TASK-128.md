@@ -15,7 +15,7 @@ aliases: ["TASK-128"]
 
 # Create full BDD workflow (separate job)
 
-> [!INFO] `TASK-128` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-128` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -58,7 +58,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | All scenarios (not filtered by tag) |
+| `bdd/features/code-actions.feature` | All scenarios (not filtered by tag) |
 
 ---
 
@@ -82,7 +82,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -90,7 +90,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 **Blocked by:**
 
-- [[tickets/TASK-126]] — `bdd-full` job depends on the base `test` job from TASK-126
+- [[TASK-126]] — `bdd-full` job depends on the base `test` job from TASK-126
 
 **Unblocks:**
 
@@ -109,7 +109,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bdd-full` job appears in GitHub Actions UI and runs without workflow parse errors
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -135,4 +135,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

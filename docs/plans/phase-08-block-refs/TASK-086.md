@@ -15,7 +15,7 @@ aliases: ["TASK-086"]
 
 # Implement FG005 diagnostic
 
-> [!INFO] `TASK-086` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-086` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -32,7 +32,7 @@ Update `DiagnosticService` to emit the FG005 BrokenBlockRef diagnostic for block
   - If `crossBlockRef.targetDocId !== null` (cross-file) → suppress (no vault context)
   - If `crossBlockRef.targetDocId === null` (intra-document) → emit even in single-file mode
 - Discrimination from FG001: FG001 is for a missing target document; FG005 is for a missing anchor within a found (or same) document
-- Linked BDD: [[bdd/features/block-references]]
+- Linked BDD: `bdd/features/block-references.feature`
 
 ---
 
@@ -48,9 +48,9 @@ Update `DiagnosticService` to emit the FG005 BrokenBlockRef diagnostic for block
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `Missing anchor emits FG005` |
-| [[bdd/features/block-references]] | `FG005 suppressed for cross-file refs in single-file mode` |
-| [[bdd/features/block-references]] | `FG005 not suppressed for intra-document refs in single-file mode` |
+| `bdd/features/block-references.feature` | `Missing anchor emits FG005` |
+| `bdd/features/block-references.feature` | `FG005 suppressed for cross-file refs in single-file mode` |
+| `bdd/features/block-references.feature` | `FG005 not suppressed for intra-document refs in single-file mode` |
 
 ---
 
@@ -74,7 +74,7 @@ Update `DiagnosticService` to emit the FG005 BrokenBlockRef diagnostic for block
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -82,11 +82,11 @@ Update `DiagnosticService` to emit the FG005 BrokenBlockRef diagnostic for block
 
 **Blocked by:**
 
-- [[tickets/TASK-085]] — `LinkResolver` must write `CrossBlockRef.diagnostic = 'FG005'` before `DiagnosticService` can read it
+- [[TASK-085]] — `LinkResolver` must write `CrossBlockRef.diagnostic = 'FG005'` before `DiagnosticService` can read it
 
 **Unblocks:**
 
-- [[tickets/TASK-091]] — integration tests for FG005 depend on the diagnostic being emitted
+- [[TASK-091]] — integration tests for FG005 depend on the diagnostic being emitted
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -125,4 +125,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

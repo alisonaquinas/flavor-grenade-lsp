@@ -9,7 +9,7 @@ aliases:
 # Embedding Content User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors embed other files — notes, images, and other assets — and the feedback they receive when embeds are broken. Implementation details are in [[embed-resolution]].
+> These user requirements cover how vault authors embed other files — notes, images, and other assets — and the feedback they receive when embeds are broken. Implementation details are in [[requirements/embed-resolution]].
 
 ---
 

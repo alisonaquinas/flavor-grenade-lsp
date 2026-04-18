@@ -30,7 +30,7 @@ Audit all Phase 6 source files for security issues and resolve them without alte
 
 Phase 6 processes user-controlled strings (tag values from document content and YAML frontmatter) and constructs `WorkspaceEdit` payloads. User tag strings must never be passed to filesystem APIs, and frontmatter YAML must be validated before indexing.
 
-- Motivated by: [[requirements/security]], no-filesystem-from-tag-strings invariant
+- Motivated by: [[requirements/security/index]], no-filesystem-from-tag-strings invariant
 
 ---
 
@@ -38,8 +38,8 @@ Phase 6 processes user-controlled strings (tag values from document content and 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | No user tag strings in filesystem operations | [[requirements/security]] |
-| — | Frontmatter YAML input validation before indexing | [[requirements/security]] |
+| — | No user tag strings in filesystem operations | [[requirements/security/index]] |
+| — | Frontmatter YAML input validation before indexing | [[requirements/security/index]] |
 
 ---
 

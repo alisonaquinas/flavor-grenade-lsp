@@ -15,7 +15,7 @@ aliases: ["TASK-095"]
 
 # Implement callout type CompletionProvider
 
-> [!INFO] `TASK-095` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-095` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -37,7 +37,7 @@ Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`, 
 
 - Custom types: enumerate all `OFMDoc`s in `VaultIndex`, collect unique `CalloutEntry.type` values not already in `STANDARD_CALLOUT_TYPES`
 - Item shape: `{ label: type, kind: CompletionItemKind.EnumMember, insertText: type + '] ' }`
-- Linked BDD: [[bdd/features/completions]] scenario "Callout completion returns all 13 types"
+- Linked BDD: `bdd/features/completions.feature` scenario "Callout completion returns all 13 types"
 - See also: [[plans/phase-09-completions]]
 
 ---
@@ -54,8 +54,8 @@ Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`, 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `Callout completion returns all 13 types` |
-| [[bdd/features/completions]] | `Callout completion includes custom vault types` |
+| `bdd/features/completions.feature` | `Callout completion returns all 13 types` |
+| `bdd/features/completions.feature` | `Callout completion includes custom vault types` |
 
 ---
 
@@ -79,7 +79,7 @@ Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`, 
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -106,7 +106,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -132,7 +132,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

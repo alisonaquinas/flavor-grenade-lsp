@@ -15,7 +15,7 @@ aliases: ["TASK-115"]
 
 # Implement WorkspaceEditBuilder
 
-> [!INFO] `TASK-115` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-115` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -39,7 +39,7 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
 - Deduplication: if two edits target the same URI and same range, keep the last one added
 - Reverse line order: sort edits for each URI by line descending, then by character descending, so the last edit in the file is applied first
 - `RenameFile` operations are included in `documentChanges`, not in `changes`
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -55,8 +55,8 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `WorkspaceEditBuilder deduplicates edits for same range` |
-| [[bdd/features/rename]] | `WorkspaceEditBuilder sorts edits in reverse line order` |
+| `bdd/features/rename.feature` | `WorkspaceEditBuilder deduplicates edits for same range` |
+| `bdd/features/rename.feature` | `WorkspaceEditBuilder sorts edits in reverse line order` |
 
 ---
 
@@ -78,7 +78,7 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -90,8 +90,8 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
 
 **Unblocks:**
 
-- [[tickets/TASK-110]] — heading rename uses WorkspaceEditBuilder
-- [[tickets/TASK-111]] — file rename uses WorkspaceEditBuilder
+- [[TASK-110]] — heading rename uses WorkspaceEditBuilder
+- [[TASK-111]] — file rename uses WorkspaceEditBuilder
 
 ---
 
@@ -106,7 +106,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -143,4 +143,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

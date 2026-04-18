@@ -76,7 +76,7 @@ Code-quality requirement: every phase must close with zero lint warnings. Lint d
 
 **Unblocks:**
 
-- Phase 2 feature ticket [[tickets/FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
+- Phase 2 feature ticket [[FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
 
 ---
 

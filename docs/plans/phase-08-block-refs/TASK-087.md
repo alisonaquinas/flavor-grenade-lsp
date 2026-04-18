@@ -15,7 +15,7 @@ aliases: ["TASK-087"]
 
 # Implement go-to-definition for block refs
 
-> [!INFO] `TASK-087` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-087` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -47,8 +47,8 @@ Update `DefinitionService` to handle `textDocument/definition` requests where th
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `Go-to-definition on block ref navigates to anchor` |
-| [[bdd/features/block-references]] | `Go-to-definition on intra-doc block ref stays in same file` |
+| `bdd/features/block-references.feature` | `Go-to-definition on block ref navigates to anchor` |
+| `bdd/features/block-references.feature` | `Go-to-definition on intra-doc block ref stays in same file` |
 
 ---
 
@@ -72,7 +72,7 @@ Update `DefinitionService` to handle `textDocument/definition` requests where th
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -80,7 +80,7 @@ Update `DefinitionService` to handle `textDocument/definition` requests where th
 
 **Blocked by:**
 
-- [[tickets/TASK-085]] — `LinkResolver` must have populated `CrossBlockRef.resolvedTo` before `DefinitionService` can read it
+- [[TASK-085]] — `LinkResolver` must have populated `CrossBlockRef.resolvedTo` before `DefinitionService` can read it
 
 **Unblocks:**
 
@@ -99,7 +99,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -123,4 +123,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

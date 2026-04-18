@@ -62,8 +62,8 @@ Vault authors working with multi-document vaults gain a server that understands 
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/vault-detection]] | Vault root detection scenarios across all detection modes |
-| [[bdd/features/workspace]] | Multi-document workspace scan and watch scenarios |
+| `bdd/features/vault-detection.feature` | Vault root detection scenarios across all detection modes |
+| `bdd/features/workspace.feature` | Multi-document workspace scan and watch scenarios |
 
 ---
 
@@ -95,21 +95,21 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-045]] | Implement VaultDetector | `done` |
-| [[tickets/TASK-046]] | Define DocId value type | `done` |
-| [[tickets/TASK-047]] | Implement VaultIndex | `done` |
-| [[tickets/TASK-048]] | Implement FolderLookup suffix tree | `done` |
-| [[tickets/TASK-049]] | Implement VaultScanner | `done` |
-| [[tickets/TASK-050]] | Implement FileWatcher | `done` |
-| [[tickets/TASK-051]] | Implement .gitignore/.ignore filtering | `done` |
-| [[tickets/TASK-052]] | Implement single-file mode fallback | `done` |
-| [[tickets/TASK-053]] | Implement flavorGrenade/awaitIndexReady request | `done` |
-| [[tickets/TASK-054]] | Register vault services in VaultModule | `done` |
-| [[tickets/TASK-055]] | Write unit tests for VaultDetector | `done` |
-| [[tickets/TASK-056]] | Write unit tests for FolderLookup | `done` |
-| [[tickets/CHORE-010]] | Phase 4 Lint Sweep | `done` |
-| [[tickets/CHORE-011]] | Phase 4 Code Quality Sweep | `done` |
-| [[tickets/CHORE-012]] | Phase 4 Security Sweep | `done` |
+| [[TASK-045]] | Implement VaultDetector | `done` |
+| [[TASK-046]] | Define DocId value type | `done` |
+| [[TASK-047]] | Implement VaultIndex | `done` |
+| [[TASK-048]] | Implement FolderLookup suffix tree | `done` |
+| [[TASK-049]] | Implement VaultScanner | `done` |
+| [[TASK-050]] | Implement FileWatcher | `done` |
+| [[TASK-051]] | Implement .gitignore/.ignore filtering | `done` |
+| [[TASK-052]] | Implement single-file mode fallback | `done` |
+| [[TASK-053]] | Implement flavorGrenade/awaitIndexReady request | `done` |
+| [[TASK-054]] | Register vault services in VaultModule | `done` |
+| [[TASK-055]] | Write unit tests for VaultDetector | `done` |
+| [[TASK-056]] | Write unit tests for FolderLookup | `done` |
+| [[CHORE-010]] | Phase 4 Lint Sweep | `done` |
+| [[CHORE-011]] | Phase 4 Code Quality Sweep | `done` |
+| [[CHORE-012]] | Phase 4 Security Sweep | `done` |
 
 ---
 
@@ -117,11 +117,11 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-004]] — Phase 3 (OFM Parser) must be complete before vault-aware features can be built
+- [[FEAT-004]] — Phase 3 (OFM Parser) must be complete before vault-aware features can be built
 
 **Unblocks:**
 
-- [[tickets/FEAT-006]] — Phase 5 (Wiki-Link Resolution) depends on the VaultIndex and FolderLookup primitives
+- [[FEAT-006]] — Phase 5 (Wiki-Link Resolution) depends on the VaultIndex and FolderLookup primitives
 
 ---
 
@@ -162,7 +162,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
 
-> [!CHECK] In-review — 2026-04-17
+> [!SUCCESS] In-review — 2026-04-17
 > All 12 TASK + 3 CHORE tickets done. 150 unit tests pass, 3 integration tests pass. Lint clean, tsc clean. Status: `in-review`.
 
 ## Retrospective

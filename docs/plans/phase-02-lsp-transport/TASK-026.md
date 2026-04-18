@@ -15,7 +15,7 @@ aliases: ["TASK-026"]
 
 # Handle textDocument/didClose
 
-> [!INFO] `TASK-026` · Task · Phase 2 · Parent: [[tickets/FEAT-003]] · Status: `open`
+> [!INFO] `TASK-026` · Task · Phase 2 · Parent: [[FEAT-003]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Implement the `textDocument/didClose` notification handler. When the client clos
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server completes LSP handshake` |
+| `bdd/features/workspace.feature` | `Server completes LSP handshake` |
 
 ---
 
@@ -69,7 +69,7 @@ Implement the `textDocument/didClose` notification handler. When the client clos
 
 ## Parent Feature
 
-[[tickets/FEAT-003]] — LSP Transport
+[[FEAT-003]] — LSP Transport
 
 ---
 
@@ -77,11 +77,11 @@ Implement the `textDocument/didClose` notification handler. When the client clos
 
 **Blocked by:**
 
-- [[tickets/TASK-024]] — `DocumentStore` must exist before the close handler can remove from it
+- [[TASK-024]] — `DocumentStore` must exist before the close handler can remove from it
 
 **Unblocks:**
 
-- [[tickets/TASK-029]] — Integration tests exercise the full document lifecycle
+- [[TASK-029]] — Integration tests exercise the full document lifecycle
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-003]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
 
@@ -122,7 +122,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-003]].
+> Ticket created. Status: `open`. Parent: [[FEAT-003]].
 
 > [!SUCCESS] Done — 2026-04-17
 > RED and GREEN commits landed. All tests pass. Status: `done`.

@@ -127,5 +127,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 10 code quality sweep — entityAtPosition binary search correctness on edge cases and code lens performance on large documents.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > Code quality sweep complete. entityAtPosition uses linear scan with priority ordering (sufficient for bounded doc sizes). No dead code, no magic numbers, all edge cases covered by 11 cursor-entity tests. Status: `done`.

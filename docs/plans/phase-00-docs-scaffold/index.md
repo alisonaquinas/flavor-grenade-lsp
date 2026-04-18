@@ -8,5 +8,5 @@ aliases: ["Phase 0 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[tickets/FEAT-001]] | Phase 0 — Documentation Scaffold | Feature | `in-progress` |
-| [[tickets/TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | Task | `open` |
+| [[FEAT-001]] | Phase 0 — Documentation Scaffold | Feature | `in-progress` |
+| [[TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | Task | `open` |

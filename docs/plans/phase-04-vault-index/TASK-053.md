@@ -15,7 +15,7 @@ aliases: ["TASK-053"]
 
 # Implement flavorGrenade/awaitIndexReady request
 
-> [!INFO] `TASK-053` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-053` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Implement the `flavorGrenade/awaitIndexReady` custom JSON-RPC request handler. B
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `awaitIndexReady returns only after initial scan is complete` |
+| `bdd/features/workspace.feature` | `awaitIndexReady returns only after initial scan is complete` |
 
 ---
 
@@ -67,7 +67,7 @@ Implement the `flavorGrenade/awaitIndexReady` custom JSON-RPC request handler. B
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -75,11 +75,11 @@ Implement the `flavorGrenade/awaitIndexReady` custom JSON-RPC request handler. B
 
 **Blocked by:**
 
-- [[tickets/TASK-049]] — VaultScanner must exist to signal readiness
+- [[TASK-049]] — VaultScanner must exist to signal readiness
 
 **Unblocks:**
 
-- [[tickets/TASK-054]] — VaultModule registers this request handler
+- [[TASK-054]] — VaultModule registers this request handler
 
 ---
 
@@ -94,7 +94,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -129,7 +129,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/handlers/await-index-ready.handler.ts` implemented. Promise queue resolved when markReady() called. Resolves immediately if already ready. Registered as flavorGrenade/awaitIndexReady handler in VaultModule.onModuleInit(). Status: `done`.

@@ -63,7 +63,7 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/block-references]] | Block reference indexing, resolution, diagnostics, navigation, and completion scenarios |
+| `bdd/features/block-references.feature` | Block reference indexing, resolution, diagnostics, navigation, and completion scenarios |
 
 ---
 
@@ -92,18 +92,18 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-083]] | Ensure BlockAnchorEntry is fully populated | `done` |
-| [[tickets/TASK-084]] | Add CrossBlock ref type to RefGraph | `done` |
-| [[tickets/TASK-085]] | Implement block ref resolution in LinkResolver | `done` |
-| [[tickets/TASK-086]] | Implement FG005 diagnostic | `done` |
-| [[tickets/TASK-087]] | Implement go-to-definition for block refs | `done` |
-| [[tickets/TASK-088]] | Implement find-references for block anchors | `done` |
-| [[tickets/TASK-089]] | Implement block ref completion | `done` |
-| [[tickets/TASK-090]] | Handle intra-document block refs | `done` |
-| [[tickets/TASK-091]] | Write unit tests for block ref resolution | `done` |
-| [[tickets/CHORE-022]] | Phase 8 Lint Sweep | `done` |
-| [[tickets/CHORE-023]] | Phase 8 Code Quality Sweep | `done` |
-| [[tickets/CHORE-024]] | Phase 8 Security Sweep | `done` |
+| [[TASK-083]] | Ensure BlockAnchorEntry is fully populated | `done` |
+| [[TASK-084]] | Add CrossBlock ref type to RefGraph | `done` |
+| [[TASK-085]] | Implement block ref resolution in LinkResolver | `done` |
+| [[TASK-086]] | Implement FG005 diagnostic | `done` |
+| [[TASK-087]] | Implement go-to-definition for block refs | `done` |
+| [[TASK-088]] | Implement find-references for block anchors | `done` |
+| [[TASK-089]] | Implement block ref completion | `done` |
+| [[TASK-090]] | Handle intra-document block refs | `done` |
+| [[TASK-091]] | Write unit tests for block ref resolution | `done` |
+| [[CHORE-022]] | Phase 8 Lint Sweep | `done` |
+| [[CHORE-023]] | Phase 8 Code Quality Sweep | `done` |
+| [[CHORE-024]] | Phase 8 Security Sweep | `done` |
 
 ---
 
@@ -111,11 +111,11 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete; block ref indexing and resolution build directly on the wiki-link parsing and `RefGraph` foundations
+- [[FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete; block ref indexing and resolution build directly on the wiki-link parsing and `RefGraph` foundations
 
 **Unblocks:**
 
-- [[tickets/FEAT-010]] — Phase 9 (Completions) requires FEAT-006, FEAT-007, and FEAT-008 to also be done before it can start
+- [[FEAT-010]] — Phase 9 (Completions) requires FEAT-006, FEAT-007, and FEAT-008 to also be done before it can start
 
 ---
 

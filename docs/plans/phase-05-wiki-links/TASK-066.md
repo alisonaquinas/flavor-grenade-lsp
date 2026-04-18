@@ -15,7 +15,7 @@ aliases: ["TASK-066"]
 
 # Write TDD integration tests for multi-document vault
 
-> [!INFO] `TASK-066` · Task · Phase 5 · Parent: [[tickets/FEAT-006]] · Status: `open`
+> [!INFO] `TASK-066` · Task · Phase 5 · Parent: [[FEAT-006]] · Status: `open`
 
 ## Description
 
@@ -49,8 +49,8 @@ Create integration tests for Phase 5 using a multi-document vault fixture. The f
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | All wiki-links.feature scenarios |
-| [[bdd/features/diagnostics]] | FG001, FG002, FG003 scenarios |
+| `bdd/features/wiki-links.feature` | All wiki-links.feature scenarios |
+| `bdd/features/diagnostics.feature` | FG001, FG002, FG003 scenarios |
 
 ---
 
@@ -59,7 +59,7 @@ Create integration tests for Phase 5 using a multi-document vault fixture. The f
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
 | `tests/integration/wiki-links.test.ts` | Integration | — | 🔴 failing |
-| [[tests/integration/smoke-wiki-links.md]] | Integration test plan | — | — |
+| `tests/integration/smoke-wiki-links.md` | Integration test plan | — | — |
 
 ---
 
@@ -74,7 +74,7 @@ Create integration tests for Phase 5 using a multi-document vault fixture. The f
 
 ## Parent Feature
 
-[[tickets/FEAT-006]] — Wiki-Link Resolution
+[[FEAT-006]] — Wiki-Link Resolution
 
 ---
 
@@ -82,7 +82,7 @@ Create integration tests for Phase 5 using a multi-document vault fixture. The f
 
 **Blocked by:**
 
-- [[tickets/TASK-065]] — all handlers must be registered before integration tests can exercise them end-to-end
+- [[TASK-065]] — all handlers must be registered before integration tests can exercise them end-to-end
 
 **Unblocks:**
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-006]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-006]] child task row updated to `in-review`
 
 ---
 
@@ -138,4 +138,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-006]].
+> Ticket created. Status: `open`. Parent: [[FEAT-006]].

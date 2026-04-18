@@ -15,7 +15,7 @@ aliases: ["TASK-062"]
 
 # Implement ReferencesService for headings
 
-> [!INFO] `TASK-062` · Task · Phase 5 · Parent: [[tickets/FEAT-006]] · Status: `open`
+> [!INFO] `TASK-062` · Task · Phase 5 · Parent: [[FEAT-006]] · Status: `open`
 
 ## Description
 
@@ -47,8 +47,8 @@ Create `src/handlers/references.handler.ts`. This handler responds to `textDocum
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Find-references returns all wiki-links targeting a heading` |
-| [[bdd/features/wiki-links]] | `Find-references includes declaration when requested` |
+| `bdd/features/wiki-links.feature` | `Find-references returns all wiki-links targeting a heading` |
+| `bdd/features/wiki-links.feature` | `Find-references includes declaration when requested` |
 
 ---
 
@@ -70,7 +70,7 @@ Create `src/handlers/references.handler.ts`. This handler responds to `textDocum
 
 ## Parent Feature
 
-[[tickets/FEAT-006]] — Wiki-Link Resolution
+[[FEAT-006]] — Wiki-Link Resolution
 
 ---
 
@@ -78,11 +78,11 @@ Create `src/handlers/references.handler.ts`. This handler responds to `textDocum
 
 **Blocked by:**
 
-- [[tickets/TASK-057]] — RefGraph must be implemented before ReferencesService can query it
+- [[TASK-057]] — RefGraph must be implemented before ReferencesService can query it
 
 **Unblocks:**
 
-- [[tickets/TASK-065]] — LspModule registers ReferencesService capability
+- [[TASK-065]] — LspModule registers ReferencesService capability
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-006]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-006]] child task row updated to `in-review`
 
 ---
 
@@ -132,4 +132,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-006]].
+> Ticket created. Status: `open`. Parent: [[FEAT-006]].

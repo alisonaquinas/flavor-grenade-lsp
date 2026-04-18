@@ -15,7 +15,7 @@ aliases: ["TASK-089"]
 
 # Implement block ref completion
 
-> [!INFO] `TASK-089` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-089` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -39,7 +39,7 @@ Create `src/completion/block-ref-completion-provider.ts`. This provider is trigg
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Block ref completion after [[doc#^ | [[requirements/block-references]] |
+| — | Block ref completion after `[[doc#^` | [[requirements/block-references]] |
 
 ---
 
@@ -47,8 +47,8 @@ Create `src/completion/block-ref-completion-provider.ts`. This provider is trigg
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `Completion after [[doc#^ returns anchors from target doc` |
-| [[bdd/features/block-references]] | `Completion returns empty list when target doc unresolved` |
+| `bdd/features/block-references.feature` | `Completion after [[doc#^ returns anchors from target doc` |
+| `bdd/features/block-references.feature` | `Completion returns empty list when target doc unresolved` |
 
 ---
 
@@ -72,7 +72,7 @@ Create `src/completion/block-ref-completion-provider.ts`. This provider is trigg
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -80,11 +80,11 @@ Create `src/completion/block-ref-completion-provider.ts`. This provider is trigg
 
 **Blocked by:**
 
-- [[tickets/TASK-085]] — target doc resolution logic in `LinkResolver` must be available before completion can reuse the same resolution path
+- [[TASK-085]] — target doc resolution logic in `LinkResolver` must be available before completion can reuse the same resolution path
 
 **Unblocks:**
 
-- [[tickets/TASK-090]] — intra-doc completion builds on this provider
+- [[TASK-090]] — intra-doc completion builds on this provider
 
 ---
 
@@ -99,7 +99,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -123,4 +123,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

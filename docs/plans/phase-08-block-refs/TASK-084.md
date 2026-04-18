@@ -15,7 +15,7 @@ aliases: ["TASK-084"]
 
 # Add CrossBlock ref type to RefGraph
 
-> [!INFO] `TASK-084` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-084` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -56,7 +56,7 @@ Update `RefGraph` to track `[[doc#^blockid]]` references as a new `CrossBlockRef
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `RefGraph tracks CrossBlockRef entries` |
+| `bdd/features/block-references.feature` | `RefGraph tracks CrossBlockRef entries` |
 
 ---
 
@@ -80,7 +80,7 @@ Update `RefGraph` to track `[[doc#^blockid]]` references as a new `CrossBlockRef
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -88,12 +88,12 @@ Update `RefGraph` to track `[[doc#^blockid]]` references as a new `CrossBlockRef
 
 **Blocked by:**
 
-- [[tickets/TASK-083]] — `BlockAnchorEntry` shape must be finalised before `CrossBlockRef.resolvedTo` can be typed
+- [[TASK-083]] — `BlockAnchorEntry` shape must be finalised before `CrossBlockRef.resolvedTo` can be typed
 
 **Unblocks:**
 
-- [[tickets/TASK-085]] — `LinkResolver` block ref resolution reads `CrossBlockRef` from `RefGraph`
-- [[tickets/TASK-088]] — `ReferencesService` queries `RefGraph` for `CrossBlockRef` entries
+- [[TASK-085]] — `LinkResolver` block ref resolution reads `CrossBlockRef` from `RefGraph`
+- [[TASK-088]] — `ReferencesService` queries `RefGraph` for `CrossBlockRef` entries
 
 ---
 
@@ -108,7 +108,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -132,4 +132,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

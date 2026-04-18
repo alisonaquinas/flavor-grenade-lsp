@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 3: Reference Resolution**. BC3 is the **Core subdomain** — it is the primary differentiating capability of `flavor-grenade-lsp`. Everything that makes the server useful for an Obsidian vault (go-to-definition, backlinks, broken-link diagnostics, rename) lives here.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/domain-model]], [[vault/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/vault/domain-model]].
 
 > [!NOTE]
 > BC3 is deliberately isolated from BC4's internal naming. The `Oracle` is the only seam. RefGraph never imports VaultIndex or FolderLookup. This is the anti-corruption layer that keeps the core subdomain pure and testable.

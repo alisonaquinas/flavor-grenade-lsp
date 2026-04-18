@@ -10,7 +10,7 @@ aliases:
 # Rename Refactoring Requirements
 
 > [!NOTE] Scope
-> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
+> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[requirements/completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
 
 ---
 
@@ -33,7 +33,7 @@ aliases:
 **Goal:** 100% of references updated in a single `WorkspaceEdit`.
 **Stakeholders:** Vault authors performing refactoring, knowledge base curators, teams managing shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[navigation#Navigation.References.Completeness]].
+**Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[requirements/navigation#Navigation.References.Completeness]].
 
 ---
 

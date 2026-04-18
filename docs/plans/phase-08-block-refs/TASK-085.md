@@ -15,7 +15,7 @@ aliases: ["TASK-085"]
 
 # Implement block ref resolution in LinkResolver
 
-> [!INFO] `TASK-085` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-085` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -47,9 +47,9 @@ Update `LinkResolver.resolveWikiLink()` to handle `WikiLinkEntry` objects that c
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `Cross-document block ref resolves to anchor` |
-| [[bdd/features/block-references]] | `Intra-document block ref resolves in source doc` |
-| [[bdd/features/block-references]] | `Missing anchor emits FG005` |
+| `bdd/features/block-references.feature` | `Cross-document block ref resolves to anchor` |
+| `bdd/features/block-references.feature` | `Intra-document block ref resolves in source doc` |
+| `bdd/features/block-references.feature` | `Missing anchor emits FG005` |
 
 ---
 
@@ -73,7 +73,7 @@ Update `LinkResolver.resolveWikiLink()` to handle `WikiLinkEntry` objects that c
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -81,13 +81,13 @@ Update `LinkResolver.resolveWikiLink()` to handle `WikiLinkEntry` objects that c
 
 **Blocked by:**
 
-- [[tickets/TASK-084]] — `CrossBlockRef` type must exist in `RefGraph` before `LinkResolver` can write to it
+- [[TASK-084]] — `CrossBlockRef` type must exist in `RefGraph` before `LinkResolver` can write to it
 
 **Unblocks:**
 
-- [[tickets/TASK-086]] — `DiagnosticService` reads FG005 from the resolved `CrossBlockRef`
-- [[tickets/TASK-087]] — `DefinitionService` reads `resolvedTo` from the `CrossBlockRef`
-- [[tickets/TASK-089]] — block ref completion provider relies on resolved target doc
+- [[TASK-086]] — `DiagnosticService` reads FG005 from the resolved `CrossBlockRef`
+- [[TASK-087]] — `DefinitionService` reads `resolvedTo` from the `CrossBlockRef`
+- [[TASK-089]] — block ref completion provider relies on resolved target doc
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -126,4 +126,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].
