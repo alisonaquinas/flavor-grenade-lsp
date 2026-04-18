@@ -28,7 +28,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 10    | Navigation               | ✅ complete    | navigation.feature all scenarios pass              | 2026-04-17 | 2026-04-17 |
 | 11    | Rename                   | ✅ complete    | rename.feature all scenarios pass                  | 2026-04-17 | 2026-04-17 |
 | 12    | Code Actions             | ✅ complete    | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | 2026-04-17 | 2026-04-17 |
-| 13    | CI & Delivery            | ⏳ planned     | CI green on all PRs; binary artifacts published    | —          | —         |
+| 13    | CI & Delivery            | 🔄 in-progress | CI green on all PRs; binary artifacts published    | 2026-04-17 | —         |
 
 ---
 

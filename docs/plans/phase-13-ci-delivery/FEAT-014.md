@@ -2,7 +2,7 @@
 id: "FEAT-014"
 title: "CI & Delivery"
 type: feature
-status: draft
+status: in-progress
 priority: medium
 phase: 13
 created: "2026-04-17"
@@ -157,3 +157,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] In-progress — 2026-04-17
+> Phase 13 implementation started. TASK-126–136 + 3 CHORE tickets defined. TASK-135 is manual (human). Status: `in-progress`.
