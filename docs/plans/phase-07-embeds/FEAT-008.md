@@ -2,7 +2,7 @@
 id: "FEAT-008"
 title: "Embeds"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 7
 created: "2026-04-17"
