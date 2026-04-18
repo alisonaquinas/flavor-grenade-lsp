@@ -11,7 +11,12 @@ function id(s: string): DocId {
   return s as DocId;
 }
 
-function makeEmbedEntry(target: string, alias?: string, width?: number, height?: number): EmbedEntry {
+function makeEmbedEntry(
+  target: string,
+  alias?: string,
+  width?: number,
+  height?: number,
+): EmbedEntry {
   return {
     raw: `![[${target}]]`,
     target,
@@ -47,7 +52,10 @@ describe('EmbedResolver', () => {
     folderLookup = new FolderLookup();
     oracle = new Oracle(folderLookup, vaultIndex);
     // VaultScanner is needed for assetIndex; we pass a partial mock
-    vaultScanner = { hasAsset: (_p: string) => false, getAssetIndex: () => new Set<string>() } as unknown as VaultScanner;
+    vaultScanner = {
+      hasAsset: (_p: string) => false,
+      getAssetIndex: () => new Set<string>(),
+    } as unknown as VaultScanner;
     resolver = new EmbedResolver(oracle, vaultScanner);
   });
 

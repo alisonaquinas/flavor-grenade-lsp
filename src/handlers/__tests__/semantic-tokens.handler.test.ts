@@ -101,10 +101,7 @@ describe('SemanticTokensHandler', () => {
 
   it('uses delta encoding correctly for multiple tokens', () => {
     const doc = makeDoc(DOC_URI, {
-      wikiLinks: [
-        makeWikiLink('first', 0, 0),
-        makeWikiLink('second', 0, 20),
-      ],
+      wikiLinks: [makeWikiLink('first', 0, 0), makeWikiLink('second', 0, 20)],
     });
     parseCache.set(DOC_URI, doc);
 

@@ -54,7 +54,10 @@ export class OFMParser {
   }
 
   /** Stage 8: scan ATX headings (`#` to `######`). */
-  private static scanHeadings(text: string, opaqueRegions: ReturnType<typeof mark>): HeadingEntry[] {
+  private static scanHeadings(
+    text: string,
+    opaqueRegions: ReturnType<typeof mark>,
+  ): HeadingEntry[] {
     const entries: HeadingEntry[] = [];
     const pattern = /^(#{1,6})[ \t]+(.+?)[ \t]*$/gm;
     let match: RegExpExecArray | null;

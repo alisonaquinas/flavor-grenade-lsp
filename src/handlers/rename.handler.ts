@@ -38,11 +38,7 @@ function headingTextRange(heading: HeadingEntry): Range {
  * - If ref has an alias different from the old heading text → preserve alias.
  * - If ref has no alias → no alias in output.
  */
-function buildHeadingLinkText(
-  ref: Ref,
-  newHeadingName: string,
-  oldHeadingName: string,
-): string {
+function buildHeadingLinkText(ref: Ref, newHeadingName: string, oldHeadingName: string): string {
   const { target, heading: _oldHeading, alias } = ref.entry;
 
   // Determine which alias (if any) to include in the new link text.
@@ -77,12 +73,7 @@ function buildHeadingLinkText(
  * Applies the link-style preservation rule (TASK-112) and alias identity rule
  * (TASK-113) for file renames.
  */
-function buildFileLinkText(
-  ref: Ref,
-  oldStem: string,
-  newStem: string,
-  newDocId: DocId,
-): string {
+function buildFileLinkText(ref: Ref, oldStem: string, newStem: string, newDocId: DocId): string {
   const { target, alias } = ref.entry;
 
   // TASK-112: if original raw link contains '/' → file-path-stem style.

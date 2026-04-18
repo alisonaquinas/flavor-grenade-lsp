@@ -38,14 +38,10 @@ export class FileWatcher {
    */
   start(vaultRoot: string): void {
     this.resolvedRoot = path.resolve(vaultRoot);
-    this.watcher = fs.watch(
-      this.resolvedRoot,
-      { recursive: true },
-      (eventType, filename) => {
-        if (filename === null) return;
-        void this.handleEvent(eventType, filename);
-      },
-    );
+    this.watcher = fs.watch(this.resolvedRoot, { recursive: true }, (eventType, filename) => {
+      if (filename === null) return;
+      void this.handleEvent(eventType, filename);
+    });
   }
 
   /** Stop the filesystem watcher. */

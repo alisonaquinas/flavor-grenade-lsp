@@ -31,7 +31,11 @@ import { CodeActionsModule } from '../code-actions/code-actions.module.js';
 import { CodeActionHandler } from '../code-actions/code-action.handler.js';
 import { WorkspaceSymbolHandler } from '../handlers/workspace-symbol.handler.js';
 import { DocumentSymbolHandler } from '../handlers/document-symbol.handler.js';
-import { SemanticTokensHandler, TOKEN_TYPES, TOKEN_MODIFIERS } from '../handlers/semantic-tokens.handler.js';
+import {
+  SemanticTokensHandler,
+  TOKEN_TYPES,
+  TOKEN_MODIFIERS,
+} from '../handlers/semantic-tokens.handler.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import { RenameModule } from '../rename/rename.module.js';
 import { PrepareRenameHandler } from '../handlers/prepare-rename.handler.js';
@@ -187,33 +191,31 @@ export class LspModule implements OnModuleInit {
     );
     this.dispatcher.onRequest('textDocument/documentHighlight', (p) =>
       Promise.resolve(
-        this.documentHighlight.handle(
-          p as Parameters<DocumentHighlightHandler['handle']>[0],
-        ),
+        this.documentHighlight.handle(p as Parameters<DocumentHighlightHandler['handle']>[0]),
       ),
     );
     this.dispatcher.onRequest('textDocument/prepareRename', (p) =>
       Promise.resolve(
-        this.prepareRename.handle(
-          p as Parameters<PrepareRenameHandler['handle']>[0],
-        ),
+        this.prepareRename.handle(p as Parameters<PrepareRenameHandler['handle']>[0]),
       ),
     );
     this.dispatcher.onRequest('textDocument/rename', (p) =>
-      Promise.resolve(
-        this.rename.handle(
-          p as Parameters<RenameHandler['handle']>[0],
-        ),
-      ),
+      Promise.resolve(this.rename.handle(p as Parameters<RenameHandler['handle']>[0])),
     );
     this.dispatcher.onRequest('workspace/symbol', (p) =>
-      Promise.resolve(this.workspaceSymbol.handle(p as Parameters<WorkspaceSymbolHandler['handle']>[0])),
+      Promise.resolve(
+        this.workspaceSymbol.handle(p as Parameters<WorkspaceSymbolHandler['handle']>[0]),
+      ),
     );
     this.dispatcher.onRequest('textDocument/documentSymbol', (p) =>
-      Promise.resolve(this.documentSymbol.handle(p as Parameters<DocumentSymbolHandler['handle']>[0])),
+      Promise.resolve(
+        this.documentSymbol.handle(p as Parameters<DocumentSymbolHandler['handle']>[0]),
+      ),
     );
     this.dispatcher.onRequest('textDocument/semanticTokens/full', (p) =>
-      Promise.resolve(this.semanticTokens.handle(p as Parameters<SemanticTokensHandler['handle']>[0])),
+      Promise.resolve(
+        this.semanticTokens.handle(p as Parameters<SemanticTokensHandler['handle']>[0]),
+      ),
     );
 
     this.reader.on('message', (raw: string) => {

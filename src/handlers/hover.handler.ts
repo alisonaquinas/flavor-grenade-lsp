@@ -129,10 +129,7 @@ export class HoverHandler {
     return lines.join('\n');
   }
 
-  private findEmbedAtPosition(
-    embeds: EmbedEntry[],
-    position: Position,
-  ): EmbedEntry | null {
+  private findEmbedAtPosition(embeds: EmbedEntry[], position: Position): EmbedEntry | null {
     for (const entry of embeds) {
       if (this.positionInRange(position, entry.range)) return entry;
     }
@@ -156,6 +153,4 @@ export class HoverHandler {
     if (position.line === end.line && position.character > end.character) return false;
     return true;
   }
-
 }
-

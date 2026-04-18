@@ -61,10 +61,7 @@ export class ReferencesHandler {
 
       case 'block-anchor': {
         const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
-        const crossRefs = this.refGraph.getBlockRefsToAnchor(
-          sourceDocId,
-          entity.entry.id,
-        );
+        const crossRefs = this.refGraph.getBlockRefsToAnchor(sourceDocId, entity.entry.id);
         return crossRefs.map((ref) => ({
           uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
           range: ref.entry.range,

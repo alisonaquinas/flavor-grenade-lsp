@@ -90,11 +90,7 @@ export class Oracle {
     return null;
   }
 
-  private tryStemMatch(
-    target: string,
-    heading?: string,
-    blockRef?: string,
-  ): ResolutionResult {
+  private tryStemMatch(target: string, heading?: string, blockRef?: string): ResolutionResult {
     const candidates = this.folderLookup.lookupByStem(target);
     if (candidates.length === 1) {
       return this.makeResolved(candidates[0], heading, blockRef);

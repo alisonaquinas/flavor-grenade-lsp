@@ -13,7 +13,12 @@ function docId(s: string): DocId {
   return s as DocId;
 }
 
-const RANGE = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
+const RANGE = (
+  sl: number,
+  sc: number,
+  el: number,
+  ec: number,
+): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });

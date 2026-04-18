@@ -70,10 +70,7 @@ describe('WorkspaceSymbolHandler', () => {
 
   it('returns matching headings for prefix query', () => {
     const doc = makeDoc('file:///vault/alpha.md', {
-      headings: [
-        makeHeading('Introduction', 2, 0),
-        makeHeading('Getting Started', 2, 2),
-      ],
+      headings: [makeHeading('Introduction', 2, 0), makeHeading('Getting Started', 2, 2)],
     });
     vaultIndex.set(id('alpha'), doc);
 

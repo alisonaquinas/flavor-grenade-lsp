@@ -2,7 +2,12 @@ import { describe, it, expect, beforeEach } from '@jest/globals';
 import { WorkspaceEditBuilder } from '../workspace-edit-builder.js';
 import type { RenameFileChange } from '../workspace-edit-builder.js';
 
-const R = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
+const R = (
+  sl: number,
+  sc: number,
+  el: number,
+  ec: number,
+): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });
@@ -78,7 +83,11 @@ describe('WorkspaceEditBuilder', () => {
 
   it('combines text edits and rename file changes in same build', () => {
     builder.addTextEdit('file:///vault/alpha.md', { range: R(0, 0, 0, 5), newText: 'New' });
-    builder.addRenameFile({ kind: 'rename', oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' });
+    builder.addRenameFile({
+      kind: 'rename',
+      oldUri: 'file:///vault/old.md',
+      newUri: 'file:///vault/new.md',
+    });
     const result = builder.build();
     expect(result.changes['file:///vault/alpha.md']).toHaveLength(1);
     expect(result.documentChanges).toHaveLength(1);

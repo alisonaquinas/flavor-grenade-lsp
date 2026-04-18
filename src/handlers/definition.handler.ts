@@ -107,9 +107,7 @@ export class DefinitionHandler {
     if (wikiEntry.target === '' && wikiEntry.heading !== undefined) {
       const sourceDoc = this.parseCache.get(sourceUri);
       if (sourceDoc === undefined) return null;
-      const heading = sourceDoc.index.headings.find(
-        (h) => h.text === wikiEntry.heading,
-      );
+      const heading = sourceDoc.index.headings.find((h) => h.text === wikiEntry.heading);
       if (heading === undefined) return null;
       return { uri: sourceUri, range: heading.range };
     }
@@ -135,9 +133,7 @@ export class DefinitionHandler {
     if (wikiEntry.heading !== undefined && this.vaultIndex !== undefined) {
       const targetDoc = this.vaultIndex.get(result.targetDocId);
       if (targetDoc !== undefined) {
-        const heading = targetDoc.index.headings.find(
-          (h) => h.text === wikiEntry.heading,
-        );
+        const heading = targetDoc.index.headings.find((h) => h.text === wikiEntry.heading);
         if (heading !== undefined) {
           const absPath = fromDocId(vaultRoot, result.targetDocId);
           return { uri: pathToFileURL(absPath).toString(), range: heading.range };

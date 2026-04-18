@@ -49,12 +49,7 @@ export class CodeParser {
   }
 
   /** Scan for a closing fence line starting at `from`. */
-  private static findCloseFence(
-    body: string,
-    from: number,
-    char: string,
-    minLen: number,
-  ): number {
+  private static findCloseFence(body: string, from: number, char: string, minLen: number): number {
     let pos = from;
     while (pos < body.length) {
       const nlEnd = body.indexOf('\n', pos);

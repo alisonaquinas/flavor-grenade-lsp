@@ -68,9 +68,7 @@ export class VaultScanner {
       return;
     }
 
-    const vaultRoot = this.vaultDetector.detect(
-      SingleFileModeGuard.uriToPath(rootUri),
-    ).vaultRoot!;
+    const vaultRoot = this.vaultDetector.detect(SingleFileModeGuard.uriToPath(rootUri)).vaultRoot!;
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();

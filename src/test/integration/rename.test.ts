@@ -183,180 +183,170 @@ describe('Rename Integration', () => {
     client?.kill();
   });
 
-  it(
-    'textDocument/prepareRename on heading in beta.md returns { range, placeholder }',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/prepareRename on heading in beta.md returns { range, placeholder }', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const betaUri = vaultUri('beta.md');
-      const betaText = readFixture('beta.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: betaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: betaText,
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const betaUri = vaultUri('beta.md');
+    const betaText = readFixture('beta.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: betaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: betaText,
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      // beta.md content:
-      // Line 0: "---"
-      // Line 1: "aliases:"
-      // Line 2: "  - the beta"
-      // Line 3: "---"
-      // Line 4: ""
-      // Line 5: "## Beta Section"
-      // Cursor at line 5, char 5 (inside "Beta Section")
-      const resp = await client.request('textDocument/prepareRename', {
-        textDocument: { uri: betaUri },
-        position: { line: 5, character: 5 },
-      }) as Record<string, unknown>;
+    // beta.md content:
+    // Line 0: "---"
+    // Line 1: "aliases:"
+    // Line 2: "  - the beta"
+    // Line 3: "---"
+    // Line 4: ""
+    // Line 5: "## Beta Section"
+    // Cursor at line 5, char 5 (inside "Beta Section")
+    const resp = (await client.request('textDocument/prepareRename', {
+      textDocument: { uri: betaUri },
+      position: { line: 5, character: 5 },
+    })) as Record<string, unknown>;
 
-      const result = resp['result'] as {
-        range: { start: { line: number; character: number }; end: { line: number; character: number } };
-        placeholder: string;
-      } | null;
+    const result = resp['result'] as {
+      range: {
+        start: { line: number; character: number };
+        end: { line: number; character: number };
+      };
+      placeholder: string;
+    } | null;
 
-      expect(result).not.toBeNull();
-      expect(result!.placeholder).toBe('Beta Section');
-      expect(result!.range.start.line).toBe(5);
-      // After "## " (3 chars)
-      expect(result!.range.start.character).toBe(3);
+    expect(result).not.toBeNull();
+    expect(result!.placeholder).toBe('Beta Section');
+    expect(result!.range.start.line).toBe(5);
+    // After "## " (3 chars)
+    expect(result!.range.start.character).toBe(3);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    30000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 30000);
 
-  it(
-    'textDocument/rename on heading returns WorkspaceEdit with correct text edits',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/rename on heading returns WorkspaceEdit with correct text edits', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const betaUri = vaultUri('beta.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: betaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: readFixture('beta.md'),
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const betaUri = vaultUri('beta.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: betaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: readFixture('beta.md'),
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      // Rename heading "Beta Section" at line 5 to "New Section"
-      const resp = await client.request('textDocument/rename', {
-        textDocument: { uri: betaUri },
-        position: { line: 5, character: 5 },
-        newName: 'New Section',
-      }) as Record<string, unknown>;
+    // Rename heading "Beta Section" at line 5 to "New Section"
+    const resp = (await client.request('textDocument/rename', {
+      textDocument: { uri: betaUri },
+      position: { line: 5, character: 5 },
+      newName: 'New Section',
+    })) as Record<string, unknown>;
 
-      const workspaceEdit = resp['result'] as {
-        changes: Record<string, Array<{ range: { start: { line: number; character: number } }; newText: string }>>;
-      } | null;
+    const workspaceEdit = resp['result'] as {
+      changes: Record<
+        string,
+        Array<{ range: { start: { line: number; character: number } }; newText: string }>
+      >;
+    } | null;
 
-      expect(workspaceEdit).not.toBeNull();
-      expect(workspaceEdit!.changes).toBeDefined();
+    expect(workspaceEdit).not.toBeNull();
+    expect(workspaceEdit!.changes).toBeDefined();
 
-      const betaEdits = workspaceEdit!.changes[betaUri];
-      expect(betaEdits).toBeDefined();
-      expect(betaEdits).toHaveLength(1);
-      expect(betaEdits[0].newText).toBe('New Section');
-      expect(betaEdits[0].range.start.line).toBe(5);
-      // After "## " (3 chars)
-      expect(betaEdits[0].range.start.character).toBe(3);
+    const betaEdits = workspaceEdit!.changes[betaUri];
+    expect(betaEdits).toBeDefined();
+    expect(betaEdits).toHaveLength(1);
+    expect(betaEdits[0].newText).toBe('New Section');
+    expect(betaEdits[0].range.start.line).toBe(5);
+    // After "## " (3 chars)
+    expect(betaEdits[0].range.start.character).toBe(3);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    30000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 30000);
 
-  it(
-    'textDocument/prepareRename in code block returns error or null (opaque region)',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/prepareRename in code block returns error or null (opaque region)', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const alphaUri = vaultUri('alpha.md');
-      const textWithCodeBlock = '```\nsome code here\n```\n# Heading';
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: alphaUri,
-          languageId: 'markdown',
-          version: 99,
-          text: textWithCodeBlock,
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const alphaUri = vaultUri('alpha.md');
+    const textWithCodeBlock = '```\nsome code here\n```\n# Heading';
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: alphaUri,
+        languageId: 'markdown',
+        version: 99,
+        text: textWithCodeBlock,
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      // Position line 1, char 5 is inside the code block
-      const resp = await client.request('textDocument/prepareRename', {
-        textDocument: { uri: alphaUri },
-        position: { line: 1, character: 5 },
-      }) as Record<string, unknown>;
+    // Position line 1, char 5 is inside the code block
+    const resp = (await client.request('textDocument/prepareRename', {
+      textDocument: { uri: alphaUri },
+      position: { line: 1, character: 5 },
+    })) as Record<string, unknown>;
 
-      const result = resp['result'] as { error?: { code: number; message: string } } | null;
-      // Accept error -32602 OR null (no renameable entity in code block)
-      if (result !== null && typeof result === 'object' && 'error' in result) {
-        expect(result.error).toBeDefined();
-        expect((result.error as { code: number }).code).toBe(-32602);
-      } else {
-        expect(result).toBeNull();
-      }
+    const result = resp['result'] as { error?: { code: number; message: string } } | null;
+    // Accept error -32602 OR null (no renameable entity in code block)
+    if (result !== null && typeof result === 'object' && 'error' in result) {
+      expect(result.error).toBeDefined();
+      expect((result.error as { code: number }).code).toBe(-32602);
+    } else {
+      expect(result).toBeNull();
+    }
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    30000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 30000);
 
-  it(
-    'zero-reference rename produces valid WorkspaceEdit with single source edit (TASK-114)',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('zero-reference rename produces valid WorkspaceEdit with single source edit (TASK-114)', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const betaUri = vaultUri('beta.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: betaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: readFixture('beta.md'),
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const betaUri = vaultUri('beta.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: betaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: readFixture('beta.md'),
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      // "Beta Section" heading has no cross-vault refs in the fixture vault
-      const resp = await client.request('textDocument/rename', {
-        textDocument: { uri: betaUri },
-        position: { line: 5, character: 5 },
-        newName: 'Zero Ref Heading',
-      }) as Record<string, unknown>;
+    // "Beta Section" heading has no cross-vault refs in the fixture vault
+    const resp = (await client.request('textDocument/rename', {
+      textDocument: { uri: betaUri },
+      position: { line: 5, character: 5 },
+      newName: 'Zero Ref Heading',
+    })) as Record<string, unknown>;
 
-      const workspaceEdit = resp['result'] as {
-        changes: Record<string, Array<{ newText: string }>>;
-      } | null;
+    const workspaceEdit = resp['result'] as {
+      changes: Record<string, Array<{ newText: string }>>;
+    } | null;
 
-      expect(workspaceEdit).not.toBeNull();
-      expect(workspaceEdit!.changes).toBeDefined();
+    expect(workspaceEdit).not.toBeNull();
+    expect(workspaceEdit!.changes).toBeDefined();
 
-      const betaEdits = workspaceEdit!.changes[betaUri];
-      expect(betaEdits).toBeDefined();
-      expect(betaEdits.some((e) => e.newText === 'Zero Ref Heading')).toBe(true);
+    const betaEdits = workspaceEdit!.changes[betaUri];
+    expect(betaEdits).toBeDefined();
+    expect(betaEdits.some((e) => e.newText === 'Zero Ref Heading')).toBe(true);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    30000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 30000);
 });

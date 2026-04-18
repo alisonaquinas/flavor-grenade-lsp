@@ -70,11 +70,7 @@ function makeDoc(
   };
 }
 
-function makeBlockRefEntry(
-  target: string,
-  blockRef: string,
-  range = ZERO_RANGE,
-): WikiLinkEntry {
+function makeBlockRefEntry(target: string, blockRef: string, range = ZERO_RANGE): WikiLinkEntry {
   return {
     raw: `[[${target}#^${blockRef}]]`,
     target,
@@ -343,9 +339,7 @@ describe('BlockRefCompletionProvider', () => {
   });
 
   it('returns anchor completions for intra-doc trigger (no triggerDoc)', () => {
-    const doc = makeDocWithAnchors('file:///v/current.md', [
-      makeAnchor('local-one'),
-    ]);
+    const doc = makeDocWithAnchors('file:///v/current.md', [makeAnchor('local-one')]);
     parseCache.set('file:///v/current.md', doc);
 
     const result = provider.getCompletions('', undefined, 'file:///v/current.md');

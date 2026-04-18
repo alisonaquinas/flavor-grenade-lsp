@@ -39,9 +39,7 @@ export class DiagnosticService {
   publishDiagnostics(docId: DocId, doc: OFMDoc, vaultRoot: string): void {
     const detection = this.vaultDetector.detect(vaultRoot);
     const diagnostics =
-      detection.mode === 'single-file'
-        ? []
-        : this.buildDiagnostics(docId, doc, vaultRoot);
+      detection.mode === 'single-file' ? [] : this.buildDiagnostics(docId, doc, vaultRoot);
 
     this.dispatcher.sendNotification('textDocument/publishDiagnostics', {
       uri: doc.uri,
@@ -255,10 +253,7 @@ export class DiagnosticService {
     return null;
   }
 
-  private buildRelated(
-    candidates: DocId[],
-    vaultRoot: string,
-  ): DiagnosticRelatedInformation[] {
+  private buildRelated(candidates: DocId[], vaultRoot: string): DiagnosticRelatedInformation[] {
     return candidates.map((c) => ({
       location: {
         uri: pathToFileURL(fromDocId(vaultRoot, c)).toString(),

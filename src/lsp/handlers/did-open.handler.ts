@@ -55,10 +55,7 @@ export class DidOpenHandler {
     }
   }
 
-  private publishDiags(
-    uri: string,
-    doc: ReturnType<OFMParser['parse']>,
-  ): void {
+  private publishDiags(uri: string, doc: ReturnType<OFMParser['parse']>): void {
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detect(fsPath);
     if (detection.vaultRoot === null) {

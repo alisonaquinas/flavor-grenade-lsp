@@ -42,7 +42,11 @@ describe('CreateMissingFileAction', () => {
     expect(ca.edit?.documentChanges).toBeDefined();
     const changes = ca.edit!.documentChanges!;
     expect(changes).toHaveLength(1);
-    const createFile = changes[0] as { kind: string; uri: string; options?: { ignoreIfExists?: boolean } };
+    const createFile = changes[0] as {
+      kind: string;
+      uri: string;
+      options?: { ignoreIfExists?: boolean };
+    };
     expect(createFile.kind).toBe('create');
     expect(createFile.options?.ignoreIfExists).toBe(true);
   });
@@ -53,7 +57,7 @@ describe('CreateMissingFileAction', () => {
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: "Broken wiki-link: [[my-note]] not found in vault",
+      message: 'Broken wiki-link: [[my-note]] not found in vault',
     };
 
     const params = {
