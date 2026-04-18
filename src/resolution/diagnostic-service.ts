@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { pathToFileURL } from 'url';
 import type { Diagnostic, DiagnosticRelatedInformation } from 'vscode-languageserver-types';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
@@ -7,6 +7,7 @@ import { Oracle } from './oracle.js';
 import { EmbedResolver } from './embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultDetector } from '../vault/vault-detector.js';
+import { VaultIndex } from '../vault/vault-index.js';
 import type { OFMDoc, WikiLinkEntry, EmbedEntry } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
@@ -23,6 +24,7 @@ export class DiagnosticService {
     private readonly embedResolver: EmbedResolver,
     private readonly parseCache: ParseCache,
     private readonly vaultDetector: VaultDetector,
+    @Optional() private readonly vaultIndex?: VaultIndex,
   ) {}
 
   /**
@@ -39,7 +41,7 @@ export class DiagnosticService {
     const diagnostics =
       detection.mode === 'single-file'
         ? []
-        : this.buildDiagnostics(doc, vaultRoot);
+        : this.buildDiagnostics(docId, doc, vaultRoot);
 
     this.dispatcher.sendNotification('textDocument/publishDiagnostics', {
       uri: doc.uri,
@@ -47,10 +49,10 @@ export class DiagnosticService {
     });
   }
 
-  private buildDiagnostics(doc: OFMDoc, vaultRoot: string): Diagnostic[] {
+  private buildDiagnostics(docId: DocId, doc: OFMDoc, vaultRoot: string): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
     for (const entry of doc.index.wikiLinks) {
-      const diag = this.diagnoseEntry(entry, vaultRoot);
+      const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
     }
     for (const entry of doc.index.embeds) {
@@ -60,8 +62,13 @@ export class DiagnosticService {
     return diagnostics;
   }
 
-  private diagnoseEntry(entry: WikiLinkEntry, vaultRoot: string): Diagnostic | null {
-    const result = this.oracle.resolve(entry.target, entry.heading, entry.blockRef);
+  private diagnoseEntry(docId: DocId, entry: WikiLinkEntry, vaultRoot: string): Diagnostic | null {
+    // Block ref entries: check FG005 first (before checking doc resolution)
+    if (entry.blockRef !== undefined) {
+      return this.diagnoseBlockRefEntry(docId, entry, vaultRoot);
+    }
+
+    const result = this.oracle.resolve(entry.target, entry.heading);
 
     if (result.kind === 'resolved') return null;
 
@@ -95,6 +102,78 @@ export class DiagnosticService {
       source: 'flavor-grenade',
       message: `Malformed wiki-link: empty or blank target`,
     };
+  }
+
+  private diagnoseBlockRefEntry(
+    docId: DocId,
+    entry: WikiLinkEntry,
+    vaultRoot: string,
+  ): Diagnostic | null {
+    const anchorId = entry.blockRef!;
+
+    if (entry.target === '') {
+      // Intra-document block ref [[#^id]] — always check anchor
+      const sourceDoc = this.vaultIndex?.get(docId);
+      const found = sourceDoc?.index.blockAnchors.some((a) => a.id === anchorId) ?? false;
+      if (!found) {
+        return {
+          range: entry.range,
+          severity: 1,
+          code: 'FG005',
+          source: 'flavor-grenade',
+          message: `Broken block reference: '^${anchorId}' not found`,
+        };
+      }
+      return null;
+    }
+
+    // Cross-document block ref [[target#^id]]
+    // First check the target doc resolves
+    const result = this.oracle.resolve(entry.target);
+    if (result.kind !== 'resolved') {
+      // Target doc doesn't exist — emit FG001
+      if (result.kind === 'broken') {
+        return {
+          range: entry.range,
+          severity: 1,
+          code: 'FG001',
+          source: 'flavor-grenade',
+          message: `Broken wiki-link: [[${entry.target}]] not found in vault`,
+        };
+      }
+      if (result.kind === 'ambiguous') {
+        const related = this.buildRelated(result.candidates, vaultRoot);
+        return {
+          range: entry.range,
+          severity: 1,
+          code: 'FG002',
+          source: 'flavor-grenade',
+          message: `Ambiguous wiki-link: [[${entry.target}]] matches ${result.candidates.length} documents`,
+          relatedInformation: related,
+        };
+      }
+      return {
+        range: entry.range,
+        severity: 1,
+        code: 'FG003',
+        source: 'flavor-grenade',
+        message: `Malformed wiki-link: empty or blank target`,
+      };
+    }
+
+    // Target doc resolves — check the anchor
+    const targetDoc = this.vaultIndex?.get(result.targetDocId);
+    const found = targetDoc?.index.blockAnchors.some((a) => a.id === anchorId) ?? false;
+    if (!found) {
+      return {
+        range: entry.range,
+        severity: 1,
+        code: 'FG005',
+        source: 'flavor-grenade',
+        message: `Broken block reference: '^${anchorId}' not found`,
+      };
+    }
+    return null;
   }
 
   private diagnoseEmbedEntry(entry: EmbedEntry): Diagnostic | null {

@@ -2,7 +2,7 @@
 id: "TASK-089"
 title: "Implement block ref completion"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

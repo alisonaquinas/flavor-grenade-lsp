@@ -2,7 +2,7 @@
 id: "TASK-090"
 title: "Handle intra-document block refs"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

@@ -2,7 +2,7 @@
 id: "TASK-084"
 title: "Add CrossBlock ref type to RefGraph"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "8"
 parent: "FEAT-009"

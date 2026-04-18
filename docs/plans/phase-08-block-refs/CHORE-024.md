@@ -2,7 +2,7 @@
 id: "CHORE-024"
 title: "Phase 8 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "8"
 created: "2026-04-17"
@@ -119,3 +119,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep focusing on block anchor ID regex validation and no filesystem use of anchor IDs.
+
+> [!SUCCESS] Done — 2026-04-17
+> Security sweep complete. `BlockAnchorParser` regex `/[ \t](\^[a-zA-Z0-9-]+)[ \t]*$/gm` enforces OFM-BLOCK-001/002 character set at parse time — only `[a-zA-Z0-9-]` accepted. `anchorId` strings confirmed: used only in Map key construction (with `\0` separator), `.find()` comparisons, and diagnostic message strings. No `anchorId` is passed to `fromDocId`, `path.join`, or any filesystem API. Oracle only receives `entry.target` (document name), not the anchor ID. Status: `done`.

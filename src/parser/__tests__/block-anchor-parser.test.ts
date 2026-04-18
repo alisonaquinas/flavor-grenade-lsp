@@ -44,4 +44,34 @@ describe('BlockAnchorParser', () => {
     const entries = BlockAnchorParser.parse(text, noRegions);
     expect(entries).toHaveLength(2);
   });
+
+  it('finds anchor at end of file with no trailing newline', () => {
+    const text = 'Last line of file ^eof-anchor';
+    const entries = BlockAnchorParser.parse(text, noRegions);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].id).toBe('eof-anchor');
+  });
+
+  it('finds anchor on a list item line', () => {
+    const text = '- item text ^list-anchor';
+    const entries = BlockAnchorParser.parse(text, noRegions);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].id).toBe('list-anchor');
+  });
+
+  it('finds anchor on a heading line', () => {
+    const text = '## Heading Text ^heading-anchor';
+    const entries = BlockAnchorParser.parse(text, noRegions);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].id).toBe('heading-anchor');
+  });
+
+  it('BlockAnchorEntry has id and range fields', () => {
+    const text = 'Some text ^check-fields';
+    const entries = BlockAnchorParser.parse(text, noRegions);
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toHaveProperty('id');
+    expect(entries[0]).toHaveProperty('range');
+    expect(entries[0]).not.toHaveProperty('lineRange');
+  });
 });

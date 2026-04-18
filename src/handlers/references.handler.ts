@@ -7,7 +7,7 @@ import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
 import { TagRegistry } from '../tags/tag-registry.js';
-import type { TagEntry } from '../parser/types.js';
+import type { TagEntry, BlockAnchorEntry } from '../parser/types.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -47,6 +47,15 @@ export class ReferencesHandler {
       return this.handleTagReferences(tagEntry, params);
     }
 
+    // Check if cursor is on a block anchor — if so, return block ref locations.
+    const blockAnchorEntry = this.findBlockAnchorAtPosition(
+      doc.index.blockAnchors,
+      params.position,
+    );
+    if (blockAnchorEntry !== undefined) {
+      return this.handleBlockAnchorReferences(blockAnchorEntry, params);
+    }
+
     const defKey = this.resolveDefKey(params.textDocument.uri);
     const refs = this.refGraph.getRefsTo(defKey);
 
@@ -81,6 +90,40 @@ export class ReferencesHandler {
       uri: this.docIdToUri(occ.docId, params.textDocument.uri),
       range: occ.range,
     }));
+  }
+
+  /**
+   * Return all vault locations where a block anchor is referenced via `[[..#^id]]`.
+   */
+  private handleBlockAnchorReferences(
+    anchorEntry: BlockAnchorEntry,
+    params: ReferencesParams,
+  ): Location[] {
+    const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
+    const crossRefs = this.refGraph.getBlockRefsToAnchor(
+      sourceDocId,
+      anchorEntry.id,
+    );
+    return crossRefs.map((ref) => ({
+      uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
+      range: ref.entry.range,
+    }));
+  }
+
+  /**
+   * Find a block anchor entry whose range contains the given position.
+   */
+  private findBlockAnchorAtPosition(
+    anchors: BlockAnchorEntry[],
+    position: Position,
+  ): BlockAnchorEntry | undefined {
+    return anchors.find((entry) => {
+      const { start, end } = entry.range;
+      if (position.line < start.line || position.line > end.line) return false;
+      if (position.line === start.line && position.character < start.character) return false;
+      if (position.line === end.line && position.character > end.character) return false;
+      return true;
+    });
   }
 
   /**

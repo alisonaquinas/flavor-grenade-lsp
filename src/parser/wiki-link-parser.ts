@@ -67,10 +67,16 @@ export class WikiLinkParser {
     let blockRef: string | undefined;
 
     if (hashIdx !== -1) {
-      heading = core.slice(hashIdx + 1);
+      const afterHash = core.slice(hashIdx + 1);
       target = core.slice(0, hashIdx);
+      // [[target#^blockref]] or [[#^blockref]] — block ref after #^
+      if (afterHash.startsWith('^')) {
+        blockRef = afterHash.slice(1);
+      } else {
+        heading = afterHash;
+      }
     } else {
-      // Extract block ref (after ^)
+      // Extract block ref (after ^) — legacy [[target^blockref]] syntax
       const caretIdx = core.indexOf('^');
       if (caretIdx !== -1) {
         blockRef = core.slice(caretIdx + 1);
