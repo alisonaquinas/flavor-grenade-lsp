@@ -2,7 +2,7 @@
 id: "TASK-060"
 title: "Implement DiagnosticService FG001/FG002/FG003"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

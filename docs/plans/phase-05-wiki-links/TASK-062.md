@@ -2,7 +2,7 @@
 id: "TASK-062"
 title: "Implement ReferencesService for headings"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

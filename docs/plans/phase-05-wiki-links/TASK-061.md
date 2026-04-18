@@ -2,7 +2,7 @@
 id: "TASK-061"
 title: "Implement DefinitionService for wiki-links"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

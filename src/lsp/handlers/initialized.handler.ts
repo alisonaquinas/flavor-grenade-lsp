@@ -1,9 +1,9 @@
 import { Injectable, Optional } from '@nestjs/common';
-import type { VaultScanner } from '../../vault/vault-scanner.js';
-import type { FileWatcher } from '../../vault/file-watcher.js';
-import type { VaultDetector } from '../../vault/vault-detector.js';
+import { VaultScanner } from '../../vault/vault-scanner.js';
+import { FileWatcher } from '../../vault/file-watcher.js';
+import { VaultDetector } from '../../vault/vault-detector.js';
 import { SingleFileModeGuard } from '../../vault/single-file-mode.js';
-import type { AwaitIndexReadyHandler } from '../../vault/handlers/await-index-ready.handler.js';
+import { AwaitIndexReadyHandler } from '../../vault/handlers/await-index-ready.handler.js';
 
 /** Parameters for the LSP `initialized` notification (typically `{}`). */
 interface InitializedParams {

@@ -2,7 +2,7 @@
 id: "TASK-058"
 title: "Implement Oracle name-matching engine"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

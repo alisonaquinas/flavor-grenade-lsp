@@ -2,7 +2,7 @@
 id: "TASK-063"
 title: "Implement wiki-link CompletionProvider"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

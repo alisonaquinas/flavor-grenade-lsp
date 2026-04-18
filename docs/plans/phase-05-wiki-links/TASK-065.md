@@ -2,7 +2,7 @@
 id: "TASK-065"
 title: "Register handlers in LspModule capability registry"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

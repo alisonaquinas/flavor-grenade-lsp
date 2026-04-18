@@ -2,7 +2,7 @@
 id: "TASK-066"
 title: "Write TDD integration tests for multi-document vault"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"
