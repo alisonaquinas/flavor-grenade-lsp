@@ -32,6 +32,7 @@ function makeDoc(
     version: 0,
     frontmatter: frontmatterTags.length > 0 ? { tags: frontmatterTags } : null,
     frontmatterEndOffset: 0,
+    text: '',
     opaqueRegions: [],
     index: { wikiLinks: [], embeds: [], blockAnchors: [], tags, callouts: [], headings: [] },
   };

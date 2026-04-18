@@ -45,6 +45,7 @@ export class OFMParser {
     return {
       uri,
       version,
+      text,
       frontmatter,
       frontmatterEndOffset: bodyOffset,
       opaqueRegions,

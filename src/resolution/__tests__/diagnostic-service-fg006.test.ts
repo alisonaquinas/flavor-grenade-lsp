@@ -7,7 +7,7 @@ import { FolderLookup } from '../../vault/folder-lookup.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import type { VaultDetector } from '../../vault/vault-detector.js';
 import { ParseCache } from '../../parser/parser.module.js';
-import type { OFMDoc, WikiLinkEntry } from '../../parser/types.js';
+import type { OFMDoc } from '../../parser/types.js';
 import type { DocId } from '../../vault/doc-id.js';
 import type { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
 
@@ -15,42 +15,25 @@ function id(s: string): DocId {
   return s as DocId;
 }
 
-const RANGE = {
-  start: { line: 0, character: 0 },
-  end: { line: 0, character: 15 },
-};
-
-function makeWikiLink(target: string, range = RANGE): WikiLinkEntry {
-  return { raw: `[[${target}]]`, target, range };
-}
-
-function makeDoc(uri: string, wikiLinks: WikiLinkEntry[] = []): OFMDoc {
+function makeDoc(uri: string, text: string, frontmatterEndOffset = 0): OFMDoc {
   return {
     uri,
     version: 0,
     frontmatter: null,
-    frontmatterEndOffset: 0,
-    text: '',
+    frontmatterEndOffset,
     opaqueRegions: [],
-    index: { wikiLinks, embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [] },
+    text,
+    index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [] },
   };
 }
 
-/** A mock VaultDetector that always returns obsidian vault mode. */
 function makeVaultDetector(): VaultDetector {
   return {
     detect: (_path: string) => ({ mode: 'obsidian', vaultRoot: '/vault' }),
   } as unknown as VaultDetector;
 }
 
-/** A mock VaultDetector that always returns single-file mode. */
-function makeSingleFileDetector(): VaultDetector {
-  return {
-    detect: (_path: string) => ({ mode: 'single-file', vaultRoot: null }),
-  } as unknown as VaultDetector;
-}
-
-describe('DiagnosticService', () => {
+describe('DiagnosticService — FG006 (NBSP detection)', () => {
   let vaultIndex: VaultIndex;
   let folderLookup: FolderLookup;
   let oracle: Oracle;
@@ -76,83 +59,107 @@ describe('DiagnosticService', () => {
     embedResolver = new EmbedResolver(oracle, vaultScanner);
   });
 
-  it('publishes FG001 for a broken wiki-link', () => {
-    folderLookup.rebuild(vaultIndex);
-
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
-    const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('nonexistent')]);
-
-    service.publishDiagnostics(id('alpha'), doc, '/vault');
-
-    expect(sentNotifications).toHaveLength(1);
-    const { params } = sentNotifications[0] as {
-      params: { uri: string; diagnostics: unknown[] };
-    };
-    expect(params.diagnostics).toHaveLength(1);
-    const diag = params.diagnostics[0] as Record<string, unknown>;
-    expect(diag['code']).toBe('FG001');
-    expect(diag['severity']).toBe(1);
-    expect(diag['source']).toBe('flavor-grenade');
-  });
-
-  it('publishes FG002 for an ambiguous wiki-link with relatedInformation', () => {
-    vaultIndex.set(id('notes/gamma'), makeDoc('file:///vault/notes/gamma.md'));
-    vaultIndex.set(id('other/gamma'), makeDoc('file:///vault/other/gamma.md'));
-    folderLookup.rebuild(vaultIndex);
-
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
-    const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('gamma')]);
-
-    service.publishDiagnostics(id('alpha'), doc, '/vault');
-
-    const { params } = sentNotifications[0] as {
-      params: { uri: string; diagnostics: unknown[] };
-    };
-    expect(params.diagnostics).toHaveLength(1);
-    const diag = params.diagnostics[0] as Record<string, unknown>;
-    expect(diag['code']).toBe('FG002');
-    const related = diag['relatedInformation'] as unknown[];
-    expect(related).toHaveLength(2);
-  });
-
-  it('publishes FG003 for a malformed wiki-link', () => {
-    folderLookup.rebuild(vaultIndex);
-
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
-    const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('   ')]);
-
-    service.publishDiagnostics(id('alpha'), doc, '/vault');
-
-    const { params } = sentNotifications[0] as {
-      params: { uri: string; diagnostics: unknown[] };
-    };
-    const diag = params.diagnostics[0] as Record<string, unknown>;
-    expect(diag['code']).toBe('FG003');
-  });
-
-  it('publishes empty diagnostics in single-file mode', () => {
-    folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeSingleFileDetector());
-    const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('nonexistent')]);
-
-    service.publishDiagnostics(id('alpha'), doc, '/vault');
-
-    const { params } = sentNotifications[0] as {
-      params: { uri: string; diagnostics: unknown[] };
-    };
-    expect(params.diagnostics).toHaveLength(0);
-  });
-
-  it('publishes empty diagnostics when no wiki-links', () => {
+  it('emits FG006 for U+00A0 (NBSP) in document body', () => {
     folderLookup.rebuild(vaultIndex);
     const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
-    const doc = makeDoc('file:///vault/alpha.md', []);
+
+    // Document body has a non-breaking space at position 5
+    const text = 'Hello\u00A0world';
+    const doc = makeDoc('file:///vault/alpha.md', text, 0);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');
 
     const { params } = sentNotifications[0] as {
       params: { uri: string; diagnostics: unknown[] };
     };
-    expect(params.diagnostics).toHaveLength(0);
+    const fg006Diags = (params.diagnostics as Array<Record<string, unknown>>).filter(
+      (d) => d['code'] === 'FG006',
+    );
+    expect(fg006Diags).toHaveLength(1);
+    expect(fg006Diags[0]['severity']).toBe(2); // Warning
+    expect(fg006Diags[0]['source']).toBe('flavor-grenade');
+    expect(fg006Diags[0]['message']).toContain('non-breaking');
+  });
+
+  it('does NOT emit FG006 for NBSP inside frontmatter', () => {
+    folderLookup.rebuild(vaultIndex);
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+
+    // NBSP is in frontmatter (before offset 20), body is clean
+    const text = '---\ntitle: Hello\u00A0World\n---\nclean body text';
+    // frontmatter occupies lines 0-2, offset of '---\n' end is after 'Hello\u00A0World\n---\n'
+    // frontmatterEndOffset = position after closing ---
+    const fmEnd = text.indexOf('---\n', 4) + 4; // position after closing ---\n
+    const doc = makeDoc('file:///vault/alpha.md', text, fmEnd);
+
+    service.publishDiagnostics(id('alpha'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: unknown[] };
+    };
+    const fg006Diags = (params.diagnostics as Array<Record<string, unknown>>).filter(
+      (d) => d['code'] === 'FG006',
+    );
+    expect(fg006Diags).toHaveLength(0);
+  });
+
+  it('emits FG006 with severity 2 (Warning)', () => {
+    folderLookup.rebuild(vaultIndex);
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+
+    const text = 'Some\u00A0text here';
+    const doc = makeDoc('file:///vault/alpha.md', text, 0);
+
+    service.publishDiagnostics(id('alpha'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: unknown[] };
+    };
+    const fg006Diags = (params.diagnostics as Array<Record<string, unknown>>).filter(
+      (d) => d['code'] === 'FG006',
+    );
+    expect(fg006Diags).toHaveLength(1);
+    expect(fg006Diags[0]['severity']).toBe(2);
+  });
+
+  it('emits correct range for NBSP character', () => {
+    folderLookup.rebuild(vaultIndex);
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+
+    // NBSP at char 5 on line 0
+    const text = 'Hello\u00A0world';
+    const doc = makeDoc('file:///vault/alpha.md', text, 0);
+
+    service.publishDiagnostics(id('alpha'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: unknown[] };
+    };
+    const fg006Diags = (params.diagnostics as Array<Record<string, unknown>>).filter(
+      (d) => d['code'] === 'FG006',
+    );
+    const diag = fg006Diags[0];
+    const range = diag['range'] as { start: { line: number; character: number }; end: { line: number; character: number } };
+    expect(range.start.line).toBe(0);
+    expect(range.start.character).toBe(5);
+    expect(range.end.character).toBe(6);
+  });
+
+  it('emits multiple FG006 for multiple NBSPs in body', () => {
+    folderLookup.rebuild(vaultIndex);
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+
+    const text = 'A\u00A0B\u00A0C';
+    const doc = makeDoc('file:///vault/alpha.md', text, 0);
+
+    service.publishDiagnostics(id('alpha'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: unknown[] };
+    };
+    const fg006Diags = (params.diagnostics as Array<Record<string, unknown>>).filter(
+      (d) => d['code'] === 'FG006',
+    );
+    expect(fg006Diags).toHaveLength(2);
   });
 });

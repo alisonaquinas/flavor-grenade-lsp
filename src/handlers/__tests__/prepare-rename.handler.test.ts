@@ -15,6 +15,7 @@ function makeDoc(overrides: Partial<OFMDoc> = {}): OFMDoc {
     version: 1,
     frontmatter: null,
     frontmatterEndOffset: 0,
+    text: '',
     opaqueRegions: [],
     index: {
       wikiLinks: [],

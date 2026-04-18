@@ -117,6 +117,8 @@ export interface OFMDoc {
   uri: string;
   /** Incremental version counter from the LSP client. */
   version: number;
+  /** The full raw document text. */
+  text: string;
   /** Parsed YAML frontmatter, or `null` if absent or invalid. */
   frontmatter: Record<string, unknown> | null;
   /**

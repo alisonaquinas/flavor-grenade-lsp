@@ -59,7 +59,72 @@ export class DiagnosticService {
       const diag = this.diagnoseEmbedEntry(entry);
       if (diag !== null) diagnostics.push(diag);
     }
+    // FG006: non-breaking space (U+00A0) in document body
+    const nbspDiags = this.diagnoseNbsp(doc);
+    diagnostics.push(...nbspDiags);
     return diagnostics;
+  }
+
+  /**
+   * Detect U+00A0 (non-breaking space) characters in the document body.
+   *
+   * Only characters at or after `doc.frontmatterEndOffset` are scanned.
+   * Each NBSP found produces an FG006 Warning diagnostic.
+   */
+  private diagnoseNbsp(doc: OFMDoc): Diagnostic[] {
+    const text = doc.text;
+    if (!text) return [];
+
+    const diagnostics: Diagnostic[] = [];
+    const bodyStart = doc.frontmatterEndOffset;
+
+    // Build a line/character index for offset → position conversion
+    // We do it lazily by scanning once
+    const lines = text.split('\n');
+    let offset = 0;
+    const lineStartOffsets: number[] = [];
+    for (const line of lines) {
+      lineStartOffsets.push(offset);
+      offset += line.length + 1; // +1 for the \n
+    }
+
+    for (let i = bodyStart; i < text.length; i++) {
+      if (text[i] === '\u00A0') {
+        // Find line/character for this offset
+        const pos = this.offsetToPosition(i, lineStartOffsets);
+        diagnostics.push({
+          range: {
+            start: pos,
+            end: { line: pos.line, character: pos.character + 1 },
+          },
+          severity: 2,
+          code: 'FG006',
+          source: 'flavor-grenade',
+          message: 'non-breaking space (U+00A0) found — replace with a regular space',
+        });
+      }
+    }
+
+    return diagnostics;
+  }
+
+  private offsetToPosition(
+    offset: number,
+    lineStartOffsets: number[],
+  ): { line: number; character: number } {
+    let lo = 0;
+    let hi = lineStartOffsets.length - 1;
+
+    while (lo < hi) {
+      const mid = Math.floor((lo + hi + 1) / 2);
+      if (lineStartOffsets[mid] <= offset) {
+        lo = mid;
+      } else {
+        hi = mid - 1;
+      }
+    }
+
+    return { line: lo, character: offset - lineStartOffsets[lo] };
   }
 
   private diagnoseEntry(docId: DocId, entry: WikiLinkEntry, vaultRoot: string): Diagnostic | null {

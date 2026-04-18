@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import type { CodeAction, Range, TextEdit, Position } from 'vscode-languageserver-types';
 import { ParseCache } from '../parser/parser.module.js';
-import type { TagEntry } from '../parser/types.js';
+import type { TagEntry, OFMDoc } from '../parser/types.js';
 
 /**
  * Parameters for a `textDocument/codeAction` request (subset used here).
@@ -18,17 +18,15 @@ interface CodeActionParams {
  * When the cursor is positioned on an inline `#tag`, this action produces a
  * {@link CodeAction} that:
  *
- * 1. Deletes the inline `#tag` text span from the document body.
+ * 1. Deletes ALL inline occurrences of the `#tag` from the document body.
  * 2. Appends the tag value to the YAML frontmatter `tags:` array:
+ *    - If `tags:` array already contains the tag: returns an informational action.
  *    - If a `tags:` key already exists in frontmatter: appends to the array.
  *    - If frontmatter exists but has no `tags:` key: inserts `tags: [tag]` before
  *      the closing `---`.
  *    - If there is no frontmatter: prepends `---\ntags: [tag]\n---\n` to the file.
  *
  * The action has `kind: 'refactor.rewrite'`.
- *
- * Phase 6 MVP: frontmatter insertion uses line 0 as a sentinel position; exact
- * line-level tracking for existing frontmatter blocks is deferred to Phase 12.
  */
 @Injectable()
 export class TagToYamlAction {
@@ -50,21 +48,35 @@ export class TagToYamlAction {
     // Strip the leading '#' to get the bare tag name for YAML insertion.
     const bareTag = tagEntry.tag.slice(1);
 
+    // Edge case: tag already in frontmatter
+    if (doc.frontmatter !== null) {
+      const tagsValue = doc.frontmatter['tags'];
+      if (Array.isArray(tagsValue) && (tagsValue as unknown[]).includes(bareTag)) {
+        return {
+          title: 'Tag already in frontmatter',
+          kind: '',
+          edit: undefined,
+        };
+      }
+    }
+
     const edits: TextEdit[] = [];
 
-    // --- Edit 1: delete inline #tag span ---
-    edits.push({ range: tagEntry.range, newText: '' });
+    // --- Edit 1: delete ALL inline occurrences of this tag ---
+    const allOccurrences = doc.index.tags.filter((e) => e.tag === tagEntry.tag);
+    for (const occurrence of allOccurrences) {
+      edits.push({ range: occurrence.range, newText: '' });
+    }
 
     // --- Edit 2: insert into frontmatter ---
     if (doc.frontmatter !== null) {
       const tagsValue = doc.frontmatter['tags'];
       if (Array.isArray(tagsValue)) {
-        // Append to existing tags array — MVP: zero-width sentinel at line 0.
-        // Phase 12 will resolve the exact insertion point inside the YAML block.
-        edits.push(this.makeAppendToTagsArrayEdit(bareTag));
+        // Append to existing tags array
+        edits.push(this.makeAppendToTagsArrayEdit(bareTag, doc));
       } else {
-        // Frontmatter exists but no tags key — insert `tags: [tag]` at line 0.
-        edits.push(this.makeInsertTagsKeyEdit(bareTag));
+        // Frontmatter exists but no tags key — insert `tags: [tag]` before closing ---
+        edits.push(this.makeInsertTagsKeyEdit(bareTag, doc));
       }
     } else {
       // No frontmatter — prepend a new frontmatter block.
@@ -104,15 +116,61 @@ export class TagToYamlAction {
   }
 
   /**
-   * Build a `TextEdit` that represents appending to an existing `tags:` array.
-   *
-   * MVP implementation inserts a zero-width edit at line 0 character 0 as a
-   * sentinel; the `newText` is empty because exact line tracking for
-   * existing frontmatter is deferred to Phase 12.
+   * Find the line number of the closing `---` of the frontmatter block.
+   * Returns -1 if not found.
    */
-  private makeAppendToTagsArrayEdit(bareTag: string): TextEdit {
-    // Phase 12 will replace this with an offset-computed insert before `---`.
-    void bareTag; // acknowledged — bare tag carried for Phase 12 reference
+  private findFrontmatterClosingLine(doc: OFMDoc): number {
+    const lines = doc.text.split('\n');
+    // Line 0 is the opening `---`, search for the second `---`
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].trimEnd() === '---') {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Build a `TextEdit` that appends `bareTag` to the existing `tags: [...]` array.
+   *
+   * If the tags are on a line like `tags: [a, b]`, replaces that line with
+   * `tags: [a, b, bareTag]`.
+   * Otherwise falls back to inserting before the closing `---`.
+   */
+  private makeAppendToTagsArrayEdit(bareTag: string, doc: OFMDoc): TextEdit {
+    const lines = doc.text.split('\n');
+    const closingLine = this.findFrontmatterClosingLine(doc);
+
+    // Find the `tags:` line within frontmatter
+    const searchEnd = closingLine === -1 ? lines.length : closingLine;
+    for (let i = 1; i < searchEnd; i++) {
+      const line = lines[i];
+      const tagsMatch = /^(tags:\s*\[)(.*)(\].*)$/.exec(line);
+      if (tagsMatch !== null) {
+        const prefix = tagsMatch[1];
+        const existing = tagsMatch[2].trim();
+        const suffix = tagsMatch[3];
+        const newContent = existing.length > 0 ? `${existing}, ${bareTag}` : bareTag;
+        const newLine = `${prefix}${newContent}${suffix}`;
+        return {
+          range: {
+            start: { line: i, character: 0 },
+            end: { line: i, character: line.length },
+          },
+          newText: newLine,
+        };
+      }
+    }
+
+    // Fallback: insert before closing ---
+    if (closingLine !== -1) {
+      return {
+        range: { start: { line: closingLine, character: 0 }, end: { line: closingLine, character: 0 } },
+        newText: `- ${bareTag}\n`,
+      };
+    }
+
+    // Last resort sentinel
     return {
       range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
       newText: '',
@@ -121,11 +179,24 @@ export class TagToYamlAction {
 
   /**
    * Build a `TextEdit` that inserts `tags: [<tag>]` into existing frontmatter
-   * that has no `tags` key.
+   * that has no `tags` key — inserted before the closing `---`.
    */
-  private makeInsertTagsKeyEdit(bareTag: string): TextEdit {
+  private makeInsertTagsKeyEdit(bareTag: string, doc: OFMDoc): TextEdit {
+    const closingLine = this.findFrontmatterClosingLine(doc);
+
+    if (closingLine !== -1) {
+      return {
+        range: {
+          start: { line: closingLine, character: 0 },
+          end: { line: closingLine, character: 0 },
+        },
+        newText: `tags: [${bareTag}]\n`,
+      };
+    }
+
+    // Fallback sentinel (shouldn't happen in well-formed frontmatter)
     return {
-      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+      range: { start: { line: 1, character: 0 }, end: { line: 1, character: 0 } },
       newText: `tags: [${bareTag}]\n`,
     };
   }
