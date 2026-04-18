@@ -34,7 +34,7 @@ async function callHandleEvent(
 ): Promise<void> {
   await (
     watcher as unknown as { handleEvent(e: string, f: string | null): Promise<void> }
-  ).handleEvent(eventType, filename as string);
+  ).handleEvent(eventType, filename);
 }
 
 // ─── Test suite ──────────────────────────────────────────────────────────────
@@ -89,18 +89,12 @@ describe('FileWatcher', () => {
 
   // ── 3. null filename guard ───────────────────────────────────────────────
   //
-  // The null check (`if (filename === null) return`) lives in the fs.watch
-  // callback inside start(), not inside handleEvent itself.  When handleEvent
-  // is invoked with null directly it throws, but from the watcher's public
-  // surface (the fs.watch callback) a null filename is silently dropped.
-  // We verify that the guard prevents any state change — even if handleEvent
-  // itself would throw when called synthetically with null.
+  // The null check (`if (filename === null) return`) lives at the top of
+  // handleEvent.  Calling handleEvent directly with null must not throw and
+  // must leave vaultIndex unchanged.
 
-  it('start() callback silently drops null filename (no vaultIndex change)', () => {
-    // The null-filename guard is at the start() callback level.
-    // We can confirm the guard never calls handleEvent by checking that
-    // vaultIndex remains empty after start(), which has already been called
-    // in beforeEach with no files written.
+  it('handleEvent silently drops null filename (no throw, vaultIndex unchanged)', async () => {
+    await expect(callHandleEvent(watcher, 'change', null)).resolves.toBeUndefined();
     expect(vaultIndex.size()).toBe(0);
   });
 
