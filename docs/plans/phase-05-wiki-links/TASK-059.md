@@ -2,7 +2,7 @@
 id: "TASK-059"
 title: "Implement LinkResolver.resolveWikiLink"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

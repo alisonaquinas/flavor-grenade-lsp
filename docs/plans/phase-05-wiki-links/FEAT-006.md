@@ -2,7 +2,7 @@
 id: "FEAT-006"
 title: "Wiki-Link Resolution"
 type: feature
-status: in-progress
+status: in-review
 priority: "high"
 phase: "5"
 created: "2026-04-17"
@@ -95,19 +95,19 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-057]] | Implement RefGraph | `open` |
-| [[tickets/TASK-058]] | Implement Oracle name-matching engine | `open` |
-| [[tickets/TASK-059]] | Implement LinkResolver.resolveWikiLink | `open` |
-| [[tickets/TASK-060]] | Implement DiagnosticService FG001/FG002/FG003 | `open` |
-| [[tickets/TASK-061]] | Implement DefinitionService for wiki-links | `open` |
-| [[tickets/TASK-062]] | Implement ReferencesService for headings | `open` |
-| [[tickets/TASK-063]] | Implement wiki-link CompletionProvider | `open` |
-| [[tickets/TASK-064]] | Implement alias resolution from frontmatter | `open` |
-| [[tickets/TASK-065]] | Register handlers in LspModule capability registry | `open` |
-| [[tickets/TASK-066]] | Write TDD integration tests for multi-document vault | `open` |
-| [[tickets/CHORE-013]] | Phase 5 Lint Sweep | `open` |
-| [[tickets/CHORE-014]] | Phase 5 Code Quality Sweep | `open` |
-| [[tickets/CHORE-015]] | Phase 5 Security Sweep | `open` |
+| [[tickets/TASK-057]] | Implement RefGraph | `done` |
+| [[tickets/TASK-058]] | Implement Oracle name-matching engine | `done` |
+| [[tickets/TASK-059]] | Implement LinkResolver.resolveWikiLink | `done` |
+| [[tickets/TASK-060]] | Implement DiagnosticService FG001/FG002/FG003 | `done` |
+| [[tickets/TASK-061]] | Implement DefinitionService for wiki-links | `done` |
+| [[tickets/TASK-062]] | Implement ReferencesService for headings | `done` |
+| [[tickets/TASK-063]] | Implement wiki-link CompletionProvider | `done` |
+| [[tickets/TASK-064]] | Implement alias resolution from frontmatter | `done` |
+| [[tickets/TASK-065]] | Register handlers in LspModule capability registry | `done` |
+| [[tickets/TASK-066]] | Write TDD integration tests for multi-document vault | `done` |
+| [[tickets/CHORE-013]] | Phase 5 Lint Sweep | `done` |
+| [[tickets/CHORE-014]] | Phase 5 Code Quality Sweep | `done` |
+| [[tickets/CHORE-015]] | Phase 5 Security Sweep | `done` |
 
 ---
 
@@ -152,6 +152,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!NOTE] This ticket opens in `draft`. The first agent obligation is to complete the spec and create all child `TASK-NNN` tickets before transitioning to `ready`.
 
+> [!INFO] In-Review — 2026-04-17
+> All child tasks done. 199 tests pass (193 unit + 6 integration). `bun run lint --max-warnings 0` clean. `tsc --noEmit` exits 0. All acceptance criteria met except BDD feature file runs (not in this phase). Status: `in-review`.
+
 ---
 
 ## Workflow Log
@@ -160,3 +163,37 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] In-Progress — 2026-04-17
+> Implementation started. TDD process: RED→GREEN batches for resolution layer, handlers, and integration test. Status: `in-progress`.
+
+> [!INFO] In-Review — 2026-04-17
+> All child tasks complete. Retrospective below.
+
+## Retrospective
+
+### What went well
+
+- TDD process (RED→GREEN) was effective: three test batches caught integration issues early before the full server was wired.
+- The Oracle three-step resolution order (exact path → alias → stem) was straightforward to implement and test in isolation.
+- NestJS module wiring worked cleanly once proper `import` (not `import type`) was used for injectable parameters.
+- The `@Optional()` dependency pattern in `InitializedHandler` had a latent bug (using `import type` for NestJS-injected parameters) that was caught during Phase 5 integration testing. This was fixed as part of the implementation.
+
+### What was difficult
+
+- **NestJS `import type` trap**: The `InitializedHandler` used `import type` for `VaultScanner`, `VaultDetector`, etc. TypeScript emits type metadata via `emitDecoratorMetadata`, but `import type` erases the type before metadata emission, so NestJS couldn't resolve the injection token. The bug was masked in Phase 4 because no rootUri was passed in the transport tests. Fixed by converting all injectable parameter imports to runtime imports.
+- **Windows path handling in definition handler**: `DefinitionHandler.extractVaultRoot` had to handle Windows-style paths from `file:///C:/...` URIs.
+- **Integration test ordering**: Server-pushed notifications (publishDiagnostics, flavorGrenade/status) arrive interleaved with request responses. The LspClient needed a notification-buffering mechanism with a method-filtered `waitForNotification` helper.
+
+### Key decisions
+
+- `ReferencesHandler` injects `VaultIndex` as `@Optional()` to look up the source document URI from DocId; this allows correct URI construction for cross-document references.
+- `DiagnosticService` receives a pre-resolved `vaultRoot` from the caller rather than calling `VaultDetector.detect()` itself, making the single-file mode check predictable in tests.
+- `DefinitionHandler` uses a fallback vault-root extraction from the document URI for simplicity; a future phase can inject `VaultDetector` directly.
+- The completion provider always returns all stems (empty partial) at the LSP level; partial filtering can be added when the document text is available.
+
+### Technical debt
+
+- `DefinitionHandler.extractVaultRoot` is a heuristic — it should use `VaultDetector` directly in a future cleanup.
+- `ReferencesHandler` uses vault-root heuristics for `docIdToUri` fallback — same cleanup opportunity.
+- Completion partial extraction (typing `[[alph` → only `alpha` completes) requires document text lookup, deferred to a future phase.

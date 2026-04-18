@@ -2,7 +2,7 @@
 id: "TASK-057"
 title: "Implement RefGraph"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"

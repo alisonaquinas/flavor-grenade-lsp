@@ -2,7 +2,7 @@
 id: "CHORE-014"
 title: "Phase 5 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "5"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 code quality sweep focusing on RefGraph rebuild performance, Oracle resolution order correctness, and completion candidate capping.
+
+> [!CHECK] Done — 2026-04-17
+> All new files verified: nesting ≤3 levels, functions ≤40 lines. Exports have JSDoc comments. Refactored `handleCompletion` to simplify parameter handling. No code smells found.

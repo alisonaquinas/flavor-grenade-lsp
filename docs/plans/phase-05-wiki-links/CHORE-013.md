@@ -2,7 +2,7 @@
 id: "CHORE-013"
 title: "Phase 5 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "5"
 created: "2026-04-17"
@@ -124,3 +124,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 lint sweep to reach zero-warning gate.
+
+> [!CHECK] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passes. `tsc --noEmit` exits 0. 193 unit + 6 integration tests pass. No new lint suppressions added. Fixed one `eslint-disable` comment that was redundant in integration test file.

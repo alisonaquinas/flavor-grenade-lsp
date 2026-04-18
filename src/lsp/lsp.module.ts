@@ -16,6 +16,12 @@ import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
 import { ParserModule } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
+import { ResolutionModule } from '../resolution/resolution.module.js';
+import { DefinitionHandler } from '../handlers/definition.handler.js';
+import { ReferencesHandler } from '../handlers/references.handler.js';
+import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
+import { DiagnosticService } from '../resolution/diagnostic-service.js';
+import { VaultDetector } from '../vault/vault-detector.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -25,7 +31,7 @@ import { VaultModule } from '../vault/vault.module.js';
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [TransportModule, ParserModule, VaultModule],
+  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule],
   providers: [
     DocumentStore,
     LifecycleState,
@@ -52,6 +58,12 @@ export class LspModule implements OnModuleInit {
     private readonly didOpen: DidOpenHandler,
     private readonly didChange: DidChangeHandler,
     private readonly didClose: DidCloseHandler,
+    private readonly capabilityRegistry: CapabilityRegistry,
+    private readonly definition: DefinitionHandler,
+    private readonly references: ReferencesHandler,
+    private readonly completionProvider: WikiLinkCompletionProvider,
+    private readonly diagnosticService: DiagnosticService,
+    private readonly vaultDetector: VaultDetector,
   ) {}
 
   /**
@@ -60,6 +72,12 @@ export class LspModule implements OnModuleInit {
    * Called by NestJS after all providers have been resolved.
    */
   onModuleInit(): void {
+    this.capabilityRegistry.merge({
+      definitionProvider: true,
+      referencesProvider: true,
+      completionProvider: { triggerCharacters: ['['], resolveProvider: false },
+    });
+
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
     this.dispatcher.onNotification('initialized', (p) => this.initialized.handle(p));
     this.dispatcher.onRequest('shutdown', (p) => this.shutdown.handle(p));
@@ -68,6 +86,16 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onNotification('textDocument/didChange', (p) => this.didChange.handle(p));
     this.dispatcher.onNotification('textDocument/didClose', (p) => this.didClose.handle(p));
 
+    this.dispatcher.onRequest('textDocument/definition', (p) =>
+      Promise.resolve(this.definition.handle(p as Parameters<DefinitionHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/references', (p) =>
+      Promise.resolve(this.references.handle(p as Parameters<ReferencesHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/completion', (p) =>
+      Promise.resolve(this.handleCompletion(p)),
+    );
+
     this.reader.on('message', (raw: string) => {
       this.dispatcher.dispatch(raw).catch((err: unknown) => {
         process.stderr.write(`[flavor-grenade-lsp] dispatch error: ${String(err)}\n`);
@@ -75,5 +103,15 @@ export class LspModule implements OnModuleInit {
     });
 
     this.reader.start(process.stdin);
+  }
+
+  /**
+   * Handle a `textDocument/completion` request.
+   *
+   * Returns all vault document stems as completion items. Partial extraction
+   * from document text is deferred to a future phase.
+   */
+  private handleCompletion(_params: unknown): { items: unknown[]; isIncomplete: boolean } {
+    return this.completionProvider.getCompletions('');
   }
 }

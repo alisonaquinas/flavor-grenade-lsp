@@ -2,7 +2,7 @@
 id: "CHORE-015"
 title: "Phase 5 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "high"
 phase: "5"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 security sweep covering URI validation on wiki-link targets before filesystem access (ADR013) and no user-controlled strings in paths without sanitization.
+
+> [!CHECK] Done — 2026-04-17
+> Reviewed all new files: `DiagnosticService.publishDiagnostics` uses `fromDocId(vaultRoot, c)` (vault-relative, no user string injection). `DefinitionHandler.extractVaultRoot` parses URI via `new URL()` safely. `VaultIndex` paths come from VaultScanner/FolderLookup, never directly from wiki-link targets. ADR013 confinement respected via `IgnoreFilter.shouldIgnore` and `SingleFileModeGuard`.

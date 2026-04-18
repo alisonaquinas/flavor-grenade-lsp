@@ -2,7 +2,7 @@
 id: "TASK-064"
 title: "Implement alias resolution from frontmatter"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "5"
 parent: "FEAT-006"
