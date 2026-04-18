@@ -2,7 +2,7 @@
 id: "FEAT-013"
 title: "Code Actions"
 type: feature
-status: draft
+status: in-progress
 priority: medium
 phase: 12
 created: "2026-04-17"
@@ -160,3 +160,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] In-progress — 2026-04-17
+> Phase 12 implementation started. All 8 TASK + 3 CHORE tickets defined. Status: `in-progress`.
