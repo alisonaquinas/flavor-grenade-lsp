@@ -2,7 +2,7 @@
 id: "FEAT-011"
 title: "Navigation"
 type: feature
-status: draft
+status: in-progress
 priority: "high"
 phase: "10"
 created: "2026-04-17"
