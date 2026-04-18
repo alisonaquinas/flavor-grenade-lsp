@@ -26,6 +26,7 @@ Update `RefGraph` to track `[[doc#^blockid]]` references as a new `CrossBlockRef
 ## Implementation Notes
 
 - New interface:
+
   ```typescript
   export interface CrossBlockRef {
     sourceDocId: DocId;
@@ -36,6 +37,7 @@ Update `RefGraph` to track `[[doc#^blockid]]` references as a new `CrossBlockRef
     diagnostic?: 'FG005';
   }
   ```
+
 - Store `CrossBlockRef[]` in `RefGraph` alongside existing ref types
 - Intra-doc case: `targetDocId === null` and resolution queries source doc's own `OFMIndex`
 - See also: [[adr/ADR006-block-ref-indexing]]

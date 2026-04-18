@@ -119,6 +119,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 ## Notes
 
 ADR references:
+
 - [[adr/ADR005-wiki-style-binding]] — wiki-link style binding rules that govern how cursor entities are resolved
 
 ---

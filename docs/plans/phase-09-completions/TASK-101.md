@@ -26,6 +26,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
 ## Implementation Notes
 
 - Update the `initialize` handler's returned capability object:
+
   ```typescript
   completionProvider: {
     triggerCharacters: ['[', '!', '#', '>'],
@@ -33,6 +34,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
     resolveProvider: false,
   }
   ```
+
 - Verify that the `CompletionRouter` is wired as the handler for `textDocument/completion` in the dispatch table
 - No new logic; this is a capability declaration update only
 - See also: [[plans/phase-09-completions]]

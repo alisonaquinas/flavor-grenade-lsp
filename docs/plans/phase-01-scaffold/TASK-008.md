@@ -28,6 +28,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 ## Implementation Notes
 
 - Create `bunfig.toml` at project root with the following content:
+
   ```toml
   [test]
   root = "src"
@@ -36,6 +37,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
   [install]
   exact = true
   ```
+
 - `exact = true` means newly installed packages are pinned to exact versions, not semver ranges
 - `coverage = true` enables coverage output for `bun test` without additional flags
 - See also: [[architecture/overview]]

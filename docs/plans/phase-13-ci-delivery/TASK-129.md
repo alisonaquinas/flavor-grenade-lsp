@@ -26,12 +26,14 @@ Add `build:binary` and `build:binary:win` scripts to `package.json` using `bun b
 ## Implementation Notes
 
 - Add to `package.json` scripts:
+
   ```json
   {
     "build:binary": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp",
     "build:binary:win": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp.exe"
   }
   ```
+
 - The compiled binary embeds the Bun runtime; no separate runtime needed on target machine
 - Verify: `./dist/flavor-grenade-lsp --version` prints a version string
 - See also: [[requirements/ci-cd]]

@@ -79,7 +79,7 @@ Ignore region marking (stage 3) runs before OFM element tokenization (stage 4). 
 
 **Consequence**: a wiki-link that spans an ignore region boundary is not recognized. E.g.:
 
-```
+```markdown
 `[[not` a link]]
 ```
 

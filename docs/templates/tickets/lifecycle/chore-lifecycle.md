@@ -65,6 +65,7 @@ Work is underway. The agent is modifying, creating, or deleting files within the
 | **Exit condition (blocked)** | A dependency or decision prevents completion; transition to `blocked` |
 
 **Scope creep rule:** If, during `in-progress`, the agent discovers that a change requires touching a file not listed in **Scope of Change**, it must:
+
 1. Stop
 2. Assess whether the additional change is still chore-level (no behaviour change)
 3. If yes: update the scope list, append a log note, continue

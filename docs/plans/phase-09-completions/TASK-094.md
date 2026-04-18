@@ -29,6 +29,7 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
 - Resolve target doc via `Oracle.resolveByFolderLookup(targetStem)`
 - If resolved: enumerate `doc.ofmIndex.headings`, filter by `heading.text.startsWith(headingPrefix)`
 - Each item:
+
   ```typescript
   {
     label: heading.text,
@@ -37,6 +38,7 @@ Create `src/completion/heading-completion-provider.ts`. This provider handles th
     insertText: heading.text,
   }
   ```
+
 - If not resolved: return `{ isIncomplete: false, items: [] }`
 - See also: [[plans/phase-09-completions]]
 

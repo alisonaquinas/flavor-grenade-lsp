@@ -30,7 +30,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[reference-resolution/
 
 ### State
 
-```
+```text
 OFMDoc
 ├── id:        DocId                  — identity; immutable after construction
 ├── text:      string                 — raw UTF-8 document text
@@ -41,7 +41,7 @@ OFMDoc
 
 ### State Diagram
 
-```
+```text
                      ┌──────────────────────────────────────────────────┐
                      │                    OFMDoc                         │
                      │                                                    │
@@ -134,7 +134,7 @@ interface OFMIndex {
 
 The parse pipeline is a pure, ordered chain of stages. Each stage receives the output of the previous stage and returns a transformed representation. The pipeline is stateless and deterministic — same input always produces the same output.
 
-```
+```text
 Raw text (string)
       │
       ▼ Stage 1: Tokenize

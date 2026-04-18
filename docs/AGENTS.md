@@ -96,6 +96,7 @@ Before any implementation file (`src/**/*.ts`) is written, ALL of the following 
 All cross-references use `[[wikilink]]` syntax. The link target is the file stem relative to `docs/` — never a full path, never a `.md` extension.
 
 Examples:
+
 - Correct: `[[ADR001-stdio-transport]]`
 - Correct: `[[features/completions]]`
 - Correct: `[[ddd/ubiquitous-language]]`
@@ -141,7 +142,7 @@ ADR files follow the pattern `ADR<NNN>-<kebab-title>.md`. The three-digit number
 
 Every requirement in `requirements/` must use Planguage format with all seven mandatory fields:
 
-```
+```text
 Tag:       <unique identifier, e.g. WS-001>
 Gist:      <one-sentence description of the requirement>
 Ambition:  <target level of quality — aspirational>

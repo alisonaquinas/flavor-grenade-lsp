@@ -66,6 +66,7 @@ Implement the full completion provider that handles all trigger characters and c
   2. Resolve the target document via `Oracle`
   3. If resolved: enumerate all `HeadingEntry[]` from that doc's `OFMIndex`
   4. Return `CompletionItem[]`:
+
      ```typescript
      {
        label: heading.text,
@@ -74,6 +75,7 @@ Implement the full completion provider that handles all trigger characters and c
        insertText: heading.text,
      }
      ```
+
   5. Filter by `headingPrefix` if user has typed partial heading text
 
 - [ ] **4. Implement callout type `CompletionProvider`**
@@ -85,6 +87,7 @@ Implement the full completion provider that handles all trigger characters and c
   - Inserting a callout type also inserts the `]` closing bracket and a space
 
   Standard types:
+
   ```typescript
   export const STANDARD_CALLOUT_TYPES = [
     'NOTE', 'INFO', 'TIP', 'WARNING', 'DANGER',
@@ -132,6 +135,7 @@ Implement the full completion provider that handles all trigger characters and c
 - [ ] **10. Register updated capabilities**
 
   Update `InitializeResult.capabilities.completionProvider`:
+
   ```typescript
   {
     triggerCharacters: ['[', '!', '#', '>'],

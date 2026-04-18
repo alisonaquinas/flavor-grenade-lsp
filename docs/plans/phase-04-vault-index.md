@@ -186,7 +186,8 @@ Build the vault-awareness layer: detect the vault root, scan and index all docum
 - [ ] **11. Write unit tests for `VaultDetector`**
 
   Use fixture directories under `src/test/fixtures/vault-detection/`:
-  ```
+
+  ```text
   fixture-obsidian/       (has .obsidian/)
   fixture-toml/           (has .flavor-grenade.toml)
   fixture-both/           (has both — obsidian wins)

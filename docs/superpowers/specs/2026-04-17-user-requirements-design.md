@@ -28,7 +28,7 @@ status: approved
 
 ## File Structure
 
-```
+```text
 docs/requirements/
 ├── index.md                      ← gains a link to user/index.md
 ├── user/
@@ -60,7 +60,7 @@ docs/requirements/
 
 Each entry in a theme file:
 
-```markdown
+```text
 **Tag:** User.Navigate.JumpToNote
 **Goal:** Navigate to a linked note
 **Need:** A vault author clicks on or invokes go-to-definition on a `[[wiki-link]]`
@@ -71,6 +71,7 @@ vault that note lives or how the link is written.
 ```
 
 Rules:
+
 - **Tag** — `User.Theme.Goal` dot-notation, unique across the project
 - **Goal** — verb phrase from the user's perspective; no implementation terms
 - **Need** — one paragraph, plain English; no mention of LSP methods, JSON-RPC, NestJS, or TypeScript

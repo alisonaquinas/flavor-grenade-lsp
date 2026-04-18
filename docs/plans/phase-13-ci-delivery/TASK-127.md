@@ -26,6 +26,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
 ## Implementation Notes
 
 - Add to `.github/workflows/ci.yml` after `bun test --coverage`:
+
   ```yaml
   - uses: codecov/codecov-action@v4
     with:
@@ -33,6 +34,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
       files: coverage/lcov.info
       fail_ci_if_error: true
   ```
+
 - `CODECOV_TOKEN` must be stored as a GitHub repository secret, not hardcoded
 - See also: [[requirements/ci-cd]], [[adr/ADR008-oidc-publishing]]
 

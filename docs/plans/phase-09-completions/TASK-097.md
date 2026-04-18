@@ -28,11 +28,13 @@ Implement the `completion.candidates` configuration cap inside `CompletionRouter
 - Configuration key: `completion.candidates` (integer, default 50)
 - Applied universally after every sub-provider returns, before returning from `CompletionRouter.complete()`
 - Logic:
+
   ```typescript
   const limit = this.config.completion?.candidates ?? 50;
   const isIncomplete = items.length > limit;
   return { isIncomplete, items: isIncomplete ? items.slice(0, limit) : items };
   ```
+
 - Linked req: [[requirements/completions]] `Completion.CandidateCap`
 - See also: [[plans/phase-09-completions]]
 

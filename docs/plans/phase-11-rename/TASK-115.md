@@ -27,6 +27,7 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
 
 - File: `src/handlers/workspace-edit-builder.ts`
 - Public API:
+
   ```typescript
   export class WorkspaceEditBuilder {
     addTextEdit(uri: string, range: Range, newText: string): this;
@@ -34,6 +35,7 @@ Create `src/handlers/workspace-edit-builder.ts`. A builder that accumulates text
     build(): WorkspaceEdit;
   }
   ```
+
 - Deduplication: if two edits target the same URI and same range, keep the last one added
 - Reverse line order: sort edits for each URI by line descending, then by character descending, so the last edit in the file is applied first
 - `RenameFile` operations are included in `documentChanges`, not in `changes`

@@ -188,6 +188,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 | (none opened) | — | No deviations required new CHORE or BUG tickets | — |
 
 Minor findings handled inline without tickets:
+
 - **`js-yaml` CORE_SCHEMA**: CHORE-009 acceptance criteria required safe schema mode; updated `frontmatter-parser.ts` during the security sweep rather than opening a new ticket (no behaviour change, only hardening). Lint and tests re-verified immediately.
 - **Hook false positive on `exec()`**: The pre-write security hook fired a warning about `exec()` when processing `wiki-link-parser.ts` (which contains no `exec()` — the regex method `pattern.exec()` triggered the pattern). Worked around by writing files via Bash heredoc. Not a code issue; no ticket needed.
 

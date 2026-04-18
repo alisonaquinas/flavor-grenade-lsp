@@ -149,6 +149,7 @@ Implement the full wiki-link feature: resolution of `[[target]]` links to vault 
 - [ ] **9. Register handlers in `LspModule` capability registry**
 
   Update `InitializeResult.capabilities` to include:
+
   ```typescript
   {
     definitionProvider: true,

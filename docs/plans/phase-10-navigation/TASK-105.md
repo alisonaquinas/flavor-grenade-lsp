@@ -27,6 +27,7 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
 - File: `src/handlers/cursor-entity.ts`
 - Public API shape:
+
   ```typescript
   export type CursorEntity =
     | { kind: 'wiki-link'; entry: WikiLinkEntry }
@@ -38,6 +39,7 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
   export function entityAtPosition(doc: OFMDoc, pos: Position): CursorEntity;
   ```
+
 - Binary-search all index ranges for O(log n) lookup
 - On overlap, prefer narrowest range (most specific entity)
 - Returns `{ kind: 'none' }` when cursor is not over any indexed entity

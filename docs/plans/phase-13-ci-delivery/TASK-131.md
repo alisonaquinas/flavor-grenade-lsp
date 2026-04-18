@@ -26,6 +26,7 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
 ## Implementation Notes
 
 - Update `package.json`:
+
   ```json
   {
     "name": "@flavor-grenade/lsp-server",
@@ -37,7 +38,9 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
     "publishConfig": { "access": "public" }
   }
   ```
+
 - Add `publish-npm` job to `release.yml`:
+
   ```yaml
   publish-npm:
     needs: create-release
@@ -51,6 +54,7 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   ```
+
 - `NODE_AUTH_TOKEN` must come from GitHub Secrets; never hardcode or expose in logs
 - See also: [[adr/ADR008-oidc-publishing]], [[requirements/ci-cd]]
 

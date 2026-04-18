@@ -50,6 +50,7 @@ Implement productivity code actions: generate table of contents, create a missin
   1. Extract the broken wiki-link target from the diagnostic (e.g., `nonexistent-note`)
   2. Determine the new file path using the vault root and `linkStyle` config
   3. Produce a `CodeAction`:
+
      ```typescript
      {
        title: `Create 'nonexistent-note.md'`,
@@ -70,12 +71,14 @@ Implement productivity code actions: generate table of contents, create a missin
   Create `src/code-actions/toc-generator.action.ts`. When cursor is anywhere in the document:
   1. Collect all `HeadingEntry[]` from the document's `OFMIndex`
   2. Generate markdown TOC:
+
      ```markdown
      ## Table of Contents
      - [[#Heading 1]]
        - [[#Sub Heading]]
      - [[#Heading 2]]
      ```
+
   3. Produce a `CodeAction` with `WorkspaceEdit` that inserts the TOC:
      - If a TOC already exists (detect by `## Table of Contents` heading), offer "Replace TOC"
      - Otherwise, offer "Insert TOC after first heading"
@@ -98,6 +101,7 @@ Implement productivity code actions: generate table of contents, create a missin
   Create `src/code-actions/fix-nbsp.action.ts`. When FG006 diagnostic is present:
   1. Extract the range of the non-breaking space character
   2. Produce a `CodeAction` with `isPreferred: true`:
+
      ```typescript
      {
        title: 'Replace non-breaking space with regular space',
@@ -113,6 +117,7 @@ Implement productivity code actions: generate table of contents, create a missin
   1. Query across entire `VaultIndex` for matching entities
   2. Search by query string in: document titles (headings H1), all headings, tag names, block anchor IDs
   3. Return `WorkspaceSymbol[]`:
+
      ```typescript
      {
        name: 'Section Alpha',
@@ -120,6 +125,7 @@ Implement productivity code actions: generate table of contents, create a missin
        location: { uri, range },
      }
      ```
+
   4. Cap results at 50 items; use fuzzy matching (simple prefix/substring match)
 
   Register `workspaceSymbolProvider: true` in capabilities.
@@ -148,6 +154,7 @@ Implement productivity code actions: generate table of contents, create a missin
   | Frontmatter key | `property` | `declaration` |
 
   Register:
+
   ```typescript
   semanticTokensProvider: {
     legend: { tokenTypes: [...], tokenModifiers: [...] },

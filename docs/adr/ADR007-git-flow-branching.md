@@ -20,6 +20,7 @@ Three strategies were evaluated:
 **Option 3 — git-flow.** Formalised by Vincent Driessen. Two permanent branches: `main` (production-ready, tagged releases only) and `develop` (integration branch). Supporting branch types: `feature/*` (branched from `develop`, merged back to `develop`), `release/*` (branched from `develop` when preparing a release, merged to both `main` and `develop`), `hotfix/*` (branched from `main`, merged to both `main` and `develop`). No direct pushes to `main` or `develop` — all merges go through pull requests.
 
 The project requires:
+
 - `main` always reflects a tagged, production-ready release — never a work-in-progress commit.
 - A `develop` integration branch that accumulates completed features before each release cycle.
 - Feature branches that isolate individual features from each other.
@@ -40,16 +41,19 @@ Branch semantics:
 - **`hotfix/*`** — Cut from `main` to patch a production defect. Named `hotfix/<short-description>`. Merged to `main` (tagged with a patch version bump) and back-merged to `develop`. Branch deleted after merge.
 
 Pull request rules:
+
 - No direct pushes to `main` or `develop`. Branch protection enforces this.
 - All merges go through PRs. PRs require CI to pass before merging.
 
 GitHub Actions CI configuration:
+
 - `pull_request` trigger targets `[main, develop]` — runs the full test, lint, and typecheck suite on every PR.
 - `push` trigger targets `[main]` — runs the OIDC publish workflow after the merge commit is tagged.
 
 ## Consequences
 
 **Positive:**
+
 - `main` has a clean, linear release history. Every commit is a tagged production release. Consumers of the package can trust that any commit on `main` is stable.
 - Feature isolation: each `feature/*` branch is self-contained. A broken feature branch cannot affect other features in progress on `develop`.
 - PRs are the mandatory gate for all merges. CI must pass before any branch reaches `main` or `develop`.
@@ -57,11 +61,13 @@ GitHub Actions CI configuration:
 - The `hotfix/*` path allows emergency patches to reach production immediately without cherry-picking through an unfinished `develop` state.
 
 **Negative:**
+
 - More ceremony than trunk-based or GitHub Flow. Contributors must understand the five branch types and their lifecycle.
 - Back-merging `release/*` and `hotfix/*` to `develop` is a required step that can be forgotten. This should be automated or enforced by a checklist in the PR template.
 - Long-lived feature branches risk merge conflicts when `develop` moves significantly while the branch is open. Feature branches should be kept short-lived (days, not weeks) to mitigate this.
 
 **Neutral:**
+
 - The GitHub Actions workflow files must enumerate all relevant branch triggers explicitly. A CI configuration that only triggers on `main` would silently skip PR checks on `develop`.
 
 ## Related

@@ -98,6 +98,7 @@ Expected: `feat/user-requirements`
 ## Task 2: Create `docs/requirements/user/index.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/index.md`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -188,6 +189,7 @@ git commit -m "docs(user-req): add user requirements index with 23 entries"
 ## Task 3: Create `navigating-notes.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/navigating-notes.md`
 
 - [ ] **Step 1: Create the file**
@@ -246,6 +248,7 @@ git commit -m "docs(user-req): add navigating-notes theme (3 reqs)"
 ## Task 4: Create `authoring-links.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/authoring-links.md`
 
 - [ ] **Step 1: Create the file**
@@ -311,6 +314,7 @@ git commit -m "docs(user-req): add authoring-links theme (4 reqs)"
 ## Task 5: Create `embedding-content.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/embedding-content.md`
 
 - [ ] **Step 1: Create the file**
@@ -362,6 +366,7 @@ git commit -m "docs(user-req): add embedding-content theme (2 reqs)"
 ## Task 6: Create `writing-with-tags.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/writing-with-tags.md`
 
 - [ ] **Step 1: Create the file**
@@ -420,6 +425,7 @@ git commit -m "docs(user-req): add writing-with-tags theme (3 reqs)"
 ## Task 7: Create `referencing-blocks.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/referencing-blocks.md`
 
 - [ ] **Step 1: Create the file**
@@ -471,6 +477,7 @@ git commit -m "docs(user-req): add referencing-blocks theme (2 reqs)"
 ## Task 8: Create `seeing-broken-links.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/seeing-broken-links.md`
 
 - [ ] **Step 1: Create the file**
@@ -529,6 +536,7 @@ git commit -m "docs(user-req): add seeing-broken-links theme (3 reqs)"
 ## Task 9: Create `renaming-safely.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/renaming-safely.md`
 
 - [ ] **Step 1: Create the file**
@@ -580,6 +588,7 @@ git commit -m "docs(user-req): add renaming-safely theme (2 reqs)"
 ## Task 10: Create `vault-setup.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/vault-setup.md`
 
 - [ ] **Step 1: Create the file**
@@ -631,6 +640,7 @@ git commit -m "docs(user-req): add vault-setup theme (2 reqs)"
 ## Task 11: Create `configuring-behaviour.md`
 
 **Files:**
+
 - Create: `docs/requirements/user/configuring-behaviour.md`
 
 - [ ] **Step 1: Create the file**
@@ -682,6 +692,7 @@ git commit -m "docs(user-req): add configuring-behaviour theme (2 reqs)"
 ## Task 12: Update `wiki-link-resolution.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/wiki-link-resolution.md`
 
 In this file, each requirement block starts with `**Tag:** <tag-name>`. Insert a `**User Req:**` line immediately after each `**Tag:**` line, using the values from the FR Back-Reference Map above.
@@ -703,6 +714,7 @@ For each of the 5 FR tags in this file, insert the corresponding `User Req:` lin
 ```
 
 Apply the same pattern for all 5 tags:
+
 - `Link.Wiki.AliasResolution` → `User.Navigate.JumpToNote`
 - `Link.Resolution.ModeScope` → `User.Diagnose.SpotBrokenLinks`
 - `Link.Inline.URLSkip` → `User.Diagnose.SpotBrokenLinks`
@@ -728,9 +740,11 @@ git commit -m "docs(user-req): add User Req: back-refs to wiki-link-resolution"
 ## Task 13: Update `embed-resolution.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/embed-resolution.md`
 
 FR tags in this file and their User Req values:
+
 - `Embed.Resolution.MarkdownTarget` → `User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent`
 - `Embed.Resolution.ImageTarget` → `User.Embed.DetectBrokenEmbed`
 - `Embed.HeadingEmbed.Resolution` → `User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent`
@@ -758,9 +772,11 @@ git commit -m "docs(user-req): add User Req: back-refs to embed-resolution"
 ## Task 14: Update `tag-indexing.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/tag-indexing.md`
 
 FR tags and User Req values:
+
 - `Tag.Index.Completeness` → `User.Tags.CompleteTag`
 - `Tag.Hierarchy.Awareness` → `User.Tags.FindTaggedNotes, User.Tags.UseHierarchicalTags`
 - `Tag.YAML.Equivalence` → `User.Tags.FindTaggedNotes`
@@ -788,9 +804,11 @@ git commit -m "docs(user-req): add User Req: back-refs to tag-indexing"
 ## Task 15: Update `block-references.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/block-references.md`
 
 FR tags and User Req values:
+
 - `Block.Anchor.Indexing` → `User.Blocks.ReferenceSpecificText`
 - `Block.CrossRef.Diagnostic` → `User.Blocks.ReferenceSpecificText`
 - `Block.Completion.Offer` → `User.Blocks.CompleteBlockRef`
@@ -818,9 +836,11 @@ git commit -m "docs(user-req): add User Req: back-refs to block-references"
 ## Task 16: Update `completions.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/completions.md`
 
 FR tags and User Req values:
+
 - `Completion.Candidates.Cap` → `User.Author.CompleteWikiLink, User.Config.TuneCompletions`
 - `Completion.Trigger.Coverage` → `User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Author.CompleteCallout, User.Tags.CompleteTag`
 - `Completion.CalloutType.Coverage` → `User.Author.CompleteCallout`
@@ -848,9 +868,11 @@ git commit -m "docs(user-req): add User Req: back-refs to completions"
 ## Task 17: Update `diagnostics.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/diagnostics.md`
 
 FR tags and User Req values:
+
 - `Diagnostic.Severity.WikiLink` → `User.Diagnose.SpotBrokenLinks`
 - `Diagnostic.Severity.Embed` → `User.Diagnose.SpotBrokenEmbeds`
 - `Diagnostic.Code.Assignment` → `User.Diagnose.SpotBrokenLinks, User.Diagnose.SpotBrokenEmbeds`
@@ -880,9 +902,11 @@ git commit -m "docs(user-req): add User Req: back-refs to diagnostics"
 ## Task 18: Update `navigation.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/navigation.md`
 
 FR tags and User Req values:
+
 - `Navigation.Definition.AllLinkTypes` → `User.Navigate.JumpToNote, User.Blocks.ReferenceSpecificText`
 - `Navigation.References.Completeness` → `User.Navigate.FindAllReferences`
 - `Navigation.CodeLens.Count` → `User.Navigate.SeeReferenceCount`
@@ -909,9 +933,11 @@ git commit -m "docs(user-req): add User Req: back-refs to navigation"
 ## Task 19: Update `rename.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/rename.md`
 
 FR tags and User Req values:
+
 - `Rename.Refactoring.Completeness` → `User.Rename.RenameNoteEverywhere, User.Rename.RenameHeadingEverywhere`
 - `Rename.Prepare.Rejection` → `User.Rename.RenameHeadingEverywhere`
 - `Rename.StyleBinding.Consistency` → `User.Rename.RenameNoteEverywhere, User.Author.FollowLinkStyle`
@@ -938,9 +964,11 @@ git commit -m "docs(user-req): add User Req: back-refs to rename"
 ## Task 20: Update `workspace.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/workspace.md`
 
 FR tags and User Req values:
+
 - `Workspace.VaultDetection.Primary` → `User.Vault.AutoDetectVault`
 - `Workspace.VaultDetection.Fallback` → `User.Vault.AutoDetectVault`
 - `Workspace.FileExtension.Filter` → `User.Vault.WorkAcrossEntireVault`
@@ -968,9 +996,11 @@ git commit -m "docs(user-req): add User Req: back-refs to workspace"
 ## Task 21: Update `configuration.md` — add `User Req:` fields
 
 **Files:**
+
 - Modify: `docs/requirements/configuration.md`
 
 FR tags and User Req values (only 2 of 4 FR tags in this file have user mappings):
+
 - `Config.Precedence.Layering` → `User.Config.CustomiseLinkStyle`
 - `Config.Validation.Candidates` → `User.Config.TuneCompletions`
 - `Config.Fault.Isolation` — no user mapping (operational concern; do not add `User Req:`)
@@ -1006,6 +1036,7 @@ git commit -m "docs(user-req): add User Req: back-refs to configuration (2 of 4 
 ## Task 22: Update `requirements/index.md` — link to user layer
 
 **Files:**
+
 - Modify: `docs/requirements/index.md`
 
 - [ ] **Step 1: Read the current Related Documents section**

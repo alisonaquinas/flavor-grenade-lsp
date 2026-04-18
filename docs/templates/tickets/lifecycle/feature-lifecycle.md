@@ -53,6 +53,7 @@ The feature exists as a ticket but specification is incomplete. Requirements are
 | **Exit condition** | Transition to `ready` when all obligations below are met |
 
 **Required before `ready`:**
+
 - Every `{{PLACEHOLDER}}` in the frontmatter and body is replaced with real values
 - All linked Planguage requirement tags resolve to rows in [[requirements/index]]
 - All linked BDD feature files exist in `docs/bdd/features/`

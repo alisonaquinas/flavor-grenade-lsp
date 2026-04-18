@@ -20,6 +20,7 @@ aliases:
 **Ambition:** A three-tier configuration stack is standard practice for developer tools (editors, linters, LSPs) and provides the correct layering for both personal and team usage: team-wide project settings in the project file, personal preferences in the user file, and safe defaults for unconfigured scenarios. The critical property is that each tier is additive, not total: a project file that sets only `wiki.style` must not reset `completion.candidates` to an unexpected value. Violating this contract creates configuration surprises that are extremely difficult to debug because the symptom (unexpected LSP behaviour) appears far removed from the cause (a missing key in a config file resetting to default).
 **Scale:** Percentage of test cases in which a key defined at a higher-priority tier takes the expected value when the same key is also defined at a lower-priority tier, and in which a key defined only at a lower-priority tier retains its lower-tier value. Scope: at least 5 distinct configuration keys across at least 3 test scenarios per key.
 **Meter:**
+
 1. Define a baseline built-in default set (e.g., `completion.candidates = 50`, `wiki.style = "file-stem"`, `core.text_sync = "full"`).
 2. Create a user config file that overrides `wiki.style` to `"title-slug"` and leaves `completion.candidates` unset.
 3. Create a project config file that overrides `completion.candidates` to `20` and leaves `wiki.style` unset.
@@ -43,6 +44,7 @@ aliases:
 **Ambition:** `completion.candidates` controls a performance-critical aspect of the completion feature: how many items are returned per request. A value of zero would cause completion to return nothing, silently disabling a core LSP feature. A negative value would produce undefined behaviour in the candidate-capping logic. Authors who misconfigure this value are unlikely to connect a completion outage to a config file entry without a clear signal; substituting the default ensures the server remains functional and the error is observable at the debug log level where tooling-aware developers can find it.
 **Scale:** Percentage of server startups with an invalid `completion.candidates` value (zero, negative integer, floating-point, or non-numeric string) in which the server (a) does not crash, (b) uses the built-in default of 50 for the effective `completion.candidates` value, and (c) emits at least one debug-level log message identifying the invalid value and the substitution.
 **Meter:**
+
 1. Test at least 5 invalid values: `0`, `-1`, `-100`, `3.7`, `"fifty"`.
 2. For each, write the value to the project `.flavor-grenade.toml` under `completion.candidates`.
 3. Start the server; verify it reaches the `initialized` state without error.
@@ -62,6 +64,7 @@ aliases:
 **Ambition:** Configuration file corruption is a realistic failure mode: truncated writes, encoding issues, and manual editing mistakes all produce invalid TOML. A server that crashes on any config parse error punishes the author at the worst possible time — often on startup, blocking all LSP functionality until the config is fixed. Fault isolation ensures the server degrades gracefully: it loses only the settings from the malformed file, continues operating on defaults or higher-priority valid files, and gives the author an observable signal (the debug log) to diagnose the issue at their own pace.
 **Scale:** Percentage of server startups with a malformed TOML file in at least one configuration layer in which the server (a) does not crash, (b) reaches the `initialized` state, (c) emits at least one debug-level log message identifying the malformed file and the parse error, and (d) uses the remaining valid configuration layers for its effective configuration.
 **Meter:**
+
 1. Create a project `.flavor-grenade.toml` with deliberate syntax errors (unclosed quotes, invalid key-value separator, binary data).
 2. Create a valid user config file with at least 2 config keys set.
 3. Start the server; verify it reaches `initialized`.
@@ -82,6 +85,7 @@ aliases:
 **Ambition:** `core.text_sync` controls whether the server receives full document text or incremental changes on `textDocument/didChange`. The `"full"` default is the safest choice: it guarantees the server always has the complete current document state without needing to maintain and apply incremental delta logic during startup or when the configuration is absent. Teams that require incremental sync for performance can opt in explicitly; all others get a correct, simple default that never produces stale document state.
 **Scale:** Percentage of server sessions in which `core.text_sync` is absent from all configuration layers and the server advertises `TextDocumentSyncKind.Full` (value 1) in its `ServerCapabilities.textDocumentSync` during the `initialize` response.
 **Meter:**
+
 1. Ensure no configuration file at any layer defines `core.text_sync`.
 2. Start the server and complete the LSP `initialize` handshake.
 3. Inspect the `InitializeResult.capabilities.textDocumentSync` field.

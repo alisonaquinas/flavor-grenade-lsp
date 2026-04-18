@@ -120,7 +120,7 @@ This task has no `src/` deliverables and no test files. The Definition of Done i
 
 Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
 
-**State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
+**State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 | State | Meaning | Agent action on entry |

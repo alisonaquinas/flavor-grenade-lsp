@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Obsidian vaults commit to one of three link-text conventions (file-stem, title-slug, file-path-stem). LSP edits that violate that convention corrupt the vault's internal consistency and break Obsidian's own link resolution. Enforcing style at the LSP layer prevents silent divergence between what the server proposes and what Obsidian accepts.
 **Scale:** Percentage of completion items and rename `WorkspaceEdit` text edits in a given test session whose link text conforms to the active `wiki.style` setting. Scope: all wiki-link positions across all documents in the test vault.
 **Meter:**
+
 1. Configure a test vault with at least 10 documents whose titles differ from their file stems (e.g., `my-note.md` with title `My Note`).
 2. Set `wiki.style` to each of the three values (`file-stem`, `title-slug`, `file-path-stem`) in turn.
 3. For each style, trigger completion at a `[[` position and collect all returned `CompletionItem.insertText` values.
@@ -40,6 +41,7 @@ aliases:
 **Ambition:** Obsidian natively allows `[[My Alias]]` to resolve to a document that declares `aliases: [My Alias]` in its frontmatter. An LSP that ignores aliases rejects valid vault links, generates false-positive FG001 diagnostics, and breaks go-to-definition for an important authoring pattern widely used in Zettelkasten workflows.
 **Scale:** Percentage of `[[alias-text]]` wiki-link completions and definition requests in a test vault that correctly resolve to the document declaring that alias in its `aliases:` frontmatter property. Scope: all alias values across all indexed documents.
 **Meter:**
+
 1. Create a test vault with at least 5 documents each declaring at least 2 distinct aliases in YAML frontmatter (e.g., `aliases: [Alias A, Alias B]`).
 2. Open a new document and type `[[` to trigger completion.
 3. Verify that all declared aliases appear as completion candidates with the correct `detail` pointing to the owning document.
@@ -60,6 +62,7 @@ aliases:
 **Ambition:** Single-file mode is used when the LSP client opens an isolated document without a workspace root, such as a standalone markdown file in a text editor without vault context. Returning cross-file resolution results in this mode is both incorrect (no VaultIndex is populated) and potentially confusing or harmful (stale data from a previous session). This mirrors the requirement as specified for the marksman LSP.
 **Scale:** Percentage of LSP responses (completions, definitions, diagnostics, references) issued while the server is operating in single-file mode that contain any result referencing a file other than the currently open document.
 **Meter:**
+
 1. Start the server in single-file mode by opening a single `.md` file without a workspace root (no `rootUri` or `workspaceFolders` in `initialize`).
 2. Trigger `textDocument/completion` at a `[[` position.
 3. Trigger `textDocument/definition` on any wiki-link token.
@@ -80,6 +83,7 @@ aliases:
 **Ambition:** Vault documents commonly contain external hyperlinks in the form `[text](https://example.com)` or `[text](mailto:user@example.com)`. These are not wiki-links and their targets are not resolvable by the LSP. Emitting FG001 for them would create noise that trains users to ignore real broken-link diagnostics, undermining the diagnostic system's signal value.
 **Scale:** Percentage of inline link occurrences in a test vault whose URL is not a path to a `.md` file (or configured extension) that produce zero FG001 diagnostic entries.
 **Meter:**
+
 1. Create a document containing at least 10 inline links: at least 3 `https://` URLs, 2 `mailto:` URLs, 2 `#fragment-only` links, 2 `ftp://` URLs, and 1 relative link to a `.md` file.
 2. Open the document in the LSP client and wait for `textDocument/publishDiagnostics`.
 3. Collect all diagnostics with code `FG001`.
@@ -100,6 +104,7 @@ aliases:
 **Ambition:** Vaults often contain generated files, template directories, or attachment folders that should be invisible to the link-resolution layer. Exposing ignored files in completions degrades user experience with irrelevant candidates and may leak private or auto-generated content into links that are then committed to version control.
 **Scale:** Percentage of completion-candidate lists and definition-result sets that contain zero entries whose file path matches a currently active ignore pattern. Scope: all LSP requests issued after the ignore configuration is applied.
 **Meter:**
+
 1. Configure `ignore_patterns` in `.flavor-grenade.toml` to match a specific subdirectory (e.g., `templates/**`).
 2. Place at least 5 markdown documents inside that subdirectory and at least 5 outside.
 3. Trigger `textDocument/completion` at a `[[` position in an un-ignored document.

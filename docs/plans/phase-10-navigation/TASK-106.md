@@ -27,6 +27,7 @@ For ambiguous links (FG002 candidates — where a wiki-link matches more than on
 
 - Use `LocationLink[]` response shape, not `Location`, for multi-candidate results
 - `LocationLink` shape:
+
   ```typescript
   {
     originSelectionRange: wikiLinkEntry.range,
@@ -35,6 +36,7 @@ For ambiguous links (FG002 candidates — where a wiki-link matches more than on
     targetSelectionRange: candidate.range,
   }
   ```
+
 - FG002 diagnostic is the signal that a link is ambiguous — consult that diagnostics logic
 - Single-candidate results may still use `Location[]` for backward compatibility
 - See also: [[adr/ADR005-wiki-style-binding]]

@@ -85,12 +85,14 @@ Fix is being developed. As with tasks, a failing regression test must be written
 | **Exit condition** | Fix complete; regression test passes; lint and typecheck pass; transition to `in-review` |
 
 **Regression test commit format:**
-```
+
+```text
 test(module): add regression test for BUG-NNN — <short description>
 ```
 
 **Fix commit format:**
-```
+
+```text
 fix(module): resolve BUG-NNN — <short description>
 ```
 

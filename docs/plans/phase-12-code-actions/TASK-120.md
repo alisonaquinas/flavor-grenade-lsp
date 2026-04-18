@@ -27,12 +27,14 @@ Create `src/code-actions/toc-generator.action.ts`. When the cursor is anywhere i
 
 - Collect all `HeadingEntry[]` from the document's `OFMIndex`
 - Generate nested TOC using `[[#Heading]]` wiki-link syntax:
+
   ```markdown
   ## Table of Contents
   - [[#Heading 1]]
     - [[#Sub Heading]]
   - [[#Heading 2]]
   ```
+
 - Detect existing TOC by presence of `## Table of Contents` heading
   - Existing TOC → `WorkspaceEdit` replacing the existing TOC block
   - No existing TOC → `WorkspaceEdit` inserting after the first heading

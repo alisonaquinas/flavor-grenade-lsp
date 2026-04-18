@@ -26,12 +26,14 @@ Update `src/vault/vault-scanner.ts` to maintain an `AssetIndex` alongside the ex
 ## Implementation Notes
 
 - Add `AssetIndex` class (or inline to `VaultScanner`):
+
   ```typescript
   export class AssetIndex {
     has(vaultRelativePath: string): boolean;
     allPaths(): string[];
   }
   ```
+
 - During initial vault scan: collect all non-document files into `AssetIndex`
 - On `FileWatcher` events: update `AssetIndex` on create/delete of non-document files
 - Assets are keyed by full vault-relative path (e.g., `attachments/diagram.png`)

@@ -26,6 +26,7 @@ Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`, 
 ## Implementation Notes
 
 - Hardcoded standard types:
+
   ```typescript
   export const STANDARD_CALLOUT_TYPES = [
     'NOTE', 'INFO', 'TIP', 'WARNING', 'DANGER',
@@ -33,6 +34,7 @@ Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`, 
     'QUOTE', 'ABSTRACT', 'TODO',
   ] as const;
   ```
+
 - Custom types: enumerate all `OFMDoc`s in `VaultIndex`, collect unique `CalloutEntry.type` values not already in `STANDARD_CALLOUT_TYPES`
 - Item shape: `{ label: type, kind: CompletionItemKind.EnumMember, insertText: type + '] ' }`
 - Linked BDD: [[bdd/features/completions]] scenario "Callout completion returns all 13 types"

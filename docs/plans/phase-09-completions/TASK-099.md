@@ -13,7 +13,7 @@ tags: [tickets/task, "phase/9"]
 aliases: ["TASK-099"]
 ---
 
-# Implement intra-document heading completion after [[#
+# Implement intra-document heading completion after `[[#`
 
 > [!INFO] `TASK-099` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
 

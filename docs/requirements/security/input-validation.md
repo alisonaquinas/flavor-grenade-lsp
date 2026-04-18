@@ -20,6 +20,7 @@ aliases:
 **Ambition:** LSP methods such as `textDocument/completion`, `textDocument/hover`, `textDocument/definition`, and `textDocument/rename` accept `Position` objects with `line` and `character` fields. In JavaScript, out-of-bounds array access returns `undefined` rather than throwing — `lines[-1]` is `undefined`, and `lines[NaN]` is also `undefined`. These silently produce `undefined` values that propagate through the VaultIndex, causing incorrect responses or subtle bugs in rename edit generation. `NaN` comparisons always return `false`, which can cause range intersection logic to behave incorrectly. Validating at the handler boundary before any index access prevents these issues and makes bugs deterministic (an error response) rather than silent (a wrong result).
 **Scale:** Percentage of invalid `Position` inputs (negative `line`, negative `character`, non-integer values, `NaN`, `Infinity`, values beyond document bounds) that return a JSON-RPC error with code -32602 (InvalidParams) without reaching the VaultIndex.
 **Meter:**
+
 1. Send `textDocument/hover` requests with positions: `{line: -1, character: 0}`, `{line: 0, character: -1}`, `{line: NaN, character: 0}`, `{line: 1.5, character: 0}`, `{line: 999999, character: 0}` (beyond document end).
 2. For each, capture the JSON-RPC response.
 3. Verify each produces error code -32602.
@@ -38,6 +39,7 @@ aliases:
 **Ambition:** A malicious or buggy client sending a `textDocument/didChange` notification with a 500 MB document body will cause the server to allocate 500 MB of heap to buffer the message before parsing begins. In Bun's V8-backed runtime, this can trigger out-of-memory crashes or trigger garbage collection pauses that make the server unresponsive. A 10 MB limit is far above the practical size of any legitimate LSP message (even a complete 100,000-line file change notification is typically under 5 MB) while preventing runaway memory consumption from a single malformed message. Closing stdin on violation is the correct response — the connection is corrupt and should not be recovered.
 **Scale:** Percentage of oversized message attempts (messages with `Content-Length` header value exceeding 10,485,760 bytes) that are rejected before payload buffering begins, with the stdin stream closed.
 **Meter:**
+
 1. Send a JSON-RPC message with `Content-Length: 10485761` (10 MB + 1 byte) and a body of that size.
 2. Verify the server closes its stdin reader without buffering the body.
 3. Verify no JSON parse attempt occurs on the oversized body.
@@ -55,6 +57,7 @@ aliases:
 **Ambition:** CVE-2024-29409 (`@nestjs/common`, arbitrary code injection) and multiple npm prototype pollution CVEs (flatnest, dset, web3-utils) demonstrate that untrusted JSON containing `__proto__` keys, fed into JavaScript object operations like `Object.assign()` or `{...spread}`, can mutate `Object.prototype` and affect all objects in the process. In a NestJS application with dependency injection, prototype pollution could cause providers to resolve incorrectly, validation rules to be bypassed, or security checks to silently pass. The mitigation is schema validation (Zod or equivalent) that strips or rejects `__proto__`, `constructor`, and `prototype` keys before any merge operation.
 **Scale:** Percentage of JSON-RPC inputs containing `__proto__`, `constructor.prototype`, or `prototype` keys that: (a) are rejected by schema validation before reaching application logic, and (b) produce no mutation of `Object.prototype` in the server process.
 **Meter:**
+
 1. Send JSON-RPC messages with bodies containing `{"__proto__": {"polluted": true}}`, `{"constructor": {"prototype": {"polluted": true}}}`.
 2. After each message, check `({}).polluted` in the server process (via a diagnostic endpoint in tests or a process-level assertion).
 3. Verify `Object.prototype` is not mutated.

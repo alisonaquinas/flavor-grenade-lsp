@@ -28,6 +28,7 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
 - Class: `CompletionRouter`
 - Method signature: `async complete(params: CompletionParams, doc: OFMDoc): Promise<CompletionList>`
 - Routing switch:
+
   ```typescript
   switch (context.kind) {
     case 'wiki-link':         return this.wikiLinkProvider.complete(context);
@@ -39,6 +40,7 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
     default:                  return { isIncomplete: false, items: [] };
   }
   ```
+
 - `linkStyle` from config is injected into each sub-provider on construction
 - ADR: [[adr/ADR005-wiki-style-binding]]
 - Linked BDD: [[bdd/features/completions]]

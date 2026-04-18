@@ -26,6 +26,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 ## Implementation Notes
 
 - Add `bdd-full` job to `ci.yml`:
+
   ```yaml
   bdd-full:
     needs: test
@@ -39,6 +40,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
       - run: bun install --frozen-lockfile
       - run: bun run bdd
   ```
+
 - `continue-on-error: true` is intentional and should be removed once all BDD scenarios pass
 - See also: [[requirements/ci-cd]]
 

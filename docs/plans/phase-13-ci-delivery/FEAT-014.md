@@ -191,6 +191,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 - Codecov step uses `fail_ci_if_error: false` initially — set to `true` once CODECOV_TOKEN is configured in GitHub Secrets
 
 ### Carry-forward actions (human required)
+
 - [ ] Configure `CODECOV_TOKEN` secret in GitHub repo Settings → Secrets
 - [ ] Configure `NPM_TOKEN` secret in GitHub repo Settings → Secrets
 - [ ] Enable branch protection rules for `main` (TASK-135)

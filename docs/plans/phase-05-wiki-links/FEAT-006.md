@@ -128,6 +128,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 ## Notes
 
 ADR references:
+
 - [[adr/ADR005-wiki-style-binding]] — wiki-link style resolution modes and binding behaviour
 - [[adr/ADR003-vault-detection]] — vault root anchoring for all link resolution
 

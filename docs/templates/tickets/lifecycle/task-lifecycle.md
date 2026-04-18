@@ -75,7 +75,8 @@ A failing test exists that captures the requirement to be implemented. No implem
 | **Exit condition** | Minimal implementation written; all tests pass; transition to `green` |
 
 **Red commit message format:**
-```
+
+```text
 test(module): add failing test for <requirement tag>
 ```
 
@@ -93,7 +94,8 @@ Implementation written. All tests pass. The code does exactly what the test dema
 | **Exit condition (review)** | Code is clean; lint and typecheck pass; transition to `in-review` |
 
 **Green commit message format:**
-```
+
+```text
 feat(module): implement <requirement tag>
 ```
 
@@ -110,7 +112,8 @@ Implementation passes all tests. The agent is improving code clarity, naming, or
 | **Exit condition** | Refactor complete; `bun run lint --max-warnings 0` exits 0; `tsc --noEmit` exits 0; transition to `in-review` |
 
 **Refactor commit message format:**
-```
+
+```text
 refactor(module): <description of structural improvement>
 ```
 

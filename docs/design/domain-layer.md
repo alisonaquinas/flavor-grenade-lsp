@@ -164,7 +164,7 @@ The following terms have precise meanings within the `flavor-grenade-lsp` codeba
 
 ## Context Map
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     LSP Protocol Context                            │
 │  (LspServer, RequestRouter, CapabilityNegotiator, Feature Services) │

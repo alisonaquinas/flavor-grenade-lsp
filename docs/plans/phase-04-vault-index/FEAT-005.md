@@ -128,6 +128,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 ## Notes
 
 ADR references:
+
 - [[adr/ADR003-vault-detection]] — vault detection algorithm and marker precedence
 - [[adr/ADR013-vault-root-confinement]] — all filesystem access must be confined to the detected vault root
 
@@ -191,8 +192,10 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 - Windows path handling (forward slash normalization in `toDocId`, URI-to-path in `SingleFileModeGuard`) needed explicit handling
 
 ### Carry-forward actions
+
 - [ ] Phase 5 (wiki-link resolution) will use `FolderLookup.lookupByStem` and `lookupByPath` — test at integration level before wiring
 - [ ] `VaultScanner` sends `flavorGrenade/status 'ready'` directly via dispatcher; consider centralising all status notifications through a `StatusNotifier` that lives in `TransportModule` instead of `LspModule` (avoids DI complexity for future phases)
 
 ### Rule / template amendments
+
 - [ ] Add rule: when injecting cross-module services in NestJS, prefer `TransportModule`-level providers over `LspModule`-level for services used by multiple modules

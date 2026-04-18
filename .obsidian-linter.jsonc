@@ -10,5 +10,11 @@
   // Default glob when no positional args are passed.
   "globs": ["docs/**/*.md"],
   "ignores": ["node_modules/**"],
-  "rules": {}
+  "rules": {
+    // MD028 fires on blank lines inside blockquotes.
+    // OFM callout syntax uses blank lines to separate multi-paragraph callouts
+    // (e.g. `> [!NOTE]\n>\n> second paragraph`). Removing those blank lines
+    // would break Obsidian's callout rendering, so this rule is disabled.
+    "MD028": { "enabled": false }
+  }
 }

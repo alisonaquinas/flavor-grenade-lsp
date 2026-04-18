@@ -28,6 +28,7 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
 - Handler file: `src/handlers/code-lens.handler.ts`
 - Pluralisation: `"1 reference"`, `"0 references"`, `"2 references"`
 - CodeLens shape:
+
   ```typescript
   {
     range: heading.range,
@@ -38,6 +39,7 @@ Create `src/handlers/code-lens.handler.ts`. Handle `textDocument/codeLens`: for 
     }
   }
   ```
+
 - Register `codeLensProvider: { resolveProvider: false }` in capabilities — no resolve step needed
 - See also: [[bdd/features/navigation]]
 

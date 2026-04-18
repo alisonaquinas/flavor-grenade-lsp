@@ -113,7 +113,7 @@ interface FlavorConfig {
 
 ### Resolution Order
 
-```
+```text
 Priority 1 (lowest) — Built-in defaults
   Hardcoded in ConfigCascadeService.
   Always present. Cannot fail.
@@ -133,7 +133,7 @@ Priority 3 (highest) — Project config
 
 ### Merge Diagram
 
-```
+```text
 Built-in defaults
        │
        ▼
@@ -172,7 +172,7 @@ Built-in defaults
 
 ## Fault Isolation
 
-```
+```typescript
 ConfigCascadeService.load(source: ConfigSource): Partial<FlavorConfig> | null
 
 ConfigSource
@@ -197,7 +197,7 @@ The phrase "dropped silently (logged at debug level)" means: the operator can se
 
 ## NestJS Integration
 
-```
+```text
 ConfigModule
   ├── ConfigCascadeService   — loads and merges config sources; provides FlavorConfig
   └── FlavorConfigService    — thin wrapper; exposes getConfig(root?) for consumers
@@ -210,7 +210,7 @@ Consumers:
 
 **Config reload flow:**
 
-```
+```text
 1. FileWatcher detects change to {VaultRoot}/.flavor-grenade.toml
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed

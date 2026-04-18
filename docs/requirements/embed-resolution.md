@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Embed resolution is the semantic backbone of Obsidian's transclusion system. A broken embed produces a visible rendering failure in Obsidian (an error card instead of inline content). The LSP must surface this at edit time so authors catch broken embeds before publishing or sharing a vault, reducing the round-trip cost of discovering broken content at render time.
 **Scale:** Percentage of `![[file.md]]` embed targets in a test vault that the server correctly classifies as either resolved (target in VaultIndex, no diagnostic) or broken (target absent, FG004 emitted). Scope: all embed link positions across all indexed documents.
 **Meter:**
+
 1. Construct a test vault with at least 10 documents and at least 5 `![[target.md]]` embed links: at least 3 pointing to existing documents and at least 2 pointing to non-existent documents.
 2. Open all documents and wait for `textDocument/publishDiagnostics` to settle.
 3. Verify that embeds pointing to existing documents produce zero diagnostics of any kind.
@@ -39,6 +40,7 @@ aliases:
 **Ambition:** Images are a primary content type in Obsidian vaults. The FG001 diagnostic is semantically specific to broken wiki-link resolution between markdown documents. Emitting FG001 for image embeds would misrepresent the nature of the problem, route the author to the wrong remediation, and conflate two categorically different link types. Correct diagnostic assignment allows tooling and users to distinguish between missing documents and missing assets.
 **Scale:** Percentage of `![[image.*]]` embed links in a test vault that produce the correct diagnostic outcome: no FG001 regardless of whether the image exists, and FG004 only when the image file is absent from the vault directory.
 **Meter:**
+
 1. Create a test vault with at least 6 image embed links: 3 pointing to image files that exist in the vault (`png`, `jpg`, `svg`), 3 pointing to image files that do not exist.
 2. Open all documents and wait for `textDocument/publishDiagnostics`.
 3. Verify that no FG001 diagnostic appears on any image embed link, regardless of file existence.
@@ -59,6 +61,7 @@ aliases:
 **Ambition:** Heading-scoped embeds are widely used in Obsidian to compose documents from sections of other notes. A broken heading embed silently renders nothing or renders the wrong content. Validating both the document reference and the heading reference provides precise, actionable diagnostic information: the author knows immediately whether they mistyped the document name or the heading name, enabling faster correction.
 **Scale:** Percentage of `![[doc#Heading]]` embed links that the server correctly diagnoses: no diagnostic when both document and heading exist; FG004 with an appropriate message when the document is missing; FG004 with a distinct message indicating missing heading when the document exists but the heading does not.
 **Meter:**
+
 1. Create a test vault with at least 3 documents each containing at least 3 headings.
 2. Author a document with 6 heading embed links:
    - 2 valid (document and heading both exist)
@@ -83,6 +86,7 @@ aliases:
 **Ambition:** Block-level transclusion via `^blockid` anchors is a distinctive and heavily used Obsidian feature that enables fine-grained content reuse. Because block IDs are author-defined freeform strings, they are prone to typos and drift when the source document is edited. Early detection of broken block embeds prevents silent content gaps in composed notes, particularly in daily notes workflows and evergreen note systems where block transclusion is the primary assembly mechanism.
 **Scale:** Percentage of `![[doc#^blockid]]` embed links correctly diagnosed: zero diagnostics when both document and block anchor exist; FG004 when the document is absent; FG004 when the document exists but the block anchor is not in OFMIndex.blockAnchors for that document.
 **Meter:**
+
 1. Create a test vault with at least 3 documents, each containing at least 3 block-anchor definitions (e.g., `paragraph text ^anchor-id`).
 2. Author a document with 6 block embed links:
    - 2 valid (document and block anchor both exist)

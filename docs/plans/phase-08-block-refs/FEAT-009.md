@@ -122,6 +122,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 ## Notes
 
 ADR references:
+
 - [[adr/ADR006-block-ref-indexing]] — block anchor ID format constraints and indexing strategy
 
 ---

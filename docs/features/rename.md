@@ -24,7 +24,7 @@ If the cursor is **not** on a renameable entity, the server returns `null`, whic
 
 | Cursor position | Renameable entity | Returned range |
 |---|---|---|
-| On a heading line (`## My Heading`) | The heading text | From character after `## ` to end of heading text |
+| On a heading line (`## My Heading`) | The heading text | From character after `##` to end of heading text |
 | Inside a `[[target]]` wiki-link target segment | The target document name | The target segment span |
 | On a `^blockid` anchor | The block id | The `blockid` portion (after `^`) |
 
@@ -62,6 +62,7 @@ File rename is triggered by the `workspace/willRenameFiles` notification, which 
 **WorkspaceEdit produced:**
 
 For each occurrence of the old file name in `RefGraph`:
+
 - Replace the target segment with the new file stem (or path-stem, depending on `completion.wiki.style`).
 - Preserve the heading and block-ref segments if present.
 - Preserve any alias segment (`|alias`) unchanged.

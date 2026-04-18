@@ -195,6 +195,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 - `CodeActionsModule` cleanly centralises all action providers; `LspModule.handleCodeAction` private method removal simplified routing
 
 ### Carry-forward actions
+
 - [ ] Phase 13 (CI & Delivery): set up GitHub Actions workflow, binary packaging, artifact publishing
 - [ ] BDD feature files `code-actions.feature` and `diagnostics.feature` exist as specs but BDD runner not yet hooked to CI gate
 - [ ] `diagnosticService.publishDiagnostics` is called on every didOpen/didChange — FG006 scan runs O(n) per keystroke; consider debounce for large vaults

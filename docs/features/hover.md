@@ -17,7 +17,7 @@ Hover information is provided via `textDocument/hover` responses. When the user 
 
 **Content returned:**
 
-```
+```text
 **target** · `vault/path/to/target.md`
 
 <first paragraph of the target document>
@@ -61,7 +61,7 @@ File size is shown in human-readable form (KB or MB). Size and page count are re
 
 **Content returned:**
 
-```
+```text
 **#project/active**
 
 Used in **12** documents · **47** total occurrences

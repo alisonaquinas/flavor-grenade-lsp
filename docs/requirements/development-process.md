@@ -19,6 +19,7 @@ aliases:
 **Ambition:** `main` represents the production-released state of the package. Every commit on `main` must correspond to a published npm version with a semver tag. Allowing direct pushes, squash merges from arbitrary branches, or merge commits from `feature/*` branches breaks this invariant: `main` would contain commits not associated with a release, the git tag history would be inconsistent, and OIDC provenance would link publishes to non-release commits. git-flow discipline enforces a clean separation between integration work (on `develop`) and released work (on `main`).
 **Scale:** Percentage of commits on `main` that do not originate from a `release/*` or `hotfix/*` branch merge, as determined by the git commit graph.
 **Meter:**
+
 1. Enable branch protection on `main`: require PRs, disable force pushes, require linear history.
 2. Set required reviewers: at least one approver.
 3. After each merge to `main`, verify the merge commit's parents trace back to a `release/*` or `hotfix/*` branch.
@@ -36,6 +37,7 @@ aliases:
 **Ambition:** Co-located test files (`src/lsp/lsp.server.spec.ts` next to `src/lsp/lsp.server.ts`) create friction during refactoring — moving a source file requires moving its test, and `src/` directory listings intermix implementation and test files. A separate `tests/` root with a mirrored structure provides a clean separation: `src/` contains only implementation, `tests/` contains only test artifacts. The `tsconfig.test.json` that includes both `src/` and `tests/` makes the separation explicit at the TypeScript compiler level.
 **Scale:** Percentage of test files in the repository (`*.spec.ts`, `*.test.ts`, `*.feature` step definitions) that reside outside the `tests/` directory tree.
 **Meter:**
+
 1. Run `find src/ -name '*.spec.ts' -o -name '*.test.ts'` from the repo root.
 2. Any output from this command is a violation — all spec files must be under `tests/`.
 3. Compute: (test files under tests/ / total test files) × 100.
@@ -52,6 +54,7 @@ aliases:
 **Ambition:** Without a traceability matrix, it is impossible to answer the question "which requirements have test coverage?" without reading every test file. The matrix provides at-a-glance requirement coverage: a reviewer can verify that every Planguage tag in the requirements layer has at least one corresponding test, identify untested requirements before shipping a phase, and understand which phases introduced coverage for which requirements. The `scripts/update-test-index.sh` automation stub exists to support automated matrix maintenance starting in Phase 3.
 **Scale:** Percentage of test files in `tests/` that have a corresponding entry in `docs/test/matrix.md` with at least one Planguage tag in the Requirements Tags column.
 **Meter:**
+
 1. List all `.spec.ts` and `.test.ts` files under `tests/`.
 2. For each file, check whether an entry exists in `docs/test/matrix.md`.
 3. Verify the entry has at least one valid Planguage tag (a tag that appears in `docs/requirements/index.md`).
@@ -69,6 +72,7 @@ aliases:
 **Ambition:** Undocumented manual procedures create knowledge silos and introduce inconsistency: two contributors performing the same operation may produce different results. Automating them in `scripts/` with `#!/usr/bin/env bash` scripts makes procedures reproducible, reviewable, and auditable. The constraint that scripts act on the repository only — not called from `src/` — enforces a clean separation between build-time tooling and runtime application code.
 **Scale:** Percentage of common repetitive procedures documented in `docs/plans/` or `docs/requirements/` that have a corresponding automation script in `scripts/`. This is an advisory metric — no hard fail threshold is set in Phase 1, but the goal is to automate all identified repetitive procedures by Phase 13.
 **Meter:**
+
 1. List all procedures mentioned in plan documents that are described as "run this command each time".
 2. For each, check whether a script in `scripts/` automates it.
 3. Compute: (automated procedures / total identified repetitive procedures) × 100.
@@ -85,6 +89,7 @@ aliases:
 **Ambition:** Binary files committed directly to a git repository inflate the pack size permanently: even if the binary is later deleted, its history remains in the object store. For a project that may include test fixture images, documentation screenshots, or release tarballs, this creates an ever-growing repository clone cost. Git LFS stores the binary content on the LFS server and replaces it in the repository with a small text pointer, keeping the git object store lean. The `.gitattributes` LFS filter rules ensure this is enforced at commit time.
 **Scale:** Percentage of binary files larger than 1 KB tracked in the repository object store (not via LFS pointers). A file is classified as binary if it has an extension listed in `.gitattributes` as `filter=lfs` or if `git check-attr` reports `filter=lfs` for it.
 **Meter:**
+
 1. Run `git lfs ls-files` to list all LFS-tracked files.
 2. Run `git ls-files` and filter to files with binary extensions (`.png`, `.jpg`, `.pdf`, `.zip`, etc.).
 3. Cross-reference: any binary-extension file in `git ls-files` that is not in `git lfs ls-files` and is larger than 1 KB is a violation.

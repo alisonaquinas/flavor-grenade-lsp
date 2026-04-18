@@ -37,6 +37,7 @@ Create `src/handlers/semantic-tokens.handler.ts` providing semantic token types 
   | Frontmatter key | `property` | `declaration` |
 
 - Register in `ServerCapabilities`:
+
   ```typescript
   semanticTokensProvider: {
     legend: { tokenTypes: [...], tokenModifiers: [...] },
@@ -44,6 +45,7 @@ Create `src/handlers/semantic-tokens.handler.ts` providing semantic token types 
     range: false,
   }
   ```
+
 - Tokens must be encoded in the LSP delta-encoded integer array format
 - Linked test: `tests/unit/unit-lsp-module.md`
 - See also: [[requirements/diagnostics]]

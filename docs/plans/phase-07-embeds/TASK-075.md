@@ -26,6 +26,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 ## Implementation Notes
 
 - Add `EmbedRef` interface to `src/resolution/ref-graph.ts`:
+
   ```typescript
   export interface EmbedRef {
     sourceDocId: DocId;
@@ -35,6 +36,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
     embedSize?: { width?: number; height?: number };
   }
   ```
+
 - Add `embedRefs` collection to `RefGraph` alongside existing `wikiLinkRefs`
 - Provide methods to add, remove (by `sourceDocId`), and query `EmbedRef` entries
 - See also: [[requirements/embed-resolution]], [[adr/ADR002-ofm-only-scope]]

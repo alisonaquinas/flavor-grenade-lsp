@@ -47,16 +47,19 @@ The `ofm-spec/` directory is the normative specification for every language cons
 ## Consequences
 
 **Positive:**
+
 - The parser investment is fully justified by the exclusive focus on OFM. There is no dilution of effort.
 - Every feature — diagnostics, completions, navigation, rename — can assume OFM semantics throughout.
 - Block references, embeds, callouts, and alias-based resolution are first-class, not afterthoughts.
 - The `ofm-spec/` becomes the single source of truth; no need to reconcile it with a CommonMark spec.
 
 **Negative:**
+
 - flavor-grenade-lsp cannot serve as a generic Markdown LSP. Users who want CommonMark-only LSP features must use marksman alongside it, or separately.
 - Non-Obsidian users who write OFM-compatible Markdown (Foam, Logseq exports, Dendron) must opt in via `.flavor-grenade.toml` per [[ADR003-vault-detection]].
 
 **Neutral:**
+
 - `.md` files without OFM syntax are treated as valid OFM documents with no diagnostics raised, so there is no accidental penalty for users who mix OFM and plain Markdown vaults.
 
 ## Related

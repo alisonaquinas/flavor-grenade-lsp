@@ -53,6 +53,7 @@ All files created in this phase:
 ## Task 1: Initialize Bun project
 
 **Files:**
+
 - Create: `package.json`
 - Create: `bunfig.toml`
 - Create: `.gitignore`
@@ -110,7 +111,7 @@ exact = true
 
 - [ ] **Step 1.4: Create `.gitignore`**
 
-```
+```text
 node_modules/
 dist/
 .env
@@ -145,7 +146,7 @@ indent_style = tab
 
 - [ ] **Step 1.6: Add `.gitattributes` to enforce LF in git**
 
-```
+```text
 * text=auto eol=lf
 *.feature text eol=lf
 *.md text eol=lf
@@ -166,6 +167,7 @@ git commit -m "chore: initialize bun project with scripts and editor config"
 ## Task 2: Install dependencies
 
 **Files:**
+
 - Modify: `package.json` (dependency sections added by bun add)
 
 - [ ] **Step 2.1: Install NestJS runtime**
@@ -214,6 +216,7 @@ git commit -m "chore: add nestjs, lsp types, and dev tooling dependencies"
 ## Task 3: Configure TypeScript
 
 **Files:**
+
 - Create: `tsconfig.json`
 
 - [ ] **Step 3.1: Write `tsconfig.json`**
@@ -266,6 +269,7 @@ git commit -m "chore: add typescript strict config with decorator support"
 ## Task 4: Configure ESLint and Prettier
 
 **Files:**
+
 - Create: `eslint.config.js`
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
@@ -300,6 +304,7 @@ export default tseslint.config(
 ```
 
 > **Note:** This requires `@eslint/js` and `typescript-eslint` (the new unified package). Update the dev install:
+>
 > ```bash
 > bun add --dev @eslint/js typescript-eslint
 > ```
@@ -319,7 +324,7 @@ export default tseslint.config(
 
 - [ ] **Step 4.3: Write `.prettierignore`**
 
-```
+```text
 dist/
 node_modules/
 *.md
@@ -345,6 +350,7 @@ git commit -m "chore: add eslint flat config and prettier"
 ## Task 5: Write the first failing test
 
 **Files:**
+
 - Create: `src/lsp/lsp.module.spec.ts`
 
 This is the first TDD step. Write the test before the implementation exists so it fails for the right reason.
@@ -396,6 +402,7 @@ This confirms the test is wired correctly and failing for the right reason.
 ## Task 6: Implement the module graph
 
 **Files:**
+
 - Create: `src/lsp/lsp.module.ts`
 - Create: `src/app.module.ts`
 - Create: `src/main.ts`
@@ -424,7 +431,8 @@ bun test src/lsp/lsp.module.spec.ts
 ```
 
 Expected output:
-```
+
+```text
 bun test v1.x
 src/lsp/lsp.module.spec.ts:
 ✓ LspModule > should compile the module graph without errors
@@ -495,6 +503,7 @@ git commit -m "feat(lsp): add LspModule skeleton, AppModule, and bootstrap entry
 ## Task 7: Create the project config marker
 
 **Files:**
+
 - Create: `.flavor-grenade.toml`
 
 - [ ] **Step 7.1: Create `.flavor-grenade.toml`**
@@ -566,7 +575,8 @@ bun test
 ```
 
 Expected:
-```
+
+```text
 bun test v1.x
 src/lsp/lsp.module.spec.ts:
 ✓ LspModule > should compile the module graph without errors
@@ -608,7 +618,7 @@ git commit -m "chore: mark phase-01-scaffold complete in execution ledger"
 
 After this plan, the repo contains:
 
-```
+```text
 flavor-grenade-lsp/
 ├── .editorconfig
 ├── .flavor-grenade.toml

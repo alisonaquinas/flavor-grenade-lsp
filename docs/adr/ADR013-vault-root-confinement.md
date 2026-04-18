@@ -56,6 +56,7 @@ If `fs.realpath()` fails (e.g., the symlink target does not exist), the file is 
 ### 5. Test Fixtures
 
 Phase 4 must include integration tests that exercise the following confinement scenarios:
+
 - `[[../outside-vault]]` — relative path escaping vault root
 - `[[%2e%2e/outside-vault]]` — percent-encoded relative path
 - `[[/absolute/path/outside]]` — absolute path reference
@@ -67,15 +68,18 @@ All four escape scenarios must produce `null` from `confineToVaultRoot` and resu
 ## Consequences
 
 ### Positive
+
 - Path traversal attacks via crafted vault content cannot reach files outside the vault root, regardless of encoding or normalization tricks
 - The single `confineToVaultRoot` function is the sole enforcement point — easy to audit, easy to test, easy to replace if the implementation proves incorrect
 - Write operations (rename) are protected by the same mechanism as read operations
 
 ### Negative
+
 - Symlink resolution requires an additional `fs.realpath()` call per file access; this adds latency on vaults with many symlinks
 - Users who intentionally symlink notes from outside the vault root into the vault (an Obsidian power-user pattern) will find that those symlinked notes produce FG001 diagnostics rather than resolving
 
 ### Neutral
+
 - The confinement policy is vault-scoped; multiple vault roots (Phase 4, `Workspace.MultiFolder.Isolation`) each enforce confinement independently
 
 ## Related

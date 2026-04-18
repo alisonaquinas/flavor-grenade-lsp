@@ -26,6 +26,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
 ## Implementation Notes
 
 - Expected interface shape:
+
   ```typescript
   export interface BlockAnchorEntry {
     id: string;        // anchor ID without ^
@@ -33,6 +34,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
     lineRange: Range;  // covers the entire source line
   }
   ```
+
 - Edge case: anchor at EOF with no trailing newline — `lineRange` must still be valid
 - Edge case: anchor on list item — parser must not strip list marker from `id`
 - Edge case: anchor on heading line — verify `id` does not include `#` characters

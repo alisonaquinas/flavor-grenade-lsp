@@ -19,6 +19,7 @@ aliases:
 **Ambition:** Standard Markdown TextMate grammars have no knowledge of Obsidian-specific constructs. Without semantic tokens, `[[wiki-links]]`, `![[embeds]]`, `^block-anchors`, `#tags`, and `> [!CALLOUT]` markers all render as plain text or generic punctuation in LSP editors such as Neovim, Helix, and Zed. Semantic tokens are the LSP-standard mechanism for the server to communicate these construct boundaries to editors in a theme-agnostic way. Full construct coverage ensures that authors using any LSP editor get the same structural visual feedback that Obsidian's native renderer provides, making the OFM document structure legible regardless of editor choice.
 **Scale:** Percentage of the five primary OFM construct categories (wiki-links, embed links, block anchors, inline tags, callout markers) for which at least one semantic token of the appropriate type is emitted in a `textDocument/semanticTokens/full` response for a document containing at least two instances of each construct. A "correct" token must have: the correct `tokenType` index as registered in the legend; a `length` and `deltaLine`/`deltaStartChar` that resolves to the exact source range of the construct; and a `tokenModifiers` bitmask consistent with the legend.
 **Meter:**
+
 1. Author a test document containing:
    - At least 2 `[[wiki-link]]` constructs (using `wikiLink`, `wikiLinkTarget` token types)
    - At least 2 `![[embed-link]]` constructs (using `embedLink` token type)
@@ -40,6 +41,7 @@ aliases:
 **Ambition:** Fenced code blocks and display math blocks are verbatim-content regions: editors render them with specialised highlighting (syntax highlighting for the code language, LaTeX rendering for math) that must not be overridden or confused by OFM semantic tokens. A `#tag` inside a code block is not a vault tag — it is source code. A `[[link]]` inside a math block is not a wiki-link — it is LaTeX. Emitting OFM tokens for these constructs would cause incorrect visual highlighting (OFM colours over code syntax colours), mislead find-references operations, and create false positives in diagnostics. Suppression is required for correctness, not merely for aesthetics.
 **Scale:** Percentage of `textDocument/semanticTokens/full` responses for documents containing OFM-syntax strings inside fenced code and math blocks where zero OFM semantic tokens are emitted for any character position that falls within a fenced code block or display math block span.
 **Meter:**
+
 1. Author a test document with:
    - A fenced code block containing: `[[wiki-link-in-code]]`, `#tag-in-code`, `![[embed-in-code]]`, `^anchor-in-code`, `> [!NOTE] in code`
    - A `$$` display math block containing: `[[link-in-math]]`, `#tag-in-math`

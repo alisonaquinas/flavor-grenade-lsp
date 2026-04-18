@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Go-to-definition is the single most important navigation feature in a knowledge graph context — it is the LSP equivalent of clicking a hyperlink. If any link type is unsupported, authors must fall back to manual search for that type, which undermines the server's value as a seamless navigation layer. Complete link-type coverage establishes the server as a reliable replacement for Obsidian's own Ctrl+Click navigation, applicable in any LSP-compatible editor.
 **Scale:** Percentage of the four defined OFM link types (wiki-link, embed link, block reference, tag) for which `textDocument/definition` returns a non-null, non-empty `Location` result when the cursor is on a valid (resolvable) occurrence. Scope: all four types must be tested with at least 3 valid occurrences each.
 **Meter:**
+
 1. Create a test vault with documents covering all four link types:
    - At least 3 `[[wiki-link]]` occurrences pointing to existing documents
    - At least 3 `![[embed-link]]` occurrences pointing to existing documents
@@ -42,6 +43,7 @@ aliases:
 **Ambition:** Find-references in a vault context is a graph traversal problem: the author needs to know every note that links to or mentions a given target before safely renaming or deleting it. An incomplete references list gives a false sense of safety — the author believes they have found all dependents, renames the target, and discovers later that orphaned links remain. Completeness is therefore a hard correctness property, not a quality-of-life improvement.
 **Scale:** Percentage of actual references in the vault folder (as determined by an independent full-text scan of all indexed documents) that are returned in the `textDocument/references` response for a given target. Scope: wiki-link, embed, block-reference, and tag references to the target.
 **Meter:**
+
 1. Create a test vault with at least 15 documents. In 10 of them, include references to a single target document (mix of wiki-links, embed links, and heading references).
 2. Open the target document. Issue `textDocument/references` with `includeDeclaration: false` from the document title position.
 3. Collect the returned `Location[]`.
@@ -61,6 +63,7 @@ aliases:
 **Ambition:** Reference counts on headings give authors an at-a-glance measure of how well-connected each section of their vault is. A heading with 0 references is a candidate for pruning or promotion; a heading with many references signals high-value content that should be protected during refactoring. Inaccurate counts would misguide these decisions, and a count that becomes stale after indexing changes would erode trust in the entire code lens feature.
 **Scale:** Percentage of headings across all indexed documents whose displayed code lens reference count exactly matches the actual count of vault-wide references resolving to that heading (including `[[doc#Heading]]` and `![[doc#Heading]]` syntax). Scope: all headings in all indexed documents in a vault of at least 10 documents.
 **Meter:**
+
 1. Create a test vault with at least 10 documents. Ensure at least 5 headings have a known, non-zero reference count and at least 3 headings have zero references.
 2. Issue `textDocument/codeLens` for each document and collect all code lens entries.
 3. For each heading in each document, find its code lens entry and read the count from its `command.title` (e.g., `"3 references"`).

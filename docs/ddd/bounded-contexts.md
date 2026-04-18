@@ -19,7 +19,7 @@ See also: [[ubiquitous-language]], [[vault/domain-model]], [[lsp-protocol/domain
 
 ## Context Map Diagram
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────────────────┐
 │                        flavor-grenade-lsp  —  Context Map                        │
 └──────────────────────────────────────────────────────────────────────────────────┘
@@ -70,7 +70,7 @@ See also: [[ubiquitous-language]], [[vault/domain-model]], [[lsp-protocol/domain
                                          editor / client
 ```
 
-**Legend**
+### Legend
 
 | Symbol | Meaning |
 |--------|---------|
@@ -155,11 +155,11 @@ function sameDoc(a: DocId, b: DocId): boolean
 **Subdomain type:** Supporting  
 **NestJS module:** `DocumentModule`
 
-### Language
+### BC2 Language
 
 `OFMDoc`, `OFMIndex`, `ParsePipeline`, CST/AST node types, lifecycle events.
 
-### Owns
+### BC2 Owns
 
 | Type | Description |
 |------|-------------|
@@ -170,11 +170,11 @@ function sameDoc(a: DocId, b: DocId): boolean
 | `CST` | Concrete syntax tree (tree-sitter output) |
 | `AST` | Cleaned, typed AST with OFM extensions resolved |
 
-### Does Not Know About
+### BC2 Does Not Know About
 
 BC3 (`RefGraph`, `Oracle`), BC4 (`VaultIndex`, `Workspace`), BC5 (LSP wire types). BC2 exports `OFMDoc` for consumption; it does not consume events from other BCs.
 
-### Public Interface
+### BC2 Public Interface
 
 **Commands (pure functions on `OFMDoc`):**
 
@@ -194,7 +194,7 @@ BC3 (`RefGraph`, `Oracle`), BC4 (`VaultIndex`, `Workspace`), BC5 (LSP wire types
 | `DocumentOpened` | `{ id: DocId; version: number; source: 'lsp' \| 'disk' }` |
 | `DocumentClosed` | `{ id: DocId }` — editor closed, revert to disk version |
 
-### Key Invariants
+### BC2 Key Invariants
 
 1. `(text, structure, index)` is never partially stale. A text change atomically replaces all three.
 2. `doc.version === null` means the document reflects disk state (not editor-open).
@@ -207,11 +207,11 @@ BC3 (`RefGraph`, `Oracle`), BC4 (`VaultIndex`, `Workspace`), BC5 (LSP wire types
 **Subdomain type:** Core (★ primary differentiator)  
 **NestJS module:** `ReferenceModule`
 
-### Language
+### BC3 Language
 
 `RefGraph`, `Oracle`, `Def`, `Ref`, `WikiRef`, `EmbedRef`, `BlockRef`, `TagRef`, `IntraRef`, `CrossRef`, `Unresolved`, `Dest`.
 
-### Owns
+### BC3 Owns
 
 | Type | Description |
 |------|-------------|
@@ -228,11 +228,11 @@ BC3 (`RefGraph`, `Oracle`), BC4 (`VaultIndex`, `Workspace`), BC5 (LSP wire types
 | `Unresolved` | A ref whose target could not be located |
 | `Dest` | Resolved destination: `{ doc: DocId; def: Def }` |
 
-### Does Not Know About
+### BC3 Does Not Know About
 
 BC4's `VaultIndex` internals — contact is mediated entirely by `Oracle`. BC5 is unknown to BC3.
 
-### Public Interface
+### BC3 Public Interface
 
 ```typescript
 // RefGraph construction
@@ -253,7 +253,7 @@ RefGraph.unresolvedRefs(graph: RefGraph): Unresolved[]
 RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 ```
 
-### Key Invariants
+### BC3 Key Invariants
 
 1. Every `CrossSection` ref is accompanied by a synthetic `CrossDoc` ref targeting the same file. A title change invalidates all section refs to that file.
 2. `aliases` declared in document frontmatter are registered as additional `Def` values with the same location as the document title `Def`.
@@ -267,11 +267,11 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 **Subdomain type:** Supporting  
 **NestJS module:** `VaultModule`
 
-### Language
+### BC4 Language
 
 `VaultFolder`, `Workspace`, `VaultIndex`, `VaultDetector`, `FileWatcher`, `GitIgnore`, `FolderLookup`, `SingleFileMode`.
 
-### Owns
+### BC4 Owns
 
 | Type | Description |
 |------|-------------|
@@ -283,15 +283,15 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 | `GitIgnore` | Value object — parsed `.gitignore` rules applied to file scanning |
 | `FolderLookup` | Index structure: `stem → DocId[]`, `title → DocId[]`, `alias → DocId[]` |
 
-### Does Not Know About
+### BC4 Does Not Know About
 
 BC5 LSP wire types. BC3 RefGraph internals (BC4 owns an opaque `RefGraph` value and forwards it to BC3 for mutation).
 
-### Public Interface
+### BC4 Public Interface
 
 See [[vault/domain-model]] for the full command and event table.
 
-### Key Invariants
+### BC4 Key Invariants
 
 1. `Workspace` contains at most one `SingleFileMode` folder per URI. When a multi-file vault is detected that encloses a single-file document, the single-file entry is evicted.
 2. A `VaultFolder` always has a consistent `RefGraph` — after any doc mutation, `RefGraph.update` is called before the folder is stored.
@@ -303,11 +303,11 @@ See [[vault/domain-model]] for the full command and event table.
 **Subdomain type:** Generic  
 **NestJS module:** `LspModule`
 
-### Language
+### BC5 Language
 
 `LspRequest`, `LspResponse`, `LspNotification`, `Capability`, `TextDocumentItem`, `Position`, `Range`, `LspServer`.
 
-### Owns
+### BC5 Owns
 
 | Type | Description |
 |------|-------------|
@@ -317,15 +317,15 @@ See [[vault/domain-model]] for the full command and event table.
 | `LspNotification` | Typed JSON-RPC notification wrapper |
 | `Capability` | Advertised server capability (completion, definition, etc.) |
 
-### Does Not Know About
+### BC5 Does Not Know About
 
 BC3 internals. BC5 calls BC4 workspace mutations and BC3 query services through application service interfaces — it does not import aggregate internals.
 
-### Public Interface
+### BC5 Public Interface
 
 See [[lsp-protocol/domain-model]] for the full method-to-command mapping table.
 
-### Key Invariants
+### BC5 Key Invariants
 
 1. `LspServer` is a strict conformist to LSP 3.17. It does not invent protocol deviations.
 2. All BC4 mutations triggered by `LspServer` are synchronous from the perspective of the JSON-RPC response (awaited before responding).

@@ -39,7 +39,7 @@ The stdio transport model eliminates an entire class of network-facing threats (
 
 ## Threat Surface Map
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    TRUST BOUNDARY                               │
 │                                                                 │
@@ -76,7 +76,7 @@ The stdio transport model eliminates an entire class of network-facing threats (
 
 ## Threat Category 1: Malicious Vault Content
 
-**Severity: High | Likelihood: Medium**
+#### Severity: High | Likelihood: Medium
 
 ### Background
 
@@ -96,6 +96,7 @@ The OFM parser uses regular expressions for wiki-links, tags, block IDs, callout
 A custom OFM parser using naively written regexes for `[[` wiki-link parsing, `#tag` detection, or `%%comment%%` extraction is directly exposed to this class of attack. A vault file containing a crafted sequence of characters (e.g., `[[` followed by thousands of `|` characters without a closing `]]`) could lock the server's event loop for seconds, causing the editor to time out and become unresponsive.
 
 **Mitigations:**
+
 - Audit all OFM regex patterns against catastrophic backtracking using a tool such as `safe-regex`, `vuln-regex-detector`, or manual analysis
 - Set per-file parse timeout (e.g., 100 ms) to bound worst-case event loop stall
 - Prefer non-regex parsers (e.g., character-at-a-time state machines) for OFM constructs with recursive or unbounded structure
@@ -110,6 +111,7 @@ In flavor-grenade-lsp the analogous risk is in URI normalization: if a vault doc
 The risk escalates in the `workspace/applyEdit` rename path: if the server computes an edit target URI from a resolved wiki-link that has not been bounds-checked, a rename operation could write to a file outside the vault.
 
 **Mitigations:**
+
 - All file paths resolved from vault content must be canonicalized and checked against the vault root before any I/O operation
 - Reject any resolved URI whose canonical form falls outside `rootUri`
 - Use `path.resolve()` then verify the result starts with the vault root (not `startsWith` on the un-resolved string, which can be bypassed)
@@ -122,6 +124,7 @@ Obsidian frontmatter is YAML. YAML parsers have a history of code execution vuln
 Additionally, frontmatter `aliases:` values flow directly into the VaultIndex as link resolution candidates. If alias values are not sanitized, they could influence completion results, diagnostic messages, or rename edit targets in unexpected ways.
 
 **Mitigations:**
+
 - Parse YAML frontmatter with `js-yaml` in safe mode (`safeLoad` / `load` without `Function` schema)
 - Set a maximum depth limit and maximum string length on frontmatter parsing
 - Treat all frontmatter values as untrusted strings — do not eval, exec, or interpolate them into shell commands or file paths without normalization
@@ -130,9 +133,9 @@ Additionally, frontmatter `aliases:` values flow directly into the VaultIndex as
 
 ## Threat Category 2: JSON-RPC Input Validation
 
-**Severity: Medium | Likelihood: Medium**
+#### Severity: Medium | Likelihood: Medium
 
-### Background
+### Background: JSON-RPC
 
 The LSP protocol communicates via JSON-RPC 2.0. The editor client is fully trusted, but the server must still validate all incoming parameters for correctness — both because buggy clients exist and because any future TCP/pipe transport mode would expose the RPC surface to potentially untrusted callers.
 
@@ -147,6 +150,7 @@ LSP methods such as `textDocument/completion`, `textDocument/hover`, and `textDo
 These are not typically exploitable for RCE in a TypeScript process, but they are reliable denial-of-service vectors and can produce incorrect LSP responses (e.g., wrong rename targets).
 
 **Mitigations:**
+
 - Validate all incoming LSP position/range parameters: `line >= 0`, `character >= 0`, both are integers, both are within the bounds of the document's line array
 - Use Zod or a similar validation library on the server's request handler layer
 - Return `ResponseError` with code `InvalidParams` (-32602) for invalid inputs rather than crashing or silently mishandling
@@ -156,6 +160,7 @@ These are not typically exploitable for RCE in a TypeScript process, but they ar
 A malicious or buggy client could send an arbitrarily large `textDocument/didChange` notification (e.g., a 500 MB document change). Without a payload size limit, the server will attempt to parse the entire string, potentially exhausting heap memory.
 
 **Mitigations:**
+
 - Enforce a maximum `contentLength` for LSP messages (e.g., 10 MB)
 - Disconnect (close stdin read stream) if a message exceeds the limit
 - Apply debounce to `textDocument/didChange` to avoid re-parsing on every keystroke
@@ -167,6 +172,7 @@ A malicious or buggy client could send an arbitrarily large `textDocument/didCha
 In flavor-grenade-lsp the JSON-RPC message body is parsed from stdin as a JSON string. If the parsed JSON contains `__proto__`, `constructor`, or `prototype` keys that flow into object merge operations (e.g., in NestJS's DI configuration or parameter validation), prototype pollution could result.
 
 **Mitigations:**
+
 - Use `JSON.parse()` directly (which does not execute code), then pass the result through a schema validator (Zod) before any object merge
 - Never use `Object.assign(target, untrustedInput)` or spread `{...untrustedInput}` without prior validation
 - Consider `Object.freeze(Object.prototype)` in the server bootstrap to make pollution attempts fail loudly rather than silently
@@ -176,9 +182,9 @@ In flavor-grenade-lsp the JSON-RPC message body is parsed from stdin as a JSON s
 
 ## Threat Category 3: Supply Chain
 
-**Severity: High | Likelihood: Low-Medium**
+#### Severity: High | Likelihood: Low-Medium
 
-### Background
+### Background: Supply Chain
 
 The **Shai-Hulud 2.0** campaign (November 2025, Palo Alto Unit 42 / Endor Labs) targeted the npm ecosystem and specifically exploited the Bun runtime as an evasion mechanism — malicious `preinstall` scripts downloaded and executed Bun to bypass Node.js-focused security monitoring. Over 25,000 malicious repositories were created. This is directly relevant because flavor-grenade-lsp uses Bun as its runtime and package manager.
 
@@ -193,6 +199,7 @@ The **Shai-Hulud 2.0** campaign (November 2025, Palo Alto Unit 42 / Endor Labs) 
 A dependency (direct or transitive) is taken over via account compromise and a malicious version is published. Because Bun's `.npmrc` `ignore-scripts` bypass prevents centralized enforcement, `postinstall` scripts in malicious versions can execute arbitrary code on the developer's machine during `bun install`.
 
 **Mitigations:**
+
 - Pin all dependency versions exactly (`exact = true` in `bunfig.toml` — already configured)
 - Use `bun install --frozen-lockfile` in CI (already in `ci.yml`) — prevents lockfile drift
 - Subscribe to GitHub security advisories for all direct dependencies
@@ -205,6 +212,7 @@ A dependency (direct or transitive) is taken over via account compromise and a m
 An attacker registers an npm package with a name similar to a dependency (e.g., `@nestjs/commom` vs. `@nestjs/common`). A typographical error in `package.json` or an intern's `bun add` command installs the malicious package.
 
 **Mitigations:**
+
 - Lockfile pins exact resolved registry URLs — never install without verifying against the lockfile
 - Review all `bun add` commands in PRs before merging
 - Consider using a private registry proxy (Verdaccio, npm Enterprise) that mirrors only approved packages for production builds
@@ -213,9 +221,9 @@ An attacker registers an npm package with a name similar to a dependency (e.g., 
 
 ## Threat Category 4: Process Privilege and Information Disclosure
 
-**Severity: Medium | Likelihood: Low**
+#### Severity: Medium | Likelihood: Low
 
-### Background
+### Background: Process Privilege
 
 The LSP server runs as the editor user and inherits that user's full read access to the file system. Obsidian vaults frequently contain sensitive personal information: journal entries, passwords in frontmatter, API keys embedded in notes, health records, and financial data.
 
@@ -224,6 +232,7 @@ The LSP server runs as the editor user and inherits that user's full read access
 If the server logs vault file content (e.g., in debug-level error messages or diagnostic output), sensitive vault content can appear in log files accessible to other processes or persistent in log aggregation systems.
 
 **Mitigations:**
+
 - Never log the content of vault documents — log only file paths, line numbers, and diagnostic codes
 - Sanitize all error message strings to strip document content before logging
 - Set log level to `error` and `warn` only in production (already in the `bootstrap()` in `src/main.ts`)
@@ -235,6 +244,7 @@ The completion handler for wiki-links and tags may surface frontmatter values (e
 Since the editor client is trusted and the user is present, this is not a remote disclosure risk — but it is a local design issue that could lead to sensitive data appearing in editor autocomplete UI.
 
 **Mitigations:**
+
 - Filter completion candidates against a configurable blocklist of frontmatter key names (e.g., do not offer values from `password:`, `token:`, `secret:`, `api_key:` frontmatter fields)
 - Document this behavior in the `[diagnostics]` section of `.flavor-grenade.toml`
 
@@ -243,6 +253,7 @@ Since the editor client is trusted and the user is present, this is not a remote
 The `workspace/applyEdit` rename path writes to files. If the resolved rename target URI is not bounds-checked against the vault root (see Threat 1.2), a rename operation could write to arbitrary files accessible to the user.
 
 **Mitigations:**
+
 - Same path-canonicalization check as Sub-threat 1.2 — applied in the rename edit builder
 - Add a `readonly` mode flag to the server that disables all write operations (`workspace/applyEdit` returns an error) when enabled via `.flavor-grenade.toml`
 
@@ -250,9 +261,9 @@ The `workspace/applyEdit` rename path writes to files. If the resolved rename ta
 
 ## Threat Category 5: Denial of Service / Resource Exhaustion
 
-**Severity: Medium | Likelihood: Medium**
+#### Severity: Medium | Likelihood: Medium (DoS)
 
-### Background
+### Background: Denial of Service
 
 The LSP server is a long-running process that the editor expects to remain responsive. Node.js (and Bun) run on a single-threaded event loop; any synchronous blocking operation starves all other handlers. Recent Node.js CVEs include resource exhaustion via HTTP/2 WINDOW_UPDATE (CVE-2026-21714) and TLS error handling file descriptor leaks.
 
@@ -261,6 +272,7 @@ The LSP server is a long-running process that the editor expects to remain respo
 A vault directory containing millions of small files (e.g., a malicious vault that was mounted to the workspace, or a large software repository erroneously set as the vault root) can cause VaultIndex construction to exhaust heap memory or stall for minutes during initial indexing.
 
 **Mitigations:**
+
 - Enforce a configurable maximum file count during initial indexing (default: 50,000 files)
 - Emit an LSP `window/showMessage` warning when the vault exceeds a threshold
 - Index incrementally using Bun's file watcher rather than a full sync scan on startup
@@ -270,6 +282,7 @@ A vault directory containing millions of small files (e.g., a malicious vault th
 `![[A]]` in document A embeds document B which contains `![[A]]`, creating an infinite loop in any recursive embed resolver.
 
 **Mitigations:**
+
 - Track visited document URIs in a `Set` during embed resolution; return `FG005` (circular embed) diagnostic on cycle detection
 - Set a maximum embed depth limit (default: 10) independent of cycle detection
 
@@ -278,6 +291,7 @@ A vault directory containing millions of small files (e.g., a malicious vault th
 YAML supports anchors and references that can produce exponentially large object graphs when expanded. A frontmatter block using YAML anchors to create a "billion laughs" style expansion can cause the `js-yaml` parser to exhaust memory.
 
 **Mitigations:**
+
 - Pass `{ maxAliases: 100 }` (or lower) to `js-yaml`'s `load()` to cap alias expansion
 - Wrap frontmatter parsing in a try/catch that treats any parse failure as malformed frontmatter (emit FG007, continue indexing)
 
@@ -285,15 +299,16 @@ YAML supports anchors and references that can produce exponentially large object
 
 ## Threat Category 6: LSP Workspace URI Injection
 
-**Severity: Low-Medium | Likelihood: Low**
+#### Severity: Low-Medium | Likelihood: Low
 
-### Background
+### Background: Workspace URI Injection
 
 The LSP `initialize` request includes `rootUri` and `workspaceFolders` parameters that tell the server where the vault root is. These parameters come from the editor client, which is trusted. However, if a malicious `.editorconfig`, `.vscode/settings.json`, or other workspace configuration file causes the editor to send a modified `rootUri`, the server could be directed to index a directory it should not.
 
 This is less a server-side vulnerability and more a client-side configuration injection risk, but the server can mitigate it by validating the received root.
 
 **Mitigations:**
+
 - Validate that `rootUri` is a `file://` URI (not `http://`, `ftp://`, or other schemes)
 - Log the resolved vault root at startup at `warn` level so users can verify it
 - Do not support any URI scheme other than `file://` in Phase 1 through Phase 12
@@ -302,15 +317,16 @@ This is less a server-side vulnerability and more a client-side configuration in
 
 ## Threat Category 7: LSP Configuration as Code Execution Vector
 
-**Severity: High | Likelihood: Low (currently) → Medium (if config extends to command execution)**
+#### Severity: High | Likelihood: Low → Medium
 
-### Background
+### Background: Config as Code Execution
 
 The 2026 OpenCode vulnerability showed that allowing a repository to configure which LSP server binary to launch (via a config file in the repository) creates an arbitrary code execution vector — any `command` array in the config can spawn any process.
 
 flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.toml` configuration schema could evolve to include features that execute external tools (e.g., a `[hooks]` section, a `[formatter]` section pointing to a custom script). If such features are ever added without strict validation, a malicious vault's `.flavor-grenade.toml` could spawn arbitrary processes.
 
 **Mitigations:**
+
 - The current `.flavor-grenade.toml` schema contains no command-execution fields; maintain this invariant
 - If hook or formatter execution is added in a future phase, require explicit user confirmation (LSP `window/showMessageRequest`) before executing any binary named in vault-provided configuration
 - Document this as a non-goal in [[adr/ADR002-ofm-only-scope]]: vault configuration files must never cause process spawning
@@ -366,7 +382,7 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 
 ## Sources and References
 
-**CVEs and Vulnerability Reports**
+### CVEs and Vulnerability Reports
 
 - [CVE-2024-22415: JupyterLab-LSP Path Traversal (Snyk)](https://security.snyk.io/vuln/SNYK-PYTHON-JUPYTERLABLSP-6180562)
 - [CVE-2024-22415 Analysis (Ogma)](https://ogma.in/cve-2024-22415-addressing-security-vulnerabilities-in-jupyterlab-lsp)
@@ -379,7 +395,7 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 - [Node.js January 2026 Security Releases](https://nodejs.org/en/blog/vulnerability/december-2025-security-releases)
 - [Node.js March 2026 Security Releases](https://nodejs.org/en/blog/vulnerability/march-2026-security-releases)
 
-**Supply Chain**
+### Supply Chain
 
 - [Shai-Hulud 2.0 npm Supply Chain Attack (Palo Alto Unit 42)](https://unit42.paloaltonetworks.com/npm-supply-chain-attack/)
 - [Shai-Hulud 2.0 Uses Bun Runtime (Endor Labs)](https://www.endorlabs.com/learn/shai-hulud-2-malware-campaign-targets-github-and-cloud-credentials-using-bun-runtime)
@@ -387,13 +403,13 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 - [Bun Package Manager ignore-scripts Bypass (bunsecurity.dev)](https://www.bunsecurity.dev/blog/bun-security-vulnerability-insecure-practice-package-manager/)
 - [Brief History of npm Supply Chain Attacks 2025 (Emily Xiong, Medium)](https://emilyxiong.medium.com/brief-history-of-npm-supply-chain-attacks-in-year-2025-a887dd2e11a4)
 
-**Developer Tool Trust and LSP Security**
+### Developer Tool Trust and LSP Security
 
 - [When "Read This File" Means "Run This Code": LSP Configuration in OpenCode (DEV Community)](https://dev.to/pachilo/when-read-this-file-means-run-this-code-lsp-configuration-in-opencode-44g1)
 - [Prompt Injection and the Security Risks of Agentic Coding Tools (Secure Code Warrior)](https://www.securecodewarrior.com/article/prompt-injection-and-the-security-risks-of-agentic-coding-tools)
 - [RoguePilot: GitHub Copilot Repository Takeover (Orca Security)](https://orca.security/resources/blog/roguepilot-github-copilot-vulnerability/)
 
-**Reference Standards**
+### Reference Standards
 
 - [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)
 - [CWE-22: Path Traversal](https://cwe.mitre.org/data/definitions/22.html)
