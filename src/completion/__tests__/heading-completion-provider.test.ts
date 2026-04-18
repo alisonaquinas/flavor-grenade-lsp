@@ -19,6 +19,7 @@ function makeDoc(
     version: 0,
     frontmatter: null,
     frontmatterEndOffset: 0,
+    text: '',
     opaqueRegions: [],
     index: {
       wikiLinks: [],

@@ -27,7 +27,12 @@ import { CodeLensHandler } from '../handlers/code-lens.handler.js';
 import { DocumentHighlightHandler } from '../handlers/document-highlight.handler.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
-import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
+import { CodeActionsModule } from '../code-actions/code-actions.module.js';
+import { CodeActionHandler } from '../code-actions/code-action.handler.js';
+import { WorkspaceSymbolHandler } from '../handlers/workspace-symbol.handler.js';
+import { DocumentSymbolHandler } from '../handlers/document-symbol.handler.js';
+import { SemanticTokensHandler, TOKEN_TYPES, TOKEN_MODIFIERS } from '../handlers/semantic-tokens.handler.js';
+import { VaultIndex } from '../vault/vault-index.js';
 import { RenameModule } from '../rename/rename.module.js';
 import { PrepareRenameHandler } from '../handlers/prepare-rename.handler.js';
 import { RenameHandler } from '../handlers/rename.handler.js';
@@ -40,7 +45,16 @@ import { RenameHandler } from '../handlers/rename.handler.js';
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule, NavigationModule, RenameModule],
+  imports: [
+    TransportModule,
+    ParserModule,
+    VaultModule,
+    ResolutionModule,
+    CompletionModule,
+    NavigationModule,
+    RenameModule,
+    CodeActionsModule,
+  ],
   providers: [
     DocumentStore,
     LifecycleState,
@@ -53,7 +67,9 @@ import { RenameHandler } from '../handlers/rename.handler.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
-    TagToYamlAction,
+    WorkspaceSymbolHandler,
+    DocumentSymbolHandler,
+    SemanticTokensHandler,
   ],
   exports: [],
 })
@@ -78,9 +94,13 @@ export class LspModule implements OnModuleInit {
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
     private readonly documentStore: DocumentStore,
-    private readonly tagToYamlAction: TagToYamlAction,
+    private readonly codeAction: CodeActionHandler,
+    private readonly workspaceSymbol: WorkspaceSymbolHandler,
+    private readonly documentSymbol: DocumentSymbolHandler,
+    private readonly semanticTokens: SemanticTokensHandler,
     private readonly prepareRename: PrepareRenameHandler,
     private readonly rename: RenameHandler,
+    private readonly vaultIndex: VaultIndex,
   ) {}
 
   /**
@@ -89,8 +109,6 @@ export class LspModule implements OnModuleInit {
    * Called by NestJS after all providers have been resolved.
    */
   onModuleInit(): void {
-    // TASK-101: Updated completion capabilities with all trigger characters
-    // TASK-104: codeLensProvider; TASK-107: documentHighlightProvider
     this.capabilityRegistry.merge({
       definitionProvider: true,
       referencesProvider: true,
@@ -104,6 +122,13 @@ export class LspModule implements OnModuleInit {
       codeLensProvider: { resolveProvider: false },
       documentHighlightProvider: true,
       renameProvider: { prepareProvider: true },
+      workspaceSymbolProvider: true,
+      documentSymbolProvider: true,
+      semanticTokensProvider: {
+        legend: { tokenTypes: TOKEN_TYPES, tokenModifiers: TOKEN_MODIFIERS },
+        full: true,
+        range: false,
+      },
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -112,7 +137,6 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onNotification('exit', (p) => this.exit.handle(p));
     this.dispatcher.onNotification('textDocument/didOpen', async (p) => {
       await this.didOpen.handle(p);
-      // Sync raw text to CompletionRouter for context analysis
       const params = p as { textDocument?: { uri?: string; text?: string } } | null | undefined;
       const uri = params?.textDocument?.uri;
       const text = params?.textDocument?.text;
@@ -123,7 +147,6 @@ export class LspModule implements OnModuleInit {
     });
     this.dispatcher.onNotification('textDocument/didChange', async (p) => {
       await this.didChange.handle(p);
-      // Sync updated raw text to CompletionRouter and PrepareRenameHandler via DocumentStore
       const params = p as { textDocument?: { uri?: string } } | null | undefined;
       const uri = params?.textDocument?.uri;
       if (typeof uri === 'string') {
@@ -154,7 +177,7 @@ export class LspModule implements OnModuleInit {
       Promise.resolve(this.handleCompletion(p)),
     );
     this.dispatcher.onRequest('textDocument/codeAction', (p) =>
-      Promise.resolve(this.handleCodeAction(p)),
+      Promise.resolve(this.codeAction.handle(p as Parameters<CodeActionHandler['handle']>[0])),
     );
     this.dispatcher.onRequest('textDocument/hover', (p) =>
       Promise.resolve(this.hover.handle(p as Parameters<HoverHandler['handle']>[0])),
@@ -183,6 +206,15 @@ export class LspModule implements OnModuleInit {
         ),
       ),
     );
+    this.dispatcher.onRequest('workspace/symbol', (p) =>
+      Promise.resolve(this.workspaceSymbol.handle(p as Parameters<WorkspaceSymbolHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/documentSymbol', (p) =>
+      Promise.resolve(this.documentSymbol.handle(p as Parameters<DocumentSymbolHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/semanticTokens/full', (p) =>
+      Promise.resolve(this.semanticTokens.handle(p as Parameters<SemanticTokensHandler['handle']>[0])),
+    );
 
     this.reader.on('message', (raw: string) => {
       this.dispatcher.dispatch(raw).catch((err: unknown) => {
@@ -195,25 +227,10 @@ export class LspModule implements OnModuleInit {
 
   /**
    * Handle a textDocument/completion request.
-   *
-   * Delegates to {@link CompletionRouter} which uses {@link ContextAnalyzer}
-   * to determine the appropriate sub-provider based on cursor context.
    */
   private handleCompletion(params: unknown): { items: unknown[]; isIncomplete: boolean } {
     const p = params as Parameters<CompletionRouter['route']>[0] | null | undefined;
     if (p == null) return { items: [], isIncomplete: false };
     return this.completionRouter.route(p);
-  }
-
-  /**
-   * Handle a textDocument/codeAction request.
-   *
-   * Returns an array of applicable code actions (at most the tag-to-YAML action).
-   */
-  private handleCodeAction(params: unknown): unknown[] {
-    const p = params as Parameters<TagToYamlAction['handle']>[0] | null | undefined;
-    if (p == null) return [];
-    const action = this.tagToYamlAction.handle(p);
-    return action !== null ? [action] : [];
   }
 }

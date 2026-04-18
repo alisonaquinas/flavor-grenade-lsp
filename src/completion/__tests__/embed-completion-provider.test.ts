@@ -16,6 +16,7 @@ function makeDoc(uri: string): OFMDoc {
     version: 0,
     frontmatter: null,
     frontmatterEndOffset: 0,
+    text: '',
     opaqueRegions: [],
     index: {
       wikiLinks: [],
