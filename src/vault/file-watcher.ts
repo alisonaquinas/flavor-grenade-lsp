@@ -5,6 +5,7 @@ import * as path from 'path';
 import { VaultIndex } from './vault-index.js';
 import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
+import { VaultScanner } from './vault-scanner.js';
 import { toDocId } from './doc-id.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { TagRegistry } from '../tags/tag-registry.js';
@@ -27,6 +28,7 @@ export class FileWatcher {
     private readonly ignoreFilter: IgnoreFilter,
     private readonly ofmParser: OFMParser,
     private readonly tagRegistry: TagRegistry,
+    private readonly vaultScanner: VaultScanner,
   ) {}
 
   /**
@@ -65,12 +67,21 @@ export class FileWatcher {
       return;
     }
 
-    if (!absPath.endsWith('.md')) {
+    const relPath = path.relative(this.resolvedRoot, absPath).split(path.sep).join('/');
+    if (this.ignoreFilter.shouldIgnore(relPath)) {
       return;
     }
 
-    const relPath = path.relative(this.resolvedRoot, absPath).split(path.sep).join('/');
-    if (this.ignoreFilter.shouldIgnore(relPath)) {
+    if (!absPath.endsWith('.md')) {
+      // Track non-markdown files in the asset index.
+      if (eventType === 'rename') {
+        const exists = await this.fileExists(absPath);
+        if (exists) {
+          this.vaultScanner.getAssetIndex().add(relPath);
+        } else {
+          this.vaultScanner.getAssetIndex().delete(relPath);
+        }
+      }
       return;
     }
 

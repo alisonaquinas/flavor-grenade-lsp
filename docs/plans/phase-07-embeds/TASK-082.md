@@ -2,7 +2,7 @@
 id: "TASK-082"
 title: "Write unit tests for embed resolution"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -131,3 +131,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `src/resolution/__tests__/embed-resolver.test.ts` written with 12 tests: markdown doc resolution, stem resolution, broken markdown, image assets (png/jpg/svg), broken assets, size specifier (width+height), alias vs size distinction. RED commit precedes GREEN commit. Status: `done`.

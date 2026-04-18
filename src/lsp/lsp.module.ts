@@ -19,6 +19,7 @@ import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
 import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
+import { HoverHandler } from '../handlers/hover.handler.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
@@ -66,6 +67,7 @@ export class LspModule implements OnModuleInit {
     private readonly capabilityRegistry: CapabilityRegistry,
     private readonly definition: DefinitionHandler,
     private readonly references: ReferencesHandler,
+    private readonly hover: HoverHandler,
     private readonly completionProvider: WikiLinkCompletionProvider,
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
@@ -85,6 +87,7 @@ export class LspModule implements OnModuleInit {
       referencesProvider: true,
       completionProvider: { triggerCharacters: ['[', '#'], resolveProvider: false },
       codeActionProvider: true,
+      hoverProvider: true,
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -106,6 +109,9 @@ export class LspModule implements OnModuleInit {
     );
     this.dispatcher.onRequest('textDocument/codeAction', (p) =>
       Promise.resolve(this.handleCodeAction(p)),
+    );
+    this.dispatcher.onRequest('textDocument/hover', (p) =>
+      Promise.resolve(this.hover.handle(p as Parameters<HoverHandler['handle']>[0])),
     );
 
     this.reader.on('message', (raw: string) => {

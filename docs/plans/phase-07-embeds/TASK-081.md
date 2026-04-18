@@ -2,7 +2,7 @@
 id: "TASK-081"
 title: "Handle embed size syntax"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -125,3 +125,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> Verified: `EmbedParser` already handles size specifiers in Phase 3. `EmbedEntry` already has `width?` and `height?` fields in `types.ts`. Size specifier vs alias distinction confirmed present. No code changes required. Status: `done`.

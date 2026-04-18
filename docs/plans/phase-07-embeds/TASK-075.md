@@ -2,7 +2,7 @@
 id: "TASK-075"
 title: "Add EmbedRef to RefGraph"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -132,3 +132,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `EmbedRef` interface added to `src/resolution/ref-graph.ts`. `RefGraph` now maintains `embedRefsMap` and `brokenEmbeds` collections with `addEmbedRef`, `getEmbedRefsTo`, and `getBrokenEmbedRefs` methods. `rebuild` accepts optional `EmbedResolver`. All 211 tests pass. Status: `done`.

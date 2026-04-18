@@ -2,7 +2,7 @@
 id: "TASK-080"
 title: "Implement embed hover"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -130,3 +130,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `HoverHandler` created at `src/handlers/hover.handler.ts`. Handles embeds (markdown preview / asset `![](uri)`) and wiki-links (heading-based preview). Registered in `ResolutionModule` and `LspModule`. `hoverProvider: true` added to capability registry. Status: `done`.

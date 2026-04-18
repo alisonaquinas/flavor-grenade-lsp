@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { DefinitionHandler } from '../definition.handler.js';
 import { Oracle } from '../../resolution/oracle.js';
+import { EmbedResolver } from '../../resolution/embed-resolver.js';
+import { VaultScanner } from '../../vault/vault-scanner.js';
 import { FolderLookup } from '../../vault/folder-lookup.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import { ParseCache } from '../../parser/parser.module.js';
@@ -39,6 +41,7 @@ describe('DefinitionHandler', () => {
   let folderLookup: FolderLookup;
   let oracle: Oracle;
   let parseCache: ParseCache;
+  let embedResolver: EmbedResolver;
   let handler: DefinitionHandler;
 
   beforeEach(() => {
@@ -46,7 +49,9 @@ describe('DefinitionHandler', () => {
     folderLookup = new FolderLookup();
     oracle = new Oracle(folderLookup, vaultIndex);
     parseCache = new ParseCache();
-    handler = new DefinitionHandler(oracle, parseCache);
+    const vaultScanner = { hasAsset: () => false, getAssetIndex: () => new Set<string>() } as unknown as VaultScanner;
+    embedResolver = new EmbedResolver(oracle, vaultScanner);
+    handler = new DefinitionHandler(oracle, embedResolver, parseCache);
   });
 
   it('returns null when document is not in cache', () => {

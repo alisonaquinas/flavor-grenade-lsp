@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { DiagnosticService } from '../diagnostic-service.js';
 import { Oracle } from '../oracle.js';
+import { EmbedResolver } from '../embed-resolver.js';
+import { VaultScanner } from '../../vault/vault-scanner.js';
 import { FolderLookup } from '../../vault/folder-lookup.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import type { VaultDetector } from '../../vault/vault-detector.js';
@@ -51,6 +53,7 @@ describe('DiagnosticService', () => {
   let vaultIndex: VaultIndex;
   let folderLookup: FolderLookup;
   let oracle: Oracle;
+  let embedResolver: EmbedResolver;
   let parseCache: ParseCache;
   let sentNotifications: Array<{ method: string; params: unknown }>;
 
@@ -68,12 +71,14 @@ describe('DiagnosticService', () => {
     folderLookup = new FolderLookup();
     oracle = new Oracle(folderLookup, vaultIndex);
     parseCache = new ParseCache();
+    const vaultScanner = { hasAsset: () => false, getAssetIndex: () => new Set<string>() } as unknown as VaultScanner;
+    embedResolver = new EmbedResolver(oracle, vaultScanner);
   });
 
   it('publishes FG001 for a broken wiki-link', () => {
     folderLookup.rebuild(vaultIndex);
 
-    const service = new DiagnosticService(makeDispatcher(), oracle, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
     const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('nonexistent')]);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');
@@ -94,7 +99,7 @@ describe('DiagnosticService', () => {
     vaultIndex.set(id('other/gamma'), makeDoc('file:///vault/other/gamma.md'));
     folderLookup.rebuild(vaultIndex);
 
-    const service = new DiagnosticService(makeDispatcher(), oracle, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
     const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('gamma')]);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');
@@ -112,7 +117,7 @@ describe('DiagnosticService', () => {
   it('publishes FG003 for a malformed wiki-link', () => {
     folderLookup.rebuild(vaultIndex);
 
-    const service = new DiagnosticService(makeDispatcher(), oracle, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
     const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('   ')]);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');
@@ -126,7 +131,7 @@ describe('DiagnosticService', () => {
 
   it('publishes empty diagnostics in single-file mode', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, parseCache, makeSingleFileDetector());
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeSingleFileDetector());
     const doc = makeDoc('file:///vault/alpha.md', [makeWikiLink('nonexistent')]);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');
@@ -139,7 +144,7 @@ describe('DiagnosticService', () => {
 
   it('publishes empty diagnostics when no wiki-links', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
     const doc = makeDoc('file:///vault/alpha.md', []);
 
     service.publishDiagnostics(id('alpha'), doc, '/vault');

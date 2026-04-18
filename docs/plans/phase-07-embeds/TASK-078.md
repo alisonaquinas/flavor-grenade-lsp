@@ -2,7 +2,7 @@
 id: "TASK-078"
 title: "Implement FG004 diagnostic"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -126,3 +126,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `DiagnosticService` updated to inject `EmbedResolver` and emit FG004 (severity Warning) for broken embeds. Suppressed in single-file mode. All existing tests updated to pass new constructor signature. Status: `done`.

@@ -17,11 +17,17 @@ import { TagRegistry } from '../tags/tag-registry.js';
  * files and populating the {@link VaultIndex}, {@link FolderLookup}, and
  * {@link TagRegistry}.
  *
+ * Non-markdown files are tracked in the {@link assetIndex} (vault-relative
+ * paths) so that `![[embed]]` resolution can confirm assets exist.
+ *
  * After scanning, sends a `flavorGrenade/status` `'ready'` notification via
  * the {@link JsonRpcDispatcher}.
  */
 @Injectable()
 export class VaultScanner {
+  /** Vault-relative paths of all non-`.md` files found during the last scan. */
+  private assetIndex: Set<string> = new Set();
+
   constructor(
     private readonly vaultDetector: VaultDetector,
     private readonly vaultIndex: VaultIndex,
@@ -31,6 +37,22 @@ export class VaultScanner {
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
   ) {}
+
+  /**
+   * Return the current asset index (vault-relative paths of non-`.md` files).
+   */
+  getAssetIndex(): Set<string> {
+    return this.assetIndex;
+  }
+
+  /**
+   * Check whether a vault-relative path is a known asset.
+   *
+   * @param vaultRelPath - Forward-slash vault-relative path.
+   */
+  hasAsset(vaultRelPath: string): boolean {
+    return this.assetIndex.has(vaultRelPath);
+  }
 
   /**
    * Scan the vault rooted at `rootUri`, index all `.md` files, and send
@@ -51,6 +73,7 @@ export class VaultScanner {
     ).vaultRoot!;
 
     this.ignoreFilter.load(vaultRoot);
+    this.assetIndex = new Set();
     await this.walkAndIndex(vaultRoot, vaultRoot);
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
@@ -77,6 +100,8 @@ export class VaultScanner {
         await this.walkAndIndex(vaultRoot, fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
         await this.indexFile(vaultRoot, fullPath);
+      } else if (entry.isFile()) {
+        this.assetIndex.add(relPath);
       }
     }
   }
