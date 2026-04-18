@@ -2,7 +2,7 @@
 id: "FEAT-013"
 title: "Code Actions"
 type: feature
-status: in-progress
+status: done
 priority: medium
 phase: 12
 created: "2026-04-17"
@@ -163,3 +163,38 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] In-progress — 2026-04-17
 > Phase 12 implementation started. All 8 TASK + 3 CHORE tickets defined. Status: `in-progress`.
+
+> [!CHECK] In-review — 2026-04-17
+> All 8 TASK tickets implemented. 419 tests pass (up from 371). Lint clean, tsc clean. Status: `in-review`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-04-17.
+
+### What went as planned
+
+- TDD RED→GREEN followed strictly: all 9 test files committed before implementation
+- All new handlers isolated in dedicated files with clean NestJS DI
+- FG006 detection uses `frontmatterEndOffset` field on `OFMDoc` — clean boundary
+- `TagToYamlAction` edge cases (already-in-frontmatter, multiple occurrences) added without altering the happy path
+- Delta-encoding for semantic tokens implemented correctly (sorted by position, relative deltas)
+- WorkspaceSymbol prefix-before-substring sort with 50-item cap
+- DocumentSymbol hierarchical H1→H2→H3 nesting with block anchor leaves
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| TASK-118 | OFMDoc shape | `OFMDoc` lacked `text` field; agent added it to `types.ts` and `ofm-parser.ts` | Low |
+| TASK-118 | FG006 offset math | Needed `frontmatterEndOffset` field; agent added it alongside `text`; existing tests needed `text: ''` added to `makeDoc` helpers (21 files) | Medium |
+
+### Process observations
+
+- Adding `text` and `frontmatterEndOffset` to `OFMDoc` was the right move — both FG006 detection and TocGenerator frontmatter scanning needed raw text access
+- The 21 existing test files needing `text: ''` patching was mechanical but necessary — confirms the type shape change was backwards-compatible in behaviour
+- `CodeActionsModule` cleanly centralises all action providers; `LspModule.handleCodeAction` private method removal simplified routing
+
+### Carry-forward actions
+- [ ] Phase 13 (CI & Delivery): set up GitHub Actions workflow, binary packaging, artifact publishing
+- [ ] BDD feature files `code-actions.feature` and `diagnostics.feature` exist as specs but BDD runner not yet hooked to CI gate
+- [ ] `diagnosticService.publishDiagnostics` is called on every didOpen/didChange — FG006 scan runs O(n) per keystroke; consider debounce for large vaults
