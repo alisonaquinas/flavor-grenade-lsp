@@ -1,6 +1,14 @@
 // markdownlint-obsidian configuration for flavor-grenade-lsp docs/
-// Enforces Obsidian Flavored Markdown conventions.
-// See: https://github.com/alisonaquinas/obsidian-linter
+// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc docs/
+// See: https://github.com/alisonaquinas/markdownlint-obsidian
 {
-  "default": true
+  // Vault root for wikilink and embed resolution.
+  "vaultRoot": "./docs",
+  // Enable vault-wide wikilink/embed resolution so broken internal links
+  // are flagged as lint errors.
+  "resolve": true,
+  // Default glob when no positional args are passed.
+  "globs": ["docs/**/*.md"],
+  "ignores": ["node_modules/**"],
+  "rules": {}
 }
