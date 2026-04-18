@@ -1,0 +1,14 @@
+# flavor-grenade-lsp Helix editor configuration
+#
+# To use: merge the contents below into your personal Helix config at:
+#   ~/.config/helix/languages.toml
+#
+# Prerequisites: flavor-grenade-lsp binary on PATH
+
+[language-server.flavor-grenade-lsp]
+command = "flavor-grenade-lsp"
+
+[[language]]
+name = "markdown"
+language-servers = ["flavor-grenade-lsp"]
+roots = [".obsidian", ".flavor-grenade.toml", ".git"]
