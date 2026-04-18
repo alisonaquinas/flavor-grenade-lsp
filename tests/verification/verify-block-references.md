@@ -37,6 +37,7 @@ verification record for block anchor indexing, cross-reference diagnostics, comp
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 5 documents. Each document contains:
   - At least 5 end-of-line `^blockid` anchors in body text paragraphs and list items.
   - At least 2 mid-sentence `^id` occurrences (e.g., `x^2 is quadratic`, `value ^temp is`).
@@ -62,6 +63,7 @@ And (indexed anchors / expected anchors) × 100 = 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 5 documents (`notes/doc-a.md` through `notes/doc-e.md`). Each document contains exactly:
    - Lines ending with `^anchor-01` through `^anchor-05` (in body paragraphs and list items).
@@ -90,6 +92,7 @@ And (indexed anchors / expected anchors) × 100 = 100
 **Phase:** Phase 1
 
 **Setup:**
+
 - **Multi-file mode setup:** A vault with at least 3 documents. One document (`notes/checker.md`) contains:
   - 3 `[[source#^validanchor]]` links (target anchors exist in the indexed source document).
   - 3 `[[source#^missinganchor]]` links (target anchors do not exist in any document).
@@ -124,6 +127,7 @@ Then zero FG005 diagnostics are emitted for any link in "notes/checker.md"
 ```
 
 **Agent-driven steps (multi-file mode):**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/source.md` with body lines ending in `^validanchor-1`, `^validanchor-2`, `^validanchor-3`.
 3. Agent writes `notes/checker.md` with the 6 links described in the setup table.
@@ -157,6 +161,7 @@ Then zero FG005 diagnostics are emitted for any link in "notes/checker.md"
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 5 documents, each containing at least 4 named end-of-line block anchors.
 - A new scratch document `notes/index.md` used for issuing completion requests.
 - Cursor positions in `notes/index.md` set to immediately after `[[targetDoc#^` for each target document.
@@ -183,9 +188,11 @@ And (anchor IDs in completion list / total anchors in OFMIndex for doc-b) × 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 5 documents (`notes/doc-a.md` through `notes/doc-e.md`), each with exactly 4 body lines ending in named `^block-*` anchors.
 3. Agent writes `notes/index.md` with lines for each target:
+
    ```
    [[doc-a#^
    [[doc-b#^
@@ -193,6 +200,7 @@ And (anchor IDs in completion list / total anchors in OFMIndex for doc-b) × 100
    [[doc-d#^
    [[doc-e#^
    ```
+
    Each line is on its own row (0-indexed line 0 through 4); cursor column is set to the character position immediately after `^` (column 9 for `[[doc-a#^`).
 4. Agent spawns server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` + `initialized`.
@@ -218,6 +226,7 @@ And (anchor IDs in completion list / total anchors in OFMIndex for doc-b) × 100
 **Phase:** Phase 1
 
 **Setup:**
+
 - A single fixture document `notes/classification-test.md` containing precisely the following, one per separate line or within a line as noted:
   - 5 valid end-of-line anchors: `paragraph text ^anchor-a`, `- list item ^anchor-b`, `Another sentence. ^anchor-c`, `- nested list ^anchor-d`, `Final body line ^anchor-e`.
   - 3 mid-sentence occurrences: `x^2 is quadratic` (math notation), `the value ^temp is used here` (not at line end), `note^1 reference` (footnote-style).
@@ -246,8 +255,10 @@ And (correctly classified positions / 11 total positions) × 100 = 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/classification-test.md` with the following exact content:
+
    ```markdown
    # Classification Test
 
@@ -267,8 +278,10 @@ And (correctly classified positions / 11 total positions) × 100 = 100
    code example ^anchor-x
    another ^anchor-y
    ```
+
    ```
 3. Agent spawns server: `bun run start 2>/dev/null &`
+
 4. Agent sends `initialize` + `initialized`.
 5. Agent sends `textDocument/didOpen` for `notes/classification-test.md`.
 6. Agent enumerates indexed anchors via `textDocument/completion` at `[[classification-test#^` in a scratch document (cursor immediately after `^`), or via the test inspection endpoint if available.

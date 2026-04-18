@@ -49,8 +49,10 @@ Feature: Full author flow for block anchors
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates a three-note vault:
    - `research-findings.md` — content:
+
      ```
      # Research Findings
 
@@ -58,19 +60,24 @@ Feature: Full author flow for block anchors
 
      Further analysis is pending.
      ```
+
    - `literature-review.md` — content:
+
      ```
      # Literature Review
 
      Related work also found strong results. ^lit-finding
      ```
+
    - `project-summary.md` — content:
+
      ```
      # Project Summary
 
      See [[research-findings#^key-insight]] for the core data.
      Also see [[literature-review#^lit-finding]] for context.
      ```
+
 2. Agent opens `project-summary.md` and verifies no diagnostics are published (both anchors exist)
 3. Agent requests go-to-definition on the `[[research-findings#^key-insight]]` link and verifies the response points to the line containing `^key-insight` in `research-findings.md`
 4. Agent requests go-to-definition on `[[literature-review#^lit-finding]]` and verifies it points to the correct line in `literature-review.md`
@@ -114,8 +121,10 @@ Feature: Block anchor completion after [[note#^ trigger
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates a three-note vault:
    - `meeting-notes.md` — content:
+
      ```
      # Meeting Notes — 2026-04-10
 
@@ -127,12 +136,15 @@ Feature: Block anchor completion after [[note#^ trigger
 
      The budget estimate is approximately $5^2 thousand (not an anchor).
      ```
+
    - `architecture-notes.md` — content:
+
      ```
      # Architecture Notes
 
      The layered design was preferred. ^arch-decision
      ```
+
    - `weekly-summary.md` — empty editing surface where completions are requested
 2. Agent opens `weekly-summary.md` and requests completions immediately after `[[meeting-notes#^`
 3. Agent verifies the completion list contains exactly `decisions`, `action-items`, and `next-steps`

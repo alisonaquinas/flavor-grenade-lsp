@@ -42,9 +42,11 @@ And "capabilities" is a JSON object (may be empty but must be present)
 1. Agent creates a temp directory: `mkdir -p /tmp/fg-smoke-001 && mkdir /tmp/fg-smoke-001/.obsidian`
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &` (requires Phase 1 complete)
 3. Agent sends the following JSON-RPC request to server stdin (Content-Length framed):
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-001","capabilities":{}}}
    ```
+
 4. Agent reads server stdout until a complete JSON-RPC message is received (Content-Length framing)
 5. Agent parses the response and asserts `result.capabilities` is present and is an object
 6. Agent asserts the response has no `error` field
@@ -88,9 +90,11 @@ And subsequent diagnostics for broken wiki-links are suppressed
 4. Agent asserts response has `result.capabilities` object — server must not error on missing vault
 5. Agent sends `initialized` notification
 6. Agent sends `textDocument/didOpen` for `orphan.md` with content `# Orphan\n[[missing-note]]`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-002/orphan.md","languageId":"markdown","version":1,"text":"# Orphan\n[[missing-note]]"}}}
    ```
+
 7. Agent waits up to 1s and reads any `textDocument/publishDiagnostics` notifications from stdout
 8. Agent asserts that if any diagnostics are published, none have code `"FG001"` (cross-file diagnostics suppressed in single-file mode)
 9. Agent sends `shutdown` + `exit`; verifies server exits 0

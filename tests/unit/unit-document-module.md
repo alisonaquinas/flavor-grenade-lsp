@@ -20,6 +20,7 @@ See [[concepts/document-model]] for the full field contract and [[adr/ADR004-tex
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('open() returns OFMDoc with correct uri, version 0, and non-null index', () => {
   // arrange
@@ -38,6 +39,7 @@ it('open() returns OFMDoc with correct uri, version 0, and non-null index', () =
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DocLifecycle.open` constructs an `OFMDoc` where `id === uri`, `version === version` parameter, `text === text` parameter
 - `index` is a non-null `OFMIndex` (even if internally empty for plain text)
 
@@ -51,6 +53,7 @@ it('open() returns OFMDoc with correct uri, version 0, and non-null index', () =
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('open() with empty string returns valid OFMDoc with empty (not null) index', () => {
   // arrange
@@ -69,6 +72,7 @@ it('open() with empty string returns valid OFMDoc with empty (not null) index', 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Empty text does not throw and does not produce a null index
 - `index.wikiLinks` and `index.headings` are empty arrays (not undefined or null)
 
@@ -82,6 +86,7 @@ it('open() with empty string returns valid OFMDoc with empty (not null) index', 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('close() returns new OFMDoc with version null and same text', () => {
   // arrange
@@ -102,6 +107,7 @@ it('close() returns new OFMDoc with version null and same text', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `close()` returns a new `OFMDoc` value (not the same reference)
 - `version` is `null` on the returned doc
 - `text` and `id` are preserved
@@ -118,6 +124,7 @@ it('close() returns new OFMDoc with version null and same text', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('replaceAll produces new OFMDoc with new text, new index, and incremented version', () => {
   // arrange
@@ -140,6 +147,7 @@ it('replaceAll produces new OFMDoc with new text, new index, and incremented ver
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `replaceAll` path (change event with no `range` field) replaces entire text
 - Returned doc version equals the supplied version argument
 - A new `OFMIndex` is computed from the new text
@@ -156,6 +164,7 @@ it('replaceAll produces new OFMDoc with new text, new index, and incremented ver
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('replaceAll with identical text returns new object but structurally equal index', () => {
   // arrange
@@ -177,6 +186,7 @@ it('replaceAll with identical text returns new object but structurally equal ind
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Even a no-op full sync returns a fresh `OFMDoc` and fresh `OFMIndex`
 - Deep equality of `wikiLinks` and `headings` holds when text is identical
 
@@ -192,6 +202,7 @@ it('replaceAll with identical text returns new object but structurally equal ind
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('single-range insert at position 0 prepends the new text', () => {
   // arrange
@@ -213,6 +224,7 @@ it('single-range insert at position 0 prepends the new text', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A zero-length range at offset 0 performs an insert without deleting any characters
 - The heading is present in the recomputed index
 
@@ -228,6 +240,7 @@ it('single-range insert at position 0 prepends the new text', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('deleting the range of a wiki-link removes it from the new index', () => {
   // arrange
@@ -250,6 +263,7 @@ it('deleting the range of a wiki-link removes it from the new index', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Range deletion collapses the specified span to empty
 - Recomputed index contains no wiki-link entries for the deleted span
 
@@ -263,6 +277,7 @@ it('deleting the range of a wiki-link removes it from the new index', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('three non-overlapping range changes applied in LSP order produce correct final text', () => {
   // arrange
@@ -287,6 +302,7 @@ it('three non-overlapping range changes applied in LSP order produce correct fin
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Changes are applied sequentially in the provided array order
 - Each change's range is resolved against the state after all preceding changes
 
@@ -302,6 +318,7 @@ it('three non-overlapping range changes applied in LSP order produce correct fin
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('shouldPublishDiagnostics() is false when version is null (disk-loaded)', () => {
   // arrange
@@ -316,6 +333,7 @@ it('shouldPublishDiagnostics() is false when version is null (disk-loaded)', () 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `shouldPublishDiagnostics()` returns `false` whenever `this.version === null`
 
 **REFACTOR notes:** See [[concepts/document-model]] §Diagnostic gating.
@@ -330,6 +348,7 @@ it('shouldPublishDiagnostics() is false when version is null (disk-loaded)', () 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('shouldPublishDiagnostics() is true when version is 0 (freshly opened)', () => {
   // arrange
@@ -343,6 +362,7 @@ it('shouldPublishDiagnostics() is true when version is 0 (freshly opened)', () =
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `shouldPublishDiagnostics()` returns `true` for any `version >= 0`
 
 ---
@@ -355,6 +375,7 @@ it('shouldPublishDiagnostics() is true when version is 0 (freshly opened)', () =
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('successive change() calls produce monotonically increasing versions', () => {
   // arrange
@@ -376,6 +397,7 @@ it('successive change() calls produce monotonically increasing versions', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DocLifecycle.change` threads the supplied `version` argument directly into the returned doc's `version` field
 - All intermediate docs retain their original version values (immutability)
 
@@ -391,6 +413,7 @@ it('successive change() calls produce monotonically increasing versions', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('original OFMDoc text and index are unmodified after apply()', () => {
   // arrange
@@ -414,6 +437,7 @@ it('original OFMDoc text and index are unmodified after apply()', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `apply()` never mutates `doc.text`, `doc.index`, or `doc.version` on the input doc
 - The returned doc is an entirely new value; the original is a read-only record
 

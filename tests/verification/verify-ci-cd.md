@@ -70,6 +70,7 @@ echo "PASS: All sampled PRs were merged with green required checks"
 ```
 
 **Agent-driven steps:**
+
 1. Agent opens `.github/workflows/ci.yml` and verifies it defines jobs named exactly `typecheck`, `lint`, `format`, `test`, and `build`.
 2. Agent checks that no branch protection rule has `required_status_checks.enforcement_level` set to `off` for either `main` or `develop`.
 3. Agent verifies no bypass actors are listed that would allow merging without checks.
@@ -115,6 +116,7 @@ grep -A 5 'markdownlint-obsidian' .github/workflows/ci.yml | grep '"docs/'
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `.github/workflows/ci.yml` and confirms the `markdown-lint-docs` job specifies `markdownlint-obsidian` as the linting command, not `markdownlint-cli2`.
 2. Agent confirms the glob argument in the job targets `docs/**/*.md` exclusively.
 3. Agent confirms the job is listed as a required status check in the branch protection configuration.
@@ -164,6 +166,7 @@ node -e "require('./.markdownlint-cli2.jsonc')" 2>/dev/null || \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `.github/workflows/ci.yml` and verifies the `markdown-lint-other` job's glob arguments do not include `docs/**` or `.github/**`.
 2. Agent verifies the `markdown-lint-other` job uses `markdownlint-cli2`, not `markdownlint-obsidian`.
 3. Agent verifies the `markdown-lint-other` job is a required status check.
@@ -212,6 +215,7 @@ gh secret list | grep -i 'npm_token'
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `.github/workflows/publish.yml` in full and confirms: `permissions.id-token: write` is set, `contents: read` is set, and no `NPM_TOKEN` secret is referenced.
 2. Agent confirms the publish step includes `--provenance` in the `npm publish` or `bun publish` invocation.
 3. Agent confirms the workflow uses `npmjs` as the OIDC-enabled registry target (not a self-hosted registry that would not accept OIDC tokens).
@@ -264,6 +268,7 @@ gh workflow run publish.yml 2>&1 | grep -i 'error\|not found\|no workflow'
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `.github/workflows/publish.yml` and confirms the `on:` block contains only `push.tags` with pattern `v*.*.*` — no other triggers.
 2. Agent verifies there is no `workflow_dispatch` trigger, no `schedule` trigger, and no `push.branches` trigger in the publish workflow.
 3. Agent confirms the workflow has an `if: startsWith(github.ref, 'refs/tags/v')` guard or equivalent as a secondary check.
@@ -329,6 +334,7 @@ git log develop --oneline | grep -i 'skip.*hook\|no.verify\|bypass' && \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `lefthook.yml` in full and verifies it defines a `pre-commit` group containing commands for `typecheck`, `lint`, `format`, and `test`.
 2. Agent confirms the `lint` command includes `--max-warnings 0` or equivalent zero-warning enforcement.
 3. Agent inspects `CLAUDE.md` or `docs/` for any documented policy on `--no-verify` emergency exceptions, verifying that no such exception has been invoked without documentation on `develop` or `main`.

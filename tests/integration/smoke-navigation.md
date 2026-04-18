@@ -41,26 +41,34 @@ And the target range is at line 0, character 0
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-013/.obsidian
    mkdir -p /tmp/fg-smoke-013/notes
    printf '# Target Doc\nSome body text.' > /tmp/fg-smoke-013/notes/target.md
    echo 'See [[target]] here.' > /tmp/fg-smoke-013/notes/referrer-a.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-013/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-013/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/referrer-a.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-013/notes/referrer-a.md","languageId":"markdown","version":1,"text":"See [[target]] here."}}}
    ```
+
 6. Agent sends `textDocument/definition` at position `{line: 0, character: 6}` (inside `[[target]]`):
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/definition","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-013/notes/referrer-a.md"},"position":{"line":0,"character":6}}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts the response has a `result` field (not `error`)
 9. Agent asserts `result.uri` ends with `"notes/target.md"` (or equals the full URI)
@@ -98,6 +106,7 @@ And the response list has exactly 2 items
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-014/.obsidian
    mkdir -p /tmp/fg-smoke-014/notes
@@ -105,17 +114,22 @@ And the response list has exactly 2 items
    echo '[[target#Section Alpha]] in referrer-a' > /tmp/fg-smoke-014/notes/referrer-a.md
    echo '[[target#Section Alpha]] in referrer-b' > /tmp/fg-smoke-014/notes/referrer-b.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-014/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-014/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for all three files
 6. Agent sends `textDocument/references` at position `{line: 1, character: 5}` (on `## Section Alpha`, character 5 is inside the heading text) in `target.md` with `includeDeclaration: false`:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/references","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-014/notes/target.md"},"position":{"line":1,"character":5},"context":{"includeDeclaration":false}}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts `result` is an array with length == 2
 9. Agent asserts the two `Location` objects have URIs ending in `"notes/referrer-a.md"` and `"notes/referrer-b.md"` respectively

@@ -23,6 +23,7 @@ Source mirror: `src/parser/ofm-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('empty string → empty OFMIndex with no symbols and no errors', () => {
   const parser = new OFMParser()
@@ -41,6 +42,7 @@ it('empty string → empty OFMIndex with no symbols and no errors', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `parseIndex('')` returns an `OFMIndex` with every array empty and `frontmatter` an empty object.
 - No exception is thrown.
 
@@ -54,6 +56,7 @@ it('empty string → empty OFMIndex with no symbols and no errors', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('plain prose with no OFM elements → all symbol arrays empty', () => {
   const text = 'This is a paragraph.\n\nAnother paragraph with some text.'
@@ -70,6 +73,7 @@ it('plain prose with no OFM elements → all symbol arrays empty', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A document containing only CommonMark prose produces no OFM-specific symbols in the index.
 - `frontmatter` is an empty object (no YAML fence present).
 
@@ -83,6 +87,7 @@ it('plain prose with no OFM elements → all symbol arrays empty', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('YAML frontmatter — title key present in frontmatter map; body wiki-link still indexed', () => {
   const text = [
@@ -104,6 +109,7 @@ it('YAML frontmatter — title key present in frontmatter map; body wiki-link st
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Stage 2 (frontmatter extraction) strips the `---` block and exposes key-value pairs in `frontmatter`.
 - The remaining body text continues through stages 3–8 and wiki-links in the body are indexed.
 
@@ -117,6 +123,7 @@ it('YAML frontmatter — title key present in frontmatter map; body wiki-link st
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('math block $$...$$ — wiki-link inside math block is NOT in wikiLinks[]', () => {
   const text = [
@@ -137,6 +144,7 @@ it('math block $$...$$ — wiki-link inside math block is NOT in wikiLinks[]', (
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Stage 3 identifies the `$$...$$` span as an `ignoreRegion`.
 - Stage 5 (wiki-link tokenization) skips any positions that fall inside an `ignoreRegion`.
 
@@ -152,6 +160,7 @@ it('math block $$...$$ — wiki-link inside math block is NOT in wikiLinks[]', (
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('OFM comment %%...$$ — tag inside comment is NOT in tags[]', () => {
   const text = [
@@ -170,6 +179,7 @@ it('OFM comment %%...$$ — tag inside comment is NOT in tags[]', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Stage 3 identifies `%%...%%` as an `ignoreRegion`.
 - Stage 8 (tag identification) skips tokens inside ignore regions.
 
@@ -183,6 +193,7 @@ it('OFM comment %%...$$ — tag inside comment is NOT in tags[]', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('fenced code block — wiki-links and tags inside are NOT indexed', () => {
   const text = [
@@ -206,6 +217,7 @@ it('fenced code block — wiki-links and tags inside are NOT indexed', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Stage 3 marks the fenced code block as an `ignoreRegion`.
 - Both wiki-link tokenization (stage 5) and tag identification (stage 8) skip positions inside the region.
 
@@ -219,6 +231,7 @@ it('fenced code block — wiki-links and tags inside are NOT indexed', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('ATX ## Heading → headings[0] with level 2 and correct slug', () => {
   const text = '## My Section Heading'
@@ -233,6 +246,7 @@ it('ATX ## Heading → headings[0] with level 2 and correct slug', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Stage 4 (block structure) identifies the ATX heading and records `level`, `text`, and `slug`.
 - Slug is lowercase, spaces replaced with hyphens, special characters stripped.
 
@@ -246,6 +260,7 @@ it('ATX ## Heading → headings[0] with level 2 and correct slug', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('multiple ATX headings — returned in document order with correct levels', () => {
   const text = [
@@ -273,6 +288,7 @@ it('multiple ATX headings — returned in document order with correct levels', (
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - All four headings appear in `index.headings` in document order.
 - Each `level` matches the number of `#` characters.
 
@@ -286,6 +302,7 @@ it('multiple ATX headings — returned in document order with correct levels', (
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('parse(text) called twice with same input → structurally equal OFMDoc (purity contract)', () => {
   const text = '# Title\n\nSome [[WikiLink]] and #tag.'
@@ -303,6 +320,7 @@ it('parse(text) called twice with same input → structurally equal OFMDoc (puri
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `parse()` produces a new `OFMDoc` object on every call with no shared mutable state.
 - The two results are deeply equal but not the same reference.
 
@@ -318,6 +336,7 @@ it('parse(text) called twice with same input → structurally equal OFMDoc (puri
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('disk-loaded doc has version null; editor-open doc with version number carries that version', () => {
   const text = 'Hello world.'
@@ -332,6 +351,7 @@ it('disk-loaded doc has version null; editor-open doc with version number carrie
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `parse(text)` without options sets `OFMDoc.version` to `null`.
 - `parse(text, { version: n })` sets `OFMDoc.version` to `n`.
 - The version field does not affect any symbol extraction logic.
@@ -346,6 +366,7 @@ it('disk-loaded doc has version null; editor-open doc with version number carrie
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('OFMDoc.index is derived from structure — wiki-link count matches between index and structure walk', () => {
   const text = [
@@ -369,6 +390,7 @@ it('OFMDoc.index is derived from structure — wiki-link count matches between i
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `OFMDoc.index` is always derived from `OFMDoc.structure` at parse time — never computed separately.
 - There is no path that produces an index inconsistent with the structure.
 
@@ -384,6 +406,7 @@ it('OFMDoc.index is derived from structure — wiki-link count matches between i
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('large document with 500+ paragraphs — parseIndex completes within 500ms', () => {
   const paragraphs = Array.from({ length: 500 }, (_, i) =>
@@ -403,6 +426,7 @@ it('large document with 500+ paragraphs — parseIndex completes within 500ms', 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `parseIndex` on 500 paragraphs with 500 wiki-links and 25 unique tags completes in under 500 ms on a developer workstation.
 - All 500 wiki-links are correctly indexed.
 

@@ -18,6 +18,7 @@ See [[architecture/layers]] for the module dependency hierarchy and [[adr/ADR010
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('wraps a valid POSIX absolute path without error', () => {
   const result = AbsPath.of('/home/user/vault/note.md')
@@ -26,6 +27,7 @@ it('wraps a valid POSIX absolute path without error', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `AbsPath.of` accepts any string beginning with `/` and returns an opaque wrapper exposing the original string via `.value`
 
 ---
@@ -38,6 +40,7 @@ it('wraps a valid POSIX absolute path without error', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('wraps a valid Windows absolute path without error', () => {
   const result = AbsPath.of('C:\\Users\\aaqui\\vault\\note.md')
@@ -46,6 +49,7 @@ it('wraps a valid Windows absolute path without error', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `AbsPath.of` also accepts strings matching the `[A-Za-z]:\` prefix pattern, treating them as absolute
 
 ---
@@ -58,6 +62,7 @@ it('wraps a valid Windows absolute path without error', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws when given a relative path', () => {
   expect(() => AbsPath.of('relative/path/note.md')).toThrow()
@@ -65,6 +70,7 @@ it('throws when given a relative path', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `AbsPath.of` throws a typed error (e.g. `InvalidPathError`) for any string that does not begin with `/` or a Windows drive prefix
 
 ---
@@ -77,6 +83,7 @@ it('throws when given a relative path', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws when given an empty string', () => {
   expect(() => AbsPath.of('')).toThrow()
@@ -84,6 +91,7 @@ it('throws when given an empty string', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `AbsPath.of` throws before any path-prefix check when the input is the empty string
 
 ---
@@ -96,6 +104,7 @@ it('throws when given an empty string', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns the vault-relative path for a file inside the vault root', () => {
   const root = AbsPath.of('/home/user/vault')
@@ -106,6 +115,7 @@ it('returns the vault-relative path for a file inside the vault root', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `VaultPath.of` strips the root prefix (plus any trailing separator) from the absolute file path and exposes the remainder as `.relative`
 
 ---
@@ -118,6 +128,7 @@ it('returns the vault-relative path for a file inside the vault root', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws when the file path is outside the vault root', () => {
   const root = AbsPath.of('/home/user/vault')
@@ -127,6 +138,7 @@ it('throws when the file path is outside the vault root', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `VaultPath.of` throws a typed error (e.g. `OutsideVaultError`) when the absolute file path does not begin with the root prefix
 
 ---
@@ -139,6 +151,7 @@ it('throws when the file path is outside the vault root', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('normalizes backslash separators to forward slashes in the relative portion', () => {
   const root = AbsPath.of('C:\\Users\\aaqui\\vault')
@@ -149,6 +162,7 @@ it('normalizes backslash separators to forward slashes in the relative portion',
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `.relative` value always uses `/` regardless of the separator style in the input strings
 
 ---
@@ -161,6 +175,7 @@ it('normalizes backslash separators to forward slashes in the relative portion',
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('case-folds ASCII letters to lowercase', () => {
   expect(Slug.ofString('Daily Notes').value).toBe('daily notes')
@@ -168,6 +183,7 @@ it('case-folds ASCII letters to lowercase', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Slug.ofString` calls `String.prototype.toLowerCase()` (or equivalent Unicode case-fold) on the trimmed input
 
 ---
@@ -180,6 +196,7 @@ it('case-folds ASCII letters to lowercase', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('trims surrounding whitespace and collapses multiple internal spaces', () => {
   expect(Slug.ofString('  My  Daily   Note  ').value).toBe('my daily note')
@@ -187,6 +204,7 @@ it('trims surrounding whitespace and collapses multiple internal spaces', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Slug.ofString` trims both ends and replaces every run of whitespace characters with a single space before case-folding
 
 ---
@@ -199,6 +217,7 @@ it('trims surrounding whitespace and collapses multiple internal spaces', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('lowercases non-ASCII Unicode characters', () => {
   expect(Slug.ofString('Ünterwegs').value).toBe('ünterwegs')
@@ -206,6 +225,7 @@ it('lowercases non-ASCII Unicode characters', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The fold uses locale-aware or Unicode-aware lowercasing so that characters like `Ü → ü` are handled correctly
 
 ---
@@ -218,6 +238,7 @@ it('lowercases non-ASCII Unicode characters', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns an empty slug value for an empty input string', () => {
   expect(Slug.ofString('').value).toBe('')
@@ -225,6 +246,7 @@ it('returns an empty slug value for an empty input string', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Slug.ofString` does not throw on empty input; it produces a slug whose `.value` is `''`
 
 ---
@@ -237,6 +259,7 @@ it('returns an empty slug value for an empty input string', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('decodes a target-only wikilink', () => {
   const result = WikiEncoded.decode('Note')
@@ -245,6 +268,7 @@ it('decodes a target-only wikilink', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `WikiEncoded.decode` splits on `#` and `|`, returns `anchor: null` when no `#` is present, and `label: null` when no `|` is present
 
 ---
@@ -257,6 +281,7 @@ it('decodes a target-only wikilink', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('decodes a target + heading anchor', () => {
   const result = WikiEncoded.decode('Note#Heading')
@@ -265,6 +290,7 @@ it('decodes a target + heading anchor', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The anchor field preserves the `#` sigil and everything between the `#` and either the `|` or end of string
 
 ---
@@ -277,6 +303,7 @@ it('decodes a target + heading anchor', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('decodes a block anchor link', () => {
   const block = WikiEncoded.decode('Note#^blockid')
@@ -295,6 +322,7 @@ it('decodes the full form: target + anchor + label', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - All three forms parse without error; `^` is preserved as part of the anchor string; label is the text after the last `|`
 
 **REFACTOR notes:** These three related assertions may be split into individual `it` blocks in the final spec file for clearer failure reporting.
@@ -309,6 +337,7 @@ it('decodes the full form: target + anchor + label', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns empty target for an empty bracket string', () => {
   const empty = WikiEncoded.decode('')
@@ -323,6 +352,7 @@ it('trims whitespace around the pipe-separated label', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Empty input is handled without throwing, yielding an empty target
 - Whitespace immediately adjacent to `|` is stripped from both target and label
 
@@ -336,6 +366,7 @@ it('trims whitespace around the pipe-separated label', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('constructs a DocId from a valid file:// URI', () => {
   const vaultRoot = AbsPath.of('/home/user/vault')
@@ -346,6 +377,7 @@ it('constructs a DocId from a valid file:// URI', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DocId.ofUri` decodes the URI to an absolute path, constructs an `AbsPath`, then delegates to `VaultPath.of` for the relative portion
 
 ---
@@ -358,6 +390,7 @@ it('constructs a DocId from a valid file:// URI', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('decodes %20 and other percent-encoded characters in the URI path', () => {
   const root = AbsPath.of('/home/user/my vault')
@@ -367,6 +400,7 @@ it('decodes %20 and other percent-encoded characters in the URI path', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The URI is decoded with `decodeURIComponent` (or equivalent) before being converted to an `AbsPath`
 
 ---
@@ -379,6 +413,7 @@ it('decodes %20 and other percent-encoded characters in the URI path', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws when given a non-file URI scheme', () => {
   const root = AbsPath.of('/home/user/vault')
@@ -387,4 +422,5 @@ it('throws when given a non-file URI scheme', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DocId.ofUri` validates the scheme before processing and throws a typed error (e.g. `UnsupportedUriSchemeError`) for anything other than `file:`

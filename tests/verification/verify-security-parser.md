@@ -66,6 +66,7 @@ echo "Flagged super-linear patterns: $flagged"
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads all `.ts` files under `src/parser/` and extracts every regex literal and `new RegExp()` call.
 2. Agent constructs an adversarial input for each wiki-link regex: a string of the form `[[` followed by 10,000 repetitions of `|` without a closing `]]`, and measures whether the regex terminates in under 1 ms against this input.
 3. Agent constructs an adversarial input for the tag regex: `#` followed by 10,000 alternating `a` and ` ` characters, and verifies the regex terminates immediately.
@@ -89,6 +90,7 @@ echo "Flagged super-linear patterns: $flagged"
 **Setup:** A running `flavor-grenade-lsp` server instance started against a test vault. A fixture file designed to stress the parser.
 
 **Agent-driven steps:**
+
 1. Agent creates a test fixture file `stress-parse.md` containing 10,000 lines of the form `[[note-$i|$i]]` where `$i` is the line index — this exercises the wiki-link regex at scale without being adversarial in the ReDoS sense but stresses parse throughput.
 2. Agent starts the server with the test vault, sends `initialize` and `initialized` notifications, then waits for the server to index the vault.
 3. Agent records the wall-clock time from the server's `workspace/didChangeWatchedFiles` notification for `stress-parse.md` to the completion of indexing.
@@ -145,6 +147,7 @@ print('---')
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates fixture (a): a vault file with YAML frontmatter containing exactly 51 anchor/alias pairs (exceeds the 50-alias cap). Agent adds this file to the test vault and observes the server's response.
 2. Agent verifies the server emits an FG007 diagnostic for the file and does NOT crash.
 3. Agent creates fixture (b): a vault file whose YAML frontmatter block is exactly 65,537 bytes (one byte over the 64 KB limit). Agent adds it to the vault and verifies the server rejects it before invoking `js-yaml`.
@@ -170,6 +173,7 @@ print('---')
 **Setup:** A running server instance. A test vault with deliberate circular embed structures.
 
 **Agent-driven steps:**
+
 1. Agent creates a 2-node cycle: `vault/cycle-a.md` containing `![[cycle-b]]`, and `vault/cycle-b.md` containing `![[cycle-a]]`. Agent triggers embed resolution for `cycle-a.md`.
 2. Agent verifies the server returns an FG005 diagnostic for `cycle-a.md` without crashing. Agent confirms the server process is still alive by sending a `textDocument/hover` request and receiving a response.
 3. Agent creates a 3-node cycle: A embeds B, B embeds C, C embeds A. Agent triggers resolution and verifies FG005 is emitted for the first file where the cycle is detected.
@@ -196,6 +200,7 @@ print('---')
 **Setup:** A test environment capable of creating 50,001 small files. A running server instance with the file limit set to 50,000.
 
 **Agent-driven steps:**
+
 1. Agent creates a test fixture vault with 50,001 empty `.md` files named `note-000001.md` through `note-050001.md`. Agent confirms the total file count is exactly 50,001 using `ls | wc -l`.
 2. Agent starts the server against the fixture vault with the default file limit (50,000) and captures all LSP messages from the server.
 3. Agent verifies that after indexing completes, exactly 50,000 files are indexed. Agent sends `workspace/symbol` for a note that was the 50,001st file alphabetically and confirms it returns no results (it was not indexed).

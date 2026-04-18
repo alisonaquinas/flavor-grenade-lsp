@@ -32,6 +32,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 **Setup:** Create 5 directories each containing `.obsidian/` and at least 3 `.md` files. Create one additional directory without `.obsidian/` containing `.md` files. Start the server with a workspace root containing all 6 directories. Wait for `$/progress` to signal indexing complete.
 
 **Scripted steps:**
+
 ```gherkin
 Given a workspace root containing 5 subdirectories each with a ".obsidian/" directory and 3 markdown files
 And one additional subdirectory containing only markdown files with no ".obsidian/" present
@@ -44,6 +45,7 @@ And the capability "flavorGrenade.crossFileLinks" is active for all 5 detected v
 ```
 
 **Agent-driven steps:**
+
 1. Create temporary directory tree with 5 vault subdirectories (`vault-01` through `vault-05`), each containing `.obsidian/` and three `.md` files (`a.md`, `b.md`, `c.md`).
 2. Create a sixth directory `plain-dir/` with three `.md` files and no `.obsidian/`.
 3. Start the LSP server with the workspace root pointing to the parent of all six directories.
@@ -68,6 +70,7 @@ And the capability "flavorGrenade.crossFileLinks" is active for all 5 detected v
 **Setup:** Create 3 directories each containing `.flavor-grenade.toml` and at least 3 `.md` files, with no `.obsidian/` present. Create a fourth directory containing both `.obsidian/` and `.flavor-grenade.toml`. Start the server with all 4 directories as workspace roots.
 
 **Scripted steps:**
+
 ```gherkin
 Given 3 directories each containing ".flavor-grenade.toml" and 3 markdown files with no ".obsidian/" present
 And 1 directory containing both ".obsidian/" and ".flavor-grenade.toml" and 3 markdown files
@@ -80,6 +83,7 @@ And the VaultDetector preference log records "obsidian marker takes precedence" 
 ```
 
 **Agent-driven steps:**
+
 1. Create `fg-01/`, `fg-02/`, `fg-03/`, each with `.flavor-grenade.toml` (minimal valid TOML: `[vault]`) and three `.md` files. Confirm no `.obsidian/` exists in any.
 2. Create `dual/` containing both `.obsidian/` (as a directory) and `.flavor-grenade.toml`, plus three `.md` files.
 3. Start the LSP server. Wait for indexing to complete.
@@ -104,6 +108,7 @@ And the VaultDetector preference log records "obsidian marker takes precedence" 
 **Setup:** Create a vault containing exactly 10 `.md` files, 3 `.png` files, 3 `.pdf` files, 2 `.txt` files, and 2 `.mdx` files. Start the server with default extension configuration (`["md"]`). Then reconfigure to `["md", "mdx"]` and restart.
 
 **Scripted steps:**
+
 ```gherkin
 Given a vault with 10 ".md" files, 3 ".png" files, 3 ".pdf" files, 2 ".txt" files, and 2 ".mdx" files
 And the server is configured with the default extension list ["md"]
@@ -117,6 +122,7 @@ And the document index still does NOT contain any ".txt", ".png", or ".pdf" entr
 ```
 
 **Agent-driven steps:**
+
 1. Create a vault directory with the 20-file mix described in the setup.
 2. Start the server with default config (no explicit extension override, so `["md"]` applies).
 3. Query the server for all indexed document URIs; assert every URI ends in `.md`.
@@ -141,6 +147,7 @@ And the document index still does NOT contain any ".txt", ".png", or ".pdf" entr
 **Setup:** Configure the server with two vault roots (`vault-a/` and `vault-b/`), each containing at least 5 documents. Ensure vault B contains a document with the same file stem as at least one document in vault A (e.g., both contain `index.md`).
 
 **Scripted steps:**
+
 ```gherkin
 Given a multi-folder workspace with two roots:
   | root      | marker     |
@@ -160,6 +167,7 @@ And vault-a diagnostics are not influenced by the presence or absence of documen
 ```
 
 **Agent-driven steps:**
+
 1. Create `vault-a/` with `.obsidian/` and files: `index.md`, `alpha.md`, `beta.md`, `gamma.md`, `delta.md`.
 2. Create `vault-b/` with `.obsidian/` and files: `index.md`, `one.md`, `two.md`, `three.md`, `four.md`. Place a `[[alpha]]` link in `vault-b/one.md` to confirm cross-root link detection is possible.
 3. Start the server with both vaults as workspace folders.

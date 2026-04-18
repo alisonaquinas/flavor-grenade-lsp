@@ -68,6 +68,7 @@ Feature: Broken wiki-links shown as errors immediately on open
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates the vault fixture above with four notes; `onboarding-checklist.md`, `test-policy.md`, and `roadmap.md` are intentionally absent
 2. Agent opens `team-handbook.md` and verifies:
    - A broken-link error (FG001, severity Error) is published for `[[onboarding-checklist]]`
@@ -131,6 +132,7 @@ Feature: Ambiguous wiki-links warn with both candidate paths shown
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates the vault fixture above with five notes
 2. Agent opens `weekly-roundup.md` and verifies:
    - An ambiguous-link diagnostic (FG002, severity Error) is published for `[[Meeting]]`
@@ -195,6 +197,7 @@ Feature: Broken embeds show as warnings, broken links show as errors — visuall
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates the vault fixture above; `architecture-diagram.png`, `setup-screenshot.png`, `error-log-sample.txt`, and `known-issues.md` are all absent from the vault
 2. Agent opens `overview.md` and verifies:
    - A broken-embed diagnostic (FG004, severity Warning) is published for `![[architecture-diagram.png]]`

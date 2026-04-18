@@ -41,29 +41,39 @@ And each completion item has kind 12 (Value)
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-017/.obsidian
    mkdir -p /tmp/fg-smoke-017/notes
    printf '#project/active some task\n#meeting note' > /tmp/fg-smoke-017/notes/work.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-017/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-017/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/work.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-017/notes/work.md","languageId":"markdown","version":1,"text":"#project/active some task\n#meeting note"}}}
    ```
+
 6. Agent sends `textDocument/didOpen` for a new file `notes/new.md` with content `"#"`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-017/notes/new.md","languageId":"markdown","version":1,"text":"#"}}}
    ```
+
 7. Agent sends `textDocument/completion` at `{line: 0, character: 1}` in `new.md`:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/completion","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-017/notes/new.md"},"position":{"line":0,"character":1},"context":{"triggerKind":2,"triggerCharacter":"#"}}}
    ```
+
 8. Agent reads the response for id 2 (up to 3s)
 9. Agent asserts the response has a `result` field (not `error`)
 10. Agent asserts `result.items` contains an item with `label` value `"project/active"` and `kind == 12` (Value)
@@ -92,7 +102,9 @@ And "notes/code.md" contains:
   """
   # Code Note
   ```
+
   #not-a-tag inside code
+
   ```
   Body #real-tag here.
   """
@@ -105,22 +117,28 @@ And the completion list does NOT include "not-a-tag"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-018/.obsidian
    mkdir -p /tmp/fg-smoke-018/notes
    printf '# Code Note\n```\n#not-a-tag inside code\n```\nBody #real-tag here.' > /tmp/fg-smoke-018/notes/code.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-018/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-018/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/code.md` with the full content
 6. Agent sends `textDocument/didOpen` for `notes/new.md` with content `"#"` and sends `textDocument/completion` at `{line: 0, character: 1}`:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/completion","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-018/notes/new.md"},"position":{"line":0,"character":1},"context":{"triggerKind":2,"triggerCharacter":"#"}}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts `result.items` contains an item with `label == "real-tag"`
 9. Agent asserts `result.items` does NOT contain any item with `label == "not-a-tag"`

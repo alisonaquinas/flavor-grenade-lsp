@@ -54,6 +54,7 @@ And (FG001/FG002/FG003 diagnostics with severity=1 / total FG001/FG002/FG003 dia
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `notes/ambig-a.md` (content: `# Ambiguous A`) and `notes/sub/ambig-a.md` (content: `# Ambiguous Sub`).
 3. Agent writes `notes/broken.md`:
+
    ```
    [[missing-one]]
    [[missing-two]]
@@ -61,12 +62,15 @@ And (FG001/FG002/FG003 diagnostics with severity=1 / total FG001/FG002/FG003 dia
    [[missing-four]]
    [[missing-five]]
    ```
+
 4. Agent writes `notes/ref.md` containing `[[ambig-a]]` (triggers FG002).
 5. Agent writes `notes/malformed.md`:
+
    ```
    [[]]
    [[|]]
    ```
+
 6. Agent spawns LSP server: `bun run start 2>/dev/null &`
 7. Agent sends `initialize` + `initialized` JSON-RPC.
 8. Agent sends `textDocument/didOpen` for each of `notes/broken.md`, `notes/ref.md`, `notes/malformed.md`; collects all `publishDiagnostics` notifications until settled.
@@ -107,6 +111,7 @@ And (FG004 diagnostics with severity=2 / total FG004 diagnostics) × 100 equals 
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `notes/bad-embeds.md`:
+
    ```
    ![[missing-doc-a]]
    ![[missing-doc-b]]
@@ -114,6 +119,7 @@ And (FG004 diagnostics with severity=2 / total FG004 diagnostics) × 100 equals 
    ![[missing-image.png]]
    ![[missing-asset.svg]]
    ```
+
 3. Agent spawns LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` + `initialized` JSON-RPC.
 5. Agent sends `textDocument/didOpen` for `notes/bad-embeds.md`; waits for `publishDiagnostics` to settle.
@@ -154,18 +160,22 @@ And (diagnostics with correct assigned code / total diagnostics) × 100 equals 1
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `notes/source.md`:
+
    ```
    # Source
    Paragraph text. ^valid-anchor
    ```
+
 3. Agent writes `notes/ambig-a.md` (content: `# Ambig`) and `notes/sub/ambig-a.md` (content: `# Ambig Sub`).
 4. Agent writes `notes/all-codes.md`:
+
    ```
    [[missing-note]]
    [[ambig-a]]
    ![[missing-embed]]
    [[source#^nonexistent-anchor]]
    ```
+
 5. Agent spawns LSP server: `bun run start 2>/dev/null &`
 6. Agent sends `initialize` + `initialized` JSON-RPC.
 7. Agent sends `textDocument/didOpen` for `notes/all-codes.md`; waits for `publishDiagnostics` to settle.
@@ -197,10 +207,12 @@ Construct a vault with exactly 1000 documents, each containing at least 3 wiki-l
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes a script to generate exactly 1000 markdown documents under `notes/`, each containing:
+
    ```
    # Note NNN
    [[note-0001]] [[note-0002]] [[note-0003]]
    ```
+
    where NNN is the zero-padded document number.
 3. Agent spawns LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` + `initialized` JSON-RPC; waits for the vault index to finish building (no `publishDiagnostics` notifications for 1000 ms).
@@ -258,25 +270,31 @@ And (FG002 diagnostics with correct relatedInformation count / total FG002 diagn
 3. Agent writes Scenario B documents: `p1/topic.md`, `p2/topic.md`, `p3/topic.md` each with unique body content.
 4. Agent writes Scenario C documents:
    `notes/doc-x.md`:
+
    ```
    ---
    title: Common Title
    ---
    # Doc X
    ```
+
    `notes/doc-y.md`:
+
    ```
    ---
    title: Common Title
    ---
    # Doc Y
    ```
+
 5. Agent writes `notes/refs.md`:
+
    ```
    [[shared]]
    [[topic]]
    [[Common Title]]
    ```
+
 6. Agent spawns LSP server: `bun run start 2>/dev/null &`
 7. Agent sends `initialize` + `initialized` JSON-RPC.
 8. Agent sends `textDocument/didOpen` for `notes/refs.md`; waits for `publishDiagnostics` to settle.
@@ -323,6 +341,7 @@ And (notifications with zero suppressed-code diagnostics / total notifications i
 
 1. Agent creates a temp directory with no `.obsidian/` subdirectory and no vault root structure.
 2. Agent writes `orphan.md`:
+
    ```
    [[missing-note-a]]
    [[missing-note-b]]
@@ -335,6 +354,7 @@ And (notifications with zero suppressed-code diagnostics / total notifications i
    [[some-doc#^missing-anchor-a]]
    [[some-doc#^missing-anchor-b]]
    ```
+
 3. Agent spawns LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` with no `rootUri` and no `workspaceFolders` + `initialized` JSON-RPC.
 5. Agent sends `textDocument/didOpen` for `orphan.md`; waits for `publishDiagnostics` to settle.

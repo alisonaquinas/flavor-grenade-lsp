@@ -24,6 +24,7 @@ These test cases cover `DiagnosticService` in its entirety: diagnostic code and 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits FG001 Error for an unresolved CrossDoc ref', () => {
   // arrange
@@ -52,6 +53,7 @@ it('emits FG001 Error for an unresolved CrossDoc ref', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DiagnosticService.publishNow` calls `oracle.unresolvedRefs()` for the given document.
 - CrossDoc entries are mapped to severity `Error` with code `'FG001'`.
 - The LSP `range` in the emitted diagnostic matches the ref's range exactly.
@@ -66,6 +68,7 @@ it('emits FG001 Error for an unresolved CrossDoc ref', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits FG002 Warning for an unresolved CrossSection ref', () => {
   // arrange
@@ -88,6 +91,7 @@ it('emits FG002 Warning for an unresolved CrossSection ref', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - CrossSection unresolved refs are mapped to severity `Warning` with code `'FG002'`.
 
 ---
@@ -100,6 +104,7 @@ it('emits FG002 Warning for an unresolved CrossSection ref', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits FG003 Warning for an ambiguous CrossDoc ref', () => {
   // arrange
@@ -124,6 +129,7 @@ it('emits FG003 Warning for an ambiguous CrossDoc ref', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Refs flagged `ambiguous: true` with `defCount > 1` are emitted as `FG003` Warning regardless of base kind.
 
 ---
@@ -136,6 +142,7 @@ it('emits FG003 Warning for an ambiguous CrossDoc ref', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits FG004 Error for an unresolved EmbedRef', () => {
   // arrange
@@ -157,6 +164,7 @@ it('emits FG004 Error for an unresolved EmbedRef', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - EmbedRef unresolved entries are mapped to severity `Error` with code `'FG004'`.
 
 ---
@@ -169,6 +177,7 @@ it('emits FG004 Error for an unresolved EmbedRef', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits FG005 Warning for an unresolved CrossBlock ref', () => {
   // arrange
@@ -190,6 +199,7 @@ it('emits FG005 Warning for an unresolved CrossBlock ref', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - CrossBlock unresolved entries are mapped to severity `Warning` with code `'FG005'`.
 
 ---
@@ -202,6 +212,7 @@ it('emits FG005 Warning for an unresolved CrossBlock ref', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('sends an empty diagnostics array when the document has no unresolved refs', () => {
   // arrange
@@ -219,6 +230,7 @@ it('sends an empty diagnostics array when the document has no unresolved refs', 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `sendDiagnostics` is still called (clearing any previous diagnostics), with an empty array.
 
 ---
@@ -231,6 +243,7 @@ it('sends an empty diagnostics array when the document has no unresolved refs', 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('skips publishing for a disk-loaded document with version null', () => {
   // arrange
@@ -250,6 +263,7 @@ it('skips publishing for a disk-loaded document with version null', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `version === null` causes an early return before any Oracle or connection call.
 
 ---
@@ -262,6 +276,7 @@ it('skips publishing for a disk-loaded document with version null', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('publishes diagnostics for an editor-open document with version 0', () => {
   // arrange
@@ -279,6 +294,7 @@ it('publishes diagnostics for an editor-open document with version 0', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Any document with `version >= 0` passes the version gate and triggers publication.
 
 ---
@@ -291,6 +307,7 @@ it('publishes diagnostics for an editor-open document with version 0', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('coalesces two calls within the 200 ms debounce window into one publication', async () => {
   // arrange — use fake timers so the test does not actually wait
@@ -315,6 +332,7 @@ it('coalesces two calls within the 200 ms debounce window into one publication',
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `schedulePublish` resets (or replaces) the per-document timer on each call, so rapid successive calls collapse into a single publication after the debounce delay.
 
 **REFACTOR notes:** Timer handle should be stored per `doc.uri` so that debounce for one document does not affect another.
@@ -329,6 +347,7 @@ it('coalesces two calls within the 200 ms debounce window into one publication',
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('emits a second publication when a call arrives after the debounce window has expired', async () => {
   // arrange
@@ -353,6 +372,7 @@ it('emits a second publication when a call arrives after the debounce window has
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - After the debounce timer fires, a subsequent `schedulePublish` starts a fresh timer leading to a new publication.
 
 ---
@@ -365,6 +385,7 @@ it('emits a second publication when a call arrives after the debounce window has
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('republishes only documents listed in lastTouched, leaving others untouched', () => {
   // arrange
@@ -391,6 +412,7 @@ it('republishes only documents listed in lastTouched, leaving others untouched',
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `onRefGraphUpdate` accepts a `lastTouched` set and an open-document list, then schedules publication only for the intersection.
 - Documents absent from `lastTouched` receive no `sendDiagnostics` call.
 

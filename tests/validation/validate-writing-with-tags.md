@@ -44,6 +44,7 @@ Feature: Tag completion while typing
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates a five-note vault:
    - `weekly-review.md` — body contains `#project/active` and `#meeting`
    - `travel-log.md` — body contains `#journal/daily`
@@ -86,6 +87,7 @@ Feature: Finding tagged notes regardless of tag syntax
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates a four-note vault:
    - `monday-standup.md` — body contains `#meeting notes from this week`
    - `quarterly-review.md` — YAML frontmatter: `tags: [meeting, planning]`, no inline `#meeting`
@@ -127,6 +129,7 @@ Feature: Hierarchical tag queries match parent and all children
 ```
 
 **Agent-driven walkthrough:**
+
 1. Agent creates a five-note vault:
    - `project-overview.md` — body contains `#project` (the parent tag exactly)
    - `sprint-planning.md` — body contains `#project/active`

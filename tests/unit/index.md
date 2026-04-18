@@ -28,7 +28,7 @@ Plans are organized by NestJS module layer (bottom → top). See [[architecture/
 | [[tests/unit/unit-features-navigation-rename]] | DefinitionService · ReferencesService · RenameService | `TC-UNIT-NAV` | 12 | `tests/unit/features/` |
 | [[tests/unit/unit-lsp-module]] | LspModule — RequestRouter · CapabilityNegotiator | `TC-UNIT-LSP` | 11 | `tests/unit/lsp/` |
 
-**Total: 152 TC-UNIT entries across 11 plans**
+Total: 152 TC-UNIT entries across 11 plans
 
 ---
 

@@ -32,6 +32,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 **Setup:** Two fixture files are required. A user-level config file sets `wiki.style = "title-slug"` and leaves `completion.candidates` unset. A project-level `.flavor-grenade.toml` sets `completion.candidates = 20` and leaves `wiki.style` unset. Built-in defaults supply `completion.candidates = 50`, `wiki.style = "file-stem"`, and `core.text_sync = "full"`.
 
 **Scripted steps:**
+
 ```gherkin
 Given a built-in default configuration with:
   | key                  | value       |
@@ -56,6 +57,7 @@ And the effective value of "core.text_sync" is still "full"
 ```
 
 **Agent-driven steps:**
+
 1. Write the user config fixture at the platform user-config path (e.g., `~/.config/flavor-grenade/config.toml` or as directed by [[design/api-layer#config-loader]]) with only `wiki.style = "title-slug"`.
 2. Write the project fixture `.flavor-grenade.toml` in a temporary vault root with only `completion.candidates = 20`.
 3. Start the server against that vault root. Inspect the effective config via the server's debug endpoint or log output.
@@ -82,6 +84,7 @@ And the effective value of "core.text_sync" is still "full"
 **Setup:** Five project `.flavor-grenade.toml` fixtures, one per invalid value: `0`, `-1`, `-100`, `3.7`, `"fifty"`. For each, a vault root directory is prepared with at least one `.md` file containing enough `[[`-prefixed text to generate more than 50 completion candidates.
 
 **Scripted steps:**
+
 ```gherkin
 Given a project ".flavor-grenade.toml" with completion.candidates = <invalid_value>
 When the LSP server initializes with that config file active
@@ -101,6 +104,7 @@ Examples:
 ```
 
 **Agent-driven steps:**
+
 1. For each of the five invalid values (`0`, `-1`, `-100`, `3.7`, `"fifty"`):
    a. Write a `.flavor-grenade.toml` with the line `completion.candidates = <value>` (use TOML string quoting as needed).
    b. Start the server; check it reaches `initialized` without crashing.
@@ -127,6 +131,7 @@ Examples:
 **Setup (agent path):** The agent manually crafts the malformed file to test three distinct error classes: unclosed string literal, invalid key-value separator (using `=>` instead of `=`), and a binary byte sequence embedded mid-file.
 
 **Scripted steps:**
+
 ```gherkin
 Given a project config file ".flavor-grenade.toml" containing deliberate TOML syntax errors:
   """
@@ -151,6 +156,7 @@ And the effective value uses the project config despite the malformed user file
 ```
 
 **Agent-driven steps:**
+
 1. Create a vault root with a valid user config file setting `wiki.style = "title-slug"` and `completion.candidates = 30`.
 2. Create a project `.flavor-grenade.toml` with an unclosed string literal: `wiki.style = "title-slug` (no closing quote).
 3. Start the server. Confirm it reaches `initialized`.
@@ -177,6 +183,7 @@ And the effective value uses the project config despite the malformed user file
 **Setup:** Three distinct startup configurations, none of which defines `core.text_sync`: (1) no user config, no project config; (2) user config present with other keys but no `core.text_sync`; (3) project config present as an empty file.
 
 **Scripted steps:**
+
 ```gherkin
 Given no configuration file at any layer defines "core.text_sync"
 When the LSP server completes the "initialize" handshake
@@ -195,6 +202,7 @@ Then "InitializeResult.capabilities.textDocumentSync" equals 1
 ```
 
 **Agent-driven steps:**
+
 1. Start the server with no user config and no project config. Capture the raw `InitializeResult` JSON. Assert `capabilities.textDocumentSync == 1` or `capabilities.textDocumentSync.change == 1`.
 2. Create a user config file with only `wiki.style = "file-stem"` (no `core.text_sync`). Restart and re-capture `InitializeResult`. Assert same sync kind.
 3. Create an empty project `.flavor-grenade.toml` (zero bytes or just a comment). Restart and re-capture. Assert same sync kind.

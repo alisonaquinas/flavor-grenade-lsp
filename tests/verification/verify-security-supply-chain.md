@@ -83,6 +83,7 @@ echo "Total deps: $total | Range specifier violations: $bad"
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `package.json` and confirms every value in `dependencies`, `devDependencies`, `peerDependencies`, and `optionalDependencies` is a plain version string (e.g., `"1.2.3"`) with no leading `^`, `~`, `>`, `>=`, or `*`.
 2. Agent reads `bunfig.toml` and confirms `exact = true` is set under the `[install]` section.
 3. Agent verifies the CI workflow includes a step that runs the exact-pinning check (or confirms `bunfig.toml` enforces it at install time).
@@ -143,6 +144,7 @@ git ls-files bun.lockb | grep -q 'bun.lockb' && \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads every `.yml` file under `.github/workflows/` and extracts every line containing `bun install`. Agent verifies each line includes `--frozen-lockfile`.
 2. Agent verifies `bun.lockb` is tracked in the git repository and not listed in `.gitignore`.
 3. Agent verifies no workflow step updates `bun.lockb` and commits it during the CI run (the lockfile must be a static artifact, not dynamically updated).
@@ -205,6 +207,7 @@ grep 'bun install' .github/workflows/ci.yml | \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads every `.github/workflows/*.yml` file and extracts all `bun install` invocations. For each, agent verifies `--ignore-scripts` is present.
 2. Agent checks that `.npmrc` (if present) does not rely on `ignore-scripts=true` as the primary enforcement mechanism, since this is known to be bypassed by Bun for allow-listed packages.
 3. Agent verifies the CI workflow does not contain any `bun add` or `bun install <package>` commands that lack `--ignore-scripts` (these are distinct from `bun install` but carry the same risk).
@@ -266,6 +269,7 @@ bun audit 2>/dev/null || npm audit --audit-level=high 2>/dev/null || \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `docs/security/dependency-audit-log.md` and verifies the schema: each entry must include package name, old version, new version, advisory check result (advisory found / no advisory / not applicable), and reviewer name.
 2. Agent retrieves the last 10 merged dependency upgrade PRs via `gh pr list` and cross-references each against the audit log, verifying a corresponding entry exists.
 3. Agent verifies no entry in the audit log is missing the reviewer name field (an incomplete entry without sign-off does not satisfy the requirement).
@@ -331,6 +335,7 @@ grep -A 5 '"lint"\|bun.*lint\|eslint' .github/workflows/ci.yml | head -20
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `eslint.config.js` (or `eslint.config.mjs`) and locates the `no-restricted-imports` rule. Agent verifies `@nestjs/devtools-integration` appears in the restricted paths list.
 2. Agent verifies the `lint` CI job is a required status check on both `main` and `develop` (confirming the ESLint rule is enforced on every PR).
 3. Agent reads `package.json` and `bun.lockb` (string content) to confirm `@nestjs/devtools-integration` appears in neither, ruling out accidental transitive inclusion as a direct dependency.

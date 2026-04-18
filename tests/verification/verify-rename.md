@@ -35,6 +35,7 @@ record for the `textDocument/rename` and `textDocument/prepareRename` capabiliti
 **Phase:** Phase 2
 
 **Setup:**
+
 - A vault with at least 15 documents.
 - A target document `notes/my-doc.md` with heading `## My Section`.
 - At least 12 referencing documents using a mix of:
@@ -59,6 +60,7 @@ And (references updated in WorkspaceEdit / total references found by independent
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/my-doc.md` with `## My Section` heading and body content.
 3. Agent writes 12 referencing documents (`ref-01.md` through `ref-12.md`), distributing reference types:
@@ -91,6 +93,7 @@ And (references updated in WorkspaceEdit / total references found by independent
 **Phase:** Phase 2
 
 **Setup:**
+
 - A fixture document `notes/mixed-content.md` containing all required non-renameable position types:
   - 2 positions in mid-paragraph prose (not on any link or heading token).
   - 2 positions inside a fenced code block.
@@ -121,8 +124,10 @@ And (invalid positions returning null/error / 8 invalid positions) × 100 = 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/mixed-content.md` with the following content structure (line numbers for cursor targeting):
+
    ```
    # Mixed Content Document
 
@@ -141,8 +146,10 @@ And (invalid positions returning null/error / 8 invalid positions) × 100 = 100
    $$
 
    See [external link](https://example.com) and [another](https://other.com) for details.
+
    ```
 3. Agent records exact `{line, character}` coordinates for each of the 8 non-renameable positions and 2 valid positions.
+
 4. Agent spawns server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` + `initialized`.
 6. Agent sends `textDocument/didOpen` for `notes/mixed-content.md`.
@@ -167,6 +174,7 @@ And (invalid positions returning null/error / 8 invalid positions) × 100 = 100
 **Phase:** Phase 2
 
 **Setup:**
+
 - A vault with documents referenced by a mix of link styles:
   - `notes/old-title.md` (file stem `old-title`, frontmatter `title: Old Title Document`).
   - `notes/slug-ref.md` — contains `[[old-title]]` (file-stem format).
@@ -205,6 +213,7 @@ And (style-correct edit entries / total edit entries) × 100 = 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/old-title.md` with frontmatter `title: Old Title Document` and body content.
 3. Agent writes `notes/slug-ref.md` containing `[[old-title]]` (file-stem format).

@@ -51,6 +51,7 @@ And (correctly classified embeds / total embed links tested) × 100 equals 100
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes 10 fixture markdown documents: `notes/alpha.md`, `notes/beta.md`, `notes/gamma.md`, and 7 others.
 3. Agent writes `notes/test-embeds.md` with content:
+
    ```
    ![[alpha]]
    ![[beta]]
@@ -58,6 +59,7 @@ And (correctly classified embeds / total embed links tested) × 100 equals 100
    ![[missing-x]]
    ![[missing-y]]
    ```
+
 4. Agent spawns LSP server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` (with vault `rootUri`) + `initialized` JSON-RPC.
 6. Agent sends `textDocument/didOpen` for `notes/test-embeds.md`; waits for `publishDiagnostics` to settle (no further notifications for 200 ms).
@@ -103,6 +105,7 @@ And (correctly handled image embeds / total image embed links tested) × 100 equ
 1. Agent creates temp vault directory with `.obsidian/` marker and `assets/` subdirectory.
 2. Agent writes binary placeholder files `assets/present.png`, `assets/present.jpg`, `assets/present.svg` (any non-empty content suffices; the agent writes a 1-byte placeholder).
 3. Agent writes `notes/image-test.md` with content:
+
    ```
    ![[present.png]]
    ![[present.jpg]]
@@ -111,6 +114,7 @@ And (correctly handled image embeds / total image embed links tested) × 100 equ
    ![[missing-b.jpg]]
    ![[missing-c.svg]]
    ```
+
 4. Agent spawns LSP server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` + `initialized` JSON-RPC.
 6. Agent sends `textDocument/didOpen` for `notes/image-test.md`; waits for `publishDiagnostics` to settle.
@@ -156,6 +160,7 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `notes/doc-a.md`:
+
    ```
    # Doc A
    ## Alpha
@@ -165,8 +170,10 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
    ## Gamma
    Content under gamma.
    ```
+
 3. Agent writes `notes/doc-b.md` and `notes/doc-c.md` each with 3 headings (different names).
 4. Agent writes `notes/heading-test.md`:
+
    ```
    ![[doc-a#Alpha]]
    ![[doc-a#Beta]]
@@ -175,6 +182,7 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
    ![[doc-a#NoSuchHeading]]
    ![[doc-b#NoSuchHeading]]
    ```
+
 5. Agent spawns LSP server: `bun run start 2>/dev/null &`
 6. Agent sends `initialize` + `initialized` JSON-RPC.
 7. Agent sends `textDocument/didOpen` for `notes/heading-test.md`; waits for `publishDiagnostics` to settle.
@@ -220,6 +228,7 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `notes/source.md`:
+
    ```
    # Source Document
 
@@ -229,8 +238,10 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
 
    Third paragraph. ^anchor-three
    ```
+
 3. Agent writes `notes/source-b.md` and `notes/source-c.md` each with 3 block anchor definitions using different anchor IDs.
 4. Agent writes `notes/block-test.md`:
+
    ```
    ![[source#^anchor-one]]
    ![[source#^anchor-two]]
@@ -239,6 +250,7 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
    ![[source#^no-such-anchor]]
    ![[source-b#^no-such-anchor]]
    ```
+
 5. Agent spawns LSP server: `bun run start 2>/dev/null &`
 6. Agent sends `initialize` + `initialized` JSON-RPC.
 7. Agent sends `textDocument/didOpen` for `notes/block-test.md`; waits for `publishDiagnostics` to settle.

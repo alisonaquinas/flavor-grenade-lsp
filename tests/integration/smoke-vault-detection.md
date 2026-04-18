@@ -42,17 +42,21 @@ And the document index contains "notes/first.md" and "notes/second.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-003/vault/.obsidian
    mkdir -p /tmp/fg-smoke-003/vault/notes
    echo '# First Note' > /tmp/fg-smoke-003/vault/notes/first.md
    echo '# Second Note' > /tmp/fg-smoke-003/vault/notes/second.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-003/vault/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-003/vault/","capabilities":{}}}
    ```
+
 4. Agent reads the `InitializeResult` from stdout
 5. Agent asserts `result.capabilities` is present (server accepted vault root)
 6. Agent asserts that if a `serverInfo` or `flavorGrenade.vaultMode` capability field is present, its value is `"obsidian"` (implementation-specific; skip if not present in Phase 1)
@@ -93,22 +97,28 @@ And no FG005 diagnostic is published for "doc.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-004
    echo '[[nonexistent-target]] and ![[also-missing]]' > /tmp/fg-smoke-004/doc.md
    ```
+
 2. Agent verifies no `.obsidian/` or `.flavor-grenade.toml` exists in `/tmp/fg-smoke-004` or its parents (up to `/tmp/`)
 3. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-004/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-004/","capabilities":{}}}
    ```
+
 5. Agent asserts response has `result.capabilities` — server must not error
 6. Agent sends `initialized` notification
 7. Agent sends `textDocument/didOpen` for `doc.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-004/doc.md","languageId":"markdown","version":1,"text":"[[nonexistent-target]] and ![[also-missing]]"}}}
    ```
+
 8. Agent collects all `textDocument/publishDiagnostics` notifications for up to 2s
 9. Agent asserts that the diagnostics array for `doc.md` contains no item with `code` equal to `"FG001"`, `"FG002"`, `"FG004"`, or `"FG005"`
 10. Agent sends `shutdown` + `exit`; verifies server exits 0

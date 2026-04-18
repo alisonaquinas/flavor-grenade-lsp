@@ -26,6 +26,7 @@ This file covers three Feature Layer services: `DefinitionService`, `ReferencesS
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns a single Location at the target document start for a resolved CrossDoc ref', () => {
   // arrange
@@ -56,6 +57,7 @@ it('returns a single Location at the target document start for a resolved CrossD
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `DefinitionService.definition(ref)` calls `Oracle.defsForRef(ref)` and maps each result to an LSP `Location { uri, range }`.
 
 ---
@@ -68,6 +70,7 @@ it('returns a single Location at the target document start for a resolved CrossD
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns a Location pointing to the heading range for a resolved CrossSection ref', () => {
   // arrange
@@ -104,6 +107,7 @@ it('returns a Location pointing to the heading range for a resolved CrossSection
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `Location.range` corresponds to the heading's own position, not the file start.
 
 ---
@@ -116,6 +120,7 @@ it('returns a Location pointing to the heading range for a resolved CrossSection
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns an empty array for an unresolved ref and does not throw', () => {
   // arrange
@@ -135,6 +140,7 @@ it('returns an empty array for an unresolved ref and does not throw', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - An empty `defsForRef` result is returned as `[]` without throwing.
 
 ---
@@ -147,6 +153,7 @@ it('returns an empty array for an unresolved ref and does not throw', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns two Locations when Oracle yields two defs for an ambiguous ref', () => {
   // arrange
@@ -172,6 +179,7 @@ it('returns two Locations when Oracle yields two defs for an ambiguous ref', () 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - All defs returned by Oracle are converted to Locations; no truncation for multi-def results.
 
 ---
@@ -186,6 +194,7 @@ it('returns two Locations when Oracle yields two defs for an ambiguous ref', () 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns two Locations for a def referenced by two CrossDoc refs', () => {
   // arrange
@@ -208,6 +217,7 @@ it('returns two Locations for a def referenced by two CrossDoc refs', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `ReferencesService.references(def, context)` calls `Oracle.refsForDef(def)` and maps each `CrossDocRef` to `Location { uri: ref.sourceUri, range: ref.range }`.
 
 ---
@@ -220,6 +230,7 @@ it('returns two Locations for a def referenced by two CrossDoc refs', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('prepends the def Location when includeDeclaration is true', () => {
   // arrange
@@ -250,6 +261,7 @@ it('prepends the def Location when includeDeclaration is true', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When `includeDeclaration: true`, a `Location { uri: def.uri, range: def.range }` is included in the result alongside the reference locations.
 
 ---
@@ -262,6 +274,7 @@ it('prepends the def Location when includeDeclaration is true', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns an empty array when the def has no incoming refs', () => {
   // arrange
@@ -278,6 +291,7 @@ it('returns an empty array when the def has no incoming refs', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - An empty `refsForDef` result is returned as `[]` without error.
 
 ---
@@ -292,6 +306,7 @@ it('returns an empty array when the def has no incoming refs', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns the range of the wiki-link target when cursor is on target text', () => {
   // arrange
@@ -321,6 +336,7 @@ it('returns the range of the wiki-link target when cursor is on target text', ()
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `prepareRename` queries `Oracle.refAtPosition` and returns `targetRange` when a wiki-link ref is found at the cursor.
 
 ---
@@ -333,6 +349,7 @@ it('returns the range of the wiki-link target when cursor is on target text', ()
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns null when the cursor is on plain prose with no wiki-link ref', () => {
   // arrange
@@ -354,6 +371,7 @@ it('returns null when the cursor is on plain prose with no wiki-link ref', () =>
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A `null` from `Oracle.refAtPosition` causes `prepareRename` to return `null`.
 
 ---
@@ -366,6 +384,7 @@ it('returns null when the cursor is on plain prose with no wiki-link ref', () =>
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('produces a WorkspaceEdit with one TextEdit per CrossDoc ref when renaming a note', () => {
   // arrange
@@ -406,6 +425,7 @@ it('produces a WorkspaceEdit with one TextEdit per CrossDoc ref when renaming a 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `rename` collects all `CrossDoc` refs via `Oracle.refsForDef` and produces a `WorkspaceEdit` with a `TextEdit` for each ref's `targetRange`.
 - `TextEdit.newText` is the new slug only (not wrapped in `[[...]]` — the edit targets only the slug portion inside the brackets).
 
@@ -419,6 +439,7 @@ it('produces a WorkspaceEdit with one TextEdit per CrossDoc ref when renaming a 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('updates only the anchor portion of CrossSection refs when renaming a heading', () => {
   // arrange
@@ -457,6 +478,7 @@ it('updates only the anchor portion of CrossSection refs when renaming a heading
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - For `CrossSection` refs, only the `anchorRange` is included in the `TextEdit`; no edit is produced for the target-doc portion.
 - The heading definition's own text is also updated via an edit at `def.range`.
 
@@ -471,6 +493,7 @@ it('updates only the anchor portion of CrossSection refs when renaming a heading
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('preserves shortest-unambiguous form per ADR005 — renames [[daily]] to [[new-slug]], not [[notes/daily/new-slug]]', () => {
   // arrange
@@ -512,6 +535,7 @@ it('preserves shortest-unambiguous form per ADR005 — renames [[daily]] to [[ne
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When a ref's existing `resolvedForm` is `'approx'`, `RenameService` calls `Oracle.shortestUnambiguousForm(newSlug)` to determine the replacement text rather than using the full slug path.
 - The `TextEdit.newText` is the shortest unambiguous form, not the fully qualified slug.
 

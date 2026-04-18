@@ -45,21 +45,27 @@ And the diagnostics array contains exactly one item with:
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-009/.obsidian
    mkdir -p /tmp/fg-smoke-009/notes
    echo '[[totally-missing-note]]' > /tmp/fg-smoke-009/notes/broken.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-009/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-009/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-009/notes/broken.md","languageId":"markdown","version":1,"text":"[[totally-missing-note]]"}}}
    ```
+
 6. Agent reads stdout for up to 3s, collecting all JSON-RPC messages
 7. Agent identifies the `textDocument/publishDiagnostics` notification for `notes/broken.md`
 8. Agent asserts: `params.diagnostics` array has length >= 1
@@ -101,21 +107,27 @@ And exactly 3 diagnostics are published for "notes/many-errors.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-010/.obsidian
    mkdir -p /tmp/fg-smoke-010/notes
    echo '[[missing-a]] and [[missing-b]] and ![[missing-c]]' > /tmp/fg-smoke-010/notes/many-errors.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-010/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-010/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-010/notes/many-errors.md","languageId":"markdown","version":1,"text":"[[missing-a]] and [[missing-b]] and ![[missing-c]]"}}}
    ```
+
 6. Agent reads stdout for up to 3s, collecting all `publishDiagnostics` notifications for `notes/many-errors.md`
 7. Agent asserts that the final (or only) `publishDiagnostics` for the file contains `params.diagnostics` with length == 3
 8. Agent asserts exactly 2 diagnostics have `code == "FG001"` and 1 has `code == "FG004"`

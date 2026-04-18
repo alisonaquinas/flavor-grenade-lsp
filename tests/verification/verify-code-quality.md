@@ -36,6 +36,7 @@ This document covers scripted and agent-driven test cases that verify the eight 
 **Setup:** All TypeScript implementation files under `src/` present and buildable. A design-review checklist derived from [[ddd/bounded-contexts]] that maps each bounded context to the expected single responsibility of each injectable class.
 
 **Scripted steps:**
+
 ```bash
 # 1. List all @Injectable() and @Module() classes
 grep -rn "@Injectable\|@Module" src/ --include="*.ts" -l
@@ -53,6 +54,7 @@ grep -n "^\s*public " src/**/*.ts
 ```
 
 **Agent-driven steps:**
+
 1. Enumerate all files in `src/` matching `*.ts` that contain `@Injectable()` or `@Module()`.
 2. For each class, list its `public` methods and group them by the domain concept they serve (referencing [[ddd/bounded-contexts]] and [[ddd/ubiquitous-language]] for concept names).
 3. Flag any class whose public methods span two or more distinct domain concepts as a violation.
@@ -75,6 +77,7 @@ grep -n "^\s*public " src/**/*.ts
 **Setup:** All TypeScript implementation files under `src/` present and the module directory structure established per [[architecture/layers]].
 
 **Scripted steps:**
+
 ```bash
 # 1. Enumerate all cross-module import statements
 #    (imports that cross from one src/<module>/ directory to another)
@@ -95,6 +98,7 @@ bun run lint --rule "import/no-restricted-paths" --max-warnings 0
 ```
 
 **Agent-driven steps:**
+
 1. List all `import` statements in `src/**/*.ts` that reference a path outside the importing file's own module directory.
 2. For each such import, check whether the imported symbol is a TypeScript interface, an injection token constant, or a concrete class.
 3. Cross-module imports of concrete classes that are not re-exported through the target module's `index.ts` barrel as an interface or token are violations.
@@ -116,6 +120,7 @@ bun run lint --rule "import/no-restricted-paths" --max-warnings 0
 **Setup:** All TypeScript implementation files under `src/` present. ESLint configured with the `no-extraneous-class` rule and any custom rule enforcing single-export-per-file per [[adr/ADR011-one-class-per-file-namespaces]].
 
 **Scripted steps:**
+
 ```bash
 # 1. Enumerate all non-barrel .ts files
 find src/ -name "*.ts" ! -name "index.ts"
@@ -131,6 +136,7 @@ bun run lint --max-warnings 0
 ```
 
 **Agent-driven steps:**
+
 1. List all `.ts` files under `src/` excluding `index.ts` files.
 2. For each file, count the lines matching `^export (class|interface|enum|type)` that represent domain concepts (not local helper types).
 3. Flag any file with a count greater than 1 as a violation.
@@ -153,6 +159,7 @@ bun run lint --max-warnings 0
 **Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `import/no-internal-modules` rule per [[adr/ADR011-one-class-per-file-namespaces]].
 
 **Scripted steps:**
+
 ```bash
 # 1. Detect internal cross-module path imports
 #    Pattern: import from '../<other-module>/<non-index-file>'
@@ -166,6 +173,7 @@ bun run lint --max-warnings 0
 ```
 
 **Agent-driven steps:**
+
 1. List all `import` statements in `src/**/*.ts` that cross module directory boundaries (i.e., the path contains `../` into a different module directory).
 2. For each such import, verify the resolved path ends at `index.ts` or the module directory itself.
 3. Any import of the form `import { X } from '../other-module/internal-file'` is a violation.
@@ -188,6 +196,7 @@ bun run lint --max-warnings 0
 **Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `jsdoc/require-jsdoc` for `FunctionDeclaration`, `MethodDefinition`, and `ClassDeclaration` per [[requirements/code-quality]].
 
 **Scripted steps:**
+
 ```bash
 # 1. Run lint with jsdoc/require-jsdoc enabled
 bun run lint --max-warnings 0
@@ -200,6 +209,7 @@ bun run lint --format json 2>/dev/null | \
 ```
 
 **Agent-driven steps:**
+
 1. Run `bun run lint --max-warnings 0` and capture the output.
 2. Parse the lint output for any messages with rule ID `jsdoc/require-jsdoc`.
 3. For each violation, record the file path, line number, and entity type (class, method, property).
@@ -222,6 +232,7 @@ bun run lint --format json 2>/dev/null | \
 **Setup:** All TypeScript implementation files under `src/` present. `bun run lint` configured to invoke ESLint with `--max-warnings 0` per [[adr/ADR009-precommit-hooks-zero-warnings]].
 
 **Scripted steps:**
+
 ```bash
 # 1. Run the full lint suite
 bun run lint --max-warnings 0
@@ -238,6 +249,7 @@ bun run lint --format compact 2>&1 | tail -1
 ```
 
 **Agent-driven steps:**
+
 1. Run `bun run lint --max-warnings 0` from the repository root.
 2. Capture the total number of warnings and errors from the lint output.
 3. Assert warning count = 0 and error count = 0.
@@ -260,6 +272,7 @@ bun run lint --format compact 2>&1 | tail -1
 **Setup:** `tsconfig.json` at the repository root with `strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`, `noEmitOnError: true`. All TypeScript source files under `src/` present.
 
 **Scripted steps:**
+
 ```bash
 # 1. Verify tsconfig.json contains the required strict flags
 grep -E "\"strict\"|\"noUncheckedIndexedAccess\"|\"exactOptionalPropertyTypes\"" tsconfig.json
@@ -276,6 +289,7 @@ bun run typecheck 2>&1 | grep -c "error TS" || true
 ```
 
 **Agent-driven steps:**
+
 1. Open `tsconfig.json` and verify the presence of `"strict": true`, `"noUncheckedIndexedAccess": true`, `"exactOptionalPropertyTypes": true`, and `"noEmitOnError": true`.
 2. Run `bun run typecheck` (which executes `tsc --noEmit --project tsconfig.json`).
 3. Capture the exit code and the count of `error TS` lines in the output.
@@ -297,6 +311,7 @@ bun run typecheck 2>&1 | grep -c "error TS" || true
 **Setup:** All implementation commits on the active branch. The git log must be available and commit messages must follow the project's TDD commit convention (e.g., `test(red): <description>` for red-phase commits, `feat:` or `fix:` for implementation commits).
 
 **Scripted steps:**
+
 ```bash
 # 1. List all implementation commits (feat:, fix:, refactor: prefixes)
 git log --oneline --no-merges | grep -E "^[a-f0-9]+ (feat|fix|refactor):"
@@ -314,6 +329,7 @@ git log --all --oneline --follow -- src/ | \
 ```
 
 **Agent-driven steps:**
+
 1. Run `git log --oneline --no-merges` on the current branch to retrieve the full commit history.
 2. For each commit with a `feat:`, `fix:`, or `refactor:` prefix, find the nearest commit earlier in history whose subject starts with `test(red):` and whose changed files overlap with the implementation commit's changed files.
 3. Flag any implementation commit that has no preceding `test(red):` commit for the same behaviour.

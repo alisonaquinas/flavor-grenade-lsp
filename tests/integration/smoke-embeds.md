@@ -39,22 +39,28 @@ And the embed "![[doc]]" resolves to "notes/doc.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-007/.obsidian
    mkdir -p /tmp/fg-smoke-007/notes
    printf '# Document\n## Section One\nBody text.' > /tmp/fg-smoke-007/notes/doc.md
    echo '![[doc]]' > /tmp/fg-smoke-007/notes/index.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-007/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-007/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/index.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-007/notes/index.md","languageId":"markdown","version":1,"text":"![[doc]]"}}}
    ```
+
 6. Agent waits up to 2s and collects any `textDocument/publishDiagnostics` notifications for `notes/index.md`
 7. Agent asserts the diagnostics array for `notes/index.md` has length 0
 8. Agent sends `shutdown` + `exit`; verifies server exits 0
@@ -92,21 +98,27 @@ And the diagnostic range covers "![[nonexistent-file]]"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-008/.obsidian
    mkdir -p /tmp/fg-smoke-008/notes
    echo '![[nonexistent-file]]' > /tmp/fg-smoke-008/notes/bad-embed.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-008/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-008/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/bad-embed.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-008/notes/bad-embed.md","languageId":"markdown","version":1,"text":"![[nonexistent-file]]"}}}
    ```
+
 6. Agent waits up to 2s and collects `textDocument/publishDiagnostics` for `notes/bad-embed.md`
 7. Agent asserts at least one diagnostic is present
 8. Agent asserts the diagnostic has `code: "FG004"` and `severity: 2` (Warning — not 1/Error)

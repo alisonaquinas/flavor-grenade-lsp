@@ -20,6 +20,7 @@ See [[concepts/connection-graph]] and [[design/domain-layer]] for the data model
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('extracts one CrossDoc ScopedSym with Doc(docId) scope from an OFMIndex with one wiki-link', () => {
   const docId = DocId.ofUri('file:///vault/note.md', AbsPath.of('/vault'))
@@ -38,6 +39,7 @@ it('extracts one CrossDoc ScopedSym with Doc(docId) scope from an OFMIndex with 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `SymbolExtractor.extract` iterates `index.wikiLinks` and emits one `ScopedSym` per link whose `sym` is a `CrossDoc` Ref and whose `scope` is `Doc(docId)`
 
 ---
@@ -50,6 +52,7 @@ it('extracts one CrossDoc ScopedSym with Doc(docId) scope from an OFMIndex with 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('extracts one TagRef ScopedSym with Global scope from an OFMIndex with one tag', () => {
   const docId = DocId.ofUri('file:///vault/note.md', AbsPath.of('/vault'))
@@ -68,6 +71,7 @@ it('extracts one TagRef ScopedSym with Global scope from an OFMIndex with one ta
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Tags are assigned `Global` scope (not `Doc`) — every other symbol type uses `Doc(docId)`
 
 ---
@@ -80,6 +84,7 @@ it('extracts one TagRef ScopedSym with Global scope from an OFMIndex with one ta
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('extracts one HeaderDef ScopedSym from an OFMIndex with one heading', () => {
   const docId = DocId.ofUri('file:///vault/note.md', AbsPath.of('/vault'))
@@ -98,6 +103,7 @@ it('extracts one HeaderDef ScopedSym from an OFMIndex with one heading', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Each entry in `index.headings` produces a `HeaderDef` Def symbol scoped to `Doc(docId)`
 
 ---
@@ -110,6 +116,7 @@ it('extracts one HeaderDef ScopedSym from an OFMIndex with one heading', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('extracts one AliasDef ScopedSym per frontmatter alias entry', () => {
   const docId = DocId.ofUri('file:///vault/note.md', AbsPath.of('/vault'))
@@ -129,6 +136,7 @@ it('extracts one AliasDef ScopedSym per frontmatter alias entry', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `SymbolExtractor.extract` reads `index.frontmatter.aliases` (array) and emits one `AliasDef` per entry
 
 ---
@@ -143,6 +151,7 @@ it('extracts one AliasDef ScopedSym per frontmatter alias entry', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('places a CrossDoc ref in resolved and not in unresolvedRefs when a matching DocDef exists', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -160,6 +169,7 @@ it('places a CrossDoc ref in resolved and not in unresolvedRefs when a matching 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `RefGraph.mk` resolves every ref that has at least one matching def; the ref key maps to an array containing that def
 
 ---
@@ -172,6 +182,7 @@ it('places a CrossDoc ref in resolved and not in unresolvedRefs when a matching 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('places a CrossDoc ref in unresolvedRefs when no matching def exists', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -186,6 +197,7 @@ it('places a CrossDoc ref in unresolvedRefs when no matching def exists', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Refs that match no def are added to `unresolvedRefs` and absent from `resolved`
 
 ---
@@ -198,6 +210,7 @@ it('places a CrossDoc ref in unresolvedRefs when no matching def exists', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('maps the ref to both defs when two defs share the same slug (ambiguous resolution)', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -220,6 +233,7 @@ it('maps the ref to both defs when two defs share the same slug (ambiguous resol
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The resolved value array for a ref contains ALL matching defs, not just the first one found
 
 ---
@@ -232,6 +246,7 @@ it('maps the ref to both defs when two defs share the same slug (ambiguous resol
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('adds docB to refDeps[docA] when doc A has a CrossDoc ref that resolves to a def in doc B', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -247,6 +262,7 @@ it('adds docB to refDeps[docA] when doc A has a CrossDoc ref that resolves to a 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Every resolved cross-doc edge `(refDoc → defDoc)` where the two docs differ is recorded in `refDeps`
 
 ---
@@ -261,6 +277,7 @@ it('adds docB to refDeps[docA] when doc A has a CrossDoc ref that resolves to a 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('moves a ref from unresolvedRefs to resolved when a new matching def is added', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -283,6 +300,7 @@ it('moves a ref from unresolvedRefs to resolved when a new matching def is added
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `update` re-attempts resolution of every member of `unresolvedRefs` against newly added defs; successful resolutions move the ref into `resolved` and into `lastTouched`
 
 ---
@@ -295,6 +313,7 @@ it('moves a ref from unresolvedRefs to resolved when a new matching def is added
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('moves all refs that pointed at a removed def into unresolvedRefs; lastTouched contains those refs', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -317,6 +336,7 @@ it('moves all refs that pointed at a removed def into unresolvedRefs; lastTouche
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Removals are processed first: stale edges for the removed def are purged and their source refs added to `unresolvedRefs` and `lastTouched`
 
 ---
@@ -329,6 +349,7 @@ it('moves all refs that pointed at a removed def into unresolvedRefs; lastTouche
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('places a newly added CrossDoc ref directly in resolved when a matching def already exists', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -348,6 +369,7 @@ it('places a newly added CrossDoc ref directly in resolved when a matching def a
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - New refs that immediately match an existing def are inserted into `resolved` without going through `unresolvedRefs`
 
 ---
@@ -360,6 +382,7 @@ it('places a newly added CrossDoc ref directly in resolved when a matching def a
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('places a newly added CrossDoc ref in unresolvedRefs when no def matches; lastTouched contains it', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -378,6 +401,7 @@ it('places a newly added CrossDoc ref in unresolvedRefs when no def matches; las
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - New refs with no matching def are added to `unresolvedRefs` and `lastTouched`
 
 ---
@@ -390,6 +414,7 @@ it('places a newly added CrossDoc ref in unresolvedRefs when no def matches; las
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns a new RefGraph instance; the original resolved map is unchanged', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -411,6 +436,7 @@ it('returns a new RefGraph instance; the original resolved map is unchanged', ()
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `update` constructs and returns a fresh `RefGraph`; all internal collections on the original graph are structurally unchanged after the call
 
 **REFACTOR notes:** Consider a shared `immutabilityHarness` helper that snapshots a graph's collection sizes before and after any mutation-candidate operation.
@@ -427,6 +453,7 @@ it('returns a new RefGraph instance; the original resolved map is unchanged', ()
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('defsForRef returns the def(s) that a resolved CrossDoc ref points to', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -444,6 +471,7 @@ it('defsForRef returns the def(s) that a resolved CrossDoc ref points to', () =>
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Oracle.defsForRef` looks up `ref` in `graph.resolved` and returns the value array, or `[]` if absent
 
 ---
@@ -456,6 +484,7 @@ it('defsForRef returns the def(s) that a resolved CrossDoc ref points to', () =>
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('isUnresolved returns true for a ref that could not be resolved', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -468,6 +497,7 @@ it('isUnresolved returns true for a ref that could not be resolved', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Oracle.isUnresolved` returns `graph.unresolvedRefs.has(ref)`
 
 ---
@@ -480,6 +510,7 @@ it('isUnresolved returns true for a ref that could not be resolved', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('refsForDef returns every ref that resolves to the given def, across all source documents', () => {
   const docA = makeDocId('file:///vault/a.md')
@@ -503,6 +534,7 @@ it('refsForDef returns every ref that resolves to the given def, across all sour
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Oracle.refsForDef` inverts `graph.resolved` — scanning all entries whose value array includes `def` — and returns the corresponding ref keys
 
 **REFACTOR notes:** The inversion scan may be replaced by a pre-built reverse-index (`def → ref[]`) cached on `Oracle` construction if profiling shows it is a hot path.
