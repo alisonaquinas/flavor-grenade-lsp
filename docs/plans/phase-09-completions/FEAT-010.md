@@ -2,7 +2,7 @@
 id: "FEAT-010"
 title: "Completions"
 type: feature
-status: in-review
+status: done
 priority: "high"
 phase: "9"
 created: "2026-04-17"
