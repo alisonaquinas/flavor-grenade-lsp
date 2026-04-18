@@ -276,9 +276,11 @@ describe('Wiki-Link Integration', () => {
       });
       await client.waitForNotification('textDocument/publishDiagnostics');
 
+      // Position (0, 25) is right after the '[[' in "This document links to [[beta]]..."
+      // "This document links to " = 23 chars (0..22), '[' at 23, '[' at 24, cursor at 25
       const compResp = await client.request('textDocument/completion', {
         textDocument: { uri: alphaUri },
-        position: { line: 0, character: 2 },
+        position: { line: 0, character: 25 },
         context: { triggerKind: 2, triggerCharacter: '[' },
       }) as Record<string, unknown>;
 

@@ -17,16 +17,14 @@ import { DidCloseHandler } from './handlers/did-close.handler.js';
 import { ParserModule } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
+import { CompletionModule } from '../completion/completion.module.js';
+import { CompletionRouter } from '../completion/completion-router.js';
 import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
 import { HoverHandler } from '../handlers/hover.handler.js';
-import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
-import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-provider.js';
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
-import { TagCompletionProvider } from '../completion/tag-completion-provider.js';
 import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
-import { TagRegistry } from '../tags/tag-registry.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -36,7 +34,7 @@ import { TagRegistry } from '../tags/tag-registry.js';
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule],
+  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule],
   providers: [
     DocumentStore,
     LifecycleState,
@@ -49,7 +47,6 @@ import { TagRegistry } from '../tags/tag-registry.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
-    TagCompletionProvider,
     TagToYamlAction,
   ],
   exports: [],
@@ -69,13 +66,11 @@ export class LspModule implements OnModuleInit {
     private readonly definition: DefinitionHandler,
     private readonly references: ReferencesHandler,
     private readonly hover: HoverHandler,
-    private readonly completionProvider: WikiLinkCompletionProvider,
-    private readonly blockRefCompletionProvider: BlockRefCompletionProvider,
+    private readonly completionRouter: CompletionRouter,
     private readonly diagnosticService: DiagnosticService,
     private readonly vaultDetector: VaultDetector,
-    private readonly tagCompletionProvider: TagCompletionProvider,
+    private readonly documentStore: DocumentStore,
     private readonly tagToYamlAction: TagToYamlAction,
-    private readonly tagRegistry: TagRegistry,
   ) {}
 
   /**
@@ -84,10 +79,15 @@ export class LspModule implements OnModuleInit {
    * Called by NestJS after all providers have been resolved.
    */
   onModuleInit(): void {
+    // TASK-101: Updated completion capabilities with all trigger characters
     this.capabilityRegistry.merge({
       definitionProvider: true,
       referencesProvider: true,
-      completionProvider: { triggerCharacters: ['[', '#', '^'], resolveProvider: false },
+      completionProvider: {
+        triggerCharacters: ['[', '!', '#', '^', '>'],
+        commitCharacters: [']'],
+        resolveProvider: false,
+      },
       codeActionProvider: true,
       hoverProvider: true,
     });
@@ -96,9 +96,36 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onNotification('initialized', (p) => this.initialized.handle(p));
     this.dispatcher.onRequest('shutdown', (p) => this.shutdown.handle(p));
     this.dispatcher.onNotification('exit', (p) => this.exit.handle(p));
-    this.dispatcher.onNotification('textDocument/didOpen', (p) => this.didOpen.handle(p));
-    this.dispatcher.onNotification('textDocument/didChange', (p) => this.didChange.handle(p));
-    this.dispatcher.onNotification('textDocument/didClose', (p) => this.didClose.handle(p));
+    this.dispatcher.onNotification('textDocument/didOpen', async (p) => {
+      await this.didOpen.handle(p);
+      // Sync raw text to CompletionRouter for context analysis
+      const params = p as { textDocument?: { uri?: string; text?: string } } | null | undefined;
+      const uri = params?.textDocument?.uri;
+      const text = params?.textDocument?.text;
+      if (typeof uri === 'string' && typeof text === 'string') {
+        this.completionRouter.setDocumentText(uri, text);
+      }
+    });
+    this.dispatcher.onNotification('textDocument/didChange', async (p) => {
+      await this.didChange.handle(p);
+      // Sync updated raw text to CompletionRouter via DocumentStore
+      const params = p as { textDocument?: { uri?: string } } | null | undefined;
+      const uri = params?.textDocument?.uri;
+      if (typeof uri === 'string') {
+        const docText = this.documentStore.get(uri)?.getText();
+        if (typeof docText === 'string') {
+          this.completionRouter.setDocumentText(uri, docText);
+        }
+      }
+    });
+    this.dispatcher.onNotification('textDocument/didClose', async (p) => {
+      await this.didClose.handle(p);
+      const params = p as { textDocument?: { uri?: string } } | null | undefined;
+      const uri = params?.textDocument?.uri;
+      if (typeof uri === 'string') {
+        this.completionRouter.removeDocumentText(uri);
+      }
+    });
 
     this.dispatcher.onRequest('textDocument/definition', (p) =>
       Promise.resolve(this.definition.handle(p as Parameters<DefinitionHandler['handle']>[0])),
@@ -126,26 +153,19 @@ export class LspModule implements OnModuleInit {
   }
 
   /**
-   * Handle a `textDocument/completion` request.
+   * Handle a textDocument/completion request.
    *
-   * Dispatches to tag completion when triggered by `#`, otherwise falls back
-   * to wiki-link completion.
+   * Delegates to {@link CompletionRouter} which uses {@link ContextAnalyzer}
+   * to determine the appropriate sub-provider based on cursor context.
    */
   private handleCompletion(params: unknown): { items: unknown[]; isIncomplete: boolean } {
-    const p = params as Record<string, unknown> | null | undefined;
-    const context = p?.['context'] as Record<string, unknown> | null | undefined;
-    const triggerChar = context?.['triggerCharacter'];
-    if (triggerChar === '#') {
-      return this.tagCompletionProvider.getCompletions('');
-    }
-    if (triggerChar === '^') {
-      return this.blockRefCompletionProvider.getCompletions('');
-    }
-    return this.completionProvider.getCompletions('');
+    const p = params as Parameters<CompletionRouter['route']>[0] | null | undefined;
+    if (p == null) return { items: [], isIncomplete: false };
+    return this.completionRouter.route(p);
   }
 
   /**
-   * Handle a `textDocument/codeAction` request.
+   * Handle a textDocument/codeAction request.
    *
    * Returns an array of applicable code actions (at most the tag-to-YAML action).
    */
