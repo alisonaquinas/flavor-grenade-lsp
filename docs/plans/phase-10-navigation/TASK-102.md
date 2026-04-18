@@ -2,7 +2,7 @@
 id: "TASK-102"
 title: "Consolidate DefinitionService"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "10"
 parent: "FEAT-011"

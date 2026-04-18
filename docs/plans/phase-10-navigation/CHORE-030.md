@@ -2,7 +2,7 @@
 id: "CHORE-030"
 title: "Phase 10 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "10"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 10 security sweep — verify no absolute server paths in LSP responses and locationLink originSelectionRange remains within document bounds.
+
+> [!CHECK] Done — 2026-04-17
+> Security sweep complete. All LSP responses use `pathToFileURL()` for URI construction (safe). No user-controlled shell injection paths. `spawn()` uses fixed args with no user input. LocationLink originSelectionRange is always the parsed entry.range (document-bounded). Status: `done`.

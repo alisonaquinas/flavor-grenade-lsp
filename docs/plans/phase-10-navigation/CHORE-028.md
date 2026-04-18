@@ -2,7 +2,7 @@
 id: "CHORE-028"
 title: "Phase 10 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "10"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 10 lint sweep to maintain zero-warning hygiene.
+
+> [!CHECK] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passes clean. `tsc --noEmit` exits 0. `bun test` passes 346 tests. No suppressions added. Status: `done`.

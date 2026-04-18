@@ -7,7 +7,7 @@ import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
 import { TagRegistry } from '../tags/tag-registry.js';
-import type { TagEntry, BlockAnchorEntry } from '../parser/types.js';
+import { entityAtPosition } from './cursor-entity.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -19,8 +19,14 @@ interface ReferencesParams {
 /**
  * Handles `textDocument/references` requests for vault documents.
  *
- * Uses the {@link RefGraph} to find all wiki-links that resolve to the
- * document corresponding to the requested URI.
+ * Uses {@link entityAtPosition} to determine the entity under the cursor and
+ * delegates to the appropriate lookup strategy:
+ *
+ * - **tag** → all occurrences via TagRegistry
+ * - **block-anchor** → all `[[..#^id]]` references via RefGraph
+ * - **heading** → all `[[doc#Heading]]` references via RefGraph
+ * - **wiki-link** → definition location of the target
+ * - **default** → all wiki-links that point to this document via RefGraph
  */
 @Injectable()
 export class ReferencesHandler {
@@ -35,123 +41,177 @@ export class ReferencesHandler {
    * Handle a `textDocument/references` request.
    *
    * @param params - LSP references request parameters.
-   * @returns Array of Locations where the target document is referenced.
+   * @returns Array of Locations where the entity is referenced.
    */
   handle(params: ReferencesParams): Location[] {
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return [];
 
-    // Check if the cursor is on a tag entry — if so, use TagRegistry.
-    const tagEntry = this.findTagAtPosition(doc.index.tags, params.position);
-    if (tagEntry !== undefined && this.tagRegistry !== undefined) {
-      return this.handleTagReferences(tagEntry, params);
+    const entity = entityAtPosition(doc, params.position);
+
+    switch (entity.kind) {
+      case 'tag': {
+        if (this.tagRegistry === undefined) return [];
+        const occs = this.tagRegistry.occurrences(entity.entry.tag);
+        return occs.map((occ) => ({
+          uri: this.docIdToUri(occ.docId, params.textDocument.uri),
+          range: occ.range,
+        }));
+      }
+
+      case 'block-anchor': {
+        const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
+        const crossRefs = this.refGraph.getBlockRefsToAnchor(
+          sourceDocId,
+          entity.entry.id,
+        );
+        return crossRefs.map((ref) => ({
+          uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
+          range: ref.entry.range,
+        }));
+      }
+
+      case 'heading': {
+        // Look up all cross-vault references to this heading via RefGraph.
+        // The defKey for a heading-targeting wiki-link resolves to the docId
+        // (the oracle resolves [[doc#Heading]] to the doc's DocId).
+        // We fall through to document-level references as the ref graph stores
+        // refs by resolved DocId, not by heading. Heading-specific filtering
+        // would require a separate index — for Phase 10 we return all refs to
+        // the document and let the editor's UI surface them.
+        const defKey = this.resolveDefKey(params.textDocument.uri);
+        const refs = this.refGraph.getRefsTo(defKey);
+        const locations: Location[] = [];
+
+        if (params.context.includeDeclaration) {
+          locations.push({
+            uri: params.textDocument.uri,
+            range: entity.entry.range,
+          });
+        }
+
+        for (const ref of refs) {
+          // Only include refs that reference this specific heading
+          if (ref.entry.heading === entity.entry.text) {
+            locations.push({
+              uri: this.docIdToUri(ref.sourceDocId as DocId, params.textDocument.uri),
+              range: ref.entry.range,
+            });
+          }
+        }
+
+        return locations;
+      }
+
+      case 'wiki-link': {
+        // For a wiki-link token, return references to the linked document
+        // (i.e., all places that link to the same target document)
+        const defKey = this.resolveDefKey(params.textDocument.uri);
+        const refs = this.refGraph.getRefsTo(defKey);
+        const locations: Location[] = [];
+
+        if (params.context.includeDeclaration) {
+          locations.push({
+            uri: params.textDocument.uri,
+            range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+          });
+        }
+
+        for (const ref of refs) {
+          locations.push({
+            uri: this.docIdToUri(ref.sourceDocId as DocId, params.textDocument.uri),
+            range: ref.entry.range,
+          });
+        }
+
+        return locations;
+      }
+
+      default: {
+        // Document-level: return all wiki-links that resolve to this document
+        const defKey = this.resolveDefKey(params.textDocument.uri);
+        const refs = this.refGraph.getRefsTo(defKey);
+        const locations: Location[] = [];
+
+        if (params.context.includeDeclaration) {
+          locations.push({
+            uri: params.textDocument.uri,
+            range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+          });
+        }
+
+        for (const ref of refs) {
+          locations.push({
+            uri: this.docIdToUri(ref.sourceDocId as DocId, params.textDocument.uri),
+            range: ref.entry.range,
+          });
+        }
+
+        return locations;
+      }
     }
-
-    // Check if cursor is on a block anchor — if so, return block ref locations.
-    const blockAnchorEntry = this.findBlockAnchorAtPosition(
-      doc.index.blockAnchors,
-      params.position,
-    );
-    if (blockAnchorEntry !== undefined) {
-      return this.handleBlockAnchorReferences(blockAnchorEntry, params);
-    }
-
-    const defKey = this.resolveDefKey(params.textDocument.uri);
-    const refs = this.refGraph.getRefsTo(defKey);
-
-    const locations: Location[] = [];
-
-    if (params.context.includeDeclaration) {
-      locations.push({
-        uri: params.textDocument.uri,
-        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
-      });
-    }
-
-    for (const ref of refs) {
-      const sourceUri = this.docIdToUri(ref.sourceDocId as DocId, params.textDocument.uri);
-      locations.push({
-        uri: sourceUri,
-        range: ref.entry.range,
-      });
-    }
-
-    return locations;
-  }
-
-  /**
-   * Return all vault locations where a tag is used.
-   *
-   * No parent-tag traversal — exact tag matches only (Phase 6 scope).
-   */
-  private handleTagReferences(tagEntry: TagEntry, params: ReferencesParams): Location[] {
-    const occs = this.tagRegistry!.occurrences(tagEntry.tag);
-    return occs.map((occ) => ({
-      uri: this.docIdToUri(occ.docId, params.textDocument.uri),
-      range: occ.range,
-    }));
-  }
-
-  /**
-   * Return all vault locations where a block anchor is referenced via `[[..#^id]]`.
-   */
-  private handleBlockAnchorReferences(
-    anchorEntry: BlockAnchorEntry,
-    params: ReferencesParams,
-  ): Location[] {
-    const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
-    const crossRefs = this.refGraph.getBlockRefsToAnchor(
-      sourceDocId,
-      anchorEntry.id,
-    );
-    return crossRefs.map((ref) => ({
-      uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
-      range: ref.entry.range,
-    }));
-  }
-
-  /**
-   * Find a block anchor entry whose range contains the given position.
-   */
-  private findBlockAnchorAtPosition(
-    anchors: BlockAnchorEntry[],
-    position: Position,
-  ): BlockAnchorEntry | undefined {
-    return anchors.find((entry) => {
-      const { start, end } = entry.range;
-      if (position.line < start.line || position.line > end.line) return false;
-      if (position.line === start.line && position.character < start.character) return false;
-      if (position.line === end.line && position.character > end.character) return false;
-      return true;
-    });
-  }
-
-  /**
-   * Find a tag entry whose range contains the given position.
-   */
-  private findTagAtPosition(tags: TagEntry[], position: Position): TagEntry | undefined {
-    return tags.find((entry) => {
-      const { start, end } = entry.range;
-      if (position.line < start.line || position.line > end.line) return false;
-      if (position.line === start.line && position.character < start.character) return false;
-      if (position.line === end.line && position.character > end.character) return false;
-      return true;
-    });
   }
 
   /**
    * Determine the DefKey for a URI by matching it against vault index entries.
    *
-   * Falls back to a best-effort URI-to-path derivation if vault index is not
-   * available.
+   * Resolution order:
+   * 1. Exact URI match in vault index.
+   * 2. Normalised URI comparison (handle two-slash vs three-slash file URIs on
+   *    Windows, case-insensitive drive letters).
+   * 3. Filename-stem match against vault index DocIds.
+   * 4. Full-path fallback (least likely to match refGraph keys).
    */
   private resolveDefKey(uri: string): DefKey {
     if (this.vaultIndex !== undefined) {
+      // Pass 1: exact URI match
       for (const [docId, indexDoc] of this.vaultIndex.entries()) {
         if (indexDoc.uri === uri) return docId as DefKey;
       }
+
+      // Pass 2: normalised URI match (file:// vs file:///)
+      const normalUri = this.normaliseFileUri(uri);
+      for (const [docId, indexDoc] of this.vaultIndex.entries()) {
+        if (this.normaliseFileUri(indexDoc.uri) === normalUri) return docId as DefKey;
+      }
+
+      // Pass 3: stem match — try to find a DocId whose last segment matches
+      // the filename stem extracted from the URI
+      const stem = this.uriToStem(uri);
+      if (stem !== null) {
+        for (const [docId] of this.vaultIndex.entries()) {
+          const docStem = (docId as string).split('/').pop() ?? '';
+          if (docStem === stem) return docId as DefKey;
+        }
+      }
     }
     return this.uriToFallbackDefKey(uri);
+  }
+
+  /**
+   * Normalise a `file://` URI for comparison: lowercase drive letter (Windows),
+   * collapse `///` to `//`, decode percent-encoding.
+   */
+  private normaliseFileUri(uri: string): string {
+    return uri
+      .replace(/^file:\/\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
+      .replace(/^file:\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
+      .toLowerCase();
+  }
+
+  /**
+   * Extract the filename stem (no extension, no path prefix) from a URI.
+   * Returns null if the URI cannot be parsed.
+   */
+  private uriToStem(uri: string): string | null {
+    try {
+      const pathname = new URL(uri).pathname;
+      const decoded = decodeURIComponent(pathname);
+      const base = decoded.split('/').pop() ?? '';
+      return base.endsWith('.md') ? base.slice(0, -3) : base || null;
+    } catch {
+      return null;
+    }
   }
 
   private uriToFallbackDefKey(uri: string): DefKey {
@@ -166,21 +226,17 @@ export class ReferencesHandler {
   }
 
   private docIdToUri(sourceDocId: DocId, referenceUri: string): string {
-    // Look up the source document's URI in vault index (most accurate)
     if (this.vaultIndex !== undefined) {
       const sourceDoc = this.vaultIndex.get(sourceDocId);
       if (sourceDoc !== undefined) return sourceDoc.uri;
     }
 
-    // Fallback: derive from the reference URI's vault root
     try {
       const pathname = new URL(referenceUri).pathname;
       const decoded = decodeURIComponent(pathname.replace(/^\/([A-Za-z]:)/, '$1'));
       const normalized = decoded.replace(/\\/g, '/');
       const parts = normalized.split('/');
-      // strip filename
       parts.pop();
-      // find vault root by trimming depth equal to DocId depth
       const docSegments = (sourceDocId as string).split('/');
       const depth = docSegments.length;
       const vaultParts = parts.slice(0, parts.length - depth + 1);

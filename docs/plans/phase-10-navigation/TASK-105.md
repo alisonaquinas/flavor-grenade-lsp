@@ -2,7 +2,7 @@
 id: "TASK-105"
 title: "Implement cursor position → entity mapping utility"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "10"
 parent: "FEAT-011"
@@ -148,3 +148,12 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+
+> [!NOTE] RED — 2026-04-17
+> Failing test committed in `src/handlers/__tests__/cursor-entity.test.ts` (11 tests, all failing — module not found). Status: `red`.
+
+> [!NOTE] GREEN — 2026-04-17
+> Implementation in `src/handlers/cursor-entity.ts`. All 11 tests pass. lint + tsc clean. Status: `green`.
+
+> [!CHECK] Done — 2026-04-17
+> entityAtPosition implemented with wiki-link > embed > tag > heading > block-anchor priority ordering. 11 tests pass, 100% branch coverage. Status: `done`.

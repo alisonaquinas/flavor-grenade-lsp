@@ -2,7 +2,7 @@
 id: "TASK-106"
 title: "Handle multi-location definition results"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "10"
 parent: "FEAT-011"
