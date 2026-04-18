@@ -2,7 +2,7 @@
 id: "FEAT-012"
 title: "Rename"
 type: feature
-status: draft
+status: in-review
 priority: "high"
 phase: "11"
 created: "2026-04-17"
@@ -93,18 +93,18 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-109]] | Implement textDocument/prepareRename | `open` |
-| [[tickets/TASK-110]] | Implement textDocument/rename for heading rename | `open` |
-| [[tickets/TASK-111]] | Implement textDocument/rename for file rename | `open` |
-| [[tickets/TASK-112]] | Handle link style variants in rename edits | `open` |
-| [[tickets/TASK-113]] | Handle pipe aliases during heading rename | `open` |
-| [[tickets/TASK-114]] | Handle zero-reference rename | `open` |
-| [[tickets/TASK-115]] | Implement WorkspaceEditBuilder | `open` |
-| [[tickets/TASK-116]] | Reject rename in opaque regions | `open` |
-| [[tickets/TASK-117]] | Write integration tests for rename | `open` |
-| [[tickets/CHORE-031]] | Phase 11 Lint Sweep | `open` |
-| [[tickets/CHORE-032]] | Phase 11 Code Quality Sweep | `open` |
-| [[tickets/CHORE-033]] | Phase 11 Security Sweep | `open` |
+| [[tickets/TASK-109]] | Implement textDocument/prepareRename | `done` |
+| [[tickets/TASK-110]] | Implement textDocument/rename for heading rename | `done` |
+| [[tickets/TASK-111]] | Implement textDocument/rename for file rename | `done` |
+| [[tickets/TASK-112]] | Handle link style variants in rename edits | `done` |
+| [[tickets/TASK-113]] | Handle pipe aliases during heading rename | `done` |
+| [[tickets/TASK-114]] | Handle zero-reference rename | `done` |
+| [[tickets/TASK-115]] | Implement WorkspaceEditBuilder | `done` |
+| [[tickets/TASK-116]] | Reject rename in opaque regions | `done` |
+| [[tickets/TASK-117]] | Write integration tests for rename | `done` |
+| [[tickets/CHORE-031]] | Phase 11 Lint Sweep | `done` |
+| [[tickets/CHORE-032]] | Phase 11 Code Quality Sweep | `done` |
+| [[tickets/CHORE-033]] | Phase 11 Security Sweep | `done` |
 
 ---
 
@@ -155,3 +155,22 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] In-review — 2026-04-17
+> All child tasks and CHOREs completed. Implementation summary:
+>
+> **Files created:**
+> - `src/handlers/workspace-edit-builder.ts` — `WorkspaceEditBuilder` class (TASK-115): accumulates TextEdit and RenameFile changes per URI, deduplicates same-range edits (last-write-wins), sorts edits in reverse line/character order for safe multi-edit application.
+> - `src/handlers/prepare-rename.handler.ts` — `PrepareRenameHandler` (TASK-109, TASK-116): uses `entityAtPosition` to find heading or wiki-link under cursor; checks opaque regions via `OFMDoc.opaqueRegions` to reject rename inside code/math/comment blocks; returns `{range, placeholder}` for headings (text range after `##` prefix) and wiki-links.
+> - `src/handlers/rename.handler.ts` — `RenameHandler` (TASK-110–114): heading rename updates source heading text and all cross-vault `[[doc#Heading]]` refs filtered from `RefGraph.getRefsTo(docId)`; alias identity rule preserves alias when it differs from old heading; file rename produces `RenameFile` document change plus text edits for all links; link style preserved per TASK-112; `newName` never used in filesystem calls (CHORE-033 security).
+> - `src/rename/rename.module.ts` — NestJS module wiring `PrepareRenameHandler` and `RenameHandler`.
+> - `src/handlers/__tests__/workspace-edit-builder.test.ts` — 8 unit tests (TDD RED → GREEN).
+> - `src/handlers/__tests__/prepare-rename.handler.test.ts` — 6 unit tests (TDD RED → GREEN).
+> - `src/handlers/__tests__/rename.handler.test.ts` — 7 unit tests (TDD RED → GREEN).
+> - `src/test/integration/rename.test.ts` — 4 integration tests: prepareRename on heading, rename heading, opaque region rejection, zero-reference rename.
+>
+> **Files modified:**
+> - `src/lsp/lsp.module.ts` — imported `RenameModule`, registered `textDocument/prepareRename` and `textDocument/rename` handlers, added `renameProvider: { prepareProvider: true }` capability, synced raw text to `PrepareRenameHandler` on didOpen/didChange/didClose.
+> - `src/test/fixtures/wiki-link-vault/beta.md` — added `## Beta Section` heading for integration test coverage.
+>
+> **Test results:** 371 tests pass, 0 failures (346 pre-existing + 25 new). `bun run lint` clean, `tsc --noEmit` exits 0.

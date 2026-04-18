@@ -2,7 +2,7 @@
 id: "TASK-112"
 title: "Handle link style variants in rename edits"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "11"
 parent: "FEAT-012"

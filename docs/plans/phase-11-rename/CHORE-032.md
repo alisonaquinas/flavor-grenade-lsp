@@ -2,7 +2,7 @@
 id: "CHORE-032"
 title: "Phase 11 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "11"
 created: "2026-04-17"
@@ -127,3 +127,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 11 code quality sweep — WorkspaceEditBuilder reverse-order sort correctness, pipe alias identity-check logic, RenameFile operation URI construction.
+
+> [!CHECK] Done — 2026-04-17
+> Code quality sweep completed. Verified: (1) `WorkspaceEditBuilder.build()` sorts edits by `b.range.start.line - a.range.start.line` (descending line) then `b.range.start.character - a.range.start.character` (descending char) — correct and stable; (2) alias identity check uses strict equality (`alias === oldHeadingName`) on trimmed `HeadingEntry.text` — correct; (3) `RenameFile` URI construction uses `fromDocId(vaultRoot, newDocId)` + `pathToFileURL().href` — stays within vault root by construction. All checks pass. 371 tests, 0 failures.

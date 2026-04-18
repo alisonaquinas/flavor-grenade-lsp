@@ -2,7 +2,7 @@
 id: "TASK-110"
 title: "Implement textDocument/rename for heading rename"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "11"
 parent: "FEAT-012"

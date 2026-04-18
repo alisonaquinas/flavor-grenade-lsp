@@ -2,7 +2,7 @@
 id: "TASK-116"
 title: "Reject rename in opaque regions"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "11"
 parent: "FEAT-012"

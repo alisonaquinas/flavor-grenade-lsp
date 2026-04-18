@@ -2,7 +2,7 @@
 id: "TASK-114"
 title: "Handle zero-reference rename"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "11"
 parent: "FEAT-012"
