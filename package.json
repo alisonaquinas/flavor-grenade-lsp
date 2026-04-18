@@ -1,11 +1,24 @@
 {
-  "name": "flavor-grenade-lsp",
+  "name": "@flavor-grenade/lsp-server",
   "version": "0.1.0",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
+  "bin": {
+    "flavor-grenade-lsp": "dist/main.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "bun --watch src/main.ts",
     "build": "tsc --project tsconfig.json",
+    "build:binary": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp",
+    "build:binary:win": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp.exe",
     "start": "node dist/main.js",
     "test": "bun test",
     "bdd": "cucumber-js",
