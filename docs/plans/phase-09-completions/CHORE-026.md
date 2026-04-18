@@ -2,7 +2,7 @@
 id: "CHORE-026"
 title: "Phase 9 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "9"
 created: "2026-04-17"
@@ -118,3 +118,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep focusing on CompletionRouter context discrimination, ContextAnalyzer edge cases, and large-vault completion performance.
+
+> [!SUCCESS] Done — 2026-04-17
+> Code quality sweep complete. CompletionRouter switch is exhaustive — all 7 context kinds handled, `default` returns empty items. ContextAnalyzer uses max-100-char lookback with regex patterns ordered from most-specific to least-specific to avoid ambiguity. EmbedCompletionProvider uses a `Set<string>` for deduplication to avoid O(n^2) on large vaults. Lint and tsc both clean. Status: `done`.

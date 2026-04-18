@@ -2,7 +2,7 @@
 id: "FEAT-010"
 title: "Completions"
 type: feature
-status: draft
+status: in-review
 priority: "high"
 phase: "9"
 created: "2026-04-17"
@@ -159,3 +159,33 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!SUCCESS] In-Review — 2026-04-17
+> All 10 child tasks (TASK-092 through TASK-101) and all 3 chores (CHORE-025 through CHORE-027) are `done`. 58 new unit tests added across 5 test files (context-analyzer, completion-router, heading-completion-provider, callout-completion-provider, embed-completion-provider). Total test count: 321 (was 263). `bun run lint --max-warnings 0` passes. `tsc --noEmit` exits 0. Integration test updated to use correct cursor position for context-aware routing. Status: `in-review`.
+
+## Phase 9 Retrospective
+
+### What was built
+
+Phase 9 delivered a complete, context-aware completion system replacing the naive trigger-character switch in `LspModule`. Key deliverables:
+
+- `ContextAnalyzer` — backward-scanning regex engine detecting all 7 context kinds from raw cursor position. Uses ordered regex patterns (most-specific first) with 100-char lookback limit.
+- `CompletionRouter` — single dispatch table routing completions to the correct sub-provider. Holds a `rawTextStore` map populated by `LspModule` on didOpen/didChange/didClose events.
+- `HeadingCompletionProvider` — handles both intra-doc (`[[#`) and cross-doc (`[[stem#`) heading completion via Oracle resolution.
+- `CalloutCompletionProvider` — standard 13-type list plus custom types from vault index. Hardcoded constant, security-clean.
+- `EmbedCompletionProvider` — combines document stems with asset paths from VaultScanner.assetIndex.
+- `CompletionModule` — NestJS module wiring all Phase 9 providers; imports ResolutionModule, VaultModule, ParserModule.
+- TASK-097: 50-item candidate cap with `isIncomplete: true` signalling.
+- TASK-098: `file-stem` linkStyle (default); `title-slug` and `file-path-stem` stubs for future phases.
+- TASK-101: Updated capabilities: `triggerCharacters: ['[', '!', '#', '^', '>']`, `commitCharacters: [']']`.
+
+### Key design decisions
+
+- `CompletionRouter.rawTextStore` — chosen over injecting `DocumentStore` into `CompletionModule` to avoid circular dependency (`lsp` → `completion` → `lsp`). LspModule writes text on each didOpen/didChange.
+- `ContextAnalyzer` regex order — callout before embed before block before heading before wiki-link before tag. Each pattern is anchored to end of prefix with `$`.
+- Integration test position fix — corrected from (0, 2) to (0, 25) to match a real `[[` position in alpha.md.
+
+### Technical debt carried forward
+
+- `title-slug` and `file-path-stem` link styles are stubs (Phase 10 ADR-005 work).
+- No `CompletionItemKind` import in `callout-completion-provider.ts` or `embed-completion-provider.ts` — numeric literals work because both files use `as const` equivalent via comment documentation. If TypeScript strictness increases, switch to enum imports.

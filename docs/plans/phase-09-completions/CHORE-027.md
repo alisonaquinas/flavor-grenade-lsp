@@ -2,7 +2,7 @@
 id: "CHORE-027"
 title: "Phase 9 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "9"
 created: "2026-04-17"
@@ -118,3 +118,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep confirming completion trigger strings are not used in filesystem operations and callout type list is hardcoded.
+
+> [!SUCCESS] Done — 2026-04-17
+> Security sweep complete. Confirmed: no completion trigger string or cursor-derived prefix is passed to any filesystem API. All completion providers operate purely on in-memory data (VaultIndex, FolderLookup, TagRegistry, ParseCache, VaultScanner.assetIndex). `STANDARD_CALLOUTS` in `callout-completion-provider.ts` is a hardcoded `readonly string[]` constant — not derived from config or user input. Custom callout types come from already-indexed `CalloutEntry.type` values (safe). Status: `done`.

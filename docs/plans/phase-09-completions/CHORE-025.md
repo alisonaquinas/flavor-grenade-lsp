@@ -2,11 +2,12 @@
 id: "CHORE-025"
 title: "Phase 9 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "9"
 created: "2026-04-17"
 updated: "2026-04-17"
+closed: "2026-04-17"
 dependencies: []
 tags: [tickets/chore, "phase/9"]
 aliases: ["CHORE-025"]
@@ -112,3 +113,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: lint sweep at Phase 9 boundary.
+
+> [!SUCCESS] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passes with zero warnings. `tsc --noEmit` exits 0. All 321 tests pass. No new suppressions added. Status: `done`.
