@@ -4,9 +4,10 @@ import { pathToFileURL } from 'url';
 import type { Diagnostic, DiagnosticRelatedInformation } from 'vscode-languageserver-types';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { Oracle } from './oracle.js';
+import { EmbedResolver } from './embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultDetector } from '../vault/vault-detector.js';
-import type { OFMDoc, WikiLinkEntry } from '../parser/types.js';
+import type { OFMDoc, WikiLinkEntry, EmbedEntry } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 
@@ -19,6 +20,7 @@ export class DiagnosticService {
   constructor(
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly oracle: Oracle,
+    private readonly embedResolver: EmbedResolver,
     private readonly parseCache: ParseCache,
     private readonly vaultDetector: VaultDetector,
   ) {}
@@ -49,6 +51,10 @@ export class DiagnosticService {
     const diagnostics: Diagnostic[] = [];
     for (const entry of doc.index.wikiLinks) {
       const diag = this.diagnoseEntry(entry, vaultRoot);
+      if (diag !== null) diagnostics.push(diag);
+    }
+    for (const entry of doc.index.embeds) {
+      const diag = this.diagnoseEmbedEntry(entry);
       if (diag !== null) diagnostics.push(diag);
     }
     return diagnostics;
@@ -89,6 +95,20 @@ export class DiagnosticService {
       source: 'flavor-grenade',
       message: `Malformed wiki-link: empty or blank target`,
     };
+  }
+
+  private diagnoseEmbedEntry(entry: EmbedEntry): Diagnostic | null {
+    const resolution = this.embedResolver.resolve(entry);
+    if (resolution.kind === 'broken') {
+      return {
+        range: entry.range,
+        severity: 2, // Warning
+        code: 'FG004',
+        source: 'flavor-grenade',
+        message: `Broken embed: '${entry.target}' not found`,
+      };
+    }
+    return null;
   }
 
   private buildRelated(

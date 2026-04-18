@@ -2,7 +2,7 @@
 id: "CHORE-019"
 title: "Phase 7 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 7
 created: "2026-04-17"
@@ -117,3 +117,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: lint sweep for all Phase 7 source files.
+
+> [!SUCCESS] Done — 2026-04-17
+> `bun run lint --max-warnings 0` passes with zero warnings. One unused import (`fromDocId`) and one unused parameter (`vaultRoot`) found in `hover.handler.ts` and fixed before GREEN commit. `tsc --noEmit` exits 0. Status: `done`.

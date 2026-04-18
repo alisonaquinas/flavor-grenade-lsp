@@ -2,7 +2,7 @@
 id: "CHORE-020"
 title: "Phase 7 Code Quality Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 7
 created: "2026-04-17"
@@ -122,3 +122,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep for Phase 7 — AssetIndex vs VaultIndex separation, hover content sanitisation, size-specifier parsing correctness.
+
+> [!SUCCESS] Done — 2026-04-17
+> Code quality verified: `AssetIndex` stored as `Set<string>` separate from `VaultIndex` (no mixing). `EmbedResolver` uses only the Set lookup — no raw fs calls. `EmbedParser` size-specifier parsing verified correct (already implemented in Phase 3). `HoverHandler` generates preview from `headings` index (no raw text needed). Status: `done`.

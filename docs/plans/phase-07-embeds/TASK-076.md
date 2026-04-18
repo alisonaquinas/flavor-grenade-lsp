@@ -2,7 +2,7 @@
 id: "TASK-076"
 title: "Implement EmbedDest resolution"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -136,3 +136,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `EmbedResolver` created at `src/resolution/embed-resolver.ts`. Resolves image extensions via `VaultScanner.hasAsset()`, markdown docs via `Oracle.resolve()`. Returns `EmbedResolution` union type (`markdown | asset | broken`). Added to `ResolutionModule`. Status: `done`.

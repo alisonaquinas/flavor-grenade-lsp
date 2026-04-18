@@ -2,7 +2,7 @@
 id: "FEAT-008"
 title: "Embeds"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 7
 created: "2026-04-17"
@@ -93,17 +93,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-075]] | Add EmbedRef to RefGraph | `open` |
-| [[tickets/TASK-076]] | Implement EmbedDest resolution | `open` |
-| [[tickets/TASK-077]] | Add asset tracking to VaultScanner | `open` |
-| [[tickets/TASK-078]] | Implement FG004 diagnostic | `open` |
-| [[tickets/TASK-079]] | Implement embed go-to-definition | `open` |
-| [[tickets/TASK-080]] | Implement embed hover | `open` |
-| [[tickets/TASK-081]] | Handle embed size syntax | `open` |
-| [[tickets/TASK-082]] | Write unit tests for embed resolution | `open` |
-| [[tickets/CHORE-019]] | Phase 7 Lint Sweep | `open` |
-| [[tickets/CHORE-020]] | Phase 7 Code Quality Sweep | `open` |
-| [[tickets/CHORE-021]] | Phase 7 Security Sweep | `open` |
+| [[tickets/TASK-075]] | Add EmbedRef to RefGraph | `done` |
+| [[tickets/TASK-076]] | Implement EmbedDest resolution | `done` |
+| [[tickets/TASK-077]] | Add asset tracking to VaultScanner | `done` |
+| [[tickets/TASK-078]] | Implement FG004 diagnostic | `done` |
+| [[tickets/TASK-079]] | Implement embed go-to-definition | `done` |
+| [[tickets/TASK-080]] | Implement embed hover | `done` |
+| [[tickets/TASK-081]] | Handle embed size syntax | `done` |
+| [[tickets/TASK-082]] | Write unit tests for embed resolution | `done` |
+| [[tickets/CHORE-019]] | Phase 7 Lint Sweep | `done` |
+| [[tickets/CHORE-020]] | Phase 7 Code Quality Sweep | `done` |
+| [[tickets/CHORE-021]] | Phase 7 Security Sweep | `done` |
 
 ---
 
@@ -152,3 +152,14 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!SUCCESS] In-review — 2026-04-17
+> All 11 child tasks done. Implementation summary:
+>
+> **New files:** `src/resolution/embed-resolver.ts` (EmbedResolver, EmbedResolution union type), `src/handlers/hover.handler.ts` (HoverHandler).
+>
+> **Updated files:** `src/resolution/ref-graph.ts` (EmbedRef interface, embedRefsMap, brokenEmbeds, addEmbedRef, getEmbedRefsTo, getBrokenEmbedRefs), `src/resolution/diagnostic-service.ts` (FG004 for broken embeds), `src/handlers/definition.handler.ts` (embed go-to-definition), `src/vault/vault-scanner.ts` (AssetIndex), `src/vault/file-watcher.ts` (asset index maintenance), `src/resolution/resolution.module.ts` (EmbedResolver + HoverHandler), `src/lsp/lsp.module.ts` (hover handler + hoverProvider capability).
+>
+> **Tests:** 12 new unit tests in `src/resolution/__tests__/embed-resolver.test.ts`. Total: 211 tests, 0 failures. Lint clean, tsc clean.
+>
+> **Key design decision:** `EmbedResolver.resolveAsset` performs only `Set.has()` against the pre-built `assetIndex` — no raw fs calls with unvalidated paths (ADR013 compliant). Status: `in-review`.

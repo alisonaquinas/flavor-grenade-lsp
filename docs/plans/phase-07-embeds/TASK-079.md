@@ -2,7 +2,7 @@
 id: "TASK-079"
 title: "Implement embed go-to-definition"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -129,3 +129,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `DefinitionHandler` updated to inject `EmbedResolver` and check embed entries after wiki-links. Markdown embeds return document URI; asset embeds return `pathToFileURL` URI. `findEmbedAtPosition` helper added. Status: `done`.

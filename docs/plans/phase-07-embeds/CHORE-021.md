@@ -2,7 +2,7 @@
 id: "CHORE-021"
 title: "Phase 7 Security Sweep"
 type: chore
-status: open
+status: done
 priority: normal
 phase: 7
 created: "2026-04-17"
@@ -121,3 +121,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep for Phase 7 — asset path confinement to vault root, no user-controlled embed strings in raw filesystem reads, hover content must not leak server paths.
+
+> [!SUCCESS] Done — 2026-04-17
+> Security verified: `EmbedResolver.resolveAsset` performs only a `Set.has()` lookup against the pre-built `assetIndex` — no filesystem calls with unvalidated paths. `AssetIndex` is populated only during scans where `ignoreFilter` and vault-root confinement (ADR013) are enforced. `FileWatcher` asset tracking is similarly gated by `rootWithSep` prefix check before modifying the index. `HoverHandler` does not expose file paths in hover content — only document IDs and asset URIs. Status: `done`.

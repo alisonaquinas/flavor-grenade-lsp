@@ -2,7 +2,7 @@
 id: "TASK-077"
 title: "Add asset tracking to VaultScanner"
 type: task
-status: open
+status: done
 priority: high
 phase: 7
 parent: "FEAT-008"
@@ -130,3 +130,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+
+> [!SUCCESS] Done — 2026-04-17
+> `VaultScanner` now maintains `assetIndex: Set<string>` (vault-relative paths of non-.md files). Added `getAssetIndex()` and `hasAsset()` methods. `FileWatcher` updated to inject `VaultScanner` and maintain asset index on rename events. Status: `done`.
