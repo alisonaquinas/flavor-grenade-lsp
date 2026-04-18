@@ -2,7 +2,7 @@
 id: "FEAT-014"
 title: "CI & Delivery"
 type: feature
-status: in-progress
+status: done
 priority: medium
 phase: 13
 created: "2026-04-17"
@@ -160,3 +160,39 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] In-progress — 2026-04-17
 > Phase 13 implementation started. TASK-126–136 + 3 CHORE tickets defined. TASK-135 is manual (human). Status: `in-progress`.
+
+> [!CHECK] In-review — 2026-04-17
+> All automated tasks complete. 419 tests pass, lint clean, tsc clean. TASK-135 (branch protection) deferred — requires human GitHub Settings action. Status: `in-review`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-04-17.
+
+### What went as planned
+
+- CI workflow covers all three platforms (ubuntu/macos/windows) with bun 1.1 matrix
+- Release workflow produces 4 binary targets (linux-x64, darwin-arm64, darwin-x64, win-x64) from correct runner images (`macos-13` for x64)
+- `release-please` selected over `conventional-changelog` — better GitHub integration, PR-based flow
+- Editor examples (Neovim, VS Code, Helix) are concise and copy-paste ready
+- `package.json` correctly renamed, `publishConfig.access: public` for scoped package
+- `bun build --compile` binary scripts added for both Unix and Windows targets
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| TASK-135 | Manual skip | Branch protection requires GitHub Settings UI — cannot be automated | None |
+| Phase 13 agent | Timeout | Stream idle timeout after creating files; committed manually | Low |
+
+### Process observations
+
+- Phase 13 has no unit tests to write (pure CI config/docs) — the "RED commit" concept doesn't apply cleanly; `git status --short` verification before committing served as the gate
+- `macos-13` for darwin-x64 is necessary: `macos-latest` now defaults to arm64 runners on GitHub Actions
+- Codecov step uses `fail_ci_if_error: false` initially — set to `true` once CODECOV_TOKEN is configured in GitHub Secrets
+
+### Carry-forward actions (human required)
+- [ ] Configure `CODECOV_TOKEN` secret in GitHub repo Settings → Secrets
+- [ ] Configure `NPM_TOKEN` secret in GitHub repo Settings → Secrets
+- [ ] Enable branch protection rules for `main` (TASK-135)
+- [ ] Push develop to origin to trigger CI: `git push origin develop`
+- [ ] Tag `v0.1.0` to trigger first release: `git tag v0.1.0 && git push origin v0.1.0`
