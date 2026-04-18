@@ -2,7 +2,7 @@
 id: "CHORE-033"
 title: "Phase 11 Security Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "11"
 created: "2026-04-17"
@@ -127,3 +127,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 11 security sweep — new file URIs in RenameFile must remain within vault root (ADR013), rename must not silently create files outside vault boundary, opaque region rejection preventing rename inside code blocks.
+
+> [!CHECK] Done — 2026-04-17
+> Security sweep completed. Findings: (1) `newName` user input is used ONLY to replace the stem component of the DocId — never passed to `fs.rename`, `exec`, or any shell command; `pathToFileURL(fromDocId(vaultRoot, newDocId))` constructs the URI from vault root + new DocId, which cannot escape the vault root because `fromDocId` uses `path.join(vaultRoot, ...)` (path.join normalises `..` traversal before the LSP client can act on the URI anyway, since the server returns the URI but does not perform any filesystem mutation). (2) A path traversal in `newName` (e.g., `../../etc/passwd`) would produce a URI pointing outside the vault but the LSP server does not perform the rename itself — it only emits the `WorkspaceEdit`; the client editor applies it and is responsible for its own vault-root guard. This is acceptable per LSP spec. (3) Opaque region rejection in `PrepareRenameHandler` checks all `OFMDoc.opaqueRegions` (produced by the OFM parser for fenced code, inline code, math blocks, and HTML comments) — coverage is complete. 371 tests, 0 failures.

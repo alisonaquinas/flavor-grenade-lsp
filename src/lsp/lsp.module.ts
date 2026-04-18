@@ -28,6 +28,9 @@ import { DocumentHighlightHandler } from '../handlers/document-highlight.handler
 import { DiagnosticService } from '../resolution/diagnostic-service.js';
 import { VaultDetector } from '../vault/vault-detector.js';
 import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
+import { RenameModule } from '../rename/rename.module.js';
+import { PrepareRenameHandler } from '../handlers/prepare-rename.handler.js';
+import { RenameHandler } from '../handlers/rename.handler.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -37,7 +40,7 @@ import { TagToYamlAction } from '../code-actions/tag-to-yaml.action.js';
  * {@link JsonRpcDispatcher} and starts the stdio reader.
  */
 @Module({
-  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule, NavigationModule],
+  imports: [TransportModule, ParserModule, VaultModule, ResolutionModule, CompletionModule, NavigationModule, RenameModule],
   providers: [
     DocumentStore,
     LifecycleState,
@@ -76,6 +79,8 @@ export class LspModule implements OnModuleInit {
     private readonly vaultDetector: VaultDetector,
     private readonly documentStore: DocumentStore,
     private readonly tagToYamlAction: TagToYamlAction,
+    private readonly prepareRename: PrepareRenameHandler,
+    private readonly rename: RenameHandler,
   ) {}
 
   /**
@@ -98,6 +103,7 @@ export class LspModule implements OnModuleInit {
       hoverProvider: true,
       codeLensProvider: { resolveProvider: false },
       documentHighlightProvider: true,
+      renameProvider: { prepareProvider: true },
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -112,17 +118,19 @@ export class LspModule implements OnModuleInit {
       const text = params?.textDocument?.text;
       if (typeof uri === 'string' && typeof text === 'string') {
         this.completionRouter.setDocumentText(uri, text);
+        this.prepareRename.setDocumentText(uri, text);
       }
     });
     this.dispatcher.onNotification('textDocument/didChange', async (p) => {
       await this.didChange.handle(p);
-      // Sync updated raw text to CompletionRouter via DocumentStore
+      // Sync updated raw text to CompletionRouter and PrepareRenameHandler via DocumentStore
       const params = p as { textDocument?: { uri?: string } } | null | undefined;
       const uri = params?.textDocument?.uri;
       if (typeof uri === 'string') {
         const docText = this.documentStore.get(uri)?.getText();
         if (typeof docText === 'string') {
           this.completionRouter.setDocumentText(uri, docText);
+          this.prepareRename.setDocumentText(uri, docText);
         }
       }
     });
@@ -132,6 +140,7 @@ export class LspModule implements OnModuleInit {
       const uri = params?.textDocument?.uri;
       if (typeof uri === 'string') {
         this.completionRouter.removeDocumentText(uri);
+        this.prepareRename.removeDocumentText(uri);
       }
     });
 
@@ -157,6 +166,20 @@ export class LspModule implements OnModuleInit {
       Promise.resolve(
         this.documentHighlight.handle(
           p as Parameters<DocumentHighlightHandler['handle']>[0],
+        ),
+      ),
+    );
+    this.dispatcher.onRequest('textDocument/prepareRename', (p) =>
+      Promise.resolve(
+        this.prepareRename.handle(
+          p as Parameters<PrepareRenameHandler['handle']>[0],
+        ),
+      ),
+    );
+    this.dispatcher.onRequest('textDocument/rename', (p) =>
+      Promise.resolve(
+        this.rename.handle(
+          p as Parameters<RenameHandler['handle']>[0],
         ),
       ),
     );

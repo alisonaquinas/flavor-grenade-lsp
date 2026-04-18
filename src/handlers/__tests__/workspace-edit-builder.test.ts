@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { WorkspaceEditBuilder } from '../workspace-edit-builder.js';
-import type { TextEdit, RenameFileChange } from '../workspace-edit-builder.js';
+import type { RenameFileChange } from '../workspace-edit-builder.js';
 
-const R = (sl: number, sc: number, el: number, ec: number) => ({
+const R = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });

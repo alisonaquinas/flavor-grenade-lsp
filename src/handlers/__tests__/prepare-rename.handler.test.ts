@@ -3,8 +3,8 @@ import { PrepareRenameHandler } from '../prepare-rename.handler.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import type { OFMDoc, HeadingEntry, WikiLinkEntry, OpaqueRegion } from '../../parser/types.js';
 
-const POS = (line: number, character: number) => ({ line, character });
-const RANGE = (sl: number, sc: number, el: number, ec: number) => ({
+const POS = (line: number, character: number): { line: number; character: number } => ({ line, character });
+const RANGE = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });

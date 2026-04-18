@@ -13,7 +13,7 @@ function docId(s: string): DocId {
   return s as DocId;
 }
 
-const RANGE = (sl: number, sc: number, el: number, ec: number) => ({
+const RANGE = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });
@@ -45,7 +45,6 @@ describe('RenameHandler', () => {
   let handler: RenameHandler;
   let oracle: Oracle;
 
-  const vaultUri = 'file:///vault';
   const betaUri = 'file:///vault/beta.md';
   const alphaUri = 'file:///vault/alpha.md';
 

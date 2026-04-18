@@ -2,7 +2,7 @@
 id: "TASK-117"
 title: "Write integration tests for rename"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "11"
 parent: "FEAT-012"

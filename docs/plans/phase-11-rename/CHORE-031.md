@@ -2,7 +2,7 @@
 id: "CHORE-031"
 title: "Phase 11 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: "normal"
 phase: "11"
 created: "2026-04-17"
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 11 lint sweep to maintain zero-warning hygiene.
+
+> [!CHECK] Done — 2026-04-17
+> Lint sweep completed. Fixed: removed unused `TextEdit` import from `workspace-edit-builder.test.ts`, removed unused `vaultUri` from `rename.handler.test.ts`, added return-type annotations to helper functions, removed unused `toDocId` import and `raw` destructure from `rename.handler.ts`. `bun run lint` exits clean with 0 warnings. `tsc --noEmit` exits 0. `bun test` passes with 371 tests, 0 failures.
