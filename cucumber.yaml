@@ -1,0 +1,9 @@
+default:
+  paths:
+    - 'docs/bdd/features/**/*.feature'
+  import:
+    - 'src/test/bdd/step-definitions/**/*.ts'
+  format:
+    - 'progress-bar'
+    - 'json:reports/cucumber-report.json'
+  publishQuiet: true

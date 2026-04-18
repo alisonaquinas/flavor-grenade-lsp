@@ -21,7 +21,7 @@
     "build:binary:win": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp.exe",
     "start": "node dist/main.js",
     "test": "bun test",
-    "bdd": "cucumber-js",
+    "bdd": "bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
