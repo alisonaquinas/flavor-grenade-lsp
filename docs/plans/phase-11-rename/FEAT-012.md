@@ -2,7 +2,7 @@
 id: "FEAT-012"
 title: "Rename"
 type: feature
-status: draft
+status: in-progress
 priority: "high"
 phase: "11"
 created: "2026-04-17"
