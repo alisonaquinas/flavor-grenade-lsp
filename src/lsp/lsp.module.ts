@@ -140,14 +140,16 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onRequest('shutdown', (p) => this.shutdown.handle(p));
     this.dispatcher.onNotification('exit', (p) => this.exit.handle(p));
     this.dispatcher.onNotification('textDocument/didOpen', async (p) => {
-      await this.didOpen.handle(p);
       const params = p as { textDocument?: { uri?: string; text?: string } } | null | undefined;
       const uri = params?.textDocument?.uri;
       const text = params?.textDocument?.text;
+      // Set raw text synchronously BEFORE any await so that a completion
+      // request arriving in the same stdio buffer chunk can find it.
       if (typeof uri === 'string' && typeof text === 'string') {
         this.completionRouter.setDocumentText(uri, text);
         this.prepareRename.setDocumentText(uri, text);
       }
+      await this.didOpen.handle(p);
     });
     this.dispatcher.onNotification('textDocument/didChange', async (p) => {
       await this.didChange.handle(p);

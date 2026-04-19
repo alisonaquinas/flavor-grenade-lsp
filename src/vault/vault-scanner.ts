@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+import { pathToFileURL } from 'url';
 import { VaultDetector } from './vault-detector.js';
 import { VaultIndex } from './vault-index.js';
 import { FolderLookup } from './folder-lookup.js';
@@ -107,7 +108,7 @@ export class VaultScanner {
   private async indexFile(vaultRoot: string, filePath: string): Promise<void> {
     try {
       const text = await fs.promises.readFile(filePath, 'utf8');
-      const uri = `file://${filePath.split(path.sep).join('/')}`;
+      const uri = pathToFileURL(filePath).toString();
       const doc = this.ofmParser.parse(uri, text, 0);
       const id = toDocId(vaultRoot, filePath);
       this.vaultIndex.set(id, doc);
