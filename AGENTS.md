@@ -34,6 +34,7 @@ flavor-grenade-lsp/
 │   │   └── services/            # CapabilityRegistry, DocumentStore, LifecycleState, StatusNotifier
 │   ├── parser/                  # OFM document parser and token types
 │   ├── vault/                   # Vault detection, scanning, indexing, file watching
+│   │   └── handlers/            # await-index-ready handler
 │   ├── resolution/              # Oracle, link resolver, diagnostics, ref graph
 │   ├── completion/              # Completion router and per-trigger providers
 │   ├── handlers/                # LSP request handlers (definition, references, rename, etc.)
@@ -56,9 +57,10 @@ flavor-grenade-lsp/
 - **Single source of truth for documents**: `VaultIndex` is the only place
   parsed `OFMDoc` objects are stored. All handlers read from it; never
   maintain a second document cache.
-- **DocId is vault-relative**: `DocId` values are always relative paths from
-  the vault root (e.g. `notes/foo.md`). Never store or compare absolute paths
-  as DocIds.
+- **DocId is vault-relative and extension-free**: `DocId` values are always
+  relative paths from the vault root with the `.md` extension stripped
+  (e.g. `notes/MyNote`, not `notes/MyNote.md`). Never store or compare absolute
+  paths or extension-bearing strings as DocIds.
 - **Opaque regions are parsed first**: The `OpaqueRegionMarker` pass must
   complete before any token parser (wiki-links, tags, etc.) runs so that
   tokens inside code/math/comment blocks are silently skipped.

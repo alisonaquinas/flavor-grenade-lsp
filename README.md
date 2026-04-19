@@ -35,8 +35,8 @@ handshake.
 bun run build        # incremental TypeScript build
 bun run lint         # ESLint (src/ only)
 bun run typecheck    # tsc --noEmit, full type check
-bun test             # unit tests via Bun test runner
-bun run test:bdd     # BDD integration suite (Cucumber + real server process)
+bun test             # unit tests + integration tests (src/test/integration/) via Bun test runner
+bun run test:bdd     # BDD end-to-end suite (Cucumber + real server process)
 ```
 
 ## Architecture

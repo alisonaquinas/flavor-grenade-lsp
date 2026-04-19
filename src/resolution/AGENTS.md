@@ -12,7 +12,7 @@ resolution/
 ├── oracle.ts                         # four-step link resolution engine
 ├── link-resolver.ts                  # wiki-link → LSP Location
 ├── embed-resolver.ts                 # embed → LSP Location
-├── block-ref-resolver.ts             # [[file#^anchor]] → LSP Location
+├── block-ref-completion-provider.ts  # completion for [[file#^anchor]] fragments
 ├── diagnostic-service.ts             # broken/ambiguous/malformed link diagnostics
 ├── ref-graph.ts                      # DocId → DocId[] bidirectional ref graph
 ├── wiki-link-completion-provider.ts  # completion for wiki-link targets

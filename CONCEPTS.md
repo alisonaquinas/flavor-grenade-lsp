@@ -26,14 +26,16 @@ Current codes: `FG001` (broken link), `FG002` (ambiguous link), `FG003`
 error). Used by code-action handlers to match quick fixes to the diagnostics
 they resolve.
 
-**See also:** [`Oracle`](#oracle), `src/resolution/diagnostic-service.ts`
+**See also:** [`Oracle`](#oracle), `src/resolution/oracle.ts` (codes declared on `ResolutionResult`)
 
 ## DocId
 
-An opaque branded string (`string & { __docId: true }`) representing a
-vault-relative path to a document (e.g. `notes/my-note.md`). Used as the key
-in `VaultIndex` and throughout resolution. Enforced at compile time via a type
-brand so that raw strings cannot be passed as DocIds without an explicit cast.
+A branded string type (`string & { readonly __brand: 'DocId' }`) representing a
+vault-relative path to a document **without file extension** (e.g. `notes/MyNote`,
+`daily/2026-04-17`). Used as the key in `VaultIndex` and throughout resolution.
+`toDocId()` strips the `.md` extension and normalises separators to `/`.
+Enforced at compile time via a type brand so that raw strings cannot be passed
+as DocIds without an explicit cast.
 
 **See also:** [`VaultIndex`](#vaultindex), `src/vault/doc-id.ts`
 
