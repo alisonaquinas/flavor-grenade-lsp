@@ -12,8 +12,9 @@ interface InitializeResult {
  * Handles the `initialize` LSP request.
  *
  * Returns the server capabilities and identity so the client can confirm
- * the handshake. After responding, notifies the client that the server is
- * ready via a `flavorGrenade/status` notification.
+ * the handshake. After responding, sends a `flavorGrenade/status` notification
+ * with value `'initializing'` (not `'ready'` — the server reaches `'ready'`
+ * only after the vault scan completes in {@link InitializedHandler}).
  */
 @Injectable()
 export class InitializeHandler {

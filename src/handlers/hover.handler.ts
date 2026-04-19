@@ -103,18 +103,13 @@ export class HoverHandler {
     const doc = this.vaultIndex.get(docId);
     if (doc === undefined) return null;
 
-    // Reconstruct a text preview from the document URI by reading the
-    // parse cache (the doc object doesn't store raw text, so we use the
-    // parsed index as a fallback — but for a true preview we need raw text).
-    // Since we only have the parsed representation, we fall back to the
-    // URI path as a minimal placeholder, unless a richer source is added.
-    // For Phase 7 we use the document URI as the preview source indicator
-    // and produce a placeholder preview from the headings index.
+    // OFMDoc carries raw `text`, but a heading-based structural summary is used
+    // here intentionally: it gives a compact, always-meaningful preview without
+    // exposing raw prose that may be noisy or very long in hover tooltips.
     const cachedDoc = this.parseCache.get(doc.uri);
     if (cachedDoc === undefined) return null;
 
-    // Build a simple text preview from headings if no raw text is available.
-    // The OFMDoc doesn't carry the raw text — we generate a structural summary.
+    // Build a structural preview from headings (up to maxLines entries).
     const lines: string[] = [];
     for (const heading of cachedDoc.index.headings) {
       if (lines.length >= maxLines) break;

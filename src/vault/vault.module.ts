@@ -15,8 +15,10 @@ import { TagRegistry } from '../tags/tag-registry.js';
 /**
  * NestJS module that wires all vault indexing services.
  *
- * On init, registers the `flavorGrenade/awaitIndexReady` JSON-RPC request
- * with the dispatcher.
+ * On init, registers three `flavorGrenade/*` JSON-RPC handlers:
+ * - `flavorGrenade/awaitIndexReady` — blocks until the vault scan completes
+ * - `flavorGrenade/queryIndex` — debug: returns all indexed DocIds and vault detection info
+ * - `flavorGrenade/queryDoc` — debug: returns the full OFM index for a document URI
  */
 @Module({
   imports: [ParserModule, TransportModule],

@@ -7,11 +7,12 @@ import { CodeLensHandler } from '../handlers/code-lens.handler.js';
 import { DocumentHighlightHandler } from '../handlers/document-highlight.handler.js';
 
 /**
- * NestJS module grouping all Phase 10 navigation feature providers.
+ * NestJS module providing the two navigation feature handlers:
+ * {@link CodeLensHandler} and {@link DocumentHighlightHandler}.
  *
- * The existing {@link DefinitionHandler} and {@link ReferencesHandler} live in
- * {@link ResolutionModule}; this module adds the two new Phase 10 handlers and
- * re-exports them so {@link LspModule} can inject them.
+ * {@link DefinitionHandler} and {@link ReferencesHandler} live in
+ * {@link ResolutionModule}; this module adds the remaining navigation
+ * handlers and re-exports them for {@link LspModule} injection.
  */
 @Module({
   imports: [ParserModule, VaultModule, ResolutionModule],

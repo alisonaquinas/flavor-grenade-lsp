@@ -12,13 +12,15 @@ export type ResolutionResult =
   | { kind: 'malformed'; diagnosticCode: 'FG003' };
 
 /**
- * Resolves wiki-link targets to vault documents using a three-step strategy:
- * exact path → alias → stem.
+ * Resolves wiki-link targets to vault documents using a four-step strategy:
+ * exact path → alias → stem → H1 title.
  */
 @Injectable()
 export class Oracle {
   /** Lazy-built alias index: lowercased alias → DocId. */
   private aliasIndex: Map<string, DocId> | null = null;
+  /** Lazy-built H1 title index: lowercased H1 heading text → DocId[]. */
+  private titleIndex: Map<string, DocId[]> | null = null;
 
   constructor(
     private readonly folderLookup: FolderLookup,
@@ -33,6 +35,10 @@ export class Oracle {
    * 2. Exact path match (check vaultIndex.has)
    * 3. Alias match from frontmatter.aliases (case-insensitive)
    * 4. Stem suffix match via folderLookup.lookupByStem
+   *    - unique → resolved
+   *    - multiple → ambiguous (FG002)
+   *    - none → continue to step 5
+   * 5. H1 title match (case-insensitive first heading of level 1)
    *    - unique → resolved
    *    - multiple → ambiguous (FG002)
    *    - none → broken (FG001)
@@ -55,14 +61,20 @@ export class Oracle {
     return this.tryStemMatch(target, heading, blockRef);
   }
 
-  /** Placeholder to satisfy TASK-064 interface requirement. */
+  /**
+   * No-op stub kept for interface compatibility.
+   *
+   * Alias matching is handled lazily inside {@link resolve} via
+   * {@link getOrBuildAliasIndex}; callers should use `resolve()` directly.
+   */
   resolveWithAlias(): void {
     // Alias index is built lazily inside resolve().
   }
 
-  /** Invalidate the lazy alias cache (call after vault index changes). */
+  /** Invalidate the lazy alias and title caches (call after vault index changes). */
   invalidateAliasIndex(): void {
     this.aliasIndex = null;
+    this.titleIndex = null;
   }
 
   private tryExactMatch(
@@ -98,7 +110,40 @@ export class Oracle {
     if (candidates.length > 1) {
       return { kind: 'ambiguous', candidates, diagnosticCode: 'FG002' };
     }
+    // Fall through to H1 title match before returning broken
+    const titleResult = this.tryTitleMatch(target, heading, blockRef);
+    if (titleResult !== null) return titleResult;
     return { kind: 'broken', reason: 'not-found', diagnosticCode: 'FG001' };
+  }
+
+  private tryTitleMatch(
+    target: string,
+    heading?: string,
+    blockRef?: string,
+  ): ResolutionResult | null {
+    const index = this.getOrBuildTitleIndex();
+    const key = target.toLowerCase();
+    const docIds = index.get(key);
+    if (!docIds || docIds.length === 0) return null;
+    if (docIds.length === 1) return this.makeResolved(docIds[0], heading, blockRef);
+    return { kind: 'ambiguous', candidates: docIds, diagnosticCode: 'FG002' };
+  }
+
+  private getOrBuildTitleIndex(): Map<string, DocId[]> {
+    if (this.titleIndex !== null) return this.titleIndex;
+
+    const index = new Map<string, DocId[]>();
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      const h1 = doc.index.headings.find((h) => h.level === 1);
+      if (h1) {
+        const key = h1.text.toLowerCase();
+        const existing = index.get(key);
+        if (existing) existing.push(docId);
+        else index.set(key, [docId]);
+      }
+    }
+    this.titleIndex = index;
+    return index;
   }
 
   private makeResolved(

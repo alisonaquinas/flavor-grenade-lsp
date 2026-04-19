@@ -13,8 +13,16 @@ import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 
 /**
- * Publishes `textDocument/publishDiagnostics` notifications for wiki-link
- * errors (FG001, FG002, FG003) in the current document.
+ * Publishes `textDocument/publishDiagnostics` notifications for all
+ * flavor-grenade diagnostic codes in the current document:
+ *
+ * - **FG001** broken wiki-link or unresolved heading target
+ * - **FG002** ambiguous wiki-link (multiple candidates)
+ * - **FG003** malformed wiki-link (empty/blank target)
+ * - **FG004** broken embed (`![[…]]` not found or sub-target missing)
+ * - **FG005** broken block reference (`[[…#^id]]` anchor not found)
+ * - **FG006** non-breaking space (U+00A0) in the document body
+ * - **FG007** malformed YAML frontmatter
  */
 @Injectable()
 export class DiagnosticService {
@@ -49,6 +57,18 @@ export class DiagnosticService {
 
   private buildDiagnostics(docId: DocId, doc: OFMDoc, vaultRoot: string): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
+
+    // FG007: malformed YAML frontmatter
+    if (doc.frontmatterParseError) {
+      diagnostics.push({
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 3 } },
+        severity: 2, // Warning
+        code: 'FG007',
+        source: 'flavor-grenade',
+        message: 'Malformed YAML frontmatter: could not be parsed',
+      });
+    }
+
     for (const entry of doc.index.wikiLinks) {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
@@ -98,7 +118,7 @@ export class DiagnosticService {
           severity: 2,
           code: 'FG006',
           source: 'flavor-grenade',
-          message: 'non-breaking space (U+00A0) found — replace with a regular space',
+          message: 'non-breaking whitespace (U+00A0) found — replace with a regular space',
         });
       }
     }
@@ -133,7 +153,27 @@ export class DiagnosticService {
 
     const result = this.oracle.resolve(entry.target, entry.heading);
 
-    if (result.kind === 'resolved') return null;
+    if (result.kind === 'resolved') {
+      // Validate heading sub-target when present
+      if (result.headingTarget !== undefined && this.vaultIndex !== undefined) {
+        const targetDoc = this.vaultIndex.get(result.targetDocId);
+        if (targetDoc !== undefined) {
+          const headingFound = targetDoc.index.headings.some(
+            (h) => h.text === result.headingTarget,
+          );
+          if (!headingFound) {
+            return {
+              range: entry.range,
+              severity: 1,
+              code: 'FG001',
+              source: 'flavor-grenade',
+              message: `Cannot resolve wiki-link: heading '${result.headingTarget}' not found in '${entry.target}'`,
+            };
+          }
+        }
+      }
+      return null;
+    }
 
     if (result.kind === 'broken') {
       return {
@@ -141,7 +181,7 @@ export class DiagnosticService {
         severity: 1,
         code: 'FG001',
         source: 'flavor-grenade',
-        message: `Broken wiki-link: [[${entry.target}]] not found in vault`,
+        message: `Cannot resolve wiki-link: '${entry.target}' not found in vault`,
       };
     }
 
@@ -152,7 +192,7 @@ export class DiagnosticService {
         severity: 1,
         code: 'FG002',
         source: 'flavor-grenade',
-        message: `Ambiguous wiki-link: [[${entry.target}]] matches ${result.candidates.length} documents`,
+        message: `Ambiguous wiki-link: '${entry.target}' matches ${result.candidates.length} documents`,
         relatedInformation: related,
       };
     }
@@ -184,7 +224,7 @@ export class DiagnosticService {
           severity: 1,
           code: 'FG005',
           source: 'flavor-grenade',
-          message: `Broken block reference: '^${anchorId}' not found`,
+          message: `Cannot resolve block reference: '^${anchorId}' not found`,
         };
       }
       return null;
@@ -201,7 +241,7 @@ export class DiagnosticService {
           severity: 1,
           code: 'FG001',
           source: 'flavor-grenade',
-          message: `Broken wiki-link: [[${entry.target}]] not found in vault`,
+          message: `Cannot resolve wiki-link: '${entry.target}' not found in vault`,
         };
       }
       if (result.kind === 'ambiguous') {
@@ -211,7 +251,7 @@ export class DiagnosticService {
           severity: 1,
           code: 'FG002',
           source: 'flavor-grenade',
-          message: `Ambiguous wiki-link: [[${entry.target}]] matches ${result.candidates.length} documents`,
+          message: `Ambiguous wiki-link: '${entry.target}' matches ${result.candidates.length} documents`,
           relatedInformation: related,
         };
       }
@@ -233,7 +273,7 @@ export class DiagnosticService {
         severity: 1,
         code: 'FG005',
         source: 'flavor-grenade',
-        message: `Broken block reference: '^${anchorId}' not found`,
+        message: `Cannot resolve block reference: '^${anchorId}' not found`,
       };
     }
     return null;
@@ -241,15 +281,52 @@ export class DiagnosticService {
 
   private diagnoseEmbedEntry(entry: EmbedEntry): Diagnostic | null {
     const resolution = this.embedResolver.resolve(entry);
+
     if (resolution.kind === 'broken') {
       return {
         range: entry.range,
         severity: 2, // Warning
         code: 'FG004',
         source: 'flavor-grenade',
-        message: `Broken embed: '${entry.target}' not found`,
+        message: `Cannot resolve embed: '${entry.target}' not found`,
       };
     }
+
+    // For markdown embeds, validate heading/block-anchor sub-targets if present
+    if (resolution.kind === 'markdown' && this.vaultIndex !== undefined) {
+      const targetDoc = this.vaultIndex.get(resolution.targetDocId);
+      if (targetDoc !== undefined) {
+        if (resolution.headingTarget !== undefined) {
+          const headingFound = targetDoc.index.headings.some(
+            (h) => h.text === resolution.headingTarget,
+          );
+          if (!headingFound) {
+            return {
+              range: entry.range,
+              severity: 2,
+              code: 'FG004',
+              source: 'flavor-grenade',
+              message: `Cannot resolve embed: heading '${resolution.headingTarget}' not found in target`,
+            };
+          }
+        }
+        if (resolution.blockTarget !== undefined) {
+          const anchorFound = targetDoc.index.blockAnchors.some(
+            (a) => a.id === resolution.blockTarget,
+          );
+          if (!anchorFound) {
+            return {
+              range: entry.range,
+              severity: 2,
+              code: 'FG004',
+              source: 'flavor-grenade',
+              message: `Cannot resolve embed: block anchor '${resolution.blockTarget}' not found in target`,
+            };
+          }
+        }
+      }
+    }
+
     return null;
   }
 
@@ -259,7 +336,7 @@ export class DiagnosticService {
         uri: pathToFileURL(fromDocId(vaultRoot, c)).toString(),
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
       },
-      message: c,
+      message: `Candidate: ${c}`,
     }));
   }
 }

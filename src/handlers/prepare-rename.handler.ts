@@ -99,65 +99,14 @@ export class PrepareRenameHandler {
     const doc = this.parseCache.get(uri);
     if (doc === undefined) return null;
 
-    // TASK-116: Check opaque regions first.
-    // We approximate the offset using position alone when the raw text is
-    // unavailable. For the opaque-region check, each line ending contributes
-    // exactly one character (`\n`). We build a minimal text from the opaque
-    // region boundaries to calculate offset correctly. Since we don't store
-    // the raw text in OFMDoc, we compute offset directly from the position
-    // using a line-length-agnostic formula: for line L, char C, offset =
-    // L * (avg_line_len) + C. This is inaccurate for real text but for opaque
-    // regions expressed in absolute offsets we need the real text.
-    //
-    // Resolution: the handler checks opaque regions using the position
-    // converted to an offset. Since `OFMDoc` does not carry the raw source
-    // text, we use a stored-text lookup from the parse cache. The text is
-    // stored by `ParseCacheWithText`; we fall back to a position-only check
-    // by treating offset = line * MAX_LINE_CHARS + character (not reliable).
-    //
-    // For correctness, we use the approach described in the spec:
-    // positionToOffset with the raw text. The raw text is not part of OFMDoc,
-    // so we check using the stored text if available via a companion map, or
-    // fall back to treating the position as the offset for opaque-region
-    // check. Since opaque regions come from the same parse that produces
-    // OFMDoc, we use a synthetic text built from the opaque region boundaries.
-    //
-    // Practical approach: store the text alongside the OFMDoc in a companion
-    // map. The ParseCache already has all documents; we add a `setText` method
-    // or use a separate map. For Phase 11 the simplest correct approach is:
-    // treat offset = position.line * LARGE_NUMBER + position.character for the
-    // range check, but this doesn't work for multi-line documents.
-    //
-    // ACTUAL IMPLEMENTATION: compute offset using positionToOffset with the
-    // text obtained from the ParseCacheWithText that wraps ParseCache. Since
-    // PrepareRenameHandler only has ParseCache, we compute a synthetic text by
-    // joining empty lines up to the position line. This gives the correct offset
-    // for any position whose line-lengths are unknown — the offset will be
-    // position.line (one char per line, the \n) + position.character.
-    //
-    // For opaque regions emitted by the parser, the region offsets are based on
-    // the actual document text. We cannot safely compare them against a synthetic
-    // offset unless we know the actual line lengths.
-    //
-    // FINAL RESOLUTION: Use a text map stored in the handler via `setDocumentText`.
-    // The handler accumulates raw texts so it can compute offsets accurately.
-    // However, this adds state. Simpler: check if ANY opaque region encompasses
-    // the position by converting the region's start/end offsets to line/char using
-    // the stored text. Since we have neither, we fall back to the simplest heuristic:
-    // if any opaque region's start line ≤ position.line ≤ end line AND the region
-    // is large enough to span the position, reject.
-    //
-    // CLEAN RESOLUTION for tests: the raw text is stored via a companion `textCache`
-    // map that PrepareRenameHandler maintains. DidOpen/DidChange push text to it.
-    // But since we're not wiring that here, we instead use a simple offset model:
-    // offset = position.character when position.line === 0, etc.
-    //
-    // For the Phase 11 tests, all opaque region checks use documents where the text
-    // is reconstructable from the regions alone, OR the tests use line 0 and the
-    // offset is just `position.character`. We implement the clean version here and
-    // wire the text in the module.
-
-    // Use the companion text store if available, otherwise use a zero-length-line model.
+    // Opaque-region check: compare the cursor offset against parser-emitted regions.
+    // `OFMDoc` does not carry raw text, so the accurate offset requires the raw
+    // source string. `textStore` is populated by `setDocumentText()`, which
+    // `LspModule` calls on every `textDocument/didOpen` and `textDocument/didChange`.
+    // When the text is available, `positionToOffset` gives an exact result.
+    // When it is not (e.g. first request before any open/change event), we fall
+    // back to `position.line + position.character` — one byte per line for `\n`
+    // — which is approximate but acceptable as a degraded safety net.
     const rawText = this.textStore.get(uri);
     const offset =
       rawText !== undefined
