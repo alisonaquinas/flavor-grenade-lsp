@@ -7,17 +7,17 @@ the document it points to (or diagnose why it cannot be found).
 
 ## Files
 
-| File | Role |
-| --- | --- |
-| `oracle.ts` | `Oracle` — four-step wiki-link resolution: exact path → alias → stem → H1 title |
-| `link-resolver.ts` | Resolves a wiki-link entry from an `OFMDoc` to an LSP `Location` using the Oracle |
-| `embed-resolver.ts` | Same as `link-resolver.ts` but for embed (`![[…]]`) entries |
-| `block-ref-resolver.ts` | Resolves `[[file#^anchor]]` deep links to the exact `Location` of the `^anchor` in the target file |
-| `diagnostic-service.ts` | Iterates wiki-links in an `OFMDoc`, calls the Oracle, and emits LSP diagnostics for broken/ambiguous/malformed links |
-| `ref-graph.ts` | Bidirectional reference graph (`DocId → DocId[]`) used to find all inbound links for the `references` request |
-| `wiki-link-completion-provider.ts` | Provides completion items for wiki-link targets |
-| `block-ref-completion-provider.ts` | Provides completion items for `[[file#^` block-reference fragments |
-| `resolution.module.ts` | NestJS module exporting `Oracle`, `DiagnosticService`, resolvers, and the ref graph |
+| File                               | Role                                                                                                                 |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `oracle.ts`                        | `Oracle` — four-step wiki-link resolution: exact path → alias → stem → H1 title                                      |
+| `link-resolver.ts`                 | Resolves a wiki-link entry from an `OFMDoc` to an LSP `Location` using the Oracle                                    |
+| `embed-resolver.ts`                | Same as `link-resolver.ts` but for embed (`![[…]]`) entries                                                          |
+| `block-ref-resolver.ts`            | Resolves `[[file#^anchor]]` deep links to the exact `Location` of the `^anchor` in the target file                   |
+| `diagnostic-service.ts`            | Iterates wiki-links in an `OFMDoc`, calls the Oracle, and emits LSP diagnostics for broken/ambiguous/malformed links |
+| `ref-graph.ts`                     | Bidirectional reference graph (`DocId → DocId[]`) used to find all inbound links for the `references` request        |
+| `wiki-link-completion-provider.ts` | Provides completion items for wiki-link targets                                                                      |
+| `block-ref-completion-provider.ts` | Provides completion items for `[[file#^` block-reference fragments                                                   |
+| `resolution.module.ts`             | NestJS module exporting `Oracle`, `DiagnosticService`, resolvers, and the ref graph                                  |
 
 ## Resolution Algorithm (Oracle)
 

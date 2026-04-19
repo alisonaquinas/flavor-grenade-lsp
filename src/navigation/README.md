@@ -8,10 +8,11 @@ current symbol.
 
 ## Files
 
-| File | Role |
-| --- | --- |
+| File                   | Role                                                                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `navigation.module.ts` | NestJS module — imports `ParserModule`, `VaultModule`, `ResolutionModule`; provides and exports `CodeLensHandler` and `DocumentHighlightHandler` |
 
 The handler implementations live in `src/handlers/`:
+
 - `code-lens.handler.ts` — `textDocument/codeLens`
 - `document-highlight.handler.ts` — `textDocument/documentHighlight`

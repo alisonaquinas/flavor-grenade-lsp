@@ -9,15 +9,15 @@ temporary vault.
 
 ## Files
 
-| File | Role |
-| --- | --- |
-| `world.ts` | `FGWorld` — Cucumber world class; manages the server process, sends requests, collects diagnostics |
+| File           | Role                                                                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `world.ts`     | `FGWorld` — Cucumber world class; manages the server process, sends requests, collects diagnostics                                              |
 | `lsp-types.ts` | TypeScript interface definitions for all LSP protocol shapes used in BDD assertions (Location, Diagnostic, CompletionList, WorkspaceEdit, etc.) |
 
 ## Subdirectories
 
-| Directory | Role |
-| --- | --- |
+| Directory           | Role                                                                     |
+| ------------------- | ------------------------------------------------------------------------ |
 | `step-definitions/` | One `*.steps.ts` file per feature area — Given/When/Then implementations |
 
 ## Feature Files

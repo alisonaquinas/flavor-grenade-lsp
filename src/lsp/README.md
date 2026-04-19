@@ -8,10 +8,10 @@ and starts the `StdioReader` on `onModuleInit`.
 
 ## Subdirectories
 
-| Directory | Role |
-| --- | --- |
+| Directory   | Role                                                                                                            |
+| ----------- | --------------------------------------------------------------------------------------------------------------- |
 | `handlers/` | Handlers for LSP lifecycle notifications: initialize, initialized, shutdown, exit, didOpen, didChange, didClose |
-| `services/` | Supporting services: `CapabilityRegistry`, `DocumentStore`, `LifecycleState`, `StatusNotifier` |
+| `services/` | Supporting services: `CapabilityRegistry`, `DocumentStore`, `LifecycleState`, `StatusNotifier`                  |
 
 ## Key File
 

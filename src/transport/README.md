@@ -8,12 +8,12 @@ the server touches on every request/response cycle.
 
 ## Files
 
-| File | Role |
-| --- | --- |
-| `stdio-reader.ts` | Reads newline-framed JSON messages from a `Readable` stream and emits `'message'` events |
-| `stdio-writer.ts` | Writes JSON-RPC responses to `process.stdout` with a `Content-Length` header |
-| `json-rpc-dispatcher.ts` | Routes incoming messages to registered request/notification handlers by method name |
-| `transport.module.ts` | NestJS module that wires `StdioReader`, `StdioWriter`, and `JsonRpcDispatcher` |
+| File                     | Role                                                                                     |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| `stdio-reader.ts`        | Reads newline-framed JSON messages from a `Readable` stream and emits `'message'` events |
+| `stdio-writer.ts`        | Writes JSON-RPC responses to `process.stdout` with a `Content-Length` header             |
+| `json-rpc-dispatcher.ts` | Routes incoming messages to registered request/notification handlers by method name      |
+| `transport.module.ts`    | NestJS module that wires `StdioReader`, `StdioWriter`, and `JsonRpcDispatcher`           |
 
 ## Protocol
 

@@ -8,18 +8,18 @@ YAML frontmatter `tags:` arrays.
 
 ## Files
 
-| File | Role |
-| --- | --- |
+| File              | Role                                                                                |
+| ----------------- | ----------------------------------------------------------------------------------- |
 | `tag-registry.ts` | `TagRegistry` — occurrence map, frequency queries, prefix filtering, hierarchy tree |
 
 ## Key Operations
 
-| Method | Returns |
-| --- | --- |
-| `rebuild(index)` | Rebuilds the entire registry from a `VaultIndex` |
-| `addDoc(docId, doc)` | Upserts occurrences for a single document |
-| `removeDoc(docId)` | Removes all occurrences for a document |
-| `allTags()` | All tags sorted by frequency descending |
-| `occurrences(tag)` | All `TagOccurrence` records for an exact tag |
+| Method                   | Returns                                                            |
+| ------------------------ | ------------------------------------------------------------------ |
+| `rebuild(index)`         | Rebuilds the entire registry from a `VaultIndex`                   |
+| `addDoc(docId, doc)`     | Upserts occurrences for a single document                          |
+| `removeDoc(docId)`       | Removes all occurrences for a document                             |
+| `allTags()`              | All tags sorted by frequency descending                            |
+| `occurrences(tag)`       | All `TagOccurrence` records for an exact tag                       |
 | `tagsWithPrefix(prefix)` | Tags whose body starts with the given prefix (used for completion) |
-| `hierarchy()` | Slash-delimited tag tree as `TagNode[]` |
+| `hierarchy()`            | Slash-delimited tag tree as `TagNode[]`                            |

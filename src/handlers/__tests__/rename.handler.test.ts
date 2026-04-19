@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
+import { pathToFileURL } from 'url';
+import * as path from 'path';
 import { RenameHandler } from '../rename.handler.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import { RefGraph } from '../../resolution/ref-graph.js';
@@ -86,12 +88,12 @@ describe('RenameHandler', () => {
   });
 
   describe('file rename', () => {
-    // Use a Windows-style vault root so pathToFileURL produces well-formed URIs
-    // on this Windows host (C:/vault → file:///C:/vault/...).
-    const vaultRoot = 'C:/vault';
-    const alphaUri = 'file:///C:/vault/alpha.md';
-    const betaUri = 'file:///C:/vault/beta.md';
-    const gammaUri = 'file:///C:/vault/gamma.md';
+    // Use a platform-appropriate absolute path so pathToFileURL produces the
+    // same URI on both Linux CI and Windows development machines.
+    const vaultRoot = process.platform === 'win32' ? 'C:/vault' : '/vault';
+    const betaUri = pathToFileURL(path.join(vaultRoot, 'beta.md')).href;
+    const alphaUri = pathToFileURL(path.join(vaultRoot, 'alpha.md')).href;
+    const gammaUri = pathToFileURL(path.join(vaultRoot, 'gamma.md')).href;
 
     // Helper: build a RenameHandler with a stubbed VaultDetector that returns vaultRoot.
     function makeHandlerWithVaultRoot(
