@@ -39,33 +39,51 @@ export class EmbedResolver {
   /**
    * Resolve an embed entry to its destination.
    *
+   * Splits off any `#heading` or `#^blockref` fragment from the target before
+   * routing to asset or markdown resolution.
+   *
    * @param entry - The parsed embed entry from the document index.
    */
   resolve(entry: EmbedEntry): EmbedResolution {
-    const ext = this.extension(entry.target);
+    // Split heading/block-ref fragment from target (e.g. "doc#Section" or "doc#^anchor")
+    const hashIdx = entry.target.indexOf('#');
+    const fileTarget = hashIdx === -1 ? entry.target : entry.target.slice(0, hashIdx);
+    const fragment = hashIdx === -1 ? '' : entry.target.slice(hashIdx + 1);
+
+    const ext = this.extension(fileTarget);
     if (IMAGE_EXTENSIONS.has(ext)) {
-      return this.resolveAsset(entry.target);
+      return this.resolveAsset(fileTarget);
     }
-    return this.resolveMarkdown(entry.target);
+
+    const heading = fragment !== '' && !fragment.startsWith('^') ? fragment : undefined;
+    const blockRef = fragment.startsWith('^') ? fragment.slice(1) : undefined;
+    return this.resolveMarkdown(fileTarget, heading, blockRef);
   }
 
   private resolveAsset(target: string): EmbedResolution {
-    // ADR013: only look up the path as-is in the asset index; no fs calls.
+    // Direct vault-relative path lookup first
     if (this.vaultScanner.hasAsset(target)) {
       return { kind: 'asset', assetPath: target };
+    }
+    // Obsidian "shortest path" resolution: match by filename suffix
+    const suffix = '/' + target;
+    for (const assetPath of this.vaultScanner.getAssetIndex()) {
+      if (assetPath === target || assetPath.endsWith(suffix)) {
+        return { kind: 'asset', assetPath };
+      }
     }
     return { kind: 'broken' };
   }
 
-  private resolveMarkdown(target: string): EmbedResolution {
+  private resolveMarkdown(target: string, heading?: string, blockRef?: string): EmbedResolution {
     const result = this.oracle.resolve(target);
     if (result.kind === 'resolved') {
       const resolution: EmbedResolution & { kind: 'markdown' } = {
         kind: 'markdown',
         targetDocId: result.targetDocId,
       };
-      if (result.headingTarget !== undefined) resolution.headingTarget = result.headingTarget;
-      if (result.blockTarget !== undefined) resolution.blockTarget = result.blockTarget;
+      if (heading !== undefined) resolution.headingTarget = heading;
+      if (blockRef !== undefined) resolution.blockTarget = blockRef;
       return resolution;
     }
     return { kind: 'broken' };
