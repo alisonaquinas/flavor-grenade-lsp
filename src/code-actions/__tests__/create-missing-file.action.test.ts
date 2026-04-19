@@ -26,7 +26,7 @@ describe('CreateMissingFileAction', () => {
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: 'Broken wiki-link: [[missing-file]] not found in vault',
+      message: "Cannot resolve wiki-link: 'missing-file' not found in vault",
     };
 
     const params = {
@@ -51,13 +51,13 @@ describe('CreateMissingFileAction', () => {
     expect(createFile.options?.ignoreIfExists).toBe(true);
   });
 
-  it('formats title as Create <target>.md', () => {
+  it('formats title as "Create missing file"', () => {
     const diag: Diagnostic = {
       range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } },
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: 'Broken wiki-link: [[my-note]] not found in vault',
+      message: "Cannot resolve wiki-link: 'my-note' not found in vault",
     };
 
     const params = {
@@ -68,7 +68,7 @@ describe('CreateMissingFileAction', () => {
 
     const result = action.handle(params, [diag]);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Create 'my-note.md'");
+    expect(result[0].title).toBe('Create missing file');
   });
 
   it('creates URI within vault root', () => {
@@ -77,7 +77,7 @@ describe('CreateMissingFileAction', () => {
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: 'Broken wiki-link: [[new-doc]] not found in vault',
+      message: "Cannot resolve wiki-link: 'new-doc' not found in vault",
     };
 
     const params = {

@@ -65,7 +65,7 @@ describe('CodeActionHandler', () => {
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: 'Broken wiki-link: [[missing-file]] not found in vault',
+      message: "Cannot resolve wiki-link: 'missing-file' not found in vault",
     };
 
     const params = {

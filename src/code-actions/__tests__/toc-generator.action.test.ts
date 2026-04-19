@@ -69,7 +69,7 @@ describe('TocGeneratorAction', () => {
 
     expect(result).not.toBeNull();
     expect(result!.title).toBe('Generate Table of Contents');
-    expect(result!.kind).toBe('source');
+    expect(result!.kind).toBe('source.fg.toc');
     expect(result!.edit).toBeDefined();
 
     // The edit should include TOC content
