@@ -17,6 +17,11 @@ Before(function (this: FGWorld) {
   this.lastResponse = null;
   this.lastDiagnostics = new Map();
   this.lastStatusNotif = null;
+  this.lastMatchedDiag = null;
+  this.singleFileMode = false;
+  this.cursorPosition = null;
+  this.currentFile = null;
+  this.lastOpenedUri = null;
 });
 
 After(async function (this: FGWorld) {

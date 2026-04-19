@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber';
 import { spawn, ChildProcessWithoutNullStreams } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
@@ -61,6 +59,13 @@ export class FGWorld extends World {
   lastDiagnostics: Map<string, unknown[]> = new Map();
   lastStatusNotif: unknown = null;
 
+  // Step coordination state
+  lastMatchedDiag: unknown = null;
+  singleFileMode = false;
+  cursorPosition: { uri: string; position: { line: number; character: number } } | null = null;
+  currentFile: string | null = null;
+  lastOpenedUri: string | null = null;
+
   constructor(opts: IWorldOptions) {
     super(opts);
   }
@@ -75,9 +80,53 @@ export class FGWorld extends World {
     if (!this.vaultDir) this.createVaultDir();
     const abs = path.join(this.vaultDir, relPath);
     fs.mkdirSync(path.dirname(abs), { recursive: true });
-    // Replace literal \n in table cells with actual newlines
-    const actual = content === '<binary>' ? '' : content.replace(/\\n/g, '\n');
+    // Replace literal \n in table cells with actual newlines, then normalise
+    const actual = content === '<binary>' ? '' : this.normalizeVaultContent(content);
     fs.writeFileSync(abs, actual, 'utf8');
+  }
+
+  /**
+   * Normalise BDD table / docstring content to valid Markdown.
+   *
+   * 1. Replaces literal `\n` escape sequences with real newlines.
+   * 2. If the resulting text has no `---` frontmatter block but does contain
+   *    lines that look like YAML key-value pairs (e.g. `aliases: [foo, bar]`),
+   *    those lines are extracted and placed into a proper `---` frontmatter
+   *    block at the top of the file.  This lets feature-file Background tables
+   *    use the compact notation `# Title\naliases: [...]` without needing to
+   *    write out the full `---` delimiters.
+   */
+  private normalizeVaultContent(raw: string): string {
+    const text = raw.replace(/\\n/g, '\n');
+    const lines = text.split('\n');
+
+    // If the text already contains a '---' delimiter line (frontmatter block,
+    // late frontmatter, horizontal rule, etc.) → return as-is without restructuring.
+    // This handles both DocStrings with explicit frontmatter and compact DataTable
+    // cells that don't need YAML injection.
+    if (lines.some((l) => l.trim() === '---')) return text;
+
+    // Known YAML frontmatter keys used in test fixtures
+    const yamlKeyRe =
+      /^(aliases|tags|title|description|draft|publish|cssclass|template|status|type|created|modified|date)(\s*:|\s*:\s)/i;
+    const yamlLines: string[] = [];
+    const bodyLines: string[] = [];
+
+    for (const line of lines) {
+      if (yamlKeyRe.test(line)) {
+        yamlLines.push(line);
+      } else {
+        bodyLines.push(line);
+      }
+    }
+
+    if (yamlLines.length === 0) return text;
+
+    return `---\n${yamlLines.join('\n')}\n---\n${bodyLines.join('\n')}`;
+  }
+
+  readVaultFile(relPath: string): string {
+    return fs.readFileSync(path.join(this.vaultDir, relPath), 'utf8');
   }
 
   vaultUri(relPath?: string): string {
@@ -92,7 +141,7 @@ export class FGWorld extends World {
     const hasId = 'id' in m && m['id'] !== undefined;
     if (hasId && !('method' in m)) {
       const r = this.resPending.shift();
-      if (r) r(msg);
+      if (r) r(m['result'] ?? null);
       return;
     }
     if ('method' in m) {
