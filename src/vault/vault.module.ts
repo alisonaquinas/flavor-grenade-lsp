@@ -45,12 +45,60 @@ export class VaultModule implements OnModuleInit {
   constructor(
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly awaitIndexReadyHandler: AwaitIndexReadyHandler,
+    private readonly vaultIndex: VaultIndex,
+    private readonly vaultDetector: VaultDetector,
   ) {}
 
-  /** Register the `flavorGrenade/awaitIndexReady` request handler. */
+  /** Register custom `flavorGrenade/*` request handlers. */
   onModuleInit(): void {
     this.dispatcher.onRequest('flavorGrenade/awaitIndexReady', () =>
       this.awaitIndexReadyHandler.handle(),
     );
+
+    /**
+     * Debug endpoint: returns list of indexed DocIds plus vault detection info.
+     * Used by BDD step definitions to assert on index contents without
+     * going through production LSP protocol paths.
+     */
+    this.dispatcher.onRequest('flavorGrenade/queryIndex', async (params: unknown) => {
+      const rootUri = (params as { rootUri?: string } | null)?.rootUri;
+      const detection = rootUri
+        ? this.vaultDetector.detect(rootUri)
+        : { mode: 'single-file' as const, vaultRoot: null };
+      const docIds = [...this.vaultIndex.entries()].map(([docId]) => docId as string);
+      return {
+        docIds,
+        mode: detection.mode,
+        vaultRoot: detection.vaultRoot,
+      };
+    });
+
+    /**
+     * Debug endpoint: returns the OFM index for a given document URI.
+     * Used by BDD step definitions to assert on callouts, blockAnchors,
+     * headings, tags, and frontmatter without production LSP protocol paths.
+     */
+    this.dispatcher.onRequest('flavorGrenade/queryDoc', async (params: unknown) => {
+      const uri = (params as { uri: string } | null)?.uri;
+      if (!uri) return null;
+      for (const [docId, doc] of this.vaultIndex.entries()) {
+        if (doc.uri === uri) {
+          return {
+            docId: docId as string,
+            frontmatter: doc.frontmatter,
+            frontmatterParseError: doc.frontmatterParseError ?? false,
+            index: {
+              headings: doc.index.headings,
+              blockAnchors: doc.index.blockAnchors,
+              tags: doc.index.tags,
+              callouts: doc.index.callouts,
+              wikiLinks: doc.index.wikiLinks,
+              embeds: doc.index.embeds,
+            },
+          };
+        }
+      }
+      return null;
+    });
   }
 }
