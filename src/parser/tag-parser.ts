@@ -17,8 +17,11 @@ export class TagParser {
    */
   static parse(text: string, opaqueRegions: readonly OpaqueRegion[]): TagEntry[] {
     const entries: TagEntry[] = [];
-    // Tag body: unicode letters/numbers, underscore, hyphen, slash
-    const pattern = /(?<=[^\p{L}\p{N}_]|^)#([\p{L}\p{N}_][\p{L}\p{N}_/-]*)/gmu;
+    // Tag body: unicode letters/numbers, emoji (Emoji_Presentation), underscore, hyphen, slash.
+    // \p{Emoji_Presentation} captures pictographic emoji (🚀, ❤️, etc.) without
+    // accidentally matching ASCII punctuation that shares the Symbol category.
+    const pattern =
+      /(?<=[^\p{L}\p{N}\p{Emoji_Presentation}_]|^)#([\p{L}\p{N}\p{Emoji_Presentation}_][\p{L}\p{N}\p{Emoji_Presentation}_/-]*)/gmu;
     let match: RegExpExecArray | null;
 
     while ((match = pattern.exec(text)) !== null) {

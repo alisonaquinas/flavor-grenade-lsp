@@ -16,8 +16,9 @@ export class BlockAnchorParser {
    */
   static parse(text: string, opaqueRegions: readonly OpaqueRegion[]): BlockAnchorEntry[] {
     const entries: BlockAnchorEntry[] = [];
-    // Match ^ followed by id chars at end of line (optionally preceded by whitespace)
-    const pattern = /[ \t](\^[a-zA-Z0-9-]+)[ \t]*$/gm;
+    // Match ^ followed by id chars at end of line.
+    // Valid positions: preceded by whitespace OR at the very start of the line.
+    const pattern = /(?<=^|[ \t])(\^[a-zA-Z0-9-]+)[ \t]*$/gm;
     let match: RegExpExecArray | null;
 
     while ((match = pattern.exec(text)) !== null) {
