@@ -67,10 +67,36 @@ export class DefinitionHandler {
       case 'embed': {
         const resolution = this.embedResolver.resolve(entity.entry);
         if (resolution.kind === 'markdown') {
-          const absPath = fromDocId(vaultRoot, resolution.targetDocId);
-          return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
+          const targetUri = this.docIdToUri(resolution.targetDocId, vaultRoot);
+          // If the embed targets a specific block anchor, navigate to it
+          if (resolution.blockTarget !== undefined && this.vaultIndex !== undefined) {
+            const targetDoc = this.vaultIndex.get(resolution.targetDocId);
+            if (targetDoc !== undefined) {
+              const anchor = targetDoc.index.blockAnchors.find(
+                (a) => a.id === resolution.blockTarget,
+              );
+              if (anchor !== undefined) {
+                return { uri: targetUri, range: anchor.range };
+              }
+            }
+          }
+          // If the embed targets a specific heading, navigate to it
+          if (resolution.headingTarget !== undefined && this.vaultIndex !== undefined) {
+            const targetDoc = this.vaultIndex.get(resolution.targetDocId);
+            if (targetDoc !== undefined) {
+              const heading = targetDoc.index.headings.find(
+                (h) => h.text === resolution.headingTarget,
+              );
+              if (heading !== undefined) {
+                return { uri: targetUri, range: heading.range };
+              }
+            }
+          }
+          return { uri: targetUri, range: zeroRange() };
         } else if (resolution.kind === 'asset') {
-          return { uri: pathToFileURL(resolution.assetPath).href, range: zeroRange() };
+          // Construct absolute URI from vault root + vault-relative asset path
+          const assetUri = this.assetPathToUri(resolution.assetPath);
+          return { uri: assetUri, range: zeroRange() };
         }
         return null;
       }
@@ -117,10 +143,10 @@ export class DefinitionHandler {
     if (result.kind === 'ambiguous') {
       // TASK-106: return LocationLink[] for each candidate
       return result.candidates.map((candidateDocId) => {
-        const absPath = fromDocId(vaultRoot, candidateDocId as DocId);
+        const targetUri = this.docIdToUri(candidateDocId as DocId, vaultRoot);
         return {
           originSelectionRange: wikiEntry.range,
-          targetUri: pathToFileURL(absPath).toString(),
+          targetUri,
           targetRange: zeroRange(),
           targetSelectionRange: zeroRange(),
         } satisfies LocationLink;
@@ -135,20 +161,18 @@ export class DefinitionHandler {
       if (targetDoc !== undefined) {
         const heading = targetDoc.index.headings.find((h) => h.text === wikiEntry.heading);
         if (heading !== undefined) {
-          const absPath = fromDocId(vaultRoot, result.targetDocId);
-          return { uri: pathToFileURL(absPath).toString(), range: heading.range };
+          return { uri: targetDoc.uri, range: heading.range };
         }
       }
     }
 
-    const absPath = fromDocId(vaultRoot, result.targetDocId);
-    return { uri: pathToFileURL(absPath).toString(), range: zeroRange() };
+    return { uri: this.docIdToUri(result.targetDocId, vaultRoot), range: zeroRange() };
   }
 
   private resolveBlockRefDefinition(
     entry: WikiLinkEntry,
     sourceUri: string,
-    vaultRoot: string,
+    _vaultRoot: string,
   ): Location | null {
     const anchorId = entry.blockRef!;
 
@@ -169,8 +193,19 @@ export class DefinitionHandler {
     if (targetDoc === undefined) return null;
     const anchor = targetDoc.index.blockAnchors.find((a) => a.id === anchorId);
     if (anchor === undefined) return null;
-    const absPath = fromDocId(vaultRoot, result.targetDocId);
-    return { uri: pathToFileURL(absPath).toString(), range: anchor.range };
+    return { uri: targetDoc.uri, range: anchor.range };
+  }
+
+  /**
+   * Resolve a DocId to a URI, preferring the VaultIndex URI over reconstruction.
+   * Falls back to reconstructing from the vault root path when VaultIndex is unavailable.
+   */
+  private docIdToUri(docId: DocId, vaultRoot: string): string {
+    if (this.vaultIndex) {
+      const doc = this.vaultIndex.get(docId);
+      if (doc) return doc.uri;
+    }
+    return pathToFileURL(fromDocId(vaultRoot, docId)).toString();
   }
 
   /**
@@ -186,5 +221,27 @@ export class DefinitionHandler {
     } catch {
       return '/';
     }
+  }
+
+  /**
+   * Convert a vault-relative asset path to an absolute URI.
+   *
+   * Derives the vault root URI from the first entry in the vault index, then
+   * appends the vault-relative asset path.  Falls back to pathToFileURL when
+   * the vault index is empty or unavailable.
+   *
+   * @param assetPath - Vault-relative path such as `assets/image.png`.
+   */
+  private assetPathToUri(assetPath: string): string {
+    if (this.vaultIndex !== undefined) {
+      for (const [docId, doc] of this.vaultIndex.entries()) {
+        const docSuffix = '/' + (docId as string) + '.md';
+        if (doc.uri.endsWith(docSuffix)) {
+          const vaultRootUri = doc.uri.slice(0, doc.uri.length - docSuffix.length);
+          return vaultRootUri + '/' + assetPath;
+        }
+      }
+    }
+    return pathToFileURL(assetPath).href;
   }
 }
