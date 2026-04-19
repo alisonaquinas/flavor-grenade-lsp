@@ -92,9 +92,17 @@ export class TocGeneratorAction {
     const changes: { [u: string]: TextEdit[] } = {};
     changes[uri] = [edit];
 
+    const title = hasToc ? 'Replace Table of Contents' : 'Generate Table of Contents';
+    const commandName = hasToc ? 'fg.tocReplace' : 'fg.toc';
+
     return {
-      title: hasToc ? 'Replace Table of Contents' : 'Generate Table of Contents',
-      kind: 'source',
+      title,
+      kind: hasToc ? 'source.fg.tocReplace' : 'source.fg.toc',
+      command: {
+        title,
+        command: commandName,
+        arguments: [uri],
+      },
       edit: { changes },
     };
   }
