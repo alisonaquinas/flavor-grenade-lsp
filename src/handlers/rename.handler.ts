@@ -74,7 +74,7 @@ function buildHeadingLinkText(ref: Ref, newHeadingName: string, oldHeadingName: 
  * (TASK-113) for file renames.
  */
 function buildFileLinkText(ref: Ref, oldStem: string, newStem: string, newDocId: DocId): string {
-  const { target, alias } = ref.entry;
+  const { target, alias, heading, blockRef } = ref.entry;
 
   // TASK-112: if original raw link contains '/' → file-path-stem style.
   const isPathStyle = target.includes('/');
@@ -87,6 +87,13 @@ function buildFileLinkText(ref: Ref, oldStem: string, newStem: string, newDocId:
   } else {
     // Stem-only style: just use the new stem name.
     newTarget = newStem;
+  }
+
+  // Preserve heading/block-ref fragment from the original link.
+  if (heading !== undefined) {
+    newTarget = `${newTarget}#${heading}`;
+  } else if (blockRef !== undefined) {
+    newTarget = `${newTarget}#^${blockRef}`;
   }
 
   // Alias identity rule for file rename: update alias only if it matched oldStem.
