@@ -62,7 +62,6 @@ All files created in this phase:
 - [ ] **Step 1.1: Run `bun init`**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
 bun init -y
 ```
 

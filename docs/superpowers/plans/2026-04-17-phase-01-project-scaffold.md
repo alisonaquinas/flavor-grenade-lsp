@@ -166,7 +166,7 @@ Open `.gitattributes` and confirm the following entries are present. Add any tha
 - [ ] **Step 1.3: Commit if any changes were made**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 git add .gitignore .gitattributes
 git diff --cached --stat
 # Only commit if there are staged changes:
@@ -238,7 +238,7 @@ git commit -m "chore: add editorconfig and env.example"
 - [ ] **Step 3.1: Initialize the Bun project**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun init -y
 ```
 
@@ -681,7 +681,7 @@ pre-commit:
 - [ ] **Step 6.5: Install lefthook hooks**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bunx lefthook install
 ```
 
@@ -825,7 +825,7 @@ echo "  git tag v$NEW"
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/set-version.sh
+chmod +x scripts/set-version.sh
 ```
 
 - [ ] **Step 8.2: Create `scripts/lint-all.sh`**
@@ -858,7 +858,7 @@ echo "All linters passed."
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/lint-all.sh
+chmod +x scripts/lint-all.sh
 ```
 
 - [ ] **Step 8.3: Create `scripts/validate-docs.sh`**
@@ -878,7 +878,7 @@ echo "Docs validation passed."
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/validate-docs.sh
+chmod +x scripts/validate-docs.sh
 ```
 
 - [ ] **Step 8.4: Create `scripts/update-test-index.sh`**
@@ -895,7 +895,7 @@ exit 0
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/update-test-index.sh
+chmod +x scripts/update-test-index.sh
 ```
 
 - [ ] **Step 8.5: Commit scripts**
@@ -919,9 +919,9 @@ This is the TDD step. The test must be written and verified to FAIL before any i
 - [ ] **Step 9.1: Create the test directory structure**
 
 ```bash
-mkdir -p /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/unit/lsp
-mkdir -p /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/fixtures/vaults/empty
-touch /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/fixtures/vaults/empty/.gitkeep
+mkdir -p tests/unit/lsp
+mkdir -p tests/fixtures/vaults/empty
+touch tests/fixtures/vaults/empty/.gitkeep
 ```
 
 - [ ] **Step 9.2: Write `tests/unit/lsp/lsp.module.spec.ts`**
@@ -961,7 +961,7 @@ describe('LspModule', () => {
 - [ ] **Step 9.3: Run the test — verify it FAILS**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun test tests/unit/lsp/lsp.module.spec.ts
 ```
 
@@ -1146,7 +1146,7 @@ git commit -m "feat(lsp): implement LspModule skeleton, barrel, AppModule, and b
 - [ ] **Step 11.1: Confirm lefthook is installed**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bunx lefthook install
 ```
 
@@ -1166,7 +1166,7 @@ Temporarily add a warning-producing line to a source file, then run lint:
 
 ```bash
 # This should produce a lint error because --max-warnings 0 is set
-echo "const x = 1;" >> /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/src/main.ts
+echo "const x = 1;" >> src/main.ts
 bun run lint
 # Expected: non-zero exit (unused variable warning treated as error)
 ```
@@ -1287,7 +1287,7 @@ git commit -m "docs(test): add test index and coverage matrix for phase 1"
 - [ ] **Step 13.1: Run typecheck**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun run typecheck
 ```
 
@@ -1411,7 +1411,7 @@ git commit -m "chore(ledger): begin Phase 1 — project scaffold"
 - [ ] **Step 15.1: Verify clean working tree**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 git status
 ```
 

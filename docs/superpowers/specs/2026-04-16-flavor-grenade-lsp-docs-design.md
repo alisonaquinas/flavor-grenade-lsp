@@ -40,7 +40,7 @@ This spec defines the structure, content plan, and key design decisions for the 
 
 ## 2. Reference Sources
 
-Two local reference repositories in `/c/Users/aaqui/obsidian-stack/` informed this structure.
+Two local reference repositories in the `obsidian-stack` working root informed this structure.
 
 ### 2.1 marksman (`/marksman/docs/`)
 
