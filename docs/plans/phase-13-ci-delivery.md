@@ -289,6 +289,7 @@ npm publish --dry-run
 ```
 
 The gate is considered passing when:
+
 1. A PR to `main` shows all CI checks green (ubuntu, macos, windows)
 2. A tag `v0.1.0` triggers the release workflow and produces 4 binary artifacts
 3. The npm publish dry run exits 0

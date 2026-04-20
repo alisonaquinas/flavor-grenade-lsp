@@ -22,7 +22,11 @@ function makeAnchor(anchorId: string, line: number): BlockAnchorEntry {
   };
 }
 
-function makeDoc(uri: string, headings: HeadingEntry[], blockAnchors: BlockAnchorEntry[] = []): OFMDoc {
+function makeDoc(
+  uri: string,
+  headings: HeadingEntry[],
+  blockAnchors: BlockAnchorEntry[] = [],
+): OFMDoc {
   return {
     uri,
     version: 0,
@@ -102,10 +106,7 @@ describe('DocumentSymbolHandler', () => {
     const anchors = [makeAnchor('my-anchor', 3)];
     const doc = makeDoc(
       DOC_URI,
-      [
-        makeHeading('Section', 2, 0),
-        makeHeading('Another', 2, 5),
-      ],
+      [makeHeading('Section', 2, 0), makeHeading('Another', 2, 5)],
       anchors,
     );
     parseCache.set(DOC_URI, doc);

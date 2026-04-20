@@ -20,6 +20,7 @@ See [[architecture/layers]] for the module boundary rules that prohibit direct s
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('routes textDocument/hover to the registered HoverService mock and returns its result', async () => {
   const mockHandler = jest.fn().mockResolvedValue({ contents: 'hover text' })
@@ -36,6 +37,7 @@ it('routes textDocument/hover to the registered HoverService mock and returns it
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `RequestRouter.dispatch` looks up the method string in the registered handler map and calls the matching handler with the supplied params, returning its resolved value
 
 ---
@@ -48,6 +50,7 @@ it('routes textDocument/hover to the registered HoverService mock and returns it
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns a JSON-RPC MethodNotFound error (code -32601) for an unregistered method', async () => {
   const router = RequestRouter.create({})
@@ -64,6 +67,7 @@ it('returns a JSON-RPC MethodNotFound error (code -32601) for an unregistered me
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When no handler is registered for the given method string, `dispatch` returns a JSON-RPC error object with `code: -32601` and a non-empty `message`
 
 ---
@@ -76,6 +80,7 @@ it('returns a JSON-RPC MethodNotFound error (code -32601) for an unregistered me
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('serializes a handler InvalidParams rejection as a JSON-RPC error with code -32602', async () => {
   const mockHandler = jest.fn().mockRejectedValue(new InvalidParamsError('position is required'))
@@ -95,6 +100,7 @@ it('serializes a handler InvalidParams rejection as a JSON-RPC error with code -
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `dispatch` catches handler rejections, inspects the error type, and maps `InvalidParamsError` → code `-32602`; the original error message is preserved in the `message` field
 
 ---
@@ -107,6 +113,7 @@ it('serializes a handler InvalidParams rejection as a JSON-RPC error with code -
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('calls the handler for a notification but returns undefined (fire-and-forget)', async () => {
   const mockHandler = jest.fn().mockResolvedValue(undefined)
@@ -123,6 +130,7 @@ it('calls the handler for a notification but returns undefined (fire-and-forget)
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `dispatchNotification` invokes the handler and returns `undefined` regardless of the handler's resolved value — notifications never produce a JSON-RPC response
 
 ---
@@ -135,6 +143,7 @@ it('calls the handler for a notification but returns undefined (fire-and-forget)
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('handles $/cancelRequest notification without throwing or returning an error object', async () => {
   const router = RequestRouter.create({})
@@ -146,6 +155,7 @@ it('handles $/cancelRequest notification without throwing or returning an error 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `$/cancelRequest` is treated as a built-in no-op notification; the router does not throw and does not emit an error response even though no user-registered handler exists for it
 
 ---
@@ -160,6 +170,7 @@ it('handles $/cancelRequest notification without throwing or returning an error 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('default FlavorConfig produces ServerCapabilities with completionProvider, definitionProvider, referencesProvider, renameProvider, and diagnosticProvider', () => {
   const config = FlavorConfig.defaults()
@@ -176,6 +187,7 @@ it('default FlavorConfig produces ServerCapabilities with completionProvider, de
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `CapabilityNegotiator.buildCapabilities` reads `FlavorConfig.defaults()` and includes all five core capability keys in the returned `ServerCapabilities` object
 
 ---
@@ -188,6 +200,7 @@ it('default FlavorConfig produces ServerCapabilities with completionProvider, de
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('omits semanticTokensProvider from capabilities when FlavorConfig.semanticTokens is false', () => {
   const config: FlavorConfig = { ...FlavorConfig.defaults(), semanticTokens: false }
@@ -200,6 +213,7 @@ it('omits semanticTokensProvider from capabilities when FlavorConfig.semanticTok
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `semanticTokensProvider` key is absent (not `null`, but truly `undefined` / not present) in the returned object when `config.semanticTokens` is `false`
 
 ---
@@ -212,6 +226,7 @@ it('omits semanticTokensProvider from capabilities when FlavorConfig.semanticTok
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('includes ">" in completionProvider.triggerCharacters when callouts.customTypes is non-empty', () => {
   const config: FlavorConfig = {
@@ -227,6 +242,7 @@ it('includes ">" in completionProvider.triggerCharacters when callouts.customTyp
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When `config.callouts.customTypes` has at least one entry, `>` is added to `completionProvider.triggerCharacters` to support callout type completion after `> [!`
 
 ---
@@ -239,6 +255,7 @@ it('includes ">" in completionProvider.triggerCharacters when callouts.customTyp
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('buildInitializeResult returns an object with capabilities and serverInfo.name/version fields', () => {
   const config = FlavorConfig.defaults()
@@ -257,6 +274,7 @@ it('buildInitializeResult returns an object with capabilities and serverInfo.nam
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `buildInitializeResult` returns `{ capabilities: ServerCapabilities, serverInfo: { name: string, version: string } }` matching the LSP `InitializeResult` schema
 
 ---
@@ -271,6 +289,7 @@ it('buildInitializeResult returns an object with capabilities and serverInfo.nam
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('serializes VaultNotFoundError as JSON-RPC InternalError with code -32603', async () => {
   const mockHandler = jest.fn().mockRejectedValue(new VaultNotFoundError('/missing/vault'))
@@ -290,6 +309,7 @@ it('serializes VaultNotFoundError as JSON-RPC InternalError with code -32603', a
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `VaultNotFoundError` (a domain error) is caught by `dispatch` and serialized as `{ code: -32603, message: <original message> }`; the vault path surfaces in the message to aid debugging
 
 ---
@@ -302,6 +322,7 @@ it('serializes VaultNotFoundError as JSON-RPC InternalError with code -32603', a
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('serializes ValidationError as JSON-RPC InvalidParams with code -32602', async () => {
   const mockHandler = jest.fn().mockRejectedValue(
@@ -323,6 +344,7 @@ it('serializes ValidationError as JSON-RPC InvalidParams with code -32602', asyn
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `ValidationError` is mapped to code `-32602` (InvalidParams) and the validation message is preserved verbatim in the `message` field
 
 **REFACTOR notes:** The error-serialization spec may grow a table-driven test once the full domain error taxonomy is settled — parametrize over `[ErrorClass, expectedCode]` pairs rather than writing a separate `it` block per error type.

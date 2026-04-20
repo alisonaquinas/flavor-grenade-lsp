@@ -12,7 +12,7 @@ interface CodeActionParams {
 }
 
 /** Regex to extract the target from FG001 diagnostic messages. */
-const FG001_TARGET_RE = /\[\[(.+?)\]\]/;
+const FG001_TARGET_RE = /Cannot resolve wiki-link: '(.+?)' not found/;
 
 /**
  * Produces a `create` WorkspaceEdit code action for each FG001 (broken wiki-link) diagnostic.
@@ -45,9 +45,14 @@ export class CreateMissingFileAction {
       };
 
       const action: CodeAction = {
-        title: `Create '${target}.md'`,
-        kind: 'quickfix',
+        title: 'Create missing file',
+        kind: 'quickfix.fg.createMissingFile',
         diagnostics: [diag],
+        command: {
+          title: 'Create missing file',
+          command: 'fg.createMissingFile',
+          arguments: [newFileUri, target],
+        },
         edit: {
           documentChanges: [documentChange],
         },

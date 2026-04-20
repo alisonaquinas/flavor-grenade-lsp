@@ -19,6 +19,7 @@ aliases:
 **Ambition:** The primary friction of navigating a large vault is not the navigation itself but the decision of whether to navigate — authors must open a note to determine whether it contains the information they need. A hover that surfaces the title and first paragraph provides a preview-before-navigate affordance that eliminates speculative opens. Accurate truncation ensures that long introductory paragraphs do not overwhelm the hover popup, and the inclusion of the vault-relative path lets authors distinguish documents with identical titles in different directories without opening either.
 **Scale:** Three sub-scales: (1) percentage of cursor positions on valid (resolvable) wiki-link tokens that return a non-null `Hover` containing all three components: title line, preview paragraph, and path; (2) percentage of preview paragraphs in those responses that are correctly truncated at `hover.preview_chars` (with `…` appended if truncated, unmodified if shorter); (3) percentage of hover responses for wiki-links that resolve to existing documents where the `range` field covers exactly the full `[[...]]` span.
 **Meter:**
+
 1. Create a test vault with at least 5 documents. Each document must have: a `# H1` heading; at least one paragraph of body text; a known vault-relative path.
 2. Configure `hover.preview_chars = 200`.
 3. Author an index document with wiki-links to each test document.
@@ -39,6 +40,7 @@ aliases:
 **Ambition:** Embed links in OFM span a heterogeneous set of file types — markdown documents, images, audio, video, and PDFs — all behind the same `![[...]]` syntax. Without hover support, authors cannot distinguish a broken embed from a valid one without the editor rendering the embed, which not all LSP-capable editors do. A hover that surfaces the resolved path and file type provides an immediate sanity-check for embed correctness and helps authors diagnose FG004 (BrokenEmbed) diagnostics without leaving the editor. The resolved path (not the raw link text) confirms that vault-relative resolution is working correctly.
 **Scale:** Two sub-scales: (1) percentage of cursor positions on valid (resolvable) embed link tokens (`![[target]]`) that return a non-null `Hover` whose content includes both the resolved vault-relative path and the file type label (`"Image"`, `"Audio"`, `"Video"`, `"PDF"`, `"File"`, or a markdown first-paragraph preview for `.md` embeds); (2) percentage of `Hover` responses for `.md` embeds that include the first paragraph of the embedded document (matching the behaviour specified for wiki-link hover previews).
 **Meter:**
+
 1. Create a test vault with at least one of each embeddable file type: a `.md` document, a `.png` image, an `.mp3` audio file, a `.pdf` file.
 2. Author a test document with `![[target]]` embeds pointing to each test file.
 3. For each embed, place the cursor inside the `![[...]]` token and issue `textDocument/hover`.

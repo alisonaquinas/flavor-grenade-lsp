@@ -15,7 +15,7 @@ aliases: ["TASK-075"]
 
 # Add EmbedRef to RefGraph
 
-> [!INFO] `TASK-075` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-075` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -26,6 +26,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 ## Implementation Notes
 
 - Add `EmbedRef` interface to `src/resolution/ref-graph.ts`:
+
   ```typescript
   export interface EmbedRef {
     sourceDocId: DocId;
@@ -35,6 +36,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
     embedSize?: { width?: number; height?: number };
   }
   ```
+
 - Add `embedRefs` collection to `RefGraph` alongside existing `wikiLinkRefs`
 - Provide methods to add, remove (by `sourceDocId`), and query `EmbedRef` entries
 - See also: [[requirements/embed-resolution]], [[adr/ADR002-ofm-only-scope]]
@@ -53,7 +55,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `RefGraph tracks embed references separately` |
+| `bdd/features/embeds.feature` | `RefGraph tracks embed references separately` |
 
 ---
 
@@ -77,7 +79,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -89,8 +91,8 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 
 **Unblocks:**
 
-- [[tickets/TASK-076]] — EmbedDest resolution requires EmbedRef to exist in RefGraph
-- [[tickets/TASK-082]] — unit tests depend on EmbedRef being defined
+- [[TASK-076]] — EmbedDest resolution requires EmbedRef to exist in RefGraph
+- [[TASK-082]] — unit tests depend on EmbedRef being defined
 
 ---
 
@@ -105,7 +107,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -131,7 +133,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `EmbedRef` interface added to `src/resolution/ref-graph.ts`. `RefGraph` now maintains `embedRefsMap` and `brokenEmbeds` collections with `addEmbedRef`, `getEmbedRefsTo`, and `getBrokenEmbedRefs` methods. `rebuild` accepts optional `EmbedResolver`. All 211 tests pass. Status: `done`.

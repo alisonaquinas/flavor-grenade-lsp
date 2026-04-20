@@ -66,8 +66,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/code-actions]] | Code action scenarios: TOC, create-missing-file, tag-to-yaml, fix-nbsp |
-| [[bdd/features/diagnostics]] | FG006 diagnostic and quick-fix scenarios |
+| `bdd/features/code-actions.feature` | Code action scenarios: TOC, create-missing-file, tag-to-yaml, fix-nbsp |
+| `bdd/features/diagnostics.feature` | FG006 diagnostic and quick-fix scenarios |
 
 ---
 
@@ -99,17 +99,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-118]] | Implement codeAction dispatcher + introduce FG006 diagnostic | `open` |
-| [[tickets/TASK-119]] | Implement "Create missing note" code action (FG001) | `open` |
-| [[tickets/TASK-120]] | Implement "Generate Table of Contents" code action | `open` |
-| [[tickets/TASK-121]] | Extend "Move tag to frontmatter" with edge cases | `open` |
-| [[tickets/TASK-122]] | Implement "Fix non-breaking space" quick-fix (FG006) | `open` |
-| [[tickets/TASK-123]] | Implement workspace/symbol provider | `open` |
-| [[tickets/TASK-124]] | Implement textDocument/documentSymbol provider | `open` |
-| [[tickets/TASK-125]] | Implement semantic token provider | `open` |
-| [[tickets/CHORE-034]] | Phase 12 Lint Sweep | `open` |
-| [[tickets/CHORE-035]] | Phase 12 Code Quality Sweep | `open` |
-| [[tickets/CHORE-036]] | Phase 12 Security Sweep | `open` |
+| [[TASK-118]] | Implement codeAction dispatcher + introduce FG006 diagnostic | `open` |
+| [[TASK-119]] | Implement "Create missing note" code action (FG001) | `open` |
+| [[TASK-120]] | Implement "Generate Table of Contents" code action | `open` |
+| [[TASK-121]] | Extend "Move tag to frontmatter" with edge cases | `open` |
+| [[TASK-122]] | Implement "Fix non-breaking space" quick-fix (FG006) | `open` |
+| [[TASK-123]] | Implement workspace/symbol provider | `open` |
+| [[TASK-124]] | Implement textDocument/documentSymbol provider | `open` |
+| [[TASK-125]] | Implement semantic token provider | `open` |
+| [[CHORE-034]] | Phase 12 Lint Sweep | `open` |
+| [[CHORE-035]] | Phase 12 Code Quality Sweep | `open` |
+| [[CHORE-036]] | Phase 12 Security Sweep | `open` |
 
 ---
 
@@ -117,11 +117,11 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-012]] — Phase 11 (Rename) must be complete before code actions phase begins
+- [[FEAT-012]] — Phase 11 (Rename) must be complete before code actions phase begins
 
 **Unblocks:**
 
-- [[tickets/FEAT-014]] — Phase 13 (CI & Delivery) requires this phase to be complete
+- [[FEAT-014]] — Phase 13 (CI & Delivery) requires this phase to be complete
 
 ---
 
@@ -129,7 +129,7 @@ All of the following must be true before this ticket is marked `done`:
 
 FG006 is first introduced in this phase. The full diagnostic code registry: FG001 (broken wiki-link), FG002 (ambiguous wiki-link), FG003 (malformed wiki-link), FG004 (broken embed), FG005 (broken block ref), FG006 (non-breaking space), FG007 (malformed YAML frontmatter).
 
-ADR references: [[adr/ADR005-link-style]] constrains file path resolution for create-missing-note; [[adr/ADR013-vault-root]] constrains URI construction for CreateFile edits.
+ADR references: [[adr/ADR005-wiki-style-binding]] constrains file path resolution for create-missing-note; [[adr/ADR013-vault-root-confinement]] constrains URI construction for CreateFile edits.
 
 ---
 
@@ -164,7 +164,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > [!INFO] In-progress — 2026-04-17
 > Phase 12 implementation started. All 8 TASK + 3 CHORE tickets defined. Status: `in-progress`.
 
-> [!CHECK] In-review — 2026-04-17
+> [!SUCCESS] In-review — 2026-04-17
 > All 8 TASK tickets implemented. 419 tests pass (up from 371). Lint clean, tsc clean. Status: `in-review`.
 
 ## Retrospective
@@ -195,6 +195,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 - `CodeActionsModule` cleanly centralises all action providers; `LspModule.handleCodeAction` private method removal simplified routing
 
 ### Carry-forward actions
+
 - [ ] Phase 13 (CI & Delivery): set up GitHub Actions workflow, binary packaging, artifact publishing
 - [ ] BDD feature files `code-actions.feature` and `diagnostics.feature` exist as specs but BDD runner not yet hooked to CI gate
 - [ ] `diagnosticService.publishDiagnostics` is called on every didOpen/didChange — FG006 scan runs O(n) per keystroke; consider debounce for large vaults

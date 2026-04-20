@@ -38,7 +38,7 @@ The Oracle and RefGraph concepts map directly from marksman's mental model. The 
 
 `flavor-grenade-lsp` communicates exclusively over **stdio**, using the JSON-RPC 2.0 framing specified by the LSP protocol. There is no HTTP server, no WebSocket endpoint, and no port binding. The server is launched as a **child process** by the editor client (Neovim, VS Code, Helix, etc.) via the standard `command` field in the client's LSP configuration.
 
-```
+```text
 Editor (client)
     |
     |  spawn child process
@@ -122,7 +122,7 @@ See [[concepts/document-model]] for the 8-stage pipeline and [[concepts/ofm-synt
 
 ## Project Entry Point
 
-```
+```text
 src/main.ts
   └─ bootstrap()
        └─ NestFactory.createApplicationContext(LspModule)

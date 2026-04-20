@@ -61,7 +61,7 @@ Vault authors and LSP users gain a complete navigation feature set: go-to-defini
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/navigation]] | Go-to-definition, find-references, code lens, and document highlight scenarios |
+| `bdd/features/navigation.feature` | Go-to-definition, find-references, code lens, and document highlight scenarios |
 
 ---
 
@@ -76,7 +76,7 @@ Vault authors and LSP users gain a complete navigation feature set: go-to-defini
 
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
-- [ ] All scenarios in [[bdd/features/navigation]] pass in CI
+- [ ] All scenarios in `bdd/features/navigation.feature` pass in CI
 - [ ] `bun test tests/integration/navigation.test.ts` passes
 - [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
 - [ ] [[test/matrix]] updated with every new test file introduced
@@ -91,16 +91,16 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-102]] | Consolidate DefinitionService | `done` |
-| [[tickets/TASK-103]] | Consolidate ReferencesService | `done` |
-| [[tickets/TASK-104]] | Implement CodeLensProvider | `done` |
-| [[tickets/TASK-105]] | Implement cursor position → entity mapping utility | `done` |
-| [[tickets/TASK-106]] | Handle multi-location definition results | `done` |
-| [[tickets/TASK-107]] | Implement textDocument/documentHighlight | `done` |
-| [[tickets/TASK-108]] | Write integration tests for navigation | `done` |
-| [[tickets/CHORE-028]] | Phase 10 Lint Sweep | `done` |
-| [[tickets/CHORE-029]] | Phase 10 Code Quality Sweep | `done` |
-| [[tickets/CHORE-030]] | Phase 10 Security Sweep | `done` |
+| [[TASK-102]] | Consolidate DefinitionService | `done` |
+| [[TASK-103]] | Consolidate ReferencesService | `done` |
+| [[TASK-104]] | Implement CodeLensProvider | `done` |
+| [[TASK-105]] | Implement cursor position → entity mapping utility | `done` |
+| [[TASK-106]] | Handle multi-location definition results | `done` |
+| [[TASK-107]] | Implement textDocument/documentHighlight | `done` |
+| [[TASK-108]] | Write integration tests for navigation | `done` |
+| [[CHORE-028]] | Phase 10 Lint Sweep | `done` |
+| [[CHORE-029]] | Phase 10 Code Quality Sweep | `done` |
+| [[CHORE-030]] | Phase 10 Security Sweep | `done` |
 
 ---
 
@@ -108,17 +108,18 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-010]] — Phase 9 (Completions) must be complete before navigation can be built
+- [[FEAT-010]] — Phase 9 (Completions) must be complete before navigation can be built
 
 **Unblocks:**
 
-- [[tickets/FEAT-012]] — Phase 11 (Rename) depends on the entityAtPosition utility and navigation infrastructure
+- [[FEAT-012]] — Phase 11 (Rename) depends on the entityAtPosition utility and navigation infrastructure
 
 ---
 
 ## Notes
 
 ADR references:
+
 - [[adr/ADR005-wiki-style-binding]] — wiki-link style binding rules that govern how cursor entities are resolved
 
 ---

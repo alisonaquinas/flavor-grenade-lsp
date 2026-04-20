@@ -15,7 +15,7 @@ aliases: ["TASK-135"]
 
 # Set up branch protection rules (manual)
 
-> [!INFO] `TASK-135` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-135` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -48,7 +48,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | — (manual configuration task, no Gherkin scenario) |
+| `bdd/features/code-actions.feature` | — (manual configuration task, no Gherkin scenario) |
 
 ---
 
@@ -70,7 +70,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] At least 1 required reviewer configured
 - [ ] Linear history enforced
 - [ ] "Require branches to be up to date" enabled
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -121,4 +121,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]]. Note: this is a manual human task; LLM agents cannot complete it autonomously.
+> Ticket created. Status: `open`. Parent: [[FEAT-014]]. Note: this is a manual human task; LLM agents cannot complete it autonomously.

@@ -15,7 +15,7 @@ aliases: ["TASK-101"]
 
 # Register updated completion capabilities
 
-> [!INFO] `TASK-101` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-101` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -26,6 +26,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
 ## Implementation Notes
 
 - Update the `initialize` handler's returned capability object:
+
   ```typescript
   completionProvider: {
     triggerCharacters: ['[', '!', '#', '>'],
@@ -33,6 +34,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
     resolveProvider: false,
   }
   ```
+
 - Verify that the `CompletionRouter` is wired as the handler for `textDocument/completion` in the dispatch table
 - No new logic; this is a capability declaration update only
 - See also: [[plans/phase-09-completions]]
@@ -51,7 +53,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `Server advertises completion trigger characters in InitializeResult` |
+| `bdd/features/completions.feature` | `Server advertises completion trigger characters in InitializeResult` |
 
 ---
 
@@ -75,7 +77,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -83,7 +85,7 @@ Update `InitializeResult.capabilities.completionProvider` to reflect the full se
 
 **Blocked by:**
 
-- [[tickets/TASK-092]] — `CompletionRouter` must be fully implemented before it can be registered as the handler
+- [[TASK-092]] — `CompletionRouter` must be fully implemented before it can be registered as the handler
 
 **Unblocks:**
 
@@ -102,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -126,7 +128,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

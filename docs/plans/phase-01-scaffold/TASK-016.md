@@ -17,7 +17,7 @@ aliases: ["TASK-016"]
 
 # Create .gitignore
 
-> [!INFO] `TASK-016` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-016` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -70,7 +70,7 @@ Create `.gitignore` at the project root to exclude build artefacts, runtime-gene
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -78,7 +78,7 @@ Create `.gitignore` at the project root to exclude build artefacts, runtime-gene
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — Project root must exist.
+- [[TASK-002]] — Project root must exist.
 
 **Unblocks:**
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `git status` does not show `node_modules/` as untracked after `bun install`
 - [ ] `git status` does not show `dist/` as untracked after `bun run build`
 - [ ] `.flavor-grenade.toml`, `bunfig.toml`, `eslint.config.js`, `.prettierrc.json` are NOT ignored
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -116,7 +116,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

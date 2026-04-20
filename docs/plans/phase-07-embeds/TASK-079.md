@@ -15,7 +15,7 @@ aliases: ["TASK-079"]
 
 # Implement embed go-to-definition
 
-> [!INFO] `TASK-079` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-079` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -32,7 +32,7 @@ Update `DefinitionService` to handle `![[embed]]` entries in addition to wiki-li
   - Markdown embed with block sub-target (`#^blockid`): return `Location` pointing to block anchor line
   - Image/asset embed: return `Location` with file URI of the asset (line 0, char 0)
 - Return `null` if target is unresolved (FG004 will already be present)
-- See also: [[design/definition-service]]
+- See also: design/definition-service
 
 ---
 
@@ -48,9 +48,9 @@ Update `DefinitionService` to handle `![[embed]]` entries in addition to wiki-li
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Go-to-definition on markdown embed navigates to document` |
-| [[bdd/features/embeds]] | `Go-to-definition on image embed returns file URI` |
-| [[bdd/features/embeds]] | `Go-to-definition on heading embed navigates to heading line` |
+| `bdd/features/embeds.feature` | `Go-to-definition on markdown embed navigates to document` |
+| `bdd/features/embeds.feature` | `Go-to-definition on image embed returns file URI` |
+| `bdd/features/embeds.feature` | `Go-to-definition on heading embed navigates to heading line` |
 
 ---
 
@@ -75,7 +75,7 @@ Update `DefinitionService` to handle `![[embed]]` entries in addition to wiki-li
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -83,7 +83,7 @@ Update `DefinitionService` to handle `![[embed]]` entries in addition to wiki-li
 
 **Blocked by:**
 
-- [[tickets/TASK-076]] — go-to-definition requires a resolved embed target
+- [[TASK-076]] — go-to-definition requires a resolved embed target
 
 **Unblocks:**
 
@@ -102,7 +102,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -128,7 +128,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `DefinitionHandler` updated to inject `EmbedResolver` and check embed entries after wiki-links. Markdown embeds return document URI; asset embeds return `pathToFileURL` URI. `findEmbedAtPosition` helper added. Status: `done`.

@@ -61,6 +61,7 @@ Complete the navigation feature set: go-to-definition for all link types (wiki-l
      - Compute the `DefKey` for this heading
      - Query `RefGraph.refsFor(defKey)` to count references
      - Produce `CodeLens` object:
+
        ```typescript
        {
          range: heading.range,
@@ -71,6 +72,7 @@ Complete the navigation feature set: go-to-definition for all link types (wiki-l
          }
        }
        ```
+
   2. Return all `CodeLens[]` for the document
   3. Headings with 0 references still get a code lens: `"0 references"`
 

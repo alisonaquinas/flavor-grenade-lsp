@@ -17,7 +17,7 @@ aliases: ["TASK-002"]
 
 # Initialize Bun project
 
-> [!INFO] `TASK-002` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-002` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -76,7 +76,7 @@ Run `bun init -y` in the project root to create the initial `package.json`. Afte
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -84,14 +84,14 @@ Run `bun init -y` in the project root to create the initial `package.json`. Afte
 
 **Blocked by:**
 
-- [[tickets/FEAT-001]] — Phase 0 documentation must be complete before any `src/` or project files are created.
+- [[FEAT-001]] — Phase 0 documentation must be complete before any `src/` or project files are created.
 
 **Unblocks:**
 
-- [[tickets/TASK-003]] — NestJS packages can only be installed after `package.json` exists.
-- [[tickets/TASK-004]] — LSP protocol types install depends on `package.json` existing.
-- [[tickets/TASK-005]] — Dev tooling install depends on `package.json` existing.
-- [[tickets/TASK-006]] — Test dependencies install depends on `package.json` existing.
+- [[TASK-003]] — NestJS packages can only be installed after `package.json` exists.
+- [[TASK-004]] — LSP protocol types install depends on `package.json` existing.
+- [[TASK-005]] — Dev tooling install depends on `package.json` existing.
+- [[TASK-006]] — Test dependencies install depends on `package.json` existing.
 
 ---
 
@@ -103,7 +103,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `package.json` exists at project root
 - [ ] `package.json` contains `"type": "module"`
 - [ ] `package.json` contains `"name": "flavor-grenade-lsp"`
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -127,7 +127,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

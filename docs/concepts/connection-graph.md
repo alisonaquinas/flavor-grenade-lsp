@@ -24,7 +24,7 @@ All feature services (`DefinitionService`, `ReferencesService`, `DiagnosticServi
 
 ## Graph Structure
 
-```
+```text
 RefGraph
 ├── resolved: Map<ScopedSym(Ref), ScopedSym(Def)[]>
 │       "resolved" edges — the primary bipartite graph
@@ -64,6 +64,7 @@ RefGraph.mk(oracle: Oracle, allSyms: ScopedSym[]): RefGraph
 ```
 
 Called at:
+
 - Vault initialization (first `workspace/didChangeWorkspaceFolders` or first document open)
 - File deletion events (the deleted document's defs must be purged and all its incoming refs re-evaluated)
 - Explicit `workspace/executeCommand: flavorGrenade.rebuildIndex`
@@ -78,7 +79,7 @@ RefGraph.update(oracle: Oracle, symDiff: SymbolDiff): RefGraph
 
 Called on every `textDocument/didChange` notification. `symDiff` contains only the symbols that changed since the last version of a document:
 
-```
+```typescript
 SymbolDiff {
   added:   ScopedSym[]   // new symbols introduced by the edit
   removed: ScopedSym[]   // symbols that no longer exist after the edit
@@ -138,7 +139,7 @@ In marksman, the reference type set is: `WikiLink`, `IntraLink`, `LinkDef`. OFM 
 
 OFM's `aliases:` frontmatter key creates additional def entries for a document alongside its primary `DocDef`. For example, a document `notes/meeting-2026.md` with frontmatter `aliases: [meeting notes, Q1 meeting]` generates:
 
-```
+```typescript
 DocDef         { docId, slug: "meeting-2026" }
 AliasDef       { docId, alias: "meeting notes", normalised: "meeting-notes" }
 AliasDef       { docId, alias: "Q1 meeting", normalised: "q1-meeting" }

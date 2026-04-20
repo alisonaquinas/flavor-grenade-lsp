@@ -20,7 +20,7 @@ A document change is the most frequent operation in a live editing session. Beca
 
 ### Step-by-Step
 
-```
+```text
 Step  Component               Action
 ────  ─────────────────────── ───────────────────────────────────────────────
  1    stdin                   JSON-RPC frame arrives: method = "textDocument/didChange"
@@ -84,9 +84,9 @@ Only documents in `lastTouched` receive fresh diagnostic computations. `lastTouc
 
 Completion is the most latency-sensitive operation. The editor sends the request on each keystroke and cancels previous pending requests. `flavor-grenade-lsp` must respond in under ~100ms for the UI to feel instant.
 
-### Step-by-Step
+### Flow 2 Step-by-Step
 
-```
+```text
 Step  Component                    Action
 ────  ──────────────────────────── ─────────────────────────────────────────────────
  1    stdin                        JSON-RPC frame: method = "textDocument/completion"
@@ -108,7 +108,7 @@ Step  Component                    Action
 14    Editor                       Renders dropdown; sends textDocument/completion/resolve on selection
 ```
 
-### Sequence Diagram
+### Flow 2 Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -157,7 +157,7 @@ When the cursor is inside `> [!` (beginning of a callout block), a `CalloutTypeC
 
 The two flows interact through shared state in `VaultFolder` and `RefGraph`:
 
-```
+```text
 textDocument/didChange ──→ VaultFolder.withDoc()
                                   │
                                   ▼

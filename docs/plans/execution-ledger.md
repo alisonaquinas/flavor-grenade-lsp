@@ -47,22 +47,27 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 ## How to Mark a Phase Complete
 
 1. Verify the gate command passes in CI (not just locally):
+
    ```bash
    # Example for Phase 3
    bun test src/parser/**
    bun run bdd -- --tags @smoke
    ```
+
 2. Update the row in this table:
    - Change **Status** from `⏳ planned` / `🔄 in-progress` to `✅ complete`
    - Set **Completed** to today's date in `YYYY-MM-DD` format
    - Do NOT modify the **Started** date retroactively
 3. Commit the ledger change with the message:
-   ```
+
+   ```text
    chore(ledger): mark Phase N complete — <gate summary>
    ```
+
 4. Open a PR if the phase was worked on a feature branch. Link the PR number in the table's Notes column (add if needed).
 
 A phase is **not** complete if:
+
 - Gate passes locally but CI is red
 - Gate passes only on one platform (CI runs linux-x64, darwin-arm64, win-x64)
 - BDD scenarios pass but unit tests are skipped
@@ -74,7 +79,8 @@ A phase is **not** complete if:
 1. Update **Status** to `🔄 in-progress`
 2. Set **Started** to today's date
 3. Commit:
-   ```
+
+   ```text
    chore(ledger): begin Phase N — <title>
    ```
 
@@ -87,7 +93,7 @@ A phase is **not** complete if:
 | Writing implementation code | AI agent (Claude Code) |
 | Writing test assertions | AI agent (Claude Code) |
 | Verifying gate in CI | Automated CI (GitHub Actions) |
-| Human review of PR | Human reviewer (alisonaquinas@gmail.com) |
+| Human review of PR | Human reviewer (<alisonaquinas@gmail.com>) |
 | Marking phase complete | AI agent after CI confirms green, human approves |
 | Architectural decisions (ADRs) | Human reviewer, recorded in `docs/adr/` |
 | Rollback decisions | Human reviewer |
@@ -98,7 +104,7 @@ The AI agent must NOT mark a phase complete without CI confirmation. The CI gate
 
 ## Phase Dependencies
 
-```
+```text
 Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
                                          │              │
                                          ▼              ▼

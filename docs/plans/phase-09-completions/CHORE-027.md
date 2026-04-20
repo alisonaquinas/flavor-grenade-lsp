@@ -30,7 +30,7 @@ Audit all Phase 9 completion code for security concerns with focus on two areas:
 
 Completion trigger strings are derived from user cursor context. If any trigger string or prefix were passed into a filesystem API, a crafted document could potentially escape the vault root. Additionally, the standard callout type list must be immutable and not influenced by user input.
 
-- Motivated by: `Security.InputValidation.CompletionTriggers` (see [[requirements/security]])
+- Motivated by: `Security.InputValidation.CompletionTriggers` (see [[requirements/security/index]])
 
 ---
 
@@ -38,7 +38,7 @@ Completion trigger strings are derived from user cursor context. If any trigger 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Completion trigger strings must not reach filesystem operations | [[requirements/security]] |
+| — | Completion trigger strings must not reach filesystem operations | [[requirements/security/index]] |
 
 ---
 

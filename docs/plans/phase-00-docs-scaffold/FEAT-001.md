@@ -75,7 +75,7 @@ Complete the `docs/` tree so that all quality gates in `docs/AGENTS.md` are sati
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-00-docs-scaffold]]
+- Phase plan: [[plans/phase-00-docs-scaffold/index]]
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -101,7 +101,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | `done` |
+| [[TASK-001]] | Complete Documentation Scaffold to AGENTS.md Quality Gates | `done` |
 
 ---
 
@@ -115,7 +115,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Unblocks:**
 
-- [[tickets/FEAT-002]] — Phase 1 (Project Scaffold) cannot begin until all `docs/` quality gates pass.
+- [[FEAT-002]] — Phase 1 (Project Scaffold) cannot begin until all `docs/` quality gates pass.
 
 ---
 
@@ -153,5 +153,5 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > [!INFO] Opened — 2026-04-16
 > Ticket created. Status: `in-progress`. Documentation scaffold phase initiated; TASK-001 created as child task.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > All 8 AGENTS.md quality gates verified passing via independent re-audit. TASK-001 closed. Execution ledger updated: Phase 0 ✅ complete. Status: `done`.

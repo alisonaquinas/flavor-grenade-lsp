@@ -17,7 +17,7 @@ aliases: ["TASK-008"]
 
 # Configure bunfig.toml
 
-> [!INFO] `TASK-008` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-008` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -28,6 +28,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 ## Implementation Notes
 
 - Create `bunfig.toml` at project root with the following content:
+
   ```toml
   [test]
   root = "src"
@@ -36,6 +37,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
   [install]
   exact = true
   ```
+
 - `exact = true` means newly installed packages are pinned to exact versions, not semver ranges
 - `coverage = true` enables coverage output for `bun test` without additional flags
 - See also: [[architecture/overview]]
@@ -76,7 +78,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -84,11 +86,11 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — Project must be initialised before runtime configuration is meaningful.
+- [[TASK-002]] — Project must be initialised before runtime configuration is meaningful.
 
 **Unblocks:**
 
-- [[tickets/TASK-014]] — `package.json` scripts rely on Bun runtime being correctly configured.
+- [[TASK-014]] — `package.json` scripts rely on Bun runtime being correctly configured.
 
 ---
 
@@ -99,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bunfig.toml` exists at project root
 - [ ] Contains `[test]` section with `root = "src"` and `coverage = true`
 - [ ] Contains `[install]` section with `exact = true`
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -120,7 +122,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

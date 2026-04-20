@@ -15,7 +15,7 @@ aliases: ["TASK-019"]
 
 # Implement JSON-RPC dispatcher
 
-> [!INFO] `TASK-019` · Task · Phase 2 · Parent: [[tickets/FEAT-003]] · Status: `open`
+> [!INFO] `TASK-019` · Task · Phase 2 · Parent: [[FEAT-003]] · Status: `open`
 
 ## Description
 
@@ -58,8 +58,8 @@ export class JsonRpcDispatcher {
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server completes LSP handshake` |
-| [[bdd/features/workspace]] | `Unknown method returns Method Not Found error` |
+| `bdd/features/workspace.feature` | `Server completes LSP handshake` |
+| `bdd/features/workspace.feature` | `Unknown method returns Method Not Found error` |
 
 ---
 
@@ -83,7 +83,7 @@ export class JsonRpcDispatcher {
 
 ## Parent Feature
 
-[[tickets/FEAT-003]] — LSP Transport
+[[FEAT-003]] — LSP Transport
 
 ---
 
@@ -91,12 +91,12 @@ export class JsonRpcDispatcher {
 
 **Blocked by:**
 
-- [[tickets/TASK-017]] — Reader must exist to supply messages to the dispatcher
-- [[tickets/TASK-018]] — Writer must exist for the dispatcher to send responses
+- [[TASK-017]] — Reader must exist to supply messages to the dispatcher
+- [[TASK-018]] — Writer must exist for the dispatcher to send responses
 
 **Unblocks:**
 
-- [[tickets/TASK-020]] through [[tickets/TASK-028]] — All LSP handler tasks require a dispatcher
+- [[TASK-020]] through [[TASK-028]] — All LSP handler tasks require a dispatcher
 
 ---
 
@@ -111,7 +111,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-003]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
 
@@ -137,7 +137,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-003]].
+> Ticket created. Status: `open`. Parent: [[FEAT-003]].
 
 > [!SUCCESS] Done — 2026-04-17
 > RED and GREEN commits landed. All tests pass. Status: `done`.

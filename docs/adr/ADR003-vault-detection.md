@@ -36,16 +36,19 @@ Configuration values from `.flavor-grenade.toml` are merged on top of built-in d
 ## Consequences
 
 **Positive:**
+
 - Obsidian users get vault mode with zero configuration. Opening the vault folder in their editor is sufficient.
 - Non-Obsidian OFM users (Foam, Logseq export workflows, custom toolchains) can opt in by creating `.flavor-grenade.toml`.
 - Single-file mode is a safe, usable fallback: diagnostics that require cross-file resolution are suppressed per [[features/diagnostics]] rather than producing false positives.
 - Detection is deterministic and stateless — no heuristics, no content sampling.
 
 **Negative:**
+
 - A directory that contains `.obsidian/` that is NOT the intended vault root (e.g., a nested archive folder) could trigger vault mode for the wrong root. This is an edge case; Obsidian does not normally create nested `.obsidian/` directories.
 - Users in single-file mode who expect broken-link diagnostics will be confused. Documentation must clearly explain the fallback.
 
 **Neutral:**
+
 - `.flavor-grenade.toml` is also the project-wide configuration file. Its presence as a vault-detection signal is a useful side-effect of requiring users to create it for configuration purposes.
 
 ## Related

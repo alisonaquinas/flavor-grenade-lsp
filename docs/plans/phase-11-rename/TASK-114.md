@@ -15,7 +15,7 @@ aliases: ["TASK-114"]
 
 # Handle zero-reference rename
 
-> [!INFO] `TASK-114` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-114` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -29,7 +29,7 @@ When the renamed entity (heading or file) has no references in the vault, the re
 - `RefGraph.refsFor(defKey)` returning an empty array is the normal zero-reference case
 - Return a `WorkspaceEdit` with the source-site change only — not `null`, not an error response
 - This is the correct LSP behaviour: rename is always valid for the definition site even with no refs
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -45,8 +45,8 @@ When the renamed entity (heading or file) has no references in the vault, the re
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `Rename orphaned heading produces WorkspaceEdit with only source change` |
-| [[bdd/features/rename]] | `Rename with zero references does not return error` |
+| `bdd/features/rename.feature` | `Rename orphaned heading produces WorkspaceEdit with only source change` |
+| `bdd/features/rename.feature` | `Rename with zero references does not return error` |
 
 ---
 
@@ -68,7 +68,7 @@ When the renamed entity (heading or file) has no references in the vault, the re
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -76,11 +76,11 @@ When the renamed entity (heading or file) has no references in the vault, the re
 
 **Blocked by:**
 
-- [[tickets/TASK-110]] — heading rename must exist before zero-reference edge case can be handled
+- [[TASK-110]] — heading rename must exist before zero-reference edge case can be handled
 
 **Unblocks:**
 
-- [[tickets/TASK-117]] — integration tests cover zero-reference rename scenario
+- [[TASK-117]] — integration tests cover zero-reference rename scenario
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -132,4 +132,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

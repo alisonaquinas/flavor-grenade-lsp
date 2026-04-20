@@ -15,7 +15,7 @@ aliases: ["TASK-049"]
 
 # Implement VaultScanner
 
-> [!INFO] `TASK-049` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-049` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -45,9 +45,9 @@ Create `src/vault/vault-scanner.ts`. The `VaultScanner` performs the initial ind
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server indexes all documents on startup` |
-| [[bdd/features/workspace]] | `Server excludes .obsidian directory from index` |
-| [[bdd/features/workspace]] | `Server respects .gitignore exclusions` |
+| `bdd/features/workspace.feature` | `Server indexes all documents on startup` |
+| `bdd/features/workspace.feature` | `Server excludes .obsidian directory from index` |
+| `bdd/features/workspace.feature` | `Server respects .gitignore exclusions` |
 
 ---
 
@@ -69,7 +69,7 @@ Create `src/vault/vault-scanner.ts`. The `VaultScanner` performs the initial ind
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -77,14 +77,14 @@ Create `src/vault/vault-scanner.ts`. The `VaultScanner` performs the initial ind
 
 **Blocked by:**
 
-- [[tickets/TASK-045]] — VaultDetector must resolve vault root before scanner can run
-- [[tickets/TASK-047]] — VaultIndex must exist to receive scan results
-- [[tickets/TASK-048]] — FolderLookup must exist to be rebuilt after scan
-- [[tickets/TASK-051]] — IgnoreFilter must be available for path exclusion
+- [[TASK-045]] — VaultDetector must resolve vault root before scanner can run
+- [[TASK-047]] — VaultIndex must exist to receive scan results
+- [[TASK-048]] — FolderLookup must exist to be rebuilt after scan
+- [[TASK-051]] — IgnoreFilter must be available for path exclusion
 
 **Unblocks:**
 
-- [[tickets/TASK-053]] — awaitIndexReady request depends on scanner completing
+- [[TASK-053]] — awaitIndexReady request depends on scanner completing
 
 ---
 
@@ -99,7 +99,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -134,7 +134,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/vault-scanner.ts` implemented. Recursively walks vault root using fs.promises.readdir, filters via IgnoreFilter, parses .md files with OFMParser, indexes into VaultIndex, rebuilds FolderLookup, sends flavorGrenade/status 'ready' via JsonRpcDispatcher. Skips walk in single-file mode. Status: `done`.

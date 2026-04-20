@@ -35,6 +35,7 @@ This document defines verification test cases for the information disclosure pre
 **Setup:** A running `flavor-grenade-lsp` server instance with maximum logging verbosity enabled. A test vault containing documents with known sensitive strings.
 
 **Agent-driven steps:**
+
 1. Agent creates a test vault with documents containing the following known sensitive strings:
    - `vault/private.md` with frontmatter `password: test-secret-hunter2` and body text `My secret note: hunter2`
    - `vault/api-keys.md` with frontmatter `api_key: sk-proj-ABCDEFGHIJKLMNOP`
@@ -65,7 +66,9 @@ This document defines verification test cases for the information disclosure pre
 **Setup:** A running server instance with a test vault. The completion handler must be active (Phase 9 or later). A vault file with mixed sensitive and safe frontmatter.
 
 **Agent-driven steps:**
+
 1. Agent creates a test vault document `vault/mixed-frontmatter.md` with the following frontmatter:
+
    ```yaml
    ---
    title: Test Document
@@ -80,6 +83,7 @@ This document defines verification test cases for the information disclosure pre
    tags: [safe-tag, another-tag]
    ---
    ```
+
 2. Agent opens `vault/mixed-frontmatter.md` in the test editor session and triggers `textDocument/completion` at a `[[` position in any vault document (wiki-link completion context).
 3. Agent inspects the completion candidate list returned by the server.
 4. Agent verifies the following values do NOT appear in any completion candidate's `label`, `insertText`, `detail`, or `documentation` fields: `secret123`, `sk-test-abc-xyz`, `ghp-PAT-TOKEN-VALUE`, `my-secret-value`, `RSA-PRIVATE-KEY-FAKE`, `user-credential-value`, `bearer-token-value`.
@@ -151,6 +155,7 @@ grep -rn 'hook\|command\|exec\|script' docs/design/ docs/architecture/ 2>/dev/nu
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads the TOML schema definition file in `src/` (the Zod or equivalent schema for `.flavor-grenade.toml`). Agent verifies the schema contains no field of any of these names: `command`, `cmd`, `exec`, `script`, `hook`, `run`, `shell`, `binary`, `path` (in an executable context), `formatter`, `hooks`.
 2. Agent creates a test `.flavor-grenade.toml` in the vault root containing a `[hooks]` section with `on_index = "/bin/sh -c 'touch /tmp/pwned-by-config-agent'"`. Agent starts the server against this vault and waits 10 seconds.
 3. Agent verifies `/tmp/pwned-by-config-agent` does NOT exist. Agent also verifies the server did not log any attempt to execute the hook value.

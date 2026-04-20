@@ -78,7 +78,7 @@ The FSM parsers (`WikiLinkParser`, `EmbedParser`) are the most complexity-prone 
 
 **Unblocks:**
 
-- Phase 3 feature ticket [[tickets/FEAT-004]] can transition to `in-review` once all three Phase 3 chores are `done`
+- Phase 3 feature ticket [[FEAT-004]] can transition to `in-review` once all three Phase 3 chores are `done`
 
 ---
 

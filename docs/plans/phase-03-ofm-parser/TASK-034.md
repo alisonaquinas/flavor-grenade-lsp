@@ -15,7 +15,7 @@ aliases: ["TASK-034"]
 
 # Implement CodeParser
 
-> [!INFO] `TASK-034` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-034` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -70,7 +70,7 @@ Create `src/parser/code-parser.ts` implementing the `CodeParser` class. The pars
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -78,11 +78,11 @@ Create `src/parser/code-parser.ts` implementing the `CodeParser` class. The pars
 
 **Blocked by:**
 
-- [[tickets/TASK-030]] — `OpaqueRegion` type must be defined first
+- [[TASK-030]] — `OpaqueRegion` type must be defined first
 
 **Unblocks:**
 
-- [[tickets/TASK-040]] — `OpaqueRegionMarker` composes `CommentParser`, `MathParser`, and `CodeParser`
+- [[TASK-040]] — `OpaqueRegionMarker` composes `CommentParser`, `MathParser`, and `CodeParser`
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -123,7 +123,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

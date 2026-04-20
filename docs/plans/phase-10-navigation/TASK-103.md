@@ -15,7 +15,7 @@ aliases: ["TASK-103"]
 
 # Consolidate ReferencesService
 
-> [!INFO] `TASK-103` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-103` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -30,7 +30,7 @@ Ensure `textDocument/references` handles all entity types at cursor: heading →
 - `includeDeclaration: false` — return only refs, not the declaration site
 - Tag lookup goes through `TagRegistry`
 - Return `[]` (empty array, not null) for plain text
-- See also: [[design/navigation]]
+- See also: design/navigation
 
 ---
 
@@ -46,13 +46,13 @@ Ensure `textDocument/references` handles all entity types at cursor: heading →
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Find references for heading` |
-| [[bdd/features/navigation]] | `Find references for block anchor` |
-| [[bdd/features/navigation]] | `Find references for tag` |
-| [[bdd/features/navigation]] | `Find references for document title` |
-| [[bdd/features/navigation]] | `Find references for wiki-link returns definition` |
-| [[bdd/features/navigation]] | `Find references returns empty for plain text` |
-| [[bdd/features/navigation]] | `includeDeclaration true prepends definition` |
+| `bdd/features/navigation.feature` | `Find references for heading` |
+| `bdd/features/navigation.feature` | `Find references for block anchor` |
+| `bdd/features/navigation.feature` | `Find references for tag` |
+| `bdd/features/navigation.feature` | `Find references for document title` |
+| `bdd/features/navigation.feature` | `Find references for wiki-link returns definition` |
+| `bdd/features/navigation.feature` | `Find references returns empty for plain text` |
+| `bdd/features/navigation.feature` | `includeDeclaration true prepends definition` |
 
 ---
 
@@ -74,7 +74,7 @@ Ensure `textDocument/references` handles all entity types at cursor: heading →
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -82,11 +82,11 @@ Ensure `textDocument/references` handles all entity types at cursor: heading →
 
 **Blocked by:**
 
-- [[tickets/TASK-105]] — entityAtPosition utility must exist before ReferencesService can use it
+- [[TASK-105]] — entityAtPosition utility must exist before ReferencesService can use it
 
 **Unblocks:**
 
-- [[tickets/TASK-108]] — integration tests depend on ReferencesService being complete
+- [[TASK-108]] — integration tests depend on ReferencesService being complete
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -138,4 +138,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

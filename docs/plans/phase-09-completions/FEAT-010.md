@@ -66,7 +66,7 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/completions]] | All completion trigger and provider scenarios including callout types, headings, embeds, and intra-doc refs |
+| `bdd/features/completions.feature` | All completion trigger and provider scenarios including callout types, headings, embeds, and intra-doc refs |
 
 ---
 
@@ -95,19 +95,19 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-092]] | Implement unified CompletionRouter | `open` |
-| [[tickets/TASK-093]] | Implement ContextAnalyzer | `open` |
-| [[tickets/TASK-094]] | Implement heading CompletionProvider | `open` |
-| [[tickets/TASK-095]] | Implement callout type CompletionProvider | `open` |
-| [[tickets/TASK-096]] | Implement embed CompletionProvider | `open` |
-| [[tickets/TASK-097]] | Implement completion.candidates cap with isIncomplete | `open` |
-| [[tickets/TASK-098]] | Implement linkStyle formatting in completion insert texts | `open` |
-| [[tickets/TASK-099]] | Implement intra-document heading completion after [[# | `open` |
-| [[tickets/TASK-100]] | Implement intra-document block ref completion after [[#^ | `open` |
-| [[tickets/TASK-101]] | Register updated completion capabilities | `open` |
-| [[tickets/CHORE-025]] | Phase 9 Lint Sweep | `open` |
-| [[tickets/CHORE-026]] | Phase 9 Code Quality Sweep | `open` |
-| [[tickets/CHORE-027]] | Phase 9 Security Sweep | `open` |
+| [[TASK-092]] | Implement unified CompletionRouter | `open` |
+| [[TASK-093]] | Implement ContextAnalyzer | `open` |
+| [[TASK-094]] | Implement heading CompletionProvider | `open` |
+| [[TASK-095]] | Implement callout type CompletionProvider | `open` |
+| [[TASK-096]] | Implement embed CompletionProvider | `open` |
+| [[TASK-097]] | Implement completion.candidates cap with isIncomplete | `open` |
+| [[TASK-098]] | Implement linkStyle formatting in completion insert texts | `open` |
+| [[TASK-099]] | Implement intra-document heading completion after `[[#` | `open` |
+| [[TASK-100]] | Implement intra-document block ref completion after `[[#^` | `open` |
+| [[TASK-101]] | Register updated completion capabilities | `open` |
+| [[CHORE-025]] | Phase 9 Lint Sweep | `open` |
+| [[CHORE-026]] | Phase 9 Code Quality Sweep | `open` |
+| [[CHORE-027]] | Phase 9 Security Sweep | `open` |
 
 ---
 
@@ -115,19 +115,20 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-007]] — Phase 6 (Tags) must be complete; tag completion sub-provider depends on tag indexing
-- [[tickets/FEAT-008]] — Phase 7 (Embeds) must be complete; embed completion depends on `AssetIndex`
-- [[tickets/FEAT-009]] — Phase 8 (Block Refs) must be complete; block ref completion and intra-doc `[[#^` completion depend on block anchor indexing
+- [[FEAT-007]] — Phase 6 (Tags) must be complete; tag completion sub-provider depends on tag indexing
+- [[FEAT-008]] — Phase 7 (Embeds) must be complete; embed completion depends on `AssetIndex`
+- [[FEAT-009]] — Phase 8 (Block Refs) must be complete; block ref completion and intra-doc `[[#^` completion depend on block anchor indexing
 
 **Unblocks:**
 
-- [[tickets/FEAT-011]] — Phase 10 (Navigation) can begin once the completion router and context analyzer exist
+- [[FEAT-011]] — Phase 10 (Navigation) can begin once the completion router and context analyzer exist
 
 ---
 
 ## Notes
 
 ADR references:
+
 - [[adr/ADR005-wiki-style-binding]] — `linkStyle` configuration and insert text formatting rules
 
 ---

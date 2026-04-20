@@ -223,7 +223,7 @@ Bootstrap a working NestJS + Bun + TypeScript monolith that compiles cleanly, ha
 
 - [ ] **14. Create project directory structure**
 
-  ```
+  ```text
   src/
   ├── main.ts
   ├── lsp/
@@ -237,7 +237,7 @@ Bootstrap a working NestJS + Bun + TypeScript monolith that compiles cleanly, ha
 
 - [ ] **15. Create `.gitignore`**
 
-  ```
+  ```text
   node_modules/
   dist/
   .env
@@ -262,6 +262,7 @@ bun run format --check
 ```
 
 Expected output:
+
 - `tsc` exits 0 with no errors
 - `bun test` exits 0 (no test files yet, this is expected)
 - `eslint` exits 0 (no lint errors on skeleton code)

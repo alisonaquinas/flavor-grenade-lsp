@@ -15,7 +15,7 @@ aliases: ["TASK-030"]
 
 # Define OFMIndex and OFMDoc types
 
-> [!INFO] `TASK-030` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-030` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -90,7 +90,7 @@ TypeScript types verified by `tsc --noEmit`. No separate test file needed for th
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -113,7 +113,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `tsc --noEmit` exits 0 with all types in place
 - [ ] All parser sub-component tickets (TASK-031 through TASK-044) can import from `src/parser/types.ts` without errors
 - [ ] `bun run lint --max-warnings 0` passes
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -139,7 +139,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

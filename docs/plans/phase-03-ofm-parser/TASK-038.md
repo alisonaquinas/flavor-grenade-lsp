@@ -15,7 +15,7 @@ aliases: ["TASK-038"]
 
 # Implement TagParser
 
-> [!INFO] `TASK-038` · Task · Phase 3 · Parent: [[tickets/FEAT-004]] · Status: `open`
+> [!INFO] `TASK-038` · Task · Phase 3 · Parent: [[FEAT-004]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Create `src/parser/tag-parser.ts` implementing the `TagParser` class. The parser
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/tags]] | `Server indexes tags in opened document` |
+| `bdd/features/tags.feature` | `Server indexes tags in opened document` |
 
 ---
 
@@ -69,7 +69,7 @@ Create `src/parser/tag-parser.ts` implementing the `TagParser` class. The parser
 
 ## Parent Feature
 
-[[tickets/FEAT-004]] — OFM Parser
+[[FEAT-004]] — OFM Parser
 
 ---
 
@@ -77,12 +77,12 @@ Create `src/parser/tag-parser.ts` implementing the `TagParser` class. The parser
 
 **Blocked by:**
 
-- [[tickets/TASK-030]] — `TagEntry` and `OpaqueRegion` types must be defined
-- [[tickets/TASK-040]] — `OpaqueRegionMarker` must be available
+- [[TASK-030]] — `TagEntry` and `OpaqueRegion` types must be defined
+- [[TASK-040]] — `OpaqueRegionMarker` must be available
 
 **Unblocks:**
 
-- [[tickets/TASK-041]] — `OFMParser` orchestrator calls `TagParser` in Stage 3
+- [[TASK-041]] — `OFMParser` orchestrator calls `TagParser` in Stage 3
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-004]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
 
@@ -123,7 +123,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-004]].
+> Ticket created. Status: `open`. Parent: [[FEAT-004]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented and tested. All acceptance criteria met. Status: `done`.

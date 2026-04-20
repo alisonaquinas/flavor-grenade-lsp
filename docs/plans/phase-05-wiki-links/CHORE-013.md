@@ -73,11 +73,11 @@ Phase 5 introduces the largest surface area of new source files in the project s
 
 **Blocked by:**
 
-- [[tickets/TASK-066]] — all Phase 5 implementation tasks must be complete before the lint sweep
+- [[TASK-066]] — all Phase 5 implementation tasks must be complete before the lint sweep
 
 **Unblocks:**
 
-- [[tickets/CHORE-014]] — code quality sweep proceeds after lint is clean
+- [[CHORE-014]] — code quality sweep proceeds after lint is clean
 
 ---
 
@@ -125,5 +125,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 lint sweep to reach zero-warning gate.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `bun run lint --max-warnings 0` passes. `tsc --noEmit` exits 0. 193 unit + 6 integration tests pass. No new lint suppressions added. Fixed one `eslint-disable` comment that was redundant in integration test file.

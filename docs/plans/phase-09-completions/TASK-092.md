@@ -15,7 +15,7 @@ aliases: ["TASK-092"]
 
 # Implement unified CompletionRouter
 
-> [!INFO] `TASK-092` · Task · Phase 9 · Parent: [[tickets/FEAT-010]] · Status: `open`
+> [!INFO] `TASK-092` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
 
 ## Description
 
@@ -28,6 +28,7 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
 - Class: `CompletionRouter`
 - Method signature: `async complete(params: CompletionParams, doc: OFMDoc): Promise<CompletionList>`
 - Routing switch:
+
   ```typescript
   switch (context.kind) {
     case 'wiki-link':         return this.wikiLinkProvider.complete(context);
@@ -39,9 +40,10 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
     default:                  return { isIncomplete: false, items: [] };
   }
   ```
+
 - `linkStyle` from config is injected into each sub-provider on construction
 - ADR: [[adr/ADR005-wiki-style-binding]]
-- Linked BDD: [[bdd/features/completions]]
+- Linked BDD: `bdd/features/completions.feature`
 
 ---
 
@@ -57,7 +59,7 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/completions]] | `CompletionRouter dispatches to correct sub-provider` |
+| `bdd/features/completions.feature` | `CompletionRouter dispatches to correct sub-provider` |
 
 ---
 
@@ -81,7 +83,7 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
 
 ## Parent Feature
 
-[[tickets/FEAT-010]] — Completions
+[[FEAT-010]] — Completions
 
 ---
 
@@ -93,10 +95,10 @@ Create `src/completion/completion-router.ts`. This is the single entry point for
 
 **Unblocks:**
 
-- [[tickets/TASK-093]] — `ContextAnalyzer` is called from within `CompletionRouter`
-- [[tickets/TASK-097]] — candidates cap is applied inside `CompletionRouter`
-- [[tickets/TASK-100]] — intra-doc block ref completion is routed through `CompletionRouter`
-- [[tickets/TASK-101]] — capability registration follows `CompletionRouter` completion
+- [[TASK-093]] — `ContextAnalyzer` is called from within `CompletionRouter`
+- [[TASK-097]] — candidates cap is applied inside `CompletionRouter`
+- [[TASK-100]] — intra-doc block ref completion is routed through `CompletionRouter`
+- [[TASK-101]] — capability registration follows `CompletionRouter` completion
 
 ---
 
@@ -111,7 +113,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-010]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
 
@@ -135,7 +137,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-010]].
+> Ticket created. Status: `open`. Parent: [[FEAT-010]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implementation complete and tested. All acceptance criteria met. Lint clean, tsc clean, 321 tests pass. Status: `done`.

@@ -125,11 +125,11 @@ describe('LSP Transport Integration', () => {
     const client = new LspClient();
 
     // 1. initialize
-    const initResponse = await client.request('initialize', {
+    const initResponse = (await client.request('initialize', {
       processId: null,
       rootUri: null,
       capabilities: {},
-    }) as Record<string, unknown>;
+    })) as Record<string, unknown>;
 
     expect(initResponse).toMatchObject({
       jsonrpc: '2.0',
@@ -141,7 +141,7 @@ describe('LSP Transport Integration', () => {
 
     // 2. The server should push a flavorGrenade/status notification after initialize
     // (may arrive before or interleaved — collect next server push)
-    const statusNotif = await client.nextMessage() as Record<string, unknown>;
+    const statusNotif = (await client.nextMessage()) as Record<string, unknown>;
     expect(statusNotif).toMatchObject({
       jsonrpc: '2.0',
       method: 'flavorGrenade/status',
@@ -151,9 +151,9 @@ describe('LSP Transport Integration', () => {
     client.notify('initialized', {});
 
     // 4. shutdown
-    const shutdownResponse = await client.request('shutdown') as Record<string, unknown>;
+    const shutdownResponse = (await client.request('shutdown')) as Record<string, unknown>;
     expect(shutdownResponse).toMatchObject({ jsonrpc: '2.0', id: 2, result: null });
-    expect((shutdownResponse)['error']).toBeUndefined();
+    expect(shutdownResponse['error']).toBeUndefined();
 
     // 5. exit
     const exitCodePromise = client.waitForExit();
@@ -171,7 +171,7 @@ describe('LSP Transport Integration', () => {
     // consume the status notification
     await client.nextMessage();
 
-    const response = await client.request('unknown/method', {}) as Record<string, unknown>;
+    const response = (await client.request('unknown/method', {})) as Record<string, unknown>;
     expect(response).toMatchObject({
       jsonrpc: '2.0',
       error: { code: -32601 },
@@ -187,7 +187,7 @@ describe('LSP Transport Integration', () => {
     const client = new LspClient();
 
     await client.request('initialize', { processId: null, rootUri: null, capabilities: {} });
-    const notif = await client.nextMessage() as Record<string, unknown>;
+    const notif = (await client.nextMessage()) as Record<string, unknown>;
 
     expect(notif).toMatchObject({
       jsonrpc: '2.0',

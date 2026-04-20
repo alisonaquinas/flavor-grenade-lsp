@@ -15,7 +15,7 @@ aliases: ["TASK-021"]
 
 # Handle initialized notification
 
-> [!INFO] `TASK-021` · Task · Phase 2 · Parent: [[tickets/FEAT-003]] · Status: `open`
+> [!INFO] `TASK-021` · Task · Phase 2 · Parent: [[FEAT-003]] · Status: `open`
 
 ## Description
 
@@ -44,7 +44,7 @@ Create the `initialized` notification handler. Per the LSP specification the cli
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server completes LSP handshake` |
+| `bdd/features/workspace.feature` | `Server completes LSP handshake` |
 
 ---
 
@@ -68,7 +68,7 @@ Create the `initialized` notification handler. Per the LSP specification the cli
 
 ## Parent Feature
 
-[[tickets/FEAT-003]] — LSP Transport
+[[FEAT-003]] — LSP Transport
 
 ---
 
@@ -76,11 +76,11 @@ Create the `initialized` notification handler. Per the LSP specification the cli
 
 **Blocked by:**
 
-- [[tickets/TASK-020]] — `initialize` handler must be in place before `initialized` handler is useful
+- [[TASK-020]] — `initialize` handler must be in place before `initialized` handler is useful
 
 **Unblocks:**
 
-- [[tickets/TASK-029]] — Integration tests require all lifecycle handlers to be registered
+- [[TASK-029]] — Integration tests require all lifecycle handlers to be registered
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-003]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-003]].
+> Ticket created. Status: `open`. Parent: [[FEAT-003]].
 
 > [!SUCCESS] Done — 2026-04-17
 > RED and GREEN commits landed. All tests pass. Status: `done`.

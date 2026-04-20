@@ -15,7 +15,7 @@ aliases: ["TASK-111"]
 
 # Implement textDocument/rename for file rename
 
-> [!INFO] `TASK-111` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-111` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -31,7 +31,7 @@ Handle file rename in the rename handler. Determine the old `DocId` from the cur
 - All four link pattern variants must be updated
 - Path-qualified links: preserve path prefix, only update the stem
 - New URI must remain within vault root — verified in CHORE-033
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -47,11 +47,11 @@ Handle file rename in the rename handler. Determine the old `DocId` from the cur
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `Rename file produces RenameFile document change` |
-| [[bdd/features/rename]] | `Rename file updates plain wiki-link references` |
-| [[bdd/features/rename]] | `Rename file updates aliased wiki-link references` |
-| [[bdd/features/rename]] | `Rename file updates heading-fragment references` |
-| [[bdd/features/rename]] | `Rename file updates path-qualified references` |
+| `bdd/features/rename.feature` | `Rename file produces RenameFile document change` |
+| `bdd/features/rename.feature` | `Rename file updates plain wiki-link references` |
+| `bdd/features/rename.feature` | `Rename file updates aliased wiki-link references` |
+| `bdd/features/rename.feature` | `Rename file updates heading-fragment references` |
+| `bdd/features/rename.feature` | `Rename file updates path-qualified references` |
 
 ---
 
@@ -74,7 +74,7 @@ Handle file rename in the rename handler. Determine the old `DocId` from the cur
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -82,12 +82,12 @@ Handle file rename in the rename handler. Determine the old `DocId` from the cur
 
 **Blocked by:**
 
-- [[tickets/TASK-115]] — WorkspaceEditBuilder must exist before rename handler can produce WorkspaceEdit
+- [[TASK-115]] — WorkspaceEditBuilder must exist before rename handler can produce WorkspaceEdit
 
 **Unblocks:**
 
-- [[tickets/TASK-112]] — link style variant handling extends file rename
-- [[tickets/TASK-117]] — integration tests depend on file rename being complete
+- [[TASK-112]] — link style variant handling extends file rename
+- [[TASK-117]] — integration tests depend on file rename being complete
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -139,4 +139,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

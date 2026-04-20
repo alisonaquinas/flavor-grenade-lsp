@@ -36,6 +36,7 @@ record for the `textDocument/completion` capability.
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 15 documents whose names all share the prefix `note-`.
 - A `.flavor-grenade.toml` file at the vault root containing `completion.candidates = 5`.
 - An `.obsidian/` marker directory at the vault root.
@@ -59,6 +60,7 @@ And CompletionList.isIncomplete is false
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 15 documents: `notes/note-00.md` through `notes/note-14.md`, each with a one-line body.
 3. Agent writes `.flavor-grenade.toml` at vault root: `completion.candidates = 5`.
@@ -88,6 +90,7 @@ And CompletionList.isIncomplete is false
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 5 documents and at least 5 distinct inline tags.
 - A fixture document `trigger-test.md` with three precisely placed cursor positions:
   - Position A: immediately after `[[` on a fresh line (trigger char `[`, wiki-link context).
@@ -118,6 +121,7 @@ Then CompletionList.items.length >= 1
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 5 documents: `notes/alpha.md`, `notes/beta.md`, `notes/gamma.md`, `notes/delta.md`, `notes/epsilon.md`, each with a body line.
 3. Agent writes `notes/alpha.md` with frontmatter tags `#research`, `#project/active`, `#project/done`, `#meeting`, `#journal`.
@@ -151,6 +155,7 @@ Then CompletionList.items.length >= 1
 **Phase:** Phase 1
 
 **Setup:**
+
 - Any vault with at least one document open.
 - A fixture document `callout-test.md` with a single line `> [!` and the cursor positioned at column 4 (immediately after `!`).
 
@@ -178,11 +183,14 @@ And (primary standard callout types present / 13) × 100 = 100
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `callout-test.md` with content:
+
    ```
    > [!
    ```
+
    (The cursor target is the end of line 1, column 4, immediately after `!`.)
 3. Agent spawns server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` + `initialized`.
@@ -207,6 +215,7 @@ And (primary standard callout types present / 13) × 100 = 100
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 5 documents whose frontmatter `title` values differ from their file stems (e.g., `notes/my-note.md` with `title: My Note`).
 - Three separate server runs, each with a different `wiki.style` value in `.flavor-grenade.toml`: `file-stem`, `title-slug`, `file-path-stem`.
 - A scratch document `style-test.md` open with cursor after `[[` on an empty line.
@@ -236,6 +245,7 @@ And zero items use file-stem-only or title-slug format
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 5 documents in `notes/` with frontmatter titles distinct from their file stems.
 3. Agent writes `style-test.md` with a single empty body line.

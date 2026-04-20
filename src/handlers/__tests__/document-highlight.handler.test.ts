@@ -9,10 +9,7 @@ function id(s: string): DocId {
   return s as DocId;
 }
 
-function makeDoc(
-  uri: string,
-  partial: Partial<OFMDoc['index']> = {},
-): OFMDoc {
+function makeDoc(uri: string, partial: Partial<OFMDoc['index']> = {}): OFMDoc {
   return {
     uri,
     version: 0,
@@ -130,9 +127,7 @@ describe('DocumentHighlightHandler', () => {
     expect(writeHighlight).toBeDefined();
     expect(writeHighlight!.range).toEqual(anchor.range);
 
-    const readHighlight = result.find(
-      (h) => h.kind === 2 && h.range === intraRef.range,
-    );
+    const readHighlight = result.find((h) => h.kind === 2 && h.range === intraRef.range);
     expect(readHighlight).toBeDefined();
   });
 

@@ -10,7 +10,7 @@ aliases:
 # Diagnostic Requirements
 
 > [!NOTE] Scope
-> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[wiki-link-resolution]], [[embed-resolution]], [[block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
+> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
 
 ---
 
@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Broken, ambiguous, and malformed wiki-links are not cosmetic issues — they represent a failure of the vault's link graph that will cause incorrect rendering, navigation failures, or silent data-loss when following links. Error severity ensures that LSP clients display these diagnostics with maximum visual prominence (red underlines, error counts in the status bar) and that CI tooling treating errors as blocking can act on them. Downgrading to Warning would cause them to be ignored alongside stylistic suggestions.
 **Scale:** Percentage of FG001, FG002, and FG003 diagnostics published by the server that carry `severity: 1` (DiagnosticSeverity.Error). Scope: all `textDocument/publishDiagnostics` notifications issued during a full vault analysis session.
 **Meter:**
+
 1. Create a test vault with at least 5 broken wiki-links (FG001 cases), at least 2 ambiguous wiki-links (FG002 cases — two documents with the same stem), and at least 2 malformed wiki-links (FG003 cases — e.g. `[[]]` or `[[|]]`).
 2. Open all documents; collect all `textDocument/publishDiagnostics` notifications.
 3. Filter to diagnostics with code `FG001`, `FG002`, or `FG003`.
@@ -39,6 +40,7 @@ aliases:
 **Ambition:** Broken embeds degrade the rendered note but do not prevent navigation or corrupt the link graph in the same way a broken wiki-link does — the note remains readable, and the author's intent is recoverable. Warning severity distinguishes embed issues from link-graph failures without dismissing them as informational. It allows clients to display them with yellow/orange prominence and allows authors to triage broken embeds separately from broken links, which is the priority ordering that matches Obsidian's own rendering hierarchy.
 **Scale:** Percentage of FG004 diagnostics published by the server that carry `severity: 2` (DiagnosticSeverity.Warning). Scope: all `textDocument/publishDiagnostics` notifications during a full vault analysis session.
 **Meter:**
+
 1. Create a test vault with at least 5 broken embed links covering markdown and image targets.
 2. Open all documents; collect all `textDocument/publishDiagnostics` notifications.
 3. Filter to diagnostics with code `FG004`.
@@ -58,6 +60,7 @@ aliases:
 **Ambition:** Stable, unique diagnostic codes enable downstream tooling — CI scripts, editor rule configurations, custom linters, and documentation — to identify, filter, and suppress specific diagnostic types without relying on fragile message-string matching. A code registry that allows collisions or undefined codes makes the diagnostic system unreliable as a machine-readable interface, eroding the value of the entire system as a programmatic signal.
 **Scale:** Percentage of diagnostic instances emitted during a full vault analysis session that carry a non-null `code` value matching the expected FG-code for their type, as defined in the diagnostic code registry in [[design/api-layer#diagnostic-codes]].
 **Meter:**
+
 1. Construct a test vault that exercises at least one instance of each defined diagnostic type: FG001, FG002, FG004, FG005.
 2. Collect all `textDocument/publishDiagnostics` notifications.
 3. For each diagnostic, check that `code` is present, is a string of the form `FG\d+`, and matches the code assigned to the diagnostic's type in the registry.
@@ -67,7 +70,7 @@ aliases:
 **Goal:** 100% of diagnostics carry their correct assigned FG code; 0 code collisions.
 **Stakeholders:** CI engineers, LSP client plugin authors, tool integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[block-references]].
+**Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]].
 
 ---
 
@@ -77,6 +80,7 @@ aliases:
 **Ambition:** Diagnostic latency directly affects the perceived responsiveness of the LSP. A server that takes multiple seconds to report a broken link after the author types it fails to provide the real-time feedback loop that distinguishes an LSP from a batch linter. The 500 ms threshold is set at the upper bound of what UX research identifies as "immediate" response; the 200 ms goal reflects a target that keeps the diagnostic system imperceptible as a source of latency during normal typing.
 **Scale:** Median time in milliseconds between the last `textDocument/didChange` notification in a typing burst and the subsequent `textDocument/publishDiagnostics` notification for the changed document. Measured across at least 20 trials in a vault of 1000 documents.
 **Meter:**
+
 1. Construct a vault with exactly 1000 documents, each containing at least 3 wiki-links.
 2. Open a document. Using an automated LSP test client, send 5 `textDocument/didChange` notifications at 50 ms intervals simulating a typing burst.
 3. Record the timestamp of the last `didChange` notification.
@@ -97,6 +101,7 @@ aliases:
 **Ambition:** An ambiguous wiki-link — where two or more vault documents share the same file stem or title — cannot be resolved deterministically. Simply flagging the diagnostic without indicating which documents are in conflict forces the author to perform a manual search to understand the ambiguity. Providing `relatedInformation` entries that point directly to each candidate document transforms a frustrating error into an actionable diagnosis: the author can navigate to each candidate and decide which to rename or disambiguate.
 **Scale:** Percentage of FG002 diagnostics whose `relatedInformation` array contains exactly one entry per duplicate candidate document location (no more, no fewer). An ambiguous link with N matching documents must have exactly N `relatedInformation` entries.
 **Meter:**
+
 1. Create a test vault with at least 3 distinct ambiguity scenarios:
    - Scenario A: 2 documents sharing the same file stem
    - Scenario B: 3 documents sharing the same file stem
@@ -120,6 +125,7 @@ aliases:
 **Ambition:** Single-file mode operates without a VaultIndex. Cross-file diagnostics require inter-document knowledge — whether a target document exists, whether an anchor is defined, whether a name is ambiguous — that is simply unavailable in single-file mode. Emitting these diagnostics in single-file mode would produce false positives for every wiki-link in the document, flooding the author with spurious errors that cannot be acted upon and destroying the signal value of the diagnostic system entirely. Suppression is the correct and principled behaviour.
 **Scale:** Percentage of `textDocument/publishDiagnostics` notifications issued in single-file mode that contain zero diagnostics with codes FG001, FG002, FG004, or FG005.
 **Meter:**
+
 1. Author a document with at least 5 wiki-links, 3 embed links, and 2 block cross-references — all of which would produce cross-file diagnostics in multi-file mode.
 2. Open the document in the LSP client in single-file mode (no `rootUri`, no `workspaceFolders`).
 3. Wait for `textDocument/publishDiagnostics`.
@@ -130,4 +136,4 @@ aliases:
 **Goal:** 0 cross-file diagnostics in single-file mode.
 **Stakeholders:** Text editor users opening individual files, developers testing isolated documents.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution#Link.Resolution.ModeScope]], [[block-references#Block.CrossRef.Diagnostic]], [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]].
+**Source:** [[wiki-link-resolution#Link.Resolution.ModeScope]], [[requirements/block-references#Block.CrossRef.Diagnostic]], [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]].

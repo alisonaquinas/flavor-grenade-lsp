@@ -16,8 +16,11 @@ export class BlockAnchorParser {
    */
   static parse(text: string, opaqueRegions: readonly OpaqueRegion[]): BlockAnchorEntry[] {
     const entries: BlockAnchorEntry[] = [];
-    // Match ^ followed by id chars at end of line (optionally preceded by whitespace)
-    const pattern = /[ \t](\^[a-zA-Z0-9-]+)[ \t]*$/gm;
+    // Match ^ followed by id chars at end of line.
+    // Valid positions: preceded by at least one whitespace character.
+    // A lone ^anchor with nothing before it on the line is NOT valid Obsidian
+    // syntax and would produce spurious FG005 diagnostics (issue #3).
+    const pattern = /(?<=[ \t])(\^[a-zA-Z0-9-]+)[ \t]*$/gm;
     let match: RegExpExecArray | null;
 
     while ((match = pattern.exec(text)) !== null) {

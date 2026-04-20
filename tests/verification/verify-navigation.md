@@ -36,6 +36,7 @@ capabilities across all OFM link types.
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with the following documents:
   - `notes/target.md` — contains headings `## Alpha Heading`, `## Beta Heading`, `## Gamma Heading`; block anchors `^block-a`, `^block-b`, `^block-c` on body lines; and inline tags `#topic-x`.
   - `notes/embed-source.md` — contains `![[target]]`, `![[target#Alpha Heading]]`, `![[target#Beta Heading]]`.
@@ -69,6 +70,7 @@ And the target range covers the "## Gamma Heading" heading line
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory and writes all fixture documents listed in Setup.
 2. Agent spawns server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` + `initialized`.
@@ -100,6 +102,7 @@ And the target range covers the "## Beta Heading" heading line
 ```
 
 **Agent-driven steps:**
+
 1. (Vault from sub-case A is reused.)
 2. For each of the 3 embed positions in `notes/embed-source.md`, agent sends `textDocument/definition` with cursor on the embed token.
 3. Agent asserts each response is a non-null `Location` pointing to the correct target in `notes/target.md`.
@@ -128,6 +131,7 @@ And the target range covers the line containing "^block-c"
 ```
 
 **Agent-driven steps:**
+
 1. (Vault from sub-case A is reused.)
 2. For each of the 3 block-reference positions in `notes/block-source.md`, agent sends `textDocument/definition` with cursor on the `^block-*` token.
 3. Agent asserts each response is a non-null `Location` pointing to the correct anchor line in `notes/target.md`.
@@ -154,6 +158,7 @@ Then the response is a non-null Location
 ```
 
 **Agent-driven steps:**
+
 1. (Vault from sub-case A is reused.)
 2. For each of the 3 tag positions in `notes/tag-source.md`, agent sends `textDocument/definition` with cursor on the `#topic-x` token.
 3. Agent asserts each response is a non-null `Location` (target may be the first occurrence or a canonical declaration site — must be non-null and point within the vault).
@@ -174,6 +179,7 @@ Then the response is a non-null Location
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 15 documents.
 - A target document `notes/target.md` with heading `## Section Alpha`.
 - At least 10 other documents containing references to `notes/target.md`, mixed across:
@@ -197,6 +203,7 @@ And no reference found by independent scan is absent from the LSP response
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes `notes/target.md` with heading `## Section Alpha`.
 3. Agent writes 10 referencing documents: `ref-01.md` through `ref-10.md`, each containing at least one of `[[target]]`, `![[target]]`, or `[[target#Section Alpha]]`.
@@ -225,6 +232,7 @@ And no reference found by independent scan is absent from the LSP response
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 10 documents.
 - At least 5 headings across the vault with a known, non-zero reference count.
 - At least 3 headings with zero references (orphaned headings).
@@ -251,6 +259,7 @@ Then the code lens on "## Central Heading" shows "3 references"
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 10 documents; `notes/hub.md` contains `## Central Heading` and `## Orphaned Heading`; `notes/ref-a.md` and `notes/ref-b.md` each contain `[[hub#Central Heading]]`; remaining documents have headings with 0, 1, and 2 references as planned.
 3. Agent spawns server: `bun run start 2>/dev/null &`

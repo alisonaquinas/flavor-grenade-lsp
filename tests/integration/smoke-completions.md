@@ -47,6 +47,7 @@ And each completion item has kind 17 (File)
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-011/.obsidian
    mkdir -p /tmp/fg-smoke-011/notes
@@ -54,20 +55,27 @@ And each completion item has kind 17 (File)
    echo '# Beta'  > /tmp/fg-smoke-011/notes/beta.md
    echo '# Gamma' > /tmp/fg-smoke-011/notes/gamma.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-011/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-011/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/new.md` with text `"[["`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-011/notes/new.md","languageId":"markdown","version":1,"text":"[["}}}
    ```
+
 6. Agent sends `textDocument/completion` at position `{line: 0, character: 2}`:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/completion","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-011/notes/new.md"},"position":{"line":0,"character":2},"context":{"triggerKind":1}}}
    ```
+
 7. Agent reads the response from stdout (up to 3s)
 8. Agent asserts the response has a `result` field (not `error`)
 9. Agent asserts `result.items` is an array with length >= 3
@@ -104,6 +112,7 @@ And the server does not crash (subsequent requests are still handled)
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-012/.obsidian
    mkdir -p /tmp/fg-smoke-012/notes
@@ -111,6 +120,7 @@ And the server does not crash (subsequent requests are still handled)
    echo '# Beta'  > /tmp/fg-smoke-012/notes/beta.md
    echo '# Gamma' > /tmp/fg-smoke-012/notes/gamma.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-012/"` and immediately (without waiting for a response) sends:
    - `initialized` notification

@@ -77,7 +77,7 @@ Resource leaks in stdio transport components could cause the server to malfuncti
 
 **Unblocks:**
 
-- Phase 2 feature ticket [[tickets/FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
+- Phase 2 feature ticket [[FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
 
 ---
 

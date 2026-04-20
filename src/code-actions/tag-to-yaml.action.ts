@@ -165,7 +165,10 @@ export class TagToYamlAction {
     // Fallback: insert before closing ---
     if (closingLine !== -1) {
       return {
-        range: { start: { line: closingLine, character: 0 }, end: { line: closingLine, character: 0 } },
+        range: {
+          start: { line: closingLine, character: 0 },
+          end: { line: closingLine, character: 0 },
+        },
         newText: `- ${bareTag}\n`,
       };
     }

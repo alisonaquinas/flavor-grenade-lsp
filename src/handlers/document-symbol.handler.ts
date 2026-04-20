@@ -4,8 +4,8 @@ import type { Range } from 'vscode-languageserver-types';
 import { ParseCache } from '../parser/parser.module.js';
 import type { HeadingEntry } from '../parser/types.js';
 
-const SYMBOL_KIND_MODULE = 2;  // SymbolKind.Module (used for headings)
-const SYMBOL_KIND_KEY = 20;    // SymbolKind.Key (used for block anchors)
+const SYMBOL_KIND_MODULE = 2; // SymbolKind.Module (used for headings)
+const SYMBOL_KIND_KEY = 20; // SymbolKind.Key (used for block anchors)
 
 interface DocumentSymbol {
   name: string;

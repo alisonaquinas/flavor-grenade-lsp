@@ -73,6 +73,7 @@ Active investigation is underway within the time-box.
 
 **Time-box discipline:**  
 If the investigation is taking longer than the declared time-box, the agent must either:
+
 - Narrow the scope and declare partial findings → `inconclusive`, or
 - Explicitly note the overrun in the Workflow Log and obtain a scope extension before continuing
 

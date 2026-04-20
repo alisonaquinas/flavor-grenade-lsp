@@ -67,7 +67,7 @@ Each completion item sets `kind: File` and includes `detail` with the vault-rela
 
 ## Callout Type Completion
 
-**Trigger:** the cursor is on `[!` immediately after `> ` at the beginning of a blockquote line.
+**Trigger:** the cursor is on `[!` immediately after `>` at the beginning of a blockquote line.
 
 > [!NOTE]
 > Callout type completion is NOT a wiki-link completion. The trigger pattern is `> [!` in blockquote context, distinct from `[[` wiki-link context.

@@ -10,7 +10,7 @@ aliases:
 # Rename Refactoring Requirements
 
 > [!NOTE] Scope
-> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
+> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[requirements/completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
 
 ---
 
@@ -20,6 +20,7 @@ aliases:
 **Ambition:** A rename operation that misses references leaves the vault in an inconsistent state: some links point to the new name, others to the old name, producing broken-link diagnostics and a confusing navigational experience. Authors trust rename to be a safe, complete operation — the same guarantee users expect from IDE refactoring tools. Anything less than 100% completeness transforms rename from a reliable tool into a source of hard-to-diagnose link rot that spreads silently through the vault.
 **Scale:** Percentage of cross-document references to the renamed element that are updated in the `WorkspaceEdit` returned by the rename request. A reference is any `[[link]]`, `![[embed]]`, or heading anchor in the vault that resolves to the renamed element. Scope: all indexed documents in the vault.
 **Meter:**
+
 1. Create a test vault with at least 15 documents. Ensure the target element (e.g., `My Document`) is referenced by at least 12 of them, using a mix of wiki-links (`[[My Document]]`), embed links (`![[My Document]]`), and heading links (`[[My Document#Section]]`).
 2. Issue `textDocument/rename` with the new name from the document title position.
 3. Collect the returned `WorkspaceEdit`.
@@ -32,7 +33,7 @@ aliases:
 **Goal:** 100% of references updated in a single `WorkspaceEdit`.
 **Stakeholders:** Vault authors performing refactoring, knowledge base curators, teams managing shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[navigation#Navigation.References.Completeness]].
+**Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[requirements/navigation#Navigation.References.Completeness]].
 
 ---
 
@@ -42,6 +43,7 @@ aliases:
 **Ambition:** The `prepareRename` method exists in the LSP protocol specifically to allow the server to validate the rename target before the user commits to a new name. If `prepareRename` does not reject invalid positions, the client will prompt the user for a new name, the user will type it, and then `textDocument/rename` will either silently do nothing or produce an error — both outcomes are confusing and erode user trust. Correct rejection at the `prepareRename` stage provides immediate, low-cost feedback that the cursor is not on a renameable element.
 **Scale:** Percentage of `textDocument/prepareRename` requests issued at non-renameable cursor positions that return `null` or a protocol-compliant error response. Non-renameable positions include: mid-paragraph prose, content inside fenced code blocks, content inside `$$...$$` or `$...$` math spans, and URL portions of `[text](url)` inline links.
 **Meter:**
+
 1. Author a document containing at least 8 non-renameable positions:
    - 2 positions in mid-paragraph prose (not on any link or heading token)
    - 2 positions inside a fenced code block
@@ -65,6 +67,7 @@ aliases:
 **Ambition:** A vault may contain links created under different style configurations — for example, historical file-stem links that predate a switch to title-slug mode. Rewriting all links regardless of style would corrupt the historical links by applying the wrong text transformation, potentially making them ambiguous or broken under their original interpretation. Style-binding consistency ensures that rename operates precisely within its declared scope: if `wiki.style` is `title-slug`, only title-slug-formatted links are updated, and the updated links use the new title in slug format. This is the rename-specific formulation of the general style-binding contract established in [[wiki-link-resolution#Link.Wiki.StyleBinding]].
 **Scale:** Percentage of rename `WorkspaceEdit` text changes that: (a) update only references whose existing text format matches the active `wiki.style`; and (b) write the new reference text in the format prescribed by the active `wiki.style`. Out-of-style links present in the vault must not appear in the WorkspaceEdit at all.
 **Meter:**
+
 1. Create a test vault with documents referenced by a mix of link styles: some using file-stem format, some using title-slug format (different from the active style).
 2. Set `wiki.style` to `title-slug`.
 3. Issue `textDocument/rename` on a document whose title changes from `Old Title` to `New Title`.

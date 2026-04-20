@@ -17,7 +17,7 @@ aliases: ["TASK-009"]
 
 # Create src/main.ts — NestJS bootstrap
 
-> [!INFO] `TASK-009` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-009` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -69,7 +69,7 @@ Create `src/main.ts` as the NestJS application entry point. The file must begin 
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -77,9 +77,9 @@ Create `src/main.ts` as the NestJS application entry point. The file must begin 
 
 **Blocked by:**
 
-- [[tickets/TASK-003]] — NestJS packages (`@nestjs/core`, `reflect-metadata`) must be installed.
-- [[tickets/TASK-007]] — `tsconfig.json` must be present for TypeScript compilation to succeed.
-- [[tickets/TASK-010]] — `LspModule` must exist before `src/main.ts` can import it.
+- [[TASK-003]] — NestJS packages (`@nestjs/core`, `reflect-metadata`) must be installed.
+- [[TASK-007]] — `tsconfig.json` must be present for TypeScript compilation to succeed.
+- [[TASK-010]] — `LspModule` must exist before `src/main.ts` can import it.
 
 **Unblocks:**
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] File imports `NestFactory` from `@nestjs/core` and `LspModule` from `./lsp/lsp.module`
 - [ ] `bootstrap` function is typed `async function bootstrap(): Promise<void>`
 - [ ] `bun run build` exits 0 with `src/main.ts` present (after TASK-010 is also complete)
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -117,7 +117,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

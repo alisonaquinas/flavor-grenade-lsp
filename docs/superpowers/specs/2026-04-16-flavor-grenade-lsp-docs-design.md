@@ -40,7 +40,7 @@ This spec defines the structure, content plan, and key design decisions for the 
 
 ## 2. Reference Sources
 
-Two local reference repositories in `/c/Users/aaqui/obsidian-stack/` informed this structure.
+Two local reference repositories in the `obsidian-stack` working root informed this structure.
 
 ### 2.1 marksman (`/marksman/docs/`)
 
@@ -95,6 +95,7 @@ Three structural options were evaluated:
 Neither reference project formally specifies OFM syntax. marksman assumes CommonMark + wiki-links without documenting the exact parse grammar. obsidian-linter's OFM knowledge is embedded in regexes scattered across `ignore-types.ts` and individual rule files.
 
 `flavor-grenade-lsp` owns an `ofm-spec/` layer that documents each OFM syntactic element with:
+
 - Canonical syntax patterns (regex + prose)
 - Parse precedence rules and edge cases
 - Interaction with standard CommonMark elements
@@ -177,7 +178,7 @@ DDD bounded contexts map to NestJS injectable modules:
 
 ## 4. Proposed `docs/` Folder Structure
 
-```
+```text
 docs/
 ├── index.md                         ← project overview, purpose, tech stack
 ├── AGENTS.md                        ← AI agent navigation guide
@@ -297,15 +298,17 @@ docs/
         └── 2026-04-16-flavor-grenade-lsp-docs-design.md  ← this file
 ```
 
-**Total: ~65 files across 20 directories**
+Total: ~65 files across 20 directories
 
 ---
 
 ## 5. Content Depth Plan per Layer
 
 ### 5.1 ADRs (6 files)
+
 Each follows the obsidian-linter template:
-```
+
+```text
 ---
 adr: NNN
 title: <decision title>
@@ -321,27 +324,35 @@ date: YYYY-MM-DD
 ```
 
 ### 5.2 Architecture (3 files)
+
 Mirrors marksman's architecture layer but translated to NestJS module architecture. Includes:
+
 - Module dependency graph (Mermaid)
 - Data flow from LSP JSON-RPC to response
 - Bun runtime specifics (native ESM, no transpile step)
 
 ### 5.3 BDD Features (12 .feature files)
+
 Gherkin scenarios that will drive Jest + Cucumber test suites. Each feature file:
+
 - Has a `@smoke` tag on critical happy-path scenarios
 - Uses Background for shared vault setup
 - Covers: happy path, error path, edge cases
 - References OFM rule codes (OFM001, OFM002, etc.) in error scenarios
 
 ### 5.4 DDD (7 files)
+
 Bounded contexts map exactly to NestJS module boundaries. Each domain-model file covers:
+
 - Aggregate roots with identity, state, and invariants
 - Value objects with smart constructors
 - Domain services
 - Commands and transitions
 
 ### 5.5 OFM Spec (10 files)
+
 Ground-truth reference. Each file includes:
+
 - Authoritative regex pattern
 - Prose description with edge cases
 - Parse precedence (what wins when two syntax forms overlap)
@@ -350,8 +361,10 @@ Ground-truth reference. Each file includes:
 - Cross-reference to Obsidian official docs URL
 
 ### 5.6 Requirements (11 files)
+
 Planguage format borrowed directly from marksman. Each requirement:
-```
+
+```text
 ## Tag: Feature.SubFeature.Aspect
 **Gist:** One-sentence summary
 **Ambition:** Why this matters
@@ -365,7 +378,9 @@ Planguage format borrowed directly from marksman. Each requirement:
 ```
 
 ### 5.7 Plans (14 files: 13 phases + execution-ledger)
+
 Each phase:
+
 - Has a header table (phase number, title, status, gate)
 - Lists prerequisites (previous phase gate must be green)
 - Has a numbered task list with sub-tasks
@@ -373,7 +388,9 @@ Each phase:
 - Links to the relevant requirements and BDD scenarios
 
 ### 5.8 Features (9 files)
+
 User-facing docs for each LSP capability:
+
 - What the feature does
 - Trigger conditions
 - OFM-specific behaviour (vs plain Markdown)
@@ -400,6 +417,7 @@ User-facing docs for each LSP capability:
 ## 7. Cross-Reference Conventions
 
 All docs use Obsidian wiki-link syntax for internal cross-references:
+
 - `[[adr/ADR001-stdio-transport]]` — ADR references
 - `[[ofm-spec/wiki-links]]` — OFM spec references
 - `[[requirements/wiki-link-resolution]]` — requirement references

@@ -72,11 +72,11 @@ Phase 5 introduces the core wiki-link resolution engine. Performance and correct
 
 **Blocked by:**
 
-- [[tickets/CHORE-013]] — lint sweep must be clean before quality review
+- [[CHORE-013]] — lint sweep must be clean before quality review
 
 **Unblocks:**
 
-- [[tickets/CHORE-015]] — security sweep follows code quality sweep
+- [[CHORE-015]] — security sweep follows code quality sweep
 
 ---
 
@@ -127,5 +127,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 code quality sweep focusing on RefGraph rebuild performance, Oracle resolution order correctness, and completion candidate capping.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > All new files verified: nesting ≤3 levels, functions ≤40 lines. Exports have JSDoc comments. Refactored `handleCompletion` to simplify parameter handling. No code smells found.

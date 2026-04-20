@@ -122,6 +122,11 @@ export interface OFMDoc {
   /** Parsed YAML frontmatter, or `null` if absent or invalid. */
   frontmatter: Record<string, unknown> | null;
   /**
+   * True when the document had a frontmatter block but the YAML could not be
+   * parsed. Triggers a FG007 diagnostic.
+   */
+  frontmatterParseError?: boolean;
+  /**
    * Character offset of the first character of the document body (i.e. the
    * character immediately after the closing `---\n` of the frontmatter, or 0
    * when there is no frontmatter).

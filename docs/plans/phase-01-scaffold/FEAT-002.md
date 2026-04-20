@@ -104,24 +104,24 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-002]] | Initialize Bun project | `open` |
-| [[tickets/TASK-003]] | Install NestJS core packages | `open` |
-| [[tickets/TASK-004]] | Install LSP protocol types | `open` |
-| [[tickets/TASK-005]] | Install development tooling | `open` |
-| [[tickets/TASK-006]] | Install test dependencies | `open` |
-| [[tickets/TASK-007]] | Configure tsconfig.json | `open` |
-| [[tickets/TASK-008]] | Configure bunfig.toml | `open` |
-| [[tickets/TASK-009]] | Create src/main.ts — NestJS bootstrap | `open` |
-| [[tickets/TASK-010]] | Create LspModule skeleton | `open` |
-| [[tickets/TASK-011]] | Create .flavor-grenade.toml project config marker | `open` |
-| [[tickets/TASK-012]] | Configure ESLint | `open` |
-| [[tickets/TASK-013]] | Configure Prettier | `open` |
-| [[tickets/TASK-014]] | Create package.json scripts | `open` |
-| [[tickets/TASK-015]] | Create project directory structure | `open` |
-| [[tickets/TASK-016]] | Create .gitignore | `open` |
-| [[tickets/CHORE-001]] | Phase 1 Lint Sweep | `open` |
-| [[tickets/CHORE-002]] | Phase 1 Code Quality Sweep | `open` |
-| [[tickets/CHORE-003]] | Phase 1 Security Sweep | `open` |
+| [[TASK-002]] | Initialize Bun project | `open` |
+| [[TASK-003]] | Install NestJS core packages | `open` |
+| [[TASK-004]] | Install LSP protocol types | `open` |
+| [[TASK-005]] | Install development tooling | `open` |
+| [[TASK-006]] | Install test dependencies | `open` |
+| [[TASK-007]] | Configure tsconfig.json | `open` |
+| [[TASK-008]] | Configure bunfig.toml | `open` |
+| [[TASK-009]] | Create src/main.ts — NestJS bootstrap | `open` |
+| [[TASK-010]] | Create LspModule skeleton | `open` |
+| [[TASK-011]] | Create .flavor-grenade.toml project config marker | `open` |
+| [[TASK-012]] | Configure ESLint | `open` |
+| [[TASK-013]] | Configure Prettier | `open` |
+| [[TASK-014]] | Create package.json scripts | `open` |
+| [[TASK-015]] | Create project directory structure | `open` |
+| [[TASK-016]] | Create .gitignore | `open` |
+| [[CHORE-001]] | Phase 1 Lint Sweep | `open` |
+| [[CHORE-002]] | Phase 1 Code Quality Sweep | `open` |
+| [[CHORE-003]] | Phase 1 Security Sweep | `open` |
 
 ---
 
@@ -131,11 +131,11 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-001]] — Phase 0 (Documentation Scaffold) must be complete; all `docs/` quality gates must pass before any `src/` files are written.
+- [[FEAT-001]] — Phase 0 (Documentation Scaffold) must be complete; all `docs/` quality gates must pass before any `src/` files are written.
 
 **Unblocks:**
 
-- [[tickets/FEAT-003]] — Phase 2 (LSP Transport) can begin once the project skeleton compiles and the gate command passes.
+- [[FEAT-003]] — Phase 2 (LSP Transport) can begin once the project skeleton compiles and the gate command passes.
 
 ---
 
@@ -176,7 +176,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > [!INFO] In-progress — 2026-04-17
 > Phase 0 documentation scaffold complete and committed. Phase 1 execution begins. Execution ledger updated: Phase 0 ✅ complete, Phase 1 🔄 in-progress. Feature branch `feature/phase-01-scaffold` created from develop. Status: `in-progress`.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > All acceptance criteria met. TASK-002–016 done. CHORE-001–003 done. CHORE-040, CHORE-041 opened and closed (quality sweep). BUG-001 opened and closed (process fix). gate:1 passes. Retrospective written. Status: `done`.
 
 ---

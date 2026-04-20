@@ -99,6 +99,7 @@ All of the following must be true before this ticket is marked `done`:
 ## Notes
 
 Focus areas:
+
 - `CrossBlockRef.targetDocId === null` must be checked before any doc-lookup attempt
 - FG005 must only fire when target doc was found (or intra-doc) but anchor is missing; FG001 fires when target doc itself is missing
 

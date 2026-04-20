@@ -15,7 +15,7 @@ aliases: ["TASK-050"]
 
 # Implement FileWatcher
 
-> [!INFO] `TASK-050` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-050` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -58,10 +58,10 @@ Create `src/vault/file-watcher.ts`. The `FileWatcher` uses `Bun.watch()` to moni
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `Server updates index when file is created` |
-| [[bdd/features/workspace]] | `Server updates index when file is modified` |
-| [[bdd/features/workspace]] | `Server removes document from index when file is deleted` |
-| [[bdd/features/workspace]] | `Server handles file rename` |
+| `bdd/features/workspace.feature` | `Server updates index when file is created` |
+| `bdd/features/workspace.feature` | `Server updates index when file is modified` |
+| `bdd/features/workspace.feature` | `Server removes document from index when file is deleted` |
+| `bdd/features/workspace.feature` | `Server handles file rename` |
 
 ---
 
@@ -83,7 +83,7 @@ Create `src/vault/file-watcher.ts`. The `FileWatcher` uses `Bun.watch()` to moni
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -91,12 +91,12 @@ Create `src/vault/file-watcher.ts`. The `FileWatcher` uses `Bun.watch()` to moni
 
 **Blocked by:**
 
-- [[tickets/TASK-047]] — VaultIndex must exist to be updated on events
-- [[tickets/TASK-048]] — FolderLookup must exist to be rebuilt on events
+- [[TASK-047]] — VaultIndex must exist to be updated on events
+- [[TASK-048]] — FolderLookup must exist to be rebuilt on events
 
 **Unblocks:**
 
-- [[tickets/TASK-054]] — VaultModule registers FileWatcher as a provider
+- [[TASK-054]] — VaultModule registers FileWatcher as a provider
 
 ---
 
@@ -111,7 +111,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -148,7 +148,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/file-watcher.ts` implemented. fs.watch with recursive:true. Vault-root confinement with path separator guard (ADR013). Handles create/modify via upsert and rename/delete via stat existence check. Status: `done`.

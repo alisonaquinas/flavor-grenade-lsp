@@ -10,7 +10,7 @@ aliases:
 # Block Reference Requirements
 
 > [!NOTE] Scope
-> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a line of body text. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[diagnostics#Diagnostic.SingleFile.Suppression]].
+> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a line of body text. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
 
 ---
 
@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Block anchors are the mechanism Obsidian uses for precise transclusion and deep linking. An index that misses anchors produces silent gaps: users believe their block can be linked, create a `[[doc#^anchor]]` reference, and see no FG005 diagnostic — but the reference resolves to nothing at render time. Complete indexing is the prerequisite for every other block-reference feature (completion, diagnostics, go-to-definition).
 **Scale:** Percentage of actual `^blockid` anchor definitions present in a document's body text that appear in OFMIndex.blockAnchors for that document after indexing. Scope: all documents in the test vault; only end-of-line anchors in body text (not inside code blocks or math blocks).
 **Meter:**
+
 1. Create a test vault with at least 5 documents. Each document must contain:
    - At least 5 end-of-line `^blockid` anchors in body text paragraphs and list items
    - At least 2 occurrences of `^id` mid-sentence (these should not be indexed as anchors)
@@ -43,6 +44,7 @@ aliases:
 **Ambition:** Block cross-references are unforgiving: a misspelled or stale anchor ID produces a broken link that renders without any visual indication in most Obsidian themes. Early, precise diagnostics allow authors to correct the reference before it propagates through transclusion chains. The single-file suppression rule mirrors the behaviour required for all cross-file diagnostics and is a safety property of the single-file mode contract.
 **Scale:** Percentage of `[[doc#^nonexistent]]` references in a test vault that produce exactly one FG005 diagnostic in multi-file mode, and zero diagnostics of code FG005 in single-file mode. Scope covers both the positive case (broken anchor) and the negative case (valid anchor, no diagnostic).
 **Meter:**
+
 1. In multi-file mode: create a vault with at least 3 documents. Author a document with:
    - 3 `[[doc#^validanchor]]` links (targets exist in OFMIndex)
    - 3 `[[doc#^missinganchor]]` links (targets do not exist)
@@ -55,7 +57,7 @@ aliases:
 **Goal:** 100% correct diagnostic behaviour in both modes.
 **Stakeholders:** Vault authors using block cross-references, transclusion chain maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[diagnostics#FG005]], [[diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/diagnostics#FG005]], [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
 
 ---
 
@@ -65,6 +67,7 @@ aliases:
 **Ambition:** Block anchor identifiers are opaque strings with no predictable structure — authors cannot guess them without consulting the source document. Completion at the `[[doc#^` position transforms an otherwise unguessable string into a discoverable, typo-free selection. Without this completion, block cross-referencing requires the author to context-switch to the source document, memorise or copy the anchor ID, and manually type it — a friction that discourages use of the feature entirely.
 **Scale:** Percentage of `^blockid` values registered in OFMIndex.blockAnchors for a resolved target document that appear as completion candidates when the cursor is at the `[[targetDoc#^` trigger position. Scope: all documents in the test vault that contain at least one block anchor.
 **Meter:**
+
 1. Create a test vault with at least 5 documents, each containing at least 4 named block anchors.
 2. In a new document, type `[[targetDoc#^` for each target document.
 3. Issue `textDocument/completion` at the cursor position immediately after `^`.
@@ -75,7 +78,7 @@ aliases:
 **Goal:** 100% of known block anchors appear in the completion list.
 **Stakeholders:** Vault authors composing transclusion networks, evergreen note systems users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
 
 ---
 
@@ -85,6 +88,7 @@ aliases:
 **Ambition:** Obsidian's block anchor specification is unambiguous: an anchor is a `^` immediately followed by an alphanumeric identifier at the end of a line, optionally preceded by whitespace. Mid-sentence `^id` occurrences (common in mathematical notation, e.g., `x^2`, or in text like "refer to section^note") are not block anchors. Incorrectly indexing them pollutes OFMIndex.blockAnchors with phantom entries, causing false-positive completion candidates and corrupting the block reference graph.
 **Scale:** Binary pass/fail per syntactic position tested. A position is a `^id`-like token in body text. The scale is the percentage of positions correctly classified: end-of-line body-text positions indexed as anchors, all other positions not indexed.
 **Meter:**
+
 1. Create a document with the following occurrences, each on a separate line or within a line:
    - 5 end-of-line anchors: `paragraph text ^anchor-a`, `- list item ^anchor-b`
    - 3 mid-sentence occurrences: `x^2 is quadratic`, `the value ^temp is`, `note^1`
@@ -99,4 +103,4 @@ aliases:
 **Goal:** 100% correct classification.
 **Stakeholders:** All vault authors; particularly those using mathematical notation or footnote-style markers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#ofm-parser]], [[Block.Anchor.Indexing]].
+**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#ofm-parser]], `Block.Anchor.Indexing`.

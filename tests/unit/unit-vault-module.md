@@ -20,6 +20,7 @@ See [[concepts/workspace-model]], [[architecture/layers]], and [[adr/ADR003-vaul
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() returns the directory that contains .obsidian/ as the vault root', () => {
   // arrange — mock FS with .obsidian/ at /vault
@@ -38,6 +39,7 @@ it('detect() returns the directory that contains .obsidian/ as the vault root', 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `detect` walks the ancestor chain upward from the given path
 - Returns the first ancestor directory containing `.obsidian/`
 
@@ -53,6 +55,7 @@ it('detect() returns the directory that contains .obsidian/ as the vault root', 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() walks multiple ancestor levels to find .obsidian/', () => {
   // arrange — vault root is at /home/user/vault; file is three levels deep
@@ -71,6 +74,7 @@ it('detect() walks multiple ancestor levels to find .obsidian/', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Ancestor traversal continues past intermediate directories that have no marker
 - The correct root is returned regardless of nesting depth
 
@@ -84,6 +88,7 @@ it('detect() walks multiple ancestor levels to find .obsidian/', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() accepts .flavor-grenade.toml as a secondary vault marker', () => {
   // arrange — no .obsidian/, only the secondary marker
@@ -102,6 +107,7 @@ it('detect() accepts .flavor-grenade.toml as a secondary vault marker', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `.flavor-grenade.toml` is recognized as a valid (secondary) vault marker when no `.obsidian/` is present
 
 ---
@@ -114,6 +120,7 @@ it('detect() accepts .flavor-grenade.toml as a secondary vault marker', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() prefers .obsidian/ over .flavor-grenade.toml when both are present', () => {
   // arrange — both markers in same directory
@@ -134,6 +141,7 @@ it('detect() prefers .obsidian/ over .flavor-grenade.toml when both are present'
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When a directory contains both `.obsidian/` and `.flavor-grenade.toml`, the detection logic treats `.obsidian/` as the authoritative marker
 - The same root is returned whether determined by primary or secondary marker, but callers can distinguish via any exposed `detectionMarker` metadata field
 
@@ -149,6 +157,7 @@ it('detect() prefers .obsidian/ over .flavor-grenade.toml when both are present'
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() returns null when no vault marker exists in any ancestor directory', () => {
   // arrange — flat tree, no markers
@@ -166,6 +175,7 @@ it('detect() returns null when no vault marker exists in any ancestor directory'
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `detect` returns `null` when the root of the filesystem is reached without finding either marker
 - Null return signals SingleFile mode to the caller
 
@@ -179,6 +189,7 @@ it('detect() returns null when no vault marker exists in any ancestor directory'
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('detect() terminates at filesystem root and does not loop infinitely', () => {
   // arrange — root has no marker; path.dirname('/') === '/' in POSIX
@@ -196,6 +207,7 @@ it('detect() terminates at filesystem root and does not loop infinitely', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The walk loop terminates when `parent === current` (i.e., `path.dirname(x) === x` at the filesystem root)
 - No stack overflow or hang occurs
 
@@ -211,6 +223,7 @@ it('detect() terminates at filesystem root and does not loop infinitely', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('VaultFolder.mk(null) creates a folder in SingleFile mode', () => {
   // act
@@ -222,6 +235,7 @@ it('VaultFolder.mk(null) creates a folder in SingleFile mode', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `VaultFolder.mk` with a `null` vault root returns an instance whose `mode` property is the `'SingleFile'` discriminant
 
 **REFACTOR notes:** See [[concepts/workspace-model]] §VaultFolder for the mode union type.
@@ -236,6 +250,7 @@ it('VaultFolder.mk(null) creates a folder in SingleFile mode', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('VaultFolder.mk(vaultRoot) creates a folder in MultiFile mode', () => {
   // act
@@ -248,6 +263,7 @@ it('VaultFolder.mk(vaultRoot) creates a folder in MultiFile mode', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A non-null vault root path produces a `MultiFile` mode folder
 - `vaultRoot` is accessible on the returned instance
 
@@ -261,6 +277,7 @@ it('VaultFolder.mk(vaultRoot) creates a folder in MultiFile mode', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('SingleFile folder holds the doc but cannot resolve cross-doc references', () => {
   // arrange
@@ -278,6 +295,7 @@ it('SingleFile folder holds the doc but cannot resolve cross-doc references', ()
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `withDoc` returns an updated `VaultFolder` containing the doc
 - `lookupRef` in SingleFile mode always returns an `Unresolved` result (no index to search)
 
@@ -293,6 +311,7 @@ it('SingleFile folder holds the doc but cannot resolve cross-doc references', ()
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('exact slug lookup returns the single matching path', () => {
   // arrange
@@ -311,6 +330,7 @@ it('exact slug lookup returns the single matching path', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - An exact slug key produces exactly one result when that slug is unique in the index
 
 ---
@@ -323,6 +343,7 @@ it('exact slug lookup returns the single matching path', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[daily]] resolves against notes/daily.md via suffix matching', () => {
   // arrange
@@ -340,6 +361,7 @@ it('[[daily]] resolves against notes/daily.md via suffix matching', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `resolve` matches entries whose vault-relative path ends with (or contains) the slug segment
 - The file does not need to be at the vault root
 
@@ -355,6 +377,7 @@ it('[[daily]] resolves against notes/daily.md via suffix matching', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[daily]] returns all files when multiple vault paths contain the slug', () => {
   // arrange
@@ -375,6 +398,7 @@ it('[[daily]] returns all files when multiple vault paths contain the slug', () 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - All matching entries are returned; callers are responsible for disambiguation (e.g., presenting a picker)
 
 ---
@@ -387,6 +411,7 @@ it('[[daily]] returns all files when multiple vault paths contain the slug', () 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('resolve() returns an empty array for a slug not in the index', () => {
   // arrange
@@ -403,6 +428,7 @@ it('resolve() returns an empty array for a slug not in the index', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - No entry exists for the slug → returns `[]`, not null or undefined
 
 ---
@@ -415,6 +441,7 @@ it('resolve() returns an empty array for a slug not in the index', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Daily Notes]] resolves the entry stored under slug "daily notes"', () => {
   // arrange
@@ -432,6 +459,7 @@ it('[[Daily Notes]] resolves the entry stored under slug "daily notes"', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `resolve` normalizes the query slug (lowercase, trim) before comparing against index keys
 - Index entries are stored under their normalized slug at insertion time
 
@@ -447,6 +475,7 @@ it('[[Daily Notes]] resolves the entry stored under slug "daily notes"', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('VaultFolderEnclosed: SingleFile folders inside a new MultiFile root are evicted and their docs absorbed', () => {
   // arrange — workspace with two SingleFile folders inside /vault
@@ -477,6 +506,7 @@ it('VaultFolderEnclosed: SingleFile folders inside a new MultiFile root are evic
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `Workspace.withFolder` detects that the new `MultiFile` root path encloses existing `SingleFile` folder document URIs
 - Enclosed `SingleFile` folders are removed from the workspace
 - Their documents are moved into the new `MultiFile` folder's doc collection

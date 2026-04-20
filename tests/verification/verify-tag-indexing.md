@@ -37,6 +37,7 @@ tag parsing and completion.
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 10 documents. Each document contains:
   - At least 5 inline `#tag` occurrences in body text (paragraphs, headings, list items).
   - At least 2 `#tag` occurrences inside fenced code blocks (to be excluded).
@@ -62,8 +63,10 @@ And (indexed body-text tags / actual body-text tags across all docs) × 100 = 10
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 10 documents (`notes/doc-01.md` through `notes/doc-10.md`). Each document follows this pattern:
+
    ```markdown
    # Doc N
 
@@ -81,8 +84,10 @@ And (indexed body-text tags / actual body-text tags across all docs) × 100 = 10
    $$
    #tag-math-1 = mc^2
    $$
+
    ```
 3. Agent spawns server: `bun run start 2>/dev/null &`
+
 4. Agent sends `initialize` + `initialized`.
 5. Agent sends `textDocument/didOpen` for all 10 documents.
 6. Agent queries the vault tag registry (via `textDocument/completion` at `#` in a scratch document, or via a test inspection endpoint) to enumerate all indexed tags.
@@ -106,6 +111,7 @@ And (indexed body-text tags / actual body-text tags across all docs) × 100 = 10
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 3 parent tags, each with at least 2 child tags:
   - `#project/active`, `#project/done` (parent: `#project`)
   - `#area/work`, `#area/personal` (parent: `#area`)
@@ -138,6 +144,7 @@ Then (parent-tag requests returning complete child set / 3 parent-tag requests) 
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 8 documents:
    - `notes/proj-overview.md`: contains `#project` and `#project/active`.
@@ -178,6 +185,7 @@ Then (parent-tag requests returning complete child set / 3 parent-tag requests) 
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 5 documents. For each document:
   - At least 2 tags declared in `tags:` YAML frontmatter.
   - At least 2 of the same tag values appearing as inline `#tag` in the body.
@@ -217,6 +225,7 @@ And (YAML tag values correctly indexed as equivalent / total YAML tag values tes
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 5 documents, each with the mixed frontmatter + inline pattern described in Setup.
 3. Agent writes `notes/frontmatter-only.md` with `tags: [exclusive-fm-tag]` frontmatter and no inline tags.
@@ -239,8 +248,8 @@ And (YAML tag values correctly indexed as equivalent / total YAML tag values tes
 14. Agent sends `textDocument/references` on `#exclusive-inline-tag`.
 15. Agent asserts `notes/inline-only.md` appears in results.
 
-16. Agent computes (YAML tag values correctly indexed as equivalent / total YAML tag values tested) × 100; asserts 100%.
-17. Agent sends `shutdown` + `exit`.
+1. Agent computes (YAML tag values correctly indexed as equivalent / total YAML tag values tested) × 100; asserts 100%.
+2. Agent sends `shutdown` + `exit`.
 
 **Pass criterion:** 100% of YAML tag values appear in the index equivalent to inline tags; no source-based asymmetry in find-references results.
 **Fail criterion:** Any YAML tag value absent from the vault tag index, or any tag index that returns different results for the same tag name depending on source.
@@ -256,6 +265,7 @@ And (YAML tag values correctly indexed as equivalent / total YAML tag values tes
 **Phase:** Phase 1
 
 **Setup:**
+
 - A vault with at least 8 documents, each containing at least one tag from the following Unicode categories:
   - CJK ideograph: `#漢字`
   - Cyrillic: `#привет`
@@ -304,6 +314,7 @@ And (Unicode tags parsing, indexing, and completing successfully / 8 total) × 1
 ```
 
 **Agent-driven steps:**
+
 1. Agent creates vault with `.obsidian/` marker directory.
 2. Agent writes 8 documents with Unicode tags:
    - `notes/cjk.md`: body contains `#漢字 annotation`.

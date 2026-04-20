@@ -42,6 +42,7 @@ And the WorkspaceEdit updates "[[source#Old Heading]]" to "[[source#New Heading]
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-015/.obsidian
    mkdir -p /tmp/fg-smoke-015/notes
@@ -49,17 +50,22 @@ And the WorkspaceEdit updates "[[source#Old Heading]]" to "[[source#New Heading]
    echo '[[source#Old Heading]] and more text' > /tmp/fg-smoke-015/notes/ref-one.md
    echo 'See [[source#Old Heading]] for details' > /tmp/fg-smoke-015/notes/ref-two.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-015/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-015/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for all three files
 6. Agent sends `textDocument/rename` at position `{line: 1, character: 5}` (on `## Old Heading`) with `newName: "New Heading"`:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/rename","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-015/notes/source.md"},"position":{"line":1,"character":5},"newName":"New Heading"}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts response has a `result` field (not `error`)
 9. Agent asserts `result.changes` or `result.documentChanges` is present and non-empty
@@ -96,22 +102,28 @@ And the response does not contain a range or placeholder
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-016/.obsidian
    mkdir -p /tmp/fg-smoke-016/notes
    printf '# Source Doc\n## Old Heading\nBody text here.' > /tmp/fg-smoke-016/notes/source.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-016/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-016/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/source.md` with full content
 6. Agent sends `textDocument/prepareRename` at position `{line: 2, character: 5}` (inside `Body text here.`):
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/prepareRename","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-016/notes/source.md"},"position":{"line":2,"character":5}}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts the response has an `error` field (LSP error response) OR `result` is `null`
 9. If an error is present, agent asserts the error message contains `"Cannot rename at this location"`

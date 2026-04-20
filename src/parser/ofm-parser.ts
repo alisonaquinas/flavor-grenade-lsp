@@ -12,7 +12,9 @@ import { rangeFromOffsets } from './offset-utils.js';
 /**
  * Orchestrates the 8-stage OFM parsing pipeline and produces an {@link OFMDoc}.
  *
- * All sub-parsers are pure functions; no NestJS services are injected.
+ * `OFMParser` itself is a NestJS `@Injectable()` service. Its sub-parsers are
+ * either stateless class instances (`FrontmatterParser`) or static methods
+ * (`WikiLinkParser.parse`, etc.) — none require injection.
  */
 @Injectable()
 export class OFMParser {
@@ -27,7 +29,11 @@ export class OFMParser {
    */
   parse(uri: string, text: string, version: number): OFMDoc {
     // Stage 1: frontmatter
-    const { frontmatter, bodyOffset } = this.frontmatterParser.parse(text);
+    const {
+      frontmatter,
+      bodyOffset,
+      parseError: frontmatterParseError,
+    } = this.frontmatterParser.parse(text);
 
     // Stage 2: opaque regions
     const opaqueRegions = mark(text, bodyOffset);
@@ -47,6 +53,7 @@ export class OFMParser {
       version,
       text,
       frontmatter,
+      ...(frontmatterParseError && { frontmatterParseError: true }),
       frontmatterEndOffset: bodyOffset,
       opaqueRegions,
       index,
@@ -54,7 +61,10 @@ export class OFMParser {
   }
 
   /** Stage 8: scan ATX headings (`#` to `######`). */
-  private static scanHeadings(text: string, opaqueRegions: ReturnType<typeof mark>): HeadingEntry[] {
+  private static scanHeadings(
+    text: string,
+    opaqueRegions: ReturnType<typeof mark>,
+  ): HeadingEntry[] {
     const entries: HeadingEntry[] = [];
     const pattern = /^(#{1,6})[ \t]+(.+?)[ \t]*$/gm;
     let match: RegExpExecArray | null;

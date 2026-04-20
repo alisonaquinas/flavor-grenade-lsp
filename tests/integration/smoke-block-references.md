@@ -41,26 +41,34 @@ And the target range covers the line containing "^para-one" (line 1)
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-019/.obsidian
    mkdir -p /tmp/fg-smoke-019/notes
    printf '# Source\nThis is a paragraph. ^para-one\nAnother line.' > /tmp/fg-smoke-019/notes/source.md
    echo '[[source#^para-one]] reference here' > /tmp/fg-smoke-019/notes/referencing.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-019/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-019/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/referencing.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-019/notes/referencing.md","languageId":"markdown","version":1,"text":"[[source#^para-one]] reference here"}}}
    ```
+
 6. Agent sends `textDocument/definition` at position `{line: 0, character: 4}` (inside `[[source#^para-one]]`):
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"textDocument/definition","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-019/notes/referencing.md"},"position":{"line":0,"character":4}}}
    ```
+
 7. Agent reads the response for id 2 (up to 3s)
 8. Agent asserts the response has a `result` field (not `error`)
 9. Agent asserts `result.uri` ends with `"notes/source.md"`
@@ -101,22 +109,28 @@ And no diagnostic with code "FG001" is published for "notes/index.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-020/.obsidian
    mkdir -p /tmp/fg-smoke-020/notes
    printf '# Source\nParagraph one. ^para-one\nParagraph two. ^para-two' > /tmp/fg-smoke-020/notes/source.md
    echo '[[source#^missing-anchor]]' > /tmp/fg-smoke-020/notes/index.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-020/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-020/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/index.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-020/notes/index.md","languageId":"markdown","version":1,"text":"[[source#^missing-anchor]]"}}}
    ```
+
 6. Agent waits up to 2s and collects all `textDocument/publishDiagnostics` notifications for `notes/index.md`
 7. Agent asserts at least one diagnostic is present
 8. Agent asserts the diagnostic has `code: "FG005"`, `severity: 1` (Error), `source: "flavor-grenade"`

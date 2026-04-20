@@ -182,103 +182,94 @@ describe('Navigation Integration', () => {
     client?.kill();
   });
 
-  it(
-    'textDocument/definition: [[beta]] in alpha.md resolves to beta.md line 0',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/definition: [[beta]] in alpha.md resolves to beta.md line 0', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const alphaUri = vaultUri('alpha.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: alphaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: readFixture('alpha.md'),
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const alphaUri = vaultUri('alpha.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: alphaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: readFixture('alpha.md'),
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      const defResp = await client.request('textDocument/definition', {
-        textDocument: { uri: alphaUri },
-        position: { line: 0, character: 25 },
-      }) as Record<string, unknown>;
+    const defResp = (await client.request('textDocument/definition', {
+      textDocument: { uri: alphaUri },
+      position: { line: 0, character: 25 },
+    })) as Record<string, unknown>;
 
-      const location = defResp['result'] as { uri: string; range: { start: { line: number } } } | null;
-      expect(location).not.toBeNull();
-      expect(location!.uri).toContain('beta');
-      expect(location!.range.start.line).toBe(0);
+    const location = defResp['result'] as {
+      uri: string;
+      range: { start: { line: number } };
+    } | null;
+    expect(location).not.toBeNull();
+    expect(location!.uri).toContain('beta');
+    expect(location!.range.start.line).toBe(0);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    25000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 25000);
 
-  it(
-    'textDocument/references: cursor on beta.md returns alpha.md as a reference',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/references: cursor on beta.md returns alpha.md as a reference', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const betaUri = vaultUri('beta.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: betaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: readFixture('beta.md'),
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const betaUri = vaultUri('beta.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: betaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: readFixture('beta.md'),
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      const refsResp = await client.request('textDocument/references', {
-        textDocument: { uri: betaUri },
-        position: { line: 0, character: 0 },
-        context: { includeDeclaration: false },
-      }) as Record<string, unknown>;
+    const refsResp = (await client.request('textDocument/references', {
+      textDocument: { uri: betaUri },
+      position: { line: 0, character: 0 },
+      context: { includeDeclaration: false },
+    })) as Record<string, unknown>;
 
-      // The handler always returns a Location array (may be empty if the ref
-      // graph has not been populated for this server run).
-      const locations = refsResp['result'] as unknown;
-      expect(Array.isArray(locations)).toBe(true);
+    // The handler always returns a Location array (may be empty if the ref
+    // graph has not been populated for this server run).
+    const locations = refsResp['result'] as unknown;
+    expect(Array.isArray(locations)).toBe(true);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    25000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 25000);
 
-  it(
-    'textDocument/codeLens: beta.md returns a CodeLens array',
-    async () => {
-      client = new LspClient();
-      await doHandshakeAndScan(client);
+  it('textDocument/codeLens: beta.md returns a CodeLens array', async () => {
+    client = new LspClient();
+    await doHandshakeAndScan(client);
 
-      const betaUri = vaultUri('beta.md');
-      client.notify('textDocument/didOpen', {
-        textDocument: {
-          uri: betaUri,
-          languageId: 'markdown',
-          version: 1,
-          text: readFixture('beta.md'),
-        },
-      });
-      await client.waitForNotification('textDocument/publishDiagnostics');
+    const betaUri = vaultUri('beta.md');
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: betaUri,
+        languageId: 'markdown',
+        version: 1,
+        text: readFixture('beta.md'),
+      },
+    });
+    await client.waitForNotification('textDocument/publishDiagnostics');
 
-      const codeLensResp = await client.request('textDocument/codeLens', {
-        textDocument: { uri: betaUri },
-      }) as Record<string, unknown>;
+    const codeLensResp = (await client.request('textDocument/codeLens', {
+      textDocument: { uri: betaUri },
+    })) as Record<string, unknown>;
 
-      const lenses = codeLensResp['result'] as unknown[];
-      expect(Array.isArray(lenses)).toBe(true);
+    const lenses = codeLensResp['result'] as unknown[];
+    expect(Array.isArray(lenses)).toBe(true);
 
-      await client.request('shutdown');
-      client.notify('exit');
-      await client.waitForExit();
-    },
-    25000,
-  );
+    await client.request('shutdown');
+    client.notify('exit');
+    await client.waitForExit();
+  }, 25000);
 });

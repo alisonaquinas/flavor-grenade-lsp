@@ -15,7 +15,7 @@ aliases: ["TASK-090"]
 
 # Handle intra-document block refs
 
-> [!INFO] `TASK-090` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-090` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -45,8 +45,8 @@ Extend the block reference subsystem to fully support intra-document block refs 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `Intra-document block ref resolves in source doc` |
-| [[bdd/features/block-references]] | `Completion after [[#^ returns current doc anchors` |
+| `bdd/features/block-references.feature` | `Intra-document block ref resolves in source doc` |
+| `bdd/features/block-references.feature` | `Completion after [[#^ returns current doc anchors` |
 
 ---
 
@@ -71,7 +71,7 @@ Extend the block reference subsystem to fully support intra-document block refs 
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -79,11 +79,11 @@ Extend the block reference subsystem to fully support intra-document block refs 
 
 **Blocked by:**
 
-- [[tickets/TASK-089]] — cross-doc block ref completion provider must exist before the intra-doc path is added to it
+- [[TASK-089]] — cross-doc block ref completion provider must exist before the intra-doc path is added to it
 
 **Unblocks:**
 
-- [[tickets/TASK-091]] — unit tests cover both intra-doc and cross-doc paths
+- [[TASK-091]] — unit tests cover both intra-doc and cross-doc paths
 
 ---
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -122,4 +122,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

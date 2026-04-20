@@ -15,7 +15,7 @@ aliases: ["TASK-108"]
 
 # Write integration tests for navigation
 
-> [!INFO] `TASK-108` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-108` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -31,7 +31,7 @@ Create `src/test/integration/navigation.test.ts` using a fixture vault with a kn
 - Assert exact `Location` objects (uri, range) — do not use partial matchers
 - Cover: definition, references, code lens, and document highlight handlers
 - Tests should be written in TDD order: write the failing test first, then implement the handler
-- See also: [[bdd/features/navigation]]
+- See also: `bdd/features/navigation.feature`
 
 ---
 
@@ -47,7 +47,7 @@ Create `src/test/integration/navigation.test.ts` using a fixture vault with a kn
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | All navigation scenarios |
+| `bdd/features/navigation.feature` | All navigation scenarios |
 
 ---
 
@@ -70,7 +70,7 @@ Create `src/test/integration/navigation.test.ts` using a fixture vault with a kn
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -78,8 +78,8 @@ Create `src/test/integration/navigation.test.ts` using a fixture vault with a kn
 
 **Blocked by:**
 
-- [[tickets/TASK-102]] — DefinitionService must be complete before integration tests can pass
-- [[tickets/TASK-103]] — ReferencesService must be complete before integration tests can pass
+- [[TASK-102]] — DefinitionService must be complete before integration tests can pass
+- [[TASK-103]] — ReferencesService must be complete before integration tests can pass
 
 **Unblocks:**
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 - [ ] `bun test tests/integration/navigation.test.ts` passes with no failures
 
 ---
@@ -136,4 +136,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

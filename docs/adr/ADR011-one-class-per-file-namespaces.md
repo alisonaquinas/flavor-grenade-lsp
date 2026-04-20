@@ -46,6 +46,7 @@ The rules, in order of precedence:
 ## Consequences
 
 **Positive:**
+
 - Each file has exactly one reason to change (SOLID SRP). Adding a new vault feature means creating a new `*.service.ts` file, not opening and modifying an existing large file.
 - Code review is naturally scoped to a single responsibility per file. A PR that adds `VaultWatcher` touches `vault-watcher.service.ts` and its test — reviewers know immediately what changed.
 - Barrel files (`index.ts`) keep import ergonomics clean for consumers: `import { VaultService } from '@src/vault'` rather than `import { VaultService } from '@src/vault/vault.service'`. The internal file structure is an implementation detail of the module.
@@ -53,11 +54,13 @@ The rules, in order of precedence:
 - Small, focused files are easier to navigate in editors and produce shorter, more reviewable diffs.
 
 **Negative:**
+
 - More files. A vault module with eight services has eight `*.service.ts` files instead of one large file. Some developers find many small files harder to navigate than fewer large ones. This is mitigated by consistent naming conventions and barrel files.
 - The `types.ts` exception creates a second file to check when looking for type definitions in a module. Developers must remember that value types live in `types.ts`, not in the service file that first uses them.
 - Enforcing the convention requires both ESLint rules and code review attention. ESLint can enforce structural rules (no `namespace`, no extraneous classes) but cannot automatically detect when a developer has added a second exported class to an existing service file. Pull request review is the backstop for the one-export-per-file rule itself.
 
 **Neutral:**
+
 - NestJS CLI scaffolding (`nest generate service`) produces one file per service by default. This decision aligns with the CLI's default behaviour, so generated files require no restructuring.
 
 ## Related

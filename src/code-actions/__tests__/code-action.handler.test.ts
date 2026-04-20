@@ -47,7 +47,13 @@ describe('CodeActionHandler', () => {
     fixNbsp = new FixNbspAction();
     tagToYaml = new TagToYamlAction(parseCache);
     tocGenerator = new TocGeneratorAction(parseCache);
-    handler = new CodeActionHandler(createMissingFile, fixNbsp, tagToYaml, tocGenerator, parseCache);
+    handler = new CodeActionHandler(
+      createMissingFile,
+      fixNbsp,
+      tagToYaml,
+      tocGenerator,
+      parseCache,
+    );
   });
 
   it('routes FG001 diagnostic to CreateMissingFileAction', () => {
@@ -59,7 +65,7 @@ describe('CodeActionHandler', () => {
       severity: 1,
       code: 'FG001',
       source: 'flavor-grenade',
-      message: 'Broken wiki-link: [[missing-file]] not found in vault',
+      message: "Cannot resolve wiki-link: 'missing-file' not found in vault",
     };
 
     const params = {
@@ -94,7 +100,9 @@ describe('CodeActionHandler', () => {
 
     const result = handler.handle(params);
     expect(Array.isArray(result)).toBe(true);
-    const nbspActions = result.filter((a) => a.title.includes('non-breaking') || a.title.includes('Replace'));
+    const nbspActions = result.filter(
+      (a) => a.title.includes('non-breaking') || a.title.includes('Replace'),
+    );
     expect(nbspActions.length).toBeGreaterThan(0);
   });
 
@@ -105,7 +113,14 @@ describe('CodeActionHandler', () => {
     };
     const doc = makeDoc(DOC_URI, {
       text: '---\n---\nsome text\n#todo item',
-      index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tagEntry], callouts: [], headings: [] },
+      index: {
+        wikiLinks: [],
+        embeds: [],
+        blockAnchors: [],
+        tags: [tagEntry],
+        callouts: [],
+        headings: [],
+      },
     });
     parseCache.set(DOC_URI, doc);
 
@@ -117,7 +132,9 @@ describe('CodeActionHandler', () => {
 
     const result = handler.handle(params);
     expect(Array.isArray(result)).toBe(true);
-    const tagActions = result.filter((a) => a.title.includes('frontmatter') || a.title.includes('#todo'));
+    const tagActions = result.filter(
+      (a) => a.title.includes('frontmatter') || a.title.includes('#todo'),
+    );
     expect(tagActions.length).toBeGreaterThan(0);
   });
 
@@ -136,7 +153,9 @@ describe('CodeActionHandler', () => {
     // No FG001/FG006 diagnostics, no tag at position → only TOC action (null) → empty or small
     const fg001Actions = result.filter((a) => a.diagnostics?.some((d) => d.code === 'FG001'));
     expect(fg001Actions).toHaveLength(0);
-    const fg006Actions = result.filter((a) => a.title.includes('non-breaking') || a.title.includes('Replace non'));
+    const fg006Actions = result.filter(
+      (a) => a.title.includes('non-breaking') || a.title.includes('Replace non'),
+    );
     expect(fg006Actions).toHaveLength(0);
   });
 });

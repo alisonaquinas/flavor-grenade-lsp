@@ -5,7 +5,7 @@ import { VaultIndex } from '../vault/vault-index.js';
 import { VaultDetector } from '../vault/vault-detector.js';
 
 const SYMBOL_KIND_STRING = 15; // SymbolKind.String
-const SYMBOL_KIND_KEY = 20;    // SymbolKind.Key
+const SYMBOL_KIND_KEY = 20; // SymbolKind.Key
 const MAX_RESULTS = 50;
 
 interface WorkspaceSymbol {
@@ -46,7 +46,11 @@ export class WorkspaceSymbolHandler {
         const nameLower = name.toLowerCase();
         if (!nameLower.includes(query)) continue;
         scored.push({
-          symbol: { name, kind: SYMBOL_KIND_STRING, location: { uri: doc.uri, range: heading.range } },
+          symbol: {
+            name,
+            kind: SYMBOL_KIND_STRING,
+            location: { uri: doc.uri, range: heading.range },
+          },
           isPrefix: nameLower.startsWith(query),
         });
       }
@@ -57,7 +61,11 @@ export class WorkspaceSymbolHandler {
         const nameLower = name.toLowerCase();
         if (!nameLower.includes(query)) continue;
         scored.push({
-          symbol: { name, kind: SYMBOL_KIND_KEY, location: { uri: doc.uri, range: tagEntry.range } },
+          symbol: {
+            name,
+            kind: SYMBOL_KIND_KEY,
+            location: { uri: doc.uri, range: tagEntry.range },
+          },
           isPrefix: nameLower.startsWith(query),
         });
       }

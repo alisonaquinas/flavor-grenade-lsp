@@ -15,7 +15,7 @@ aliases: ["TASK-102"]
 
 # Consolidate DefinitionService
 
-> [!INFO] `TASK-102` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-102` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -29,7 +29,7 @@ Ensure `textDocument/definition` handles all cursor positions exhaustively: `[[t
 - Binary-search OFMIndex ranges for efficient cursor resolution
 - Return `null` (not an error) when cursor is on plain text
 - ADR constraint: [[adr/ADR005-wiki-style-binding]] governs how link targets are resolved to file paths
-- See also: [[design/navigation]]
+- See also: design/navigation
 
 ---
 
@@ -45,13 +45,13 @@ Ensure `textDocument/definition` handles all cursor positions exhaustively: `[[t
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Go to definition for plain wiki-link` |
-| [[bdd/features/navigation]] | `Go to definition for heading-fragment link` |
-| [[bdd/features/navigation]] | `Go to definition for block-id fragment link` |
-| [[bdd/features/navigation]] | `Go to definition for same-document heading ref` |
-| [[bdd/features/navigation]] | `Go to definition for embed` |
-| [[bdd/features/navigation]] | `Go to definition for tag` |
-| [[bdd/features/navigation]] | `Go to definition returns null for plain text` |
+| `bdd/features/navigation.feature` | `Go to definition for plain wiki-link` |
+| `bdd/features/navigation.feature` | `Go to definition for heading-fragment link` |
+| `bdd/features/navigation.feature` | `Go to definition for block-id fragment link` |
+| `bdd/features/navigation.feature` | `Go to definition for same-document heading ref` |
+| `bdd/features/navigation.feature` | `Go to definition for embed` |
+| `bdd/features/navigation.feature` | `Go to definition for tag` |
+| `bdd/features/navigation.feature` | `Go to definition returns null for plain text` |
 
 ---
 
@@ -73,7 +73,7 @@ Ensure `textDocument/definition` handles all cursor positions exhaustively: `[[t
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -81,12 +81,12 @@ Ensure `textDocument/definition` handles all cursor positions exhaustively: `[[t
 
 **Blocked by:**
 
-- [[tickets/TASK-105]] — entityAtPosition utility must exist before DefinitionService can use it
+- [[TASK-105]] — entityAtPosition utility must exist before DefinitionService can use it
 
 **Unblocks:**
 
-- [[tickets/TASK-106]] — multi-location definition results extend DefinitionService
-- [[tickets/TASK-108]] — integration tests depend on DefinitionService being complete
+- [[TASK-106]] — multi-location definition results extend DefinitionService
+- [[TASK-108]] — integration tests depend on DefinitionService being complete
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -138,4 +138,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

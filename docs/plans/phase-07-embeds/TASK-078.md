@@ -15,7 +15,7 @@ aliases: ["TASK-078"]
 
 # Implement FG004 diagnostic
 
-> [!INFO] `TASK-078` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-078` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -31,7 +31,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 - Message format: `Cannot resolve embed '![[<target>]]'`
 - In `DiagnosticService`, after running `EmbedResolver` over all `EmbedRef` entries: for each entry where `resolvedTo === null`, emit an FG004 diagnostic at the embed span's range
 - Single-file mode: suppress FG004 (same rule as FG001 suppression)
-- See also: [[bdd/features/embeds]], [[requirements/embed-resolution]]
+- See also: `bdd/features/embeds.feature`, [[requirements/embed-resolution]]
 
 ---
 
@@ -47,8 +47,8 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | `Missing embed target produces FG004 warning` |
-| [[bdd/features/embeds]] | `FG004 suppressed in single-file mode` |
+| `bdd/features/embeds.feature` | `Missing embed target produces FG004 warning` |
+| `bdd/features/embeds.feature` | `FG004 suppressed in single-file mode` |
 
 ---
 
@@ -72,7 +72,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -80,7 +80,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 **Blocked by:**
 
-- [[tickets/TASK-076]] — FG004 is emitted when EmbedResolver returns null
+- [[TASK-076]] — FG004 is emitted when EmbedResolver returns null
 
 **Unblocks:**
 
@@ -99,7 +99,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -125,7 +125,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `DiagnosticService` updated to inject `EmbedResolver` and emit FG004 (severity Warning) for broken embeds. Suppressed in single-file mode. All existing tests updated to pass new constructor signature. Status: `done`.

@@ -15,7 +15,7 @@ aliases: ["TASK-105"]
 
 # Implement cursor position → entity mapping utility
 
-> [!INFO] `TASK-105` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-105` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -27,6 +27,7 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
 - File: `src/handlers/cursor-entity.ts`
 - Public API shape:
+
   ```typescript
   export type CursorEntity =
     | { kind: 'wiki-link'; entry: WikiLinkEntry }
@@ -38,6 +39,7 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
   export function entityAtPosition(doc: OFMDoc, pos: Position): CursorEntity;
   ```
+
 - Binary-search all index ranges for O(log n) lookup
 - On overlap, prefer narrowest range (most specific entity)
 - Returns `{ kind: 'none' }` when cursor is not over any indexed entity
@@ -57,9 +59,9 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Cursor entity resolved for wiki-link` |
-| [[bdd/features/navigation]] | `Cursor entity resolved for heading` |
-| [[bdd/features/navigation]] | `Cursor entity returns none for plain text` |
+| `bdd/features/navigation.feature` | `Cursor entity resolved for wiki-link` |
+| `bdd/features/navigation.feature` | `Cursor entity resolved for heading` |
+| `bdd/features/navigation.feature` | `Cursor entity returns none for plain text` |
 
 ---
 
@@ -81,7 +83,7 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -93,9 +95,9 @@ Create `src/handlers/cursor-entity.ts`. Given a document `OFMDoc` and a `Positio
 
 **Unblocks:**
 
-- [[tickets/TASK-102]] — DefinitionService depends on entityAtPosition
-- [[tickets/TASK-103]] — ReferencesService depends on entityAtPosition
-- [[tickets/TASK-107]] — DocumentHighlight depends on entityAtPosition
+- [[TASK-102]] — DefinitionService depends on entityAtPosition
+- [[TASK-103]] — ReferencesService depends on entityAtPosition
+- [[TASK-107]] — DocumentHighlight depends on entityAtPosition
 
 ---
 
@@ -110,7 +112,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -147,7 +149,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].
 
 > [!NOTE] RED — 2026-04-17
 > Failing test committed in `src/handlers/__tests__/cursor-entity.test.ts` (11 tests, all failing — module not found). Status: `red`.
@@ -155,5 +157,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] GREEN — 2026-04-17
 > Implementation in `src/handlers/cursor-entity.ts`. All 11 tests pass. lint + tsc clean. Status: `green`.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > entityAtPosition implemented with wiki-link > embed > tag > heading > block-anchor priority ordering. 11 tests pass, 100% branch coverage. Status: `done`.

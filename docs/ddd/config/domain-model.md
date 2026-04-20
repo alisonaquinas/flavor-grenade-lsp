@@ -14,7 +14,7 @@ aliases:
 
 This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values to BC4 and BC5.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[vault/domain-model]], [[lsp-protocol/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
 > Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its only job is to merge TOML files in the correct priority order and expose a typed, immutable `FlavorConfig` value.
@@ -113,7 +113,7 @@ interface FlavorConfig {
 
 ### Resolution Order
 
-```
+```text
 Priority 1 (lowest) — Built-in defaults
   Hardcoded in ConfigCascadeService.
   Always present. Cannot fail.
@@ -133,7 +133,7 @@ Priority 3 (highest) — Project config
 
 ### Merge Diagram
 
-```
+```text
 Built-in defaults
        │
        ▼
@@ -172,7 +172,7 @@ Built-in defaults
 
 ## Fault Isolation
 
-```
+```typescript
 ConfigCascadeService.load(source: ConfigSource): Partial<FlavorConfig> | null
 
 ConfigSource
@@ -197,7 +197,7 @@ The phrase "dropped silently (logged at debug level)" means: the operator can se
 
 ## NestJS Integration
 
-```
+```text
 ConfigModule
   ├── ConfigCascadeService   — loads and merges config sources; provides FlavorConfig
   └── FlavorConfigService    — thin wrapper; exposes getConfig(root?) for consumers
@@ -210,7 +210,7 @@ Consumers:
 
 **Config reload flow:**
 
-```
+```text
 1. FileWatcher detects change to {VaultRoot}/.flavor-grenade.toml
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed

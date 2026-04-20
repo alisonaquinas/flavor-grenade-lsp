@@ -24,10 +24,7 @@ export type CursorEntity =
  * Returns `true` when `position` falls within `range` (inclusive on both
  * endpoints).
  */
-function positionInRange(
-  position: Position,
-  range: { start: Position; end: Position },
-): boolean {
+function positionInRange(position: Position, range: { start: Position; end: Position }): boolean {
   const { start, end } = range;
   if (position.line < start.line || position.line > end.line) return false;
   if (position.line === start.line && position.character < start.character) return false;

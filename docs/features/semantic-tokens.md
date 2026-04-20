@@ -82,6 +82,7 @@ The server supports both:
 To display OFM semantic tokens with custom colors, users must configure their editor's semantic token color customisation. Examples:
 
 **VS Code (`settings.json`):**
+
 ```json
 {
   "editor.semanticTokenColorCustomizations": {
@@ -97,6 +98,7 @@ To display OFM semantic tokens with custom colors, users must configure their ed
 ```
 
 **Neovim (Lua):**
+
 ```lua
 vim.api.nvim_set_hl(0, "@lsp.type.wikiLink", { fg = "#7c6f64" })
 vim.api.nvim_set_hl(0, "@lsp.type.wikiLinkTarget", { fg = "#458588" })

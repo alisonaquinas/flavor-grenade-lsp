@@ -22,11 +22,7 @@ function makeTag(tag: string, line = 0, char = 0): TagEntry {
   return { tag, range: R(line, char, line, char + tag.length) };
 }
 
-function makeDoc(
-  uri: string,
-  tags: TagEntry[] = [],
-  frontmatterTags: string[] = [],
-): OFMDoc {
+function makeDoc(uri: string, tags: TagEntry[] = [], frontmatterTags: string[] = []): OFMDoc {
   return {
     uri,
     version: 0,
@@ -155,7 +151,14 @@ describe('TagRegistry', () => {
     });
 
     it('returns matching tags for prefix', () => {
-      vaultIndex.set(id('a'), makeDoc('file:///a.md', [makeTag('#project'), makeTag('#project/active'), makeTag('#work')]));
+      vaultIndex.set(
+        id('a'),
+        makeDoc('file:///a.md', [
+          makeTag('#project'),
+          makeTag('#project/active'),
+          makeTag('#work'),
+        ]),
+      );
       registry.rebuild(vaultIndex);
       const result = registry.tagsWithPrefix('proj');
       expect(result).toContain('#project');
@@ -198,10 +201,10 @@ describe('TagRegistry', () => {
     });
 
     it('builds nested tree for slash-delimited tags', () => {
-      vaultIndex.set(id('a'), makeDoc('file:///a.md', [
-        makeTag('#project/active'),
-        makeTag('#project/inactive'),
-      ]));
+      vaultIndex.set(
+        id('a'),
+        makeDoc('file:///a.md', [makeTag('#project/active'), makeTag('#project/inactive')]),
+      );
       registry.rebuild(vaultIndex);
       const tree = registry.hierarchy();
       const projectNode = tree.find((n) => n.segment === 'project');
@@ -212,11 +215,14 @@ describe('TagRegistry', () => {
     });
 
     it('aggregates counts up the tree', () => {
-      vaultIndex.set(id('a'), makeDoc('file:///a.md', [
-        makeTag('#project/active'),
-        makeTag('#project/active'),
-        makeTag('#project/inactive'),
-      ]));
+      vaultIndex.set(
+        id('a'),
+        makeDoc('file:///a.md', [
+          makeTag('#project/active'),
+          makeTag('#project/active'),
+          makeTag('#project/inactive'),
+        ]),
+      );
       registry.rebuild(vaultIndex);
       const tree = registry.hierarchy();
       const projectNode = tree.find((n) => n.segment === 'project');

@@ -53,33 +53,33 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Tag.Hierarchy.Awareness** | The tag index must support parent-tag queries that include all child tags. | [[tag-indexing]] |
 | **Tag.YAML.Equivalence** | `tags:` frontmatter values must be indexed identically to inline `#tags`. | [[tag-indexing]] |
 | **Tag.Completion.Unicode** | Tag completion must support Unicode letters and emoji in tag names. | [[tag-indexing]] |
-| **Block.Anchor.Indexing** | All `^blockid` anchors in document body must appear in OFMIndex.blockAnchors. | [[block-references]] |
-| **Block.CrossRef.Diagnostic** | `[[doc#^nonexistent]]` must produce FG005 (BrokenBlockRef); suppressed in single-file mode. | [[block-references]] |
-| **Block.Completion.Offer** | After typing `[[doc#^`, completion must offer all known `^blockid` values from the resolved document. | [[block-references]] |
-| **Block.Anchor.Lineend** | Only `^id` patterns at end-of-line are treated as block anchors. | [[block-references]] |
-| **Completion.Candidates.Cap** | Completion candidate list must be capped at `completion.candidates` config value with `isIncomplete` set. | [[completions]] |
-| **Completion.Trigger.Coverage** | All trigger characters must return candidates when cursor is in appropriate context. | [[completions]] |
-| **Completion.CalloutType.Coverage** | The 13 primary standard Obsidian callout types must appear as candidates at `> [!` position. | [[completions]] |
-| **Completion.WikiStyle.Binding** | Completion items must conform to the active wiki link style configuration. | [[completions]] |
-| **Diagnostic.Severity.WikiLink** | FG001/FG002/FG003 must carry Error severity. | [[diagnostics]] |
-| **Diagnostic.Severity.Embed** | FG004 must carry Warning severity. | [[diagnostics]] |
-| **Diagnostic.Code.Assignment** | Each diagnostic type must carry its assigned FG-prefixed numeric code. | [[diagnostics]] |
-| **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[diagnostics]] |
-| **Diagnostic.Ambiguous.RelatedInfo** | FG002 diagnostics must list all duplicate definition locations in `relatedInformation`. | [[diagnostics]] |
-| **Diagnostic.SingleFile.Suppression** | All cross-file diagnostics must be suppressed in single-file mode. | [[diagnostics]] |
-| **CA-001** | The server surfaces a `fg.createMissingFile` code action when a wiki-link target does not exist; execution creates the file and clears FG001. | [[code-actions]] |
-| **CA-002** | The server surfaces a `fg.toc` code action for documents with headings; execution inserts or replaces a correctly formatted TOC block. | [[code-actions]] |
-| **CA-003** | The server surfaces a `fg.tagToYaml` code action when the cursor is on an inline body tag; execution moves the tag to frontmatter and removes it from the body. | [[code-actions]] |
-| **HV-001** | Hovering a wiki-link returns the target document's title, vault-relative path, and first-paragraph preview truncated to `hover.preview_chars`. | [[hover]] |
-| **HV-002** | Hovering an embed link returns the embedded target's resolved vault-relative path and detected file type. | [[hover]] |
-| **ST-001** | The server emits semantic token ranges for wiki-links, embed links, block anchors, inline tags, and callout markers. | [[semantic-tokens]] |
-| **ST-002** | Semantic tokens are not emitted for OFM constructs inside fenced code blocks or display math blocks. | [[semantic-tokens]] |
-| **Navigation.Definition.AllLinkTypes** | Go-to-definition must work for wiki-links, embed links, block references, and tags. | [[navigation]] |
-| **Navigation.References.Completeness** | Find-references must return all references in the folder that resolve to the target. | [[navigation]] |
-| **Navigation.CodeLens.Count** | Each heading must display a "N references" code lens with an accurate count. | [[navigation]] |
-| **Rename.Refactoring.Completeness** | All cross-document references to the renamed element must be updated in a single workspace edit. | [[rename]] |
-| **Rename.Prepare.Rejection** | `textDocument/prepareRename` must return `null` for non-renameable cursor positions. | [[rename]] |
-| **Rename.StyleBinding.Consistency** | Rename only updates references bound via the active wiki style. | [[rename]] |
+| **Block.Anchor.Indexing** | All `^blockid` anchors in document body must appear in OFMIndex.blockAnchors. | [[requirements/block-references]] |
+| **Block.CrossRef.Diagnostic** | `[[doc#^nonexistent]]` must produce FG005 (BrokenBlockRef); suppressed in single-file mode. | [[requirements/block-references]] |
+| **Block.Completion.Offer** | After typing `[[doc#^`, completion must offer all known `^blockid` values from the resolved document. | [[requirements/block-references]] |
+| **Block.Anchor.Lineend** | Only `^id` patterns at end-of-line are treated as block anchors. | [[requirements/block-references]] |
+| **Completion.Candidates.Cap** | Completion candidate list must be capped at `completion.candidates` config value with `isIncomplete` set. | [[requirements/completions]] |
+| **Completion.Trigger.Coverage** | All trigger characters must return candidates when cursor is in appropriate context. | [[requirements/completions]] |
+| **Completion.CalloutType.Coverage** | The 13 primary standard Obsidian callout types must appear as candidates at `> [!` position. | [[requirements/completions]] |
+| **Completion.WikiStyle.Binding** | Completion items must conform to the active wiki link style configuration. | [[requirements/completions]] |
+| **Diagnostic.Severity.WikiLink** | FG001/FG002/FG003 must carry Error severity. | [[requirements/diagnostics]] |
+| **Diagnostic.Severity.Embed** | FG004 must carry Warning severity. | [[requirements/diagnostics]] |
+| **Diagnostic.Code.Assignment** | Each diagnostic type must carry its assigned FG-prefixed numeric code. | [[requirements/diagnostics]] |
+| **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[requirements/diagnostics]] |
+| **Diagnostic.Ambiguous.RelatedInfo** | FG002 diagnostics must list all duplicate definition locations in `relatedInformation`. | [[requirements/diagnostics]] |
+| **Diagnostic.SingleFile.Suppression** | All cross-file diagnostics must be suppressed in single-file mode. | [[requirements/diagnostics]] |
+| **CA-001** | The server surfaces a `fg.createMissingFile` code action when a wiki-link target does not exist; execution creates the file and clears FG001. | [[requirements/code-actions]] |
+| **CA-002** | The server surfaces a `fg.toc` code action for documents with headings; execution inserts or replaces a correctly formatted TOC block. | [[requirements/code-actions]] |
+| **CA-003** | The server surfaces a `fg.tagToYaml` code action when the cursor is on an inline body tag; execution moves the tag to frontmatter and removes it from the body. | [[requirements/code-actions]] |
+| **HV-001** | Hovering a wiki-link returns the target document's title, vault-relative path, and first-paragraph preview truncated to `hover.preview_chars`. | [[requirements/hover]] |
+| **HV-002** | Hovering an embed link returns the embedded target's resolved vault-relative path and detected file type. | [[requirements/hover]] |
+| **ST-001** | The server emits semantic token ranges for wiki-links, embed links, block anchors, inline tags, and callout markers. | [[requirements/semantic-tokens]] |
+| **ST-002** | Semantic tokens are not emitted for OFM constructs inside fenced code blocks or display math blocks. | [[requirements/semantic-tokens]] |
+| **Navigation.Definition.AllLinkTypes** | Go-to-definition must work for wiki-links, embed links, block references, and tags. | [[requirements/navigation]] |
+| **Navigation.References.Completeness** | Find-references must return all references in the folder that resolve to the target. | [[requirements/navigation]] |
+| **Navigation.CodeLens.Count** | Each heading must display a "N references" code lens with an accurate count. | [[requirements/navigation]] |
+| **Rename.Refactoring.Completeness** | All cross-document references to the renamed element must be updated in a single workspace edit. | [[requirements/rename]] |
+| **Rename.Prepare.Rejection** | `textDocument/prepareRename` must return `null` for non-renameable cursor positions. | [[requirements/rename]] |
+| **Rename.StyleBinding.Consistency** | Rename only updates references bound via the active wiki style. | [[requirements/rename]] |
 | **Workspace.VaultDetection.Primary** | Directories containing `.obsidian/` must be automatically detected as vault roots. | [[workspace]] |
 | **Workspace.VaultDetection.Fallback** | Directories containing `.flavor-grenade.toml` must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
 | **Workspace.FileExtension.Filter** | Only files with configured extensions enter the index; others are silently ignored. | [[workspace]] |
@@ -107,26 +107,26 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Process.TestIndex.Matrix** | `docs/test/matrix.md` updated for every new test file added. | [[development-process]] |
 | **Process.Scripts.Automation** | Repetitive procedures automated in `scripts/` shell scripts. | [[development-process]] |
 | **Process.BinaryFiles.LFS** | All binary files tracked via Git LFS; no binary blobs committed directly. | [[development-process]] |
-| **Security.Parser.ReDoS** | All OFM parser regexes must be audited for catastrophic backtracking; super-linear patterns are prohibited. | [[security/parser-safety]] |
-| **Security.Parser.ParseTimeout** | Any single vault file must complete parsing within 200 ms; timeouts produce empty results without crashing. | [[security/parser-safety]] |
-| **Security.Parser.YAMLLimits** | Frontmatter YAML parsed with alias cap (50), size limit (64 KB), safe mode; parse failures caught as malformed frontmatter. | [[security/parser-safety]] |
-| **Security.Parser.EmbedDepth** | Embed resolution detects cycles via visited-URI set and enforces max depth 10; circular embeds produce FG005. | [[security/parser-safety]] |
-| **Security.Parser.VaultFileLimit** | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage`. | [[security/parser-safety]] |
-| **Security.Vault.PathConfinement** | All file paths from vault content or LSP params are canonicalized and vault-root-checked before any I/O. | [[security/vault-confinement]] |
-| **Security.Vault.SymlinkConfinement** | Symlinks resolving outside the vault root are treated as non-existent; real symlink target path is checked, not symlink path. | [[security/vault-confinement]] |
-| **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[security/vault-confinement]] |
-| **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[security/vault-confinement]] |
-| **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[security/input-validation]] |
-| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 10 MB rejected at transport layer; stdin closed, no buffering or parsing attempted. | [[security/input-validation]] |
-| **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[security/input-validation]] |
-| **Security.Supply.ExactPinning** | All `package.json` dependencies use exact versions; range specifiers (`^`, `~`) fail CI linting. | [[security/supply-chain]] |
-| **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[security/supply-chain]] |
-| **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[security/supply-chain]] |
-| **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[security/supply-chain]] |
-| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` never added as a dependency (CVE-2025-54782 RCE); enforced by ESLint `no-restricted-imports`. | [[security/supply-chain]] |
-| **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[security/information-disclosure]] |
-| **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[security/information-disclosure]] |
-| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[security/information-disclosure]] |
+| **Security.Parser.ReDoS** | All OFM parser regexes must be audited for catastrophic backtracking; super-linear patterns are prohibited. | [[requirements/security/parser-safety]] |
+| **Security.Parser.ParseTimeout** | Any single vault file must complete parsing within 200 ms; timeouts produce empty results without crashing. | [[requirements/security/parser-safety]] |
+| **Security.Parser.YAMLLimits** | Frontmatter YAML parsed with alias cap (50), size limit (64 KB), safe mode; parse failures caught as malformed frontmatter. | [[requirements/security/parser-safety]] |
+| **Security.Parser.EmbedDepth** | Embed resolution detects cycles via visited-URI set and enforces max depth 10; circular embeds produce FG005. | [[requirements/security/parser-safety]] |
+| **Security.Parser.VaultFileLimit** | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage`. | [[requirements/security/parser-safety]] |
+| **Security.Vault.PathConfinement** | All file paths from vault content or LSP params are canonicalized and vault-root-checked before any I/O. | [[requirements/security/vault-confinement]] |
+| **Security.Vault.SymlinkConfinement** | Symlinks resolving outside the vault root are treated as non-existent; real symlink target path is checked, not symlink path. | [[requirements/security/vault-confinement]] |
+| **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[requirements/security/vault-confinement]] |
+| **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[requirements/security/vault-confinement]] |
+| **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[requirements/security/input-validation]] |
+| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 10 MB rejected at transport layer; stdin closed, no buffering or parsing attempted. | [[requirements/security/input-validation]] |
+| **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[requirements/security/input-validation]] |
+| **Security.Supply.ExactPinning** | All `package.json` dependencies use exact versions; range specifiers (`^`, `~`) fail CI linting. | [[requirements/security/supply-chain]] |
+| **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[requirements/security/supply-chain]] |
+| **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[requirements/security/supply-chain]] |
+| **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[requirements/security/supply-chain]] |
+| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` never added as a dependency (CVE-2025-54782 RCE); enforced by ESLint `no-restricted-imports`. | [[requirements/security/supply-chain]] |
+| **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[requirements/security/information-disclosure]] |
+| **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[requirements/security/information-disclosure]] |
+| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[requirements/security/information-disclosure]] |
 
 ## User Requirements
 
@@ -136,7 +136,7 @@ The user requirements layer lives in [[requirements/user/index]]. It contains 23
 
 - [[design/domain-layer]] — domain model: VaultIndex, OFMIndex, document entities
 - [[design/api-layer]] — LSP method handlers and request/response contracts
-- [[bdd/features]] — Gherkin scenarios that exercise requirements as acceptance tests
+- `bdd/features/` — Gherkin scenarios that exercise requirements as acceptance tests
 - [[architecture/overview]] — system decomposition, NestJS module boundaries, Bun runtime constraints
 - [[ofm-spec/index]] — Obsidian Flavored Markdown specification used as primary evidence source
 - [[roadmap]] — delivery milestones and requirement prioritisation

@@ -15,7 +15,7 @@ aliases: ["TASK-047"]
 
 # Implement VaultIndex
 
-> [!INFO] `TASK-047` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-047` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -66,7 +66,7 @@ Create `src/vault/vault-index.ts`. The `VaultIndex` is an in-memory map from `Do
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `VaultIndex stores and retrieves documents by DocId` |
+| `bdd/features/workspace.feature` | `VaultIndex stores and retrieves documents by DocId` |
 
 ---
 
@@ -88,7 +88,7 @@ Create `src/vault/vault-index.ts`. The `VaultIndex` is an in-memory map from `Do
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -96,12 +96,12 @@ Create `src/vault/vault-index.ts`. The `VaultIndex` is an in-memory map from `Do
 
 **Blocked by:**
 
-- [[tickets/TASK-046]] — DocId type must be defined before VaultIndex can be implemented
+- [[TASK-046]] — DocId type must be defined before VaultIndex can be implemented
 
 **Unblocks:**
 
-- [[tickets/TASK-048]] — FolderLookup is rebuilt from VaultIndex
-- [[tickets/TASK-049]] — VaultScanner populates VaultIndex
+- [[TASK-048]] — FolderLookup is rebuilt from VaultIndex
+- [[TASK-049]] — VaultScanner populates VaultIndex
 
 ---
 
@@ -116,7 +116,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -151,7 +151,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/vault-index.ts` implemented. Map-backed store with set/get/delete/has/values/entries/size/clear. All 9 CRUD tests pass. Status: `done`.

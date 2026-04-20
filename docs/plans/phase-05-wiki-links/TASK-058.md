@@ -15,7 +15,7 @@ aliases: ["TASK-058"]
 
 # Implement Oracle name-matching engine
 
-> [!INFO] `TASK-058` · Task · Phase 5 · Parent: [[tickets/FEAT-006]] · Status: `open`
+> [!INFO] `TASK-058` · Task · Phase 5 · Parent: [[FEAT-006]] · Status: `open`
 
 ## Description
 
@@ -55,10 +55,10 @@ Create `src/resolution/oracle.ts`. The `Oracle` wraps `FolderLookup` and impleme
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Oracle resolves exact path match` |
-| [[bdd/features/wiki-links]] | `Oracle resolves via alias` |
-| [[bdd/features/wiki-links]] | `Oracle resolves bare stem to unique document` |
-| [[bdd/features/wiki-links]] | `Oracle reports ambiguous when multiple stems match` |
+| `bdd/features/wiki-links.feature` | `Oracle resolves exact path match` |
+| `bdd/features/wiki-links.feature` | `Oracle resolves via alias` |
+| `bdd/features/wiki-links.feature` | `Oracle resolves bare stem to unique document` |
+| `bdd/features/wiki-links.feature` | `Oracle reports ambiguous when multiple stems match` |
 
 ---
 
@@ -80,7 +80,7 @@ Create `src/resolution/oracle.ts`. The `Oracle` wraps `FolderLookup` and impleme
 
 ## Parent Feature
 
-[[tickets/FEAT-006]] — Wiki-Link Resolution
+[[FEAT-006]] — Wiki-Link Resolution
 
 ---
 
@@ -88,11 +88,11 @@ Create `src/resolution/oracle.ts`. The `Oracle` wraps `FolderLookup` and impleme
 
 **Blocked by:**
 
-- [[tickets/TASK-064]] — alias resolution must be implemented before Oracle.resolveWithAlias() can be correct
+- [[TASK-064]] — alias resolution must be implemented before Oracle.resolveWithAlias() can be correct
 
 **Unblocks:**
 
-- [[tickets/TASK-059]] — LinkResolver uses Oracle to resolve wiki-link entries
+- [[TASK-059]] — LinkResolver uses Oracle to resolve wiki-link entries
 
 ---
 
@@ -107,7 +107,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-006]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-006]] child task row updated to `in-review`
 
 ---
 
@@ -142,4 +142,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-006]].
+> Ticket created. Status: `open`. Parent: [[FEAT-006]].

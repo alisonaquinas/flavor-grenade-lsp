@@ -63,7 +63,7 @@ Vault authors gain an LSP server that can complete the Language Server Protocol 
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/workspace]] | Workspace-level scenarios including the LSP handshake smoke test |
+| `bdd/features/workspace.feature` | Workspace-level scenarios including the LSP handshake smoke test |
 
 ---
 
@@ -93,22 +93,22 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-017]] | Implement stdio Content-Length reader | `done` |
-| [[tickets/TASK-018]] | Implement stdio Content-Length writer | `done` |
-| [[tickets/TASK-019]] | Implement JSON-RPC dispatcher | `done` |
-| [[tickets/TASK-020]] | Handle initialize request | `done` |
-| [[tickets/TASK-021]] | Handle initialized notification | `done` |
-| [[tickets/TASK-022]] | Handle shutdown request | `done` |
-| [[tickets/TASK-023]] | Handle exit notification | `done` |
-| [[tickets/TASK-024]] | Handle textDocument/didOpen | `done` |
-| [[tickets/TASK-025]] | Handle textDocument/didChange | `done` |
-| [[tickets/TASK-026]] | Handle textDocument/didClose | `done` |
-| [[tickets/TASK-027]] | Implement flavorGrenade/status notification | `done` |
-| [[tickets/TASK-028]] | Register all handlers in LspModule | `done` |
-| [[tickets/TASK-029]] | Write TDD integration tests using stdio pipe | `done` |
-| [[tickets/CHORE-004]] | Phase 2 Lint Sweep | `done` |
-| [[tickets/CHORE-005]] | Phase 2 Code Quality Sweep | `done` |
-| [[tickets/CHORE-006]] | Phase 2 Security Sweep | `done` |
+| [[TASK-017]] | Implement stdio Content-Length reader | `done` |
+| [[TASK-018]] | Implement stdio Content-Length writer | `done` |
+| [[TASK-019]] | Implement JSON-RPC dispatcher | `done` |
+| [[TASK-020]] | Handle initialize request | `done` |
+| [[TASK-021]] | Handle initialized notification | `done` |
+| [[TASK-022]] | Handle shutdown request | `done` |
+| [[TASK-023]] | Handle exit notification | `done` |
+| [[TASK-024]] | Handle textDocument/didOpen | `done` |
+| [[TASK-025]] | Handle textDocument/didChange | `done` |
+| [[TASK-026]] | Handle textDocument/didClose | `done` |
+| [[TASK-027]] | Implement flavorGrenade/status notification | `done` |
+| [[TASK-028]] | Register all handlers in LspModule | `done` |
+| [[TASK-029]] | Write TDD integration tests using stdio pipe | `done` |
+| [[CHORE-004]] | Phase 2 Lint Sweep | `done` |
+| [[CHORE-005]] | Phase 2 Code Quality Sweep | `done` |
+| [[CHORE-006]] | Phase 2 Security Sweep | `done` |
 
 ---
 
@@ -116,11 +116,11 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-002]] — Phase 1 (Project Scaffold) must be complete before transport layer can be built
+- [[FEAT-002]] — Phase 1 (Project Scaffold) must be complete before transport layer can be built
 
 **Unblocks:**
 
-- [[tickets/FEAT-004]] — Phase 3 OFM Parser requires a working transport layer
+- [[FEAT-004]] — Phase 3 OFM Parser requires a working transport layer
 
 ---
 

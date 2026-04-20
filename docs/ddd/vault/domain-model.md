@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 4: Vault & Workspace**. BC4 is a Supporting subdomain that owns the top-level state of the server: which vaults are known, which documents are loaded, and how those documents are indexed for reference resolution.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/domain-model]], [[reference-resolution/domain-model]], [[config/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/config/domain-model]].
 
 > [!NOTE]
 > BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4.
@@ -28,7 +28,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/do
 
 ### State
 
-```
+```text
 VaultFolder
 ├── root:       VaultRoot               — identity; immutable after construction
 ├── docs:       Map<DocId, OFMDoc>       — all indexed documents
@@ -40,7 +40,7 @@ VaultFolder
 
 ### State Diagram
 
-```
+```text
                     ┌─────────────────────────────────────────┐
                     │              VaultFolder                 │
                     │                                         │
@@ -87,18 +87,18 @@ All commands are pure functions returning a new `VaultFolder`. They do not perfo
 
 `Workspace` is the top-level aggregate — one instance per server process. It owns all `VaultFolder` instances and mediates the `SingleFileMode` / multi-file lifecycle.
 
-### State
+### Workspace State
 
-```
+```text
 Workspace
 ├── folders:    Map<VaultRoot, VaultFolder>  — all known vaults
 ├── singleFile: Map<string, OFMDoc>          — URI → OFMDoc (SingleFileMode docs)
 └── userConfig: FlavorConfig                 — user-level config (cascade layer 2)
 ```
 
-### State Diagram
+### Workspace State Diagram
 
-```
+```text
           initialize
               │
               ▼
@@ -123,7 +123,7 @@ VaultFolder          SingleFile
   doc absorbed into VaultFolder
 ```
 
-### Invariants
+### Workspace Invariants
 
 | # | Invariant |
 |---|-----------|
@@ -133,7 +133,7 @@ VaultFolder          SingleFile
 | I4 | `VaultFolder` roots are disjoint — no vault root is a subdirectory of another vault root. If a nested vault is detected, the outer vault takes precedence. |
 | I5 | `userConfig` is loaded once at startup and refreshed on `flavorGrenade/reloadConfig` notification. |
 
-### Commands
+### Workspace Commands
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
@@ -149,7 +149,7 @@ VaultFolder          SingleFile
 
 ### VaultPath
 
-```
+```text
 VaultPath (branded string)
 ├── Relative to a VaultRoot
 ├── Forward slashes only
@@ -163,7 +163,7 @@ VaultPath (branded string)
 
 ### VaultRoot
 
-```
+```text
 VaultRoot (branded string)
 ├── Absolute filesystem path
 ├── No trailing separator
@@ -175,7 +175,7 @@ VaultRoot (branded string)
 
 ### DocId
 
-```
+```text
 DocId
 ├── uri:  string      — file:// URI (LSP-compatible)
 └── path: VaultPath   — vault-relative path
@@ -193,7 +193,7 @@ DocId
 
 The `VaultDetector` service determines whether a given directory is a vault and what kind.
 
-```
+```typescript
 VaultDetector.detect(dir: AbsPath, config: FlavorConfig): VaultDetectionResult
 
 VaultDetectionResult
@@ -204,7 +204,7 @@ VaultDetectionResult
 
 **Detection algorithm:**
 
-```
+```text
 1. Check for {dir}/.obsidian/ directory
    → if found AND config.core.vault_detection ∈ ['obsidian', 'both']: return obsidian
 2. Check for {dir}/.flavor-grenade.toml file
@@ -220,7 +220,7 @@ VaultDetectionResult
 
 The `FileWatcher` service wraps OS filesystem events and normalises them into domain events.
 
-```
+```typescript
 FileWatcher.watch(root: VaultRoot, gitIgnore: GitIgnore): AsyncIterable<FileEvent>
 
 FileEvent
@@ -259,7 +259,7 @@ FileEvent
 
 ## Interaction with Other BCs
 
-```
+```text
 BC5 LspServer
      │
      │  textDocument/didOpen

@@ -1,0 +1,27 @@
+# lefthook.yml — git pre-commit hooks for flavor-grenade-lsp
+#
+# Install once after cloning:  bunx lefthook install
+# The `prepare` npm script runs this automatically on `bun install`.
+#
+# Rules enforced here mirror the CI gates so violations are caught locally
+# before they ever reach a pull request.
+
+pre-commit:
+  # Run format before lint so ESLint sees the already-formatted source.
+  parallel: false
+  commands:
+    format:
+      name: "Prettier — auto-format staged TypeScript files"
+      glob: "src/**/*.ts"
+      run: bunx prettier --write {staged_files}
+      # stage_fixed: re-adds files that Prettier rewrote so the commit
+      # contains the formatted version, not the original.
+      stage_fixed: true
+
+    lint:
+      name: "ESLint — zero warnings on staged TypeScript files"
+      glob: "src/**/*.ts"
+      run: bunx eslint --max-warnings 0 {staged_files}
+      # No auto-fix for lint: ESLint fixable issues are re-formatted code
+      # (already handled by Prettier above) or real code-quality problems
+      # that the author should review before committing.

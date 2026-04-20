@@ -15,7 +15,7 @@ aliases: ["TASK-083"]
 
 # Ensure BlockAnchorEntry is fully populated
 
-> [!INFO] `TASK-083` · Task · Phase 8 · Parent: [[tickets/FEAT-009]] · Status: `open`
+> [!INFO] `TASK-083` · Task · Phase 8 · Parent: [[FEAT-009]] · Status: `open`
 
 ## Description
 
@@ -26,6 +26,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
 ## Implementation Notes
 
 - Expected interface shape:
+
   ```typescript
   export interface BlockAnchorEntry {
     id: string;        // anchor ID without ^
@@ -33,6 +34,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
     lineRange: Range;  // covers the entire source line
   }
   ```
+
 - Edge case: anchor at EOF with no trailing newline — `lineRange` must still be valid
 - Edge case: anchor on list item — parser must not strip list marker from `id`
 - Edge case: anchor on heading line — verify `id` does not include `#` characters
@@ -52,7 +54,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/block-references]] | `BlockAnchorParser populates all entry fields` |
+| `bdd/features/block-references.feature` | `BlockAnchorParser populates all entry fields` |
 
 ---
 
@@ -76,7 +78,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
 
 ## Parent Feature
 
-[[tickets/FEAT-009]] — Block References
+[[FEAT-009]] — Block References
 
 ---
 
@@ -88,7 +90,7 @@ Verify that `BlockAnchorParser` (introduced in Phase 3) correctly produces `Bloc
 
 **Unblocks:**
 
-- [[tickets/TASK-084]] — CrossBlockRef type depends on `BlockAnchorEntry` shape being correct
+- [[TASK-084]] — CrossBlockRef type depends on `BlockAnchorEntry` shape being correct
 
 ---
 
@@ -103,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-009]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-009]] child task row updated to `in-review`
 
 ---
 
@@ -127,4 +129,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-009]].
+> Ticket created. Status: `open`. Parent: [[FEAT-009]].

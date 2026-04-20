@@ -67,6 +67,7 @@ bun test tests/integration/
 ```
 
 **Agent-driven path:** Each smoke plan's agent-driven section provides the exact numbered procedure. The agent must:
+
 1. Spawn the server: `bun run start 2>/dev/null &`
 2. Pipe a JSON-RPC request via stdin
 3. Assert the response payload matches the expected shape

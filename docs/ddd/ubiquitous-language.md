@@ -14,7 +14,7 @@ aliases:
 
 This glossary is the single source of truth for terminology used across all bounded contexts. Every term defined here must be used consistently in code, comments, tests, and documentation. When a term has a different meaning in a different bounded context, the per-BC section qualifier is noted in the Definition column.
 
-See also: [[bounded-contexts]], [[vault/domain-model]], [[document-lifecycle/domain-model]], [[reference-resolution/domain-model]], [[lsp-protocol/domain-model]], [[config/domain-model]].
+See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifecycle/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/lsp-protocol/domain-model]], [[ddd/config/domain-model]].
 
 > [!NOTE]
 > Terms are context-qualified where the same word means something different in different bounded contexts. Unqualified terms are shared across all contexts.

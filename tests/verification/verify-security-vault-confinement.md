@@ -36,6 +36,7 @@ This document defines verification test cases for the vault root confinement sec
 **Setup:** A running `flavor-grenade-lsp` server instance with a test vault at `/tmp/test-vault/`. The file `/tmp/outside-secret.txt` exists outside the vault root and contains a known sentinel string. A spy is placed on `fs.readFile` to detect any read outside `/tmp/test-vault/`.
 
 **Agent-driven steps:**
+
 1. Agent constructs a vault file `vault/traversal-test.md` containing the wiki-link `[[../outside-secret]]`. Agent triggers `textDocument/definition` for the position of that link.
 2. Agent verifies the JSON-RPC response is either `null` (no location found) or a JSON-RPC error — NOT a location pointing outside the vault root.
 3. Agent verifies via the `fs.readFile` spy that no read was attempted on `/tmp/outside-secret.txt` or any path outside `/tmp/test-vault/`.
@@ -64,6 +65,7 @@ This document defines verification test cases for the vault root confinement sec
 **Setup:** A test vault at `/tmp/test-vault/`. A symlink `vault/escape-link.md -> /etc/hostname` (or equivalent readable file outside vault). A spy on `fs.realpath` to verify it is called.
 
 **Agent-driven steps:**
+
 1. Agent creates a vault file `vault/linker.md` containing `[[escape-link]]`. The file `vault/escape-link.md` is a symlink pointing to `/etc/hostname` (outside the vault root).
 2. Agent triggers `textDocument/definition` for the wiki-link `[[escape-link]]` in `linker.md`.
 3. Agent verifies via the `fs.realpath` spy that the server called `fs.realpath()` on the resolved path of `escape-link.md`, obtaining the real path `/etc/hostname`.
@@ -91,6 +93,7 @@ This document defines verification test cases for the vault root confinement sec
 **Setup:** A running server instance (post-initialize). A spy on all file system operations to verify no I/O is attempted for non-file URIs.
 
 **Agent-driven steps:**
+
 1. Agent sends a `textDocument/hover` request with `textDocument.uri` set to `http://example.com/note.md`. Agent verifies the response is a JSON-RPC error object with `code: -32602` (InvalidParams).
 2. Agent sends a `textDocument/hover` request with `textDocument.uri` set to `ftp://host/note.md`. Agent verifies error code -32602.
 3. Agent sends a `textDocument/hover` request with `textDocument.uri` set to `data:text/plain,hello`. Agent verifies error code -32602.
@@ -117,6 +120,7 @@ This document defines verification test cases for the vault root confinement sec
 **Setup:** A running server instance with a test vault. A mock LSP client that captures `workspace/applyEdit` requests. A spy to detect any file writes outside the vault root.
 
 **Agent-driven steps:**
+
 1. Agent injects a crafted wiki-link into a vault file that would resolve to a rename target outside the vault root when used as a rename source. Specifically: vault file `vault/source.md` contains `[[../outside-target]]`, and the agent triggers `textDocument/rename` at the position of that link with `newName: "renamed"`.
 2. Agent verifies the mock client receives NO `workspace/applyEdit` request — the rename operation must be cancelled entirely, not partially applied.
 3. Agent verifies the server returns a `ResponseError` (JSON-RPC error response) to the `textDocument/rename` request — not a successful `WorkspaceEdit` result.

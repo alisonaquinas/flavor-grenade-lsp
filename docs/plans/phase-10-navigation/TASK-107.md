@@ -15,7 +15,7 @@ aliases: ["TASK-107"]
 
 # Implement textDocument/documentHighlight
 
-> [!INFO] `TASK-107` · Task · Phase 10 · Parent: [[tickets/FEAT-011]] · Status: `open`
+> [!INFO] `TASK-107` · Task · Phase 10 · Parent: [[FEAT-011]] · Status: `open`
 
 ## Description
 
@@ -31,7 +31,7 @@ Create `src/handlers/document-highlight.handler.ts`. When the cursor is on a wik
 - `DocumentHighlightKind.Read` (1) = reference site (any wiki-link within same doc pointing to that entity)
 - Uses `entityAtPosition` (TASK-105) to determine what is under the cursor
 - Register `documentHighlightProvider: true` in capabilities
-- See also: [[bdd/features/navigation]]
+- See also: `bdd/features/navigation.feature`
 
 ---
 
@@ -47,8 +47,8 @@ Create `src/handlers/document-highlight.handler.ts`. When the cursor is on a wik
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/navigation]] | `Document highlight marks definition as Write and references as Read` |
-| [[bdd/features/navigation]] | `Document highlight returns empty when cursor on plain text` |
+| `bdd/features/navigation.feature` | `Document highlight marks definition as Write and references as Read` |
+| `bdd/features/navigation.feature` | `Document highlight returns empty when cursor on plain text` |
 
 ---
 
@@ -70,7 +70,7 @@ Create `src/handlers/document-highlight.handler.ts`. When the cursor is on a wik
 
 ## Parent Feature
 
-[[tickets/FEAT-011]] — Navigation
+[[FEAT-011]] — Navigation
 
 ---
 
@@ -78,11 +78,11 @@ Create `src/handlers/document-highlight.handler.ts`. When the cursor is on a wik
 
 **Blocked by:**
 
-- [[tickets/TASK-105]] — entityAtPosition utility must exist before DocumentHighlight can use it
+- [[TASK-105]] — entityAtPosition utility must exist before DocumentHighlight can use it
 
 **Unblocks:**
 
-- [[tickets/TASK-108]] — integration tests cover document highlight scenarios
+- [[TASK-108]] — integration tests cover document highlight scenarios
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-011]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-011]] child task row updated to `in-review`
 
 ---
 
@@ -134,4 +134,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-011]].
+> Ticket created. Status: `open`. Parent: [[FEAT-011]].

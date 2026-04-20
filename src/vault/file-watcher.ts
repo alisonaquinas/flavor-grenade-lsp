@@ -38,14 +38,9 @@ export class FileWatcher {
    */
   start(vaultRoot: string): void {
     this.resolvedRoot = path.resolve(vaultRoot);
-    this.watcher = fs.watch(
-      this.resolvedRoot,
-      { recursive: true },
-      (eventType, filename) => {
-        if (filename === null) return;
-        void this.handleEvent(eventType, filename);
-      },
-    );
+    this.watcher = fs.watch(this.resolvedRoot, { recursive: true }, (eventType, filename) => {
+      void this.handleEvent(eventType, filename);
+    });
   }
 
   /** Stop the filesystem watcher. */
@@ -56,7 +51,8 @@ export class FileWatcher {
     }
   }
 
-  private async handleEvent(eventType: string, filename: string): Promise<void> {
+  private async handleEvent(eventType: string, filename: string | null): Promise<void> {
+    if (filename === null) return;
     const absPath = path.resolve(this.resolvedRoot, filename);
 
     // ADR013: confine all access to vault root.

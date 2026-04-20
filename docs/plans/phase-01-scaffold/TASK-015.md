@@ -17,7 +17,7 @@ aliases: ["TASK-015"]
 
 # Create project directory structure
 
-> [!INFO] `TASK-015` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-015` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -70,7 +70,7 @@ Create the canonical `src/` directory tree that all subsequent phases will popul
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -78,12 +78,12 @@ Create the canonical `src/` directory tree that all subsequent phases will popul
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — Project root must exist before `src/` can be created.
+- [[TASK-002]] — Project root must exist before `src/` can be created.
 
 **Unblocks:**
 
-- [[tickets/TASK-009]] — `src/main.ts` requires `src/` directory.
-- [[tickets/TASK-010]] — `src/lsp/lsp.module.ts` requires `src/lsp/` directory.
+- [[TASK-009]] — `src/main.ts` requires `src/` directory.
+- [[TASK-010]] — `src/lsp/lsp.module.ts` requires `src/lsp/` directory.
 - All Phase 2+ tasks that place files in `src/parser/`, `src/vault/`, `src/test/`.
 
 ---
@@ -100,7 +100,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `src/test/support/` directory exists with `.gitkeep`
 - [ ] `src/test/steps/` directory exists with `.gitkeep`
 - [ ] `git status` shows `.gitkeep` files tracked (not ignored)
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

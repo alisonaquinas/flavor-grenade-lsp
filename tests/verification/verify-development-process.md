@@ -72,6 +72,7 @@ echo "Merges from release/ or hotfix/: $release_merges"
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `docs/adr/ADR007-git-flow-branching.md` and confirms it defines the `release/*` and `hotfix/*` merge-to-main rule.
 2. Agent verifies the GitHub branch protection settings for `main` include "Require a pull request before merging" and "Require approvals" >= 1.
 3. Agent checks that no `feature/*` branch appears as a direct parent of any commit on `main` in the git log.
@@ -128,6 +129,7 @@ echo "Under tests/: $under_tests"
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `docs/adr/ADR010-tests-directory-structure.md` and confirms the canonical directory layout defined there matches the actual `tests/` directory structure.
 2. Agent reads `tsconfig.test.json` and verifies it includes both `src/` and `tests/` paths, enforcing the separation at the TypeScript compiler level.
 3. Agent reads `bunfig.toml` and confirms test discovery is configured to search `tests/` only, not `src/`.
@@ -191,6 +193,7 @@ echo "Test files: $total_tests | With matrix entries: $covered"
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `docs/test/matrix.md` and verifies the table schema includes columns for: test file path, Planguage requirement tags, phase, and commit.
 2. Agent cross-references every Planguage tag in the matrix against `docs/requirements/index.md` to confirm each tag refers to a real requirement.
 3. Agent verifies no matrix entry exists for a test file that no longer exists in `tests/` (stale entries are also violations).
@@ -253,6 +256,7 @@ grep -rn '"run this command each time"\|"manually run"\|"each time you"' \
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `scripts/README.md` (if it exists) and verifies it documents each script's purpose and usage.
 2. Agent reads every `docs/plans/*.md` file and identifies every procedure described as a recurring manual step, then verifies a corresponding `scripts/*.sh` automation exists for each.
 3. Agent scans `src/` for any process-spawning call that invokes a path containing `scripts/` — this would violate the constraint that scripts are not called from application code.
@@ -317,6 +321,7 @@ rm -f lfs-check.png /tmp/lfs-check.png
 ```
 
 **Agent-driven steps:**
+
 1. Agent reads `.gitattributes` and verifies all expected binary file extensions are listed with `filter=lfs diff=lfs merge=lfs -text` attributes.
 2. Agent checks the repository's git object store for any object larger than 1 KB that is a real binary content blob (not a 129-byte LFS pointer) at a path with a binary extension — this indicates LFS was bypassed.
 3. Agent verifies `git lfs install` has been run, evidenced by the presence of LFS-related hooks in `.git/hooks/`.

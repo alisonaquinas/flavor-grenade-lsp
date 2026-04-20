@@ -76,11 +76,11 @@ The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger 
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] through [[tickets/TASK-016]] — all Phase 1 TASK tickets must be done before the lint sweep can run against the complete codebase.
+- [[TASK-002]] through [[TASK-016]] — all Phase 1 TASK tickets must be done before the lint sweep can run against the complete codebase.
 
 **Unblocks:**
 
-- [[tickets/CHORE-002]] — Code quality sweep runs after lint is clean.
+- [[CHORE-002]] — Code quality sweep runs after lint is clean.
 
 ---
 
@@ -120,5 +120,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: [[requirements/code-quality]] `Quality.Lint.ZeroWarnings`. Blocked until TASK-002 through TASK-016 are all done.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

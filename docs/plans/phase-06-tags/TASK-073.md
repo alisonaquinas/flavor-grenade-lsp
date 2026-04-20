@@ -15,7 +15,7 @@ aliases: ["TASK-073"]
 
 # Handle YAML frontmatter tags in TagRegistry
 
-> [!INFO] `TASK-073` · Task · Phase 6 · Parent: [[tickets/FEAT-007]] · Status: `open`
+> [!INFO] `TASK-073` · Task · Phase 6 · Parent: [[FEAT-007]] · Status: `open`
 
 ## Description
 
@@ -45,7 +45,7 @@ Ensure that `FrontmatterParser`'s extracted `frontmatter.tags` are fed into `Tag
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/tags]] | `Frontmatter tags are indexed by TagRegistry` |
+| `bdd/features/tags.feature` | `Frontmatter tags are indexed by TagRegistry` |
 
 ---
 
@@ -69,7 +69,7 @@ Ensure that `FrontmatterParser`'s extracted `frontmatter.tags` are fed into `Tag
 
 ## Parent Feature
 
-[[tickets/FEAT-007]] — Tags
+[[FEAT-007]] — Tags
 
 ---
 
@@ -77,7 +77,7 @@ Ensure that `FrontmatterParser`'s extracted `frontmatter.tags` are fed into `Tag
 
 **Blocked by:**
 
-- [[tickets/TASK-067]] — TagRegistry must exist before frontmatter integration can be added
+- [[TASK-067]] — TagRegistry must exist before frontmatter integration can be added
 
 **Unblocks:**
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-007]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-007]] child task row updated to `in-review`
 
 ---
 
@@ -122,7 +122,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-007]].
+> Ticket created. Status: `open`. Parent: [[FEAT-007]].
 
 > [!SUCCESS] Done — 2026-04-17
 > Implemented in GREEN commit 2af7882. All 225 tests pass; lint and tsc clean. Status: `done`.

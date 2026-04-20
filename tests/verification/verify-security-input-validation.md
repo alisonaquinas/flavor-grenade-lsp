@@ -35,6 +35,7 @@ This document defines verification test cases for the JSON-RPC input validation 
 **Setup:** A running `flavor-grenade-lsp` server instance with a test vault. A spy on all VaultIndex methods to detect whether any is called for invalid-position requests.
 
 **Agent-driven steps:**
+
 1. Agent sends a `textDocument/hover` request with position `{"line": -1, "character": 0}`. Agent verifies the response contains `"error": {"code": -32602}` (InvalidParams). Agent verifies the VaultIndex spy was NOT called.
 2. Agent sends a `textDocument/hover` request with position `{"line": 0, "character": -1}`. Agent verifies error code -32602 and no VaultIndex call.
 3. Agent sends a `textDocument/hover` request with position `{"line": null, "character": 0}` (null is not a valid integer). Agent verifies error code -32602.
@@ -63,6 +64,7 @@ This document defines verification test cases for the JSON-RPC input validation 
 **Setup:** A process capable of writing raw bytes to the server's stdin pipe. The server must be started with a way to observe whether it buffers the body or closes stdin.
 
 **Agent-driven steps:**
+
 1. Agent starts the server and sends a valid `initialize` request to establish baseline connectivity.
 2. Agent constructs a JSON-RPC message header with `Content-Length: 10485761` (10 MB + 1 byte = 10,485,761 bytes). Agent writes only the header (and the required `\r\n\r\n` separator) to the server's stdin, then begins writing body bytes.
 3. Agent writes exactly 100 bytes of body content (not the full 10 MB + 1) and observes whether the server:
@@ -91,21 +93,28 @@ This document defines verification test cases for the JSON-RPC input validation 
 **Setup:** A running `flavor-grenade-lsp` server instance with a test harness that can inspect the server process's `Object.prototype` state via a diagnostic endpoint or process-level assertion. The server must expose a test-only RPC method or a test build that emits the result of `({}).polluted` after each message.
 
 **Agent-driven steps:**
+
 1. Agent sends the following JSON-RPC body to the server (as a raw payload on stdin with the appropriate `Content-Length` header):
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"__proto__":{"polluted":true},"processId":null,"rootUri":null,"capabilities":{}}}
    ```
+
    Agent verifies the server processes the `initialize` method (or returns a schema validation error), but does NOT add `polluted` to `Object.prototype`.
 2. Agent uses the diagnostic endpoint to check `({}).polluted` in the server process. Verifies the value is `undefined` (no pollution occurred).
 3. Agent sends a second variant targeting nested prototype pollution:
+
    ```json
    {"jsonrpc":"2.0","id":2,"method":"initialized","params":{"constructor":{"prototype":{"polluted":true}}}}
    ```
+
    Agent verifies `Object.prototype.polluted` is still `undefined` after this message.
 4. Agent sends a third variant with a `prototype` key directly in the params:
+
    ```json
    {"jsonrpc":"2.0","id":3,"method":"shutdown","params":{"prototype":{"polluted":true}}}
    ```
+
    Agent verifies `Object.prototype.polluted` remains `undefined`.
 5. Agent inspects the server source to confirm Zod schema validation (or equivalent) is applied to all incoming JSON-RPC bodies before any object merge operation — and that the schema explicitly strips or rejects `__proto__`, `constructor`, and `prototype` keys.
 6. Agent verifies that if `Object.prototype.freeze` was called during bootstrap, a pollution attempt throws a TypeError rather than silently failing.

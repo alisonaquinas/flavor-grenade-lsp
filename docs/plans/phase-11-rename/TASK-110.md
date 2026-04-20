@@ -15,7 +15,7 @@ aliases: ["TASK-110"]
 
 # Implement textDocument/rename for heading rename
 
-> [!INFO] `TASK-110` · Task · Phase 11 · Parent: [[tickets/FEAT-012]] · Status: `open`
+> [!INFO] `TASK-110` · Task · Phase 11 · Parent: [[FEAT-012]] · Status: `open`
 
 ## Description
 
@@ -30,7 +30,7 @@ Create `src/handlers/rename.handler.ts` (or extend it) to handle heading rename.
 - Heading text change: replace only the text after `##` prefix, not the prefix itself
 - Reference changes: `[[doc#Old Heading]]` → `[[doc#New Heading]]`; `[[doc#Old Heading|alias]]` → `[[doc#New Heading|alias]]` (alias preserved)
 - Alias-identity update rule is in TASK-113
-- See also: [[bdd/features/rename]]
+- See also: `bdd/features/rename.feature`
 
 ---
 
@@ -46,9 +46,9 @@ Create `src/handlers/rename.handler.ts` (or extend it) to handle heading rename.
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/rename]] | `Rename heading updates source document` |
-| [[bdd/features/rename]] | `Rename heading updates all cross-vault fragment references` |
-| [[bdd/features/rename]] | `Rename heading preserves non-identical aliases` |
+| `bdd/features/rename.feature` | `Rename heading updates source document` |
+| `bdd/features/rename.feature` | `Rename heading updates all cross-vault fragment references` |
+| `bdd/features/rename.feature` | `Rename heading preserves non-identical aliases` |
 
 ---
 
@@ -70,7 +70,7 @@ Create `src/handlers/rename.handler.ts` (or extend it) to handle heading rename.
 
 ## Parent Feature
 
-[[tickets/FEAT-012]] — Rename
+[[FEAT-012]] — Rename
 
 ---
 
@@ -78,15 +78,15 @@ Create `src/handlers/rename.handler.ts` (or extend it) to handle heading rename.
 
 **Blocked by:**
 
-- [[tickets/TASK-109]] — prepareRename must exist first (validates the rename context)
-- [[tickets/TASK-115]] — WorkspaceEditBuilder must exist before rename handler can produce WorkspaceEdit
+- [[TASK-109]] — prepareRename must exist first (validates the rename context)
+- [[TASK-115]] — WorkspaceEditBuilder must exist before rename handler can produce WorkspaceEdit
 
 **Unblocks:**
 
-- [[tickets/TASK-112]] — link style variant handling extends heading rename
-- [[tickets/TASK-113]] — pipe alias handling extends heading rename
-- [[tickets/TASK-114]] — zero-reference rename extends heading rename
-- [[tickets/TASK-117]] — integration tests depend on heading rename being complete
+- [[TASK-112]] — link style variant handling extends heading rename
+- [[TASK-113]] — pipe alias handling extends heading rename
+- [[TASK-114]] — zero-reference rename extends heading rename
+- [[TASK-117]] — integration tests depend on heading rename being complete
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-012]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 
 ---
 
@@ -138,4 +138,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-012]].
+> Ticket created. Status: `open`. Parent: [[FEAT-012]].

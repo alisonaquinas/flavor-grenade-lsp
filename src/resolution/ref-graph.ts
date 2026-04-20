@@ -224,8 +224,7 @@ export class RefGraph {
     if (entry.target === '') {
       // Intra-document block ref: [[#^id]]
       const sourceDoc = index.get(sourceDocId);
-      const resolvedAnchor =
-        sourceDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+      const resolvedAnchor = sourceDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
       return {
         sourceDocId,
         targetDocId: null,
@@ -244,8 +243,7 @@ export class RefGraph {
     }
     const targetDocId = result.targetDocId;
     const targetDoc = index.get(targetDocId);
-    const resolvedAnchor =
-      targetDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+    const resolvedAnchor = targetDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
     return {
       sourceDocId,
       targetDocId,
@@ -311,7 +309,10 @@ export class RefGraph {
     const broken = resolution.kind === 'broken';
     const ref: EmbedRef = { sourceDocId, entry, resolvedTo, broken };
     if (entry.width !== undefined) {
-      ref.embedSize = { width: entry.width, ...(entry.height !== undefined && { height: entry.height }) };
+      ref.embedSize = {
+        width: entry.width,
+        ...(entry.height !== undefined && { height: entry.height }),
+      };
     }
     return ref;
   }

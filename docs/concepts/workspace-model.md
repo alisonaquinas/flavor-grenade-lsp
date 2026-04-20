@@ -12,7 +12,7 @@ The workspace model defines how individual `OFMDoc` values are organized into na
 
 ## Three-Level Hierarchy
 
-```
+```text
 Workspace
   │
   ├── VaultFolder (vault root A: /home/user/vault-a)
@@ -76,7 +76,7 @@ A `VaultFolder` does not transition between modes — a new one is created when 
 
 When `Workspace.addFolder(multiFileFolder)` is called and `multiFileFolder.root` encloses the root of one or more existing `SingleFile` folders, those single-file folders are **evicted**:
 
-```
+```text
 Before:
   Workspace
     ├── VaultFolder[single-file: /vault/notes/daily.md]
@@ -109,7 +109,7 @@ When a `VaultFolder` is created or a document is added/removed, `FolderLookup` i
 
 ### Lookup Algorithm
 
-```
+```typescript
 lookup(partial: string, mode: ResolutionMode): DocId[]
 
 1. Compute Slug.ofString(partial)

@@ -94,12 +94,14 @@ And (alias links resolving correctly / total alias links tested) × 100 equals 1
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes 5 fixture documents each with frontmatter declaring 2 aliases, e.g.:
+
    ```
    ---
    aliases: [Alpha One, Alpha Two]
    ---
    # Source Alpha
    ```
+
 3. Agent writes `test.md` containing `[[Alpha One]]`, `[[Alpha Two]]`, etc. for all 10 alias values.
 4. Agent spawns LSP server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` + `initialized` JSON-RPC.
@@ -184,6 +186,7 @@ And the count of FG001 diagnostics overlapping non-markdown inline link URLs equ
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `links.md` with exact content:
+
    ```
    [External](https://example.com)
    [Another](https://obsidian.md)
@@ -196,6 +199,7 @@ And the count of FG001 diagnostics overlapping non-markdown inline link URLs equ
    [FTP two](ftp://archive.example.com/backup.tar)
    [Relative doc](./nonexistent-document.md)
    ```
+
 3. Agent spawns LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` (with vault `rootUri`) + `initialized` JSON-RPC.
 5. Agent sends `textDocument/didOpen` for `links.md`; collects all `publishDiagnostics` notifications.
@@ -237,9 +241,11 @@ And (requests with no ignored-file results / total requests tested) × 100 equal
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
 2. Agent writes `.flavor-grenade.toml` with:
+
    ```toml
    ignore_patterns = ["templates/**"]
    ```
+
 3. Agent writes 5 markdown documents under `templates/` (e.g., `templates/daily.md`, `templates/meeting.md`, …).
 4. Agent writes 5 markdown documents under `notes/` (e.g., `notes/alpha.md`, …).
 5. Agent writes `notes/index.md` as the working document; also writes a `[[link]]` in it pointing to `templates/daily` (ignored file).

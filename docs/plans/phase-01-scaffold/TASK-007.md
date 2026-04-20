@@ -17,7 +17,7 @@ aliases: ["TASK-007"]
 
 # Configure tsconfig.json
 
-> [!INFO] `TASK-007` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-007` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -69,7 +69,7 @@ Create `tsconfig.json` at the project root with the compiler options required fo
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -77,12 +77,12 @@ Create `tsconfig.json` at the project root with the compiler options required fo
 
 **Blocked by:**
 
-- [[tickets/TASK-005]] — TypeScript package must be installed before `tsconfig.json` can be validated.
+- [[TASK-005]] — TypeScript package must be installed before `tsconfig.json` can be validated.
 
 **Unblocks:**
 
-- [[tickets/TASK-009]] — `src/main.ts` compilation depends on `tsconfig.json`.
-- [[tickets/TASK-010]] — `LspModule` compilation depends on `tsconfig.json`.
+- [[TASK-009]] — `src/main.ts` compilation depends on `tsconfig.json`.
+- [[TASK-010]] — `LspModule` compilation depends on `tsconfig.json`.
 
 ---
 
@@ -95,7 +95,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] Contains `"moduleResolution": "bundler"`, `"target": "ESNext"`, `"module": "ESNext"`
 - [ ] Contains `"outDir": "dist"`, `"rootDir": "src"`
 - [ ] Contains `"exclude": ["node_modules", "dist", "src/test/**/*"]`
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -116,7 +116,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

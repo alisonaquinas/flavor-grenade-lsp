@@ -17,7 +17,7 @@ aliases: ["TASK-005"]
 
 # Install development tooling
 
-> [!INFO] `TASK-005` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-005` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -68,7 +68,7 @@ Install the development-time tooling required for type checking, linting, and co
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -76,13 +76,13 @@ Install the development-time tooling required for type checking, linting, and co
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — `package.json` must exist before packages can be installed.
+- [[TASK-002]] — `package.json` must exist before packages can be installed.
 
 **Unblocks:**
 
-- [[tickets/TASK-007]] — `tsconfig.json` references the TypeScript compiler installed here.
-- [[tickets/TASK-012]] — ESLint config requires the ESLint packages installed here.
-- [[tickets/TASK-013]] — Prettier config requires the Prettier package installed here.
+- [[TASK-007]] — `tsconfig.json` references the TypeScript compiler installed here.
+- [[TASK-012]] — ESLint config requires the ESLint packages installed here.
+- [[TASK-013]] — Prettier config requires the Prettier package installed here.
 
 ---
 
@@ -94,7 +94,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `package.json` `devDependencies` contains `typescript`, `eslint`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`, `prettier`, `eslint-config-prettier`
 - [ ] `bunx tsc --version` outputs a TypeScript version
 - [ ] `bun.lockb` (or `bun.lock`) updated
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -115,7 +115,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

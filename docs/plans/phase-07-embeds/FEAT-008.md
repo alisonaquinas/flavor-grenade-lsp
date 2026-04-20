@@ -63,7 +63,7 @@ Vault authors gain first-class editor support for `![[embed]]` syntax. Broken em
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/embeds]] | Embed resolution, FG004, go-to-definition, hover, and size syntax scenarios |
+| `bdd/features/embeds.feature` | Embed resolution, FG004, go-to-definition, hover, and size syntax scenarios |
 
 ---
 
@@ -93,17 +93,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-075]] | Add EmbedRef to RefGraph | `done` |
-| [[tickets/TASK-076]] | Implement EmbedDest resolution | `done` |
-| [[tickets/TASK-077]] | Add asset tracking to VaultScanner | `done` |
-| [[tickets/TASK-078]] | Implement FG004 diagnostic | `done` |
-| [[tickets/TASK-079]] | Implement embed go-to-definition | `done` |
-| [[tickets/TASK-080]] | Implement embed hover | `done` |
-| [[tickets/TASK-081]] | Handle embed size syntax | `done` |
-| [[tickets/TASK-082]] | Write unit tests for embed resolution | `done` |
-| [[tickets/CHORE-019]] | Phase 7 Lint Sweep | `done` |
-| [[tickets/CHORE-020]] | Phase 7 Code Quality Sweep | `done` |
-| [[tickets/CHORE-021]] | Phase 7 Security Sweep | `done` |
+| [[TASK-075]] | Add EmbedRef to RefGraph | `done` |
+| [[TASK-076]] | Implement EmbedDest resolution | `done` |
+| [[TASK-077]] | Add asset tracking to VaultScanner | `done` |
+| [[TASK-078]] | Implement FG004 diagnostic | `done` |
+| [[TASK-079]] | Implement embed go-to-definition | `done` |
+| [[TASK-080]] | Implement embed hover | `done` |
+| [[TASK-081]] | Handle embed size syntax | `done` |
+| [[TASK-082]] | Write unit tests for embed resolution | `done` |
+| [[CHORE-019]] | Phase 7 Lint Sweep | `done` |
+| [[CHORE-020]] | Phase 7 Code Quality Sweep | `done` |
+| [[CHORE-021]] | Phase 7 Security Sweep | `done` |
 
 ---
 
@@ -111,11 +111,11 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- [[tickets/FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete; embed resolution builds on the same Oracle and RefGraph infrastructure
+- [[FEAT-006]] — Phase 5 (Wiki-Link Resolution) must be complete; embed resolution builds on the same Oracle and RefGraph infrastructure
 
 **Unblocks:**
 
-- [[tickets/FEAT-010]] — Phase 9 (Completions) requires Phases 6, 7, and 8 to all be done
+- [[FEAT-010]] — Phase 9 (Completions) requires Phases 6, 7, and 8 to all be done
 
 ---
 

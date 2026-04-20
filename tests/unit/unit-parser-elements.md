@@ -27,6 +27,7 @@ Source mirror: `src/parser/wiki-link-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Note]] → target "Note", anchor null, label null', () => {
   const parser = new WikiLinkParser()
@@ -40,6 +41,7 @@ it('[[Note]] → target "Note", anchor null, label null', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `[[Note]]` produces exactly one `WikiLink` with `target = "Note"`, `anchor = null`, `label = null`.
 - Position offsets are present (non-negative integers).
 
@@ -53,6 +55,7 @@ it('[[Note]] → target "Note", anchor null, label null', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Note#Heading]] → target "Note", anchor "Heading", label null', () => {
   const parser = new WikiLinkParser()
@@ -66,6 +69,7 @@ it('[[Note#Heading]] → target "Note", anchor "Heading", label null', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `#` delimiter splits `target` and `anchor`.
 - `anchor` is not prefixed with `^` (that is the block-anchor syntax, handled separately).
 
@@ -79,6 +83,7 @@ it('[[Note#Heading]] → target "Note", anchor "Heading", label null', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Note#^blockid]] → target "Note", blockAnchor "blockid", label null', () => {
   const parser = new WikiLinkParser()
@@ -93,6 +98,7 @@ it('[[Note#^blockid]] → target "Note", blockAnchor "blockid", label null', () 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `#^` prefix after the target produces a `blockAnchor` field, not the `anchor` field.
 - `anchor` remains `null` when a `blockAnchor` is present.
 
@@ -106,6 +112,7 @@ it('[[Note#^blockid]] → target "Note", blockAnchor "blockid", label null', () 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Note|Display Label]] → target "Note", label "Display Label"', () => {
   const parser = new WikiLinkParser()
@@ -119,6 +126,7 @@ it('[[Note|Display Label]] → target "Note", label "Display Label"', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `|` delimiter separates `target` from `label`.
 - `label` preserves internal spaces exactly.
 
@@ -132,6 +140,7 @@ it('[[Note|Display Label]] → target "Note", label "Display Label"', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('[[Note#Heading|Label]] → target "Note", anchor "Heading", label "Label"', () => {
   const parser = new WikiLinkParser()
@@ -145,6 +154,7 @@ it('[[Note#Heading|Label]] → target "Note", anchor "Heading", label "Label"', 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Both `#` and `|` delimiters are parsed from a single token.
 - The three fields `target`, `anchor`, and `label` are all populated.
 
@@ -158,6 +168,7 @@ it('[[Note#Heading|Label]] → target "Note", anchor "Heading", label "Label"', 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('multiple wiki-links in one paragraph — all three are found', () => {
   const text = 'See [[Alpha]], [[Beta#Section]], and [[Gamma|Alias]] for context.'
@@ -174,6 +185,7 @@ it('multiple wiki-links in one paragraph — all three are found', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - All three links are returned in document order.
 - Each link's position offsets are distinct and non-overlapping.
 
@@ -194,6 +206,7 @@ Source mirror: `src/parser/embed-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('![[image.png]] → embed with target "image.png", no anchor', () => {
   const parser = new EmbedParser()
@@ -207,6 +220,7 @@ it('![[image.png]] → embed with target "image.png", no anchor', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The leading `!` distinguishes an embed from a wiki-link.
 - `target` is `"image.png"` with no anchor or block anchor.
 
@@ -220,6 +234,7 @@ it('![[image.png]] → embed with target "image.png", no anchor', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('![[Note#Heading]] → embed with target "Note", anchor "Heading"', () => {
   const parser = new EmbedParser()
@@ -232,6 +247,7 @@ it('![[Note#Heading]] → embed with target "Note", anchor "Heading"', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `#` delimiter produces an `anchor` field on the `Embed` object.
 - `target` is `"Note"` without the anchor suffix.
 
@@ -245,6 +261,7 @@ it('![[Note#Heading]] → embed with target "Note", anchor "Heading"', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('![[Note#^blockid]] → embed with target "Note", blockAnchor "blockid"', () => {
   const parser = new EmbedParser()
@@ -258,6 +275,7 @@ it('![[Note#^blockid]] → embed with target "Note", blockAnchor "blockid"', () 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `#^` prefix routes the suffix to `blockAnchor`, not `anchor`.
 - `anchor` is `null` when `blockAnchor` is set.
 
@@ -278,6 +296,7 @@ Source mirror: `src/parser/block-anchor-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('^myblock at end of paragraph line → BlockAnchor with id "myblock"', () => {
   const text = 'This is a paragraph. ^myblock'
@@ -290,6 +309,7 @@ it('^myblock at end of paragraph line → BlockAnchor with id "myblock"', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A `^id` token at the trailing position of a line (after optional whitespace) is recognized as a `BlockAnchor`.
 - The caret is not included in `id`.
 
@@ -303,6 +323,7 @@ it('^myblock at end of paragraph line → BlockAnchor with id "myblock"', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('^123abc and ^my-block-id — both valid anchor ids extracted', () => {
   const text = 'First item. ^123abc\nSecond item. ^my-block-id'
@@ -316,6 +337,7 @@ it('^123abc and ^my-block-id — both valid anchor ids extracted', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Anchor ids consisting of alphanumeric characters and hyphens (in any combination) are all accepted.
 - Both anchors are returned in document order.
 
@@ -329,6 +351,7 @@ it('^123abc and ^my-block-id — both valid anchor ids extracted', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('^id in the middle of a paragraph — NOT extracted as a block anchor', () => {
   const text = 'Text with ^id in the middle of a sentence, continuing here.'
@@ -340,6 +363,7 @@ it('^id in the middle of a paragraph — NOT extracted as a block anchor', () =>
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A `^id` token that is not at the end of its line (i.e., followed by non-whitespace on the same line) is not extracted.
 - The OFM spec requires block anchors to occupy the trailing position.
 
@@ -353,6 +377,7 @@ it('^id in the middle of a paragraph — NOT extracted as a block anchor', () =>
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('block anchor inside a code fence — NOT extracted (ignore region)', () => {
   const text = [
@@ -371,6 +396,7 @@ it('block anchor inside a code fence — NOT extracted (ignore region)', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The parser receives pre-computed ignore regions from stage 3.
 - Any `^id` token whose position falls within an ignore region is skipped.
 
@@ -391,6 +417,7 @@ Source mirror: `src/parser/tag-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('#tag inline → Tag with name "tag" extracted', () => {
   const parser = new TagParser()
@@ -402,6 +429,7 @@ it('#tag inline → Tag with name "tag" extracted', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A `#word` token preceded by whitespace (or at start of text) is recognized as a tag.
 - `name` does not include the leading `#`.
 
@@ -415,6 +443,7 @@ it('#tag inline → Tag with name "tag" extracted', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('#project/active → hierarchical tag with full path preserved', () => {
   const parser = new TagParser()
@@ -426,6 +455,7 @@ it('#project/active → hierarchical tag with full path preserved', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `/` separator is included in the tag `name` as part of the hierarchical path.
 - Multi-level paths (e.g., `a/b/c`) are also preserved in full.
 
@@ -439,6 +469,7 @@ it('#project/active → hierarchical tag with full path preserved', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('YAML frontmatter tags: [project, archive] → two TagRef entries from frontmatter', () => {
   const frontmatter = { tags: ['project', 'archive'] }
@@ -454,6 +485,7 @@ it('YAML frontmatter tags: [project, archive] → two TagRef entries from frontm
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `parseFrontmatterTags` accepts the parsed frontmatter map and returns a `Tag[]` with `source = 'frontmatter'`.
 - Inline tag scanning is separate from frontmatter tag parsing.
 
@@ -467,6 +499,7 @@ it('YAML frontmatter tags: [project, archive] → two TagRef entries from frontm
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('#tag inside backtick code span — NOT extracted', () => {
   const parser = new TagParser()
@@ -478,6 +511,7 @@ it('#tag inside backtick code span — NOT extracted', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Backtick code spans (inline ignore regions) are identified before tag scanning.
 - Any `#word` inside a code span is not emitted as a `Tag`.
 
@@ -491,6 +525,7 @@ it('#tag inside backtick code span — NOT extracted', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('#123 — tag starting with digit is NOT a valid OFM tag', () => {
   const parser = new TagParser()
@@ -502,6 +537,7 @@ it('#123 — tag starting with digit is NOT a valid OFM tag', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The tag regex requires the first character after `#` to be a Unicode letter or underscore, not a digit.
 - `#123` is silently ignored; no error is thrown.
 
@@ -522,6 +558,7 @@ Source mirror: `src/parser/callout-parser.ts`
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('> [!NOTE] → callout type "NOTE"', () => {
   const text = '> [!NOTE]\n> This is a note callout.'
@@ -535,6 +572,7 @@ it('> [!NOTE] → callout type "NOTE"', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `> [!TYPE]` opener on the first line of a blockquote is recognized as a callout.
 - `type` is the uppercased string between `[!` and `]`.
 - When no title follows on the same line, `title` is `null`.
@@ -549,6 +587,7 @@ it('> [!NOTE] → callout type "NOTE"', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('> [!WARNING] Title text → callout type "WARNING", title text captured', () => {
   const text = '> [!WARNING] Be careful here\n> Details follow.'
@@ -562,7 +601,8 @@ it('> [!WARNING] Title text → callout type "WARNING", title text captured', ()
 ```
 
 **GREEN — Implementation satisfies when:**
-- Any text after `] ` (bracket-space) on the opener line is captured as `title`.
+
+- Any text after `]` (bracket-space) on the opener line is captured as `title`.
 - `title` is trimmed of leading and trailing whitespace.
 
 ---
@@ -575,6 +615,7 @@ it('> [!WARNING] Title text → callout type "WARNING", title text captured', ()
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('> [!custom-type] → custom type string preserved as-is', () => {
   const text = '> [!custom-type]\n> Body.'
@@ -587,6 +628,7 @@ it('> [!custom-type] → custom type string preserved as-is', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The `type` field stores exactly the string between `[!` and `]` without normalization.
 - Custom types containing hyphens and lowercase letters are preserved unchanged.
 - No validation is applied against a fixed list of known callout types.

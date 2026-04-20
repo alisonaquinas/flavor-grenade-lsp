@@ -26,7 +26,7 @@ Implement the OFM-specific parse pipeline that transforms raw markdown text into
 
 ## Architecture: The 8-Stage Pipeline
 
-```
+```text
 Raw Text
   │
   ▼ Stage 1: FrontmatterParser
@@ -198,7 +198,7 @@ OFMDoc = { uri, version, frontmatter, body, index, opaqueRegions }
 
   Target: one test file per parser class. Example structure:
 
-  ```
+  ```text
   src/parser/
   ├── __tests__/
   │   ├── frontmatter-parser.test.ts

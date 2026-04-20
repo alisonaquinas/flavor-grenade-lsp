@@ -17,7 +17,7 @@ aliases: ["TASK-006"]
 
 # Install test dependencies
 
-> [!INFO] `TASK-006` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-006` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -69,7 +69,7 @@ Install the test framework dependencies required for both BDD acceptance tests a
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -77,7 +77,7 @@ Install the test framework dependencies required for both BDD acceptance tests a
 
 **Blocked by:**
 
-- [[tickets/TASK-002]] — `package.json` must exist before packages can be installed.
+- [[TASK-002]] — `package.json` must exist before packages can be installed.
 
 **Unblocks:**
 
@@ -92,7 +92,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun add --dev` command completes without error
 - [ ] `package.json` `devDependencies` contains `@cucumber/cucumber`, `jest`, `@jest/globals`, `ts-node`
 - [ ] `bun.lockb` (or `bun.lock`) updated
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -113,7 +113,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

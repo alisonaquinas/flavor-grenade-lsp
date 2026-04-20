@@ -15,7 +15,7 @@ aliases: ["TASK-065"]
 
 # Register handlers in LspModule capability registry
 
-> [!INFO] `TASK-065` · Task · Phase 5 · Parent: [[tickets/FEAT-006]] · Status: `open`
+> [!INFO] `TASK-065` · Task · Phase 5 · Parent: [[FEAT-006]] · Status: `open`
 
 ## Description
 
@@ -58,7 +58,7 @@ Update `LspModule` (or the root application module) to register the Phase 5 hand
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/wiki-links]] | `Server advertises definition, references, and completion capabilities` |
+| `bdd/features/wiki-links.feature` | `Server advertises definition, references, and completion capabilities` |
 
 ---
 
@@ -80,7 +80,7 @@ Update `LspModule` (or the root application module) to register the Phase 5 hand
 
 ## Parent Feature
 
-[[tickets/FEAT-006]] — Wiki-Link Resolution
+[[FEAT-006]] — Wiki-Link Resolution
 
 ---
 
@@ -88,14 +88,14 @@ Update `LspModule` (or the root application module) to register the Phase 5 hand
 
 **Blocked by:**
 
-- [[tickets/TASK-060]] — DiagnosticService must be implemented
-- [[tickets/TASK-061]] — DefinitionService must be implemented
-- [[tickets/TASK-062]] — ReferencesService must be implemented
-- [[tickets/TASK-063]] — CompletionProvider must be implemented
+- [[TASK-060]] — DiagnosticService must be implemented
+- [[TASK-061]] — DefinitionService must be implemented
+- [[TASK-062]] — ReferencesService must be implemented
+- [[TASK-063]] — CompletionProvider must be implemented
 
 **Unblocks:**
 
-- [[tickets/TASK-066]] — integration tests require all handlers to be registered
+- [[TASK-066]] — integration tests require all handlers to be registered
 
 ---
 
@@ -110,7 +110,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-006]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-006]] child task row updated to `in-review`
 
 ---
 
@@ -145,4 +145,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-006]].
+> Ticket created. Status: `open`. Parent: [[FEAT-006]].

@@ -40,22 +40,28 @@ And the link "[[existing]]" resolves to "notes/existing.md"
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-005/.obsidian
    mkdir -p /tmp/fg-smoke-005/notes
    echo '# Existing Note' > /tmp/fg-smoke-005/notes/existing.md
    echo 'See [[existing]] for details' > /tmp/fg-smoke-005/notes/index.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-005/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-005/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/index.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-005/notes/index.md","languageId":"markdown","version":1,"text":"See [[existing]] for details"}}}
    ```
+
 6. Agent waits up to 2s and collects any `textDocument/publishDiagnostics` notifications
 7. Agent asserts that the diagnostics array for `notes/index.md` is empty (length 0)
 8. Agent sends `shutdown` + `exit`; verifies server exits 0
@@ -92,21 +98,27 @@ And the diagnostic range covers the full "[[totally-missing-note]]" span
 **Agent-driven steps:**
 
 1. Agent creates the fixture:
+
    ```
    mkdir -p /tmp/fg-smoke-006/.obsidian
    mkdir -p /tmp/fg-smoke-006/notes
    echo '[[totally-missing-note]]' > /tmp/fg-smoke-006/notes/broken.md
    ```
+
 2. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 3. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-006/"`:
+
    ```json
    {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"rootUri":"file:///tmp/fg-smoke-006/","capabilities":{}}}
    ```
+
 4. Agent sends `initialized` notification
 5. Agent sends `textDocument/didOpen` for `notes/broken.md`:
+
    ```json
    {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///tmp/fg-smoke-006/notes/broken.md","languageId":"markdown","version":1,"text":"[[totally-missing-note]]"}}}
    ```
+
 6. Agent waits up to 2s and collects `textDocument/publishDiagnostics` notifications for `notes/broken.md`
 7. Agent asserts at least one diagnostic is present in the array
 8. Agent asserts the first (and ideally only) diagnostic has `code: "FG001"`, `severity: 1` (Error), `source: "flavor-grenade"`

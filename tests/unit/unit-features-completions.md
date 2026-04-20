@@ -24,6 +24,7 @@ These test cases cover `CompletionService` end-to-end from trigger-character rou
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns all doc candidates from FolderLookup when prefix is empty after [[', () => {
   // arrange
@@ -48,6 +49,7 @@ it('returns all doc candidates from FolderLookup when prefix is empty after [[',
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `complete({ triggerPrefix: '[[', query: '' })` calls `FolderLookup.allDocs()` and returns one item per `DocDef`.
 
 ---
@@ -60,6 +62,7 @@ it('returns all doc candidates from FolderLookup when prefix is empty after [[',
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('filters candidates to slugs matching the typed prefix', () => {
   // arrange
@@ -83,6 +86,7 @@ it('filters candidates to slugs matching the typed prefix', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A non-empty `query` is forwarded to `FolderLookup.queryDocs` (or equivalent filter) so only matching slugs are returned.
 
 ---
@@ -95,6 +99,7 @@ it('filters candidates to slugs matching the typed prefix', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns heading candidates when cursor is after [[Note#', () => {
   // arrange
@@ -121,6 +126,7 @@ it('returns heading candidates when cursor is after [[Note#', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Detecting `#` in the trigger prefix causes a lookup of `OFMIndex.headingsFor` using the resolved note URI.
 - Returned items represent `HeaderDef` entries.
 
@@ -134,6 +140,7 @@ it('returns heading candidates when cursor is after [[Note#', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns block anchor candidates when cursor is after [[Note#^', () => {
   // arrange
@@ -160,6 +167,7 @@ it('returns block anchor candidates when cursor is after [[Note#^', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Detecting `#^` in the trigger prefix causes a lookup via `OFMIndex.blockAnchorsFor`.
 - Items correspond to `BlockAnchorDef.id` values.
 
@@ -173,6 +181,7 @@ it('returns block anchor candidates when cursor is after [[Note#^', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns vault-wide tag candidates when the trigger prefix is #', () => {
   // arrange
@@ -192,6 +201,7 @@ it('returns vault-wide tag candidates when the trigger prefix is #', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - A `#` trigger (outside a wiki-link context) routes to `FolderLookup.allTags()`.
 
 ---
@@ -204,6 +214,7 @@ it('returns vault-wide tag candidates when the trigger prefix is #', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns built-in and custom callout type candidates after > [!', () => {
   // arrange
@@ -229,6 +240,7 @@ it('returns built-in and custom callout type candidates after > [!', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `> [!` routing merges the built-in list `['NOTE', 'WARNING', 'INFO', 'TIP']` with `FlavorConfig.callouts.custom`.
 
 ---
@@ -241,6 +253,7 @@ it('returns built-in and custom callout type candidates after > [!', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('assigns correct CompletionItemKind for doc, heading, tag, and callout candidates', () => {
   // arrange — test each kind in isolation via minimal mocks
@@ -276,6 +289,7 @@ it('assigns correct CompletionItemKind for doc, heading, tag, and callout candid
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Doc refs use `CompletionItemKind.File`.
 - Headings use `CompletionItemKind.Property`.
 - Block anchors use `CompletionItemKind.Event`.
@@ -292,6 +306,7 @@ it('assigns correct CompletionItemKind for doc, heading, tag, and callout candid
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('caps the returned candidate list at FlavorConfig.completion.candidates (default 50)', () => {
   // arrange — mock 60 docs
@@ -313,6 +328,7 @@ it('caps the returned candidate list at FlavorConfig.completion.candidates (defa
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The result array is sliced to at most `FlavorConfig.completion.candidates` entries before being returned.
 
 ---
@@ -325,6 +341,7 @@ it('caps the returned candidate list at FlavorConfig.completion.candidates (defa
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('sets insertText to the complete [[slug]] form for a doc candidate', () => {
   // arrange
@@ -342,6 +359,7 @@ it('sets insertText to the complete [[slug]] form for a doc candidate', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Doc candidate `insertText` is always `'[['  + slug + ']]'`.
 
 ---
@@ -354,6 +372,7 @@ it('sets insertText to the complete [[slug]] form for a doc candidate', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('sets insertText to [[Note#Heading Title]] for a heading candidate', () => {
   // arrange
@@ -374,6 +393,7 @@ it('sets insertText to [[Note#Heading Title]] for a heading candidate', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Heading candidate `insertText` is `'[[' + noteSlug + '#' + heading.text + ']]'`.
 
 ---
@@ -386,6 +406,7 @@ it('sets insertText to [[Note#Heading Title]] for a heading candidate', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns an empty list when the vault contains no documents', () => {
   // arrange
@@ -401,6 +422,7 @@ it('returns an empty list when the vault contains no documents', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - An empty doc list from `FolderLookup` propagates as an empty completion result with no error.
 
 ---
@@ -413,6 +435,7 @@ it('returns an empty list when the vault contains no documents', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('includes alias entries as separate candidates alongside the canonical doc slug', () => {
   // arrange
@@ -438,5 +461,6 @@ it('includes alias entries as separate candidates alongside the canonical doc sl
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Each alias in `DocDef.aliases` generates a distinct `CompletionItem` with its own `label` and an `insertText` wrapping the alias in `[[...]]`.
 - All alias items carry `kind: CompletionItemKind.File`.

@@ -15,7 +15,7 @@ aliases: ["TASK-127"]
 
 # Add coverage upload step (Codecov)
 
-> [!INFO] `TASK-127` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-127` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -26,6 +26,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
 ## Implementation Notes
 
 - Add to `.github/workflows/ci.yml` after `bun test --coverage`:
+
   ```yaml
   - uses: codecov/codecov-action@v4
     with:
@@ -33,6 +34,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
       files: coverage/lcov.info
       fail_ci_if_error: true
   ```
+
 - `CODECOV_TOKEN` must be stored as a GitHub repository secret, not hardcoded
 - See also: [[requirements/ci-cd]], [[adr/ADR008-oidc-publishing]]
 
@@ -50,7 +52,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | — (CI infrastructure task, no Gherkin scenario) |
+| `bdd/features/code-actions.feature` | — (CI infrastructure task, no Gherkin scenario) |
 
 ---
 
@@ -74,7 +76,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -82,7 +84,7 @@ Add a `codecov/codecov-action@v4` step to the CI workflow (`.github/workflows/ci
 
 **Blocked by:**
 
-- [[tickets/TASK-126]] — coverage upload step is added to the CI workflow created in TASK-126
+- [[TASK-126]] — coverage upload step is added to the CI workflow created in TASK-126
 
 **Unblocks:**
 
@@ -101,7 +103,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] Coverage upload step present in CI YAML and CI run succeeds end-to-end
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -127,4 +129,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

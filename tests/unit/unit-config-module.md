@@ -18,6 +18,7 @@ See [[architecture/layers]] for where ConfigModule sits in the dependency graph 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('parses a valid TOML string into a typed FlavorConfig', () => {
   const toml = `
@@ -37,6 +38,7 @@ it('parses a valid TOML string into a typed FlavorConfig', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `TomlLoader.load` calls the injected `TomlReader`, passes the resulting string to the TOML parser, and maps the parsed object onto the `FlavorConfig` type
 
 ---
@@ -49,6 +51,7 @@ it('parses a valid TOML string into a typed FlavorConfig', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns the default config without throwing when the file does not exist', () => {
   const reader: TomlReader = { read: (_path) => null }
@@ -60,6 +63,7 @@ it('returns the default config without throwing when the file does not exist', (
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - When the reader returns `null` (signalling a missing file), `TomlLoader.load` returns `DEFAULT_FLAVOR_CONFIG` instead of propagating any error
 
 ---
@@ -72,6 +76,7 @@ it('returns the default config without throwing when the file does not exist', (
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws ConfigParseError when the TOML string is syntactically invalid', () => {
   const reader: TomlReader = { read: (_path) => '[[not valid toml =' }
@@ -82,6 +87,7 @@ it('throws ConfigParseError when the TOML string is syntactically invalid', () =
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Any TOML parser exception is caught and re-thrown as a `ConfigParseError` with a message that includes the file path
 
 ---
@@ -94,6 +100,7 @@ it('throws ConfigParseError when the TOML string is syntactically invalid', () =
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('ignores unknown keys and still parses known fields', () => {
   const toml = `
@@ -114,6 +121,7 @@ it('ignores unknown keys and still parses known fields', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Unknown top-level sections and unknown keys within known sections are silently dropped; the typed config only contains known fields
 
 ---
@@ -126,6 +134,7 @@ it('ignores unknown keys and still parses known fields', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('fills in missing keys from defaults when only a subset is specified', () => {
   const toml = `
@@ -142,6 +151,7 @@ it('fills in missing keys from defaults when only a subset is specified', () => 
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The loaded config is deep-merged with `DEFAULT_FLAVOR_CONFIG` so that unspecified sections and keys retain their default values
 
 ---
@@ -154,6 +164,7 @@ it('fills in missing keys from defaults when only a subset is specified', () => 
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns the single config unchanged when only one source is provided', () => {
   const config: FlavorConfig = {
@@ -166,6 +177,7 @@ it('returns the single config unchanged when only one source is provided', () =>
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `ConfigCascade.resolve` with a single-element list returns that element's values (merged over defaults)
 
 ---
@@ -178,6 +190,7 @@ it('returns the single config unchanged when only one source is provided', () =>
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('gives precedence to the first (closer) config over the second on conflicting keys', () => {
   const closer: FlavorConfig = {
@@ -195,6 +208,7 @@ it('gives precedence to the first (closer) config over the second on conflicting
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - The merge strategy iterates from furthest to closest, so earlier entries (closer to the document) always win
 
 ---
@@ -207,6 +221,7 @@ it('gives precedence to the first (closer) config over the second on conflicting
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('returns DEFAULT_FLAVOR_CONFIG when the cascade list is empty', () => {
   const cascade = new ConfigCascade([])
@@ -215,6 +230,7 @@ it('returns DEFAULT_FLAVOR_CONFIG when the cascade list is empty', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - An empty cascade does not throw and falls back entirely to `DEFAULT_FLAVOR_CONFIG`
 
 ---
@@ -227,6 +243,7 @@ it('returns DEFAULT_FLAVOR_CONFIG when the cascade list is empty', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('preserves further-file values for keys not overridden by the closer file', () => {
   const closer: FlavorConfig = {
@@ -247,6 +264,7 @@ it('preserves further-file values for keys not overridden by the closer file', (
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Merging is done per-key (deep merge), not per-config-object; a closer file that omits a section does not erase that section from a further file
 
 ---
@@ -259,6 +277,7 @@ it('preserves further-file values for keys not overridden by the closer file', (
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws a validation error when completion.candidates is zero', () => {
   expect(() => validateFlavorConfig({ completion: { candidates: 0 } })).toThrow()
@@ -270,6 +289,7 @@ it('throws a validation error when completion.candidates is negative', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `validateFlavorConfig` (or the schema parser) enforces `candidates >= 1` with a descriptive error message identifying the field name
 
 **REFACTOR notes:** These two cases may be collapsed into a single parameterised test using `it.each`.
@@ -284,6 +304,7 @@ it('throws a validation error when completion.candidates is negative', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('throws when callouts.customTypes contains a non-string element', () => {
   expect(() =>
@@ -299,6 +320,7 @@ it('throws when callouts.customTypes is not an array', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - Schema validation inspects each element of `customTypes` and rejects anything that is not a plain string; non-array values are also rejected
 
 ---
@@ -311,6 +333,7 @@ it('throws when callouts.customTypes is not an array', () => {
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**
+
 ```typescript
 it('accepts a minimal valid config without throwing', () => {
   const minimal = {
@@ -324,4 +347,5 @@ it('accepts a minimal valid config without throwing', () => {
 ```
 
 **GREEN — Implementation satisfies when:**
+
 - `validateFlavorConfig` returns the typed `FlavorConfig` object when all required fields are present and valid, with no extraneous mutation of values

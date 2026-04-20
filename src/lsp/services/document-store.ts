@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  TextDocument,
-  TextDocumentContentChangeEvent,
-} from 'vscode-languageserver-textdocument';
+import { TextDocument, TextDocumentContentChangeEvent } from 'vscode-languageserver-textdocument';
 
 /**
  * Maintains an in-memory map of open text documents keyed by URI.
@@ -36,11 +33,7 @@ export class DocumentStore {
    * @param changes - Array of content change events (full or incremental).
    * @param version - The new version number after the change.
    */
-  update(
-    uri: string,
-    changes: TextDocumentContentChangeEvent[],
-    version: number,
-  ): void {
+  update(uri: string, changes: TextDocumentContentChangeEvent[], version: number): void {
     const existing = this.documents.get(uri);
     if (!existing) return;
     const updated = TextDocument.update(existing, changes, version);

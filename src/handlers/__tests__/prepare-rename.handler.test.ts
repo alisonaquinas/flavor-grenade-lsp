@@ -3,8 +3,16 @@ import { PrepareRenameHandler } from '../prepare-rename.handler.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import type { OFMDoc, HeadingEntry, WikiLinkEntry, OpaqueRegion } from '../../parser/types.js';
 
-const POS = (line: number, character: number): { line: number; character: number } => ({ line, character });
-const RANGE = (sl: number, sc: number, el: number, ec: number): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
+const POS = (line: number, character: number): { line: number; character: number } => ({
+  line,
+  character,
+});
+const RANGE = (
+  sl: number,
+  sc: number,
+  el: number,
+  ec: number,
+): { start: { line: number; character: number }; end: { line: number; character: number } } => ({
   start: { line: sl, character: sc },
   end: { line: el, character: ec },
 });
@@ -56,7 +64,17 @@ describe('PrepareRenameHandler', () => {
       text: 'My Heading',
       range: RANGE(0, 0, 0, 13),
     };
-    const doc = makeDoc({ uri, index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [heading] } });
+    const doc = makeDoc({
+      uri,
+      index: {
+        wikiLinks: [],
+        embeds: [],
+        blockAnchors: [],
+        tags: [],
+        callouts: [],
+        headings: [heading],
+      },
+    });
     parseCache.set(uri, doc);
 
     const result = handler.handle({
@@ -66,7 +84,13 @@ describe('PrepareRenameHandler', () => {
 
     expect(result).not.toBeNull();
     expect(result).not.toHaveProperty('error');
-    const r = result as { range: { start: { line: number; character: number }; end: { line: number; character: number } }; placeholder: string };
+    const r = result as {
+      range: {
+        start: { line: number; character: number };
+        end: { line: number; character: number };
+      };
+      placeholder: string;
+    };
     expect(r.placeholder).toBe('My Heading');
     // heading text range starts after "## " (level=2, so 2 # chars + 1 space = 3 chars)
     expect(r.range.start.character).toBe(3);
@@ -79,7 +103,17 @@ describe('PrepareRenameHandler', () => {
       text: 'Title',
       range: RANGE(0, 0, 0, 7),
     };
-    const doc = makeDoc({ uri, index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [heading] } });
+    const doc = makeDoc({
+      uri,
+      index: {
+        wikiLinks: [],
+        embeds: [],
+        blockAnchors: [],
+        tags: [],
+        callouts: [],
+        headings: [heading],
+      },
+    });
     parseCache.set(uri, doc);
 
     const result = handler.handle({
@@ -99,7 +133,17 @@ describe('PrepareRenameHandler', () => {
       target: 'beta',
       range: RANGE(0, 5, 0, 13),
     };
-    const doc = makeDoc({ uri, index: { wikiLinks: [wikiLink], embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [] } });
+    const doc = makeDoc({
+      uri,
+      index: {
+        wikiLinks: [wikiLink],
+        embeds: [],
+        blockAnchors: [],
+        tags: [],
+        callouts: [],
+        headings: [],
+      },
+    });
     parseCache.set(uri, doc);
 
     const result = handler.handle({

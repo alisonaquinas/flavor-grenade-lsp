@@ -14,7 +14,19 @@ import { CodeActionHandler } from './code-action.handler.js';
  */
 @Module({
   imports: [ParserModule, VaultModule, ResolutionModule],
-  providers: [CreateMissingFileAction, TocGeneratorAction, TagToYamlAction, FixNbspAction, CodeActionHandler],
-  exports: [CreateMissingFileAction, TocGeneratorAction, TagToYamlAction, FixNbspAction, CodeActionHandler],
+  providers: [
+    CreateMissingFileAction,
+    TocGeneratorAction,
+    TagToYamlAction,
+    FixNbspAction,
+    CodeActionHandler,
+  ],
+  exports: [
+    CreateMissingFileAction,
+    TocGeneratorAction,
+    TagToYamlAction,
+    FixNbspAction,
+    CodeActionHandler,
+  ],
 })
 export class CodeActionsModule {}

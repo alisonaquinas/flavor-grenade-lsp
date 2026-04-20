@@ -63,8 +63,8 @@ Vault authors gain a server that understands `[[wiki-link]]` syntax: broken link
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/wiki-links]] | Wiki-link resolution, definition, references, and completion scenarios |
-| [[bdd/features/diagnostics]] | FG001/FG002/FG003 diagnostic emission scenarios |
+| `bdd/features/wiki-links.feature` | Wiki-link resolution, definition, references, and completion scenarios |
+| `bdd/features/diagnostics.feature` | FG001/FG002/FG003 diagnostic emission scenarios |
 
 ---
 
@@ -95,19 +95,19 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/TASK-057]] | Implement RefGraph | `done` |
-| [[tickets/TASK-058]] | Implement Oracle name-matching engine | `done` |
-| [[tickets/TASK-059]] | Implement LinkResolver.resolveWikiLink | `done` |
-| [[tickets/TASK-060]] | Implement DiagnosticService FG001/FG002/FG003 | `done` |
-| [[tickets/TASK-061]] | Implement DefinitionService for wiki-links | `done` |
-| [[tickets/TASK-062]] | Implement ReferencesService for headings | `done` |
-| [[tickets/TASK-063]] | Implement wiki-link CompletionProvider | `done` |
-| [[tickets/TASK-064]] | Implement alias resolution from frontmatter | `done` |
-| [[tickets/TASK-065]] | Register handlers in LspModule capability registry | `done` |
-| [[tickets/TASK-066]] | Write TDD integration tests for multi-document vault | `done` |
-| [[tickets/CHORE-013]] | Phase 5 Lint Sweep | `done` |
-| [[tickets/CHORE-014]] | Phase 5 Code Quality Sweep | `done` |
-| [[tickets/CHORE-015]] | Phase 5 Security Sweep | `done` |
+| [[TASK-057]] | Implement RefGraph | `done` |
+| [[TASK-058]] | Implement Oracle name-matching engine | `done` |
+| [[TASK-059]] | Implement LinkResolver.resolveWikiLink | `done` |
+| [[TASK-060]] | Implement DiagnosticService FG001/FG002/FG003 | `done` |
+| [[TASK-061]] | Implement DefinitionService for wiki-links | `done` |
+| [[TASK-062]] | Implement ReferencesService for headings | `done` |
+| [[TASK-063]] | Implement wiki-link CompletionProvider | `done` |
+| [[TASK-064]] | Implement alias resolution from frontmatter | `done` |
+| [[TASK-065]] | Register handlers in LspModule capability registry | `done` |
+| [[TASK-066]] | Write TDD integration tests for multi-document vault | `done` |
+| [[CHORE-013]] | Phase 5 Lint Sweep | `done` |
+| [[CHORE-014]] | Phase 5 Code Quality Sweep | `done` |
+| [[CHORE-015]] | Phase 5 Security Sweep | `done` |
 
 ---
 
@@ -115,19 +115,20 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/FEAT-005]] — Phase 4 (Vault Index) must be complete; VaultIndex and FolderLookup are prerequisites
+- [[FEAT-005]] — Phase 4 (Vault Index) must be complete; VaultIndex and FolderLookup are prerequisites
 
 **Unblocks:**
 
-- [[tickets/FEAT-007]] — Phase 6 (Tags) may proceed after this feature is done
-- [[tickets/FEAT-008]] — Phase 7 (Embeds) may proceed in parallel after this feature is done
-- [[tickets/FEAT-009]] — Phase 8 (Block References) may proceed in parallel after this feature is done
+- [[FEAT-007]] — Phase 6 (Tags) may proceed after this feature is done
+- [[FEAT-008]] — Phase 7 (Embeds) may proceed in parallel after this feature is done
+- [[FEAT-009]] — Phase 8 (Block References) may proceed in parallel after this feature is done
 
 ---
 
 ## Notes
 
 ADR references:
+
 - [[adr/ADR005-wiki-style-binding]] — wiki-link style resolution modes and binding behaviour
 - [[adr/ADR003-vault-detection]] — vault root anchoring for all link resolution
 

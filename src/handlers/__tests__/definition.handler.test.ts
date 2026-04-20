@@ -50,7 +50,10 @@ describe('DefinitionHandler', () => {
     folderLookup = new FolderLookup();
     oracle = new Oracle(folderLookup, vaultIndex);
     parseCache = new ParseCache();
-    const vaultScanner = { hasAsset: () => false, getAssetIndex: () => new Set<string>() } as unknown as VaultScanner;
+    const vaultScanner = {
+      hasAsset: () => false,
+      getAssetIndex: () => new Set<string>(),
+    } as unknown as VaultScanner;
     embedResolver = new EmbedResolver(oracle, vaultScanner);
     handler = new DefinitionHandler(oracle, embedResolver, parseCache);
   });

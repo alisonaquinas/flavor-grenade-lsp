@@ -15,7 +15,7 @@ aliases: ["TASK-056"]
 
 # Write unit tests for FolderLookup
 
-> [!INFO] `TASK-056` · Task · Phase 4 · Parent: [[tickets/FEAT-005]] · Status: `open`
+> [!INFO] `TASK-056` · Task · Phase 4 · Parent: [[FEAT-005]] · Status: `open`
 
 ## Description
 
@@ -49,9 +49,9 @@ Write comprehensive unit tests for `FolderLookup` covering all four core lookup 
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/workspace]] | `FolderLookup resolves bare stem to nested document` |
-| [[bdd/features/workspace]] | `FolderLookup returns multiple results for ambiguous stem` |
-| [[bdd/features/workspace]] | `FolderLookup resolves path-qualified stem uniquely` |
+| `bdd/features/workspace.feature` | `FolderLookup resolves bare stem to nested document` |
+| `bdd/features/workspace.feature` | `FolderLookup returns multiple results for ambiguous stem` |
+| `bdd/features/workspace.feature` | `FolderLookup resolves path-qualified stem uniquely` |
 
 ---
 
@@ -60,7 +60,7 @@ Write comprehensive unit tests for `FolderLookup` covering all four core lookup 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
 | `tests/unit/vault/folder-lookup.spec.ts` | Unit | — | 🔴 failing |
-| [[tests/unit/unit-vault-module.md]] | Unit test plan | — | — |
+| `tests/unit/unit-vault-module.md` | Unit test plan | — | — |
 
 ---
 
@@ -74,7 +74,7 @@ Write comprehensive unit tests for `FolderLookup` covering all four core lookup 
 
 ## Parent Feature
 
-[[tickets/FEAT-005]] — Vault Index
+[[FEAT-005]] — Vault Index
 
 ---
 
@@ -82,7 +82,7 @@ Write comprehensive unit tests for `FolderLookup` covering all four core lookup 
 
 **Blocked by:**
 
-- [[tickets/TASK-048]] — FolderLookup must be implemented before tests can be written
+- [[TASK-048]] — FolderLookup must be implemented before tests can be written
 
 **Unblocks:**
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-005]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
 
@@ -136,7 +136,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-005]].
+> Ticket created. Status: `open`. Parent: [[FEAT-005]].
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > `src/vault/__tests__/folder-lookup.test.ts` created with 7 tests: root-level stem, nested stem, ambiguous stem (2 results), path-qualified unique result, empty result, rebuild replaces state. Plus doc-id.test.ts (8 tests) and vault-index.test.ts (9 tests) as additional coverage. Status: `done`.

@@ -48,8 +48,7 @@ export class LinkResolver {
     if (entry.target === '') {
       // Intra-document block ref [[#^id]]
       const sourceDoc = this.vaultIndex?.get(sourceDocId);
-      const resolvedAnchor =
-        sourceDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+      const resolvedAnchor = sourceDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
       if (this.refGraph !== undefined) {
         const crossRef: CrossBlockRef = {
           sourceDocId,
@@ -72,8 +71,7 @@ export class LinkResolver {
     if (result.kind === 'resolved' && this.refGraph !== undefined) {
       const targetDocId = result.targetDocId;
       const targetDoc = this.vaultIndex?.get(targetDocId);
-      const resolvedAnchor =
-        targetDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
+      const resolvedAnchor = targetDoc?.index.blockAnchors.find((a) => a.id === anchorId) ?? null;
       const crossRef: CrossBlockRef = {
         sourceDocId,
         targetDocId,

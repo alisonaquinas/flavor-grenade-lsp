@@ -10,6 +10,11 @@ export interface FrontmatterResult {
    * is no frontmatter.
    */
   bodyOffset: number;
+  /**
+   * True when the document had a frontmatter block but the YAML inside it
+   * could not be parsed (triggers FG007 diagnostic).
+   */
+  parseError: boolean;
 }
 
 /**
@@ -26,13 +31,13 @@ export class FrontmatterParser {
    */
   parse(text: string): FrontmatterResult {
     if (!text.startsWith('---\n') && !text.startsWith('---\r\n')) {
-      return { frontmatter: null, bodyOffset: 0 };
+      return { frontmatter: null, bodyOffset: 0, parseError: false };
     }
 
     const afterOpen = text.indexOf('\n', 0) + 1;
     const closeMatch = this.findClosingDelimiter(text, afterOpen);
     if (closeMatch === -1) {
-      return { frontmatter: null, bodyOffset: 0 };
+      return { frontmatter: null, bodyOffset: 0, parseError: false };
     }
 
     const yamlContent = text.slice(afterOpen, closeMatch);
@@ -41,13 +46,17 @@ export class FrontmatterParser {
     try {
       // CORE_SCHEMA prevents execution of !!js/... YAML tags (security requirement)
       const parsed = yamlLoad(yamlContent, { schema: CORE_SCHEMA });
+      // Empty YAML (---\n---) → undefined → return {} to indicate an empty frontmatter block
       const frontmatter =
-        parsed != null && typeof parsed === 'object' && !Array.isArray(parsed)
-          ? (parsed as Record<string, unknown>)
-          : null;
-      return { frontmatter, bodyOffset };
+        parsed === undefined
+          ? {}
+          : parsed != null && typeof parsed === 'object' && !Array.isArray(parsed)
+            ? (parsed as Record<string, unknown>)
+            : null;
+      return { frontmatter, bodyOffset, parseError: false };
     } catch {
-      return { frontmatter: null, bodyOffset: 0 };
+      // YAML parse error → mark for FG007, return bodyOffset 0 (body start unknown)
+      return { frontmatter: null, bodyOffset: 0, parseError: true };
     }
   }
 

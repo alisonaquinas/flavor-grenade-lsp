@@ -11,6 +11,7 @@ import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 import type { OFMDoc, HeadingEntry, WikiLinkEntry } from '../parser/types.js';
 import { entityAtPosition } from './cursor-entity.js';
+import { pathnameToFsPath } from './uri-utils.js';
 import { WorkspaceEditBuilder } from './workspace-edit-builder.js';
 import type { WorkspaceEdit } from './workspace-edit-builder.js';
 import type { Range } from 'vscode-languageserver-types';
@@ -38,11 +39,7 @@ function headingTextRange(heading: HeadingEntry): Range {
  * - If ref has an alias different from the old heading text → preserve alias.
  * - If ref has no alias → no alias in output.
  */
-function buildHeadingLinkText(
-  ref: Ref,
-  newHeadingName: string,
-  oldHeadingName: string,
-): string {
+function buildHeadingLinkText(ref: Ref, newHeadingName: string, oldHeadingName: string): string {
   const { target, heading: _oldHeading, alias } = ref.entry;
 
   // Determine which alias (if any) to include in the new link text.
@@ -77,13 +74,8 @@ function buildHeadingLinkText(
  * Applies the link-style preservation rule (TASK-112) and alias identity rule
  * (TASK-113) for file renames.
  */
-function buildFileLinkText(
-  ref: Ref,
-  oldStem: string,
-  newStem: string,
-  newDocId: DocId,
-): string {
-  const { target, alias } = ref.entry;
+function buildFileLinkText(ref: Ref, oldStem: string, newStem: string, newDocId: DocId): string {
+  const { target, alias, heading, blockRef } = ref.entry;
 
   // TASK-112: if original raw link contains '/' → file-path-stem style.
   const isPathStyle = target.includes('/');
@@ -96,6 +88,13 @@ function buildFileLinkText(
   } else {
     // Stem-only style: just use the new stem name.
     newTarget = newStem;
+  }
+
+  // Preserve heading/block-ref fragment from the original link.
+  if (heading !== undefined) {
+    newTarget = `${newTarget}#${heading}`;
+  } else if (blockRef !== undefined) {
+    newTarget = `${newTarget}#^${blockRef}`;
   }
 
   // Alias identity rule for file rename: update alias only if it matched oldStem.
@@ -138,7 +137,8 @@ function resolveVaultRoot(
     // Decode and normalise the path.
     const rawPath = decodeURIComponent(url.pathname);
     // On Windows the pathname starts with /C:/... — strip leading slash before drive letter.
-    const absPath = rawPath.replace(/^\/([A-Za-z]:)/, '$1').replace(/\//g, '/');
+    // pathnameToFsPath also converts backslashes to forward slashes (issue #2).
+    const absPath = pathnameToFsPath(rawPath);
     const result = vaultDetector.detect(absPath);
     if (result.vaultRoot !== null) return result.vaultRoot;
   } catch {

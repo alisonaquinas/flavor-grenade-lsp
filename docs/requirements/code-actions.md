@@ -19,6 +19,7 @@ aliases:
 **Ambition:** Broken wiki-links are the most common entry-point error in rapid note-taking workflows: authors write the link before the note exists. If the LSP offers no repair path from the error to the fix, authors must manually create the file, name it correctly, and wait for the next diagnostic cycle — three friction points that interrupt the writing flow. A single code action invocation that performs all three steps keeps the author in flow and reinforces the "link first, write later" OFM working style.
 **Scale:** Two sub-scales: (1) percentage of cursor positions on FG001-flagged wiki-links at which `textDocument/codeAction` returns at least one item with command `fg.createMissingFile`; (2) percentage of `fg.createMissingFile` executions that result in the target file being created, added to the VaultIndex, and the FG001 diagnostic being cleared within the next diagnostic cycle.
 **Meter:**
+
 1. Create a test vault with at least 5 documents. Author a new document containing at least 3 `[[broken-link-N]]` wiki-links that do not resolve to any existing file.
 2. Open the document; wait for FG001 diagnostics to appear on each broken link.
 3. For each FG001 span, place the cursor inside the broken wiki-link token and issue `textDocument/codeAction`.
@@ -38,6 +39,7 @@ aliases:
 **Ambition:** Long OFM notes with many headings become navigable only if the author manually maintains a table of contents — a tedious, error-prone, and invariably stale process. An LSP code action that regenerates the TOC on demand eliminates that maintenance burden and ensures the TOC always reflects the current heading structure. The `<!-- TOC -->` comment markers allow idempotent re-generation: a second invocation updates rather than duplicates, which is the behaviour authors expect from a "keep it fresh" workflow.
 **Scale:** Three sub-scales: (1) percentage of documents containing at least one heading at or below `toc.max_depth` at which `textDocument/codeAction` returns an item with command `fg.toc`; (2) percentage of `fg.toc` executions that produce a `<!-- TOC -->` block whose entries exactly match all headings at or below `toc.max_depth` in document order; (3) percentage of repeat executions on a document that already has a `<!-- TOC -->` block where the action label is `"Update Table of Contents"` and the existing block is replaced (not duplicated).
 **Meter:**
+
 1. Create a test document with headings at levels H1 through H4. Configure `toc.max_depth = 3`.
 2. Issue `textDocument/codeAction` at an arbitrary cursor position. Verify `fg.toc` is present.
 3. Execute the action. Inspect the resulting workspace edit. Verify: (a) a `<!-- TOC -->...<!-- /TOC -->` block is inserted; (b) entries are `[[#Heading Text]]` links for every heading at levels H1, H2, H3 (H4 excluded); (c) nesting depth in the list matches heading level depth.
@@ -56,6 +58,7 @@ aliases:
 **Ambition:** Obsidian treats inline body tags and frontmatter `tags:` values as functionally equivalent, but vault-wide tooling, search, and publish pipelines often rely exclusively on frontmatter tags for indexing and filtering. Authors who use inline tags for speed but later want structured frontmatter must currently move them manually — a tedious, repetitive process that grows linearly with the number of tags. A code action that performs the move atomically removes the friction and ensures the resulting frontmatter is valid YAML (deduplication, correct sequence style), which manual editing cannot guarantee.
 **Scale:** Three sub-scales: (1) percentage of cursor positions on inline body `#tag` tokens (outside fenced code and math blocks) at which `textDocument/codeAction` returns at least one item with command `fg.tagToYaml`; (2) percentage of `fg.tagToYaml` executions that correctly add the tag to frontmatter `tags:` (deduplicated, flow-sequence style) and remove it from the body; (3) percentage of executions on documents without existing frontmatter that result in a new valid frontmatter block being created.
 **Meter:**
+
 1. Author a test document with: (a) 3 inline body tags; (b) one `#tag` inside a fenced code block; (c) one `#tag` inside a `$$` math block. No frontmatter initially.
 2. Place the cursor on an inline body tag. Issue `textDocument/codeAction`. Verify `fg.tagToYaml` is offered.
 3. Place the cursor on the `#tag` inside the fenced code block. Verify `fg.tagToYaml` is NOT offered.

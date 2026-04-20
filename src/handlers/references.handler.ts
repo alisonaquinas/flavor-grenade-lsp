@@ -8,6 +8,7 @@ import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { entityAtPosition } from './cursor-entity.js';
+import { normaliseFileUri } from './uri-utils.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -25,7 +26,7 @@ interface ReferencesParams {
  * - **tag** → all occurrences via TagRegistry
  * - **block-anchor** → all `[[..#^id]]` references via RefGraph
  * - **heading** → all `[[doc#Heading]]` references via RefGraph
- * - **wiki-link** → definition location of the target
+ * - **wiki-link** → all wiki-links that point to the current document (same as default)
  * - **default** → all wiki-links that point to this document via RefGraph
  */
 @Injectable()
@@ -44,7 +45,9 @@ export class ReferencesHandler {
    * @returns Array of Locations where the entity is referenced.
    */
   handle(params: ReferencesParams): Location[] {
-    const doc = this.parseCache.get(params.textDocument.uri);
+    const doc =
+      this.parseCache.get(params.textDocument.uri) ??
+      this.getDocFromVaultIndex(params.textDocument.uri);
     if (doc === undefined) return [];
 
     const entity = entityAtPosition(doc, params.position);
@@ -61,14 +64,27 @@ export class ReferencesHandler {
 
       case 'block-anchor': {
         const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
-        const crossRefs = this.refGraph.getBlockRefsToAnchor(
-          sourceDocId,
-          entity.entry.id,
-        );
-        return crossRefs.map((ref) => ({
+        const anchorId = entity.entry.id;
+        const crossRefs = this.refGraph.getBlockRefsToAnchor(sourceDocId, anchorId);
+        const locations: Location[] = crossRefs.map((ref) => ({
           uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
           range: ref.entry.range,
         }));
+        // Also include embed refs that reference this block anchor
+        // (e.g. ![[doc#^anchor]] embeds are not wiki-links but count as references)
+        const anchorSuffix = '#^' + anchorId;
+        for (const embedRef of this.refGraph.getEmbedRefsTo(sourceDocId)) {
+          if (
+            embedRef.entry.target.includes(anchorSuffix) ||
+            embedRef.entry.target.endsWith('^' + anchorId)
+          ) {
+            locations.push({
+              uri: this.docIdToUri(embedRef.sourceDocId, params.textDocument.uri),
+              range: embedRef.entry.range,
+            });
+          }
+        }
+        return locations;
       }
 
       case 'heading': {
@@ -170,9 +186,9 @@ export class ReferencesHandler {
       }
 
       // Pass 2: normalised URI match (file:// vs file:///)
-      const normalUri = this.normaliseFileUri(uri);
+      const normalUri = normaliseFileUri(uri);
       for (const [docId, indexDoc] of this.vaultIndex.entries()) {
-        if (this.normaliseFileUri(indexDoc.uri) === normalUri) return docId as DefKey;
+        if (normaliseFileUri(indexDoc.uri) === normalUri) return docId as DefKey;
       }
 
       // Pass 3: stem match — try to find a DocId whose last segment matches
@@ -186,17 +202,6 @@ export class ReferencesHandler {
       }
     }
     return this.uriToFallbackDefKey(uri);
-  }
-
-  /**
-   * Normalise a `file://` URI for comparison: lowercase drive letter (Windows),
-   * collapse `///` to `//`, decode percent-encoding.
-   */
-  private normaliseFileUri(uri: string): string {
-    return uri
-      .replace(/^file:\/\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
-      .replace(/^file:\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
-      .toLowerCase();
   }
 
   /**
@@ -245,5 +250,23 @@ export class ReferencesHandler {
     } catch {
       return `file:///${sourceDocId}.md`;
     }
+  }
+
+  /**
+   * Fall back to VaultIndex when a document has not been explicitly opened
+   * (i.e. is not in the ParseCache).  Vault-scanner-indexed documents live in
+   * VaultIndex keyed by DocId; we match by the stored `uri` field.
+   */
+  private getDocFromVaultIndex(uri: string): import('../parser/types.js').OFMDoc | undefined {
+    if (this.vaultIndex === undefined) return undefined;
+    for (const [, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return doc;
+    }
+    // Normalised comparison (handle file:// vs file:/// on Windows)
+    const normalUri = normaliseFileUri(uri);
+    for (const [, doc] of this.vaultIndex.entries()) {
+      if (normaliseFileUri(doc.uri) === normalUri) return doc;
+    }
+    return undefined;
   }
 }

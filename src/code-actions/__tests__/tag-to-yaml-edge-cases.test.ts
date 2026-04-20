@@ -43,7 +43,14 @@ describe('TagToYamlAction — edge cases', () => {
       const doc = makeDoc(DOC_URI, '---\ntags: [todo]\n---\nsome text\n#todo item', {
         frontmatter: { tags: ['todo'] },
         frontmatterEndOffset: 20,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tagEntry], callouts: [], headings: [] },
+        index: {
+          wikiLinks: [],
+          embeds: [],
+          blockAnchors: [],
+          tags: [tagEntry],
+          callouts: [],
+          headings: [],
+        },
       });
       parseCache.set(DOC_URI, doc);
 
@@ -63,7 +70,14 @@ describe('TagToYamlAction — edge cases', () => {
       const doc = makeDoc(DOC_URI, '---\ntags: [todo]\n---\nsome text\n#other item', {
         frontmatter: { tags: ['todo'] },
         frontmatterEndOffset: 20,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tagEntry], callouts: [], headings: [] },
+        index: {
+          wikiLinks: [],
+          embeds: [],
+          blockAnchors: [],
+          tags: [tagEntry],
+          callouts: [],
+          headings: [],
+        },
       });
       parseCache.set(DOC_URI, doc);
 
@@ -83,10 +97,21 @@ describe('TagToYamlAction — edge cases', () => {
       const tag1 = makeTag('#todo', 3, 0);
       const tag2 = makeTag('#todo', 5, 10);
       const tag3 = makeTag('#todo', 7, 0);
-      const doc = makeDoc(DOC_URI, 'some doc\n---\n\n#todo first\n\n  some #todo middle\n\n#todo last', {
-        frontmatter: null,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tag1, tag2, tag3], callouts: [], headings: [] },
-      });
+      const doc = makeDoc(
+        DOC_URI,
+        'some doc\n---\n\n#todo first\n\n  some #todo middle\n\n#todo last',
+        {
+          frontmatter: null,
+          index: {
+            wikiLinks: [],
+            embeds: [],
+            blockAnchors: [],
+            tags: [tag1, tag2, tag3],
+            callouts: [],
+            headings: [],
+          },
+        },
+      );
       parseCache.set(DOC_URI, doc);
 
       const result = action.handle({
@@ -107,7 +132,14 @@ describe('TagToYamlAction — edge cases', () => {
       const tag2 = makeTag('#todo', 4, 0);
       const doc = makeDoc(DOC_URI, 'some doc\n---\n\n#todo first\n#todo second', {
         frontmatter: null,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tag1, tag2], callouts: [], headings: [] },
+        index: {
+          wikiLinks: [],
+          embeds: [],
+          blockAnchors: [],
+          tags: [tag1, tag2],
+          callouts: [],
+          headings: [],
+        },
       });
       parseCache.set(DOC_URI, doc);
 
@@ -130,7 +162,14 @@ describe('TagToYamlAction — edge cases', () => {
       const doc = makeDoc(DOC_URI, text, {
         frontmatter: { title: 'My Doc', author: 'Alice' },
         frontmatterEndOffset: 33,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tagEntry], callouts: [], headings: [] },
+        index: {
+          wikiLinks: [],
+          embeds: [],
+          blockAnchors: [],
+          tags: [tagEntry],
+          callouts: [],
+          headings: [],
+        },
       });
       parseCache.set(DOC_URI, doc);
 
@@ -153,7 +192,14 @@ describe('TagToYamlAction — edge cases', () => {
       const doc = makeDoc(DOC_URI, text, {
         frontmatter: { tags: ['alpha', 'beta'] },
         frontmatterEndOffset: 24,
-        index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [tagEntry], callouts: [], headings: [] },
+        index: {
+          wikiLinks: [],
+          embeds: [],
+          blockAnchors: [],
+          tags: [tagEntry],
+          callouts: [],
+          headings: [],
+        },
       });
       parseCache.set(DOC_URI, doc);
 
@@ -164,7 +210,9 @@ describe('TagToYamlAction — edge cases', () => {
 
       expect(result).not.toBeNull();
       const changes = result!.edit!.changes![DOC_URI];
-      const tagEdit = changes.find((e) => e.newText.includes('extra') || e.newText.includes('tags'));
+      const tagEdit = changes.find(
+        (e) => e.newText.includes('extra') || e.newText.includes('tags'),
+      );
       expect(tagEdit).toBeDefined();
       expect(tagEdit!.newText).toContain('extra');
     });

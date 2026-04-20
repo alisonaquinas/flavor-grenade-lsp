@@ -8,11 +8,11 @@ import type { Range } from 'vscode-languageserver-types';
  * Token type indices matching the legend:
  * ['string', 'keyword', 'label', 'enumMember', 'property']
  */
-const TOKEN_TYPE_STRING = 0;      // wiki-links, embeds
-const TOKEN_TYPE_KEYWORD = 1;     // tags
-const TOKEN_TYPE_LABEL = 2;       // block anchors
+const TOKEN_TYPE_STRING = 0; // wiki-links, embeds
+const TOKEN_TYPE_KEYWORD = 1; // tags
+const TOKEN_TYPE_LABEL = 2; // block anchors
 const TOKEN_TYPE_ENUM_MEMBER = 3; // callout types
-const _TOKEN_TYPE_PROPERTY = 4;    // frontmatter keys (reserved for future use)
+const _TOKEN_TYPE_PROPERTY = 4; // frontmatter keys (reserved for future use)
 
 /**
  * Token modifier bitmask indices:
@@ -55,7 +55,7 @@ export class SemanticTokensHandler {
     const tokens = this.collectTokens(doc);
 
     // Sort by line, then character
-    tokens.sort((a, b) => a.line !== b.line ? a.line - b.line : a.character - b.character);
+    tokens.sort((a, b) => (a.line !== b.line ? a.line - b.line : a.character - b.character));
 
     const data = this.encodeTokens(tokens);
     return { data };
@@ -97,7 +97,11 @@ export class SemanticTokensHandler {
     return tokens;
   }
 
-  private rangeToToken(range: Range, tokenType: number, tokenModifiers: number): SemanticToken | null {
+  private rangeToToken(
+    range: Range,
+    tokenType: number,
+    tokenModifiers: number,
+  ): SemanticToken | null {
     // Only handle single-line tokens
     if (range.start.line !== range.end.line) return null;
 

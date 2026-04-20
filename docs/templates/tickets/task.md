@@ -122,7 +122,7 @@ All of the following must be true before this task is marked `done`:
 
 Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
 
-**State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
+**State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 | State | Meaning | Agent action on entry |

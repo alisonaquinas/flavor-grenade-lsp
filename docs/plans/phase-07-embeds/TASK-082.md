@@ -15,7 +15,7 @@ aliases: ["TASK-082"]
 
 # Write unit tests for embed resolution
 
-> [!INFO] `TASK-082` · Task · Phase 7 · Parent: [[tickets/FEAT-008]] · Status: `open`
+> [!INFO] `TASK-082` · Task · Phase 7 · Parent: [[FEAT-008]] · Status: `open`
 
 ## Description
 
@@ -35,7 +35,7 @@ Create `src/resolution/__tests__/embed-resolver.test.ts` containing the full uni
   - Missing image → `null` result → FG004 diagnostic
   - Existing image with size syntax `|200x150` → resolves without diagnostic
   - Non-markdown, non-image file embed → resolves if exists in `AssetIndex`
-- See also: [[tests/integration/smoke-embeds.md]]
+- See also: `tests/integration/smoke-embeds.md`
 
 ---
 
@@ -51,7 +51,7 @@ Create `src/resolution/__tests__/embed-resolver.test.ts` containing the full uni
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/embeds]] | All embed resolution scenarios |
+| `bdd/features/embeds.feature` | All embed resolution scenarios |
 
 ---
 
@@ -76,7 +76,7 @@ Create `src/resolution/__tests__/embed-resolver.test.ts` containing the full uni
 
 ## Parent Feature
 
-[[tickets/FEAT-008]] — Embeds
+[[FEAT-008]] — Embeds
 
 ---
 
@@ -84,8 +84,8 @@ Create `src/resolution/__tests__/embed-resolver.test.ts` containing the full uni
 
 **Blocked by:**
 
-- [[tickets/TASK-075]] — EmbedRef must be defined for tests to compile
-- [[tickets/TASK-076]] — EmbedResolver must exist (even as a stub) for tests to run
+- [[TASK-075]] — EmbedRef must be defined for tests to compile
+- [[TASK-076]] — EmbedResolver must exist (even as a stub) for tests to run
 
 **Unblocks:**
 
@@ -104,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-008]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
 
@@ -130,7 +130,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-008]].
+> Ticket created. Status: `open`. Parent: [[FEAT-008]].
 
 > [!SUCCESS] Done — 2026-04-17
 > `src/resolution/__tests__/embed-resolver.test.ts` written with 12 tests: markdown doc resolution, stem resolution, broken markdown, image assets (png/jpg/svg), broken assets, size specifier (width+height), alias vs size distinction. RED commit precedes GREEN commit. Status: `done`.

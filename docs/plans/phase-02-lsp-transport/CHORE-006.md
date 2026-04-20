@@ -30,7 +30,7 @@ Review all Phase 2 implementation files for security issues arising from the ser
 
 The LSP server processes JSON from an external source (the LSP client) over an unverified channel. Malformed or adversarial input must not crash the server, pollute the Node.js prototype chain, or expose internal file system paths in error messages. ADR014 establishes the security policy for all input validation in this project.
 
-- Motivated by: [[adr/ADR014-security-policy]] (input validation, no path info in errors)
+- Motivated by: [[adr/ADR014-dependency-security-policy]] (input validation, no path info in errors)
 
 ---
 
@@ -38,7 +38,7 @@ The LSP server processes JSON from an external source (the LSP client) over an u
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Input validation on all LSP-received JSON; no path info in error responses | [[requirements/security]] |
+| — | Input validation on all LSP-received JSON; no path info in error responses | [[requirements/security/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ The LSP server processes JSON from an external source (the LSP client) over an u
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR014-security-policy]] | All LSP-received JSON must be validated; error responses must not leak internal path info |
+| [[adr/ADR014-dependency-security-policy]] | All LSP-received JSON must be validated; error responses must not leak internal path info |
 
 ---
 
@@ -76,7 +76,7 @@ The LSP server processes JSON from an external source (the LSP client) over an u
 
 **Unblocks:**
 
-- Phase 2 feature ticket [[tickets/FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
+- Phase 2 feature ticket [[FEAT-003]] can transition to `in-review` once all three Phase 2 chores are `done`
 
 ---
 

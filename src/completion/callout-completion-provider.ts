@@ -6,27 +6,29 @@ import { VaultIndex } from '../vault/vault-index.js';
 /** LSP CompletionItemKind.EnumMember = 20 */
 const COMPLETION_KIND_ENUM_MEMBER = 20;
 
-/** The 13 standard Obsidian callout types. */
+/** Standard Obsidian callout types (includes GitHub Alerts aliases). */
 const STANDARD_CALLOUTS: readonly string[] = [
   'NOTE',
+  'INFO',
   'TIP',
   'IMPORTANT',
   'WARNING',
   'CAUTION',
   'DANGER',
-  'INFO',
-  'TODO',
-  'EXAMPLE',
+  'SUCCESS',
   'QUESTION',
+  'FAILURE',
+  'BUG',
+  'EXAMPLE',
   'QUOTE',
   'ABSTRACT',
-  'SUCCESS',
+  'TODO',
 ];
 
 /**
  * Provides callout type completion items after `> [!` triggers.
  *
- * Combines the 13 standard callout types with any custom types observed in the
+ * Combines the 15 standard callout types with any custom types observed in the
  * vault index. Filters by case-insensitive prefix match on `partial`.
  */
 @Injectable()

@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Multiple Markdown parsing libraries have shipped ReDoS vulnerabilities: markdown-it (CVE-2022-21670), CodeMirror (CVE-2025-6493), marked (pre-4.0.10), and markdown-to-jsx (GHSL-2020-300). The OFM parser writes its own regexes for wiki-links, tags, block IDs, callouts, and comments — all of which accept user-controlled vault content. A single file containing a crafted sequence of characters (e.g., `[[` followed by thousands of `|` characters) could lock the Bun event loop for seconds, causing the editor to time out. The prohibition on nested quantifiers and overlapping alternation patterns, enforced by static analysis before merge, prevents this class of vulnerability from being introduced.
 **Scale:** Number of regex patterns in `src/parser/` that produce super-linear worst-case matching time against adversarial input, as determined by `safe-regex` static analysis or equivalent manual worst-case complexity analysis.
 **Meter:**
+
 1. Run `safe-regex` (or `vuln-regex-detector`) against every regex literal and `new RegExp()` call in `src/parser/`.
 2. For each flagged pattern, perform manual worst-case analysis to confirm or clear the finding.
 3. Count confirmed super-linear patterns.
@@ -36,6 +37,7 @@ aliases:
 **Ambition:** A hard per-file timeout bounds the worst-case event loop stall from any single pathological input. Even with perfectly safe regexes, an exceptionally large file (e.g., a 50 MB markdown export) could stall synchronous string processing. The 200 ms limit is chosen to be well above the 99th-percentile parse time for normal vault files (which complete in under 5 ms in practice) while remaining short enough that a single stalled file does not cause the editor to perceive the LSP as unresponsive (typical LSP timeout thresholds are 1–5 seconds). The empty-result fallback ensures the rest of the vault continues to be indexed.
 **Scale:** Percentage of pathological vault file parse attempts (files that would normally exceed the timeout) that: (a) abort within 200 ms, (b) do not crash the server, (c) produce an empty parse result for that file, and (d) allow subsequent files to be indexed normally.
 **Meter:**
+
 1. Create a test fixture file designed to stress the parser (e.g., 10,000 nested wiki-link-like structures).
 2. Start the server, trigger indexing of the fixture vault.
 3. Measure wall-clock time from parse start to parse completion or timeout.
@@ -54,6 +56,7 @@ aliases:
 **Ambition:** YAML anchor/alias expansion can amplify a small input into an exponentially large object graph ("billion laughs" pattern). A frontmatter block using 10 levels of 10-alias references expands to 10 billion objects on heap allocation. `js-yaml` provides a `maxAliases` option to cap this. The 64 KB size limit prevents even reaching the alias expansion stage for unreasonably large frontmatter blocks. Safe mode (no `!!js/function` or `!!python/object` tags) prevents YAML from being used as a code execution vector — though JavaScript YAML parsers default to safe mode, this must be explicitly enforced to prevent future dependency upgrades from changing the default.
 **Scale:** Percentage of frontmatter YAML parse operations that: (a) correctly reject inputs with more than 50 aliases, (b) correctly reject inputs larger than 64 KB, (c) catch all parse exceptions without crashing, and (d) never log the YAML content of a failed parse.
 **Meter:**
+
 1. Create test fixtures: (a) YAML with 51 aliases, (b) YAML exceeding 64 KB, (c) malformed YAML syntax.
 2. For each fixture, trigger frontmatter parsing.
 3. Verify: (a) alias limit produces a caught exception and FG007 diagnostic, (b) size limit rejects before parsing, (c) malformed YAML produces FG007 without server crash.
@@ -71,6 +74,7 @@ aliases:
 **Ambition:** A circular embed chain (`![[A]]` → `![[B]]` → `![[A]]`) causes unbounded recursion in any naive resolver. Without cycle detection, the server call stack grows until a stack overflow error crashes the process. The visited-URI set breaks cycles in O(1) per step. The separate depth limit of 10 prevents non-circular but pathologically deep chains from consuming excessive stack and memory. Both limits are necessary — cycles bypass depth limits if not detected separately.
 **Scale:** Percentage of circular embed inputs that: (a) produce FG005 without server crash, (b) complete resolution within 500 ms, and (c) do not corrupt the VaultIndex for non-circular embeds in the same vault.
 **Meter:**
+
 1. Create a test vault with at least three distinct cycle patterns: 2-node cycle, 3-node cycle, self-referencing embed.
 2. Also create a non-circular chain of depth 11 (exceeds limit) and a non-circular chain of depth 9 (within limit).
 3. For each circular case: verify FG005 diagnostic emitted, server remains responsive.
@@ -89,6 +93,7 @@ aliases:
 **Ambition:** An accidentally large vault root (e.g., the user sets their home directory as the vault, or a mounted network share with millions of files) would cause the VaultIndex to attempt to read and parse every file, exhausting memory and taking minutes or hours to complete. The file count limit provides a safety ceiling. The `window/showMessage` notification informs the user that the index is partial, allowing them to reconfigure the vault root. The server continuing to operate — rather than failing — means the user retains LSP functionality for the files that were indexed.
 **Scale:** Percentage of vault indexing runs against a vault exceeding the limit that: (a) stop exactly at the limit, (b) send a `window/showMessage` Warning, and (c) complete indexing of the files up to the limit without error.
 **Meter:**
+
 1. Create a test fixture vault with 50,001 files (can use empty files for the test).
 2. Set the file limit to 50,000 in `bunfig.toml` (or accept the default).
 3. Start the server and trigger indexing.

@@ -258,7 +258,7 @@ Tag hierarchy is represented by the `/` separator: `#project/active` is a subtag
 
 ## Summary Diagram
 
-```
+```text
 Sym
 ├── Def
 │   ├── DocDef          ← document itself as referenceable target

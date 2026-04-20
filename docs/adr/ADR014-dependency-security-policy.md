@@ -26,6 +26,7 @@ The threat is documented in [[research/security-threat-model#Threat-Category-3]]
 ### 1. Exact Version Pinning
 
 All dependencies — runtime and development — must be pinned to exact versions in `package.json` (`"^"` and `"~"` ranges are prohibited). This is enforced by:
+
 - `exact = true` in `bunfig.toml` (already configured in Phase 1)
 - A CI lint step that fails if any dependency in `package.json` contains a range specifier
 
@@ -42,6 +43,7 @@ This is already enforced in `.github/workflows/ci.yml`.
 Because Bun ignores `ignore-scripts=true` in `.npmrc`, all CI `bun install` invocations must explicitly pass `--ignore-scripts` as a CLI flag. This prevents `postinstall` scripts from running in CI, eliminating the primary supply chain execution vector.
 
 Update `.github/workflows/ci.yml` to use:
+
 ```yaml
 - run: bun install --frozen-lockfile --ignore-scripts
 ```
@@ -51,6 +53,7 @@ Exceptions (packages that genuinely require postinstall scripts to function, e.g
 ### 4. Security Advisory Monitoring
 
 The repository must subscribe to GitHub Dependabot security alerts for all direct and transitive dependencies. Additionally, contributors must manually review the security advisories for the following packages before each minor or major version upgrade:
+
 - `@nestjs/core`
 - `@nestjs/common`
 - `typescript-eslint`
@@ -69,6 +72,7 @@ This is already planned in [[adr/ADR008-oidc-publishing]] and enforced in `.gith
 ### 6. Lockfile Review on Dependency PRs
 
 Any PR that modifies `package.json` or `bun.lockb` must:
+
 1. Include a human-readable summary of what changed and why
 2. Link to the release notes or changelog for any upgraded package
 3. Be reviewed by at least one maintainer before merge
@@ -84,17 +88,20 @@ This prohibition is enforced by an ESLint `no-restricted-imports` rule targeting
 ## Consequences
 
 ### Positive
+
 - The `--ignore-scripts` CI flag directly mitigates the Bun `.npmrc` bypass vulnerability and closes the primary postinstall script execution vector
 - Exact pinning prevents silent version drift to compromised versions
 - OIDC provenance allows consumers to verify the build chain
 - Explicit lockfile review creates a human audit trail for every dependency change
 
 ### Negative
+
 - `--ignore-scripts` breaks packages that legitimately require postinstall scripts (e.g., `esbuild` platform-specific binary installation); these must be handled with targeted install steps, adding CI complexity
 - Manual advisory review before each upgrade adds friction to the dependency update workflow
 - The `dependency-audit-log.md` requirement creates ongoing documentation overhead
 
 ### Neutral
+
 - Dependabot alerts are advisory; the CI lockfile check is the enforcement mechanism
 - The advisory review list covers direct dependencies; transitive dependency security relies primarily on Dependabot alerts and the frozen lockfile
 

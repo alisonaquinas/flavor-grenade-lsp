@@ -10,7 +10,7 @@ aliases:
 # Completion Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
+> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[requirements/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
 
 ---
 
@@ -20,6 +20,7 @@ aliases:
 **Ambition:** Unbounded completion lists degrade editor performance and overwhelm the author with irrelevant candidates. The cap setting lets teams tune the trade-off between completeness and responsiveness. The `isIncomplete` flag is the LSP protocol's mechanism for signalling to the client that further typing will refine the list, ensuring the client triggers a new request rather than assuming the list is final — which would silently hide matching candidates that fell outside the cap.
 **Scale:** Two sub-scales: (1) percentage of completion responses where the returned item count does not exceed the configured `completion.candidates` value; (2) percentage of responses where the total matching candidates exceed the cap in which `CompletionList.isIncomplete` is set to `true`.
 **Meter:**
+
 1. Configure `completion.candidates` to a value N (e.g., 5) in `.flavor-grenade.toml`.
 2. Create a test vault with at least N+10 documents whose names all share a common prefix.
 3. Open a document and trigger completion at `[[` with an empty query (all candidates match).
@@ -42,6 +43,7 @@ aliases:
 **Ambition:** Trigger characters are the entry points to the server's completion surface. If a trigger character fires but returns an empty list, the author receives no feedback and must rely on manual typing — the core value proposition of the LSP is lost. Complete trigger-character coverage ensures that every authoring affordance Obsidian provides has a corresponding LSP completion path.
 **Scale:** Percentage of trigger-character invocations at appropriate positions in a vault of at least 5 documents and at least 5 tags that return a non-empty `CompletionList.items` array. Appropriate positions are: `[` at the start of a wiki-link context; `#` at the start of a tag context; `(` at the start of a standard Markdown link URL context.
 **Meter:**
+
 1. Create a test vault with at least 5 documents and at least 5 distinct tags.
 2. Author a document with positioned cursors at:
    - `[[` — wiki-link trigger (trigger char `[`)
@@ -54,7 +56,7 @@ aliases:
 **Goal:** 100% of appropriate trigger positions return non-empty candidate lists.
 **Stakeholders:** Editor users, LSP client integrators, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#completion-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/properties#inline-tags]], LSP specification §3.16 trigger characters.
+**Source:** [[design/api-layer#completion-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/tags#inline-tag-syntax]], LSP specification §3.16 trigger characters.
 
 ---
 
@@ -64,6 +66,7 @@ aliases:
 **Ambition:** Obsidian defines 13 built-in callout types (`note`, `info`, `tip`, `warning`, `danger`, `success`, `question`, `failure`, `bug`, `example`, `quote`, `abstract`, `todo`) plus documented aliases. Authors must currently type callout names from memory or consult the Obsidian documentation. Completion at the `> [!` trigger position makes callout authoring discoverable, consistent with Obsidian's own UI affordances, and prevents misspelled callout types that render as unstyled blockquotes.
 **Scale:** Percentage of the 13 primary standard Obsidian callout type names (as documented in [[ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
 **Meter:**
+
 1. Open any document with the cursor placed at the end of `> [!` on an otherwise empty blockquote line.
 2. Issue `textDocument/completion`.
 3. Collect all `CompletionItem.label` or `insertText` values from the response.
@@ -83,6 +86,7 @@ aliases:
 **Ambition:** This is the completion-specific formulation of [[wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
 **Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
 **Meter:**
+
 1. Configure `wiki.style` to `file-stem`. Trigger completion at `[[` in a vault with documents whose titles differ from file stems. Verify all `insertText` values use the file stem (no title, no path prefix).
 2. Configure `wiki.style` to `title-slug`. Repeat. Verify all `insertText` values use the slugified document title.
 3. Configure `wiki.style` to `file-path-stem`. Repeat. Verify all `insertText` values use the vault-relative file path without extension.

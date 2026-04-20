@@ -17,7 +17,7 @@ aliases: ["TASK-013"]
 
 # Configure Prettier
 
-> [!INFO] `TASK-013` · Task · Phase 1 · Parent: [[tickets/FEAT-002]] · Status: `open`
+> [!INFO] `TASK-013` · Task · Phase 1 · Parent: [[FEAT-002]] · Status: `open`
 
 ## Description
 
@@ -69,7 +69,7 @@ Create `.prettierrc.json` at the project root to define the canonical code forma
 
 ## Parent Feature
 
-[[tickets/FEAT-002]] — Project Scaffold
+[[FEAT-002]] — Project Scaffold
 
 ---
 
@@ -77,12 +77,12 @@ Create `.prettierrc.json` at the project root to define the canonical code forma
 
 **Blocked by:**
 
-- [[tickets/TASK-005]] — Prettier package must be installed.
+- [[TASK-005]] — Prettier package must be installed.
 
 **Unblocks:**
 
-- [[tickets/CHORE-001]] — Lint sweep includes format check.
-- [[tickets/CHORE-002]] — Code quality sweep verifies formatting consistency.
+- [[CHORE-001]] — Lint sweep includes format check.
+- [[CHORE-002]] — Code quality sweep verifies formatting consistency.
 
 ---
 
@@ -93,7 +93,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `.prettierrc.json` exists at project root
 - [ ] Contains `"semi": true`, `"singleQuote": true`, `"trailingComma": "all"`, `"printWidth": 100`, `"tabWidth": 2`
 - [ ] `bunx prettier --check src/` runs without crashing on the skeleton source files
-- [ ] Parent feature [[tickets/FEAT-002]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-002]] child task row updated to `in-review`
 
 ---
 
@@ -114,7 +114,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-002]].
+> Ticket created. Status: `open`. Parent: [[FEAT-002]].
 
 > [!INFO] In-review — 2026-04-17
 > Implementation complete. Gate command `bun run gate:1` passed. Status: `in-review`.

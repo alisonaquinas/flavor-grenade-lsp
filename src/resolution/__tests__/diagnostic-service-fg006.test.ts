@@ -55,13 +55,22 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
     folderLookup = new FolderLookup();
     oracle = new Oracle(folderLookup, vaultIndex);
     parseCache = new ParseCache();
-    const vaultScanner = { hasAsset: () => false, getAssetIndex: () => new Set<string>() } as unknown as VaultScanner;
+    const vaultScanner = {
+      hasAsset: () => false,
+      getAssetIndex: () => new Set<string>(),
+    } as unknown as VaultScanner;
     embedResolver = new EmbedResolver(oracle, vaultScanner);
   });
 
   it('emits FG006 for U+00A0 (NBSP) in document body', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
 
     // Document body has a non-breaking space at position 5
     const text = 'Hello\u00A0world';
@@ -83,7 +92,13 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
 
   it('does NOT emit FG006 for NBSP inside frontmatter', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
 
     // NBSP is in frontmatter (before offset 20), body is clean
     const text = '---\ntitle: Hello\u00A0World\n---\nclean body text';
@@ -105,7 +120,13 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
 
   it('emits FG006 with severity 2 (Warning)', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
 
     const text = 'Some\u00A0text here';
     const doc = makeDoc('file:///vault/alpha.md', text, 0);
@@ -124,7 +145,13 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
 
   it('emits correct range for NBSP character', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
 
     // NBSP at char 5 on line 0
     const text = 'Hello\u00A0world';
@@ -139,7 +166,10 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
       (d) => d['code'] === 'FG006',
     );
     const diag = fg006Diags[0];
-    const range = diag['range'] as { start: { line: number; character: number }; end: { line: number; character: number } };
+    const range = diag['range'] as {
+      start: { line: number; character: number };
+      end: { line: number; character: number };
+    };
     expect(range.start.line).toBe(0);
     expect(range.start.character).toBe(5);
     expect(range.end.character).toBe(6);
@@ -147,7 +177,13 @@ describe('DiagnosticService — FG006 (NBSP detection)', () => {
 
   it('emits multiple FG006 for multiple NBSPs in body', () => {
     folderLookup.rebuild(vaultIndex);
-    const service = new DiagnosticService(makeDispatcher(), oracle, embedResolver, parseCache, makeVaultDetector());
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
 
     const text = 'A\u00A0B\u00A0C';
     const doc = makeDoc('file:///vault/alpha.md', text, 0);

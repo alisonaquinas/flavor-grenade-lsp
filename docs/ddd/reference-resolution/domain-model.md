@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 3: Reference Resolution**. BC3 is the **Core subdomain** — it is the primary differentiating capability of `flavor-grenade-lsp`. Everything that makes the server useful for an Obsidian vault (go-to-definition, backlinks, broken-link diagnostics, rename) lives here.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/domain-model]], [[vault/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/vault/domain-model]].
 
 > [!NOTE]
 > BC3 is deliberately isolated from BC4's internal naming. The `Oracle` is the only seam. RefGraph never imports VaultIndex or FolderLookup. This is the anti-corruption layer that keeps the core subdomain pure and testable.
@@ -39,7 +39,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[document-lifecycle/do
 
 ### State
 
-```
+```text
 RefGraph
 ├── refs:      Map<DocId, Ref[]>          — outgoing refs per document
 ├── defs:      Map<DocId, Def[]>          — defs (anchors, headings) per document
@@ -52,7 +52,7 @@ RefGraph
 
 ### State Diagram
 
-```
+```text
                   ┌─────────────────────────────────────────────────────┐
                   │                     RefGraph                         │
                   │                                                       │
@@ -89,7 +89,7 @@ RefGraph
 
 Full rebuild from scratch. Called when the vault is first indexed or when a full re-index is requested.
 
-```
+```text
 RefGraph.mk(oracle: Oracle, symMap: SymbolMap): RefGraph
 
 SymbolMap
@@ -99,7 +99,7 @@ SymbolMap
 
 **Algorithm:**
 
-```
+```text
 1. For each (docId, { refs, defs }) in symMap:
    a. Normalize RawDef[] → Def[] (attach DocId, compute range)
    b. Add alias Defs from frontmatter
@@ -123,7 +123,7 @@ SymbolMap
 
 Incremental update when one or more documents have changed. Only re-resolves affected documents.
 
-```
+```text
 RefGraph.update(
   graph:   RefGraph,
   oracle:  Oracle,
@@ -138,7 +138,7 @@ SymbolDiff
 
 **Algorithm:**
 
-```
+```text
 1. Compute affected = changed ∪ removed ∪ {docs that refDeps on changed/removed}
    (because a title change in B invalidates CrossSection refs in A that target B)
 
@@ -241,6 +241,7 @@ interface EmbedRef {
 ```
 
 **OFM extension notes:**
+
 - Embeds can target full documents (`![[doc]]`), headings (`![[doc#heading]]`), blocks (`![[doc#^anchor]]`), or images (non-Markdown — skipped by ref resolution).
 - Image embeds (target ends in `.png`, `.jpg`, etc.) produce no `Ref` in the graph — they are captured in `OFMIndex` but excluded from `RefGraph`.
 
@@ -304,7 +305,7 @@ interface Def {
 
 **Multiple Defs per document:**
 
-```
+```text
 OFMDoc "foo.md"
   ├─ Def { kind: 'title',   text: 'Foo',         range: ... }
   ├─ Def { kind: 'alias',   text: 'Foo Note',    range: frontmatter.range }

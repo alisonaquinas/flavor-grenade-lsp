@@ -8,10 +8,7 @@ function id(s: string): DocId {
   return s as DocId;
 }
 
-function makeDocWithCallouts(
-  uri: string,
-  calloutTypes: string[],
-): OFMDoc {
+function makeDocWithCallouts(uri: string, calloutTypes: string[]): OFMDoc {
   return {
     uri,
     version: 0,
@@ -84,10 +81,7 @@ describe('CalloutCompletionProvider', () => {
 
   describe('custom callout types from vault', () => {
     it('includes custom callout types from vaultIndex', () => {
-      vaultIndex.set(
-        id('doc'),
-        makeDocWithCallouts('file:///v/doc.md', ['CUSTOM', 'SPECIAL']),
-      );
+      vaultIndex.set(id('doc'), makeDocWithCallouts('file:///v/doc.md', ['CUSTOM', 'SPECIAL']));
 
       const { items } = provider.getCompletions('');
       const labels = items.map((i) => i.label);
@@ -97,10 +91,7 @@ describe('CalloutCompletionProvider', () => {
     });
 
     it('deduplicates custom callouts matching standard ones', () => {
-      vaultIndex.set(
-        id('doc'),
-        makeDocWithCallouts('file:///v/doc.md', ['NOTE', 'CUSTOM']),
-      );
+      vaultIndex.set(id('doc'), makeDocWithCallouts('file:///v/doc.md', ['NOTE', 'CUSTOM']));
 
       const { items } = provider.getCompletions('');
       const noteItems = items.filter((i) => i.label === 'NOTE');
@@ -108,10 +99,7 @@ describe('CalloutCompletionProvider', () => {
     });
 
     it('filters custom callouts by partial', () => {
-      vaultIndex.set(
-        id('doc'),
-        makeDocWithCallouts('file:///v/doc.md', ['CUSTOM', 'OTHER']),
-      );
+      vaultIndex.set(id('doc'), makeDocWithCallouts('file:///v/doc.md', ['CUSTOM', 'OTHER']));
 
       const { items } = provider.getCompletions('cus');
       expect(items.map((i) => i.label)).toContain('CUSTOM');

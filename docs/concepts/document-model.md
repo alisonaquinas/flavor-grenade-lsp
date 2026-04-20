@@ -21,7 +21,7 @@ This design choice cascades through the system:
 - Unit tests can construct arbitrary `OFMDoc` values without managing lifecycle hooks.
 - The parse pipeline is a pure function: `parse(text) → OFMDoc`. Same input always produces the same output.
 
-```
+```text
                         textDocument/didChange
                                │
                                ▼
@@ -184,7 +184,7 @@ The `OFMIndex` is built as a flat projection of the AST. Each element type is ex
 
 ## Parse Pipeline Summary Diagram
 
-```
+```text
 Raw text
   │
   ▼ Stage 2

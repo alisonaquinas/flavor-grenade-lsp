@@ -57,13 +57,17 @@ describe('CodeLensHandler', () => {
       makeHeading('Introduction', 2, 0),
       makeHeading('Summary', 2, 5),
     ]);
-    const alphaDoc = makeDoc('file:///vault/alpha.md', [], [
-      {
-        raw: '[[beta]]',
-        target: 'beta',
-        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 8 } },
-      },
-    ]);
+    const alphaDoc = makeDoc(
+      'file:///vault/alpha.md',
+      [],
+      [
+        {
+          raw: '[[beta]]',
+          target: 'beta',
+          range: { start: { line: 0, character: 0 }, end: { line: 0, character: 8 } },
+        },
+      ],
+    );
 
     vaultIndex.set(id('beta'), betaDoc);
     vaultIndex.set(id('alpha'), alphaDoc);

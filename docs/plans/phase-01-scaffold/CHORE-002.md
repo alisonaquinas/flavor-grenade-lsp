@@ -76,11 +76,11 @@ Phase 1 skeleton code is intentionally minimal, but patterns established in the 
 
 **Blocked by:**
 
-- [[tickets/CHORE-001]] — Lint must be clean before code quality review begins; lint warnings can mask real code smells.
+- [[CHORE-001]] — Lint must be clean before code quality review begins; lint warnings can mask real code smells.
 
 **Unblocks:**
 
-- [[tickets/CHORE-003]] — Security sweep follows code quality sweep.
+- [[CHORE-003]] — Security sweep follows code quality sweep.
 
 ---
 
@@ -122,5 +122,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: [[requirements/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
 
-> [!CHECK] Done — 2026-04-17
+> [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

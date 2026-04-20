@@ -9,7 +9,7 @@ aliases:
 # Writing With Tags User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors use tags to organise and discover notes. Implementation details are in [[tag-indexing]] and [[completions]].
+> These user requirements cover how vault authors use tags to organise and discover notes. Implementation details are in [[requirements/tag-indexing]] and [[requirements/completions]].
 
 ---
 

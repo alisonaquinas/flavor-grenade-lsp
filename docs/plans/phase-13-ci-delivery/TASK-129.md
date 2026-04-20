@@ -15,7 +15,7 @@ aliases: ["TASK-129"]
 
 # Implement bun build single-file binary
 
-> [!INFO] `TASK-129` · Task · Phase 13 · Parent: [[tickets/FEAT-014]] · Status: `open`
+> [!INFO] `TASK-129` · Task · Phase 13 · Parent: [[FEAT-014]] · Status: `open`
 
 ## Description
 
@@ -26,12 +26,14 @@ Add `build:binary` and `build:binary:win` scripts to `package.json` using `bun b
 ## Implementation Notes
 
 - Add to `package.json` scripts:
+
   ```json
   {
     "build:binary": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp",
     "build:binary:win": "bun build src/main.ts --compile --outfile=dist/flavor-grenade-lsp.exe"
   }
   ```
+
 - The compiled binary embeds the Bun runtime; no separate runtime needed on target machine
 - Verify: `./dist/flavor-grenade-lsp --version` prints a version string
 - See also: [[requirements/ci-cd]]
@@ -50,7 +52,7 @@ Add `build:binary` and `build:binary:win` scripts to `package.json` using `bun b
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/code-actions]] | — (build infrastructure task, no Gherkin scenario) |
+| `bdd/features/code-actions.feature` | — (build infrastructure task, no Gherkin scenario) |
 
 ---
 
@@ -74,7 +76,7 @@ Add `build:binary` and `build:binary:win` scripts to `package.json` using `bun b
 
 ## Parent Feature
 
-[[tickets/FEAT-014]] — CI & Delivery
+[[FEAT-014]] — CI & Delivery
 
 ---
 
@@ -86,7 +88,7 @@ Add `build:binary` and `build:binary:win` scripts to `package.json` using `bun b
 
 **Unblocks:**
 
-- [[tickets/TASK-130]] — release workflow invokes `bun run build:binary`
+- [[TASK-130]] — release workflow invokes `bun run build:binary`
 
 ---
 
@@ -102,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `./dist/flavor-grenade-lsp --version` prints a version string
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/FEAT-014]] child task row updated to `in-review`
+- [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
 
@@ -128,4 +130,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Ticket created. Status: `open`. Parent: [[tickets/FEAT-014]].
+> Ticket created. Status: `open`. Parent: [[FEAT-014]].

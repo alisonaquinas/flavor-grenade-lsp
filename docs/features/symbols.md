@@ -22,10 +22,11 @@ The OFM parser produces `HeadingNode` objects for every heading in the document.
 - If a lower-level heading appears without a parent (e.g., an `h3` with no preceding `h2`), it is promoted to the top level of its nearest ancestor. No error is raised; OFM documents frequently have irregular heading hierarchies.
 
 Each `DocumentSymbol` includes:
+
 - `name`: the heading text (without `#` prefix)
 - `kind`: `SymbolKind.String` (6)
 - `range`: the full line range of the heading
-- `selectionRange`: the text-only portion of the heading (after `# `)
+- `selectionRange`: the text-only portion of the heading (after `#`)
 
 ### Optional Block Anchor Symbols
 
@@ -49,6 +50,7 @@ The workspace symbol index contains:
 - Optionally, `^blockid` anchors when `symbols.block_anchors = true`
 
 Each indexed entry carries:
+
 - `name`: the heading text
 - `containerName`: the document's file stem (e.g., `my-note`) to provide context
 - `kind`: `SymbolKind.String`
@@ -59,6 +61,7 @@ Each indexed entry carries:
 Workspace symbol queries use **subsequence matching**, not substring matching. A query `df` matches `Data Flow` because `d` and `f` appear in that order in `Data Flow` as a subsequence. This matches the behaviour of most fuzzy finders (fzf, telescope.nvim, VSCode's quick-open).
 
 Scoring: matches are ranked by:
+
 1. Exact prefix match (query is a prefix of the name) — highest score
 2. Word-boundary match (query characters match the start of words) — second
 3. Pure subsequence match — lowest score among matches

@@ -10,10 +10,7 @@ function id(s: string): DocId {
   return s as DocId;
 }
 
-function makeDoc(
-  uri: string,
-  headings: Array<{ level: number; text: string }> = [],
-): OFMDoc {
+function makeDoc(uri: string, headings: Array<{ level: number; text: string }> = []): OFMDoc {
   return {
     uri,
     version: 0,
@@ -137,10 +134,7 @@ describe('HeadingCompletionProvider', () => {
   describe('completion item properties', () => {
     it('produces items with kind=18 (Reference)', () => {
       const docId = id('doc');
-      vaultIndex.set(
-        docId,
-        makeDoc('file:///v/doc.md', [{ level: 1, text: 'Section' }]),
-      );
+      vaultIndex.set(docId, makeDoc('file:///v/doc.md', [{ level: 1, text: 'Section' }]));
       folderLookup.rebuild(vaultIndex);
 
       const { items } = provider.getCompletions('', '', docId);
@@ -150,10 +144,7 @@ describe('HeadingCompletionProvider', () => {
 
     it('produces insertText with stem#headingText for cross-doc', () => {
       const docId = id('guide');
-      vaultIndex.set(
-        docId,
-        makeDoc('file:///v/guide.md', [{ level: 1, text: 'Overview' }]),
-      );
+      vaultIndex.set(docId, makeDoc('file:///v/guide.md', [{ level: 1, text: 'Overview' }]));
       folderLookup.rebuild(vaultIndex);
 
       const { items } = provider.getCompletions('guide', '');
@@ -163,10 +154,7 @@ describe('HeadingCompletionProvider', () => {
 
     it('produces insertText with just headingText for intra-doc', () => {
       const docId = id('doc');
-      vaultIndex.set(
-        docId,
-        makeDoc('file:///v/doc.md', [{ level: 2, text: 'My Section' }]),
-      );
+      vaultIndex.set(docId, makeDoc('file:///v/doc.md', [{ level: 2, text: 'My Section' }]));
       folderLookup.rebuild(vaultIndex);
 
       const { items } = provider.getCompletions('', '', docId);
