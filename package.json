@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {
@@ -8,6 +8,7 @@
   },
   "files": [
     "dist/",
+    "docs/assets/",
     "README.md",
     "LICENSE"
   ],
