@@ -81,32 +81,7 @@ jobs:
           files: dist/flavor-grenade-lsp-*
           generate_release_notes: true
 
-  publish-npm:
-    name: Publish to npm
-    needs: create-release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: '1.1'
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build
-        run: bun run build
-
-      - name: Publish to npm
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  # npm publishing is handled by the CI workflow's gated publish job, which
+  # runs after typecheck/lint/test/build pass and uses OIDC trusted publishing.
+  # A separate publish step here would race with that job and fail with E403
+  # on whichever runs second.
