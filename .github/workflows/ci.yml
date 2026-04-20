@@ -136,9 +136,13 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [typecheck, lint, test, build]
     environment: npm-publish
-    # id-token: write is required for OIDC trusted publishing (keyless).
-    # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
-    # short-lived publish credential. See ADR 008.
+    # id-token: write is required for --provenance (Sigstore attestation).
+    # NPM_TOKEN is required for registry auth until npm Trusted Publishing is
+    # configured on npmjs.com for this package. Once Trusted Publishing is set
+    # up (repo: alisonaquinas/flavor-grenade-lsp, workflow: ci.yml,
+    # environment: npm-publish), remove the NPM_TOKEN env var from the publish
+    # step and npm will exchange the OIDC token for a short-lived credential.
+    # See ADR 008.
     permissions:
       id-token: write
       contents: read
@@ -164,7 +168,11 @@ jobs:
       - name: Publish to npmjs.com
         # --access public is required for the first publish of a new package;
         # omitting it causes npm to return E404 even for unscoped packages.
+        # NPM_TOKEN must be set as a secret in the npm-publish environment on
+        # GitHub until OIDC Trusted Publishing is configured on npmjs.com.
         run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to Bun registry
         # Bun registry requires `bun publish`, not `npm publish --registry`.
