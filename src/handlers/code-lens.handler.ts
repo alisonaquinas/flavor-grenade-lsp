@@ -5,6 +5,7 @@ import { ParseCache } from '../parser/parser.module.js';
 import { RefGraph } from '../resolution/ref-graph.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
+import { normaliseFileUri } from './uri-utils.js';
 
 /** A code lens item as defined by the LSP specification. */
 export interface CodeLens {
@@ -77,10 +78,9 @@ export class CodeLensHandler {
       if (doc.uri === uri) return docId;
     }
     // Normalised comparison (handle file:// vs file:/// differences on Windows)
-    const normalUri = uri.toLowerCase().replace(/^file:\/\/\/([a-z]:)/, 'file://$1');
+    const normalUri = normaliseFileUri(uri);
     for (const [docId, doc] of this.vaultIndex.entries()) {
-      const normalDocUri = doc.uri.toLowerCase().replace(/^file:\/\/\/([a-z]:)/, 'file://$1');
-      if (normalDocUri === normalUri) return docId;
+      if (normaliseFileUri(doc.uri) === normalUri) return docId;
     }
     return null;
   }

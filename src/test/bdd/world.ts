@@ -90,11 +90,14 @@ export class FGWorld extends World {
    *
    * 1. Replaces literal `\n` escape sequences with real newlines.
    * 2. If the resulting text has no `---` frontmatter block but does contain
-   *    lines that look like YAML key-value pairs (e.g. `aliases: [foo, bar]`),
-   *    those lines are extracted and placed into a proper `---` frontmatter
-   *    block at the top of the file.  This lets feature-file Background tables
-   *    use the compact notation `# Title\naliases: [...]` without needing to
-   *    write out the full `---` delimiters.
+   *    lines that look like YAML key-value pairs (e.g. `aliases: [foo, bar]`)
+   *    in the **header section** (before the first non-heading, non-blank,
+   *    non-YAML prose line), those lines are extracted and placed into a proper
+   *    `---` frontmatter block at the top of the file.
+   *
+   * Only the initial contiguous YAML-like lines (possibly interleaved with
+   * heading and blank lines) are promoted — prose lines further down the
+   * document are never reordered (issue #4).
    */
   private normalizeVaultContent(raw: string): string {
     const text = raw.replace(/\\n/g, '\n');
@@ -102,8 +105,6 @@ export class FGWorld extends World {
 
     // If the text already contains a '---' delimiter line (frontmatter block,
     // late frontmatter, horizontal rule, etc.) → return as-is without restructuring.
-    // This handles both DocStrings with explicit frontmatter and compact DataTable
-    // cells that don't need YAML injection.
     if (lines.some((l) => l.trim() === '---')) return text;
 
     // Known YAML frontmatter keys used in test fixtures
@@ -111,11 +112,21 @@ export class FGWorld extends World {
       /^(aliases|tags|title|description|draft|publish|cssclass|template|status|type|created|modified|date)(\s*:|\s*:\s)/i;
     const yamlLines: string[] = [];
     const bodyLines: string[] = [];
+    // Once we encounter a non-empty, non-heading, non-YAML line we have entered
+    // the prose body — no further YAML extraction is attempted.
+    let inBody = false;
 
     for (const line of lines) {
-      if (yamlKeyRe.test(line)) {
+      if (inBody) {
+        bodyLines.push(line);
+      } else if (yamlKeyRe.test(line)) {
         yamlLines.push(line);
+      } else if (line.trim() !== '' && !line.startsWith('#')) {
+        // First prose line — everything from here on is body content.
+        inBody = true;
+        bodyLines.push(line);
       } else {
+        // Blank line or ATX heading — keep in body section.
         bodyLines.push(line);
       }
     }
@@ -141,7 +152,10 @@ export class FGWorld extends World {
     const hasId = 'id' in m && m['id'] !== undefined;
     if (hasId && !('method' in m)) {
       const r = this.resPending.shift();
-      if (r) r(m['result'] ?? null);
+      // Preserve the error body when the server returns { error: … } (issue #5).
+      // Using `'result' in m` rather than `m['result'] ?? …` prevents null results
+      // from being silently replaced and error payloads from being dropped.
+      if (r) r('result' in m ? m['result'] : (m['error'] ?? null));
       return;
     }
     if ('method' in m) {
@@ -197,18 +211,27 @@ export class FGWorld extends World {
   waitForDiagnostics(uri: string, timeoutMs = 10000): Promise<unknown[]> {
     if (this.lastDiagnostics.has(uri)) return Promise.resolve(this.lastDiagnostics.get(uri)!);
     return new Promise((resolve, reject) => {
-      const t = setTimeout(
-        () => reject(new Error(`Timeout waiting for diagnostics: ${uri}`)),
-        timeoutMs,
-      );
+      // `done` prevents ghost callbacks from firing after the promise has
+      // already settled — either resolved for the right URI or rejected on
+      // timeout (issue #6).
+      let done = false;
+      const t = setTimeout(() => {
+        if (done) return;
+        done = true;
+        reject(new Error(`Timeout waiting for diagnostics: ${uri}`));
+      }, timeoutMs);
       const check = (msg: unknown): void => {
+        if (done) return; // stale ghost — discard
         const m = msg as Record<string, unknown>;
         const params = m['params'] as { uri: string; diagnostics: unknown[] };
         if (params.uri === uri) {
+          done = true;
           clearTimeout(t);
           resolve(params.diagnostics);
-        } else
+        } else {
+          // Different URI — re-register once and wait for the next notification.
           this.notifListeners.push({ method: 'textDocument/publishDiagnostics', resolve: check });
+        }
       };
       this.notifListeners.push({ method: 'textDocument/publishDiagnostics', resolve: check });
     });

@@ -11,13 +11,17 @@ const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'b
 /**
  * The result of resolving an `![[embed]]` target.
  *
- * - `markdown` — target is a vault document (optionally with heading/block sub-target)
- * - `asset`    — target is a non-markdown file tracked in the asset index
- * - `broken`   — target could not be found in either index
+ * - `markdown`          — target is a vault document (optionally with heading/block sub-target)
+ * - `asset`             — target is a non-markdown file tracked in the asset index
+ * - `ambiguous-asset`   — shortest-path lookup matched multiple asset files (issue #7)
+ * - `malformed-fragment`— the embed has an empty `#` fragment, e.g. `![[doc#]]` (issue #9)
+ * - `broken`            — target could not be found in either index
  */
 export type EmbedResolution =
   | { kind: 'markdown'; targetDocId: DocId; headingTarget?: string; blockTarget?: string }
   | { kind: 'asset'; assetPath: string }
+  | { kind: 'ambiguous-asset'; candidates: string[] }
+  | { kind: 'malformed-fragment' }
   | { kind: 'broken' };
 
 /**
@@ -50,6 +54,12 @@ export class EmbedResolver {
     const fileTarget = hashIdx === -1 ? entry.target : entry.target.slice(0, hashIdx);
     const fragment = hashIdx === -1 ? '' : entry.target.slice(hashIdx + 1);
 
+    // An empty fragment (e.g. `![[doc#]]`) is malformed — flag it rather than
+    // silently treating it as `![[doc]]` (issue #9).
+    if (hashIdx !== -1 && fragment === '') {
+      return { kind: 'malformed-fragment' };
+    }
+
     const ext = this.extension(fileTarget);
     if (IMAGE_EXTENSIONS.has(ext)) {
       return this.resolveAsset(fileTarget);
@@ -61,17 +71,22 @@ export class EmbedResolver {
   }
 
   private resolveAsset(target: string): EmbedResolution {
-    // Direct vault-relative path lookup first
+    // Direct vault-relative path lookup first (unambiguous).
     if (this.vaultScanner.hasAsset(target)) {
       return { kind: 'asset', assetPath: target };
     }
-    // Obsidian "shortest path" resolution: match by filename suffix
+    // Obsidian "shortest path" resolution: collect ALL suffix matches.
+    // If more than one asset matches we emit FG002-equivalent ambiguity rather
+    // than silently picking the first one (issue #7).
     const suffix = '/' + target;
+    const matches: string[] = [];
     for (const assetPath of this.vaultScanner.getAssetIndex()) {
       if (assetPath === target || assetPath.endsWith(suffix)) {
-        return { kind: 'asset', assetPath };
+        matches.push(assetPath);
       }
     }
+    if (matches.length === 1) return { kind: 'asset', assetPath: matches[0] };
+    if (matches.length > 1) return { kind: 'ambiguous-asset', candidates: matches };
     return { kind: 'broken' };
   }
 

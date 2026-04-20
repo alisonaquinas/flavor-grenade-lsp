@@ -11,6 +11,7 @@ import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 import type { OFMDoc, HeadingEntry, WikiLinkEntry } from '../parser/types.js';
 import { entityAtPosition } from './cursor-entity.js';
+import { pathnameToFsPath } from './uri-utils.js';
 import { WorkspaceEditBuilder } from './workspace-edit-builder.js';
 import type { WorkspaceEdit } from './workspace-edit-builder.js';
 import type { Range } from 'vscode-languageserver-types';
@@ -136,7 +137,8 @@ function resolveVaultRoot(
     // Decode and normalise the path.
     const rawPath = decodeURIComponent(url.pathname);
     // On Windows the pathname starts with /C:/... — strip leading slash before drive letter.
-    const absPath = rawPath.replace(/^\/([A-Za-z]:)/, '$1').replace(/\//g, '/');
+    // pathnameToFsPath also converts backslashes to forward slashes (issue #2).
+    const absPath = pathnameToFsPath(rawPath);
     const result = vaultDetector.detect(absPath);
     if (result.vaultRoot !== null) return result.vaultRoot;
   } catch {

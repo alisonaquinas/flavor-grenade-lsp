@@ -8,6 +8,7 @@ import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { entityAtPosition } from './cursor-entity.js';
+import { normaliseFileUri } from './uri-utils.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -185,9 +186,9 @@ export class ReferencesHandler {
       }
 
       // Pass 2: normalised URI match (file:// vs file:///)
-      const normalUri = this.normaliseFileUri(uri);
+      const normalUri = normaliseFileUri(uri);
       for (const [docId, indexDoc] of this.vaultIndex.entries()) {
-        if (this.normaliseFileUri(indexDoc.uri) === normalUri) return docId as DefKey;
+        if (normaliseFileUri(indexDoc.uri) === normalUri) return docId as DefKey;
       }
 
       // Pass 3: stem match — try to find a DocId whose last segment matches
@@ -201,17 +202,6 @@ export class ReferencesHandler {
       }
     }
     return this.uriToFallbackDefKey(uri);
-  }
-
-  /**
-   * Normalise a `file://` URI for comparison: lowercase drive letter (Windows),
-   * collapse `///` to `//`, decode percent-encoding.
-   */
-  private normaliseFileUri(uri: string): string {
-    return uri
-      .replace(/^file:\/\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
-      .replace(/^file:\/\/([A-Za-z]:)/, (_, d: string) => `file://${d.toLowerCase()}:`)
-      .toLowerCase();
   }
 
   /**
@@ -273,10 +263,9 @@ export class ReferencesHandler {
       if (doc.uri === uri) return doc;
     }
     // Normalised comparison (handle file:// vs file:/// on Windows)
-    const normalUri = uri.toLowerCase().replace(/^file:\/\/\/([a-z]:)/, 'file://$1');
+    const normalUri = normaliseFileUri(uri);
     for (const [, doc] of this.vaultIndex.entries()) {
-      const normalDocUri = doc.uri.toLowerCase().replace(/^file:\/\/\/([a-z]:)/, 'file://$1');
-      if (normalDocUri === normalUri) return doc;
+      if (normaliseFileUri(doc.uri) === normalUri) return doc;
     }
     return undefined;
   }

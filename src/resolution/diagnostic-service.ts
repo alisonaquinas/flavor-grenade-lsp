@@ -282,6 +282,28 @@ export class DiagnosticService {
   private diagnoseEmbedEntry(entry: EmbedEntry): Diagnostic | null {
     const resolution = this.embedResolver.resolve(entry);
 
+    if (resolution.kind === 'malformed-fragment') {
+      // ![[doc#]] — empty fragment after # (issue #9)
+      return {
+        range: entry.range,
+        severity: 2, // Warning
+        code: 'FG004',
+        source: 'flavor-grenade',
+        message: `Malformed embed: empty heading or block-ref fragment in '${entry.target}'`,
+      };
+    }
+
+    if (resolution.kind === 'ambiguous-asset') {
+      // Shortest-path lookup matched multiple assets — consistent with FG002 (issue #7)
+      return {
+        range: entry.range,
+        severity: 1, // Error
+        code: 'FG002',
+        source: 'flavor-grenade',
+        message: `Ambiguous embed: '${entry.target}' matches ${resolution.candidates.length} assets`,
+      };
+    }
+
     if (resolution.kind === 'broken') {
       return {
         range: entry.range,
