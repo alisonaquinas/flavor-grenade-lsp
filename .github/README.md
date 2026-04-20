@@ -1,16 +1,14 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)"  srcset="../docs/assets/flavor-grenade-lsp-logo-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="../docs/assets/flavor-grenade-lsp-logo-light.png">
-  <img src="../docs/assets/flavor-grenade-lsp-logo-light.png" alt="Flavor Grenade LSP" width="320">
+  <source media="(prefers-color-scheme: dark)"  srcset="../docs/assets/flavor-grenade-lsp-logo-dark-transparent.png">
+  <source media="(prefers-color-scheme: light)" srcset="../docs/assets/flavor-grenade-lsp-logo-light-transparent.png">
+  <img src="../docs/assets/flavor-grenade-lsp-logo-light-transparent.png" alt="Flavor Grenade LSP" width="320">
 </picture>
 
-[![CI](https://github.com/aaquinas/flavor-grenade-lsp/actions/workflows/ci.yml/badge.svg)](https://github.com/aaquinas/flavor-grenade-lsp/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/flavor-grenade-lsp)](https://www.npmjs.com/package/flavor-grenade-lsp)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Bun](https://img.shields.io/badge/Bun-latest-black?logo=bun)](https://bun.sh/)
+<br>
+
+[![CI](https://github.com/aaquinas/flavor-grenade-lsp/actions/workflows/ci.yml/badge.svg)](https://github.com/aaquinas/flavor-grenade-lsp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/flavor-grenade-lsp)](https://www.npmjs.com/package/flavor-grenade-lsp) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Bun](https://img.shields.io/badge/Bun-latest-black?logo=bun)](https://bun.sh/)
 
 </div>
 
@@ -189,31 +187,40 @@ exclude = ["templates/**", ".trash/**"]
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    Editor (client)                       │
-│           Neovim / VS Code / Helix / Zed                 │
-└───────────────────────┬──────────────────────────────────┘
-                        │ LSP 3.17 (stdio / TCP)
-┌───────────────────────▼──────────────────────────────────┐
-│               flavor-grenade-lsp process                 │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │  NestJS Application (DI container, lifecycle)       │ │
-│  │  ┌──────────────┐  ┌────────────────────────────┐  │ │
-│  │  │  LSP Layer   │  │  OFM Feature Modules        │  │ │
-│  │  │  (transport, │  │  ┌──────────┐ ┌──────────┐  │  │ │
-│  │  │   dispatch,  │  │  │ WikiLink │ │  Embed   │  │  │ │
-│  │  │   lifecycle) │  │  └──────────┘ └──────────┘  │  │ │
-│  │  └──────┬───────┘  │  ┌──────────┐ ┌──────────┐  │  │ │
-│  │         │          │  │ BlockRef │ │ Callout  │  │  │ │
-│  │         │          │  └──────────┘ └──────────┘  │  │ │
-│  │         │          └────────────────────────────┘  │ │
-│  │         │          ┌────────────────────────────┐  │ │
-│  │         └─────────►│  Vault Index (in-memory)   │  │ │
-│  │                    │  file watcher + parser       │  │ │
-│  │                    └────────────────────────────┘  │ │
-│  └─────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    Client["🖊️ Editor client\nNeovim · VS Code · Helix · Zed"]
+
+    subgraph proc["flavor-grenade-lsp process"]
+        direction TB
+        NestJS["NestJS DI container"]
+
+        subgraph lsp["LSP Layer"]
+            Transport["Transport\nstdio JSON-RPC"]
+            Lifecycle["Lifecycle\ninitialize · shutdown"]
+            Dispatch["Dispatcher"]
+        end
+
+        subgraph ofm["OFM Feature Modules"]
+            WikiLink["WikiLink\nresolution"]
+            Embed["Embed\ntransclusion"]
+            BlockRef["Block\nreferences"]
+            Callout["Callout\ntypes"]
+            Tags["Tag\nhierarchy"]
+            Completion["Completion\nproviders"]
+        end
+
+        VaultIndex[("Vault Index\nin-memory · file watcher · parser")]
+    end
+
+    Client -->|"LSP 3.17 stdio"| Transport
+    Transport --> Dispatch
+    Dispatch --> Lifecycle
+    Dispatch --> ofm
+    NestJS --> lsp
+    NestJS --> ofm
+    ofm --> VaultIndex
+    Lifecycle --> VaultIndex
 ```
 
 The server is a **single long-running process**. It builds an in-memory index of the vault on startup using Bun's native file watcher, then serves LSP requests from that index. No network calls are made; the server is read-only with respect to vault files (except rename refactoring, which writes through the LSP `workspace/applyEdit` mechanism).
