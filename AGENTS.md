@@ -78,3 +78,4 @@ flavor-grenade-lsp/
 - `main` — releases
 - `develop` — integration
 - `feature/*` — work branches; open PRs against `develop`
+- **Always merge PRs with a merge commit** (`gh pr merge --merge`); never squash or rebase-merge.
