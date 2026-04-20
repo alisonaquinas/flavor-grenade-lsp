@@ -1,6 +1,6 @@
 {
-  "name": "@flavor-grenade/lsp-server",
-  "version": "0.1.0",
+  "name": "flavor-grenade-lsp",
+  "version": "0.0.0",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {

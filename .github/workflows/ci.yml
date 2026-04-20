@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main, develop]
+    tags: ['v*.*.*']
   pull_request:
     branches: [main, develop]
 
@@ -127,3 +128,41 @@ jobs:
       # Lints all Markdown files that are NOT under docs/ or .github/ or
       # node_modules/. Those directories are handled separately or skipped.
       - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**"
+
+  publish:
+    name: Publish (npm + Bun registry)
+    runs-on: ubuntu-latest
+    # Only run on semver tag pushes — not on branch pushes or PRs.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [typecheck, lint, test, build]
+    environment: npm-publish
+    # id-token: write is required for OIDC trusted publishing (keyless).
+    # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
+    # short-lived publish credential. See ADR 008.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      # setup-node writes the .npmrc auth config that npm publish reads.
+      # The registry-url must be set here — not in .npmrc — so the OIDC
+      # token exchange targets the correct registry endpoint.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: bun run build
+
+      - name: Publish to npmjs.com
+        run: npm publish --provenance
+
+      - name: Publish to Bun registry
+        run: npm publish --registry https://registry.bun.sh --provenance
