@@ -151,12 +151,15 @@ jobs:
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
-      # setup-node provides the Node.js runtime; we upgrade npm immediately
-      # because the bundled npm in Node 22 does not support tokenless OIDC
-      # Trusted Publishing — it performs a pre-flight auth check that fails
-      # before the OIDC exchange can happen, producing ENEEDAUTH. npm@latest
-      # (9.5.0+) detects ACTIONS_ID_TOKEN_REQUEST_URL and exchanges the GitHub
-      # OIDC token for a short-lived publish credential automatically.
+      # Pin to Node 20 LTS. Node 22 is avoided here because recently released
+      # Node 22.x snapshots (e.g. 22.22.2, released 2026-04-20) ship with a
+      # broken bundled npm — missing 'promise-retry' in @npmcli/arborist —
+      # which causes `npm install -g npm@latest` to crash before it can
+      # upgrade itself (MODULE_NOT_FOUND). Node 20 LTS ships a stable npm;
+      # the upgrade to npm@latest then succeeds.
+      #
+      # The Node version used to publish does not affect the LSP artifact:
+      # the package is compiled by Bun/tsc; Node is only needed to drive npm.
       #
       # Do NOT set registry-url here: setup-node would write
       # //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} into .npmrc, and
@@ -166,7 +169,7 @@ jobs:
       # npmjs.com is already the default registry.
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
 
       - name: Upgrade npm (required for tokenless OIDC Trusted Publishing)
         run: npm install -g npm@latest
