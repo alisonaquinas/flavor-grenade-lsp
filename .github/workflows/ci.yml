@@ -162,7 +162,12 @@ jobs:
       - run: bun run build
 
       - name: Publish to npmjs.com
-        run: npm publish --provenance
+        # --access public is required for the first publish of a new package;
+        # omitting it causes npm to return E404 even for unscoped packages.
+        run: npm publish --provenance --access public
 
       - name: Publish to Bun registry
-        run: npm publish --registry https://registry.bun.sh --provenance
+        # Bun registry requires `bun publish`, not `npm publish --registry`.
+        run: bun publish --access public
+        env:
+          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}

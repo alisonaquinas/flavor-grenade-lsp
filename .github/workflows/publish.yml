@@ -40,11 +40,10 @@ jobs:
 
       # --provenance generates a signed attestation via OIDC; requires the
       # id-token: write permission above and a public package.
-      # NPM_TOKEN is still required for authentication to the registry itself;
-      # OIDC only provides the provenance attestation, not auth.
+      # NODE_AUTH_TOKEN is injected by the npm-publish environment; do NOT
+      # override it here with a secrets reference — an unset secret resolves
+      # to an empty string and silently clobbers the environment-level token.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-bun:
     name: Publish to Bun registry
