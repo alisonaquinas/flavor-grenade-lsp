@@ -1,4 +1,5 @@
 @lsp
+@adr:ADR005 @adr:ADR006
 Feature: Navigation — go-to-definition and find-references
 
   Background:

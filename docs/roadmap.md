@@ -27,7 +27,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 9 | Completions | planned | Full completion provider: wiki-links, heading completion, block-ref completion, tags, callout types, inline links |
 | 10 | Navigation | planned | Go-to-def for all ref types; find-refs for all def types; code lens "N references" above headings and block anchors |
 | 11 | Rename | planned | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename |
-| 12 | Code Actions | planned | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`) |
+| 12 | Code Actions | planned | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens |
 | 13 | CI & Delivery | planned | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline |
 
 ## Phase Details
@@ -52,7 +52,7 @@ Implementation plan: [[plans/phase-03-ofm-parser]]
 
 ### Phase 4 — Vault Index
 
-Implement vault detection per [[ADR003-vault-detection]]. Walk the vault root collecting all `.md` files, assign each a `DocId`, and build `FolderLookup` for resolving relative paths. Start a file watcher (Bun's `fs.watch`) to keep the index fresh as files are created, renamed, or deleted. Implement single-file mode fallback. Parse and cache frontmatter (aliases, tags) for every document.
+Implement vault detection per [[ADR003-vault-detection]]. Walk the vault root collecting all `.md` files, assign each a `DocId`, and build `FolderLookup` for resolving relative paths. Start a file watcher (`Bun.watch()`) to keep the index fresh as files are created, renamed, or deleted. Implement single-file mode fallback. Parse and cache frontmatter (aliases, tags) for every document.
 
 Implementation plan: [[plans/phase-04-vault-index]]
 
@@ -60,7 +60,7 @@ Implementation plan: [[plans/phase-04-vault-index]]
 
 Implement the reference resolver for `[[target]]`, `[[target#heading]]`, and `[[target|alias]]` patterns. Raise FG001 (broken), FG002 (ambiguous), and FG003 (malformed) diagnostics. Implement go-to-definition (jump to target document or heading). Implement find-references (find all links to a document or heading). Implement wiki-link completion using the style configured by `completion.wiki.style` (default `file-stem` per [[ADR005-wiki-style-binding]]).
 
-Implementation plan: [[plans/phase-05-wiki-link-resolution]]
+Implementation plan: [[plans/phase-05-wiki-links]]
 
 ### Phase 6 — Tags
 
@@ -82,7 +82,7 @@ Implementation plan: [[plans/phase-08-block-refs]]
 
 ### Phase 9 — Completions
 
-Consolidate all completion providers from phases 5–8 into a unified `CompletionProvider`. Implement heading completion (`[[doc#` → offer headings from resolved doc). Implement inline link completion (Markdown `[text](` prefix). Implement callout type completion (`> [!` → 23 standard types). Apply `completion.candidates` cap (default 50) with `isIncomplete: true` when the list is truncated. See [[features/completions]].
+Consolidate all completion providers from phases 5–8 into a unified `CompletionProvider`. Implement heading completion (`[[doc#` → offer headings from resolved doc). Implement inline link completion (Markdown `[text](` prefix). Implement callout type completion (`> [!` → 13 standard types). Apply `completion.candidates` cap (default 50) with `isIncomplete: true` when the list is truncated. See [[features/completions]].
 
 Implementation plan: [[plans/phase-09-completions]]
 
@@ -100,7 +100,7 @@ Implementation plan: [[plans/phase-11-rename]]
 
 ### Phase 12 — Code Actions
 
-Implement `textDocument/codeAction` for three actions: `fg.toc` (insert or update `<!-- TOC -->` block), `fg.createMissingFile` (create target file for broken wiki-link), `fg.tagToYaml` (move body tags to frontmatter). See [[features/code-actions]].
+Implement `textDocument/codeAction` for three actions: `fg.toc` (insert or update `<!-- TOC -->` block), `fg.createMissingFile` (create target file for broken wiki-link), `fg.tagToYaml` (move body tags to frontmatter). Also implement `workspace/symbol` and `textDocument/documentSymbol` providers, semantic token highlighting for OFM elements, and the FG006 (non-breaking space) quick-fix diagnostic. See [[features/code-actions]].
 
 Implementation plan: [[plans/phase-12-code-actions]]
 

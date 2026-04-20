@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 5: LSP Protocol**. BC5 is a Generic subdomain. It does not contain original business logic — it is a conformist adapter to the Language Server Protocol 3.17 specification. Its primary artefact is `LspServer`, an application service that maps JSON-RPC method calls to BC4 workspace mutations and BC3 query services.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[vault/domain-model]], [[reference-resolution/domain-model]], [[document-lifecycle/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]].
 
 > [!NOTE]
 > BC5 is a **Conformist** to the LSP 3.17 specification. Do not invent protocol deviations. Custom extensions are scoped to the `flavorGrenade/` namespace. Everything else must conform to the spec verbatim.
@@ -115,7 +115,7 @@ interface ServerCapabilities {
 
 ### Lifecycle
 
-```
+```text
 stdio
   │
   ▼
@@ -139,7 +139,7 @@ LspServer.dispatch(msg)
 
 ### `initialize`
 
-```
+```text
 LspRequest<InitializeParams>
   │
   ├─ Read clientCapabilities
@@ -176,7 +176,7 @@ LspRequest<InitializeParams>
 
 ### `textDocument/didOpen`
 
-```
+```text
 LspNotification<DidOpenTextDocumentParams>
   │
   ├─ Extract TextDocumentItem { uri, languageId, version, text }
@@ -191,7 +191,7 @@ LspNotification<DidOpenTextDocumentParams>
 
 ### `textDocument/didChange`
 
-```
+```text
 LspNotification<DidChangeTextDocumentParams>
   │
   ├─ Extract { textDocument: { uri, version }, contentChanges }
@@ -211,7 +211,7 @@ LspNotification<DidChangeTextDocumentParams>
 
 ### `textDocument/didClose`
 
-```
+```text
 LspNotification<DidCloseTextDocumentParams>
   │
   ├─ Lookup VaultFolder containing the URI
@@ -224,7 +224,7 @@ LspNotification<DidCloseTextDocumentParams>
 
 ### `textDocument/completion`
 
-```
+```text
 LspRequest<CompletionParams>
   │
   ├─ Extract { textDocument.uri, position, context }
@@ -253,7 +253,7 @@ LspRequest<CompletionParams>
 
 ### `textDocument/definition`
 
-```
+```text
 LspRequest<DefinitionParams>
   │
   ├─ Extract { textDocument.uri, position }
@@ -268,7 +268,7 @@ LspRequest<DefinitionParams>
 
 ### `textDocument/references`
 
-```
+```text
 LspRequest<ReferenceParams>
   │
   ├─ Extract { textDocument.uri, position, context.includeDeclaration }
@@ -281,7 +281,7 @@ LspRequest<ReferenceParams>
 
 ### `textDocument/diagnostic` (pull model)
 
-```
+```text
 LspRequest<DocumentDiagnosticParams>
   │
   ├─ Resolve OFMDoc and VaultFolder
@@ -297,7 +297,7 @@ LspRequest<DocumentDiagnosticParams>
 
 ### `workspace/didChangeWatchedFiles`
 
-```
+```text
 LspNotification<DidChangeWatchedFilesParams>
   │
   ├─ For each FileEvent in changes:
@@ -319,6 +319,7 @@ The only server-to-client extension notification. Uses the `flavorGrenade/` name
 **Direction:** Server → Client (push)
 
 **When emitted:**
+
 - After every `didOpen` / `didChange` / `didClose`
 - After vault detection events
 - After config reload

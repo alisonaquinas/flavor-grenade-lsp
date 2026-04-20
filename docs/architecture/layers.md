@@ -32,7 +32,7 @@ The ordering reflects domain logic: **foundation types** are defined first, **pa
 
 ## Layer Diagram
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │  LSP Layer          LspModule                                │
 │  (LspServer, RequestRouter, CapabilityNegotiator)            │

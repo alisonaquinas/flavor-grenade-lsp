@@ -66,6 +66,7 @@ Implement the full completion provider that handles all trigger characters and c
   2. Resolve the target document via `Oracle`
   3. If resolved: enumerate all `HeadingEntry[]` from that doc's `OFMIndex`
   4. Return `CompletionItem[]`:
+
      ```typescript
      {
        label: heading.text,
@@ -74,24 +75,24 @@ Implement the full completion provider that handles all trigger characters and c
        insertText: heading.text,
      }
      ```
+
   5. Filter by `headingPrefix` if user has typed partial heading text
 
 - [ ] **4. Implement callout type `CompletionProvider`**
 
   Create `src/completion/callout-completion-provider.ts`. Triggered after `> [!`:
-  - The 23 standard callout types are hardcoded (not from VaultIndex)
+  - The 13 standard callout types are hardcoded (not from VaultIndex)
   - Also include any custom types found in vault documents (extracted from `CalloutEntry[]` across all `OFMDoc`s)
   - Return `CompletionItem[]` with `kind: CompletionItemKind.EnumMember`
   - Inserting a callout type also inserts the `]` closing bracket and a space
 
   Standard types:
+
   ```typescript
   export const STANDARD_CALLOUT_TYPES = [
-    'NOTE', 'TIP', 'IMPORTANT', 'WARNING', 'CAUTION',
-    'ABSTRACT', 'SUMMARY', 'TLDR', 'INFO', 'TODO',
-    'HINT', 'CHECK', 'DONE', 'HELP', 'FAQ',
-    'QUESTION', 'ATTENTION', 'FAILURE', 'FAIL', 'MISSING',
-    'DANGER', 'ERROR', 'BUG', 'EXAMPLE', 'QUOTE', 'CITE',
+    'NOTE', 'INFO', 'TIP', 'WARNING', 'DANGER',
+    'SUCCESS', 'QUESTION', 'FAILURE', 'BUG', 'EXAMPLE',
+    'QUOTE', 'ABSTRACT', 'TODO',
   ] as const;
   ```
 
@@ -105,7 +106,7 @@ Implement the full completion provider that handles all trigger characters and c
 
 - [ ] **6. Implement `completion.candidates` cap with `isIncomplete`**
 
-  In `CompletionRouter`: after each sub-provider returns items, check the count against the configured `completion.candidates` limit (default 100):
+  In `CompletionRouter`: after each sub-provider returns items, check the count against the configured `completion.candidates` limit (default 50):
   - If `items.length > limit`, slice to `limit` and set `isIncomplete: true`
   - If `items.length <= limit`, set `isIncomplete: false`
 
@@ -114,7 +115,7 @@ Implement the full completion provider that handles all trigger characters and c
   Each completion item's `insertText` depends on the configured `linkStyle`:
   - `file-stem`: insert stem only (e.g., `alpha`)
   - `title-slug`: insert frontmatter `title` if present, else stem
-  - `path-relative`: insert vault-relative path without extension (e.g., `notes/alpha`)
+  - `file-path-stem`: insert vault-relative path without extension (e.g., `notes/alpha`)
 
   The `CompletionRouter` injects the current `linkStyle` from config into each sub-provider.
 
@@ -134,6 +135,7 @@ Implement the full completion provider that handles all trigger characters and c
 - [ ] **10. Register updated capabilities**
 
   Update `InitializeResult.capabilities.completionProvider`:
+
   ```typescript
   {
     triggerCharacters: ['[', '!', '#', '>'],

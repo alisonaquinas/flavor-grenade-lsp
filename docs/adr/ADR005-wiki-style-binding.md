@@ -32,15 +32,18 @@ When `title-slug` is active and a document has no H1 heading, the server falls b
 ## Consequences
 
 **Positive:**
+
 - Consistent with Obsidian's own native auto-complete and link resolution behaviour. Users who are accustomed to Obsidian's interface will see familiar completion items.
 - Eliminates the most common friction point: a user types `[[my` and gets `my-note`, which is exactly what Obsidian would produce.
 - Rename refactoring is simpler under `file-stem` style because the completion text is directly derived from the filename, and renaming the file is all that is required to update the stem.
 
 **Negative:**
+
 - `title-slug` users (particularly those migrating from marksman) must explicitly set `completion.wiki.style = "title-slug"` in `.flavor-grenade.toml` to get their preferred behaviour.
 - In vaults with many files sharing the same stem across different folders, `file-stem` produces ambiguous completions. The completions provider must handle this by appending a folder qualifier in the completion label (but not in `insertText`) so the user can distinguish candidates.
 
 **Neutral:**
+
 - The style is a configuration value, not a hard-coded behaviour. Changing the default in a future release is non-breaking for users who have set `completion.wiki.style` explicitly.
 
 ## Related

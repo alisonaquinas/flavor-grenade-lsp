@@ -1,4 +1,17 @@
+---
+title: Phase 1 Project Scaffold Plan
+tags:
+  - plans/phase-01
+aliases:
+  - Phase 1 Scaffold Plan
+status: active
+date: 2026-04-17
+---
+
 # Phase 1: Project Scaffold Implementation Plan
+
+> [!NOTE]
+> This plan supersedes [[2026-04-16-phase-01-project-scaffold]] and is the current Phase 1 source of truth.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Complete every checkbox before declaring the task done. Do not skip the TDD steps — write the failing test before writing any implementation code.
 
@@ -61,6 +74,7 @@ All files created or modified in this phase:
 ## Task 1: Verify and harden `.gitignore` and `.gitattributes`
 
 **Files:**
+
 - Modify: `.gitignore`
 - Modify: `.gitattributes`
 
@@ -152,7 +166,7 @@ Open `.gitattributes` and confirm the following entries are present. Add any tha
 - [ ] **Step 1.3: Commit if any changes were made**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 git add .gitignore .gitattributes
 git diff --cached --stat
 # Only commit if there are staged changes:
@@ -166,6 +180,7 @@ Expected: exits 0. If no changes were needed, skip the commit.
 ## Task 2: Create `.editorconfig` and `.env.example`
 
 **Files:**
+
 - Create: `.editorconfig`
 - Create: `.env.example`
 
@@ -216,13 +231,14 @@ git commit -m "chore: add editorconfig and env.example"
 ## Task 3: Install all dependencies
 
 **Files:**
+
 - Modify: `package.json` (dependency sections added by `bun add`)
 - Create: `bun.lockb`
 
 - [ ] **Step 3.1: Initialize the Bun project**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun init -y
 ```
 
@@ -315,6 +331,7 @@ After all `bun add` commands run, edit `package.json` to ensure the `scripts` se
 ```
 
 > **Key notes on `gate:1`:**
+>
 > - Runs `typecheck` first — catches type errors before linting
 > - `lint` uses `--max-warnings 0` — any warning is a build failure
 > - `format:check` is non-destructive — verifies format without writing
@@ -333,6 +350,7 @@ git commit -m "chore(deps): install nestjs, lsp types, eslint stack, prettier, l
 ## Task 4: Configure TypeScript
 
 **Files:**
+
 - Create: `tsconfig.json`
 - Create: `tsconfig.test.json`
 
@@ -420,6 +438,7 @@ git commit -m "chore: add typescript strict config with decorator support and te
 ## Task 5: Configure ESLint
 
 **Files:**
+
 - Create: `eslint.config.js`
 
 The ESLint config must be maximally strict: `typescript-eslint` strict-type-checked preset, JSDoc requirements on all exports, barrel-only cross-module import enforcement, and zero tolerance for any warnings.
@@ -595,6 +614,7 @@ git commit -m "chore: add aggressively strict eslint flat config with jsdoc and 
 ## Task 6: Configure Prettier, `bunfig.toml`, and `lefthook.yml`
 
 **Files:**
+
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
 - Create: `bunfig.toml`
@@ -615,7 +635,7 @@ git commit -m "chore: add aggressively strict eslint flat config with jsdoc and 
 
 - [ ] **Step 6.2: Write `.prettierignore`**
 
-```
+```text
 dist/
 dist-test/
 node_modules/
@@ -661,12 +681,13 @@ pre-commit:
 - [ ] **Step 6.5: Install lefthook hooks**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bunx lefthook install
 ```
 
 Expected output:
-```
+
+```text
 LEFTHOOK  v1.x.x
 SUMMARY
   ✓ pre-commit hook installed
@@ -684,6 +705,7 @@ git commit -m "chore: add prettier, bunfig, and lefthook pre-commit hooks"
 ## Task 7: Configure markdown linting
 
 **Files:**
+
 - Create: `.obsidian-linter.jsonc`
 - Create: `.markdownlint-cli2.jsonc`
 
@@ -753,6 +775,7 @@ git commit -m "chore: add markdownlint-obsidian and markdownlint-cli2 configs"
 ## Task 8: Create `scripts/` files
 
 **Files:**
+
 - Create: `scripts/set-version.sh`
 - Create: `scripts/lint-all.sh`
 - Create: `scripts/validate-docs.sh`
@@ -802,7 +825,7 @@ echo "  git tag v$NEW"
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/set-version.sh
+chmod +x scripts/set-version.sh
 ```
 
 - [ ] **Step 8.2: Create `scripts/lint-all.sh`**
@@ -835,7 +858,7 @@ echo "All linters passed."
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/lint-all.sh
+chmod +x scripts/lint-all.sh
 ```
 
 - [ ] **Step 8.3: Create `scripts/validate-docs.sh`**
@@ -855,7 +878,7 @@ echo "Docs validation passed."
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/validate-docs.sh
+chmod +x scripts/validate-docs.sh
 ```
 
 - [ ] **Step 8.4: Create `scripts/update-test-index.sh`**
@@ -872,7 +895,7 @@ exit 0
 ```
 
 ```bash
-chmod +x /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/scripts/update-test-index.sh
+chmod +x scripts/update-test-index.sh
 ```
 
 - [ ] **Step 8.5: Commit scripts**
@@ -887,6 +910,7 @@ git commit -m "chore: add scripts/ — set-version, lint-all, validate-docs, upd
 ## Task 9: Write the FIRST FAILING TEST
 
 **Files:**
+
 - Create: `tests/unit/lsp/lsp.module.spec.ts`
 - Create: `tests/fixtures/vaults/empty/.gitkeep`
 
@@ -895,9 +919,9 @@ This is the TDD step. The test must be written and verified to FAIL before any i
 - [ ] **Step 9.1: Create the test directory structure**
 
 ```bash
-mkdir -p /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/unit/lsp
-mkdir -p /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/fixtures/vaults/empty
-touch /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/tests/fixtures/vaults/empty/.gitkeep
+mkdir -p tests/unit/lsp
+mkdir -p tests/fixtures/vaults/empty
+touch tests/fixtures/vaults/empty/.gitkeep
 ```
 
 - [ ] **Step 9.2: Write `tests/unit/lsp/lsp.module.spec.ts`**
@@ -937,19 +961,19 @@ describe('LspModule', () => {
 - [ ] **Step 9.3: Run the test — verify it FAILS**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun test tests/unit/lsp/lsp.module.spec.ts
 ```
 
 Expected output: **FAIL**
 
-```
+```text
 error: Cannot find module '@src/lsp'
 ```
 
 or
 
-```
+```text
 FAIL tests/unit/lsp/lsp.module.spec.ts
   × LspModule > should compile the module graph without errors
 ```
@@ -968,6 +992,7 @@ git commit -m "test(lsp): add failing smoke test for LspModule — RED phase"
 ## Task 10: Implement the module graph
 
 **Files:**
+
 - Create: `src/lsp/lsp.module.ts`
 - Create: `src/lsp/index.ts`
 - Create: `src/app.module.ts`
@@ -1017,7 +1042,8 @@ bun test tests/unit/lsp/lsp.module.spec.ts
 ```
 
 Expected output:
-```
+
+```text
 bun test v1.x
 tests/unit/lsp/lsp.module.spec.ts:
 ✓ LspModule > should compile the module graph without errors [Xms]
@@ -1092,7 +1118,8 @@ bun test
 ```
 
 Expected:
-```
+
+```text
 bun test v1.x
 tests/unit/lsp/lsp.module.spec.ts:
 ✓ LspModule > should compile the module graph without errors
@@ -1113,12 +1140,13 @@ git commit -m "feat(lsp): implement LspModule skeleton, barrel, AppModule, and b
 ## Task 11: Verify pre-commit hooks
 
 **Files:**
+
 - Modify: `lefthook.yml` (already created in Task 6 — just verify)
 
 - [ ] **Step 11.1: Confirm lefthook is installed**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bunx lefthook install
 ```
 
@@ -1138,7 +1166,7 @@ Temporarily add a warning-producing line to a source file, then run lint:
 
 ```bash
 # This should produce a lint error because --max-warnings 0 is set
-echo "const x = 1;" >> /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp/src/main.ts
+echo "const x = 1;" >> src/main.ts
 bun run lint
 # Expected: non-zero exit (unused variable warning treated as error)
 ```
@@ -1156,6 +1184,7 @@ Expected: `bun run lint` exits 0 after revert.
 ## Task 12: Create `docs/test/` index and matrix
 
 **Files:**
+
 - Create: `docs/test/index.md`
 - Create: `docs/test/matrix.md`
 
@@ -1258,7 +1287,7 @@ git commit -m "docs(test): add test index and coverage matrix for phase 1"
 - [ ] **Step 13.1: Run typecheck**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 bun run typecheck
 ```
 
@@ -1272,7 +1301,7 @@ bun run lint
 
 Expected: exits 0, output ends with:
 
-```
+```text
 0 warnings
 ```
 
@@ -1295,7 +1324,8 @@ bun test
 ```
 
 Expected:
-```
+
+```text
 bun test v1.x
 tests/unit/lsp/lsp.module.spec.ts:
 ✓ LspModule > should compile the module graph without errors
@@ -1311,6 +1341,7 @@ bun run build
 ```
 
 Expected: exits 0, `dist/` directory created containing:
+
 - `dist/main.js`
 - `dist/app.module.js`
 - `dist/lsp/lsp.module.js`
@@ -1326,7 +1357,7 @@ bun run gate:1
 
 Expected: all five sub-commands run in sequence and exit 0:
 
-```
+```text
 $ bun run typecheck && bun run lint && bun run format:check && bun test && bun run build
 
 [typecheck passes]
@@ -1345,6 +1376,7 @@ Gate: ✅ exits 0.
 ## Task 14: Update execution ledger
 
 **Files:**
+
 - Modify: `docs/plans/execution-ledger.md`
 
 - [ ] **Step 14.1: Update Phase 1 row in the ledger**
@@ -1352,12 +1384,14 @@ Gate: ✅ exits 0.
 In `docs/plans/execution-ledger.md`, update the Phase 1 row:
 
 Change:
-```
+
+```text
 | 1     | Project Scaffold         | ⏳ planned     | `bun run build` exits 0; `bun test` exits 0        | —          | —         |
 ```
 
 To:
-```
+
+```text
 | 1     | Project Scaffold         | ✅ in-progress | `bun run gate:1` exits 0 (typecheck+lint+format+test+build) | 2026-04-17 | —         |
 ```
 
@@ -1377,7 +1411,7 @@ git commit -m "chore(ledger): begin Phase 1 — project scaffold"
 - [ ] **Step 15.1: Verify clean working tree**
 
 ```bash
-cd /c/Users/aaqui/obsidian-stack/flavor-grenade-lsp
+# (run from flavor-grenade-lsp repo root)
 git status
 ```
 
@@ -1419,7 +1453,7 @@ git push
 
 After this plan is complete, the repository contains:
 
-```
+```text
 flavor-grenade-lsp/
 ├── .editorconfig
 ├── .env.example
@@ -1471,6 +1505,7 @@ flavor-grenade-lsp/
 ```
 
 **Gate:** `bun run gate:1` exits 0.
+
 - `bun run typecheck` — 0 errors, 0 warnings
 - `bun run lint` — 0 errors, 0 warnings (enforced by `--max-warnings 0`)
 - `bun run format:check` — all files formatted

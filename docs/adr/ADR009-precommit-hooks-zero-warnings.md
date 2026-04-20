@@ -47,17 +47,20 @@ CI mirrors the exact same four checks. The CI job is the authoritative gate for 
 ## Consequences
 
 **Positive:**
+
 - No warnings, type errors, formatting violations, or failing tests can enter the repository on any branch, including feature branches. The codebase remains clean at every commit.
 - Developers receive immediate, local feedback. The round-trip time from writing a warning-producing line to discovering the violation is measured in seconds, not minutes.
 - CI failures become rare rather than routine. When CI does fail (e.g., due to an environment difference), it is a genuinely interesting signal rather than background noise.
 - The `lefthook.yml` file is committed and version-controlled. Any change to the hook configuration goes through code review like any other change.
 
 **Negative:**
+
 - Commits are slower. Running `bun test` on every commit adds wall-clock time proportional to the test suite size. As the test suite grows, this cost will increase. A pre-push hook (running tests only on `git push`) is a future mitigation option, but the pre-commit hook for lint/typecheck/format is non-negotiable.
 - Developers who habitually use `git commit --no-verify` will bypass all protections. Team discipline and PR review are the backstop.
 - `lefthook install` is a manual one-time step after cloning. If forgotten, the developer silently has no pre-commit hooks. A postinstall script in `package.json` can automate this but requires care to not break CI environments where lefthook is not installed.
 
 **Neutral:**
+
 - lefthook supports a `skip` property per command (e.g., skip in CI). The `lefthook.yml` should set `skip: [ci]` on checks that are redundant when CI is already running them separately, to avoid double-running in automated environments.
 
 ## Related

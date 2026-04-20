@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build-binaries:
+    name: Build binary (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x64
+            binary: flavor-grenade-lsp
+            script: build:binary
+          - os: macos-latest
+            target: darwin-arm64
+            binary: flavor-grenade-lsp
+            script: build:binary
+          - os: macos-13
+            target: darwin-x64
+            binary: flavor-grenade-lsp
+            script: build:binary
+          - os: windows-latest
+            target: win-x64
+            binary: flavor-grenade-lsp.exe
+            script: build:binary:win
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.1'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build binary
+        run: bun run ${{ matrix.script }}
+
+      - name: Rename binary with target suffix
+        shell: bash
+        run: |
+          if [[ "${{ matrix.target }}" == "win-x64" ]]; then
+            mv dist/${{ matrix.binary }} dist/flavor-grenade-lsp-${{ matrix.target }}.exe
+          else
+            mv dist/${{ matrix.binary }} dist/flavor-grenade-lsp-${{ matrix.target }}
+          fi
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.target }}
+          path: dist/flavor-grenade-lsp-${{ matrix.target }}*
+
+  create-release:
+    name: Create GitHub Release
+    needs: build-binaries
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all binary artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: binary-*
+          path: dist/
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/flavor-grenade-lsp-*
+          generate_release_notes: true
+
+  publish-npm:
+    name: Publish to npm
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.1'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

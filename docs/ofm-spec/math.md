@@ -18,6 +18,14 @@ Official reference: [Math](https://help.obsidian.md/Editing+and+formatting/Advan
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-MATH-001` | Block math uses `$$...$$` delimiters on their own lines. |
+| `OFM-MATH-002` | Inline math uses single-dollar delimiters without surrounding whitespace. |
+| `OFM-MATH-003` | Math regions are opaque to OFM analysis, diagnostics, and completion. |
+
 ## Block Math
 
 Block math uses `$$` delimiters on their own lines:
@@ -44,6 +52,7 @@ The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
 ```
 
 Inline math rules:
+
 - No newlines inside `$...$`.
 - The character immediately after the opening `$` must **not** be a space. This prevents `$ 5.00` (a price) from being mistaken for math.
 - The character immediately before the closing `$` must not be a space.

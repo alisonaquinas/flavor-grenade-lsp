@@ -9,7 +9,7 @@ aliases: [ofm-elements, ofm-taxonomy, ofm-syntax-ref]
 This document is a **quick-reference summary** of the Obsidian Flavored Markdown element types recognized by `flavor-grenade-lsp`. It covers the trigger syntax for each element, which LSP features apply to it, and the parse precedence rules that determine tokenization order.
 
 > [!note] Full specification
-> This document is intentionally concise. The authoritative grammar, edge cases, ambiguity resolution rules, and examples for each element type live in `ofm-spec/`. When this summary and `ofm-spec/` disagree, `ofm-spec/` is correct. See [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/block-anchors]], [[ofm-spec/tags]], [[ofm-spec/callouts]], and [[ofm-spec/frontmatter]].
+> This document is intentionally concise. The authoritative grammar, edge cases, ambiguity resolution rules, and examples for each element type live in `ofm-spec/`. When this summary and `ofm-spec/` disagree, `ofm-spec/` is correct. See [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/block-references]], [[ofm-spec/tags]], [[ofm-spec/callouts]], and [[ofm-spec/frontmatter]].
 
 ---
 
@@ -79,7 +79,7 @@ Ignore region marking (stage 3) runs before OFM element tokenization (stage 4). 
 
 **Consequence**: a wiki-link that spans an ignore region boundary is not recognized. E.g.:
 
-```
+```markdown
 `[[not` a link]]
 ```
 
@@ -125,7 +125,7 @@ The following topics are covered in depth in `ofm-spec/`:
 |-------|------|
 | Wiki-link grammar (formal BNF) | [[ofm-spec/wiki-links]] |
 | Embed resolution rules | [[ofm-spec/embeds]] |
-| Block anchor valid ID characters | [[ofm-spec/block-anchors]] |
+| Block anchor valid ID characters | [[ofm-spec/block-references]] |
 | Tag hierarchy and nesting | [[ofm-spec/tags]] |
 | Callout type registry and custom types | [[ofm-spec/callouts]] |
 | Frontmatter schema and recognized keys | [[ofm-spec/frontmatter]] |

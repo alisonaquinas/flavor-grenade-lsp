@@ -28,7 +28,7 @@ Implement the JSON-RPC stdio transport layer and capability negotiation so the s
 
 The Language Server Protocol uses Content-Length framing over stdio:
 
-```
+```text
 Content-Length: <byte-count>\r\n
 \r\n
 <JSON-RPC message body>
@@ -100,7 +100,7 @@ The server reads from `process.stdin` and writes to `process.stdout`. `process.s
   ```typescript
   {
     capabilities: {
-      textDocumentSync: TextDocumentSyncKind.Incremental,
+      textDocumentSync: TextDocumentSyncKind.Full,
     },
     serverInfo: {
       name: 'flavor-grenade-lsp',
@@ -199,13 +199,14 @@ bun run gate:2
 
 # Individual checks
 bun test src/test/integration/transport.test.ts
-bun run bdd -- features/workspace.feature --tags @smoke
+bun run bdd -- features/transport.feature --tags @smoke
 ```
 
-The `@smoke` scenario in `workspace.feature` ("Vault detected via .obsidian/") exercises the full `initialize` handshake and confirms the server responds with the correct capability object.
+The `@smoke` scenario in `transport.feature` ("Server completes LSP handshake") exercises the full `initialize` → `initialized` → `shutdown` → `exit` sequence and confirms the server responds with the correct capability object. Vault detection is not exercised at this phase (that is Phase 4).
 
 Expected JSON-RPC sequence:
-```
+
+```text
 → initialize { processId, rootUri, capabilities }
 ← { result: { capabilities: {...}, serverInfo: {...} } }
 → initialized {}
@@ -223,4 +224,4 @@ Expected JSON-RPC sequence:
 - `[[adr/ADR001-stdio-transport]]`
 - `[[ddd/lsp-protocol/domain-model]]`
 - `[[plans/phase-03-ofm-parser]]`
-- LSP Specification 3.17: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
+- LSP Specification 3.17: <https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/>

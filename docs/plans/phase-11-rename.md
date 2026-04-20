@@ -1,17 +1,17 @@
 ---
-title: "Phase 11: Rename Refactoring"
+title: "Phase 11: Rename"
 phase: 11
 status: planned
 tags: [rename, refactoring, workspace-edit, prepare-rename]
 updated: 2026-04-16
 ---
 
-# Phase 11: Rename Refactoring
+# Phase 11: Rename
 
 | Field      | Value |
 |------------|-------|
 | Phase      | 11 |
-| Title      | Rename Refactoring |
+| Title      | Rename |
 | Status     | ⏳ planned |
 | Gate       | `bdd/features/rename.feature` all scenarios pass |
 | Depends on | Phase 10 (Navigation) |
@@ -66,7 +66,7 @@ Implement LSP rename refactoring for headings and files. A rename produces a `Wo
 
   The rename engine must produce edits that match the link style of each existing reference:
   - If the existing link uses `file-stem` style: update using stem only
-  - If the existing link uses `path-relative` style: update the full path including the path prefix
+  - If the existing link uses `file-path-stem` style: update the full path including the path prefix
   - The server does NOT convert between link styles during rename — it preserves each link's existing style
 
 - [ ] **5. Handle pipe aliases during heading rename**

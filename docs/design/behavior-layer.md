@@ -62,7 +62,7 @@ Total: **122 scenarios** across 12 feature files (as of the initial specificatio
 
 Scenario names follow the template:
 
-```
+```text
 <subject> <verb> <condition>
 ```
 
@@ -86,7 +86,7 @@ The subject is the feature area, the verb is the action or behavior, and the con
 
 Step definitions live in `bdd/steps/`. Each step module corresponds to a domain area:
 
-```
+```text
 bdd/steps/
   ├── lsp-client.steps.ts        ← Given/When/Then for raw LSP requests (shared)
   ├── vault.steps.ts             ← Given: vault setup, file creation, file content

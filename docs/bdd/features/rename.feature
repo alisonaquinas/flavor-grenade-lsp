@@ -1,4 +1,5 @@
 @lsp
+@adr:ADR005
 Feature: Rename refactoring
 
   Background:
@@ -8,7 +9,7 @@ Feature: Rename refactoring
       | notes/ref-one.md        | # Ref One\n[[source#Old Heading]] and more text                      |
       | notes/ref-two.md        | # Ref Two\nSee [[source#Old Heading]] for details                    |
       | notes/file-linker-a.md  | # File Linker A\n[[source]] is a good note                           |
-      | notes/file-linker-b.md  | # File Linker B\nAlso [[source|Source Doc]] for reference            |
+      | notes/file-linker-b.md  | # File Linker B\nAlso [[source\|Source Doc]] for reference            |
       | notes/body-text.md      | # Body\nThis is just prose text without any links.                   |
 
   @smoke

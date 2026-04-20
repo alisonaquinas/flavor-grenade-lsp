@@ -61,7 +61,7 @@ Implement the full wiki-link feature: resolution of `[[target]]` links to vault 
   Create `src/resolution/oracle.ts`. The Oracle wraps `FolderLookup` and implements the three link-style resolution modes:
 
   ```typescript
-  export type LinkStyle = 'file-stem' | 'title-slug' | 'path-relative';
+  export type LinkStyle = 'file-stem' | 'title-slug' | 'file-path-stem';
 
   export class Oracle {
     resolve(target: string, style: LinkStyle): LookupResult[];
@@ -108,8 +108,8 @@ Implement the full wiki-link feature: resolution of `[[target]]` links to vault 
   Create `src/diagnostics/diagnostic-service.ts`. After resolving all links in a document, emit LSP `textDocument/publishDiagnostics` notifications:
 
   - **FG001 BrokenWikiLink**: severity Error; range = wiki-link span; message = `Cannot resolve wiki-link '[[target]]'`
-  - **FG002 AmbiguousWikiLink**: severity Warning; relatedInformation = one entry per candidate file
-  - **FG003 MalformedWikiLink**: severity Warning; range = `[[]]` span; message = `Malformed wiki-link: target is empty`
+  - **FG002 AmbiguousWikiLink**: severity Error; relatedInformation = one entry per candidate file
+  - **FG003 MalformedWikiLink**: severity Error; range = `[[]]` span; message = `Malformed wiki-link: target is empty`
 
   In single-file mode, skip FG001, FG002, FG003 entirely.
 
@@ -149,6 +149,7 @@ Implement the full wiki-link feature: resolution of `[[target]]` links to vault 
 - [ ] **9. Register handlers in `LspModule` capability registry**
 
   Update `InitializeResult.capabilities` to include:
+
   ```typescript
   {
     definitionProvider: true,

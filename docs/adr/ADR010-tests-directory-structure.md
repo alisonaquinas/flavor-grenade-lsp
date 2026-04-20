@@ -27,7 +27,7 @@ Use a **separate `tests/` root directory** mirroring `src/`.
 
 Top-level structure:
 
-```
+```text
 tests/
 ├── unit/            # unit tests — mirror src/ structure exactly
 │   ├── lsp/
@@ -53,6 +53,7 @@ The Phase 1 scaffold specification (see [[plans/phase-01-scaffold]]) is updated 
 ## Consequences
 
 **Positive:**
+
 - `src/` contains only production code. There is no ambiguity about which files are compiled into the published package.
 - Build configuration is simpler: the TypeScript compiler for production points at `src/`; the test runner points at `tests/`. No exclusion globs are needed.
 - Fixtures and helpers have a clear, shared home (`tests/fixtures/`, `tests/helpers/`) rather than being duplicated across co-located `__tests__/` directories.
@@ -60,11 +61,13 @@ The Phase 1 scaffold specification (see [[plans/phase-01-scaffold]]) is updated 
 - The BDD step files in `tests/bdd/steps/` are isolated from production source, making it impossible to accidentally import a step file from a service.
 
 **Negative:**
+
 - Navigating from a source file to its test requires crossing a directory boundary (from `src/` to `tests/unit/`). Editors with LSP or file-tree navigation handle this well, but it is a minor ergonomic cost compared to co-located tests.
 - The `@src/` path alias must be configured consistently in `tsconfig.test.json`, `bun test` configuration, and any IDE settings. A misconfigured alias produces confusing "module not found" errors.
 - The mirroring convention must be enforced by team discipline or a linting rule. If a developer creates `tests/unit/my-feature.spec.ts` instead of `tests/unit/lsp/my-feature.spec.ts`, the mirroring breaks silently.
 
 **Neutral:**
+
 - Bun's test runner discovers test files by glob pattern. Configuring `bun test tests/` is sufficient to discover all spec files under the `tests/` root, including both `unit/` and `integration/` subdirectories.
 
 ## Related

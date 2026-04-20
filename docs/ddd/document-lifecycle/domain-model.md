@@ -17,7 +17,7 @@ This document is the authoritative domain model for **Bounded Context 2: Documen
 
 BC2 is the workhorse that all other BCs depend on. BC3 reads `OFMIndex` to extract refs and defs. BC4 stores `OFMDoc` collections. BC5 creates and mutates `OFMDoc` values in response to LSP notifications.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[reference-resolution/domain-model]], [[vault/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/reference-resolution/domain-model]], [[ddd/vault/domain-model]].
 
 > [!NOTE]
 > BC2 contains no reference resolution logic. It parses and indexes. Whether a wikilink resolves to a real document is BC3's concern, not BC2's.
@@ -30,7 +30,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[reference-resolution/
 
 ### State
 
-```
+```text
 OFMDoc
 ├── id:        DocId                  — identity; immutable after construction
 ├── text:      string                 — raw UTF-8 document text
@@ -41,7 +41,7 @@ OFMDoc
 
 ### State Diagram
 
-```
+```text
                      ┌──────────────────────────────────────────────────┐
                      │                    OFMDoc                         │
                      │                                                    │
@@ -134,7 +134,7 @@ interface OFMIndex {
 
 The parse pipeline is a pure, ordered chain of stages. Each stage receives the output of the previous stage and returns a transformed representation. The pipeline is stateless and deterministic — same input always produces the same output.
 
-```
+```text
 Raw text (string)
       │
       ▼ Stage 1: Tokenize

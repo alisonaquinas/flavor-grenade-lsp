@@ -30,15 +30,19 @@ Implementation details:
 2. **Trusted publisher registration.** The GitHub repository (`owner/flavor-grenade-lsp`) is registered on npmjs.com under the package `flavor-grenade-lsp` as a trusted publisher. The registration specifies the repository owner, repository name, and workflow file name. Only the designated workflow file can publish under OIDC — no other workflow or actor can obtain publish credentials for this package.
 
 3. **Publish command.** The release job runs:
-   ```
+
+   ```bash
    npm publish --provenance --access public
    ```
+
    The `--provenance` flag generates and attaches a signed attestation. The `--access public` flag is required for scoped or first-time packages.
 
 4. **Bun registry publish.** A second step in the same job publishes to `registry.bun.sh`:
-   ```
+
+   ```bash
    npm publish --registry https://registry.bun.sh --provenance --access public
    ```
+
    The same OIDC token is presented to both registries within the same workflow run.
 
 5. **Workflow trigger.** The publish workflow triggers only on `push` to `main` (see [[adr/ADR007-git-flow-branching]]). The job is conditional on the push being a semver tag (e.g., `v*.*.*`). Merges that are not tagged do not trigger publishing.
@@ -48,6 +52,7 @@ Implementation details:
 ## Consequences
 
 **Positive:**
+
 - No long-lived npm token is stored in the repository secrets. The attack surface for token leakage is eliminated.
 - Provenance attestation on every published version provides supply-chain transparency. The cryptographic link between the published `.tgz` and the GitHub Actions run is publicly verifiable.
 - OIDC credentials are scoped to the exact repository and workflow file registered as a trusted publisher. A compromised fork or a different workflow file cannot publish to the `flavor-grenade-lsp` package.
@@ -55,11 +60,13 @@ Implementation details:
 - Token rotation is eliminated as a maintenance concern. There is nothing to rotate.
 
 **Negative:**
+
 - The trusted publisher registration on npmjs.com must be configured by a package owner with sufficient permissions. This is a one-time manual step that must be documented in the project onboarding guide.
 - If the workflow file is renamed or the repository is transferred, the trusted publisher registration becomes invalid and must be re-registered. The failing workflow error message from npmjs.com is clear but unfamiliar to developers who have not encountered OIDC publishing before.
 - `registry.bun.sh` OIDC support should be verified at the time the publish workflow is first activated. If Bun registry does not support the OIDC token format, a fallback to a Bun-specific token stored as a secret may be required for that registry only.
 
 **Neutral:**
+
 - The `id-token: write` permission is constrained to the publish job only. Other jobs (test, lint, build) do not receive this permission, keeping the principle of least privilege intact.
 
 ## Related

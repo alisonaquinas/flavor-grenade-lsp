@@ -14,7 +14,7 @@ aliases:
 
 This glossary is the single source of truth for terminology used across all bounded contexts. Every term defined here must be used consistently in code, comments, tests, and documentation. When a term has a different meaning in a different bounded context, the per-BC section qualifier is noted in the Definition column.
 
-See also: [[bounded-contexts]], [[vault/domain-model]], [[document-lifecycle/domain-model]], [[reference-resolution/domain-model]], [[lsp-protocol/domain-model]], [[config/domain-model]].
+See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifecycle/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/lsp-protocol/domain-model]], [[ddd/config/domain-model]].
 
 > [!NOTE]
 > Terms are context-qualified where the same word means something different in different bounded contexts. Unqualified terms are shared across all contexts.
@@ -60,20 +60,34 @@ See also: [[bounded-contexts]], [[vault/domain-model]], [[document-lifecycle/dom
 
 | Term | Bounded Context | Definition |
 |------|----------------|------------|
-| **RefGraph** | BC3 Reference Resolution | The aggregate that is the consistency boundary for all reference and definition data across a vault. Owns the resolved-ref → def edge map, the unresolved set, and the reverse backlinks index. Rebuilt or incrementally updated whenever documents change. |
-| **Oracle** | BC3 Reference Resolution | The domain service and anti-corruption layer that mediates between `RefGraph` and `VaultIndex`. `RefGraph` asks the Oracle to resolve a ref to a set of candidate scopes (`DocId[]`) and then to locate `Def` values within a scope. The Oracle speaks `RefGraph`'s language, not `VaultIndex`'s. |
-| **Def** | BC3 Reference Resolution | A location that can serve as the target of a reference. Types of Def: document title (implicit), heading (`##`), block anchor (`^id`), frontmatter alias. A single document may have multiple `Def` values. |
-| **Ref** | BC3 Reference Resolution | A reference site in a document — a place that points to a `Def`. Subtypes: `WikiRef`, `EmbedRef`, `BlockRef`, `TagRef`. |
-| **WikiRef** | BC3 Reference Resolution | A reference expressed as `[[target]]` or `[[target\|alias]]`. May be intra-document or cross-document. |
-| **EmbedRef** | BC3 Reference Resolution | A reference expressed as `![[target]]`. First-class ref type in flavor-grenade (not present in marksman). Resolved identically to `WikiRef` but carries embed semantics for diagnostics. |
+| **AliasDef** | BC3 Reference Resolution | A `Def` created from an `aliases:` frontmatter entry. Enables wiki-links to target a document by its alias rather than its file stem. |
+| **BlockAnchorDef** | BC3 Reference Resolution | A `Def` created from a `^blockid` token at the end of a block-level line. Document-local scope. |
 | **BlockRef** | BC3 Reference Resolution | A reference expressed as `[[target#^anchor-id]]` or `![[target#^anchor-id]]`. First-class ref type. Target must be a `BlockAnchor` `Def`; broken block refs generate `Unresolved` entries and diagnostics. |
-| **TagRef** | BC3 Reference Resolution | A `#tag` or `#nested/tag` usage in document body. Resolved against the tag `Def` set across the vault. |
-| **IntraRef** | BC3 Reference Resolution | A ref whose target is within the same document (e.g., `[[#Heading]]`). Resolved purely against the document's own `OFMIndex`. |
+| **BrokenLink** | BC3 Reference Resolution | A `CrossDoc` ref that resolves to no `DocDef` or `AliasDef` in the vault. Produces diagnostic FG001. |
+| **CrossBlock** | BC3 Reference Resolution | A wiki-link targeting a specific block anchor in another document, e.g. `[[doc#^blockid]]`. Distinct from `CrossDoc` (file-only) and `IntraBlock` (same-file block ref). |
+| **CrossDoc** | BC3 Reference Resolution | A `CrossRef` targeting a document as a whole (no fragment). The minimal unit of cross-document linkage. |
 | **CrossRef** | BC3 Reference Resolution | A ref whose target is in a different document. Requires cross-document lookup via Oracle. |
 | **CrossSection** | BC3 Reference Resolution | A `CrossRef` that targets a specific heading or block within another document (e.g., `[[other-doc#section]]`). Always accompanied by a synthetic `CrossDoc` ref to the target document, so that title changes invalidate all section links. |
-| **CrossDoc** | BC3 Reference Resolution | A `CrossRef` targeting a document as a whole (no fragment). The minimal unit of cross-document linkage. |
-| **Unresolved** | BC3 Reference Resolution | A `Ref` for which no matching `Def` could be found after full Oracle resolution. Stored in `RefGraph.unresolvedRefs`. Surfaced as LSP diagnostics when enabled. |
+| **Def** | BC3 Reference Resolution | A location that can serve as the target of a reference. Types of Def: document title (implicit), heading (`##`), block anchor (`^id`), frontmatter alias. A single document may have multiple `Def` values. |
 | **Dest** | BC3 Reference Resolution | The resolved destination of a `Ref`: `{ doc: DocId; def: Def }`. The target location a go-to-definition action navigates to. |
+| **DocDef** | BC3 Reference Resolution | A `Def` representing the document itself, keyed by its file stem. Created once per indexed document. |
+| **EmbedRef** | BC3 Reference Resolution | A reference expressed as `![[target]]`. First-class ref type in flavor-grenade (not present in marksman). Resolved identically to `WikiRef` but carries embed semantics for diagnostics. |
+| **HeaderDef** | BC3 Reference Resolution | A `Def` created from a heading token. Enables `[[doc#heading]]` references. |
+| **IntraRef** | BC3 Reference Resolution | A ref whose target is within the same document (e.g., `[[#Heading]]`). Resolved purely against the document's own `OFMIndex`. |
+| **lastTouched** | BC3 Reference Resolution | A timestamp field on index entries recording when a document was last re-parsed. Used to detect staleness during vault scans. |
+| **LinkDefDef** | BC3 Reference Resolution | A `Def` created when a document defines a named link definition in Markdown reference-link style. Rare but indexed for completeness. |
+| **Oracle** | BC3 Reference Resolution | The domain service and anti-corruption layer that mediates between `RefGraph` and `VaultIndex`. `RefGraph` asks the Oracle to resolve a ref to a set of candidate scopes (`DocId[]`) and then to locate `Def` values within a scope. The Oracle speaks `RefGraph`'s language, not `VaultIndex`'s. |
+| **Ref** | BC3 Reference Resolution | A reference site in a document — a place that points to a `Def`. Subtypes: `WikiRef`, `EmbedRef`, `BlockRef`, `TagRef`. |
+| **RefGraph** | BC3 Reference Resolution | The aggregate that is the consistency boundary for all reference and definition data across a vault. Owns the resolved-ref → def edge map, the unresolved set, and the reverse backlinks index. Rebuilt or incrementally updated whenever documents change. |
+| **Scope** | BC3 Reference Resolution | Either `Doc(DocId)` (document-local) or `Global`. Scopes partition the symbol space so that block anchors (local) and file-level definitions (global) are stored separately. |
+| **ScopedSym** | BC3 Reference Resolution | A `Sym` paired with the `Scope` in which it lives; the atomic unit of the `RefGraph`. |
+| **Sym** | BC3 Reference Resolution | Any symbol extracted from a document: either a definition site (Def) or a usage site (Ref) or a tag. The union type of all indexable elements. |
+| **SymbolDiff** | BC3 Reference Resolution | The set of `ScopedSym`s added and removed by one document change; the input to `RefGraph.update`. Produced by diffing the symbol sets from two consecutive parses of the same document. |
+| **SymbolMap** | BC3 Reference Resolution | The per-document map from symbol key to `ScopedSym` set. Passed to `RefGraph.mk` as the initial state of the symbol graph. |
+| **TagRef** | BC3 Reference Resolution | A `#tag` or `#nested/tag` usage in document body. Resolved against the tag `Def` set across the vault. |
+| **TitleDef** | BC3 Reference Resolution | A `Def` created from the first H1 heading in a document, used as an alternative target key alongside the file stem. |
+| **Unresolved** | BC3 Reference Resolution | A `Ref` for which no matching `Def` could be found after full Oracle resolution. Stored in `RefGraph.unresolvedRefs`. Surfaced as LSP diagnostics when enabled. |
+| **WikiRef** | BC3 Reference Resolution | A reference expressed as `[[target]]` or `[[target\|alias]]`. May be intra-document or cross-document. |
 
 ---
 

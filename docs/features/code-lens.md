@@ -48,13 +48,13 @@ Text here.
 
 **Example:**
 
-```
+```markdown
 Some paragraph text about an important concept. ^concept-anchor
 ```
 
 Displayed as:
 
-```
+```text
 "2 references"
 Some paragraph text about an important concept. ^concept-anchor
 ```

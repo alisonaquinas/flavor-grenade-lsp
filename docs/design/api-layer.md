@@ -139,6 +139,7 @@ type FlavorGrenadeStatusParams = {
 ```
 
 Published at:
+
 - Server startup (`state: 'initializing'`)
 - After `VaultDetector` completes vault scan (`state: 'indexing'`)
 - After `RefGraph.mk` completes for all folders (`state: 'ready'`)

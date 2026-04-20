@@ -1,4 +1,5 @@
 @ofm
+@adr:ADR002
 Feature: YAML frontmatter parsing
 
   Background:

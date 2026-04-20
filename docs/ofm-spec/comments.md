@@ -17,6 +17,14 @@ Official reference: [Comments](https://help.obsidian.md/Editing+and+formatting/B
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-COMMENT-001` | `%%` opens and closes block comments. |
+| `OFM-COMMENT-002` | Inline comments use `%%...%%` on a single line. |
+| `OFM-COMMENT-003` | Comment content is opaque to indexing, completion, diagnostics, and rename. |
+
 ## Block Comment Syntax
 
 A block comment spans one or more lines between `%%` delimiters, each on their own line:

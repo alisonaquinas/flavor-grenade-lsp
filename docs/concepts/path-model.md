@@ -12,7 +12,7 @@ aliases: [path-types, docid, slug, vaultroot, path-resolution, wiki-encoded]
 
 ## Type Hierarchy
 
-```
+```text
 AbsPath         — absolute filesystem path (OS-native separators internally)
   │
   ├── VaultRoot — AbsPath known to be a vault root (contains .obsidian/ or .flavor-grenade.toml)
@@ -162,7 +162,7 @@ When a wiki-link is encountered, `FolderLookup` resolves it using one of three m
 
 Trigger: wiki-link target starts with `/`.
 
-```
+```markdown
 [[/notes/daily]]  →  looks for VaultPath("notes/daily.md") exactly
 ```
 
@@ -172,7 +172,7 @@ The leading `/` is stripped and the remainder is treated as a vault-relative pat
 
 Trigger: wiki-link target contains `./` or `../`.
 
-```
+```markdown
 [[./sibling]]     →  resolved relative to current document's directory
 [[../parent]]     →  resolved relative to parent directory
 ```
@@ -183,7 +183,7 @@ Relative resolution uses the containing document's `VaultPath` directory as the 
 
 Trigger: no path prefix characters.
 
-```
+```markdown
 [[daily]]         →  matches any document whose slug = "daily", anywhere in vault
 ```
 
@@ -200,7 +200,7 @@ Approx mode uses the suffix tree in `FolderLookup`. The suffix tree is built fro
 
 `VaultDetector` traverses the filesystem upward from the document's absolute path, checking each ancestor directory for vault markers:
 
-```
+```text
 Algorithm VaultDetector.detect(docAbsPath):
   current = parent(docAbsPath)
   while current != filesystem_root:

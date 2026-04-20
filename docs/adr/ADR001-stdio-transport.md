@@ -26,6 +26,7 @@ HTTP+SSE transport is explicitly reserved for a future phase (see [[plans/phase-
 ## Consequences
 
 **Positive:**
+
 - Any editor with LSP support (including editors without HTTP+SSE support) can use flavor-grenade-lsp immediately without configuration beyond pointing to the binary.
 - No port binding means no firewall rules, no port collision, no daemon management complexity.
 - CI scripts can spawn the server, pipe a synthetic LSP exchange to stdin, and capture stdout — no HTTP client required.
@@ -33,10 +34,12 @@ HTTP+SSE transport is explicitly reserved for a future phase (see [[plans/phase-
 - Bun's `process.stdin`/`process.stdout` streams are fully compatible with the Node.js stream model used by most LSP SDKs.
 
 **Negative:**
+
 - Single-client only per process invocation. Each editor window spawns its own server instance; there is no shared cache between two windows editing the same vault. This is acceptable for v1.
 - A future HTTP+SSE implementation requires a separate server startup path (a `--http` flag or a separate entry point), which must be documented to avoid confusing users.
 
 **Neutral:**
+
 - The stdio transport does not break any future HTTP+SSE work. The `ITransport` abstraction ensures the two can coexist.
 
 ## Related

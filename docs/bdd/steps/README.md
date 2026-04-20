@@ -11,6 +11,7 @@ updated: 2026-04-16
 This document describes how Gherkin step phrases in `docs/bdd/features/*.feature` map to TypeScript step definition functions, the shared test infrastructure, the World object contract, and the convention for step file organization.
 
 Step implementations are populated incrementally across phases:
+
 - **Phase 3 (OFM Parser):** Given/Then steps for document content, OFM index assertions
 - **Phase 5 (Wiki-Link Resolution):** When/Then steps for LSP method invocations and diagnostic assertions
 
@@ -42,7 +43,8 @@ bun run bdd -- features/wiki-links.feature
 ```
 
 The `bun run bdd` script invokes:
-```
+
+```bash
 cucumber-js --require 'src/test/steps/**/*.ts' --require 'src/test/support/**/*.ts'
 ```
 
@@ -483,7 +485,7 @@ Then(
 
 ## Step File Organization
 
-```
+```text
 src/test/
 ├── support/
 │   ├── world.ts           — World interface + implementation

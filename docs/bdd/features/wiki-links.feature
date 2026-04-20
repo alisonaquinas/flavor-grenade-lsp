@@ -1,4 +1,5 @@
 @ofm
+@adr:ADR005
 Feature: Wiki-link resolution
 
   Background:
@@ -35,7 +36,7 @@ Feature: Wiki-link resolution
     Given the file "notes/index.md" contains "See [[ambiguous]] for details"
     When the LSP processes textDocument/didOpen for "notes/index.md"
     Then a diagnostic with code "FG002" is published for "notes/index.md"
-    And the diagnostic severity is "Warning"
+    And the diagnostic severity is "Error"
     And the diagnostic message contains "Ambiguous wiki-link"
     And the diagnostic relatedInformation lists all candidate files:
       | notes/ambiguous.md  |
@@ -58,7 +59,7 @@ Feature: Wiki-link resolution
     Given the file "notes/index.md" contains "This is broken [[]] wiki-link"
     When the LSP processes textDocument/didOpen for "notes/index.md"
     Then a diagnostic with code "FG003" is published for "notes/index.md"
-    And the diagnostic severity is "Warning"
+    And the diagnostic severity is "Error"
     And the diagnostic message contains "Malformed wiki-link"
 
   Scenario: Single-file mode suppresses FG001

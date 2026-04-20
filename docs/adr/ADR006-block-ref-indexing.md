@@ -19,7 +19,7 @@ Two approaches were evaluated for flavor-grenade-lsp:
 
 **Approach 2 — First-class indexing.** Block anchors (`^blockid`) are indexed as `BlockAnchorDef` entries in `OFMIndex`. Block reference links (`[[doc#^id]]`) are represented as `CrossBlock` refs in `RefGraph`. This enables the full suite of LSP features for block references: diagnostics (FG005, broken block ref), go-to-definition (jump to the anchored block), find-references (find all `[[doc#^id]]` uses), and completion (offer known `^id` values after typing `[[doc#^`).
 
-The parser must correctly identify `^blockid` as a **line-end anchor**: the `^` must appear after at least one space at the end of a block-level element's last line. A `^` in the middle of a line, or a `^` that is part of a math expression, is not a block anchor. This distinction is encoded in rule OFM-BLOCK-003 of the OFM spec (`ofm-spec/block-references`).
+The parser must correctly identify `^blockid` as a **line-end anchor**: the `^` must appear after at least one space at the end of a block-level element's last line. A `^` in the middle of a line, or a `^` that is part of a math expression, is not a block anchor. This distinction is encoded in rule OFM-BLOCK-003, defined in [[ofm-spec/block-references]].
 
 ## Decision
 
@@ -34,15 +34,18 @@ Index `^blockid` anchors as **`BlockAnchorDef`** in `OFMIndex`. Treat `[[doc#^id
 ## Consequences
 
 **Positive:**
+
 - flavor-grenade-lsp provides significantly more complete OFM support than marksman for the substantial portion of users who rely on block references.
 - First-class indexing enables FG005 diagnostics that catch broken block refs before the user discovers them by navigating to a dead link.
 - Completion for `^id` values is one of the most-requested missing features in marksman; this decision directly addresses the gap.
 
 **Negative:**
+
 - The parser must correctly implement the line-end anchor rule (OFM-BLOCK-003). An incorrect implementation would produce false-positive `BlockAnchorDef` entries (e.g., from math expressions containing `^`). This requires careful parser unit testing.
 - `RefGraph` gains a new ref type (`CrossBlock`) that all graph traversal code must handle. This increases the surface area of the reference resolution domain.
 
 **Neutral:**
+
 - The `OFMIndex` and `RefGraph` extensions are additive; existing `WikiLinkDef`, `HeadingDef`, and `CrossDoc` ref types are unchanged.
 
 ## Related

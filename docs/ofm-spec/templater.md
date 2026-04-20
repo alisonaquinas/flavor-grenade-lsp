@@ -17,6 +17,14 @@ Official plugin reference: [Templater documentation](https://silentvoid13.github
 
 ---
 
+## Rule Codes
+
+| Code | Rule |
+|---|---|
+| `OFM-TPL-001` | Templater syntax uses `<% ... %>` delimiters. |
+| `OFM-TPL-002` | Templater regions are opaque to OFM analysis. |
+| `OFM-TPL-003` | Templater scanning runs after comments and math but before OFM element detection. |
+
 ## Syntax Forms
 
 | Form | Meaning |

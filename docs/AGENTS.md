@@ -53,7 +53,28 @@ Documentation layers must be completed in this order. Do not begin a layer until
 9. `features/` — Feature layer specifications
 10. `plans/` — Phase-by-phase implementation plans
 
-This order mirrors the specification section 9 of the OFM spec. Implementation of TypeScript files in `src/` begins only after step 10 is complete.
+This order mirrors the layer order in `[[ofm-spec/index]]`. Implementation of TypeScript files in `src/` begins only after step 10 is complete.
+
+## Phase Ticket Structure
+
+Each implementation phase has a ticket folder at `docs/plans/phase-<NN>-<slug>/` that mirrors the phase plan file name. Each folder contains:
+
+| File | Type | Purpose |
+|---|---|---|
+| `index.md` | — | Phase ticket index: all tickets listed with current status |
+| `FEAT-NNN.md` | Feature | One per phase; tracks child tasks and BDD acceptance criteria |
+| `TASK-NNN.md` | Task | One per implementation task in the phase plan; follows TDD lifecycle |
+| `CHORE-NNN.md` | Chore | Three per phase (phases 1–13): lint sweep, code quality sweep, security sweep |
+| `BUG-NNN.md` | Bug | Created as needed during implementation or quality sweeps |
+| `SPIKE-NNN.md` | Spike | Created as needed when investigation is required before implementation |
+
+Ticket IDs are **globally sequential** across all phases. Never reuse a ticket ID. The ID counter per type starts at 001 and increases across the full project lifetime.
+
+**Rule 5 (sweep and test steps E–L):** Every issue discovered during lint, quality, security sweeps, or any test step must be captured in a ticket *before* any fix is applied. Silent fixes without tickets are a process violation. See [[plans/phase-execution]] Rule 5 for the full table of ticket types per step.
+
+The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–M lifecycle checklist — is documented in [[plans/phase-execution]].
+
+---
 
 ## Quality Gates
 
@@ -75,6 +96,7 @@ Before any implementation file (`src/**/*.ts`) is written, ALL of the following 
 All cross-references use `[[wikilink]]` syntax. The link target is the file stem relative to `docs/` — never a full path, never a `.md` extension.
 
 Examples:
+
 - Correct: `[[ADR001-stdio-transport]]`
 - Correct: `[[features/completions]]`
 - Correct: `[[ddd/ubiquitous-language]]`
@@ -106,7 +128,8 @@ Tags must use the prefix conventions listed below. Aliases must be distinct from
 | `bdd/` | BDD scenario files |
 | `adr` | ADR files (no sub-prefix; use the ADR number as an additional tag) |
 | `features/` | Feature specification files |
-| `plans/` | Phase plan files |
+| `plans/` | Phase plan files. Each plan has a matching `plans/phase-NN-*/` ticket folder. |
+| `plans/phase-*/` | Ticket instances per phase: `FEAT`, `TASK`, `CHORE`, `BUG`, `SPIKE`. |
 | `concepts/` | Concept explainer files |
 | `design/` | Design document files |
 | `meta` | Files about the project itself (this file, `index.md`, `roadmap.md`) |
@@ -119,7 +142,7 @@ ADR files follow the pattern `ADR<NNN>-<kebab-title>.md`. The three-digit number
 
 Every requirement in `requirements/` must use Planguage format with all seven mandatory fields:
 
-```
+```text
 Tag:       <unique identifier, e.g. WS-001>
 Gist:      <one-sentence description of the requirement>
 Ambition:  <target level of quality — aspirational>
@@ -168,3 +191,6 @@ When multiple agents are working on this repository simultaneously:
 - [[ddd/bounded-contexts]]
 - [[ddd/ubiquitous-language]]
 - [[architecture/overview]]
+- [[plans/phase-execution]]
+- [[templates/tickets/index]]
+- [[plans/execution-ledger]]

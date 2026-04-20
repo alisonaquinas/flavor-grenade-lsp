@@ -15,10 +15,12 @@ aliases:
 ---
 
 **Tag:** Workspace.VaultDetection.Primary
+**User Req:** User.Vault.AutoDetectVault
 **Gist:** Any directory that contains a `.obsidian/` subdirectory must be automatically identified as a vault root and indexed by the server without requiring additional user configuration.
 **Ambition:** `.obsidian/` is the canonical marker of an Obsidian vault — it is created automatically by Obsidian on first open and is universally present in every vault managed by Obsidian. Automatic detection without configuration is the zero-friction path: an author opens their vault directory in an LSP-capable editor and the server begins indexing immediately. Requiring manual declaration of vault roots creates an unnecessary setup barrier and introduces a class of user error (forgetting to declare the vault, declaring the wrong path) that automatic detection eliminates entirely.
 **Scale:** Percentage of directories containing a `.obsidian/` subdirectory that are correctly identified as vault roots and indexed by the server when they appear as workspace folders in the `initialize` request or as subdirectories of the workspace root. Scope: at least 5 distinct vault directories per test run.
 **Meter:**
+
 1. Create 5 directories, each containing a `.obsidian/` subdirectory and at least 3 markdown documents.
 2. Start the server with a workspace root that contains all 5 directories.
 3. Wait for the server to complete initial indexing (monitor `$/progress` or equivalent).
@@ -34,10 +36,12 @@ aliases:
 ---
 
 **Tag:** Workspace.VaultDetection.Fallback
+**User Req:** User.Vault.AutoDetectVault
 **Gist:** A directory containing a `.flavor-grenade.toml` configuration file must be detected as a vault root when no `.obsidian/` directory is present, enabling use of the server in non-Obsidian markdown environments.
 **Ambition:** The server is designed for Obsidian-Flavored Markdown but is not exclusively tied to Obsidian the application. Developers, technical writers, and teams using OFM syntax in other editors or build pipelines need a way to declare a vault root without creating an Obsidian application directory. `.flavor-grenade.toml` serves as the escape hatch: a lightweight, explicit declaration that activates vault detection for non-Obsidian contexts. The fallback ordering (Obsidian-first) preserves backwards compatibility and prevents the presence of a `.flavor-grenade.toml` inside an Obsidian vault from interfering with primary detection.
 **Scale:** Percentage of directories containing `.flavor-grenade.toml` but no `.obsidian/` subdirectory that are correctly detected as vault roots and indexed by the server.
 **Meter:**
+
 1. Create 3 directories: each contains `.flavor-grenade.toml` and at least 3 markdown documents, and none contains `.obsidian/`.
 2. Create 1 additional directory containing both `.obsidian/` and `.flavor-grenade.toml` to verify primary detection takes precedence.
 3. Start the server with a workspace root containing all 4 directories.
@@ -53,10 +57,12 @@ aliases:
 ---
 
 **Tag:** Workspace.FileExtension.Filter
+**User Req:** User.Vault.WorkAcrossEntireVault
 **Gist:** Only files whose extension appears in the configured extensions list (default: `["md"]`) must be included in the VaultIndex; files with other extensions must be silently ignored without emitting errors or warnings.
 **Ambition:** Vault directories contain many non-markdown files: images, PDFs, attachments, configuration files, and generated content. Including all files in the index would degrade index build performance, pollute completion candidates, and create false-positive diagnostics for file types the server has no semantics for. Silent filtering (rather than noisy skipping) respects the author's vault layout without imposing operational overhead on every non-markdown file encountered. Configurability of the extension list accommodates vaults that use `.mdx`, `.markdown`, or custom extensions.
 **Scale:** Percentage of files encountered during vault indexing with extensions not in the configured list that produce zero index entries, zero diagnostics, and zero log messages at Warning level or above.
 **Meter:**
+
 1. Create a vault directory with at least 20 files: 10 `.md` files, 3 `.png` files, 3 `.pdf` files, 2 `.txt` files, and 2 `.mdx` files.
 2. Start the server with the default extension configuration (`["md"]`).
 3. After indexing, query VaultIndex for all indexed document URIs.
@@ -73,10 +79,12 @@ aliases:
 ---
 
 **Tag:** Workspace.MultiFolder.Isolation
+**User Req:** User.Vault.WorkAcrossEntireVault
 **Gist:** When the server manages multiple vault roots simultaneously, link resolution must not cross root boundaries — a wiki-link in vault A must never resolve to a document in vault B.
 **Ambition:** Multi-folder workspaces in editors like VS Code often contain multiple unrelated projects. If the LSP resolves links across vault roots, a common filename in vault B may shadow a document in vault A, producing incorrect go-to-definition results. Worse, completion candidates from vault B may appear when authoring in vault A, silently polluting the document with cross-vault links that are unresolvable in Obsidian. Root isolation is a hard correctness boundary that preserves the semantic integrity of each vault as an independent unit.
 **Scale:** Percentage of link resolution operations (completion, definition, references, diagnostics) performed while the cursor document belongs to vault A that return zero results referencing documents in vault B (or any other co-managed vault root). Scope: at least 2 vault roots co-managed in a single server session.
 **Meter:**
+
 1. Configure the server with two distinct vault roots (A and B), each containing at least 5 documents. Ensure vault B contains a document with the same file stem as one in vault A.
 2. Open a document in vault A. Trigger `textDocument/completion` at a `[[` position; verify no candidates reference documents in vault B.
 3. Issue `textDocument/definition` on a wiki-link in vault A whose target exists in both A and B; verify the result points to vault A's document.

@@ -32,16 +32,19 @@ Users may set `core.text_sync = "incremental"` in `.flavor-grenade.toml` to swit
 ## Consequences
 
 **Positive:**
+
 - All editors work correctly by default without any configuration. Full sync is universally supported and bug-free.
 - Users with large vaults who notice latency can opt in to incremental sync with a single config line.
 - If an editor's incremental sync implementation has bugs, users can revert to full sync by removing the config key.
 - The `applyLspChange` dual implementation means the incremental path is available and tested regardless of the default.
 
 **Negative:**
+
 - Full sync transmits more data per keystroke than necessary for large documents. On a local stdio channel this is generally imperceptible, but it is not zero cost.
 - Switching sync mode requires a server restart (because the capability is negotiated at `initialize` time), which may be inconvenient for users experimenting with the setting.
 
 **Neutral:**
+
 - The dual implementation in `OFMDoc.applyLspChange` adds complexity that must be covered by unit tests for both branches.
 
 ## Related

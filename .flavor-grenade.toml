@@ -1,0 +1,14 @@
+[vault]
+# Extensions treated as markdown documents (default: [".md"])
+extensions = [".md"]
+
+[lsp]
+# Maximum number of completion candidates returned
+completion.candidates = 50
+
+# Wiki-link style: "file-stem" | "title-slug" | "file-path-stem"
+linkStyle = "file-stem"
+
+[diagnostics]
+# Disable specific diagnostic codes globally
+suppress = []

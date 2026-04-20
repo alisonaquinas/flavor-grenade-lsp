@@ -67,27 +67,30 @@ Each completion item sets `kind: File` and includes `detail` with the vault-rela
 
 ## Callout Type Completion
 
-**Trigger:** the cursor is on `[!` immediately after `> ` at the beginning of a blockquote line.
+**Trigger:** the cursor is on `[!` immediately after `>` at the beginning of a blockquote line.
 
 > [!NOTE]
 > Callout type completion is NOT a wiki-link completion. The trigger pattern is `> [!` in blockquote context, distinct from `[[` wiki-link context.
 
-**Candidates:** all 23 standard Obsidian callout types, in the order Obsidian displays them:
+**Candidates:** all 13 standard Obsidian callout types, in the order Obsidian displays them:
 
 | Type | Aliases |
 |---|---|
-| `NOTE` | `note` |
+| `NOTE` | — |
+| `INFO` | — |
 | `TIP` | `tip`, `hint`, `important` |
-| `INFO` | `info` |
+| `WARNING` | `warning`, `caution`, `attention` |
+| `DANGER` | `danger`, `error` |
 | `SUCCESS` | `success`, `check`, `done` |
 | `QUESTION` | `question`, `help`, `faq` |
-| `WARNING` | `warning`, `caution`, `attention` |
 | `FAILURE` | `failure`, `fail`, `missing` |
-| `DANGER` | `danger`, `error` |
-| `BUG` | `bug` |
-| `EXAMPLE` | `example` |
+| `BUG` | — |
+| `EXAMPLE` | — |
 | `QUOTE` | `quote`, `cite` |
 | `ABSTRACT` | `abstract`, `summary`, `tldr` |
+| `TODO` | — |
+
+The provider returns the 13 primary names above. The aliases are documented here for reference and matching, but they are not counted as separate completion candidates.
 
 Each candidate inserts the callout type in uppercase (e.g., `NOTE`) and sets the cursor after the `]` for the title text.
 

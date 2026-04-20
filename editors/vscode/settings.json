@@ -1,0 +1,14 @@
+{
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "off",
+      "strings": "off"
+    },
+    "editor.suggest.showFiles": true,
+    "editor.acceptSuggestionOnEnter": "off"
+  },
+  "flavorGrenade.linkStyle": "file-stem",
+  "flavorGrenade.completion.candidates": 50,
+  "flavorGrenade.diagnostics.suppress": []
+}

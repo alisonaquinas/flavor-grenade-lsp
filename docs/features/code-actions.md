@@ -65,9 +65,11 @@ Code actions are offered via `textDocument/codeAction` responses and executed vi
    - Under `file-path-stem` style: creates the file at the relative path implied by the link.
    - Under `title-slug` style: creates the file with the slug as the stem in the same folder.
 2. The new file is created with the following template content:
+
    ```markdown
    # {{link text or file stem}}
    ```
+
    Where `{{link text}}` is the alias portion of `[[target|link text]]` if present, otherwise the target stem.
 3. The file is added to the vault index immediately (no file-watcher delay).
 4. The FG001 diagnostic is cleared on the next diagnostic cycle (within `diagnostics.debounce_ms`).
@@ -94,6 +96,7 @@ Code actions are offered via `textDocument/codeAction` responses and executed vi
 **Example transformation:**
 
 Before:
+
 ```markdown
 ---
 tags: [project]
@@ -103,6 +106,7 @@ This note is about #project/active work on #refactoring.
 ```
 
 After:
+
 ```markdown
 ---
 tags: [project, project/active, refactoring]

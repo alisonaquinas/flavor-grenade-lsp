@@ -172,7 +172,7 @@ Set up continuous integration, packaging, and release automation. After this pha
 
   ```json
   {
-    "name": "flavor-grenade-lsp",
+    "name": "@flavor-grenade/lsp-server",
     "version": "0.1.0",
     "bin": {
       "flavor-grenade-lsp": "dist/flavor-grenade-lsp"
@@ -226,7 +226,7 @@ Set up continuous integration, packaging, and release automation. After this pha
         settings = {
           flavorGrenade = {
             linkStyle = 'file-stem',
-            completion = { candidates = 100 },
+            completion = { candidates = 50 },
           }
         },
       },
@@ -251,7 +251,7 @@ Set up continuous integration, packaging, and release automation. After this pha
       "editor.suggest.showFiles": true
     },
     "flavorGrenade.linkStyle": "file-stem",
-    "flavorGrenade.completion.candidates": 100,
+    "flavorGrenade.completion.candidates": 50,
     "flavorGrenade.diagnostics.suppress": []
   }
   ```
@@ -289,6 +289,7 @@ npm publish --dry-run
 ```
 
 The gate is considered passing when:
+
 1. A PR to `main` shows all CI checks green (ubuntu, macos, windows)
 2. A tag `v0.1.0` triggers the release workflow and produces 4 binary artifacts
 3. The npm publish dry run exits 0
@@ -297,5 +298,5 @@ The gate is considered passing when:
 
 ## References
 
-- `[[adr/ADR004-release-strategy]]`
+- `[[adr/ADR012-release-strategy]]`
 - `[[concepts/packaging]]`
