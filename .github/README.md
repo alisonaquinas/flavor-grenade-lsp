@@ -8,7 +8,7 @@
 
 <br>
 
-[![CI](https://github.com/alisonaquinas/flavor-grenade-lsp/actions/workflows/ci.yml/badge.svg)](https://github.com/alisonaquinas/flavor-grenade-lsp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/flavor-grenade-lsp)](https://www.npmjs.com/package/flavor-grenade-lsp) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Bun](https://img.shields.io/badge/Bun-latest-black?logo=bun)](https://bun.sh/)
+[![CI](https://github.com/alisonaquinas/flavor-grenade-lsp/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/alisonaquinas/flavor-grenade-lsp/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/flavor-grenade-lsp)](https://www.npmjs.com/package/flavor-grenade-lsp) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/) [![Bun](https://img.shields.io/badge/Bun-latest-black?logo=bun)](https://bun.sh/)
 
 </div>
 
