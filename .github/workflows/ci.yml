@@ -151,16 +151,25 @@ jobs:
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
-      # setup-node provides a recent npm binary. Do NOT set registry-url here:
-      # setup-node writes //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
-      # into .npmrc, and npm treats an explicitly-keyed empty token as
-      # "auth configured but invalid", preventing it from attempting the OIDC
-      # Trusted Publishing exchange. Without registry-url the _authToken key
-      # is absent, npm detects ACTIONS_ID_TOKEN_REQUEST_URL, and performs the
-      # OIDC exchange automatically. npmjs.com is already the default registry.
+      # setup-node provides the Node.js runtime; we upgrade npm immediately
+      # because the bundled npm in Node 22 does not support tokenless OIDC
+      # Trusted Publishing — it performs a pre-flight auth check that fails
+      # before the OIDC exchange can happen, producing ENEEDAUTH. npm@latest
+      # (9.5.0+) detects ACTIONS_ID_TOKEN_REQUEST_URL and exchanges the GitHub
+      # OIDC token for a short-lived publish credential automatically.
+      #
+      # Do NOT set registry-url here: setup-node would write
+      # //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} into .npmrc, and
+      # npm treats an explicitly-keyed empty token as "auth configured but
+      # invalid", blocking the OIDC exchange. Without registry-url the
+      # _authToken key is absent and npm performs the OIDC exchange itself.
+      # npmjs.com is already the default registry.
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Upgrade npm (required for tokenless OIDC Trusted Publishing)
+        run: npm install -g npm@latest
 
       - run: bun run build
 
