@@ -5,12 +5,62 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - id: release
+        uses: googleapis/release-please-action@v4
+
+  # Publish runs in the same workflow so it fires immediately when Release
+  # Please creates a release. Tags created by GITHUB_TOKEN do not trigger
+  # other workflows (e.g. CI), so a separate tag-triggered publish would
+  # never run. The CI publish job remains as a fallback for manual tag pushes.
+  publish:
+    name: Publish (npm + Bun registry)
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+    environment: npm-publish
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Bootstrap npm@latest from the registry tarball. Some Node 22 releases
+      # ship a broken bundled npm (missing promise-retry). npm@latest is
+      # required for tokenless OIDC Trusted Publishing.
+      - name: Bootstrap npm@latest
+        run: |
+          TMPDIR=$(mktemp -d)
+          curl -sf "$(curl -sf https://registry.npmjs.org/npm/latest | jq -r '.dist.tarball')" \
+            | tar -xz --strip-components=1 -C "$TMPDIR"
+          node "$TMPDIR/bin/npm-cli.js" install -g npm@latest
+          rm -rf "$TMPDIR"
+
+      - run: bun run build
+
+      - name: Publish to npmjs.com
+        run: npm publish --provenance --access public
+
+      - name: Publish to Bun registry
+        run: bun publish --access public --ignore-scripts
+        env:
+          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}

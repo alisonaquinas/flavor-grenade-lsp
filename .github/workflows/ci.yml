@@ -190,6 +190,8 @@ jobs:
 
       - name: Publish to Bun registry
         # Bun registry requires `bun publish`, not `npm publish --registry`.
-        run: bun publish --access public
+        # --ignore-scripts prevents the `prepare` script (lefthook install)
+        # from running — lefthook is not in PATH on CI runners.
+        run: bun publish --access public --ignore-scripts
         env:
           BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
