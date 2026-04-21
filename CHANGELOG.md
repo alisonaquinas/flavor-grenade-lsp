@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.1.0...v0.1.1) (2026-04-21)
+
+
+### Bug Fixes
+
+* **ci:** migrate release-please to googleapis action and fix config ([e976963](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/e97696377a748db8eca28c8c552f9387d3a7ee5c))
+* **package:** add repository field for npm provenance validation ([ca691dd](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/ca691dd6f2c121c828cbf58eae9aee3a375f4528))
+
 ## [Unreleased]
 
 ## [0.1.0] - 2026-04-20
