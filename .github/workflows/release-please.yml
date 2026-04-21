@@ -23,7 +23,7 @@ jobs:
   # other workflows (e.g. CI), so a separate tag-triggered publish would
   # never run. The CI publish job remains as a fallback for manual tag pushes.
   publish:
-    name: Publish (npm + Bun registry)
+    name: Publish to npm
     runs-on: ubuntu-latest
     needs: release-please
     if: needs.release-please.outputs.releases_created == 'true'
@@ -59,8 +59,3 @@ jobs:
 
       - name: Publish to npmjs.com
         run: npm publish --provenance --access public
-
-      - name: Publish to Bun registry
-        run: bun publish --access public --ignore-scripts
-        env:
-          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
