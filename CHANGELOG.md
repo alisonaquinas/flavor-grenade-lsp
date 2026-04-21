@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.1.1...v0.1.2) (2026-04-21)
+
+
+### Bug Fixes
+
+* **ci:** add publish to release-please workflow, fix bun publish and CHANGELOG lint ([8fbccd8](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/8fbccd81a21156d9655f1dc54f223dd6e79adaed))
+* **ci:** drop Bun registry publish step — no OIDC support ([5cb642c](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/5cb642c2f0726d3de5e99ab32ce85099828c465e))
+* **ci:** use explicit globs for markdownlint-obsidian to exclude templates and BDD fixtures ([ebabe5e](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/ebabe5ea6bbd8d38dd922c2e134b815cd6b9ca48))
+
 ## [0.1.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.1.0...v0.1.1) (2026-04-21)
 
 
