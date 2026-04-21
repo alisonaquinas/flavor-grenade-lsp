@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {
@@ -12,6 +12,10 @@
     "README.md",
     "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
+  },
   "publishConfig": {
     "access": "public"
   },

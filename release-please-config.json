@@ -1,9 +1,9 @@
 {
-  "release-type": "node",
+  "include-component-in-tag": false,
   "packages": {
     ".": {
       "release-type": "node",
-      "package-name": "@flavor-grenade/lsp-server",
+      "package-name": "flavor-grenade-lsp",
       "changelog-sections": [
         {"type": "feat", "section": "Features"},
         {"type": "fix", "section": "Bug Fixes"},
