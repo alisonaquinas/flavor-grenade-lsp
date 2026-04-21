@@ -111,7 +111,10 @@ jobs:
       # markdownlint-obsidian-cli enforces Obsidian Flavored Markdown conventions
       # defined in .obsidian-linter.jsonc, including wikilink/embed resolution.
       # Only applied to docs/ — other Markdown is handled by markdownlint-cli2.
-      - run: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc docs/
+      # Explicit globs are required: a bare `docs/` positional arg overrides
+      # config-level globs/ignores, scanning non-Markdown files and template
+      # directories that contain intentionally broken wikilinks.
+      - run: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc "docs/**/*.md" "!docs/templates/**" "!docs/bdd/**"
 
   markdown-lint-other:
     name: Markdown lint (other — markdownlint-cli2)
