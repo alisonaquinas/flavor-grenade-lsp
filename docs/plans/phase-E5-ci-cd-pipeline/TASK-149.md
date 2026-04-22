@@ -3,12 +3,12 @@ id: "TASK-149"
 title: "Create extension-release.yml GitHub Actions workflow"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E5"
 parent: "FEAT-019"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-148"]
 tags: [tickets/task, "phase/E5"]
@@ -17,7 +17,7 @@ aliases: ["TASK-149"]
 
 # Create extension-release.yml GitHub Actions workflow
 
-> [!INFO] `TASK-149` · Task · Phase E5 · Parent: [[FEAT-019]] · Status: `open`
+> [!INFO] `TASK-149` · Task · Phase E5 · Parent: [[FEAT-019]] · Status: `done`
 
 ## Description
 
@@ -153,3 +153,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-019]].
+
+> [!CHECK] Done — 2026-04-22
+> Created `.github/workflows/extension-release.yml` matching reference implementation. Trigger: `ext-v*` tag push. 7-target build matrix (linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64) all on ubuntu-latest with `fail-fast: true`. Cross-compile via `bun build --compile --minify --bytecode --target=<bun-target>`. Gated publish job with `VSCE_PAT` secret. YAML validated via js-yaml. Status: `done`.

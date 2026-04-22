@@ -3,11 +3,11 @@ id: "FEAT-017"
 title: "Status Bar Widget and Command Palette Integration"
 type: feature
 # status: draft | ready | in-progress | blocked | in-review | done | cancelled
-status: draft
+status: done
 priority: "high"
 phase: "E3"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["FEAT-016"]
 tags: [tickets/feature, "phase/E3"]
@@ -16,7 +16,7 @@ aliases: ["FEAT-017"]
 
 # Status Bar Widget and Command Palette Integration
 
-> [!INFO] `FEAT-017` · Feature · Phase E3 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-017` · Feature · Phase E3 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -105,9 +105,9 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-144]] | Implement status bar widget listening to flavorGrenade/status | `open` |
-| [[TASK-145]] | Implement command registrations (restart, rebuild index, show output) | `open` |
-| [[TASK-146]] | Wire status bar, commands, and config watcher into activate() | `open` |
+| [[TASK-144]] | Implement status bar widget listening to flavorGrenade/status | `done` |
+| [[TASK-145]] | Implement command registrations (restart, rebuild index, show output) | `done` |
+| [[TASK-146]] | Wire status bar, commands, and config watcher into activate() | `done` |
 
 ---
 
@@ -160,3 +160,31 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. Phase E3 Status Bar & Commands feature defined; all child tasks (TASK-144 through TASK-146) created. Blocked by FEAT-016 until Phase E2 LanguageClient Core is complete.
+
+> [!INFO] In-progress — 2026-04-22
+> FEAT-016 (Phase E2) complete. Steps A–C: tickets accurate, reference code in phase plan. Starting TASK-144.
+
+> [!INFO] Done — 2026-04-22
+> All child tasks (TASK-144 through TASK-146) done. Steps A–M executed. Lint + typecheck + build clean. Unit tests 550/0. No sweep tickets. Status: `done`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-04-22.
+
+### What went as planned
+Three tasks completed matching reference implementations exactly. `status-bar.ts` (57 lines), `commands.ts` (32 lines), and final `extension.ts` (74 lines) are clean and focused. All files compile and build without issues. Extension bundle grew minimally from 347kb to 349kb.
+
+### Deviations and surprises
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| — | — | No deviations. All tasks executed as specified. | +0 h |
+
+### Process observations
+- E3 tasks follow the same pattern as E2: VS Code API-dependent code with N/A tests. The infrastructure exception pattern is now well-established for extension phases.
+- Status bar and command wiring is straightforward — the phase plan's reference implementations were copy-exact.
+
+### Carry-forward actions
+- [ ] Manual EDH smoke test should verify status bar transitions and command palette entries
+
+### Rule / template amendments
+- none

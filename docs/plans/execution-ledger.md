@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-04-21
+updated: 2026-04-22
 ---
 
 # Execution Ledger
@@ -30,11 +30,11 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 12    | Code Actions             | ✅ complete    | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | 2026-04-17 | 2026-04-17 |
 | 13    | CI & Delivery            | ✅ complete    | CI green on all PRs; binary artifacts published    | 2026-04-17 | 2026-04-17 |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
-| E1    | Extension Scaffold       | ⏳ planned     | `npm run build:extension` exits 0; `dist/extension.js` produced | — | — |
-| E2    | LanguageClient Core      | ⏳ planned     | Extension activates and spawns server in Extension Development Host | — | — |
-| E3    | Status Bar & Commands    | ⏳ planned     | Commands in palette; status bar reflects server state | — | — |
-| E4    | Packaging & Local Test   | ⏳ planned     | `vsce package` produces installable VSIX; manual test passes | — | — |
-| E5    | CI/CD Pipeline           | ⏳ planned     | All 7 platform-specific VSIXs build on tag push    | — | — |
+| E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
+| E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |
+| E3    | Status Bar & Commands    | ✅ complete    | Commands in palette; status bar reflects server state | 2026-04-22 | 2026-04-22 |
+| E4    | Packaging & Local Test   | ✅ complete    | `vsce package` produces installable VSIX; manual test passes | 2026-04-22 | 2026-04-22 |
+| E5    | CI/CD Pipeline           | ✅ complete    | All 7 platform-specific VSIXs build on tag push    | 2026-04-22 | 2026-04-22 |
 
 ---
 

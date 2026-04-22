@@ -3,12 +3,12 @@ id: "TASK-142"
 title: "Implement LanguageClient activation and deactivate lifecycle"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E2"
 parent: "FEAT-016"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-141"]
 tags: [tickets/task, "phase/E2"]
@@ -17,7 +17,7 @@ aliases: ["TASK-142"]
 
 # Implement LanguageClient activation and deactivate lifecycle
 
-> [!INFO] `TASK-142` · Task · Phase E2 · Parent: [[FEAT-016]] · Status: `open`
+> [!INFO] `TASK-142` · Task · Phase E2 · Parent: [[FEAT-016]] · Status: `done`
 
 ## Description
 
@@ -155,3 +155,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
+
+> [!CHECK] Done — 2026-04-22
+> Replaced E1 stub with full LanguageClient activation matching reference implementation. `activate()` resolves server path via `resolveServerPath()`, builds Executable ServerOptions (stdio), constructs ClientOptions with Markdown document selector, `**/*.md` file watcher, and initializationOptions forwarding 3 config values. Client pushed to `context.subscriptions` for disposal. `deactivate()` empty by design. `tsc --noEmit` exits 0. `npm run build:extension` produces 347kb bundle (856ms). Linked Tests N/A per ticket (VS Code extension host dependency). All DoD items satisfied. Status: `done`.

@@ -82,11 +82,12 @@ activate(context: ExtensionContext)
 VS Code deactivates extension (window close / extension disable)
   │
   ▼
-deactivate()
+deactivate(): void
   │
-  └─ return client?.stop()
-       → sends LSP shutdown + exit to server
-       → context.subscriptions disposes all registered items
+  └─ No-op (empty body)
+       → LanguageClient pushed to context.subscriptions implements Disposable
+       → VS Code host calls dispose() on all subscriptions during deactivation
+       → LanguageClient.dispose() internally calls stop() → shutdown + exit
 ```
 
 ---

@@ -3,11 +3,11 @@ id: "CHORE-042"
 title: "Verify .vscodeignore excludes all non-shipping files"
 type: chore
 # status: open | in-progress | blocked | in-review | done | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E4"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-148"]
 tags: [tickets/chore, "phase/E4"]
@@ -16,7 +16,7 @@ aliases: ["CHORE-042"]
 
 # Verify .vscodeignore excludes all non-shipping files
 
-> [!INFO] `CHORE-042` · Chore · Phase E4 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-042` · Chore · Phase E4 · Priority: `high` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 
@@ -153,3 +153,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-21
 > Chore created. Status: `open`. Motivation: Marketplace quality standards — VSIX must contain only shipping files. Blocked by TASK-148 until a packaged VSIX exists for inspection.
+
+> [!CHECK] Done — 2026-04-22
+> VSIX contents audited via `unzip -l`. 9 files total. Shipping files present: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, `*.ts` source, `*.test.*`, `package-lock.json`, `.eslintrc*`, `.prettierrc*`, or `.gitignore` found. `.vscodeignore` reviewed — all exclusions correct. No modifications needed. `server/` directory absent (binary added by CI, not committed). No behaviour-affecting changes. Status: `done`.

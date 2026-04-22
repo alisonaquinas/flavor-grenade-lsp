@@ -3,12 +3,12 @@ id: "TASK-150"
 title: "Update roadmap and execution ledger with extension phase completion"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E5"
 parent: "FEAT-019"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-149"]
 tags: [tickets/task, "phase/E5"]
@@ -17,7 +17,7 @@ aliases: ["TASK-150"]
 
 # Update roadmap and execution ledger with extension phase completion
 
-> [!INFO] `TASK-150` · Task · Phase E5 · Parent: [[FEAT-019]] · Status: `open`
+> [!INFO] `TASK-150` · Task · Phase E5 · Parent: [[FEAT-019]] · Status: `done`
 
 ## Description
 
@@ -131,3 +131,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-019]].
+
+> [!CHECK] Done — 2026-04-22
+> Documentation-only task. `docs/roadmap.md` updated: all extension phases (R, E1–E5) marked complete with 2026-04-22 dates. Roadmap header note updated to reflect all extension work complete. `docs/plans/execution-ledger.md` already updated incrementally during each phase — all rows show ✅ complete. No code changes. Status: `done`.

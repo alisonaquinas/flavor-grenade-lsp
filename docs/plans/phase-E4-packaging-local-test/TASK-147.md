@@ -3,12 +3,12 @@ id: "TASK-147"
 title: "Add Marketplace assets (README, CHANGELOG, LICENSE, icon)"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E4"
 parent: "FEAT-018"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-146"]
 tags: [tickets/task, "phase/E4"]
@@ -17,7 +17,7 @@ aliases: ["TASK-147"]
 
 # Add Marketplace assets (README, CHANGELOG, LICENSE, icon)
 
-> [!INFO] `TASK-147` · Task · Phase E4 · Parent: [[FEAT-018]] · Status: `open`
+> [!INFO] `TASK-147` · Task · Phase E4 · Parent: [[FEAT-018]] · Status: `done`
 
 ## Description
 
@@ -143,3 +143,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].
+
+> [!CHECK] Done — 2026-04-22
+> Infrastructure task exception. Created 4 Marketplace assets: `extension/README.md` (features, config table, getting started, commands, requirements, links), `extension/CHANGELOG.md` (0.1.0 unreleased entry), `extension/LICENSE` (MIT), `extension/images/icon.png` (256x256 dark green placeholder PNG, 762 bytes). No root LICENSE existed — created MIT license matching package.json. `package.json` already has `"icon": "images/icon.png"`. All DoD items satisfied. Status: `done`.

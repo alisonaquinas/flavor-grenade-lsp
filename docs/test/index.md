@@ -68,26 +68,35 @@ Extension tests live under `extension/src/__tests__/` and use a separate test in
 
 Extension unit tests exercise extension-side logic only, mocking the VS Code API.
 
-| Test File | Type | Description | Requirements Tags | Phase |
-|---|---|---|---|---|
-| `extension/src/__tests__/server-path.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows .exe suffix | `Extension.Binary.Resolution` | Phase E2 |
-| `extension/src/__tests__/status-bar.test.ts` | Unit | Tests StatusBarItem text/tooltip transitions for all 4 flavorGrenade/status states | `Extension.StatusBar.StateTransition` | Phase E3 |
-| `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 |
+> [!NOTE] Aspirational
+> The test files listed below do not exist yet. They represent the target test coverage once a VS Code API mock strategy is established. See FEAT-016 retrospective carry-forward actions.
+
+| Test File | Type | Description | Requirements Tags | Phase | Status |
+|---|---|---|---|---|---|
+| `extension/src/__tests__/server-path.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows .exe suffix | `Extension.Binary.Resolution` | Phase E2 | 📋 planned |
+| `extension/src/__tests__/status-bar.test.ts` | Unit | Tests StatusBarItem text/tooltip transitions for all 4 flavorGrenade/status states | `Extension.StatusBar.StateTransition` | Phase E3 | 📋 planned |
+| `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests
 
 Extension integration tests require the VS Code Extension Development Host launched via `@vscode/test-electron`.
 
-| Test File | Type | Description | Requirements Tags | Phase |
-|---|---|---|---|---|
-| `extension/src/__tests__/activation.test.ts` | Integration | Tests extension activates on markdown file open, LanguageClient starts, server handshake completes | `Extension.Activation.Markdown` | Phase E2 |
-| `extension/src/__tests__/lifecycle.test.ts` | Integration | Tests clean deactivation, config change restart, crash recovery | `Extension.Lifecycle.Restart` | Phase E3 |
+> [!NOTE] Aspirational
+> The test files listed below do not exist yet. They require `@vscode/test-electron` infrastructure to be established. See FEAT-016 retrospective carry-forward actions.
+
+| Test File | Type | Description | Requirements Tags | Phase | Status |
+|---|---|---|---|---|---|
+| `extension/src/__tests__/activation.test.ts` | Integration | Tests extension activates on markdown file open, LanguageClient starts, server handshake completes | `Extension.Activation.Markdown` | Phase E2 | 📋 planned |
+| `extension/src/__tests__/lifecycle.test.ts` | Integration | Tests clean deactivation, config change restart, crash recovery | `Extension.Lifecycle.Restart` | Phase E3 | 📋 planned |
 
 ### Extension BDD Scenarios
 
-| Feature File | Step File | Description | Phase |
-|---|---|---|---|
-| `docs/bdd/features/vscode-extension.feature` | `extension/src/__tests__/bdd/vscode-extension.steps.ts` | 11 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery | Phase E4 |
+> [!NOTE] Aspirational
+> The step definition file listed below does not exist yet. The feature file contains scenarios but no step implementations.
+
+| Feature File | Step File | Description | Phase | Status |
+|---|---|---|---|---|
+| `docs/bdd/features/vscode-extension.feature` | `extension/src/__tests__/bdd/vscode-extension.steps.ts` | 11 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery | Phase E4 | 📋 planned |
 
 ---
 

@@ -2,7 +2,7 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-04-21
+updated: 2026-04-22
 current-version: 0.1.2
 ---
 
@@ -13,7 +13,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > [!NOTE]
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current version: **0.1.2**.
-> Active work: VS Code extension packaging and Marketplace publishing (`feature/vs-code`).
+> All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 
 ## Phase Table
 
@@ -123,11 +123,11 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | # | Phase Name | Status | Key Deliverable | Completed |
 |---|---|---|---|---|
 | R | Publishing Research | complete | Research report covering manifest, packaging, CI/CD, security | 2026-04-21 |
-| E1 | Extension Scaffold | planned | `extension/` directory with `package.json`, `tsconfig.json`, esbuild config; `npm run build:extension` exits 0 | — |
-| E2 | LanguageClient Core | planned | `extension.ts` with binary resolution, `LanguageClient` config, activate/deactivate lifecycle; server spawns in Extension Development Host | — |
-| E3 | Status Bar & Commands | planned | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | — |
-| E4 | Packaging & Local Test | planned | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | — |
-| E5 | CI/CD Pipeline | planned | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | — |
+| E1 | Extension Scaffold | complete | `extension/` directory with `package.json`, `tsconfig.json`, esbuild config; `npm run build:extension` exits 0 | 2026-04-22 |
+| E2 | LanguageClient Core | complete | `extension.ts` with binary resolution, `LanguageClient` config, activate/deactivate lifecycle; server spawns in Extension Development Host | 2026-04-22 |
+| E3 | Status Bar & Commands | complete | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | 2026-04-22 |
+| E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
+| E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
 
 ### Extension Phase Details
 

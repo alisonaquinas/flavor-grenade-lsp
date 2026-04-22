@@ -3,12 +3,12 @@ id: "TASK-141"
 title: "Implement 2-tier server binary resolution"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E2"
 parent: "FEAT-016"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-140"]
 tags: [tickets/task, "phase/E2"]
@@ -17,7 +17,7 @@ aliases: ["TASK-141"]
 
 # Implement 2-tier server binary resolution
 
-> [!INFO] `TASK-141` · Task · Phase E2 · Parent: [[FEAT-016]] · Status: `open`
+> [!INFO] `TASK-141` · Task · Phase E2 · Parent: [[FEAT-016]] · Status: `done`
 
 ## Description
 
@@ -146,3 +146,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
+
+> [!CHECK] Done — 2026-04-22
+> Created `extension/src/server-path.ts` with `resolveServerPath()` matching reference implementation exactly. Tier 1: reads `flavorGrenade.server.path` config, guards empty/whitespace. Tier 2: `Uri.joinPath` to bundled binary with `.exe` on win32. No PATH/env/download fallback. `tsc --noEmit` exits 0. Linked Tests N/A per ticket (VS Code API dependency — no mock strategy established). All DoD items satisfied. Status: `done`.

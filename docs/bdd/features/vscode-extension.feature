@@ -1,5 +1,5 @@
-@extension @lsp
-@adr:ADR015
+@extension @lsp @wip
+@adr:ADR001 @adr:ADR015
 Feature: VS Code extension lifecycle and integration
 
   The VS Code extension wraps the flavor-grenade-lsp server binary, spawning it

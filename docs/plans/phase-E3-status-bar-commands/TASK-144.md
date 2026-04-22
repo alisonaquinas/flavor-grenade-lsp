@@ -3,12 +3,12 @@ id: "TASK-144"
 title: "Implement status bar widget listening to flavorGrenade/status"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E3"
 parent: "FEAT-017"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-143"]
 tags: [tickets/task, "phase/E3"]
@@ -17,7 +17,7 @@ aliases: ["TASK-144"]
 
 # Implement status bar widget listening to flavorGrenade/status
 
-> [!INFO] `TASK-144` · Task · Phase E3 · Parent: [[FEAT-017]] · Status: `open`
+> [!INFO] `TASK-144` · Task · Phase E3 · Parent: [[FEAT-017]] · Status: `done`
 
 ## Description
 
@@ -162,3 +162,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].
+
+> [!CHECK] Done — 2026-04-22
+> Created `extension/src/status-bar.ts` with `createStatusBar()` matching reference implementation. FlavorGrenadeStatus interface with 4 states (initializing, indexing, ready, error). StatusBarAlignment.Left priority -1. Notification handler for `flavorGrenade/status`. Click command = `flavorGrenade.showOutput`. `tsc --noEmit` exits 0. Status: `done`.

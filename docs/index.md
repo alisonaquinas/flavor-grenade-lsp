@@ -131,7 +131,6 @@ All documentation layers are being written before any TypeScript implementation 
 | Document | Description |
 |---|---|
 | [[superpowers/specs/2026-04-21-vscode-extension-design]] | VS Code extension design spec |
-| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
 
 > [!NOTE]
 > All wikilinks in this documentation use `[[target]]` syntax. Cross-references are authoritative — if a linked document does not exist, it is a documentation gap that must be filled before implementation begins.

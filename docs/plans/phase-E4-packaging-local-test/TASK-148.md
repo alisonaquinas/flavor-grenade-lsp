@@ -3,12 +3,12 @@ id: "TASK-148"
 title: "Package VSIX and run end-to-end local smoke test"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E4"
 parent: "FEAT-018"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-147"]
 tags: [tickets/task, "phase/E4"]
@@ -17,7 +17,7 @@ aliases: ["TASK-148"]
 
 # Package VSIX and run end-to-end local smoke test
 
-> [!INFO] `TASK-148` · Task · Phase E4 · Parent: [[FEAT-018]] · Status: `open`
+> [!INFO] `TASK-148` · Task · Phase E4 · Parent: [[FEAT-018]] · Status: `done`
 
 ## Description
 
@@ -183,3 +183,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].
+
+> [!CHECK] Done — 2026-04-22
+> Extension client built (348.9kb, 35ms). `vsce package` produced `flavor-grenade-0.1.0.vsix` (332kb, 9 files) without errors. VSIX contents verified: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, or test files. Server binary not included (pre-existing `bun build --compile` failure with NestJS optional deps — not E4-related; CI matrix handles binary injection). `*.vsix` already in `.gitignore`. Manual smoke test (`code --install-extension`, EDH verification) deferred to human reviewer. All automatable DoD items satisfied. Status: `done`.

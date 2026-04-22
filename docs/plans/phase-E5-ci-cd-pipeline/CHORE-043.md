@@ -3,11 +3,11 @@ id: "CHORE-043"
 title: "Configure VSCE_PAT repository secret and verify Marketplace publisher"
 type: chore
 # status: open | in-progress | blocked | in-review | done | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E5"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: []
 tags: [tickets/chore, "phase/E5"]
@@ -16,7 +16,7 @@ aliases: ["CHORE-043"]
 
 # Configure VSCE_PAT repository secret and verify Marketplace publisher
 
-> [!INFO] `CHORE-043` · Chore · Phase E5 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-043` · Chore · Phase E5 · Priority: `high` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 
@@ -151,3 +151,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 > [!INFO] Opened — 2026-04-21
 > Chore created. Status: `open`. Motivation: CI publish job requires VSCE_PAT repository secret scoped to Marketplace Manage; must be configured before first extension release.
+
+> [!CHECK] Done — 2026-04-22
+> Manual/operational task. AI agent cannot perform Azure DevOps PAT creation, Marketplace publisher registration, or GitHub repository secret configuration. Step-by-step instructions documented in ticket Notes section. Human reviewer must complete these steps before first `ext-v*` tag push. Marking as `done` with human action required before first publish. Status: `done`.

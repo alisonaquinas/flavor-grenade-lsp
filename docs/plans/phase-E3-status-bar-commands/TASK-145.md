@@ -3,12 +3,12 @@ id: "TASK-145"
 title: "Implement command registrations (restart, rebuild index, show output)"
 type: task
 # status: open | red | green | refactor | in-review | done | blocked | cancelled
-status: open
+status: done
 priority: "high"
 phase: "E3"
 parent: "FEAT-017"
 created: "2026-04-21"
-updated: "2026-04-21"
+updated: "2026-04-22"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-144"]
 tags: [tickets/task, "phase/E3"]
@@ -17,7 +17,7 @@ aliases: ["TASK-145"]
 
 # Implement command registrations (restart, rebuild index, show output)
 
-> [!INFO] `TASK-145` · Task · Phase E3 · Parent: [[FEAT-017]] · Status: `open`
+> [!INFO] `TASK-145` · Task · Phase E3 · Parent: [[FEAT-017]] · Status: `done`
 
 ## Description
 
@@ -149,3 +149,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].
+
+> [!CHECK] Done — 2026-04-22
+> Created `extension/src/commands.ts` with `registerCommands()` matching reference implementation. Three commands registered: `restartServer` (client.restart), `rebuildIndex` (workspace/executeCommand), `showOutput` (outputChannel.show). Returns Disposable array. `tsc --noEmit` exits 0. Status: `done`.
