@@ -1,0 +1,103 @@
+name: Extension Release
+
+on:
+  push:
+    tags:
+      - 'ext-v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build VSIX (${{ matrix.vsce-target }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - vsce-target: linux-x64
+            bun-target: bun-linux-x64
+            binary-name: flavor-grenade-lsp
+          - vsce-target: linux-arm64
+            bun-target: bun-linux-arm64
+            binary-name: flavor-grenade-lsp
+          - vsce-target: alpine-x64
+            bun-target: bun-linux-x64-musl
+            binary-name: flavor-grenade-lsp
+          - vsce-target: darwin-x64
+            bun-target: bun-darwin-x64
+            binary-name: flavor-grenade-lsp
+          - vsce-target: darwin-arm64
+            bun-target: bun-darwin-arm64
+            binary-name: flavor-grenade-lsp
+          - vsce-target: win32-x64
+            bun-target: bun-windows-x64
+            binary-name: flavor-grenade-lsp.exe
+          - vsce-target: win32-arm64
+            bun-target: bun-windows-arm64
+            binary-name: flavor-grenade-lsp.exe
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install server dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Cross-compile server binary
+        run: |
+          mkdir -p extension/server
+          bun build --compile --minify --bytecode \
+            --target=${{ matrix.bun-target }} \
+            src/main.ts \
+            --outfile extension/server/${{ matrix.binary-name }}
+
+      - name: Install extension dependencies
+        working-directory: extension
+        run: npm ci
+
+      - name: Build extension client
+        working-directory: extension
+        run: npm run build:extension
+
+      - name: Package VSIX
+        working-directory: extension
+        run: npx vsce package --target ${{ matrix.vsce-target }}
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix-${{ matrix.vsce-target }}
+          path: extension/*.vsix
+          if-no-files-found: error
+
+  publish:
+    name: Publish to Marketplace
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: vsix-artifacts
+          pattern: vsix-*
+          merge-multiple: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Publish all VSIXs
+        run: vsce publish --packagePath vsix-artifacts/*.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
