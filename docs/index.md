@@ -90,6 +90,15 @@ All documentation layers are being written before any TypeScript implementation 
 | [[adr/ADR004-text-sync-strategy]] | Text sync decision |
 | [[adr/ADR005-wiki-style-binding]] | Wiki-link completion style decision |
 | [[adr/ADR006-block-ref-indexing]] | Block reference indexing decision |
+| [[adr/ADR007-git-flow-branching]] | git-flow branching strategy decision |
+| [[adr/ADR008-oidc-publishing]] | OIDC trusted publishing decision |
+| [[adr/ADR009-precommit-hooks-zero-warnings]] | Pre-commit hooks zero warnings decision |
+| [[adr/ADR010-tests-directory-structure]] | Tests directory structure decision |
+| [[adr/ADR011-one-class-per-file-namespaces]] | One class per file namespaces decision |
+| [[adr/ADR012-parser-safety-policy]] | Parser safety policy decision |
+| [[adr/ADR013-vault-root-confinement]] | Vault root confinement decision |
+| [[adr/ADR014-dependency-security-policy]] | Dependency security policy decision |
+| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
 | [[concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
 | [[requirements/workspace]] | Workspace requirements (Planguage) |
@@ -104,8 +113,25 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/code-lens]] | "N references" code lens |
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
+| [[design/behavior-layer]] | Behavior layer design |
+| [[design/domain-layer]] | Domain layer design |
+| [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |
 | [[roadmap]] | Phase-by-phase feature roadmap |
 | [[AGENTS]] | AI agent guidance for this repository |
+
+### Research
+
+| Document | Description |
+|---|---|
+| [[research/vscode-extension-publishing]] | VS Code extension publishing research |
+| [[research/security-threat-model]] | Security threat model research |
+
+### Extension
+
+| Document | Description |
+|---|---|
+| [[superpowers/specs/2026-04-21-vscode-extension-design]] | VS Code extension design spec |
+| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
 
 > [!NOTE]
 > All wikilinks in this documentation use `[[target]]` syntax. Cross-references are authoritative — if a linked document does not exist, it is a documentation gap that must be filled before implementation begins.

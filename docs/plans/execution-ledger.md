@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-04-17
+updated: 2026-04-21
 ---
 
 # Execution Ledger
@@ -29,6 +29,12 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 11    | Rename                   | ✅ complete    | rename.feature all scenarios pass                  | 2026-04-17 | 2026-04-17 |
 | 12    | Code Actions             | ✅ complete    | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | 2026-04-17 | 2026-04-17 |
 | 13    | CI & Delivery            | ✅ complete    | CI green on all PRs; binary artifacts published    | 2026-04-17 | 2026-04-17 |
+| R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
+| E1    | Extension Scaffold       | ⏳ planned     | `npm run build:extension` exits 0; `dist/extension.js` produced | — | — |
+| E2    | LanguageClient Core      | ⏳ planned     | Extension activates and spawns server in Extension Development Host | — | — |
+| E3    | Status Bar & Commands    | ⏳ planned     | Commands in palette; status bar reflects server state | — | — |
+| E4    | Packaging & Local Test   | ⏳ planned     | `vsce package` produces installable VSIX; manual test passes | — | — |
+| E5    | CI/CD Pipeline           | ⏳ planned     | All 7 platform-specific VSIXs build on tag push    | — | — |
 
 ---
 
@@ -123,6 +129,16 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
 
 Phases 6, 7, and 8 may proceed in parallel once Phase 5 is complete. Phase 9 requires Phases 6, 7, and 8.
 
+```text
+Extension Phases:
+
+Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
+                                          │
+                                       Phase E4 ──► Phase E5
+```
+
+Extension phases are independent of the server phases (0–13). Phase R (Publishing Research) is the entry point. All server phases are already complete.
+
 ---
 
 ## Notes
@@ -130,3 +146,4 @@ Phases 6, 7, and 8 may proceed in parallel once Phase 5 is complete. Phase 9 req
 - Phase 0 is the only phase that the AI agent can mark complete without CI (it is documentation-only).
 - Phases 1–13 all require CI to be configured (Phase 13 bootstraps CI itself; phases 1–12 use a local gate script in the interim).
 - If CI is not yet running, use `bun run gate:N` scripts defined in `package.json` as interim gates.
+- Extension phases use `E`-prefixed numbering (E1–E5) to distinguish from server phases (0–13). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).

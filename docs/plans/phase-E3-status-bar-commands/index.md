@@ -2,6 +2,7 @@
 title: "Phase E3 — Status Bar & Commands Tickets"
 tags: [plans/phase-E3, tickets/index]
 aliases: ["Phase E3 Tickets"]
+updated: 2026-04-21
 ---
 
 # Phase E3 — Status Bar & Commands Tickets

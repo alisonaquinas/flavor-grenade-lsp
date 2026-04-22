@@ -2,6 +2,7 @@
 title: Phase E2 — LanguageClient Core Tickets
 tags: [plans/phase-E2, tickets/index]
 aliases: ["Phase E2 Tickets"]
+updated: 2026-04-21
 ---
 
 # Phase E2 — LanguageClient Core Tickets

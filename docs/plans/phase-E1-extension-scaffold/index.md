@@ -2,6 +2,7 @@
 title: "Phase E1 — Extension Scaffold Tickets"
 tags: [plans/phase-E1, tickets/index]
 aliases: ["Phase E1 Tickets"]
+updated: 2026-04-21
 ---
 
 # Phase E1 — Extension Scaffold Tickets
