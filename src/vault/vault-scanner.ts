@@ -65,7 +65,11 @@ export class VaultScanner {
    */
   async scan(rootUri: string): Promise<void> {
     if (SingleFileModeGuard.isActive(this.vaultDetector, rootUri)) {
-      this.dispatcher.sendNotification('flavorGrenade/status', { status: 'ready' });
+      this.dispatcher.sendNotification('flavorGrenade/status', {
+        state: 'ready',
+        vaultCount: 0,
+        docCount: this.vaultIndex.size(),
+      });
       return;
     }
 
@@ -76,7 +80,11 @@ export class VaultScanner {
     await this.walkAndIndex(vaultRoot, vaultRoot);
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
-    this.dispatcher.sendNotification('flavorGrenade/status', { status: 'ready' });
+    this.dispatcher.sendNotification('flavorGrenade/status', {
+      state: 'ready',
+      vaultCount: 1,
+      docCount: this.vaultIndex.size(),
+    });
   }
 
   private async walkAndIndex(vaultRoot: string, dir: string): Promise<void> {

@@ -140,7 +140,7 @@ describe('VaultScanner', () => {
     expect(notifications).toHaveLength(1);
     expect(notifications[0]).toEqual({
       method: 'flavorGrenade/status',
-      params: { status: 'ready' },
+      params: { state: 'ready', vaultCount: 0, docCount: 0 },
     });
     // No files should have been indexed
     expect(vaultIndex.size()).toBe(0);
@@ -159,7 +159,7 @@ describe('VaultScanner', () => {
     await scanner.scan(toFileUri(tmpDir));
 
     expect(notifications).toHaveLength(1);
-    expect(notifications[0].params).toEqual({ status: 'ready' });
+    expect(notifications[0].params).toEqual({ state: 'ready', vaultCount: 1, docCount: 0 });
     expect(vaultIndex.size()).toBe(0);
     expect(scanner.getAssetIndex().size).toBe(0);
   });

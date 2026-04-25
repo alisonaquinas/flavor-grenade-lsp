@@ -192,7 +192,7 @@ describe('LSP Transport Integration', () => {
     expect(notif).toMatchObject({
       jsonrpc: '2.0',
       method: 'flavorGrenade/status',
-      params: { status: 'initializing' },
+      params: { state: 'initializing', vaultCount: 0, docCount: 0 },
     });
 
     await client.request('shutdown');

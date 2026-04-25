@@ -95,6 +95,10 @@ export class JsonRpcDispatcher {
     const handler = this.requests.get(message.method);
 
     if (!handler) {
+      const registered = Array.from(this.requests.keys()).join(', ');
+      process.stderr.write(
+        `[dispatcher] Method not found: ${message.method} | registered=[${registered}]\n`,
+      );
       this.output({
         jsonrpc: '2.0',
         id: message.id,

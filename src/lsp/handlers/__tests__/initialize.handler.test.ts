@@ -50,6 +50,10 @@ describe('InitializeHandler', () => {
     expect(notifier.send).not.toHaveBeenCalled();
     // Flush setImmediate
     await new Promise<void>((resolve) => setImmediate(resolve));
-    expect(notifier.send).toHaveBeenCalledWith('initializing');
+    expect(notifier.send).toHaveBeenCalledWith({
+      state: 'initializing',
+      vaultCount: 0,
+      docCount: 0,
+    });
   });
 });
