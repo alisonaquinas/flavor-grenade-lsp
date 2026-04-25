@@ -1,0 +1,14 @@
+.github/**
+src/**
+docs/**
+node_modules/**
+*.ts
+!dist/**
+tsconfig.json
+.eslintrc*
+.prettierrc*
+**/*.test.*
+**/__tests__/**
+.vscode/**
+.gitignore
+package-lock.json

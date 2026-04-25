@@ -42,6 +42,7 @@ All `.feature` files live in `bdd/features/`. Each file covers one functional ar
 | Feature File | Requirements Tested | Primary Tags | Scenario Count |
 |-------------|---------------------|-------------|----------------|
 | `bdd/features/initialization.feature` | Server startup, capability negotiation, vault detection, single-file mode detection | `@smoke`, `@lsp` | 8 |
+| `bdd/features/transport.feature` | LSP stdio transport, JSON-RPC framing, initialize/initialized handshake, shutdown/exit sequence | `@smoke`, `@lsp` | 2 |
 | `bdd/features/wiki-link-completion.feature` | Document slug completion, heading anchor completion, block ref completion, alias matching, `isIncomplete` flag | `@smoke`, `@ofm` | 14 |
 | `bdd/features/wiki-link-definition.feature` | Go-to-def for `CrossDoc`, `CrossSection`, `CrossBlock`, `IntraRef`; alias resolution; ambiguous target handling | `@smoke`, `@ofm` | 11 |
 | `bdd/features/wiki-link-references.feature` | Find-all-refs for `DocDef`, `HeaderDef`, `BlockAnchorDef`, `AliasDef`; vault-wide cross-ref counting | `@smoke`, `@ofm` | 10 |
@@ -53,8 +54,9 @@ All `.feature` files live in `bdd/features/`. Each file covers one functional ar
 | `bdd/features/symbols.feature` | `documentSymbol` heading tree, `workspace/symbol` subsequence matching, `codeLens` reference counts on headings and block anchors | `@smoke`, `@ofm` | 9 |
 | `bdd/features/semantic-tokens.feature` | Token type for each OFM element, no tokens inside ignore regions, callout type token, block anchor token | `@ofm` | 12 |
 | `bdd/features/code-actions.feature` | `InsertTOC` action, `CreateMissingFile` action, `TagToYaml` action, `NormalizeFrontmatter` action, action availability by cursor position | `@ofm` | 8 |
+| `bdd/features/vscode-extension.feature` | VS Code extension activation, status bar widget, palette commands (restart, rebuild, show output), binary resolution (user setting / bundled), server config change restart, deactivation cleanup, crash recovery | `@smoke`, `@extension`, `@lsp` | 11 |
 
-Total: **122 scenarios** across 12 feature files (as of the initial specification; `@wip` scenarios are counted but excluded from CI).
+Total: **135 scenarios** across 14 feature files (as of the initial specification; `@wip` scenarios are counted but excluded from CI).
 
 ---
 
@@ -171,3 +173,5 @@ The traceability matrix is maintained in `docs/requirements/traceability.md`. Fo
 - [[concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
 - [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
 - [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
+- [[bdd/features/vscode-extension]] — VS Code extension lifecycle and integration scenarios
+- [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging

@@ -1,0 +1,84 @@
+{
+  "name": "flavor-grenade",
+  "displayName": "Flavor Grenade — Obsidian Markdown Support",
+  "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
+  "version": "0.1.0",
+  "publisher": "alisonaquinas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
+  },
+  "engines": { "vscode": "^1.81.0" },
+  "categories": ["Programming Languages", "Linters"],
+  "keywords": ["obsidian", "markdown", "wiki-links", "lsp", "zettelkasten", "llm-wiki"],
+  "extensionKind": ["workspace"],
+  "main": "./dist/extension.js",
+  "icon": "images/icon.png",
+  "activationEvents": ["onLanguage:markdown"],
+  "contributes": {
+    "commands": [
+      { "command": "flavorGrenade.restartServer", "title": "Flavor Grenade: Restart Server" },
+      { "command": "flavorGrenade.rebuildIndex", "title": "Flavor Grenade: Rebuild Index" },
+      { "command": "flavorGrenade.showOutput", "title": "Flavor Grenade: Show Output" }
+    ],
+    "configuration": {
+      "title": "Flavor Grenade",
+      "properties": {
+        "flavorGrenade.server.path": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to the language server binary. Leave empty to use the bundled binary."
+        },
+        "flavorGrenade.linkStyle": {
+          "type": "string",
+          "enum": ["file-stem", "relative-path"],
+          "default": "file-stem",
+          "description": "Wiki-link completion style."
+        },
+        "flavorGrenade.completion.candidates": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum number of completion items returned."
+        },
+        "flavorGrenade.diagnostics.suppress": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Diagnostic codes to suppress."
+        },
+        "flavorGrenade.trace.server": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Trace communication between VS Code and the language server."
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Spawns a language server binary."
+    },
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "Requires file-system access for vault indexing."
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build:extension",
+    "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
+    "watch": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --sourcemap --watch",
+    "test": "echo 'No tests yet'"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "~1.81.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  }
+}

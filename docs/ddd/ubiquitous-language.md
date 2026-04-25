@@ -130,6 +130,19 @@ See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifec
 
 ---
 
+## Editor Client Terms
+
+| Term | Bounded Context | Definition |
+|------|----------------|------------|
+| **ExtensionClient** | BC6 Editor Client | The VS Code extension that wraps the LSP server. Responsible for binary resolution, LanguageClient lifecycle, status bar, and Command Palette integration. Thin client (~200 lines); all language intelligence lives in the server. |
+| **BinaryResolver** | BC6 Editor Client | The 2-tier resolution strategy for locating the server binary: (1) user setting `flavorGrenade.server.path`, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` relative to extension root. No PATH fallback, no download. |
+| **StatusBarWidget** | BC6 Editor Client | A VS Code `StatusBarItem` that reflects the server's indexing state by listening to `flavorGrenade/status` notifications. Displays states: initializing, indexing (with doc count), ready (with doc count), error (with message). |
+| **PlatformVSIX** | BC6 Editor Client | A platform-specific `.vsix` package containing the extension client JS bundle and one Bun-compiled server binary for a single target platform. 7 targets: linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64. |
+| **ExtensionActivation** | BC6 Editor Client | The `activate()` lifecycle entry point. Triggered by `onLanguage:markdown`. Resolves binary, creates LanguageClient, starts server, wires status bar and commands. |
+| **ExtensionDeactivation** | BC6 Editor Client | The `deactivate()` lifecycle exit point. Client disposal (and server shutdown) is handled by `context.subscriptions`. |
+
+---
+
 ## OFM-Specific Extension Terms
 
 These terms distinguish OFM (Obsidian Flavored Markdown) from standard CommonMark and from marksman's domain model.
