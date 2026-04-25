@@ -225,6 +225,14 @@ export class LspModule implements OnModuleInit {
 
     this.dispatcher.onRequest('workspace/executeCommand', (p) => this.handleExecuteCommand(p));
 
+    // Custom method for the VS Code extension — bypasses vscode-languageclient's
+    // built-in interception of standard LSP methods like workspace/executeCommand.
+    this.dispatcher.onRequest('flavorGrenade/rebuildIndex', async () => {
+      process.stderr.write('[flavor-grenade-lsp] flavorGrenade/rebuildIndex request received\n');
+      await this.initialized.handle({});
+      return null;
+    });
+
     this.reader.on('message', (raw: string) => {
       this.dispatcher.dispatch(raw).catch((err: unknown) => {
         process.stderr.write(`[flavor-grenade-lsp] dispatch error: ${String(err)}\n`);
