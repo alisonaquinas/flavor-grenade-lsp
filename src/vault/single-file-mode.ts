@@ -26,9 +26,12 @@ export class SingleFileModeGuard {
    */
   static uriToPath(uri: string): string {
     try {
-      const pathname = new URL(uri).pathname;
+      // Decode first so percent-encoded colons (%3A) become ':' before the
+      // drive-letter regex runs.  Without this, '/c%3A/...' bypasses the
+      // strip and resolves to an invalid path on Windows (C:\c:\...).
+      const decoded = decodeURIComponent(new URL(uri).pathname);
       // On Windows: /C:/path → C:/path
-      return decodeURIComponent(pathname.replace(/^\/([A-Za-z]:)/, '$1'));
+      return decoded.replace(/^\/([A-Za-z]:)/, '$1');
     } catch {
       return uri;
     }

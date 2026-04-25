@@ -24,7 +24,7 @@
     "dev": "bun --watch src/main.ts",
     "build": "tsc --project tsconfig.json",
     "build:binary": "bun build src/main.ts --compile --external @nestjs/microservices --external @nestjs/websockets --external class-validator --external class-transformer --outfile=dist/flavor-grenade-lsp && cp dist/flavor-grenade-lsp extension/server/flavor-grenade-lsp",
-    "build:binary:win": "bun build src/main.ts --compile --external @nestjs/microservices --external @nestjs/websockets --external class-validator --external class-transformer --outfile=dist/flavor-grenade-lsp.exe && copy dist\\flavor-grenade-lsp.exe extension\\server\\flavor-grenade-lsp.exe",
+    "build:binary:win": "bun build src/main.ts --compile --external @nestjs/microservices --external @nestjs/websockets --external class-validator --external class-transformer --outfile=dist/flavor-grenade-lsp.exe && cp dist/flavor-grenade-lsp.exe extension/server/flavor-grenade-lsp.exe",
     "start": "node dist/main.js",
     "test": "bun test",
     "bdd": "bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml",
