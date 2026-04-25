@@ -133,6 +133,9 @@ export class LspModule implements OnModuleInit {
         full: true,
         range: false,
       },
+      executeCommandProvider: {
+        commands: ['flavorGrenade.rebuildIndex'],
+      },
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -220,6 +223,8 @@ export class LspModule implements OnModuleInit {
       ),
     );
 
+    this.dispatcher.onRequest('workspace/executeCommand', (p) => this.handleExecuteCommand(p));
+
     this.reader.on('message', (raw: string) => {
       this.dispatcher.dispatch(raw).catch((err: unknown) => {
         process.stderr.write(`[flavor-grenade-lsp] dispatch error: ${String(err)}\n`);
@@ -234,7 +239,36 @@ export class LspModule implements OnModuleInit {
    */
   private handleCompletion(params: unknown): { items: unknown[]; isIncomplete: boolean } {
     const p = params as Parameters<CompletionRouter['route']>[0] | null | undefined;
-    if (p == null) return { items: [], isIncomplete: false };
-    return this.completionRouter.route(p);
+    if (p == null) {
+      process.stderr.write('[flavor-grenade-lsp] completion: params null\n');
+      return { items: [], isIncomplete: false };
+    }
+    const result = this.completionRouter.route(p);
+    if (result.items.length === 0) {
+      process.stderr.write(
+        `[flavor-grenade-lsp] completion: 0 items for ${p.textDocument?.uri} ` +
+          `pos=${p.position?.line}:${p.position?.character} ` +
+          `vaultSize=${this.vaultIndex.size()}\n`,
+      );
+    }
+    return result;
+  }
+
+  /**
+   * Handle a workspace/executeCommand request.
+   *
+   * Routes to the appropriate command handler based on the `command` field.
+   */
+  private async handleExecuteCommand(params: unknown): Promise<unknown> {
+    const p = params as { command?: string; arguments?: unknown[] } | null | undefined;
+    const command = p?.command;
+
+    if (command === 'flavorGrenade.rebuildIndex') {
+      process.stderr.write('[flavor-grenade-lsp] executeCommand: rebuildIndex\n');
+      await this.initialized.handle({});
+      return null;
+    }
+
+    return Promise.reject(new Error(`Unknown command: ${command}`));
   }
 }

@@ -3,10 +3,12 @@ import { jest } from '@jest/globals';
 import { InitializeHandler } from '../initialize.handler.js';
 import { CapabilityRegistry } from '../../services/capability-registry.js';
 import { StatusNotifier } from '../../services/status-notifier.js';
+import { LifecycleState } from '../../services/lifecycle-state.js';
 
 describe('InitializeHandler', () => {
   let mockCapabilities: CapabilityRegistry;
   let mockNotifier: StatusNotifier;
+  let mockLifecycle: LifecycleState;
   let handler: InitializeHandler;
   const fakeCapabilities = { textDocumentSync: 1, someFeature: true };
 
@@ -15,7 +17,8 @@ describe('InitializeHandler', () => {
       getCapabilities: jest.fn().mockReturnValue(fakeCapabilities),
     } as unknown as CapabilityRegistry;
     mockNotifier = { send: jest.fn() } as unknown as StatusNotifier;
-    handler = new InitializeHandler(mockCapabilities, mockNotifier);
+    mockLifecycle = new LifecycleState();
+    handler = new InitializeHandler(mockCapabilities, mockNotifier, mockLifecycle);
   });
 
   it('result.capabilities === CapabilityRegistry.getCapabilities() return value', async () => {
@@ -41,7 +44,7 @@ describe('InitializeHandler', () => {
 
   it('notifier.send("initializing") IS called after setImmediate flushes', async () => {
     const notifier = { send: jest.fn() } as unknown as StatusNotifier;
-    const h = new InitializeHandler(mockCapabilities, notifier);
+    const h = new InitializeHandler(mockCapabilities, notifier, mockLifecycle);
     await h.handle({});
     // Not yet called synchronously
     expect(notifier.send).not.toHaveBeenCalled();

@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
-  "engines": { "vscode": "^1.93.0" },
+  "engines": { "vscode": "^1.81.0" },
   "categories": ["Programming Languages", "Linters"],
   "keywords": ["obsidian", "markdown", "wiki-links", "lsp", "zettelkasten", "llm-wiki"],
   "extensionKind": ["workspace"],
@@ -76,7 +76,7 @@
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
-    "@types/vscode": "~1.93.0",
+    "@types/vscode": "~1.81.0",
     "@vscode/vsce": "^3.0.0",
     "esbuild": "^0.24.0",
     "typescript": "^5.6.0"
