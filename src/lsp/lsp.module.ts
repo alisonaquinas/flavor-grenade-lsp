@@ -133,9 +133,6 @@ export class LspModule implements OnModuleInit {
         full: true,
         range: false,
       },
-      executeCommandProvider: {
-        commands: ['flavorGrenade.rebuildIndex'],
-      },
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
