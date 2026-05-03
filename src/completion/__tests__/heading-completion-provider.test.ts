@@ -142,14 +142,15 @@ describe('HeadingCompletionProvider', () => {
       expect(items[0].kind).toBe(18);
     });
 
-    it('produces insertText with stem#headingText for cross-doc', () => {
+    it('produces insertText with just headingText for cross-doc replacement', () => {
       const docId = id('guide');
       vaultIndex.set(docId, makeDoc('file:///v/guide.md', [{ level: 1, text: 'Overview' }]));
       folderLookup.rebuild(vaultIndex);
 
       const { items } = provider.getCompletions('guide', '');
 
-      expect(items[0].insertText).toBe('guide#Overview');
+      expect(items[0].insertText).toBe('Overview');
+      expect(items[0].detail).toBe('guide#Overview');
     });
 
     it('produces insertText with just headingText for intra-doc', () => {

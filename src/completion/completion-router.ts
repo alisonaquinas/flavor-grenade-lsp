@@ -9,27 +9,21 @@ import { EmbedCompletionProvider } from './embed-completion-provider.js';
 import { TagCompletionProvider } from './tag-completion-provider.js';
 import { CalloutCompletionProvider } from './callout-completion-provider.js';
 import { ParseCache } from '../parser/parser.module.js';
-import type { DocId } from '../vault/doc-id.js';
-
-/** Maximum number of completion candidates to return in a single response. */
-const CANDIDATES_CAP = 50;
-
-/** Supported link-style formatting modes. */
-export type LinkStyle = 'file-stem' | 'title-slug' | 'file-path-stem';
+import { ServerSettings } from '../lsp/services/server-settings.js';
+import type { Range } from 'vscode-languageserver-types';
 
 /** Parameters accepted by the router (matches textDocument/completion shape). */
 export interface CompletionParams {
   textDocument: { uri: string };
   position: { line: number; character: number };
   context?: { triggerCharacter?: string };
-  linkStyle?: LinkStyle;
 }
 
 /**
  * Routes textDocument/completion requests to the appropriate sub-provider
  * based on the cursor context detected by {@link ContextAnalyzer}.
  *
- * Applies a {@link CANDIDATES_CAP} to keep response sizes bounded. Sets
+ * Applies the configured candidate cap to keep response sizes bounded. Sets
  * isIncomplete: true when results are truncated.
  */
 @Injectable()
@@ -46,6 +40,7 @@ export class CompletionRouter {
     private readonly tagProvider: TagCompletionProvider,
     private readonly calloutProvider: CalloutCompletionProvider,
     private readonly parseCache: ParseCache,
+    private readonly settings: ServerSettings,
   ) {}
 
   /**
@@ -83,18 +78,22 @@ export class CompletionRouter {
 
     // 5. Dispatch to provider
     let result: { items: CompletionItem[]; isIncomplete: boolean };
+    let replaceLength = 0;
+    const { linkStyle, completionCandidates } = this.settings.snapshot();
 
     switch (context.kind) {
       case 'wiki-link':
-        result = this.wikiLinkProvider.getCompletions(context.partial);
+        result = this.wikiLinkProvider.getCompletions(context.partial, linkStyle);
+        replaceLength = context.partial.length;
         break;
 
       case 'wiki-link-heading':
         result = this.headingProvider.getCompletions(
           context.targetStem,
           context.headingPrefix,
-          uri as DocId,
+          doc,
         );
+        replaceLength = context.headingPrefix.length;
         break;
 
       case 'wiki-link-block':
@@ -103,30 +102,37 @@ export class CompletionRouter {
           context.targetStem !== '' ? context.targetStem : undefined,
           uri,
         );
+        replaceLength = context.blockPrefix.length;
         break;
 
       case 'embed':
         result = this.embedProvider.getCompletions(context.partial);
+        replaceLength = context.partial.length;
         break;
 
       case 'tag':
         result = this.tagProvider.getCompletions(context.partial);
+        replaceLength = context.partial.length;
         break;
 
       case 'callout':
         result = this.calloutProvider.getCompletions(context.partial);
+        replaceLength = context.partial.length;
         break;
 
       default:
         return { items: [], isIncomplete: false };
     }
 
-    // 6. Apply candidate cap (TASK-097)
-    if (result.items.length > CANDIDATES_CAP) {
-      return { items: result.items.slice(0, CANDIDATES_CAP), isIncomplete: true };
+    // 6. Apply text edits and candidate cap.
+    const replaceRange = this.replacementRange(params.position, replaceLength);
+    const items = result.items.map((item) => this.withTextEdit(item, replaceRange));
+
+    if (items.length > completionCandidates) {
+      return { items: items.slice(0, completionCandidates), isIncomplete: true };
     }
 
-    return result;
+    return { items, isIncomplete: result.isIncomplete };
   }
 
   /**
@@ -166,5 +172,27 @@ export class CompletionRouter {
     const currentLine = lines[position.line] ?? '';
     offset += Math.min(position.character, currentLine.length);
     return offset;
+  }
+
+  private replacementRange(
+    position: { line: number; character: number },
+    replaceLength: number,
+  ): Range {
+    return {
+      start: {
+        line: position.line,
+        character: Math.max(0, position.character - replaceLength),
+      },
+      end: position,
+    };
+  }
+
+  private withTextEdit(item: CompletionItem, range: Range): CompletionItem {
+    const newText = item.insertText ?? item.label;
+    return {
+      ...item,
+      insertText: newText,
+      textEdit: { range, newText },
+    };
   }
 }

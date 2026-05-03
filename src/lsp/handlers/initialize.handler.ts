@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CapabilityRegistry } from '../services/capability-registry.js';
 import { StatusNotifier } from '../services/status-notifier.js';
 import { LifecycleState } from '../services/lifecycle-state.js';
+import { ServerSettings } from '../services/server-settings.js';
 
 /** Result shape returned to the LSP client for `initialize`. */
 interface InitializeResult {
@@ -13,6 +14,7 @@ interface InitializeResult {
 interface InitializeParams {
   rootUri?: string | null;
   workspaceFolders?: Array<{ uri: string }> | null;
+  initializationOptions?: unknown;
 }
 
 /**
@@ -33,6 +35,7 @@ export class InitializeHandler {
     private readonly capabilities: CapabilityRegistry,
     private readonly notifier: StatusNotifier,
     private readonly lifecycle: LifecycleState,
+    private readonly settings: ServerSettings,
   ) {}
 
   /**
@@ -45,6 +48,7 @@ export class InitializeHandler {
 
     // Capture rootUri: prefer rootUri, fall back to first workspaceFolder.
     this.lifecycle.rootUri = p?.rootUri ?? p?.workspaceFolders?.[0]?.uri ?? null;
+    this.settings.applyInitializationOptions(p?.initializationOptions);
 
     const result: InitializeResult = {
       capabilities: this.capabilities.getCapabilities(),

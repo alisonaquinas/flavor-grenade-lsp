@@ -7,6 +7,7 @@ import { DocumentStore } from './services/document-store.js';
 import { LifecycleState } from './services/lifecycle-state.js';
 import { CapabilityRegistry } from './services/capability-registry.js';
 import { StatusNotifier } from './services/status-notifier.js';
+import { ServerSettingsModule } from './services/server-settings.module.js';
 import { InitializeHandler } from './handlers/initialize.handler.js';
 import { InitializedHandler } from './handlers/initialized.handler.js';
 import { ShutdownHandler } from './handlers/shutdown.handler.js';
@@ -58,6 +59,7 @@ import { RenameHandler } from '../handlers/rename.handler.js';
     NavigationModule,
     RenameModule,
     CodeActionsModule,
+    ServerSettingsModule,
   ],
   providers: [
     DocumentStore,
