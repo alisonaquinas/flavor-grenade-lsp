@@ -29,16 +29,23 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 **In scope:**
 
 - Status bar widget displaying server state (initializing, indexing, ready, error) with codicon icons
+
 - Click-to-show-output on the status bar item
+
 - Three Command Palette commands: Restart Server, Rebuild Index, Show Output
+
 - Configuration change watcher that restarts the server when `flavorGrenade.server.path` changes
+
 - Wiring all of the above into the `activate()` extension entry point
 
 **Out of scope (explicitly excluded):**
 
 - Server-side implementation of `flavorGrenade/status` notification (already implemented in the LSP server)
+
 - Server-side implementation of `flavorGrenade.rebuildIndex` workspace command (already registered via `executeCommandProvider`)
+
 - Custom UI beyond the status bar item (e.g., tree views, webviews)
+
 - Settings UI for configuration keys beyond `server.path` restart behaviour
 
 ---
@@ -76,6 +83,7 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 ## Phase Plan Reference
 
 - Phase plan: [[plans/phase-E3-status-bar-commands]]
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -85,16 +93,27 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] Status bar item appears on extension activation and displays "FG: Starting..." with a loading spinner
+
 - [ ] Status bar transitions through initializing, indexing, ready, and error states with correct icons and tooltips
+
 - [ ] Clicking the status bar item opens the Flavor Grenade output channel
+
 - [ ] Command Palette lists "Flavor Grenade: Restart Server", "Flavor Grenade: Rebuild Index", and "Flavor Grenade: Show Output"
+
 - [ ] "Restart Server" command restarts the LanguageClient
+
 - [ ] "Rebuild Index" command sends `workspace/executeCommand` with `flavorGrenade.rebuildIndex` to the server
+
 - [ ] "Show Output" command reveals the LSP output channel
+
 - [ ] Changing `flavorGrenade.server.path` in settings triggers a server restart
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `cd extension && npm run build:extension` exits 0
+
 - [ ] No new linter warnings introduced
+
 - [ ] All child TASK tickets (TASK-144 through TASK-146) are in `done` state
 
 ---
@@ -172,19 +191,25 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Written after Step L passes. Date: 2026-04-22.
 
 ### What went as planned
+
 Three tasks completed matching reference implementations exactly. `status-bar.ts` (57 lines), `commands.ts` (32 lines), and final `extension.ts` (74 lines) are clean and focused. All files compile and build without issues. Extension bundle grew minimally from 347kb to 349kb.
 
 ### Deviations and surprises
+
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | — | — | No deviations. All tasks executed as specified. | +0 h |
 
 ### Process observations
+
 - E3 tasks follow the same pattern as E2: VS Code API-dependent code with N/A tests. The infrastructure exception pattern is now well-established for extension phases.
+
 - Status bar and command wiring is straightforward — the phase plan's reference implementations were copy-exact.
 
 ### Carry-forward actions
+
 - [ ] Manual EDH smoke test should verify status bar transitions and command palette entries
 
 ### Rule / template amendments
+
 - none

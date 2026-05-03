@@ -93,11 +93,17 @@ The `extension-release.yml` workflow's publish job references `${{ secrets.VSCE_
 All of the following must be true before this ticket is marked `done`:
 
 - [ ] Publisher `alisonaquinas` is registered on the VS Code Marketplace (https://marketplace.visualstudio.com/manage)
+
 - [ ] A PAT exists in Azure DevOps scoped to Marketplace `Manage` for the `alisonaquinas` publisher
+
 - [ ] The PAT is stored as `VSCE_PAT` in the GitHub repository's Settings > Secrets and variables > Actions > Repository secrets
+
 - [ ] `VSCE_PAT` secret is accessible to workflows running on the default branch
+
 - [ ] No code changes in `src/` or `extension/` (manual/operational only)
+
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
+
 - [ ] `bun test` passes (no regressions introduced) — verify no accidental code changes
 
 ---
@@ -107,27 +113,43 @@ All of the following must be true before this ticket is marked `done`:
 **Step-by-step checklist for the human operator:**
 
 1. **Verify or register publisher identity:**
+
    - Go to https://marketplace.visualstudio.com/manage
+
    - Sign in with the Microsoft account associated with `alisonaquinas`
+
    - If the publisher `alisonaquinas` does not exist, create it (Publisher name: `alisonaquinas`, Display name as desired)
 
 2. **Create a Personal Access Token (PAT):**
+
    - Go to https://dev.azure.com/ and sign in with the same Microsoft account
+
    - Navigate to User Settings > Personal Access Tokens
+
    - Create a new token with:
+
      - **Organization:** All accessible organizations
+
      - **Scopes:** Marketplace > Manage
+
      - **Expiration:** Set an appropriate expiry (recommend 1 year; set a calendar reminder to rotate)
+
    - Copy the token value immediately (it will not be shown again)
 
 3. **Add the secret to GitHub:**
+
    - Go to the GitHub repository Settings > Secrets and variables > Actions
+
    - Click "New repository secret"
+
    - Name: `VSCE_PAT`
+
    - Value: paste the PAT from step 2
+
    - Click "Add secret"
 
 4. **Verify:**
+
    - Optionally run `npx vsce verify-pat alisonaquinas` locally with the PAT exported as `VSCE_PAT` to confirm it works before the first CI publish
 
 The PAT should be rotated before its expiry date. Consider adding a reminder or documenting the expiry date in a secure location.
@@ -152,5 +174,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-21
 > Chore created. Status: `open`. Motivation: CI publish job requires VSCE_PAT repository secret scoped to Marketplace Manage; must be configured before first extension release.
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Manual/operational task. AI agent cannot perform Azure DevOps PAT creation, Marketplace publisher registration, or GitHub repository secret configuration. Step-by-step instructions documented in ticket Notes section. Human reviewer must complete these steps before first `ext-v*` tag push. Marking as `done` with human action required before first publish. Status: `done`.

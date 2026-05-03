@@ -37,7 +37,9 @@ aliases: ["{{TICKET-ID}}"]
 > Deterministic numbered steps that reproduce the bug from a clean state. Include the exact vault content, LSP method call, and cursor position where relevant.
 
 1. {{STEP-1}}
+
 2. {{STEP-2}}
+
 3. {{STEP-3}}
 
 **Minimal reproducing vault content:**
@@ -72,7 +74,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `{{FR-TAG}}` | {{FR-GIST}} | [[requirements/{{FEATURE-FILE}}]] |
+| `{{FR-TAG}}` | {{FR-GIST}} | `[[requirements/{{FEATURE-FILE}}]]` |
 
 ---
 
@@ -82,7 +84,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Feature File | Scenario Title | Gap? |
 |---|---|---|
-| [[bdd/features/{{FEATURE-NAME}}]] | `{{SCENARIO-TITLE}}` | {{YES-SCENARIO-MISSING / NO-SCENARIO-EXISTS-BUT-DID-NOT-CATCH}} |
+| `[[bdd/features/{{FEATURE-NAME}}]]` | `{{SCENARIO-TITLE}}` | {{YES-SCENARIO-MISSING / NO-SCENARIO-EXISTS-BUT-DID-NOT-CATCH}} |
 
 ---
 
@@ -102,7 +104,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | ADR | Relevance |
 |---|---|
-| [[adr/ADR{{NNN}}-{{SLUG}}]] | {{HOW-THIS-ADR-RELATES}} |
+| `[[adr/ADR{{NNN}}-{{SLUG}}]]` | {{HOW-THIS-ADR-RELATES}} |
 
 ---
 
@@ -112,11 +114,11 @@ aliases: ["{{TICKET-ID}}"]
 
 **Blocked by:**
 
-- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
 
 **Unblocks:**
 
-- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{UNBLOCKED-TICKET-ID}}]]` — {{REASON}}
 
 ---
 
@@ -133,8 +135,11 @@ aliases: ["{{TICKET-ID}}"]
 > What must be added or updated to prevent this bug from recurring:
 
 - [ ] Failing test added before fix (RED commit in git log)
-- [ ] BDD scenario added or updated in [[bdd/features/{{FEATURE-NAME}}]]
+
+- [ ] BDD scenario added or updated in `[[bdd/features/{{FEATURE-NAME}}]]`
+
 - [ ] [[test/matrix]] row updated to `✅ passing` after fix
+
 - [ ] [[test/index]] updated if a new test file is added
 
 ---

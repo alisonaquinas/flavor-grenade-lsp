@@ -1,5 +1,5 @@
 // markdownlint-obsidian configuration for flavor-grenade-lsp docs/
-// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc docs/
+// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc "docs/**/*.md"
 // Package: https://libraries.io/npm/markdownlint-obsidian
 // CLI: https://www.npmjs.com/package/markdownlint-obsidian-cli
 {
@@ -8,45 +8,17 @@
   // Enable vault-wide wikilink/embed resolution so broken internal links
   // are flagged as lint errors.
   "resolve": true,
-  // Default globs when no positional args are passed. Keep these in sync with
-  // .github/workflows/ci.yml. The strict OFM docs lint covers maintained docs;
-  // templates, BDD fixtures, phase tickets, and generated superpowers notes
-  // have their own syntax conventions and intentional placeholders.
-  "globs": [
-    "docs/**/*.md",
-    "!docs/templates/**",
-    "!docs/bdd/**",
-    "!docs/plans/**",
-    "!docs/superpowers/**"
-  ],
+  // Default glob when no positional args are passed. Keep this in sync with
+  // .github/workflows/ci.yml.
+  "globs": ["docs/**/*.md"],
   "ignores": [
-    "node_modules/**",
-    // Ticket template files contain {{PLACEHOLDER}} wikilinks
-    // (e.g. [[adr/ADR{{NNN}}-{{SLUG}}]]) that are intentionally unresolvable.
-    // Templates are meta-documents — they are never instantiated as vault
-    // notes themselves, so OFM001 broken-link checking does not apply.
-    "docs/templates/**",
-    // BDD .feature files (Gherkin) contain intentional test-fixture wikilinks
-    // such as [[missing-note]], [[broken-link]], [[source]] — these are vault
-    // content used as INPUT to LSP broken-link detection scenarios, not real
-    // navigational links. OFM wikilink/embed rules do not apply to feature files.
-    "docs/bdd/**",
-    // Phase tickets use workflow callouts/placeholders (e.g. [!CHECK]) and are
-    // operational records rather than maintained vault reference notes.
-    "docs/plans/**",
-    // Superpowers planning notes are generated process artifacts and should not
-    // gate the maintained docs vault.
-    "docs/superpowers/**"
+    "node_modules/**"
   ],
   "rules": {
     // MD028 fires on blank lines inside blockquotes.
     // OFM callout syntax uses blank lines to separate multi-paragraph callouts
     // (e.g. `> [!NOTE]\n>\n> second paragraph`). Removing those blank lines
     // would break Obsidian's callout rendering, so this rule is disabled.
-    "MD028": { "enabled": false },
-    // MD032 currently reports false positives on YAML frontmatter lists and
-    // some OFM callout/list boundaries; markdownlint-obsidian-cli --fix can
-    // insert invalid blockquote markers for these cases.
-    "MD032": { "enabled": false }
+    "MD028": { "enabled": false }
   }
 }

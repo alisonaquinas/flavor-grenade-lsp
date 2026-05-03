@@ -93,14 +93,23 @@ The VS Code Marketplace has a quality bar for extension packages. Shipping sourc
 All of the following must be true before this ticket is marked `done`:
 
 - [ ] `unzip -l` of the VSIX shows only these top-level entries under `extension/`: `dist/`, `server/`, `package.json`, `README.md`, `LICENSE`, `CHANGELOG.md`, `images/`
+
 - [ ] VSIX does not contain `src/`, `node_modules/`, `tsconfig.json`, `tsconfig.*.json`, `*.ts` source files, `*.test.*` files, `*.map` files, `package-lock.json`, `bun.lockb`, `.eslintrc.*`, `.prettierrc.*`, or `.gitignore`
+
 - [ ] `extension/.vscodeignore` is reviewed and any missing exclusions are added
+
 - [ ] If `.vscodeignore` was modified, `vsce package` is re-run and the new VSIX is re-inspected
+
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] `bun test` passes (no regressions introduced)
+
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
+
 - [ ] [[test/matrix]] updated if any test files were added or removed
+
 - [ ] [[test/index]] updated if any test files were added or removed
 
 ---
@@ -111,7 +120,7 @@ The VSIX internal directory structure uses an `extension/` prefix added by `vsce
 
 Expected VSIX contents for reference:
 
-```
+```text
 extension/dist/extension.js
 extension/server/flavor-grenade-lsp (or .exe on Windows)
 extension/package.json
@@ -154,5 +163,5 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 > [!INFO] Opened — 2026-04-21
 > Chore created. Status: `open`. Motivation: Marketplace quality standards — VSIX must contain only shipping files. Blocked by TASK-148 until a packaged VSIX exists for inspection.
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > VSIX contents audited via `unzip -l`. 9 files total. Shipping files present: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, `*.ts` source, `*.test.*`, `package-lock.json`, `.eslintrc*`, `.prettierrc*`, or `.gitignore` found. `.vscodeignore` reviewed — all exclusions correct. No modifications needed. `server/` directory absent (binary added by CI, not committed). No behaviour-affecting changes. Status: `done`.

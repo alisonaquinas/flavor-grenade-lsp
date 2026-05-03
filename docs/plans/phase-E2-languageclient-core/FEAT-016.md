@@ -29,22 +29,35 @@ When a vault author opens a Markdown file in VS Code with the Flavor Grenade ext
 **In scope:**
 
 - 2-tier binary resolution: user setting `flavorGrenade.server.path` overrides the bundled binary at `server/flavor-grenade-lsp[.exe]`
+
 - `LanguageClient` v9.x configuration with Executable ServerOptions over stdio transport
+
 - `activate()` wiring: resolve server path, build ServerOptions and ClientOptions, start client, push to `context.subscriptions`
+
 - `deactivate()` lifecycle: rely on Disposable cleanup via `context.subscriptions` (no explicit `client.stop()`)
+
 - `documentSelector` targeting `{ scheme: 'file', language: 'markdown' }`
+
 - `initializationOptions` forwarding configuration values from `flavorGrenade.*` settings
+
 - `fileEvents` watcher for `**/*.md`
+
 - `extension/.vscode/launch.json` for Extension Development Host debugging
+
 - Manual smoke test: extension activates, server spawns, LSP handshake succeeds
 
 **Out of scope (explicitly excluded):**
 
 - Auto-download or PATH-based server discovery (design decision: bundled binary only)
+
 - Environment variable fallback for server path
+
 - Automated integration tests for the extension (future phase)
+
 - Any LSP feature implementation beyond the initialization handshake (completions, diagnostics, etc. are server-side)
+
 - Extension marketplace packaging and publishing (Phase E3+)
+
 - Output channel log formatting or verbosity settings
 
 ---
@@ -82,6 +95,7 @@ When a vault author opens a Markdown file in VS Code with the Flavor Grenade ext
 ## Phase Plan Reference
 
 - Phase plan: [[plans/phase-E2-languageclient-core]]
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -91,12 +105,19 @@ When a vault author opens a Markdown file in VS Code with the Flavor Grenade ext
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] `extension/src/server-path.ts` exists and exports `resolveServerPath()`
+
 - [ ] `extension/src/extension.ts` creates and starts a `LanguageClient` with Executable ServerOptions (stdio)
+
 - [ ] Client is pushed to `context.subscriptions` for automatic disposal
+
 - [ ] `extension/.vscode/launch.json` exists with an `extensionHost` configuration
+
 - [ ] Extension activates in Extension Development Host when a `.md` file is opened
+
 - [ ] LSP initialization handshake succeeds (visible in output channel)
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] No new linter warnings introduced
 
 ---
@@ -130,8 +151,11 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 ## Notes
 
 - ADR references: [[adr/ADR001-stdio-transport]] (stdio as the sole transport), [[adr/ADR015-platform-specific-vsix]] (platform-specific VSIXs guarantee the bundled binary is present).
+
 - The 2-tier resolution deliberately omits PATH fallback and environment variable discovery. Platform-specific VSIXs bundle the correct binary, and the user setting provides the escape hatch for local development.
+
 - `deactivate()` is intentionally empty — `LanguageClient` implements `Disposable`, so pushing it to `context.subscriptions` handles cleanup automatically.
+
 - Tasks are sequential: TASK-141 (resolution) must land before TASK-142 (activation imports it), and TASK-142 must land before TASK-143 (smoke test requires a working client).
 
 ---
@@ -175,22 +199,31 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Written after Step L passes. Date: 2026-04-22.
 
 ### What went as planned
+
 Three tasks completed matching the reference implementation exactly. `server-path.ts` (28 lines) and `extension.ts` (51 lines) are minimal, focused, and well-documented. `tsc --noEmit` and `npm run build:extension` both pass. Extension bundle size is 347kb (includes `vscode-languageclient`). `launch.json` created with correct extensionHost config.
 
 ### Deviations and surprises
+
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | TASK-143 | Task | `bun build --compile` fails on NestJS optional deps — pre-existing issue, not E2-related. Server runs via `tsc` build + `node dist/main.js`. Manual smoke test in EDH deferred to human reviewer. | ~0 h (workaround known) |
 
 ### Process observations
+
 - The TDD WARNING in TASK-141/142/143 says "red before green is non-negotiable" but Linked Tests all say N/A. This is a ticket template inconsistency — the WARNING should include an infrastructure task exception clause for extension tasks that depend on the VS Code API, similar to E1 tasks.
+
 - The test index (`docs/test/index.md`) lists expected test files for E2 (`server-path.test.ts`, `activation.test.ts`) but the task tickets say N/A. The test index is aspirational while tickets are authoritative for the current phase. The test index should be updated to reflect this gap or a SPIKE should be opened for establishing a VS Code API mock strategy.
+
 - TASK-143's DoD includes manual verification steps that an AI agent cannot perform. The phase-execution procedure should account for human-gated tasks.
 
 ### Carry-forward actions
+
 - [ ] Open a SPIKE ticket to establish VS Code API mocking for extension unit tests (would close the gap between test index expectations and actual test coverage)
+
 - [ ] Investigate and fix the `bun build --compile` failure with NestJS optional deps (affects all binary builds, not just extension packaging)
+
 - [ ] Human reviewer should perform TASK-143 smoke test (open `extension/` in VS Code, F5, verify LSP handshake)
 
 ### Rule / template amendments
+
 - [ ] Add infrastructure task exception clause to E2+ task tickets' TDD WARNING section, matching the wording in E1 tasks

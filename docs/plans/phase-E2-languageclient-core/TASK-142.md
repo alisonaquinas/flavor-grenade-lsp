@@ -28,17 +28,29 @@ Replace the stub `extension/src/extension.ts` (created in Phase E1) with the ful
 ## Implementation Notes
 
 - Modify existing file: `extension/src/extension.ts` (replace E1 stub contents)
+
 - Import `LanguageClient`, `LanguageClientOptions`, `ServerOptions` from `vscode-languageclient/node`
+
 - Import `resolveServerPath` from `./server-path.js`
+
 - Module-level `let client: LanguageClient | undefined` for potential future reference
+
 - `ServerOptions` uses the Executable form: `{ run: { command: serverPath }, debug: { command: serverPath } }`
+
 - `LanguageClientOptions.documentSelector`: `[{ scheme: 'file', language: 'markdown' }]`
+
 - `LanguageClientOptions.synchronize.fileEvents`: `workspace.createFileSystemWatcher('**/*.md')`
+
 - `LanguageClientOptions.initializationOptions`: forward `linkStyle`, `completion.candidates`, `diagnostics.suppress` from `flavorGrenade` config
+
 - Client ID: `'flavorGrenade'`, display name: `'Flavor Grenade'`
+
 - `await client.start()` in activate, then `context.subscriptions.push(client)`
+
 - `deactivate()` body is empty — cleanup handled by subscriptions disposal
+
 - Typecheck and build after modification: `cd extension && npx tsc --noEmit`
+
 - See also: [[plans/phase-E2-languageclient-core]] task 2 for the reference implementation
 
 ---
@@ -107,16 +119,27 @@ Replace the stub `extension/src/extension.ts` (created in Phase E1) with the ful
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/extension.ts` exports `activate(context: ExtensionContext): Promise<void>`
+
 - [ ] `extension/src/extension.ts` exports `deactivate(): void`
+
 - [ ] `activate()` calls `resolveServerPath(context)` to obtain the server binary path
+
 - [ ] `ServerOptions` uses Executable form with `command` property (stdio default)
+
 - [ ] `LanguageClientOptions.documentSelector` targets `{ scheme: 'file', language: 'markdown' }`
+
 - [ ] `LanguageClientOptions.synchronize.fileEvents` watches `**/*.md`
+
 - [ ] `LanguageClientOptions.initializationOptions` forwards `linkStyle`, `completion.candidates`, `diagnostics.suppress`
+
 - [ ] Client is pushed to `context.subscriptions` for disposal
+
 - [ ] `deactivate()` body is empty (disposal via subscriptions)
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `bun run lint --max-warnings 0` passes (or extension-local equivalent)
+
 - [ ] Parent feature [[FEAT-016]] child task row updated to `in-review`
 
 ---
@@ -156,5 +179,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Replaced E1 stub with full LanguageClient activation matching reference implementation. `activate()` resolves server path via `resolveServerPath()`, builds Executable ServerOptions (stdio), constructs ClientOptions with Markdown document selector, `**/*.md` file watcher, and initializationOptions forwarding 3 config values. Client pushed to `context.subscriptions` for disposal. `deactivate()` empty by design. `tsc --noEmit` exits 0. `npm run build:extension` produces 347kb bundle (856ms). Linked Tests N/A per ticket (VS Code extension host dependency). All DoD items satisfied. Status: `done`.

@@ -29,18 +29,27 @@ Establish the `extension/` directory at the repository root with a complete VS C
 **In scope:**
 
 - Creating the `extension/` directory with its own `package.json` (VS Code extension manifest with identity, activation events, contributes, capabilities, and scripts)
+
 - Creating `extension/tsconfig.json` with Node16 module resolution and ES2022 target
+
 - Creating `extension/src/extension.ts` with stub `activate` and `deactivate` exports
+
 - Creating `extension/.gitignore` to exclude build output, node_modules, server binaries, and VSIX packages
+
 - Creating `extension/.vscodeignore` to exclude non-shipping files from the VSIX
+
 - Running `npm install` to generate `package-lock.json` and `node_modules/`
+
 - Verifying the esbuild build produces `dist/extension.js`
 
 **Out of scope (explicitly excluded):**
 
 - LanguageClient wiring and server spawning (Phase E2)
+
 - Platform-specific VSIX CI matrix (Phase E5 / CI delivery)
+
 - Extension integration tests or E2E tests (later phases)
+
 - Publishing to the VS Code Marketplace (Phase E4+)
 
 ---
@@ -78,7 +87,9 @@ Establish the `extension/` directory at the repository root with a complete VS C
 ## Phase Plan Reference
 
 - Phase plan: [[plans/phase-E1-extension-scaffold]]
+
 - ADR: [[adr/ADR015-platform-specific-vsix]]
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -88,14 +99,23 @@ Establish the `extension/` directory at the repository root with a complete VS C
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] `extension/package.json` exists with correct manifest (publisher, engine, contributes, capabilities, scripts)
+
 - [ ] `extension/tsconfig.json` exists with Node16 module resolution and ES2022 target
+
 - [ ] `extension/src/extension.ts` exists with stub `activate` and `deactivate` exports
+
 - [ ] `extension/.gitignore` exists excluding `dist/`, `node_modules/`, `server/`, `*.vsix`
+
 - [ ] `extension/.vscodeignore` exists with aggressive exclusions for VSIX hygiene
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `cd extension && npm run build:extension` exits 0 and produces `dist/extension.js`
+
 - [ ] All child TASK tickets (TASK-137 through TASK-140) are in `done` state
+
 - [ ] No new linter warnings introduced
+
 - [ ] [[plans/execution-ledger]] row for Phase E1 updated to `done`
 
 ---
@@ -175,9 +195,11 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Written after Step L passes. Date: 2026-04-22.
 
 ### What went as planned
+
 All four tasks completed without deviation from the spec. The phase plan provided exact file contents for every artifact, which eliminated ambiguity. The infrastructure task exception for TDD was appropriate — all four tasks are pure configuration/scaffolding with no behavioral code. `npm install` resolved all dependencies on first attempt. `tsc --noEmit` and `npm run build:extension` both passed on first run. Esbuild produced a 603-byte bundle in 7ms. Zero lint errors or typecheck errors in both root and extension projects.
 
 ### Deviations and surprises
+
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | — | — | No deviations. All tasks executed as specified. | +0 h |
@@ -185,14 +207,21 @@ All four tasks completed without deviation from the spec. The phase plan provide
 npm reported 1 moderate severity vulnerability in transitive dep (`glob@11.1.0` via `@vscode/vsce`). This is a deprecation warning, not a security exploit, and `@vscode/vsce` is a devDependency that doesn't ship in the VSIX. No ticket needed.
 
 ### Process observations
+
 - Steps A–C were trivially satisfied because the ticket specs were already detailed during Phase 0. For scaffold phases with pre-specified file contents, Steps B and C add little value but confirm the specs haven't drifted.
+
 - Steps E–G (sweeps) found zero issues because the phase introduces only one 9-line stub TypeScript file and 4 config files. The sweep overhead is minimal for scaffold phases.
+
 - Steps J, K, L were all N/A. For infrastructure-only phases, the procedure should consider a fast-path that acknowledges "no test files expected" upfront rather than requiring explicit checks.
+
 - The pre-existing BDD failure (`vault-detection.feature:75` — custom extension list) is unrelated to E1 work. It should be tracked separately if not already.
 
 ### Carry-forward actions
+
 - [ ] Verify the pre-existing BDD failure (vault-detection custom extensions) has a tracked ticket — if not, open one during Phase E2 planning
+
 - [ ] Phase E2 will introduce actual TypeScript logic requiring real TDD cycles — confirm the infrastructure task exception does NOT apply to E2 tasks
 
 ### Rule / template amendments
+
 - none
