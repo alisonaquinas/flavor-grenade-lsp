@@ -54,9 +54,10 @@ All `.feature` files live in `bdd/features/`. Each file covers one functional ar
 | `bdd/features/symbols.feature` | `documentSymbol` heading tree, `workspace/symbol` subsequence matching, `codeLens` reference counts on headings and block anchors | `@smoke`, `@ofm` | 9 |
 | `bdd/features/semantic-tokens.feature` | Token type for each OFM element, no tokens inside ignore regions, callout type token, block anchor token | `@ofm` | 12 |
 | `bdd/features/code-actions.feature` | `InsertTOC` action, `CreateMissingFile` action, `TagToYaml` action, `NormalizeFrontmatter` action, action availability by cursor position | `@ofm` | 8 |
-| `bdd/features/vscode-extension.feature` | VS Code extension activation, status bar widget, palette commands (restart, rebuild, show output), binary resolution (user setting / bundled), server config change restart, deactivation cleanup, crash recovery | `@smoke`, `@extension`, `@lsp` | 11 |
+| `bdd/features/vscode-extension.feature` | VS Code extension activation, status bar widget, palette commands (restart, rebuild, show output), binary resolution (user setting / bundled), server config change restart, deactivation cleanup, crash recovery, LanguageClient selector continuity | `@smoke`, `@extension`, `@lsp` | 12 |
+| `bdd/features/ofmarkdown-language-mode.feature` | Dynamic `ofmarkdown` language assignment for vault/index documents; Markdown parity and manual mode safety | `@extension`, `@ofmarkdown` | 6 |
 
-Total: **135 scenarios** across 14 feature files (as of the initial specification; `@wip` scenarios are counted but excluded from CI).
+Total: **142 scenarios** across 15 feature files (as of the initial specification; `@wip` scenarios are counted but excluded from CI).
 
 ---
 
@@ -174,4 +175,6 @@ The traceability matrix is maintained in `docs/requirements/traceability.md`. Fo
 - [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
 - [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
 - `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
+- `docs/bdd/features/ofmarkdown-language-mode.feature` — OFMarkdown language-mode acceptance scenarios
 - [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
+- [[adr/ADR016-ofmarkdown-language-mode]] — Decision record for dynamic OFMarkdown assignment

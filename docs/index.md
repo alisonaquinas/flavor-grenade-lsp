@@ -99,6 +99,7 @@ All documentation layers are being written before any TypeScript implementation 
 | [[adr/ADR013-vault-root-confinement]] | Vault root confinement decision |
 | [[adr/ADR014-dependency-security-policy]] | Dependency security policy decision |
 | [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
+| [[adr/ADR016-ofmarkdown-language-mode]] | Dynamic OFMarkdown language mode decision |
 | [[concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
 | [[requirements/workspace]] | Workspace requirements (Planguage) |
@@ -113,6 +114,7 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/code-lens]] | "N references" code lens |
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
+| [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
 | [[design/behavior-layer]] | Behavior layer design |
 | [[design/domain-layer]] | Domain layer design |
 | [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |

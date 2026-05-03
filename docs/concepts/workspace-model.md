@@ -158,6 +158,22 @@ class Workspace {
 
 `Workspace` is itself immutable — every operation returns a new `Workspace` value. The `LspModule` holds the current `Workspace` reference and replaces it on each update.
 
+### Document Membership for Editor Clients
+
+Editor clients sometimes need a simple answer to "does this URI belong to Flavor Grenade's OFM world?" without exposing `VaultFolder`, `DocId`, or `RefGraph` internals. The VS Code extension uses this to decide whether an open Markdown document should be assigned the `ofmarkdown` language id.
+
+Membership is derived from `Workspace` state:
+
+| Workspace state for URI | Membership answer |
+|---|---|
+| URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | OFMarkdown |
+| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` | OFMarkdown |
+| URI is present in a `VaultFolder.docs` map after indexing | OFMarkdown |
+| URI is only in `SingleFileMode` | Not OFMarkdown for VS Code language-mode assignment |
+| URI is unknown or outside all vault roots | Not OFMarkdown |
+
+This membership view is intentionally narrower than parsing capability. The server can still parse a standalone OFM file in single-file mode, but the VS Code language mode is reserved for vault/index documents per [[ADR016-ofmarkdown-language-mode]].
+
 ### Config Merging
 
 When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges the workspace-level config with the folder's `FlavorConfig` (if a `.flavor-grenade.toml` exists in the vault root). The merged config is attached to the `VaultFolder` and used by all feature services when serving requests for documents in that folder.
@@ -206,3 +222,4 @@ For editor-open documents (version ≥ 0), `FileWatcher` ignores `change` events
 - [[concepts/symbol-model]] — ScopedSym values flowing through withDoc
 - [[architecture/data-flow]] — VaultFolder.withDoc in the didChange pipeline
 - [[architecture/layers]] — VaultModule in the layer stack
+- [[features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode

@@ -14,6 +14,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current version: **0.1.2**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
+> Extension phase E6 is **planned** for dynamic OFMarkdown language mode.
 
 ## Phase Table
 
@@ -128,6 +129,7 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E3 | Status Bar & Commands | complete | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | 2026-04-22 |
 | E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
 | E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
+| E6 | OFMarkdown Language Mode | planned | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
 
 ### Extension Phase Details
 
@@ -167,6 +169,12 @@ Create `extension-release.yml` workflow triggered by `ext-v*` tags. 7-target bui
 
 Implementation plan: [[plans/phase-E5-ci-cd-pipeline]]
 
+#### Phase E6 — OFMarkdown Language Mode
+
+Add a VS Code language id `ofmarkdown` displayed as **OFMarkdown**. The extension keeps generic `.md` files in the built-in `markdown` mode, then dynamically promotes only documents that Flavor Grenade detects as part of an Obsidian vault or present in the server index. The LanguageClient serves both `markdown` and `ofmarkdown` documents, and promotion uses loop guards because VS Code reopens documents when changing language ids. Gate: extension tests and manual smoke tests prove vault/index documents promote, generic Markdown remains Markdown, manual language choices are preserved, and Markdown highlighting still works.
+
+Implementation plan: [[plans/phase-E6-ofmarkdown-language-mode]]
+
 ### Extension Phase Dependencies
 
 ```text
@@ -202,6 +210,8 @@ These features are out of scope for the initial release. Recorded to avoid scope
 - [[adr/ADR005-wiki-style-binding]]
 - [[adr/ADR006-block-ref-indexing]]
 - [[adr/ADR015-platform-specific-vsix]]
+- [[adr/ADR016-ofmarkdown-language-mode]]
 - [[superpowers/specs/2026-04-21-vscode-extension-design]]
+- [[features/ofmarkdown-language-mode]]
 - [[design/behavior-layer]]
 - [[research/vscode-extension-publishing]]

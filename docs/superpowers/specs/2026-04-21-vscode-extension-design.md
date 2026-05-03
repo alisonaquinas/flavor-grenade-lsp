@@ -24,9 +24,10 @@ Design a VS Code extension that wraps the existing `flavor-grenade-lsp` server, 
 | Transport | stdio | Already decided in [[ADR001-stdio-transport]]. All editors support it. |
 | Bundler (client) | esbuild | Fast, single-file output, standard for VS Code extensions. |
 | Binary resolution | 2-tier: user setting → bundled | Platform-specific VSIXs guarantee binary is present. PATH/env tiers unnecessary. |
-| Activation | `onLanguage:markdown` | Lazy — only activates when a Markdown file opens. |
+| Activation | `onLanguage:markdown`, `onLanguage:ofmarkdown` | Lazy — activates for initial Markdown opens and remains active after OFMarkdown promotion. |
+| Language mode | Dynamic `ofmarkdown` assignment | Promote only vault/index Markdown documents. See [[ADR016-ofmarkdown-language-mode]]. |
 | Release trigger | Manual tags (`ext-v*`) | Decoupled from server releases until extension stabilizes. |
-| Engine floor | `^1.93.0` (September 2024) | Stable `vscode-languageclient@9.x` and platform-specific VSIX support. |
+| Engine floor | `^1.81.0` | Current extension support floor. |
 
 ---
 
@@ -38,7 +39,7 @@ Design a VS Code extension that wraps the existing `flavor-grenade-lsp` server, 
 | `displayName` | Flavor Grenade — Obsidian Markdown Support |
 | `publisher` | `alisonaquinas` (display name: Alison Aquinas) |
 | `license` | MIT |
-| `engines.vscode` | `^1.93.0` |
+| `engines.vscode` | `^1.81.0` |
 | `keywords` | obsidian, markdown, wiki-links, lsp, zettelkasten, llm-wiki |
 
 ---
@@ -80,6 +81,8 @@ Design a VS Code extension that wraps the existing `flavor-grenade-lsp` server, 
 The extension client is thin (~200 lines). It resolves the server binary path, configures `LanguageClient`, wires up a status bar widget and palette commands, and manages lifecycle. All language intelligence lives in the server.
 
 No server code ships in the extension JS bundle. The binary lives at `server/flavor-grenade-lsp[.exe]` relative to the extension root.
+
+The client also owns VS Code language mode assignment. It contributes `ofmarkdown`, detects qualifying open documents, and uses the VS Code API to promote only vault/index Markdown documents. The server remains authoritative for membership via `flavorGrenade/documentMembership`.
 
 ---
 
@@ -138,7 +141,10 @@ const serverOptions: ServerOptions = {
 };
 
 const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ scheme: 'file', language: 'markdown' }],
+    documentSelector: [
+        { scheme: 'file', language: 'markdown' },
+        { scheme: 'file', language: 'ofmarkdown' },
+    ],
     synchronize: {
         fileEvents: workspace.createFileSystemWatcher('**/*.md'),
     },
@@ -150,7 +156,7 @@ const clientOptions: LanguageClientOptions = {
 };
 ```
 
-- Targets `markdown` files with `file://` scheme only.
+- Targets `markdown` and `ofmarkdown` files with `file://` scheme only.
 - `initializationOptions` passes user config to the server at startup.
 - `fileEvents` watcher notifies the server about file creates/deletes/renames outside the editor.
 
@@ -171,6 +177,34 @@ client.onNotification('flavorGrenade/status', (params) => {
 ```
 
 Uses `StatusBarItem` API with codicon icons. Shows doc count when ready. Click opens output channel.
+
+### OFMarkdown Language Mode
+
+The extension contributes a custom VS Code language id:
+
+```json
+{
+  "id": "ofmarkdown",
+  "aliases": ["OFMarkdown", "Obsidian Flavored Markdown"],
+  "configuration": "./language-configuration.json"
+}
+```
+
+The language contribution intentionally does **not** include `.md` in `extensions`; built-in Markdown remains the default for generic `.md` files. The extension promotes open documents with `vscode.languages.setTextDocumentLanguage(document, 'ofmarkdown')` only after a positive detection signal.
+
+Detection signals:
+
+- Ancestor `.obsidian/` directory found by the extension for fast startup.
+- Server response from `flavorGrenade/documentMembership` showing the document is indexed or belongs to a vault.
+
+Safety rules:
+
+- Promote only `file://` documents currently in `markdown`.
+- Preserve any user-selected language id other than `markdown` or `ofmarkdown`.
+- Track in-flight assignments by URI because VS Code closes and reopens a document when its language id changes.
+- Do not restart the LanguageClient due solely to the language id transition.
+
+The `ofmarkdown` language must use Markdown-compatible grammar/configuration so the user does not lose baseline Markdown highlighting after promotion. OFM-specific highlighting continues through semantic tokens.
 
 ### Commands
 
@@ -205,19 +239,45 @@ Uses `StatusBarItem` API with codicon icons. Shows doc count when ready. Click o
     "type": "git",
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
-  "engines": { "vscode": "^1.93.0" },
+  "engines": { "vscode": "^1.81.0" },
   "categories": ["Programming Languages", "Linters"],
   "keywords": ["obsidian", "markdown", "wiki-links", "lsp", "zettelkasten", "llm-wiki"],
   "extensionKind": ["workspace"],
   "main": "./dist/extension.js",
   "icon": "images/icon.png",
-  "activationEvents": ["onLanguage:markdown"]
+  "activationEvents": ["onLanguage:markdown", "onLanguage:ofmarkdown"]
 }
 ```
 
 > **Note:** `extensionKind: ["workspace"]` means the extension runs on the workspace host, not the local UI side. This is required because the server binary must execute on the machine where the vault files live. In VS Code Remote scenarios the extension runs on the remote host alongside the files.
 >
-> `activationEvents` is listed explicitly for clarity. Since VS Code 1.74+, `onLanguage:markdown` can be inferred from the client's `documentSelector`, but explicit declaration avoids ambiguity for older engines within the `^1.93.0` range.
+> `activationEvents` is listed explicitly for clarity. `onLanguage:markdown` starts detection for ordinary `.md` opens; `onLanguage:ofmarkdown` keeps the extension active when a document is already in OFMarkdown mode.
+
+### Language Contributions
+
+```json
+{
+  "languages": [
+    {
+      "id": "ofmarkdown",
+      "aliases": ["OFMarkdown", "Obsidian Flavored Markdown"],
+      "configuration": "./language-configuration.json"
+    }
+  ],
+  "grammars": [
+    {
+      "language": "ofmarkdown",
+      "scopeName": "text.html.markdown.ofm",
+      "path": "./syntaxes/ofmarkdown.tmLanguage.json",
+      "embeddedLanguages": {
+        "meta.embedded.block.frontmatter": "yaml"
+      }
+    }
+  ]
+}
+```
+
+Do not add `.md` to the language contribution. Dynamic assignment is required by [[ADR016-ofmarkdown-language-mode]].
 
 ### Configuration Contributions
 
@@ -368,6 +428,7 @@ Tag push (ext-v0.1.0)
 - Status bar widget (vault state, doc count)
 - Three palette commands (restart, rebuild index, show output)
 - Five configuration settings (server path, link style, completion candidates, diagnostics suppress, trace)
+- Dynamic OFMarkdown language mode for vault/index documents
 - Platform-specific VSIXs for 7 targets
 - CI/CD workflow for tag-triggered multi-platform publishing
 
@@ -389,6 +450,8 @@ Tag push (ext-v0.1.0)
 
 - [[ADR001-stdio-transport]] — Transport decision
 - [[ADR015-platform-specific-vsix]] — Distribution strategy decision
+- [[ADR016-ofmarkdown-language-mode]] — Dynamic OFMarkdown language mode decision
 - [[architecture/overview]] — Server architecture
 - [[design/api-layer]] — LSP method catalog and capability matrix
+- [[features/ofmarkdown-language-mode]] — OFMarkdown language mode feature spec
 - [[research/vscode-extension-publishing]] — Publishing research report
