@@ -28,21 +28,37 @@ Create `extension/.vscodeignore` with aggressive exclusions to keep the VSIX pac
 ## Implementation Notes
 
 - Write `extension/.vscodeignore` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]:
+
   - `.github/**`
+
   - `src/**`
+
   - `docs/**`
+
   - `node_modules/**`
+
   - `*.ts`
+
   - `!dist/**`
+
   - `tsconfig.json`
+
   - `.eslintrc*`
+
   - `.prettierrc*`
+
   - `**/*.test.*`
+
   - `**/__tests__/**`
+
   - `.vscode/**`
+
   - `.gitignore`
+
   - `package-lock.json`
+
 - The `!dist/**` negation is critical — it ensures the bundled `extension.js` and source maps are included in the VSIX even though `*.ts` is excluded
+
 - See also: [[plans/phase-E1-extension-scaffold]], [[adr/ADR015-platform-specific-vsix]]
 
 ---
@@ -110,9 +126,13 @@ Create `extension/.vscodeignore` with aggressive exclusions to keep the VSIX pac
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/.vscodeignore` exists with all exclusion patterns from the phase plan
+
 - [ ] The `!dist/**` negation is present (ensures bundled output is included)
+
 - [ ] `node_modules/**` is excluded (dependencies are bundled by esbuild, not shipped raw)
+
 - [ ] `src/**` and `*.ts` are excluded (source files do not ship)
+
 - [ ] Parent feature [[FEAT-015]] child task row updated to `in-review`
 
 ---
@@ -152,5 +172,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Infrastructure task exception. Created `extension/.vscodeignore` with all 14 exclusion patterns from the phase plan. Critical `!dist/**` negation confirmed present after `*.ts` (order-sensitive). Patterns exclude: source, docs, node_modules, TypeScript config, linter config, test files, editor config, lock files. Full VSIX content verification deferred to Phase E4. All DoD items satisfied. Status: `done`.

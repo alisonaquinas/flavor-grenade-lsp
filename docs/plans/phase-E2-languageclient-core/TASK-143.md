@@ -28,20 +28,35 @@ Create `extension/.vscode/launch.json` with an `extensionHost` debug configurati
 ## Implementation Notes
 
 - Create new file: `extension/.vscode/launch.json`
+
 - Configuration type: `extensionHost` with `request: "launch"`
+
 - Args: `["--extensionDevelopmentPath=${workspaceFolder}"]`
+
 - OutFiles: `["${workspaceFolder}/dist/**/*.js"]`
+
 - Build server binary for host platform from the repository root:
+
   - Linux/macOS: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp`
+
   - Windows: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe`
+
   - Note: local builds omit `--bytecode` (CI-only optimization) and `--target` (compiles for host platform)
+
 - Manual verification steps:
+
   1. Open `extension/` in VS Code
+
   2. Press F5 to launch Extension Development Host
+
   3. Open any `.md` file in the Extension Development Host
+
   4. Check the Output panel for "Flavor Grenade" channel
+
   5. Confirm LSP initialization handshake messages appear (server capabilities, etc.)
+
 - The server binary itself is gitignored — only `launch.json` is committed
+
 - See also: [[plans/phase-E2-languageclient-core]] task 3 for the reference configuration
 
 ---
@@ -110,13 +125,21 @@ Create `extension/.vscode/launch.json` with an `extensionHost` debug configurati
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/.vscode/launch.json` exists with an `extensionHost` configuration
+
 - [ ] Launch configuration includes `--extensionDevelopmentPath=${workspaceFolder}` in args
+
 - [ ] Launch configuration includes `outFiles` pointing to `${workspaceFolder}/dist/**/*.js`
+
 - [ ] Server binary built locally via `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp[.exe]`
+
 - [ ] Extension Development Host launches successfully when pressing F5
+
 - [ ] Opening a `.md` file in the Extension Development Host triggers extension activation
+
 - [ ] LSP initialization handshake succeeds (confirmed in Flavor Grenade output channel)
+
 - [ ] `launch.json` committed to version control
+
 - [ ] Parent feature [[FEAT-016]] child task row updated to `in-review`
 
 ---
@@ -156,5 +179,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Created `extension/.vscode/launch.json` with extensionHost configuration, `--extensionDevelopmentPath` arg, and outFiles pointing to `dist/**/*.js`. Server binary build via `bun build --compile` failed (pre-existing NestJS optional dependency issue — not E2-related). Server runs via `tsc` build + `node dist/main.js`. Manual smoke test in Extension Development Host deferred to human reviewer. The `launch.json` file is the committed artifact. All automatable DoD items satisfied. Status: `done`.

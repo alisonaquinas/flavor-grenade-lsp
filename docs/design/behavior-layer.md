@@ -173,5 +173,5 @@ The traceability matrix is maintained in `docs/requirements/traceability.md`. Fo
 - [[concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
 - [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
 - [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
-- [[bdd/features/vscode-extension]] — VS Code extension lifecycle and integration scenarios
+- `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
 - [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging

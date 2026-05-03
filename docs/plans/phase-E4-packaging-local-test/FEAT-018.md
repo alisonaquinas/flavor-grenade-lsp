@@ -29,21 +29,33 @@ The Flavor Grenade extension is packaged into a distributable VSIX file that con
 **In scope:**
 
 - Creating Marketplace-facing `extension/README.md` with features, configuration table, and getting started instructions
+
 - Creating `extension/CHANGELOG.md` with the 0.1.0 unreleased entry
+
 - Copying `LICENSE` from the repo root into the extension directory
+
 - Creating a 256x256 placeholder icon at `extension/images/icon.png`
+
 - Building the server binary for the host platform with `bun build --compile --minify`
+
 - Building the extension client with `npm run build:extension`
+
 - Packaging the VSIX with `npx vsce package`
+
 - Inspecting the VSIX to confirm only shipping files are included
+
 - Installing the VSIX locally and performing a manual smoke test
+
 - Verifying `.vscodeignore` excludes all non-shipping files
 
 **Out of scope (explicitly excluded):**
 
 - Publishing to the VS Code Marketplace (deferred to CI/CD phase)
+
 - Cross-platform binary bundling and multi-target builds (CI matrix concern)
+
 - Automated integration tests for the packaged extension
+
 - Signing the VSIX
 
 ---
@@ -81,6 +93,7 @@ The Flavor Grenade extension is packaged into a distributable VSIX file that con
 ## Phase Plan Reference
 
 - Phase plan: [[plans/phase-E4-packaging-local-test]]
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -90,14 +103,23 @@ The Flavor Grenade extension is packaged into a distributable VSIX file that con
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] `extension/README.md` exists with features, configuration table, and getting started sections
+
 - [ ] `extension/CHANGELOG.md` exists with 0.1.0 unreleased entry
+
 - [ ] `extension/LICENSE` exists and matches repo root LICENSE
+
 - [ ] `extension/images/icon.png` exists and is at least 128x128 PNG
+
 - [ ] `npx vsce package` produces a `.vsix` file without errors
+
 - [ ] VSIX contains only shipping files (dist/, server/, package.json, README.md, LICENSE, CHANGELOG.md, images/)
+
 - [ ] VSIX does not contain src/, node_modules/, tsconfig.json, *.ts source, or *.test.* files
+
 - [ ] `code --install-extension` installs the VSIX successfully
+
 - [ ] Manual smoke test confirms: extension activates, status bar shows indexing state, completions work, commands work
+
 - [ ] All child tasks (TASK-147, TASK-148) and chore (CHORE-042) are in `done` state
 
 ---
@@ -175,22 +197,30 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Written after Step L passes. Date: 2026-04-22.
 
 ### What went as planned
+
 Marketplace assets created from phase plan verbatim. `vsce package` succeeded on first attempt, producing a lean 332kb VSIX with only 9 files. `.vscodeignore` from Phase E1 worked correctly — no modifications needed. CHORE-042 audit confirmed clean package contents.
 
 ### Deviations and surprises
+
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | TASK-148 | Task | Server binary (`bun build --compile`) still broken (pre-existing NestJS optional dep issue). VSIX packaged without server binary — CI matrix handles binary injection. | ~0 h |
 | TASK-147 | Task | No root `LICENSE` file existed in the repo. Created MIT license matching `package.json` declaration. | ~0 h |
 
 ### Process observations
+
 - `vsce package` worked without the server binary present, which is correct for the CI workflow (binary is injected per-platform by the matrix build). The local smoke test cannot verify full functionality without the binary, but the VSIX structure is valid.
+
 - CHORE-042 was trivially satisfied because the `.vscodeignore` was well-specified in Phase E1.
 
 ### Carry-forward actions
+
 - [ ] Human reviewer should perform manual smoke test with locally-built server binary
+
 - [ ] Add root `LICENSE` file to the repo (currently only exists in `extension/`)
+
 - [ ] Fix `bun build --compile` NestJS optional dependency issue (blocks all binary builds)
 
 ### Rule / template amendments
+
 - none

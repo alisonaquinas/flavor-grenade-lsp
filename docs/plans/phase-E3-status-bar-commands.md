@@ -99,7 +99,9 @@ Add a status bar widget listening to the `flavorGrenade/status` custom notificat
   ```
 
   - The `FlavorGrenadeStatus` interface matches `docs/design/api-layer.md` "Custom Notification: flavorGrenade/status"
+
   - Typecheck: `cd extension && npx tsc --noEmit`
+
   - Commit
 
 - [ ] **2. Implement command registrations**
@@ -141,6 +143,7 @@ Add a status bar widget listening to the `flavorGrenade/status` custom notificat
   ```
 
   - Typecheck: `cd extension && npx tsc --noEmit`
+
   - Commit
 
 - [ ] **3. Wire status bar, commands, and config watcher into activate()**
@@ -226,7 +229,9 @@ Add a status bar widget listening to the `flavorGrenade/status` custom notificat
   ```
 
   - Typecheck: `cd extension && npx tsc --noEmit`
+
   - Build: `cd extension && npm run build:extension`
+
   - Commit
 
 ---
@@ -239,8 +244,11 @@ cd extension && npm run build:extension
 ```
 
 Open Extension Development Host (F5), open a `.md` file, verify:
+
 - Status bar shows "FG: Starting..." then transitions through server states
+
 - Command Palette lists "Flavor Grenade: Restart Server", "Flavor Grenade: Rebuild Index", "Flavor Grenade: Show Output"
+
 - Changing `flavorGrenade.server.path` in settings triggers a server restart
 
 ---
@@ -248,5 +256,7 @@ Open Extension Development Host (F5), open a `.md` file, verify:
 ## References
 
 - `[[docs/design/api-layer]]`
+
 - `[[plans/phase-E2-languageclient-core]]`
+
 - `[[plans/phase-E1-extension-scaffold]]`

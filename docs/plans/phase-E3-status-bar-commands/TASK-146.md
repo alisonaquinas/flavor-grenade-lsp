@@ -28,20 +28,32 @@ Update `extension/src/extension.ts` to its final Phase E3 form by importing and 
 ## Implementation Notes
 
 - Modifies a single existing file: `extension/src/extension.ts`
+
 - Imports to add:
+
   ```typescript
   import { createStatusBar } from './status-bar.js';
   import { registerCommands } from './commands.js';
   ```
+
 - After `await client.start()`, add the following wiring in order:
+
   1. **Status bar widget:** `const statusBar = createStatusBar(client);` and push to `context.subscriptions`
+
   2. **Restart state reset:** `client.onDidChangeState(() => { statusBar.text = '$(loading~spin) FG: Starting...'; })` — resets the status bar when the client restarts (e.g., after `flavorGrenade.restartServer` command)
+
   3. **Palette commands:** `const commandDisposables = registerCommands(client);` and spread into `context.subscriptions`
+
   4. **Config watcher:** `workspace.onDidChangeConfiguration(async (e) => { if (e.affectsConfiguration('flavorGrenade.server.path') && client) { await client.restart(); } })` — push the disposable to `context.subscriptions`
+
   5. **Client disposal:** Push `client` itself to `context.subscriptions` — `LanguageClient` implements `Disposable`, so `stop()` is called automatically on deactivation. The `deactivate()` export becomes a no-op empty function.
+
 - The `initializationOptions` block should include `linkStyle`, `completion.candidates`, and `diagnostics.suppress` from `workspace.getConfiguration('flavorGrenade')`
+
 - Typecheck verification: `cd extension && npx tsc --noEmit`
+
 - Build verification: `cd extension && npm run build:extension`
+
 - See also: [[plans/phase-E3-status-bar-commands]] — full code listing for the final `extension.ts`
 
 ---
@@ -109,17 +121,29 @@ Update `extension/src/extension.ts` to its final Phase E3 form by importing and 
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/extension.ts` imports `createStatusBar` from `./status-bar.js`
+
 - [ ] `extension/src/extension.ts` imports `registerCommands` from `./commands.js`
+
 - [ ] `createStatusBar(client)` called after `client.start()` and disposable pushed to `context.subscriptions`
+
 - [ ] `client.onDidChangeState` handler resets status bar text to `$(loading~spin) FG: Starting...`
+
 - [ ] `registerCommands(client)` called and all returned disposables pushed to `context.subscriptions`
+
 - [ ] `workspace.onDidChangeConfiguration` handler restarts client when `flavorGrenade.server.path` changes
+
 - [ ] `client` pushed to `context.subscriptions` for automatic `stop()` on deactivation
+
 - [ ] `deactivate()` function is an empty no-op
+
 - [ ] `initializationOptions` includes `linkStyle`, `completion.candidates`, and `diagnostics.suppress`
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `cd extension && npm run build:extension` exits 0
+
 - [ ] No new linter warnings introduced
+
 - [ ] Parent feature [[FEAT-017]] child task row updated to `in-review`
 
 ---
@@ -163,5 +187,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Updated `extension/src/extension.ts` to final Phase E3 form. Wired createStatusBar, registerCommands, onDidChangeState reset, onDidChangeConfiguration restart watcher. All disposables pushed to context.subscriptions. initializationOptions includes linkStyle, completion.candidates, diagnostics.suppress. `tsc --noEmit` exits 0. `npm run build:extension` produces 348.9kb bundle (37ms). Status: `done`.

@@ -45,8 +45,9 @@ aliases: ["{{TICKET-ID}}"]
 
 {{CONTEXT}}
 
-- Phase reference: [[plans/phase-{{NN}}-{{PHASE-SLUG}}]]
-- Raised by: [[tickets/{{RAISING-TICKET-ID}}]] (or [[adr/ADR{{NNN}}-{{SLUG}}]])
+- Phase reference: `[[plans/phase-{{NN}}-{{PHASE-SLUG}}]]`
+
+- Raised by: `[[tickets/{{RAISING-TICKET-ID}}]]` (or `[[adr/ADR{{NNN}}-{{SLUG}}]]`)
 
 ---
 
@@ -57,6 +58,7 @@ aliases: ["{{TICKET-ID}}"]
 **In scope:**
 
 - {{SCOPE-ITEM-1}}
+
 - {{SCOPE-ITEM-2}}
 
 **Out of scope:**
@@ -71,7 +73,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `{{FR-TAG}}` | {{FR-GIST}} | [[requirements/{{FEATURE-FILE}}]] |
+| `{{FR-TAG}}` | {{FR-GIST}} | `[[requirements/{{FEATURE-FILE}}]]` |
 
 ---
 
@@ -81,7 +83,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | ADR | Relation |
 |---|---|
-| [[adr/ADR{{NNN}}-{{SLUG}}]] | {{HOW-RELATED}} |
+| `[[adr/ADR{{NNN}}-{{SLUG}}]]` | {{HOW-RELATED}} |
 
 ---
 
@@ -91,11 +93,11 @@ aliases: ["{{TICKET-ID}}"]
 
 **Blocked by:**
 
-- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
 
 **Unblocks:**
 
-- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{UNBLOCKED-TICKET-ID}}]]` — {{REASON}}
 
 ---
 
@@ -104,9 +106,12 @@ aliases: ["{{TICKET-ID}}"]
 > What artifact the spike *must* produce when complete. Choose exactly one primary output.
 
 - [ ] New ADR: `docs/adr/ADR{{NNN}}-{{SLUG}}.md` — decision recorded and accepted
-- [ ] Updated design doc: [[design/{{DESIGN-FILE}}]] — section `{{SECTION}}` rewritten
+
+- [ ] Updated design doc: `[[design/{{DESIGN-FILE}}]]` — section `{{SECTION}}` rewritten
+
 - [ ] New follow-on task: `TASK-NNN` — {{TASK-DESCRIPTION}}
-- [ ] Updated requirement: [[requirements/{{FEATURE-FILE}}]] — {{WHAT-CHANGES}}
+
+- [ ] Updated requirement: `[[requirements/{{FEATURE-FILE}}]]` — {{WHAT-CHANGES}}
 
 ---
 
@@ -115,8 +120,11 @@ aliases: ["{{TICKET-ID}}"]
 A spike is `done` when:
 
 - [ ] The question above is answered with a documented rationale
+
 - [ ] At least one output artifact listed above is written and committed
+
 - [ ] All options considered are recorded in the **Findings** section (even rejected ones)
+
 - [ ] Any follow-on tasks or ADRs needed are created and linked
 
 ---

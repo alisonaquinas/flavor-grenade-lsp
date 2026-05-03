@@ -28,10 +28,15 @@ Create the four Marketplace-required assets in the `extension/` directory: a use
 ## Implementation Notes
 
 - Write `extension/README.md` with the exact content specified in the phase plan [[plans/phase-E4-packaging-local-test]]. It must include: extension title, features list (completions, diagnostics, go-to-definition, rename, code actions, code lens, semantic tokens), configuration table (5 settings), getting started section, commands section (3 commands), requirements, and links.
+
 - Write `extension/CHANGELOG.md` with the 0.1.0 unreleased entry listing initial release features: LanguageClient wrapper, status bar, commands, and configuration.
+
 - Copy `LICENSE` from the repo root: `cp LICENSE extension/LICENSE`
+
 - Create `extension/images/` directory and a 256x256 PNG icon at `extension/images/icon.png`. The Marketplace requires PNG format, minimum 128x128. SVG is not accepted. A placeholder (e.g., solid-color square with "FG" text) is acceptable for development.
+
 - The `extension/package.json` must already have `"icon": "images/icon.png"` set (from Phase E1). Verify this is present.
+
 - See also: [[plans/phase-E4-packaging-local-test]] for exact file contents
 
 ---
@@ -99,12 +104,19 @@ Create the four Marketplace-required assets in the `extension/` directory: a use
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/README.md` exists with features, configuration table, getting started, commands, requirements, and links sections
+
 - [ ] `extension/CHANGELOG.md` exists with `## [0.1.0] — Unreleased` section and initial release entries
+
 - [ ] `extension/LICENSE` exists and is identical to the repo root `LICENSE`
+
 - [ ] `extension/images/icon.png` exists and is a valid PNG file at least 128x128 pixels
+
 - [ ] `extension/package.json` has `"icon": "images/icon.png"` in its manifest
+
 - [ ] `bun run lint --max-warnings 0` passes (no regressions)
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] Parent feature [[FEAT-018]] child task row updated to `in-review`
 
 ---
@@ -144,5 +156,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Infrastructure task exception. Created 4 Marketplace assets: `extension/README.md` (features, config table, getting started, commands, requirements, links), `extension/CHANGELOG.md` (0.1.0 unreleased entry), `extension/LICENSE` (MIT), `extension/images/icon.png` (256x256 dark green placeholder PNG, 762 bytes). No root LICENSE existed — created MIT license matching package.json. `package.json` already has `"icon": "images/icon.png"`. All DoD items satisfied. Status: `done`.

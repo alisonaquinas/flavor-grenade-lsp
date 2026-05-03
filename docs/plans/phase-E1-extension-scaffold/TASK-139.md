@@ -28,14 +28,23 @@ Create `extension/src/extension.ts` with stub `activate` and `deactivate` export
 ## Implementation Notes
 
 - Create `extension/src/` directory
+
 - Write `extension/src/extension.ts` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]:
+
   - `import type { ExtensionContext } from 'vscode';`
+
   - `export function activate(_context: ExtensionContext): void { /* Phase E2 — LanguageClient setup */ }`
+
   - `export function deactivate(): void { /* Phase E2 — client.stop() */ }`
+
 - Write `extension/.gitignore` with: `dist/`, `node_modules/`, `server/`, `*.vsix`
+
 - Verify: `cd extension && npx tsc --noEmit` exits 0
+
 - Verify: `cd extension && npm run build:extension` exits 0
+
 - Verify: `extension/dist/extension.js` exists after build
+
 - See also: [[plans/phase-E1-extension-scaffold]]
 
 ---
@@ -103,10 +112,15 @@ Create `extension/src/extension.ts` with stub `activate` and `deactivate` export
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/extension.ts` exists with stub `activate` and `deactivate` exports
+
 - [ ] `extension/.gitignore` exists excluding `dist/`, `node_modules/`, `server/`, `*.vsix`
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `cd extension && npm run build:extension` exits 0
+
 - [ ] `extension/dist/extension.js` exists after build
+
 - [ ] Parent feature [[FEAT-015]] child task row updated to `in-review`
 
 ---
@@ -146,5 +160,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Infrastructure task exception. Created `extension/src/extension.ts` with stub `activate`/`deactivate` exports. Created `extension/.gitignore` excluding `dist/`, `node_modules/`, `server/`, `*.vsix`. Verification: `tsc --noEmit` exited 0, `npm run build:extension` exited 0 (7ms, 603b output), `dist/extension.js` + `dist/extension.js.map` produced. All DoD items satisfied. Status: `done`.

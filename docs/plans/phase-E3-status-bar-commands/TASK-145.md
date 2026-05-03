@@ -28,14 +28,23 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 ## Implementation Notes
 
 - Creates a single new file: `extension/src/commands.ts`
+
 - Exports `registerCommands(client: LanguageClient): Disposable[]`
+
 - Three commands registered:
+
   1. **`flavorGrenade.restartServer`** — Calls `client.restart()` to stop and restart the LanguageClient (and the underlying server process). This is an async operation.
+
   2. **`flavorGrenade.rebuildIndex`** — Sends `workspace/executeCommand` to the server with `{ command: 'flavorGrenade.rebuildIndex', arguments: [] }` via `client.sendRequest(...)`. The server must have registered this command via `executeCommandProvider` capabilities (already implemented — see [[design/api-layer]], "Workspace Commands").
+
   3. **`flavorGrenade.showOutput`** — Calls `client.outputChannel.show()` to reveal the Flavor Grenade output channel in the VS Code panel.
+
 - The function returns all three disposables so the caller can push them into `context.subscriptions` for automatic cleanup on deactivation.
+
 - These command IDs must match the `contributes.commands` entries declared in `extension/package.json` (from Phase E1) so they appear in the Command Palette with proper titles.
+
 - Typecheck verification: `cd extension && npx tsc --noEmit`
+
 - See also: [[design/api-layer]] — "Workspace Commands" section for `flavorGrenade.rebuildIndex` server-side registration
 
 ---
@@ -103,12 +112,19 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/commands.ts` exists and exports `registerCommands`
+
 - [ ] `flavorGrenade.restartServer` command calls `client.restart()`
+
 - [ ] `flavorGrenade.rebuildIndex` command sends `workspace/executeCommand` with the correct command name and empty arguments array
+
 - [ ] `flavorGrenade.showOutput` command calls `client.outputChannel.show()`
+
 - [ ] Function returns all three disposables in an array
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] No new linter warnings introduced
+
 - [ ] Parent feature [[FEAT-017]] child task row updated to `in-review`
 
 ---
@@ -150,5 +166,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Created `extension/src/commands.ts` with `registerCommands()` matching reference implementation. Three commands registered: `restartServer` (client.restart), `rebuildIndex` (workspace/executeCommand), `showOutput` (outputChannel.show). Returns Disposable array. `tsc --noEmit` exits 0. Status: `done`.

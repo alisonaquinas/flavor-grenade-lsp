@@ -17,7 +17,7 @@ aliases: ["{{TICKET-ID}}"]
 
 # {{TICKET-TITLE}}
 
-> [!INFO] `{{TICKET-ID}}` · Task · Phase {{PHASE-NUMBER}} · Parent: [[tickets/{{PARENT-FEAT-ID}}]] · Status: `open`
+> [!INFO] `{{TICKET-ID}}` · Task · Phase {{PHASE-NUMBER}} · Parent: `[[tickets/{{PARENT-FEAT-ID}}]]` · Status: `open`
 
 ## Description
 
@@ -32,7 +32,8 @@ aliases: ["{{TICKET-ID}}"]
 > Optional: design constraints, API shapes, or algorithmic hints relevant to this task. Reference [[ddd/ubiquitous-language]] terms and [[architecture/overview]] module boundaries. Do not duplicate content from design docs — link to them instead.
 
 - {{IMPL-NOTE-1}}
-- See also: [[design/{{DESIGN-FILE}}]]
+
+- See also: `[[design/{{DESIGN-FILE}}]]`
 
 ---
 
@@ -42,7 +43,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `{{FR-TAG}}` | {{FR-GIST}} | [[requirements/{{FEATURE-FILE}}]] |
+| `{{FR-TAG}}` | {{FR-GIST}} | `[[requirements/{{FEATURE-FILE}}]]` |
 
 ---
 
@@ -52,7 +53,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Feature File | Scenario Title |
 |---|---|
-| [[bdd/features/{{FEATURE-NAME}}]] | `{{SCENARIO-TITLE}}` |
+| `[[bdd/features/{{FEATURE-NAME}}]]` | `{{SCENARIO-TITLE}}` |
 
 ---
 
@@ -74,13 +75,13 @@ aliases: ["{{TICKET-ID}}"]
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR{{NNN}}-{{SLUG}}]] | {{DECISION-SUMMARY}} |
+| `[[adr/ADR{{NNN}}-{{SLUG}}]]` | {{DECISION-SUMMARY}} |
 
 ---
 
 ## Parent Feature
 
-[[tickets/{{PARENT-FEAT-ID}}]] — {{PARENT-FEAT-TITLE}}
+`[[tickets/{{PARENT-FEAT-ID}}]]` — {{PARENT-FEAT-TITLE}}
 
 ---
 
@@ -88,11 +89,11 @@ aliases: ["{{TICKET-ID}}"]
 
 **Blocked by:**
 
-- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
 
 **Unblocks:**
 
-- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{UNBLOCKED-TICKET-ID}}]]` — {{REASON}}
 
 ---
 
@@ -101,13 +102,21 @@ aliases: ["{{TICKET-ID}}"]
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
+
 - [ ] Implementation written to make test(s) pass (GREEN commit follows)
+
 - [ ] `bun run lint --max-warnings 0` passes
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] All linked BDD scenarios pass locally
+
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
+
 - [ ] [[test/index]] row(s) added for new test files
-- [ ] Parent feature [[tickets/{{PARENT-FEAT-ID}}]] child task row updated to `in-review`
+
+- [ ] Parent feature `[[tickets/{{PARENT-FEAT-ID}}]]` child task row updated to `in-review`
+
 - [ ] {{ADDITIONAL-CRITERION}}
 
 ---
@@ -147,4 +156,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 <!-- TEMPLATE USAGE: Replace the entry below with a real date when creating the ticket. -->
 
 > [!INFO] Opened — {{DATE}}
-> Ticket created. Status: `open`. Parent: [[tickets/{{PARENT-FEAT-ID}}]].
+> Ticket created. Status: `open`. Parent: `[[tickets/{{PARENT-FEAT-ID}}]]`.

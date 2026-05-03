@@ -22,13 +22,17 @@ updated: 2026-04-21
 Publishing a VS Code extension comes down to four things:
 
 1. A correct root `package.json` manifest
+
 2. A clean package payload
+
 3. A publisher identity backed by a Personal Access Token
+
 4. An automated release path built around `@vscode/vsce`
 
 The official model: author and bundle, package into a `.vsix`, publish to the Marketplace, let the Marketplace sign it, and VS Code verifies the signature on install/update. The Marketplace stack is backed by Azure DevOps services. Official automation examples exist for both Azure Pipelines and GitHub Actions.
 
 > [!IMPORTANT] Non-negotiable manifest requirements
+>
 > - Every extension needs a root `package.json`
 > - `name`, `version`, `publisher`, and `engines.vscode` are **required**
 > - `engines.vscode` cannot be `*`
@@ -37,6 +41,7 @@ The official model: author and bundle, package into a `.vsix`, publish to the Ma
 
 > [!WARNING] Practical publishing risks
 > The most common failures are **operational**, not conceptual:
+>
 > - Shipping too many files
 > - Over-broad activation events
 > - Leaking tokens or `.env` files
@@ -53,7 +58,9 @@ The official model: author and bundle, package into a `.vsix`, publish to the Ma
 This document assumes:
 
 - A **public** Marketplace release (not a private enterprise marketplace)
+
 - A JavaScript or TypeScript codebase managed with **npm or Yarn v1**
+
 - A general-purpose extension intended for current stable VS Code, with optional web support
 
 Where behavior differs for web-only extensions, platform-specific native extensions, extension packs, or proposed-API experiments, those cases are called out explicitly.
@@ -261,8 +268,11 @@ flowchart LR
 Microsoft documents three official automation patterns: **Azure Pipelines**, **GitHub Actions**, **GitLab CI**. The recommended pattern in all three:
 
 1. Store PAT as a secure `VSCE_PAT` secret
+
 2. Install `@vscode/vsce` as a dev dependency
+
 3. Add a `deploy` script calling `vsce publish`
+
 4. Trigger publication on **tagged releases only**, after tests pass
 
 > [!WARNING] Linux CI caveat
@@ -356,10 +366,15 @@ steps:
 Additional Marketplace enforcement layers:
 
 - Malware scanning on each new package and update
+
 - Dynamic behavioral detection in a sandboxed clean-room VM
+
 - Monitoring of unusual usage
+
 - Blocking of malicious or compromised extensions
+
 - Secret scanning on newly published extensions
+
 - `vsce` scans `.env` files during packaging and can **block publishing** if secrets are detected
 
 > [!DANGER] Pipeline discipline
@@ -376,9 +391,13 @@ Keep `activationEvents` as narrow as possible.
 #### 2. Treat webviews as hostile-rendering surfaces
 
 - Keep `enableScripts` off unless necessary
+
 - Restrict `localResourceRoots`
+
 - Start CSP from `default-src 'none'`
+
 - Sanitize all workspace-derived input
+
 - Avoid inline scripts and styles
 
 ```html
@@ -397,6 +416,7 @@ Browser extensions lose Node APIs and must be bundled to a single file. Native d
 
 > [!WARNING] Use `SecretStorage`, not `workspaceState`/`globalState`
 > `workspaceState` and `globalState` store plaintext and should **not** be used for secrets.
+>
 > - Desktop: `SecretStorage` uses Electron `safeStorage`
 > - Web: double-key-encryption approach
 > - Not synchronized across machines
@@ -412,9 +432,13 @@ export async function activate(context: vscode.ExtensionContext) {
 ### Legal and Licensing
 
 - Ship a root `LICENSE` file
+
 - Set `"license": "SEE LICENSE IN <filename>"` in `package.json`
+
 - Include third-party license notices when needed
+
 - Add `repository`, `homepage`, `bugs` links for source provenance
+
 - Subject to Marketplace Terms of Use
 
 Minimum strong pattern: SPDX-style `license` metadata + root license file + third-party notices + provenance links.
@@ -422,6 +446,7 @@ Minimum strong pattern: SPDX-style `license` metadata + root license file + thir
 ### Telemetry and Privacy
 
 > [!NOTE] Telemetry obligations
+>
 > - Use `@vscode/extension-telemetry` if it fits
 > - Otherwise honor `isTelemetryEnabled` and `onDidChangeTelemetryEnabled`
 > - Collect as little telemetry as possible
@@ -495,9 +520,13 @@ Supported package managers: **npm** and **Yarn v1** (`npm >=6`, `yarn >=1 <2`).
 ### Versioning and Pre-Releases
 
 - `vsce publish minor` or `vsce publish 1.1.0` — updates manifest and publishes
+
 - `vsce publish --pre-release` or `vsce package --pre-release` — pre-release track
+
 - **Required format:** plain `major.minor.patch` (not SemVer prerelease identifiers)
+
 - Pre-release and release versions must be **distinct**
+
 - VS Code auto-updates users to the highest available version
 
 > [!TIP] Version line convention
@@ -565,6 +594,7 @@ The broader VS Code UX guidelines exist specifically so extension UI blends with
 ## Common Publishing Failures
 
 > [!DANGER] Predictable failure modes
+>
 > - **Duplicate extension name** — names and display names must be unique
 > - **PAT missing `Manage` scope** — PAT setup fails silently until publish time
 > - **Signature failures** — block installation when package integrity checks fail
@@ -578,14 +608,23 @@ The broader VS Code UX guidelines exist specifically so extension UI blends with
 ## Pre-Publish Checklist
 
 - [ ] `name`, `publisher`, `version`, and `engines.vscode` are correct and intentional
+
 - [ ] `activationEvents` are as narrow as possible; no loading on startup unless truly required
+
 - [ ] Production artifacts are bundled; package contents inspected before publishing
+
 - [ ] `README.md`, `LICENSE`, and `CHANGELOG.md` are present and Marketplace-ready
+
 - [ ] Icon is PNG and at least 128x128 px; untrusted SVG assets removed
+
 - [ ] Scanned for secrets locally; `.env`, tokens, and credentials are not publishable
+
 - [ ] Tested on desktop; browser tests added if `browser` is declared; Restricted Mode and virtual workspaces tested if manifest claims support
+
 - [ ] Telemetry honors `isTelemetryEnabled`, avoids PII, and is documented
+
 - [ ] If using native modules: platform-specific packages published intentionally; every claimed target validated
+
 - [ ] Publishing from CI on tags only, using a secure `VSCE_PAT` secret
 
 ---

@@ -28,11 +28,17 @@ Create `extension/tsconfig.json` with the TypeScript compiler options required f
 ## Implementation Notes
 
 - Create `extension/tsconfig.json` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]
+
 - Key flags: `"target": "ES2022"`, `"module": "Node16"`, `"moduleResolution": "Node16"`, `"strict": true`, `"strictNullChecks": true`, `"noImplicitAny": true`, `"esModuleInterop": true`
+
 - Output: `"outDir": "dist"`, `"rootDir": "src"`
+
 - `"declaration": false` — extension client does not publish types
+
 - `"skipLibCheck": true` — avoids errors in third-party type definitions
+
 - Uses Node16 module resolution (not bundler) because the extension runs in VS Code's Node.js host; esbuild handles the bundling step separately
+
 - See also: [[plans/phase-E1-extension-scaffold]]
 
 ---
@@ -100,10 +106,15 @@ Create `extension/tsconfig.json` with the TypeScript compiler options required f
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/tsconfig.json` exists
+
 - [ ] Contains `"target": "ES2022"`, `"module": "Node16"`, `"moduleResolution": "Node16"`
+
 - [ ] Contains `"strict": true`, `"strictNullChecks": true`, `"noImplicitAny": true`
+
 - [ ] Contains `"outDir": "dist"`, `"rootDir": "src"`
+
 - [ ] Contains `"include": ["src/**/*"]` and `"exclude": ["node_modules", "dist"]`
+
 - [ ] Parent feature [[FEAT-015]] child task row updated to `in-review`
 
 ---
@@ -143,5 +154,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Infrastructure task exception (pure config file). Created `extension/tsconfig.json` with all required fields: ES2022 target, Node16 module/moduleResolution, strict mode, strictNullChecks, noImplicitAny, outDir=dist, rootDir=src, declaration=false, skipLibCheck=true. Type-check verification deferred to TASK-139 (needs source files). All DoD items satisfied. Status: `done`.

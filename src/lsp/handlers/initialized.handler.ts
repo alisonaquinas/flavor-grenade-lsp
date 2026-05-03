@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import { VaultScanner } from '../../vault/vault-scanner.js';
 import { FileWatcher } from '../../vault/file-watcher.js';
 import { VaultDetector } from '../../vault/vault-detector.js';
@@ -27,14 +27,16 @@ import { LifecycleState } from '../services/lifecycle-state.js';
 export class InitializedHandler {
   constructor(
     private readonly lifecycle: LifecycleState,
-    @Optional() private readonly vaultScanner: VaultScanner | null = null,
-    @Optional() private readonly fileWatcher: FileWatcher | null = null,
-    @Optional() private readonly vaultDetector: VaultDetector | null = null,
-    @Optional() private readonly awaitIndexReady: AwaitIndexReadyHandler | null = null,
-    @Optional() private readonly refGraph: RefGraph | null = null,
-    @Optional() private readonly oracle: Oracle | null = null,
-    @Optional() private readonly embedResolver: EmbedResolver | null = null,
-    @Optional() private readonly vaultIndex: VaultIndex | null = null,
+    @Optional() @Inject(VaultScanner) private readonly vaultScanner: VaultScanner | null = null,
+    @Optional() @Inject(FileWatcher) private readonly fileWatcher: FileWatcher | null = null,
+    @Optional() @Inject(VaultDetector) private readonly vaultDetector: VaultDetector | null = null,
+    @Optional()
+    @Inject(AwaitIndexReadyHandler)
+    private readonly awaitIndexReady: AwaitIndexReadyHandler | null = null,
+    @Optional() @Inject(RefGraph) private readonly refGraph: RefGraph | null = null,
+    @Optional() @Inject(Oracle) private readonly oracle: Oracle | null = null,
+    @Optional() @Inject(EmbedResolver) private readonly embedResolver: EmbedResolver | null = null,
+    @Optional() @Inject(VaultIndex) private readonly vaultIndex: VaultIndex | null = null,
   ) {}
 
   /**

@@ -28,8 +28,11 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
 ## Implementation Notes
 
 - Creates a single new file: `extension/src/status-bar.ts`
+
 - Exports `createStatusBar(client: LanguageClient): StatusBarItem`
+
 - Defines `FlavorGrenadeStatus` interface matching the `flavorGrenade/status` notification params from [[design/api-layer]]:
+
   ```typescript
   interface FlavorGrenadeStatus {
       state: 'initializing' | 'indexing' | 'ready' | 'error';
@@ -38,17 +41,29 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
       message?: string;
   }
   ```
+
 - Uses `StatusBarAlignment.Left` with priority `-1` so the item sits to the right of most built-in items
+
 - Sets `item.name = 'Flavor Grenade'` for the status bar entry name
+
 - Sets `item.command = 'flavorGrenade.showOutput'` so clicking opens the output channel
+
 - Initial text: `$(loading~spin) FG: Starting...`
+
 - State-to-icon mapping:
+
   - `initializing` → `$(loading~spin) FG: Starting...`
+
   - `indexing` → `$(loading~spin) FG: Indexing...` with tooltip showing doc/vault counts
+
   - `ready` → `$(check) FG: {docCount} docs` with tooltip showing doc/vault counts
+
   - `error` → `$(error) FG: Error` with tooltip showing the error message
+
 - Registers the notification handler via `client.onNotification('flavorGrenade/status', ...)`
+
 - Typecheck verification: `cd extension && npx tsc --noEmit`
+
 - See also: [[design/api-layer]] — "Custom Notification: flavorGrenade/status"
 
 ---
@@ -116,12 +131,19 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/status-bar.ts` exists and exports `createStatusBar`
+
 - [ ] `FlavorGrenadeStatus` interface matches the shape defined in [[design/api-layer]]
+
 - [ ] Status bar item uses `StatusBarAlignment.Left` with priority `-1`
+
 - [ ] Notification handler registered for `flavorGrenade/status` with all four state transitions
+
 - [ ] Clicking the status bar item triggers `flavorGrenade.showOutput`
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] No new linter warnings introduced
+
 - [ ] Parent feature [[FEAT-017]] child task row updated to `in-review`
 
 ---
@@ -163,5 +185,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Created `extension/src/status-bar.ts` with `createStatusBar()` matching reference implementation. FlavorGrenadeStatus interface with 4 states (initializing, indexing, ready, error). StatusBarAlignment.Left priority -1. Notification handler for `flavorGrenade/status`. Click command = `flavorGrenade.showOutput`. `tsc --noEmit` exits 0. Status: `done`.

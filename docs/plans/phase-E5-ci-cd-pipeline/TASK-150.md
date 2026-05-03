@@ -28,12 +28,19 @@ Update `docs/roadmap.md` to mark all completed extension phases (E1 through E5) 
 ## Implementation Notes
 
 - Update `docs/roadmap.md`:
+
   - Mark each extension phase (E1 through E5) with its completion status and date
+
   - Ensure the extension phase section reflects the final state of the CI/CD pipeline being operational
+
 - Update `docs/plans/execution-ledger.md`:
+
   - Check if extension phases (E1-E5) have rows in the ledger; if so, update them to `done` with dates
+
   - If extension phases are not yet tracked, add rows for E1 through E5
+
 - No code changes — documentation only
+
 - See also: [[plans/phase-E5-ci-cd-pipeline]], [[plans/execution-ledger]]
 
 ---
@@ -97,13 +104,21 @@ Update `docs/roadmap.md` to mark all completed extension phases (E1 through E5) 
 All of the following must be true before this task is marked `done`:
 
 - [ ] `docs/roadmap.md` updated with extension phase completion dates for E1 through E5
+
 - [ ] `docs/plans/execution-ledger.md` updated if extension phases are tracked there
+
 - [ ] No code changes in `src/` or `extension/` (documentation only)
+
 - [ ] `bun run lint --max-warnings 0` passes
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] `bun test` passes (no regressions)
+
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
+
 - [ ] [[test/index]] row(s) added for new test files
+
 - [ ] Parent feature [[FEAT-019]] child task row updated to `in-review`
 
 ---
@@ -132,5 +147,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-019]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Documentation-only task. `docs/roadmap.md` updated: all extension phases (R, E1–E5) marked complete with 2026-04-22 dates. Roadmap header note updated to reflect all extension work complete. `docs/plans/execution-ledger.md` already updated incrementally during each phase — all rows show ✅ complete. No code changes. Status: `done`.

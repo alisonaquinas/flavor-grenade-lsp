@@ -17,7 +17,7 @@ Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | `flavorGrenade.server.path` | `string` | `""` | Custom path to the language server binary. Leave empty to use the bundled binary. |
-| `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `relative-path`. |
+| `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `title-slug`, `file-path-stem`. |
 | `flavorGrenade.completion.candidates` | `number` | `50` | Maximum number of completion items returned. |
 | `flavorGrenade.diagnostics.suppress` | `string[]` | `[]` | Diagnostic codes to suppress (e.g. `["AmbiguousLink", "BrokenEmbed"]`). |
 | `flavorGrenade.trace.server` | `string` | `"off"` | Trace communication between VS Code and the language server. Options: `off`, `messages`, `verbose`. |
@@ -38,9 +38,19 @@ Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Flavor Grena
 - **Flavor Grenade: Rebuild Index** — Re-scan the vault and rebuild the document index
 - **Flavor Grenade: Show Output** — Open the language server output channel for troubleshooting
 
+## Development Smoke Test
+
+1. From the repository root, run `bun install`.
+2. From `extension/`, run `npm ci`.
+3. Open `extension/` in VS Code.
+4. Start the **Run Extension** launch configuration.
+5. Edit code under the repository root `src/`; the server TypeScript watch task rebuilds `../dist/main.js`.
+6. Run **Flavor Grenade: Restart Server** in the Extension Host window.
+7. Confirm changed LSP behavior is visible without rebuilding the bundled server binary.
+
 ## Requirements
 
-- VS Code 1.93.0 or later
+- VS Code 1.81.0 or later
 - An Obsidian vault (any folder containing `.md` files works)
 
 ## Links

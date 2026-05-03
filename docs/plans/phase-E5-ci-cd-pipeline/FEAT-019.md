@@ -29,19 +29,29 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 **In scope:**
 
 - GitHub Actions workflow `extension-release.yml` triggered by `ext-v*` tags
+
 - 7-target build matrix cross-compiling server binaries on `ubuntu-latest` via Bun
+
 - Platform-specific VSIX packaging using `vsce package --target`
+
 - Gated publish job that uploads all 7 VSIXs to the VS Code Marketplace using `VSCE_PAT`
+
 - `fail-fast: true` so nothing publishes unless all 7 targets build successfully
+
 - YAML syntax validation of the workflow file
+
 - Roadmap and execution ledger updates marking extension phases complete
+
 - Manual configuration of `VSCE_PAT` repository secret and Marketplace publisher identity
 
 **Out of scope (explicitly excluded):**
 
 - Release-please integration for automated extension tagging (deferred)
+
 - Extension integration tests or E2E tests in CI (separate concern)
+
 - OpenVSX or alternative marketplace publishing
+
 - Self-hosted runner setup
 
 ---
@@ -79,7 +89,9 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 ## Phase Plan Reference
 
 - Phase plan: [[plans/phase-E5-ci-cd-pipeline]]
+
 - ADR: [[adr/ADR015-platform-specific-vsix]]
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -89,15 +101,25 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] `.github/workflows/extension-release.yml` exists and parses as valid YAML
+
 - [ ] Workflow triggers on `ext-v*` tag push
+
 - [ ] Build matrix covers all 7 platform targets (linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64)
+
 - [ ] All 7 targets cross-compile on `ubuntu-latest` via Bun
+
 - [ ] Publish job is gated on all 7 build jobs completing successfully
+
 - [ ] `VSCE_PAT` secret is referenced correctly in the publish job
+
 - [ ] `docs/roadmap.md` updated with extension phase completion dates
+
 - [ ] `docs/plans/execution-ledger.md` updated if extension phases tracked there
+
 - [ ] All child TASK and CHORE tickets are in `done` state
+
 - [ ] No new linter warnings introduced
+
 - [ ] [[plans/execution-ledger]] row for Phase E5 updated to `done`
 
 ---
@@ -173,21 +195,29 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Written after Step L passes. Date: 2026-04-22.
 
 ### What went as planned
+
 `extension-release.yml` created matching the phase plan reference implementation exactly. YAML validated via `js-yaml`. Roadmap and execution ledger updated with all 5 extension phase completion dates. Workflow covers all 7 platform targets with correct Bun cross-compilation flags.
 
 ### Deviations and surprises
+
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | CHORE-043 | Chore | Manual/operational step (Azure DevOps PAT, GitHub secrets) cannot be performed by AI agent. Deferred to human reviewer. | ~0 h |
 
 ### Process observations
+
 - CHORE-043 is purely manual — the phase-execution procedure should have a gate exception for human-only operational tasks that cannot be verified by CI or automated tests.
+
 - The workflow file depends on `bun build --compile` working correctly in CI (ubuntu-latest). The pre-existing NestJS optional dep issue may surface there too — needs investigation before first tag push.
 
 ### Carry-forward actions
+
 - [ ] Human must complete CHORE-043 before first `ext-v*` tag push (register publisher, create PAT, add GitHub secret)
+
 - [ ] Test `bun build --compile` on ubuntu-latest to verify the NestJS optional dep issue is environment-specific
+
 - [ ] Push first `ext-v0.1.0` tag and verify all 7 matrix jobs succeed
 
 ### Rule / template amendments
+
 - [ ] Add "human-only operational task" exception clause to phase-execution procedure for tasks that require external service configuration

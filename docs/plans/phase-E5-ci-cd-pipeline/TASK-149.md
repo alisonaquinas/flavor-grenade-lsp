@@ -28,8 +28,11 @@ Create `.github/workflows/extension-release.yml` — a GitHub Actions workflow t
 ## Implementation Notes
 
 - **Trigger:** `push.tags: ['ext-v*']`
+
 - **Permissions:** `contents: read`
+
 - **Build job:** `runs-on: ubuntu-latest` with `fail-fast: true` matrix strategy
+
 - **7-target matrix:**
 
   | VS Code target | Bun `--target` | Binary name |
@@ -43,16 +46,20 @@ Create `.github/workflows/extension-release.yml` — a GitHub Actions workflow t
   | `win32-arm64` | `bun-windows-arm64` | `flavor-grenade-lsp.exe` |
 
 - **Build steps:** checkout, setup-bun (latest), setup-node (20), `bun install --frozen-lockfile`, cross-compile with `bun build --compile --minify --bytecode --target=<bun-target>` into `extension/server/`, `npm ci` in extension/, `npm run build:extension` in extension/, `npx vsce package --target <vsce-target>` in extension/, upload VSIX artifact
+
 - **Publish job:** `needs: build`, download all `vsix-*` artifacts with `merge-multiple: true`, install `@vscode/vsce` globally, `vsce publish --packagePath vsix-artifacts/*.vsix` with `VSCE_PAT` env var
+
 - **`--bytecode` flag:** pre-compiles JavaScript for faster cold startup; used in CI only, omitted in local builds
+
 - **Artifact naming:** `vsix-${{ matrix.vsce-target }}` with `if-no-files-found: error`
+
 - **Validate YAML syntax after creation:**
 
   ```bash
   python3 -c "import yaml; yaml.safe_load(open('.github/workflows/extension-release.yml'))"
   ```
 
-- See also: [[plans/phase-E5-ci-cd-pipeline]], [[adr/ADR015-platform-specific-vsix]], [[docs/research/vscode-extension-publishing]]
+- See also: [[plans/phase-E5-ci-cd-pipeline]], [[adr/ADR015-platform-specific-vsix]], [[research/vscode-extension-publishing]]
 
 ---
 
@@ -115,17 +122,29 @@ Create `.github/workflows/extension-release.yml` — a GitHub Actions workflow t
 All of the following must be true before this task is marked `done`:
 
 - [ ] `.github/workflows/extension-release.yml` exists at the correct path
+
 - [ ] YAML parses without errors (`python3 -c "import yaml; yaml.safe_load(open(...))"`)
+
 - [ ] Workflow triggers on `push.tags: ['ext-v*']` only
+
 - [ ] Build matrix covers all 7 platform targets with correct Bun `--target` and binary name mappings
+
 - [ ] All 7 builds run on `ubuntu-latest` (no macOS/Windows runners)
+
 - [ ] `fail-fast: true` is set on the build matrix
+
 - [ ] Publish job has `needs: build` dependency
+
 - [ ] `VSCE_PAT` secret is correctly referenced via `${{ secrets.VSCE_PAT }}`
+
 - [ ] `bun run lint --max-warnings 0` passes
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
+
 - [ ] [[test/index]] row(s) added for new test files
+
 - [ ] Parent feature [[FEAT-019]] child task row updated to `in-review`
 
 ---
@@ -154,5 +173,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-019]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Created `.github/workflows/extension-release.yml` matching reference implementation. Trigger: `ext-v*` tag push. 7-target build matrix (linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64) all on ubuntu-latest with `fail-fast: true`. Cross-compile via `bun build --compile --minify --bytecode --target=<bun-target>`. Gated publish job with `VSCE_PAT` secret. YAML validated via js-yaml. Status: `done`.

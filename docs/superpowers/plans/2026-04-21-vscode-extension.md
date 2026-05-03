@@ -27,7 +27,7 @@
 
 ## Phase E1 — Extension Scaffold
 
-### File Map
+### Phase E2 File Map
 
 | Path | Action | Responsibility |
 |---|---|---|
@@ -42,6 +42,7 @@
 ### Task E1.1: Create extension directory and package.json
 
 **Files:**
+
 - Create: `extension/package.json`
 
 - [ ] **Step 1: Create `extension/` directory**
@@ -174,6 +175,7 @@ git commit -m "feat(ext): scaffold extension directory with package.json manifes
 ### Task E1.2: Create tsconfig.json for extension
 
 **Files:**
+
 - Create: `extension/tsconfig.json`
 
 - [ ] **Step 1: Write `extension/tsconfig.json`**
@@ -218,6 +220,7 @@ git commit -m "feat(ext): add tsconfig.json for extension client"
 ### Task E1.3: Create stub extension.ts and verify build
 
 **Files:**
+
 - Create: `extension/src/extension.ts`
 
 - [ ] **Step 1: Write stub `extension/src/extension.ts`**
@@ -281,6 +284,7 @@ git commit -m "feat(ext): add stub extension.ts and .gitignore, verify esbuild p
 ### Task E1.4: Create .vscodeignore
 
 **Files:**
+
 - Create: `extension/.vscodeignore`
 
 - [ ] **Step 1: Write `extension/.vscodeignore`**
@@ -315,7 +319,7 @@ git commit -m "feat(ext): add .vscodeignore for VSIX package hygiene"
 
 ## Phase E2 — LanguageClient Core
 
-### File Map
+### Phase E3 File Map
 
 | Path | Action | Responsibility |
 |---|---|---|
@@ -327,6 +331,7 @@ git commit -m "feat(ext): add .vscodeignore for VSIX package hygiene"
 ### Task E2.1: Implement binary resolution
 
 **Files:**
+
 - Create: `extension/src/server-path.ts`
 
 - [ ] **Step 1: Write `extension/src/server-path.ts`**
@@ -380,6 +385,7 @@ git commit -m "feat(ext): add 2-tier server binary resolution"
 ### Task E2.2: Implement LanguageClient activation
 
 **Files:**
+
 - Modify: `extension/src/extension.ts`
 
 - [ ] **Step 1: Replace stub `extension/src/extension.ts` with full implementation**
@@ -478,6 +484,7 @@ bun build --compile --minify src/main.ts --outfile extension/server/flavor-grena
 ```
 
 On Windows:
+
 ```bash
 bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe
 ```
@@ -524,7 +531,7 @@ git commit -m "chore(ext): add launch.json for Extension Development Host debugg
 
 ## Phase E3 — Status Bar & Commands
 
-### File Map
+### Phase E4 File Map
 
 | Path | Action | Responsibility |
 |---|---|---|
@@ -537,6 +544,7 @@ git commit -m "chore(ext): add launch.json for Extension Development Host debugg
 ### Task E3.1: Implement status bar widget
 
 **Files:**
+
 - Create: `extension/src/status-bar.ts`
 
 - [ ] **Step 1: Write `extension/src/status-bar.ts`**
@@ -619,6 +627,7 @@ git commit -m "feat(ext): add status bar widget listening to flavorGrenade/statu
 ### Task E3.2: Implement command registrations
 
 **Files:**
+
 - Create: `extension/src/commands.ts`
 
 - [ ] **Step 1: Write `extension/src/commands.ts`**
@@ -677,6 +686,7 @@ git commit -m "feat(ext): add palette commands (restart, rebuild index, show out
 ### Task E3.3: Wire status bar and commands into activate()
 
 **Files:**
+
 - Modify: `extension/src/extension.ts`
 
 - [ ] **Step 1: Update `extension/src/extension.ts`**
@@ -789,7 +799,7 @@ git commit -m "feat(ext): wire status bar and commands into activate lifecycle"
 
 ## Phase E4 — Packaging & Local Test
 
-### File Map
+### Phase E5 File Map
 
 | Path | Action | Responsibility |
 |---|---|---|
@@ -803,18 +813,27 @@ git commit -m "feat(ext): wire status bar and commands into activate lifecycle"
 ### Task E4.1: Add Marketplace assets
 
 **Files:**
+
 - Create: `extension/README.md`
+
 - Create: `extension/CHANGELOG.md`
+
 - Create: `extension/LICENSE`
+
 - Create: `extension/images/icon.png`
 
 - [ ] **Step 1: Write `extension/README.md`**
 
 Marketplace-facing. Include:
+
 - One-paragraph description of what the extension does
+
 - Feature list (completions, diagnostics, go-to-def, rename, code actions, code lens, semantic tokens)
+
 - Configuration settings table (mirror from package.json contributes.configuration)
+
 - "Getting Started" section (install from Marketplace, open a vault, done)
+
 - Link to the flavor-grenade-lsp repo
 
 - [ ] **Step 2: Write `extension/CHANGELOG.md`**
@@ -860,6 +879,7 @@ git commit -m "feat(ext): add Marketplace assets (README, CHANGELOG, LICENSE, ic
 ### Task E4.2: Package and test VSIX locally
 
 **Files:**
+
 - No new files — verification only.
 
 - [ ] **Step 1: Build the server binary for host platform**
@@ -870,6 +890,7 @@ bun build --compile --minify src/main.ts --outfile extension/server/flavor-grena
 ```
 
 On Windows:
+
 ```bash
 bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe
 ```
@@ -897,12 +918,19 @@ unzip -l extension/flavor-grenade-0.1.0.vsix | head -30
 ```
 
 Expected entries:
+
 - `extension/dist/extension.js`
+
 - `extension/server/flavor-grenade-lsp` (or `.exe`)
+
 - `extension/package.json`
+
 - `extension/README.md`
+
 - `extension/LICENSE`
+
 - `extension/CHANGELOG.md`
+
 - `extension/images/icon.png`
 
 Unexpected entries (should NOT appear): `src/`, `node_modules/`, `tsconfig.json`, `*.ts`, `*.test.*`
@@ -920,8 +948,11 @@ Expected: extension activates, status bar shows "FG: Starting..." → "FG: Index
 - [ ] **Step 7: Verify commands**
 
 Open Command Palette (`Ctrl+Shift+P`), search "Flavor Grenade":
+
 - "Restart Server" — server restarts, status bar cycles back to ready
+
 - "Rebuild Index" — status bar flashes "Indexing..." then returns to ready
+
 - "Show Output" — output channel opens with LSP trace
 
 - [ ] **Step 8: Clean up — add VSIX to .gitignore**
@@ -948,6 +979,7 @@ git commit -m "chore(ext): add *.vsix to gitignore"
 ### Task E5.1: Create extension-release.yml workflow
 
 **Files:**
+
 - Create: `.github/workflows/extension-release.yml`
 
 - [ ] **Step 1: Write `.github/workflows/extension-release.yml`**
@@ -1078,7 +1110,9 @@ git commit -m "ci(ext): add extension-release.yml — 7-target matrix build and 
 ### Task E5.2: Update roadmap and execution ledger
 
 **Files:**
+
 - Modify: `docs/roadmap.md`
+
 - Modify: `docs/plans/execution-ledger.md`
 
 - [ ] **Step 1: Update roadmap — mark VS Code Extension items**

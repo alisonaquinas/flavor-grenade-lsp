@@ -28,12 +28,19 @@ Create `extension/src/server-path.ts` with a `resolveServerPath(context: Extensi
 ## Implementation Notes
 
 - Create new file: `extension/src/server-path.ts`
+
 - Import `ExtensionContext`, `Uri`, and `workspace` from `vscode`
+
 - Read `flavorGrenade.server.path` via `workspace.getConfiguration('flavorGrenade').get<string>('server.path')`
+
 - Guard against empty/whitespace-only strings in the custom path check
+
 - Use `Uri.joinPath(context.extensionUri, 'server', binaryName).fsPath` for the bundled binary path
+
 - Binary name: `flavor-grenade-lsp.exe` on `win32`, `flavor-grenade-lsp` on all other platforms
+
 - Typecheck after creation: `cd extension && npx tsc --noEmit`
+
 - See also: [[plans/phase-E2-languageclient-core]] task 1 for the reference implementation
 
 ---
@@ -102,12 +109,19 @@ Create `extension/src/server-path.ts` with a `resolveServerPath(context: Extensi
 All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/server-path.ts` exists and exports `resolveServerPath(context: ExtensionContext): string`
+
 - [ ] Tier 1: returns `flavorGrenade.server.path` setting value when non-empty
+
 - [ ] Tier 2: returns `Uri.joinPath(context.extensionUri, 'server', binaryName).fsPath` when no custom path
+
 - [ ] Appends `.exe` suffix on `win32`, no suffix on other platforms
+
 - [ ] No PATH fallback, no env var, no download logic
+
 - [ ] `cd extension && npx tsc --noEmit` exits 0
+
 - [ ] `bun run lint --max-warnings 0` passes (or extension-local equivalent)
+
 - [ ] Parent feature [[FEAT-016]] child task row updated to `in-review`
 
 ---
@@ -147,5 +161,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Created `extension/src/server-path.ts` with `resolveServerPath()` matching reference implementation exactly. Tier 1: reads `flavorGrenade.server.path` config, guards empty/whitespace. Tier 2: `Uri.joinPath` to bundled binary with `.exe` on win32. No PATH/env/download fallback. `tsc --noEmit` exits 0. Linked Tests N/A per ticket (VS Code API dependency — no mock strategy established). All DoD items satisfied. Status: `done`.

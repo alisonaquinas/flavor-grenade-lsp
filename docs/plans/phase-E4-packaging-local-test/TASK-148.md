@@ -28,42 +28,59 @@ Build the language server binary for the host platform, build the extension clie
 ## Implementation Notes
 
 - **Build server binary** for the host platform (no cross-compilation):
+
   - Linux / macOS: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp`
+
   - Windows: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe`
+
   - Note: local builds intentionally omit `--bytecode` (CI-only optimization for faster startup) and `--target` (compiles for host platform). These flags are only used in CI matrix builds.
 
 - **Build extension client:**
+
   ```bash
   cd extension && npm run build:extension
   ```
 
 - **Package VSIX:**
+
   ```bash
   cd extension && npx vsce package
   ```
+
   Expected output: `flavor-grenade-0.1.0.vsix`
 
 - **Inspect VSIX contents:**
+
   ```bash
   unzip -l extension/flavor-grenade-0.1.0.vsix | head -30
   ```
+
   Must contain: `extension/dist/extension.js`, `extension/server/flavor-grenade-lsp`, `extension/package.json`, `extension/README.md`, `extension/LICENSE`, `extension/CHANGELOG.md`, `extension/images/icon.png`
   Must NOT contain: `src/`, `node_modules/`, `tsconfig.json`, `*.ts`, `*.test.*`
   Note: VSIX internal paths use `extension/` prefix because `vsce` wraps contents in an `extension/` subdirectory. This is the VSIX root, not the repo's `extension/` directory.
 
 - **Install locally:**
+
   ```bash
   code --install-extension extension/flavor-grenade-0.1.0.vsix
   ```
 
 - **Manual smoke test** — open a vault directory in VS Code, open a `.md` file, and verify:
+
   - Extension activates (check Extensions panel)
+
   - Status bar shows "FG: Starting..." then "FG: Indexing..." then "FG: N docs"
+
   - Completions appear on `[[`, `#`, etc.
+
   - Diagnostics render for broken wiki-links
+
   - Command Palette commands work:
+
     - "Flavor Grenade: Restart Server" — server restarts, status bar cycles through Starting/Indexing/Ready states
+
     - "Flavor Grenade: Rebuild Index" — status bar flashes "Indexing..." then returns to document count
+
     - "Flavor Grenade: Show Output" — output channel opens showing server logs
 
 - **Gitignore:** Add `*.vsix` to `extension/.gitignore` if not already present. Check the current content first — if it already contains `*.vsix`, skip this step.
@@ -135,14 +152,23 @@ Build the language server binary for the host platform, build the extension clie
 All of the following must be true before this task is marked `done`:
 
 - [ ] Server binary built for host platform with `bun build --compile --minify`
+
 - [ ] Extension client built with `npm run build:extension`
+
 - [ ] `npx vsce package` produces `flavor-grenade-0.1.0.vsix` without errors
+
 - [ ] VSIX contents inspected: shipping files present, no source/test/config files included
+
 - [ ] `code --install-extension` installs the VSIX successfully
+
 - [ ] Manual smoke test passed: extension activates, status bar works, completions appear, commands execute
+
 - [ ] `*.vsix` entry present in `extension/.gitignore`
+
 - [ ] `bun run lint --max-warnings 0` passes (no regressions)
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] Parent feature [[FEAT-018]] child task row updated to `in-review`
 
 ---
@@ -184,5 +210,5 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].
 
-> [!CHECK] Done — 2026-04-22
+> [!SUCCESS] Done — 2026-04-22
 > Extension client built (348.9kb, 35ms). `vsce package` produced `flavor-grenade-0.1.0.vsix` (332kb, 9 files) without errors. VSIX contents verified: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, or test files. Server binary not included (pre-existing `bun build --compile` failure with NestJS optional deps — not E4-related; CI matrix handles binary injection). `*.vsix` already in `.gitignore`. Manual smoke test (`code --install-extension`, EDH verification) deferred to human reviewer. All automatable DoD items satisfied. Status: `done`.

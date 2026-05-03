@@ -1,26 +1,18 @@
 // markdownlint-obsidian configuration for flavor-grenade-lsp docs/
-// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc docs/
-// See: https://github.com/alisonaquinas/markdownlint-obsidian
+// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc "docs/**/*.md"
+// Package: https://libraries.io/npm/markdownlint-obsidian
+// CLI: https://www.npmjs.com/package/markdownlint-obsidian-cli
 {
   // Vault root for wikilink and embed resolution.
   "vaultRoot": "./docs",
   // Enable vault-wide wikilink/embed resolution so broken internal links
   // are flagged as lint errors.
   "resolve": true,
-  // Default glob when no positional args are passed.
+  // Default glob when no positional args are passed. Keep this in sync with
+  // .github/workflows/ci.yml.
   "globs": ["docs/**/*.md"],
   "ignores": [
-    "node_modules/**",
-    // Ticket template files contain {{PLACEHOLDER}} wikilinks
-    // (e.g. [[adr/ADR{{NNN}}-{{SLUG}}]]) that are intentionally unresolvable.
-    // Templates are meta-documents — they are never instantiated as vault
-    // notes themselves, so OFM001 broken-link checking does not apply.
-    "docs/templates/**",
-    // BDD .feature files (Gherkin) contain intentional test-fixture wikilinks
-    // such as [[missing-note]], [[broken-link]], [[source]] — these are vault
-    // content used as INPUT to LSP broken-link detection scenarios, not real
-    // navigational links. OFM wikilink/embed rules do not apply to feature files.
-    "docs/bdd/**"
+    "node_modules/**"
   ],
   "rules": {
     // MD028 fires on blank lines inside blockquotes.
