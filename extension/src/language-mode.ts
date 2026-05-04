@@ -78,7 +78,7 @@ export class LanguageModeController {
     start(): Disposable[] {
         return [
             this.api.onDidOpenTextDocument((document) => {
-                void this.maybePromote(document);
+                void this.tryPromote(document);
             }),
             this.api.onDidChangeVisibleTextEditors(() => {
                 void this.refreshAll();
@@ -98,7 +98,7 @@ export class LanguageModeController {
             documents.set(editor.document.uri.toString(), editor.document);
         }
 
-        await Promise.all([...documents.values()].map((document) => this.maybePromote(document)));
+        await Promise.all([...documents.values()].map((document) => this.tryPromote(document)));
     }
 
     async maybePromote(document: TextDocument): Promise<boolean> {
@@ -147,5 +147,13 @@ export class LanguageModeController {
 
     private findCurrentDocument(uri: string): TextDocument | undefined {
         return this.api.getOpenDocuments().find((document) => document.uri.toString() === uri);
+    }
+
+    private async tryPromote(document: TextDocument): Promise<boolean> {
+        try {
+            return await this.maybePromote(document);
+        } catch {
+            return false;
+        }
     }
 }

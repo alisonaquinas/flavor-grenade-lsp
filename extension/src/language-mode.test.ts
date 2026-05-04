@@ -62,10 +62,12 @@ function controllerFor(options: {
             getOpenDocuments: () => options.documents as never,
             getVisibleEditors: () => [],
             setTextDocumentLanguage: async (doc, languageId) => {
-                promoted.push(languageId);
                 if (options.setLanguage) {
-                    return options.setLanguage(doc as unknown as FakeDocument, languageId) as never;
+                    const result = await options.setLanguage(doc as unknown as FakeDocument, languageId);
+                    promoted.push(languageId);
+                    return result as never;
                 }
+                promoted.push(languageId);
                 return { ...doc, languageId } as never;
             },
             onDidOpenTextDocument: () => ({ dispose: () => undefined }),
@@ -169,6 +171,24 @@ describe('LanguageModeController', () => {
 
         assert.equal(await first, true);
         assert.equal(await second, false);
+        assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('refreshAll continues when one language assignment rejects', async () => {
+        const failing = document(join('vault', 'bad.md'));
+        const succeeding = document(join('vault', 'good.md'));
+        const { controller, promoted } = controllerFor({
+            documents: [failing, succeeding],
+            membership: true,
+            setLanguage: async (current) => {
+                if (current === failing) {
+                    throw new Error('document closed');
+                }
+                return { ...current, languageId: OFMARKDOWN_LANGUAGE_ID };
+            },
+        });
+
+        await assert.doesNotReject(() => controller.refreshAll());
         assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
     });
 });
