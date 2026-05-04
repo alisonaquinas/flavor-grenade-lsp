@@ -159,12 +159,12 @@ Add Marketplace assets (README, CHANGELOG, LICENSE, icon), package the extension
   cd extension && npx vsce package
   ```
 
-  Expected: produces `flavor-grenade-0.1.0.vsix`.
+  Expected: produces `flavor-grenade-lsp-0.1.0.vsix`.
 
   Inspect VSIX contents:
 
   ```bash
-  unzip -l extension/flavor-grenade-0.1.0.vsix | head -30
+  unzip -l extension/flavor-grenade-lsp-0.1.0.vsix | head -30
   ```
 
   Expected entries:
@@ -188,7 +188,7 @@ Add Marketplace assets (README, CHANGELOG, LICENSE, icon), package the extension
   Install locally:
 
   ```bash
-  code --install-extension extension/flavor-grenade-0.1.0.vsix
+  code --install-extension extension/flavor-grenade-lsp-0.1.0.vsix
   ```
 
   Open a vault directory in VS Code, open a `.md` file.
@@ -214,7 +214,7 @@ Add Marketplace assets (README, CHANGELOG, LICENSE, icon), package the extension
 
 ```bash
 cd extension && npx vsce package
-code --install-extension extension/flavor-grenade-0.1.0.vsix
+code --install-extension extension/flavor-grenade-lsp-0.1.0.vsix
 # Open a vault in VS Code → open .md file → verify status bar, completions, commands
 ```
 

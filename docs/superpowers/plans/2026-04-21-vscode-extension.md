@@ -55,8 +55,8 @@ cd flavor-grenade-lsp && mkdir -p extension
 
 ```json
 {
-  "name": "flavor-grenade",
-  "displayName": "Flavor Grenade — Obsidian Markdown Support",
+  "name": "flavor-grenade-lsp",
+  "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
   "version": "0.1.0",
   "publisher": "alisonaquinas",
@@ -909,12 +909,12 @@ cd extension && npm run build:extension
 cd extension && npx vsce package
 ```
 
-Expected: produces `flavor-grenade-0.1.0.vsix` in `extension/`. Output shows file list — verify no `src/`, `node_modules/`, or test files included.
+Expected: produces `flavor-grenade-lsp-0.1.0.vsix` in `extension/`. Output shows file list — verify no `src/`, `node_modules/`, or test files included.
 
 - [ ] **Step 4: Inspect VSIX contents**
 
 ```bash
-unzip -l extension/flavor-grenade-0.1.0.vsix | head -30
+unzip -l extension/flavor-grenade-lsp-0.1.0.vsix | head -30
 ```
 
 Expected entries:
@@ -938,7 +938,7 @@ Unexpected entries (should NOT appear): `src/`, `node_modules/`, `tsconfig.json`
 - [ ] **Step 5: Install VSIX locally**
 
 ```bash
-code --install-extension extension/flavor-grenade-0.1.0.vsix
+code --install-extension extension/flavor-grenade-lsp-0.1.0.vsix
 ```
 
 - [ ] **Step 6: Open a vault directory in VS Code, open a `.md` file**
