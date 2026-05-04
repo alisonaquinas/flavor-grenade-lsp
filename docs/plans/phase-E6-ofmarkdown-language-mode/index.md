@@ -9,9 +9,9 @@ updated: 2026-05-03
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-020]] | Dynamic OFMarkdown language mode | Feature | `draft` |
-| [[TASK-151]] | Contribute OFMarkdown language metadata | Task | `open` |
-| [[TASK-152]] | Implement LanguageModeController | Task | `open` |
-| [[TASK-153]] | Add document membership request | Task | `open` |
-| [[TASK-154]] | Add OFMarkdown tests and smoke coverage | Task | `open` |
-| [[TASK-155]] | Update release docs and Marketplace notes | Task | `open` |
+| [[FEAT-020]] | Dynamic OFMarkdown language mode | Feature | `in-review` |
+| [[TASK-151]] | Contribute OFMarkdown language metadata | Task | `in-review` |
+| [[TASK-152]] | Implement LanguageModeController | Task | `in-review` |
+| [[TASK-153]] | Add document membership request | Task | `in-review` |
+| [[TASK-154]] | Add OFMarkdown tests and smoke coverage | Task | `in-review` |
+| [[TASK-155]] | Update release docs and Marketplace notes | Task | `in-review` |

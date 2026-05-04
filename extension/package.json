@@ -15,8 +15,22 @@
   "extensionKind": ["workspace"],
   "main": "./dist/extension.js",
   "icon": "images/icon.png",
-  "activationEvents": ["onLanguage:markdown"],
+  "activationEvents": ["onLanguage:markdown", "onLanguage:ofmarkdown"],
   "contributes": {
+    "languages": [
+      {
+        "id": "ofmarkdown",
+        "aliases": ["OFMarkdown", "Obsidian Flavored Markdown"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ofmarkdown",
+        "scopeName": "text.html.markdown.ofmarkdown",
+        "path": "./syntaxes/ofmarkdown.tmLanguage.json"
+      }
+    ],
     "commands": [
       { "command": "flavorGrenade.restartServer", "title": "Flavor Grenade: Restart Server" },
       { "command": "flavorGrenade.rebuildIndex", "title": "Flavor Grenade: Rebuild Index" },

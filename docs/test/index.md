@@ -38,6 +38,8 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | Test File | Type | Description | Requirements Tags | Phase |
 |---|---|---|---|---|
 | `tests/unit/lsp/lsp.module.spec.ts` | Unit | NestJS module graph smoke test — verifies `LspModule` compiles and can be resolved from the application context | `Workspace.VaultDetection.Primary` | Phase 1 |
+| `src/vault/__tests__/document-membership.test.ts` | Unit | Tests server-side `flavorGrenade/documentMembership` results for Obsidian vaults, Flavor Grenade config vaults, indexed docs, single-file mode, and unsupported URI schemes | `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation` | Phase E6 |
+| `src/vault/__tests__/vault.module.test.ts` | Unit | Verifies `VaultModule` registers `flavorGrenade/documentMembership` with the JSON-RPC dispatcher | `Extension.LanguageMode.DynamicAssignment` | Phase E6 |
 
 ---
 
@@ -73,6 +75,7 @@ Extension unit tests exercise extension-side logic only, mocking the VS Code API
 
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
+| `extension/src/language-mode.test.ts` | Unit | Tests OFMarkdown promotion rules, `.obsidian` fast-path detection, manual mode preservation, server membership requests, and in-flight assignment guard | `Extension.LanguageMode.Contribution`, `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation`, `Extension.LanguageMode.UserOverrideSafety`, `Extension.LanguageMode.LoopSafety` | Phase E6 | ✅ implemented |
 | `extension/src/__tests__/server-path.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows .exe suffix | `Extension.Binary.Resolution` | Phase E2 | 📋 planned |
 | `extension/src/__tests__/status-bar.test.ts` | Unit | Tests StatusBarItem text/tooltip transitions for all 4 flavorGrenade/status states | `Extension.StatusBar.StateTransition` | Phase E3 | 📋 planned |
 | `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
@@ -97,6 +100,7 @@ Extension integration tests require the VS Code Extension Development Host launc
 | Feature File | Step File | Description | Phase | Status |
 |---|---|---|---|---|
 | `docs/bdd/features/vscode-extension.feature` | `extension/src/__tests__/bdd/vscode-extension.steps.ts` | 11 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery | Phase E4 | 📋 planned |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | `extension/src/__tests__/bdd/ofmarkdown-language-mode.steps.ts` | 6 acceptance scenarios covering dynamic OFMarkdown assignment and Markdown/manual mode preservation | Phase E6 | 📋 planned |
 
 ---
 

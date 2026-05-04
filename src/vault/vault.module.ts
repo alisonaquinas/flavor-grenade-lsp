@@ -11,6 +11,7 @@ import { FileWatcher } from './file-watcher.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js';
 import { TagRegistry } from '../tags/tag-registry.js';
+import { DocumentMembershipService } from './document-membership.js';
 
 /**
  * NestJS module that wires all vault indexing services.
@@ -31,6 +32,7 @@ import { TagRegistry } from '../tags/tag-registry.js';
     IgnoreFilter,
     AwaitIndexReadyHandler,
     TagRegistry,
+    DocumentMembershipService,
   ],
   exports: [
     VaultDetector,
@@ -41,6 +43,7 @@ import { TagRegistry } from '../tags/tag-registry.js';
     IgnoreFilter,
     AwaitIndexReadyHandler,
     TagRegistry,
+    DocumentMembershipService,
   ],
 })
 export class VaultModule implements OnModuleInit {
@@ -49,12 +52,16 @@ export class VaultModule implements OnModuleInit {
     private readonly awaitIndexReadyHandler: AwaitIndexReadyHandler,
     private readonly vaultIndex: VaultIndex,
     private readonly vaultDetector: VaultDetector,
+    private readonly documentMembership: DocumentMembershipService,
   ) {}
 
   /** Register custom `flavorGrenade/*` request handlers. */
   onModuleInit(): void {
     this.dispatcher.onRequest('flavorGrenade/awaitIndexReady', () =>
       this.awaitIndexReadyHandler.handle(),
+    );
+    this.dispatcher.onRequest('flavorGrenade/documentMembership', async (params: unknown) =>
+      this.documentMembership.handle(params),
     );
 
     /**

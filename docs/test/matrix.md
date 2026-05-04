@@ -249,6 +249,12 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Packaging.VSIXInstall` | Local VSIX install succeeds and extension functions | — | ⬜ not-yet-written | Phase E4 | Manual smoke test |
 | `Extension.CICD.MatrixBuild` | All 7 platform-specific VSIXs build on tag push | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
 | `Extension.CICD.MarketplacePublish` | Publish job succeeds with VSCE_PAT | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
+| `Extension.LanguageMode.Contribution` | Extension contributes `ofmarkdown` without globally claiming `.md` files | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | Manifest verified by type/build checks; unit coverage verifies contribution-facing constants and rules |
+| `Extension.LanguageMode.DynamicAssignment` | Qualifying vault/index Markdown documents promote to `ofmarkdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts`, `src/vault/__tests__/vault.module.test.ts` | ✅ passing | Phase E6 | Covers `.obsidian` fast path and server membership request |
+| `Extension.LanguageMode.NonVaultIsolation` | Generic Markdown outside vault/index remains `markdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts` | ✅ passing | Phase E6 | |
+| `Extension.LanguageMode.UserOverrideSafety` | Manual non-Markdown language selections are preserved | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | |
+| `Extension.LanguageMode.LoopSafety` | Language assignment does not create reopen or restart loops | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | In-flight assignment guard unit-tested |
+| `Extension.LanguageMode.MarkdownParity` | OFMarkdown mode preserves baseline Markdown editing behavior | `extension/language-configuration.json`, `extension/syntaxes/ofmarkdown.tmLanguage.json` | ⏳ planned | Phase E6 | Manual smoke test required for editor behavior parity |
 
 ---
 
@@ -273,7 +279,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E3 (Status Bar & Commands) | 7 | 0 | 0% |
 | Phase E4 (Packaging) | 2 | 0 | 0% |
 | Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
-| **Total** | **94** | **1** | **1%** |
+| Phase E6 (OFMarkdown Language Mode) | 6 | 5 | 83% |
+| **Total** | **100** | **6** | **6%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.
