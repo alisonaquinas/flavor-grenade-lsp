@@ -65,7 +65,6 @@ jobs:
   create-release:
     name: Create GitHub Release
     needs: build-binaries
-    if: ${{ !contains(github.ref_name, '-test') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -85,6 +84,9 @@ jobs:
         with:
           files: dist/flavor-grenade-lsp-*
           generate_release_notes: true
+          draft: ${{ contains(github.ref_name, '-test') }}
+          prerelease: ${{ contains(github.ref_name, '-test') }}
+          make_latest: ${{ contains(github.ref_name, '-test') && 'false' || 'true' }}
 
   # npm publishing is handled by the CI workflow's gated publish job, which
   # runs after typecheck/lint/test/build pass and uses OIDC trusted publishing.
