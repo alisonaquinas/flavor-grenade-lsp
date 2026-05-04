@@ -6,7 +6,8 @@ Feature: VS Code extension lifecycle and integration
   over stdio via vscode-languageclient 9.x. It bundles a platform-specific
   compiled binary, provides a 2-tier binary resolution strategy (user setting
   then bundled), exposes a status bar widget driven by flavorGrenade/status
-  notifications, and registers palette commands for server management.
+  notifications, registers palette commands for server management, and assigns
+  OFMarkdown language mode to detected vault/index documents.
 
   Background:
     Given a VS Code instance with the Flavor Grenade extension installed
@@ -24,6 +25,16 @@ Feature: VS Code extension lifecycle and integration
     And the server returns an "initialize" response with capabilities
     And the client sends an "initialized" notification
     And the LanguageClient state transitions to "Running"
+
+  @language-mode
+  Scenario: LanguageClient serves markdown before and after OFMarkdown promotion
+    When the user opens a file "notes/welcome.md" in the workspace
+    Then the LanguageClient document selector includes:
+      | scheme | language   |
+      | file   | markdown   |
+      | file   | ofmarkdown |
+    And after the document language id becomes "ofmarkdown"
+    Then the LanguageClient continues serving completions and diagnostics for that document
 
   Scenario: Status bar shows indexing progress
     Given the extension has activated and the LanguageClient is running

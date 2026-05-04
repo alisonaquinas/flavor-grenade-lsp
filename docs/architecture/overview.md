@@ -85,6 +85,19 @@ Detection precedence:
 
 If neither is found by traversing up to the filesystem root, the document is placed in a single-file `VaultFolder`.
 
+## VS Code OFMarkdown Language Mode
+
+The VS Code extension contributes a client-side language id, `ofmarkdown`, for documents that Flavor Grenade recognizes as Obsidian Flavored Markdown. This is not a separate parser mode in the server. The server remains OFM-only; `ofmarkdown` is an editor identity used by VS Code settings, snippets, keybindings, grammar contributions, and semantic token targeting.
+
+Assignment is dynamic:
+
+1. `.md` files open as VS Code's built-in `markdown`.
+2. The extension checks for an ancestor `.obsidian/` directory as a fast positive signal.
+3. After the server starts, the extension asks `flavorGrenade/documentMembership` whether the URI belongs to a vault/index.
+4. Qualifying `markdown` documents are promoted to `ofmarkdown` using VS Code's language assignment API.
+
+The extension's LanguageClient listens to both `markdown` and `ofmarkdown` documents so LSP features continue across the close/open event VS Code emits during language reassignment.
+
 ---
 
 ## Key Design Principles
@@ -146,3 +159,5 @@ src/main.ts
 - [[concepts/document-model]] — OFMDoc structure and parse pipeline
 - [[concepts/connection-graph]] — RefGraph and Oracle patterns
 - [[concepts/workspace-model]] — VaultFolder and Workspace composition
+- [[features/ofmarkdown-language-mode]] — VS Code language mode assignment
+- [[adr/ADR016-ofmarkdown-language-mode]] — Dynamic OFMarkdown language mode decision

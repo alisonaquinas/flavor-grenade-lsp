@@ -48,6 +48,11 @@ Each user requirement uses the following fields:
 | User.Vault.WorkAcrossEntireVault | Have links resolve across all notes in the vault | [[vault-setup]] | Workspace.FileExtension.Filter, Workspace.MultiFolder.Isolation |
 | User.Config.CustomiseLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behaviour]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
 | User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behaviour]] | Config.Validation.Candidates, Completion.Candidates.Cap |
+| User.Extension.RecognizeOFMarkdown | Have VS Code recognize vault notes as OFMarkdown | [[vscode-language-mode]] | Extension.LanguageMode.Contribution, Extension.LanguageMode.DynamicAssignment |
+| User.Extension.PreserveMarkdown | Keep generic Markdown files in normal Markdown mode | [[vscode-language-mode]] | Extension.LanguageMode.NonVaultIsolation |
+| User.Extension.PreserveManualMode | Preserve manual language mode choices | [[vscode-language-mode]] | Extension.LanguageMode.UserOverrideSafety |
+| User.Extension.StableModeSwitch | Avoid flicker or restart loops during automatic recognition | [[vscode-language-mode]] | Extension.LanguageMode.LoopSafety |
+| User.Extension.PreserveMarkdownEditing | Keep Markdown editing behavior after OFMarkdown promotion | [[vscode-language-mode]] | Extension.LanguageMode.MarkdownParity |
 
 ## Related Documents
 
@@ -61,3 +66,4 @@ Each user requirement uses the following fields:
 - [[requirements/user/renaming-safely]] — rename user requirements
 - [[requirements/user/vault-setup]] — vault detection user requirements
 - [[requirements/user/configuring-behaviour]] — configuration user requirements
+- [[requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements

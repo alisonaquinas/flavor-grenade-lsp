@@ -1,5 +1,7 @@
 import {
     type ExtensionContext,
+    languages,
+    window,
     workspace,
 } from 'vscode';
 import {
@@ -11,6 +13,7 @@ import {
 import { resolveServerCommand } from './server-path.js';
 import { createStatusBar } from './status-bar.js';
 import { registerCommands } from './commands.js';
+import { LanguageModeController } from './language-mode.js';
 
 let client: LanguageClient | undefined;
 
@@ -24,7 +27,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
     };
 
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: 'markdown' }],
+        documentSelector: [
+            { scheme: 'file', language: 'markdown' },
+            { scheme: 'file', language: 'ofmarkdown' },
+        ],
         synchronize: {
             fileEvents: workspace.createFileSystemWatcher('**/*.md'),
         },
@@ -58,6 +64,18 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.subscriptions.push(client);
 
     await client.start();
+
+    const languageModeController = new LanguageModeController(client, {
+        getOpenDocuments: () => workspace.textDocuments,
+        getVisibleEditors: () => window.visibleTextEditors,
+        setTextDocumentLanguage: (document, languageId) =>
+            languages.setTextDocumentLanguage(document, languageId),
+        onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
+        onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
+        onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),
+    });
+    context.subscriptions.push(...languageModeController.start());
+    await languageModeController.refreshAll();
 
     // If the server reached ready before the notification listener observed it,
     // awaitIndexReady gives us a deterministic post-start status check.

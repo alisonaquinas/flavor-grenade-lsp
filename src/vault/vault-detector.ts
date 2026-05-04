@@ -43,6 +43,16 @@ export class VaultDetector {
     return result;
   }
 
+  /**
+   * Detect the vault mode without reading or mutating the process-wide cache.
+   *
+   * This is useful for per-document editor queries where each URI may live in
+   * a different workspace folder from the root URI that initialized the server.
+   */
+  detectFresh(startPath: string): VaultDetectionResult {
+    return this.walk(startPath);
+  }
+
   private walk(startPath: string): VaultDetectionResult {
     let current = this.resolveDir(startPath);
 

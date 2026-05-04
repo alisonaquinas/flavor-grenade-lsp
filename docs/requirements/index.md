@@ -84,6 +84,12 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Workspace.VaultDetection.Fallback** | Directories containing `.flavor-grenade.toml` must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
 | **Workspace.FileExtension.Filter** | Only files with configured extensions enter the index; others are silently ignored. | [[workspace]] |
 | **Workspace.MultiFolder.Isolation** | Cross-root link resolution must not be performed between distinct vault roots. | [[workspace]] |
+| **Extension.LanguageMode.Contribution** | The VS Code extension must contribute `ofmarkdown` without globally claiming `.md` files. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.LanguageMode.DynamicAssignment** | Qualifying vault/index Markdown documents must be promoted to `ofmarkdown`. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.LanguageMode.NonVaultIsolation** | Generic Markdown outside a vault/index must remain `markdown`. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.LanguageMode.UserOverrideSafety** | The extension must not override manual non-Markdown language mode selections. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.LanguageMode.LoopSafety** | Language-mode assignment must not create reopen or restart loops. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.LanguageMode.MarkdownParity** | OFMarkdown mode must preserve baseline Markdown editing behavior. | [[requirements/ofmarkdown-language-mode]] |
 | **Config.Precedence.Layering** | Project config overrides user config overrides built-in defaults. | [[configuration]] |
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |
 | **Config.Fault.Isolation** | Malformed TOML must be dropped without crashing the server. | [[configuration]] |
