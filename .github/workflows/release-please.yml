@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -42,11 +45,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
-      # Bootstrap npm@latest from the registry tarball. Some Node 22 releases
-      # ship a broken bundled npm (missing promise-retry). npm@latest is
-      # required for tokenless OIDC Trusted Publishing.
+      # Bootstrap npm@latest from the registry tarball so publishing does not
+      # depend on the runner image's bundled npm. npm@latest is required for
+      # tokenless OIDC Trusted Publishing.
       - name: Bootstrap npm@latest
         run: |
           TMPDIR=$(mktemp -d)

@@ -11,6 +11,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   typecheck:
     name: TypeScript typecheck
@@ -153,7 +156,7 @@ jobs:
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
-      # Node 22 LTS. The Node version used to publish does not affect the LSP
+      # Node 24 LTS. The Node version used to publish does not affect the LSP
       # artifact — the package is compiled by Bun/tsc; Node is only needed to
       # drive npm.
       #
@@ -165,16 +168,13 @@ jobs:
       # npmjs.com is already the default registry.
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
 
       # Bootstrap npm@latest from the registry tarball instead of using
-      # `npm install -g npm@latest`. Some Node 22 releases (e.g. 22.22.2)
-      # ship with a broken bundled npm whose @npmcli/arborist is missing the
-      # 'promise-retry' dependency, so the npm install command crashes with
-      # MODULE_NOT_FOUND before it can upgrade itself. Fetching via curl/jq
-      # and running the extracted CLI directly via `node` avoids that path
-      # entirely. npm@latest (9.5.0+) is required for tokenless OIDC
-      # Trusted Publishing; the bundled npm predates that support.
+      # `npm install -g npm@latest`. Fetching via curl/jq and running the
+      # extracted CLI directly via `node` avoids depending on the runner image's
+      # bundled npm before npm@latest is installed. npm@latest (9.5.0+) is
+      # required for tokenless OIDC Trusted Publishing.
       - name: Bootstrap npm@latest (required for tokenless OIDC Trusted Publishing)
         run: |
           TMPDIR=$(mktemp -d)
