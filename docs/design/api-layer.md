@@ -80,6 +80,7 @@ Key capability declarations:
 | `workspace/didChangeWatchedFiles` | `workspace.fileOperations` | — | Triggered on `*.md` create/delete; updates `VaultFolder` and `RefGraph` |
 | `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, rewrites all wiki-links to renamed file via `workspace/applyEdit` |
 | `workspace/executeCommand` | `executeCommandProvider` | — | Commands: `flavorGrenade.rebuildIndex`, `flavorGrenade.insertBlockAnchor`, `flavorGrenade.openLinkedNote` |
+| `flavorGrenade/documentMembership` | custom request | — | VS Code extension asks whether a URI belongs to a vault/index and should be assigned `ofmarkdown` |
 
 ---
 
@@ -149,6 +150,38 @@ Editor extensions (e.g., the `flavor-grenade.nvim` companion plugin) use this no
 
 ---
 
+## Custom Request: `flavorGrenade/documentMembership`
+
+The VS Code extension uses this request to decide whether an open Markdown document should be assigned the `ofmarkdown` language id. The request is client-specific but server-authoritative: BC6 owns VS Code language mode assignment, while BC4 owns vault/index membership.
+
+```typescript
+// Request: client → server
+// Method: "flavorGrenade/documentMembership"
+type DocumentMembershipParams = {
+  uri: string;
+}
+
+type DocumentMembershipResult = {
+  isOfMarkdown: boolean;
+  indexed: boolean;
+  vaultRoot?: string;
+  reason: 'obsidian-vault' | 'flavor-config-vault' | 'single-file' | 'not-indexed';
+}
+```
+
+Result semantics:
+
+| Field | Meaning |
+|---|---|
+| `isOfMarkdown` | True when the document belongs to a multi-file vault or is present in the server index as an OFM document |
+| `indexed` | True when the document URI currently maps to an indexed `OFMDoc` |
+| `vaultRoot` | Absolute vault root path when the URI belongs to a detected vault |
+| `reason` | Stable explanation used by extension tests and debug logs |
+
+The server must return `isOfMarkdown: false` for unsupported URI schemes and non-indexed generic Markdown. It must not emit diagnostics for membership failures; the request is an editor affordance, not a document correctness rule.
+
+---
+
 ## Code Action Catalog
 
 `CodeActionService` provides four code actions. Each is triggered by a diagnostic or by the editor's code action request on a specific symbol range:
@@ -182,3 +215,4 @@ Editor extensions (e.g., the `flavor-grenade.nvim` companion plugin) use this no
 - [[design/domain-layer]] — Domain events underlying LSP notifications
 - [[concepts/connection-graph]] — RefGraph queries behind definition/references
 - [[concepts/symbol-model]] — Symbol types returned by definition/references
+- [[features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode behavior

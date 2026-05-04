@@ -46,7 +46,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `{{FR-TAG}}` | {{FR-GIST}} | [[requirements/{{FEATURE-FILE}}]] |
+| `{{FR-TAG}}` | {{FR-GIST}} | `[[requirements/{{FEATURE-FILE}}]]` |
 
 ---
 
@@ -74,7 +74,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR{{NNN}}-{{SLUG}}]] | {{CONSTRAINT-SUMMARY}} |
+| `[[adr/ADR{{NNN}}-{{SLUG}}]]` | {{CONSTRAINT-SUMMARY}} |
 
 ---
 
@@ -84,11 +84,11 @@ aliases: ["{{TICKET-ID}}"]
 
 **Blocked by:**
 
-- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
 
 **Unblocks:**
 
-- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{UNBLOCKED-TICKET-ID}}]]` — {{REASON}}
 
 ---
 
@@ -97,11 +97,17 @@ aliases: ["{{TICKET-ID}}"]
 All of the following must be true before this ticket is marked `done`:
 
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] `bun test` passes (no regressions introduced)
+
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
+
 - [ ] [[test/matrix]] updated if any test files were added or removed
+
 - [ ] [[test/index]] updated if any test files were added or removed
+
 - [ ] {{ADDITIONAL-CRITERION}}
 
 ---

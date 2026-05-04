@@ -1,6 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
 
+/** Payload shape expected by the extension's status bar listener. */
+export interface StatusPayload {
+  state: 'initializing' | 'indexing' | 'ready' | 'error';
+  vaultCount: number;
+  docCount: number;
+  message?: string;
+}
+
 /**
  * Sends `flavorGrenade/status` notifications to the LSP client.
  *
@@ -14,9 +22,9 @@ export class StatusNotifier {
   /**
    * Push a status notification to the client.
    *
-   * @param status - A human-readable status string (e.g. `'initializing'`).
+   * @param payload - The full status payload matching the extension's expected shape.
    */
-  send(status: string): void {
-    this.dispatcher.sendNotification('flavorGrenade/status', { status });
+  send(payload: StatusPayload): void {
+    this.dispatcher.sendNotification('flavorGrenade/status', payload);
   }
 }

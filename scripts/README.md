@@ -6,18 +6,20 @@ Automation scripts that act on the repository. These scripts are **not** linked 
 
 ## Scripts
 
-| Script | Description |
-|---|---|
-| `set-version.sh` | Bump the version field in `package.json` to a new semver string. |
-| `lint-all.sh` | Run all linters sequentially (TypeScript, ESLint, Prettier, markdownlint-obsidian, markdownlint-cli2) and print a per-linter PASS/FAIL summary. |
-| `validate-docs.sh` | Run only the Markdown linters — useful for doc-only changes. |
-| `update-test-index.sh` | (Stub) Scan `tests/` and regenerate `docs/test/index.md` and `docs/test/matrix.md`. Not yet implemented. |
+| Script                 | Description                                                                                                                                     |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `set-version.sh`       | Bump the version field in `package.json` to a new semver string.                                                                                |
+| `build-binary.mjs`     | Compile the server binary with Bun using the shared optional-dependency externals used by local and extension release builds.                   |
+| `copy-binary.mjs`      | Copy a compiled server binary from `dist/` into `extension/server/`.                                                                            |
+| `lint-all.sh`          | Run all linters sequentially (TypeScript, ESLint, Prettier, markdownlint-obsidian, markdownlint-cli2) and print a per-linter PASS/FAIL summary. |
+| `validate-docs.sh`     | Run only the Markdown linters — useful for doc-only changes.                                                                                    |
+| `update-test-index.sh` | (Stub) Scan `tests/` and regenerate `docs/test/index.md` and `docs/test/matrix.md`. Not yet implemented.                                        |
 
 ---
 
 ## How to Run
 
-All scripts are Bash scripts. Make them executable once after cloning:
+Make shell scripts executable once after cloning:
 
 ```sh
 chmod +x scripts/*.sh
@@ -28,6 +30,7 @@ Then run them from the **repository root**:
 ```sh
 ./scripts/lint-all.sh
 ./scripts/set-version.sh 1.2.3
+node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp
 ./scripts/validate-docs.sh
 ./scripts/update-test-index.sh
 ```
@@ -37,6 +40,6 @@ Then run them from the **repository root**:
 ## Conventions
 
 - Scripts use paths relative to the repository root (the working directory from which they are invoked).
-- Scripts use `set -euo pipefail` — they abort immediately on any error, unset variable reference, or failed pipeline stage.
+- Shell scripts use `set -euo pipefail` — they abort immediately on any error, unset variable reference, or failed pipeline stage.
 - Scripts print a brief usage message when called with `--help` or with missing required arguments.
 - Scripts exit non-zero on any failure so they can be composed in CI pipelines.

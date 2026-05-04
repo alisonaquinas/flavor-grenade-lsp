@@ -2,6 +2,8 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
+updated: 2026-04-22
+current-version: 0.1.2
 ---
 
 # flavor-grenade-lsp — Feature Roadmap
@@ -10,25 +12,28 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 
 > [!NOTE]
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
-> All phases are `planned` during the documentation phase. No implementation has begun.
+> All v1 phases (0–13) are **complete** as of 2026-04-17. Current version: **0.1.2**.
+> All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
+> Extension phase E6 is **planned** for dynamic OFMarkdown language mode.
 
 ## Phase Table
 
-| # | Phase Name | Status | Key Deliverable |
-|---|---|---|---|
-| 1 | Project Scaffold | planned | NestJS + Bun initialised; repo structure; CI skeleton; `src/main.ts` stdio entry point |
-| 2 | LSP Transport | planned | JSON-RPC Content-Length framing; capability negotiation; `initialize` / `initialized` / `shutdown` / `exit` handshake |
-| 3 | OFM Parser | planned | Full OFM AST: wiki-links, embeds, block refs, tags, callouts, frontmatter, math, Obsidian comments |
-| 4 | Vault Index | planned | Vault detection (`.obsidian/` + `.flavor-grenade.toml`); file watcher; DocId; FolderLookup; single-file mode |
-| 5 | Wiki-Link Resolution | planned | Diagnostics FG001–FG003; go-to-def; find-refs; wiki-link completion (file-stem default) |
-| 6 | Tags | planned | Tag indexing with hierarchy; tag completion; tag find-references; tag-to-yaml code action |
-| 7 | Embeds | planned | Embed resolution; FG004 broken-embed diagnostic; hover preview for `.md` embeds |
-| 8 | Block References | planned | `^blockid` indexing as `BlockAnchorDef`; `CrossBlock` ref; FG005 diagnostic; go-to-def; find-refs; completion |
-| 9 | Completions | planned | Full completion provider: wiki-links, heading completion, block-ref completion, tags, callout types, inline links |
-| 10 | Navigation | planned | Go-to-def for all ref types; find-refs for all def types; code lens "N references" above headings and block anchors |
-| 11 | Rename | planned | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename |
-| 12 | Code Actions | planned | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens |
-| 13 | CI & Delivery | planned | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline |
+| # | Phase Name | Status | Key Deliverable | Completed |
+|---|---|---|---|---|
+| 0 | Documentation Scaffold | complete | All `docs/` files written and committed | 2026-04-17 |
+| 1 | Project Scaffold | complete | NestJS + Bun initialised; repo structure; CI skeleton; `src/main.ts` stdio entry point | 2026-04-17 |
+| 2 | LSP Transport | complete | JSON-RPC Content-Length framing; capability negotiation; `initialize` / `initialized` / `shutdown` / `exit` handshake | 2026-04-17 |
+| 3 | OFM Parser | complete | Full OFM AST: wiki-links, embeds, block refs, tags, callouts, frontmatter, math, Obsidian comments | 2026-04-17 |
+| 4 | Vault Index | complete | Vault detection (`.obsidian/` + `.flavor-grenade.toml`); file watcher; DocId; FolderLookup; single-file mode | 2026-04-17 |
+| 5 | Wiki-Link Resolution | complete | Diagnostics FG001–FG003; go-to-def; find-refs; wiki-link completion (file-stem default) | 2026-04-17 |
+| 6 | Tags | complete | Tag indexing with hierarchy; tag completion; tag find-references; tag-to-yaml code action | 2026-04-17 |
+| 7 | Embeds | complete | Embed resolution; FG004 broken-embed diagnostic; hover preview for `.md` embeds | 2026-04-17 |
+| 8 | Block References | complete | `^blockid` indexing as `BlockAnchorDef`; `CrossBlock` ref; FG005 diagnostic; go-to-def; find-refs; completion | 2026-04-17 |
+| 9 | Completions | complete | Full completion provider: wiki-links, heading completion, block-ref completion, tags, callout types, inline links | 2026-04-17 |
+| 10 | Navigation | complete | Go-to-def for all ref types; find-refs for all def types; code lens "N references" above headings and block anchors | 2026-04-17 |
+| 11 | Rename | complete | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename | 2026-04-17 |
+| 12 | Code Actions | complete | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens | 2026-04-17 |
+| 13 | CI & Delivery | complete | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline | 2026-04-17 |
 
 ## Phase Details
 
@@ -110,9 +115,79 @@ Bundle the server with Bun (`bun build --compile`). Build cross-platform binarie
 
 Implementation plan: [[plans/phase-13-ci-delivery]]
 
+## VS Code Extension Phases (`feature/vs-code`)
+
+Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled platform-specific binaries. Design: [[superpowers/specs/2026-04-21-vscode-extension-design]]. Distribution strategy: [[ADR015-platform-specific-vsix]].
+
+### Extension Phase Table
+
+| # | Phase Name | Status | Key Deliverable | Completed |
+|---|---|---|---|---|
+| R | Publishing Research | complete | Research report covering manifest, packaging, CI/CD, security | 2026-04-21 |
+| E1 | Extension Scaffold | complete | `extension/` directory with `package.json`, `tsconfig.json`, esbuild config; `npm run build:extension` exits 0 | 2026-04-22 |
+| E2 | LanguageClient Core | complete | `extension.ts` with binary resolution, `LanguageClient` config, activate/deactivate lifecycle; server spawns in Extension Development Host | 2026-04-22 |
+| E3 | Status Bar & Commands | complete | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | 2026-04-22 |
+| E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
+| E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
+| E6 | OFMarkdown Language Mode | planned | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
+
+### Extension Phase Details
+
+#### Phase R — Publishing Research
+
+Research report covering VS Code extension manifest requirements, VSIX packaging, PAT-based publisher identity, CI/CD automation with `@vscode/vsce`, security model, and Marketplace policy. Used to inform the extension design spec and ADR015.
+
+Reference: [[research/vscode-extension-publishing]]
+
+#### Phase E1 — Extension Scaffold
+
+Create the `extension/` directory at the repo root with its own `package.json` (extension manifest with identity, activation events, contributes, configuration), `tsconfig.json` (Node16 target for VS Code extension host), and esbuild bundling. Stub `extension.ts` exports empty `activate`/`deactivate`. Gate: `npm run build:extension` produces `dist/extension.js`.
+
+Implementation plan: [[plans/phase-E1-extension-scaffold]]
+
+#### Phase E2 — LanguageClient Core
+
+Implement 2-tier binary resolution (user setting → bundled binary at `server/flavor-grenade-lsp[.exe]`). Configure `LanguageClient` v9.x with Executable ServerOptions over stdio. Wire `activate()` and `deactivate()` lifecycle. Gate: extension activates and spawns the server in VS Code Extension Development Host; LSP initialization handshake succeeds.
+
+Implementation plan: [[plans/phase-E2-languageclient-core]]
+
+#### Phase E3 — Status Bar & Commands
+
+Add status bar widget listening to the `flavorGrenade/status` custom notification (initializing → indexing → ready → error). Register three palette commands: Restart Server (`client.restart()`), Rebuild Index (`workspace/executeCommand`), Show Output (`outputChannel.show()`). Add `onDidChangeConfiguration` watcher to restart on `server.path` changes. Gate: commands appear in palette; status bar reflects server state transitions.
+
+Implementation plan: [[plans/phase-E3-status-bar-commands]]
+
+#### Phase E4 — Packaging & Local Test
+
+Add Marketplace assets (`README.md`, `CHANGELOG.md`, `LICENSE`, 256×256 PNG icon). Package with `vsce package` for host platform. Verify VSIX contents (only `dist/`, `server/`, manifest, and assets ship). Install locally and smoke test: completions, diagnostics, commands, status bar. Gate: `vsce package` produces installable VSIX; manual test passes end-to-end.
+
+Implementation plan: [[plans/phase-E4-packaging-local-test]]
+
+#### Phase E5 — CI/CD Pipeline
+
+Create `extension-release.yml` workflow triggered by `ext-v*` tags. 7-target build matrix cross-compiles server binaries on `ubuntu-latest` via Bun, packages platform-specific VSIXs, and publishes all 7 to the Marketplace in a gated publish job. Gate: all 7 VSIXs build successfully on tag push.
+
+Implementation plan: [[plans/phase-E5-ci-cd-pipeline]]
+
+#### Phase E6 — OFMarkdown Language Mode
+
+Add a VS Code language id `ofmarkdown` displayed as **OFMarkdown**. The extension keeps generic `.md` files in the built-in `markdown` mode, then dynamically promotes only documents that Flavor Grenade detects as part of an Obsidian vault or present in the server index. The LanguageClient serves both `markdown` and `ofmarkdown` documents, and promotion uses loop guards because VS Code reopens documents when changing language ids. Gate: extension tests and manual smoke tests prove vault/index documents promote, generic Markdown remains Markdown, manual language choices are preserved, and Markdown highlighting still works.
+
+Implementation plan: [[plans/phase-E6-ofmarkdown-language-mode]]
+
+### Extension Phase Dependencies
+
+```text
+Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
+                                          │
+                                       Phase E4 ──► Phase E5
+```
+
+Phases are strictly sequential. E3 requires E2's `LanguageClient` to wire commands and status bar into. E4 requires E3 to have a complete extension for packaging. E5 requires E4 to have verified local packaging.
+
 ## Feature Backlog (Post-v1)
 
-These features are explicitly out of scope for the v1.0.0 release. They are recorded here to avoid scope creep during v1 implementation.
+These features are out of scope for the initial release. Recorded to avoid scope creep.
 
 | Feature | Notes |
 |---|---|
@@ -131,4 +206,12 @@ These features are explicitly out of scope for the v1.0.0 release. They are reco
 - [[architecture/overview]]
 - [[adr/ADR001-stdio-transport]]
 - [[adr/ADR003-vault-detection]]
+- [[adr/ADR004-text-sync-strategy]]
+- [[adr/ADR005-wiki-style-binding]]
 - [[adr/ADR006-block-ref-indexing]]
+- [[adr/ADR015-platform-specific-vsix]]
+- [[adr/ADR016-ofmarkdown-language-mode]]
+- [[superpowers/specs/2026-04-21-vscode-extension-design]]
+- [[features/ofmarkdown-language-mode]]
+- [[design/behavior-layer]]
+- [[research/vscode-extension-publishing]]

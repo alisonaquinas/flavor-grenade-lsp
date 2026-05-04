@@ -1,0 +1,59 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "watch",
+            "dependsOn": ["npm: watch:extension", "watch:server"],
+            "dependsOrder": "parallel",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "never"
+            }
+        },
+        {
+            "type": "npm",
+            "script": "watch:extension",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "esbuild",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(error|warning):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^\\[watch\\] extension build started",
+                    "endsPattern": "^\\[watch\\] extension build finished"
+                }
+            },
+            "label": "npm: watch:extension",
+            "presentation": {
+                "group": "watch",
+                "reveal": "never"
+            }
+        },
+        {
+            "label": "watch:server",
+            "type": "shell",
+            "command": "bun",
+            "args": ["x", "tsc", "--project", "tsconfig.json", "--watch", "--preserveWatchOutput"],
+            "options": {
+                "cwd": "${workspaceFolder}/.."
+            },
+            "isBackground": true,
+            "problemMatcher": "$tsc-watch",
+            "presentation": {
+                "group": "watch",
+                "reveal": "never"
+            }
+        }
+    ]
+}

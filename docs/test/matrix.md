@@ -231,6 +231,33 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 ---
 
+## VS Code Extension Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `Extension.Activation.Markdown` | Extension activates on `onLanguage:markdown` and spawns server | — | ⬜ not-yet-written | Phase E2 | Integration test; requires Extension Development Host |
+| `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | — | ⬜ not-yet-written | Phase E2 | Unit test; mock `workspace.getConfiguration` |
+| `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | — | ⬜ not-yet-written | Phase E2 | Unit test; mock `process.platform` |
+| `Extension.StatusBar.StateTransition` | Status bar text reflects all 4 server states (initializing, indexing, ready, error) | — | ⬜ not-yet-written | Phase E3 | Unit test; mock `flavorGrenade/status` notifications |
+| `Extension.StatusBar.RestartReset` | Status bar resets to "Starting..." on client restart | — | ⬜ not-yet-written | Phase E3 | Unit test; trigger `onDidChangeState` |
+| `Extension.Commands.Registration` | All 3 commands registered and callable via palette | — | ⬜ not-yet-written | Phase E3 | Unit test + integration test |
+| `Extension.Commands.RebuildIndex` | `rebuildIndex` sends `workspace/executeCommand` to server | — | ⬜ not-yet-written | Phase E3 | Unit test; verify `sendRequest` call shape |
+| `Extension.Lifecycle.Restart` | `flavorGrenade.server.path` config change triggers restart | — | ⬜ not-yet-written | Phase E3 | Integration test |
+| `Extension.Lifecycle.CrashRecovery` | Server crash triggers automatic restart (up to 4 in 3 minutes) | — | ⬜ not-yet-written | Phase E3 | Integration test; default error handler behavior |
+| `Extension.Lifecycle.CleanShutdown` | Deactivation stops client, server exits cleanly | — | ⬜ not-yet-written | Phase E3 | Integration test |
+| `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, and assets | — | ⬜ not-yet-written | Phase E4 | Manual verification; `unzip -l` inspection |
+| `Extension.Packaging.VSIXInstall` | Local VSIX install succeeds and extension functions | — | ⬜ not-yet-written | Phase E4 | Manual smoke test |
+| `Extension.CICD.MatrixBuild` | All 7 platform-specific VSIXs build on tag push | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
+| `Extension.CICD.MarketplacePublish` | Publish job succeeds with VSCE_PAT | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
+| `Extension.LanguageMode.Contribution` | Extension contributes `ofmarkdown` without globally claiming `.md` files | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | Manifest verified by type/build checks; unit coverage verifies contribution-facing constants and rules |
+| `Extension.LanguageMode.DynamicAssignment` | Qualifying vault/index Markdown documents promote to `ofmarkdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts`, `src/vault/__tests__/vault.module.test.ts` | ✅ passing | Phase E6 | Covers `.obsidian` fast path and server membership request |
+| `Extension.LanguageMode.NonVaultIsolation` | Generic Markdown outside vault/index remains `markdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts` | ✅ passing | Phase E6 | |
+| `Extension.LanguageMode.UserOverrideSafety` | Manual non-Markdown language selections are preserved | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | |
+| `Extension.LanguageMode.LoopSafety` | Language assignment does not create reopen or restart loops | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | In-flight assignment guard unit-tested |
+| `Extension.LanguageMode.MarkdownParity` | OFMarkdown mode preserves baseline Markdown editing behavior | `extension/language-configuration.json`, `extension/syntaxes/ofmarkdown.tmLanguage.json` | ⏳ planned | Phase E6 | Manual smoke test required for editor behavior parity |
+
+---
+
 ## Coverage Summary
 
 | Phase | Total Tags in Scope | Tags with Tests | Coverage |
@@ -247,7 +274,13 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase 10 (Navigation) | 3 | 0 | 0% |
 | Phase 11 (Rename) | 3 + 1 (rename confinement) | 0 | 0% |
 | Phase 13 (CI/CD) | 5 + 1 (advisory monitoring) | 0 | 0% |
-| **Total** | **80** | **1** | **1%** |
+| Phase E1 (Extension Scaffold) | 0 | 0 | — (infrastructure only) |
+| Phase E2 (LanguageClient Core) | 3 | 0 | 0% |
+| Phase E3 (Status Bar & Commands) | 7 | 0 | 0% |
+| Phase E4 (Packaging) | 2 | 0 | 0% |
+| Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
+| Phase E6 (OFMarkdown Language Mode) | 6 | 5 | 83% |
+| **Total** | **100** | **6** | **6%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

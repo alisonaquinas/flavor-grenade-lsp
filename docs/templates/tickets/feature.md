@@ -31,11 +31,13 @@ aliases: ["{{TICKET-ID}}"]
 **In scope:**
 
 - {{SCOPE-ITEM-1}}
+
 - {{SCOPE-ITEM-2}}
 
 **Out of scope (explicitly excluded):**
 
 - {{OUT-OF-SCOPE-ITEM-1}}
+
 - {{OUT-OF-SCOPE-ITEM-2}}
 
 ---
@@ -46,7 +48,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `{{USER-REQ-TAG}}` | {{USER-REQ-GOAL}} | [[requirements/user/{{THEME-FILE}}]] |
+| `{{USER-REQ-TAG}}` | {{USER-REQ-GOAL}} | `[[requirements/user/{{THEME-FILE}}]]` |
 
 ---
 
@@ -56,7 +58,7 @@ aliases: ["{{TICKET-ID}}"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `{{FR-TAG}}` | {{FR-GIST}} | [[requirements/{{FEATURE-FILE}}]] |
+| `{{FR-TAG}}` | {{FR-GIST}} | `[[requirements/{{FEATURE-FILE}}]]` |
 
 ---
 
@@ -66,13 +68,14 @@ aliases: ["{{TICKET-ID}}"]
 
 | Feature File | Description |
 |---|---|
-| [[bdd/features/{{FEATURE-NAME}}]] | {{BDD-FEATURE-DESCRIPTION}} |
+| `[[bdd/features/{{FEATURE-NAME}}]]` | {{BDD-FEATURE-DESCRIPTION}} |
 
 ---
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-{{NN}}-{{PHASE-SLUG}}]]
+- Phase plan: `[[plans/phase-{{NN}}-{{PHASE-SLUG}}]]`
+
 - Execution ledger row: [[plans/execution-ledger]]
 
 ---
@@ -82,12 +85,19 @@ aliases: ["{{TICKET-ID}}"]
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] All scenarios in linked BDD feature files pass in CI
+
 - [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
+
 - [ ] [[test/matrix]] updated with every new test file introduced
+
 - [ ] [[test/index]] updated with every new test file introduced
+
 - [ ] Phase gate command passes in CI (see [[plans/execution-ledger]])
+
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
+
 - [ ] `tsc --noEmit` exits 0
+
 - [ ] {{ADDITIONAL-CRITERION}}
 
 ---
@@ -98,7 +108,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[tickets/{{TASK-ID}}]] | {{TASK-TITLE}} | `open` |
+| `[[tickets/{{TASK-ID}}]]` | {{TASK-TITLE}} | `open` |
 
 ---
 
@@ -108,12 +118,13 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 **Blocked by:**
 
-- [[tickets/{{BLOCKING-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
+
 - Phase {{N}} (see [[plans/execution-ledger]]) — {{REASON}}
 
 **Unblocks:**
 
-- [[tickets/{{UNBLOCKED-TICKET-ID}}]] — {{REASON}}
+- `[[tickets/{{UNBLOCKED-TICKET-ID}}]]` — {{REASON}}
 
 ---
 

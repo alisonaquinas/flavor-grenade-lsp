@@ -138,7 +138,7 @@ Task complete. CI green, all acceptance criteria met, parent feature updated.
 
 | | |
 |---|---|
-| **Entry criteria** | CI green on PR branch; all **Definition of Done** items checked; parent feature [[tickets/{{PARENT-FEAT-ID}}]] child task row updated to `done` |
+| **Entry criteria** | CI green on PR branch; all **Definition of Done** items checked; parent feature `[[tickets/{{PARENT-FEAT-ID}}]]` child task row updated to `done` |
 | **Agent obligations** | Append `[!CHECK]` Workflow Log entry with CI evidence (PR number or commit SHA); update frontmatter `updated` date |
 | **Exit condition** | Terminal state |
 
@@ -190,9 +190,13 @@ Task abandoned with documented reason. A cancelled task does not count toward th
 ## Rules
 
 1. **Red before green.** The failing test commit must precede the implementation commit in git history. There is no exception.
+
 2. **Minimal green.** The green commit implements the minimum needed to pass the test. Gold-plating belongs in a separate task.
+
 3. **Tests never broken mid-refactor.** If a refactor step breaks tests, it must be reverted before continuing. Broken tests do not get committed.
+
 4. **`in-review` without CI.** Before CI is configured (Phase 0), the agent uses `bun run gate:N` local scripts as the interim gate. The transition to `done` still requires a passing gate.
+
 5. **Blocked tasks retain state.** When a task unblocks, it resumes from where it was, not from `open`. The agent uses the Workflow Log to determine the prior state.
 
 ---
@@ -206,7 +210,11 @@ Task abandoned with documented reason. A cancelled task does not count toward th
 ## Related
 
 - [[templates/tickets/task]] — Task ticket template
+
 - [[templates/tickets/lifecycle/feature-lifecycle]] — Parent feature lifecycle
+
 - [[requirements/code-quality]] — `Quality.TDD.StrictRedGreen` requirement
+
 - [[test/matrix]] — Requirements × tests traceability matrix
+
 - [[test/index]] — Test file inventory

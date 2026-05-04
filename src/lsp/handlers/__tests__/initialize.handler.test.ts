@@ -3,10 +3,14 @@ import { jest } from '@jest/globals';
 import { InitializeHandler } from '../initialize.handler.js';
 import { CapabilityRegistry } from '../../services/capability-registry.js';
 import { StatusNotifier } from '../../services/status-notifier.js';
+import { LifecycleState } from '../../services/lifecycle-state.js';
+import { ServerSettings } from '../../services/server-settings.js';
 
 describe('InitializeHandler', () => {
   let mockCapabilities: CapabilityRegistry;
   let mockNotifier: StatusNotifier;
+  let mockLifecycle: LifecycleState;
+  let settings: ServerSettings;
   let handler: InitializeHandler;
   const fakeCapabilities = { textDocumentSync: 1, someFeature: true };
 
@@ -15,7 +19,9 @@ describe('InitializeHandler', () => {
       getCapabilities: jest.fn().mockReturnValue(fakeCapabilities),
     } as unknown as CapabilityRegistry;
     mockNotifier = { send: jest.fn() } as unknown as StatusNotifier;
-    handler = new InitializeHandler(mockCapabilities, mockNotifier);
+    mockLifecycle = new LifecycleState();
+    settings = new ServerSettings();
+    handler = new InitializeHandler(mockCapabilities, mockNotifier, mockLifecycle, settings);
   });
 
   it('result.capabilities === CapabilityRegistry.getCapabilities() return value', async () => {
@@ -41,12 +47,32 @@ describe('InitializeHandler', () => {
 
   it('notifier.send("initializing") IS called after setImmediate flushes', async () => {
     const notifier = { send: jest.fn() } as unknown as StatusNotifier;
-    const h = new InitializeHandler(mockCapabilities, notifier);
+    const h = new InitializeHandler(mockCapabilities, notifier, mockLifecycle, settings);
     await h.handle({});
     // Not yet called synchronously
     expect(notifier.send).not.toHaveBeenCalled();
     // Flush setImmediate
     await new Promise<void>((resolve) => setImmediate(resolve));
-    expect(notifier.send).toHaveBeenCalledWith('initializing');
+    expect(notifier.send).toHaveBeenCalledWith({
+      state: 'initializing',
+      vaultCount: 0,
+      docCount: 0,
+    });
+  });
+
+  it('captures initializationOptions into server settings', async () => {
+    await handler.handle({
+      initializationOptions: {
+        linkStyle: 'relative-path',
+        completionCandidates: 5,
+        diagnosticsSuppress: ['FG001'],
+      },
+    });
+
+    expect(settings.snapshot()).toEqual({
+      linkStyle: 'file-path-stem',
+      completionCandidates: 5,
+      diagnosticsSuppress: ['FG001'],
+    });
   });
 });

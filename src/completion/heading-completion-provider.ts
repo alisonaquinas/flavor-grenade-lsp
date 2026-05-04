@@ -5,6 +5,7 @@ import type { CompletionItem } from 'vscode-languageserver-types';
 import { Oracle } from '../resolution/oracle.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
+import type { OFMDoc } from '../parser/types.js';
 
 /**
  * Provides heading completion items after `[[doc#` or `[[#` triggers.
@@ -26,21 +27,21 @@ export class HeadingCompletionProvider {
    *
    * @param targetStem    - The target document stem, or empty string for intra-doc.
    * @param headingPrefix - The partially typed heading text to filter by.
-   * @param currentDocId  - The current document ID (used when targetStem is empty).
+   * @param currentDoc    - The current document (used when targetStem is empty).
    */
   getCompletions(
     targetStem: string,
     headingPrefix: string,
-    currentDocId?: DocId,
+    currentDoc?: OFMDoc | DocId,
   ): { items: CompletionItem[]; isIncomplete: boolean } {
     const lowerPrefix = headingPrefix.toLowerCase();
 
     if (targetStem === '') {
       // Intra-document completion
-      if (currentDocId === undefined) {
+      if (currentDoc === undefined) {
         return { items: [], isIncomplete: false };
       }
-      const doc = this.vaultIndex.get(currentDocId);
+      const doc = typeof currentDoc === 'string' ? this.vaultIndex.get(currentDoc) : currentDoc;
       if (doc === undefined) {
         return { items: [], isIncomplete: false };
       }
@@ -71,7 +72,8 @@ export class HeadingCompletionProvider {
       .map((h) => ({
         label: h.text,
         kind: CompletionItemKind.Reference,
-        insertText: `${stem}#${h.text}`,
+        detail: `${stem}#${h.text}`,
+        insertText: h.text,
       }));
 
     return { items, isIncomplete: false };

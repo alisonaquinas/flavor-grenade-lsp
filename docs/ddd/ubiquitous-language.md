@@ -130,6 +130,22 @@ See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifec
 
 ---
 
+## Editor Client Terms
+
+| Term | Bounded Context | Definition |
+|------|----------------|------------|
+| **ExtensionClient** | BC6 Editor Client | The VS Code extension that wraps the LSP server. Responsible for binary resolution, LanguageClient lifecycle, status bar, and Command Palette integration. Thin client (~200 lines); all language intelligence lives in the server. |
+| **BinaryResolver** | BC6 Editor Client | The 2-tier resolution strategy for locating the server binary: (1) user setting `flavorGrenade.server.path`, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` relative to extension root. No PATH fallback, no download. |
+| **StatusBarWidget** | BC6 Editor Client | A VS Code `StatusBarItem` that reflects the server's indexing state by listening to `flavorGrenade/status` notifications. Displays states: initializing, indexing (with doc count), ready (with doc count), error (with message). |
+| **PlatformVSIX** | BC6 Editor Client | A platform-specific `.vsix` package containing the extension client JS bundle and one Bun-compiled server binary for a single target platform. 7 targets: linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64. |
+| **OFMarkdownLanguageMode** | BC6 Editor Client | The VS Code language id `ofmarkdown`, displayed as `OFMarkdown`, assigned to open documents that Flavor Grenade recognizes as vault/index OFM documents. It is a client-side editor identity, not a new server parser mode. |
+| **LanguageModeController** | BC6 Editor Client | The extension component that observes open/visible documents, evaluates vault/index membership signals, and calls VS Code's language assignment API with loop guards. |
+| **DocumentMembership** | BC6 Editor Client / BC5 LSP Protocol | The server-authoritative answer to whether a document URI belongs to a multi-file vault or server index and should be treated as OFMarkdown by the VS Code extension. |
+| **ExtensionActivation** | BC6 Editor Client | The `activate()` lifecycle entry point. Triggered by `onLanguage:markdown` and `onLanguage:ofmarkdown`. Resolves binary, creates LanguageClient, starts server, wires status bar, commands, and language mode detection. |
+| **ExtensionDeactivation** | BC6 Editor Client | The `deactivate()` lifecycle exit point. Client disposal (and server shutdown) is handled by `context.subscriptions`. |
+
+---
+
 ## OFM-Specific Extension Terms
 
 These terms distinguish OFM (Obsidian Flavored Markdown) from standard CommonMark and from marksman's domain model.

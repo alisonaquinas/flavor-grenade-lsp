@@ -11,9 +11,9 @@ aliases:
 
 # Bounded Contexts — flavor-grenade-lsp
 
-This document is the canonical context map for `flavor-grenade-lsp`. It describes the five bounded contexts (BCs), their ownership, integration styles, and public interfaces. Read this before touching any module boundary.
+This document is the canonical context map for `flavor-grenade-lsp`. It describes the six bounded contexts (BCs), their ownership, integration styles, and public interfaces. Read this before touching any module boundary.
 
-See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]], [[ddd/config/domain-model]].
+See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]], [[ddd/config/domain-model]], [[ddd/editor-client/domain-model]].
 
 ---
 
@@ -66,8 +66,19 @@ See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protoco
                                           JSON-RPC       │  BC4 mutations)
                                           over stdio     │
                                           (LSP wire)     │
-                                       ◄─────────────────┘
-                                         editor / client
+                                       ┌─────────────────┘
+                                       │
+                                       ▼
+                              ┌────────────────────┐
+                              │  BC6               │
+                              │  Editor Client     │
+                              │  (Generic Support) │
+                              │                    │
+                              │  Conformist to     │
+                              │  LSP 3.17 (client) │
+                              │  Consumes          │
+                              │  flavorGrenade/*   │
+                              └────────────────────┘
 ```
 
 ### Legend
@@ -94,7 +105,11 @@ See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protoco
 | BC3 Reference Resolution | BC4 Vault & Workspace | Customer-Supplier + ACL | BC4 owns `RefGraph`. `Oracle` is the ACL: it bridges `VaultIndex` (BC4's name) to `Scope`/`Def` (BC3's language) without leaking BC4 types into BC3. |
 | BC4 Vault & Workspace | BC5 LSP Protocol | Customer-Supplier | BC5 is the customer. `LspServer` calls BC4 workspace mutations. BC4 never imports BC5 types. |
 | LSP 3.17 spec | BC5 LSP Protocol | Conformist | BC5 conforms entirely to the external LSP specification. No deviation, no translation. |
-| BC5 LSP Protocol | editor client | Open Host Service | JSON-RPC over stdio — the published protocol. Any LSP-compliant editor can connect. |
+| BC5 LSP Protocol | BC6 Editor Client | Open Host Service | JSON-RPC over stdio — the published protocol. BC6 spawns the server binary and communicates exclusively through this channel. |
+| LSP 3.17 spec | BC6 Editor Client | Conformist | BC6 conforms to the LSP 3.17 client protocol via `vscode-languageclient@9.x`. No protocol deviations. |
+| BC5 LSP Protocol | BC6 Editor Client | Custom Notification | BC6 consumes the `flavorGrenade/status` server→client notification to drive the StatusBarWidget. |
+| BC5 LSP Protocol | BC6 Editor Client | Custom Request | BC6 queries `flavorGrenade/documentMembership` before assigning the VS Code `ofmarkdown` language mode to a Markdown document. |
+| BC6 Editor Client | BC5 LSP Protocol | Command | BC6 sends `workspace/executeCommand` for `flavorGrenade.rebuildIndex` via the standard LSP command mechanism. |
 
 ---
 
@@ -333,6 +348,60 @@ See [[ddd/lsp-protocol/domain-model]] for the full method-to-command mapping tab
 
 ---
 
+## BC6 — Editor Client
+
+**Subdomain type:** Generic Support  
+**NestJS module:** N/A (separate npm package in `extension/`)
+
+### BC6 Language
+
+TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient`, `BinaryResolver`, `StatusBarWidget`, `LanguageModeController`, `OFMarkdownLanguageMode`, `DocumentMembership`, `PlatformVSIX`, `ExtensionActivation`, `ExtensionDeactivation`.
+
+### BC6 Owns
+
+| Type | Description |
+|------|-------------|
+| `ExtensionClient` | The VS Code extension entry point — resolves binary, manages LanguageClient lifecycle, wires status bar and commands |
+| `BinaryResolver` | 2-tier resolution strategy: (1) user setting `flavorGrenade.server.path`, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
+| `StatusBarWidget` | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications |
+| `LanguageModeController` | Client-side service that decides when a Markdown document should be promoted to VS Code language id `ofmarkdown` |
+| `OFMarkdownLanguageMode` | VS Code language contribution for Obsidian Flavored Markdown documents detected by Flavor Grenade |
+| `DocumentMembership` | Server-authored answer describing whether a URI belongs to a detected vault or current vault index |
+| `PlatformVSIX` | Platform-specific `.vsix` package containing client JS bundle and one Bun-compiled server binary for a single target |
+
+### BC6 Does Not Know About
+
+BC2 (Document Lifecycle), BC3 (Reference Resolution), BC4 (Vault & Workspace) internals. BC6 communicates only via the LSP protocol through BC5. It does not import server-side types, aggregates, or domain events. All intelligence lives in the server.
+
+### BC6 Integration
+
+- **Conformist** to LSP 3.17 (same specification as BC5, but from the client side).
+- **Consumes** `flavorGrenade/status` custom notification to drive `StatusBarWidget` state transitions (initializing → indexing → ready → error).
+- **Requests** `flavorGrenade/documentMembership` to confirm vault/index membership before assigning `ofmarkdown`.
+- **Sends** `workspace/executeCommand` for `flavorGrenade.rebuildIndex` when the user invokes the Rebuild Index palette command.
+- **Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the server binary as a child process and communicates via stdin/stdout.
+
+### BC6 Public Interface
+
+```typescript
+// Lifecycle
+function activate(context: ExtensionContext): Promise<void>
+function deactivate(): Thenable<void> | undefined
+
+// Binary resolution
+function resolveServerPath(context: ExtensionContext): string
+```
+
+### BC6 Key Invariants
+
+1. Binary must exist at the resolved path before `LanguageClient` starts — activation fails with a user-visible error if the binary is missing.
+2. `StatusBarWidget` must reflect current server state — no stale display after restart or error recovery.
+3. Client disposal handles server shutdown via `context.subscriptions` — no orphaned server processes after extension deactivation or VS Code exit.
+4. The client must not globally claim `.md`; only positive vault/index membership may promote a `markdown` document to `ofmarkdown`.
+5. Manual language selections are authoritative. The client never rewrites documents whose current language id is neither `markdown` nor `ofmarkdown`.
+
+---
+
 ## NestJS Module Mapping
 
 | Bounded Context | NestJS Module | Key Providers |
@@ -342,6 +411,7 @@ See [[ddd/lsp-protocol/domain-model]] for the full method-to-command mapping tab
 | BC3 Reference Resolution | `ReferenceModule` | `RefGraphService`, `OracleAdapterService` |
 | BC4 Vault & Workspace | `VaultModule` | `WorkspaceService`, `VaultDetectorService`, `FileWatcherService` |
 | BC5 LSP Protocol | `LspModule` | `LspServer`, `CapabilityNegotiator`, `JsonRpcHandler` |
+| BC6 Editor Client | N/A (separate `extension/` package) | `activate`, `deactivate`, `resolveServerPath`, `StatusBarWidget`, `LanguageModeController` |
 | Config | `ConfigModule` | `FlavorConfigService`, `ConfigCascadeService` |
 
 > [!NOTE]

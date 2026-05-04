@@ -13,6 +13,7 @@ import { FolderLookup } from '../../vault/folder-lookup.js';
 import { Oracle } from '../../resolution/oracle.js';
 import { TagRegistry } from '../../tags/tag-registry.js';
 import { VaultScanner } from '../../vault/vault-scanner.js';
+import { ServerSettings } from '../../lsp/services/server-settings.js';
 import type { OFMDoc } from '../../parser/types.js';
 import type { DocId } from '../../vault/doc-id.js';
 
@@ -26,12 +27,13 @@ function makeDoc(
     headings = [] as Array<{ level: number; text: string }>,
     blockAnchors = [] as string[],
     callouts = [] as string[],
+    frontmatter = null as Record<string, unknown> | null,
   } = {},
 ): OFMDoc {
   return {
     uri,
     version: 0,
-    frontmatter: null,
+    frontmatter,
     frontmatterEndOffset: 0,
     text: '',
     opaqueRegions: [],
@@ -76,6 +78,7 @@ function buildRouter(): {
   const oracle = new Oracle(folderLookup, vaultIndex);
   const tagRegistry = new TagRegistry();
   const scanner = new StubVaultScanner() as unknown as VaultScanner;
+  const settings = new ServerSettings();
 
   const contextAnalyzer = new ContextAnalyzer();
   const wikiLinkProvider = new WikiLinkCompletionProvider(folderLookup, vaultIndex);
@@ -94,6 +97,7 @@ function buildRouter(): {
     tagProvider,
     calloutProvider,
     parseCache,
+    settings,
   );
 
   return { router, parseCache, vaultIndex, folderLookup };
@@ -149,6 +153,10 @@ describe('CompletionRouter', () => {
       const result = router.route(params);
 
       expect(result.items.some((i) => i.label === 'alpha')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
+        newText: 'alpha',
+      });
     });
   });
 
@@ -173,6 +181,33 @@ describe('CompletionRouter', () => {
       const result = router.route(params);
 
       expect(result.items.some((i) => i.label === 'Overview')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 8 }, end: { line: 0, character: 8 } },
+        newText: 'Overview',
+      });
+    });
+
+    it('routes [[# to headings from the current parsed document', () => {
+      const currentDoc = makeDoc(TEST_URI, {
+        headings: [
+          { level: 1, text: 'Draft Heading' },
+          { level: 2, text: 'Other Heading' },
+        ],
+      });
+      parseCache.set(TEST_URI, currentDoc);
+
+      const text = '[[#Draft';
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '#');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(1);
+      expect(result.items[0].label).toBe('Draft Heading');
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 3 }, end: { line: 0, character: 8 } },
+        newText: 'Draft Heading',
+      });
     });
   });
 
@@ -190,6 +225,28 @@ describe('CompletionRouter', () => {
       const result = router.route(params);
 
       expect(result.items.some((i) => i.label === 'my-anchor')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 4 }, end: { line: 0, character: 4 } },
+        newText: 'my-anchor',
+      });
+    });
+
+    it('does not duplicate doc#^ when completing cross-document blocks', () => {
+      const docId = id('guide');
+      vaultIndex.set(docId, makeDoc('file:///vault/guide.md', { blockAnchors: ['block-one'] }));
+      folderLookup.rebuild(vaultIndex);
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+
+      const text = '[[guide#^blo';
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '^');
+
+      const result = router.route(params);
+
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 9 }, end: { line: 0, character: 12 } },
+        newText: 'block-one',
+      });
     });
   });
 
@@ -208,6 +265,10 @@ describe('CompletionRouter', () => {
       const result = router.route(params);
 
       expect(result.items.some((i) => i.label === 'image')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 3 }, end: { line: 0, character: 3 } },
+        newText: 'image',
+      });
     });
   });
 
@@ -223,6 +284,10 @@ describe('CompletionRouter', () => {
       const result = router.route(params);
 
       expect(result.items.some((i) => i.label === 'NOTE')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 4 }, end: { line: 0, character: 4 } },
+        newText: 'NOTE] ',
+      });
     });
   });
 
@@ -263,6 +328,64 @@ describe('CompletionRouter', () => {
 
       expect(result.items.length).toBe(5);
       expect(result.isIncomplete).toBe(false);
+    });
+
+    it('uses configured completion.candidates cap', () => {
+      for (let i = 0; i < 8; i++) {
+        vaultIndex.set(id(`doc${i}`), makeDoc(`file:///vault/doc${i}.md`));
+      }
+      folderLookup.rebuild(vaultIndex);
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, '[[');
+      (router as unknown as { settings: ServerSettings }).settings.applyInitializationOptions({
+        completionCandidates: 5,
+      });
+
+      const result = router.route(makeParams(TEST_URI, '[[', '['));
+
+      expect(result.items).toHaveLength(5);
+      expect(result.isIncomplete).toBe(true);
+    });
+  });
+
+  describe('link styles', () => {
+    it('uses title-slug completion text when configured', () => {
+      vaultIndex.set(
+        id('notes/alpha'),
+        makeDoc('file:///vault/notes/alpha.md', {
+          frontmatter: { title: 'Alpha Document' },
+        }),
+      );
+      folderLookup.rebuild(vaultIndex);
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, '[[');
+      (router as unknown as { settings: ServerSettings }).settings.applyInitializationOptions({
+        linkStyle: 'title-slug',
+      });
+
+      const result = router.route(makeParams(TEST_URI, '[[', '['));
+
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
+        newText: 'Alpha Document',
+      });
+    });
+
+    it('maps legacy relative-path to file-path-stem completion text', () => {
+      vaultIndex.set(id('notes/alpha'), makeDoc('file:///vault/notes/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, '[[');
+      (router as unknown as { settings: ServerSettings }).settings.applyInitializationOptions({
+        linkStyle: 'relative-path',
+      });
+
+      const result = router.route(makeParams(TEST_URI, '[[', '['));
+
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
+        newText: 'notes/alpha',
+      });
     });
   });
 

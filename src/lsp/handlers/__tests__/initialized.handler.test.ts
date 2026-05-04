@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { jest } from '@jest/globals';
 import { InitializedHandler } from '../initialized.handler.js';
+import { LifecycleState } from '../../services/lifecycle-state.js';
 import { VaultScanner } from '../../../vault/vault-scanner.js';
 import { FileWatcher } from '../../../vault/file-watcher.js';
 import { VaultDetector } from '../../../vault/vault-detector.js';
@@ -11,6 +12,12 @@ function makeVaultDetector(vaultRoot: string | null): VaultDetector {
   return {
     detect: jest.fn().mockReturnValue({ mode, vaultRoot }),
   } as unknown as VaultDetector;
+}
+
+function makeLifecycle(rootUri: string | null = null): LifecycleState {
+  const lc = new LifecycleState();
+  lc.rootUri = rootUri;
+  return lc;
 }
 
 describe('InitializedHandler', () => {
@@ -28,7 +35,7 @@ describe('InitializedHandler', () => {
 
   it('writes expected message to process.stderr', async () => {
     const writeSpy = jest.spyOn(process.stderr, 'write').mockImplementation(() => true);
-    const handler = new InitializedHandler(null, null, null, null);
+    const handler = new InitializedHandler(makeLifecycle());
     await handler.handle({});
     expect(writeSpy).toHaveBeenCalledWith(
       '[flavor-grenade-lsp] initialized notification received\n',
@@ -38,6 +45,7 @@ describe('InitializedHandler', () => {
 
   it('early-returns with no rootUri (no scan called)', async () => {
     const handler = new InitializedHandler(
+      makeLifecycle(),
       vaultScanner,
       fileWatcher,
       vaultDetector,
@@ -48,59 +56,69 @@ describe('InitializedHandler', () => {
   });
 
   it('early-returns when vaultScanner is null', async () => {
-    const handler = new InitializedHandler(null, fileWatcher, vaultDetector, awaitIndexReady);
-    await handler.handle({ rootUri: 'file:///vault' });
+    const handler = new InitializedHandler(
+      makeLifecycle('file:///vault'),
+      null,
+      fileWatcher,
+      vaultDetector,
+      awaitIndexReady,
+    );
+    await handler.handle({});
     expect(fileWatcher.start).not.toHaveBeenCalled();
   });
 
   it('calls vaultScanner.scan(rootUri) when services present', async () => {
     const handler = new InitializedHandler(
+      makeLifecycle('file:///vault'),
       vaultScanner,
       fileWatcher,
       vaultDetector,
       awaitIndexReady,
     );
-    await handler.handle({ rootUri: 'file:///vault' });
+    await handler.handle({});
     expect(vaultScanner.scan).toHaveBeenCalledWith('file:///vault');
   });
 
   it('calls awaitIndexReady.markReady() after scan', async () => {
     const handler = new InitializedHandler(
+      makeLifecycle('file:///vault'),
       vaultScanner,
       fileWatcher,
       vaultDetector,
       awaitIndexReady,
     );
-    await handler.handle({ rootUri: 'file:///vault' });
+    await handler.handle({});
     expect(awaitIndexReady.markReady).toHaveBeenCalled();
   });
 
   it('calls fileWatcher.start(vaultRoot) in vault mode', async () => {
     vaultDetector = makeVaultDetector('/vault');
     const handler = new InitializedHandler(
+      makeLifecycle('file:///vault'),
       vaultScanner,
       fileWatcher,
       vaultDetector,
       awaitIndexReady,
     );
-    await handler.handle({ rootUri: 'file:///vault' });
+    await handler.handle({});
     expect(fileWatcher.start).toHaveBeenCalledWith('/vault');
   });
 
   it('does NOT call fileWatcher.start() in single-file mode', async () => {
     vaultDetector = makeVaultDetector(null);
     const handler = new InitializedHandler(
+      makeLifecycle('file:///vault'),
       vaultScanner,
       fileWatcher,
       vaultDetector,
       awaitIndexReady,
     );
-    await handler.handle({ rootUri: 'file:///vault' });
+    await handler.handle({});
     expect(fileWatcher.start).not.toHaveBeenCalled();
   });
 
   it('no-throws when all optional deps are null', async () => {
-    const handler = new InitializedHandler(null, null, null, null);
+    const handler = new InitializedHandler(makeLifecycle());
     await expect(handler.handle({})).resolves.toBeUndefined();
   });
 });

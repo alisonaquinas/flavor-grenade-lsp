@@ -15,18 +15,18 @@ This file describes how AI agents should navigate, read, and extend the document
 
 The `docs/` directory is organised into the following layers, each with a distinct purpose:
 
-| Directory | Purpose |
-|---|---|
-| `ofm-spec/` | Normative OFM language specification. Rule codes (e.g., OFM001) are defined here. |
-| `ddd/` | Domain-Driven Design: bounded contexts, ubiquitous language, domain models per context. |
-| `architecture/` | System architecture: component diagram, layering, module responsibilities. |
-| `adr/` | Architecture Decision Records. Each decision is captured as a numbered ADR file. |
-| `concepts/` | Conceptual explainers: workspace model, symbol model, reference resolution. |
-| `design/` | Detailed design documents: data structures, algorithms, API shapes. |
-| `requirements/` | Planguage requirements per feature area. |
-| `bdd/` | BDD scenarios (Gherkin) for acceptance testing. |
-| `features/` | User-facing feature specifications: what each LSP capability does. |
-| `plans/` | Implementation plans per phase. Each phase maps to a set of TypeScript tasks. |
+| Directory       | Purpose                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------- |
+| `ofm-spec/`     | Normative OFM language specification. Rule codes (e.g., OFM001) are defined here.       |
+| `ddd/`          | Domain-Driven Design: bounded contexts, ubiquitous language, domain models per context. |
+| `architecture/` | System architecture: component diagram, layering, module responsibilities.              |
+| `adr/`          | Architecture Decision Records. Each decision is captured as a numbered ADR file.        |
+| `concepts/`     | Conceptual explainers: workspace model, symbol model, reference resolution.             |
+| `design/`       | Detailed design documents: data structures, algorithms, API shapes.                     |
+| `requirements/` | Planguage requirements per feature area.                                                |
+| `bdd/`          | BDD scenarios (Gherkin) for acceptance testing.                                         |
+| `features/`     | User-facing feature specifications: what each LSP capability does.                      |
+| `plans/`        | Implementation plans per phase. Each phase maps to a set of TypeScript tasks.           |
 
 ## First Files to Read
 
@@ -59,14 +59,14 @@ This order mirrors the layer order in `[[ofm-spec/index]]`. Implementation of Ty
 
 Each implementation phase has a ticket folder at `docs/plans/phase-<NN>-<slug>/` that mirrors the phase plan file name. Each folder contains:
 
-| File | Type | Purpose |
-|---|---|---|
-| `index.md` | — | Phase ticket index: all tickets listed with current status |
-| `FEAT-NNN.md` | Feature | One per phase; tracks child tasks and BDD acceptance criteria |
-| `TASK-NNN.md` | Task | One per implementation task in the phase plan; follows TDD lifecycle |
-| `CHORE-NNN.md` | Chore | Three per phase (phases 1–13): lint sweep, code quality sweep, security sweep |
-| `BUG-NNN.md` | Bug | Created as needed during implementation or quality sweeps |
-| `SPIKE-NNN.md` | Spike | Created as needed when investigation is required before implementation |
+| File           | Type    | Purpose                                                                       |
+| -------------- | ------- | ----------------------------------------------------------------------------- |
+| `index.md`     | —       | Phase ticket index: all tickets listed with current status                    |
+| `FEAT-NNN.md`  | Feature | One per phase; tracks child tasks and BDD acceptance criteria                 |
+| `TASK-NNN.md`  | Task    | One per implementation task in the phase plan; follows TDD lifecycle          |
+| `CHORE-NNN.md` | Chore   | Three per phase (phases 1–13): lint sweep, code quality sweep, security sweep |
+| `BUG-NNN.md`   | Bug     | Created as needed during implementation or quality sweeps                     |
+| `SPIKE-NNN.md` | Spike   | Created as needed when investigation is required before implementation        |
 
 Ticket IDs are **globally sequential** across all phases. Never reuse a ticket ID. The ID counter per type starts at 001 and increases across the full project lifetime.
 
@@ -119,20 +119,20 @@ Tags must use the prefix conventions listed below. Aliases must be distinct from
 
 ### Tag Prefix Conventions
 
-| Prefix | Used for |
-|---|---|
-| `ofm-spec/` | Files in the OFM specification layer |
-| `ddd/` | Domain model files |
-| `architecture/` | Architecture files |
-| `requirements/` | Requirement files |
-| `bdd/` | BDD scenario files |
-| `adr` | ADR files (no sub-prefix; use the ADR number as an additional tag) |
-| `features/` | Feature specification files |
-| `plans/` | Phase plan files. Each plan has a matching `plans/phase-NN-*/` ticket folder. |
-| `plans/phase-*/` | Ticket instances per phase: `FEAT`, `TASK`, `CHORE`, `BUG`, `SPIKE`. |
-| `concepts/` | Concept explainer files |
-| `design/` | Design document files |
-| `meta` | Files about the project itself (this file, `index.md`, `roadmap.md`) |
+| Prefix           | Used for                                                                      |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `ofm-spec/`      | Files in the OFM specification layer                                          |
+| `ddd/`           | Domain model files                                                            |
+| `architecture/`  | Architecture files                                                            |
+| `requirements/`  | Requirement files                                                             |
+| `bdd/`           | BDD scenario files                                                            |
+| `adr`            | ADR files (no sub-prefix; use the ADR number as an additional tag)            |
+| `features/`      | Feature specification files                                                   |
+| `plans/`         | Phase plan files. Each plan has a matching `plans/phase-NN-*/` ticket folder. |
+| `plans/phase-*/` | Ticket instances per phase: `FEAT`, `TASK`, `CHORE`, `BUG`, `SPIKE`.          |
+| `concepts/`      | Concept explainer files                                                       |
+| `design/`        | Design document files                                                         |
+| `meta`           | Files about the project itself (this file, `index.md`, `roadmap.md`)          |
 
 ### ADR File Naming
 
