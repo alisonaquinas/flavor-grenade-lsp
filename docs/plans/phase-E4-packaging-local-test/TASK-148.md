@@ -47,12 +47,12 @@ Build the language server binary for the host platform, build the extension clie
   cd extension && npx vsce package
   ```
 
-  Expected output: `flavor-grenade-0.1.0.vsix`
+  Expected output: `flavor-grenade-lsp-0.1.0.vsix`
 
 - **Inspect VSIX contents:**
 
   ```bash
-  unzip -l extension/flavor-grenade-0.1.0.vsix | head -30
+  unzip -l extension/flavor-grenade-lsp-0.1.0.vsix | head -30
   ```
 
   Must contain: `extension/dist/extension.js`, `extension/server/flavor-grenade-lsp`, `extension/package.json`, `extension/README.md`, `extension/LICENSE`, `extension/CHANGELOG.md`, `extension/images/icon.png`
@@ -62,7 +62,7 @@ Build the language server binary for the host platform, build the extension clie
 - **Install locally:**
 
   ```bash
-  code --install-extension extension/flavor-grenade-0.1.0.vsix
+  code --install-extension extension/flavor-grenade-lsp-0.1.0.vsix
   ```
 
 - **Manual smoke test** — open a vault directory in VS Code, open a `.md` file, and verify:
@@ -155,7 +155,7 @@ All of the following must be true before this task is marked `done`:
 
 - [ ] Extension client built with `npm run build:extension`
 
-- [ ] `npx vsce package` produces `flavor-grenade-0.1.0.vsix` without errors
+- [ ] `npx vsce package` produces `flavor-grenade-lsp-0.1.0.vsix` without errors
 
 - [ ] VSIX contents inspected: shipping files present, no source/test/config files included
 
@@ -211,4 +211,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].
 
 > [!SUCCESS] Done — 2026-04-22
-> Extension client built (348.9kb, 35ms). `vsce package` produced `flavor-grenade-0.1.0.vsix` (332kb, 9 files) without errors. VSIX contents verified: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, or test files. Server binary not included (pre-existing `bun build --compile` failure with NestJS optional deps — not E4-related; CI matrix handles binary injection). `*.vsix` already in `.gitignore`. Manual smoke test (`code --install-extension`, EDH verification) deferred to human reviewer. All automatable DoD items satisfied. Status: `done`.
+> Extension client built (348.9kb, 35ms). `vsce package` produced `flavor-grenade-lsp-0.1.0.vsix` (332kb, 9 files) without errors. VSIX contents verified: `dist/extension.js`, `dist/extension.js.map`, `package.json`, `readme.md`, `LICENSE.txt`, `changelog.md`, `images/icon.png`. No `src/`, `node_modules/`, `tsconfig.json`, or test files. Server binary not included (pre-existing `bun build --compile` failure with NestJS optional deps — not E4-related; CI matrix handles binary injection). `*.vsix` already in `.gitignore`. Manual smoke test (`code --install-extension`, EDH verification) deferred to human reviewer. All automatable DoD items satisfied. Status: `done`.
