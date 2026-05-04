@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1] — 2026-05-04
+
+### Fixed
+
+- Replaced the placeholder Marketplace package icon with the no-text Flavor Grenade logo mark.
+
 ## [0.1.0] — 2026-05-04
 
 ### Added
