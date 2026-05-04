@@ -126,9 +126,11 @@ jobs:
         run: npm install -g @vscode/vsce@3.9.1
 
       - name: Verify Marketplace publisher token
+        if: ${{ !contains(github.ref_name, '-test') }}
         run: vsce verify-pat "$VSCE_PUBLISHER_NAME" --pat "$VSCE_PUBLISHER_PAT"
 
       - name: Log in to Marketplace publisher
+        if: ${{ !contains(github.ref_name, '-test') }}
         run: |
           mkdir -p "$RUNNER_TEMP/vsce-home"
           HOME="$RUNNER_TEMP/vsce-home" node - <<'NODE'
@@ -146,5 +148,10 @@ jobs:
           }), { mode: 0o600 });
           NODE
 
+      - name: Skip Marketplace publish for test tag
+        if: ${{ contains(github.ref_name, '-test') }}
+        run: echo "vsce publish has no dry-run flag in @vscode/vsce 3.9.1; build, package, checksum, and attestation steps completed."
+
       - name: Publish all VSIXs
+        if: ${{ !contains(github.ref_name, '-test') }}
         run: HOME="$RUNNER_TEMP/vsce-home" vsce publish --packagePath vsix-artifacts/*.vsix

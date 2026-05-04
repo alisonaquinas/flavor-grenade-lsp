@@ -3,6 +3,7 @@ import { CapabilityRegistry } from '../services/capability-registry.js';
 import { StatusNotifier } from '../services/status-notifier.js';
 import { LifecycleState } from '../services/lifecycle-state.js';
 import { ServerSettings } from '../services/server-settings.js';
+import { SERVER_VERSION } from '../../version.js';
 
 /** Result shape returned to the LSP client for `initialize`. */
 interface InitializeResult {
@@ -52,7 +53,7 @@ export class InitializeHandler {
 
     const result: InitializeResult = {
       capabilities: this.capabilities.getCapabilities(),
-      serverInfo: { name: 'flavor-grenade-lsp', version: '0.1.0' },
+      serverInfo: { name: 'flavor-grenade-lsp', version: SERVER_VERSION },
     };
 
     // Defer status notification until after the initialize response is written,

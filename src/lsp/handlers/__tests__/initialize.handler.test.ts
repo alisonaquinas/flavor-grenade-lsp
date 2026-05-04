@@ -5,6 +5,7 @@ import { CapabilityRegistry } from '../../services/capability-registry.js';
 import { StatusNotifier } from '../../services/status-notifier.js';
 import { LifecycleState } from '../../services/lifecycle-state.js';
 import { ServerSettings } from '../../services/server-settings.js';
+import { SERVER_VERSION } from '../../../version.js';
 
 describe('InitializeHandler', () => {
   let mockCapabilities: CapabilityRegistry;
@@ -34,9 +35,9 @@ describe('InitializeHandler', () => {
     expect(result.serverInfo.name).toBe('flavor-grenade-lsp');
   });
 
-  it('result.serverInfo.version === "0.1.0"', async () => {
+  it('result.serverInfo.version === SERVER_VERSION', async () => {
     const result = await handler.handle({});
-    expect(result.serverInfo.version).toBe('0.1.0');
+    expect(result.serverInfo.version).toBe(SERVER_VERSION);
   });
 
   it('notifier.send is NOT called synchronously', async () => {

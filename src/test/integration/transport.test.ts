@@ -135,7 +135,7 @@ describe('LSP Transport Integration', () => {
       jsonrpc: '2.0',
       result: {
         capabilities: expect.objectContaining({ textDocumentSync: 1 }),
-        serverInfo: { name: 'flavor-grenade-lsp', version: '0.1.0' },
+        serverInfo: { name: 'flavor-grenade-lsp', version: '0.2.1' },
       },
     });
 
