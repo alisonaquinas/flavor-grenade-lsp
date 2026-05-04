@@ -44,7 +44,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
         with:
-          bun-version: "1.3.13"
+          bun-version: '1.3.13'
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
@@ -54,12 +54,12 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Cross-compile server binary
-        run: |
-          mkdir -p extension/server
-          bun build --compile --minify --bytecode \
-            --target=${{ matrix.bun-target }} \
-            src/main.ts \
-            --outfile extension/server/${{ matrix.binary-name }}
+        run: >
+          node scripts/build-binary.mjs
+          --target=${{ matrix.bun-target }}
+          --outfile=extension/server/${{ matrix.binary-name }}
+          --minify
+          --bytecode
 
       - name: Install extension dependencies
         working-directory: extension
