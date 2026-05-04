@@ -128,7 +128,20 @@ jobs:
       - name: Log in to Marketplace publisher
         run: |
           mkdir -p "$RUNNER_TEMP/vsce-home"
-          printf '%s\n' "$VSCE_PUBLISHER_PAT" | HOME="$RUNNER_TEMP/vsce-home" vsce login "$VSCE_PUBLISHER_NAME"
+          HOME="$RUNNER_TEMP/vsce-home" node - <<'NODE'
+          const { writeFileSync } = require('node:fs');
+          const { join } = require('node:path');
+
+          const publisherName = process.env.VSCE_PUBLISHER_NAME;
+          const pat = process.env.VSCE_PUBLISHER_PAT;
+          if (!publisherName || !pat) {
+            throw new Error('Missing VSCE publisher credentials.');
+          }
+
+          writeFileSync(join(process.env.HOME, '.vsce'), JSON.stringify({
+            publishers: [{ name: publisherName, pat }],
+          }), { mode: 0o600 });
+          NODE
 
       - name: Publish all VSIXs
         run: HOME="$RUNNER_TEMP/vsce-home" vsce publish --packagePath vsix-artifacts/*.vsix
