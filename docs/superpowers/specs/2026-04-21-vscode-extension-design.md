@@ -229,8 +229,8 @@ The `ofmarkdown` language must use Markdown-compatible grammar/configuration so 
 
 ```json
 {
-  "name": "flavor-grenade",
-  "displayName": "Flavor Grenade — Obsidian Markdown Support",
+  "name": "flavor-grenade-lsp",
+  "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
   "version": "0.1.0",
   "publisher": "alisonaquinas",

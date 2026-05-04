@@ -1,6 +1,6 @@
 {
-  "name": "flavor-grenade",
-  "displayName": "Flavor Grenade — Obsidian Markdown Support",
+  "name": "flavor-grenade-lsp",
+  "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
   "version": "0.1.0",
   "publisher": "alisonaquinas",
@@ -9,18 +9,38 @@
     "type": "git",
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
-  "engines": { "vscode": "^1.81.0" },
-  "categories": ["Programming Languages", "Linters"],
-  "keywords": ["obsidian", "markdown", "wiki-links", "lsp", "zettelkasten", "llm-wiki"],
-  "extensionKind": ["workspace"],
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "keywords": [
+    "obsidian",
+    "markdown",
+    "wiki-links",
+    "lsp",
+    "zettelkasten",
+    "llm-wiki"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
   "main": "./dist/extension.js",
   "icon": "images/icon.png",
-  "activationEvents": ["onLanguage:markdown", "onLanguage:ofmarkdown"],
+  "activationEvents": [
+    "onLanguage:markdown",
+    "onLanguage:ofmarkdown"
+  ],
   "contributes": {
     "languages": [
       {
         "id": "ofmarkdown",
-        "aliases": ["OFMarkdown", "Obsidian Flavored Markdown"],
+        "aliases": [
+          "OFMarkdown",
+          "Obsidian Flavored Markdown"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],
@@ -32,9 +52,18 @@
       }
     ],
     "commands": [
-      { "command": "flavorGrenade.restartServer", "title": "Flavor Grenade: Restart Server" },
-      { "command": "flavorGrenade.rebuildIndex", "title": "Flavor Grenade: Rebuild Index" },
-      { "command": "flavorGrenade.showOutput", "title": "Flavor Grenade: Show Output" }
+      {
+        "command": "flavorGrenade.restartServer",
+        "title": "Flavor Grenade: Restart Server"
+      },
+      {
+        "command": "flavorGrenade.rebuildIndex",
+        "title": "Flavor Grenade: Rebuild Index"
+      },
+      {
+        "command": "flavorGrenade.showOutput",
+        "title": "Flavor Grenade: Show Output"
+      }
     ],
     "configuration": {
       "title": "Flavor Grenade",
@@ -46,7 +75,11 @@
         },
         "flavorGrenade.linkStyle": {
           "type": "string",
-          "enum": ["file-stem", "title-slug", "file-path-stem"],
+          "enum": [
+            "file-stem",
+            "title-slug",
+            "file-path-stem"
+          ],
           "default": "file-stem",
           "description": "Wiki-link completion style."
         },
@@ -57,13 +90,19 @@
         },
         "flavorGrenade.diagnostics.suppress": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "description": "Diagnostic codes to suppress."
         },
         "flavorGrenade.trace.server": {
           "type": "string",
-          "enum": ["off", "messages", "verbose"],
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
           "default": "off",
           "description": "Trace communication between VS Code and the language server."
         }

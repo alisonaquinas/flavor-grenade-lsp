@@ -1,4 +1,4 @@
-# Flavor Grenade — Obsidian Markdown Support
+# Flavor Grenade LSP — Obsidian Markdown Support
 
 Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) in Visual Studio Code. Powered by the [flavor-grenade-lsp](https://github.com/alisonaquinas/flavor-grenade-lsp) language server.
 

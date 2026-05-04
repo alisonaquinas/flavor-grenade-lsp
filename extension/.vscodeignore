@@ -2,6 +2,7 @@
 src/**
 docs/**
 node_modules/**
+scripts/**
 *.ts
 !dist/**
 tsconfig.json
