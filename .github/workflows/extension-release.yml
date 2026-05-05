@@ -44,6 +44,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          lfs: true
 
       - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
         with:
@@ -71,6 +73,12 @@ jobs:
       - name: Build extension client
         working-directory: extension
         run: npm run build:extension
+
+      - name: Verify extension icon is a PNG
+        working-directory: extension
+        run: |
+          signature="$(head -c 8 images/icon.png | od -An -tx1 | tr -d ' \n')"
+          test "$signature" = "89504e470d0a1a0a"
 
       - name: Package VSIX
         working-directory: extension
