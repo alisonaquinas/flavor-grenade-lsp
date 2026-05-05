@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] — 2026-05-05
+
+### Fixed
+
+- Ensure Marketplace extension packages include the real PNG icon when built from Git LFS checkouts.
+
 ## [0.1.1] — 2026-05-04
 
 ### Fixed
