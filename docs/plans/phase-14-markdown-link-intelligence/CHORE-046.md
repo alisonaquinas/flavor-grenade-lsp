@@ -7,7 +7,7 @@ priority: medium
 phase: 14
 created: "2026-05-06"
 updated: "2026-05-06"
-dependencies: ["TASK-156", "TASK-157", "TASK-158", "TASK-159", "TASK-160", "TASK-161", "TASK-162", "CHORE-045"]
+dependencies: ["TASK-156", "TASK-157", "TASK-158", "TASK-159", "TASK-160", "TASK-161", "TASK-162", "CHORE-045", "CHORE-057"]
 tags: [tickets/chore, "phase/14"]
 aliases: ["CHORE-046"]
 ---
@@ -96,6 +96,7 @@ work from being accidentally implied as complete.
 - [[TASK-161]] - navigation scope complete.
 - [[TASK-162]] - rename scope complete.
 - [[CHORE-045]] - matrix and index evidence rows complete.
+- [[CHORE-057]] - code quality and security sweeps complete.
 
 **Unblocks:**
 

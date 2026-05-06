@@ -129,6 +129,9 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-161]] | Navigate Markdown links and labels | `open` |
 | [[TASK-162]] | Rename Markdown heading anchors | `open` |
 | [[CHORE-044]] | Phase 14 Lint Sweep | `open` |
+| [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-progress` |
+| [[CHORE-056]] | Phase 14 Code Quality Sweep | `open` |
+| [[CHORE-057]] | Phase 14 Security Sweep | `open` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | `open` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `open` |
 
