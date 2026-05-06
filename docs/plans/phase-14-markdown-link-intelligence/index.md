@@ -24,6 +24,6 @@ aliases: ["Phase 14 Tickets"]
 | [[BUG-005]] | Markdown completions lose folder context for nested documents | Bug | `in-review` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-review` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | Chore | `in-review` |
-| [[CHORE-057]] | Phase 14 Security Sweep | Chore | `open` |
+| [[CHORE-057]] | Phase 14 Security Sweep | Chore | `in-progress` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `open` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `open` |

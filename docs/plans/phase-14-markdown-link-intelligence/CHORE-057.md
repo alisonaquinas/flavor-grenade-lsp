@@ -2,7 +2,7 @@
 id: "CHORE-057"
 title: "Phase 14 Security Sweep"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-057"]
 
 # Phase 14 Security Sweep
 
-> [!INFO] `CHORE-057` · Chore · Phase 14 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-057` · Chore · Phase 14 · Priority: `high` · Status: `in-progress`
 
 ## Description
 
@@ -84,3 +84,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-06
 > Chore created after identifying the Phase 14 ticket set lacked the Step G
 > sweep required by [[plans/phase-execution]]. Status: `open`.
+
+> [!INFO] Started - 2026-05-06
+> Step G security sweep started after code quality findings were ticketed.
+> Status: `in-progress`.
