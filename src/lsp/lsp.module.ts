@@ -34,6 +34,9 @@ import { CodeActionsModule } from '../code-actions/code-actions.module.js';
 import { CodeActionHandler } from '../code-actions/code-action.handler.js';
 import { WorkspaceSymbolHandler } from '../handlers/workspace-symbol.handler.js';
 import { DocumentSymbolHandler } from '../handlers/document-symbol.handler.js';
+import { DocumentLinkHandler } from '../handlers/document-link.handler.js';
+import { FoldingRangeHandler } from '../handlers/folding-range.handler.js';
+import { SelectionRangeHandler } from '../handlers/selection-range.handler.js';
 import {
   SemanticTokensHandler,
   TOKEN_TYPES,
@@ -79,6 +82,9 @@ import { RenameHandler } from '../handlers/rename.handler.js';
     FileOperationRefreshService,
     WorkspaceSymbolHandler,
     DocumentSymbolHandler,
+    DocumentLinkHandler,
+    FoldingRangeHandler,
+    SelectionRangeHandler,
     SemanticTokensHandler,
   ],
   exports: [],
@@ -108,6 +114,9 @@ export class LspModule implements OnModuleInit {
     private readonly codeAction: CodeActionHandler,
     private readonly workspaceSymbol: WorkspaceSymbolHandler,
     private readonly documentSymbol: DocumentSymbolHandler,
+    private readonly documentLink: DocumentLinkHandler,
+    private readonly foldingRange: FoldingRangeHandler,
+    private readonly selectionRange: SelectionRangeHandler,
     private readonly semanticTokens: SemanticTokensHandler,
     private readonly prepareRename: PrepareRenameHandler,
     private readonly rename: RenameHandler,
@@ -135,6 +144,9 @@ export class LspModule implements OnModuleInit {
       renameProvider: { prepareProvider: true },
       workspaceSymbolProvider: true,
       documentSymbolProvider: true,
+      documentLinkProvider: { resolveProvider: false },
+      foldingRangeProvider: true,
+      selectionRangeProvider: true,
       semanticTokensProvider: {
         legend: { tokenTypes: TOKEN_TYPES, tokenModifiers: TOKEN_MODIFIERS },
         full: true,
@@ -231,6 +243,17 @@ export class LspModule implements OnModuleInit {
     this.dispatcher.onRequest('textDocument/documentSymbol', (p) =>
       Promise.resolve(
         this.documentSymbol.handle(p as Parameters<DocumentSymbolHandler['handle']>[0]),
+      ),
+    );
+    this.dispatcher.onRequest('textDocument/documentLink', (p) =>
+      Promise.resolve(this.documentLink.handle(p as Parameters<DocumentLinkHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/foldingRange', (p) =>
+      Promise.resolve(this.foldingRange.handle(p as Parameters<FoldingRangeHandler['handle']>[0])),
+    );
+    this.dispatcher.onRequest('textDocument/selectionRange', (p) =>
+      Promise.resolve(
+        this.selectionRange.handle(p as Parameters<SelectionRangeHandler['handle']>[0]),
       ),
     );
     this.dispatcher.onRequest('textDocument/semanticTokens/full', (p) =>

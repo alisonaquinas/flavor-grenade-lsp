@@ -23,6 +23,9 @@ import type { VaultDetector } from '../vault/vault-detector.js';
 import type { CodeActionHandler } from '../code-actions/code-action.handler.js';
 import type { WorkspaceSymbolHandler } from '../handlers/workspace-symbol.handler.js';
 import type { DocumentSymbolHandler } from '../handlers/document-symbol.handler.js';
+import type { DocumentLinkHandler } from '../handlers/document-link.handler.js';
+import type { FoldingRangeHandler } from '../handlers/folding-range.handler.js';
+import type { SelectionRangeHandler } from '../handlers/selection-range.handler.js';
 import type { SemanticTokensHandler } from '../handlers/semantic-tokens.handler.js';
 import type { PrepareRenameHandler } from '../handlers/prepare-rename.handler.js';
 import type { RenameHandler } from '../handlers/rename.handler.js';
@@ -81,6 +84,9 @@ describe('LspModule', () => {
       { handle: jest.fn() } as unknown as CodeActionHandler,
       { handle: jest.fn() } as unknown as WorkspaceSymbolHandler,
       { handle: jest.fn() } as unknown as DocumentSymbolHandler,
+      { handle: jest.fn() } as unknown as DocumentLinkHandler,
+      { handle: jest.fn() } as unknown as FoldingRangeHandler,
+      { handle: jest.fn() } as unknown as SelectionRangeHandler,
       { handle: jest.fn() } as unknown as SemanticTokensHandler,
       {
         handle: jest.fn(),

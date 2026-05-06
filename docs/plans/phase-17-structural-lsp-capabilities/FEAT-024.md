@@ -104,7 +104,7 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-175]] | Register structural LSP capabilities | `red` |
+| [[TASK-175]] | Register structural LSP capabilities | `green` |
 | [[TASK-176]] | Implement document links | `open` |
 | [[TASK-177]] | Implement folding ranges | `open` |
 | [[TASK-178]] | Implement selection ranges | `open` |

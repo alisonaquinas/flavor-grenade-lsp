@@ -9,7 +9,7 @@ aliases: ["Phase 17 Tickets"]
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-024]] | Structural LSP Capabilities | Feature | `in-progress` |
-| [[TASK-175]] | Register structural LSP capabilities | Task | `red` |
+| [[TASK-175]] | Register structural LSP capabilities | Task | `green` |
 | [[TASK-176]] | Implement document links | Task | `open` |
 | [[TASK-177]] | Implement folding ranges | Task | `open` |
 | [[TASK-178]] | Implement selection ranges | Task | `open` |

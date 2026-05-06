@@ -2,7 +2,7 @@
 id: "TASK-175"
 title: "Register structural LSP capabilities"
 type: task
-status: red
+status: green
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-175"]
 
 # Register structural LSP capabilities
 
-> [!INFO] `TASK-175` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
+> [!INFO] `TASK-175` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
 
 ## Description
 
@@ -58,7 +58,7 @@ Update the capability registration path so `initialize` advertises `documentLink
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/lsp/lsp.module.test.ts` | Unit | `Parity.StructuralLSP.CapabilityRegistration` | 🔴 failing |
+| `src/lsp/lsp.module.test.ts` | Unit | `Parity.StructuralLSP.CapabilityRegistration` | ✅ passing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -96,11 +96,11 @@ Update the capability registration path so `initialize` advertises `documentLink
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] `initialize` advertises all three structural providers
-- [ ] `bun run lint --max-warnings 0` passes
-- [ ] `tsc --noEmit` exits 0
+- [x] Failing test(s) written first (RED commit exists in git log)
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] `initialize` advertises all three structural providers
+- [x] `bun run lint --max-warnings 0` passes
+- [x] `tsc --noEmit` exits 0
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-024]] child task row updated to `in-review`
@@ -134,3 +134,9 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!FAILURE] Red - 2026-05-06
 > Added failing module coverage for structural capability advertisement and
 > structural request registration. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added minimal injectable structural handlers, registered all three structural
+> LSP requests, and advertised matching initialize capabilities. Focused module
+> coverage, `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass.
+> Status: `green`.
