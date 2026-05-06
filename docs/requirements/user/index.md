@@ -53,7 +53,7 @@ Each user requirement uses the following fields:
 | User.Extension.PreserveManualMode | Preserve manual language mode choices | [[vscode-language-mode]] | Extension.LanguageMode.UserOverrideSafety |
 | User.Extension.StableModeSwitch | Avoid flicker or restart loops during automatic recognition | [[vscode-language-mode]] | Extension.LanguageMode.LoopSafety |
 | User.Extension.PreserveMarkdownEditing | Keep Markdown editing behavior after OFMarkdown promotion | [[vscode-language-mode]] | Extension.LanguageMode.MarkdownParity |
-| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution |
+| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.SameDocumentAnchor |
 | User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics |
 | User.Rename.MoveNotesSafely | Move notes without breaking links | [[requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor |
 | User.Embed.ManageAttachments | Manage attachments with editor help | [[requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence |

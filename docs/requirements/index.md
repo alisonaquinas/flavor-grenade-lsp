@@ -91,6 +91,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.LanguageMode.LoopSafety** | Language-mode assignment must not create reopen or restart loops. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.LanguageMode.MarkdownParity** | OFMarkdown mode must preserve baseline Markdown editing behavior. | [[requirements/ofmarkdown-language-mode]] |
 | **Parity.MarkdownLinks.LocalResolution** | Local standard Markdown links must resolve through the same vault rules as wiki-links. | [[requirements/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.SameDocumentAnchor** | Same-document Markdown anchors must support definition, diagnostics, references, and heading rename behavior. | [[requirements/ofmarkdown-parity]] |
 | **Parity.HeadingAmbiguity.Diagnostics** | Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations. | [[requirements/ofmarkdown-parity]] |
 | **Parity.FileOperations.AtomicRefactor** | File and folder moves must update every local reference to moved targets in one workspace edit. | [[requirements/ofmarkdown-parity]] |
 | **Parity.Attachments.Intelligence** | Attachments referenced by embeds or Markdown image links must support completion, diagnostics, definition, and hover metadata. | [[requirements/ofmarkdown-parity]] |

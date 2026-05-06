@@ -33,6 +33,7 @@ Supported forms:
 |---|---|---|
 | Inline link | `[Alpha](notes/alpha.md)` | completion, diagnostics, definition, references, rename |
 | Heading link | `[Intro](alpha.md#Introduction)` | resolve to heading, detect ambiguous heading anchors |
+| Same-document anchor | `[Intro](#Introduction)` | resolve within current document, diagnose missing or ambiguous headings |
 | Reference use | `[Alpha][alpha]` | definition jumps to `[alpha]: ...`; references include uses |
 | Shortcut ref | `[alpha]` | resolves when `[alpha]: ...` is present |
 | Reference def | `[alpha]: notes/alpha.md` | indexed as `LinkLabelDef` and local target ref |
@@ -68,6 +69,7 @@ Affected references:
 - `![[asset.png]]`
 - `[text](note.md)`
 - `[text](note.md#heading)`
+- `[text](#heading)`
 - `[label]: note.md`
 - `![alt](asset.png)`
 

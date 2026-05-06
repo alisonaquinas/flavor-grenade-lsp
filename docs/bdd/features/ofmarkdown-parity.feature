@@ -30,6 +30,21 @@ Feature: OFMarkdown parity roadmap
     When diagnostics are requested for "notes/mixed-links.md"
     Then no FG001 diagnostic is published for the external link
 
+  Scenario: Same-document Markdown anchors behave like heading references
+    Given "notes/mixed-links.md" contains the heading "Links"
+    And "notes/mixed-links.md" contains "[Links](#Links)"
+    When go-to-definition is requested on "#Links"
+    Then the definition target is the "Links" heading in "notes/mixed-links.md"
+    When find-references is requested on the "Links" heading
+    Then the references include "[Links](#Links)"
+    When the heading "Links" is renamed to "Link Index"
+    Then the returned WorkspaceEdit updates the link target to "#Link-Index"
+
+  Scenario: Same-document Markdown anchors diagnose missing headings
+    Given "notes/mixed-links.md" contains "[Missing](#Missing)"
+    When diagnostics are requested for "notes/mixed-links.md"
+    Then a missing heading diagnostic is published for "#Missing"
+
   Scenario: Duplicate heading anchors produce related information
     Given "notes/alpha.md" has two headings named "Overview"
     And "notes/mixed-links.md" contains "[Overview](alpha.md#overview)"
@@ -59,4 +74,3 @@ Feature: OFMarkdown parity roadmap
     When workspace/willRenameFiles moves "notes/alpha.md" to "../outside/alpha.md"
     Then the server refuses the WorkspaceEdit
     And no file outside the vault root is written
-

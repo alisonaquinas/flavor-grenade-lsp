@@ -37,6 +37,28 @@ standard Markdown link forms and vault file operations.
 
 ---
 
+**Tag:** Parity.MarkdownLinks.SameDocumentAnchor
+**User Req:** User.Author.UseStandardMarkdownLinks
+**Gist:** Same-document Markdown anchors must support definition, diagnostics, references, and heading rename behavior.
+**Ambition:** Authors who use standard Markdown links such as `[Intro](#Introduction)` should get the same section-level safety Marksman provides for inline anchor links and Flavor Grenade provides for wiki heading links.
+**Scale:** Percentage of same-document Markdown anchor links that resolve, diagnose missing or ambiguous headings, appear in references, and update when the heading is renamed.
+**Meter:**
+
+1. Create a document with headings `Introduction`, `Details`, and duplicate `Overview` headings.
+2. Add same-document Markdown links `[Intro](#Introduction)`, `[Missing](#Missing)`, and `[Overview](#Overview)`.
+3. Request definition on `#Introduction` and verify the target is the `Introduction` heading in the same document.
+4. Request diagnostics and verify `[Missing](#Missing)` reports a missing-heading diagnostic and `[Overview](#Overview)` reports an ambiguity diagnostic with both candidate headings.
+5. Request references on the `Introduction` heading and verify `[Intro](#Introduction)` is included.
+6. Rename `Introduction` to `Intro` and verify the link target updates to `#Intro` using the configured anchor normalization.
+7. Compute: (correct same-document anchor behaviors / total expected behaviors) x 100.
+**Fail:** Any same-document anchor link cannot navigate to an existing heading, misses a broken or ambiguous heading diagnostic, is omitted from references, or remains stale after heading rename.
+**Goal:** 100% same-document anchor behavior coverage.
+**Stakeholders:** Vault authors, Markdown authors, static-site authors.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[ADR017-standard-markdown-link-intelligence]], [[features/ofmarkdown-parity-roadmap]], [[ofm-spec/markdown-links]].
+
+---
+
 **Tag:** Parity.HeadingAmbiguity.Diagnostics
 **User Req:** User.Diagnose.SpotAmbiguousHeadingAnchors
 **Gist:** Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations.
