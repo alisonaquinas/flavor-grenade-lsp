@@ -9,10 +9,10 @@ import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
+import { buildAttachmentEntry } from './attachment-metadata.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
-import type { AttachmentKind } from './vault-index.js';
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
@@ -126,14 +126,7 @@ export class VaultScanner {
 
   private async indexAttachment(filePath: string, relPath: string): Promise<void> {
     try {
-      const stat = await fs.promises.stat(filePath);
-      this.vaultIndex.setAttachment({
-        path: relPath,
-        uri: pathToFileURL(filePath).toString(),
-        extension: this.attachmentExtension(relPath),
-        kind: this.attachmentKind(relPath),
-        sizeBytes: stat.size,
-      });
+      this.vaultIndex.setAttachment(await buildAttachmentEntry(filePath, relPath));
     } catch {
       // Skip unreadable attachments silently.
     }
@@ -237,27 +230,5 @@ export class VaultScanner {
     } catch {
       // Skip unreadable files silently.
     }
-  }
-
-  private attachmentExtension(relPath: string): string {
-    const ext = path.extname(relPath).toLowerCase();
-    return ext.startsWith('.') ? ext.slice(1) : ext;
-  }
-
-  private attachmentKind(relPath: string): AttachmentKind {
-    const extension = this.attachmentExtension(relPath);
-    if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp'].includes(extension)) {
-      return 'image';
-    }
-    if (['mp3', 'wav', 'ogg', 'flac', 'm4a'].includes(extension)) {
-      return 'audio';
-    }
-    if (['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(extension)) {
-      return 'video';
-    }
-    if (extension === 'pdf') {
-      return 'pdf';
-    }
-    return 'file';
   }
 }
