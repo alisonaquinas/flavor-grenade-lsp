@@ -1026,15 +1026,15 @@ jobs:
             binary-name: flavor-grenade-lsp.exe
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: latest
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install server dependencies
         run: bun install --frozen-lockfile
@@ -1060,7 +1060,7 @@ jobs:
         run: npx vsce package --target ${{ matrix.vsce-target }}
 
       - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vsix-${{ matrix.vsce-target }}
           path: extension/*.vsix
@@ -1071,7 +1071,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: vsix-win32-x64
           path: vsix-artifact
@@ -1100,15 +1100,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, smoke-test-windows-binary]
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: vsix-artifacts
           pattern: vsix-*
           merge-multiple: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install vsce
         run: npm install -g @vscode/vsce

@@ -19,7 +19,7 @@ aliases: ["TASK-130"]
 
 ## Description
 
-Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semver tags. It uses a matrix strategy across four targets (linux-x64, darwin-arm64, darwin-x64, win-x64) to build per-platform binaries using `bun run build:binary`, renames each binary with the target suffix, uploads the artifacts, and then creates a GitHub Release via `softprops/action-gh-release@v2` with all four binaries attached and auto-generated release notes.
+Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semver tags. It uses a matrix strategy across four targets (linux-x64, darwin-arm64, darwin-x64, win-x64) to build per-platform binaries using `bun run build:binary`, renames each binary with the target suffix, uploads the artifacts, and then creates a GitHub Release via `softprops/action-gh-release@v3` with all four binaries attached and auto-generated release notes.
 
 ---
 
@@ -32,7 +32,7 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
   - `{os: macos-13, target: darwin-x64, binary: flavor-grenade-lsp}`
   - `{os: windows-latest, target: win-x64, binary: flavor-grenade-lsp.exe}`
 - Steps: checkout, setup-bun, `bun install --frozen-lockfile`, `bun run build:binary`, rename binary with target suffix, upload artifact
-- `create-release` job: `needs: build-binaries`, downloads all `binary-*` artifacts, creates GitHub Release with `softprops/action-gh-release@v2` and `generate_release_notes: true`
+- `create-release` job: `needs: build-binaries`, downloads all `binary-*` artifacts, creates GitHub Release with `softprops/action-gh-release@v3` and `generate_release_notes: true`
 - See also: [[adr/ADR008-oidc-publishing]], [[requirements/ci-cd]]
 
 ---
