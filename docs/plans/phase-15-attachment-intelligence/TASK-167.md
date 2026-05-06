@@ -2,7 +2,7 @@
 id: "TASK-167"
 title: "Show attachment hover metadata"
 type: task
-status: red
+status: green
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-167"]
 
 # Show attachment hover metadata
 
-> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -150,3 +150,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing hover coverage for Markdown image and embed attachments,
 > requiring resolved path, type label, size, and dimensions when available.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Refactored hover dispatch through cursor entity detection and added
+> lightweight attachment metadata hovers for Markdown images and embeds.
+> Focused hover tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.
