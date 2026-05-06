@@ -2,7 +2,7 @@
 id: "TASK-162"
 title: "Rename Markdown heading anchors"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-162"]
 
 # Rename Markdown heading anchors
 
-> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -157,3 +157,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Rename write scope is
 > `src/handlers/rename.handler.ts`, the shared heading-anchor utility, and
 > Markdown rename tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown heading-anchor rename edits before
+> implementation. Status: `red`.
