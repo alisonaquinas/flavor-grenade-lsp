@@ -60,7 +60,7 @@ Reference-style uses must bind only to link definitions in the same document.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/ref-graph-markdown-links.spec.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
+| `src/resolution/ref-graph-markdown-links.test.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
 
 ---
 

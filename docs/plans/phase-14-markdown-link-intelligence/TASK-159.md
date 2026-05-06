@@ -63,7 +63,7 @@ centralized heading anchor normalization.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-link-oracle.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/resolution/markdown-link-oracle.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 

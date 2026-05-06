@@ -61,7 +61,7 @@ Oracle resolution.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-target-classifier.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/resolution/markdown-target-classifier.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 

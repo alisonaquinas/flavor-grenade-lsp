@@ -60,7 +60,7 @@ must remain unchanged.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/rename/markdown-heading-rename.spec.ts` | Unit | `Rename.Refactoring.Completeness` | 🔴 failing |
+| `src/rename/markdown-heading-rename.test.ts` | Unit | `Rename.Refactoring.Completeness` | 🔴 failing |
 
 ---
 

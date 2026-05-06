@@ -64,7 +64,7 @@ existing precedence for opaque regions, embeds, and wiki-links.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/parser/markdown-links.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/parser/markdown-links.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 

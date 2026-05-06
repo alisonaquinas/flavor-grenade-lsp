@@ -62,7 +62,7 @@ information for every candidate heading.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-link-diagnostics.spec.ts` | Unit | `Parity.HeadingAmbiguity.Diagnostics` | 🔴 failing |
+| `src/resolution/markdown-link-diagnostics.test.ts` | Unit | `Parity.HeadingAmbiguity.Diagnostics` | 🔴 failing |
 
 ---
 

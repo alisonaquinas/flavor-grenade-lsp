@@ -62,8 +62,8 @@ on a label definition should include all same-document label uses.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/markdown-link-navigation.spec.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
-| `src/handlers/markdown-link-references.spec.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
+| `src/handlers/markdown-link-navigation.test.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
+| `src/handlers/markdown-link-references.test.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
 
 ---
 

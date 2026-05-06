@@ -2,7 +2,7 @@
 id: "FEAT-021"
 title: "Markdown Link Intelligence"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-021"]
 
 # Markdown Link Intelligence
 
-> [!INFO] `FEAT-021` · Feature · Phase 14 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-021` · Feature · Phase 14 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -180,3 +180,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `draft`. Child tasks and chores defined for Phase 14.
+
+> [!INFO] Started - 2026-05-06
+> Steps A-C began. Phase prerequisites are complete in [[plans/execution-ledger]];
+> child task scope is present, implementation surfaces were audited, and linked
+> test paths were normalized to the repository `.test.ts` convention. Status:
+> `in-progress`.

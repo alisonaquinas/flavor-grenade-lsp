@@ -8,7 +8,7 @@ aliases: ["Phase 14 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-021]] | Markdown Link Intelligence | Feature | `draft` |
+| [[FEAT-021]] | Markdown Link Intelligence | Feature | `in-progress` |
 | [[TASK-156]] | Parse standard Markdown link syntax | Task | `open` |
 | [[TASK-157]] | Classify Markdown link targets | Task | `open` |
 | [[TASK-180]] | Complete Markdown link URL targets | Task | `open` |

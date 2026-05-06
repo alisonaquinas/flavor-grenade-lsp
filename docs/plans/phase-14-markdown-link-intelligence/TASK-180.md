@@ -65,7 +65,7 @@ behavior.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/completion/markdown-link-completion.spec.ts` | Unit | `Completion.Trigger.Coverage` | 🔴 failing |
+| `src/completion/markdown-link-completion.test.ts` | Unit | `Completion.Trigger.Coverage` | 🔴 failing |
 
 ---
 
