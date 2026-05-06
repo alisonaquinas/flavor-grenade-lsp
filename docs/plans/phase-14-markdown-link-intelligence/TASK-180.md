@@ -2,7 +2,7 @@
 id: "TASK-180"
 title: "Complete Markdown link URL targets"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-180"]
 
 # Complete Markdown link URL targets
 
-> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -167,3 +167,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Completion write scope is
 > `src/completion/context-analyzer.ts`, `src/completion/completion-router.ts`,
 > optional provider adapter, and Markdown completion tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link target and heading completion before
+> implementation. Status: `red`.

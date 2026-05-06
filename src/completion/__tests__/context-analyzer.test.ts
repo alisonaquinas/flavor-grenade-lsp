@@ -142,6 +142,27 @@ describe('ContextAnalyzer', () => {
 
   // ── tag ──────────────────────────────────────────────────────────────────────
 
+  describe('markdown-link', () => {
+    it('detects Markdown link target context after [text](', () => {
+      const text = '[Alpha](';
+      const result = analyzer.analyze(text, text.length);
+      expect(result.kind).toBe('markdown-link-target');
+      if (result.kind === 'markdown-link-target') {
+        expect(result.partial).toBe('');
+      }
+    });
+
+    it('detects Markdown same-document heading context before tag detection', () => {
+      const text = '[Alpha](#Over';
+      const result = analyzer.analyze(text, text.length);
+      expect(result.kind).toBe('markdown-link-heading');
+      if (result.kind === 'markdown-link-heading') {
+        expect(result.target).toBe('');
+        expect(result.headingPrefix).toBe('Over');
+      }
+    });
+  });
+
   describe('tag', () => {
     it('detects # at beginning of text', () => {
       const text = '#';

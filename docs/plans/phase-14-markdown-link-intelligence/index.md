@@ -11,7 +11,7 @@ aliases: ["Phase 14 Tickets"]
 | [[FEAT-021]] | Markdown Link Intelligence | Feature | `in-progress` |
 | [[TASK-156]] | Parse standard Markdown link syntax | Task | `green` |
 | [[TASK-157]] | Classify Markdown link targets | Task | `green` |
-| [[TASK-180]] | Complete Markdown link URL targets | Task | `open` |
+| [[TASK-180]] | Complete Markdown link URL targets | Task | `red` |
 | [[TASK-158]] | Index Markdown link references in RefGraph | Task | `green` |
 | [[TASK-159]] | Resolve Markdown links through Oracle | Task | `green` |
 | [[TASK-160]] | Diagnose Markdown heading anchors | Task | `green` |

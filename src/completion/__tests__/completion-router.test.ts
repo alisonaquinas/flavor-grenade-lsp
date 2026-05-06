@@ -213,6 +213,52 @@ describe('CompletionRouter', () => {
 
   // ── routing to block-ref provider ─────────────────────────────────────────────
 
+  describe('markdown-link routing', () => {
+    it('routes [text]( to Markdown document completions', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[See](';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '('));
+
+      expect(result.items.some((item) => item.label === 'alpha')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 6 }, end: { line: 0, character: 6 } },
+        newText: 'alpha.md',
+      });
+    });
+
+    it('routes [text](# to current document heading completions', () => {
+      const currentDoc = makeDoc(TEST_URI, { headings: [{ level: 1, text: 'Overview' }] });
+      parseCache.set(TEST_URI, currentDoc);
+
+      const text = '[See](#Ov';
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '#'));
+
+      expect(result.items).toHaveLength(1);
+      expect(result.items[0].label).toBe('Overview');
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 7 }, end: { line: 0, character: 9 } },
+        newText: 'Overview',
+      });
+    });
+
+    it('suppresses Markdown completions for external URL targets', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      const text = '[External](https://';
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '/'));
+
+      expect(result.items).toHaveLength(0);
+    });
+  });
+
   describe('block-ref routing', () => {
     it('routes [[#^ to BlockRefCompletionProvider (intra-doc)', () => {
       const currentDoc = makeDoc(TEST_URI, { blockAnchors: ['my-anchor'] });
