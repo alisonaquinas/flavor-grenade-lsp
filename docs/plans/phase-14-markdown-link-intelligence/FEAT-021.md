@@ -130,6 +130,9 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-162]] | Rename Markdown heading anchors | `open` |
 | [[CHORE-044]] | Phase 14 Lint Sweep | `open` |
 | [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-progress` |
+| [[BUG-003]] | Markdown path targets can escape above vault root | `open` |
+| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | `open` |
+| [[BUG-005]] | Markdown completions lose folder context for nested documents | `open` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | `open` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | `open` |
 | [[CHORE-057]] | Phase 14 Security Sweep | `open` |

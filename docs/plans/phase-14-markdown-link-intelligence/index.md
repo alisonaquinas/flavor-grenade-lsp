@@ -19,6 +19,9 @@ aliases: ["Phase 14 Tickets"]
 | [[TASK-162]] | Rename Markdown heading anchors | Task | `green` |
 | [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `in-review` |
 | [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | Bug | `in-progress` |
+| [[BUG-003]] | Markdown path targets can escape above vault root | Bug | `open` |
+| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | Bug | `open` |
+| [[BUG-005]] | Markdown completions lose folder context for nested documents | Bug | `open` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-progress` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | Chore | `open` |
 | [[CHORE-057]] | Phase 14 Security Sweep | Chore | `open` |
