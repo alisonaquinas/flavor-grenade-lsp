@@ -17,6 +17,6 @@ aliases: ["Phase 14 Tickets"]
 | [[TASK-160]] | Diagnose Markdown heading anchors | Task | `green` |
 | [[TASK-161]] | Navigate Markdown links and labels | Task | `green` |
 | [[TASK-162]] | Rename Markdown heading anchors | Task | `green` |
-| [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `open` |
+| [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `in-progress` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `open` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `open` |

@@ -2,7 +2,7 @@
 id: "CHORE-044"
 title: "Phase 14 Lint Sweep"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-044"]
 
 # Phase 14 Lint Sweep
 
-> [!INFO] `CHORE-044` · Chore · Phase 14 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-044` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -134,3 +134,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-14 lint sweep.
+
+> [!INFO] Started - 2026-05-06
+> Step E lint sweep started after Phase 14 implementation tasks reached green.
+> Status: `in-progress`.
