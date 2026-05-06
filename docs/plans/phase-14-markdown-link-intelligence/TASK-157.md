@@ -2,7 +2,7 @@
 id: "TASK-157"
 title: "Classify Markdown link targets"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-157"]
 
 # Classify Markdown link targets
 
-> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -161,3 +161,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown target classification before implementation.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Implemented pure Markdown target classification for relative Markdown files,
+> same-document fragments, local attachments, known external URLs, and
+> unsupported schemes. `bun test
+> src/resolution/__tests__/markdown-target-classifier.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
