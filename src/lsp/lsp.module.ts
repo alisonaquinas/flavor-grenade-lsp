@@ -119,7 +119,7 @@ export class LspModule implements OnModuleInit {
       definitionProvider: true,
       referencesProvider: true,
       completionProvider: {
-        triggerCharacters: ['[', '!', '#', '^', '>'],
+        triggerCharacters: ['[', '!', '#', '^', '>', '('],
         commitCharacters: [']'],
         resolveProvider: false,
       },

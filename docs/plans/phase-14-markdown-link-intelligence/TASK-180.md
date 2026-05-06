@@ -2,7 +2,7 @@
 id: "TASK-180"
 title: "Complete Markdown link URL targets"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-180"]
 
 # Complete Markdown link URL targets
 
-> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -171,3 +171,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown link target and heading completion before
 > implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown link target and heading completion contexts, Markdown URL
+> insert-text provider, and `(` trigger-character registration. `bun test
+> src/completion/__tests__/context-analyzer.test.ts
+> src/completion/__tests__/completion-router.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.

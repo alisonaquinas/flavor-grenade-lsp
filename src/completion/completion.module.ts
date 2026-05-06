@@ -10,6 +10,7 @@ import { HeadingCompletionProvider } from './heading-completion-provider.js';
 import { CalloutCompletionProvider } from './callout-completion-provider.js';
 import { EmbedCompletionProvider } from './embed-completion-provider.js';
 import { TagCompletionProvider } from './tag-completion-provider.js';
+import { MarkdownLinkCompletionProvider } from './markdown-link-completion-provider.js';
 
 /**
  * NestJS module providing all Phase 9 completion infrastructure.
@@ -32,6 +33,7 @@ import { TagCompletionProvider } from './tag-completion-provider.js';
     CalloutCompletionProvider,
     EmbedCompletionProvider,
     TagCompletionProvider,
+    MarkdownLinkCompletionProvider,
   ],
   exports: [CompletionRouter, ContextAnalyzer, TagCompletionProvider],
 })

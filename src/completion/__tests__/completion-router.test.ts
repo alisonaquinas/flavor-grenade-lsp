@@ -7,6 +7,7 @@ import { BlockRefCompletionProvider } from '../../resolution/block-ref-completio
 import { EmbedCompletionProvider } from '../embed-completion-provider.js';
 import { TagCompletionProvider } from '../tag-completion-provider.js';
 import { CalloutCompletionProvider } from '../callout-completion-provider.js';
+import { MarkdownLinkCompletionProvider } from '../markdown-link-completion-provider.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import { FolderLookup } from '../../vault/folder-lookup.js';
@@ -87,6 +88,7 @@ function buildRouter(): {
   const embedProvider = new EmbedCompletionProvider(folderLookup, scanner, vaultIndex);
   const tagProvider = new TagCompletionProvider(tagRegistry);
   const calloutProvider = new CalloutCompletionProvider(vaultIndex);
+  const markdownLinkProvider = new MarkdownLinkCompletionProvider(vaultIndex, oracle);
 
   const router = new CompletionRouter(
     contextAnalyzer,
@@ -96,6 +98,7 @@ function buildRouter(): {
     embedProvider,
     tagProvider,
     calloutProvider,
+    markdownLinkProvider,
     parseCache,
     settings,
   );
