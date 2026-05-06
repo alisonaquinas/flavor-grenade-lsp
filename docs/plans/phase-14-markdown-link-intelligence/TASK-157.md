@@ -2,7 +2,7 @@
 id: "TASK-157"
 title: "Classify Markdown link targets"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-157"]
 
 # Classify Markdown link targets
 
-> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -157,3 +157,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Classifier write scope is
 > `src/resolution/markdown-target-classifier.ts` and classifier tests. Status:
 > `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown target classification before implementation.
+> Status: `red`.
