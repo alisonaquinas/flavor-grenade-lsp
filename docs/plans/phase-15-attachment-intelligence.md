@@ -1,7 +1,7 @@
 ---
 title: "Phase 15: Attachment Intelligence"
 phase: 15
-status: planned
+status: in-progress
 tags: [plans, attachments, embeds, markdown-images, hover, diagnostics]
 aliases: [Phase 15, Attachment Intelligence]
 updated: 2026-05-06
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 15 |
 | Title | Attachment Intelligence |
-| Status | planned |
+| Status | in-progress |
 | Gate | Attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover metadata |
 | Depends on | Phase 14 |
 
