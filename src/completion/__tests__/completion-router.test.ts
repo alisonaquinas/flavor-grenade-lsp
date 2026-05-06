@@ -218,6 +218,30 @@ describe('CompletionRouter', () => {
   // ── routing to block-ref provider ─────────────────────────────────────────────
 
   describe('markdown-link routing', () => {
+    it('routes Markdown image targets to attachment completions only', () => {
+      vaultIndex.set(id('assets/diagram'), makeDoc('file:///vault/assets/diagram.md'));
+      vaultIndex.setAttachment({
+        path: 'assets/diagram.png',
+        uri: 'file:///vault/assets/diagram.png',
+        extension: 'png',
+        kind: 'image',
+        sizeBytes: 42,
+      });
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '![Diagram](assets/d';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '('));
+
+      expect(result.items.map((item) => item.label)).toEqual(['assets/diagram.png']);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 11 }, end: { line: 0, character: 19 } },
+        newText: 'assets/diagram.png',
+      });
+    });
+
     it('routes [text]( to Markdown document completions', () => {
       vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
       folderLookup.rebuild(vaultIndex);

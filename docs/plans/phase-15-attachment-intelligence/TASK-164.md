@@ -2,7 +2,7 @@
 id: "TASK-164"
 title: "Complete attachment references"
 type: task
-status: open
+status: red
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-164"]
 
 # Complete attachment references
 
-> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
 
 ## Description
 
@@ -147,3 +147,9 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing completion coverage for Markdown image target contexts,
+> attachment-only provider completions, and router dispatch to attachment
+> completions without document candidates.
+> Status: `red`.
