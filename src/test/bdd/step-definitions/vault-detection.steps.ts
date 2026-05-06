@@ -109,18 +109,22 @@ When('the LSP server initializes and indexes the vault', async function (this: F
 // ── Helper: query vault index via flavorGrenade/queryIndex ────────────────
 
 /**
- * Check whether `assertionPath` (vault-relative path with extension, e.g.
- * "vault/notes/note.md") is represented by `docId` (vault-relative path
- * without extension, e.g. "notes/note" or "vault/notes/note").
+ * Check whether `assertionPath` is represented by `docId`.
  *
- * A match occurs when the assertion path (stripped of extension) is either
- * equal to the docId, or ends with "/" + docId (suffix match for when the
- * vault root is a subdirectory).
+ * `.md` assertions may match extension-free DocIds. Other extensions must
+ * match extension-bearing DocIds, so `note.rst` cannot pass by matching
+ * `note.md` with the extension stripped.
  */
-function matchesAssertion(docId: string, assertionPathNoExt: string): boolean {
+function matchesAssertion(docId: string, assertionPath: string): boolean {
   const normalId = docId.replace(/\\/g, '/');
-  const normalAssertion = assertionPathNoExt.replace(/\\/g, '/');
-  return normalId === normalAssertion || normalAssertion.endsWith('/' + normalId);
+  const normalAssertion = assertionPath.replace(/\\/g, '/');
+  const ext = path.extname(normalAssertion).toLowerCase();
+  const candidates =
+    ext === '.md' ? [normalAssertion, normalAssertion.slice(0, -ext.length)] : [normalAssertion];
+
+  return candidates.some(
+    (candidate) => normalId === candidate || candidate.endsWith('/' + normalId),
+  );
 }
 
 /**
@@ -200,8 +204,7 @@ Then(
   async function (this: FGWorld, pathA: string, pathB: string) {
     const { docIds } = await queryIndex(this);
     for (const relPath of [pathA, pathB]) {
-      const noExt = relPath.replace(/\.[^./\\]+$/, '');
-      expect(docIds.some((id) => matchesAssertion(id, noExt))).toBe(true);
+      expect(docIds.some((id) => matchesAssertion(id, relPath))).toBe(true);
     }
   },
 );
@@ -231,16 +234,14 @@ Then(
 
 Then('the document index DOES contain {string}', async function (this: FGWorld, relPath: string) {
   const { docIds } = await queryIndex(this);
-  const noExt = relPath.replace(/\.[^./\\]+$/, '');
-  expect(docIds.some((id) => matchesAssertion(id, noExt))).toBe(true);
+  expect(docIds.some((id) => matchesAssertion(id, relPath))).toBe(true);
 });
 
 Then(
   'the document index does NOT contain {string}',
   async function (this: FGWorld, relPath: string) {
     const { docIds } = await queryIndex(this);
-    const noExt = relPath.replace(/\.[^./\\]+$/, '');
-    expect(docIds.some((id) => matchesAssertion(id, noExt))).toBe(false);
+    expect(docIds.some((id) => matchesAssertion(id, relPath))).toBe(false);
   },
 );
 

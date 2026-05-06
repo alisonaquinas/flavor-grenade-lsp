@@ -26,6 +26,8 @@ import { TagRegistry } from '../tags/tag-registry.js';
  */
 @Injectable()
 export class VaultScanner {
+  private static readonly DEFAULT_DOCUMENT_EXTENSIONS = new Set(['.md']);
+
   /** Vault-relative paths of all non-`.md` files found during the last scan. */
   private assetIndex: Set<string> = new Set();
 
@@ -77,7 +79,8 @@ export class VaultScanner {
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
-    await this.walkAndIndex(vaultRoot, vaultRoot);
+    const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
+    await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
     this.dispatcher.sendNotification('flavorGrenade/status', {
@@ -87,7 +90,11 @@ export class VaultScanner {
     });
   }
 
-  private async walkAndIndex(vaultRoot: string, dir: string): Promise<void> {
+  private async walkAndIndex(
+    vaultRoot: string,
+    dir: string,
+    documentExtensions: ReadonlySet<string>,
+  ): Promise<void> {
     let entries: fs.Dirent[];
     try {
       entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -104,13 +111,75 @@ export class VaultScanner {
       }
 
       if (entry.isDirectory()) {
-        await this.walkAndIndex(vaultRoot, fullPath);
-      } else if (entry.isFile() && entry.name.endsWith('.md')) {
+        await this.walkAndIndex(vaultRoot, fullPath, documentExtensions);
+      } else if (entry.isFile() && documentExtensions.has(path.extname(entry.name).toLowerCase())) {
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
         this.assetIndex.add(relPath);
       }
     }
+  }
+
+  private async loadDocumentExtensions(vaultRoot: string): Promise<ReadonlySet<string>> {
+    const configPath = path.join(vaultRoot, '.flavor-grenade.toml');
+    let configText: string;
+
+    try {
+      configText = await fs.promises.readFile(configPath, 'utf8');
+    } catch {
+      return VaultScanner.DEFAULT_DOCUMENT_EXTENSIONS;
+    }
+
+    const configuredExtensions = this.parseVaultExtensions(configText);
+    if (configuredExtensions.length === 0) {
+      return VaultScanner.DEFAULT_DOCUMENT_EXTENSIONS;
+    }
+
+    return new Set(configuredExtensions);
+  }
+
+  private parseVaultExtensions(configText: string): string[] {
+    const sectionText = this.readTomlSection(configText, 'vault');
+    const extensionLine = /^\s*extensions\s*=\s*\[([^\]]*)\]/m.exec(sectionText);
+    if (!extensionLine) {
+      return [];
+    }
+
+    return [...extensionLine[1].matchAll(/["']([^"']+)["']/g)]
+      .map((match) => this.normalizeExtension(match[1]))
+      .filter((extension): extension is string => extension !== null);
+  }
+
+  private readTomlSection(configText: string, sectionName: string): string {
+    const lines = configText.split(/\r?\n/);
+    const sectionLines: string[] = [];
+    let inSection = false;
+
+    for (const line of lines) {
+      const header = /^\s*\[([^\]]+)\]\s*$/.exec(line);
+      if (header) {
+        if (inSection) {
+          break;
+        }
+        inSection = header[1].trim() === sectionName;
+        continue;
+      }
+
+      if (inSection) {
+        sectionLines.push(line);
+      }
+    }
+
+    return sectionLines.join('\n');
+  }
+
+  private normalizeExtension(value: string): string | null {
+    const trimmed = value.trim().toLowerCase();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    return trimmed.startsWith('.') ? trimmed : `.${trimmed}`;
   }
 
   private async indexFile(vaultRoot: string, filePath: string): Promise<void> {
