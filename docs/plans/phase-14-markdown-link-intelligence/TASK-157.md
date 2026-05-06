@@ -42,6 +42,7 @@ Oracle resolution.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.MarkdownLinks.TargetClassification` | Classify Markdown targets as local documents, attachments, fragments, URLs, or unsupported schemes | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.LocalResolution` | Local links participate in vault resolution and external links do not | [[requirements/ofmarkdown-parity]] |
 
 ---

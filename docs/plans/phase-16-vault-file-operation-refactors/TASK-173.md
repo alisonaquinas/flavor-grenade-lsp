@@ -41,6 +41,7 @@ pre-apply reference rewriting.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.FileOperations.IndexRefresh` | `didRenameFiles` refreshes affected index entries and diagnostics | [[requirements/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicRefactor` | Keep server state consistent after file operations | [[requirements/ofmarkdown-parity]] |
 | `Security.Vault.PathConfinement` | Refresh only paths that remain inside the vault root | [[requirements/security/vault-confinement]] |
 

@@ -40,6 +40,7 @@ Reference-style uses must bind only to link definitions in the same document.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.MarkdownLinks.ReferenceGraph` | Markdown document refs, image refs, label refs, and label definitions are indexed in RefGraph | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.LocalResolution` | Markdown link and label references are represented in the vault graph | [[requirements/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Markdown image references are available to later attachment intelligence | [[requirements/ofmarkdown-parity]] |
 | `Navigation.References.Completeness` | Markdown references are available to reference queries | [[requirements/navigation]] |

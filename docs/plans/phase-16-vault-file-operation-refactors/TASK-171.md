@@ -43,6 +43,8 @@ links.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.FileOperations.ReferenceRewrite` | Resolved moved-target references are rewritten without changing syntax family | [[requirements/ofmarkdown-parity]] |
+| `Parity.FileOperations.SkippedAmbiguousReporting` | Ambiguous moved-target references are reported without speculative edits | [[requirements/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicRefactor` | Update every local reference form for moved targets | [[requirements/ofmarkdown-parity]] |
 | `Rename.Refactoring.Completeness` | Preserve completeness for existing wiki-link and heading references | [[requirements/rename]] |
 | `Rename.StyleBinding.Consistency` | Preserve configured link style when wiki-link text is rewritten | [[requirements/rename]] |

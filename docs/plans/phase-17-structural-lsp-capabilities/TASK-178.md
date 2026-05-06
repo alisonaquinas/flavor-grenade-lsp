@@ -37,6 +37,7 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[requirements/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.Coverage` | Selection ranges must reflect OFMarkdown structure | [[requirements/ofmarkdown-parity]] |
 | `ST-002` | Opaque regions are respected when deriving ranges | [[requirements/semantic-tokens]] |
 | `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[requirements/security/input-validation]] |

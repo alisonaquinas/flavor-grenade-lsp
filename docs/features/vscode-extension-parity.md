@@ -13,6 +13,18 @@ The extension stays thin. It owns VS Code integration, command registration,
 status UI, language mode assignment, Marketplace presentation, and tests. It
 does not own OFMarkdown intelligence.
 
+## Functional Requirement Trace
+
+| Feature area | Functional requirements |
+|---|---|
+| Activation precision | [[requirements/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| Command bridges | [[requirements/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[requirements/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| Extension-host tests | [[requirements/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| Marketplace evidence | [[requirements/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| Status and quick actions | [[requirements/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/vscode-extension-parity#Extension.Status.QuickActions]] |
+| OFMarkdown editor contributions | [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
+| Workspace environments | [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+
 ## P1 - Activation Precision
 
 The extension should activate for likely OFMarkdown workspaces without requiring

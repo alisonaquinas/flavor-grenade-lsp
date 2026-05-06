@@ -39,6 +39,7 @@ escapes the vault root, and preserve extension-free DocId semantics for notes.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.FileOperations.MovePlannerConfinement` | Canonicalize old/new paths and reject moves escaping the vault | [[requirements/ofmarkdown-parity]] |
 | `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[requirements/security/vault-confinement]] |
 | `Security.Vault.RenameConfinement` | Refuse operations that escape the vault root | [[requirements/security/vault-confinement]] |
 | `Parity.FileOperations.AtomicRefactor` | Build one complete move graph before edits are returned | [[requirements/ofmarkdown-parity]] |

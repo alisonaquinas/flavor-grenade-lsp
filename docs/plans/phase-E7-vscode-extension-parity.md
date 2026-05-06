@@ -48,12 +48,13 @@ language intelligence in the server.
 
 | Workstream | Deliverable | Primary docs |
 |---|---|---|
-| Activation | Precise vault-marker activation and idle generic Markdown behavior | [[features/vscode-extension-parity]] |
-| Command bridges | `flavorGrenade.showReferences`, `followLink`, `openEmbedTarget`, graph commands | [[ADR019-vscode-command-bridges-and-client-ux]] |
-| Tests | VS Code extension-host tests for client behavior | [[requirements/vscode-extension-parity]] |
-| Status | Rich status tooltip and quick actions | [[ddd/editor-client/domain-model]] |
-| Marketplace | OFMarkdown feature screenshots in extension README | [[research/vscode-extension-publishing]] |
-| Contributions | OFMarkdown snippets, keybindings, and language configuration | [[features/ofmarkdown-language-mode]] |
+| Activation | Precise vault-marker activation and idle generic Markdown behavior | [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| Command bridges | `flavorGrenade.showReferences`, `followLink`, `openEmbedTarget`, graph commands | [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| Tests | VS Code extension-host tests for client behavior | [[requirements/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| Status | Rich status tooltip and quick actions | [[requirements/vscode-extension-parity#Extension.Status.QuickActions]] |
+| Marketplace | OFMarkdown feature screenshots in extension README | [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| Contributions | OFMarkdown snippets, keybindings, and language configuration | [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
+| Workspace environments | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior | [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
 
 ## Acceptance
 

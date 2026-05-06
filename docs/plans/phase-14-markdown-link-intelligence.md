@@ -28,8 +28,14 @@ embed, block-reference, or tag behavior.
 | Requirement | Phase responsibility |
 |---|---|
 | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Resolve local inline links, reference links, link definitions, and image links through vault rules |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]] | Parse inline, image, reference-use, collapsed, shortcut, and definition forms into typed index data |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]] | Classify targets before resolution so local paths, fragments, attachments, URLs, and schemes are distinct |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]] | Add Markdown link, image, label-use, and label-definition entries to the reference graph |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.Completion]] | Complete document and heading targets in Markdown link URL contexts |
 | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Support `[text](#heading)` definition, diagnostics, references, and heading rename updates |
 | [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Diagnose duplicate or ambiguous heading anchors for wiki and Markdown heading links |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]] | Navigate and find references across Markdown link and label forms |
+| [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]] | Update Markdown same-document and file-plus-fragment anchors during heading rename |
 | [[requirements/completions#Completion.Trigger.Coverage]] | Extend completion coverage for Markdown link URL contexts without regressing existing triggers |
 | [[requirements/navigation#Navigation.Definition.AllLinkTypes]] | Extend definition behavior to Markdown local links and same-document anchors |
 | [[requirements/navigation#Navigation.References.Completeness]] | Include Markdown local links in reference queries |

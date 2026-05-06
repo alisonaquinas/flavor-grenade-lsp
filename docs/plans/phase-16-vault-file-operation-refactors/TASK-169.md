@@ -39,6 +39,7 @@ succeeds, and return no edit when there is nothing local to update.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle LSP file-operation rename capability | [[requirements/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicRefactor` | File operation requests produce one pre-apply WorkspaceEdit | [[requirements/ofmarkdown-parity]] |
 
 ---

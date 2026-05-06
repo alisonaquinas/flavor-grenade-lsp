@@ -43,6 +43,7 @@ information for every candidate heading.
 |---|---|---|
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Missing same-document anchors produce diagnostics | [[requirements/ofmarkdown-parity]] |
 | `Parity.HeadingAmbiguity.Diagnostics` | Duplicate heading anchors produce related information | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | External URL targets are suppressed before vault diagnostics | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.LocalResolution` | External URLs produce no vault diagnostics | [[requirements/ofmarkdown-parity]] |
 
 ---

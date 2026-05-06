@@ -65,9 +65,14 @@ the same vault-aware rules without producing noise for external URLs.
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.MarkdownLinks.LocalResolution` | Local standard Markdown links resolve through vault rules | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.ParseCoverage` | Supported Markdown link forms become typed parser/index data | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | Targets are classified before resolution and diagnostics | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.ReferenceGraph` | Markdown links, images, labels, and definitions join RefGraph | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading completion candidates | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document Markdown anchors support definition, diagnostics, references, and rename | [[requirements/ofmarkdown-parity]] |
 | `Parity.HeadingAmbiguity.Diagnostics` | Duplicate or ambiguous heading anchors produce diagnostics with related locations | [[requirements/ofmarkdown-parity]] |
-| `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[requirements/completions]] |
+| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.RenameAnchors` | Markdown heading anchors update during heading rename | [[requirements/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Definition supports Markdown local links | [[requirements/navigation]] |
 | `Navigation.References.Completeness` | References include Markdown local links | [[requirements/navigation]] |
 | `Rename.Refactoring.Completeness` | Heading rename updates Markdown heading anchors | [[requirements/rename]] |

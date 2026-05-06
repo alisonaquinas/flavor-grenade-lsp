@@ -10,12 +10,13 @@ aliases: [Extension Parity Plan]
 
 | Slice | Outcome |
 |---|---|
-| E7.1 Activation precision | Add vault marker activation and generic Markdown idle behavior |
-| E7.2 Command bridges | Add native references, follow-link, embed, backlink, outlink, reveal, and diagnostic commands |
-| E7.3 Extension tests | Add extension-host tests for activation, language mode, commands, status, and failures |
-| E7.4 Status UX | Add richer tooltip, disabled states, error states, and quick actions |
-| E7.5 Marketplace proof | Add screenshots and README sections for OFMarkdown behavior |
-| E7.6 OFMarkdown contributions | Add snippets, scoped keybindings, and language configuration refinements |
+| E7.1 Activation precision | Add vault marker activation and generic Markdown idle behavior for `Extension.Activation.MarkerEvents` |
+| E7.2 Command bridges | Add native references, follow-link, embed, backlink, outlink, reveal, and diagnostic commands for `Extension.CommandBridges.GraphActions` |
+| E7.3 Extension tests | Add extension-host tests for `Extension.Tests.HostCoverage`, `Extension.LanguageMode.MembershipRefresh`, and failure states |
+| E7.4 Status UX | Add richer tooltip, disabled states, error states, and quick actions for `Extension.Status.QuickActions` |
+| E7.5 Marketplace proof | Add screenshots and README sections for `Extension.Marketplace.AssetPackaging` |
+| E7.6 OFMarkdown contributions | Add snippets, scoped keybindings, and language configuration refinements for `Extension.Contributions.OFMarkdownScoped` |
+| E7.7 Workspace environments | Document restricted, virtual, remote, WSL, SSH, and Dev Container behavior for `Extension.Workspace.EnvironmentModes` |
 
 ## Gate
 

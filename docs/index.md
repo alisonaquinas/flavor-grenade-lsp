@@ -118,6 +118,9 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
 | [[features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
 | [[features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
+| [[requirements/index]] | Master Planguage functional requirements index |
+| [[requirements/ofmarkdown-parity]] | Server-side OFMarkdown parity functional requirements |
+| [[requirements/vscode-extension-parity]] | VS Code extension parity functional requirements |
 | [[design/behavior-layer]] | Behavior layer design |
 | [[design/domain-layer]] | Domain layer design |
 | [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |

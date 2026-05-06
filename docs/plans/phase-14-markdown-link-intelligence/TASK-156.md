@@ -44,6 +44,7 @@ existing precedence for opaque regions, embeds, and wiki-links.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.MarkdownLinks.ParseCoverage` | Parser emits typed symbols and ranges for all supported Markdown link forms | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.LocalResolution` | Parse local inline links, reference links, link definitions, and image links | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Parse same-document fragment links for later anchor behavior | [[requirements/ofmarkdown-parity]] |
 

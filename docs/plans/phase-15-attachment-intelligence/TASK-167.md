@@ -41,6 +41,7 @@ dimensions when the metadata is available without blocking editor response.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.Attachments.NavigationHover` | Existing attachment references support lightweight metadata hover | [[requirements/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Attachment refs support hover metadata | [[requirements/ofmarkdown-parity]] |
 | `HV-002` | Embed hover includes resolved path and detected file type | [[requirements/hover]] |
 

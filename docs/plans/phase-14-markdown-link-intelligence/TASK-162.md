@@ -41,6 +41,7 @@ must remain unchanged.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.MarkdownLinks.RenameAnchors` | Heading rename updates Markdown same-document and file-plus-fragment anchors | [[requirements/ofmarkdown-parity]] |
 | `Rename.Refactoring.Completeness` | Heading rename updates every resolved Markdown heading anchor | [[requirements/rename]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors update when headings are renamed | [[requirements/ofmarkdown-parity]] |
 | `Navigation.References.Completeness` | Rename uses complete reference discovery | [[requirements/navigation]] |

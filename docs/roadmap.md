@@ -125,6 +125,8 @@ Implement the first server-side Marksman parity slice: standard Markdown local l
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/completions#Completion.Trigger.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/navigation#Navigation.References.Completeness]], [[requirements/rename#Rename.Refactoring.Completeness]]
 
+Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.Completion]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]]
+
 Implementation plan: [[plans/phase-14-markdown-link-intelligence]]
 
 ### Phase 15 — Attachment Intelligence
@@ -132,6 +134,8 @@ Implementation plan: [[plans/phase-14-markdown-link-intelligence]]
 Make non-Markdown vault assets first-class targets for OFMarkdown embeds and standard Markdown image links. This phase indexes attachment targets, completes attachment paths, diagnoses missing attachments, navigates to assets, and returns lightweight hover metadata.
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]], [[requirements/diagnostics#Diagnostic.Severity.Embed]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/hover#HV-002]]
+
+Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.Attachments.IndexCoverage]], [[requirements/ofmarkdown-parity#Parity.Attachments.Completion]], [[requirements/ofmarkdown-parity#Parity.Attachments.Diagnostics]], [[requirements/ofmarkdown-parity#Parity.Attachments.NavigationHover]], [[requirements/ofmarkdown-parity#Parity.Attachments.ConfigHints]]
 
 Implementation plan: [[plans/phase-15-attachment-intelligence]]
 
@@ -141,6 +145,8 @@ Make vault reorganization safe by updating every local reference to moved notes 
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/rename#Rename.Refactoring.Completeness]], [[requirements/rename#Rename.StyleBinding.Consistency]], [[requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
 
+Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]], [[requirements/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]], [[requirements/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]], [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]], [[requirements/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]]
+
 Implementation plan: [[plans/phase-16-vault-file-operation-refactors]]
 
 ### Phase 17 — Structural LSP Capabilities
@@ -148,6 +154,8 @@ Implementation plan: [[plans/phase-16-vault-file-operation-refactors]]
 Expose OFMarkdown document structure through standard LSP capabilities: `textDocument/documentLink`, `textDocument/foldingRange`, and `textDocument/selectionRange`. This phase reuses existing resolution data for document links and derives folding/selection ranges from OFMIndex without crossing opaque regions.
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]], [[requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
+
+Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]]
 
 Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
 
@@ -229,6 +237,8 @@ tests, Marketplace screenshots, OFMarkdown snippets, and remote/trust behavior
 documentation. Gate: extension parity BDD scenarios and extension-host tests
 cover activation, command bridges, status states, language-mode behavior, and
 failure states.
+
+Requirement links: [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]], [[requirements/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]], [[requirements/vscode-extension-parity#Extension.Status.QuickActions]], [[requirements/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
 
 Implementation plan: [[plans/phase-E7-vscode-extension-parity]]
 

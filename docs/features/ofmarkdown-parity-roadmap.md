@@ -22,6 +22,16 @@ Obsidian semantics provide stronger behavior.
 | P3 | Differentiators that make Flavor Grenade useful outside an editor |
 | P4 | Explicit non-goals or experiments |
 
+## Functional Requirement Trace
+
+| Roadmap area | Functional requirements |
+|---|---|
+| Standard Markdown links | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.Completion]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]] |
+| Same-document and ambiguous heading anchors | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] |
+| Attachment intelligence | [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/ofmarkdown-parity#Parity.Attachments.IndexCoverage]], [[requirements/ofmarkdown-parity#Parity.Attachments.Completion]], [[requirements/ofmarkdown-parity#Parity.Attachments.Diagnostics]], [[requirements/ofmarkdown-parity#Parity.Attachments.NavigationHover]], [[requirements/ofmarkdown-parity#Parity.Attachments.ConfigHints]] |
+| File operation refactoring | [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]], [[requirements/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]], [[requirements/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]], [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]], [[requirements/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]] |
+| Structural LSP capabilities | [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]] |
+
 ## P1 - Standard Markdown Link Intelligence
 
 Flavor Grenade must treat local Markdown inline links, reference links, link

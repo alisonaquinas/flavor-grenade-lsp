@@ -37,6 +37,7 @@ Implement `textDocument/documentLink` so unambiguous local OFMarkdown and Markdo
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local links and leave ambiguous links unresolved | [[requirements/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.Coverage` | Document links must reflect OFMarkdown structure | [[requirements/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Use the same targets as definition where unambiguous | [[requirements/navigation]] |
 | `Diagnostic.Ambiguous.RelatedInfo` | Ambiguous links rely on diagnostics/related information | [[requirements/diagnostics]] |

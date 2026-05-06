@@ -21,6 +21,18 @@ Code while keeping OFMarkdown intelligence in the language server.
 | Marketplace | Show current OFMarkdown screenshots in README and packaged assets |
 | Contributions | Add snippets and language-scoped affordances for `ofmarkdown` |
 
+## Functional Requirement Trace
+
+| Area | Functional requirements |
+|---|---|
+| Activation | `Extension.Activation.VaultPrecision`, `Extension.Activation.MarkerEvents` |
+| Language mode | `Extension.LanguageMode.MembershipRefresh` |
+| Commands | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.CommandBridges.GraphActions` |
+| Status | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` |
+| Tests | `Extension.Tests.HostCoverage`, `Extension.Workspace.EnvironmentModes` |
+| Marketplace | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` |
+| Contributions | `Extension.Contributions.OFMarkdownScoped` |
+
 ## Command Bridge Contract
 
 Command bridge payloads must be JSON-serializable and must not require server

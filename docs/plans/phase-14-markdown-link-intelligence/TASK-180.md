@@ -44,6 +44,7 @@ behavior.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
+| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading candidates | [[requirements/ofmarkdown-parity]] |
 | `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[requirements/completions]] |
 | `Parity.MarkdownLinks.LocalResolution` | Completion candidates target locally resolvable documents and headings | [[requirements/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchor completion offers headings from the current document | [[requirements/ofmarkdown-parity]] |
