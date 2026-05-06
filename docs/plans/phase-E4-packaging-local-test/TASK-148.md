@@ -33,7 +33,7 @@ Build the language server binary for the host platform, build the extension clie
 
   - Windows: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe`
 
-  - Note: local builds intentionally omit `--bytecode` (CI-only optimization for faster startup) and `--target` (compiles for host platform). These flags are only used in CI matrix builds.
+  - Note: local builds intentionally omit `--bytecode` and `--target` (compiles for host platform). Extension release builds also omit `--bytecode` after the `0.1.3` Windows crash fix.
 
 - **Build extension client:**
 
@@ -177,7 +177,7 @@ All of the following must be true before this task is marked `done`:
 
 The smoke test is manual and cannot be automated within the current test framework. Document the smoke test results in the Workflow Log entry when transitioning to `in-review`. Include the VS Code version, OS, and confirmation of each smoke test checkpoint.
 
-The `--bytecode` flag is intentionally omitted for local builds. It is a CI-only optimization that improves cold-start time but adds build complexity. The `--target` flag is also omitted because the local build compiles for the host platform by default.
+The `--bytecode` flag is intentionally omitted for local builds and extension release builds. Extension `0.1.2` showed that Linux-cross-compiled Windows binaries with Bun bytecode can crash at startup. The `--target` flag is omitted locally because the local build compiles for the host platform by default.
 
 ---
 

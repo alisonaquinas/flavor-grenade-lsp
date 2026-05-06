@@ -412,6 +412,19 @@ Keep `activationEvents` as narrow as possible.
 
 Browser extensions lose Node APIs and must be bundled to a single file. Native dependencies force platform-specific packages. Pure JS/TS or browser-compatible dependencies produce a smaller attack surface and a much easier release matrix.
 
+#### 4. Smoke-test packaged native binaries
+
+Platform-specific packages need runtime validation on the target OS. Passing `vsce package` only proves that the VSIX can be assembled; it does not prove the bundled executable can start on a user machine.
+
+Flavor Grenade `0.1.2` shipped a `win32-x64` server executable that matched the CI artifact byte-for-byte but crashed immediately when launched on Windows. The cause was Bun `1.3.13` cross-compiling a Windows executable from Linux with `--bytecode`. The `0.1.3` fix removed `--bytecode` from extension release builds and added a Windows CI job that extracts the packaged VSIX and launches `extension/server/flavor-grenade-lsp.exe` before Marketplace publish.
+
+For native-binary extensions, treat packaged-artifact smoke tests as a release gate:
+
+- test the binary after it is inside the VSIX, not only before packaging
+- run at least one smoke test on the target OS family
+- block publish if the process exits non-zero before it can accept protocol input
+- revalidate optimization flags such as bytecode precompilation when upgrading the compiler/runtime
+
 ### Secret Storage
 
 > [!WARNING] Use `SecretStorage`, not `workspaceState`/`globalState`

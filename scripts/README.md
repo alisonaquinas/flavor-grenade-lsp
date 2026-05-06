@@ -37,6 +37,14 @@ node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp
 
 ---
 
+## Binary Build Notes
+
+`build-binary.mjs` supports `--bytecode`, but extension release builds must not use it by default. Extension `0.1.2` showed that Bun `1.3.13` on Linux could cross-compile a Windows executable with `--bytecode` that crashed immediately on startup. The `0.1.3` release workflow uses `--compile --minify` and gates Marketplace publish on a Windows launch smoke test of the packaged `win32-x64` VSIX.
+
+Use `--bytecode` only for local experiments or after revalidating every published platform artifact.
+
+---
+
 ## Conventions
 
 - Scripts use paths relative to the repository root (the working directory from which they are invoked).
