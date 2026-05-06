@@ -2,7 +2,7 @@
 id: "TASK-156"
 title: "Parse standard Markdown link syntax"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-156"]
 
 # Parse standard Markdown link syntax
 
-> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -173,3 +173,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown link parser coverage before implementation.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Implemented Markdown link parser entries, OFMIndex wiring, parser unit tests,
+> and OFM parser integration coverage. `bun test
+> src/parser/__tests__/markdown-link-parser.test.ts
+> src/parser/__tests__/ofm-parser.integration.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.
