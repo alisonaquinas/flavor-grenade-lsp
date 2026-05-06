@@ -2,7 +2,7 @@
 id: "TASK-158"
 title: "Index Markdown link references in RefGraph"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-158"]
 
 # Index Markdown link references in RefGraph
 
-> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -158,3 +158,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Detailed - 2026-05-06
 > Step C implementation details added. Graph write scope is
 > `src/resolution/ref-graph.ts` and Markdown RefGraph tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link RefGraph indexing before implementation.
+> Status: `red`.
