@@ -15,6 +15,6 @@ aliases: ["Phase 15 Tickets"]
 | [[TASK-166]] | Navigate to attachment targets | Task | `green` |
 | [[TASK-167]] | Show attachment hover metadata | Task | `green` |
 | [[TASK-168]] | Polish attachment configuration | Task | `green` |
-| [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `open` |
-| [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `open` |
-| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | Chore | `open` |
+| [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `done` |
+| [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `done` |
+| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | Chore | `done` |

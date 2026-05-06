@@ -50,7 +50,11 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/handlers/__tests__/markdown-link-navigation.test.ts` | Unit | Tests Markdown link definition and references for inline file links, same-document anchors, and label definitions | `Navigation.Definition.AllLinkTypes`, `Navigation.References.Completeness`, `Parity.MarkdownLinks.NavigationAndReferences` | Phase 14 |
 | `src/handlers/__tests__/markdown-heading-rename.test.ts` | Unit | Tests heading rename updates same-document and file-plus-heading Markdown anchors | `Rename.Refactoring.Completeness`, `Parity.MarkdownLinks.RenameAnchors` | Phase 14 |
 | `src/completion/__tests__/context-analyzer.test.ts` | Unit | Tests Markdown link URL and heading completion contexts before tag detection | `Completion.Trigger.Coverage`, `Parity.MarkdownLinks.Completion` | Phase 14 |
-| `src/completion/__tests__/completion-router.test.ts` | Unit | Tests Markdown document and heading completion routing, external URL suppression, and nested source path relativity | `Completion.Trigger.Coverage`, `Parity.MarkdownLinks.Completion` | Phase 14 |
+| `src/completion/__tests__/completion-router.test.ts` | Unit | Tests Markdown document and heading completion routing, external URL suppression, nested source path relativity, and attachment completion ranking | `Completion.Trigger.Coverage`, `Parity.MarkdownLinks.Completion`, `Parity.Attachments.Completion`, `Parity.Attachments.ConfigHints` | Phase 14 |
+| `src/vault/__tests__/attachment-config.test.ts` | Unit | Tests Obsidian `.obsidian/app.json` attachment folder discovery and malformed-config fallback | `Parity.Attachments.ConfigHints`, `Parity.Attachments.Intelligence` | Phase 15 |
+| `src/resolution/__tests__/attachment-diagnostics.test.ts` | Unit | Tests missing and existing attachment diagnostics for Markdown image links and embeds | `Parity.Attachments.Diagnostics`, `Diagnostic.Severity.Embed`, `Embed.Resolution.ImageTarget` | Phase 15 |
+| `src/handlers/__tests__/attachment-navigation.test.ts` | Unit | Tests definition targets for Markdown image and embed attachments use indexed attachment URIs | `Parity.Attachments.NavigationHover`, `Navigation.Definition.AllLinkTypes` | Phase 15 |
+| `src/handlers/__tests__/attachment-hover.test.ts` | Unit | Tests lightweight attachment hover metadata for Markdown image and embed attachments | `Parity.Attachments.NavigationHover`, `HV-002` | Phase 15 |
 
 ---
 

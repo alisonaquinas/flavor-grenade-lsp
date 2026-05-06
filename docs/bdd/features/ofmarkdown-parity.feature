@@ -58,7 +58,7 @@ Feature: OFMarkdown parity roadmap
     Then a heading ambiguity diagnostic is published
     And the diagnostic related information includes both "Overview" headings
 
-  @req:Parity.Attachments.IndexCoverage @req:Parity.Attachments.Completion @req:Parity.Attachments.NavigationHover
+  @req:Parity.Attachments.IndexCoverage @req:Parity.Attachments.Completion @req:Parity.Attachments.Diagnostics @req:Parity.Attachments.NavigationHover @req:Parity.Attachments.ConfigHints
   Scenario: Attachment references support completion, definition, and hover
     Given "notes/mixed-links.md" contains "![Diagram](assets/diagram.png)"
     When completion is requested inside "![Diagram]("

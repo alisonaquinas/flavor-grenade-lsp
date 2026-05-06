@@ -2,7 +2,7 @@
 id: "FEAT-022"
 title: "Attachment Intelligence"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-022"]
 
 # Attachment Intelligence
 
-> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -109,15 +109,15 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-163]] | Index vault attachments | `open` |
-| [[TASK-164]] | Complete attachment references | `open` |
-| [[TASK-165]] | Diagnose broken attachment references | `open` |
-| [[TASK-166]] | Navigate to attachment targets | `open` |
-| [[TASK-167]] | Show attachment hover metadata | `open` |
-| [[TASK-168]] | Polish attachment configuration | `open` |
-| [[CHORE-047]] | Phase 15 Lint Sweep | `open` |
-| [[CHORE-048]] | Phase 15 Test Matrix Sweep | `open` |
-| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | `open` |
+| [[TASK-163]] | Index vault attachments | `green` |
+| [[TASK-164]] | Complete attachment references | `green` |
+| [[TASK-165]] | Diagnose broken attachment references | `green` |
+| [[TASK-166]] | Navigate to attachment targets | `green` |
+| [[TASK-167]] | Show attachment hover metadata | `green` |
+| [[TASK-168]] | Polish attachment configuration | `green` |
+| [[CHORE-047]] | Phase 15 Lint Sweep | `done` |
+| [[CHORE-048]] | Phase 15 Test Matrix Sweep | `done` |
+| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -171,3 +171,10 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > APIs were identified as compatibility facades; Phase 15 will add attachment
 > metadata to `VaultIndex` as the authoritative lookup surface. Status:
 > `in-progress`.
+
+> [!SUCCESS] In Review - 2026-05-06
+> Attachment indexing, completion, diagnostics, navigation, hover metadata, and
+> Obsidian attachment-folder hint ranking are implemented with passing unit
+> tests, lint, and typecheck. `bun run bdd` still has pre-existing pending and
+> undefined scenarios plus an unrelated block-anchor fixture mismatch; Phase 15
+> evidence is covered by focused unit tests. Status: `in-review`.

@@ -2,7 +2,7 @@
 id: "CHORE-049"
 title: "Phase 15 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-049"]
 
 # Phase 15 Documentation Trace Sweep
 
-> [!INFO] `CHORE-049` · Chore · Phase 15 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-049` · Chore · Phase 15 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -139,3 +139,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-15 documentation trace.
+
+> [!SUCCESS] Done - 2026-05-06
+> Reconciled Phase 15 feature, phase plan, BDD requirement tags, and test
+> trace docs with the implemented Obsidian `attachmentFolderPath` discovery
+> rule and focused unit-test evidence. Status: `done`.

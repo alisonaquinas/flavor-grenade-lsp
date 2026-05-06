@@ -1,7 +1,7 @@
 ---
 title: "Phase 15: Attachment Intelligence"
 phase: 15
-status: in-progress
+status: in-review
 tags: [plans, attachments, embeds, markdown-images, hover, diagnostics]
 aliases: [Phase 15, Attachment Intelligence]
 updated: 2026-05-06
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 15 |
 | Title | Attachment Intelligence |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover metadata |
 | Depends on | Phase 14 |
 
@@ -66,7 +66,7 @@ standard Markdown image links.
 | Diagnostics | Broken attachment diagnostics for embeds and Markdown image links |
 | Navigation | Definition targets for attachment refs |
 | Hover | Lightweight metadata hover for attachments |
-| Config | Attachment folder preference discovery or FlavorConfig key |
+| Config | Obsidian `.obsidian/app.json` `attachmentFolderPath` discovery used as completion ranking guidance |
 
 ## Acceptance
 
@@ -76,6 +76,8 @@ standard Markdown image links.
 - Missing attachment references produce diagnostics; existing attachment
   references do not.
 - Attachment indexing does not add parsed OFMDoc entries for non-Markdown files.
+- Obsidian `attachmentFolderPath` hints prefer matching completion candidates
+  without hiding valid attachments elsewhere in the vault.
 
 ## Risks
 
