@@ -28,6 +28,17 @@ describe('classifyMarkdownTarget', () => {
     });
   });
 
+  it('rejects paths that escape above the vault root', () => {
+    expect(
+      classifyMarkdownTarget('../../secret.md', {
+        sourceDocId: 'notes/current/source' as DocId,
+      }),
+    ).toEqual({
+      kind: 'path-outside-vault',
+      rawTarget: '../../secret.md',
+    });
+  });
+
   it('classifies same-document fragments', () => {
     expect(classifyMarkdownTarget('#Overview', { sourceDocId: 'notes/alpha' as DocId })).toEqual({
       kind: 'same-document-fragment',

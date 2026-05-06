@@ -30,6 +30,25 @@ describe('Oracle Markdown target resolution', () => {
     expect(normalizeHeadingAnchor('Link-Index')).toBe('link-index');
   });
 
+  it('does not throw on malformed percent escapes in heading anchors', () => {
+    expect(() => normalizeHeadingAnchor('%')).not.toThrow();
+
+    vaultIndex.set(
+      id('notes/source'),
+      parser.parse('file:///vault/notes/source.md', '# Overview\n\n[Broken](#%)', 1),
+    );
+    folderLookup.rebuild(vaultIndex);
+
+    const classification = classifyMarkdownTarget('#%', {
+      sourceDocId: id('notes/source'),
+    });
+
+    expect(oracle.resolveMarkdownTarget(id('notes/source'), classification)).toMatchObject({
+      kind: 'heading-missing',
+      fragment: '%',
+    });
+  });
+
   it('resolves local Markdown file targets to DocIds', () => {
     vaultIndex.set(
       id('notes/source'),

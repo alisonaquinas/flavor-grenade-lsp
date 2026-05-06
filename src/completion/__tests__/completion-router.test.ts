@@ -234,6 +234,24 @@ describe('CompletionRouter', () => {
       });
     });
 
+    it('uses vault-relative source DocId for nested Markdown document completions', () => {
+      const nestedUri = 'file:///vault/notes/source.md';
+      vaultIndex.set(id('notes/source'), makeDoc(nestedUri));
+      vaultIndex.set(id('notes/alpha'), makeDoc('file:///vault/notes/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[See](';
+      parseCache.set(nestedUri, makeDoc(nestedUri));
+      router.setDocumentText(nestedUri, text);
+
+      const result = router.route(makeParams(nestedUri, text, '('));
+
+      expect(result.items.find((item) => item.detail === 'notes/alpha')?.textEdit).toEqual({
+        range: { start: { line: 0, character: 6 }, end: { line: 0, character: 6 } },
+        newText: 'alpha.md',
+      });
+    });
+
     it('routes [text](# to current document heading completions', () => {
       const currentDoc = makeDoc(TEST_URI, { headings: [{ level: 1, text: 'Overview' }] });
       parseCache.set(TEST_URI, currentDoc);
