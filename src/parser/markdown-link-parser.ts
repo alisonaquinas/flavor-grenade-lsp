@@ -5,6 +5,7 @@ import type {
   MarkdownLinkRef,
   OpaqueRegion,
 } from './types.js';
+import type { Range } from 'vscode-languageserver-types';
 import { rangeFromOffsets } from './offset-utils.js';
 import { isInsideOpaqueRegion } from './opaque-region-marker.js';
 
@@ -23,6 +24,25 @@ interface ParsedTarget {
   title?: string;
   titleStart?: number;
   titleEnd?: number;
+}
+
+interface InlineLinkMatch {
+  isImage: boolean;
+  textValue: string;
+  target: ParsedTarget;
+  bracketTextStart: number;
+  start: number;
+  end: number;
+  raw: string;
+}
+
+interface InlineCommon {
+  raw: string;
+  target: string;
+  title?: string;
+  range: Range;
+  targetRange: Range;
+  titleRange?: Range;
 }
 
 /** Parses standard Markdown links and reference definitions. */
@@ -107,43 +127,82 @@ export class MarkdownLinkParser {
       if (MarkdownLinkParser.shouldSkip(start, opaqueRegions, occupiedRanges)) continue;
       if (MarkdownLinkParser.isWikiOrEmbedContext(text, start, end)) continue;
 
-      const isImage = match[1] === '!';
-      const textValue = match[2];
-      const inner = match[3].trim();
-      const parenStart = text.indexOf('(', start + match[1].length + 1 + textValue.length);
-      const innerStart = parenStart + 1 + match[3].search(/\S|$/);
-      const parsed = MarkdownLinkParser.parseTarget(inner, innerStart);
-      if (parsed === null) continue;
+      const inline = MarkdownLinkParser.parseInlineMatch(text, match, start, end);
+      if (inline === null) continue;
 
-      const bracketTextStart = start + match[1].length + 1;
-      const common = {
-        raw: match[0],
-        target: parsed.target,
-        ...(parsed.title !== undefined && { title: parsed.title }),
-        range: rangeFromOffsets(text, start, end),
-        targetRange: rangeFromOffsets(text, parsed.targetStart, parsed.targetEnd),
-        ...(parsed.title !== undefined &&
-          parsed.titleStart !== undefined &&
-          parsed.titleEnd !== undefined && {
-            titleRange: rangeFromOffsets(text, parsed.titleStart, parsed.titleEnd),
-          }),
-      };
-
-      if (isImage) {
-        result.markdownImages.push({
-          ...common,
-          alt: textValue,
-          altRange: rangeFromOffsets(text, bracketTextStart, bracketTextStart + textValue.length),
-        });
-      } else {
-        result.markdownLinks.push({
-          ...common,
-          text: textValue,
-          textRange: rangeFromOffsets(text, bracketTextStart, bracketTextStart + textValue.length),
-        });
-      }
+      MarkdownLinkParser.addInlineMatch(text, result, inline);
       occupiedRanges.push({ start, end });
     }
+  }
+
+  private static parseInlineMatch(
+    text: string,
+    match: RegExpExecArray,
+    start: number,
+    end: number,
+  ): InlineLinkMatch | null {
+    const marker = match[1];
+    const textValue = match[2];
+    const inner = match[3].trim();
+    const parenStart = text.indexOf('(', start + marker.length + 1 + textValue.length);
+    const innerStart = parenStart + 1 + match[3].search(/\S|$/);
+    const target = MarkdownLinkParser.parseTarget(inner, innerStart);
+    if (target === null) return null;
+
+    return {
+      isImage: marker === '!',
+      textValue,
+      target,
+      bracketTextStart: start + marker.length + 1,
+      start,
+      end,
+      raw: match[0],
+    };
+  }
+
+  private static addInlineMatch(
+    text: string,
+    result: MarkdownLinkParseResult,
+    inline: InlineLinkMatch,
+  ): void {
+    const common = MarkdownLinkParser.buildInlineCommon(text, inline);
+    if (inline.isImage) {
+      result.markdownImages.push({
+        ...common,
+        alt: inline.textValue,
+        altRange: rangeFromOffsets(
+          text,
+          inline.bracketTextStart,
+          inline.bracketTextStart + inline.textValue.length,
+        ),
+      });
+      return;
+    }
+
+    result.markdownLinks.push({
+      ...common,
+      text: inline.textValue,
+      textRange: rangeFromOffsets(
+        text,
+        inline.bracketTextStart,
+        inline.bracketTextStart + inline.textValue.length,
+      ),
+    });
+  }
+
+  private static buildInlineCommon(text: string, inline: InlineLinkMatch): InlineCommon {
+    return {
+      raw: inline.raw,
+      target: inline.target.target,
+      ...(inline.target.title !== undefined && { title: inline.target.title }),
+      range: rangeFromOffsets(text, inline.start, inline.end),
+      targetRange: rangeFromOffsets(text, inline.target.targetStart, inline.target.targetEnd),
+      ...(inline.target.title !== undefined &&
+        inline.target.titleStart !== undefined &&
+        inline.target.titleEnd !== undefined && {
+          titleRange: rangeFromOffsets(text, inline.target.titleStart, inline.target.titleEnd),
+        }),
+    };
   }
 
   private static parseLabelRefs(
