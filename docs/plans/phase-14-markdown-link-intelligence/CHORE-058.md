@@ -2,7 +2,7 @@
 id: "CHORE-058"
 title: "Document and split Phase 14 parser surfaces"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-058"]
 
 # Document and split Phase 14 parser surfaces
 
-> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
 
 ## Description
 
@@ -86,3 +86,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-06
 > Code quality cleanup ticket opened from CHORE-056 before fixing Step F
 > findings. Status: `open`.
+
+> [!INFO] Started - 2026-05-06
+> Parser cleanup started after review findings were ticketed. Status:
+> `in-progress`.
