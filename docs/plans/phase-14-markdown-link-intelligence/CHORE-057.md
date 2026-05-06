@@ -2,7 +2,7 @@
 id: "CHORE-057"
 title: "Phase 14 Security Sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-057"]
 
 # Phase 14 Security Sweep
 
-> [!INFO] `CHORE-057` · Chore · Phase 14 · Priority: `high` · Status: `in-progress`
+> [!INFO] `CHORE-057` · Chore · Phase 14 · Priority: `high` · Status: `in-review`
 
 ## Description
 
@@ -88,3 +88,9 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Started - 2026-05-06
 > Step G security sweep started after code quality findings were ticketed.
 > Status: `in-progress`.
+
+> [!INFO] Review Ready - 2026-05-06
+> Security review completed with findings ticketed before fixes. Findings:
+> review tickets [[BUG-003]] and [[BUG-004]]. `bun audit` reported no
+> vulnerabilities; `bun run lint -- --max-warnings 0`, `bun run typecheck`, and
+> `bun test` pass. Status: `in-review`.
