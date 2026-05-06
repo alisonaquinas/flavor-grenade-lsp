@@ -55,14 +55,27 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/resolution/__tests__/attachment-diagnostics.test.ts` | Unit | Tests missing and existing attachment diagnostics for Markdown image links and embeds | `Parity.Attachments.Diagnostics`, `Diagnostic.Severity.Embed`, `Embed.Resolution.ImageTarget` | Phase 15 |
 | `src/handlers/__tests__/attachment-navigation.test.ts` | Unit | Tests definition targets for Markdown image and embed attachments use indexed attachment URIs | `Parity.Attachments.NavigationHover`, `Navigation.Definition.AllLinkTypes` | Phase 15 |
 | `src/handlers/__tests__/attachment-hover.test.ts` | Unit | Tests lightweight attachment hover metadata for Markdown image and embed attachments | `Parity.Attachments.NavigationHover`, `HV-002` | Phase 15 |
+| `src/lsp/lsp.module.test.ts` | Unit | Tests file-operation capability advertisement and LSP handler registration | `Parity.FileOperations.CapabilityRegistration` | Phase 16 |
+| `src/lsp/handlers/__tests__/file-operations.handler.test.ts` | Unit | Tests will/did rename file-operation routing, detected vault-root confinement, rejected plans, and refresh invocation | `Parity.FileOperations.AtomicRefactor`, `Parity.FileOperations.CapabilityRegistration`, `Security.Vault.PathConfinement`, `Security.Vault.RenameConfinement` | Phase 16 |
+| `src/lsp/handlers/__tests__/file-operation-refresh.service.test.ts` | Unit | Tests post-rename index, folder lookup, tag registry, reference graph, and diagnostic refresh | `Parity.FileOperations.IndexRefresh` | Phase 16 |
+| `src/vault/__tests__/file-operation-planner.test.ts` | Unit | Tests vault-confined note, attachment, and folder move planning with escaping path rejection | `Parity.FileOperations.MovePlannerConfinement`, `Security.Vault.PathConfinement`, `Security.Vault.RenameConfinement` | Phase 16 |
+| `src/resolution/__tests__/file-operation-rewriter.test.ts` | Unit | Tests syntax-preserving rewrites for moved document and attachment references | `Parity.FileOperations.ReferenceRewrite`, `Rename.Refactoring.Completeness` | Phase 16 |
+| `src/resolution/__tests__/workspace-edit-validator.test.ts` | Unit | Tests all-or-nothing WorkspaceEdit validation, overlap rejection, deterministic ordering, and skipped-reference preservation | `Parity.FileOperations.AtomicValidation`, `Parity.FileOperations.SkippedAmbiguousReporting` | Phase 16 |
+| `src/resolution/__tests__/file-operation-regression.test.ts` | Unit | Tests the nested vault-relative Markdown image rewrite regression discovered during Phase 16 | `Parity.FileOperations.ReferenceRewrite`, `Parity.FileOperations.AtomicRefactor` | Phase 16 |
 
 ---
 
 ## Integration Tests
 
-Integration tests live under `tests/integration/`. They test behaviour across multiple modules or against a real filesystem fixture.
+Integration tests live under `src/test/integration/`. They test behaviour across
+multiple modules or against a real filesystem fixture.
 
-*No integration tests exist yet. The first integration tests are introduced in Phase 4 (Vault Index).*
+| Test File | Type | Description | Requirements Tags | Phase |
+|---|---|---|---|---|
+| `src/test/integration/transport.test.ts` | Integration | Tests real stdio LSP handshake, status notification, unknown-method response, shutdown, and exit | `Parity.FileOperations.CapabilityRegistration` | Phase 16 |
+| `src/test/integration/navigation.test.ts` | Integration | Tests definition, references, and CodeLens through a spawned LSP server | `Navigation.Definition.AllLinkTypes`, `Navigation.References.Completeness`, `Navigation.CodeLens.Count` | Phase 10 |
+| `src/test/integration/rename.test.ts` | Integration | Tests prepare-rename and rename behavior through a spawned LSP server | `Rename.Refactoring.Completeness`, `Rename.Prepare.Rejection` | Phase 11 |
+| `src/test/integration/wiki-links.test.ts` | Integration | Tests wiki-link diagnostics, definition, and completion through a spawned LSP server | `Diagnostic.Severity.WikiLink`, `Navigation.Definition.AllLinkTypes`, `Completion.Trigger.Coverage` | Phase 5 |
 
 ---
 

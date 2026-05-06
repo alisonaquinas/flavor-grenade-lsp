@@ -2,7 +2,7 @@
 id: "CHORE-051"
 title: "Phase 16 Test Matrix Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-051"]
 
 # Phase 16 Test Matrix Sweep
 
-> [!INFO] `CHORE-051` · Chore · Phase 16 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-051` · Chore · Phase 16 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -91,12 +91,12 @@ the implementation settles.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] contains Phase 16 requirement evidence rows
-- [ ] [[test/index]] contains every Phase 16 test file
-- [ ] `bun run lint --max-warnings 0` passes
-- [ ] `tsc --noEmit` exits 0
-- [ ] `bun test` passes
-- [ ] No behaviour-affecting changes in `src/`
+- [x] [[test/matrix]] contains Phase 16 requirement evidence rows
+- [x] [[test/index]] contains every Phase 16 test file
+- [x] `bun run lint --max-warnings 0` passes
+- [x] `tsc --noEmit` exits 0
+- [x] `bun test` passes
+- [x] No behaviour-affecting changes in `src/`
 
 ---
 
@@ -128,3 +128,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-16 test traceability.
+
+> [!SUCCESS] Done - 2026-05-06
+> Added Phase 16 unit and integration evidence to [[test/index]]. Also updated
+> the [[test/matrix]] page with file-operation capability, planner, rewriter, validator,
+> refresh, regression, and security-confinement coverage. Status: `done`.

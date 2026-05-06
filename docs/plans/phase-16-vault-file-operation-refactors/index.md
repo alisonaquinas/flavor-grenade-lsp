@@ -19,5 +19,5 @@ aliases: ["Phase 16 Tickets"]
 | [[TASK-173]] | Refresh index after didRenameFiles | Task | `green` |
 | [[TASK-174]] | Add file operation regression suite | Task | `green` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | Chore | `done` |
-| [[CHORE-051]] | Phase 16 Test Matrix Sweep | Chore | `open` |
+| [[CHORE-051]] | Phase 16 Test Matrix Sweep | Chore | `done` |
 | [[CHORE-052]] | Phase 16 Security Sweep | Chore | `open` |
