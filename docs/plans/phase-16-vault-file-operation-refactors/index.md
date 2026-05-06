@@ -12,7 +12,7 @@ aliases: ["Phase 16 Tickets"]
 | [[TASK-169]] | Add file operation capability handler | Task | `green` |
 | [[TASK-170]] | Build vault-confined move planner | Task | `green` |
 | [[TASK-171]] | Rewrite moved-target references without changing syntax | Task | `green` |
-| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | Task | `red` |
+| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | Task | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | Task | `open` |
 | [[TASK-174]] | Add file operation regression suite | Task | `open` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | Chore | `open` |

@@ -2,7 +2,7 @@
 id: "TASK-172"
 title: "Validate all-or-nothing WorkspaceEdit output"
 type: task
-status: red
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-172"]
 
 # Validate all-or-nothing WorkspaceEdit output
 
-> [!INFO] `TASK-172` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `red`
+> [!INFO] `TASK-172` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -139,3 +139,9 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing validator coverage for overlapping edit cancellation,
 > deterministic edit ordering, and preserving skipped-reference reports without
 > treating them as validation conflicts. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added `WorkspaceEditValidator` to reject invalid or overlapping edit sets
+> before any WorkspaceEdit is returned, while preserving skipped-reference
+> reports for valid edits. Focused validator tests, `bun run typecheck`, and
+> `bun run lint -- --max-warnings 0` pass. Status: `green`.
