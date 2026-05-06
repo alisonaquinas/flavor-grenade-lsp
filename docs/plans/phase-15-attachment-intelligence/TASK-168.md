@@ -2,7 +2,7 @@
 id: "TASK-168"
 title: "Polish attachment configuration"
 type: task
-status: open
+status: red
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-168"]
 
 # Polish attachment configuration
 
-> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
 
 ## Description
 
@@ -152,3 +152,9 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing config coverage for `.obsidian/app.json` attachment folder
+> discovery and completion ranking that prefers hinted folders without hiding
+> attachments elsewhere in the vault.
+> Status: `red`.

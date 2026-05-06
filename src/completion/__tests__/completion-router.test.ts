@@ -242,6 +242,35 @@ describe('CompletionRouter', () => {
       });
     });
 
+    it('ranks preferred attachment-folder completions first without hiding others', () => {
+      vaultIndex.setAttachmentFolderHint('assets');
+      vaultIndex.setAttachment({
+        path: 'other/manual.pdf',
+        uri: 'file:///vault/other/manual.pdf',
+        extension: 'pdf',
+        kind: 'pdf',
+        sizeBytes: 42,
+      });
+      vaultIndex.setAttachment({
+        path: 'assets/diagram.png',
+        uri: 'file:///vault/assets/diagram.png',
+        extension: 'png',
+        kind: 'image',
+        sizeBytes: 42,
+      });
+
+      const text = '![Diagram](';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '('));
+
+      expect(result.items.map((item) => item.label)).toEqual([
+        'assets/diagram.png',
+        'other/manual.pdf',
+      ]);
+    });
+
     it('routes [text]( to Markdown document completions', () => {
       vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
       folderLookup.rebuild(vaultIndex);
