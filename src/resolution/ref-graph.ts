@@ -1,10 +1,19 @@
 import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
-import type { WikiLinkEntry, EmbedEntry, BlockAnchorEntry } from '../parser/types.js';
+import type {
+  WikiLinkEntry,
+  EmbedEntry,
+  BlockAnchorEntry,
+  MarkdownLinkRef,
+  MarkdownImageRef,
+  LinkLabelRef,
+  LinkLabelDef,
+} from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { VaultIndex } from '../vault/vault-index.js';
 import { Oracle } from './oracle.js';
 import { EmbedResolver } from './embed-resolver.js';
+import { classifyMarkdownTarget } from './markdown-target-classifier.js';
 
 /** Vault-relative path (DocId) used as the definition key for references. */
 export type DefKey = string;
@@ -34,6 +43,40 @@ export interface EmbedRef {
   embedSize?: { width: number; height?: number };
   /** Whether the embed target could not be resolved. */
   broken: boolean;
+}
+
+/** A resolved or unresolved standard Markdown document reference. */
+export interface MarkdownLinkGraphRef {
+  /** DocId of the document containing the Markdown reference. */
+  sourceDocId: DocId;
+  /** Parsed inline link, reference label, or label definition backing the ref. */
+  entry: MarkdownLinkRef | LinkLabelRef | LinkLabelDef;
+  /** The matching label definition when `entry` is a label use. */
+  definition?: LinkLabelDef;
+  /** Resolved target DocId, or null if broken. */
+  resolvedTo: DefKey | null;
+}
+
+/** A standard Markdown image reference to a local attachment. */
+export interface MarkdownImageGraphRef {
+  /** DocId of the document containing the Markdown image reference. */
+  sourceDocId: DocId;
+  /** Parsed Markdown image entry. */
+  entry: MarkdownImageRef;
+  /** Vault-relative attachment path. */
+  resolvedTo: DefKey;
+}
+
+/** A document-local label-use binding. */
+export interface LinkLabelGraphRef {
+  /** DocId of the document containing the label use. */
+  sourceDocId: DocId;
+  /** Parsed label use. */
+  entry: LinkLabelRef;
+  /** Matching definition in the same document. */
+  definition: LinkLabelDef;
+  /** Resolved target DocId when the definition target is local Markdown. */
+  resolvedTo: DefKey | null;
 }
 
 /**
@@ -67,6 +110,12 @@ function blockRefKey(docId: DocId, anchorId: string): BlockRefKey {
   return `${docId}\0${anchorId}`;
 }
 
+type LabelRefKey = string;
+
+function labelRefKey(docId: DocId, normalizedLabel: string): LabelRefKey {
+  return `${docId}\0${normalizedLabel}`;
+}
+
 /**
  * Maintains a graph of all wiki-link and embed references across the vault.
  *
@@ -91,6 +140,15 @@ export class RefGraph {
   /** All CrossBlockRefs with diagnostic === 'FG005'. */
   private brokenBlockRefsList: CrossBlockRef[] = [];
 
+  /** Map from target DocId to Markdown links that resolve to it. */
+  private markdownRefsToMap = new Map<DefKey, MarkdownLinkGraphRef[]>();
+  /** Markdown refs whose local targets could not be resolved. */
+  private unresolvedMarkdownRefs: MarkdownLinkGraphRef[] = [];
+  /** Map from local attachment path to Markdown image refs. */
+  private markdownImageRefsMap = new Map<DefKey, MarkdownImageGraphRef[]>();
+  /** Map from document-local normalized label to bound label refs. */
+  private labelRefsMap = new Map<LabelRefKey, LinkLabelGraphRef[]>();
+
   /**
    * Rebuild the reference graph from all documents in the vault index.
    *
@@ -100,6 +158,7 @@ export class RefGraph {
    *                        omitted, embeds are not indexed in this rebuild.
    */
   rebuild(index: VaultIndex, oracle: Oracle, embedResolver?: EmbedResolver): void {
+    this.currentIndex = index;
     this.refsToMap = new Map();
     this.unresolvedRefs = [];
     this.ambiguousRefs = [];
@@ -107,6 +166,10 @@ export class RefGraph {
     this.brokenEmbeds = [];
     this.blockRefsMap = new Map();
     this.brokenBlockRefsList = [];
+    this.markdownRefsToMap = new Map();
+    this.unresolvedMarkdownRefs = [];
+    this.markdownImageRefsMap = new Map();
+    this.labelRefsMap = new Map();
 
     oracle.invalidateAliasIndex();
 
@@ -140,6 +203,10 @@ export class RefGraph {
           this.registerEmbedRef(embedRef);
         }
       }
+
+      this.registerMarkdownEntries(sourceDocId, doc.index.markdownLinks);
+      this.registerMarkdownImages(sourceDocId, doc.index.markdownImages);
+      this.registerLabelRefs(sourceDocId, doc.index.linkLabelRefs, doc.index.linkLabelDefs);
     }
   }
 
@@ -211,6 +278,39 @@ export class RefGraph {
   /** Get all block references that could not be resolved (FG005). */
   getBrokenBlockRefs(): CrossBlockRef[] {
     return [...this.brokenBlockRefsList];
+  }
+
+  /**
+   * Get all standard Markdown references that resolve to the given DocId.
+   *
+   * @param defKey - Target DocId to look up Markdown refs for.
+   */
+  getMarkdownRefsTo(defKey: DefKey): MarkdownLinkGraphRef[] {
+    return this.markdownRefsToMap.get(defKey) ?? [];
+  }
+
+  /** Get all local Markdown refs whose target could not be resolved. */
+  getUnresolvedMarkdownRefs(): MarkdownLinkGraphRef[] {
+    return [...this.unresolvedMarkdownRefs];
+  }
+
+  /**
+   * Get all Markdown image refs that point to a local attachment path.
+   *
+   * @param defKey - Vault-relative attachment path.
+   */
+  getMarkdownImageRefsTo(defKey: DefKey): MarkdownImageGraphRef[] {
+    return this.markdownImageRefsMap.get(defKey) ?? [];
+  }
+
+  /**
+   * Get same-document label refs bound to a label definition.
+   *
+   * @param sourceDocId     - DocId containing the label definition.
+   * @param normalizedLabel - Case-normalized label key.
+   */
+  getLabelRefsTo(sourceDocId: DocId, normalizedLabel: string): LinkLabelGraphRef[] {
+    return this.labelRefsMap.get(labelRefKey(sourceDocId, normalizedLabel.toLowerCase())) ?? [];
   }
 
   private buildCrossBlockRef(
@@ -329,4 +429,89 @@ export class RefGraph {
       this.brokenEmbeds.push(ref);
     }
   }
+
+  private registerMarkdownEntries(sourceDocId: DocId, entries: MarkdownLinkRef[]): void {
+    for (const entry of entries) {
+      const classification = classifyMarkdownTarget(entry.target, { sourceDocId });
+      if (classification.kind !== 'local-document') continue;
+
+      const resolvedTo = this.resolveClassifiedDocId(classification.path);
+      this.registerMarkdownRef({ sourceDocId, entry, resolvedTo });
+    }
+  }
+
+  private registerMarkdownImages(sourceDocId: DocId, entries: MarkdownImageRef[]): void {
+    for (const entry of entries) {
+      const classification = classifyMarkdownTarget(entry.target, { sourceDocId, isImage: true });
+      if (classification.kind !== 'local-attachment') continue;
+
+      const imageRef: MarkdownImageGraphRef = {
+        sourceDocId,
+        entry,
+        resolvedTo: classification.path,
+      };
+      const existing = this.markdownImageRefsMap.get(classification.path);
+      if (existing !== undefined) {
+        existing.push(imageRef);
+      } else {
+        this.markdownImageRefsMap.set(classification.path, [imageRef]);
+      }
+    }
+  }
+
+  private registerLabelRefs(sourceDocId: DocId, refs: LinkLabelRef[], defs: LinkLabelDef[]): void {
+    const defsByLabel = new Map(defs.map((def) => [def.normalizedLabel, def]));
+    for (const ref of refs) {
+      const definition = defsByLabel.get(ref.normalizedLabel);
+      if (definition === undefined) continue;
+
+      const classification = classifyMarkdownTarget(definition.target, { sourceDocId });
+      const resolvedTo =
+        classification.kind === 'local-document'
+          ? this.resolveClassifiedDocId(classification.path)
+          : null;
+      const labelRef: LinkLabelGraphRef = {
+        sourceDocId,
+        entry: ref,
+        definition,
+        resolvedTo,
+      };
+      const key = labelRefKey(sourceDocId, ref.normalizedLabel);
+      const existing = this.labelRefsMap.get(key);
+      if (existing !== undefined) {
+        existing.push(labelRef);
+      } else {
+        this.labelRefsMap.set(key, [labelRef]);
+      }
+
+      if (classification.kind === 'local-document') {
+        this.registerMarkdownRef({
+          sourceDocId,
+          entry: ref,
+          definition,
+          resolvedTo,
+        });
+      }
+    }
+  }
+
+  private registerMarkdownRef(ref: MarkdownLinkGraphRef): void {
+    if (ref.resolvedTo === null) {
+      this.unresolvedMarkdownRefs.push(ref);
+      return;
+    }
+
+    const existing = this.markdownRefsToMap.get(ref.resolvedTo);
+    if (existing !== undefined) {
+      existing.push(ref);
+    } else {
+      this.markdownRefsToMap.set(ref.resolvedTo, [ref]);
+    }
+  }
+
+  private resolveClassifiedDocId(path: DocId): DefKey | null {
+    return this.currentIndex?.has(path) === true ? path : null;
+  }
+
+  private currentIndex?: VaultIndex;
 }
