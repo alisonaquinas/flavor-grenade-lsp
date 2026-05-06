@@ -2,7 +2,7 @@
 id: "TASK-158"
 title: "Index Markdown link references in RefGraph"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-158"]
 
 # Index Markdown link references in RefGraph
 
-> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
+> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `in-review`
 
 ## Description
 
@@ -169,3 +169,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > src/resolution/__tests__/ref-graph-markdown-links.test.ts`,
 > `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
 > `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.

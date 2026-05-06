@@ -176,7 +176,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 |---|---|---|---|---|---|
 | `Workspace.VaultDetection.Primary` | Directories with `.obsidian/` auto-detected as vault roots | `tests/unit/lsp/lsp.module.spec.ts` | ⏳ planned | Phase 1 | Module smoke test only; full vault detection in Phase 4 |
 | `Workspace.VaultDetection.Fallback` | Directories with `.flavor-grenade.toml` detected when `.obsidian/` absent | — | ⬜ not-yet-written | Phase 4 | |
-| `Workspace.FileExtension.Filter` | Only configured-extension files enter the index | — | ⬜ not-yet-written | Phase 4 | |
+| `Workspace.FileExtension.Filter` | Only configured-extension files enter the index | `src/vault/__tests__/vault-scanner.test.ts`, `docs/bdd/features/vault-detection.feature` | ✅ passing | Phase 14 | Phase 14 fixes and verifies `.flavor-grenade.toml` configured document extensions |
 | `Workspace.MultiFolder.Isolation` | Cross-root link resolution not performed between distinct vaults | — | ⬜ not-yet-written | Phase 4 | |
 
 ---

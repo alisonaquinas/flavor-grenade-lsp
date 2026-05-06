@@ -2,7 +2,7 @@
 id: "TASK-156"
 title: "Parse standard Markdown link syntax"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-156"]
 
 # Parse standard Markdown link syntax
 
-> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
+> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `in-review`
 
 ## Description
 
@@ -180,3 +180,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > src/parser/__tests__/markdown-link-parser.test.ts
 > src/parser/__tests__/ofm-parser.integration.test.ts`, `bun run typecheck`,
 > and `bun run lint -- --max-warnings 0` pass. Status: `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.

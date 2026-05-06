@@ -2,7 +2,7 @@
 id: "TASK-180"
 title: "Complete Markdown link URL targets"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-180"]
 
 # Complete Markdown link URL targets
 
-> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
+> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `in-review`
 
 ## Description
 
@@ -178,3 +178,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > src/completion/__tests__/context-analyzer.test.ts
 > src/completion/__tests__/completion-router.test.ts`, `bun run typecheck`,
 > and `bun run lint -- --max-warnings 0` pass. Status: `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
