@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import type { Range } from 'vscode-languageserver-types';
 import { WorkspaceEditBuilder } from '../handlers/workspace-edit-builder.js';
 import type { WorkspaceEdit } from '../handlers/workspace-edit-builder.js';
@@ -21,6 +22,7 @@ export type WorkspaceEditValidationResult =
 /**
  * Validates the complete file-operation edit set before it reaches the client.
  */
+@Injectable()
 export class WorkspaceEditValidator {
   validate(rewrite: FileOperationRewriteResult): WorkspaceEditValidationResult {
     const byUri = new Map<string, Range[]>();

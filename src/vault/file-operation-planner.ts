@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url';
 import * as path from 'path';
 import { Injectable } from '@nestjs/common';
-import type { VaultIndex } from './vault-index.js';
+import { VaultIndex } from './vault-index.js';
 import type { DocId } from './doc-id.js';
 
 export interface FileRename {

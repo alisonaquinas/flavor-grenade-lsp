@@ -1,10 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import type { Range } from 'vscode-languageserver-types';
 import type { EmbedEntry, LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
 import type { TextEdit } from '../handlers/workspace-edit-builder.js';
 import type { PlannedFileMove, PlannedDocumentMove } from '../vault/file-operation-planner.js';
-import type { VaultIndex } from '../vault/vault-index.js';
+import { VaultIndex } from '../vault/vault-index.js';
 import type { DocId } from '../vault/doc-id.js';
-import type { RefGraph, MarkdownLinkGraphRef } from './ref-graph.js';
+import { RefGraph, type MarkdownLinkGraphRef } from './ref-graph.js';
 
 export interface FileOperationTextEdit extends TextEdit {
   uri: string;
@@ -24,6 +25,7 @@ export interface FileOperationRewriteResult {
 /**
  * Produces syntax-preserving text edits for references to moved vault targets.
  */
+@Injectable()
 export class FileOperationRewriter {
   constructor(
     private readonly vaultIndex: VaultIndex,

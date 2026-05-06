@@ -121,6 +121,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `green` |
 | [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | `green` |
 | [[BUG-014]] | File operation confinement uses workspace root instead of detected vault root | `green` |
+| [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | `green` |
 | [[TASK-174]] | Add file operation regression suite | `green` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | `open` |
