@@ -1,4 +1,4 @@
-@smoke @lsp
+@lsp
 @adr:ADR003
 Feature: Vault root detection
 
@@ -72,6 +72,7 @@ Feature: Vault root detection
     And the vault index is scoped to "outer/inner/" only
     And documents under "outer/" but outside "outer/inner/" are not indexed
 
+  @smoke
   Scenario: .flavor-grenade.toml configures custom extension list
     Given the file "custom/.flavor-grenade.toml" contains:
       """

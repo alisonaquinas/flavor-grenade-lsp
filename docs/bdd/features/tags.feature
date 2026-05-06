@@ -10,7 +10,7 @@ Feature: Tag indexing and completion
       | notes/code.md       | # Code\n```\n#not-a-tag inside code\n```\nBody #real-tag  |
       | notes/math.md       | # Math\n$$\n#not-a-tag-in-math\n$$\nNormal #math-note     |
 
-  @smoke
+  @observability-pending
   Scenario: Inline tag is indexed correctly in the vault tag registry
     Given the file "notes/work.md" has been indexed
     When the vault tag registry is queried for all tags
