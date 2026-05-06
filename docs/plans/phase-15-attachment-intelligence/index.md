@@ -16,6 +16,7 @@ aliases: ["Phase 15 Tickets"]
 | [[TASK-167]] | Show attachment hover metadata | Task | `green` |
 | [[TASK-168]] | Polish attachment configuration | Task | `green` |
 | [[BUG-011]] | Nested Markdown image refs miss vault-relative attachments | Bug | `in-review` |
+| [[BUG-012]] | Scanned image attachments do not populate cheap dimensions | Bug | `red` |
 | [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `done` |
 | [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `done` |
 | [[CHORE-049]] | Phase 15 Documentation Trace Sweep | Chore | `done` |

@@ -37,6 +37,16 @@ async function callHandleEvent(
   ).handleEvent(eventType, filename);
 }
 
+function pngWithDimensions(width: number, height: number): Buffer {
+  const buffer = Buffer.alloc(24);
+  buffer.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], 0);
+  buffer.writeUInt32BE(13, 8);
+  buffer.write('IHDR', 12, 'ascii');
+  buffer.writeUInt32BE(width, 16);
+  buffer.writeUInt32BE(height, 20);
+  return buffer;
+}
+
 // ─── Test suite ──────────────────────────────────────────────────────────────
 
 describe('FileWatcher', () => {
@@ -163,6 +173,17 @@ describe('FileWatcher', () => {
     await callHandleEvent(watcher, 'rename', 'photo.png');
 
     expect(assetIndex.has('photo.png')).toBe(true);
+  });
+
+  it("handleEvent 'rename' on image attachment stores cheap PNG dimensions", async () => {
+    fs.writeFileSync(path.join(vaultRoot, 'photo.png'), pngWithDimensions(320, 200));
+
+    await callHandleEvent(watcher, 'rename', 'photo.png');
+
+    expect(vaultIndex.getAttachment('photo.png')?.dimensions).toEqual({
+      width: 320,
+      height: 200,
+    });
   });
 
   // ── 10. handleEvent 'rename' for deleted non-md → remove from assetIndex ──
