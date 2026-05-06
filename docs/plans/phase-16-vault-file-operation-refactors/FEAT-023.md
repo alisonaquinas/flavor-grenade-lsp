@@ -2,7 +2,7 @@
 id: "FEAT-023"
 title: "Vault File Operation Refactors"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-023"]
 
 # Vault File Operation Refactors
 
-> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -172,3 +172,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `draft`. Phase 16 task and chore tickets defined.
+
+> [!INFO] Started - 2026-05-06
+> Phase 15 PR #31 passed CI and merged to `develop`. Phase 16 is now the active
+> implementation phase. Status: `in-progress`.

@@ -1,7 +1,7 @@
 ---
 title: "Phase 16: Vault File Operation Refactors"
 phase: 16
-status: planned
+status: in-progress
 tags: [plans, file-operations, rename, workspace-edit, vault-confinement]
 aliases: [Phase 16, File Operation Refactors]
 updated: 2026-05-06
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 16 |
 | Title | Vault File Operation Refactors |
-| Status | planned |
+| Status | in-progress |
 | Gate | File and folder moves update all local reference forms through one vault-confined WorkspaceEdit |
 | Depends on | Phase 15 |
 

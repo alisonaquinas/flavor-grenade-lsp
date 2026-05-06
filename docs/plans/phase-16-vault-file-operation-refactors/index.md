@@ -8,7 +8,7 @@ aliases: ["Phase 16 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-023]] | Vault File Operation Refactors | Feature | `draft` |
+| [[FEAT-023]] | Vault File Operation Refactors | Feature | `in-progress` |
 | [[TASK-169]] | Add file operation capability handler | Task | `open` |
 | [[TASK-170]] | Build vault-confined move planner | Task | `open` |
 | [[TASK-171]] | Rewrite moved-target references without changing syntax | Task | `open` |
