@@ -29,6 +29,10 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 11    | Rename                   | ✅ complete    | rename.feature all scenarios pass                  | 2026-04-17 | 2026-04-17 |
 | 12    | Code Actions             | ✅ complete    | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | 2026-04-17 | 2026-04-17 |
 | 13    | CI & Delivery            | ✅ complete    | CI green on all PRs; binary artifacts published    | 2026-04-17 | 2026-04-17 |
+| 14    | Markdown Link Intelligence | 🔄 in-progress | Local standard Markdown links resolve, diagnose, navigate, reference, and rename like OFM heading links | 2026-05-06 | — |
+| 15    | Attachment Intelligence  | ⏳ planned     | Attachment refs complete, diagnose, navigate, and hover with vault metadata | —          | — |
+| 16    | Vault File Operation Refactors | ⏳ planned | File/folder moves rewrite local reference forms atomically | —          | — |
+| 17    | Structural LSP Capabilities | ⏳ planned  | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | —          | — |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
 | E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |

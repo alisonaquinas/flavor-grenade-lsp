@@ -34,7 +34,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 11 | Rename | complete | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename | 2026-04-17 |
 | 12 | Code Actions | complete | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens | 2026-04-17 |
 | 13 | CI & Delivery | complete | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline | 2026-04-17 |
-| 14 | Markdown Link Intelligence | planned | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | — |
+| 14 | Markdown Link Intelligence | in-progress | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | — |
 | 15 | Attachment Intelligence | planned | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | — |
 | 16 | Vault File Operation Refactors | planned | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | — |
 | 17 | Structural LSP Capabilities | planned | Document links, folding ranges, and selection ranges expose OFMarkdown structure | — |
