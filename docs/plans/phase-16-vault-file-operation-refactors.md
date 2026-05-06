@@ -42,6 +42,7 @@ and attachments before the editor applies file or folder moves.
 - Update wiki-links, embeds, Markdown inline links, reference definitions, and
   Markdown image links that resolve to moved targets.
 - Preserve headings, block fragments, display aliases, and Markdown title text.
+- Report references skipped because ambiguity prevents a safe rewrite.
 - Reject the entire WorkspaceEdit when any source or target escapes the vault
   root.
 - Refresh VaultIndex and diagnostics after `workspace/didRenameFiles`.
@@ -59,7 +60,7 @@ and attachments before the editor applies file or folder moves.
 |---|---|
 | File operation handler | `workspace/willRenameFiles` request handler and capability registration |
 | Move planner | Vault-confined old/new VaultPath mapping for files and folders |
-| Reference rewriter | Syntax-preserving updates for all local reference forms |
+| Reference rewriter | Syntax-preserving updates and skipped-reference reports for all local reference forms |
 | Edit validator | Overlap detection and all-or-nothing WorkspaceEdit validation |
 | Index refresh | `didRenameFiles` index update and diagnostics refresh |
 | Regression suite | Move tests for wiki-links, embeds, Markdown links, reference defs, image links |
@@ -70,6 +71,8 @@ and attachments before the editor applies file or folder moves.
 - Escaping paths are refused before any edit is returned.
 - Applying the returned WorkspaceEdit leaves no broken references to moved
   targets.
+- Ambiguous references that cannot be safely rewritten are reported and never
+  rewritten speculatively.
 - Existing heading and file rename behavior remains green.
 
 ## Risks

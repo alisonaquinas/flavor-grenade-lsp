@@ -61,8 +61,9 @@ embed, block-reference, or tag behavior.
 |---|---|
 | Parser | Markdown link and reference definition nodes in OFMIndex |
 | Target classifier | Local-vs-external target classifier with scheme allowlist |
-| RefGraph | `MarkdownLinkRef`, `LinkLabelRef`, `LinkLabelDef` indexing |
+| RefGraph | `MarkdownLinkRef`, `MarkdownImageRef`, `LinkLabelRef`, `LinkLabelDef` indexing |
 | Oracle | Local path and same-document fragment resolution |
+| Completion | Document and heading candidates for Markdown link URL contexts |
 | Diagnostics | Missing-heading and ambiguous-heading diagnostics for Markdown anchors |
 | Navigation | Definition and references for inline links and reference labels |
 | Rename | Heading rename updates for same-document and file-plus-heading Markdown anchors |
@@ -75,6 +76,7 @@ embed, block-reference, or tag behavior.
   anchors.
 - Existing wiki-link, heading, block-reference, tag, completion, diagnostics,
   navigation, and rename scenarios remain green.
+- Markdown link URL contexts return document and heading completion candidates.
 - External URLs never produce FG001 or vault broken-link diagnostics.
 - All new parser behavior respects [[ofm-spec/markdown-links]] and opaque
   regions from [[ofm-spec/index]].

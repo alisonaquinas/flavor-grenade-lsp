@@ -121,7 +121,7 @@ Implementation plan: [[plans/phase-13-ci-delivery]]
 
 ### Phase 14 — Markdown Link Intelligence
 
-Implement the first server-side Marksman parity slice: standard Markdown local links become first-class OFM references. This includes inline links, reference-style label uses and definitions, local-vs-external target classification, same-document anchors, definition/references support, heading rename updates, and ambiguous heading diagnostics.
+Implement the first server-side Marksman parity slice: standard Markdown local links become first-class OFM references. This includes inline links, image link refs, reference-style label uses and definitions, local-vs-external target classification, same-document anchors, Markdown link URL completions, definition/references support, heading rename updates, and ambiguous heading diagnostics.
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/completions#Completion.Trigger.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/navigation#Navigation.References.Completeness]], [[requirements/rename#Rename.Refactoring.Completeness]]
 
@@ -137,7 +137,7 @@ Implementation plan: [[plans/phase-15-attachment-intelligence]]
 
 ### Phase 16 — Vault File Operation Refactors
 
-Make vault reorganization safe by updating every local reference to moved notes and attachments before the editor applies file or folder moves. This phase returns one vault-confined WorkspaceEdit for wiki-links, embeds, Markdown links, reference definitions, and Markdown image links.
+Make vault reorganization safe by updating every local reference to moved notes and attachments before the editor applies file or folder moves. This phase returns one vault-confined WorkspaceEdit for wiki-links, embeds, Markdown links, reference definitions, and Markdown image links, while reporting ambiguous references that cannot be safely rewritten.
 
 Requirement links: [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/rename#Rename.Refactoring.Completeness]], [[requirements/rename#Rename.StyleBinding.Consistency]], [[requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
 
