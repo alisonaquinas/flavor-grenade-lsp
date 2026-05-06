@@ -128,6 +128,7 @@ All documentation layers are being written before any TypeScript implementation 
 | [[research/vscode-extension-publishing]] | VS Code extension publishing research |
 | [[research/security-threat-model]] | Security threat model research |
 | [[research/marksman-feature-parity-ofmarkdown]] | Marksman parity research for OFMarkdown features |
+| [[research/marksman-vscode-feature-parity-ofmarkdown]] | Marksman VSCode parity research for OFMarkdown extension features |
 
 ### Extension
 
