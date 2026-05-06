@@ -9,7 +9,7 @@ aliases: ["Phase 15 Tickets"]
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-022]] | Attachment Intelligence | Feature | `in-progress` |
-| [[TASK-163]] | Index vault attachments | Task | `open` |
+| [[TASK-163]] | Index vault attachments | Task | `red` |
 | [[TASK-164]] | Complete attachment references | Task | `open` |
 | [[TASK-165]] | Diagnose broken attachment references | Task | `open` |
 | [[TASK-166]] | Navigate to attachment targets | Task | `open` |

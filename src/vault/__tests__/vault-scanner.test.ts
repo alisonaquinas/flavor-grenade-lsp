@@ -230,6 +230,29 @@ describe('VaultScanner', () => {
     expect(scanner.getAssetIndex().size).toBe(1);
   });
 
+  it('scan with non-markdown file: stores cheap attachment metadata in VaultIndex', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'images'));
+    fs.writeFileSync(path.join(tmpDir, 'images', 'photo.png'), 'PNG');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    const attachment = vaultIndex.getAttachment('images/photo.png');
+    expect(attachment).toMatchObject({
+      path: 'images/photo.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+    expect(attachment?.uri.endsWith('/images/photo.png')).toBe(true);
+    expect(vaultIndex.size()).toBe(0);
+  });
+
   // ── 5. Nested subdirectory: docId path is correct ────────────────────────
 
   it('scan with deeply nested .md file: indexed with correct docId', async () => {

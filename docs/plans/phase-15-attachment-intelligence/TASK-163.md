@@ -2,7 +2,7 @@
 id: "TASK-163"
 title: "Index vault attachments"
 type: task
-status: open
+status: red
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-163"]
 
 # Index vault attachments
 
-> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
 
 ## Description
 
@@ -156,3 +156,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing attachment metadata tests for `VaultIndex` and `VaultScanner`.
+> Status: `red`.
