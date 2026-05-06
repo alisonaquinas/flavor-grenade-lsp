@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { fileURLToPath } from 'url';
 import { LifecycleState } from '../services/lifecycle-state.js';
 import { FileOperationPlanner } from '../../vault/file-operation-planner.js';
+import { VaultDetector } from '../../vault/vault-detector.js';
 import { FileOperationRewriter } from '../../resolution/file-operation-rewriter.js';
 import { WorkspaceEditValidator } from '../../resolution/workspace-edit-validator.js';
 import { FileOperationRefreshService } from './file-operation-refresh.service.js';
@@ -30,6 +31,7 @@ export class FileOperationsHandler {
     private readonly rewriter: FileOperationRewriter,
     private readonly validator: WorkspaceEditValidator,
     private readonly refreshService: FileOperationRefreshService,
+    private readonly vaultDetector: VaultDetector,
   ) {}
 
   async handleWillRenameFiles(params: unknown): Promise<WorkspaceEdit | null> {
@@ -71,7 +73,8 @@ export class FileOperationsHandler {
     }
 
     try {
-      return fileURLToPath(this.lifecycle.rootUri);
+      const workspaceRoot = fileURLToPath(this.lifecycle.rootUri);
+      return this.vaultDetector.detect(workspaceRoot).vaultRoot;
     } catch {
       return null;
     }
