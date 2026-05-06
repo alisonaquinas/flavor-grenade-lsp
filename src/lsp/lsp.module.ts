@@ -15,6 +15,7 @@ import { ExitHandler } from './handlers/exit.handler.js';
 import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
+import { FileOperationsHandler } from './handlers/file-operations.handler.js';
 import { ParserModule } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
@@ -73,6 +74,7 @@ import { RenameHandler } from '../handlers/rename.handler.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
+    FileOperationsHandler,
     WorkspaceSymbolHandler,
     DocumentSymbolHandler,
     SemanticTokensHandler,
@@ -90,6 +92,7 @@ export class LspModule implements OnModuleInit {
     private readonly didOpen: DidOpenHandler,
     private readonly didChange: DidChangeHandler,
     private readonly didClose: DidCloseHandler,
+    private readonly fileOperations: FileOperationsHandler,
     private readonly capabilityRegistry: CapabilityRegistry,
     private readonly definition: DefinitionHandler,
     private readonly references: ReferencesHandler,
@@ -135,6 +138,12 @@ export class LspModule implements OnModuleInit {
         full: true,
         range: false,
       },
+      workspace: {
+        fileOperations: {
+          willRename: { filters: [{ pattern: { glob: '**/*' } }] },
+          didRename: { filters: [{ pattern: { glob: '**/*' } }] },
+        },
+      },
     });
 
     this.dispatcher.onRequest('initialize', (p) => this.initialize.handle(p));
@@ -174,6 +183,12 @@ export class LspModule implements OnModuleInit {
         this.prepareRename.removeDocumentText(uri);
       }
     });
+    this.dispatcher.onRequest('workspace/willRenameFiles', (p) =>
+      this.fileOperations.handleWillRenameFiles(p),
+    );
+    this.dispatcher.onNotification('workspace/didRenameFiles', (p) =>
+      this.fileOperations.handleDidRenameFiles(p),
+    );
 
     this.dispatcher.onRequest('textDocument/definition', (p) =>
       Promise.resolve(this.definition.handle(p as Parameters<DefinitionHandler['handle']>[0])),

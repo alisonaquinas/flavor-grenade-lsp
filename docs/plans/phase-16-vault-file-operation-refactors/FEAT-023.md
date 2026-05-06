@@ -115,7 +115,7 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-169]] | Add file operation capability handler | `red` |
+| [[TASK-169]] | Add file operation capability handler | `green` |
 | [[TASK-170]] | Build vault-confined move planner | `open` |
 | [[TASK-171]] | Rewrite moved-target references without changing syntax | `open` |
 | [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `open` |

@@ -2,7 +2,7 @@
 id: "TASK-169"
 title: "Add file operation capability handler"
 type: task
-status: red
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-169"]
 
 # Add file operation capability handler
 
-> [!INFO] `TASK-169` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `red`
+> [!INFO] `TASK-169` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -135,3 +135,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing module coverage for `workspace.fileOperations.willRename`,
 > `workspace.fileOperations.didRename`, `workspace/willRenameFiles`, and
 > `workspace/didRenameFiles`. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added the Phase 16 file-operation handler entry point, registered
+> `workspace/willRenameFiles` as an async request, registered
+> `workspace/didRenameFiles` as an async notification, and advertised
+> `workspace.fileOperations` capabilities. Focused module test,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.

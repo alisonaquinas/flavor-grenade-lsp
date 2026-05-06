@@ -11,6 +11,7 @@ import type { ExitHandler } from './handlers/exit.handler.js';
 import type { DidOpenHandler } from './handlers/did-open.handler.js';
 import type { DidChangeHandler } from './handlers/did-change.handler.js';
 import type { DidCloseHandler } from './handlers/did-close.handler.js';
+import type { FileOperationsHandler } from './handlers/file-operations.handler.js';
 import type { CompletionRouter } from '../completion/completion-router.js';
 import type { DefinitionHandler } from '../handlers/definition.handler.js';
 import type { ReferencesHandler } from '../handlers/references.handler.js';
@@ -63,6 +64,10 @@ describe('LspModule', () => {
       { handle: jest.fn() } as unknown as DidOpenHandler,
       { handle: jest.fn() } as unknown as DidChangeHandler,
       { handle: jest.fn() } as unknown as DidCloseHandler,
+      {
+        handleWillRenameFiles: jest.fn().mockResolvedValue(null),
+        handleDidRenameFiles: jest.fn().mockResolvedValue(undefined),
+      } as unknown as FileOperationsHandler,
       capabilityRegistry,
       { handle: jest.fn() } as unknown as DefinitionHandler,
       { handle: jest.fn() } as unknown as ReferencesHandler,
