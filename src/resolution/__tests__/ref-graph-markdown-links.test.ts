@@ -74,7 +74,9 @@ describe('RefGraph Markdown links', () => {
     const labelRefs = refGraph.getLabelRefsTo(id('notes/source'), 'alpha-ref');
     expect(labelRefs).toHaveLength(1);
     expect(labelRefs[0].definition?.target).toBe('alpha.md');
-    expect(refGraph.getMarkdownRefsTo(id('notes/alpha'))).toHaveLength(1);
+    const markdownRefs = refGraph.getMarkdownRefsTo(id('notes/alpha'));
+    expect(markdownRefs).toHaveLength(2);
+    expect(markdownRefs.map((ref) => ref.entry.target)).toEqual(['alpha.md', undefined]);
   });
 
   it('indexes standalone reference definitions as document references', () => {
@@ -89,7 +91,7 @@ describe('RefGraph Markdown links', () => {
 
     const refs = refGraph.getMarkdownRefsTo(id('notes/alpha'));
     expect(refs).toHaveLength(1);
-    expect(refs[0].entry.kind).toBe('link-label-def');
+    expect(refs[0].entry.target).toBe('alpha.md');
     expect(refs[0].resolvedTo).toBe('notes/alpha');
   });
 
@@ -108,7 +110,9 @@ describe('RefGraph Markdown links', () => {
     refGraph.rebuild(vaultIndex, oracle);
 
     expect(refGraph.getLabelRefsTo(id('notes/source'), 'shared')).toHaveLength(0);
-    expect(refGraph.getMarkdownRefsTo(id('notes/alpha'))).toHaveLength(0);
+    const markdownRefs = refGraph.getMarkdownRefsTo(id('notes/alpha'));
+    expect(markdownRefs).toHaveLength(1);
+    expect(markdownRefs[0].sourceDocId).toBe('notes/other');
   });
 
   it('omits external URLs from vault reference entries', () => {

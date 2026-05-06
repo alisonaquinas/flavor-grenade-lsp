@@ -206,6 +206,7 @@ export class RefGraph {
 
       this.registerMarkdownEntries(sourceDocId, doc.index.markdownLinks ?? []);
       this.registerMarkdownImages(sourceDocId, doc.index.markdownImages ?? []);
+      this.registerLabelDefinitions(sourceDocId, doc.index.linkLabelDefs ?? []);
       this.registerLabelRefs(
         sourceDocId,
         doc.index.linkLabelRefs ?? [],
@@ -464,6 +465,19 @@ export class RefGraph {
       } else {
         this.markdownImageRefsMap.set(classification.path, [imageRef]);
       }
+    }
+  }
+
+  private registerLabelDefinitions(sourceDocId: DocId, defs: LinkLabelDef[]): void {
+    for (const definition of defs) {
+      const classification = classifyMarkdownTarget(definition.target, { sourceDocId });
+      if (classification.kind !== 'local-document') continue;
+
+      this.registerMarkdownRef({
+        sourceDocId,
+        entry: definition,
+        resolvedTo: this.resolveClassifiedDocId(classification.path),
+      });
     }
   }
 
