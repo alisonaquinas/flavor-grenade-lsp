@@ -6,7 +6,7 @@ import { Oracle } from '../resolution/oracle.js';
 import { EmbedResolver } from '../resolution/embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
-import type { WikiLinkEntry } from '../parser/types.js';
+import type { MarkdownImageRef, WikiLinkEntry } from '../parser/types.js';
 import { fromDocId } from '../vault/doc-id.js';
 import { entityAtPosition } from './cursor-entity.js';
 import type { DocId } from '../vault/doc-id.js';
@@ -119,6 +119,9 @@ export class DefinitionHandler {
       case 'markdown-link':
         return this.resolveMarkdownLinkDefinition(entity.entry, doc.uri);
 
+      case 'markdown-image':
+        return this.resolveMarkdownImageDefinition(entity.entry, doc.uri);
+
       case 'link-label-ref': {
         const definition = (doc.index.linkLabelDefs ?? []).find(
           (def) => def.normalizedLabel === entity.entry.normalizedLabel,
@@ -157,6 +160,25 @@ export class DefinitionHandler {
       default:
         return null;
     }
+  }
+
+  private resolveMarkdownImageDefinition(
+    entry: MarkdownImageRef,
+    sourceUri: string,
+  ): Location | null {
+    const sourceDocId = this.docIdForUri(sourceUri);
+    if (sourceDocId === null) return null;
+
+    const classification = classifyMarkdownTarget(entry.target, {
+      sourceDocId,
+      isImage: true,
+    });
+    if (classification.kind !== 'local-attachment') return null;
+
+    const attachment = this.attachmentForTarget(classification.path);
+    if (attachment === undefined) return null;
+
+    return { uri: attachment.uri, range: zeroRange() };
   }
 
   private resolveWikiLinkDefinition(
@@ -280,6 +302,11 @@ export class DefinitionHandler {
    * @param assetPath - Vault-relative path such as `assets/image.png`.
    */
   private assetPathToUri(assetPath: string): string {
+    const attachment = this.attachmentForTarget(assetPath);
+    if (attachment !== undefined) {
+      return attachment.uri;
+    }
+
     if (this.vaultIndex !== undefined) {
       for (const [docId, doc] of this.vaultIndex.entries()) {
         const docSuffix = '/' + (docId as string) + '.md';
@@ -290,5 +317,19 @@ export class DefinitionHandler {
       }
     }
     return pathToFileURL(assetPath).href;
+  }
+
+  private attachmentForTarget(target: string): { uri: string } | undefined {
+    if (this.vaultIndex === undefined) return undefined;
+
+    const exact = this.vaultIndex.getAttachment(target);
+    if (exact !== undefined) return exact;
+
+    const suffix = '/' + target;
+    const matches = Array.from(this.vaultIndex.attachments()).filter(
+      (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
+    );
+
+    return matches.length === 1 ? matches[0] : undefined;
   }
 }

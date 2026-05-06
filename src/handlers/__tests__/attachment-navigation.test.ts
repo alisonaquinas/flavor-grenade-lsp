@@ -37,12 +37,8 @@ describe('attachment navigation', () => {
   });
 
   it('goes to the indexed attachment URI from a Markdown image target', () => {
-    const source = parser.parse(
-      'file:///vault/notes/source.md',
-      '![Diagram](assets/diagram.png)',
-      1,
-    );
-    vaultIndex.set(id('notes/source'), source);
+    const source = parser.parse('file:///vault/source.md', '![Diagram](assets/diagram.png)', 1);
+    vaultIndex.set(id('source'), source);
     vaultIndex.setAttachment({
       path: 'assets/diagram.png',
       uri: 'file:///actual/assets/diagram.png',
@@ -66,8 +62,8 @@ describe('attachment navigation', () => {
   });
 
   it('goes to the indexed attachment URI from an embed target', () => {
-    const source = parser.parse('file:///vault/notes/source.md', '![[assets/diagram.png]]', 1);
-    vaultIndex.set(id('notes/source'), source);
+    const source = parser.parse('file:///vault/source.md', '![[assets/diagram.png]]', 1);
+    vaultIndex.set(id('source'), source);
     vaultIndex.setAttachment({
       path: 'assets/diagram.png',
       uri: 'file:///actual/assets/diagram.png',

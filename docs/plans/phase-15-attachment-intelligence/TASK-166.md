@@ -2,7 +2,7 @@
 id: "TASK-166"
 title: "Navigate to attachment targets"
 type: task
-status: red
+status: green
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-166"]
 
 # Navigate to attachment targets
 
-> [!INFO] `TASK-166` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-166` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -150,3 +150,9 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing definition coverage for Markdown image attachment targets and
 > embed attachment targets that must return the indexed attachment URI.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added definition support for Markdown image attachment targets and routed
+> embed asset locations through indexed attachment URIs. Focused navigation
+> tests, `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass.
+> Status: `green`.
