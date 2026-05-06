@@ -115,7 +115,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Completion.Candidates.Cap` | Candidate list capped at `completion.candidates` config value | — | ⬜ not-yet-written | Phase 9 | |
-| `Completion.Trigger.Coverage` | All trigger characters return candidates in context | — | ⬜ not-yet-written | Phase 9 | |
+| `Completion.Trigger.Coverage` | All trigger characters return candidates in context | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts` | ✅ passing | Phase 14 | Phase 14 adds Markdown `(` URL and heading completion trigger coverage |
 | `Completion.CalloutType.Coverage` | 13 primary Obsidian callout types offered at `> [!` | — | ⬜ not-yet-written | Phase 9 | |
 | `Completion.WikiStyle.Binding` | Completion items conform to active wiki link style | — | ⬜ not-yet-written | Phase 9 | |
 
@@ -138,8 +138,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | — | ⬜ not-yet-written | Phase 10 | |
-| `Navigation.References.Completeness` | Find-references returns all references in folder | — | ⬜ not-yet-written | Phase 10 | |
+| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | `src/handlers/__tests__/markdown-link-navigation.test.ts` | ✅ passing | Phase 14 | Phase 14 covers standard Markdown file links, same-document anchors, and label definitions |
+| `Navigation.References.Completeness` | Find-references returns all references in folder | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/resolution/__tests__/ref-graph-markdown-links.test.ts` | ✅ passing | Phase 14 | Phase 14 covers Markdown heading anchors and label references |
 | `Navigation.CodeLens.Count` | Each heading displays accurate reference count code lens | — | ⬜ not-yet-written | Phase 10 | |
 
 ---
@@ -148,9 +148,25 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Rename.Refactoring.Completeness` | All cross-document references updated in single workspace edit | — | ⬜ not-yet-written | Phase 11 | |
+| `Rename.Refactoring.Completeness` | All cross-document references updated in single workspace edit | `src/handlers/__tests__/markdown-heading-rename.test.ts` | ✅ passing | Phase 14 | Phase 14 covers Markdown heading anchor edits during heading rename |
 | `Rename.Prepare.Rejection` | `prepareRename` returns `null` for non-renameable positions | — | ⬜ not-yet-written | Phase 11 | |
 | `Rename.StyleBinding.Consistency` | Rename updates only references bound via active wiki style | — | ⬜ not-yet-written | Phase 11 | |
+
+---
+
+## OFMarkdown Parity Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `Parity.MarkdownLinks.ParseCoverage` | Supported standard Markdown link forms become typed parser/index data | `src/parser/__tests__/markdown-link-parser.test.ts`, `src/parser/__tests__/ofm-parser.integration.test.ts` | ✅ passing | Phase 14 | Covers inline links, image links, reference labels, definitions, and opaque-region suppression |
+| `Parity.MarkdownLinks.TargetClassification` | Markdown link targets are classified before resolution and diagnostics | `src/resolution/__tests__/markdown-target-classifier.test.ts` | ✅ passing | Phase 14 | Covers local docs, fragments, attachments, external URLs, unsupported schemes, and traversal underflow |
+| `Parity.MarkdownLinks.LocalResolution` | Local standard Markdown links resolve through vault rules | `src/resolution/__tests__/markdown-link-oracle.test.ts`, `src/resolution/__tests__/ref-graph-markdown-links.test.ts`, `src/handlers/__tests__/markdown-link-navigation.test.ts` | ✅ passing | Phase 14 | Covers file targets, file-plus-heading targets, and label-backed document refs |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document Markdown anchors support definition, diagnostics, references, and rename | `src/resolution/__tests__/markdown-link-oracle.test.ts`, `src/resolution/__tests__/markdown-link-diagnostics.test.ts`, `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/handlers/__tests__/markdown-heading-rename.test.ts` | ✅ passing | Phase 14 | Covers heading lookup, missing heading diagnostics, references, and rename edits |
+| `Parity.HeadingAmbiguity.Diagnostics` | Duplicate heading anchors produce diagnostics with related locations | `src/resolution/__tests__/markdown-link-oracle.test.ts`, `src/resolution/__tests__/markdown-link-diagnostics.test.ts` | ✅ passing | Phase 14 | Covers ambiguous same-document heading anchors |
+| `Parity.MarkdownLinks.ReferenceGraph` | Markdown links, images, labels, and definitions join RefGraph | `src/resolution/__tests__/ref-graph-markdown-links.test.ts` | ✅ passing | Phase 14 | External URLs remain out of vault reference entries |
+| `Parity.MarkdownLinks.Completion` | Markdown URL contexts return document and heading completion candidates | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts` | ✅ passing | Phase 14 | Covers `(` trigger, same-document heading context, external URL suppression, and nested source relativity |
+| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | `src/handlers/__tests__/markdown-link-navigation.test.ts` | ✅ passing | Phase 14 | Covers inline file links, same-document anchors, label definitions, and label uses |
+| `Parity.MarkdownLinks.RenameAnchors` | Heading rename updates Markdown anchors | `src/handlers/__tests__/markdown-heading-rename.test.ts` | ✅ passing | Phase 14 | Covers same-document and file-plus-fragment Markdown anchors |
 
 ---
 
@@ -192,7 +208,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Vault.PathConfinement` | All file paths from vault content or LSP params canonicalized and vault-root-checked before I/O | — | ⬜ not-yet-written | Phase 4 | `confineToVaultRoot()` function; see ADR013 |
+| `Security.Vault.PathConfinement` | All file paths from vault content or LSP params canonicalized and vault-root-checked before I/O | `src/resolution/__tests__/markdown-target-classifier.test.ts` | ✅ passing | Phase 14 | Phase 14 covers Markdown target traversal underflow; broader filesystem I/O confinement remains governed by ADR013 |
 | `Security.Vault.SymlinkConfinement` | Out-of-vault symlinks treated as non-existent; `fs.realpath()` checked, not symlink path | — | ⬜ not-yet-written | Phase 4 | `fs.realpath()` call in `confineToVaultRoot()`; see ADR013 |
 | `Security.Vault.URISchemeAllowlist` | Only `file://` URIs accepted; non-`file://` URIs return InvalidParams (-32602) | — | ⬜ not-yet-written | Phase 2 | Transport-layer check before any resolver; see ADR013 |
 | `Security.Vault.RenameConfinement` | Rename edit targets must pass vault-root confinement; escaping URIs cancel entire rename | — | ⬜ not-yet-written | Phase 11 | Defense-in-depth: independent of link resolver check; see ADR013 |

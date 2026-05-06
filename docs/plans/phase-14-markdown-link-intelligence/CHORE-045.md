@@ -2,7 +2,7 @@
 id: "CHORE-045"
 title: "Phase 14 Test Matrix Sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-045"]
 
 # Phase 14 Test Matrix Sweep
 
-> [!INFO] `CHORE-045` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
+> [!INFO] `CHORE-045` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -145,3 +145,9 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Started - 2026-05-06
 > Test matrix and test index sweep started after source, quality, and security
 > checks reached review. Status: `in-progress`.
+
+> [!INFO] Review Ready - 2026-05-06
+> Updated [[test/index]] and [[test/matrix]] with Phase 14 parser, classifier,
+> RefGraph, Oracle, diagnostics, navigation, rename, completion, and security
+> evidence. `bun run lint:docs`, `bun run lint -- --max-warnings 0`,
+> `bun run typecheck`, and `bun test` pass. Status: `in-review`.

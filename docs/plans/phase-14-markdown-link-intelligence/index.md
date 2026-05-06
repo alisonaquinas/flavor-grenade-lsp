@@ -25,5 +25,5 @@ aliases: ["Phase 14 Tickets"]
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-review` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | Chore | `in-review` |
 | [[CHORE-057]] | Phase 14 Security Sweep | Chore | `in-review` |
-| [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `in-progress` |
+| [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `in-review` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `open` |
