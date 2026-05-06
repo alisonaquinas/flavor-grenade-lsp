@@ -15,7 +15,7 @@ aliases: ["Phase 16 Tickets"]
 | [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | Task | `green` |
 | [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | Bug | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | Task | `green` |
-| [[TASK-174]] | Add file operation regression suite | Task | `red` |
+| [[TASK-174]] | Add file operation regression suite | Task | `green` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | Chore | `open` |
 | [[CHORE-051]] | Phase 16 Test Matrix Sweep | Chore | `open` |
 | [[CHORE-052]] | Phase 16 Security Sweep | Chore | `open` |

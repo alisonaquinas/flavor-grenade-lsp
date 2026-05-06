@@ -2,7 +2,7 @@
 id: "TASK-174"
 title: "Add file operation regression suite"
 type: task
-status: red
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-174"]
 
 # Add file operation regression suite
 
-> [!INFO] `TASK-174` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `red`
+> [!INFO] `TASK-174` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -143,3 +143,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!FAILURE] Red - 2026-05-06
 > Added failing end-to-end regression coverage for an attachment move where a
 > nested note uses a vault-relative Markdown image target. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added regression coverage for planner, rewriter, and validator working
+> together on an attachment move referenced by a nested Markdown image link.
+> Attachment move rewrites now include a safe raw vault-relative image-target
+> fallback, preserving the Phase 15 nested attachment lesson. Focused
+> regression/rewrite tests, `bun run typecheck`, and
+> `bun run lint -- --max-warnings 0` pass. Status: `green`.

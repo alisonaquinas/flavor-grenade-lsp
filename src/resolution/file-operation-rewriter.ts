@@ -103,6 +103,16 @@ export class FileOperationRewriter {
         buildEmbedText(ref.entry, move.newPath),
       );
     }
+
+    for (const [sourceDocId, doc] of this.vaultIndex.entries()) {
+      for (const entry of doc.index.markdownImages) {
+        if (safeVaultRelativeAttachmentTarget(entry.target) !== move.oldPath) {
+          continue;
+        }
+
+        addEdit(this.uriForDoc(sourceDocId), entry.targetRange, move.newPath);
+      }
+    }
   }
 
   private uriForDoc(docId: string): string | null {
@@ -172,4 +182,18 @@ function buildMarkdownDocumentTarget(oldTarget: string, newPath: string): string
 function stemOf(pathLike: string): string {
   const segments = pathLike.split('/');
   return segments[segments.length - 1];
+}
+
+function safeVaultRelativeAttachmentTarget(target: string): string | null {
+  const withoutFragment = target.split('#')[0].replace(/\\/g, '/').replace(/^\/+/, '');
+  if (/^[A-Za-z][A-Za-z\d+.-]*:/.test(withoutFragment)) {
+    return null;
+  }
+
+  const segments = withoutFragment.split('/').filter((segment) => segment.length > 0);
+  if (segments.length === 0 || segments.some((segment) => segment === '.' || segment === '..')) {
+    return null;
+  }
+
+  return segments.join('/');
 }

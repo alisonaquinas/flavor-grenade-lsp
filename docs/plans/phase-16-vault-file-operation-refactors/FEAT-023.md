@@ -121,7 +121,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `green` |
 | [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | `green` |
-| [[TASK-174]] | Add file operation regression suite | `red` |
+| [[TASK-174]] | Add file operation regression suite | `green` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | `open` |
 | [[CHORE-051]] | Phase 16 Test Matrix Sweep | `open` |
 | [[CHORE-052]] | Phase 16 Security Sweep | `open` |
