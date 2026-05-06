@@ -2,7 +2,7 @@
 id: "TASK-158"
 title: "Index Markdown link references in RefGraph"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-158"]
 
 # Index Markdown link references in RefGraph
 
-> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-158` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -60,7 +60,7 @@ Reference-style uses must bind only to link definitions in the same document.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/ref-graph-markdown-links.spec.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
+| `src/resolution/ref-graph-markdown-links.test.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
 
 ---
 
@@ -115,6 +115,19 @@ All of the following must be true before this task is marked `done`:
 Do not maintain a second parsed document store. All parsed `OFMDoc` data remains
 owned by `VaultIndex`.
 
+## Implementation Details
+
+- Extend `src/resolution/ref-graph.ts` in place; do not add another document
+  cache.
+- Add `MarkdownLinkGraphRef`, `MarkdownImageGraphRef`, and label lookup support
+  keyed by `sourceDocId` plus normalized label.
+- Rebuild Markdown graph state inside `RefGraph.rebuild()` from
+  `doc.index.markdownLinks`, `doc.index.markdownImages`, `doc.index.linkLabelRefs`,
+  and `doc.index.linkLabelDefs`.
+- Consume `classifyMarkdownTarget()` from [[TASK-157]] before registering vault
+  references.
+- Add tests in `src/resolution/__tests__/ref-graph-markdown-links.test.ts`.
+
 ---
 
 ## Lifecycle
@@ -141,3 +154,24 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Graph write scope is
+> `src/resolution/ref-graph.ts` and Markdown RefGraph tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link RefGraph indexing before implementation.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Extended RefGraph with Markdown document refs, Markdown image refs, and
+> document-local label bindings. `bun test
+> src/resolution/__tests__/ref-graph-markdown-links.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

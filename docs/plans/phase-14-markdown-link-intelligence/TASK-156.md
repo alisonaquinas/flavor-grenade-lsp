@@ -2,7 +2,7 @@
 id: "TASK-156"
 title: "Parse standard Markdown link syntax"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-156"]
 
 # Parse standard Markdown link syntax
 
-> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -37,6 +37,23 @@ existing precedence for opaque regions, embeds, and wiki-links.
   document-local.
 - Respect [[ofm-spec/markdown-links]] rule codes `OFM-MDLINK-001` through
   `OFM-MDLINK-005`.
+
+## Implementation Details
+
+- Create `src/parser/markdown-link-parser.ts` with a static
+  `MarkdownLinkParser.parse(text, opaqueRegions)` API matching existing parser
+  classes.
+- Extend `src/parser/types.ts` with `MarkdownLinkRef`,
+  `MarkdownImageRef`, `LinkLabelRef`, and `LinkLabelDef` entry types. Each type
+  must include full token `range` plus target/text/label ranges needed by
+  downstream navigation and rename.
+- Extend `OFMIndex` with `markdownLinks`, `markdownImages`, `linkLabelRefs`,
+  and `linkLabelDefs` arrays.
+- Wire `MarkdownLinkParser` into `src/parser/ofm-parser.ts` after opaque region
+  marking and alongside the existing token parser stage.
+- Add RED tests in `src/parser/__tests__/markdown-link-parser.test.ts`; extend
+  `src/parser/__tests__/ofm-parser.integration.test.ts` only after the parser
+  model exists.
 
 ---
 
@@ -64,7 +81,7 @@ existing precedence for opaque regions, embeds, and wiki-links.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/parser/markdown-links.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/parser/markdown-links.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 
@@ -147,3 +164,25 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Parser write scope is
+> `src/parser/types.ts`, `src/parser/markdown-link-parser.ts`,
+> `src/parser/ofm-parser.ts`, and parser tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link parser coverage before implementation.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Implemented Markdown link parser entries, OFMIndex wiring, parser unit tests,
+> and OFM parser integration coverage. `bun test
+> src/parser/__tests__/markdown-link-parser.test.ts
+> src/parser/__tests__/ofm-parser.integration.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

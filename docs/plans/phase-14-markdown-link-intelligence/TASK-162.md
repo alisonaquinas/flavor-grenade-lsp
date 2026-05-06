@@ -2,7 +2,7 @@
 id: "TASK-162"
 title: "Rename Markdown heading anchors"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-162"]
 
 # Rename Markdown heading anchors
 
-> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -34,6 +34,18 @@ must remain unchanged.
   the Markdown link resolves to that heading.
 - Preserve link text, reference labels, titles, and unrelated URL content.
 - Use the same heading-anchor normalization as Oracle and diagnostics.
+
+## Implementation Details
+
+- Extend `src/handlers/rename.handler.ts` heading rename logic to add edits for
+  Markdown same-document and file-plus-fragment anchors that resolve to the
+  renamed heading.
+- Reuse the same heading-anchor normalization utility used by [[TASK-159]] and
+  [[TASK-160]].
+- Replace only the target fragment range, preserving display text, labels, and
+  optional titles.
+- Add tests in `src/handlers/__tests__/markdown-heading-rename.test.ts` so the
+  existing handler test layout remains consistent.
 
 ---
 
@@ -60,7 +72,7 @@ must remain unchanged.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/rename/markdown-heading-rename.spec.ts` | Unit | `Rename.Refactoring.Completeness` | 🔴 failing |
+| `src/rename/markdown-heading-rename.test.ts` | Unit | `Rename.Refactoring.Completeness` | 🔴 failing |
 
 ---
 
@@ -140,3 +152,26 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Rename write scope is
+> `src/handlers/rename.handler.ts`, the shared heading-anchor utility, and
+> Markdown rename tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown heading-anchor rename edits before
+> implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Heading rename now updates Markdown same-document and file-plus-fragment
+> anchors using normalized emitted anchors while preserving surrounding Markdown
+> link text and titles. `bun test
+> src/handlers/__tests__/markdown-heading-rename.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

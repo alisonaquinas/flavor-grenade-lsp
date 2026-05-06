@@ -7,6 +7,7 @@ import { EmbedParser } from './embed-parser.js';
 import { BlockAnchorParser } from './block-anchor-parser.js';
 import { TagParser } from './tag-parser.js';
 import { CalloutParser } from './callout-parser.js';
+import { MarkdownLinkParser } from './markdown-link-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 /**
@@ -39,6 +40,7 @@ export class OFMParser {
     const opaqueRegions = mark(text, bodyOffset);
 
     // Stage 3–7: token parsers
+    const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const index: OFMIndex = {
       wikiLinks: WikiLinkParser.parse(text, opaqueRegions),
       embeds: EmbedParser.parse(text, opaqueRegions),
@@ -46,6 +48,10 @@ export class OFMParser {
       tags: TagParser.parse(text, opaqueRegions),
       callouts: CalloutParser.parse(text),
       headings: OFMParser.scanHeadings(text, opaqueRegions),
+      markdownLinks: markdownLinks.markdownLinks,
+      markdownImages: markdownLinks.markdownImages,
+      linkLabelRefs: markdownLinks.linkLabelRefs,
+      linkLabelDefs: markdownLinks.linkLabelDefs,
     };
 
     return {

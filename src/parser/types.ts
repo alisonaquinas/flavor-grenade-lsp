@@ -97,6 +97,88 @@ export interface HeadingEntry {
   range: Range;
 }
 
+/** A standard Markdown inline link of the form `[text](target "title")`. */
+export interface MarkdownLinkRef {
+  /** The full raw token, e.g. `[Alpha](notes/alpha.md#Overview)`. */
+  raw: string;
+  /** Display text inside the opening brackets. */
+  text: string;
+  /** Target URL/path inside parentheses, excluding optional title. */
+  target: string;
+  /** Optional title string after the target. */
+  title?: string;
+  /** LSP range of the full Markdown link token. */
+  range: Range;
+  /** LSP range of the display text only. */
+  textRange: Range;
+  /** LSP range of the target only. */
+  targetRange: Range;
+  /** Optional LSP range of the title contents, excluding quotes. */
+  titleRange?: Range;
+}
+
+/** A standard Markdown image link of the form `![alt](target "title")`. */
+export interface MarkdownImageRef {
+  /** The full raw token, e.g. `![Diagram](assets/diagram.png)`. */
+  raw: string;
+  /** Alt text inside the image brackets. */
+  alt: string;
+  /** Target URL/path inside parentheses, excluding optional title. */
+  target: string;
+  /** Optional title string after the target. */
+  title?: string;
+  /** LSP range of the full Markdown image token. */
+  range: Range;
+  /** LSP range of the alt text only. */
+  altRange: Range;
+  /** LSP range of the target only. */
+  targetRange: Range;
+  /** Optional LSP range of the title contents, excluding quotes. */
+  titleRange?: Range;
+}
+
+/** A reference-style Markdown label use: `[text][label]`, `[label][]`, or `[label]`. */
+export interface LinkLabelRef {
+  /** The full raw token. */
+  raw: string;
+  /** Display text for full/collapsed/shortcut reference forms. */
+  text: string;
+  /** Case-preserving label used for definition lookup. */
+  label: string;
+  /** Normalized label key for case-insensitive document-local matching. */
+  normalizedLabel: string;
+  /** Reference form parsed from the source token. */
+  form: 'full' | 'collapsed' | 'shortcut';
+  /** LSP range of the full label reference token. */
+  range: Range;
+  /** LSP range of the display text. */
+  textRange: Range;
+  /** LSP range of the lookup label. */
+  labelRange: Range;
+}
+
+/** A Markdown reference definition of the form `[label]: target "title"`. */
+export interface LinkLabelDef {
+  /** The full raw definition line. */
+  raw: string;
+  /** Case-preserving definition label. */
+  label: string;
+  /** Normalized label key for case-insensitive document-local matching. */
+  normalizedLabel: string;
+  /** Definition target URL/path. */
+  target: string;
+  /** Optional title string after the target. */
+  title?: string;
+  /** LSP range of the full definition line. */
+  range: Range;
+  /** LSP range of the label text only. */
+  labelRange: Range;
+  /** LSP range of the definition target only. */
+  targetRange: Range;
+  /** Optional LSP range of the title contents, excluding quotes. */
+  titleRange?: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -107,6 +189,10 @@ export interface OFMIndex {
   tags: TagEntry[];
   callouts: CalloutEntry[];
   headings: HeadingEntry[];
+  markdownLinks: MarkdownLinkRef[];
+  markdownImages: MarkdownImageRef[];
+  linkLabelRefs: LinkLabelRef[];
+  linkLabelDefs: LinkLabelDef[];
 }
 
 /**

@@ -6,6 +6,10 @@ import type {
   TagEntry,
   HeadingEntry,
   BlockAnchorEntry,
+  MarkdownLinkRef,
+  MarkdownImageRef,
+  LinkLabelRef,
+  LinkLabelDef,
 } from '../parser/types.js';
 
 /**
@@ -18,6 +22,10 @@ export type CursorEntity =
   | { kind: 'tag'; entry: TagEntry }
   | { kind: 'heading'; entry: HeadingEntry }
   | { kind: 'block-anchor'; entry: BlockAnchorEntry }
+  | { kind: 'markdown-link'; entry: MarkdownLinkRef }
+  | { kind: 'markdown-image'; entry: MarkdownImageRef }
+  | { kind: 'link-label-ref'; entry: LinkLabelRef }
+  | { kind: 'link-label-def'; entry: LinkLabelDef }
   | { kind: 'none' };
 
 /**
@@ -64,21 +72,46 @@ export function entityAtPosition(doc: OFMDoc, position: Position): CursorEntity 
     }
   }
 
-  // Priority 3: tags
+  // Priority 3: Markdown links and labels
+  for (const entry of doc.index.markdownLinks ?? []) {
+    if (positionInRange(position, entry.targetRange) || positionInRange(position, entry.range)) {
+      return { kind: 'markdown-link', entry };
+    }
+  }
+
+  for (const entry of doc.index.markdownImages ?? []) {
+    if (positionInRange(position, entry.targetRange) || positionInRange(position, entry.range)) {
+      return { kind: 'markdown-image', entry };
+    }
+  }
+
+  for (const entry of doc.index.linkLabelRefs ?? []) {
+    if (positionInRange(position, entry.labelRange) || positionInRange(position, entry.range)) {
+      return { kind: 'link-label-ref', entry };
+    }
+  }
+
+  for (const entry of doc.index.linkLabelDefs ?? []) {
+    if (positionInRange(position, entry.labelRange) || positionInRange(position, entry.range)) {
+      return { kind: 'link-label-def', entry };
+    }
+  }
+
+  // Priority 4: tags
   for (const entry of doc.index.tags) {
     if (positionInRange(position, entry.range)) {
       return { kind: 'tag', entry };
     }
   }
 
-  // Priority 4: headings
+  // Priority 5: headings
   for (const entry of doc.index.headings) {
     if (positionInRange(position, entry.range)) {
       return { kind: 'heading', entry };
     }
   }
 
-  // Priority 5: block anchors
+  // Priority 6: block anchors
   for (const entry of doc.index.blockAnchors) {
     if (positionInRange(position, entry.range)) {
       return { kind: 'block-anchor', entry };

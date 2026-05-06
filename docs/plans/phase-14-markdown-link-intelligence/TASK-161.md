@@ -2,7 +2,7 @@
 id: "TASK-161"
 title: "Navigate Markdown links and labels"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-161"]
 
 # Navigate Markdown links and labels
 
-> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -34,6 +34,18 @@ on a label definition should include all same-document label uses.
   `[alpha-ref]: alpha.md`.
 - References on a heading include matching Markdown anchors.
 - References on a label definition include same-document label uses.
+
+## Implementation Details
+
+- Extend `src/handlers/cursor-entity.ts` to return Markdown link target and
+  label entities using the parsed ranges from [[TASK-156]].
+- Extend `src/handlers/definition.handler.ts` to resolve Markdown file,
+  fragment, and label entities through Oracle/RefGraph helpers.
+- Extend `src/handlers/references.handler.ts` to include Markdown heading refs
+  and document-local label refs. Do not rely on literal heading text filtering
+  for Markdown anchors.
+- Add tests in `src/handlers/__tests__/markdown-link-navigation.test.ts` and
+  `src/handlers/__tests__/markdown-link-references.test.ts`.
 
 ---
 
@@ -62,8 +74,8 @@ on a label definition should include all same-document label uses.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/markdown-link-navigation.spec.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
-| `src/handlers/markdown-link-references.spec.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
+| `src/handlers/markdown-link-navigation.test.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
+| `src/handlers/markdown-link-references.test.ts` | Unit | `Navigation.References.Completeness` | 🔴 failing |
 
 ---
 
@@ -144,3 +156,26 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Navigation write scope is
+> `src/handlers/cursor-entity.ts`, definition/references handlers, and
+> Markdown navigation tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link definition and reference navigation before
+> implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown cursor entities, definition support for Markdown file/heading
+> links and label uses, plus references for Markdown heading anchors and
+> document-local labels. `bun test
+> src/handlers/__tests__/markdown-link-navigation.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

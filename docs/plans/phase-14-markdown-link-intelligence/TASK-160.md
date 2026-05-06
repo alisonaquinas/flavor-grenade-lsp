@@ -2,7 +2,7 @@
 id: "TASK-160"
 title: "Diagnose Markdown heading anchors"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-160"]
 
 # Diagnose Markdown heading anchors
 
-> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -34,6 +34,17 @@ information for every candidate heading.
   links consistently.
 - Preserve external URL suppression for `[External](https://example.com/page)`.
 - Reuse existing diagnostic code conventions where possible.
+
+## Implementation Details
+
+- Extend `src/resolution/diagnostic-service.ts` to inspect parsed Markdown link
+  entries and classifier results.
+- Reuse Oracle Markdown resolution results from [[TASK-159]] for missing and
+  ambiguous heading diagnostics.
+- Prefer parser target or fragment ranges for diagnostic locations; fall back
+  to the full link range only when no finer range exists.
+- Keep external URL and unsupported scheme targets diagnostic-free.
+- Add tests in `src/resolution/__tests__/markdown-link-diagnostics.test.ts`.
 
 ---
 
@@ -62,7 +73,7 @@ information for every candidate heading.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-link-diagnostics.spec.ts` | Unit | `Parity.HeadingAmbiguity.Diagnostics` | 🔴 failing |
+| `src/resolution/markdown-link-diagnostics.test.ts` | Unit | `Parity.HeadingAmbiguity.Diagnostics` | 🔴 failing |
 
 ---
 
@@ -141,3 +152,26 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Diagnostic write scope is
+> `src/resolution/diagnostic-service.ts` and Markdown diagnostic tests. Status:
+> `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown heading diagnostics and external URL suppression
+> before implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Markdown link diagnostics now suppress non-vault URL targets, diagnose missing
+> heading anchors, and report ambiguous heading anchors with candidate heading
+> ranges. `bun test
+> src/resolution/__tests__/markdown-link-diagnostics.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

@@ -8,9 +8,12 @@ import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-p
 import { EmbedCompletionProvider } from './embed-completion-provider.js';
 import { TagCompletionProvider } from './tag-completion-provider.js';
 import { CalloutCompletionProvider } from './callout-completion-provider.js';
+import { MarkdownLinkCompletionProvider } from './markdown-link-completion-provider.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { ServerSettings } from '../lsp/services/server-settings.js';
 import type { Range } from 'vscode-languageserver-types';
+import type { DocId } from '../vault/doc-id.js';
+import { VaultIndex } from '../vault/vault-index.js';
 
 /** Parameters accepted by the router (matches textDocument/completion shape). */
 export interface CompletionParams {
@@ -39,7 +42,9 @@ export class CompletionRouter {
     private readonly embedProvider: EmbedCompletionProvider,
     private readonly tagProvider: TagCompletionProvider,
     private readonly calloutProvider: CalloutCompletionProvider,
+    private readonly markdownLinkProvider: MarkdownLinkCompletionProvider,
     private readonly parseCache: ParseCache,
+    private readonly vaultIndex: VaultIndex,
     private readonly settings: ServerSettings,
   ) {}
 
@@ -108,6 +113,24 @@ export class CompletionRouter {
       case 'embed':
         result = this.embedProvider.getCompletions(context.partial);
         replaceLength = context.partial.length;
+        break;
+
+      case 'markdown-link-target':
+        result = this.markdownLinkProvider.getDocumentCompletions(
+          context.partial,
+          this.docIdForUri(uri),
+        );
+        replaceLength = context.partial.length;
+        break;
+
+      case 'markdown-link-heading':
+        result = this.markdownLinkProvider.getHeadingCompletions(
+          context.target,
+          context.headingPrefix,
+          doc,
+          this.docIdForUri(uri),
+        );
+        replaceLength = context.headingPrefix.length;
         break;
 
       case 'tag':
@@ -194,5 +217,21 @@ export class CompletionRouter {
       insertText: newText,
       textEdit: { range, newText },
     };
+  }
+
+  private docIdForUri(uri: string): DocId | undefined {
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return docId;
+    }
+
+    try {
+      const pathname = decodeURIComponent(new URL(uri).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
+      const normalized = pathname.replace(/\\/g, '/');
+      const withoutExtension = normalized.endsWith('.md') ? normalized.slice(0, -3) : normalized;
+      const segments = withoutExtension.split('/').filter(Boolean);
+      return segments.length > 0 ? (segments[segments.length - 1] as DocId) : undefined;
+    } catch {
+      return undefined;
+    }
   }
 }

@@ -11,6 +11,8 @@ import { VaultIndex } from '../vault/vault-index.js';
 import type { OFMDoc, WikiLinkEntry, EmbedEntry } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
+import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
+import { classifyMarkdownTarget } from './markdown-target-classifier.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -73,6 +75,14 @@ export class DiagnosticService {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
     }
+    for (const entry of doc.index.markdownLinks ?? []) {
+      const diag = this.diagnoseMarkdownTarget(docId, entry, vaultRoot);
+      if (diag !== null) diagnostics.push(diag);
+    }
+    for (const entry of doc.index.linkLabelDefs ?? []) {
+      const diag = this.diagnoseMarkdownTarget(docId, entry, vaultRoot);
+      if (diag !== null) diagnostics.push(diag);
+    }
     for (const entry of doc.index.embeds) {
       const diag = this.diagnoseEmbedEntry(entry);
       if (diag !== null) diagnostics.push(diag);
@@ -81,6 +91,63 @@ export class DiagnosticService {
     const nbspDiags = this.diagnoseNbsp(doc);
     diagnostics.push(...nbspDiags);
     return diagnostics;
+  }
+
+  private diagnoseMarkdownTarget(
+    docId: DocId,
+    entry: MarkdownLinkRef | LinkLabelDef,
+    vaultRoot: string,
+  ): Diagnostic | null {
+    const classification = classifyMarkdownTarget(entry.target, { sourceDocId: docId });
+    const resolution = this.oracle.resolveMarkdownTarget(docId, classification);
+
+    switch (resolution.kind) {
+      case 'non-vault':
+      case 'document-resolved':
+      case 'heading-resolved':
+        return null;
+
+      case 'document-missing':
+        return {
+          range: entry.targetRange,
+          severity: 1,
+          code: 'FG001',
+          source: 'flavor-grenade',
+          message: `Cannot resolve Markdown link: '${entry.target}' not found in vault`,
+        };
+
+      case 'document-ambiguous':
+        return {
+          range: entry.targetRange,
+          severity: 1,
+          code: 'FG002',
+          source: 'flavor-grenade',
+          message: `Ambiguous Markdown link: '${entry.target}' matches ${resolution.candidates.length} documents`,
+          relatedInformation: this.buildRelated(resolution.candidates, vaultRoot),
+        };
+
+      case 'heading-missing':
+        return {
+          range: entry.targetRange,
+          severity: 1,
+          code: 'FG001',
+          source: 'flavor-grenade',
+          message: `Cannot resolve Markdown link: heading '${resolution.fragment}' not found`,
+        };
+
+      case 'heading-ambiguous':
+        return {
+          range: entry.targetRange,
+          severity: 1,
+          code: 'FG002',
+          source: 'flavor-grenade',
+          message: `Ambiguous Markdown heading anchor: '${resolution.fragment}' matches ${resolution.candidates.length} headings`,
+          relatedInformation: this.buildHeadingRelated(
+            resolution.targetDocId,
+            resolution.candidates,
+          ),
+        };
+    }
   }
 
   /**
@@ -359,6 +426,20 @@ export class DiagnosticService {
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
       },
       message: `Candidate: ${c}`,
+    }));
+  }
+
+  private buildHeadingRelated(
+    targetDocId: DocId,
+    candidates: import('../parser/types.js').HeadingEntry[],
+  ): DiagnosticRelatedInformation[] {
+    const targetDoc = this.vaultIndex?.get(targetDocId);
+    return candidates.map((heading) => ({
+      location: {
+        uri: targetDoc?.uri ?? '',
+        range: heading.range,
+      },
+      message: `Candidate heading: ${heading.text}`,
     }));
   }
 }

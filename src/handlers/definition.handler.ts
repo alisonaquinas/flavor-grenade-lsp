@@ -10,6 +10,7 @@ import type { WikiLinkEntry } from '../parser/types.js';
 import { fromDocId } from '../vault/doc-id.js';
 import { entityAtPosition } from './cursor-entity.js';
 import type { DocId } from '../vault/doc-id.js';
+import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
 
 /** Parameters for a `textDocument/definition` request. */
 interface DefinitionParams {
@@ -115,6 +116,44 @@ export class DefinitionHandler {
         return null;
       }
 
+      case 'markdown-link':
+        return this.resolveMarkdownLinkDefinition(entity.entry, doc.uri);
+
+      case 'link-label-ref': {
+        const definition = (doc.index.linkLabelDefs ?? []).find(
+          (def) => def.normalizedLabel === entity.entry.normalizedLabel,
+        );
+        if (definition === undefined) return null;
+        return { uri: doc.uri, range: definition.range };
+      }
+
+      default:
+        return null;
+    }
+  }
+
+  private resolveMarkdownLinkDefinition(
+    entry: import('../parser/types.js').MarkdownLinkRef,
+    sourceUri: string,
+  ): Location | null {
+    const sourceDocId = this.docIdForUri(sourceUri);
+    if (sourceDocId === null) return null;
+
+    const classification = classifyMarkdownTarget(entry.target, { sourceDocId });
+    const result = this.oracle.resolveMarkdownTarget(sourceDocId, classification);
+
+    switch (result.kind) {
+      case 'document-resolved':
+        return {
+          uri: this.docIdToUri(result.targetDocId, this.extractVaultRoot(sourceUri)),
+          range: zeroRange(),
+        };
+
+      case 'heading-resolved': {
+        const targetDoc = this.vaultIndex?.get(result.targetDocId);
+        return { uri: targetDoc?.uri ?? sourceUri, range: result.heading.range };
+      }
+
       default:
         return null;
     }
@@ -206,6 +245,14 @@ export class DefinitionHandler {
       if (doc) return doc.uri;
     }
     return pathToFileURL(fromDocId(vaultRoot, docId)).toString();
+  }
+
+  private docIdForUri(uri: string): DocId | null {
+    if (this.vaultIndex === undefined) return null;
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return docId;
+    }
+    return null;
   }
 
   /**

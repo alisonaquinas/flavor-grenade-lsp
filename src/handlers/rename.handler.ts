@@ -15,6 +15,8 @@ import { pathnameToFsPath } from './uri-utils.js';
 import { WorkspaceEditBuilder } from './workspace-edit-builder.js';
 import type { WorkspaceEdit } from './workspace-edit-builder.js';
 import type { Range } from 'vscode-languageserver-types';
+import { headingAnchorForText, normalizeHeadingAnchor } from '../resolution/heading-anchor.js';
+import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
 
 /**
  * Compute the LSP range covering only the heading text, excluding the `#`
@@ -270,6 +272,44 @@ export class RenameHandler {
 
       const newLinkText = buildHeadingLinkText(ref, newName, heading.text);
       builder.addTextEdit(refUri, { range: ref.entry.range, newText: newLinkText });
+    }
+
+    const newAnchor = headingAnchorForText(newName);
+    for (const ref of this.refGraph.getMarkdownRefsTo(defKey)) {
+      const markdownTarget = 'target' in ref.entry ? ref.entry : ref.definition;
+      if (markdownTarget === undefined) continue;
+
+      const classification = classifyMarkdownTarget(markdownTarget.target, {
+        sourceDocId: ref.sourceDocId,
+      });
+      const fragment =
+        classification.kind === 'same-document-fragment' || classification.kind === 'local-document'
+          ? classification.fragment
+          : undefined;
+      if (fragment === undefined) continue;
+
+      const normalizedFragment = normalizeHeadingAnchor(fragment);
+      const normalizedOldHeading = normalizeHeadingAnchor(heading.text);
+      if (normalizedFragment !== normalizedOldHeading) continue;
+
+      if (
+        classification.kind !== 'same-document-fragment' &&
+        classification.kind !== 'local-document'
+      ) {
+        continue;
+      }
+      const targetDocId =
+        classification.kind === 'same-document-fragment' ? ref.sourceDocId : classification.path;
+      if (targetDocId !== defKey) continue;
+
+      const refUri = this.docIdToUriFromIndex(ref.sourceDocId);
+      if (refUri === null) continue;
+
+      const newTarget =
+        classification.kind === 'same-document-fragment'
+          ? `#${newAnchor}`
+          : `${markdownTarget.target.split('#')[0]}#${newAnchor}`;
+      builder.addTextEdit(refUri, { range: markdownTarget.targetRange, newText: newTarget });
     }
 
     return builder.build();

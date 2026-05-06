@@ -7,6 +7,7 @@ import { BlockRefCompletionProvider } from '../../resolution/block-ref-completio
 import { EmbedCompletionProvider } from '../embed-completion-provider.js';
 import { TagCompletionProvider } from '../tag-completion-provider.js';
 import { CalloutCompletionProvider } from '../callout-completion-provider.js';
+import { MarkdownLinkCompletionProvider } from '../markdown-link-completion-provider.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import { VaultIndex } from '../../vault/vault-index.js';
 import { FolderLookup } from '../../vault/folder-lookup.js';
@@ -87,6 +88,7 @@ function buildRouter(): {
   const embedProvider = new EmbedCompletionProvider(folderLookup, scanner, vaultIndex);
   const tagProvider = new TagCompletionProvider(tagRegistry);
   const calloutProvider = new CalloutCompletionProvider(vaultIndex);
+  const markdownLinkProvider = new MarkdownLinkCompletionProvider(vaultIndex, oracle);
 
   const router = new CompletionRouter(
     contextAnalyzer,
@@ -96,7 +98,9 @@ function buildRouter(): {
     embedProvider,
     tagProvider,
     calloutProvider,
+    markdownLinkProvider,
     parseCache,
+    vaultIndex,
     settings,
   );
 
@@ -212,6 +216,70 @@ describe('CompletionRouter', () => {
   });
 
   // ── routing to block-ref provider ─────────────────────────────────────────────
+
+  describe('markdown-link routing', () => {
+    it('routes [text]( to Markdown document completions', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[See](';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '('));
+
+      expect(result.items.some((item) => item.label === 'alpha')).toBe(true);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 6 }, end: { line: 0, character: 6 } },
+        newText: 'alpha.md',
+      });
+    });
+
+    it('uses vault-relative source DocId for nested Markdown document completions', () => {
+      const nestedUri = 'file:///vault/notes/source.md';
+      vaultIndex.set(id('notes/source'), makeDoc(nestedUri));
+      vaultIndex.set(id('notes/alpha'), makeDoc('file:///vault/notes/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[See](';
+      parseCache.set(nestedUri, makeDoc(nestedUri));
+      router.setDocumentText(nestedUri, text);
+
+      const result = router.route(makeParams(nestedUri, text, '('));
+
+      expect(result.items.find((item) => item.detail === 'notes/alpha')?.textEdit).toEqual({
+        range: { start: { line: 0, character: 6 }, end: { line: 0, character: 6 } },
+        newText: 'alpha.md',
+      });
+    });
+
+    it('routes [text](# to current document heading completions', () => {
+      const currentDoc = makeDoc(TEST_URI, { headings: [{ level: 1, text: 'Overview' }] });
+      parseCache.set(TEST_URI, currentDoc);
+
+      const text = '[See](#Ov';
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '#'));
+
+      expect(result.items).toHaveLength(1);
+      expect(result.items[0].label).toBe('Overview');
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 7 }, end: { line: 0, character: 9 } },
+        newText: 'Overview',
+      });
+    });
+
+    it('suppresses Markdown completions for external URL targets', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI));
+      const text = '[External](https://';
+      router.setDocumentText(TEST_URI, text);
+
+      const result = router.route(makeParams(TEST_URI, text, '/'));
+
+      expect(result.items).toHaveLength(0);
+    });
+  });
 
   describe('block-ref routing', () => {
     it('routes [[#^ to BlockRefCompletionProvider (intra-doc)', () => {

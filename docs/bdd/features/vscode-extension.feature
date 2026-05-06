@@ -13,7 +13,7 @@ Feature: VS Code extension lifecycle and integration
     Given a VS Code instance with the Flavor Grenade extension installed
     And a workspace folder containing a ".obsidian/" directory
 
-  @smoke
+  @extension-host
   Scenario: Extension activation on markdown file open
     When the user opens a file "notes/welcome.md" in the workspace
     Then the extension activates via the "onLanguage:markdown" activation event

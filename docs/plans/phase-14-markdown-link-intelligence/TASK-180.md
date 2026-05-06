@@ -2,7 +2,7 @@
 id: "TASK-180"
 title: "Complete Markdown link URL targets"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-180"]
 
 # Complete Markdown link URL targets
 
-> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-180` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -37,6 +37,17 @@ behavior.
 - Reuse existing completion candidate caps, sorting, and style-binding helpers
   where they apply.
 - See also: [[plans/phase-14-markdown-link-intelligence]].
+
+## Implementation Details
+
+- Extend `src/completion/context-analyzer.ts` with Markdown link URL, file
+  fragment, and same-document fragment completion contexts.
+- Extend `src/completion/completion-router.ts` to route those contexts to
+  existing document and heading providers where possible.
+- Add a small Markdown-target completion adapter only if existing providers
+  cannot preserve Markdown URL replacement ranges.
+- Add tests in `src/completion/__tests__/markdown-link-completion.test.ts` and
+  extend BDD only after unit behavior is green.
 
 ---
 
@@ -65,7 +76,7 @@ behavior.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/completion/markdown-link-completion.spec.ts` | Unit | `Completion.Trigger.Coverage` | 🔴 failing |
+| `src/completion/markdown-link-completion.test.ts` | Unit | `Completion.Trigger.Coverage` | 🔴 failing |
 
 ---
 
@@ -151,3 +162,25 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Completion write scope is
+> `src/completion/context-analyzer.ts`, `src/completion/completion-router.ts`,
+> optional provider adapter, and Markdown completion tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link target and heading completion before
+> implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown link target and heading completion contexts, Markdown URL
+> insert-text provider, and `(` trigger-character registration. `bun test
+> src/completion/__tests__/context-analyzer.test.ts
+> src/completion/__tests__/completion-router.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

@@ -2,7 +2,7 @@
 id: "TASK-157"
 title: "Classify Markdown link targets"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-157"]
 
 # Classify Markdown link targets
 
-> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-157` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -35,6 +35,18 @@ Oracle resolution.
 - Preserve enough structured data for file target, fragment, image-vs-link
   syntax, and original text range.
 - Follow [[ofm-spec/markdown-links]] `OFM-MDLINK-004`.
+
+## Implementation Details
+
+- Create `src/resolution/markdown-target-classifier.ts` with a pure
+  `classifyMarkdownTarget(target: string)` API and exported discriminated union
+  for local file, same-document fragment, external URL, and unsupported-scheme
+  targets.
+- Add tests in
+  `src/resolution/__tests__/markdown-target-classifier.test.ts`.
+- Keep classification independent from `VaultIndex`; path-to-DocId resolution
+  remains in [[TASK-159]].
+- Do not emit diagnostics from this module.
 
 ---
 
@@ -61,7 +73,7 @@ Oracle resolution.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-target-classifier.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/resolution/markdown-target-classifier.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 
@@ -140,3 +152,26 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Classifier write scope is
+> `src/resolution/markdown-target-classifier.ts` and classifier tests. Status:
+> `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown target classification before implementation.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Implemented pure Markdown target classification for relative Markdown files,
+> same-document fragments, local attachments, known external URLs, and
+> unsupported schemes. `bun test
+> src/resolution/__tests__/markdown-target-classifier.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

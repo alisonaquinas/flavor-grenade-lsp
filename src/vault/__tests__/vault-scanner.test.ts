@@ -185,6 +185,32 @@ describe('VaultScanner', () => {
     expect(scanner.getAssetIndex().size).toBe(0);
   });
 
+  it('scan with configured extensions: indexes only configured document files', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'notes'));
+    fs.writeFileSync(
+      path.join(tmpDir, '.flavor-grenade.toml'),
+      '[vault]\nextensions = [".md", ".markdown", ".txt"]\n',
+    );
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.md'), '# Markdown');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.markdown'), '# Markdown long');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.txt'), '# Text');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.rst'), 'RST');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.has(id('notes/note'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.markdown'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.txt'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.rst'))).toBe(false);
+    expect(scanner.hasAsset('notes/note.rst')).toBe(true);
+  });
+
   // ── 4. Non-markdown files land in assetIndex ─────────────────────────────
 
   it('scan with non-markdown file: not in vaultIndex, IS in assetIndex', async () => {

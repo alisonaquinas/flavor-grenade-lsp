@@ -2,19 +2,19 @@
 id: "CHORE-046"
 title: "Phase 14 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 14
 created: "2026-05-06"
 updated: "2026-05-06"
-dependencies: ["TASK-156", "TASK-157", "TASK-158", "TASK-159", "TASK-160", "TASK-161", "TASK-162", "CHORE-045"]
+dependencies: ["TASK-156", "TASK-157", "TASK-158", "TASK-159", "TASK-160", "TASK-161", "TASK-162", "CHORE-045", "CHORE-057"]
 tags: [tickets/chore, "phase/14"]
 aliases: ["CHORE-046"]
 ---
 
 # Phase 14 Documentation Trace Sweep
 
-> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -96,6 +96,7 @@ work from being accidentally implied as complete.
 - [[TASK-161]] - navigation scope complete.
 - [[TASK-162]] - rename scope complete.
 - [[CHORE-045]] - matrix and index evidence rows complete.
+- [[CHORE-057]] - code quality and security sweeps complete.
 
 **Unblocks:**
 
@@ -148,3 +149,15 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: Phase 14 documentation trace.
+
+> [!INFO] Started - 2026-05-06
+> Documentation trace sweep started after test matrix evidence reached review.
+> Status: `in-progress`.
+
+> [!INFO] Review Ready - 2026-05-06
+> Reconciled Phase 14 ticket requirement tags, FEAT child-ticket statuses, and
+> test evidence links. `bun run lint:docs`, `bun run lint -- --max-warnings 0`,
+> and `bun run typecheck` pass. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

@@ -32,6 +32,10 @@ A paragraph with a block anchor. ^my-block
 
 See also [[AnotherNote#Heading|Alias Text]] and ![[diagram.svg|400]].
 
+Markdown links: [Alpha](notes/alpha.md#Overview) and ![Diagram](assets/diagram.png).
+
+[alpha-ref]: notes/alpha.md "Alpha title"
+
 A tag in a code span \`#notag\` should not be found.
 `;
 
@@ -97,6 +101,13 @@ describe('OFMParser integration', () => {
     const targets = doc.index.embeds.map((e) => e.target);
     expect(targets).toContain('image.png');
     expect(targets).toContain('diagram.svg');
+  });
+
+  it('extracts standard Markdown links and definitions', () => {
+    const doc = parser.parse('test://doc.md', SAMPLE_DOC, 1);
+    expect(doc.index.markdownLinks.map((link) => link.target)).toContain('notes/alpha.md#Overview');
+    expect(doc.index.markdownImages.map((image) => image.target)).toContain('assets/diagram.png');
+    expect(doc.index.linkLabelDefs.map((def) => def.normalizedLabel)).toContain('alpha-ref');
   });
 
   it('image embed has size parsed', () => {

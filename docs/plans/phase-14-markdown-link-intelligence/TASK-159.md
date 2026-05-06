@@ -2,7 +2,7 @@
 id: "TASK-159"
 title: "Resolve Markdown links through Oracle"
 type: task
-status: open
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-159"]
 
 # Resolve Markdown links through Oracle
 
-> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -34,6 +34,16 @@ centralized heading anchor normalization.
 - Resolve reference-style links through their document-local definitions.
 - Return enough structured result data for diagnostics, definition,
   references, and rename.
+
+## Implementation Details
+
+- Extend `src/resolution/oracle.ts` with Markdown-specific resolution helpers
+  rather than duplicating vault lookup logic in handlers.
+- Add shared heading-anchor normalization in `src/resolution/heading-anchor.ts`
+  or an equivalent small resolution utility.
+- Resolve local Markdown target classifications from [[TASK-157]] to DocIds,
+  then validate optional fragments against target document headings.
+- Add tests in `src/resolution/__tests__/markdown-link-oracle.test.ts`.
 
 ---
 
@@ -63,7 +73,7 @@ centralized heading anchor normalization.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/markdown-link-oracle.spec.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
+| `src/resolution/markdown-link-oracle.test.ts` | Unit | `Parity.MarkdownLinks.LocalResolution` | 🔴 failing |
 
 ---
 
@@ -143,3 +153,25 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Oracle write scope is
+> `src/resolution/oracle.ts`, a heading-anchor utility if needed, and Oracle
+> tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown target resolution and normalized heading
+> anchors before implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added shared heading-anchor normalization and Oracle Markdown target
+> resolution for documents, same-document anchors, file-plus-heading anchors,
+> missing headings, and ambiguous headings. `bun test
+> src/resolution/__tests__/markdown-link-oracle.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

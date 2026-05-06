@@ -1,7 +1,7 @@
 ---
 title: "Phase 14: Markdown Link Intelligence"
 phase: 14
-status: planned
+status: in-progress
 tags: [plans, markdown-links, reference-resolution, diagnostics, navigation]
 aliases: [Phase 14, Markdown Link Intelligence]
 updated: 2026-05-06
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 14 |
 | Title | Markdown Link Intelligence |
-| Status | planned |
+| Status | in-progress |
 | Gate | Local standard Markdown links resolve, diagnose, navigate, reference, and rename like OFM heading links |
 | Depends on | Phase 13 |
 
