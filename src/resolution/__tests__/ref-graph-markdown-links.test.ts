@@ -77,6 +77,22 @@ describe('RefGraph Markdown links', () => {
     expect(refGraph.getMarkdownRefsTo(id('notes/alpha'))).toHaveLength(1);
   });
 
+  it('indexes standalone reference definitions as document references', () => {
+    vaultIndex.set(
+      id('notes/source'),
+      parser.parse('file:///vault/notes/source.md', '[alpha-ref]: alpha.md', 1),
+    );
+    vaultIndex.set(id('notes/alpha'), parser.parse('file:///vault/notes/alpha.md', '# Alpha', 1));
+    folderLookup.rebuild(vaultIndex);
+
+    refGraph.rebuild(vaultIndex, oracle);
+
+    const refs = refGraph.getMarkdownRefsTo(id('notes/alpha'));
+    expect(refs).toHaveLength(1);
+    expect(refs[0].entry.kind).toBe('link-label-def');
+    expect(refs[0].resolvedTo).toBe('notes/alpha');
+  });
+
   it('does not bind labels across documents', () => {
     vaultIndex.set(
       id('notes/source'),
