@@ -2,7 +2,7 @@
 id: "TASK-156"
 title: "Parse standard Markdown link syntax"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-156"]
 
 # Parse standard Markdown link syntax
 
-> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-156` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -169,3 +169,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Parser write scope is
 > `src/parser/types.ts`, `src/parser/markdown-link-parser.ts`,
 > `src/parser/ofm-parser.ts`, and parser tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link parser coverage before implementation.
+> Status: `red`.
