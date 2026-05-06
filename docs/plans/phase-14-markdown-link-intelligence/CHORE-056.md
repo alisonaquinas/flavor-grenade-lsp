@@ -2,7 +2,7 @@
 id: "CHORE-056"
 title: "Phase 14 Code Quality Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-056"]
 
 # Phase 14 Code Quality Sweep
 
-> [!INFO] `CHORE-056` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
+> [!INFO] `CHORE-056` · Chore · Phase 14 · Priority: `medium` · Status: `done`
 
 ## Description
 
@@ -92,3 +92,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > review tickets [[BUG-004]], [[BUG-005]], and [[CHORE-058]]. Targeted tests,
 > `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
 > `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

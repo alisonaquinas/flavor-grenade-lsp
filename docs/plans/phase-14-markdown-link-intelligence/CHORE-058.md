@@ -2,7 +2,7 @@
 id: "CHORE-058"
 title: "Document and split Phase 14 parser surfaces"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-058"]
 
 # Document and split Phase 14 parser surfaces
 
-> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
+> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `done`
 
 ## Description
 
@@ -96,3 +96,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > Split inline Markdown link parsing into smaller helpers. Targeted parser and
 > resolution tests, `bun run typecheck`, and `bun run lint -- --max-warnings 0`
 > pass. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

@@ -2,7 +2,7 @@
 id: "FEAT-021"
 title: "Markdown Link Intelligence"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-021"]
 
 # Markdown Link Intelligence
 
-> [!INFO] `FEAT-021` · Feature · Phase 14 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-021` · Feature · Phase 14 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -122,27 +122,30 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-156]] | Parse standard Markdown link syntax | `in-review` |
-| [[TASK-157]] | Classify Markdown link targets | `in-review` |
-| [[TASK-180]] | Complete Markdown link URL targets | `in-review` |
-| [[TASK-158]] | Index Markdown link references in RefGraph | `in-review` |
-| [[TASK-159]] | Resolve Markdown links through Oracle | `in-review` |
-| [[TASK-160]] | Diagnose Markdown heading anchors | `in-review` |
-| [[TASK-161]] | Navigate Markdown links and labels | `in-review` |
-| [[TASK-162]] | Rename Markdown heading anchors | `in-review` |
-| [[CHORE-044]] | Phase 14 Lint Sweep | `in-review` |
-| [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-review` |
-| [[BUG-003]] | Markdown path targets can escape above vault root | `in-review` |
-| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | `in-review` |
-| [[BUG-005]] | Markdown completions lose folder context for nested documents | `in-review` |
-| [[BUG-006]] | BDD smoke indexes files outside configured extension list | `in-review` |
-| [[BUG-007]] | BDD smoke includes undefined extension-host scenario | `in-review` |
-| [[BUG-008]] | BDD smoke includes pending scenarios | `in-review` |
-| [[CHORE-056]] | Phase 14 Code Quality Sweep | `in-review` |
-| [[CHORE-058]] | Document and split Phase 14 parser surfaces | `in-review` |
-| [[CHORE-057]] | Phase 14 Security Sweep | `in-review` |
-| [[CHORE-045]] | Phase 14 Test Matrix Sweep | `in-review` |
-| [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `in-review` |
+| [[TASK-156]] | Parse standard Markdown link syntax | `done` |
+| [[TASK-157]] | Classify Markdown link targets | `done` |
+| [[TASK-180]] | Complete Markdown link URL targets | `done` |
+| [[TASK-158]] | Index Markdown link references in RefGraph | `done` |
+| [[TASK-159]] | Resolve Markdown links through Oracle | `done` |
+| [[TASK-160]] | Diagnose Markdown heading anchors | `done` |
+| [[TASK-161]] | Navigate Markdown links and labels | `done` |
+| [[TASK-162]] | Rename Markdown heading anchors | `done` |
+| [[CHORE-044]] | Phase 14 Lint Sweep | `done` |
+| [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `done` |
+| [[BUG-003]] | Markdown path targets can escape above vault root | `done` |
+| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | `done` |
+| [[BUG-005]] | Markdown completions lose folder context for nested documents | `done` |
+| [[BUG-006]] | BDD smoke indexes files outside configured extension list | `done` |
+| [[BUG-007]] | BDD smoke includes undefined extension-host scenario | `done` |
+| [[BUG-008]] | BDD smoke includes pending scenarios | `done` |
+| [[BUG-009]] | Documented BDD smoke command does not reproduce on PowerShell | `done` |
+| [[BUG-010]] | Standalone Markdown link definitions are missing from RefGraph document refs | `done` |
+| [[CHORE-056]] | Phase 14 Code Quality Sweep | `done` |
+| [[CHORE-058]] | Document and split Phase 14 parser surfaces | `done` |
+| [[CHORE-057]] | Phase 14 Security Sweep | `done` |
+| [[CHORE-059]] | Reconcile final Phase 14 review trace | `done` |
+| [[CHORE-045]] | Phase 14 Test Matrix Sweep | `done` |
+| [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -252,3 +255,6 @@ tag was not itself maintained as a runnable gate. Future phases should check
 
 - [ ] Consider adding a checklist item that BDD gate tags must contain no
   pending scenarios before a phase begins.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.

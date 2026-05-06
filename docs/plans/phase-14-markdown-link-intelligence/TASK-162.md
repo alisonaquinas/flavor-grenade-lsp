@@ -2,7 +2,7 @@
 id: "TASK-162"
 title: "Rename Markdown heading anchors"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-162"]
 
 # Rename Markdown heading anchors
 
-> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `in-review`
+> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `done`
 
 ## Description
 
@@ -172,3 +172,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!SUCCESS] Review Ready - 2026-05-06
 > Local phase gates pass after implementation and sweep fixes. Status: `in-review`.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #30 passed CI and the Phase 14 gate is ready to merge. Status: `done`.
