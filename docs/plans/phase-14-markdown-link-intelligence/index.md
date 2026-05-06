@@ -19,7 +19,7 @@ aliases: ["Phase 14 Tickets"]
 | [[TASK-162]] | Rename Markdown heading anchors | Task | `green` |
 | [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `in-review` |
 | [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | Bug | `in-progress` |
-| [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `open` |
+| [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-progress` |
 | [[CHORE-057]] | Phase 14 Security Sweep | Chore | `open` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `open` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `open` |
