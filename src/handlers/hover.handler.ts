@@ -104,7 +104,10 @@ export class HoverHandler {
     });
     if (classification.kind !== 'local-attachment') return null;
 
-    const attachment = this.attachmentForTarget(classification.path);
+    const attachment = this.attachmentForTargets([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
     if (attachment === undefined) return null;
 
     return this.hoverForAttachment(attachment);
@@ -169,15 +172,43 @@ export class HoverHandler {
   }
 
   private attachmentForTarget(target: string): AttachmentEntry | undefined {
-    const exact = this.vaultIndex.getAttachment(target);
-    if (exact !== undefined) return exact;
+    return this.attachmentForTargets([target]);
+  }
 
-    const suffix = '/' + target;
-    const matches = Array.from(this.vaultIndex.attachments()).filter(
-      (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
-    );
+  private attachmentForTargets(targets: Array<string | undefined>): AttachmentEntry | undefined {
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
+    for (const target of candidates) {
+      const exact = this.vaultIndex.getAttachment(target);
+      if (exact !== undefined) return exact;
+    }
 
-    return matches.length === 1 ? matches[0] : undefined;
+    const matches = candidates.flatMap((target) => {
+      const suffix = '/' + target;
+      return Array.from(this.vaultIndex.attachments()).filter(
+        (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
+      );
+    });
+
+    const uniqueMatches = [
+      ...new Map(matches.map((attachment) => [attachment.path, attachment])).values(),
+    ];
+    return uniqueMatches.length === 1 ? uniqueMatches[0] : undefined;
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
   }
 
   private attachmentTypeLabel(attachment: AttachmentEntry): string {

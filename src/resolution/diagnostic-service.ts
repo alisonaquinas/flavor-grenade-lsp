@@ -164,7 +164,10 @@ export class DiagnosticService {
       return null;
     }
 
-    const resolution = this.resolveAttachmentPath(classification.path);
+    const resolution = this.resolveAttachmentPath([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
     if (resolution.kind === 'resolved') {
       return null;
     }
@@ -189,26 +192,49 @@ export class DiagnosticService {
   }
 
   private resolveAttachmentPath(
-    target: string,
+    targets: Array<string | undefined>,
   ):
     | { kind: 'resolved'; path: string }
     | { kind: 'ambiguous'; candidates: string[] }
     | { kind: 'missing' } {
-    if (this.vaultIndex?.hasAttachment(target)) {
-      return { kind: 'resolved', path: target };
-    }
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
 
-    const suffix = '/' + target;
-    const matches: string[] = [];
-    for (const attachment of this.vaultIndex?.attachments() ?? []) {
-      if (attachment.path === target || attachment.path.endsWith(suffix)) {
-        matches.push(attachment.path);
+    for (const target of candidates) {
+      if (this.vaultIndex?.hasAttachment(target)) {
+        return { kind: 'resolved', path: target };
       }
     }
 
-    if (matches.length === 1) return { kind: 'resolved', path: matches[0] };
-    if (matches.length > 1) return { kind: 'ambiguous', candidates: matches };
+    const matches: string[] = [];
+    for (const target of candidates) {
+      const suffix = '/' + target;
+      for (const attachment of this.vaultIndex?.attachments() ?? []) {
+        if (attachment.path === target || attachment.path.endsWith(suffix)) {
+          matches.push(attachment.path);
+        }
+      }
+    }
+
+    const uniqueMatches = [...new Set(matches)];
+    if (uniqueMatches.length === 1) return { kind: 'resolved', path: uniqueMatches[0] };
+    if (uniqueMatches.length > 1) return { kind: 'ambiguous', candidates: uniqueMatches };
     return { kind: 'missing' };
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
   }
 
   /**

@@ -175,7 +175,10 @@ export class DefinitionHandler {
     });
     if (classification.kind !== 'local-attachment') return null;
 
-    const attachment = this.attachmentForTarget(classification.path);
+    const attachment = this.attachmentForTargets([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
     if (attachment === undefined) return null;
 
     return { uri: attachment.uri, range: zeroRange() };
@@ -302,7 +305,7 @@ export class DefinitionHandler {
    * @param assetPath - Vault-relative path such as `assets/image.png`.
    */
   private assetPathToUri(assetPath: string): string {
-    const attachment = this.attachmentForTarget(assetPath);
+    const attachment = this.attachmentForTargets([assetPath]);
     if (attachment !== undefined) {
       return attachment.uri;
     }
@@ -319,17 +322,41 @@ export class DefinitionHandler {
     return pathToFileURL(assetPath).href;
   }
 
-  private attachmentForTarget(target: string): { uri: string } | undefined {
+  private attachmentForTargets(targets: Array<string | undefined>): { uri: string } | undefined {
     if (this.vaultIndex === undefined) return undefined;
 
-    const exact = this.vaultIndex.getAttachment(target);
-    if (exact !== undefined) return exact;
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
+    for (const target of candidates) {
+      const exact = this.vaultIndex.getAttachment(target);
+      if (exact !== undefined) return exact;
+    }
 
-    const suffix = '/' + target;
-    const matches = Array.from(this.vaultIndex.attachments()).filter(
-      (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
-    );
+    const matches = candidates.flatMap((target) => {
+      const suffix = '/' + target;
+      return Array.from(this.vaultIndex!.attachments()).filter(
+        (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
+      );
+    });
 
-    return matches.length === 1 ? matches[0] : undefined;
+    const uniqueMatches = [
+      ...new Map(matches.map((attachment) => [attachment.path, attachment])).values(),
+    ];
+    return uniqueMatches.length === 1 ? uniqueMatches[0] : undefined;
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
   }
 }
