@@ -2,7 +2,7 @@
 id: "TASK-159"
 title: "Resolve Markdown links through Oracle"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-159"]
 
 # Resolve Markdown links through Oracle
 
-> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -162,3 +162,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown target resolution and normalized heading
 > anchors before implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added shared heading-anchor normalization and Oracle Markdown target
+> resolution for documents, same-document anchors, file-plus-heading anchors,
+> missing headings, and ambiguous headings. `bun test
+> src/resolution/__tests__/markdown-link-oracle.test.ts`, `bun run typecheck`,
+> and `bun run lint -- --max-warnings 0` pass. Status: `green`.

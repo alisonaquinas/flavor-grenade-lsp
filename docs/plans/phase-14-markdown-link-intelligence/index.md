@@ -13,7 +13,7 @@ aliases: ["Phase 14 Tickets"]
 | [[TASK-157]] | Classify Markdown link targets | Task | `green` |
 | [[TASK-180]] | Complete Markdown link URL targets | Task | `open` |
 | [[TASK-158]] | Index Markdown link references in RefGraph | Task | `green` |
-| [[TASK-159]] | Resolve Markdown links through Oracle | Task | `red` |
+| [[TASK-159]] | Resolve Markdown links through Oracle | Task | `green` |
 | [[TASK-160]] | Diagnose Markdown heading anchors | Task | `open` |
 | [[TASK-161]] | Navigate Markdown links and labels | Task | `open` |
 | [[TASK-162]] | Rename Markdown heading anchors | Task | `open` |
