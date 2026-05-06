@@ -36,6 +36,18 @@ Oracle resolution.
   syntax, and original text range.
 - Follow [[ofm-spec/markdown-links]] `OFM-MDLINK-004`.
 
+## Implementation Details
+
+- Create `src/resolution/markdown-target-classifier.ts` with a pure
+  `classifyMarkdownTarget(target: string)` API and exported discriminated union
+  for local file, same-document fragment, external URL, and unsupported-scheme
+  targets.
+- Add tests in
+  `src/resolution/__tests__/markdown-target-classifier.test.ts`.
+- Keep classification independent from `VaultIndex`; path-to-DocId resolution
+  remains in [[TASK-159]].
+- Do not emit diagnostics from this module.
+
 ---
 
 ## Linked Functional Requirements
@@ -140,3 +152,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Classifier write scope is
+> `src/resolution/markdown-target-classifier.ts` and classifier tests. Status:
+> `open`.

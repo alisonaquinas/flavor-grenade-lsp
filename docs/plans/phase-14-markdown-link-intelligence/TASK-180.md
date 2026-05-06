@@ -38,6 +38,17 @@ behavior.
   where they apply.
 - See also: [[plans/phase-14-markdown-link-intelligence]].
 
+## Implementation Details
+
+- Extend `src/completion/context-analyzer.ts` with Markdown link URL, file
+  fragment, and same-document fragment completion contexts.
+- Extend `src/completion/completion-router.ts` to route those contexts to
+  existing document and heading providers where possible.
+- Add a small Markdown-target completion adapter only if existing providers
+  cannot preserve Markdown URL replacement ranges.
+- Add tests in `src/completion/__tests__/markdown-link-completion.test.ts` and
+  extend BDD only after unit behavior is green.
+
 ---
 
 ## Linked Functional Requirements
@@ -151,3 +162,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Completion write scope is
+> `src/completion/context-analyzer.ts`, `src/completion/completion-router.ts`,
+> optional provider adapter, and Markdown completion tests. Status: `open`.

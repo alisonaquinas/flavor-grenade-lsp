@@ -35,6 +35,17 @@ information for every candidate heading.
 - Preserve external URL suppression for `[External](https://example.com/page)`.
 - Reuse existing diagnostic code conventions where possible.
 
+## Implementation Details
+
+- Extend `src/resolution/diagnostic-service.ts` to inspect parsed Markdown link
+  entries and classifier results.
+- Reuse Oracle Markdown resolution results from [[TASK-159]] for missing and
+  ambiguous heading diagnostics.
+- Prefer parser target or fragment ranges for diagnostic locations; fall back
+  to the full link range only when no finer range exists.
+- Keep external URL and unsupported scheme targets diagnostic-free.
+- Add tests in `src/resolution/__tests__/markdown-link-diagnostics.test.ts`.
+
 ---
 
 ## Linked Functional Requirements
@@ -141,3 +152,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Diagnostic write scope is
+> `src/resolution/diagnostic-service.ts` and Markdown diagnostic tests. Status:
+> `open`.

@@ -38,6 +38,23 @@ existing precedence for opaque regions, embeds, and wiki-links.
 - Respect [[ofm-spec/markdown-links]] rule codes `OFM-MDLINK-001` through
   `OFM-MDLINK-005`.
 
+## Implementation Details
+
+- Create `src/parser/markdown-link-parser.ts` with a static
+  `MarkdownLinkParser.parse(text, opaqueRegions)` API matching existing parser
+  classes.
+- Extend `src/parser/types.ts` with `MarkdownLinkRef`,
+  `MarkdownImageRef`, `LinkLabelRef`, and `LinkLabelDef` entry types. Each type
+  must include full token `range` plus target/text/label ranges needed by
+  downstream navigation and rename.
+- Extend `OFMIndex` with `markdownLinks`, `markdownImages`, `linkLabelRefs`,
+  and `linkLabelDefs` arrays.
+- Wire `MarkdownLinkParser` into `src/parser/ofm-parser.ts` after opaque region
+  marking and alongside the existing token parser stage.
+- Add RED tests in `src/parser/__tests__/markdown-link-parser.test.ts`; extend
+  `src/parser/__tests__/ofm-parser.integration.test.ts` only after the parser
+  model exists.
+
 ---
 
 ## Linked Functional Requirements
@@ -147,3 +164,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Parser write scope is
+> `src/parser/types.ts`, `src/parser/markdown-link-parser.ts`,
+> `src/parser/ofm-parser.ts`, and parser tests. Status: `open`.

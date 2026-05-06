@@ -35,6 +35,18 @@ must remain unchanged.
 - Preserve link text, reference labels, titles, and unrelated URL content.
 - Use the same heading-anchor normalization as Oracle and diagnostics.
 
+## Implementation Details
+
+- Extend `src/handlers/rename.handler.ts` heading rename logic to add edits for
+  Markdown same-document and file-plus-fragment anchors that resolve to the
+  renamed heading.
+- Reuse the same heading-anchor normalization utility used by [[TASK-159]] and
+  [[TASK-160]].
+- Replace only the target fragment range, preserving display text, labels, and
+  optional titles.
+- Add tests in `src/handlers/__tests__/markdown-heading-rename.test.ts` so the
+  existing handler test layout remains consistent.
+
 ---
 
 ## Linked Functional Requirements
@@ -140,3 +152,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Rename write scope is
+> `src/handlers/rename.handler.ts`, the shared heading-anchor utility, and
+> Markdown rename tests. Status: `open`.

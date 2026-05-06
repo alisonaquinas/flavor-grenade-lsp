@@ -35,6 +35,18 @@ on a label definition should include all same-document label uses.
 - References on a heading include matching Markdown anchors.
 - References on a label definition include same-document label uses.
 
+## Implementation Details
+
+- Extend `src/handlers/cursor-entity.ts` to return Markdown link target and
+  label entities using the parsed ranges from [[TASK-156]].
+- Extend `src/handlers/definition.handler.ts` to resolve Markdown file,
+  fragment, and label entities through Oracle/RefGraph helpers.
+- Extend `src/handlers/references.handler.ts` to include Markdown heading refs
+  and document-local label refs. Do not rely on literal heading text filtering
+  for Markdown anchors.
+- Add tests in `src/handlers/__tests__/markdown-link-navigation.test.ts` and
+  `src/handlers/__tests__/markdown-link-references.test.ts`.
+
 ---
 
 ## Linked Functional Requirements
@@ -144,3 +156,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Navigation write scope is
+> `src/handlers/cursor-entity.ts`, definition/references handlers, and
+> Markdown navigation tests. Status: `open`.

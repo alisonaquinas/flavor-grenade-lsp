@@ -115,6 +115,19 @@ All of the following must be true before this task is marked `done`:
 Do not maintain a second parsed document store. All parsed `OFMDoc` data remains
 owned by `VaultIndex`.
 
+## Implementation Details
+
+- Extend `src/resolution/ref-graph.ts` in place; do not add another document
+  cache.
+- Add `MarkdownLinkGraphRef`, `MarkdownImageGraphRef`, and label lookup support
+  keyed by `sourceDocId` plus normalized label.
+- Rebuild Markdown graph state inside `RefGraph.rebuild()` from
+  `doc.index.markdownLinks`, `doc.index.markdownImages`, `doc.index.linkLabelRefs`,
+  and `doc.index.linkLabelDefs`.
+- Consume `classifyMarkdownTarget()` from [[TASK-157]] before registering vault
+  references.
+- Add tests in `src/resolution/__tests__/ref-graph-markdown-links.test.ts`.
+
 ---
 
 ## Lifecycle
@@ -141,3 +154,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Graph write scope is
+> `src/resolution/ref-graph.ts` and Markdown RefGraph tests. Status: `open`.

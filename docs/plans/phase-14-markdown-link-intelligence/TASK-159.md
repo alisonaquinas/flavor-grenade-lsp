@@ -35,6 +35,16 @@ centralized heading anchor normalization.
 - Return enough structured result data for diagnostics, definition,
   references, and rename.
 
+## Implementation Details
+
+- Extend `src/resolution/oracle.ts` with Markdown-specific resolution helpers
+  rather than duplicating vault lookup logic in handlers.
+- Add shared heading-anchor normalization in `src/resolution/heading-anchor.ts`
+  or an equivalent small resolution utility.
+- Resolve local Markdown target classifications from [[TASK-157]] to DocIds,
+  then validate optional fragments against target document headings.
+- Add tests in `src/resolution/__tests__/markdown-link-oracle.test.ts`.
+
 ---
 
 ## Linked Functional Requirements
@@ -143,3 +153,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-021]].
+
+> [!INFO] Detailed - 2026-05-06
+> Step C implementation details added. Oracle write scope is
+> `src/resolution/oracle.ts`, a heading-anchor utility if needed, and Oracle
+> tests. Status: `open`.
