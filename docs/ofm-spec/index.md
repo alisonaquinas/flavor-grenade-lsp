@@ -23,6 +23,11 @@ This directory is the ground-truth reference for `flavor-grenade-lsp`. Every LSP
 | `OFM-INDEX-001` | Parse precedence is fixed: fenced code, math, comments, templater, embeds, then wiki-links. |
 | `OFM-INDEX-002` | Fenced code, math, comments, and templater regions are opaque to OFM analysis. |
 | `OFM-INDEX-003` | The applicability matrix is the canonical map for which OFM features are active per element type. |
+| `OFM-MDLINK-001` | Inline links of the form `[text](target)` are parsed after OFM wiki-links and embeds. |
+| `OFM-MDLINK-002` | Reference link definitions `[label]: target "title"` define document-local labels. |
+| `OFM-MDLINK-003` | Reference link uses resolve only to definitions in the same document. |
+| `OFM-MDLINK-004` | Only local file targets participate in vault resolution; external URLs and unknown schemes are opaque. |
+| `OFM-MDLINK-005` | Markdown image links targeting local files are attachment references. |
 
 ## Element Taxonomy
 
@@ -33,6 +38,7 @@ This directory is the ground-truth reference for `flavor-grenade-lsp`. Every LSP
 | Block reference | `[[doc#^abc123]]`, `^abc123` anchor | [[ofm-spec/block-references]] |
 | Inline tag | `#project/active` | [[tags]] |
 | YAML frontmatter | `---\ntitle: ...\n---` | [[frontmatter]] |
+| Markdown link | `[text](note.md)`, `[label]: note.md` | [[markdown-links]] |
 | Callout | `> [!NOTE] Title` | [[callouts]] |
 | Math (block) | `$$...$$` | [[math]] |
 | Math (inline) | `$...$` | [[math]] |
@@ -73,16 +79,16 @@ These element types are **excluded from all text analysis**. The LSP must treat 
 
 ## LSP Feature Applicability Matrix
 
-| Feature | Wiki-link | Embed | Block Ref | Tag | Frontmatter | Callout | Math | Comment | Templater |
-|---|---|---|---|---|---|---|---|---|---|
-| Completion | Yes | Yes | Yes | Yes | Yes | Yes | No | No | No |
-| Go-to-definition | Yes | Yes | Yes | No | No | No | No | No | No |
-| Find references | Yes | Yes | Yes | Yes | No | No | No | No | No |
-| Diagnostics | Yes | Yes | Yes | No | Yes | Opt | No | No | No |
-| Rename | Yes | No | No | No | No | No | No | No | No |
-| Hover | Yes | Yes | No | Yes | Yes | No | No | No | No |
-| Semantic tokens | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
-| Fold range | No | No | No | No | Yes | Yes | Yes | Yes | Yes |
+| Feature | Wiki-link | Embed | Markdown Link | Block Ref | Tag | Frontmatter | Callout | Math | Comment | Templater |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Completion | Yes | Yes | Yes | Yes | Yes | Yes | Yes | No | No | No |
+| Go-to-definition | Yes | Yes | Yes | Yes | No | No | No | No | No | No |
+| Find references | Yes | Yes | Yes | Yes | Yes | No | No | No | No | No |
+| Diagnostics | Yes | Yes | Yes | Yes | No | Yes | Opt | No | No | No |
+| Rename | Yes | Yes | Yes | Yes | Yes | Yes | No | No | No | No |
+| Hover | Yes | Yes | Yes | No | Yes | Yes | No | No | No | No |
+| Semantic tokens | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Fold range | No | No | No | No | No | Yes | Yes | Yes | Yes | Yes |
 
 ---
 

@@ -1,0 +1,22 @@
+---
+title: Phase 14 - Markdown Link Intelligence Tickets
+tags: [plans/phase-14, tickets/index]
+aliases: ["Phase 14 Tickets"]
+---
+
+# Phase 14 - Markdown Link Intelligence Tickets
+
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[FEAT-021]] | Markdown Link Intelligence | Feature | `draft` |
+| [[TASK-156]] | Parse standard Markdown link syntax | Task | `open` |
+| [[TASK-157]] | Classify Markdown link targets | Task | `open` |
+| [[TASK-180]] | Complete Markdown link URL targets | Task | `open` |
+| [[TASK-158]] | Index Markdown link references in RefGraph | Task | `open` |
+| [[TASK-159]] | Resolve Markdown links through Oracle | Task | `open` |
+| [[TASK-160]] | Diagnose Markdown heading anchors | Task | `open` |
+| [[TASK-161]] | Navigate Markdown links and labels | Task | `open` |
+| [[TASK-162]] | Rename Markdown heading anchors | Task | `open` |
+| [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `open` |
+| [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `open` |
+| [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `open` |

@@ -31,7 +31,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/lsp-protocol/doma
 | Primary artefact | `ExtensionClient` (the `activate()` / `deactivate()` entry points in `extension.ts`) |
 | Custom extensions consumed | `flavorGrenade/status` notification (server → client) |
 | Custom extensions queried | `flavorGrenade/documentMembership` request (client → server) |
-| Custom extensions sent | `flavorGrenade.rebuildIndex` via `workspace/executeCommand` |
+| Custom extensions sent | `flavorGrenade.rebuildIndex` via `workspace/executeCommand`; command bridge payloads via `flavorGrenade.*` VS Code commands |
 | Transport | JSON-RPC 2.0 over stdio (spawned child process) |
 | Package | Separate npm package in `extension/` directory, not part of the NestJS server |
 | Language | TypeScript, `vscode-languageclient@9.x`, VS Code Extension API |
@@ -152,6 +152,34 @@ Commands registered in `package.json` `contributes.commands` and wired in `activ
 | `flavorGrenade.rebuildIndex` | Flavor Grenade: Rebuild Index | Sends `workspace/executeCommand` with command `flavorGrenade.rebuildIndex` to the server |
 | `flavorGrenade.showOutput` | Flavor Grenade: Show Output | `client.outputChannel.show()` — opens the LSP trace output panel |
 
+### CommandBridge
+
+`CommandBridge` is the VS Code-side adapter for server-provided payloads that
+should open native VS Code UI rather than return raw LSP data. Command bridges
+belong in BC6 because they depend on VS Code APIs and command names.
+
+Candidate command bridges:
+
+| Command ID | VS Code behavior |
+|------------|------------------|
+| `flavorGrenade.showReferences` | Calls `editor.action.showReferences` with source and target locations |
+| `flavorGrenade.followLink` | Opens one or more resolved target locations through VS Code location UI |
+| `flavorGrenade.openEmbedTarget` | Opens the file targeted by an OFM embed or Markdown image link |
+| `flavorGrenade.showBacklinks` | Displays inbound references for the current document |
+| `flavorGrenade.showOutlinks` | Displays outgoing references for the current document |
+| `flavorGrenade.revealVaultRoot` | Reveals the active vault root in the file explorer |
+| `flavorGrenade.copyDiagnosticInfo` | Copies extension/server/vault diagnostic info to the clipboard |
+
+Bridge payloads must be JSON-serializable. The server may suggest a command and
+payload in code lens, code action, or a custom request response, but it must not
+import VS Code concepts.
+
+### ExtensionHostTest
+
+Extension-host tests verify BC6 behavior inside VS Code itself. They cover
+activation, command registration, status bar updates, language-mode assignment,
+custom server path failures, and command bridge payload validation.
+
 ### LanguageModeController
 
 The VS Code component that owns dynamic language id assignment. It watches visible editors, opened documents, active editor changes, workspace folder changes, and server readiness. It is the only BC6 component allowed to call VS Code's language assignment API.
@@ -247,6 +275,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 | Server → Client | Standard LSP responses | Completion lists, definition locations, diagnostics |
 | Server → Client | Custom notification | `flavorGrenade/status` |
 | Server → Client | Standard notification | `textDocument/publishDiagnostics` |
+| Server → Client | Command payload | `flavorGrenade.*` command identifiers and JSON payloads returned in LSP structures |
 
 **Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the server binary as a child process and communicates via stdin/stdout pipes.
 

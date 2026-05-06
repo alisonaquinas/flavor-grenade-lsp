@@ -76,6 +76,11 @@ See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifec
 | **IntraRef** | BC3 Reference Resolution | A ref whose target is within the same document (e.g., `[[#Heading]]`). Resolved purely against the document's own `OFMIndex`. |
 | **lastTouched** | BC3 Reference Resolution | A timestamp field on index entries recording when a document was last re-parsed. Used to detect staleness during vault scans. |
 | **LinkDefDef** | BC3 Reference Resolution | A `Def` created when a document defines a named link definition in Markdown reference-link style. Rare but indexed for completeness. |
+| **MarkdownLinkRef** | BC3 Reference Resolution | A standard Markdown inline link reference whose target is local to the vault, e.g. `[Alpha](notes/alpha.md)`. External URLs are not `MarkdownLinkRef` values. |
+| **MarkdownImageRef** | BC3 Reference Resolution | A standard Markdown image reference whose target is local to the vault, e.g. `![Diagram](assets/diagram.png)`. Participates in attachment diagnostics and navigation. |
+| **LinkLabelRef** | BC3 Reference Resolution | A reference-style Markdown link use such as `[Alpha][alpha-ref]`, `[alpha-ref][]`, or `[alpha-ref]`. Resolves to a `LinkLabelDef` in the same document. |
+| **LinkLabelDef** | BC3 Reference Resolution | A Markdown reference definition such as `[alpha-ref]: notes/alpha.md`. It defines a label and may also contain a local vault target that participates in resolution. |
+| **AttachmentRef** | BC3 Reference Resolution | A reference to a non-Markdown vault file, such as an image, PDF, audio file, or other asset. May originate from an embed, Markdown image link, or Markdown inline link. |
 | **Oracle** | BC3 Reference Resolution | The domain service and anti-corruption layer that mediates between `RefGraph` and `VaultIndex`. `RefGraph` asks the Oracle to resolve a ref to a set of candidate scopes (`DocId[]`) and then to locate `Def` values within a scope. The Oracle speaks `RefGraph`'s language, not `VaultIndex`'s. |
 | **Ref** | BC3 Reference Resolution | A reference site in a document — a place that points to a `Def`. Subtypes: `WikiRef`, `EmbedRef`, `BlockRef`, `TagRef`. |
 | **RefGraph** | BC3 Reference Resolution | The aggregate that is the consistency boundary for all reference and definition data across a vault. Owns the resolved-ref → def edge map, the unresolved set, and the reverse backlinks index. Rebuilt or incrementally updated whenever documents change. |
@@ -143,6 +148,9 @@ See also: [[bounded-contexts]], [[ddd/vault/domain-model]], [[ddd/document-lifec
 | **DocumentMembership** | BC6 Editor Client / BC5 LSP Protocol | The server-authoritative answer to whether a document URI belongs to a multi-file vault or server index and should be treated as OFMarkdown by the VS Code extension. |
 | **ExtensionActivation** | BC6 Editor Client | The `activate()` lifecycle entry point. Triggered by `onLanguage:markdown` and `onLanguage:ofmarkdown`. Resolves binary, creates LanguageClient, starts server, wires status bar, commands, and language mode detection. |
 | **ExtensionDeactivation** | BC6 Editor Client | The `deactivate()` lifecycle exit point. Client disposal (and server shutdown) is handled by `context.subscriptions`. |
+| **CommandBridge** | BC6 Editor Client | A VS Code command registered by the extension that adapts a server-provided JSON payload into a VS Code-native UI action such as showing references, following a location, opening an embed target, or copying diagnostic information. |
+| **ExtensionHostTest** | BC6 Editor Client | An automated test that runs inside the VS Code extension host and verifies activation, command registration, status bar behavior, language-mode assignment, and failure states. |
+| **MarketplaceEvidence** | BC6 Editor Client | Screenshots, images, or short GIFs shipped or referenced by the extension README to demonstrate OFMarkdown behavior on the VS Code Marketplace. |
 
 ---
 

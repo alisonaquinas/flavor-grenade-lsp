@@ -81,6 +81,7 @@ All documentation layers are being written before any TypeScript implementation 
 | Section | Description |
 |---|---|
 | [[ofm-spec/index]] | Normative OFM language specification with rule codes |
+| [[ofm-spec/markdown-links]] | Standard Markdown local link rules inside OFMarkdown |
 | [[ddd/bounded-contexts]] | Bounded context map and domain model overview |
 | [[ddd/ubiquitous-language]] | Canonical vocabulary used throughout all docs |
 | [[architecture/overview]] | System architecture, component diagram, layering |
@@ -115,6 +116,11 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
 | [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
+| [[features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
+| [[features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
+| [[requirements/index]] | Master Planguage functional requirements index |
+| [[requirements/functional/ofmarkdown-parity]] | Server-side OFMarkdown parity functional requirements |
+| [[requirements/functional/vscode-extension-parity]] | VS Code extension parity functional requirements |
 | [[design/behavior-layer]] | Behavior layer design |
 | [[design/domain-layer]] | Domain layer design |
 | [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |
@@ -127,6 +133,19 @@ All documentation layers are being written before any TypeScript implementation 
 |---|---|
 | [[research/vscode-extension-publishing]] | VS Code extension publishing research |
 | [[research/security-threat-model]] | Security threat model research |
+| [[research/marksman-feature-parity-ofmarkdown]] | Marksman parity research for OFMarkdown features |
+| [[research/marksman-vscode-feature-parity-ofmarkdown]] | Marksman VSCode parity research for OFMarkdown extension features |
+
+### Parity Plans
+
+| Document | Description |
+|---|---|
+| [[plans/phase-14-markdown-link-intelligence]] | Standard Markdown local link intelligence plan |
+| [[plans/phase-15-attachment-intelligence]] | Attachment intelligence plan |
+| [[plans/phase-16-vault-file-operation-refactors]] | Vault file operation refactor plan |
+| [[plans/phase-17-structural-lsp-capabilities]] | Structural LSP capabilities plan |
+| [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity plan |
+| `extension/docs/index.md` | Extension-local parity specification mirror |
 
 ### Extension
 
