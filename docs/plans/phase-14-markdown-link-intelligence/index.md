@@ -8,7 +8,7 @@ aliases: ["Phase 14 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-021]] | Markdown Link Intelligence | Feature | `in-progress` |
+| [[FEAT-021]] | Markdown Link Intelligence | Feature | `in-review` |
 | [[TASK-156]] | Parse standard Markdown link syntax | Task | `in-review` |
 | [[TASK-157]] | Classify Markdown link targets | Task | `in-review` |
 | [[TASK-180]] | Complete Markdown link URL targets | Task | `in-review` |
@@ -25,8 +25,11 @@ aliases: ["Phase 14 Tickets"]
 | [[BUG-006]] | BDD smoke indexes files outside configured extension list | Bug | `in-review` |
 | [[BUG-007]] | BDD smoke includes undefined extension-host scenario | Bug | `in-review` |
 | [[BUG-008]] | BDD smoke includes pending scenarios | Bug | `in-review` |
+| [[BUG-009]] | Documented BDD smoke command does not reproduce on PowerShell | Bug | `open` |
+| [[BUG-010]] | Standalone Markdown link definitions are missing from RefGraph document refs | Bug | `open` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-review` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | Chore | `in-review` |
 | [[CHORE-057]] | Phase 14 Security Sweep | Chore | `in-review` |
+| [[CHORE-059]] | Reconcile final Phase 14 review trace | Chore | `open` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `in-review` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `in-review` |
