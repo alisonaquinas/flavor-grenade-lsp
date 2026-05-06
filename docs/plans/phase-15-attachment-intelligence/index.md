@@ -13,7 +13,7 @@ aliases: ["Phase 15 Tickets"]
 | [[TASK-164]] | Complete attachment references | Task | `green` |
 | [[TASK-165]] | Diagnose broken attachment references | Task | `green` |
 | [[TASK-166]] | Navigate to attachment targets | Task | `green` |
-| [[TASK-167]] | Show attachment hover metadata | Task | `open` |
+| [[TASK-167]] | Show attachment hover metadata | Task | `red` |
 | [[TASK-168]] | Polish attachment configuration | Task | `open` |
 | [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `open` |
 | [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `open` |
