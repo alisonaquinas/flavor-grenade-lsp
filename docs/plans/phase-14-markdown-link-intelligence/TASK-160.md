@@ -2,7 +2,7 @@
 id: "TASK-160"
 title: "Diagnose Markdown heading anchors"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-160"]
 
 # Diagnose Markdown heading anchors
 
-> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -161,3 +161,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown heading diagnostics and external URL suppression
 > before implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Markdown link diagnostics now suppress non-vault URL targets, diagnose missing
+> heading anchors, and report ambiguous heading anchors with candidate heading
+> ranges. `bun test
+> src/resolution/__tests__/markdown-link-diagnostics.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
