@@ -47,8 +47,8 @@ Set up continuous integration, packaging, and release automation. After this pha
           bun-version: ['1.1']
       runs-on: ${{ matrix.os }}
       steps:
-        - uses: actions/checkout@v4
-        - uses: oven-sh/setup-bun@v2
+        - uses: actions/checkout@v6
+        - uses: oven-sh/setup-bun@v2.2.0
           with:
             bun-version: ${{ matrix.bun-version }}
         - run: bun install --frozen-lockfile
@@ -56,7 +56,7 @@ Set up continuous integration, packaging, and release automation. After this pha
         - run: bun run lint
         - run: bun test --coverage
         - run: bun run bdd -- --tags @smoke
-        - uses: actions/upload-artifact@v4
+        - uses: actions/upload-artifact@v7
           if: always()
           with:
             name: cucumber-report-${{ matrix.os }}
@@ -84,8 +84,8 @@ Set up continuous integration, packaging, and release automation. After this pha
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2.2.0
       - run: bun install --frozen-lockfile
       - run: bun run bdd
       continue-on-error: true  # Remove when all scenarios pass
@@ -137,8 +137,8 @@ Set up continuous integration, packaging, and release automation. After this pha
               binary: flavor-grenade-lsp.exe
       runs-on: ${{ matrix.os }}
       steps:
-        - uses: actions/checkout@v4
-        - uses: oven-sh/setup-bun@v2
+        - uses: actions/checkout@v6
+        - uses: oven-sh/setup-bun@v2.2.0
         - run: bun install --frozen-lockfile
         - run: bun run build:binary
         - name: Rename binary with target suffix
@@ -146,7 +146,7 @@ Set up continuous integration, packaging, and release automation. After this pha
           run: |
             mv dist/${{ matrix.binary }} \
                dist/flavor-grenade-lsp-${{ matrix.target }}${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-        - uses: actions/upload-artifact@v4
+        - uses: actions/upload-artifact@v7
           with:
             name: binary-${{ matrix.target }}
             path: dist/flavor-grenade-lsp-${{ matrix.target }}*
@@ -155,12 +155,12 @@ Set up continuous integration, packaging, and release automation. After this pha
       needs: build-binaries
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/download-artifact@v4
+        - uses: actions/download-artifact@v8
           with:
             pattern: binary-*
             merge-multiple: true
             path: dist/
-        - uses: softprops/action-gh-release@v2
+        - uses: softprops/action-gh-release@v3
           with:
             files: dist/flavor-grenade-lsp-*
             generate_release_notes: true
@@ -195,8 +195,8 @@ Set up continuous integration, packaging, and release automation. After this pha
     needs: create-release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2.2.0
       - run: bun install --frozen-lockfile
       - run: bun run build
       - run: npm publish

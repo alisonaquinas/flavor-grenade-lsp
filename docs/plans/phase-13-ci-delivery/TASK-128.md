@@ -33,8 +33,8 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
     runs-on: ubuntu-latest
     continue-on-error: true  # Remove when all scenarios pass
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: '1.1'
       - run: bun install --frozen-lockfile

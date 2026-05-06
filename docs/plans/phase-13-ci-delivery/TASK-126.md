@@ -27,7 +27,7 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 
 - Trigger: `push` to `main` and `pull_request` to `main`
 - Matrix: `os: [ubuntu-latest, macos-latest, windows-latest]` × `bun-version: ['1.1']`
-- Steps: `actions/checkout@v4`, `oven-sh/setup-bun@v2`, `bun install --frozen-lockfile`, `bun run build`, `bun run lint`, `bun test --coverage`, `bun run bdd -- --tags @smoke`, `actions/upload-artifact@v4` (cucumber-report, `if: always()`)
+- Steps: `actions/checkout@v6`, `oven-sh/setup-bun@v2.2.0`, `bun install --frozen-lockfile`, `bun run build`, `bun run lint`, `bun test --coverage`, `bun run bdd -- --tags @smoke`, `actions/upload-artifact@v7` (cucumber-report, `if: always()`)
 - Artifact name: `cucumber-report-${{ matrix.os }}`
 - See also: [[requirements/ci-cd]], [[adr/ADR008-oidc-publishing]]
 
