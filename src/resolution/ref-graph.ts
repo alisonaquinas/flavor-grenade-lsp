@@ -433,6 +433,10 @@ export class RefGraph {
   private registerMarkdownEntries(sourceDocId: DocId, entries: MarkdownLinkRef[]): void {
     for (const entry of entries) {
       const classification = classifyMarkdownTarget(entry.target, { sourceDocId });
+      if (classification.kind === 'same-document-fragment') {
+        this.registerMarkdownRef({ sourceDocId, entry, resolvedTo: sourceDocId });
+        continue;
+      }
       if (classification.kind !== 'local-document') continue;
 
       const resolvedTo = this.resolveClassifiedDocId(classification.path);

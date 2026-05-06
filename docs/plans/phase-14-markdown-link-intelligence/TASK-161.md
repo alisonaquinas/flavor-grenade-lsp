@@ -2,7 +2,7 @@
 id: "TASK-161"
 title: "Navigate Markdown links and labels"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-161"]
 
 # Navigate Markdown links and labels
 
-> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -165,3 +165,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown link definition and reference navigation before
 > implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown cursor entities, definition support for Markdown file/heading
+> links and label uses, plus references for Markdown heading anchors and
+> document-local labels. `bun test
+> src/handlers/__tests__/markdown-link-navigation.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.

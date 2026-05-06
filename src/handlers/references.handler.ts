@@ -9,6 +9,7 @@ import type { DocId } from '../vault/doc-id.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { entityAtPosition } from './cursor-entity.js';
 import { normaliseFileUri } from './uri-utils.js';
+import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
 
 /** Parameters for a `textDocument/references` request. */
 interface ReferencesParams {
@@ -116,7 +117,54 @@ export class ReferencesHandler {
           }
         }
 
+        for (const ref of this.refGraph.getMarkdownRefsTo(defKey)) {
+          if (!('target' in ref.entry)) continue;
+          const classification = classifyMarkdownTarget(ref.entry.target, {
+            sourceDocId: ref.sourceDocId as DocId,
+          });
+          if (
+            classification.kind === 'external-url' ||
+            classification.kind === 'unsupported-scheme'
+          ) {
+            continue;
+          }
+          const targetFragment =
+            classification.kind === 'local-document'
+              ? classification.fragment
+              : classification.kind === 'same-document-fragment'
+                ? classification.fragment
+                : undefined;
+          if (targetFragment === undefined) continue;
+          const targetDocId =
+            classification.kind === 'same-document-fragment'
+              ? ref.sourceDocId
+              : classification.kind === 'local-document'
+                ? classification.path
+                : null;
+          if (targetDocId !== defKey) continue;
+          if (
+            targetFragment.toLowerCase().replace(/\s+/g, '-') !==
+            entity.entry.text.toLowerCase().replace(/\s+/g, '-')
+          ) {
+            continue;
+          }
+          locations.push({
+            uri: this.docIdToUri(ref.sourceDocId as DocId, params.textDocument.uri),
+            range: ref.entry.range,
+          });
+        }
+
         return locations;
+      }
+
+      case 'link-label-def': {
+        const sourceDocId = this.resolveDefKey(params.textDocument.uri) as DocId;
+        return this.refGraph
+          .getLabelRefsTo(sourceDocId, entity.entry.normalizedLabel)
+          .map((ref) => ({
+            uri: this.docIdToUri(ref.sourceDocId, params.textDocument.uri),
+            range: ref.entry.range,
+          }));
       }
 
       case 'wiki-link': {
