@@ -3,13 +3,14 @@ adr: "015"
 title: Platform-specific VSIX distribution for VS Code extension
 status: accepted
 date: 2026-04-21
+amended: 2026-05-06
 ---
 
 # ADR 015 — Platform-specific VSIX distribution for VS Code extension
 
 ## Context
 
-`flavor-grenade-lsp` needs a VS Code extension that bundles the language server binary so users get full Obsidian Flavored Markdown intelligence without installing a separate CLI tool. The server is compiled via `bun build --compile`, producing a self-contained executable with the Bun runtime embedded (~50-80 MB per platform).
+`flavor-grenade-lsp` needs a VS Code extension that bundles the language server binary so users get full Obsidian Flavored Markdown intelligence without installing a separate CLI tool. The server is compiled via `bun build --compile`, producing a self-contained executable with the Bun runtime embedded.
 
 Three distribution strategies were evaluated:
 
@@ -35,21 +36,36 @@ Adopt **Option 1 — platform-specific VSIXs**. Publish 7 platform-specific pack
 
 Each VSIX bundles the compiled binary at `server/flavor-grenade-lsp[.exe]`. The extension client resolves this path at activation via a 2-tier strategy: user setting override, then bundled binary.
 
-All 7 targets are cross-compiled on `ubuntu-latest` via Bun's built-in cross-compilation. No macOS or Windows CI runners are required for building.
+All 7 targets are cross-compiled on `ubuntu-latest` via Bun's built-in cross-compilation. The release workflow must also run a Windows smoke test against the packaged `win32-x64` VSIX before publishing.
+
+Extension release binaries are built with `--compile --minify`. They must not use `--bytecode` unless a future release revalidates it for every published platform package.
 
 ## Consequences
 
 **Positive:**
 
 - Zero-network install. Works in airgapped and enterprise environments.
-- Fast startup. Native compiled binary with `--bytecode` pre-compilation.
+- Fast startup. Native compiled binary shipped directly in the VSIX.
 - Binary guaranteed present. No download failures, no GitHub rate limits, no first-run delay.
 - Aligns with existing infrastructure. Phase 13 already produces cross-platform binaries via `bun build --compile`.
 - Follows proven pattern. rust-analyzer has validated this approach at massive scale.
+- Release gate catches packaged Windows startup crashes before Marketplace publish.
 
 **Negative:**
 
-- 7x build matrix. CI must produce 7 VSIXs per release. All cross-compile on Linux, so runner cost is low, but pipeline complexity increases.
-- Large VSIX size. Each VSIX is ~50-80 MB due to the embedded Bun runtime. The Marketplace enforces a per-VSIX size cap (historically ~100 MB; the exact current limit is not prominently documented — see [[research/vscode-extension-publishing]] for details). Must monitor binary sizes and use `--minify --bytecode` to stay well under the cap.
+- 7x build matrix. CI must produce 7 VSIXs per release. All build on Linux, but the publish gate also requires at least one Windows runner for binary smoke testing.
+- Large VSIX size. Each VSIX is large due to the embedded Bun runtime. The Marketplace enforces a per-VSIX size cap (historically ~100 MB; the exact current limit is not prominently documented — see [[research/vscode-extension-publishing]] for details). Must monitor binary sizes, especially after removing `--bytecode` from extension release builds.
 - No `web` target. The extension cannot run in vscode.dev or other browser-based VS Code hosts. The server requires filesystem access for vault indexing (see [[ADR003-vault-detection]]), making browser support architecturally infeasible regardless of distribution strategy.
 - Independent release coordination. Extension and server releases are decoupled. The extension must be re-published when the server binary changes. Manual `ext-v*` tags manage this for now; migration to release-please is deferred until the extension stabilizes.
+
+## Amendment 2026-05-06 — 0.1.3 Windows binary crash
+
+Extension `0.1.2` shipped a `win32-x64` server executable that crashed immediately on startup. Investigation showed:
+
+- The Marketplace-installed executable matched the CI artifact byte-for-byte.
+- The executable crashed outside VS Code, before LSP initialization.
+- The failure reproduced when Bun `1.3.13` on Linux cross-compiled a Windows executable with `--bytecode`.
+- The same Linux cross-compile without `--bytecode` launched successfully on Windows.
+- Windows-native Bun `1.3.13` builds did not reproduce the crash.
+
+The `0.1.3` hotfix removed `--bytecode` from extension release builds and added a Windows smoke test that extracts the `win32-x64` VSIX and launches `server/flavor-grenade-lsp.exe`. Marketplace publishing now depends on that smoke test.

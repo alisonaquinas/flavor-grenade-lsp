@@ -19,7 +19,7 @@ Design a VS Code extension that wraps the existing `flavor-grenade-lsp` server, 
 | Decision | Choice | Rationale |
 |---|---|---|
 | Distribution | Platform-specific VSIXs | Offline install, fast startup, binary guaranteed present. See [[ADR015-platform-specific-vsix]]. |
-| Server binary | `bun build --compile` output | Zero runtime deps, fast startup with `--bytecode`, cross-compilation from Linux. |
+| Server binary | `bun build --compile` output | Zero runtime deps, fast startup, cross-compilation from Linux. Extension release builds omit `--bytecode` after the `0.1.3` Windows crash fix. |
 | Client library | `vscode-languageclient@^9.0.1` | Current stable. Executable ServerOptions with stdio transport. |
 | Transport | stdio | Already decided in [[ADR001-stdio-transport]]. All editors support it. |
 | Bundler (client) | esbuild | Fast, single-file output, standard for VS Code extensions. |
@@ -351,7 +351,7 @@ Only `dist/extension.js`, `server/flavor-grenade-lsp[.exe]`, `package.json`, `RE
 }
 ```
 
-> **Note:** `vscode:prepublish` intentionally runs only `build:extension`, not `build:server`. The server binary is cross-compiled separately — in CI by the matrix job (with `--target=$BUN_TARGET --bytecode`), and locally by the developer before running `vsce package`. This avoids a dependency on the `$BUN_TARGET` environment variable in the generic prepublish hook.
+> **Note:** `vscode:prepublish` intentionally runs only `build:extension`, not `build:server`. The server binary is cross-compiled separately — in CI by the matrix job (with `--target=$BUN_TARGET` and no `--bytecode`), and locally by the developer before running `vsce package`. This avoids a dependency on the `$BUN_TARGET` environment variable in the generic prepublish hook.
 
 `$BUN_TARGET` is injected by the CI matrix job (e.g., `bun-linux-x64`). For local development builds, omit `--target` to compile for the host platform:
 
@@ -375,7 +375,7 @@ bun build --compile --minify ./src/server/main.ts --outfile server/flavor-grenad
 | `win32-x64` | `bun-windows-x64` | `ubuntu-latest` | `flavor-grenade-lsp.exe` |
 | `win32-arm64` | `bun-windows-arm64` | `ubuntu-latest` | `flavor-grenade-lsp.exe` |
 
-All cross-compiled on `ubuntu-latest`. No macOS/Windows runners needed.
+All packages are cross-compiled on `ubuntu-latest`. The packaged `win32-x64` VSIX is then smoke-tested on `windows-latest` before publish.
 
 ### Pipeline Flow
 
@@ -392,7 +392,7 @@ Tag push (ext-v0.1.0)
 │  4. npm ci (extension deps)     │
 │  5. esbuild extension client    │
 │  6. bun build --compile         │
-│     --minify --bytecode         │
+│     --minify                    │
 │     --target=$BUN_TARGET        │
 │     -> server/flavor-grenade-lsp│
 │  7. vsce package                │

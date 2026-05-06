@@ -895,7 +895,7 @@ On Windows:
 bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe
 ```
 
-> **Note:** Local builds omit `--bytecode` (used in CI for faster startup) to keep build times short during development. The `--target` flag is also omitted, compiling for the host platform.
+> **Note:** Local builds omit `--bytecode`; extension release builds also omit it after the `0.1.3` Windows crash fix. The `--target` flag is omitted locally, compiling for the host platform.
 
 - [ ] **Step 2: Build the extension client**
 
@@ -1042,7 +1042,7 @@ jobs:
       - name: Cross-compile server binary
         run: |
           mkdir -p extension/server
-          bun build --compile --minify --bytecode \
+          bun build --compile --minify \
             --target=${{ matrix.bun-target }} \
             src/main.ts \
             --outfile extension/server/${{ matrix.binary-name }}
@@ -1066,10 +1066,39 @@ jobs:
           path: extension/*.vsix
           if-no-files-found: error
 
+  smoke-test-windows-binary:
+    name: Smoke Test Windows Binary
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: vsix-win32-x64
+          path: vsix-artifact
+
+      - name: Run bundled Windows server
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $vsix = Get-ChildItem -Path vsix-artifact -Filter '*.vsix' | Select-Object -First 1
+          $extractDir = Join-Path $PWD 'vsix-extracted'
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($vsix.FullName, $extractDir)
+
+          $server = Join-Path $extractDir 'extension/server/flavor-grenade-lsp.exe'
+          $process = Start-Process -FilePath $server -NoNewWindow -PassThru
+          if (!$process.WaitForExit(5000)) {
+            Stop-Process -Id $process.Id -Force
+            exit 0
+          }
+          if ($process.ExitCode -ne 0) {
+            throw "Server exited with code $($process.ExitCode)."
+          }
+
   publish:
     name: Publish to Marketplace
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, smoke-test-windows-binary]
     steps:
       - uses: actions/download-artifact@v4
         with:

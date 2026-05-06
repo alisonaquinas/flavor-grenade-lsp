@@ -152,7 +152,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ## Notes
 
-This phase is the final local verification gate before the extension enters CI/CD pipelines. The build steps intentionally omit `--bytecode` (a CI-only optimization for faster startup) and `--target` (compiles for host platform only). Cross-platform builds are handled in the CI delivery phase.
+This phase is the final local verification gate before the extension enters CI/CD pipelines. The build steps intentionally omit `--bytecode` and `--target` (compiles for host platform only). Cross-platform builds are handled in the CI delivery phase, and extension release builds also omit `--bytecode` after the `0.1.3` Windows crash fix.
 
 The VSIX internal path prefix `extension/` is added by `vsce` and is distinct from the repo's `extension/` directory. When inspecting VSIX contents, paths like `extension/dist/extension.js` refer to the VSIX root, not the repo structure.
 

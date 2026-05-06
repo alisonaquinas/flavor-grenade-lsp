@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3] — 2026-05-06
+
+### Fixed
+
+- Rebuilt Windows extension packages without Bun bytecode to avoid a startup crash in the bundled server executable.
+- Added a Windows smoke test for the bundled `win32-x64` server binary before Marketplace publish.
+
 ## [0.1.2] — 2026-05-05
 
 ### Fixed

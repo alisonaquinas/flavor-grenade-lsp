@@ -3,7 +3,7 @@ title: "Phase E5: CI/CD Pipeline"
 phase: E5
 status: planned
 tags: [extension, ci-cd, github-actions, vsix, publishing, cross-compilation]
-updated: 2026-04-21
+updated: 2026-05-06
 ---
 
 # Phase E5: CI/CD Pipeline
@@ -13,14 +13,14 @@ updated: 2026-04-21
 | Phase      | E5 |
 | Title      | CI/CD Pipeline |
 | Status     | ⏳ planned |
-| Gate       | All 7 VSIXs build successfully on tag push |
+| Gate       | All 7 VSIXs build and the packaged Windows server launches before publish |
 | Depends on | Phase E4 (Packaging & Local Test) |
 
 ---
 
 ## Objective
 
-Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tags. A 7-target build matrix cross-compiles server binaries on `ubuntu-latest` via Bun, packages platform-specific VSIXs, and publishes all 7 to the VS Code Marketplace in a gated publish job. Gate: all 7 VSIXs build successfully on tag push.
+Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tags. A 7-target build matrix cross-compiles server binaries on `ubuntu-latest` via Bun, packages platform-specific VSIXs, smoke-tests the packaged Windows server binary, and publishes all 7 to the VS Code Marketplace in a gated publish job. Gate: all 7 VSIXs build successfully and the packaged `win32-x64` server launches on Windows before publish.
 
 ---
 
@@ -111,7 +111,7 @@ Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tag
         - name: Cross-compile server binary
           run: |
             mkdir -p extension/server
-            bun build --compile --minify --bytecode \
+            bun build --compile --minify \
               --target=${{ matrix.bun-target }} \
               src/main.ts \
               --outfile extension/server/${{ matrix.binary-name }}
@@ -135,10 +135,39 @@ Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tag
             path: extension/*.vsix
             if-no-files-found: error
 
+    smoke-test-windows-binary:
+      name: Smoke Test Windows Binary
+      runs-on: windows-latest
+      needs: build
+      steps:
+        - uses: actions/download-artifact@v4
+          with:
+            name: vsix-win32-x64
+            path: vsix-artifact
+
+        - name: Run bundled Windows server
+          shell: pwsh
+          run: |
+            $ErrorActionPreference = 'Stop'
+            $vsix = Get-ChildItem -Path vsix-artifact -Filter '*.vsix' | Select-Object -First 1
+            $extractDir = Join-Path $PWD 'vsix-extracted'
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($vsix.FullName, $extractDir)
+
+            $server = Join-Path $extractDir 'extension/server/flavor-grenade-lsp.exe'
+            $process = Start-Process -FilePath $server -NoNewWindow -PassThru
+            if (!$process.WaitForExit(5000)) {
+              Stop-Process -Id $process.Id -Force
+              exit 0
+            }
+            if ($process.ExitCode -ne 0) {
+              throw "Server exited with code $($process.ExitCode)."
+            }
+
     publish:
       name: Publish to Marketplace
       runs-on: ubuntu-latest
-      needs: build
+      needs: [build, smoke-test-windows-binary]
       steps:
         - uses: actions/download-artifact@v4
           with:
@@ -160,11 +189,13 @@ Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tag
   ```
 
   Design notes:
-  - All 7 targets cross-compiled on `ubuntu-latest` — no macOS/Windows runners needed. Bun supports cross-compilation natively.
-  - `--bytecode` flag pre-compiles for faster startup (CI-only; omitted in local builds).
+  - All 7 targets cross-compiled on `ubuntu-latest`. Bun supports cross-compilation natively.
+  - Extension release binaries use `--compile --minify` and intentionally omit `--bytecode`.
+  - `0.1.2` showed that Linux Bun `1.3.13` cross-compiling a Windows executable with `--bytecode` could produce a binary that segfaulted immediately on Windows.
+  - The Windows smoke test extracts the packaged `win32-x64` VSIX and launches the bundled server before publish.
   - `fail-fast: true` — if any platform fails, cancel all. Nothing publishes unless all 7 succeed.
   - `VSCE_PAT` is a repository secret scoped to Marketplace `Manage`. Must be configured before first publish.
-  - Build and publish are separate jobs. Publish is gated on all 7 build jobs completing.
+  - Build, smoke test, and publish are separate jobs. Publish is gated on all 7 build jobs and the Windows launch smoke test completing.
   - This is a new workflow, independent from existing `ci.yml` and `release.yml`. Extension and server have independent release cycles.
   - Tag convention: `ext-v0.1.0` for extension releases. Manual tags for now — release-please integration deferred.
 
@@ -189,8 +220,8 @@ Create `extension-release.yml` GitHub Actions workflow triggered by `ext-v*` tag
 ## Gate Verification
 
 ```bash
-# Tag push triggers the workflow; verify all 7 VSIX artifacts are produced
-# and the publish job completes successfully in the Actions tab.
+# Tag push triggers the workflow; verify all 7 VSIX artifacts are produced,
+# the Windows smoke test passes, and the publish job completes successfully.
 git tag ext-v0.1.0
 git push origin ext-v0.1.0
 ```

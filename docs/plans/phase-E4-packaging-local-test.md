@@ -145,7 +145,7 @@ Add Marketplace assets (README, CHANGELOG, LICENSE, icon), package the extension
     bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe
     ```
 
-  Note: local builds omit `--bytecode` (CI-only optimization for faster startup) and `--target` (compiles for host platform).
+  Note: local builds omit `--bytecode` and `--target` (compiles for host platform). Extension release builds also omit `--bytecode` after the `0.1.3` Windows crash fix.
 
   Build extension client:
 
