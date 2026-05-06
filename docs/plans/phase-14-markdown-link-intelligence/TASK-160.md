@@ -2,7 +2,7 @@
 id: "TASK-160"
 title: "Diagnose Markdown heading anchors"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-160"]
 
 # Diagnose Markdown heading anchors
 
-> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-160` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -157,3 +157,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Diagnostic write scope is
 > `src/resolution/diagnostic-service.ts` and Markdown diagnostic tests. Status:
 > `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown heading diagnostics and external URL suppression
+> before implementation. Status: `red`.
