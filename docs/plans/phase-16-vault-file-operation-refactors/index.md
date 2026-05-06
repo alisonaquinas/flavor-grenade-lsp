@@ -11,7 +11,7 @@ aliases: ["Phase 16 Tickets"]
 | [[FEAT-023]] | Vault File Operation Refactors | Feature | `in-progress` |
 | [[TASK-169]] | Add file operation capability handler | Task | `green` |
 | [[TASK-170]] | Build vault-confined move planner | Task | `green` |
-| [[TASK-171]] | Rewrite moved-target references without changing syntax | Task | `open` |
+| [[TASK-171]] | Rewrite moved-target references without changing syntax | Task | `red` |
 | [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | Task | `open` |
 | [[TASK-173]] | Refresh index after didRenameFiles | Task | `open` |
 | [[TASK-174]] | Add file operation regression suite | Task | `open` |
