@@ -1,0 +1,68 @@
+import { describe, expect, it, beforeEach } from '@jest/globals';
+import { OFMParser } from '../../parser/ofm-parser.js';
+import { ParseCache } from '../../parser/parser.module.js';
+import { FoldingRangeHandler } from '../folding-range.handler.js';
+
+describe('FoldingRangeHandler', () => {
+  let parser: OFMParser;
+  let parseCache: ParseCache;
+  let handler: FoldingRangeHandler;
+
+  beforeEach(() => {
+    parser = new OFMParser();
+    parseCache = new ParseCache();
+    handler = new FoldingRangeHandler(parseCache);
+  });
+
+  it('returns no folding ranges when the document is not in the parse cache', () => {
+    expect(handler.handle({ textDocument: { uri: 'file:///vault/missing.md' } })).toEqual([]);
+  });
+
+  it('folds frontmatter and heading sections', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/structure.md',
+      ['---', 'title: Example', '---', '# Alpha', 'intro', '## Beta', 'detail', '# Gamma'].join(
+        '\n',
+      ),
+      1,
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 0, endLine: 2, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 3, endLine: 6, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 5, endLine: 6, kind: 'region' });
+  });
+
+  it('folds callout blocks and opaque code, math, and comment regions', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/folds.md',
+      [
+        '# Doc',
+        '> [!NOTE]- title',
+        '> Body',
+        '> More',
+        'Plain',
+        '```ts',
+        'const x = 1;',
+        '```',
+        '$$',
+        'x',
+        '$$',
+        '%%',
+        'comment',
+        '%%',
+      ].join('\n'),
+      1,
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 1, endLine: 3, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 5, endLine: 7, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 8, endLine: 10, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 11, endLine: 13, kind: 'comment' });
+  });
+});

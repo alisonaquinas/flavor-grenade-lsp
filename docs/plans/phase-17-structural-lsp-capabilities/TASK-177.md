@@ -2,7 +2,7 @@
 id: "TASK-177"
 title: "Implement folding ranges"
 type: task
-status: open
+status: red
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-177"]
 
 # Implement folding ranges
 
-> [!INFO] `TASK-177` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-177` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
 
 ## Description
 
@@ -59,8 +59,7 @@ Implement `textDocument/foldingRange` for OFMarkdown structural regions. Returne
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `tests/unit/handlers/folding-range-handler.spec.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
-| `tests/integration/folding-ranges/folding-ranges.integration.spec.ts` | Integration | `ST-002` | 🔴 failing |
+| `src/handlers/__tests__/folding-range.handler.test.ts` | Unit | `Parity.StructuralLSP.FoldingRanges` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -132,3 +131,8 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing unit coverage for frontmatter folds, heading section folds,
+> callout block folds, and parser-backed opaque code, math, and comment folds.
+> Status: `red`.
