@@ -29,6 +29,7 @@
     "test": "bun test",
     "bdd": "bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml",
     "lint": "eslint src/",
+    "lint:docs": "markdownlint-obsidian --config .obsidian-linter.jsonc \"docs/**/*.md\"",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
     "typecheck": "tsc --noEmit",
@@ -57,6 +58,7 @@
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "lefthook": "2.1.6",
+    "markdownlint-obsidian-cli": "1.0.4",
     "prettier": "^3.8.3",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"

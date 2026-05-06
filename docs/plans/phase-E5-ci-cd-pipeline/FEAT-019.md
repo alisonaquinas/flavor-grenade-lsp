@@ -7,7 +7,7 @@ status: done
 priority: "high"
 phase: "E5"
 created: "2026-04-21"
-updated: "2026-04-22"
+updated: "2026-05-06"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["FEAT-018"]
 tags: [tickets/feature, "phase/E5"]
@@ -35,6 +35,8 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 - Platform-specific VSIX packaging using `vsce package --target`
 
 - Gated publish job that uploads all 7 VSIXs to the VS Code Marketplace using `VSCE_PAT`
+
+- Windows smoke test that launches the packaged `win32-x64` server before publish
 
 - `fail-fast: true` so nothing publishes unless all 7 targets build successfully
 
@@ -108,7 +110,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 - [ ] All 7 targets cross-compile on `ubuntu-latest` via Bun
 
-- [ ] Publish job is gated on all 7 build jobs completing successfully
+- [ ] Publish job is gated on all 7 build jobs and the Windows smoke test completing successfully
 
 - [ ] `VSCE_PAT` secret is referenced correctly in the publish job
 
@@ -152,7 +154,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ## Notes
 
-All 7 targets are cross-compiled on `ubuntu-latest` — no macOS or Windows runners are needed. Bun supports cross-compilation natively via `--target` flags (e.g., `bun-darwin-arm64`, `bun-windows-x64`). The `--bytecode` flag is used in CI builds for faster startup but is omitted in local development builds. The tag convention is `ext-v0.1.0` for extension releases, independent from the server's `v0.1.0` release tags. Release-please integration for automated tagging is deferred to a future phase.
+All 7 targets are cross-compiled on `ubuntu-latest`. Bun supports cross-compilation natively via `--target` flags (e.g., `bun-darwin-arm64`, `bun-windows-x64`). Extension release builds intentionally omit `--bytecode` after the `0.1.2` Windows crash; `0.1.3` added a `windows-latest` smoke test of the packaged `win32-x64` VSIX before publish. The tag convention is `ext-v0.1.0` for extension releases, independent from the server's `v0.1.0` release tags. Release-please integration for automated tagging is deferred to a future phase.
 
 ---
 

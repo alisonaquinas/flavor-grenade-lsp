@@ -270,7 +270,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 ## PlatformVSIX — Distribution Model
 
-Each release produces 7 platform-specific `.vsix` packages. Each VSIX contains the same esbuild-bundled client JS (`dist/extension.js`, ~50KB) and one Bun-compiled server binary for the target platform.
+Each release produces 7 platform-specific `.vsix` packages. Each VSIX contains the same esbuild-bundled client JS (`dist/extension.js`) and one Bun-compiled server binary for the target platform.
 
 | VS Code Target | Bun `--target` | Binary Name |
 |---------------|---------------|-------------|
@@ -282,7 +282,11 @@ Each release produces 7 platform-specific `.vsix` packages. Each VSIX contains t
 | `win32-x64` | `bun-windows-x64` | `flavor-grenade-lsp.exe` |
 | `win32-arm64` | `bun-windows-arm64` | `flavor-grenade-lsp.exe` |
 
-All cross-compiled on `ubuntu-latest` in CI. The platform-specific VSIX model guarantees that the binary is always present — no runtime download, no PATH resolution, no environment variable lookup.
+All binaries are cross-compiled on `ubuntu-latest` in CI with `bun build --compile --minify`. Extension release builds intentionally omit `--bytecode`; `0.1.2` showed that Linux Bun `1.3.13` could produce a Windows executable that segfaulted on startup when `--bytecode` was enabled.
+
+The release workflow must smoke-test the packaged `win32-x64` VSIX on `windows-latest` by extracting it and launching `server/flavor-grenade-lsp.exe`. Marketplace publish is blocked until that smoke test passes.
+
+The platform-specific VSIX model guarantees that the binary is always present — no runtime download, no PATH resolution, no environment variable lookup.
 
 ---
 

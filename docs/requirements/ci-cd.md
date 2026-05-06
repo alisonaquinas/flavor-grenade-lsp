@@ -68,6 +68,25 @@ aliases:
 
 ---
 
+**Tag:** CICD.Extension.WindowsBinarySmokeTest
+**Gist:** Marketplace extension publishing must be blocked unless the packaged `win32-x64` VSIX server executable launches successfully on a Windows runner.
+**Ambition:** Platform-specific VSIXs ship compiled binaries that users execute directly from the extension install directory. A package can pass TypeScript, lint, tests, and VSIX packaging while still containing a native executable that crashes before LSP initialization. Extension `0.1.2` exposed this failure mode: the Marketplace-installed Windows server matched the CI artifact exactly, but the Linux-cross-compiled Bun bytecode executable segfaulted immediately on Windows. The release pipeline must therefore test the packaged binary, not only the source or local build command.
+**Scale:** Percentage of Marketplace extension publishes where the packaged `win32-x64` server binary was not launched on Windows before publish.
+**Meter:**
+
+1. Trigger the `extension-release.yml` workflow with a test `ext-v*` tag.
+2. Verify the `vsix-win32-x64` artifact is downloaded by a `windows-latest` job.
+3. Verify the job extracts the VSIX and launches `extension/server/flavor-grenade-lsp.exe`.
+4. Verify the publish job declares `needs: [build, smoke-test-windows-binary]`.
+5. Compute: (publishes with the Windows smoke test / total Marketplace publishes) × 100.
+**Fail:** Any Marketplace publish where the Windows VSIX server binary was not smoke-tested, or where the smoke test exited non-zero but publish still ran.
+**Goal:** 100% of Marketplace extension publishes are gated on a successful packaged Windows server launch.
+**Stakeholders:** Windows users, release engineers, Marketplace consumers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[adr/ADR015-platform-specific-vsix]], `.github/workflows/extension-release.yml`, extension `0.1.3` hotfix investigation.
+
+---
+
 **Tag:** CICD.Publish.OIDC
 **Gist:** npm and Bun registry publishing must use OIDC keyless authentication with provenance attestation; `npm publish --provenance` is required for every release.
 **Ambition:** Long-lived npm tokens stored as repository secrets are a high-value attack target: if the secret is compromised, an attacker can publish malicious package versions indefinitely. OIDC trusted publishing eliminates the static token: the GitHub Actions runner requests a short-lived OIDC token from GitHub's identity provider, which the npm registry accepts as proof of identity. Combined with `--provenance`, every published version carries a cryptographically verifiable link back to the specific GitHub Actions run that produced it — consumers can verify not just who published but exactly what source commit and workflow produced the artifact.

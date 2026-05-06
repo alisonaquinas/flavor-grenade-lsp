@@ -41,7 +41,7 @@ Create `extension/.vscode/launch.json` with an `extensionHost` debug configurati
 
   - Windows: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp.exe`
 
-  - Note: local builds omit `--bytecode` (CI-only optimization) and `--target` (compiles for host platform)
+  - Note: local builds omit `--bytecode` and `--target` (compiles for host platform)
 
 - Manual verification steps:
 
@@ -146,7 +146,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-The `launch.json` is the only file committed in this task — the compiled server binary at `extension/server/flavor-grenade-lsp[.exe]` is gitignored and must be built locally before each smoke test session. The `--bytecode` flag is intentionally omitted from local builds (it is a CI-only optimization). The `--target` flag is also omitted so that Bun compiles for the host platform. If the smoke test fails, check: (1) the server binary exists at the expected path, (2) the binary has execute permissions (Linux/macOS), (3) the output channel shows the LanguageClient attempting to spawn the process.
+The `launch.json` is the only file committed in this task — the compiled server binary at `extension/server/flavor-grenade-lsp[.exe]` is gitignored and must be built locally before each smoke test session. The `--bytecode` flag is intentionally omitted from local builds and extension release builds. The `--target` flag is also omitted locally so that Bun compiles for the host platform. If the smoke test fails, check: (1) the server binary exists at the expected path, (2) the binary has execute permissions (Linux/macOS), (3) the output channel shows the LanguageClient attempting to spawn the process.
 
 ---
 

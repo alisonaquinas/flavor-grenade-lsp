@@ -1,5 +1,5 @@
 // markdownlint-obsidian configuration for flavor-grenade-lsp docs/
-// Used by: bunx markdownlint-obsidian-cli --config .obsidian-linter.jsonc "docs/**/*.md"
+// Used by: bun run lint:docs
 // Package: https://libraries.io/npm/markdownlint-obsidian
 // CLI: https://www.npmjs.com/package/markdownlint-obsidian-cli
 {

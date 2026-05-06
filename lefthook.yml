@@ -7,21 +7,25 @@
 # before they ever reach a pull request.
 
 pre-commit:
-  # Run format before lint so ESLint sees the already-formatted source.
+  # Run format before lint checks so ESLint sees the already-formatted source.
   parallel: false
   commands:
     format:
-      name: "Prettier — auto-format staged TypeScript files"
-      glob: "src/**/*.ts"
+      glob: 'src/**/*.ts'
       run: bunx prettier --write {staged_files}
       # stage_fixed: re-adds files that Prettier rewrote so the commit
       # contains the formatted version, not the original.
       stage_fixed: true
 
     lint:
-      name: "ESLint — zero warnings on staged TypeScript files"
-      glob: "src/**/*.ts"
+      glob: 'src/**/*.ts'
       run: bunx eslint --max-warnings 0 {staged_files}
       # No auto-fix for lint: ESLint fixable issues are re-formatted code
       # (already handled by Prettier above) or real code-quality problems
       # that the author should review before committing.
+
+    docs-markdown:
+      glob:
+        - 'docs/*.md'
+        - 'docs/**/*.md'
+      run: bun run lint:docs

@@ -143,7 +143,7 @@ Implement 2-tier binary resolution (user setting → bundled binary at `server/f
   ```
 
   - Build server binary for host platform: `bun build --compile --minify src/main.ts --outfile extension/server/flavor-grenade-lsp` (on Windows: `.exe`)
-  - Note: local builds omit `--bytecode` (CI-only optimization) and `--target` (compiles for host)
+  - Note: local builds omit `--bytecode` and `--target` (compiles for host)
   - Open `extension/` in VS Code, press F5, open a `.md` file
   - Verify: extension activates, server spawns, output channel shows LSP initialization
   - Commit launch.json

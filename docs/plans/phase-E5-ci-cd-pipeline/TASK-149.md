@@ -8,7 +8,7 @@ priority: "high"
 phase: "E5"
 parent: "FEAT-019"
 created: "2026-04-21"
-updated: "2026-04-22"
+updated: "2026-05-06"
 # dependencies: list of ticket IDs this ticket is blocked by
 dependencies: ["TASK-148"]
 tags: [tickets/task, "phase/E5"]
@@ -45,11 +45,13 @@ Create `.github/workflows/extension-release.yml` — a GitHub Actions workflow t
   | `win32-x64` | `bun-windows-x64` | `flavor-grenade-lsp.exe` |
   | `win32-arm64` | `bun-windows-arm64` | `flavor-grenade-lsp.exe` |
 
-- **Build steps:** checkout, setup-bun (latest), setup-node (20), `bun install --frozen-lockfile`, cross-compile with `bun build --compile --minify --bytecode --target=<bun-target>` into `extension/server/`, `npm ci` in extension/, `npm run build:extension` in extension/, `npx vsce package --target <vsce-target>` in extension/, upload VSIX artifact
+- **Build steps:** checkout, setup-bun, setup-node, `bun install --frozen-lockfile`, cross-compile with `bun build --compile --minify --target=<bun-target>` into `extension/server/`, `npm ci` in extension/, `npm run build:extension` in extension/, `npx vsce package --target <vsce-target>` in extension/, upload VSIX artifact
 
-- **Publish job:** `needs: build`, download all `vsix-*` artifacts with `merge-multiple: true`, install `@vscode/vsce` globally, `vsce publish --packagePath vsix-artifacts/*.vsix` with `VSCE_PAT` env var
+- **Windows smoke test job:** `needs: build`, download `vsix-win32-x64`, extract the VSIX, launch `extension/server/flavor-grenade-lsp.exe` on `windows-latest`, and fail if the process exits non-zero
 
-- **`--bytecode` flag:** pre-compiles JavaScript for faster cold startup; used in CI only, omitted in local builds
+- **Publish job:** `needs: [build, smoke-test-windows-binary]`, download all `vsix-*` artifacts with `merge-multiple: true`, install `@vscode/vsce` globally, `vsce publish --packagePath vsix-artifacts/*.vsix` with `VSCE_PAT` env var
+
+- **`--bytecode` flag:** not used for extension release binaries. Extension `0.1.2` showed that Linux Bun `1.3.13` cross-compiling Windows with `--bytecode` could produce a crashing executable.
 
 - **Artifact naming:** `vsix-${{ matrix.vsce-target }}` with `if-no-files-found: error`
 
@@ -129,11 +131,13 @@ All of the following must be true before this task is marked `done`:
 
 - [ ] Build matrix covers all 7 platform targets with correct Bun `--target` and binary name mappings
 
-- [ ] All 7 builds run on `ubuntu-latest` (no macOS/Windows runners)
+- [ ] All 7 build matrix entries run on `ubuntu-latest`
+
+- [ ] Packaged `win32-x64` VSIX is smoke-tested on `windows-latest`
 
 - [ ] `fail-fast: true` is set on the build matrix
 
-- [ ] Publish job has `needs: build` dependency
+- [ ] Publish job has `needs: [build, smoke-test-windows-binary]` dependency
 
 - [ ] `VSCE_PAT` secret is correctly referenced via `${{ secrets.VSCE_PAT }}`
 
@@ -151,7 +155,9 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-This workflow is independent from the existing `ci.yml` (PR testing) and `release.yml` (server binary + npm publish). Extension and server have independent release cycles. The tag convention is `ext-v0.1.0` for extension releases — manual tags for now, with release-please integration deferred. The `--bytecode` flag in CI builds pre-compiles JavaScript bytecode for faster cold startup on user machines. Node.js 20 is required for `vsce` tooling; Bun is used only for server compilation.
+This workflow is independent from the existing `ci.yml` (PR testing) and `release.yml` (server binary + npm publish). Extension and server have independent release cycles. The tag convention is `ext-v0.1.0` for extension releases — manual tags for now, with release-please integration deferred. Node.js is required for `vsce` tooling; Bun is used only for server compilation.
+
+The `0.1.3` hotfix removed `--bytecode` from extension release builds after `0.1.2` shipped a Linux-cross-compiled Windows executable that segfaulted at startup. Keep `--bytecode` out of extension package builds unless every platform artifact is revalidated with a launch smoke test.
 
 ---
 
@@ -175,3 +181,6 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!SUCCESS] Done — 2026-04-22
 > Created `.github/workflows/extension-release.yml` matching reference implementation. Trigger: `ext-v*` tag push. 7-target build matrix (linux-x64, linux-arm64, alpine-x64, darwin-x64, darwin-arm64, win32-x64, win32-arm64) all on ubuntu-latest with `fail-fast: true`. Cross-compile via `bun build --compile --minify --bytecode --target=<bun-target>`. Gated publish job with `VSCE_PAT` secret. YAML validated via js-yaml. Status: `done`.
+
+> [!WARNING] Amended — 2026-05-06
+> Extension `0.1.2` proved the original `--bytecode` optimization unsafe for release packages: Linux Bun `1.3.13` cross-compiled a `win32-x64` executable that crashed before LSP initialization. Extension `0.1.3` removed `--bytecode` from release builds and added a `windows-latest` smoke test that extracts the packaged VSIX and launches the bundled server before Marketplace publish. Status remains `done`; implementation guidance above reflects the current workflow.
