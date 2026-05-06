@@ -2,7 +2,7 @@
 id: "TASK-165"
 title: "Diagnose broken attachment references"
 type: task
-status: open
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-165"]
 
 # Diagnose broken attachment references
 
-> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -31,6 +31,8 @@ severity.
 - Resolve attachment refs through the [[TASK-163]] attachment index.
 - Apply diagnostics to `![[...]]` attachment embeds and local `![alt](...)`
   image targets.
+- Extend `src/resolution/diagnostic-service.ts` to inspect
+  `doc.index.markdownImages`.
 - Preserve existing document embed diagnostics for Markdown targets.
 - Keep external or remote URLs out of vault attachment diagnostics.
 - See also: [[plans/phase-15-attachment-intelligence]]
@@ -60,8 +62,7 @@ severity.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
-| `src/lsp/**/*.spec.ts` | Unit | `Diagnostic.Severity.Embed` | 🔴 failing |
+| `src/resolution/__tests__/attachment-diagnostics.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
@@ -146,3 +147,16 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing attachment diagnostic coverage for missing Markdown image
+> targets and indexed non-image attachment embeds, plus clean cases for indexed
+> images and external image URLs.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown image attachment diagnostics and taught embed resolution to
+> prefer indexed attachments before Markdown fallback. Focused diagnostics and
+> embed resolver tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.

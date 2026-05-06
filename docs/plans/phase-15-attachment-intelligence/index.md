@@ -8,13 +8,15 @@ aliases: ["Phase 15 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-022]] | Attachment Intelligence | Feature | `draft` |
-| [[TASK-163]] | Index vault attachments | Task | `open` |
-| [[TASK-164]] | Complete attachment references | Task | `open` |
-| [[TASK-165]] | Diagnose broken attachment references | Task | `open` |
-| [[TASK-166]] | Navigate to attachment targets | Task | `open` |
-| [[TASK-167]] | Show attachment hover metadata | Task | `open` |
-| [[TASK-168]] | Polish attachment configuration | Task | `open` |
-| [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `open` |
-| [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `open` |
-| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | Chore | `open` |
+| [[FEAT-022]] | Attachment Intelligence | Feature | `in-progress` |
+| [[TASK-163]] | Index vault attachments | Task | `green` |
+| [[TASK-164]] | Complete attachment references | Task | `green` |
+| [[TASK-165]] | Diagnose broken attachment references | Task | `green` |
+| [[TASK-166]] | Navigate to attachment targets | Task | `green` |
+| [[TASK-167]] | Show attachment hover metadata | Task | `green` |
+| [[TASK-168]] | Polish attachment configuration | Task | `green` |
+| [[BUG-011]] | Nested Markdown image refs miss vault-relative attachments | Bug | `in-review` |
+| [[BUG-012]] | Scanned image attachments do not populate cheap dimensions | Bug | `in-review` |
+| [[CHORE-047]] | Phase 15 Lint Sweep | Chore | `done` |
+| [[CHORE-048]] | Phase 15 Test Matrix Sweep | Chore | `done` |
+| [[CHORE-049]] | Phase 15 Documentation Trace Sweep | Chore | `done` |

@@ -143,6 +143,24 @@ describe('ContextAnalyzer', () => {
   // ── tag ──────────────────────────────────────────────────────────────────────
 
   describe('markdown-link', () => {
+    it('detects Markdown image target context after ![alt](', () => {
+      const text = '![Diagram](';
+      const result = analyzer.analyze(text, text.length);
+      expect(result.kind).toBe('markdown-image-target');
+      if (result.kind === 'markdown-image-target') {
+        expect(result.partial).toBe('');
+      }
+    });
+
+    it('detects Markdown image target context with partial text', () => {
+      const text = '![Diagram](assets/di';
+      const result = analyzer.analyze(text, text.length);
+      expect(result.kind).toBe('markdown-image-target');
+      if (result.kind === 'markdown-image-target') {
+        expect(result.partial).toBe('assets/di');
+      }
+    });
+
     it('detects Markdown link target context after [text](', () => {
       const text = '[Alpha](';
       const result = analyzer.analyze(text, text.length);

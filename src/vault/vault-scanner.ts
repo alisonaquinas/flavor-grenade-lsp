@@ -9,6 +9,7 @@ import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
+import { buildAttachmentEntry } from './attachment-metadata.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
@@ -54,7 +55,7 @@ export class VaultScanner {
    * @param vaultRelPath - Forward-slash vault-relative path.
    */
   hasAsset(vaultRelPath: string): boolean {
-    return this.assetIndex.has(vaultRelPath);
+    return this.vaultIndex.hasAttachment(vaultRelPath) || this.assetIndex.has(vaultRelPath);
   }
 
   /**
@@ -79,7 +80,9 @@ export class VaultScanner {
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
+    this.vaultIndex.clear();
     const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
+    this.vaultIndex.setAttachmentFolderHint(await this.loadObsidianAttachmentFolderHint(vaultRoot));
     await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
@@ -116,7 +119,16 @@ export class VaultScanner {
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
         this.assetIndex.add(relPath);
+        await this.indexAttachment(fullPath, relPath);
       }
+    }
+  }
+
+  private async indexAttachment(filePath: string, relPath: string): Promise<void> {
+    try {
+      this.vaultIndex.setAttachment(await buildAttachmentEntry(filePath, relPath));
+    } catch {
+      // Skip unreadable attachments silently.
     }
   }
 
@@ -136,6 +148,27 @@ export class VaultScanner {
     }
 
     return new Set(configuredExtensions);
+  }
+
+  private async loadObsidianAttachmentFolderHint(vaultRoot: string): Promise<string | undefined> {
+    const appJsonPath = path.join(vaultRoot, '.obsidian', 'app.json');
+    let configText: string;
+
+    try {
+      configText = await fs.promises.readFile(appJsonPath, 'utf8');
+    } catch {
+      return undefined;
+    }
+
+    try {
+      const parsed = JSON.parse(configText) as { attachmentFolderPath?: unknown };
+      if (typeof parsed.attachmentFolderPath !== 'string') {
+        return undefined;
+      }
+      return this.normalizeAttachmentFolder(parsed.attachmentFolderPath);
+    } catch {
+      return undefined;
+    }
   }
 
   private parseVaultExtensions(configText: string): string[] {
@@ -180,6 +213,11 @@ export class VaultScanner {
     }
 
     return trimmed.startsWith('.') ? trimmed : `.${trimmed}`;
+  }
+
+  private normalizeAttachmentFolder(value: string): string | undefined {
+    const normalized = value.trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+    return normalized.length > 0 && normalized !== '.' ? normalized : undefined;
   }
 
   private async indexFile(vaultRoot: string, filePath: string): Promise<void> {

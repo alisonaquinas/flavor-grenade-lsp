@@ -8,7 +8,7 @@ import { EmbedResolver } from './embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultDetector } from '../vault/vault-detector.js';
 import { VaultIndex } from '../vault/vault-index.js';
-import type { OFMDoc, WikiLinkEntry, EmbedEntry } from '../parser/types.js';
+import type { OFMDoc, WikiLinkEntry, EmbedEntry, MarkdownImageRef } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
@@ -77,6 +77,10 @@ export class DiagnosticService {
     }
     for (const entry of doc.index.markdownLinks ?? []) {
       const diag = this.diagnoseMarkdownTarget(docId, entry, vaultRoot);
+      if (diag !== null) diagnostics.push(diag);
+    }
+    for (const entry of doc.index.markdownImages ?? []) {
+      const diag = this.diagnoseMarkdownImage(docId, entry);
       if (diag !== null) diagnostics.push(diag);
     }
     for (const entry of doc.index.linkLabelDefs ?? []) {
@@ -148,6 +152,89 @@ export class DiagnosticService {
           ),
         };
     }
+  }
+
+  private diagnoseMarkdownImage(docId: DocId, entry: MarkdownImageRef): Diagnostic | null {
+    const classification = classifyMarkdownTarget(entry.target, {
+      sourceDocId: docId,
+      isImage: true,
+    });
+
+    if (classification.kind !== 'local-attachment') {
+      return null;
+    }
+
+    const resolution = this.resolveAttachmentPath([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
+    if (resolution.kind === 'resolved') {
+      return null;
+    }
+
+    if (resolution.kind === 'ambiguous') {
+      return {
+        range: entry.targetRange,
+        severity: 1,
+        code: 'FG002',
+        source: 'flavor-grenade',
+        message: `Ambiguous Markdown image: '${entry.target}' matches ${resolution.candidates.length} attachments`,
+      };
+    }
+
+    return {
+      range: entry.targetRange,
+      severity: 2,
+      code: 'FG004',
+      source: 'flavor-grenade',
+      message: `Cannot resolve attachment: '${entry.target}' not found`,
+    };
+  }
+
+  private resolveAttachmentPath(
+    targets: Array<string | undefined>,
+  ):
+    | { kind: 'resolved'; path: string }
+    | { kind: 'ambiguous'; candidates: string[] }
+    | { kind: 'missing' } {
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
+
+    for (const target of candidates) {
+      if (this.vaultIndex?.hasAttachment(target)) {
+        return { kind: 'resolved', path: target };
+      }
+    }
+
+    const matches: string[] = [];
+    for (const target of candidates) {
+      const suffix = '/' + target;
+      for (const attachment of this.vaultIndex?.attachments() ?? []) {
+        if (attachment.path === target || attachment.path.endsWith(suffix)) {
+          matches.push(attachment.path);
+        }
+      }
+    }
+
+    const uniqueMatches = [...new Set(matches)];
+    if (uniqueMatches.length === 1) return { kind: 'resolved', path: uniqueMatches[0] };
+    if (uniqueMatches.length > 1) return { kind: 'ambiguous', candidates: uniqueMatches };
+    return { kind: 'missing' };
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
   }
 
   /**

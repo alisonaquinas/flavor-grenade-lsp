@@ -110,6 +110,16 @@ function toFileUri(absPath: string): string {
   return forward.startsWith('/') ? `file://${forward}` : `file:///${forward}`;
 }
 
+function pngWithDimensions(width: number, height: number): Buffer {
+  const buffer = Buffer.alloc(24);
+  buffer.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], 0);
+  buffer.writeUInt32BE(13, 8);
+  buffer.write('IHDR', 12, 'ascii');
+  buffer.writeUInt32BE(width, 16);
+  buffer.writeUInt32BE(height, 20);
+  return buffer;
+}
+
 // ─── Tests ──────────────────────────────────────────────────────────────────
 
 describe('VaultScanner', () => {
@@ -228,6 +238,47 @@ describe('VaultScanner', () => {
     expect(vaultIndex.size()).toBe(0);
     expect(scanner.hasAsset('images/photo.png')).toBe(true);
     expect(scanner.getAssetIndex().size).toBe(1);
+  });
+
+  it('scan with non-markdown file: stores cheap attachment metadata in VaultIndex', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'images'));
+    fs.writeFileSync(path.join(tmpDir, 'images', 'photo.png'), 'PNG');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    const attachment = vaultIndex.getAttachment('images/photo.png');
+    expect(attachment).toMatchObject({
+      path: 'images/photo.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+    expect(attachment?.uri.endsWith('/images/photo.png')).toBe(true);
+    expect(vaultIndex.size()).toBe(0);
+  });
+
+  it('scan with image attachment: stores cheap PNG dimensions in VaultIndex', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'images'));
+    fs.writeFileSync(path.join(tmpDir, 'images', 'diagram.png'), pngWithDimensions(640, 480));
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.getAttachment('images/diagram.png')?.dimensions).toEqual({
+      width: 640,
+      height: 480,
+    });
   });
 
   // ── 5. Nested subdirectory: docId path is correct ────────────────────────

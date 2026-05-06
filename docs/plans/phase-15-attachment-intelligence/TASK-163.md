@@ -2,7 +2,7 @@
 id: "TASK-163"
 title: "Index vault attachments"
 type: task
-status: open
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-163"]
 
 # Index vault attachments
 
-> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -30,10 +30,17 @@ to Markdown documents.
 
 - Keep `VaultIndex` as the single source of truth for document and attachment
   lookup.
+- Add `AttachmentEntry` metadata and attachment map APIs to
+  `src/vault/vault-index.ts`.
+- Populate attachment metadata from `src/vault/vault-scanner.ts` while keeping
+  `VaultScanner.getAssetIndex()` and `VaultScanner.hasAsset()` as compatibility
+  facades.
 - Store attachment identity as vault-relative paths with extensions.
 - Do not parse non-Markdown files into `OFMDoc`.
 - Record cheap metadata only: URI, extension or detected kind, byte size, and
   optional image dimensions when available without blocking.
+- Add red/green coverage in `src/vault/__tests__/vault-scanner.test.ts` and
+  `src/vault/__tests__/vault-index.test.ts`.
 - See also: [[plans/phase-15-attachment-intelligence]]
 
 ---
@@ -61,7 +68,8 @@ to Markdown documents.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/vault/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/vault-scanner.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/vault-index.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
@@ -148,3 +156,15 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing attachment metadata tests for `VaultIndex` and `VaultScanner`.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added `VaultIndex` attachment metadata APIs and populated them from scanner
+> and watcher asset events while preserving scanner asset facades. `bun test
+> src/vault/__tests__/vault-index.test.ts
+> src/vault/__tests__/vault-scanner.test.ts
+> src/vault/__tests__/file-watcher.test.ts` and `bun run typecheck` pass.
+> Status: `green`.

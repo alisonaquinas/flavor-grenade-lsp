@@ -2,7 +2,7 @@
 id: "TASK-167"
 title: "Show attachment hover metadata"
 type: task
-status: open
+status: green
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-167"]
 
 # Show attachment hover metadata
 
-> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -29,6 +29,8 @@ dimensions when the metadata is available without blocking editor response.
 
 - Support hover on `![[attachment.ext]]` targets.
 - Support hover on local `![alt](attachment.ext)` targets.
+- Extend `src/handlers/hover.handler.ts` to use `entityAtPosition()` so
+  Markdown image entities can share attachment hover rendering with embeds.
 - Use type labels aligned with [[requirements/hover]] `HV-002`: Image, Audio,
   Video, PDF, or File.
 - Do not render previews or perform heavyweight binary parsing.
@@ -59,7 +61,7 @@ dimensions when the metadata is available without blocking editor response.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/**/*.spec.ts` | Unit | `HV-002` | 🔴 failing |
+| `src/handlers/__tests__/attachment-hover.test.ts` | Unit | `HV-002` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
@@ -143,3 +145,15 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing hover coverage for Markdown image and embed attachments,
+> requiring resolved path, type label, size, and dimensions when available.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Refactored hover dispatch through cursor entity detection and added
+> lightweight attachment metadata hovers for Markdown images and embeds.
+> Focused hover tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.

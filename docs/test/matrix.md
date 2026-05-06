@@ -82,7 +82,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Embed.Resolution.MarkdownTarget` | `![[file.md]]` embeds resolve to VaultIndex docs | — | ⬜ not-yet-written | Phase 7 | |
-| `Embed.Resolution.ImageTarget` | `![[image.png]]` embeds produce no FG001 | — | ⬜ not-yet-written | Phase 7 | |
+| `Embed.Resolution.ImageTarget` | `![[image.png]]` embeds produce no FG001 | `src/resolution/__tests__/embed-resolver.test.ts`, `src/resolution/__tests__/attachment-diagnostics.test.ts` | ✅ passing | Phase 15 | Phase 15 verifies indexed attachments resolve through embed diagnostics, including non-image attachments |
 | `Embed.HeadingEmbed.Resolution` | `![[doc#heading]]` validates both doc and heading | — | ⬜ not-yet-written | Phase 7 | |
 | `Embed.BlockEmbed.Resolution` | `![[doc#^blockid]]` validates anchor exists in target | — | ⬜ not-yet-written | Phase 7 | |
 
@@ -126,7 +126,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Diagnostic.Severity.WikiLink` | FG001/FG002 carry Error severity | — | ⬜ not-yet-written | Phase 5 | |
-| `Diagnostic.Severity.Embed` | FG004 carries Warning severity | — | ⬜ not-yet-written | Phase 7 | |
+| `Diagnostic.Severity.Embed` | FG004 carries Warning severity | `src/resolution/__tests__/attachment-diagnostics.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts` | ✅ passing | Phase 15 | Phase 15 covers missing Markdown image attachments and existing embed warning semantics |
 | `Diagnostic.Code.Assignment` | Each diagnostic carries its assigned FG-prefixed code | — | ⬜ not-yet-written | Phase 5 | |
 | `Diagnostic.Debounce.Latency` | Diagnostics published within 500 ms of last change | — | ⬜ not-yet-written | Phase 5 | Performance test; requires instrumented LSP client |
 | `Diagnostic.Ambiguous.RelatedInfo` | FG002 lists all duplicate definition locations in `relatedInformation` | — | ⬜ not-yet-written | Phase 5 | |
@@ -138,9 +138,17 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | `src/handlers/__tests__/markdown-link-navigation.test.ts` | ✅ passing | Phase 14 | Phase 14 covers standard Markdown file links, same-document anchors, and label definitions |
+| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/handlers/__tests__/attachment-navigation.test.ts` | ✅ passing | Phase 15 | Phase 14 covers Markdown links; Phase 15 adds embed and Markdown image attachment targets |
 | `Navigation.References.Completeness` | Find-references returns all references in folder | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/resolution/__tests__/ref-graph-markdown-links.test.ts` | ✅ passing | Phase 14 | Phase 14 covers Markdown heading anchors and label references |
 | `Navigation.CodeLens.Count` | Each heading displays accurate reference count code lens | — | ⬜ not-yet-written | Phase 10 | |
+
+---
+
+## Hover Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `HV-002` | Embed hover includes resolved path and detected file type | `src/handlers/__tests__/attachment-hover.test.ts`, `src/handlers/__tests__/hover.handler.test.ts` | ✅ passing | Phase 15 | Phase 15 adds lightweight metadata hover for embed and Markdown image attachments |
 
 ---
 
@@ -167,6 +175,12 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Parity.MarkdownLinks.Completion` | Markdown URL contexts return document and heading completion candidates | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts` | ✅ passing | Phase 14 | Covers `(` trigger, same-document heading context, external URL suppression, and nested source relativity |
 | `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | `src/handlers/__tests__/markdown-link-navigation.test.ts` | ✅ passing | Phase 14 | Covers inline file links, same-document anchors, label definitions, and label uses; Markdown image attachment definition is Phase 15 |
 | `Parity.MarkdownLinks.RenameAnchors` | Heading rename updates Markdown anchors | `src/handlers/__tests__/markdown-heading-rename.test.ts` | ✅ passing | Phase 14 | Covers same-document and file-plus-fragment Markdown anchors |
+| `Parity.Attachments.Intelligence` | Attachments referenced by embeds or Markdown image links support completion, diagnostics, definition, and hover metadata | `src/vault/__tests__/vault-index.test.ts`, `src/vault/__tests__/vault-scanner.test.ts`, `src/vault/__tests__/file-watcher.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/completion/__tests__/embed-completion-provider.test.ts`, `src/resolution/__tests__/attachment-diagnostics.test.ts`, `src/handlers/__tests__/attachment-navigation.test.ts`, `src/handlers/__tests__/attachment-hover.test.ts`, `src/vault/__tests__/attachment-config.test.ts` | ✅ passing | Phase 15 | End-to-end unit evidence across indexing, completion, diagnostics, definition, hover, and config hints |
+| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets without parsed document entries | `src/vault/__tests__/vault-index.test.ts`, `src/vault/__tests__/vault-scanner.test.ts`, `src/vault/__tests__/file-watcher.test.ts` | ✅ passing | Phase 15 | Attachment metadata stays separate from parsed `OFMDoc` entries |
+| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete indexed attachment paths | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/completion/__tests__/embed-completion-provider.test.ts` | ✅ passing | Phase 15 | Includes Markdown image target contexts and attachment-only candidates |
+| `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain diagnostic-free | `src/resolution/__tests__/attachment-diagnostics.test.ts` | ✅ passing | Phase 15 | Missing attachment refs produce FG004 warnings; external image URLs stay clean |
+| `Parity.Attachments.NavigationHover` | Existing attachment references support definition and lightweight hover metadata | `src/handlers/__tests__/attachment-navigation.test.ts`, `src/handlers/__tests__/attachment-hover.test.ts` | ✅ passing | Phase 15 | Uses indexed attachment URIs and metadata for embeds and Markdown image links |
+| `Parity.Attachments.ConfigHints` | Attachment completion and indexing respect configured attachment folder hints | `src/vault/__tests__/attachment-config.test.ts`, `src/completion/__tests__/completion-router.test.ts` | ✅ passing | Phase 15 | Obsidian `attachmentFolderPath` ranks completions without filtering valid off-folder attachments |
 
 ---
 

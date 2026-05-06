@@ -2,7 +2,7 @@
 id: "CHORE-048"
 title: "Phase 15 Test Matrix Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-048"]
 
 # Phase 15 Test Matrix Sweep
 
-> [!INFO] `CHORE-048` · Chore · Phase 15 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-048` · Chore · Phase 15 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -136,3 +136,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-15 test trace sweep.
+
+> [!SUCCESS] Done - 2026-05-06
+> Added Phase 15 attachment rows to [[test/matrix]] and new test inventory rows
+> to [[test/index]]. `bun test`, `bun run lint -- --max-warnings 0`, and
+> `bun run typecheck` pass. `bun run bdd` remains blocked by existing pending
+> and undefined scenarios plus a non-Phase-15 block-anchor fixture mismatch.
+> Status: `done`.

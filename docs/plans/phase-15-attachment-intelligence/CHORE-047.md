@@ -2,7 +2,7 @@
 id: "CHORE-047"
 title: "Phase 15 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-047"]
 
 # Phase 15 Lint Sweep
 
-> [!INFO] `CHORE-047` · Chore · Phase 15 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-047` · Chore · Phase 15 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -133,3 +133,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-15 lint sweep.
+
+> [!SUCCESS] Done - 2026-05-06
+> Ran `bun run lint -- --max-warnings 0`, `bun run typecheck`, and `bun test`;
+> all passed. `bun run bdd` runs as `bun run bdd` in this repo and reports
+> pre-existing pending/undefined scenarios plus an unrelated block-anchor BDD
+> fixture mismatch. No source changes were needed for lint cleanup.
+> Status: `done`.

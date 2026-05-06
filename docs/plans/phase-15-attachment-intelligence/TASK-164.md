@@ -2,7 +2,7 @@
 id: "TASK-164"
 title: "Complete attachment references"
 type: task
-status: open
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-164"]
 
 # Complete attachment references
 
-> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -30,6 +30,11 @@ candidate lists.
 
 - Offer attachment candidates inside `![[...]]` attachment contexts.
 - Offer attachment candidates inside local `![alt](...)` target contexts.
+- Extend `src/completion/context-analyzer.ts` to distinguish Markdown image
+  target contexts from document Markdown link target contexts.
+- Route Markdown image target completions through
+  `src/completion/embed-completion-provider.ts` or a narrow attachment
+  completion method backed by `VaultIndex` attachments.
 - Prefer configured attachment-folder hints once [[TASK-168]] lands, but do not
   block base completion on config polish.
 - Preserve existing Markdown document completions for document link contexts.
@@ -58,7 +63,8 @@ candidate lists.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/completion/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/context-analyzer.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
@@ -141,3 +147,16 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing completion coverage for Markdown image target contexts,
+> attachment-only provider completions, and router dispatch to attachment
+> completions without document candidates.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added a Markdown image completion context, routed it to attachment-only
+> completions, and backed attachment candidates with `VaultIndex.attachments()`.
+> Focused completion tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.

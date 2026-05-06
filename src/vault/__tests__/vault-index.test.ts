@@ -87,4 +87,41 @@ describe('VaultIndex', () => {
     expect(index.size()).toBe(0);
     expect([...index.values()]).toHaveLength(0);
   });
+
+  it('stores attachment metadata separately from parsed documents', () => {
+    index.setAttachment({
+      path: 'assets/diagram.png',
+      uri: 'file:///vault/assets/diagram.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+
+    expect(index.hasAttachment('assets/diagram.png')).toBe(true);
+    expect(index.getAttachment('assets/diagram.png')).toMatchObject({
+      path: 'assets/diagram.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+    expect(index.size()).toBe(0);
+    expect([...index.attachments()]).toHaveLength(1);
+  });
+
+  it('clear removes documents and attachment metadata', () => {
+    index.set(id('a'), makeDoc('file:///a.md'));
+    index.setAttachment({
+      path: 'assets/diagram.png',
+      uri: 'file:///vault/assets/diagram.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+
+    index.clear();
+
+    expect(index.size()).toBe(0);
+    expect(index.hasAttachment('assets/diagram.png')).toBe(false);
+    expect([...index.attachments()]).toHaveLength(0);
+  });
 });

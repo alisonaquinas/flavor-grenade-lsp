@@ -2,7 +2,7 @@
 id: "TASK-168"
 title: "Polish attachment configuration"
 type: task
-status: open
+status: green
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-168"]
 
 # Polish attachment configuration
 
-> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `open`
+> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -30,6 +30,8 @@ vault.
 ## Implementation Notes
 
 - Prefer reading existing vault attachment-folder settings when available.
+- Read Obsidian attachment folder hints from `.obsidian/app.json` when present,
+  using a lightweight JSON parse and falling back silently on malformed data.
 - Add or document a FlavorConfig key only if Obsidian settings are unavailable
   or insufficient.
 - Use folder preference as ranking or guidance, not as the only valid location.
@@ -59,8 +61,8 @@ vault.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/lsp/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
-| `src/completion/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/attachment-config.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
@@ -150,3 +152,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-022]].
+
+> [!INFO] Red - 2026-05-06
+> Added failing config coverage for `.obsidian/app.json` attachment folder
+> discovery and completion ranking that prefers hinted folders without hiding
+> attachments elsewhere in the vault.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added vault attachment-folder hint metadata, loaded Obsidian
+> `.obsidian/app.json` `attachmentFolderPath`, and used the hint as attachment
+> completion ranking without filtering off-folder attachments. Focused scanner,
+> completion, vault tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.
