@@ -12,6 +12,8 @@ import { BlockRefCompletionProvider } from './block-ref-completion-provider.js';
 import { DefinitionHandler } from '../handlers/definition.handler.js';
 import { ReferencesHandler } from '../handlers/references.handler.js';
 import { HoverHandler } from '../handlers/hover.handler.js';
+import { FileOperationRewriter } from './file-operation-rewriter.js';
+import { WorkspaceEditValidator } from './workspace-edit-validator.js';
 
 /**
  * NestJS module providing all wiki-link resolution services and handlers.
@@ -32,6 +34,8 @@ import { HoverHandler } from '../handlers/hover.handler.js';
     DefinitionHandler,
     ReferencesHandler,
     HoverHandler,
+    FileOperationRewriter,
+    WorkspaceEditValidator,
   ],
   exports: [
     Oracle,
@@ -44,6 +48,8 @@ import { HoverHandler } from '../handlers/hover.handler.js';
     DefinitionHandler,
     ReferencesHandler,
     HoverHandler,
+    FileOperationRewriter,
+    WorkspaceEditValidator,
   ],
 })
 export class ResolutionModule {}

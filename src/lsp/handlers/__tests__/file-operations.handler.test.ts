@@ -1,6 +1,8 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { FileOperationsHandler } from '../file-operations.handler.js';
 import { LifecycleState } from '../../services/lifecycle-state.js';
+import { pathToFileURL } from 'url';
+import * as path from 'path';
 import type { FileOperationPlanner } from '../../../vault/file-operation-planner.js';
 import type { FileOperationRewriter } from '../../../resolution/file-operation-rewriter.js';
 import type { WorkspaceEditValidator } from '../../../resolution/workspace-edit-validator.js';
@@ -9,7 +11,8 @@ import type { Range } from 'vscode-languageserver-types';
 describe('FileOperationsHandler', () => {
   it('returns a validated WorkspaceEdit from the willRenameFiles pipeline', async () => {
     const lifecycle = new LifecycleState();
-    lifecycle.rootUri = 'file:///vault';
+    const vaultRoot = path.resolve('test-vault');
+    lifecycle.rootUri = pathToFileURL(vaultRoot).toString();
     const planner = {
       planRenameFiles: jest.fn().mockReturnValue({ status: 'ok', moves: [{ kind: 'document' }] }),
     } as unknown as FileOperationPlanner;
@@ -40,7 +43,7 @@ describe('FileOperationsHandler', () => {
       files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
     });
 
-    expect(planner.planRenameFiles).toHaveBeenCalledWith('/vault', {
+    expect(planner.planRenameFiles).toHaveBeenCalledWith(vaultRoot, {
       files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
     });
     expect(rewriter.rewrite).toHaveBeenCalledWith([{ kind: 'document' }]);
@@ -53,7 +56,7 @@ describe('FileOperationsHandler', () => {
 
   it('returns null when planning rejects the file operation', async () => {
     const lifecycle = new LifecycleState();
-    lifecycle.rootUri = 'file:///vault';
+    lifecycle.rootUri = pathToFileURL(path.resolve('test-vault')).toString();
     const planner = {
       planRenameFiles: jest.fn().mockReturnValue({
         status: 'rejected',
