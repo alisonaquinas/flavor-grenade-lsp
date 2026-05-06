@@ -6,6 +6,7 @@ import * as path from 'path';
 import type { FileOperationPlanner } from '../../../vault/file-operation-planner.js';
 import type { FileOperationRewriter } from '../../../resolution/file-operation-rewriter.js';
 import type { WorkspaceEditValidator } from '../../../resolution/workspace-edit-validator.js';
+import type { FileOperationRefreshService } from '../file-operation-refresh.service.js';
 import type { Range } from 'vscode-languageserver-types';
 
 describe('FileOperationsHandler', () => {
@@ -39,6 +40,7 @@ describe('FileOperationsHandler', () => {
       planner,
       rewriter,
       validator,
+      {} as FileOperationRefreshService,
     ).handleWillRenameFiles({
       files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
     });
@@ -69,9 +71,35 @@ describe('FileOperationsHandler', () => {
       planner,
       {} as FileOperationRewriter,
       {} as WorkspaceEditValidator,
+      {} as FileOperationRefreshService,
     ).handleWillRenameFiles({});
 
     expect(result).toBeNull();
+  });
+
+  it('refreshes planned moves after didRenameFiles', async () => {
+    const lifecycle = new LifecycleState();
+    const vaultRoot = path.resolve('test-vault');
+    lifecycle.rootUri = pathToFileURL(vaultRoot).toString();
+    const moves = [{ kind: 'document' }];
+    const planner = {
+      planRenameFiles: jest.fn().mockReturnValue({ status: 'ok', moves }),
+    } as unknown as FileOperationPlanner;
+    const refresh = {
+      refresh: jest.fn(),
+    } as unknown as FileOperationRefreshService;
+
+    await new FileOperationsHandler(
+      lifecycle,
+      planner,
+      {} as FileOperationRewriter,
+      {} as WorkspaceEditValidator,
+      refresh,
+    ).handleDidRenameFiles({
+      files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
+    });
+
+    expect(refresh.refresh).toHaveBeenCalledWith(vaultRoot, moves);
   });
 });
 
