@@ -34,9 +34,13 @@ describe('attachment hover', () => {
     handler = new HoverHandler(parseCache, vaultIndex, embedResolver);
   });
 
-  it('shows metadata for a Markdown image attachment', () => {
-    const source = parser.parse('file:///vault/source.md', '![Diagram](assets/diagram.png)', 1);
-    vaultIndex.set(id('source'), source);
+  it('shows metadata for a vault-relative Markdown image attachment from a nested note', () => {
+    const source = parser.parse(
+      'file:///vault/notes/source.md',
+      '![Diagram](assets/diagram.png)',
+      1,
+    );
+    vaultIndex.set(id('notes/source'), source);
     vaultIndex.setAttachment({
       path: 'assets/diagram.png',
       uri: 'file:///vault/assets/diagram.png',

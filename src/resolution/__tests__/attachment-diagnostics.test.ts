@@ -130,7 +130,7 @@ describe('attachment diagnostics', () => {
     });
   });
 
-  it('publishes no diagnostic for an indexed Markdown image attachment', () => {
+  it('publishes no diagnostic for a vault-relative Markdown image attachment from a nested note', () => {
     vaultIndex.setAttachment({
       path: 'assets/diagram.png',
       uri: 'file:///vault/assets/diagram.png',
@@ -140,7 +140,7 @@ describe('attachment diagnostics', () => {
     });
     const doc = makeDoc({ markdownImages: [makeMarkdownImage('assets/diagram.png')] });
 
-    service.publishDiagnostics(id('alpha'), doc, '/vault');
+    service.publishDiagnostics(id('notes/alpha'), doc, '/vault');
 
     expect(diagnostics()).toHaveLength(0);
   });
