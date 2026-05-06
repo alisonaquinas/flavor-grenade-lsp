@@ -4,6 +4,7 @@ import { LifecycleState } from '../services/lifecycle-state.js';
 import { FileOperationPlanner } from '../../vault/file-operation-planner.js';
 import { FileOperationRewriter } from '../../resolution/file-operation-rewriter.js';
 import { WorkspaceEditValidator } from '../../resolution/workspace-edit-validator.js';
+import { FileOperationRefreshService } from './file-operation-refresh.service.js';
 import type { WorkspaceEdit } from '../../handlers/workspace-edit-builder.js';
 
 export interface FileRename {
@@ -28,6 +29,7 @@ export class FileOperationsHandler {
     private readonly planner: FileOperationPlanner,
     private readonly rewriter: FileOperationRewriter,
     private readonly validator: WorkspaceEditValidator,
+    private readonly refreshService: FileOperationRefreshService,
   ) {}
 
   async handleWillRenameFiles(params: unknown): Promise<WorkspaceEdit | null> {
@@ -49,7 +51,19 @@ export class FileOperationsHandler {
     return Object.keys(validated.edit.changes).length > 0 ? validated.edit : null;
   }
 
-  async handleDidRenameFiles(_params: unknown): Promise<void> {}
+  async handleDidRenameFiles(params: unknown): Promise<void> {
+    const vaultRoot = this.vaultRoot();
+    if (vaultRoot === null) {
+      return;
+    }
+
+    const plan = this.planner.planRenameFiles(vaultRoot, params);
+    if (plan.status === 'rejected') {
+      return;
+    }
+
+    this.refreshService.refresh(vaultRoot, plan.moves);
+  }
 
   private vaultRoot(): string | null {
     if (this.lifecycle.rootUri === null) {

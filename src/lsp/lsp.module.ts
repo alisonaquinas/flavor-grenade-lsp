@@ -16,6 +16,7 @@ import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
 import { FileOperationsHandler } from './handlers/file-operations.handler.js';
+import { FileOperationRefreshService } from './handlers/file-operation-refresh.service.js';
 import { ParserModule } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
@@ -75,6 +76,7 @@ import { RenameHandler } from '../handlers/rename.handler.js';
     DidChangeHandler,
     DidCloseHandler,
     FileOperationsHandler,
+    FileOperationRefreshService,
     WorkspaceSymbolHandler,
     DocumentSymbolHandler,
     SemanticTokensHandler,
