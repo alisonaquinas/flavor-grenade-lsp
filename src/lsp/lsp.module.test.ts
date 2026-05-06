@@ -33,7 +33,7 @@ describe('LspModule', () => {
     expect(LspModule).toBeDefined();
   });
 
-  it('registers LSP file operation capabilities and handlers', () => {
+  it('registers LSP structural and file operation capabilities and handlers', () => {
     const reader = {
       on: jest.fn(),
       start: jest.fn(),
@@ -95,6 +95,9 @@ describe('LspModule', () => {
 
     expect(capabilityRegistry.merge).toHaveBeenCalledWith(
       expect.objectContaining({
+        documentLinkProvider: { resolveProvider: false },
+        foldingRangeProvider: true,
+        selectionRangeProvider: true,
         workspace: {
           fileOperations: {
             willRename: { filters: [{ pattern: { glob: '**/*' } }] },
@@ -109,6 +112,18 @@ describe('LspModule', () => {
     );
     expect(dispatcher.onNotification).toHaveBeenCalledWith(
       'workspace/didRenameFiles',
+      expect.any(Function),
+    );
+    expect(dispatcher.onRequest).toHaveBeenCalledWith(
+      'textDocument/documentLink',
+      expect.any(Function),
+    );
+    expect(dispatcher.onRequest).toHaveBeenCalledWith(
+      'textDocument/foldingRange',
+      expect.any(Function),
+    );
+    expect(dispatcher.onRequest).toHaveBeenCalledWith(
+      'textDocument/selectionRange',
       expect.any(Function),
     );
   });

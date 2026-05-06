@@ -2,7 +2,7 @@
 id: "TASK-175"
 title: "Register structural LSP capabilities"
 type: task
-status: open
+status: red
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-175"]
 
 # Register structural LSP capabilities
 
-> [!INFO] `TASK-175` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-175` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
 
 ## Description
 
@@ -25,10 +25,14 @@ Update the capability registration path so `initialize` advertises `documentLink
 
 ## Implementation Notes
 
-- Register `documentLinkProvider` as `{ resolveProvider: false }`
-- Register `foldingRangeProvider` as `true`
-- Register `selectionRangeProvider` as `true`
-- Keep request handler lambdas async when adding dispatch wiring later in this phase
+- Update [lsp.module.ts](../../../src/lsp/lsp.module.ts) capability registration
+  to include `documentLinkProvider`, `foldingRangeProvider`, and
+  `selectionRangeProvider`.
+- Register structural request methods with async-safe lambdas:
+  `textDocument/documentLink`, `textDocument/foldingRange`, and
+  `textDocument/selectionRange`.
+- Keep initial request behavior minimal until [[TASK-176]], [[TASK-177]], and
+  [[TASK-178]] add feature handlers.
 - See also: [[design/api-layer]]
 
 ---
@@ -54,7 +58,7 @@ Update the capability registration path so `initialize` advertises `documentLink
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `tests/unit/lsp/services/capability-registry.spec.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
+| `src/lsp/lsp.module.test.ts` | Unit | `Parity.StructuralLSP.CapabilityRegistration` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -126,3 +130,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing module coverage for structural capability advertisement and
+> structural request registration. Status: `red`.
