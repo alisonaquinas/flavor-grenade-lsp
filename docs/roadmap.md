@@ -34,7 +34,10 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 11 | Rename | complete | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename | 2026-04-17 |
 | 12 | Code Actions | complete | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens | 2026-04-17 |
 | 13 | CI & Delivery | complete | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline | 2026-04-17 |
-| 14 | OFMarkdown Parity Foundation | planned | Standard Markdown local link intelligence; attachment intelligence; heading ambiguity diagnostics; file-operation refactors | — |
+| 14 | Markdown Link Intelligence | planned | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | — |
+| 15 | Attachment Intelligence | planned | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | — |
+| 16 | Vault File Operation Refactors | planned | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | — |
+| 17 | Structural LSP Capabilities | planned | Document links, folding ranges, and selection ranges expose OFMarkdown structure | — |
 
 ## Phase Details
 
@@ -116,11 +119,46 @@ Bundle the server with Bun (`bun build --compile`). Build cross-platform binarie
 
 Implementation plan: [[plans/phase-13-ci-delivery]]
 
-### Phase 14 — OFMarkdown Parity Foundation
+### Phase 14 — Markdown Link Intelligence
 
-Deliver the P1 server-side parity items from [[research/marksman-feature-parity-ofmarkdown]]: local standard Markdown link intelligence, heading anchor ambiguity diagnostics, attachment intelligence, and file/folder move refactors across all local reference forms. Gate: parity BDD scenarios pass and existing wiki-link, embed, block-reference, completion, navigation, diagnostics, and rename scenarios remain green.
+Implement the first server-side Marksman parity slice: standard Markdown local links become first-class OFM references. This includes inline links, reference-style label uses and definitions, local-vs-external target classification, same-document anchors, definition/references support, heading rename updates, and ambiguous heading diagnostics.
 
-Implementation plan: [[plans/phase-14-ofmarkdown-parity-foundation]]
+Requirement links: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/completions#Completion.Trigger.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/navigation#Navigation.References.Completeness]], [[requirements/rename#Rename.Refactoring.Completeness]]
+
+Implementation plan: [[plans/phase-14-markdown-link-intelligence]]
+
+### Phase 15 — Attachment Intelligence
+
+Make non-Markdown vault assets first-class targets for OFMarkdown embeds and standard Markdown image links. This phase indexes attachment targets, completes attachment paths, diagnoses missing attachments, navigates to assets, and returns lightweight hover metadata.
+
+Requirement links: [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]], [[requirements/diagnostics#Diagnostic.Severity.Embed]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/hover#HV-002]]
+
+Implementation plan: [[plans/phase-15-attachment-intelligence]]
+
+### Phase 16 — Vault File Operation Refactors
+
+Make vault reorganization safe by updating every local reference to moved notes and attachments before the editor applies file or folder moves. This phase returns one vault-confined WorkspaceEdit for wiki-links, embeds, Markdown links, reference definitions, and Markdown image links.
+
+Requirement links: [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/rename#Rename.Refactoring.Completeness]], [[requirements/rename#Rename.StyleBinding.Consistency]], [[requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
+
+Implementation plan: [[plans/phase-16-vault-file-operation-refactors]]
+
+### Phase 17 — Structural LSP Capabilities
+
+Expose OFMarkdown document structure through standard LSP capabilities: `textDocument/documentLink`, `textDocument/foldingRange`, and `textDocument/selectionRange`. This phase reuses existing resolution data for document links and derives folding/selection ranges from OFMIndex without crossing opaque regions.
+
+Requirement links: [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]], [[requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
+
+Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
+
+### Server Improvement Continuation
+
+| Phase | Primary Requirements |
+|---|---|
+| 14 | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] |
+| 15 | [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/hover#HV-002]] |
+| 16 | [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/rename#Rename.StyleBinding.Consistency]] |
+| 17 | [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 

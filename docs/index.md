@@ -137,7 +137,10 @@ All documentation layers are being written before any TypeScript implementation 
 
 | Document | Description |
 |---|---|
-| [[plans/phase-14-ofmarkdown-parity-foundation]] | Server-side OFMarkdown parity foundation plan |
+| [[plans/phase-14-markdown-link-intelligence]] | Standard Markdown local link intelligence plan |
+| [[plans/phase-15-attachment-intelligence]] | Attachment intelligence plan |
+| [[plans/phase-16-vault-file-operation-refactors]] | Vault file operation refactor plan |
+| [[plans/phase-17-structural-lsp-capabilities]] | Structural LSP capabilities plan |
 | [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity plan |
 | `extension/docs/index.md` | Extension-local parity specification mirror |
 
