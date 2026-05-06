@@ -124,7 +124,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | `green` |
 | [[TASK-174]] | Add file operation regression suite | `green` |
-| [[CHORE-050]] | Phase 16 Lint Sweep | `open` |
+| [[CHORE-050]] | Phase 16 Lint Sweep | `done` |
 | [[CHORE-051]] | Phase 16 Test Matrix Sweep | `open` |
 | [[CHORE-052]] | Phase 16 Security Sweep | `open` |
 

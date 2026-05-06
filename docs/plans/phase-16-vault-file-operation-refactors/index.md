@@ -18,6 +18,6 @@ aliases: ["Phase 16 Tickets"]
 | [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | Bug | `green` |
 | [[TASK-173]] | Refresh index after didRenameFiles | Task | `green` |
 | [[TASK-174]] | Add file operation regression suite | Task | `green` |
-| [[CHORE-050]] | Phase 16 Lint Sweep | Chore | `open` |
+| [[CHORE-050]] | Phase 16 Lint Sweep | Chore | `done` |
 | [[CHORE-051]] | Phase 16 Test Matrix Sweep | Chore | `open` |
 | [[CHORE-052]] | Phase 16 Security Sweep | Chore | `open` |

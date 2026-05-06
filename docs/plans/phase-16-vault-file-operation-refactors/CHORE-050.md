@@ -2,7 +2,7 @@
 id: "CHORE-050"
 title: "Phase 16 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-050"]
 
 # Phase 16 Lint Sweep
 
-> [!INFO] `CHORE-050` · Chore · Phase 16 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-050` · Chore · Phase 16 · Priority: `medium` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -90,10 +90,10 @@ handling.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
-- [ ] `tsc --noEmit` exits 0
-- [ ] `bun test` passes
-- [ ] No behaviour-affecting changes in `src/`
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added
+- [x] `tsc --noEmit` exits 0
+- [x] `bun test` passes
+- [x] No behaviour-affecting changes in `src/`
 
 ---
 
@@ -124,3 +124,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-16 lint sweep.
+
+> [!SUCCESS] Done - 2026-05-06
+> `bun run lint -- --max-warnings 0`, `bun run typecheck`,
+> `bun run build`, and `bun test` pass after the Phase 16 provider-injection
+> fix. Status: `done`.
