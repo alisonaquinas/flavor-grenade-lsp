@@ -44,9 +44,9 @@ make the evidence trail obvious before the feature leaves review.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Test evidence covers local Markdown link resolution | [[requirements/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Test evidence covers same-document anchor behavior | [[requirements/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Test evidence covers ambiguous heading diagnostics | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Test evidence covers local Markdown link resolution | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Test evidence covers same-document anchor behavior | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Test evidence covers ambiguous heading diagnostics | [[requirements/functional/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Test evidence covers Markdown link definition | [[requirements/navigation]] |
 | `Navigation.References.Completeness` | Test evidence covers Markdown references | [[requirements/navigation]] |
 | `Rename.Refactoring.Completeness` | Test evidence covers Markdown heading rename edits | [[requirements/rename]] |

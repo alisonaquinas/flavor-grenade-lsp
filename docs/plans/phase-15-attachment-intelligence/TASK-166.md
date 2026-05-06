@@ -41,8 +41,8 @@ document `DocId` values.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.NavigationHover` | Existing attachment references support definition to attachment file URIs | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment refs support definition | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.NavigationHover` | Existing attachment references support definition to attachment file URIs | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment refs support definition | [[requirements/functional/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Definition returns target locations | [[requirements/navigation]] |
 
 ---

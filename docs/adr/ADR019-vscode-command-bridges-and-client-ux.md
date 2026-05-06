@@ -76,6 +76,6 @@ surface, especially for references and custom vault actions.
 
 - [[research/marksman-vscode-feature-parity-ofmarkdown]]
 - [[features/vscode-extension-parity]]
-- [[requirements/vscode-extension-parity]]
+- [[requirements/functional/vscode-extension-parity]]
 - [[ddd/editor-client/domain-model]]
 - `extension/docs/index.md`

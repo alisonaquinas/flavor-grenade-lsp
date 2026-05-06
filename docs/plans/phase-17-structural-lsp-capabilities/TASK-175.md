@@ -37,8 +37,8 @@ Update the capability registration path so `initialize` advertises `documentLink
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised consistently with implemented handlers | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.Coverage` | Structural capabilities must be advertised and implemented | [[requirements/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised consistently with implemented handlers | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.Coverage` | Structural capabilities must be advertised and implemented | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 

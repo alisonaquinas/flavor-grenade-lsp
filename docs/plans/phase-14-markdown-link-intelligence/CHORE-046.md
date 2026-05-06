@@ -45,9 +45,9 @@ work from being accidentally implied as complete.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Docs trace local Markdown link behavior | [[requirements/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Docs trace same-document anchor behavior | [[requirements/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Docs trace duplicate heading diagnostics | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Docs trace local Markdown link behavior | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Docs trace same-document anchor behavior | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Docs trace duplicate heading diagnostics | [[requirements/functional/ofmarkdown-parity]] |
 | `Completion.Trigger.Coverage` | Docs trace Markdown link URL completion coverage | [[requirements/completions]] |
 | `Navigation.Definition.AllLinkTypes` | Docs trace Markdown definition behavior | [[requirements/navigation]] |
 | `Navigation.References.Completeness` | Docs trace Markdown references behavior | [[requirements/navigation]] |

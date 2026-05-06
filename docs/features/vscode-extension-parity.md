@@ -17,13 +17,13 @@ does not own OFMarkdown intelligence.
 
 | Feature area | Functional requirements |
 |---|---|
-| Activation precision | [[requirements/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
-| Command bridges | [[requirements/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[requirements/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
-| Extension-host tests | [[requirements/vscode-extension-parity#Extension.Tests.HostCoverage]] |
-| Marketplace evidence | [[requirements/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
-| Status and quick actions | [[requirements/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/vscode-extension-parity#Extension.Status.QuickActions]] |
-| OFMarkdown editor contributions | [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
-| Workspace environments | [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| Activation precision | [[requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| Command bridges | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| Extension-host tests | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| Marketplace evidence | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| Status and quick actions | [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
+| OFMarkdown editor contributions | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
+| Workspace environments | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
 
 ## P1 - Activation Precision
 
@@ -153,7 +153,7 @@ is not indexed and no `.obsidian/` ancestor exists.
 
 - [[research/marksman-vscode-feature-parity-ofmarkdown]]
 - [[ADR019-vscode-command-bridges-and-client-ux]]
-- [[requirements/vscode-extension-parity]]
+- [[requirements/functional/vscode-extension-parity]]
 - [[features/ofmarkdown-language-mode]]
 - [[ddd/editor-client/domain-model]]
 - `extension/docs/index.md`

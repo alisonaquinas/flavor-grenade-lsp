@@ -48,13 +48,13 @@ language intelligence in the server.
 
 | Workstream | Deliverable | Primary docs |
 |---|---|---|
-| Activation | Precise vault-marker activation and idle generic Markdown behavior | [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
-| Command bridges | `flavorGrenade.showReferences`, `followLink`, `openEmbedTarget`, graph commands | [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
-| Tests | VS Code extension-host tests for client behavior | [[requirements/vscode-extension-parity#Extension.Tests.HostCoverage]] |
-| Status | Rich status tooltip and quick actions | [[requirements/vscode-extension-parity#Extension.Status.QuickActions]] |
-| Marketplace | OFMarkdown feature screenshots in extension README | [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
-| Contributions | OFMarkdown snippets, keybindings, and language configuration | [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
-| Workspace environments | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior | [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| Activation | Precise vault-marker activation and idle generic Markdown behavior | [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| Command bridges | `flavorGrenade.showReferences`, `followLink`, `openEmbedTarget`, graph commands | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| Tests | VS Code extension-host tests for client behavior | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| Status | Rich status tooltip and quick actions | [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
+| Marketplace | OFMarkdown feature screenshots in extension README | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| Contributions | OFMarkdown snippets, keybindings, and language configuration | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
+| Workspace environments | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
 
 ## Acceptance
 
@@ -69,6 +69,6 @@ language intelligence in the server.
 ## Related
 
 - [[features/vscode-extension-parity]]
-- [[requirements/vscode-extension-parity]]
+- [[requirements/functional/vscode-extension-parity]]
 - [[ADR019-vscode-command-bridges-and-client-ux]]
 - `extension/docs/index.md`

@@ -42,8 +42,8 @@ to Markdown documents.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachments are addressable vault assets | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachments are addressable vault assets | [[requirements/functional/ofmarkdown-parity]] |
 | `Embed.Resolution.ImageTarget` | Image embed targets resolve as vault assets | [[requirements/embed-resolution]] |
 | `Embed.Resolution.MarkdownTarget` | Markdown docs stay distinct from attachments | [[requirements/embed-resolution]] |
 

@@ -41,10 +41,10 @@ on a label definition should include all same-document label uses.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms participate in definition and references | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms participate in definition and references | [[requirements/functional/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Definition works for Markdown local links and labels | [[requirements/navigation]] |
 | `Navigation.References.Completeness` | References include Markdown local links and label uses | [[requirements/navigation]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors participate in definition and references | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors participate in definition and references | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 

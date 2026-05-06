@@ -55,7 +55,7 @@ fragment, alias, and title text.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Safe vault reorganization without broken local references | [[requirements/ofmarkdown-parity]] |
+| — | Safe vault reorganization without broken local references | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -63,13 +63,13 @@ fragment, alias, and title text.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | Return one atomic WorkspaceEdit for local file and folder moves | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle file-operation rename requests | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.MovePlannerConfinement` | Plan only vault-confined file and folder mappings | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.ReferenceRewrite` | Rewrite moved-target references while preserving syntax family | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.SkippedAmbiguousReporting` | Report ambiguous references without speculative edits | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicValidation` | Validate deterministic all-or-nothing WorkspaceEdit output | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.IndexRefresh` | Refresh index and diagnostics after `didRenameFiles` | [[requirements/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Return one atomic WorkspaceEdit for local file and folder moves | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle file-operation rename requests | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.MovePlannerConfinement` | Plan only vault-confined file and folder mappings | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.ReferenceRewrite` | Rewrite moved-target references while preserving syntax family | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.SkippedAmbiguousReporting` | Report ambiguous references without speculative edits | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicValidation` | Validate deterministic all-or-nothing WorkspaceEdit output | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.IndexRefresh` | Refresh index and diagnostics after `didRenameFiles` | [[requirements/functional/ofmarkdown-parity]] |
 | `Rename.Refactoring.Completeness` | Preserve rename completeness for wiki-link and heading references | [[requirements/rename]] |
 | `Rename.StyleBinding.Consistency` | Preserve configured link style when rewriting wiki-links | [[requirements/rename]] |
 | `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[requirements/security/vault-confinement]] |

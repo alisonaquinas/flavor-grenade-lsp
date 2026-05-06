@@ -42,8 +42,8 @@ vault.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.ConfigHints` | Attachment completion and indexing respect configured attachment folder hints | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment folder hints are respected | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.ConfigHints` | Attachment completion and indexing respect configured attachment folder hints | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment folder hints are respected | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 

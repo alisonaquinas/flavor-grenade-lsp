@@ -41,8 +41,8 @@ candidate lists.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete indexed attachment paths | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment references support completion | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete indexed attachment paths | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment references support completion | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 

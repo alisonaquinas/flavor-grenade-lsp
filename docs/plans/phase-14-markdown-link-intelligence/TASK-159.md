@@ -41,10 +41,10 @@ centralized heading anchor normalization.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Markdown local links resolve through vault rules | [[requirements/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.TargetClassification` | Oracle receives pre-classified local and non-local target kinds | [[requirements/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors resolve to headings | [[requirements/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Ambiguous heading matches are reported to diagnostics | [[requirements/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Markdown local links resolve through vault rules | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | Oracle receives pre-classified local and non-local target kinds | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors resolve to headings | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Ambiguous heading matches are reported to diagnostics | [[requirements/functional/ofmarkdown-parity]] |
 
 ---
 

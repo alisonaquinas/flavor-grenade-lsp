@@ -26,12 +26,12 @@ standard Markdown image links.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Completion, diagnostics, definition, and hover metadata for vault attachments |
-| [[requirements/ofmarkdown-parity#Parity.Attachments.IndexCoverage]] | Index non-Markdown vault files as attachment targets without parsed OFM documents |
-| [[requirements/ofmarkdown-parity#Parity.Attachments.Completion]] | Complete attachment paths in embeds and Markdown image links |
-| [[requirements/ofmarkdown-parity#Parity.Attachments.Diagnostics]] | Diagnose missing attachments and suppress diagnostics for existing attachments |
-| [[requirements/ofmarkdown-parity#Parity.Attachments.NavigationHover]] | Provide definition and lightweight metadata hover for attachment references |
-| [[requirements/ofmarkdown-parity#Parity.Attachments.ConfigHints]] | Respect configured attachment folder hints without hiding valid attachments |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Completion, diagnostics, definition, and hover metadata for vault attachments |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.IndexCoverage]] | Index non-Markdown vault files as attachment targets without parsed OFM documents |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Completion]] | Complete attachment paths in embeds and Markdown image links |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]] | Diagnose missing attachments and suppress diagnostics for existing attachments |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]] | Provide definition and lightweight metadata hover for attachment references |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]] | Respect configured attachment folder hints without hiding valid attachments |
 | [[requirements/embed-resolution#Embed.Resolution.ImageTarget]] | Preserve and extend existing image embed resolution behavior |
 | [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]] | Ensure Markdown documents and attachments remain distinct target classes |
 | [[requirements/diagnostics#Diagnostic.Severity.Embed]] | Keep attachment/embed diagnostics at the documented severity |
@@ -88,5 +88,5 @@ standard Markdown image links.
 ## Related
 
 - [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/ofmarkdown-parity]]
+- [[requirements/functional/ofmarkdown-parity]]
 - [[requirements/embed-resolution]]

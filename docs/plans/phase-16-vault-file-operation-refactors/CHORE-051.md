@@ -45,7 +45,7 @@ the implementation settles.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | File operation regression evidence is represented in the matrix | [[requirements/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | File operation regression evidence is represented in the matrix | [[requirements/functional/ofmarkdown-parity]] |
 | `Security.Vault.RenameConfinement` | Rename confinement evidence is represented in the matrix | [[requirements/security/vault-confinement]] |
 
 ---

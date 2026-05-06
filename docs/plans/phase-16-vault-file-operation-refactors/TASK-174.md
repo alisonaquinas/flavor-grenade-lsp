@@ -40,9 +40,9 @@ title text.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | Regression suite proves atomic move refactors | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.ReferenceRewrite` | Regression suite verifies syntax-preserving moved-target rewrites | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicValidation` | Regression suite verifies no partial edit escapes validation | [[requirements/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Regression suite proves atomic move refactors | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.ReferenceRewrite` | Regression suite verifies syntax-preserving moved-target rewrites | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicValidation` | Regression suite verifies no partial edit escapes validation | [[requirements/functional/ofmarkdown-parity]] |
 | `Rename.Refactoring.Completeness` | Existing rename coverage remains green | [[requirements/rename]] |
 | `Security.Vault.RenameConfinement` | Escaping moves are refused | [[requirements/security/vault-confinement]] |
 

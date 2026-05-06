@@ -26,13 +26,13 @@ and attachments before the editor applies file or folder moves.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Atomic file/folder move WorkspaceEdit across all local reference forms |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]] | Advertise and handle file-operation rename requests for supporting clients |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]] | Plan old/new file and folder mappings only inside one vault root |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]] | Rewrite moved-target references while preserving syntax family and link details |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]] | Report ambiguous references that cannot be safely rewritten |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]] | Validate deterministic, non-overlapping, all-or-nothing WorkspaceEdit output |
-| [[requirements/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]] | Refresh affected index and diagnostics state after `didRenameFiles` |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Atomic file/folder move WorkspaceEdit across all local reference forms |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]] | Advertise and handle file-operation rename requests for supporting clients |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]] | Plan old/new file and folder mappings only inside one vault root |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]] | Rewrite moved-target references while preserving syntax family and link details |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]] | Report ambiguous references that cannot be safely rewritten |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]] | Validate deterministic, non-overlapping, all-or-nothing WorkspaceEdit output |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]] | Refresh affected index and diagnostics state after `didRenameFiles` |
 | [[requirements/rename#Rename.Refactoring.Completeness]] | Preserve rename completeness for existing wiki-link and heading references |
 | [[requirements/rename#Rename.StyleBinding.Consistency]] | Preserve configured link style where wiki-link text is rewritten |
 | [[requirements/security/vault-confinement#Security.Vault.PathConfinement]] | Canonicalize and vault-root-check all old and new paths |
@@ -92,6 +92,6 @@ and attachments before the editor applies file or folder moves.
 ## Related
 
 - [[ADR018-vault-file-operation-refactoring]]
-- [[requirements/ofmarkdown-parity]]
+- [[requirements/functional/ofmarkdown-parity]]
 - [[requirements/security/vault-confinement]]
 - [[features/rename]]

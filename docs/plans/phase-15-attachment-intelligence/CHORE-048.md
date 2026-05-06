@@ -45,7 +45,7 @@ unless the matrix is reconciled after the implementation tasks finish.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Attachment behavior has test evidence | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment behavior has test evidence | [[requirements/functional/ofmarkdown-parity]] |
 | `Embed.Resolution.ImageTarget` | Image attachment resolution has test evidence | [[requirements/embed-resolution]] |
 | `Diagnostic.Severity.Embed` | Broken attachment diagnostics have severity evidence | [[requirements/diagnostics]] |
 | `Navigation.Definition.AllLinkTypes` | Attachment definition has test evidence | [[requirements/navigation]] |

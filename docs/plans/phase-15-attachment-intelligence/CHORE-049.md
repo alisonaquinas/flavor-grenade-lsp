@@ -45,7 +45,7 @@ trace sweep keeps implementation evidence discoverable for the next phase.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Attachment docs trace to evidence | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment docs trace to evidence | [[requirements/functional/ofmarkdown-parity]] |
 | `HV-002` | Hover documentation traces to attachment metadata behavior | [[requirements/hover]] |
 
 ---

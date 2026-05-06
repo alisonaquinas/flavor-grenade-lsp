@@ -123,9 +123,9 @@ Implementation plan: [[plans/phase-13-ci-delivery]]
 
 Implement the first server-side Marksman parity slice: standard Markdown local links become first-class OFM references. This includes inline links, image link refs, reference-style label uses and definitions, local-vs-external target classification, same-document anchors, Markdown link URL completions, definition/references support, heading rename updates, and ambiguous heading diagnostics.
 
-Requirement links: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/completions#Completion.Trigger.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/navigation#Navigation.References.Completeness]], [[requirements/rename#Rename.Refactoring.Completeness]]
+Requirement links: [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/completions#Completion.Trigger.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/navigation#Navigation.References.Completeness]], [[requirements/rename#Rename.Refactoring.Completeness]]
 
-Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.Completion]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]]
+Detailed functional requirements: [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.Completion]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]]
 
 Implementation plan: [[plans/phase-14-markdown-link-intelligence]]
 
@@ -133,9 +133,9 @@ Implementation plan: [[plans/phase-14-markdown-link-intelligence]]
 
 Make non-Markdown vault assets first-class targets for OFMarkdown embeds and standard Markdown image links. This phase indexes attachment targets, completes attachment paths, diagnoses missing attachments, navigates to assets, and returns lightweight hover metadata.
 
-Requirement links: [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]], [[requirements/diagnostics#Diagnostic.Severity.Embed]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/hover#HV-002]]
+Requirement links: [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]], [[requirements/diagnostics#Diagnostic.Severity.Embed]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/hover#HV-002]]
 
-Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.Attachments.IndexCoverage]], [[requirements/ofmarkdown-parity#Parity.Attachments.Completion]], [[requirements/ofmarkdown-parity#Parity.Attachments.Diagnostics]], [[requirements/ofmarkdown-parity#Parity.Attachments.NavigationHover]], [[requirements/ofmarkdown-parity#Parity.Attachments.ConfigHints]]
+Detailed functional requirements: [[requirements/functional/ofmarkdown-parity#Parity.Attachments.IndexCoverage]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Completion]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]]
 
 Implementation plan: [[plans/phase-15-attachment-intelligence]]
 
@@ -143,9 +143,9 @@ Implementation plan: [[plans/phase-15-attachment-intelligence]]
 
 Make vault reorganization safe by updating every local reference to moved notes and attachments before the editor applies file or folder moves. This phase returns one vault-confined WorkspaceEdit for wiki-links, embeds, Markdown links, reference definitions, and Markdown image links, while reporting ambiguous references that cannot be safely rewritten.
 
-Requirement links: [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/rename#Rename.Refactoring.Completeness]], [[requirements/rename#Rename.StyleBinding.Consistency]], [[requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
+Requirement links: [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/rename#Rename.Refactoring.Completeness]], [[requirements/rename#Rename.StyleBinding.Consistency]], [[requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
 
-Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]], [[requirements/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]], [[requirements/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]], [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]], [[requirements/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]]
+Detailed functional requirements: [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]]
 
 Implementation plan: [[plans/phase-16-vault-file-operation-refactors]]
 
@@ -153,9 +153,9 @@ Implementation plan: [[plans/phase-16-vault-file-operation-refactors]]
 
 Expose OFMarkdown document structure through standard LSP capabilities: `textDocument/documentLink`, `textDocument/foldingRange`, and `textDocument/selectionRange`. This phase reuses existing resolution data for document links and derives folding/selection ranges from OFMIndex without crossing opaque regions.
 
-Requirement links: [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]], [[requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
+Requirement links: [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/navigation#Navigation.Definition.AllLinkTypes]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]], [[requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
 
-Detailed functional requirements: [[requirements/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]], [[requirements/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]]
+Detailed functional requirements: [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]], [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]], [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]], [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]]
 
 Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
 
@@ -163,10 +163,10 @@ Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
 
 | Phase | Primary Requirements |
 |---|---|
-| 14 | [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] |
-| 15 | [[requirements/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/hover#HV-002]] |
-| 16 | [[requirements/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/rename#Rename.StyleBinding.Consistency]] |
-| 17 | [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
+| 14 | [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] |
+| 15 | [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/hover#HV-002]] |
+| 16 | [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/rename#Rename.StyleBinding.Consistency]] |
+| 17 | [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 
@@ -238,7 +238,7 @@ documentation. Gate: extension parity BDD scenarios and extension-host tests
 cover activation, command bridges, status states, language-mode behavior, and
 failure states.
 
-Requirement links: [[requirements/vscode-extension-parity#Extension.Activation.MarkerEvents]], [[requirements/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/vscode-extension-parity#Extension.CommandBridges.GraphActions]], [[requirements/vscode-extension-parity#Extension.Status.QuickActions]], [[requirements/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
 
 Implementation plan: [[plans/phase-E7-vscode-extension-parity]]
 

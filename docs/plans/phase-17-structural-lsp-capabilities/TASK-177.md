@@ -37,8 +37,8 @@ Implement `textDocument/foldingRange` for OFMarkdown structural regions. Returne
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose supported OFMarkdown structures without crossing opaque regions | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.Coverage` | Folding ranges must reflect OFMarkdown structure | [[requirements/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose supported OFMarkdown structures without crossing opaque regions | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.Coverage` | Folding ranges must reflect OFMarkdown structure | [[requirements/functional/ofmarkdown-parity]] |
 | `ST-002` | Opaque regions are excluded from token-derived structural ranges | [[requirements/semantic-tokens]] |
 | `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[requirements/security/input-validation]] |
 

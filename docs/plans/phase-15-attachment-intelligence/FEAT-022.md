@@ -60,12 +60,12 @@ attachments to the parsed document index.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Core attachment intelligence | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete attachment paths | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Diagnostics` | Missing attachments diagnose and existing attachments stay clean | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.NavigationHover` | Attachment references support definition and metadata hover | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.ConfigHints` | Configured attachment folder hints affect attachment behavior | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Core attachment intelligence | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete attachment paths | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Diagnostics` | Missing attachments diagnose and existing attachments stay clean | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.NavigationHover` | Attachment references support definition and metadata hover | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.ConfigHints` | Configured attachment folder hints affect attachment behavior | [[requirements/functional/ofmarkdown-parity]] |
 | `Embed.Resolution.ImageTarget` | Image embeds resolve as attachment targets | [[requirements/embed-resolution]] |
 | `Embed.Resolution.MarkdownTarget` | Distinct target classes | [[requirements/embed-resolution]] |
 | `Diagnostic.Severity.Embed` | Broken embeds use LSP warning severity | [[requirements/diagnostics]] |

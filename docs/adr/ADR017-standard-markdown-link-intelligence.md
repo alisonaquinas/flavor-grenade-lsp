@@ -83,6 +83,6 @@ logic already owned by the Reference Resolution bounded context.
 
 - [[research/marksman-feature-parity-ofmarkdown]]
 - [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/ofmarkdown-parity]]
+- [[requirements/functional/ofmarkdown-parity]]
 - [[ddd/reference-resolution/domain-model]]
 - `docs/bdd/features/ofmarkdown-parity.feature`

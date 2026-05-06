@@ -53,11 +53,11 @@ Editors can use standard LSP document links, folding ranges, and selection range
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.Coverage` | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised only when handlers exist | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[requirements/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.Coverage` | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised only when handlers exist | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[requirements/functional/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Reuse resolution targets for local links where unambiguous | [[requirements/navigation]] |
 | `ST-002` | Respect opaque regions when deriving structural ranges | [[requirements/semantic-tokens]] |
 | `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[requirements/security/input-validation]] |

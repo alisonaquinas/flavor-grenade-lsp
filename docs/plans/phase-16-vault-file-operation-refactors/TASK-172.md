@@ -41,8 +41,8 @@ the handler must reject the whole refactor instead of returning a partial edit.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicValidation` | WorkspaceEdit output is deterministic, non-overlapping, and all-or-nothing | [[requirements/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicRefactor` | Return all reference edits atomically or return no edit | [[requirements/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicValidation` | WorkspaceEdit output is deterministic, non-overlapping, and all-or-nothing | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Return all reference edits atomically or return no edit | [[requirements/functional/ofmarkdown-parity]] |
 | `Security.Vault.RenameConfinement` | Cancel unsafe rename and move edits before returning them | [[requirements/security/vault-confinement]] |
 
 ---

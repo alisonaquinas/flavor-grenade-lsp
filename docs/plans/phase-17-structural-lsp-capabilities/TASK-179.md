@@ -37,10 +37,10 @@ Add the Phase 17 test coverage that proves document links, folding ranges, and s
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.Coverage` | Representative structural LSP constructs must be covered by tests | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.DocumentLinks` | Document-link behavior is covered by unit and integration tests | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.FoldingRanges` | Folding-range behavior is covered by unit and integration tests | [[requirements/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.SelectionRanges` | Selection-range behavior is covered by unit and integration tests | [[requirements/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.Coverage` | Representative structural LSP constructs must be covered by tests | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.DocumentLinks` | Document-link behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding-range behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.SelectionRanges` | Selection-range behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
 | `Navigation.Definition.AllLinkTypes` | Document link targets match existing resolution behavior | [[requirements/navigation]] |
 | `ST-002` | Opaque region boundaries are test-covered | [[requirements/semantic-tokens]] |
 

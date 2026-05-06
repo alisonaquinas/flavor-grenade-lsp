@@ -26,11 +26,11 @@ editors can use without custom client extensions.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Implement document links, folding ranges, and selection ranges for OFMarkdown constructs |
-| [[requirements/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]] | Advertise structural providers only when handlers are implemented |
-| [[requirements/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]] | Return document links for unambiguous local OFMarkdown links and attachments |
-| [[requirements/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]] | Return folding ranges for supported OFMarkdown structures without crossing opaque regions |
-| [[requirements/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]] | Return nested selection ranges through OFMarkdown construct boundaries |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Implement document links, folding ranges, and selection ranges for OFMarkdown constructs |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]] | Advertise structural providers only when handlers are implemented |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]] | Return document links for unambiguous local OFMarkdown links and attachments |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]] | Return folding ranges for supported OFMarkdown structures without crossing opaque regions |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]] | Return nested selection ranges through OFMarkdown construct boundaries |
 | [[requirements/navigation#Navigation.Definition.AllLinkTypes]] | Reuse resolution targets for document links where unambiguous |
 | [[requirements/semantic-tokens#ST-002]] | Respect opaque regions when deriving ranges |
 | [[requirements/security/input-validation#Security.Input.PositionValidation]] | Validate positions and ranges before structural queries |
@@ -86,6 +86,6 @@ editors can use without custom client extensions.
 ## Related
 
 - [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/ofmarkdown-parity]]
+- [[requirements/functional/ofmarkdown-parity]]
 - [[design/api-layer]]
 - [[ofm-spec/index]]

@@ -41,8 +41,8 @@ severity.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain clean | [[requirements/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment refs support diagnostics | [[requirements/ofmarkdown-parity]] |
+| `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain clean | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment refs support diagnostics | [[requirements/functional/ofmarkdown-parity]] |
 | `Diagnostic.Severity.Embed` | Broken embed diagnostics use warning severity | [[requirements/diagnostics]] |
 | `Embed.Resolution.ImageTarget` | Broken image embeds use embed diagnostics | [[requirements/embed-resolution]] |
 

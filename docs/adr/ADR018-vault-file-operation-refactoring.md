@@ -72,5 +72,5 @@ preview. Direct writes would bypass editor undo and review flows.
 - [[ADR013-vault-root-confinement]]
 - [[ADR017-standard-markdown-link-intelligence]]
 - [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/ofmarkdown-parity]]
+- [[requirements/functional/ofmarkdown-parity]]
 - [[features/rename]]
