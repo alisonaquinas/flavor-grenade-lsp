@@ -100,6 +100,7 @@ function buildRouter(): {
     calloutProvider,
     markdownLinkProvider,
     parseCache,
+    vaultIndex,
     settings,
   );
 

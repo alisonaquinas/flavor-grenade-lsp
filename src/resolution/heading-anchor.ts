@@ -7,7 +7,7 @@ export function headingAnchorForText(text: string): string {
 
 /** Normalize user-provided or emitted heading anchors for comparison. */
 export function normalizeHeadingAnchor(anchor: string): string {
-  return decodeURIComponent(anchor).replace(/^#/, '').trim().replace(/\s+/g, '-').toLowerCase();
+  return safeDecodeURIComponent(anchor).replace(/^#/, '').trim().replace(/\s+/g, '-').toLowerCase();
 }
 
 /**
@@ -24,4 +24,12 @@ export function findHeadingsByAnchor(
   return headings.filter(
     (heading) => normalizeHeadingAnchor(headingAnchorForText(heading.text)) === target,
   );
+}
+
+function safeDecodeURIComponent(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }

@@ -39,6 +39,10 @@ export type MarkdownTargetClassification =
       kind: 'unsupported-scheme';
       rawTarget: string;
       scheme: string;
+    }
+  | {
+      kind: 'path-outside-vault';
+      rawTarget: string;
     };
 
 /**
@@ -72,6 +76,9 @@ export function classifyMarkdownTarget(
   }
 
   const normalizedPath = normalizeVaultRelativePath(pathPart, options.sourceDocId);
+  if (normalizedPath === null) {
+    return { kind: 'path-outside-vault', rawTarget };
+  }
   const hasMarkdownExtension = /\.md$/i.test(normalizedPath);
 
   if (hasMarkdownExtension || (!options.isImage && !hasKnownNonMarkdownExtension(normalizedPath))) {
@@ -98,7 +105,7 @@ function extractScheme(target: string): string | null {
   return match[1].toLowerCase();
 }
 
-function normalizeVaultRelativePath(pathPart: string, sourceDocId?: DocId): string {
+function normalizeVaultRelativePath(pathPart: string, sourceDocId?: DocId): string | null {
   const sourceDir = sourceDocId === undefined ? '' : sourceDocId.split('/').slice(0, -1).join('/');
   const joined = pathPart.startsWith('/')
     ? pathPart.slice(1)
@@ -110,6 +117,7 @@ function normalizeVaultRelativePath(pathPart: string, sourceDocId?: DocId): stri
   for (const part of joined.replace(/\\/g, '/').split('/')) {
     if (part === '' || part === '.') continue;
     if (part === '..') {
+      if (parts.length === 0) return null;
       parts.pop();
       continue;
     }

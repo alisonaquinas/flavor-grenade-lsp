@@ -13,6 +13,7 @@ import { ParseCache } from '../parser/parser.module.js';
 import { ServerSettings } from '../lsp/services/server-settings.js';
 import type { Range } from 'vscode-languageserver-types';
 import type { DocId } from '../vault/doc-id.js';
+import { VaultIndex } from '../vault/vault-index.js';
 
 /** Parameters accepted by the router (matches textDocument/completion shape). */
 export interface CompletionParams {
@@ -43,6 +44,7 @@ export class CompletionRouter {
     private readonly calloutProvider: CalloutCompletionProvider,
     private readonly markdownLinkProvider: MarkdownLinkCompletionProvider,
     private readonly parseCache: ParseCache,
+    private readonly vaultIndex: VaultIndex,
     private readonly settings: ServerSettings,
   ) {}
 
@@ -218,6 +220,10 @@ export class CompletionRouter {
   }
 
   private docIdForUri(uri: string): DocId | undefined {
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return docId;
+    }
+
     try {
       const pathname = decodeURIComponent(new URL(uri).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
       const normalized = pathname.replace(/\\/g, '/');

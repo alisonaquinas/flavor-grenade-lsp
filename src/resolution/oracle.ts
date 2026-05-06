@@ -97,7 +97,11 @@ export class Oracle {
     sourceDocId: DocId,
     target: MarkdownTargetClassification,
   ): MarkdownResolutionResult {
-    if (target.kind === 'external-url' || target.kind === 'unsupported-scheme') {
+    if (
+      target.kind === 'external-url' ||
+      target.kind === 'unsupported-scheme' ||
+      target.kind === 'path-outside-vault'
+    ) {
       return { kind: 'non-vault' };
     }
 

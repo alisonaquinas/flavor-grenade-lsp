@@ -31,7 +31,7 @@ describe('classifyMarkdownTarget', () => {
   it('rejects paths that escape above the vault root', () => {
     expect(
       classifyMarkdownTarget('../../secret.md', {
-        sourceDocId: 'notes/current/source' as DocId,
+        sourceDocId: 'notes/source' as DocId,
       }),
     ).toEqual({
       kind: 'path-outside-vault',
