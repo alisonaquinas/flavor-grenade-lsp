@@ -2,7 +2,7 @@
 id: "TASK-176"
 title: "Implement document links"
 type: task
-status: red
+status: green
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-176"]
 
 # Implement document links
 
-> [!INFO] `TASK-176` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
+> [!INFO] `TASK-176` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
 
 ## Description
 
@@ -59,7 +59,7 @@ Implement `textDocument/documentLink` so unambiguous local OFMarkdown and Markdo
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/__tests__/document-link.handler.test.ts` | Unit | `Parity.StructuralLSP.DocumentLinks` | 🔴 failing |
+| `src/handlers/__tests__/document-link.handler.test.ts` | Unit | `Parity.StructuralLSP.DocumentLinks` | ✅ passing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -95,13 +95,13 @@ Implement `textDocument/documentLink` so unambiguous local OFMarkdown and Markdo
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] Document links are returned for unambiguous local OFM and Markdown references
-- [ ] Ambiguous references receive no misleading document-link target
-- [ ] External URLs and non-file schemes are ignored
-- [ ] `bun run lint --max-warnings 0` passes
-- [ ] `tsc --noEmit` exits 0
+- [x] Failing test(s) written first (RED commit exists in git log)
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] Document links are returned for unambiguous local OFM and Markdown references
+- [x] Ambiguous references receive no misleading document-link target
+- [x] External URLs and non-file schemes are ignored
+- [x] `bun run lint --max-warnings 0` passes
+- [x] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
 - [ ] [[test/matrix]] row(s) updated to `✅ passing`
 - [ ] [[test/index]] row(s) added for new test files
@@ -138,3 +138,10 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > reference-style links, Markdown image attachments, ambiguous wiki-link
 > omission, and external or vault-escaping Markdown target omission. Status:
 > `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> `DocumentLinkHandler` now returns targets for unambiguous wiki-links,
+> Markdown links, reference-style links, and Markdown image attachments while
+> omitting ambiguous, external, unsupported, or vault-escaping targets. Focused
+> handler coverage, `bun run typecheck`, and `bun run lint -- --max-warnings 0`
+> pass. Status: `green`.
