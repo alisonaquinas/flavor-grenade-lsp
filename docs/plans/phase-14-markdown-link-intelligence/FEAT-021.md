@@ -131,6 +131,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[CHORE-044]] | Phase 14 Lint Sweep | `open` |
 | [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-progress` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | `open` |
+| [[CHORE-058]] | Document and split Phase 14 parser surfaces | `open` |
 | [[CHORE-057]] | Phase 14 Security Sweep | `open` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | `open` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `open` |
