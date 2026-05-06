@@ -41,7 +41,7 @@ FAIL="${RED}FAIL${RESET}"
 
 echo "${BOLD}==> markdownlint-obsidian (docs/)${RESET}"
 set +e
-bunx markdownlint-obsidian --config .obsidian-linter.jsonc docs/
+bun run lint:docs
 OBSIDIAN_RESULT=$?
 set -e
 echo ""
@@ -52,7 +52,7 @@ echo ""
 
 echo "${BOLD}==> markdownlint-cli2 (other .md files)${RESET}"
 set +e
-bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**"
+bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
 CLI2_RESULT=$?
 set -e
 echo ""

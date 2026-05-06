@@ -80,14 +80,14 @@ run_linter "Prettier format check" bun run format:check
 # ---------------------------------------------------------------------------
 
 run_linter "markdownlint-obsidian (docs/)" \
-  bunx markdownlint-obsidian --config .obsidian-linter.jsonc docs/
+  bun run lint:docs
 
 # ---------------------------------------------------------------------------
 # 5. markdownlint-cli2 — all other markdown files
 # ---------------------------------------------------------------------------
 
 run_linter "markdownlint-cli2 (other .md files)" \
-  bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**"
+  bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
 
 # ---------------------------------------------------------------------------
 # Summary
