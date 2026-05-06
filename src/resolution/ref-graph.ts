@@ -204,9 +204,13 @@ export class RefGraph {
         }
       }
 
-      this.registerMarkdownEntries(sourceDocId, doc.index.markdownLinks);
-      this.registerMarkdownImages(sourceDocId, doc.index.markdownImages);
-      this.registerLabelRefs(sourceDocId, doc.index.linkLabelRefs, doc.index.linkLabelDefs);
+      this.registerMarkdownEntries(sourceDocId, doc.index.markdownLinks ?? []);
+      this.registerMarkdownImages(sourceDocId, doc.index.markdownImages ?? []);
+      this.registerLabelRefs(
+        sourceDocId,
+        doc.index.linkLabelRefs ?? [],
+        doc.index.linkLabelDefs ?? [],
+      );
     }
   }
 

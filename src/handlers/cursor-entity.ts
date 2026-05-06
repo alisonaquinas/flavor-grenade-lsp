@@ -73,25 +73,25 @@ export function entityAtPosition(doc: OFMDoc, position: Position): CursorEntity 
   }
 
   // Priority 3: Markdown links and labels
-  for (const entry of doc.index.markdownLinks) {
+  for (const entry of doc.index.markdownLinks ?? []) {
     if (positionInRange(position, entry.targetRange) || positionInRange(position, entry.range)) {
       return { kind: 'markdown-link', entry };
     }
   }
 
-  for (const entry of doc.index.markdownImages) {
+  for (const entry of doc.index.markdownImages ?? []) {
     if (positionInRange(position, entry.targetRange) || positionInRange(position, entry.range)) {
       return { kind: 'markdown-image', entry };
     }
   }
 
-  for (const entry of doc.index.linkLabelRefs) {
+  for (const entry of doc.index.linkLabelRefs ?? []) {
     if (positionInRange(position, entry.labelRange) || positionInRange(position, entry.range)) {
       return { kind: 'link-label-ref', entry };
     }
   }
 
-  for (const entry of doc.index.linkLabelDefs) {
+  for (const entry of doc.index.linkLabelDefs ?? []) {
     if (positionInRange(position, entry.labelRange) || positionInRange(position, entry.range)) {
       return { kind: 'link-label-def', entry };
     }

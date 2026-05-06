@@ -120,7 +120,7 @@ export class DefinitionHandler {
         return this.resolveMarkdownLinkDefinition(entity.entry, doc.uri);
 
       case 'link-label-ref': {
-        const definition = doc.index.linkLabelDefs.find(
+        const definition = (doc.index.linkLabelDefs ?? []).find(
           (def) => def.normalizedLabel === entity.entry.normalizedLabel,
         );
         if (definition === undefined) return null;

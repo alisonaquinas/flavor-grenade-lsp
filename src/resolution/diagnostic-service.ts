@@ -75,11 +75,11 @@ export class DiagnosticService {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
     }
-    for (const entry of doc.index.markdownLinks) {
+    for (const entry of doc.index.markdownLinks ?? []) {
       const diag = this.diagnoseMarkdownTarget(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
     }
-    for (const entry of doc.index.linkLabelDefs) {
+    for (const entry of doc.index.linkLabelDefs ?? []) {
       const diag = this.diagnoseMarkdownTarget(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
     }
