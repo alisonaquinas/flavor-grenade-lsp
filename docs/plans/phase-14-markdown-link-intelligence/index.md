@@ -15,7 +15,7 @@ aliases: ["Phase 14 Tickets"]
 | [[TASK-158]] | Index Markdown link references in RefGraph | Task | `green` |
 | [[TASK-159]] | Resolve Markdown links through Oracle | Task | `green` |
 | [[TASK-160]] | Diagnose Markdown heading anchors | Task | `green` |
-| [[TASK-161]] | Navigate Markdown links and labels | Task | `open` |
+| [[TASK-161]] | Navigate Markdown links and labels | Task | `red` |
 | [[TASK-162]] | Rename Markdown heading anchors | Task | `open` |
 | [[CHORE-044]] | Phase 14 Lint Sweep | Chore | `open` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `open` |

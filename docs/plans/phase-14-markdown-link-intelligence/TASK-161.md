@@ -2,7 +2,7 @@
 id: "TASK-161"
 title: "Navigate Markdown links and labels"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-161"]
 
 # Navigate Markdown links and labels
 
-> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-161` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -161,3 +161,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Navigation write scope is
 > `src/handlers/cursor-entity.ts`, definition/references handlers, and
 > Markdown navigation tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown link definition and reference navigation before
+> implementation. Status: `red`.
