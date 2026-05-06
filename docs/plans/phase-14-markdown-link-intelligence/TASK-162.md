@@ -2,7 +2,7 @@
 id: "TASK-162"
 title: "Rename Markdown heading anchors"
 type: task
-status: red
+status: green
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-162"]
 
 # Rename Markdown heading anchors
 
-> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
+> [!INFO] `TASK-162` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `green`
 
 ## Description
 
@@ -161,3 +161,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-06
 > RED tests added for Markdown heading-anchor rename edits before
 > implementation. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Heading rename now updates Markdown same-document and file-plus-fragment
+> anchors using normalized emitted anchors while preserving surrounding Markdown
+> link text and titles. `bun test
+> src/handlers/__tests__/markdown-heading-rename.test.ts`,
+> `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass. Status:
+> `green`.
