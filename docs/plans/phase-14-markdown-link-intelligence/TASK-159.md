@@ -2,7 +2,7 @@
 id: "TASK-159"
 title: "Resolve Markdown links through Oracle"
 type: task
-status: open
+status: red
 priority: high
 phase: 14
 parent: "FEAT-021"
@@ -15,7 +15,7 @@ aliases: ["TASK-159"]
 
 # Resolve Markdown links through Oracle
 
-> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `open`
+> [!INFO] `TASK-159` · Task · Phase 14 · Parent: [[FEAT-021]] · Status: `red`
 
 ## Description
 
@@ -158,3 +158,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Step C implementation details added. Oracle write scope is
 > `src/resolution/oracle.ts`, a heading-anchor utility if needed, and Oracle
 > tests. Status: `open`.
+
+> [!WARNING] Red - 2026-05-06
+> RED tests added for Markdown target resolution and normalized heading
+> anchors before implementation. Status: `red`.
