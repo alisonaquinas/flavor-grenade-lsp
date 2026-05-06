@@ -77,7 +77,20 @@ export class EmbedCompletionProvider {
     seen: Set<string>,
     lowerPartial: string,
   ): void {
-    for (const attachment of this.vaultIndex.attachments()) {
+    const attachmentFolderHint = this.vaultIndex.getAttachmentFolderHint();
+    const attachments = Array.from(this.vaultIndex.attachments())
+      .filter(
+        (attachment) =>
+          !seen.has(attachment.path) && attachment.path.toLowerCase().startsWith(lowerPartial),
+      )
+      .sort((a, b) => {
+        const aPreferred = this.isPreferredAttachment(a.path, attachmentFolderHint);
+        const bPreferred = this.isPreferredAttachment(b.path, attachmentFolderHint);
+        if (aPreferred !== bPreferred) return aPreferred ? -1 : 1;
+        return a.path.localeCompare(b.path);
+      });
+
+    for (const attachment of attachments) {
       if (!seen.has(attachment.path) && attachment.path.toLowerCase().startsWith(lowerPartial)) {
         seen.add(attachment.path);
         items.push({
@@ -87,6 +100,11 @@ export class EmbedCompletionProvider {
         });
       }
     }
+  }
+
+  private isPreferredAttachment(path: string, attachmentFolderHint: string | undefined): boolean {
+    if (attachmentFolderHint === undefined) return false;
+    return path === attachmentFolderHint || path.startsWith(`${attachmentFolderHint}/`);
   }
 
   private extractStem(docId: string): string {

@@ -2,7 +2,7 @@
 id: "TASK-168"
 title: "Polish attachment configuration"
 type: task
-status: red
+status: green
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-168"]
 
 # Polish attachment configuration
 
-> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -158,3 +158,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > discovery and completion ranking that prefers hinted folders without hiding
 > attachments elsewhere in the vault.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added vault attachment-folder hint metadata, loaded Obsidian
+> `.obsidian/app.json` `attachmentFolderPath`, and used the hint as attachment
+> completion ranking without filtering off-folder attachments. Focused scanner,
+> completion, vault tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.

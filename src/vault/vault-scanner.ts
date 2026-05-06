@@ -82,6 +82,7 @@ export class VaultScanner {
     this.assetIndex = new Set();
     this.vaultIndex.clear();
     const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
+    this.vaultIndex.setAttachmentFolderHint(await this.loadObsidianAttachmentFolderHint(vaultRoot));
     await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
@@ -156,6 +157,27 @@ export class VaultScanner {
     return new Set(configuredExtensions);
   }
 
+  private async loadObsidianAttachmentFolderHint(vaultRoot: string): Promise<string | undefined> {
+    const appJsonPath = path.join(vaultRoot, '.obsidian', 'app.json');
+    let configText: string;
+
+    try {
+      configText = await fs.promises.readFile(appJsonPath, 'utf8');
+    } catch {
+      return undefined;
+    }
+
+    try {
+      const parsed = JSON.parse(configText) as { attachmentFolderPath?: unknown };
+      if (typeof parsed.attachmentFolderPath !== 'string') {
+        return undefined;
+      }
+      return this.normalizeAttachmentFolder(parsed.attachmentFolderPath);
+    } catch {
+      return undefined;
+    }
+  }
+
   private parseVaultExtensions(configText: string): string[] {
     const sectionText = this.readTomlSection(configText, 'vault');
     const extensionLine = /^\s*extensions\s*=\s*\[([^\]]*)\]/m.exec(sectionText);
@@ -198,6 +220,11 @@ export class VaultScanner {
     }
 
     return trimmed.startsWith('.') ? trimmed : `.${trimmed}`;
+  }
+
+  private normalizeAttachmentFolder(value: string): string | undefined {
+    const normalized = value.trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+    return normalized.length > 0 && normalized !== '.' ? normalized : undefined;
   }
 
   private async indexFile(vaultRoot: string, filePath: string): Promise<void> {

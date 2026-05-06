@@ -32,6 +32,7 @@ export interface AttachmentEntry {
 export class VaultIndex {
   private readonly store = new Map<DocId, OFMDoc>();
   private readonly attachmentStore = new Map<string, AttachmentEntry>();
+  private attachmentFolderHint: string | undefined;
 
   /**
    * Store or replace a document.
@@ -126,9 +127,24 @@ export class VaultIndex {
     return this.attachmentStore.values();
   }
 
+  /**
+   * Store the preferred attachment folder discovered from vault configuration.
+   *
+   * @param folder - Vault-relative folder path, or `undefined` to clear.
+   */
+  setAttachmentFolderHint(folder: string | undefined): void {
+    this.attachmentFolderHint = folder;
+  }
+
+  /** Return the preferred attachment folder when vault configuration supplies one. */
+  getAttachmentFolderHint(): string | undefined {
+    return this.attachmentFolderHint;
+  }
+
   /** Remove all entries from the index. */
   clear(): void {
     this.store.clear();
     this.attachmentStore.clear();
+    this.attachmentFolderHint = undefined;
   }
 }
