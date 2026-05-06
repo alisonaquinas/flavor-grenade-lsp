@@ -2,7 +2,7 @@
 id: "TASK-176"
 title: "Implement document links"
 type: task
-status: open
+status: red
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-176"]
 
 # Implement document links
 
-> [!INFO] `TASK-176` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-176` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
 
 ## Description
 
@@ -59,8 +59,7 @@ Implement `textDocument/documentLink` so unambiguous local OFMarkdown and Markdo
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `tests/unit/handlers/document-link-handler.spec.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
-| `tests/integration/document-links/document-links.integration.spec.ts` | Integration | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
+| `src/handlers/__tests__/document-link.handler.test.ts` | Unit | `Parity.StructuralLSP.DocumentLinks` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -133,3 +132,9 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing unit coverage for unambiguous wiki-links, Markdown links,
+> reference-style links, Markdown image attachments, ambiguous wiki-link
+> omission, and external or vault-escaping Markdown target omission. Status:
+> `red`.
