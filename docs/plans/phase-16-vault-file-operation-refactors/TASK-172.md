@@ -2,7 +2,7 @@
 id: "TASK-172"
 title: "Validate all-or-nothing WorkspaceEdit output"
 type: task
-status: open
+status: red
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-172"]
 
 # Validate all-or-nothing WorkspaceEdit output
 
-> [!INFO] `TASK-172` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `open`
+> [!INFO] `TASK-172` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `red`
 
 ## Description
 
@@ -134,3 +134,8 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-023]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing validator coverage for overlapping edit cancellation,
+> deterministic edit ordering, and preserving skipped-reference reports without
+> treating them as validation conflicts. Status: `red`.

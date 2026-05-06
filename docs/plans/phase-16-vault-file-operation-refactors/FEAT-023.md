@@ -118,7 +118,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-169]] | Add file operation capability handler | `green` |
 | [[TASK-170]] | Build vault-confined move planner | `green` |
 | [[TASK-171]] | Rewrite moved-target references without changing syntax | `green` |
-| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `open` |
+| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `red` |
 | [[TASK-173]] | Refresh index after didRenameFiles | `open` |
 | [[TASK-174]] | Add file operation regression suite | `open` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | `open` |
