@@ -2,7 +2,7 @@
 id: "TASK-171"
 title: "Rewrite moved-target references without changing syntax"
 type: task
-status: red
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-171"]
 
 # Rewrite moved-target references without changing syntax
 
-> [!INFO] `TASK-171` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `red`
+> [!INFO] `TASK-171` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -148,3 +148,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing rewrite coverage for moved note and attachment targets across
 > wiki-links, embeds, Markdown inline links, reference definitions, and
 > Markdown image links. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added `FileOperationRewriter` to consume planner moves and `RefGraph` refs,
+> preserving wiki-link, embed, Markdown link, reference-definition, and Markdown
+> image syntax while replacing only the needed target text where parser ranges
+> allow it. Focused rewrite test, `bun run typecheck`, and
+> `bun run lint -- --max-warnings 0` pass. Status: `green`.
