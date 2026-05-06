@@ -29,6 +29,8 @@ dimensions when the metadata is available without blocking editor response.
 
 - Support hover on `![[attachment.ext]]` targets.
 - Support hover on local `![alt](attachment.ext)` targets.
+- Extend `src/handlers/hover.handler.ts` to use `entityAtPosition()` so
+  Markdown image entities can share attachment hover rendering with embeds.
 - Use type labels aligned with [[requirements/hover]] `HV-002`: Image, Audio,
   Video, PDF, or File.
 - Do not render previews or perform heavyweight binary parsing.
@@ -59,7 +61,7 @@ dimensions when the metadata is available without blocking editor response.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/**/*.spec.ts` | Unit | `HV-002` | 🔴 failing |
+| `src/handlers/__tests__/attachment-hover.test.ts` | Unit | `HV-002` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].

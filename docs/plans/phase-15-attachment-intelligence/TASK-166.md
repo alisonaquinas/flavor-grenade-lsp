@@ -30,6 +30,9 @@ document `DocId` values.
 
 - Resolve definition requests on `![[attachment.ext]]` targets.
 - Resolve definition requests on local `![alt](attachment.ext)` targets.
+- Extend `src/handlers/definition.handler.ts` for `markdown-image` cursor
+  entities and route both embed assets and Markdown image assets through the
+  `VaultIndex` attachment metadata URI.
 - Return file URIs for attachment targets with stable ranges.
 - Preserve existing definition behavior for Markdown links, wiki-links, embeds,
   headings, blocks, and tags.
@@ -59,7 +62,7 @@ document `DocId` values.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/**/*.spec.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
+| `src/handlers/__tests__/attachment-navigation.test.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].

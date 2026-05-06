@@ -30,6 +30,8 @@ vault.
 ## Implementation Notes
 
 - Prefer reading existing vault attachment-folder settings when available.
+- Read Obsidian attachment folder hints from `.obsidian/app.json` when present,
+  using a lightweight JSON parse and falling back silently on malformed data.
 - Add or document a FlavorConfig key only if Obsidian settings are unavailable
   or insufficient.
 - Use folder preference as ranking or guidance, not as the only valid location.
@@ -59,8 +61,8 @@ vault.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/lsp/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
-| `src/completion/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/attachment-config.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].

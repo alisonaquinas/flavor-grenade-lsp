@@ -2,7 +2,7 @@
 id: "FEAT-022"
 title: "Attachment Intelligence"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-022"]
 
 # Attachment Intelligence
 
-> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -165,3 +165,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `draft`. Phase 15 child tasks and chores defined.
+
+> [!INFO] Started - 2026-05-06
+> Steps A-C began after Phase 14 completed and merged. Existing scanner asset
+> APIs were identified as compatibility facades; Phase 15 will add attachment
+> metadata to `VaultIndex` as the authoritative lookup surface. Status:
+> `in-progress`.

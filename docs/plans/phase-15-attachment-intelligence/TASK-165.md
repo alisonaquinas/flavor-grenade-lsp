@@ -31,6 +31,8 @@ severity.
 - Resolve attachment refs through the [[TASK-163]] attachment index.
 - Apply diagnostics to `![[...]]` attachment embeds and local `![alt](...)`
   image targets.
+- Extend `src/resolution/diagnostic-service.ts` to inspect
+  `doc.index.markdownImages`.
 - Preserve existing document embed diagnostics for Markdown targets.
 - Keep external or remote URLs out of vault attachment diagnostics.
 - See also: [[plans/phase-15-attachment-intelligence]]
@@ -60,8 +62,7 @@ severity.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/resolution/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
-| `src/lsp/**/*.spec.ts` | Unit | `Diagnostic.Severity.Embed` | 🔴 failing |
+| `src/resolution/__tests__/attachment-diagnostics.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].

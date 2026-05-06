@@ -30,6 +30,11 @@ candidate lists.
 
 - Offer attachment candidates inside `![[...]]` attachment contexts.
 - Offer attachment candidates inside local `![alt](...)` target contexts.
+- Extend `src/completion/context-analyzer.ts` to distinguish Markdown image
+  target contexts from document Markdown link target contexts.
+- Route Markdown image target completions through
+  `src/completion/embed-completion-provider.ts` or a narrow attachment
+  completion method backed by `VaultIndex` attachments.
 - Prefer configured attachment-folder hints once [[TASK-168]] lands, but do not
   block base completion on config polish.
 - Preserve existing Markdown document completions for document link contexts.
@@ -58,7 +63,8 @@ candidate lists.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/completion/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/context-analyzer.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].

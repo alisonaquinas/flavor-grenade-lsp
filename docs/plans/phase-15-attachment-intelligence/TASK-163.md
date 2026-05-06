@@ -30,10 +30,17 @@ to Markdown documents.
 
 - Keep `VaultIndex` as the single source of truth for document and attachment
   lookup.
+- Add `AttachmentEntry` metadata and attachment map APIs to
+  `src/vault/vault-index.ts`.
+- Populate attachment metadata from `src/vault/vault-scanner.ts` while keeping
+  `VaultScanner.getAssetIndex()` and `VaultScanner.hasAsset()` as compatibility
+  facades.
 - Store attachment identity as vault-relative paths with extensions.
 - Do not parse non-Markdown files into `OFMDoc`.
 - Record cheap metadata only: URI, extension or detected kind, byte size, and
   optional image dimensions when available without blocking.
+- Add red/green coverage in `src/vault/__tests__/vault-scanner.test.ts` and
+  `src/vault/__tests__/vault-index.test.ts`.
 - See also: [[plans/phase-15-attachment-intelligence]]
 
 ---
@@ -61,7 +68,8 @@ to Markdown documents.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/vault/**/*.spec.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/vault-scanner.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
+| `src/vault/__tests__/vault-index.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
 > Update [[test/matrix]] and [[test/index]].
