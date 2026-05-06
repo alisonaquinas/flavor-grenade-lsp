@@ -2,7 +2,7 @@
 id: "FEAT-023"
 title: "Vault File Operation Refactors"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-023"]
 
 # Vault File Operation Refactors
 
-> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -179,3 +179,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!INFO] Started - 2026-05-06
 > Phase 15 PR #31 passed CI and merged to `develop`. Phase 16 is now the active
 > implementation phase. Status: `in-progress`.
+
+> [!SUCCESS] Review - 2026-05-06
+> File-operation handler, planner, rewriter, validator, refresh, regression,
+> lint, security, and traceability work is complete locally. Standard local
+> gates pass; BDD still has pre-existing pending/undefined coverage and one
+> non-Phase-16 block-embed failure. Status: `in-review`.
