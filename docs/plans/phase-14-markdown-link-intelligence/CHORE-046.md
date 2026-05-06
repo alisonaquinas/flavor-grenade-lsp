@@ -2,7 +2,7 @@
 id: "CHORE-046"
 title: "Phase 14 Documentation Trace Sweep"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-046"]
 
 # Phase 14 Documentation Trace Sweep
 
-> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `open`
+> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -149,3 +149,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: Phase 14 documentation trace.
+
+> [!INFO] Started - 2026-05-06
+> Documentation trace sweep started after test matrix evidence reached review.
+> Status: `in-progress`.
