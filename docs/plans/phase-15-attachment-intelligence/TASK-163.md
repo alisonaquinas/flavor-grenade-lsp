@@ -2,7 +2,7 @@
 id: "TASK-163"
 title: "Index vault attachments"
 type: task
-status: red
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-163"]
 
 # Index vault attachments
 
-> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -160,3 +160,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-06
 > Added failing attachment metadata tests for `VaultIndex` and `VaultScanner`.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added `VaultIndex` attachment metadata APIs and populated them from scanner
+> and watcher asset events while preserving scanner asset facades. `bun test
+> src/vault/__tests__/vault-index.test.ts
+> src/vault/__tests__/vault-scanner.test.ts
+> src/vault/__tests__/file-watcher.test.ts` and `bun run typecheck` pass.
+> Status: `green`.

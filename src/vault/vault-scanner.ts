@@ -12,6 +12,7 @@ import { toDocId } from './doc-id.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
+import type { AttachmentKind } from './vault-index.js';
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
@@ -54,7 +55,7 @@ export class VaultScanner {
    * @param vaultRelPath - Forward-slash vault-relative path.
    */
   hasAsset(vaultRelPath: string): boolean {
-    return this.assetIndex.has(vaultRelPath);
+    return this.vaultIndex.hasAttachment(vaultRelPath) || this.assetIndex.has(vaultRelPath);
   }
 
   /**
@@ -79,6 +80,7 @@ export class VaultScanner {
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
+    this.vaultIndex.clear();
     const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
     await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
     this.folderLookup.rebuild(this.vaultIndex);
@@ -116,7 +118,23 @@ export class VaultScanner {
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
         this.assetIndex.add(relPath);
+        await this.indexAttachment(fullPath, relPath);
       }
+    }
+  }
+
+  private async indexAttachment(filePath: string, relPath: string): Promise<void> {
+    try {
+      const stat = await fs.promises.stat(filePath);
+      this.vaultIndex.setAttachment({
+        path: relPath,
+        uri: pathToFileURL(filePath).toString(),
+        extension: this.attachmentExtension(relPath),
+        kind: this.attachmentKind(relPath),
+        sizeBytes: stat.size,
+      });
+    } catch {
+      // Skip unreadable attachments silently.
     }
   }
 
@@ -192,5 +210,27 @@ export class VaultScanner {
     } catch {
       // Skip unreadable files silently.
     }
+  }
+
+  private attachmentExtension(relPath: string): string {
+    const ext = path.extname(relPath).toLowerCase();
+    return ext.startsWith('.') ? ext.slice(1) : ext;
+  }
+
+  private attachmentKind(relPath: string): AttachmentKind {
+    const extension = this.attachmentExtension(relPath);
+    if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp'].includes(extension)) {
+      return 'image';
+    }
+    if (['mp3', 'wav', 'ogg', 'flac', 'm4a'].includes(extension)) {
+      return 'audio';
+    }
+    if (['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(extension)) {
+      return 'video';
+    }
+    if (extension === 'pdf') {
+      return 'pdf';
+    }
+    return 'file';
   }
 }

@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+import { pathToFileURL } from 'url';
 import { VaultIndex } from './vault-index.js';
 import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
@@ -9,6 +10,7 @@ import { VaultScanner } from './vault-scanner.js';
 import { toDocId } from './doc-id.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { TagRegistry } from '../tags/tag-registry.js';
+import type { AttachmentKind } from './vault-index.js';
 
 /**
  * Watches the vault root directory for filesystem changes and keeps the
@@ -71,11 +73,19 @@ export class FileWatcher {
     if (!absPath.endsWith('.md')) {
       // Track non-markdown files in the asset index.
       if (eventType === 'rename') {
-        const exists = await this.fileExists(absPath);
-        if (exists) {
+        const stat = await this.fileStat(absPath);
+        if (stat !== null) {
           this.vaultScanner.getAssetIndex().add(relPath);
+          this.vaultIndex.setAttachment({
+            path: relPath,
+            uri: pathToFileURL(absPath).toString(),
+            extension: this.attachmentExtension(relPath),
+            kind: this.attachmentKind(relPath),
+            sizeBytes: stat.size,
+          });
         } else {
           this.vaultScanner.getAssetIndex().delete(relPath);
+          this.vaultIndex.deleteAttachment(relPath);
         }
       }
       return;
@@ -116,11 +126,36 @@ export class FileWatcher {
   }
 
   private async fileExists(absPath: string): Promise<boolean> {
+    return (await this.fileStat(absPath)) !== null;
+  }
+
+  private async fileStat(absPath: string): Promise<fs.Stats | null> {
     try {
-      await fs.promises.stat(absPath);
-      return true;
+      return await fs.promises.stat(absPath);
     } catch {
-      return false;
+      return null;
     }
+  }
+
+  private attachmentExtension(relPath: string): string {
+    const ext = path.extname(relPath).toLowerCase();
+    return ext.startsWith('.') ? ext.slice(1) : ext;
+  }
+
+  private attachmentKind(relPath: string): AttachmentKind {
+    const extension = this.attachmentExtension(relPath);
+    if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'bmp'].includes(extension)) {
+      return 'image';
+    }
+    if (['mp3', 'wav', 'ogg', 'flac', 'm4a'].includes(extension)) {
+      return 'audio';
+    }
+    if (['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(extension)) {
+      return 'video';
+    }
+    if (extension === 'pdf') {
+      return 'pdf';
+    }
+    return 'file';
   }
 }
