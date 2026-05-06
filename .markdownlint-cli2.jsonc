@@ -14,6 +14,12 @@
     // Multiple top-level headings (MD025): disabled — index files in scripts/
     // use multiple H1s intentionally.
     "MD025": false,
+    // Duplicate headings (MD024): allow repeated subsection names under
+    // different parents; changelogs commonly repeat "Fixed" and "Added" under
+    // each version.
+    "MD024": {
+      "siblings_only": true
+    },
     // First-line heading (MD041): disabled — some support files do not open
     // with a heading by design.
     "MD041": false,
