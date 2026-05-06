@@ -60,10 +60,11 @@ export class EmbedResolver {
       return { kind: 'malformed-fragment' };
     }
 
+    const assetResolution = this.resolveAsset(fileTarget);
+    if (assetResolution.kind !== 'broken') return assetResolution;
+
     const ext = this.extension(fileTarget);
-    if (IMAGE_EXTENSIONS.has(ext)) {
-      return this.resolveAsset(fileTarget);
-    }
+    if (IMAGE_EXTENSIONS.has(ext)) return assetResolution;
 
     const heading = fragment !== '' && !fragment.startsWith('^') ? fragment : undefined;
     const blockRef = fragment.startsWith('^') ? fragment.slice(1) : undefined;

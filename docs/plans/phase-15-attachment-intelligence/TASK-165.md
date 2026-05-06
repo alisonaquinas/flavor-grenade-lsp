@@ -2,7 +2,7 @@
 id: "TASK-165"
 title: "Diagnose broken attachment references"
 type: task
-status: red
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-165"]
 
 # Diagnose broken attachment references
 
-> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -153,3 +153,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > targets and indexed non-image attachment embeds, plus clean cases for indexed
 > images and external image URLs.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added Markdown image attachment diagnostics and taught embed resolution to
+> prefer indexed attachments before Markdown fallback. Focused diagnostics and
+> embed resolver tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.
