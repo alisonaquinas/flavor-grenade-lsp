@@ -123,6 +123,11 @@ export class CompletionRouter {
         replaceLength = context.partial.length;
         break;
 
+      case 'markdown-image-target':
+        result = this.embedProvider.getAttachmentCompletions(context.partial);
+        replaceLength = context.partial.length;
+        break;
+
       case 'markdown-link-heading':
         result = this.markdownLinkProvider.getHeadingCompletions(
           context.target,

@@ -2,7 +2,7 @@
 id: "TASK-164"
 title: "Complete attachment references"
 type: task
-status: red
+status: green
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-164"]
 
 # Complete attachment references
 
-> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `red`
+> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
 
 ## Description
 
@@ -153,3 +153,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > attachment-only provider completions, and router dispatch to attachment
 > completions without document candidates.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added a Markdown image completion context, routed it to attachment-only
+> completions, and backed attachment candidates with `VaultIndex.attachments()`.
+> Focused completion tests, `bun run typecheck`, and `bun run lint --
+> --max-warnings 0` pass.
+> Status: `green`.

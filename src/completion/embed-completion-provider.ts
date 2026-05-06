@@ -56,7 +56,37 @@ export class EmbedCompletionProvider {
       }
     }
 
+    this.appendAttachmentCompletions(items, seen, lowerPartial);
+
     return { items, isIncomplete: false };
+  }
+
+  /**
+   * Return attachment-only completion items for Markdown image targets.
+   *
+   * @param partial - The partially typed attachment path.
+   */
+  getAttachmentCompletions(partial: string): { items: CompletionItem[]; isIncomplete: boolean } {
+    const items: CompletionItem[] = [];
+    this.appendAttachmentCompletions(items, new Set<string>(), partial.toLowerCase());
+    return { items, isIncomplete: false };
+  }
+
+  private appendAttachmentCompletions(
+    items: CompletionItem[],
+    seen: Set<string>,
+    lowerPartial: string,
+  ): void {
+    for (const attachment of this.vaultIndex.attachments()) {
+      if (!seen.has(attachment.path) && attachment.path.toLowerCase().startsWith(lowerPartial)) {
+        seen.add(attachment.path);
+        items.push({
+          label: attachment.path,
+          kind: COMPLETION_KIND_FILE,
+          detail: attachment.kind,
+        });
+      }
+    }
   }
 
   private extractStem(docId: string): string {
