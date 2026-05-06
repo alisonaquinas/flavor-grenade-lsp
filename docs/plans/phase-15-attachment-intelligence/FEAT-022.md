@@ -2,7 +2,7 @@
 id: "FEAT-022"
 title: "Attachment Intelligence"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: 15
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-022"]
 
 # Attachment Intelligence
 
-> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-022` · Feature · Phase 15 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -109,12 +109,14 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-163]] | Index vault attachments | `green` |
-| [[TASK-164]] | Complete attachment references | `green` |
-| [[TASK-165]] | Diagnose broken attachment references | `green` |
-| [[TASK-166]] | Navigate to attachment targets | `green` |
-| [[TASK-167]] | Show attachment hover metadata | `green` |
-| [[TASK-168]] | Polish attachment configuration | `green` |
+| [[TASK-163]] | Index vault attachments | `done` |
+| [[TASK-164]] | Complete attachment references | `done` |
+| [[TASK-165]] | Diagnose broken attachment references | `done` |
+| [[TASK-166]] | Navigate to attachment targets | `done` |
+| [[TASK-167]] | Show attachment hover metadata | `done` |
+| [[TASK-168]] | Polish attachment configuration | `done` |
+| [[BUG-011]] | Nested Markdown image refs miss vault-relative attachments | `done` |
+| [[BUG-012]] | Scanned image attachments do not populate cheap dimensions | `done` |
 | [[CHORE-047]] | Phase 15 Lint Sweep | `done` |
 | [[CHORE-048]] | Phase 15 Test Matrix Sweep | `done` |
 | [[CHORE-049]] | Phase 15 Documentation Trace Sweep | `done` |
@@ -178,3 +180,44 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > tests, lint, and typecheck. `bun run bdd` still has pre-existing pending and
 > undefined scenarios plus an unrelated block-anchor fixture mismatch; Phase 15
 > evidence is covered by focused unit tests. Status: `in-review`.
+
+## Retrospective
+
+> Written after CI passed for PR #31. Date: 2026-05-06.
+
+### What went as planned
+
+Attachment indexing proved to be the right foundation. Once non-Markdown files
+were present in `VaultIndex`, completion, diagnostics, navigation, and hover
+could layer on top without changing document indexing semantics.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| [[BUG-011]] | Bug | Markdown image targets from nested notes were treated only as document-relative paths, while completion exposed vault-relative attachment paths | +0.5 h |
+| [[BUG-012]] | Bug | Hover rendered dimensions only when tests manually injected them; scanner and watcher metadata paths did not populate cheap image dimensions | +0.5 h |
+
+### Process observations
+
+The fresh review caught useful parity gaps after the local gate was already
+green. BDD remains an imperfect phase gate because the attachment scenario
+contains undefined steps; unit and CI coverage carried the implementation
+evidence for this phase.
+
+### Carry-forward actions
+
+- [ ] In Phase 16, preserve attachment path handling from Phase 15 when file
+  and folder moves rewrite local references.
+- [ ] Treat BDD step health as a first-class planning item before relying on
+  new parity scenarios as validation gates.
+
+### Rule / template amendments
+
+- [ ] Consider a process CHORE for defining when BDD scenarios may be accepted
+  as specification-only versus executable gate evidence.
+
+> [!SUCCESS] Done - 2026-05-06
+> PR #31 passed CI and merged to `develop` with a merge commit. Local gates
+> passed: `bun run build`, `bun run lint -- --max-warnings 0`,
+> `bun run typecheck`, `bun test`, and `bun run lint:docs`. Status: `done`.

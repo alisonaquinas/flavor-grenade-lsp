@@ -2,7 +2,7 @@
 id: "TASK-165"
 title: "Diagnose broken attachment references"
 type: task
-status: green
+status: done
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-165"]
 
 # Diagnose broken attachment references
 
-> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-165` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 

@@ -2,7 +2,7 @@
 id: "CHORE-052"
 title: "Phase 16 Security Sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-052"]
 
 # Phase 16 Security Sweep
 
-> [!INFO] `CHORE-052` · Chore · Phase 16 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-052` · Chore · Phase 16 · Priority: `high` · Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -90,14 +90,14 @@ WorkspaceEdits that rewrite references for paths outside the configured vault.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Escaping source paths are covered by tests and refused
-- [ ] Escaping target paths are covered by tests and refused
-- [ ] Folder moves cannot generate edits outside the vault root
-- [ ] `didRenameFiles` refresh ignores or rejects unsafe paths
-- [ ] `bun run lint --max-warnings 0` passes
-- [ ] `tsc --noEmit` exits 0
-- [ ] `bun test` passes
-- [ ] No unrelated behaviour changes in `src/`
+- [x] Escaping source paths are covered by tests and refused
+- [x] Escaping target paths are covered by tests and refused
+- [x] Folder moves cannot generate edits outside the vault root
+- [x] `didRenameFiles` refresh ignores or rejects unsafe paths
+- [x] `bun run lint --max-warnings 0` passes
+- [x] `tsc --noEmit` exits 0
+- [x] `bun test` passes
+- [x] No unrelated behaviour changes in `src/`
 
 ---
 
@@ -129,3 +129,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-16 security sweep.
+
+> [!SUCCESS] Done - 2026-05-06
+> Reviewed the file-operation handler, planner, and refresh path. Planning uses
+> the detected vault root, canonicalizes old and new URIs, rejects escaping
+> source or target paths before edits or refresh, and expands folder moves only
+> from already indexed vault entries. Focused confinement tests pass. Status:
+> `done`.

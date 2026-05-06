@@ -2,7 +2,7 @@
 id: "TASK-164"
 title: "Complete attachment references"
 type: task
-status: green
+status: done
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-164"]
 
 # Complete attachment references
 
-> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-164` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 

@@ -2,7 +2,7 @@
 id: "TASK-167"
 title: "Show attachment hover metadata"
 type: task
-status: green
+status: done
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-167"]
 
 # Show attachment hover metadata
 
-> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-167` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 

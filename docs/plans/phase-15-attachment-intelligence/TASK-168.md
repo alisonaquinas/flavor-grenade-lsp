@@ -2,7 +2,7 @@
 id: "TASK-168"
 title: "Polish attachment configuration"
 type: task
-status: green
+status: done
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-168"]
 
 # Polish attachment configuration
 
-> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-168` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 

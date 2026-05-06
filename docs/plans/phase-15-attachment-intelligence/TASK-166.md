@@ -2,7 +2,7 @@
 id: "TASK-166"
 title: "Navigate to attachment targets"
 type: task
-status: green
+status: done
 priority: medium
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-166"]
 
 # Navigate to attachment targets
 
-> [!INFO] `TASK-166` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-166` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 

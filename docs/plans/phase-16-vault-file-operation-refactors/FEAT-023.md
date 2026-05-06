@@ -2,7 +2,7 @@
 id: "FEAT-023"
 title: "Vault File Operation Refactors"
 type: feature
-status: draft
+status: in-review
 priority: high
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-023"]
 
 # Vault File Operation Refactors
 
-> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -115,15 +115,18 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-169]] | Add file operation capability handler | `open` |
-| [[TASK-170]] | Build vault-confined move planner | `open` |
-| [[TASK-171]] | Rewrite moved-target references without changing syntax | `open` |
-| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `open` |
-| [[TASK-173]] | Refresh index after didRenameFiles | `open` |
-| [[TASK-174]] | Add file operation regression suite | `open` |
-| [[CHORE-050]] | Phase 16 Lint Sweep | `open` |
-| [[CHORE-051]] | Phase 16 Test Matrix Sweep | `open` |
-| [[CHORE-052]] | Phase 16 Security Sweep | `open` |
+| [[TASK-169]] | Add file operation capability handler | `green` |
+| [[TASK-170]] | Build vault-confined move planner | `green` |
+| [[TASK-171]] | Rewrite moved-target references without changing syntax | `green` |
+| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `green` |
+| [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | `green` |
+| [[BUG-014]] | File operation confinement uses workspace root instead of detected vault root | `green` |
+| [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | `green` |
+| [[TASK-173]] | Refresh index after didRenameFiles | `green` |
+| [[TASK-174]] | Add file operation regression suite | `green` |
+| [[CHORE-050]] | Phase 16 Lint Sweep | `done` |
+| [[CHORE-051]] | Phase 16 Test Matrix Sweep | `done` |
+| [[CHORE-052]] | Phase 16 Security Sweep | `done` |
 
 ---
 
@@ -172,3 +175,13 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `draft`. Phase 16 task and chore tickets defined.
+
+> [!INFO] Started - 2026-05-06
+> Phase 15 PR #31 passed CI and merged to `develop`. Phase 16 is now the active
+> implementation phase. Status: `in-progress`.
+
+> [!SUCCESS] Review - 2026-05-06
+> File-operation handler, planner, rewriter, validator, refresh, regression,
+> lint, security, and traceability work is complete locally. Standard local
+> gates pass; BDD still has pre-existing pending/undefined coverage and one
+> non-Phase-16 block-embed failure. Status: `in-review`.

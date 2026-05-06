@@ -2,7 +2,7 @@
 id: "TASK-170"
 title: "Build vault-confined move planner"
 type: task
-status: open
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-170"]
 
 # Build vault-confined move planner
 
-> [!INFO] `TASK-170` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `open`
+> [!INFO] `TASK-170` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -131,3 +131,16 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-023]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing planner coverage for note moves, attachment moves, folder
+> expansion, and whole-plan rejection when a source or target escapes the vault
+> root. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added a vault-confined `FileOperationPlanner` that canonicalizes file URIs,
+> rejects out-of-vault operations as a whole-plan failure, maps Markdown notes
+> to extension-free DocIds, preserves extension-bearing attachment paths, and
+> expands folder moves across known notes and attachments. Focused planner
+> tests, `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass.
+> Status: `green`.

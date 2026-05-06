@@ -2,7 +2,7 @@
 id: "TASK-173"
 title: "Refresh index after didRenameFiles"
 type: task
-status: open
+status: green
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-173"]
 
 # Refresh index after didRenameFiles
 
-> [!INFO] `TASK-173` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `open`
+> [!INFO] `TASK-173` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
 
 ## Description
 
@@ -132,3 +132,15 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened — 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-023]].
+
+> [!FAILURE] Red - 2026-05-06
+> Added failing coverage for `workspace/didRenameFiles` invoking post-move
+> refresh and for moved document/attachment index remapping with graph and
+> diagnostic refresh. Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-06
+> Added post-rename refresh wiring. `workspace/didRenameFiles` now plans the
+> applied moves, remaps moved documents and attachments in `VaultIndex`,
+> rebuilds folder, tag, and reference indexes, and republishes diagnostics for
+> indexed documents. Focused handler/refresh tests, `bun run typecheck`, and
+> `bun run lint -- --max-warnings 0` pass. Status: `green`.

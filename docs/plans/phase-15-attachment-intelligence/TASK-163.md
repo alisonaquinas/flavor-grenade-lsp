@@ -2,7 +2,7 @@
 id: "TASK-163"
 title: "Index vault attachments"
 type: task
-status: green
+status: done
 priority: high
 phase: 15
 parent: "FEAT-022"
@@ -15,7 +15,7 @@ aliases: ["TASK-163"]
 
 # Index vault attachments
 
-> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `green`
+> [!INFO] `TASK-163` · Task · Phase 15 · Parent: [[FEAT-022]] · Status: `done`
 
 ## Description
 
