@@ -81,6 +81,7 @@ All documentation layers are being written before any TypeScript implementation 
 | Section | Description |
 |---|---|
 | [[ofm-spec/index]] | Normative OFM language specification with rule codes |
+| [[ofm-spec/markdown-links]] | Standard Markdown local link rules inside OFMarkdown |
 | [[ddd/bounded-contexts]] | Bounded context map and domain model overview |
 | [[ddd/ubiquitous-language]] | Canonical vocabulary used throughout all docs |
 | [[architecture/overview]] | System architecture, component diagram, layering |
@@ -115,6 +116,8 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
 | [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
+| [[features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
+| [[features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
 | [[design/behavior-layer]] | Behavior layer design |
 | [[design/domain-layer]] | Domain layer design |
 | [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |
@@ -129,6 +132,14 @@ All documentation layers are being written before any TypeScript implementation 
 | [[research/security-threat-model]] | Security threat model research |
 | [[research/marksman-feature-parity-ofmarkdown]] | Marksman parity research for OFMarkdown features |
 | [[research/marksman-vscode-feature-parity-ofmarkdown]] | Marksman VSCode parity research for OFMarkdown extension features |
+
+### Parity Plans
+
+| Document | Description |
+|---|---|
+| [[plans/phase-14-ofmarkdown-parity-foundation]] | Server-side OFMarkdown parity foundation plan |
+| [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity plan |
+| `extension/docs/index.md` | Extension-local parity specification mirror |
 
 ### Extension
 

@@ -53,6 +53,16 @@ Each user requirement uses the following fields:
 | User.Extension.PreserveManualMode | Preserve manual language mode choices | [[vscode-language-mode]] | Extension.LanguageMode.UserOverrideSafety |
 | User.Extension.StableModeSwitch | Avoid flicker or restart loops during automatic recognition | [[vscode-language-mode]] | Extension.LanguageMode.LoopSafety |
 | User.Extension.PreserveMarkdownEditing | Keep Markdown editing behavior after OFMarkdown promotion | [[vscode-language-mode]] | Extension.LanguageMode.MarkdownParity |
+| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution |
+| User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics |
+| User.Rename.MoveNotesSafely | Move notes without breaking links | [[requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor |
+| User.Embed.ManageAttachments | Manage attachments with editor help | [[requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence |
+| User.Navigate.UseEditorStructure | Use editor structure tools in OFMarkdown | [[requirements/user/ofmarkdown-parity]] | Parity.StructuralLSP.Coverage |
+| User.Extension.StartOnlyForVaults | Start automatically for vaults without invading generic Markdown | [[requirements/user/vscode-extension-parity]] | Extension.Activation.VaultPrecision |
+| User.Extension.UseNativeVSCodeActions | Use native VS Code actions for vault navigation | [[requirements/user/vscode-extension-parity]] | Extension.CommandBridges.NativeUI |
+| User.Extension.TrustExtensionBehavior | Trust extension behavior across updates | [[requirements/user/vscode-extension-parity]] | Extension.Tests.HostCoverage |
+| User.Extension.EvaluateBeforeInstall | Understand the extension before installing | [[requirements/user/vscode-extension-parity]] | Extension.Marketplace.OFMProof |
+| User.Extension.UnderstandServerState | Understand server state at a glance | [[requirements/user/vscode-extension-parity]] | Extension.Status.Diagnostics |
 
 ## Related Documents
 
@@ -67,3 +77,5 @@ Each user requirement uses the following fields:
 - [[requirements/user/vault-setup]] — vault detection user requirements
 - [[requirements/user/configuring-behaviour]] — configuration user requirements
 - [[requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
+- [[requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
+- [[requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements

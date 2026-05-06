@@ -34,6 +34,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 11 | Rename | complete | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename | 2026-04-17 |
 | 12 | Code Actions | complete | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens | 2026-04-17 |
 | 13 | CI & Delivery | complete | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline | 2026-04-17 |
+| 14 | OFMarkdown Parity Foundation | planned | Standard Markdown local link intelligence; attachment intelligence; heading ambiguity diagnostics; file-operation refactors | — |
 
 ## Phase Details
 
@@ -115,6 +116,12 @@ Bundle the server with Bun (`bun build --compile`). Build cross-platform binarie
 
 Implementation plan: [[plans/phase-13-ci-delivery]]
 
+### Phase 14 — OFMarkdown Parity Foundation
+
+Deliver the P1 server-side parity items from [[research/marksman-feature-parity-ofmarkdown]]: local standard Markdown link intelligence, heading anchor ambiguity diagnostics, attachment intelligence, and file/folder move refactors across all local reference forms. Gate: parity BDD scenarios pass and existing wiki-link, embed, block-reference, completion, navigation, diagnostics, and rename scenarios remain green.
+
+Implementation plan: [[plans/phase-14-ofmarkdown-parity-foundation]]
+
 ## VS Code Extension Phases (`feature/vs-code`)
 
 Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled platform-specific binaries. Design: [[superpowers/specs/2026-04-21-vscode-extension-design]]. Distribution strategy: [[ADR015-platform-specific-vsix]].
@@ -130,6 +137,7 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
 | E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
 | E6 | OFMarkdown Language Mode | planned | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
+| E7 | VS Code Extension Parity | planned | Activation precision; command bridges; extension-host tests; Marketplace proof; richer status UX | — |
 
 ### Extension Phase Details
 
@@ -175,15 +183,26 @@ Add a VS Code language id `ofmarkdown` displayed as **OFMarkdown**. The extensio
 
 Implementation plan: [[plans/phase-E6-ofmarkdown-language-mode]]
 
+#### Phase E7 — VS Code Extension Parity
+
+Add vault-marker activation events, VS Code command bridges for native
+references and navigation UI, richer status bar diagnostics, extension-host
+tests, Marketplace screenshots, OFMarkdown snippets, and remote/trust behavior
+documentation. Gate: extension parity BDD scenarios and extension-host tests
+cover activation, command bridges, status states, language-mode behavior, and
+failure states.
+
+Implementation plan: [[plans/phase-E7-vscode-extension-parity]]
+
 ### Extension Phase Dependencies
 
 ```text
 Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
                                           │
-                                       Phase E4 ──► Phase E5
+                                       Phase E4 ──► Phase E5 ──► Phase E6 ──► Phase E7
 ```
 
-Phases are strictly sequential. E3 requires E2's `LanguageClient` to wire commands and status bar into. E4 requires E3 to have a complete extension for packaging. E5 requires E4 to have verified local packaging.
+Phases are strictly sequential. E3 requires E2's `LanguageClient` to wire commands and status bar into. E4 requires E3 to have a complete extension for packaging. E5 requires E4 to have verified local packaging. E6 requires E2/E3 client lifecycle and command surfaces. E7 requires E6 language-mode behavior so extension parity work can target `ofmarkdown` precisely.
 
 ## Feature Backlog (Post-v1)
 
@@ -211,6 +230,9 @@ These features are out of scope for the initial release. Recorded to avoid scope
 - [[adr/ADR006-block-ref-indexing]]
 - [[adr/ADR015-platform-specific-vsix]]
 - [[adr/ADR016-ofmarkdown-language-mode]]
+- [[adr/ADR017-standard-markdown-link-intelligence]]
+- [[adr/ADR018-vault-file-operation-refactoring]]
+- [[adr/ADR019-vscode-command-bridges-and-client-ux]]
 - [[superpowers/specs/2026-04-21-vscode-extension-design]]
 - [[features/ofmarkdown-language-mode]]
 - [[design/behavior-layer]]

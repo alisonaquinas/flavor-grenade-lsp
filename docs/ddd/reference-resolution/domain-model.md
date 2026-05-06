@@ -202,6 +202,9 @@ interface Oracle {
 | `EmbedRef` (no fragment) | docs matching stem/title/alias | document-title Def |
 | `EmbedRef` (with `#heading`) | docs matching stem/title/alias | heading Defs matching fragment |
 | `BlockRef` (`#^anchor`) | docs matching stem/title/alias | block anchor Defs matching anchor-id |
+| `MarkdownLinkRef` | local path resolved relative to source doc | document-title or heading Def |
+| `MarkdownImageRef` | local attachment path resolved relative to source doc | attachment Def |
+| `LinkLabelRef` | source document only | matching `LinkLabelDef` |
 | `IntraRef` (`#heading`) | `[sourceDocId]` | heading Defs in source doc matching fragment |
 | `IntraRef` (`#^anchor`) | `[sourceDocId]` | block anchor Defs in source doc |
 | `TagRef` | all docs containing the tag | tag Def |
@@ -274,6 +277,67 @@ interface TagRef {
 ```
 
 **Resolution:** `tag` matched against the vault's `tags` set in `RefGraph`. Unmatched tags are not treated as errors by default (tags are freely invented). Diagnostics for unused/misspelled tags are opt-in.
+
+### MarkdownLinkRef
+
+First-class ref type for local standard Markdown inline links.
+
+```typescript
+interface MarkdownLinkRef {
+  kind:     'markdown-link'
+  target:   string          // raw URL/path inside ( )
+  fragment: string | null   // heading or block fragment after '#'
+  title:    string | null   // optional title string
+  range:    Range
+  id:       RefId
+}
+```
+
+Only local file targets become `MarkdownLinkRef` values. External URLs and
+unknown schemes are excluded before RefGraph construction and never produce
+vault diagnostics.
+
+### MarkdownImageRef
+
+First-class ref type for local standard Markdown image links.
+
+```typescript
+interface MarkdownImageRef {
+  kind:   'markdown-image'
+  target: string
+  alt:    string
+  range:  Range
+  id:     RefId
+}
+```
+
+`MarkdownImageRef` resolves to an attachment Def when the target is a
+non-Markdown file. If the target is a Markdown document, it resolves like a
+`MarkdownLinkRef` but keeps image-link semantics for diagnostics and hover.
+
+### LinkLabelRef and LinkLabelDef
+
+Reference-style Markdown links are split into label use and label definition.
+
+```typescript
+interface LinkLabelRef {
+  kind:  'link-label-ref'
+  label: string
+  range: Range
+  id:    RefId
+}
+
+interface LinkLabelDef extends Def {
+  kind:   'link-label'
+  label:  string
+  target: string
+  title:  string | null
+}
+```
+
+`LinkLabelRef` resolves only within the source document. The local target inside
+`LinkLabelDef` is then resolved as a `MarkdownLinkRef`, so broken definition
+targets still produce vault diagnostics.
 
 ### IntraRef
 
@@ -353,7 +417,8 @@ This table documents where flavor-grenade's `RefGraph` diverges from marksman's 
 | `BlockRef` | Not modelled | First-class `Ref` type; matches `BlockAnchor` Defs |
 | Frontmatter `aliases` | Document has one title Def | Aliases produce additional `Def` values with `kind: 'alias'` |
 | Tag resolution | Tags are indexed, no cross-doc tag graph | `TagRef` participates in `RefGraph`; vault-wide tag set in `RefGraph.tags` |
-| Image embeds | N/A | `![[image.png]]` captured in `OFMIndex` but excluded from `RefGraph` |
+| Image embeds | N/A | `![[image.png]]` captured as an attachment ref and resolved inside the vault |
+| Standard Markdown local links | Present for generic Markdown | First-class OFM refs via `MarkdownLinkRef`, `MarkdownImageRef`, and `LinkLabelRef` |
 | `CrossSection` synthetic ref | Present | Present (same invariant) |
 | `IntraRef` | Present | Present |
 

@@ -33,14 +33,17 @@ Key capability declarations:
   "workspaceSymbolProvider": true,
   "codeLensProvider": { "resolveProvider": false },
   "codeActionProvider": { "codeActionKinds": ["quickfix", "refactor", "source"] },
+  "documentLinkProvider": { "resolveProvider": false },
   "semanticTokensProvider": {
     "legend": { "tokenTypes": [...], "tokenModifiers": [] },
     "full": true,
     "range": false
   },
   "foldingRangeProvider": true,
+  "selectionRangeProvider": true,
   "workspace": {
     "fileOperations": {
+      "willRename": { "filters": [{ "pattern": { "glob": "**/*" } }] },
       "didRename": { "filters": [{ "pattern": { "glob": "**/*.md" } }] }
     }
   }
@@ -75,10 +78,13 @@ Key capability declarations:
 | `workspace/symbol` | `workspaceSymbolProvider` | — | All headings across vault; subsequence matching on query string |
 | `textDocument/codeLens` | `codeLensProvider` | — | "N references" lens on each heading; "N references" on each block anchor |
 | `textDocument/codeAction` | `codeActionProvider` | — | `InsertTOC` (heading list), `CreateMissingFile` (broken wiki-link target), `TagToYaml` (move inline `#tag` to frontmatter), `NormalizeFrontmatter` |
+| `textDocument/documentLink` | `documentLinkProvider` | — | OFM and Markdown local links become clickable when unambiguous; ambiguous links rely on diagnostics |
 | `textDocument/semanticTokens/full` | `semanticTokensProvider.full` | — | OFM tokens: `wikiLink`, `wikiLinkTarget`, `wikiLinkLabel`, `embed`, `tag`, `blockAnchor`, `calloutType`, `calloutTitle`, `mathInline`, `mathBlock`, `ofmComment` |
 | `textDocument/foldingRange` | `foldingRangeProvider` | — | Callout blocks, display math blocks (`$$`), OFM comment blocks (`%%`), fenced code blocks |
+| `textDocument/selectionRange` | `selectionRangeProvider` | — | Expands from OFM token to full construct, paragraph, section, and document |
 | `workspace/didChangeWatchedFiles` | `workspace.fileOperations` | — | Triggered on `*.md` create/delete; updates `VaultFolder` and `RefGraph` |
-| `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, rewrites all wiki-links to renamed file via `workspace/applyEdit` |
+| `workspace/willRenameFiles` | `workspace.fileOperations.willRename` | — | Returns WorkspaceEdit for note, folder, and attachment moves before the editor applies the file operation |
+| `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, refreshes index, and reports diagnostics when a client did not request `willRenameFiles` |
 | `workspace/executeCommand` | `executeCommandProvider` | — | Commands: `flavorGrenade.rebuildIndex`, `flavorGrenade.insertBlockAnchor`, `flavorGrenade.openLinkedNote` |
 | `flavorGrenade/documentMembership` | custom request | — | VS Code extension asks whether a URI belongs to a vault/index and should be assigned `ofmarkdown` |
 
@@ -179,6 +185,29 @@ Result semantics:
 | `reason` | Stable explanation used by extension tests and debug logs |
 
 The server must return `isOfMarkdown: false` for unsupported URI schemes and non-indexed generic Markdown. It must not emit diagnostics for membership failures; the request is an editor affordance, not a document correctness rule.
+
+---
+
+## VS Code Command Bridge Payloads
+
+VS Code-specific command bridges are owned by the extension, not the server. The
+server may return `flavorGrenade.*` command identifiers and JSON payloads in
+code lens, code actions, or custom responses when a native VS Code UI surface is
+more appropriate than a plain LSP result.
+
+Candidate commands:
+
+| Command | Payload | VS Code action |
+|---|---|---|
+| `flavorGrenade.showReferences` | source location plus reference locations | `editor.action.showReferences` |
+| `flavorGrenade.followLink` | one source location and one or more target locations | VS Code location picker or direct open |
+| `flavorGrenade.openEmbedTarget` | target URI and optional range | Open note or asset |
+| `flavorGrenade.showBacklinks` | document URI | Backlink picker or panel |
+| `flavorGrenade.showOutlinks` | document URI | Outlink picker or panel |
+| `flavorGrenade.copyDiagnosticInfo` | extension/server/vault status fields | Clipboard write |
+
+All payloads must be JSON-serializable. The server must not import VS Code API
+types.
 
 ---
 

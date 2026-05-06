@@ -90,6 +90,16 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.LanguageMode.UserOverrideSafety** | The extension must not override manual non-Markdown language mode selections. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.LanguageMode.LoopSafety** | Language-mode assignment must not create reopen or restart loops. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.LanguageMode.MarkdownParity** | OFMarkdown mode must preserve baseline Markdown editing behavior. | [[requirements/ofmarkdown-language-mode]] |
+| **Parity.MarkdownLinks.LocalResolution** | Local standard Markdown links must resolve through the same vault rules as wiki-links. | [[requirements/ofmarkdown-parity]] |
+| **Parity.HeadingAmbiguity.Diagnostics** | Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations. | [[requirements/ofmarkdown-parity]] |
+| **Parity.FileOperations.AtomicRefactor** | File and folder moves must update every local reference to moved targets in one workspace edit. | [[requirements/ofmarkdown-parity]] |
+| **Parity.Attachments.Intelligence** | Attachments referenced by embeds or Markdown image links must support completion, diagnostics, definition, and hover metadata. | [[requirements/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.Coverage** | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure. | [[requirements/ofmarkdown-parity]] |
+| **Extension.Activation.VaultPrecision** | The extension must activate automatically for vaults while avoiding unnecessary work in generic Markdown workspaces. | [[requirements/vscode-extension-parity]] |
+| **Extension.CommandBridges.NativeUI** | Server-provided reference and navigation payloads must be bridgeable to native VS Code UI commands. | [[requirements/vscode-extension-parity]] |
+| **Extension.Tests.HostCoverage** | Extension-host tests must cover activation, commands, status, and language-mode behavior. | [[requirements/vscode-extension-parity]] |
+| **Extension.Marketplace.OFMProof** | The Marketplace README must show OFMarkdown-specific features with current screenshots or GIFs. | [[requirements/vscode-extension-parity]] |
+| **Extension.Status.Diagnostics** | The status bar must expose actionable server, vault, and error state. | [[requirements/vscode-extension-parity]] |
 | **Config.Precedence.Layering** | Project config overrides user config overrides built-in defaults. | [[configuration]] |
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |
 | **Config.Fault.Isolation** | Malformed TOML must be dropped without crashing the server. | [[configuration]] |
@@ -136,7 +146,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 
 ## User Requirements
 
-The user requirements layer lives in [[requirements/user/index]]. It contains 23 implementation-agnostic user goals across 9 themes, each mapping to one or more functional requirements in this index. Every functional requirement that has a user-level mapping carries a `User Req:` field directly below its `Tag` field.
+The user requirements layer lives in [[requirements/user/index]]. It contains implementation-agnostic user goals across the current feature themes, each mapping to one or more functional requirements in this index. Every functional requirement that has a user-level mapping carries a `User Req:` field directly below its `Tag` field.
 
 ## Related Documents
 
