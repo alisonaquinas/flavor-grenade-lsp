@@ -7,6 +7,7 @@ import type { FileOperationPlanner } from '../../../vault/file-operation-planner
 import type { FileOperationRewriter } from '../../../resolution/file-operation-rewriter.js';
 import type { WorkspaceEditValidator } from '../../../resolution/workspace-edit-validator.js';
 import type { FileOperationRefreshService } from '../file-operation-refresh.service.js';
+import type { VaultDetector } from '../../../vault/vault-detector.js';
 import type { Range } from 'vscode-languageserver-types';
 
 describe('FileOperationsHandler', () => {
@@ -41,6 +42,7 @@ describe('FileOperationsHandler', () => {
       rewriter,
       validator,
       {} as FileOperationRefreshService,
+      detectVault(vaultRoot),
     ).handleWillRenameFiles({
       files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
     });
@@ -72,6 +74,7 @@ describe('FileOperationsHandler', () => {
       {} as FileOperationRewriter,
       {} as WorkspaceEditValidator,
       {} as FileOperationRefreshService,
+      detectVault(path.resolve('test-vault')),
     ).handleWillRenameFiles({});
 
     expect(result).toBeNull();
@@ -95,11 +98,37 @@ describe('FileOperationsHandler', () => {
       {} as FileOperationRewriter,
       {} as WorkspaceEditValidator,
       refresh,
+      detectVault(vaultRoot),
     ).handleDidRenameFiles({
       files: [{ oldUri: 'file:///vault/old.md', newUri: 'file:///vault/new.md' }],
     });
 
     expect(refresh.refresh).toHaveBeenCalledWith(vaultRoot, moves);
+  });
+
+  it('uses the detected vault root instead of the broader workspace root', async () => {
+    const lifecycle = new LifecycleState();
+    const workspaceRoot = path.resolve('workspace');
+    const vaultRoot = path.join(workspaceRoot, 'vault');
+    lifecycle.rootUri = pathToFileURL(workspaceRoot).toString();
+    const planner = {
+      planRenameFiles: jest.fn().mockReturnValue({ status: 'ok', moves: [] }),
+    } as unknown as FileOperationPlanner;
+
+    await new FileOperationsHandler(
+      lifecycle,
+      planner,
+      {
+        rewrite: jest.fn().mockReturnValue({ edits: [], skipped: [] }),
+      } as unknown as FileOperationRewriter,
+      {
+        validate: jest.fn().mockReturnValue({ status: 'ok', edit: { changes: {} }, skipped: [] }),
+      } as unknown as WorkspaceEditValidator,
+      {} as FileOperationRefreshService,
+      detectVault(vaultRoot),
+    ).handleWillRenameFiles({ files: [] });
+
+    expect(planner.planRenameFiles).toHaveBeenCalledWith(vaultRoot, { files: [] });
   });
 });
 
@@ -108,4 +137,10 @@ function range(sl: number, sc: number, el: number, ec: number): Range {
     start: { line: sl, character: sc },
     end: { line: el, character: ec },
   };
+}
+
+function detectVault(vaultRoot: string): VaultDetector {
+  return {
+    detect: () => ({ mode: 'obsidian' as const, vaultRoot }),
+  } as unknown as VaultDetector;
 }
