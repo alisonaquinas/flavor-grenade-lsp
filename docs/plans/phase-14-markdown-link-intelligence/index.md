@@ -25,11 +25,11 @@ aliases: ["Phase 14 Tickets"]
 | [[BUG-006]] | BDD smoke indexes files outside configured extension list | Bug | `in-review` |
 | [[BUG-007]] | BDD smoke includes undefined extension-host scenario | Bug | `in-review` |
 | [[BUG-008]] | BDD smoke includes pending scenarios | Bug | `in-review` |
-| [[BUG-009]] | Documented BDD smoke command does not reproduce on PowerShell | Bug | `in-progress` |
-| [[BUG-010]] | Standalone Markdown link definitions are missing from RefGraph document refs | Bug | `in-progress` |
+| [[BUG-009]] | Documented BDD smoke command does not reproduce on PowerShell | Bug | `in-review` |
+| [[BUG-010]] | Standalone Markdown link definitions are missing from RefGraph document refs | Bug | `in-review` |
 | [[CHORE-056]] | Phase 14 Code Quality Sweep | Chore | `in-review` |
 | [[CHORE-058]] | Document and split Phase 14 parser surfaces | Chore | `in-review` |
 | [[CHORE-057]] | Phase 14 Security Sweep | Chore | `in-review` |
-| [[CHORE-059]] | Reconcile final Phase 14 review trace | Chore | `in-progress` |
+| [[CHORE-059]] | Reconcile final Phase 14 review trace | Chore | `in-review` |
 | [[CHORE-045]] | Phase 14 Test Matrix Sweep | Chore | `in-review` |
 | [[CHORE-046]] | Phase 14 Documentation Trace Sweep | Chore | `in-review` |

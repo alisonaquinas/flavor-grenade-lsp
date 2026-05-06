@@ -55,7 +55,7 @@ Set up continuous integration, packaging, and release automation. After this pha
         - run: bun run build
         - run: bun run lint
         - run: bun test --coverage
-        - run: bun run bdd -- --tags @smoke
+        - run: bun run bdd --tags "@smoke"
         - uses: actions/upload-artifact@v7
           if: always()
           with:

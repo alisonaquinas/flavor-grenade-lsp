@@ -42,6 +42,8 @@ the same vault-aware rules without producing noise for external URLs.
 **Out of scope (explicitly excluded):**
 
 - Attachment metadata and image hover support beyond local target recognition.
+- Markdown image definition, diagnostics, hover, and attachment completion beyond
+  image reference indexing; these belong to [[plans/phase-15-attachment-intelligence]].
 - File and folder move refactors.
 - `textDocument/documentLink`, folding ranges, and selection ranges.
 - CLI check/export tooling.
@@ -202,6 +204,11 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > `bun run lint -- --max-warnings 0`, `bun run typecheck`, `bun test`,
 > `bun run lint:docs`, and `bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml --tags '@smoke'`
 > pass. Status: `in-review`.
+
+> [!NOTE] Final Review - 2026-05-06
+> Fresh review findings [[BUG-009]], [[BUG-010]], and [[CHORE-059]] were
+> ticketed before fixes. Markdown image links are parser and RefGraph inputs in
+> Phase 14; attachment-facing navigation and hover remain Phase 15 scope.
 
 ## Retrospective
 

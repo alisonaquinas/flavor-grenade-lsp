@@ -199,7 +199,7 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 1. Check whether `tests/validation/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to BDD check
    - **If test files exist:** run `bun test tests/validation/`; fix all failures
-2. Run all BDD `@smoke` scenarios: `bun run bdd -- --tags @smoke`
+2. Run all BDD `@smoke` scenarios: `bun run bdd --tags "@smoke"`
    - **If cucumber is not yet configured for this phase:** mark BDD check **N/A** and note in retrospective
 3. Fix any failing BDD scenarios; open `BUG` tickets per Rule 5
 4. Repeat until all pass

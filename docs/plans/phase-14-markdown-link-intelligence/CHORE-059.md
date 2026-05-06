@@ -2,7 +2,7 @@
 id: "CHORE-059"
 title: "Reconcile final Phase 14 review trace"
 type: chore
-status: in-progress
+status: in-review
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-059"]
 
 # Reconcile final Phase 14 review trace
 
-> [!INFO] `CHORE-059` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
+> [!INFO] `CHORE-059` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
 
 ## Description
 
@@ -76,3 +76,7 @@ from document definition/navigation because attachment behavior belongs to Phase
 > [!INFO] In Progress - 2026-05-06
 > Final trace reconciliation started after review findings were ticketed.
 > Status: `in-progress`.
+
+> [!SUCCESS] Review Ready - 2026-05-06
+> Reconciled FEAT status and documented Markdown image-link attachment scope as
+> Phase 15 work. Status: `in-review`.

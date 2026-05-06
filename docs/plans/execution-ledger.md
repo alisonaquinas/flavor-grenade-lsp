@@ -62,7 +62,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
    ```bash
    # Example for Phase 3
    bun test src/parser/**
-   bun run bdd -- --tags @smoke
+   bun run bdd --tags "@smoke"
    ```
 
 2. Update the row in this table:
