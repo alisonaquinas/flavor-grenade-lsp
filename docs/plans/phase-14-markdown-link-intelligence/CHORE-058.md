@@ -2,7 +2,7 @@
 id: "CHORE-058"
 title: "Document and split Phase 14 parser surfaces"
 type: chore
-status: in-progress
+status: in-review
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-058"]
 
 # Document and split Phase 14 parser surfaces
 
-> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
+> [!INFO] `CHORE-058` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
 
 ## Description
 
@@ -90,3 +90,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Started - 2026-05-06
 > Parser cleanup started after review findings were ticketed. Status:
 > `in-progress`.
+
+> [!INFO] Review Ready - 2026-05-06
+> Split inline Markdown link parsing into smaller helpers. Targeted parser and
+> resolution tests, `bun run typecheck`, and `bun run lint -- --max-warnings 0`
+> pass. Status: `in-review`.
