@@ -11,7 +11,7 @@ aliases: ["Phase 15 Tickets"]
 | [[FEAT-022]] | Attachment Intelligence | Feature | `in-progress` |
 | [[TASK-163]] | Index vault attachments | Task | `green` |
 | [[TASK-164]] | Complete attachment references | Task | `green` |
-| [[TASK-165]] | Diagnose broken attachment references | Task | `open` |
+| [[TASK-165]] | Diagnose broken attachment references | Task | `red` |
 | [[TASK-166]] | Navigate to attachment targets | Task | `open` |
 | [[TASK-167]] | Show attachment hover metadata | Task | `open` |
 | [[TASK-168]] | Polish attachment configuration | Task | `open` |
