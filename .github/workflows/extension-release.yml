@@ -64,7 +64,6 @@ jobs:
           --target=${{ matrix.bun-target }}
           --outfile=extension/server/${{ matrix.binary-name }}
           --minify
-          --bytecode
 
       - name: Install extension dependencies
         working-directory: extension
@@ -102,10 +101,62 @@ jobs:
             extension/checksums-*.sha256
           if-no-files-found: error
 
+  smoke-test-windows-binary:
+    name: Smoke Test Windows Binary
+    runs-on: windows-latest
+    needs: build
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: vsix-win32-x64
+          path: vsix-artifact
+
+      - name: Run bundled Windows server
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $vsix = Get-ChildItem -Path vsix-artifact -Filter '*.vsix' | Select-Object -First 1
+          if ($null -eq $vsix) {
+            throw 'No win32-x64 VSIX artifact found.'
+          }
+
+          $extractDir = Join-Path $PWD 'vsix-extracted'
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($vsix.FullName, $extractDir)
+
+          $server = Join-Path $extractDir 'extension/server/flavor-grenade-lsp.exe'
+          if (!(Test-Path $server)) {
+            throw "Bundled server not found: $server"
+          }
+
+          $stdout = Join-Path $PWD 'server.stdout.txt'
+          $stderr = Join-Path $PWD 'server.stderr.txt'
+          $process = Start-Process `
+            -FilePath $server `
+            -NoNewWindow `
+            -PassThru `
+            -RedirectStandardOutput $stdout `
+            -RedirectStandardError $stderr
+
+          if (!$process.WaitForExit(5000)) {
+            Stop-Process -Id $process.Id -Force
+            Write-Host 'Server stayed alive waiting for LSP input.'
+            exit 0
+          }
+
+          if ($process.ExitCode -ne 0) {
+            Get-Content $stdout -ErrorAction SilentlyContinue
+            Get-Content $stderr -ErrorAction SilentlyContinue
+            throw "Server exited with code $($process.ExitCode)."
+          }
+
   publish:
     name: Publish to Marketplace
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, smoke-test-windows-binary]
     environment: vsce-publish
     permissions:
       contents: read
