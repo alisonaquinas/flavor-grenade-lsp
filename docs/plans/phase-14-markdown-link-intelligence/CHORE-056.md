@@ -34,7 +34,8 @@ phase moves into final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.CodeReview.StructuralSweep` | Phase code must receive a structural quality review | [[requirements/code-quality]] |
+| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[requirements/code-quality]] |
+| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be reviewed | [[requirements/code-quality]] |
 
 ---
 

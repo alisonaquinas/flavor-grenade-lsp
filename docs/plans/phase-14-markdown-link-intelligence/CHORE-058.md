@@ -36,7 +36,8 @@ quality findings.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.CodeReview.StructuralSweep` | Phase code must address structural quality findings | [[requirements/code-quality]] |
+| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[requirements/code-quality]] |
+| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be split | [[requirements/code-quality]] |
 
 ---
 

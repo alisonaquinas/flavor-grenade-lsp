@@ -2,7 +2,7 @@
 id: "CHORE-046"
 title: "Phase 14 Documentation Trace Sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: medium
 phase: 14
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-046"]
 
 # Phase 14 Documentation Trace Sweep
 
-> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `in-progress`
+> [!INFO] `CHORE-046` · Chore · Phase 14 · Priority: `medium` · Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -153,3 +153,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Started - 2026-05-06
 > Documentation trace sweep started after test matrix evidence reached review.
 > Status: `in-progress`.
+
+> [!INFO] Review Ready - 2026-05-06
+> Reconciled Phase 14 ticket requirement tags, FEAT child-ticket statuses, and
+> test evidence links. `bun run lint:docs`, `bun run lint -- --max-warnings 0`,
+> and `bun run typecheck` pass. Status: `in-review`.

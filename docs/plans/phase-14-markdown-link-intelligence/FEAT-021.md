@@ -120,24 +120,24 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-156]] | Parse standard Markdown link syntax | `open` |
-| [[TASK-157]] | Classify Markdown link targets | `open` |
-| [[TASK-180]] | Complete Markdown link URL targets | `open` |
-| [[TASK-158]] | Index Markdown link references in RefGraph | `open` |
-| [[TASK-159]] | Resolve Markdown links through Oracle | `open` |
-| [[TASK-160]] | Diagnose Markdown heading anchors | `open` |
-| [[TASK-161]] | Navigate Markdown links and labels | `open` |
-| [[TASK-162]] | Rename Markdown heading anchors | `open` |
-| [[CHORE-044]] | Phase 14 Lint Sweep | `open` |
-| [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-progress` |
-| [[BUG-003]] | Markdown path targets can escape above vault root | `open` |
-| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | `open` |
-| [[BUG-005]] | Markdown completions lose folder context for nested documents | `open` |
-| [[CHORE-056]] | Phase 14 Code Quality Sweep | `open` |
-| [[CHORE-058]] | Document and split Phase 14 parser surfaces | `open` |
-| [[CHORE-057]] | Phase 14 Security Sweep | `open` |
-| [[CHORE-045]] | Phase 14 Test Matrix Sweep | `open` |
-| [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `open` |
+| [[TASK-156]] | Parse standard Markdown link syntax | `green` |
+| [[TASK-157]] | Classify Markdown link targets | `green` |
+| [[TASK-180]] | Complete Markdown link URL targets | `green` |
+| [[TASK-158]] | Index Markdown link references in RefGraph | `green` |
+| [[TASK-159]] | Resolve Markdown links through Oracle | `green` |
+| [[TASK-160]] | Diagnose Markdown heading anchors | `green` |
+| [[TASK-161]] | Navigate Markdown links and labels | `green` |
+| [[TASK-162]] | Rename Markdown heading anchors | `green` |
+| [[CHORE-044]] | Phase 14 Lint Sweep | `in-review` |
+| [[BUG-002]] | Markdown index fields crash legacy OFMDoc fixtures | `in-review` |
+| [[BUG-003]] | Markdown path targets can escape above vault root | `in-review` |
+| [[BUG-004]] | Malformed Markdown anchor escapes can crash heading resolution | `in-review` |
+| [[BUG-005]] | Markdown completions lose folder context for nested documents | `in-review` |
+| [[CHORE-056]] | Phase 14 Code Quality Sweep | `in-review` |
+| [[CHORE-058]] | Document and split Phase 14 parser surfaces | `in-review` |
+| [[CHORE-057]] | Phase 14 Security Sweep | `in-review` |
+| [[CHORE-045]] | Phase 14 Test Matrix Sweep | `in-review` |
+| [[CHORE-046]] | Phase 14 Documentation Trace Sweep | `in-progress` |
 
 ---
 
