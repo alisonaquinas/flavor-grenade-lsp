@@ -32,6 +32,7 @@ export const COMMAND_ACTIVATION_EVENTS = [
   'onCommand:flavorGrenade.restartServer',
   'onCommand:flavorGrenade.rebuildIndex',
   'onCommand:flavorGrenade.showOutput',
+  'onCommand:flavorGrenade.showStatusActions',
   'onCommand:flavorGrenade.showReferences',
   'onCommand:flavorGrenade.followLink',
   'onCommand:flavorGrenade.openEmbedTarget',

@@ -12,11 +12,17 @@ import {
   type LanguageClientOptions,
   type ServerOptions,
 } from 'vscode-languageclient/node';
+import type { ServerCommand } from './server-command.js';
 import { resolveServerCommand } from './server-path.js';
-import { applyFlavorGrenadeStatus, createStatusBar } from './status-bar.js';
+import {
+  applyFlavorGrenadeStatus,
+  createFlavorGrenadeStatusBar,
+  registerFlavorGrenadeStatusNotifications,
+} from './status-bar.js';
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
 import { decideStartupGate } from './activation-gate.js';
+import { buildDiagnosticInfo, getStatusQuickActions } from './status-presentation.js';
 import type {
   FlavorGrenadeStatus,
   FlavorGrenadeStatusPresentation,
@@ -25,13 +31,26 @@ import type {
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
 let statusBarItem: Pick<StatusBarItem, 'text' | 'tooltip'> | undefined;
+let currentStatus: FlavorGrenadeStatus = createBaseStatus('disabled');
 
 export interface FlavorGrenadeExtensionApi {
   __testApplyStatus?(status: FlavorGrenadeStatus): FlavorGrenadeStatusPresentation | undefined;
+  __testStatusActions?(status: FlavorGrenadeStatus): {
+    actions: ReturnType<typeof getStatusQuickActions>;
+    diagnostics: string;
+  };
   isClientStarted(): boolean;
 }
 
 export async function activate(context: ExtensionContext): Promise<FlavorGrenadeExtensionApi> {
+  currentStatus = createBaseStatus('disabled', context);
+  const disabledStatus = getDisabledStatus(context);
+  if (disabledStatus) {
+    ensureStatusBar(context);
+    currentStatus = disabledStatus;
+    applyFlavorGrenadeStatus(statusBarItem!, currentStatus);
+  }
+
   const startClient = async (commandId?: string): Promise<LanguageClient> => {
     if (client) {
       return client;
@@ -53,7 +72,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
     return startClientPromise;
   };
 
-  const commandDisposables = registerCommands(startClient);
+  const commandDisposables = registerCommands(startClient, () => currentStatus);
   context.subscriptions.push(...commandDisposables);
 
   // Restart on server path change
@@ -67,6 +86,13 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
   const maybeStartClient = async () => {
     if (client || startClientPromise) {
+      return;
+    }
+    const nextDisabledStatus = getDisabledStatus(context);
+    if (nextDisabledStatus) {
+      ensureStatusBar(context);
+      currentStatus = nextDisabledStatus;
+      applyFlavorGrenadeStatus(statusBarItem!, currentStatus);
       return;
     }
 
@@ -116,10 +142,19 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
               return undefined;
             }
 
-            applyFlavorGrenadeStatus(statusBarItem, status);
+            const nextStatus = withContextStatus(status, context);
+            currentStatus = nextStatus;
+            applyFlavorGrenadeStatus(statusBarItem, nextStatus);
             return {
               text: statusBarItem.text,
               tooltip: String(statusBarItem.tooltip ?? ''),
+            };
+          },
+          __testStatusActions(status: FlavorGrenadeStatus) {
+            const nextStatus = withContextStatus(status, context);
+            return {
+              actions: getStatusQuickActions(nextStatus),
+              diagnostics: buildDiagnosticInfo(nextStatus),
             };
           },
         }
@@ -168,16 +203,33 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
 
   // Register status listeners before start() so early initialize/initialized
   // notifications cannot be missed during the LSP handshake.
-  const statusBar = createStatusBar(nextClient);
+  const statusBar = ensureStatusBar(context);
   statusBarItem = statusBar;
-  context.subscriptions.push(statusBar);
+  registerFlavorGrenadeStatusNotifications(nextClient, statusBar);
+  currentStatus = withContextStatus(
+    {
+      state: 'initializing',
+      vaultCount: 0,
+      docCount: 0,
+      serverPathSummary: summarizeServerCommand(serverCommand),
+    },
+    context,
+  );
+  applyFlavorGrenadeStatus(statusBar, currentStatus);
 
   // Reset status bar text on restart cycles (e.g., after restartServer command)
   context.subscriptions.push(
     nextClient.onDidChangeState((event) => {
       if (event.newState === State.Starting) {
-        statusBar.text = '$(loading~spin) FG: Starting...';
-        statusBar.tooltip = 'Flavor Grenade: Starting server';
+        currentStatus = withContextStatus(
+          {
+            ...currentStatus,
+            state: 'initializing',
+            message: undefined,
+          },
+          context,
+        );
+        applyFlavorGrenadeStatus(statusBar, currentStatus);
       }
     }),
   );
@@ -207,8 +259,18 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     .then(
       (result) => {
         const docCount = Array.isArray(result?.docIds) ? result.docIds.length : 0;
-        statusBar.text = `$(check) FG: ${docCount} docs`;
-        statusBar.tooltip = `Flavor Grenade: Ready - ${docCount} docs`;
+        currentStatus = withContextStatus(
+          {
+            ...currentStatus,
+            state: 'ready',
+            docCount,
+            vaultCount: workspace.workspaceFolders?.length ?? 0,
+            vaultRoot: workspace.workspaceFolders?.[0]?.uri.toString(),
+            message: undefined,
+          },
+          context,
+        );
+        applyFlavorGrenadeStatus(statusBar, currentStatus);
       },
       () => {
         // Ignore best-effort status refresh failures; normal LSP features still report errors.
@@ -216,4 +278,85 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     );
 
   return nextClient;
+}
+
+function ensureStatusBar(context: ExtensionContext): StatusBarItem {
+  if (statusBarItem) {
+    return statusBarItem as StatusBarItem;
+  }
+
+  const statusBar = createFlavorGrenadeStatusBar();
+  statusBarItem = statusBar;
+  context.subscriptions.push(statusBar);
+  return statusBar;
+}
+
+function createBaseStatus(
+  state: FlavorGrenadeStatus['state'],
+  context?: ExtensionContext,
+): FlavorGrenadeStatus {
+  return withContextStatus(
+    {
+      state,
+      vaultCount: workspace.workspaceFolders?.length ?? 0,
+      docCount: 0,
+      vaultRoot: workspace.workspaceFolders?.[0]?.uri.toString(),
+    },
+    context,
+  );
+}
+
+function withContextStatus(
+  status: FlavorGrenadeStatus,
+  context?: ExtensionContext,
+): FlavorGrenadeStatus {
+  const packageJson = context?.extension.packageJSON as { version?: unknown } | undefined;
+  return {
+    ...status,
+    extensionVersion:
+      typeof packageJson?.version === 'string' ? packageJson.version : status.extensionVersion,
+    platform: status.platform ?? `${process.platform}-${process.arch}`,
+  };
+}
+
+function getDisabledStatus(context: ExtensionContext): FlavorGrenadeStatus | undefined {
+  if (!workspace.isTrusted) {
+    return withContextStatus(
+      {
+        state: 'disabled',
+        vaultCount: workspace.workspaceFolders?.length ?? 0,
+        docCount: 0,
+        vaultRoot: workspace.workspaceFolders?.[0]?.uri.toString(),
+        message: 'Restricted Mode',
+        serverPathSummary: 'unavailable',
+      },
+      context,
+    );
+  }
+
+  if (
+    workspace.workspaceFolders !== undefined &&
+    workspace.workspaceFolders.length > 0 &&
+    workspace.workspaceFolders.every((folder) => folder.uri.scheme !== 'file')
+  ) {
+    return withContextStatus(
+      {
+        state: 'disabled',
+        vaultCount: workspace.workspaceFolders.length,
+        docCount: 0,
+        message: 'Virtual workspace',
+        serverPathSummary: 'unavailable',
+      },
+      context,
+    );
+  }
+
+  return undefined;
+}
+
+function summarizeServerCommand(command: ServerCommand): string {
+  if (command.command === 'node') {
+    return 'development server';
+  }
+  return command.args && command.args.length > 0 ? 'custom server command' : 'bundled server';
 }

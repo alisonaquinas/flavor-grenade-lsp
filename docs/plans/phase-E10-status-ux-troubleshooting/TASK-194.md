@@ -2,7 +2,7 @@
 id: "TASK-194"
 title: "Add disabled error and crash status states"
 type: task
-status: red
+status: green
 priority: high
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-194"]
 
 # Add disabled error and crash status states
 
-> [!INFO] `TASK-194` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `red`
+> [!INFO] `TASK-194` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `green`
 
 ## Description
 
@@ -98,10 +98,10 @@ do next.
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] Missing binary, crash exhaustion, Restricted Mode, virtual workspace, unsupported platform, and server error states are represented
-- [ ] Disabled states do not start the server
-- [ ] Each error or disabled state names at least one next action
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] Missing binary, crash exhaustion, Restricted Mode, virtual workspace, unsupported platform, and server error states are represented
+- [x] Disabled states do not start the server
+- [x] Each error or disabled state names at least one next action
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
@@ -146,3 +146,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-07
 > Added failing unit coverage for disabled, crashed, and misconfigured status
 > presentations.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added disabled, crashed, and misconfigured status presentations plus a
+> conservative Restricted Mode / virtual workspace startup guard.
