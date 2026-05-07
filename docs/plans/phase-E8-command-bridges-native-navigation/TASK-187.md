@@ -2,7 +2,7 @@
 id: "TASK-187"
 title: "Add OFMarkdown Graph Action Bridges"
 type: task
-status: open
+status: red
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-187"]
 
 # Add OFMarkdown Graph Action Bridges
 
-> [!INFO] `TASK-187` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `open`
+> [!INFO] `TASK-187` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `red`
 
 ## Description
 
@@ -128,3 +128,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-026]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing OFMarkdown graph command bridge tests in
+> `extension/src/command-bridges.test.ts`.

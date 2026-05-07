@@ -2,7 +2,7 @@
 id: "TASK-185"
 title: "Register Native Reference And Link Bridges"
 type: task
-status: open
+status: red
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-185"]
 
 # Register Native Reference And Link Bridges
 
-> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `open`
+> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `red`
 
 ## Description
 
@@ -126,3 +126,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-026]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing native reference and link bridge tests in
+> `extension/src/command-bridges.test.ts`.

@@ -98,9 +98,9 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-185]] | Register Native Reference And Link Bridges | `open` |
-| [[TASK-186]] | Validate Command Bridge Payloads | `open` |
-| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `open` |
+| [[TASK-185]] | Register Native Reference And Link Bridges | `red` |
+| [[TASK-186]] | Validate Command Bridge Payloads | `red` |
+| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `red` |
 | [[TASK-188]] | Document Command Bridge Contracts | `open` |
 | [[CHORE-063]] | Phase E8 Lint Sweep | `open` |
 | [[CHORE-064]] | Phase E8 Test Trace Sweep | `open` |
