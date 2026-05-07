@@ -27,7 +27,7 @@ aliases:
 **Tag:** User.Extension.TrustExtensionBehavior
 **Goal:** Trust extension behavior across updates
 **Need:** A VS Code user wants activation, commands, status, and language-mode behavior to be tested so extension updates do not break basic editing workflows.
-**Maps to:** Extension.Tests.HostCoverage, Extension.LanguageMode.MembershipRefresh, Extension.Workspace.EnvironmentModes
+**Maps to:** Extension.Tests.HostCoverage, Extension.LanguageMode.MembershipRefresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.TargetBinaryValidation
 
 ---
 
@@ -35,6 +35,13 @@ aliases:
 **Goal:** Understand the extension before installing
 **Need:** A prospective user wants Marketplace screenshots that show actual OFMarkdown behavior instead of only generic Markdown claims.
 **Maps to:** Extension.Marketplace.OFMProof, Extension.Marketplace.AssetPackaging
+
+---
+
+**Tag:** User.Extension.InstallCompatiblePackage
+**Goal:** Install a platform-compatible extension package
+**Need:** A VS Code user wants the installed package to contain a server binary that matches their platform and extension version, so the extension starts reliably after install or update.
+**Maps to:** Extension.Packaging.TargetBinaryValidation, Extension.Workspace.EnvironmentModes
 
 ---
 

@@ -72,9 +72,12 @@ Tags are indexed with their full hierarchical path. A tag `#project/active` is d
 
 ## Project Status
 
-**Documentation phase — pre-implementation.**
+**Implementation phase — server parity continuation.**
 
-All documentation layers are being written before any TypeScript implementation files are created. The implementation order is defined in [[AGENTS]]. No `src/` files exist yet. The specification, domain model, architecture, ADRs, concepts, design, requirements, BDD scenarios, features, and plans must all be complete before implementation begins.
+The server and VS Code extension are implemented and are now being hardened
+through phase-by-phase parity work. Server phases 14-16 are complete, Phase 17
+is in progress, and extension parity continuation phases E7-E14 are planned in
+[[roadmap]].
 
 ## Navigation
 
@@ -144,7 +147,15 @@ All documentation layers are being written before any TypeScript implementation 
 | [[plans/phase-15-attachment-intelligence]] | Attachment intelligence plan |
 | [[plans/phase-16-vault-file-operation-refactors]] | Vault file operation refactor plan |
 | [[plans/phase-17-structural-lsp-capabilities]] | Structural LSP capabilities plan |
-| [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity plan |
+| [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity split-phase index |
+| [[plans/phase-E7-activation-precision]] | Extension activation precision and startup gating plan |
+| [[plans/phase-E8-command-bridges-native-navigation]] | Extension command bridge and native navigation plan |
+| [[plans/phase-E9-extension-host-regression-harness]] | Extension-host regression harness plan |
+| [[plans/phase-E10-status-ux-troubleshooting]] | Extension status UX and troubleshooting plan |
+| [[plans/phase-E11-marketplace-evidence-packaging-proof]] | Extension Marketplace evidence and package proof plan |
+| [[plans/phase-E12-ofmarkdown-editor-contributions]] | OFMarkdown editor contribution plan |
+| [[plans/phase-E13-workspace-environment-modes]] | Workspace environment behavior plan |
+| [[plans/phase-E14-membership-refresh-compatibility-guardrails]] | Membership refresh and compatibility guardrail plan |
 | `extension/docs/index.md` | Extension-local parity specification mirror |
 
 ### Extension

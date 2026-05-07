@@ -1,74 +1,45 @@
 ---
-title: "Phase E7: VS Code Extension Parity"
-phase: E7
-status: planned
+title: "VS Code Extension Parity Phase Index"
+phase: E7-E14
+status: superseded
 tags: [plans, vscode, extension, marksman-parity]
 aliases: [Phase E7, VS Code Extension Parity]
-updated: 2026-05-06
+updated: 2026-05-07
 ---
 
-# Phase E7: VS Code Extension Parity
+# VS Code Extension Parity Phase Index
 
-| Field | Value |
-|---|---|
-| Phase | E7 |
-| Title | VS Code Extension Parity |
-| Status | planned |
-| Gate | Extension activation, command bridges, status UX, Marketplace proof, and extension-host tests satisfy parity requirements |
-| Depends on | Extension Phase E6 |
+This file previously described one broad Phase E7. That scope is now split into
+smaller execution phases so each parity slice can be implemented, reviewed, and
+merged independently.
 
-## Objective
+## Split Phases
 
-Deliver the P1 and P2 client-side parity items from
-[[research/marksman-vscode-feature-parity-ofmarkdown]] while keeping all
-language intelligence in the server.
-
-## Scope
-
-### In Scope
-
-- Vault-marker activation events
-- Command bridges for native VS Code reference and navigation UI
-- Extension-host tests for activation, language mode, commands, status, and
-  failure states
-- Marketplace README screenshots for OFMarkdown features
-- Rich status tooltip and quick actions
-- OFMarkdown snippets and language-scoped contributions
-- Workspace trust, virtual workspace, and remote behavior documentation
-- Membership refresh after server readiness and workspace changes
-
-### Out of Scope
-
-- Web extension support
-- Tree views or activity-bar views
-- Automatic server binary download
-- Server-side language intelligence
-
-## Workstreams
-
-| Workstream | Deliverable | Primary docs |
+| Phase | Plan | Primary requirement focus |
 |---|---|---|
-| Activation | Precise vault-marker activation and idle generic Markdown behavior | [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
-| Command bridges | `flavorGrenade.showReferences`, `followLink`, `openEmbedTarget`, graph commands | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
-| Tests | VS Code extension-host tests for client behavior | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
-| Status | Rich status tooltip and quick actions | [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
-| Marketplace | OFMarkdown feature screenshots in extension README | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
-| Contributions | OFMarkdown snippets, keybindings, and language configuration | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
-| Workspace environments | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| E7 | [[phase-E7-activation-precision]] | [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| E8 | [[phase-E8-command-bridges-native-navigation]] | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| E9 | [[phase-E9-extension-host-regression-harness]] | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| E10 | [[phase-E10-status-ux-troubleshooting]] | [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
+| E11 | [[phase-E11-marketplace-evidence-packaging-proof]] | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| E12 | [[phase-E12-ofmarkdown-editor-contributions]] | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
+| E13 | [[phase-E13-workspace-environment-modes]] | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| E14 | [[phase-E14-membership-refresh-compatibility-guardrails]] | [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
 
-## Acceptance
+## Source
 
-- `docs/bdd/features/vscode-extension-parity.feature` scenarios pass or are
-  mirrored by extension-host tests under `extension/`.
-- `extension/docs/bdd/vscode-extension-parity.feature` stays aligned with the
-  root BDD scenarios.
-- Generic Markdown workspaces remain lightweight.
-- VS Code-specific command bridges do not leak into server domain models.
-- Marketplace assets are included in packaged VSIXs.
+The split is derived from [[research/marksman-vscode-feature-parity-ofmarkdown]]
+and the current Marksman VSCode public extension surface:
+
+- project-scoped activation
+- server command discovery
+- restart and show-output commands
+- custom show-references and follow-link command bridges
+- status notification UI
+- Marketplace screenshots for editor behavior
 
 ## Related
 
+- [[roadmap]]
 - [[features/vscode-extension-parity]]
 - [[requirements/functional/vscode-extension-parity]]
-- [[ADR019-vscode-command-bridges-and-client-ux]]
-- `extension/docs/index.md`

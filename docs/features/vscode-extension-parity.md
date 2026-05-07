@@ -24,6 +24,7 @@ does not own OFMarkdown intelligence.
 | Status and quick actions | [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
 | OFMarkdown editor contributions | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
 | Workspace environments | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| Packaging guardrails | [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] |
 
 ## P1 - Activation Precision
 
