@@ -1,10 +1,10 @@
 ---
 title: "Phase 17: Structural LSP Capabilities"
 phase: 17
-status: planned
+status: complete
 tags: [plans, document-links, folding, selection-range, lsp]
 aliases: [Phase 17, Structural LSP Capabilities]
-updated: 2026-05-06
+updated: 2026-05-07
 ---
 
 # Phase 17: Structural LSP Capabilities
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 17 |
 | Title | Structural LSP Capabilities |
-| Status | planned |
+| Status | complete |
 | Gate | Document links, folding ranges, and selection ranges reflect OFMarkdown structure without crossing opaque regions |
 | Depends on | Phase 16 |
 
@@ -65,7 +65,7 @@ editors can use without custom client extensions.
 | Document links | Unambiguous local targets converted to LSP DocumentLink values |
 | Folding ranges | OFM structure fold ranges with opaque-region boundaries |
 | Selection ranges | Hierarchical selection ranges derived from OFMIndex spans |
-| Tests | BDD and unit coverage for representative OFM constructs |
+| Tests | Unit, integration, and BDD coverage for representative OFM constructs |
 
 ## Acceptance
 

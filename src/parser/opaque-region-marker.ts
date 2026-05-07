@@ -2,6 +2,7 @@ import type { OpaqueRegion } from './types.js';
 import { CommentParser } from './comment-parser.js';
 import { MathParser } from './math-parser.js';
 import { CodeParser } from './code-parser.js';
+import { TemplaterParser } from './templater-parser.js';
 
 /**
  * Runs all three opaque-region parsers (comment, math, code) and merges the
@@ -11,13 +12,14 @@ import { CodeParser } from './code-parser.js';
  * @param bodyOffset - Offset of the document body (after frontmatter).
  */
 export function mark(text: string, bodyOffset: number): OpaqueRegion[] {
-  const raw = [
+  const base = mergeRegions([
     ...CommentParser.parse(text, bodyOffset),
     ...MathParser.parse(text, bodyOffset),
     ...CodeParser.parse(text, bodyOffset),
-  ];
+  ]);
+  const templater = TemplaterParser.parse(text, bodyOffset, base);
 
-  return mergeRegions(raw);
+  return mergeRegions([...base, ...templater]);
 }
 
 /**

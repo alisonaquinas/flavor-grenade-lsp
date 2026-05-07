@@ -62,6 +62,9 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/resolution/__tests__/file-operation-rewriter.test.ts` | Unit | Tests syntax-preserving rewrites for moved document and attachment references | `Parity.FileOperations.ReferenceRewrite`, `Rename.Refactoring.Completeness` | Phase 16 |
 | `src/resolution/__tests__/workspace-edit-validator.test.ts` | Unit | Tests all-or-nothing WorkspaceEdit validation, overlap rejection, deterministic ordering, and skipped-reference preservation | `Parity.FileOperations.AtomicValidation`, `Parity.FileOperations.SkippedAmbiguousReporting` | Phase 16 |
 | `src/resolution/__tests__/file-operation-regression.test.ts` | Unit | Tests the nested vault-relative Markdown image rewrite regression discovered during Phase 16 | `Parity.FileOperations.ReferenceRewrite`, `Parity.FileOperations.AtomicRefactor` | Phase 16 |
+| `src/handlers/__tests__/document-link.handler.test.ts` | Unit | Tests structural document links for unambiguous wiki, Markdown, reference-style, and attachment targets plus ambiguous/external suppression | `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.Coverage`, `Navigation.Definition.AllLinkTypes` | Phase 17 |
+| `src/handlers/__tests__/folding-range.handler.test.ts` | Unit | Tests structural folding ranges for frontmatter, headings, callouts, opaque code, math, comments, and Templater regions | `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.Coverage`, `ST-002` | Phase 17 |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | Tests structural selection ranges, invalid-position rejection, opaque Templater boundaries, and CRLF offset handling | `Parity.StructuralLSP.SelectionRanges`, `Parity.StructuralLSP.Coverage`, `Security.Input.PositionValidation`, `ST-002` | Phase 17 |
 
 ---
 
@@ -76,6 +79,7 @@ multiple modules or against a real filesystem fixture.
 | `src/test/integration/navigation.test.ts` | Integration | Tests definition, references, and CodeLens through a spawned LSP server | `Navigation.Definition.AllLinkTypes`, `Navigation.References.Completeness`, `Navigation.CodeLens.Count` | Phase 10 |
 | `src/test/integration/rename.test.ts` | Integration | Tests prepare-rename and rename behavior through a spawned LSP server | `Rename.Refactoring.Completeness`, `Rename.Prepare.Rejection` | Phase 11 |
 | `src/test/integration/wiki-links.test.ts` | Integration | Tests wiki-link diagnostics, definition, and completion through a spawned LSP server | `Diagnostic.Severity.WikiLink`, `Navigation.Definition.AllLinkTypes`, `Completion.Trigger.Coverage` | Phase 5 |
+| `src/test/integration/structural-lsp.test.ts` | Integration | Tests document links, folding ranges, and selection ranges through a spawned LSP server | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges`, `ST-002` | Phase 17 |
 
 ---
 
@@ -83,7 +87,9 @@ multiple modules or against a real filesystem fixture.
 
 BDD step definitions live under `tests/bdd/steps/`. Each step file implements the Gherkin scenarios from the corresponding `docs/bdd/features/*.feature` file.
 
-*No BDD step implementations exist yet. BDD step stubs are introduced in Phase 3 (OFM Parser).*
+| Step File | Feature File | Description | Requirements Tags | Phase | Status |
+|---|---|---|---|---|---|
+| `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | `docs/bdd/features/ofmarkdown-parity.feature` | Tests the structural LSP parity scenario for document links, folding ranges, and selection ranges | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges` | Phase 17 | ✅ implemented |
 
 ---
 

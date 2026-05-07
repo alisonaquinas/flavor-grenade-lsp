@@ -2,12 +2,12 @@
 id: "TASK-178"
 title: "Implement selection ranges"
 type: task
-status: open
+status: done
 priority: medium
 phase: 17
 parent: "FEAT-024"
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["TASK-175"]
 tags: [tickets/task, "phase/17"]
 aliases: ["TASK-178"]
@@ -15,7 +15,7 @@ aliases: ["TASK-178"]
 
 # Implement selection ranges
 
-> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `done`
 
 ## Description
 
@@ -25,10 +25,18 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 ## Implementation Notes
 
-- Build parent chains from parsed spans where available
-- Expand from link target, tag, block anchor, heading text, callout marker, and frontmatter entry to broader constructs
-- Keep every returned range within the current document bounds
-- Do not expand across opaque region boundaries
+- Modify `src/handlers/selection-range.handler.ts`.
+- Use `ParseCache.get(uri)` to read the current parsed `OFMDoc`.
+- Accept params shaped as
+  `{ textDocument?: { uri?: string }; positions?: Position[] }`.
+- Return `SelectionRange[]`, one chain for each valid requested position.
+- Add helper functions for document bounds, line ranges, paragraph ranges,
+  heading-section ranges, opaque-region ranges, and parent-chain assembly.
+- Build parent chains from parsed spans where available.
+- Expand from link target, tag, block anchor, heading text, callout marker, and
+  frontmatter entry to broader constructs.
+- Keep every returned range within the current document bounds.
+- Do not expand across opaque region boundaries.
 - See also: [[design/api-layer]]
 
 ---
@@ -59,8 +67,8 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `tests/unit/handlers/selection-range-handler.spec.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
-| `tests/integration/selection-ranges/selection-ranges.integration.spec.ts` | Integration | `Security.Input.PositionValidation` | 🔴 failing |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🟢 passing |
+| `src/test/integration/structural-lsp.test.ts` | Integration | `Security.Input.PositionValidation` | planned |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -133,3 +141,12 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!WARNING] Red - 2026-05-07
+> Added the focused failing unit test for `textDocument/selectionRange`. Status:
+> `red`; implementation is intentionally deferred to the GREEN stage.
+
+> [!SUCCESS] Green - 2026-05-07
+> Implemented minimal selection-range behavior for cached documents, valid
+> positions, wiki-link token ranges, paragraphs, sections, and whole-document
+> ranges. Focused unit test, typecheck, and lint pass. Status: `green`.

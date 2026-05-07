@@ -19,6 +19,24 @@ describe('mark()', () => {
   it('returns empty array for plain text', () => {
     expect(mark('plain text', 0)).toHaveLength(0);
   });
+
+  it('marks Templater expressions as opaque regions', () => {
+    const text = ['before', '<%*', 'const title = tp.file.title;', '%>', 'after'].join('\n');
+    const regions = mark(text, 0);
+
+    expect(regions).toContainEqual({
+      kind: 'templater',
+      start: text.indexOf('<%'),
+      end: text.indexOf('%>') + 2,
+    });
+  });
+
+  it('does not let Templater delimiters inside code extend opaque regions', () => {
+    const text = ['```', '<%', '```', 'Real [[link]]', '%>'].join('\n');
+    const regions = mark(text, 0);
+
+    expect(isInsideOpaqueRegion(text.indexOf('Real'), regions)).toBe(false);
+  });
 });
 
 describe('isInsideOpaqueRegion()', () => {

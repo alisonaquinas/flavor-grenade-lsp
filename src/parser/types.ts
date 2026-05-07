@@ -5,7 +5,7 @@ import type { Range } from 'vscode-languageserver-types';
  * OFM tokens). Covers comments, math blocks, and code spans/blocks.
  */
 export interface OpaqueRegion {
-  kind: 'comment' | 'math' | 'code';
+  kind: 'comment' | 'math' | 'code' | 'templater';
   /** Absolute character offset of the opening delimiter (inclusive). */
   start: number;
   /** Absolute character offset of the closing delimiter (exclusive). */

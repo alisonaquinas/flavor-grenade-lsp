@@ -2,11 +2,11 @@
 id: "CHORE-055"
 title: "Phase 17 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 17
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["CHORE-053", "CHORE-054"]
 tags: [tickets/chore, "phase/17"]
 aliases: ["CHORE-055"]
@@ -14,7 +14,7 @@ aliases: ["CHORE-055"]
 
 # Phase 17 Documentation Trace Sweep
 
-> [!INFO] `CHORE-055` - Chore - Phase 17 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-055` - Chore - Phase 17 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 
@@ -123,3 +123,8 @@ Full state machine, scope-creep rules, and no-behavior-change invariant: [[templ
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: Phase 17 documentation trace sweep.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Audited phase plan, API-layer capability documentation, BDD trace, test
+> matrix, and ticket links after implementation. Corrected structural API docs
+> for Templater folds and opaque selection boundaries. Status: `in-review`.

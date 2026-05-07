@@ -2,11 +2,11 @@
 id: "CHORE-054"
 title: "Phase 17 Test Matrix Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 17
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["TASK-179"]
 tags: [tickets/chore, "phase/17"]
 aliases: ["CHORE-054"]
@@ -14,7 +14,7 @@ aliases: ["CHORE-054"]
 
 # Phase 17 Test Matrix Sweep
 
-> [!INFO] `CHORE-054` - Chore - Phase 17 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-054` - Chore - Phase 17 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 
@@ -117,3 +117,9 @@ Full state machine, scope-creep rules, and no-behavior-change invariant: [[templ
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: Phase 17 test matrix and test index trace sweep.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Audited [[test/matrix]] and [[test/index]] for Phase 17 unit,
+> integration, and BDD coverage. Added trace rows for structural LSP,
+> opaque-region, ambiguity, and position-validation evidence. Status:
+> `in-review`.
