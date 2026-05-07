@@ -2,7 +2,7 @@
 id: "TASK-196"
 title: "Add troubleshooting docs and command flow"
 type: task
-status: red
+status: green
 priority: medium
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-196"]
 
 # Add troubleshooting docs and command flow
 
-> [!INFO] `TASK-196` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `red`
+> [!INFO] `TASK-196` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `green`
 
 ## Description
 
@@ -97,10 +97,10 @@ recovery steps that match the final status states and quick actions.
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] Troubleshooting docs cover missing binary, crash loop, no OFMarkdown promotion, no completions, stale index, Restricted Mode, and virtual workspace cases
-- [ ] Any troubleshooting command opens the documented recovery path
-- [ ] Docs reference final command names and diagnostic copy behavior
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] Troubleshooting docs cover missing binary, crash loop, no OFMarkdown promotion, no completions, stale index, Restricted Mode, and virtual workspace cases
+- [x] Any troubleshooting command opens the documented recovery path
+- [x] Docs reference final command names and diagnostic copy behavior
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
@@ -144,3 +144,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Red - 2026-05-07
 > Added failing unit coverage for the troubleshooting document and command URL.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added troubleshooting docs and `flavorGrenade.openTroubleshooting`.

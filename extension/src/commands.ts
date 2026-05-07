@@ -12,6 +12,7 @@ import type { LanguageClient } from 'vscode-languageclient/node';
 import { createCommandBridgeHandlers } from './command-bridges.js';
 import { buildDiagnosticInfo, type FlavorGrenadeStatus } from './status-presentation.js';
 import { createStatusActionItems } from './status-actions.js';
+import { TROUBLESHOOTING_URL } from './troubleshooting.js';
 
 type LanguageClientProvider = (commandId: string) => Promise<LanguageClient>;
 type StatusProvider = () => FlavorGrenadeStatus;
@@ -87,6 +88,10 @@ export function registerCommands(
       }
 
       await commands.executeCommand(selected.command);
+    }),
+
+    commands.registerCommand('flavorGrenade.openTroubleshooting', async () => {
+      await env.openExternal(Uri.parse(TROUBLESHOOTING_URL));
     }),
 
     commands.registerCommand('flavorGrenade.showReferences', bridgeHandlers.showReferences),

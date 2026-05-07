@@ -77,6 +77,11 @@ export function formatFlavorGrenadeStatus(
 }
 
 export function getStatusQuickActions(status: FlavorGrenadeStatus): StatusQuickAction[] {
+  const troubleshootingAction: StatusQuickAction = {
+    command: 'flavorGrenade.openTroubleshooting',
+    description: 'Open recovery documentation',
+    label: 'Open Troubleshooting',
+  };
   const commonActions: StatusQuickAction[] = [
     {
       command: 'flavorGrenade.showOutput',
@@ -91,7 +96,7 @@ export function getStatusQuickActions(status: FlavorGrenadeStatus): StatusQuickA
   ];
 
   if (status.state === 'disabled') {
-    return commonActions;
+    return [...commonActions, troubleshootingAction];
   }
 
   const actions: StatusQuickAction[] = [
@@ -107,6 +112,10 @@ export function getStatusQuickActions(status: FlavorGrenadeStatus): StatusQuickA
     },
     ...commonActions,
   ];
+
+  if (status.state === 'error' || status.state === 'crashed' || status.state === 'misconfigured') {
+    actions.push(troubleshootingAction);
+  }
 
   if (status.vaultRoot) {
     actions.push({

@@ -103,7 +103,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-193]] | Model rich status tooltip data | `green` |
 | [[TASK-194]] | Add disabled error and crash status states | `green` |
 | [[TASK-195]] | Add status quick actions and diagnostic copy | `green` |
-| [[TASK-196]] | Add troubleshooting docs and command flow | `red` |
+| [[TASK-196]] | Add troubleshooting docs and command flow | `green` |
 | [[CHORE-069]] | Phase E10 Lint And Typecheck Sweep | `open` |
 | [[CHORE-070]] | Phase E10 Test Matrix Sweep | `open` |
 | [[CHORE-071]] | Phase E10 Documentation Trace Sweep | `open` |

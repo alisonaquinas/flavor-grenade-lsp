@@ -155,7 +155,25 @@ describe('formatFlavorGrenadeStatus', () => {
         vaultCount: 0,
         docCount: 0,
       }).map((action) => action.command),
-      ['flavorGrenade.showOutput', 'flavorGrenade.copyDiagnosticInfo'],
+      [
+        'flavorGrenade.showOutput',
+        'flavorGrenade.copyDiagnosticInfo',
+        'flavorGrenade.openTroubleshooting',
+      ],
+    );
+    assert.deepEqual(
+      getStatusQuickActions({
+        state: 'crashed',
+        vaultCount: 1,
+        docCount: 4,
+      }).map((action) => action.command),
+      [
+        'flavorGrenade.restartServer',
+        'flavorGrenade.rebuildIndex',
+        'flavorGrenade.showOutput',
+        'flavorGrenade.copyDiagnosticInfo',
+        'flavorGrenade.openTroubleshooting',
+      ],
     );
   });
 
