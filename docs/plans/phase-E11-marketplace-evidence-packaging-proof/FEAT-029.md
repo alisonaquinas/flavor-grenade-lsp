@@ -2,7 +2,7 @@
 id: "FEAT-029"
 title: "Marketplace Evidence And Packaging Proof"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-029"]
 
 # Marketplace Evidence And Packaging Proof
 
-> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `in-progress`
+> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `in-review`
 
 ## Goal
 
@@ -91,10 +91,10 @@ All of the following must be true before this ticket is marked `done`.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-197]] | Add OFMarkdown mode and status visuals | `green` |
-| [[TASK-198]] | Add completion and navigation visuals | `green` |
-| [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `green` |
-| [[TASK-200]] | Verify README assets in packaged VSIX | `green` |
+| [[TASK-197]] | Add OFMarkdown mode and status visuals | `in-review` |
+| [[TASK-198]] | Add completion and navigation visuals | `in-review` |
+| [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `in-review` |
+| [[TASK-200]] | Verify README assets in packaged VSIX | `in-review` |
 | [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `done` |
 | [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `done` |
 | [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `done` |
@@ -160,3 +160,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > Phase E11 execution started on branch `codex/phase-e11-marketplace-proof`.
 > Child task tickets are present and scoped; implementation now follows the
 > phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Marketplace README visuals, asset inventory, package verification, trace docs,
+> and local gates are ready for PR review. `verify:marketplace-assets` now
+> packages a real temporary VSIX and inspects the archive entries.

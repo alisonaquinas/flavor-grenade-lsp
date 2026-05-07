@@ -2,7 +2,7 @@
 id: "TASK-198"
 title: "Add completion and navigation visuals"
 type: task
-status: green
+status: in-review
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-198"]
 
 # Add completion and navigation visuals
 
-> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `green`
+> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `in-review`
 
 ## Description
 
@@ -94,7 +94,7 @@ All of the following must be true before this task is marked `done`:
 - [x] `cd extension && npm test` passes
 - [x] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
 - [x] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
+- [x] Parent feature [[FEAT-029]] child task row updated to `in-review`
 
 ---
 
@@ -147,3 +147,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!SUCCESS] Green - 2026-05-07
 > Added README Marketplace visuals for wiki-link completion, heading/block-anchor
 > completion, and reference code lens.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
