@@ -2,7 +2,7 @@
 id: "TASK-190"
 title: "Cover activation and language-mode membership"
 type: task
-status: green
+status: done
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-190"]
 
 # Cover activation and language-mode membership
 
-> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `green`
+> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `done`
 
 ## Description
 
@@ -153,3 +153,8 @@ Full state machine, TDD phase rules, and agent obligations:
 > Markdown fixture workspaces. Generic Markdown remains `markdown`; vault
 > fixtures are accepted as `markdown` or promoted `ofmarkdown` depending on
 > server readiness timing.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #41 CI passed. Host coverage now requires vault fixtures to promote to
+> `ofmarkdown`, verifies generic Markdown stays idle, and preserves manual
+> non-Markdown language choices.

@@ -2,7 +2,7 @@
 id: "TASK-191"
 title: "Cover command bridge payload validation"
 type: task
-status: green
+status: done
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-191"]
 
 # Cover command bridge payload validation
 
-> [!INFO] `TASK-191` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `green`
+> [!INFO] `TASK-191` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `done`
 
 ## Description
 
@@ -153,3 +153,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > payload through the real VS Code clipboard API. Invalid payload behavior
 > remains covered by the pure command-bridge unit tests to avoid modal
 > `showErrorMessage` hangs in headless extension-host runs.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #41 CI passed. Host coverage now includes valid navigation, reference,
+> graph, reveal, and diagnostic bridge payloads plus invalid payload rejection.

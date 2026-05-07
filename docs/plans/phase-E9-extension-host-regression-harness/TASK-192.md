@@ -2,7 +2,7 @@
 id: "TASK-192"
 title: "Cover status and server failure states"
 type: task
-status: green
+status: done
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-192"]
 
 # Cover status and server failure states
 
-> [!INFO] `TASK-192` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `green`
+> [!INFO] `TASK-192` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `done`
 
 ## Description
 
@@ -150,3 +150,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Node-level status presenter tests for initializing, indexing, ready, and
 > error display text. Direct status bar item inspection is not exposed by the
 > VS Code extension-host API.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #41 CI passed. Status transition presentation is covered in Node and in the
+> development extension host through the test-only activation API.
