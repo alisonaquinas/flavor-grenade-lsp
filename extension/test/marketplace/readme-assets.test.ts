@@ -41,6 +41,21 @@ const requiredVisuals: RequiredMarketplaceVisual[] = [
     alt: /reference code lens/i,
     path: 'images/marketplace/reference-code-lens.png',
   },
+  {
+    id: 'embed-diagnostics-hover',
+    alt: /embed diagnostics and hover/i,
+    path: 'images/marketplace/embed-diagnostics-hover.png',
+  },
+  {
+    id: 'tag-completion-references',
+    alt: /tag completion and references/i,
+    path: 'images/marketplace/tag-completion-references.png',
+  },
+  {
+    id: 'callout-completion',
+    alt: /callout completion/i,
+    path: 'images/marketplace/callout-completion.png',
+  },
 ];
 
 describe('Marketplace README assets', () => {

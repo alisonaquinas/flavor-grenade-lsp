@@ -2,7 +2,7 @@
 id: "TASK-199"
 title: "Add diagnostics, hover, tag, and callout visuals"
 type: task
-status: open
+status: red
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-199"]
 
 # Add diagnostics, hover, tag, and callout visuals
 
-> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `open`
+> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
 
 ## Description
 
@@ -140,3 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-029]].
+
+> [!WARNING] Red - 2026-05-07
+> Extended Marketplace README asset coverage for embed diagnostics and hover,
+> tag completion/references, and callout completion visuals.
