@@ -42,7 +42,7 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 
 - Server-side implementation of `flavorGrenade/status` notification (already implemented in the LSP server)
 
-- Server-side implementation of `flavorGrenade.rebuildIndex` workspace command (already registered via `executeCommandProvider`)
+- Server-side implementation of `flavorGrenade.rebuildIndex` workspace command (already handled on the `workspace/executeCommand` request path)
 
 - Custom UI beyond the status bar item (e.g., tree views, webviews)
 

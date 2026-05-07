@@ -367,7 +367,7 @@ TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient
 | Type | Description |
 |------|-------------|
 | `ExtensionClient` | The VS Code extension entry point — resolves binary, manages LanguageClient lifecycle, wires status bar and commands |
-| `BinaryResolver` | 2-tier resolution strategy: (1) user setting `flavorGrenade.server.path`, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
+| `BinaryResolver` | 2-tier resolution strategy: (1) user or machine `flavorGrenade.server.path`, with workspace values ignored, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
 | `StatusBarWidget` | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications |
 | `LanguageModeController` | Client-side service that decides when a Markdown document should be promoted to VS Code language id `ofmarkdown` |
 | `OFMarkdownLanguageMode` | VS Code language contribution for Obsidian Flavored Markdown documents detected by Flavor Grenade |

@@ -112,9 +112,9 @@ type BlockAnchorDef = {
 }
 ```
 
-`BlockAnchorDef` is an OFM-specific addition with no marksman equivalent. A block anchor `^ab12c` placed at the end of a paragraph or list item creates a `BlockAnchorDef` in the document's scope. `[[doc#^ab12c]]` resolves to this def.
+`BlockAnchorDef` is an OFM-specific addition with no marksman equivalent. A block anchor `^ab12c` placed at the end of a block-level line, or on a standalone anchor line, creates a `BlockAnchorDef` in the document's scope. `[[doc#^ab12c]]` resolves to this def.
 
-Block anchor IDs must match `^[a-z0-9-]+$` (Obsidian's requirement). IDs that fail this validation are tokenized as `BlockAnchor` nodes but produce a `MalformedBlockAnchor` diagnostic and are **not** added to `OFMIndex.blockAnchors` (they cannot be referenced).
+Block anchor IDs must match `^[a-zA-Z0-9-]+$`. Tokens that contain underscores, Unicode, spaces, or other invalid characters are not indexed as block anchors.
 
 ### `AliasDef`
 
@@ -165,7 +165,7 @@ type IntraRef = {
 
 `IntraRef` is a within-document reference: `[[#heading]]` or `[[#^blockid]]`. It resolves to a `HeaderDef` or `BlockAnchorDef` in the same document's scope. `IntraRef`s do not appear in `refDeps` because they cannot create cross-document dependencies.
 
-An unresolved `IntraRef` (referencing a non-existent heading or block anchor) produces a `BrokenIntraLink` diagnostic.
+An unresolved heading `IntraRef` produces FG001. An unresolved block-anchor `IntraRef` produces FG005.
 
 ### `CrossRef` — Three Kinds
 
@@ -200,7 +200,7 @@ type CrossSection = {
 
 `[[meeting-notes#agenda]]` — targets a specific heading in another document. Resolves to a `HeaderDef` in the target document's scope.
 
-If the target document exists but the heading does not, `Oracle` produces a `BrokenSection` diagnostic (not `BrokenLink`). If the target document does not exist, `BrokenLink` is produced (the heading cannot be checked).
+If the target document exists but the heading does not, `Oracle` produces FG001 for the missing heading target. If the target document does not exist, FG001 is also produced for the missing document.
 
 #### `CrossBlock`
 

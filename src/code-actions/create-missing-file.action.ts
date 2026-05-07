@@ -1,9 +1,11 @@
 import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
-import { pathToFileURL } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import * as path from 'path';
-import type { CodeAction, Diagnostic } from 'vscode-languageserver-types';
+import type { CodeAction, Diagnostic, Range } from 'vscode-languageserver-types';
 import { VaultDetector } from '../vault/vault-detector.js';
+import { ParseCache } from '../parser/parser.module.js';
+import type { WikiLinkEntry } from '../parser/types.js';
 
 interface CodeActionParams {
   textDocument: { uri: string };
@@ -22,20 +24,35 @@ const FG001_TARGET_RE = /Cannot resolve wiki-link: '(.+?)' not found/;
  */
 @Injectable()
 export class CreateMissingFileAction {
-  constructor(private readonly vaultDetector: VaultDetector) {}
+  constructor(
+    private readonly vaultDetector: VaultDetector,
+    private readonly parseCache: ParseCache,
+  ) {}
 
   handle(params: CodeActionParams, fg001Diagnostics: Diagnostic[]): CodeAction[] {
     if (fg001Diagnostics.length === 0) return [];
 
-    const detection = this.vaultDetector.detect(params.textDocument.uri);
-    const vaultRoot = detection.vaultRoot ?? '/';
+    const documentPath = this.documentPath(params.textDocument.uri);
+    if (documentPath === null) return [];
+
+    const detection = this.vaultDetector.detectFresh(documentPath);
+    if (detection.vaultRoot === null) return [];
+
+    const vaultRoot = path.resolve(detection.vaultRoot);
+    const doc = this.parseCache.get(params.textDocument.uri);
+    if (doc === undefined) return [];
 
     return fg001Diagnostics.flatMap((diag) => {
-      const match = FG001_TARGET_RE.exec(diag.message);
-      if (match === null) return [];
+      const entry = doc.index.wikiLinks.find((candidate) =>
+        rangesEqual(candidate.range, diag.range),
+      );
+      if (entry === undefined) return [];
 
-      const target = match[1];
-      const newFilePath = path.join(vaultRoot, `${target}.md`);
+      const target = this.targetFromDiagnostic(diag, entry);
+      if (target === null) return [];
+
+      const newFilePath = this.resolveConfinedTarget(vaultRoot, target);
+      if (newFilePath === null) return [];
       const newFileUri = pathToFileURL(newFilePath).toString();
 
       const documentChange = {
@@ -60,4 +77,47 @@ export class CreateMissingFileAction {
       return [action];
     });
   }
+
+  private documentPath(uri: string): string | null {
+    try {
+      return fileURLToPath(uri);
+    } catch {
+      return null;
+    }
+  }
+
+  private targetFromDiagnostic(diag: Diagnostic, entry: WikiLinkEntry): string | null {
+    const match = FG001_TARGET_RE.exec(diag.message);
+    if (match === null || match[1] !== entry.target) return null;
+    return entry.target;
+  }
+
+  private resolveConfinedTarget(vaultRoot: string, target: string): string | null {
+    const normalizedTarget = target.replace(/\\/g, path.sep).replace(/\//g, path.sep);
+    if (
+      normalizedTarget.length === 0 ||
+      normalizedTarget.includes('\0') ||
+      path.isAbsolute(normalizedTarget) ||
+      path.win32.isAbsolute(normalizedTarget) ||
+      path.posix.isAbsolute(normalizedTarget)
+    ) {
+      return null;
+    }
+
+    const newFilePath = path.resolve(vaultRoot, `${normalizedTarget}.md`);
+    const relative = path.relative(vaultRoot, newFilePath);
+    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+      return null;
+    }
+    return newFilePath;
+  }
+}
+
+function rangesEqual(a: Range, b: Range): boolean {
+  return (
+    a.start.line === b.start.line &&
+    a.start.character === b.start.character &&
+    a.end.line === b.end.line &&
+    a.end.character === b.end.character
+  );
 }

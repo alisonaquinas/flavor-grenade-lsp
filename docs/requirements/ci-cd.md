@@ -93,7 +93,7 @@ aliases:
 **Scale:** Percentage of published package versions that carry a valid OIDC provenance attestation visible on npmjs.com.
 **Meter:**
 
-1. Publish a test release using the `publish.yml` workflow.
+1. Publish a test release using the `release.yml` workflow.
 2. Navigate to the package's page on npmjs.com.
 3. Verify the provenance section shows the GitHub Actions workflow run URL and commit SHA.
 4. Verify the `sigstore` attestation bundle is present (`npm audit signatures`).
@@ -102,7 +102,7 @@ aliases:
 **Goal:** 100% of published versions carry provenance — `npm audit signatures` exits 0.
 **Stakeholders:** Package consumers, security auditors, supply-chain integrity reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/publish.yml`, npm documentation §Provenance.
+**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/release.yml`, npm documentation §Provenance.
 
 ---
 
@@ -120,7 +120,7 @@ aliases:
 **Goal:** 0% non-tag publishes — 100% of published versions have a corresponding `v*.*.*` git tag on `main`.
 **Stakeholders:** Release engineers, consumers, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/publish.yml`.
+**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/release.yml`.
 
 ---
 

@@ -19,7 +19,7 @@ bun run build      # compile
 bun run lint       # eslint src/
 bun run typecheck  # tsc --noEmit
 bun test           # unit tests
-bun run test:bdd   # BDD cucumber suite
+bun run bdd        # BDD cucumber suite
 ```
 
 ## Layout

@@ -16,11 +16,11 @@ jobs:
     name: TypeScript typecheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -31,11 +31,11 @@ jobs:
     name: Lint (ESLint, zero warnings)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -46,11 +46,11 @@ jobs:
     name: Format check (Prettier)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -61,11 +61,11 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -73,7 +73,7 @@ jobs:
       - run: bun test --coverage
 
       # Upload coverage even on failure so we can inspect partial results.
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: coverage
@@ -86,11 +86,11 @@ jobs:
     # of the build output so it does not gate here.
     needs: [typecheck, lint, test]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -100,11 +100,11 @@ jobs:
     name: Markdown lint (docs/ — markdownlint-obsidian)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -119,11 +119,11 @@ jobs:
     name: Markdown lint (other — markdownlint-cli2)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -146,11 +146,11 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: oven-sh/setup-bun@v2.2.0
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: '1.3.13'
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
@@ -164,21 +164,21 @@ jobs:
       # invalid", blocking the OIDC exchange. Without registry-url the
       # _authToken key is absent and npm performs the OIDC exchange itself.
       # npmjs.com is already the default registry.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
 
-      # Bootstrap npm@latest from the registry tarball instead of using
-      # `npm install -g npm@latest`. Fetching via curl/jq and running the
+      # Bootstrap a pinned npm release from the registry tarball instead of using
+      # `npm install -g npm@<version>`. Fetching via curl/jq and running the
       # extracted CLI directly via `node` avoids depending on the runner image's
-      # bundled npm before npm@latest is installed. npm@latest (9.5.0+) is
+      # bundled npm before npm is installed. npm 9.5.0+ is
       # required for tokenless OIDC Trusted Publishing.
-      - name: Bootstrap npm@latest (required for tokenless OIDC Trusted Publishing)
+      - name: Bootstrap npm 11.14.0 (required for tokenless OIDC Trusted Publishing)
         run: |
           TMPDIR=$(mktemp -d)
-          curl -sf "$(curl -sf https://registry.npmjs.org/npm/latest | jq -r '.dist.tarball')" \
+          curl -sf "$(curl -sf https://registry.npmjs.org/npm/11.14.0 | jq -r '.dist.tarball')" \
             | tar -xz --strip-components=1 -C "$TMPDIR"
-          node "$TMPDIR/bin/npm-cli.js" install -g npm@latest
+          node "$TMPDIR/bin/npm-cli.js" install -g npm@11.14.0 --ignore-scripts
           rm -rf "$TMPDIR"
 
       - run: bun run build

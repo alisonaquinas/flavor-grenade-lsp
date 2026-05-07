@@ -17,7 +17,7 @@ Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `flavorGrenade.server.path` | `string` | `""` | Custom path to the language server binary. Leave empty to use the bundled binary. |
+| `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary. |
 | `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `title-slug`, `file-path-stem`. |
 | `flavorGrenade.completion.candidates` | `number` | `50` | Maximum number of completion items returned. |
 | `flavorGrenade.diagnostics.suppress` | `string[]` | `[]` | Diagnostic codes to suppress (e.g. `["AmbiguousLink", "BrokenEmbed"]`). |
@@ -65,7 +65,7 @@ Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Flavor Grena
 
 ## Requirements
 
-- VS Code 1.81.0 or later
+- VS Code 1.82.0 or later
 - An Obsidian vault or a folder configured with `.flavor-grenade.toml`
 
 ## Links
