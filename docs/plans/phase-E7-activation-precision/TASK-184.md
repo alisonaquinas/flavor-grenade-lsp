@@ -2,7 +2,7 @@
 id: "TASK-184"
 title: "Document Activation Behavior"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-184"]
 
 # Document Activation Behavior
 
-> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `in-review`
+> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `done`
 
 ## Description
 
@@ -136,3 +136,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] In Review - 2026-05-07
 > Documentation matches the implemented activation gate and is ready for PR
 > review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; activation behavior documentation is complete.

@@ -2,7 +2,7 @@
 id: "CHORE-060"
 title: "Phase E7 Lint Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-060"]
 
 # Phase E7 Lint Sweep
 
-> [!INFO] `CHORE-060` - Chore - Phase E7 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-060` - Chore - Phase E7 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > Lint and quality sweep passed locally: extension typecheck/test/build,
 > repo lint/typecheck/build/test, root format check, docs markdown lint,
 > non-doc markdown lint, and extension npm audit.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; lint sweep is complete.

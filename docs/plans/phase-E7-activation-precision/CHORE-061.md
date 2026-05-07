@@ -2,7 +2,7 @@
 id: "CHORE-061"
 title: "Phase E7 Test Trace Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-061"]
 
 # Phase E7 Test Trace Sweep
 
-> [!INFO] `CHORE-061` - Chore - Phase E7 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-061` - Chore - Phase E7 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -127,3 +127,6 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!INFO] In Review - 2026-05-07
 > Added Phase E7 rows to [[test/matrix]] and listed
 > `extension/src/activation-gate.test.ts` in [[test/index]].
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; test trace sweep is complete.

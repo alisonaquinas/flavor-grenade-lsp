@@ -1,7 +1,7 @@
 ---
 title: "Phase E7: Activation Precision And Startup Gating"
 phase: E7
-status: in-review
+status: complete
 tags: [plans, vscode, extension, activation, marksman-parity]
 aliases: [Phase E7, Activation Precision]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E7 |
 | Title | Activation Precision And Startup Gating |
-| Status | in-review |
+| Status | complete |
 | Gate | Vault-marker workspaces activate, generic Markdown stays idle, and command activation remains intentional |
 | Depends on | Phase E6 |
 

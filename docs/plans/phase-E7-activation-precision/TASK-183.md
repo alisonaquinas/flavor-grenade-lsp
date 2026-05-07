@@ -2,7 +2,7 @@
 id: "TASK-183"
 title: "Preserve Command And Language Wake Paths"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-183"]
 
 # Preserve Command And Language Wake Paths
 
-> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `in-review`
+> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `done`
 
 ## Description
 
@@ -137,3 +137,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] In Review - 2026-05-07
 > Local phase gate passed and wake-path coverage is ready for PR review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; command and language wake coverage is complete.
