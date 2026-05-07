@@ -2,7 +2,7 @@
 id: "FEAT-024"
 title: "Structural LSP Capabilities"
 type: feature
-status: draft
+status: in-progress
 priority: medium
 phase: 17
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-024"]
 
 # Structural LSP Capabilities
 
-> [!INFO] `FEAT-024` - Feature - Phase 17 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-024` - Feature - Phase 17 - Priority: `medium` - Status: `in-progress`
 
 ## Goal
 
@@ -160,3 +160,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase 16 PR #32 and status-finalization PR #34 passed CI and merged to
+> `develop`. Phase 17 is now the active implementation phase. Status:
+> `in-progress`.

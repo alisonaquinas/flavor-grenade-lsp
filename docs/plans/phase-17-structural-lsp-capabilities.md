@@ -1,7 +1,7 @@
 ---
 title: "Phase 17: Structural LSP Capabilities"
 phase: 17
-status: planned
+status: in-progress
 tags: [plans, document-links, folding, selection-range, lsp]
 aliases: [Phase 17, Structural LSP Capabilities]
 updated: 2026-05-06
@@ -13,7 +13,7 @@ updated: 2026-05-06
 |---|---|
 | Phase | 17 |
 | Title | Structural LSP Capabilities |
-| Status | planned |
+| Status | in-progress |
 | Gate | Document links, folding ranges, and selection ranges reflect OFMarkdown structure without crossing opaque regions |
 | Depends on | Phase 16 |
 
