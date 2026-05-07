@@ -41,7 +41,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E5    | CI/CD Pipeline           | ✅ complete    | All 7 platform-specific VSIXs build on tag push    | 2026-04-22 | 2026-04-22 |
 | E6    | OFMarkdown Language Mode | ✅ complete | Dynamic `ofmarkdown` mode for vault/index documents | 2026-05-06 | 2026-05-07 |
 | E7    | Activation Precision And Startup Gating | ✅ complete | Vault-marker activation and generic Markdown idle startup | 2026-05-07 | 2026-05-07 |
-| E8    | Command Bridges And Native Navigation | ⏳ planned | Native VS Code references, follow-link, embed, backlink, outlink, and vault commands | — | — |
+| E8    | Command Bridges And Native Navigation | 🔄 in-progress | Native VS Code references, follow-link, embed, backlink, outlink, and vault commands | 2026-05-07 | — |
 | E9    | Extension Host Regression Harness | ⏳ planned | Extension-host tests cover activation, commands, language mode, status, and failure states | — | — |
 | E10   | Status UX And Troubleshooting | ⏳ planned | Rich status tooltip, error states, quick actions, and diagnostic collection | — | — |
 | E11   | Marketplace Evidence And Packaging Proof | ⏳ planned | OFMarkdown visuals are present, referenced, and included in packaged VSIXs | — | — |

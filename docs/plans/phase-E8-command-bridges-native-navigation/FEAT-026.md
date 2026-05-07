@@ -2,7 +2,7 @@
 id: "FEAT-026"
 title: "Command Bridges And Native Navigation"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-026"]
 
 # Command Bridges And Native Navigation
 
-> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `in-progress`
 
 ## Goal
 
@@ -150,3 +150,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E8 execution started on branch `codex/phase-e8-command-bridges`.

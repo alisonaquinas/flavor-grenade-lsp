@@ -8,7 +8,7 @@ aliases: ["Phase E8 Tickets", "Command Bridges Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-026]] | Command Bridges And Native Navigation | Feature | `draft` |
+| [[FEAT-026]] | Command Bridges And Native Navigation | Feature | `in-progress` |
 | [[TASK-185]] | Register Native Reference And Link Bridges | Task | `open` |
 | [[TASK-186]] | Validate Command Bridge Payloads | Task | `open` |
 | [[TASK-187]] | Add OFMarkdown Graph Action Bridges | Task | `open` |
