@@ -107,7 +107,7 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-175]] | Register structural LSP capabilities | `green` |
 | [[TASK-176]] | Implement document links | `green` |
 | [[TASK-177]] | Implement folding ranges | `green` |
-| [[TASK-178]] | Implement selection ranges | `open` |
+| [[TASK-178]] | Implement selection ranges | `red` |
 | [[TASK-179]] | Add structural LSP tests | `open` |
 | [[CHORE-053]] | Phase 17 Lint Sweep | `open` |
 | [[CHORE-054]] | Phase 17 Test Matrix Sweep | `open` |

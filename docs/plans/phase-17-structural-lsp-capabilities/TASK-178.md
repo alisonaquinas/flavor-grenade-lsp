@@ -2,7 +2,7 @@
 id: "TASK-178"
 title: "Implement selection ranges"
 type: task
-status: open
+status: red
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-178"]
 
 # Implement selection ranges
 
-> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
 
 ## Description
 
@@ -133,3 +133,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!WARNING] Red - 2026-05-07
+> Added the focused failing unit test for `textDocument/selectionRange`. Status:
+> `red`; implementation is intentionally deferred to the GREEN stage.
