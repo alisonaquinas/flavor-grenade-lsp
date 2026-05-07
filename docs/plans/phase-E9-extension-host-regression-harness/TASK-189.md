@@ -2,7 +2,7 @@
 id: "TASK-189"
 title: "Add extension-host test runner and fixtures"
 type: task
-status: open
+status: red
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-189"]
 
 # Add extension-host test runner and fixtures
 
-> [!INFO] `TASK-189` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `open`
+> [!INFO] `TASK-189` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `red`
 
 ## Description
 
@@ -143,3 +143,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-027]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing extension-host runner, Mocha suite entrypoint, and fixture
+> workspaces. `npm run test:host` fails until host-test dependencies are added.

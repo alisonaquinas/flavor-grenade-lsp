@@ -1,0 +1,3 @@
+# Generic Fixture
+
+Plain Markdown.

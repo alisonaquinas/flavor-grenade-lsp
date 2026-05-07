@@ -2,7 +2,7 @@
 id: "TASK-192"
 title: "Cover status and server failure states"
 type: task
-status: open
+status: red
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-192"]
 
 # Cover status and server failure states
 
-> [!INFO] `TASK-192` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `open`
+> [!INFO] `TASK-192` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `red`
 
 ## Description
 
@@ -141,3 +141,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-027]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing extension-host status and server failure surface coverage.

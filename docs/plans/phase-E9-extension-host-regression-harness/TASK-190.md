@@ -2,7 +2,7 @@
 id: "TASK-190"
 title: "Cover activation and language-mode membership"
 type: task
-status: open
+status: red
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-190"]
 
 # Cover activation and language-mode membership
 
-> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `open`
+> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `red`
 
 ## Description
 
@@ -144,3 +144,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-027]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing extension-host activation and language-mode fixture coverage.

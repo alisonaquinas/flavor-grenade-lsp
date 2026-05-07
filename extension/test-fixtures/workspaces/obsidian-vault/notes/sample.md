@@ -1,0 +1,3 @@
+# Obsidian Fixture
+
+[[Linked Note]]
