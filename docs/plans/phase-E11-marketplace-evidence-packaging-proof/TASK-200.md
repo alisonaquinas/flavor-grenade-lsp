@@ -2,7 +2,7 @@
 id: "TASK-200"
 title: "Verify README assets in packaged VSIX"
 type: task
-status: open
+status: red
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-200"]
 
 # Verify README assets in packaged VSIX
 
-> [!INFO] `TASK-200` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `open`
+> [!INFO] `TASK-200` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
 
 ## Description
 
@@ -140,3 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-029]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing package verification coverage requiring a discoverable
+> Marketplace asset script and `vsce ls --no-dependencies` packaged asset proof.
