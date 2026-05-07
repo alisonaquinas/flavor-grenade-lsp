@@ -92,10 +92,10 @@ All of the following must be true before this ticket is marked `done`.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-201]] | Add OFMarkdown snippets | `open` |
-| [[TASK-202]] | Tune OFMarkdown language configuration | `open` |
-| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `open` |
-| [[TASK-204]] | Test generic Markdown isolation | `open` |
+| [[TASK-201]] | Add OFMarkdown snippets | `red` |
+| [[TASK-202]] | Tune OFMarkdown language configuration | `red` |
+| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `red` |
+| [[TASK-204]] | Test generic Markdown isolation | `red` |
 | [[CHORE-075]] | Phase E12 Contribution Manifest Sweep | `open` |
 | [[CHORE-076]] | Phase E12 Snippet And Language Docs Sweep | `open` |
 | [[CHORE-077]] | Phase E12 Documentation Trace Sweep | `open` |

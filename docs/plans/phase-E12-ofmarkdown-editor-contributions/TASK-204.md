@@ -2,7 +2,7 @@
 id: "TASK-204"
 title: "Test generic Markdown isolation"
 type: task
-status: open
+status: red
 priority: high
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-204"]
 
 # Test generic Markdown isolation
 
-> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `open`
+> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `red`
 
 ## Description
 
@@ -143,3 +143,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-030]].
+
+> [!WARNING] Red - 2026-05-07
+> Added manifest-level isolation tests proving generic Markdown does not receive
+> OFMarkdown-only snippets, keybindings, or language configuration.

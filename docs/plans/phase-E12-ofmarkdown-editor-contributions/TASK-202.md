@@ -2,7 +2,7 @@
 id: "TASK-202"
 title: "Tune OFMarkdown language configuration"
 type: task
-status: open
+status: red
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-202"]
 
 # Tune OFMarkdown language configuration
 
-> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `open`
+> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `red`
 
 ## Description
 
@@ -138,3 +138,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-030]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing language-configuration tests requiring OFMarkdown auto-pairs,
+> surrounding pairs, and word-pattern coverage.

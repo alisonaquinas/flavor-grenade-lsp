@@ -2,7 +2,7 @@
 id: "TASK-203"
 title: "Add OFMarkdown-scoped keybindings"
 type: task
-status: open
+status: red
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-203"]
 
 # Add OFMarkdown-scoped keybindings
 
-> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `open`
+> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `red`
 
 ## Description
 
@@ -138,3 +138,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-030]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing keybinding tests requiring payload-free command bindings guarded
+> by `editorTextFocus && editorLangId == ofmarkdown`.
