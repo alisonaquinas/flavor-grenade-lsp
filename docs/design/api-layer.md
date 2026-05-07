@@ -80,8 +80,8 @@ Key capability declarations:
 | `textDocument/codeAction` | `codeActionProvider` | — | `InsertTOC` (heading list), `CreateMissingFile` (broken wiki-link target), `TagToYaml` (move inline `#tag` to frontmatter), `NormalizeFrontmatter` |
 | `textDocument/documentLink` | `documentLinkProvider` | — | OFM and Markdown local links become clickable when unambiguous; ambiguous links rely on diagnostics |
 | `textDocument/semanticTokens/full` | `semanticTokensProvider.full` | — | OFM tokens: `wikiLink`, `wikiLinkTarget`, `wikiLinkLabel`, `embed`, `tag`, `blockAnchor`, `calloutType`, `calloutTitle`, `mathInline`, `mathBlock`, `ofmComment` |
-| `textDocument/foldingRange` | `foldingRangeProvider` | — | Callout blocks, display math blocks (`$$`), OFM comment blocks (`%%`), fenced code blocks |
-| `textDocument/selectionRange` | `selectionRangeProvider` | — | Expands from OFM token to full construct, paragraph, section, and document |
+| `textDocument/foldingRange` | `foldingRangeProvider` | — | Frontmatter, headings, callout blocks, display math blocks (`$$`), OFM comment blocks (`%%`), fenced code blocks, and Templater blocks (`<% ... %>`) |
+| `textDocument/selectionRange` | `selectionRangeProvider` | — | Expands from OFM token to full construct, paragraph, section, and document; opaque regions are bounded to their own range |
 | `workspace/didChangeWatchedFiles` | `workspace.fileOperations` | — | Triggered on `*.md` create/delete; updates `VaultFolder` and `RefGraph` |
 | `workspace/willRenameFiles` | `workspace.fileOperations.willRename` | — | Returns WorkspaceEdit for note, folder, and attachment moves before the editor applies the file operation |
 | `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, refreshes index, and reports diagnostics when a client did not request `willRenameFiles` |

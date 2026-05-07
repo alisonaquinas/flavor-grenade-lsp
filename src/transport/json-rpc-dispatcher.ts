@@ -2,8 +2,20 @@
 export const ErrorCodes = {
   ParseError: -32700,
   MethodNotFound: -32601,
+  InvalidParams: -32602,
   InternalError: -32603,
 } as const;
+
+/** JSON-RPC error with an explicit protocol error code. */
+export class JsonRpcError extends Error {
+  constructor(
+    readonly code: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = 'JsonRpcError';
+  }
+}
 
 /** A raw JSON-RPC 2.0 request or notification object. */
 interface JsonRpcMessage {
@@ -118,7 +130,10 @@ export class JsonRpcDispatcher {
       this.output({
         jsonrpc: '2.0',
         id: message.id,
-        error: { code: ErrorCodes.InternalError, message: msg },
+        error: {
+          code: err instanceof JsonRpcError ? err.code : ErrorCodes.InternalError,
+          message: msg,
+        },
       });
     }
   }

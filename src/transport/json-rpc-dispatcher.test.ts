@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { JsonRpcDispatcher } from './json-rpc-dispatcher.js';
+import { ErrorCodes, JsonRpcDispatcher, JsonRpcError } from './json-rpc-dispatcher.js';
 
 /** Capture outbound messages sent via the dispatcher. */
 function captureOutput(): {
@@ -74,6 +74,24 @@ describe('JsonRpcDispatcher', () => {
         jsonrpc: '2.0',
         id: 3,
         error: { code: -32603 },
+      });
+    });
+
+    it('returns the explicit error code when a handler throws JsonRpcError', async () => {
+      const { dispatcher, sent } = captureOutput();
+      dispatcher.onRequest('invalid', async () => {
+        throw new JsonRpcError(ErrorCodes.InvalidParams, 'bad params');
+      });
+
+      await dispatcher.dispatch(
+        JSON.stringify({ jsonrpc: '2.0', id: 5, method: 'invalid', params: {} }),
+      );
+
+      expect(sent).toHaveLength(1);
+      expect(sent[0]).toMatchObject({
+        jsonrpc: '2.0',
+        id: 5,
+        error: { code: -32602, message: 'bad params' },
       });
     });
 

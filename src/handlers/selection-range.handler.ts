@@ -3,6 +3,7 @@ import type { Position, Range, SelectionRange } from 'vscode-languageserver-type
 import { rangeFromOffsets } from '../parser/offset-utils.js';
 import { ParseCache } from '../parser/parser.module.js';
 import type { OFMDoc, OpaqueRegion } from '../parser/types.js';
+import { ErrorCodes, JsonRpcError } from '../transport/json-rpc-dispatcher.js';
 
 interface SelectionRangeParams {
   textDocument?: { uri?: string };
@@ -20,10 +21,11 @@ export class SelectionRangeHandler {
 
     const doc = this.parseCache.get(uri);
     if (doc === undefined) return [];
+    if (params.positions.some((position) => !isValidPosition(position, doc.text))) {
+      throw new JsonRpcError(ErrorCodes.InvalidParams, 'Invalid selectionRange position');
+    }
 
-    return params.positions
-      .filter((position) => isValidPosition(position, doc.text))
-      .map((position) => this.selectionRangeForPosition(doc, position));
+    return params.positions.map((position) => this.selectionRangeForPosition(doc, position));
   }
 
   private selectionRangeForPosition(doc: OFMDoc, position: Position): SelectionRange {
@@ -142,10 +144,11 @@ function isInsideRegion(offset: number, region: OpaqueRegion): boolean {
 }
 
 function offsetAtPosition(text: string, position: Position): number {
-  const lines = textLines(text);
   let offset = 0;
   for (let line = 0; line < position.line; line++) {
-    offset += lines[line].length + 1;
+    const newline = text.indexOf('\n', offset);
+    if (newline === -1) return text.length;
+    offset = newline + 1;
   }
   return offset + position.character;
 }

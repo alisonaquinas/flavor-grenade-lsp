@@ -62,6 +62,9 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/resolution/__tests__/file-operation-rewriter.test.ts` | Unit | Tests syntax-preserving rewrites for moved document and attachment references | `Parity.FileOperations.ReferenceRewrite`, `Rename.Refactoring.Completeness` | Phase 16 |
 | `src/resolution/__tests__/workspace-edit-validator.test.ts` | Unit | Tests all-or-nothing WorkspaceEdit validation, overlap rejection, deterministic ordering, and skipped-reference preservation | `Parity.FileOperations.AtomicValidation`, `Parity.FileOperations.SkippedAmbiguousReporting` | Phase 16 |
 | `src/resolution/__tests__/file-operation-regression.test.ts` | Unit | Tests the nested vault-relative Markdown image rewrite regression discovered during Phase 16 | `Parity.FileOperations.ReferenceRewrite`, `Parity.FileOperations.AtomicRefactor` | Phase 16 |
+| `src/handlers/__tests__/document-link.handler.test.ts` | Unit | Tests structural document links for unambiguous wiki, Markdown, reference-style, and attachment targets plus ambiguous/external suppression | `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.Coverage`, `Navigation.Definition.AllLinkTypes` | Phase 17 |
+| `src/handlers/__tests__/folding-range.handler.test.ts` | Unit | Tests structural folding ranges for frontmatter, headings, callouts, opaque code, math, comments, and Templater regions | `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.Coverage`, `ST-002` | Phase 17 |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | Tests structural selection ranges, invalid-position rejection, opaque Templater boundaries, and CRLF offset handling | `Parity.StructuralLSP.SelectionRanges`, `Parity.StructuralLSP.Coverage`, `Security.Input.PositionValidation`, `ST-002` | Phase 17 |
 
 ---
 

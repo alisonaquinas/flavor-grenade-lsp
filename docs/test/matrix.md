@@ -129,7 +129,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Diagnostic.Severity.Embed` | FG004 carries Warning severity | `src/resolution/__tests__/attachment-diagnostics.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts` | ✅ passing | Phase 15 | Phase 15 covers missing Markdown image attachments and existing embed warning semantics |
 | `Diagnostic.Code.Assignment` | Each diagnostic carries its assigned FG-prefixed code | — | ⬜ not-yet-written | Phase 5 | |
 | `Diagnostic.Debounce.Latency` | Diagnostics published within 500 ms of last change | — | ⬜ not-yet-written | Phase 5 | Performance test; requires instrumented LSP client |
-| `Diagnostic.Ambiguous.RelatedInfo` | FG002 lists all duplicate definition locations in `relatedInformation` | — | ⬜ not-yet-written | Phase 5 | |
+| `Diagnostic.Ambiguous.RelatedInfo` | FG002 lists all duplicate definition locations in `relatedInformation` | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/resolution/__tests__/markdown-link-diagnostics.test.ts`, `src/test/integration/wiki-links.test.ts` | ✅ passing | Phase 14 | Existing diagnostic coverage supplies the ambiguity evidence that Phase 17 document links intentionally defer to |
 | `Diagnostic.SingleFile.Suppression` | All cross-file diagnostics suppressed in single-file mode | — | ⬜ not-yet-written | Phase 5 | |
 
 ---
@@ -253,7 +253,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Input.PositionValidation` | All `Position`/`Range` params validated as non-negative integers within document bounds | — | ⬜ not-yet-written | Phase 2 | Validated at handler boundary before VaultIndex access; see ADR013 |
+| `Security.Input.PositionValidation` | All `Position`/`Range` params validated as non-negative integers within document bounds | `src/handlers/__tests__/selection-range.handler.test.ts`, `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 17 | Phase 17 rejects invalid `selectionRange` position batches with JSON-RPC InvalidParams instead of returning partial results |
 | `Security.Input.PayloadSize` | JSON-RPC messages exceeding 10 MB rejected at transport; stdin closed without buffering | — | ⬜ not-yet-written | Phase 2 | `Content-Length` header check; see threat model §Sub-threat-2.2 |
 | `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | — | ⬜ not-yet-written | Phase 2 | Zod schema strips dangerous keys; see ADR013 |
 

@@ -12,14 +12,14 @@ import { TemplaterParser } from './templater-parser.js';
  * @param bodyOffset - Offset of the document body (after frontmatter).
  */
 export function mark(text: string, bodyOffset: number): OpaqueRegion[] {
-  const raw = [
+  const base = mergeRegions([
     ...CommentParser.parse(text, bodyOffset),
     ...MathParser.parse(text, bodyOffset),
     ...CodeParser.parse(text, bodyOffset),
-    ...TemplaterParser.parse(text, bodyOffset),
-  ];
+  ]);
+  const templater = TemplaterParser.parse(text, bodyOffset, base);
 
-  return mergeRegions(raw);
+  return mergeRegions([...base, ...templater]);
 }
 
 /**
