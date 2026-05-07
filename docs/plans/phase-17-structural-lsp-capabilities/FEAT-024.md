@@ -110,11 +110,11 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-178]] | Implement selection ranges | `green` |
 | [[TASK-179]] | Add structural LSP tests | `green` |
 | [[TASK-213]] | Add Templater opaque regions | `green` |
-| [[CHORE-053]] | Phase 17 Lint Sweep | `open` |
-| [[CHORE-054]] | Phase 17 Test Matrix Sweep | `open` |
-| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | `open` |
-| [[CHORE-084]] | Phase 17 Code Quality Sweep | `open` |
-| [[CHORE-085]] | Phase 17 Security Sweep | `open` |
+| [[CHORE-053]] | Phase 17 Lint Sweep | `in-review` |
+| [[CHORE-054]] | Phase 17 Test Matrix Sweep | `in-review` |
+| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | `in-review` |
+| [[CHORE-084]] | Phase 17 Code Quality Sweep | `in-review` |
+| [[CHORE-085]] | Phase 17 Security Sweep | `in-review` |
 
 ---
 

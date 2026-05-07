@@ -2,11 +2,11 @@
 id: "CHORE-053"
 title: "Phase 17 Lint Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: 17
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["TASK-176", "TASK-177", "TASK-178", "TASK-179", "TASK-213"]
 tags: [tickets/chore, "phase/17"]
 aliases: ["CHORE-053"]
@@ -14,7 +14,7 @@ aliases: ["CHORE-053"]
 
 # Phase 17 Lint Sweep
 
-> [!INFO] `CHORE-053` - Chore - Phase 17 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-053` - Chore - Phase 17 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 
@@ -118,3 +118,8 @@ Full state machine, scope-creep rules, and no-behavior-change invariant: [[templ
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-17 lint sweep for structural LSP capabilities.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Verified `bun run lint -- --max-warnings 0`, `bun run typecheck`,
+> `bun run build`, `bun test`, tagged Phase 17 BDD, docs lint, and diff check.
+> No lint suppressions were added. Status: `in-review`.

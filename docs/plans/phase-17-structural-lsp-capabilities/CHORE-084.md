@@ -2,7 +2,7 @@
 id: "CHORE-084"
 title: "Phase 17 Code Quality Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: 17
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-084"]
 
 # Phase 17 Code Quality Sweep
 
-> [!INFO] `CHORE-084` - Chore - Phase 17 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-084` - Chore - Phase 17 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: naming, module boundaries, documentation, and maintainability.
@@ -106,3 +106,9 @@ and trace chores but no explicit Step F code quality sweep.
 
 > [!INFO] Opened - 2026-05-07
 > Chore created from Phase 17 Step A-C review. Status: `open`.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Reviewed Phase 17 handler, parser, dispatcher, integration-test, and BDD
+> changes. A fresh review found selection alignment, CRLF offset, opaque
+> crossing, and trace issues; each was fixed with regression coverage.
+> Status: `in-review`.

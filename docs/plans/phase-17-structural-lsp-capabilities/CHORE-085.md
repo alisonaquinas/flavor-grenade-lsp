@@ -2,7 +2,7 @@
 id: "CHORE-085"
 title: "Phase 17 Security Sweep"
 type: chore
-status: open
+status: in-review
 priority: high
 phase: 17
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-085"]
 
 # Phase 17 Security Sweep
 
-> [!INFO] `CHORE-085` - Chore - Phase 17 - Priority: `high` - Status: `open`
+> [!INFO] `CHORE-085` - Chore - Phase 17 - Priority: `high` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. Security findings
 > that affect behavior must be opened as `BUG` tickets before fixes are made.
@@ -107,3 +107,10 @@ explicit Step G security sweep ticket.
 
 > [!INFO] Opened - 2026-05-07
 > Chore created from Phase 17 Step A-C review. Status: `open`.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Reviewed invalid-position handling, document-link target suppression, and
+> opaque-region parser ordering. Fixed invalid `selectionRange` batches to
+> return JSON-RPC InvalidParams and constrained Templater parsing around
+> existing opaque regions. No dependencies were added, so `bun audit` was N/A.
+> Status: `in-review`.

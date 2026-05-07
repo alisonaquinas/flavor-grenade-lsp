@@ -15,8 +15,8 @@ aliases: ["Phase 17 Tickets"]
 | [[TASK-178]] | Implement selection ranges | Task | `green` |
 | [[TASK-179]] | Add structural LSP tests | Task | `green` |
 | [[TASK-213]] | Add Templater opaque regions | Task | `green` |
-| [[CHORE-053]] | Phase 17 Lint Sweep | Chore | `open` |
-| [[CHORE-054]] | Phase 17 Test Matrix Sweep | Chore | `open` |
-| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | Chore | `open` |
-| [[CHORE-084]] | Phase 17 Code Quality Sweep | Chore | `open` |
-| [[CHORE-085]] | Phase 17 Security Sweep | Chore | `open` |
+| [[CHORE-053]] | Phase 17 Lint Sweep | Chore | `in-review` |
+| [[CHORE-054]] | Phase 17 Test Matrix Sweep | Chore | `in-review` |
+| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | Chore | `in-review` |
+| [[CHORE-084]] | Phase 17 Code Quality Sweep | Chore | `in-review` |
+| [[CHORE-085]] | Phase 17 Security Sweep | Chore | `in-review` |
