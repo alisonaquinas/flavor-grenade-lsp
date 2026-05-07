@@ -10,7 +10,7 @@
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
   "engines": {
-    "vscode": "^1.81.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Programming Languages",
@@ -70,6 +70,7 @@
       "properties": {
         "flavorGrenade.server.path": {
           "type": "string",
+          "scope": "machine",
           "default": "",
           "description": "Custom path to the language server binary. Leave empty to use the bundled binary."
         },
@@ -133,9 +134,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
-    "@types/vscode": "~1.81.0",
+    "@types/vscode": "~1.82.0",
     "@vscode/vsce": "^3.0.0",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.28.0",
     "tsx": "^4.20.6",
     "typescript": "^5.6.0"
   }

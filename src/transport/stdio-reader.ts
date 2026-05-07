@@ -11,6 +11,11 @@ import { EventEmitter } from 'node:events';
  * chunk.
  */
 export class StdioReader extends EventEmitter {
+  private static readonly maxHeaderBytes = 8 * 1024;
+  private static readonly maxContentBytes = 16 * 1024 * 1024;
+  private static readonly maxBufferedBytes =
+    StdioReader.maxHeaderBytes + StdioReader.maxContentBytes;
+
   private buffer: Buffer = Buffer.alloc(0);
 
   /**
@@ -21,6 +26,10 @@ export class StdioReader extends EventEmitter {
   start(stream: NodeJS.ReadableStream): void {
     stream.on('data', (chunk: Buffer | string) => {
       const data = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk as string, 'utf8');
+      if (this.buffer.length + data.length > StdioReader.maxBufferedBytes) {
+        this.resetWithFramingError('LSP frame buffer exceeded maximum size.');
+        return;
+      }
       this.buffer = Buffer.concat([this.buffer, data]);
       this.tryExtract();
     });
@@ -30,11 +39,23 @@ export class StdioReader extends EventEmitter {
   private tryExtract(): void {
     while (true) {
       const headerEnd = this.findHeaderEnd();
-      if (headerEnd === -1) return;
+      if (headerEnd === -1) {
+        if (this.buffer.length > StdioReader.maxHeaderBytes) {
+          this.resetWithFramingError('LSP frame header exceeded maximum size.');
+        }
+        return;
+      }
 
       const headerText = this.buffer.subarray(0, headerEnd).toString('utf8');
       const contentLength = this.parseContentLength(headerText);
-      if (contentLength === null) return;
+      if (contentLength === null) {
+        this.resetWithFramingError('Malformed LSP Content-Length header.');
+        return;
+      }
+      if (contentLength > StdioReader.maxContentBytes) {
+        this.resetWithFramingError('LSP frame body exceeded maximum size.');
+        return;
+      }
 
       const bodyStart = headerEnd + 4; // skip \r\n\r\n
       if (this.buffer.length < bodyStart + contentLength) return;
@@ -70,8 +91,19 @@ export class StdioReader extends EventEmitter {
    * @returns The content length, or `null` if the header is missing/malformed.
    */
   private parseContentLength(headerText: string): number | null {
-    const match = /Content-Length:\s*(\d+)/i.exec(headerText);
+    const match = /^Content-Length:\s*(\d+)\s*$/im.exec(headerText);
     if (!match) return null;
-    return parseInt(match[1], 10);
+    const length = Number(match[1]);
+    if (!Number.isSafeInteger(length) || length < 0) return null;
+    return length;
+  }
+
+  private resetWithFramingError(message: string): void {
+    this.buffer = Buffer.alloc(0);
+    this.emitFramingError(message);
+  }
+
+  private emitFramingError(message: string): void {
+    this.emit('framingError', new Error(message));
   }
 }

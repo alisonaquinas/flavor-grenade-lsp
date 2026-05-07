@@ -1,8 +1,5 @@
 import { type ExtensionContext, ExtensionMode, window, workspace } from 'vscode';
-import {
-    type ServerCommand,
-    resolveServerCommandFromOptions,
-} from './server-command.js';
+import { type ServerCommand, resolveServerCommandFromOptions } from './server-command.js';
 
 /**
  * Resolves the path to the flavor-grenade-lsp server binary.
@@ -19,8 +16,16 @@ import {
  */
 export function resolveServerCommand(context: ExtensionContext): ServerCommand {
     const config = workspace.getConfiguration('flavorGrenade');
+    const serverPath = config.inspect<string>('server.path');
+    const workspacePath = firstNonEmpty(serverPath?.workspaceFolderValue, serverPath?.workspaceValue);
+    if (workspacePath !== undefined) {
+        void window.showWarningMessage(
+            'Flavor Grenade: ignoring workspace-configured server.path. Set it in user settings to use a custom server binary.',
+        );
+    }
+
     return resolveServerCommandFromOptions({
-        customPath: config.get<string>('server.path'),
+        customPath: firstNonEmpty(serverPath?.globalValue),
         extensionPath: context.extensionUri.fsPath,
         isDevelopment: context.extensionMode === ExtensionMode.Development,
         notifyInfo: (message) => {
@@ -30,4 +35,8 @@ export function resolveServerCommand(context: ExtensionContext): ServerCommand {
             void window.showWarningMessage(message);
         },
     });
+}
+
+function firstNonEmpty(...values: Array<string | undefined>): string | undefined {
+    return values.find((value) => value !== undefined && value.trim().length > 0);
 }

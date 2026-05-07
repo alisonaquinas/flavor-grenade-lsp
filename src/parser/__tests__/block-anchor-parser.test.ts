@@ -11,6 +11,13 @@ describe('BlockAnchorParser', () => {
     expect(entries[0].id).toBe('my-anchor');
   });
 
+  it('finds a standalone block anchor line', () => {
+    const text = 'Paragraph text\n^standalone-anchor';
+    const entries = BlockAnchorParser.parse(text, noRegions);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].id).toBe('standalone-anchor');
+  });
+
   it('finds block anchor with only alphanumeric chars', () => {
     const entries = BlockAnchorParser.parse('Text ^abc123', noRegions);
     expect(entries[0].id).toBe('abc123');

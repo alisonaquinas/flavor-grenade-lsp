@@ -93,4 +93,46 @@ describe('StdioReader', () => {
     expect(messages).toHaveLength(1);
     expect(messages[0]).toBe(body);
   });
+
+  it('drops malformed headers instead of retaining an unreadable buffer', async () => {
+    const reader = new StdioReader();
+    const messages: string[] = [];
+    const errors: Error[] = [];
+
+    reader.on('message', (msg: string) => messages.push(msg));
+    reader.on('framingError', (error: Error) => errors.push(error));
+
+    const stream = Readable.from([
+      Buffer.from('Content-Type: application/vscode-jsonrpc; charset=utf-8\r\n\r\n{}'),
+      frame('{"jsonrpc":"2.0","method":"after"}'),
+    ]);
+    reader.start(stream);
+
+    await new Promise<void>((resolve) => stream.on('end', resolve));
+    await new Promise<void>((resolve) => setTimeout(resolve, 10));
+
+    expect(errors).toHaveLength(1);
+    expect(messages).toEqual(['{"jsonrpc":"2.0","method":"after"}']);
+  });
+
+  it('rejects frames that declare an oversized body', async () => {
+    const reader = new StdioReader();
+    const messages: string[] = [];
+    const errors: Error[] = [];
+
+    reader.on('message', (msg: string) => messages.push(msg));
+    reader.on('framingError', (error: Error) => errors.push(error));
+
+    const stream = Readable.from([
+      Buffer.from('Content-Length: 999999999\r\n\r\n'),
+      frame('{"jsonrpc":"2.0","method":"after"}'),
+    ]);
+    reader.start(stream);
+
+    await new Promise<void>((resolve) => stream.on('end', resolve));
+    await new Promise<void>((resolve) => setTimeout(resolve, 10));
+
+    expect(errors).toHaveLength(1);
+    expect(messages).toEqual(['{"jsonrpc":"2.0","method":"after"}']);
+  });
 });
