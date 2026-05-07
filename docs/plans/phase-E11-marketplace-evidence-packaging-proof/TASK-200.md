@@ -2,7 +2,7 @@
 id: "TASK-200"
 title: "Verify README assets in packaged VSIX"
 type: task
-status: red
+status: green
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-200"]
 
 # Verify README assets in packaged VSIX
 
-> [!INFO] `TASK-200` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
+> [!INFO] `TASK-200` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `green`
 
 ## Description
 
@@ -88,11 +88,11 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] README asset parser identifies every required Marketplace visual reference
-- [ ] VSIX inspection confirms each required asset is packaged
-- [ ] Unsupported image formats fail the verification
-- [ ] `cd extension && npm run build:extension` passes
-- [ ] `cd extension && npx vsce package --no-dependencies` passes
+- [x] README asset parser identifies every required Marketplace visual reference
+- [x] VSIX inspection confirms each required asset is packaged
+- [x] Unsupported image formats fail the verification
+- [x] `cd extension && npm run build:extension` passes
+- [x] `cd extension && npx vsce package --no-dependencies` passes
 - [ ] [[test/matrix]] row updated for `Extension.Packaging.TargetBinaryValidation`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
@@ -144,3 +144,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing package verification coverage requiring a discoverable
 > Marketplace asset script and `vsce ls --no-dependencies` packaged asset proof.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `verify:marketplace-assets` and packaged-output inspection for every
+> required README visual in `extension/images/marketplace/inventory.json`.

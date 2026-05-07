@@ -25,12 +25,12 @@ describe('Marketplace VSIX asset packaging', () => {
   });
 
   it('includes every required Marketplace README visual in packaged output', () => {
-    const result = spawnSync(npxCommand(), ['vsce', 'ls', '--no-dependencies'], {
+    const result = spawnSync(vsceListCommand(), vsceListArgs(), {
       cwd: extensionRoot,
       encoding: 'utf8',
     });
 
-    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.status, 0, result.stderr || String(result.error));
 
     const packagedFiles = new Set(
       result.stdout
@@ -45,6 +45,14 @@ describe('Marketplace VSIX asset packaging', () => {
   });
 });
 
-function npxCommand(): string {
-  return process.platform === 'win32' ? 'npx.cmd' : 'npx';
+function vsceListCommand(): string {
+  return process.platform === 'win32' ? 'cmd.exe' : 'npx';
+}
+
+function vsceListArgs(): string[] {
+  if (process.platform === 'win32') {
+    return ['/d', '/s', '/c', 'npx vsce ls --no-dependencies'];
+  }
+
+  return ['vsce', 'ls', '--no-dependencies'];
 }
