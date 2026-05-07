@@ -2,7 +2,7 @@
 id: "TASK-204"
 title: "Test generic Markdown isolation"
 type: task
-status: in-review
+status: done
 priority: high
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-204"]
 
 # Test generic Markdown isolation
 
-> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `in-review`
+> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `done`
 
 ## Description
 
@@ -154,3 +154,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!SUCCESS] In Review - 2026-05-07
 > Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the parent feature row is updated to `done`.

@@ -2,7 +2,7 @@
 id: "CHORE-076"
 title: "Phase E12 Snippet And Language Docs Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-076"]
 
 # Phase E12 Snippet And Language Docs Sweep
 
-> [!INFO] `CHORE-076` - Chore - Phase E12 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-076` - Chore - Phase E12 - Priority: `medium` - Status: `done`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -138,3 +138,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!SUCCESS] In Review - 2026-05-07
 > README and extension parity plan now describe OFMarkdown-only snippets,
 > keybindings, editor-pair behavior, and generic Markdown isolation.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the sweep remains complete.

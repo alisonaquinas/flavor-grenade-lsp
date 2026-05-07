@@ -2,7 +2,7 @@
 id: "FEAT-030"
 title: "OFMarkdown Editor Contributions"
 type: feature
-status: in-review
+status: done
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-030"]
 
 # OFMarkdown Editor Contributions
 
-> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `in-review`
+> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -92,13 +92,13 @@ All of the following must be true before this ticket is marked `done`.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-201]] | Add OFMarkdown snippets | `in-review` |
-| [[TASK-202]] | Tune OFMarkdown language configuration | `in-review` |
-| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `in-review` |
-| [[TASK-204]] | Test generic Markdown isolation | `in-review` |
-| [[CHORE-075]] | Phase E12 Contribution Manifest Sweep | `in-review` |
-| [[CHORE-076]] | Phase E12 Snippet And Language Docs Sweep | `in-review` |
-| [[CHORE-077]] | Phase E12 Documentation Trace Sweep | `in-review` |
+| [[TASK-201]] | Add OFMarkdown snippets | `done` |
+| [[TASK-202]] | Tune OFMarkdown language configuration | `done` |
+| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `done` |
+| [[TASK-204]] | Test generic Markdown isolation | `done` |
+| [[CHORE-075]] | Phase E12 Contribution Manifest Sweep | `done` |
+| [[CHORE-076]] | Phase E12 Snippet And Language Docs Sweep | `done` |
+| [[CHORE-077]] | Phase E12 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -167,3 +167,38 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > OFMarkdown snippets, scoped keybindings, language configuration tuning,
 > generic Markdown isolation, documentation, and traceability are locally
 > verified. Awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI passed TypeScript typecheck, ESLint, Prettier format check, tests,
+> Markdown lint, and build. Phase E12 is complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+Manifest-level tests were enough for this phase because snippets, keybindings,
+and language configuration are static VS Code contribution points. The RED
+tests cleanly failed before the manifest and snippet files existed.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | None | No sweep defects required new tickets | 0 h |
+
+### Process observations
+
+Keybindings needed one extra design pass before implementation. Payload-driven
+bridge commands are poor default keybinding targets, so E12 stayed with
+payload-free commands.
+
+### Carry-forward actions
+
+- [ ] Keep E13 focused on environment behavior; do not expand it with editor
+  contribution changes.
+
+### Rule / template amendments
+
+- [ ] None.

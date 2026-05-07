@@ -2,7 +2,7 @@
 id: "TASK-201"
 title: "Add OFMarkdown snippets"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-201"]
 
 # Add OFMarkdown snippets
 
-> [!INFO] `TASK-201` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `in-review`
+> [!INFO] `TASK-201` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `done`
 
 ## Description
 
@@ -148,3 +148,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!SUCCESS] In Review - 2026-05-07
 > Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the parent feature row is updated to `done`.
