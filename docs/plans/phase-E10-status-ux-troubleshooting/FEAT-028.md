@@ -2,7 +2,7 @@
 id: "FEAT-028"
 title: "Status UX And Troubleshooting"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E10
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-028"]
 
 # Status UX And Troubleshooting
 
-> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `in-progress`
 
 ## Goal
 
@@ -156,3 +156,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E10 execution started on branch `codex/phase-e10-status-ux`.

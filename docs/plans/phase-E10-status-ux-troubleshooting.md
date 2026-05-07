@@ -1,7 +1,7 @@
 ---
 title: "Phase E10: Status UX And Troubleshooting"
 phase: E10
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, status, troubleshooting]
 aliases: [Phase E10, Status UX]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E10 |
 | Title | Status UX And Troubleshooting |
-| Status | planned |
+| Status | in-progress |
 | Gate | Known server and workspace states have accurate status, tooltip detail, and recovery actions |
 | Depends on | Phase E9 |
 
