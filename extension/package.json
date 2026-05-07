@@ -65,6 +65,12 @@
         "path": "./syntaxes/ofmarkdown.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "ofmarkdown",
+        "path": "./snippets/ofmarkdown.json"
+      }
+    ],
     "commands": [
       {
         "command": "flavorGrenade.restartServer",
@@ -113,6 +119,26 @@
       {
         "command": "flavorGrenade.copyDiagnosticInfo",
         "title": "Flavor Grenade: Copy Diagnostic Info"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "flavorGrenade.rebuildIndex",
+        "key": "ctrl+alt+g ctrl+alt+r",
+        "mac": "cmd+alt+g cmd+alt+r",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
+      },
+      {
+        "command": "flavorGrenade.showStatusActions",
+        "key": "ctrl+alt+g ctrl+alt+s",
+        "mac": "cmd+alt+g cmd+alt+s",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
+      },
+      {
+        "command": "flavorGrenade.showOutput",
+        "key": "ctrl+alt+g ctrl+alt+o",
+        "mac": "cmd+alt+g cmd+alt+o",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
       }
     ],
     "configuration": {

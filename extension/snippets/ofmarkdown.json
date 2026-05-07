@@ -1,0 +1,32 @@
+{
+  "OFMarkdown Callout": {
+    "prefix": "ofm-callout",
+    "body": ["> [!${1|NOTE,TIP,IMPORTANT,WARNING,CAUTION|}] ${2:Title}", "> ${3:Body}"],
+    "description": "Insert an Obsidian-style callout block."
+  },
+  "OFMarkdown Embed": {
+    "prefix": "ofm-embed",
+    "body": ["![[${1:target}${2:#heading-or-block}]]"],
+    "description": "Insert an OFMarkdown embed link."
+  },
+  "OFMarkdown Wiki Link": {
+    "prefix": "ofm-wikilink",
+    "body": ["[[${1:target}${2:#heading}${3:|alias}]]"],
+    "description": "Insert an OFMarkdown wiki-link."
+  },
+  "OFMarkdown Aliases Frontmatter": {
+    "prefix": "ofm-aliases",
+    "body": ["---", "aliases:", "  - ${1:Alias}", "---"],
+    "description": "Insert YAML frontmatter aliases."
+  },
+  "OFMarkdown Tags Frontmatter": {
+    "prefix": "ofm-tags",
+    "body": ["---", "tags:", "  - ${1:tag}", "---"],
+    "description": "Insert YAML frontmatter tags."
+  },
+  "OFMarkdown Block Anchor": {
+    "prefix": "ofm-block-anchor",
+    "body": ["${1:Block text} ^${2:block-id}"],
+    "description": "Insert an OFMarkdown block anchor."
+  }
+}

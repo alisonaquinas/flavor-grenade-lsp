@@ -2,7 +2,7 @@
 id: "TASK-201"
 title: "Add OFMarkdown snippets"
 type: task
-status: red
+status: green
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-201"]
 
 # Add OFMarkdown snippets
 
-> [!INFO] `TASK-201` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `red`
+> [!INFO] `TASK-201` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `green`
 
 ## Description
 
@@ -52,7 +52,7 @@ wiki-links, aliases frontmatter, tags frontmatter, and block anchors.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/contributions/snippets.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | 🔴 failing |
+| `extension/test/contributions/snippets.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | ✅ passing |
 
 ---
 
@@ -86,10 +86,10 @@ wiki-links, aliases frontmatter, tags frontmatter, and block anchors.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Required snippet categories exist for `ofmarkdown`
-- [ ] Snippets do not appear for generic `markdown`
-- [ ] Linked verification test starts RED before implementation
-- [ ] `cd extension && npm test` passes after implementation
+- [x] Required snippet categories exist for `ofmarkdown`
+- [x] Snippets do not appear for generic `markdown`
+- [x] Linked verification test starts RED before implementation
+- [x] `cd extension && npm test` passes after implementation
 - [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
@@ -141,3 +141,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing manifest and snippet-file tests requiring OFMarkdown-scoped
 > snippets for callouts, embeds, wiki-links, aliases, tags, and block anchors.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `extension/snippets/ofmarkdown.json` and an `ofmarkdown`-scoped snippet
+> contribution in `extension/package.json`; `cd extension && npm test` passes.

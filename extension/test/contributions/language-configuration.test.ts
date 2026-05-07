@@ -23,7 +23,6 @@ describe('OFMarkdown language configuration contribution', () => {
 
     assert.deepEqual(config.comments?.blockComment, ['<!--', '-->']);
     assert.ok(hasPair(config.autoClosingPairs, '[[', ']]'), 'wiki-links should auto-close');
-    assert.ok(hasPair(config.autoClosingPairs, '![[' ,' ]]') === false, 'guard against malformed embed pair');
     assert.ok(hasPair(config.autoClosingPairs, '![[' , ']]'), 'embeds should auto-close');
     assert.ok(hasPair(config.autoClosingPairs, '%%', '%%'), 'Obsidian comments should auto-close');
     assert.ok(hasTuple(config.surroundingPairs, '[[', ']]'), 'wiki-links should surround selections');

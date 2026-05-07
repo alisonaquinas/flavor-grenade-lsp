@@ -2,7 +2,7 @@
 id: "TASK-203"
 title: "Add OFMarkdown-scoped keybindings"
 type: task
-status: red
+status: green
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-203"]
 
 # Add OFMarkdown-scoped keybindings
 
-> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `red`
+> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `green`
 
 ## Description
 
@@ -53,7 +53,7 @@ them so they apply only when `editorLangId == ofmarkdown`.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/contributions/keybindings.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | 🔴 failing |
+| `extension/test/contributions/keybindings.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | ✅ passing |
 
 ---
 
@@ -87,10 +87,10 @@ them so they apply only when `editorLangId == ofmarkdown`.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Added keybindings target existing Flavor Grenade commands
-- [ ] Every OFMarkdown-only keybinding has `editorLangId == ofmarkdown`
-- [ ] Generic Markdown does not receive OFMarkdown-only keybindings
-- [ ] `cd extension && npm test` passes
+- [x] Added keybindings target existing Flavor Grenade commands
+- [x] Every OFMarkdown-only keybinding has `editorLangId == ofmarkdown`
+- [x] Generic Markdown does not receive OFMarkdown-only keybindings
+- [x] `cd extension && npm test` passes
 - [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
@@ -142,3 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing keybinding tests requiring payload-free command bindings guarded
 > by `editorTextFocus && editorLangId == ofmarkdown`.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added OFMarkdown-scoped keybindings for rebuild index, status actions, and
+> output commands; `cd extension && npm test` passes.
