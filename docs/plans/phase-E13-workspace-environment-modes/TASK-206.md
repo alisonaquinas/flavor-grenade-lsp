@@ -2,7 +2,7 @@
 id: "TASK-206"
 title: "Block virtual workspace server startup"
 type: task
-status: open
+status: red
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-206"]
 
 # Block virtual workspace server startup
 
-> [!INFO] `TASK-206` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-206` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
 
 ## Description
 
@@ -132,3 +132,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing workspace environment tests requiring virtual workspaces to
+> block server startup before binary resolution.

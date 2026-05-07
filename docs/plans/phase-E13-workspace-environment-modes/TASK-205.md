@@ -2,7 +2,7 @@
 id: "TASK-205"
 title: "Block Restricted Mode server startup"
 type: task
-status: open
+status: red
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-205"]
 
 # Block Restricted Mode server startup
 
-> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
 
 ## Description
 
@@ -133,3 +133,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing workspace environment tests requiring Restricted Mode to block
+> server startup before binary resolution.

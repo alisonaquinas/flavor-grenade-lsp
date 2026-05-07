@@ -99,10 +99,10 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-205]] | Block Restricted Mode server startup | `open` |
-| [[TASK-206]] | Block virtual workspace server startup | `open` |
-| [[TASK-207]] | Resolve server binary for local and remote hosts | `open` |
-| [[TASK-208]] | Document remote environment smoke tests | `open` |
+| [[TASK-205]] | Block Restricted Mode server startup | `red` |
+| [[TASK-206]] | Block virtual workspace server startup | `red` |
+| [[TASK-207]] | Resolve server binary for local and remote hosts | `red` |
+| [[TASK-208]] | Document remote environment smoke tests | `red` |
 | [[CHORE-078]] | Phase E13 extension lint sweep | `open` |
 | [[CHORE-079]] | Phase E13 manual verification ledger sweep | `open` |
 | [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `open` |

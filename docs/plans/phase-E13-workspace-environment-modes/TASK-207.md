@@ -2,7 +2,7 @@
 id: "TASK-207"
 title: "Resolve server binary for local and remote hosts"
 type: task
-status: open
+status: red
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-207"]
 
 # Resolve server binary for local and remote hosts
 
-> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
 
 ## Description
 
@@ -131,3 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing workspace environment tests requiring local and remote extension
+> hosts to report host-relative platform behavior.
