@@ -2,7 +2,7 @@
 id: "CHORE-072"
 title: "Phase E11 Marketplace Asset Inventory Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-072"]
 
 # Phase E11 Marketplace Asset Inventory Sweep
 
-> [!INFO] `CHORE-072` - Chore - Phase E11 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-072` - Chore - Phase E11 - Priority: `medium` - Status: `done`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -89,13 +89,13 @@ not inventoried together before package inspection.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Every required visual category has an inventory entry
-- [ ] Every referenced asset path resolves under `extension/`
-- [ ] Every asset uses PNG, JPEG, or GIF
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
-- [ ] Notes identify any intentionally combined visuals
+- [x] Every required visual category has an inventory entry
+- [x] Every referenced asset path resolves under `extension/`
+- [x] Every asset uses PNG, JPEG, or GIF
+- [x] No behaviour-affecting changes in `src/`
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
+- [x] Notes identify any intentionally combined visuals
 
 ---
 
@@ -134,3 +134,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: keep E11 Marketplace asset
 > inventory aligned with README proof.
+
+> [!SUCCESS] Done - 2026-05-07
+> Added `extension/images/marketplace/inventory.json` mapping all required
+> visual categories to local PNG assets. No combined visuals are used.

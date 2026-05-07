@@ -177,8 +177,9 @@
     "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
     "watch": "npm run watch:extension",
     "watch:extension": "node scripts/watch-extension.mjs",
-    "test": "node --import tsx --test \"src/**/*.test.ts\"",
-    "test:host": "node scripts/run-host-tests.mjs"
+    "test": "node --import tsx --test \"src/**/*.test.ts\" \"test/**/*.test.ts\"",
+    "test:host": "node scripts/run-host-tests.mjs",
+    "verify:marketplace-assets": "node --import tsx --test \"test/marketplace/readme-assets.test.ts\" \"test/marketplace/vsix-assets.test.ts\""
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"

@@ -2,7 +2,7 @@
 id: "FEAT-029"
 title: "Marketplace Evidence And Packaging Proof"
 type: feature
-status: draft
+status: done
 priority: high
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-029"]
 
 # Marketplace Evidence And Packaging Proof
 
-> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -53,7 +53,7 @@ contains every required visual asset.
 | Requirement Tag | Gist | Source File |
 |---|---|---|
 | `Extension.Marketplace.OFMProof` | README shows required OFMarkdown screenshots or GIFs | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Packaging.TargetBinaryValidation` | Referenced Marketplace assets are included in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced Marketplace assets are included in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -76,14 +76,14 @@ contains every required visual asset.
 
 All of the following must be true before this ticket is marked `done`.
 
-- [ ] `extension/README.md` references all required OFMarkdown visual categories
-- [ ] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
-- [ ] Packaged VSIX inspection confirms each referenced required asset ships
-- [ ] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
-- [ ] `Extension.Packaging.TargetBinaryValidation` has passing evidence in [[test/matrix]]
-- [ ] [[test/index]] updated with every new verification file introduced
-- [ ] `cd extension && npm run build:extension` exits 0
-- [ ] `cd extension && npx vsce package --no-dependencies` exits 0
+- [x] `extension/README.md` references all required OFMarkdown visual categories
+- [x] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
+- [x] Packaged VSIX inspection confirms each referenced required asset ships
+- [x] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
+- [x] `Extension.Marketplace.AssetPackaging` has passing evidence in [[test/matrix]]
+- [x] [[test/index]] updated with every new verification file introduced
+- [x] `cd extension && npm run build:extension` exits 0
+- [x] `cd extension && npx vsce package --no-dependencies` exits 0
 
 ---
 
@@ -91,13 +91,13 @@ All of the following must be true before this ticket is marked `done`.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-197]] | Add OFMarkdown mode and status visuals | `open` |
-| [[TASK-198]] | Add completion and navigation visuals | `open` |
-| [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `open` |
-| [[TASK-200]] | Verify README assets in packaged VSIX | `open` |
-| [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `open` |
-| [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `open` |
-| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `open` |
+| [[TASK-197]] | Add OFMarkdown mode and status visuals | `done` |
+| [[TASK-198]] | Add completion and navigation visuals | `done` |
+| [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `done` |
+| [[TASK-200]] | Verify README assets in packaged VSIX | `done` |
+| [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `done` |
+| [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `done` |
+| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -155,3 +155,47 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E11 execution started on branch `codex/phase-e11-marketplace-proof`.
+> Child task tickets are present and scoped; implementation now follows the
+> phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Marketplace README visuals, asset inventory, package verification, trace docs,
+> and local gates are ready for PR review. `verify:marketplace-assets` now
+> packages a real temporary VSIX and inspects the archive entries.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #43 CI passed TypeScript typecheck, ESLint, Prettier format check, tests,
+> Markdown lint, and build. Phase E11 is complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+The Marketplace evidence inventory gave the README proof a stable source of
+truth. The package verification script was easy to connect to the extension test
+runner once the inventory existed.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| [[TASK-200]] | Task | Initial package proof inspected `vsce ls` output instead of a real VSIX archive | +0.5 h |
+
+### Process observations
+
+The subagent review caught the difference between listing package candidates and
+inspecting the actual archive. Future packaging phases should prove final
+artifacts directly.
+
+### Carry-forward actions
+
+- [ ] Use real VSIX inspection for E14 package target and compatibility checks.
+
+### Rule / template amendments
+
+- [ ] None.

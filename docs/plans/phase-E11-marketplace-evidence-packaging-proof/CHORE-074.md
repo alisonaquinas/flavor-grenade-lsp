@@ -2,7 +2,7 @@
 id: "CHORE-074"
 title: "Phase E11 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-074"]
 
 # Phase E11 Documentation Trace Sweep
 
-> [!INFO] `CHORE-074` - Chore - Phase E11 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-074` - Chore - Phase E11 - Priority: `medium` - Status: `done`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -43,7 +43,7 @@ proof and package verification satisfy the functional requirements.
 | Requirement Tag | Gist | Source File |
 |---|---|---|
 | `Extension.Marketplace.OFMProof` | README visual proof is traceable | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Packaging.TargetBinaryValidation` | Packaged asset proof is traceable | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Packaged asset proof is traceable | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -89,13 +89,13 @@ proof and package verification satisfy the functional requirements.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] E11 rows in [[test/matrix]] point to current evidence
-- [ ] [[test/index]] lists any new E11 verification files
-- [ ] Phase links remain consistent with [[plans/phase-E11-marketplace-evidence-packaging-proof]]
-- [ ] Extension plan still names E11 as Marketplace proof
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] Markdown links and wikilinks are coherent
-- [ ] Phase E11 ticket statuses are ready for review updates
+- [x] E11 rows in [[test/matrix]] point to current evidence
+- [x] [[test/index]] lists any new E11 verification files
+- [x] Phase links remain consistent with [[plans/phase-E11-marketplace-evidence-packaging-proof]]
+- [x] Extension plan still names E11 as Marketplace proof
+- [x] No behaviour-affecting changes in `src/`
+- [x] Markdown links and wikilinks are coherent
+- [x] Phase E11 ticket statuses are ready for review updates
 
 ---
 
@@ -134,3 +134,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: keep E11 documentation and test
 > evidence traceable.
+
+> [!SUCCESS] Done - 2026-05-07
+> Updated [[test/matrix]], [[test/index]], E11 tickets, and the extension parity
+> plan so Marketplace README proof and packaged asset proof trace to
+> `Extension.Marketplace.OFMProof` and `Extension.Marketplace.AssetPackaging`.

@@ -2,6 +2,49 @@
 
 Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) in Visual Studio Code. Powered by the [flavor-grenade-lsp](https://github.com/alisonaquinas/flavor-grenade-lsp) language server.
 
+## OFMarkdown In VS Code
+
+![OFMarkdown language mode promotion](images/marketplace/ofmarkdown-mode.png)
+
+Vault notes are promoted to **OFMarkdown** so Obsidian-specific links, embeds,
+tags, and block anchors get language-server support without taking over generic
+Markdown files.
+
+![Flavor Grenade status bar indexing](images/marketplace/status-indexing.png)
+
+The status bar shows whether Flavor Grenade is starting, indexing, ready,
+disabled, crashed, or misconfigured. Status actions expose rebuild, output,
+diagnostic copy, troubleshooting, and vault reveal commands when they apply.
+
+![Flavor Grenade wiki-link completion](images/marketplace/wiki-link-completion.png)
+
+Wiki-link completion offers vault notes as soon as you type `[[`, using the
+same indexed document graph that powers definitions, references, and rename.
+
+![Flavor Grenade heading and block-anchor completion](images/marketplace/heading-block-completion.png)
+
+Heading and block-anchor completions make `[[note#heading]]` and
+`[[note#^block]]` links discoverable without memorizing target structure.
+
+![Flavor Grenade reference code lens](images/marketplace/reference-code-lens.png)
+
+Reference code lens puts incoming-link counts above headings and block anchors
+so frequently referenced knowledge surfaces are easy to spot.
+
+![Flavor Grenade embed diagnostics and hover](images/marketplace/embed-diagnostics-hover.png)
+
+Embed diagnostics identify missing targets, while hover previews give quick
+context for resolved note and attachment embeds.
+
+![Flavor Grenade tag completion and references](images/marketplace/tag-completion-references.png)
+
+Tag completion and references use the vault-wide tag index, including nested
+Obsidian tag paths.
+
+![Flavor Grenade callout completion](images/marketplace/callout-completion.png)
+
+Callout completion offers common Obsidian callout types inside quote blocks.
+
 ## Features
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links

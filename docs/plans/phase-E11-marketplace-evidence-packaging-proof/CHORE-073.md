@@ -2,7 +2,7 @@
 id: "CHORE-073"
 title: "Phase E11 Package Inspection Script Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-073"]
 
 # Phase E11 Package Inspection Script Sweep
 
-> [!INFO] `CHORE-073` - Chore - Phase E11 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-073` - Chore - Phase E11 - Priority: `medium` - Status: `done`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -35,7 +35,7 @@ without changing extension runtime behavior.
 The E11 gate depends on reproducible VSIX inspection rather than manual archive
 checking.
 
-- Motivated by: `Extension.Packaging.TargetBinaryValidation`
+- Motivated by: `Extension.Marketplace.AssetPackaging`
 
 ---
 
@@ -43,7 +43,7 @@ checking.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Packaging.TargetBinaryValidation` | Referenced README assets ship in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced README assets ship in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -88,13 +88,13 @@ checking.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Package inspection command is documented or discoverable
-- [ ] Verification fails when a README asset is missing from the VSIX
-- [ ] Verification does not require Marketplace publish credentials
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
-- [ ] `cd extension && npx vsce package --no-dependencies` passes
+- [x] Package inspection command is documented or discoverable
+- [x] Verification fails when a README asset is missing from the VSIX
+- [x] Verification does not require Marketplace publish credentials
+- [x] No behaviour-affecting changes in `src/`
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
+- [x] `cd extension && npx vsce package --no-dependencies` passes
 
 ---
 
@@ -133,3 +133,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: make E11 VSIX asset inspection
 > repeatable.
+
+> [!SUCCESS] Done - 2026-05-07
+> `verify:marketplace-assets` runs README and packaged-output checks without
+> publish credentials. `npx vsce package --no-dependencies` created a VSIX in
+> `%TEMP%` and listed every Marketplace asset under `images/marketplace/`.

@@ -294,6 +294,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Tests.HostCoverage` | Extension-host tests cover required client behavior groups | `extension/src/test/suite/*.js` | ✅ passing | Phase E9 | `npm run test:host` runs all `.obsidian/`, `.flavor-grenade.toml`, and generic Markdown fixtures |
 | `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
 | `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
+| `Extension.Marketplace.OFMProof` | Marketplace README shows required OFMarkdown screenshots or images | `extension/test/marketplace/readme-assets.test.ts` | ✅ passing | Phase E11 | Covers OFMarkdown mode, wiki-link completion, heading/block completion, embeds, tags, callouts, code lens, and status visuals |
+| `Extension.Marketplace.AssetPackaging` | Referenced Marketplace README assets ship in packaged VSIX output | `extension/test/marketplace/readme-assets.test.ts`, `extension/test/marketplace/vsix-assets.test.ts` | ✅ passing | Phase E11 | Checks local README references, supported image formats, inventory coverage, and `vsce ls --no-dependencies` packaged output |
 | `Extension.StatusBar.StateTransition` | Status bar text reflects known server and workspace states | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Pure presentation tests cover initializing, indexing, ready, error, disabled, crashed, and misconfigured states; host test exercises the development-host status presentation hook |
 | `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Rich tooltip and diagnostic-copy tests cover extension/server versions, platform, vault counts, vault root, sanitized server path summary, and troubleshooting topics |
 | `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | `extension/src/status-bar.test.ts`, `extension/src/status-actions.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Quick actions cover restart, rebuild index, output, diagnostic copy, vault reveal, and troubleshooting command flow |
@@ -345,7 +347,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E7 (Activation Precision) | 3 | 3 | 100% |
 | Phase E8 (Command Bridges) | 3 | 3 | 100% |
 | Phase E10 (Status UX) | 2 | 2 | 100% |
-| **Total** | **134** | **53** | **40%** |
+| Phase E11 (Marketplace Proof) | 2 | 2 | 100% |
+| **Total** | **136** | **55** | **40%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

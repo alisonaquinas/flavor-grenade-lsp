@@ -2,7 +2,7 @@
 id: "TASK-199"
 title: "Add diagnostics, hover, tag, and callout visuals"
 type: task
-status: open
+status: done
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-199"]
 
 # Add diagnostics, hover, tag, and callout visuals
 
-> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `open`
+> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `done`
 
 ## Description
 
@@ -54,7 +54,7 @@ editing surface beyond basic links.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/marketplace/readme-assets.test.ts` | Extension | `Extension.Marketplace.OFMProof` | 🔴 failing |
+| `extension/test/marketplace/readme-assets.test.ts` | Extension | `Extension.Marketplace.OFMProof` | ✅ passing |
 
 ---
 
@@ -88,14 +88,14 @@ editing surface beyond basic links.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Embed diagnostics and hover visual is referenced from `extension/README.md`
-- [ ] Tag completion or tag reference visual is referenced
-- [ ] Callout completion visual is referenced
-- [ ] Linked verification test covers these required categories
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
-- [ ] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
+- [x] Embed diagnostics and hover visual is referenced from `extension/README.md`
+- [x] Tag completion or tag reference visual is referenced
+- [x] Callout completion visual is referenced
+- [x] Linked verification test covers these required categories
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
+- [x] [[test/index]] updated if a new test file is added
+- [x] Parent feature [[FEAT-029]] child task row updated to `done`
 
 ---
 
@@ -140,3 +140,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-029]].
+
+> [!WARNING] Red - 2026-05-07
+> Extended Marketplace README asset coverage for embed diagnostics and hover,
+> tag completion/references, and callout completion visuals.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added README Marketplace visuals for embed diagnostics/hover, tag
+> completion/references, and callout completion.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #43 CI is green and the parent feature row is updated to `done`.
