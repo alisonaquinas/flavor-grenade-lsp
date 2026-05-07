@@ -13,7 +13,7 @@ aliases: [Extension Parity Plan]
 | E7 Activation precision | Add vault marker activation and generic Markdown idle behavior for `Extension.Activation.MarkerEvents` |
 | E8 Command bridges | Add native references, follow-link, embed, backlink, outlink, reveal, and diagnostic commands for `Extension.CommandBridges.GraphActions` |
 | E9 Extension tests | Complete: extension-host tests cover `Extension.Tests.HostCoverage`, `Extension.LanguageMode.MembershipRefresh`, command bridges, and status/failure surfaces |
-| E10 Status UX | Ready for review: rich tooltip, disabled states, error states, quick actions, troubleshooting docs, and diagnostic collection cover `Extension.Status.Diagnostics` and `Extension.Status.QuickActions` |
+| E10 Status UX | Complete: rich tooltip, disabled states, error states, quick actions, troubleshooting docs, and diagnostic collection cover `Extension.Status.Diagnostics` and `Extension.Status.QuickActions` |
 | E11 Marketplace proof | Add screenshots and README sections for `Extension.Marketplace.AssetPackaging` |
 | E12 OFMarkdown contributions | Add snippets, scoped keybindings, and language configuration refinements for `Extension.Contributions.OFMarkdownScoped` |
 | E13 Workspace environments | Document restricted, virtual, remote, WSL, SSH, and Dev Container behavior for `Extension.Workspace.EnvironmentModes` |

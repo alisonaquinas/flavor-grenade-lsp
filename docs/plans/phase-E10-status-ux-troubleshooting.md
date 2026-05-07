@@ -1,7 +1,7 @@
 ---
 title: "Phase E10: Status UX And Troubleshooting"
 phase: E10
-status: in-review
+status: complete
 tags: [plans, vscode, extension, status, troubleshooting]
 aliases: [Phase E10, Status UX]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E10 |
 | Title | Status UX And Troubleshooting |
-| Status | in-review |
+| Status | complete |
 | Gate | Known server and workspace states have accurate status, tooltip detail, and recovery actions |
 | Depends on | Phase E9 |
 
@@ -71,6 +71,9 @@ build`, `bun test`, `bun run lint:docs`, and extension-doc Markdown lint.
 `bun run bdd` is currently blocked by pre-existing undefined and pending BDD
 steps outside Phase E10; Phase E10 coverage is supplied by extension unit tests
 and the VS Code host harness.
+
+PR #42 passed CI checks for build, tests, typecheck, ESLint, Prettier, and
+Markdown lint before the phase was marked complete.
 
 ## Related
 

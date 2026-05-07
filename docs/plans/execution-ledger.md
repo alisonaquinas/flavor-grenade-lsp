@@ -43,7 +43,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E7    | Activation Precision And Startup Gating | ✅ complete | Vault-marker activation and generic Markdown idle startup | 2026-05-07 | 2026-05-07 |
 | E8    | Command Bridges And Native Navigation | ✅ complete | Native VS Code references, follow-link, embed, backlink, outlink, and vault commands | 2026-05-07 | 2026-05-07 |
 | E9    | Extension Host Regression Harness | ✅ complete | Extension-host tests cover activation, commands, language mode, status, and failure states | 2026-05-07 | 2026-05-07 |
-| E10   | Status UX And Troubleshooting | 🔄 in-progress | Rich status tooltip, error states, quick actions, and diagnostic collection | 2026-05-07 | — |
+| E10   | Status UX And Troubleshooting | ✅ complete | Rich status tooltip, error states, quick actions, and diagnostic collection | 2026-05-07 | 2026-05-07 |
 | E11   | Marketplace Evidence And Packaging Proof | ⏳ planned | OFMarkdown visuals are present, referenced, and included in packaged VSIXs | — | — |
 | E12   | OFMarkdown Editor Contributions | ⏳ planned | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | — | — |
 | E13   | Workspace Environment Modes | ⏳ planned | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | — | — |

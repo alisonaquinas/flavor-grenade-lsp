@@ -2,7 +2,7 @@
 id: "FEAT-028"
 title: "Status UX And Troubleshooting"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: E10
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-028"]
 
 # Status UX And Troubleshooting
 
-> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `in-review`
+> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -165,3 +165,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > trace docs, and local gates are ready for PR review. `npm run test:host`
 > passes all extension-host fixtures locally; full BDD still has existing
 > undefined and pending scenarios outside Phase E10.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #42 passed CI with build, tests, typecheck, ESLint, Prettier, and Markdown
+> lint. Phase E10 is complete and ready to merge to `develop`.

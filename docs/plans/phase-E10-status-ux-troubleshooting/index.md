@@ -8,7 +8,7 @@ aliases: ["Phase E10 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-028]] | Status UX And Troubleshooting | Feature | `in-review` |
+| [[FEAT-028]] | Status UX And Troubleshooting | Feature | `done` |
 | [[TASK-193]] | Model rich status tooltip data | Task | `green` |
 | [[TASK-194]] | Add disabled error and crash status states | Task | `green` |
 | [[TASK-195]] | Add status quick actions and diagnostic copy | Task | `green` |
