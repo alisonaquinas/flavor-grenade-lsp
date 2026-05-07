@@ -8,7 +8,7 @@ aliases: ["Phase E7 Tickets", "Activation Precision Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-025]] | Activation Precision And Startup Gating | Feature | `draft` |
+| [[FEAT-025]] | Activation Precision And Startup Gating | Feature | `in-progress` |
 | [[TASK-181]] | Add Vault Marker Activation Events | Task | `open` |
 | [[TASK-182]] | Gate Startup Vault Work | Task | `open` |
 | [[TASK-183]] | Preserve Command And Language Wake Paths | Task | `open` |

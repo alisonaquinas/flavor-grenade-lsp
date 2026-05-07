@@ -2,7 +2,7 @@
 id: "FEAT-025"
 title: "Activation Precision And Startup Gating"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-025"]
 
 # Activation Precision And Startup Gating
 
-> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `in-progress`
 
 ## Goal
 
@@ -146,3 +146,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E7 execution started on branch `codex/phase-e7-activation-precision`.
