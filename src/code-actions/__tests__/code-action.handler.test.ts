@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
+import * as path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { CodeActionHandler } from '../code-action.handler.js';
 import { CreateMissingFileAction } from '../create-missing-file.action.js';
 import { FixNbspAction } from '../fix-nbsp.action.js';
@@ -17,19 +19,31 @@ function makeDoc(uri: string, overrides: Partial<OFMDoc> = {}): OFMDoc {
     frontmatterEndOffset: 0,
     opaqueRegions: [],
     text: '',
-    index: { wikiLinks: [], embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [] },
+    index: {
+      wikiLinks: [],
+      embeds: [],
+      blockAnchors: [],
+      tags: [],
+      callouts: [],
+      headings: [],
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
+    },
     ...overrides,
   };
 }
 
 function makeVaultDetector(): VaultDetector {
   return {
-    detect: (_path: string) => ({ mode: 'obsidian', vaultRoot: '/vault' }),
+    detectFresh: (_path: string) => ({ mode: 'obsidian', vaultRoot: VAULT_ROOT }),
   } as unknown as VaultDetector;
 }
 
 const ZERO_RANGE = { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } };
-const DOC_URI = 'file:///vault/test.md';
+const VAULT_ROOT = path.resolve('/vault');
+const DOC_URI = pathToFileURL(path.join(VAULT_ROOT, 'test.md')).toString();
 
 describe('CodeActionHandler', () => {
   let parseCache: ParseCache;
@@ -43,7 +57,7 @@ describe('CodeActionHandler', () => {
   beforeEach(() => {
     parseCache = new ParseCache();
     vaultDetector = makeVaultDetector();
-    createMissingFile = new CreateMissingFileAction(vaultDetector);
+    createMissingFile = new CreateMissingFileAction(vaultDetector, parseCache);
     fixNbsp = new FixNbspAction();
     tagToYaml = new TagToYamlAction(parseCache);
     tocGenerator = new TocGeneratorAction(parseCache);
@@ -57,9 +71,6 @@ describe('CodeActionHandler', () => {
   });
 
   it('routes FG001 diagnostic to CreateMissingFileAction', () => {
-    const doc = makeDoc(DOC_URI);
-    parseCache.set(DOC_URI, doc);
-
     const fg001: Diagnostic = {
       range: { start: { line: 1, character: 0 }, end: { line: 1, character: 10 } },
       severity: 1,
@@ -67,6 +78,21 @@ describe('CodeActionHandler', () => {
       source: 'flavor-grenade',
       message: "Cannot resolve wiki-link: 'missing-file' not found in vault",
     };
+    const doc = makeDoc(DOC_URI, {
+      index: {
+        wikiLinks: [{ raw: '[[missing-file]]', target: 'missing-file', range: fg001.range }],
+        embeds: [],
+        blockAnchors: [],
+        tags: [],
+        callouts: [],
+        headings: [],
+        markdownLinks: [],
+        markdownImages: [],
+        linkLabelRefs: [],
+        linkLabelDefs: [],
+      },
+    });
+    parseCache.set(DOC_URI, doc);
 
     const params = {
       textDocument: { uri: DOC_URI },

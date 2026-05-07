@@ -48,7 +48,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `CICD.Markdown.DocsFolderLinting` | `docs/` markdown linted by markdownlint-obsidian in CI | — | ⏳ planned | Phase 13 | Verified by CI `markdown-lint-docs` job |
 | `CICD.Markdown.SourceLinting` | Non-docs markdown linted by markdownlint-cli2 in CI | — | ⏳ planned | Phase 13 | Verified by CI `markdown-lint-other` job |
 | `CICD.Publish.OIDC` | Publishing uses OIDC provenance attestation | — | ⏳ planned | Phase 13 | Verified by `npm audit signatures` post-publish |
-| `CICD.Publish.Trigger` | Publish triggered only by semver tag push to `main` | — | ⏳ planned | Phase 13 | Enforced by `publish.yml` `on: push: tags:` trigger |
+| `CICD.Publish.Trigger` | Publish triggered only by semver tag push to `main` | — | ⏳ planned | Phase 13 | Enforced by `release.yml` `on: push: tags:` trigger |
 | `CICD.PreCommit.Gate` | `lefthook` pre-commit runs typecheck + lint + format + test | — | ⏳ planned | Phase 1 | Verified by `lefthook install` + commit attempt |
 
 ---
@@ -84,7 +84,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Embed.Resolution.MarkdownTarget` | `![[file.md]]` embeds resolve to VaultIndex docs | — | ⬜ not-yet-written | Phase 7 | |
 | `Embed.Resolution.ImageTarget` | `![[image.png]]` embeds produce no FG001 | `src/resolution/__tests__/embed-resolver.test.ts`, `src/resolution/__tests__/attachment-diagnostics.test.ts` | ✅ passing | Phase 15 | Phase 15 verifies indexed attachments resolve through embed diagnostics, including non-image attachments |
 | `Embed.HeadingEmbed.Resolution` | `![[doc#heading]]` validates both doc and heading | — | ⬜ not-yet-written | Phase 7 | |
-| `Embed.BlockEmbed.Resolution` | `![[doc#^blockid]]` validates anchor exists in target | — | ⬜ not-yet-written | Phase 7 | |
+| `Embed.BlockEmbed.Resolution` | `![[doc#^blockid]]` validates anchor exists in target | `src/resolution/__tests__/embed-resolver.test.ts`, `docs/bdd/features/embeds.feature` | ✅ passing | Phase 7 | Unit evidence passes; targeted BDD scenarios pass, while the full BDD suite still has unrelated pending steps |
 
 ---
 
@@ -103,10 +103,10 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Block.Anchor.Indexing` | All `^blockid` anchors appear in OFMIndex.blockAnchors | — | ⬜ not-yet-written | Phase 8 | |
-| `Block.CrossRef.Diagnostic` | `[[doc#^nonexistent]]` produces FG005; suppressed in single-file mode | — | ⬜ not-yet-written | Phase 8 | |
-| `Block.Completion.Offer` | After `[[doc#^`, completion offers known block IDs | — | ⬜ not-yet-written | Phase 8 | |
-| `Block.Anchor.Lineend` | Only `^id` at end-of-line treated as block anchors | — | ⬜ not-yet-written | Phase 8 | |
+| `Block.Anchor.Indexing` | All valid `^blockid` anchors appear in OFMIndex.blockAnchors | `src/parser/__tests__/block-anchor-parser.test.ts`, `src/parser/__tests__/ofm-parser.integration.test.ts` | ✅ passing | Phase 8 | Covers line-end, heading, standalone, duplicate, and opaque-region behavior |
+| `Block.CrossRef.Diagnostic` | `[[doc#^nonexistent]]` produces FG005; suppressed in single-file mode | `src/resolution/__tests__/block-ref-resolver.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `docs/bdd/features/block-references.feature` | ✅ passing | Phase 8 | Unit evidence passes; targeted BDD scenarios pass, while the full BDD suite still has unrelated pending steps |
+| `Block.Completion.Offer` | After `[[doc#^`, completion offers known block IDs | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `docs/bdd/features/block-references.feature` | ✅ passing | Phase 8 | Covers intra-document and cross-document block completion contexts |
+| `Block.Anchor.Lineend` | Only valid line-end or standalone `^id` patterns are treated as block anchors | `src/parser/__tests__/block-anchor-parser.test.ts` | ✅ passing | Phase 8 | Mid-line, invalid-character, and opaque-region tokens are rejected |
 
 ---
 
@@ -254,7 +254,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Security.Input.PositionValidation` | All `Position`/`Range` params validated as non-negative integers within document bounds | `src/handlers/__tests__/selection-range.handler.test.ts`, `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 17 | Phase 17 rejects invalid `selectionRange` position batches with JSON-RPC InvalidParams instead of returning partial results |
-| `Security.Input.PayloadSize` | JSON-RPC messages exceeding 10 MB rejected at transport; stdin closed without buffering | — | ⬜ not-yet-written | Phase 2 | `Content-Length` header check; see threat model §Sub-threat-2.2 |
+| `Security.Input.PayloadSize` | Oversized JSON-RPC headers and bodies rejected before JSON parsing | `src/transport/stdio-reader.test.ts` | ✅ passing | Phase 2 | Current caps: 8 KiB header, 16 MiB body, and combined frame buffer cap |
 | `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | — | ⬜ not-yet-written | Phase 2 | Zod schema strips dangerous keys; see ADR013 |
 
 ---
@@ -263,11 +263,11 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Supply.ExactPinning` | All `package.json` dependencies use exact versions; range specifiers fail CI linting | — | ⏳ planned | Phase 1 | `bunfig.toml exact = true` + CI lint; see ADR014 |
-| `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | — | ⏳ planned | Phase 1 | Verified in `ci.yml`; see ADR014 |
-| `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | — | ⏳ planned | Phase 1 | CLI flag required per ADR014; not `.npmrc` |
+| `Security.Supply.ExactPinning` | Exact dependency pinning target; remaining ranges tracked as supply-chain debt | — | ⏳ planned | Phase 1 | Current manifests still contain ranges; CI range linting has not landed |
+| `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--frozen-lockfile` |
+| `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--ignore-scripts` |
 | `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | — | ⬜ not-yet-written | Phase 13 | Process requirement; `docs/security/dependency-audit-log.md` |
-| `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` never added; ESLint `no-restricted-imports` enforces this | — | ⏳ planned | Phase 1 | `eslint.config.js` rule; see ADR014, CVE-2025-54782 |
+| `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` remains absent from manifests, lockfiles, and source | — | ⏳ planned | Phase 1 | Package/source audit passes; ESLint guard is still planned |
 
 ---
 
@@ -286,8 +286,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Extension.Activation.Markdown` | Extension activates on `onLanguage:markdown` and spawns server | — | ⬜ not-yet-written | Phase E2 | Integration test; requires Extension Development Host |
-| `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | — | ⬜ not-yet-written | Phase E2 | Unit test; mock `workspace.getConfiguration` |
-| `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | — | ⬜ not-yet-written | Phase E2 | Unit test; mock `process.platform` |
+| `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
+| `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
 | `Extension.StatusBar.StateTransition` | Status bar text reflects all 4 server states (initializing, indexing, ready, error) | — | ⬜ not-yet-written | Phase E3 | Unit test; mock `flavorGrenade/status` notifications |
 | `Extension.StatusBar.RestartReset` | Status bar resets to "Starting..." on client restart | — | ⬜ not-yet-written | Phase E3 | Unit test; trigger `onDidChangeState` |
 | `Extension.Commands.Registration` | All 3 commands registered and callable via palette | — | ⬜ not-yet-written | Phase E3 | Unit test + integration test |
@@ -295,16 +295,16 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Lifecycle.Restart` | `flavorGrenade.server.path` config change triggers restart | — | ⬜ not-yet-written | Phase E3 | Integration test |
 | `Extension.Lifecycle.CrashRecovery` | Server crash triggers automatic restart (up to 4 in 3 minutes) | — | ⬜ not-yet-written | Phase E3 | Integration test; default error handler behavior |
 | `Extension.Lifecycle.CleanShutdown` | Deactivation stops client, server exits cleanly | — | ⬜ not-yet-written | Phase E3 | Integration test |
-| `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, and assets | — | ⬜ not-yet-written | Phase E4 | Manual verification; `unzip -l` inspection |
+| `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, and assets | `.github/workflows/extension-release.yml`, `extension/.vscodeignore` | ✅ passing | Phase E4 | Release workflow inspects packaged VSIX contents and rejects nested VSIXs or a missing target binary |
 | `Extension.Packaging.VSIXInstall` | Local VSIX install succeeds and extension functions | — | ⬜ not-yet-written | Phase E4 | Manual smoke test |
 | `Extension.CICD.MatrixBuild` | All 7 platform-specific VSIXs build on tag push | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
 | `Extension.CICD.MarketplacePublish` | Publish job succeeds with VSCE_PAT | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
-| `Extension.LanguageMode.Contribution` | Extension contributes `ofmarkdown` without globally claiming `.md` files | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | Manifest verified by type/build checks; unit coverage verifies contribution-facing constants and rules |
+| `Extension.LanguageMode.Contribution` | Extension contributes `ofmarkdown` without globally claiming `.md` files | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | Unit coverage verifies manifest contribution, aliases, grammar registration, activation event, and lack of global `.md` binding |
 | `Extension.LanguageMode.DynamicAssignment` | Qualifying vault/index Markdown documents promote to `ofmarkdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts`, `src/vault/__tests__/vault.module.test.ts` | ✅ passing | Phase E6 | Covers `.obsidian` fast path and server membership request |
 | `Extension.LanguageMode.NonVaultIsolation` | Generic Markdown outside vault/index remains `markdown` | `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts` | ✅ passing | Phase E6 | |
 | `Extension.LanguageMode.UserOverrideSafety` | Manual non-Markdown language selections are preserved | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | |
 | `Extension.LanguageMode.LoopSafety` | Language assignment does not create reopen or restart loops | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | In-flight assignment guard unit-tested |
-| `Extension.LanguageMode.MarkdownParity` | OFMarkdown mode preserves baseline Markdown editing behavior | `extension/language-configuration.json`, `extension/syntaxes/ofmarkdown.tmLanguage.json` | ⏳ planned | Phase E6 | Manual smoke test required for editor behavior parity |
+| `Extension.LanguageMode.MarkdownParity` | OFMarkdown mode preserves baseline Markdown editing behavior | `extension/src/language-mode.test.ts`, `extension/language-configuration.json`, `extension/syntaxes/ofmarkdown.tmLanguage.json` | ✅ passing | Phase E6 | Unit coverage verifies the Markdown grammar bridge and Markdown-compatible language configuration; full extension-host smoke remains Phase E9 |
 
 ---
 
@@ -312,14 +312,14 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Phase | Total Tags in Scope | Tags with Tests | Coverage |
 |---|---|---|---|
-| Phase 1 (Scaffold) | 7 (quality gates) + 1 (vault detection smoke) + 5 (supply chain + no-exec) | 1 | 8% |
-| Phase 2 (LSP Transport) | 4 (config) + 5 (input validation + URI scheme + log sanitization) | 0 | 0% |
+| Phase 1 (Scaffold) | 7 (quality gates) + 1 (vault detection smoke) + 5 (supply chain + no-exec) | 3 | 23% |
+| Phase 2 (LSP Transport) | 4 (config) + 5 (input validation + URI scheme + log sanitization) | 1 | 11% |
 | Phase 3 (OFM Parser) | 5 (parser safety) | 0 | 0% |
 | Phase 4 (Vault Index) | 4 (workspace) + 2 (path + symlink confinement) | 0 | 0% |
 | Phase 5 (Wiki-Links) | 5 + 6 (diagnostics) | 0 | 0% |
 | Phase 6 (Tags) | 4 | 0 | 0% |
-| Phase 7 (Embeds) | 4 | 0 | 0% |
-| Phase 8 (Block Refs) | 4 | 0 | 0% |
+| Phase 7 (Embeds) | 4 | 1 | 25% |
+| Phase 8 (Block Refs) | 4 | 4 | 100% |
 | Phase 9 (Completions) | 4 + 1 (completion filter) | 0 | 0% |
 | Phase 10 (Navigation) | 3 | 0 | 0% |
 | Phase 11 (Rename) | 3 + 1 (rename confinement) | 0 | 0% |
@@ -329,12 +329,12 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase 16 (Vault File Operation Refactors) | 7 | 7 | 100% |
 | Phase 17 (Structural LSP Capabilities) | 6 | 6 | 100% |
 | Phase E1 (Extension Scaffold) | 0 | 0 | — (infrastructure only) |
-| Phase E2 (LanguageClient Core) | 3 | 0 | 0% |
+| Phase E2 (LanguageClient Core) | 3 | 2 | 67% |
 | Phase E3 (Status Bar & Commands) | 7 | 0 | 0% |
-| Phase E4 (Packaging) | 2 | 0 | 0% |
+| Phase E4 (Packaging) | 2 | 1 | 50% |
 | Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
-| Phase E6 (OFMarkdown Language Mode) | 6 | 5 | 83% |
-| **Total** | **128** | **34** | **27%** |
+| Phase E6 (OFMarkdown Language Mode) | 6 | 6 | 100% |
+| **Total** | **128** | **46** | **36%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

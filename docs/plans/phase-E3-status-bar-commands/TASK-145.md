@@ -35,7 +35,7 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 
   1. **`flavorGrenade.restartServer`** — Calls `client.restart()` to stop and restart the LanguageClient (and the underlying server process). This is an async operation.
 
-  2. **`flavorGrenade.rebuildIndex`** — Sends `workspace/executeCommand` to the server with `{ command: 'flavorGrenade.rebuildIndex', arguments: [] }` via `client.sendRequest(...)`. The server must have registered this command via `executeCommandProvider` capabilities (already implemented — see [[design/api-layer]], "Workspace Commands").
+  2. **`flavorGrenade.rebuildIndex`** — Sends `workspace/executeCommand` to the server with `{ command: 'flavorGrenade.rebuildIndex', arguments: [] }` via `client.sendRequest(...)`. The server handles this command on the `workspace/executeCommand` request path (already implemented — see [[design/api-layer]], "Workspace Commands").
 
   3. **`flavorGrenade.showOutput`** — Calls `client.outputChannel.show()` to reveal the Flavor Grenade output channel in the VS Code panel.
 
@@ -131,7 +131,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-The `rebuildIndex` command uses `client.sendRequest('workspace/executeCommand', ...)` rather than `vscode.commands.executeCommand(...)` because the command is registered on the server side via `executeCommandProvider`, not on the client side. The LanguageClient translates this into an LSP `workspace/executeCommand` request over the wire.
+The `rebuildIndex` command uses `client.sendRequest('workspace/executeCommand', ...)` rather than `vscode.commands.executeCommand(...)` because the command is handled by the server, not by a client-side VS Code command. The LanguageClient translates this into an LSP `workspace/executeCommand` request over the wire.
 
 The three command IDs (`flavorGrenade.restartServer`, `flavorGrenade.rebuildIndex`, `flavorGrenade.showOutput`) must exactly match the `contributes.commands` entries in `extension/package.json`. If they do not match, the commands will not appear in the Command Palette with their human-readable titles.
 

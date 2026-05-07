@@ -31,7 +31,7 @@ Create `extension/src/server-path.ts` with a `resolveServerPath(context: Extensi
 
 - Import `ExtensionContext`, `Uri`, and `workspace` from `vscode`
 
-- Read `flavorGrenade.server.path` via `workspace.getConfiguration('flavorGrenade').get<string>('server.path')`
+- Read `flavorGrenade.server.path` via `workspace.getConfiguration('flavorGrenade').inspect<string>('server.path')`
 
 - Guard against empty/whitespace-only strings in the custom path check
 
@@ -162,4 +162,4 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].
 
 > [!SUCCESS] Done — 2026-04-22
-> Created `extension/src/server-path.ts` with `resolveServerPath()` matching reference implementation exactly. Tier 1: reads `flavorGrenade.server.path` config, guards empty/whitespace. Tier 2: `Uri.joinPath` to bundled binary with `.exe` on win32. No PATH/env/download fallback. `tsc --noEmit` exits 0. Linked Tests N/A per ticket (VS Code API dependency — no mock strategy established). All DoD items satisfied. Status: `done`.
+> Created `extension/src/server-path.ts` with `resolveServerPath()` matching reference implementation. Tier 1: reads user/machine `flavorGrenade.server.path`, ignores workspace values, and guards empty/whitespace. Tier 2: `Uri.joinPath` to bundled binary with `.exe` on win32. No PATH/env/download fallback. `tsc --noEmit` exits 0. Linked Tests N/A per ticket (VS Code API dependency — no mock strategy established). All DoD items satisfied. Status: `done`.

@@ -2,12 +2,12 @@
 id: "TASK-153"
 title: "Add document membership request"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: ["TASK-152"]
 tags: [tickets/task, "phase/E6"]
 aliases: ["TASK-153"]
@@ -15,7 +15,7 @@ aliases: ["TASK-153"]
 
 # Add document membership request
 
-> [!INFO] `TASK-153` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `open`
+> [!INFO] `TASK-153` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -56,13 +56,13 @@ Add `flavorGrenade/documentMembership`, a custom request that lets the VS Code e
 
 ## Definition of Done
 
-- [ ] Request handler registered
+- [x] Request handler registered
 
-- [ ] Workspace membership query tested
+- [x] Workspace membership query tested
 
-- [ ] `.flavor-grenade.toml` indexed vaults return positive membership
+- [x] `.flavor-grenade.toml` indexed vaults return positive membership
 
-- [ ] Single-file mode returns false for language-mode assignment
+- [x] Single-file mode returns false for language-mode assignment
 
 ---
 
@@ -70,3 +70,9 @@ Add `flavorGrenade/documentMembership`, a custom request that lets the VS Code e
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `open`. Parent: [[FEAT-020]].
+
+> [!INFO] Review sync — 2026-05-07
+> `flavorGrenade/documentMembership` and vault membership tests are present; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

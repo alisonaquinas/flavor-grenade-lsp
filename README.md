@@ -36,7 +36,7 @@ bun run build        # incremental TypeScript build
 bun run lint         # ESLint (src/ only)
 bun run typecheck    # tsc --noEmit, full type check
 bun test             # unit tests + integration tests (src/test/integration/) via Bun test runner
-bun run test:bdd     # BDD end-to-end suite (Cucumber + real server process)
+bun run bdd          # BDD end-to-end suite (Cucumber + real server process)
 ```
 
 ## Architecture
@@ -72,7 +72,9 @@ runs in `single-file` mode.
 | FG001 | Broken wiki-link — target file not found |
 | FG002 | Ambiguous wiki-link — multiple files match the stem |
 | FG003 | Malformed wiki-link — empty or blank target |
-| FG006 | Missing block anchor target |
+| FG004 | Broken embed or attachment target |
+| FG005 | Missing block anchor target |
+| FG006 | Non-breaking space in a heading marker |
 | FG007 | YAML frontmatter parse error |
 
 ## License

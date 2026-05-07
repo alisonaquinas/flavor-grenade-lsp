@@ -1,11 +1,12 @@
 import { chmodSync, existsSync, mkdirSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { basename, isAbsolute, join, win32 } from 'node:path';
 import process from 'node:process';
 
 const requestedName = process.argv[2];
 const binaryName =
   requestedName ?? (process.platform === 'win32' ? 'flavor-grenade-lsp.exe' : 'flavor-grenade-lsp');
+validateBinaryName(binaryName);
 
 const candidates = [
   join('dist', binaryName),
@@ -45,4 +46,18 @@ async function copyWithRetry(sourcePath, destinationPath) {
     }
   }
   throw lastError;
+}
+
+function validateBinaryName(binaryName) {
+  if (
+    binaryName.length === 0 ||
+    binaryName !== basename(binaryName) ||
+    isAbsolute(binaryName) ||
+    win32.isAbsolute(binaryName) ||
+    binaryName.includes('/') ||
+    binaryName.includes('\\') ||
+    binaryName.includes('\0')
+  ) {
+    throw new Error(`Invalid binary name: ${binaryName}`);
+  }
 }

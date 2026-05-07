@@ -112,13 +112,14 @@ Everything else excluded via `.vscodeignore`.
 
 ### Binary Resolution (2-tier)
 
-1. **User setting** `flavorGrenade.server.path` — escape hatch for developers building from source.
+1. **User or machine setting** `flavorGrenade.server.path` — escape hatch for developers building from source. Workspace and workspace-folder values are ignored for safety.
 2. **Bundled binary** — `server/flavor-grenade-lsp[.exe]` relative to `context.extensionUri`. Default for all normal users.
 
 ```typescript
 function resolveServerPath(context: ExtensionContext): string {
-    const custom = workspace.getConfiguration('flavorGrenade')
-        .get<string>('server.path');
+    const inspect = workspace.getConfiguration('flavorGrenade')
+        .inspect<string>('server.path');
+    const custom = inspect?.globalValue?.trim();
     if (custom) return custom;
 
     const bin = process.platform === 'win32'
@@ -283,7 +284,7 @@ Do not add `.md` to the language contribution. Dynamic assignment is required by
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
-| `flavorGrenade.server.path` | `string` | `""` | Custom path to server binary. Leave empty to use bundled. |
+| `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to server binary. Workspace values are ignored for safety. |
 | `flavorGrenade.linkStyle` | `string` enum: `file-stem`, `relative-path` | `file-stem` | Wiki-link completion style. |
 | `flavorGrenade.completion.candidates` | `number` | `50` | Max completion items returned. |
 | `flavorGrenade.diagnostics.suppress` | `string[]` | `[]` | Diagnostic codes to suppress (e.g., `["AmbiguousLink"]`). |

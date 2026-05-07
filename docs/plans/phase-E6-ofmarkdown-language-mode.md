@@ -1,9 +1,9 @@
 ---
 title: "Phase E6: OFMarkdown Language Mode"
 phase: E6
-status: in-progress
+status: complete
 tags: [extension, vscode, ofmarkdown, language-mode]
-updated: 2026-05-03
+updated: 2026-05-07
 aliases: ["Phase E6", "OFMarkdown Language Mode Phase"]
 ---
 
@@ -13,7 +13,7 @@ aliases: ["Phase E6", "OFMarkdown Language Mode Phase"]
 |---|---|
 | Phase | E6 |
 | Title | OFMarkdown Language Mode |
-| Status | in-progress |
+| Status | complete |
 | Gate | Extension tests and smoke test prove dynamic `ofmarkdown` assignment without generic Markdown hijacking |
 | Depends on | Phase E5 (CI/CD Pipeline) |
 
@@ -23,7 +23,7 @@ aliases: ["Phase E6", "OFMarkdown Language Mode Phase"]
 
 Add a VS Code language mode named **OFMarkdown** (`ofmarkdown`) and dynamically apply it to open Markdown documents that Flavor Grenade detects as part of an Obsidian vault and/or present in the server index. Generic Markdown remains `markdown`. Manual language selections are preserved.
 
-This phase is implemented locally in the feature branch. The execution ledger remains non-complete until CI and human review confirm the gate.
+This phase is complete. PR #38 confirmed the CI gate for the implementation branch before merge.
 
 ---
 

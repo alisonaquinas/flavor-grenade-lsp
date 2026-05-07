@@ -163,13 +163,13 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[requirements/security/vault-confinement]] |
 | **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[requirements/security/vault-confinement]] |
 | **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[requirements/security/input-validation]] |
-| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 10 MB rejected at transport layer; stdin closed, no buffering or parsing attempted. | [[requirements/security/input-validation]] |
+| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, are rejected at the transport layer before JSON parsing. | [[requirements/security/input-validation]] |
 | **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[requirements/security/input-validation]] |
-| **Security.Supply.ExactPinning** | All `package.json` dependencies use exact versions; range specifiers (`^`, `~`) fail CI linting. | [[requirements/security/supply-chain]] |
+| **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[requirements/security/supply-chain]] |
 | **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[requirements/security/supply-chain]] |
 | **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[requirements/security/supply-chain]] |
 | **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[requirements/security/supply-chain]] |
-| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` never added as a dependency (CVE-2025-54782 RCE); enforced by ESLint `no-restricted-imports`. | [[requirements/security/supply-chain]] |
+| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[requirements/security/supply-chain]] |
 | **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[requirements/security/information-disclosure]] |
 | **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[requirements/security/information-disclosure]] |
 | **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[requirements/security/information-disclosure]] |

@@ -35,17 +35,17 @@ aliases:
 ---
 
 **Tag:** Security.Input.PayloadSize
-**Gist:** JSON-RPC messages exceeding 10 MB must be rejected at the transport layer; the server must close the stdin stream rather than attempt to buffer or parse an oversized message.
-**Ambition:** A malicious or buggy client sending a `textDocument/didChange` notification with a 500 MB document body will cause the server to allocate 500 MB of heap to buffer the message before parsing begins. In Bun's V8-backed runtime, this can trigger out-of-memory crashes or trigger garbage collection pauses that make the server unresponsive. A 10 MB limit is far above the practical size of any legitimate LSP message (even a complete 100,000-line file change notification is typically under 5 MB) while preventing runaway memory consumption from a single malformed message. Closing stdin on violation is the correct response — the connection is corrupt and should not be recovered.
-**Scale:** Percentage of oversized message attempts (messages with `Content-Length` header value exceeding 10,485,760 bytes) that are rejected before payload buffering begins, with the stdin stream closed.
+**Gist:** JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, must be rejected at the transport layer before unbounded buffering or JSON parsing occurs.
+**Ambition:** A malicious or buggy client sending a `textDocument/didChange` notification with a 500 MB document body can otherwise force the server to allocate large buffers before parsing begins. In Bun's V8-backed runtime, this can trigger out-of-memory crashes or garbage collection pauses that make the server unresponsive. A 16 MiB body limit is far above the practical size of ordinary LSP messages while preventing runaway memory consumption from a single malformed message. The 8 KiB header limit prevents clients from keeping the reader in an unbounded pre-body state.
+**Scale:** Percentage of oversized frame attempts (messages with `Content-Length` header value exceeding 16,777,216 bytes, headers exceeding 8,192 bytes, or total buffered frame data exceeding those combined caps) that are rejected before JSON parsing begins.
 **Meter:**
 
-1. Send a JSON-RPC message with `Content-Length: 10485761` (10 MB + 1 byte) and a body of that size.
-2. Verify the server closes its stdin reader without buffering the body.
+1. Send a JSON-RPC message with `Content-Length: 16777217` (16 MiB + 1 byte).
+2. Send a malformed frame whose header exceeds 8,192 bytes before `\r\n\r\n`.
 3. Verify no JSON parse attempt occurs on the oversized body.
-4. Verify the server process exits cleanly (or, if stdio reconnection is supported, that the connection is reset).
+4. Verify the reader emits a framing error and clears the unreadable buffer so later valid frames can be processed.
 **Fail:** Any oversized message that is buffered into memory before rejection; any oversized message that reaches the JSON parser.
-**Goal:** 100% of oversized messages rejected at the `Content-Length` check — zero bytes of oversized body buffered.
+**Goal:** 100% of oversized messages rejected at the frame-size checks; zero oversized bodies parsed.
 **Stakeholders:** Server reliability, memory safety.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[research/security-threat-model#Sub-threat-2.2]], LSP Specification §3.17 Base Protocol.

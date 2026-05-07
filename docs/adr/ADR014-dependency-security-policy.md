@@ -25,10 +25,10 @@ The threat is documented in [[research/security-threat-model#Threat-Category-3]]
 
 ### 1. Exact Version Pinning
 
-All dependencies — runtime and development — must be pinned to exact versions in `package.json` (`"^"` and `"~"` ranges are prohibited). This is enforced by:
+All dependencies — runtime and development — should be pinned to exact versions in `package.json` (`"^"` and `"~"` ranges are prohibited by policy). Current manifests still contain legacy ranges, so this remains tracked supply-chain debt until CI range linting lands. New Bun-added dependencies should honor:
 
 - `exact = true` in `bunfig.toml` (already configured in Phase 1)
-- A CI lint step that fails if any dependency in `package.json` contains a range specifier
+- A future CI lint step that fails if any dependency in `package.json` contains a range specifier
 
 Rationale: a locked version cannot be silently upgraded to a compromised version by a registry update.
 
@@ -36,7 +36,7 @@ Rationale: a locked version cannot be silently upgraded to a compromised version
 
 All CI workflows must use `bun install --frozen-lockfile`. This prevents the lockfile from being updated during CI, ensuring that the resolved package graph is exactly what was committed. Any discrepancy between `package.json` and `bun.lockb` fails the build.
 
-This is already enforced in `.github/workflows/ci.yml`.
+This is enforced in `.github/workflows/ci.yml`, `.github/workflows/release.yml`, and `.github/workflows/extension-release.yml`.
 
 ### 3. `--ignore-scripts` in CI Installs
 
@@ -67,7 +67,7 @@ A `docs/security/dependency-audit-log.md` file (created in Phase 13) records eac
 
 Every version published to npm and the Bun registry must carry an OIDC provenance attestation (`npm publish --provenance`). This allows consumers to verify the full build chain: that the published artifact was produced by a specific GitHub Actions workflow run from a specific commit on `main`.
 
-This is already planned in [[adr/ADR008-oidc-publishing]] and enforced in `.github/workflows/publish.yml`.
+This is already planned in [[adr/ADR008-oidc-publishing]] and enforced in `.github/workflows/release.yml`.
 
 ### 6. Lockfile Review on Dependency PRs
 
@@ -83,7 +83,7 @@ Automated Dependabot PRs are not exempt from this review requirement.
 
 The `@nestjs/devtools-integration` package (CVE-2025-54782, RCE) must never be added to this project. flavor-grenade-lsp uses `NestFactory.createApplicationContext` (no HTTP server) and has no use for the devtools integration package. If a future phase requires NestJS devtools-style introspection, an alternative approach must be documented and approved in a new ADR.
 
-This prohibition is enforced by an ESLint `no-restricted-imports` rule targeting `@nestjs/devtools-integration`.
+This prohibition is currently enforced by manifest, lockfile, and source review. An ESLint `no-restricted-imports` rule targeting `@nestjs/devtools-integration` is still planned.
 
 ## Consequences
 
