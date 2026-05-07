@@ -2,7 +2,7 @@
 id: "FEAT-023"
 title: "Vault File Operation Refactors"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: 16
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["FEAT-023"]
 
 # Vault File Operation Refactors
 
-> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-023` · Feature · Phase 16 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -115,15 +115,15 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-169]] | Add file operation capability handler | `green` |
-| [[TASK-170]] | Build vault-confined move planner | `green` |
-| [[TASK-171]] | Rewrite moved-target references without changing syntax | `green` |
-| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `green` |
-| [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | `green` |
-| [[BUG-014]] | File operation confinement uses workspace root instead of detected vault root | `green` |
-| [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | `green` |
-| [[TASK-173]] | Refresh index after didRenameFiles | `green` |
-| [[TASK-174]] | Add file operation regression suite | `green` |
+| [[TASK-169]] | Add file operation capability handler | `done` |
+| [[TASK-170]] | Build vault-confined move planner | `done` |
+| [[TASK-171]] | Rewrite moved-target references without changing syntax | `done` |
+| [[TASK-172]] | Validate all-or-nothing WorkspaceEdit output | `done` |
+| [[BUG-013]] | willRenameFiles handler does not invoke the refactor pipeline | `done` |
+| [[BUG-014]] | File operation confinement uses workspace root instead of detected vault root | `done` |
+| [[BUG-015]] | File operation providers fail Nest dependency injection at server boot | `done` |
+| [[TASK-173]] | Refresh index after didRenameFiles | `done` |
+| [[TASK-174]] | Add file operation regression suite | `done` |
 | [[CHORE-050]] | Phase 16 Lint Sweep | `done` |
 | [[CHORE-051]] | Phase 16 Test Matrix Sweep | `done` |
 | [[CHORE-052]] | Phase 16 Security Sweep | `done` |
@@ -184,4 +184,43 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > File-operation handler, planner, rewriter, validator, refresh, regression,
 > lint, security, and traceability work is complete locally. Standard local
 > gates pass; BDD still has pre-existing pending/undefined coverage and one
-> non-Phase-16 block-embed failure. Status: `in-review`.
+> non-Phase-16 block-embed failure. Status: `done`.
+
+## Retrospective
+
+> Written after PR #32 passed CI and merged. Date: 2026-05-07.
+
+### What went as planned
+
+The phase delivered the intended file-operation pipeline: capability
+registration, vault-confined move planning, syntax-preserving reference
+rewrites, WorkspaceEdit validation, post-rename refresh, and regression
+coverage. PR #32 passed CI before merge.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-013 | Bug | The first handler path did not invoke the full refactor pipeline | Medium |
+| BUG-014 | Bug | Confinement initially used workspace root instead of detected vault root | Medium |
+| BUG-015 | Bug | Provider wiring failed Nest dependency injection at server boot | Low |
+
+BDD remained partially blocked by pre-existing pending, undefined, and one
+non-Phase-16 block-embed failure. The Phase 16 PR documented that this was not
+part of the CI gate.
+
+### Process observations
+
+The A-M checklist helped force traceability, but the final status update lagged
+behind the merged PR. Future phases should reserve a final status-only commit
+after CI confirms green and before the next phase branch starts.
+
+### Carry-forward actions
+
+- [ ] Start Phase 17 only after this status finalization lands on `develop`.
+- [ ] Keep pre-existing BDD backlog separate from phase gate evidence unless CI
+      begins enforcing those scenarios.
+
+### Rule / template amendments
+
+- [ ] None.

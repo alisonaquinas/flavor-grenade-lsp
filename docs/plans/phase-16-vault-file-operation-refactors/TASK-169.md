@@ -2,7 +2,7 @@
 id: "TASK-169"
 title: "Add file operation capability handler"
 type: task
-status: green
+status: done
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-169"]
 
 # Add file operation capability handler
 
-> [!INFO] `TASK-169` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
+> [!INFO] `TASK-169` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `done`
 
 ## Description
 

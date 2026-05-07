@@ -2,7 +2,7 @@
 id: "TASK-173"
 title: "Refresh index after didRenameFiles"
 type: task
-status: green
+status: done
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-173"]
 
 # Refresh index after didRenameFiles
 
-> [!INFO] `TASK-173` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
+> [!INFO] `TASK-173` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `done`
 
 ## Description
 
@@ -143,4 +143,4 @@ Full state machine, TDD phase rules, and agent obligations:
 > applied moves, remaps moved documents and attachments in `VaultIndex`,
 > rebuilds folder, tag, and reference indexes, and republishes diagnostics for
 > indexed documents. Focused handler/refresh tests, `bun run typecheck`, and
-> `bun run lint -- --max-warnings 0` pass. Status: `green`.
+> `bun run lint -- --max-warnings 0` pass. Status: `done`.

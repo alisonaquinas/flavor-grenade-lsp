@@ -31,7 +31,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 13    | CI & Delivery            | ✅ complete    | CI green on all PRs; binary artifacts published    | 2026-04-17 | 2026-04-17 |
 | 14    | Markdown Link Intelligence | ✅ complete | Local standard Markdown links resolve, diagnose, navigate, reference, and rename like OFM heading links | 2026-05-06 | 2026-05-06 |
 | 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
-| 16    | Vault File Operation Refactors | 🔄 in-progress | File/folder moves rewrite local reference forms atomically | 2026-05-06 | — |
+| 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
 | 17    | Structural LSP Capabilities | ⏳ planned  | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | —          | — |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
