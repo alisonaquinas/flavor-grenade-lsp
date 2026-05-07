@@ -2,7 +2,7 @@
 id: "TASK-199"
 title: "Add diagnostics, hover, tag, and callout visuals"
 type: task
-status: red
+status: green
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-199"]
 
 # Add diagnostics, hover, tag, and callout visuals
 
-> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
+> [!INFO] `TASK-199` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `green`
 
 ## Description
 
@@ -88,11 +88,11 @@ editing surface beyond basic links.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Embed diagnostics and hover visual is referenced from `extension/README.md`
-- [ ] Tag completion or tag reference visual is referenced
-- [ ] Callout completion visual is referenced
-- [ ] Linked verification test covers these required categories
-- [ ] `cd extension && npm test` passes
+- [x] Embed diagnostics and hover visual is referenced from `extension/README.md`
+- [x] Tag completion or tag reference visual is referenced
+- [x] Callout completion visual is referenced
+- [x] Linked verification test covers these required categories
+- [x] `cd extension && npm test` passes
 - [ ] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
@@ -144,3 +144,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Extended Marketplace README asset coverage for embed diagnostics and hover,
 > tag completion/references, and callout completion visuals.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added README Marketplace visuals for embed diagnostics/hover, tag
+> completion/references, and callout completion.

@@ -31,6 +31,20 @@ Heading and block-anchor completions make `[[note#heading]]` and
 Reference code lens puts incoming-link counts above headings and block anchors
 so frequently referenced knowledge surfaces are easy to spot.
 
+![Flavor Grenade embed diagnostics and hover](images/marketplace/embed-diagnostics-hover.png)
+
+Embed diagnostics identify missing targets, while hover previews give quick
+context for resolved note and attachment embeds.
+
+![Flavor Grenade tag completion and references](images/marketplace/tag-completion-references.png)
+
+Tag completion and references use the vault-wide tag index, including nested
+Obsidian tag paths.
+
+![Flavor Grenade callout completion](images/marketplace/callout-completion.png)
+
+Callout completion offers common Obsidian callout types inside quote blocks.
+
 ## Features
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links
