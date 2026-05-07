@@ -11,6 +11,14 @@ Feature: OFMarkdown parity roadmap
       | notes/beta.md         | Summary                  | beta-block   | assets/report.pdf  |
       | notes/mixed-links.md  | Links                    |              |                    |
 
+  @req:Parity.StructuralLSP.Coverage @req:Parity.StructuralLSP.DocumentLinks @req:Parity.StructuralLSP.FoldingRanges @req:Parity.StructuralLSP.SelectionRanges
+  Scenario: Structural LSP capability meter for document links, folding ranges, and selection ranges
+    Given "notes/mixed-links.md" contains a representative structural LSP document
+    When structural LSP requests are made for "notes/mixed-links.md"
+    Then document links include local note and attachment targets
+    And folding ranges include OFMarkdown structural regions
+    And selection ranges stay inside Templater regions
+
   @req:Parity.MarkdownLinks.ParseCoverage @req:Parity.MarkdownLinks.TargetClassification @req:Parity.MarkdownLinks.NavigationAndReferences
   Scenario: Local Markdown inline links resolve like wiki-links
     Given "notes/mixed-links.md" contains "[Alpha](alpha.md)"

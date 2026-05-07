@@ -138,7 +138,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/handlers/__tests__/attachment-navigation.test.ts` | ✅ passing | Phase 15 | Phase 14 covers Markdown links; Phase 15 adds embed and Markdown image attachment targets |
+| `Navigation.Definition.AllLinkTypes` | Go-to-definition works for all link types | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/handlers/__tests__/attachment-navigation.test.ts`, `src/test/integration/structural-lsp.test.ts` | ✅ passing | Phase 17 | Phase 14 covers Markdown links; Phase 15 adds embed and Markdown image attachment targets; Phase 17 adds document-link integration evidence |
 | `Navigation.References.Completeness` | Find-references returns all references in folder | `src/handlers/__tests__/markdown-link-navigation.test.ts`, `src/resolution/__tests__/ref-graph-markdown-links.test.ts` | ✅ passing | Phase 14 | Phase 14 covers Markdown heading anchors and label references |
 | `Navigation.CodeLens.Count` | Each heading displays accurate reference count code lens | — | ⬜ not-yet-written | Phase 10 | |
 
@@ -159,6 +159,14 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Rename.Refactoring.Completeness` | All cross-document references updated in single workspace edit | `src/handlers/__tests__/markdown-heading-rename.test.ts`, `src/resolution/__tests__/file-operation-rewriter.test.ts`, `src/test/integration/rename.test.ts` | ✅ passing | Phase 16 | Phase 14 covers Markdown heading anchor edits during heading rename; Phase 16 adds moved-target rewrite coverage |
 | `Rename.Prepare.Rejection` | `prepareRename` returns `null` for non-renameable positions | — | ⬜ not-yet-written | Phase 11 | |
 | `Rename.StyleBinding.Consistency` | Rename updates only references bound via active wiki style | — | ⬜ not-yet-written | Phase 11 | |
+
+---
+
+## Semantic Token Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `ST-002` | OFM constructs inside opaque regions are not treated as structural tokens | `src/parser/__tests__/opaque-region-marker.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts`, `src/handlers/__tests__/selection-range.handler.test.ts`, `src/test/integration/structural-lsp.test.ts` | ✅ passing | Phase 17 | Phase 17 extends opaque-region coverage to Templater blocks and structural LSP range boundaries |
 
 ---
 
@@ -188,6 +196,11 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Parity.FileOperations.SkippedAmbiguousReporting` | Ambiguous or unsafe references are reported without speculative edits | `src/resolution/__tests__/workspace-edit-validator.test.ts` | ✅ passing | Phase 16 | Validator preserves skipped-reference reports while rejecting invalid edit sets |
 | `Parity.FileOperations.AtomicValidation` | File-operation WorkspaceEdit output is deterministic and all-or-nothing | `src/resolution/__tests__/workspace-edit-validator.test.ts` | ✅ passing | Phase 16 | Covers invalid range rejection, overlap rejection, and stable edit ordering |
 | `Parity.FileOperations.IndexRefresh` | Post-rename notifications refresh index, lookup, graph, tags, and diagnostics | `src/lsp/handlers/__tests__/file-operation-refresh.service.test.ts`, `src/lsp/handlers/__tests__/file-operations.handler.test.ts` | ✅ passing | Phase 16 | Covers `didRenameFiles` planning and post-apply in-memory refresh |
+| `Parity.StructuralLSP.Coverage` | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | `src/lsp/lsp.module.test.ts`, `src/handlers/__tests__/document-link.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts`, `src/handlers/__tests__/selection-range.handler.test.ts`, `src/test/integration/structural-lsp.test.ts`, `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | ✅ passing | Phase 17 | Covers capability registration, focused handlers, spawned-server integration, and tagged BDD trace |
+| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised only when handlers exist | `src/lsp/lsp.module.test.ts` | ✅ passing | Phase 17 | Covers `documentLinkProvider`, `foldingRangeProvider`, and `selectionRangeProvider` registration |
+| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links and omit ambiguous/external targets | `src/handlers/__tests__/document-link.handler.test.ts`, `src/test/integration/structural-lsp.test.ts`, `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | ✅ passing | Phase 17 | Covers wiki, Markdown, same-document, attachment, ambiguous, and external target cases |
+| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | `src/handlers/__tests__/folding-range.handler.test.ts`, `src/test/integration/structural-lsp.test.ts`, `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | ✅ passing | Phase 17 | Covers frontmatter, headings, callouts, code, math, comments, and Templater regions |
+| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through valid OFMarkdown construct boundaries | `src/handlers/__tests__/selection-range.handler.test.ts`, `src/test/integration/structural-lsp.test.ts`, `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | ✅ passing | Phase 17 | Covers wiki-link nesting and opaque Templater boundary confinement |
 
 ---
 
@@ -314,13 +327,14 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase 14 (Markdown Link Parity) | 9 | 9 | 100% |
 | Phase 15 (Attachment Intelligence) | 6 | 6 | 100% |
 | Phase 16 (Vault File Operation Refactors) | 7 | 7 | 100% |
+| Phase 17 (Structural LSP Capabilities) | 6 | 6 | 100% |
 | Phase E1 (Extension Scaffold) | 0 | 0 | — (infrastructure only) |
 | Phase E2 (LanguageClient Core) | 3 | 0 | 0% |
 | Phase E3 (Status Bar & Commands) | 7 | 0 | 0% |
 | Phase E4 (Packaging) | 2 | 0 | 0% |
 | Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
 | Phase E6 (OFMarkdown Language Mode) | 6 | 5 | 83% |
-| **Total** | **122** | **28** | **23%** |
+| **Total** | **128** | **34** | **27%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

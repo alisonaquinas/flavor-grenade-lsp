@@ -2,12 +2,12 @@
 id: "TASK-179"
 title: "Add structural LSP tests"
 type: task
-status: open
+status: green
 priority: medium
 phase: 17
 parent: "FEAT-024"
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["TASK-176", "TASK-177", "TASK-178"]
 tags: [tickets/task, "phase/17"]
 aliases: ["TASK-179"]
@@ -15,7 +15,7 @@ aliases: ["TASK-179"]
 
 # Add structural LSP tests
 
-> [!INFO] `TASK-179` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `open`
+> [!INFO] `TASK-179` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
 
 ## Description
 
@@ -62,8 +62,8 @@ Add the Phase 17 integration and BDD trace coverage that proves document links, 
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/test/integration/structural-lsp.test.ts` | Integration | `Parity.StructuralLSP.Coverage` | planned |
-| `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | BDD | `Parity.StructuralLSP.Coverage` | planned |
+| `src/test/integration/structural-lsp.test.ts` | Integration | `Parity.StructuralLSP.Coverage` | 🟢 passing |
+| `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | BDD | `Parity.StructuralLSP.Coverage` | 🟢 passing |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -142,3 +142,9 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].
+
+> [!SUCCESS] Green - 2026-05-07
+> Added spawned-server integration coverage and tagged BDD trace coverage for
+> Phase 17 structural document links, folding ranges, and selection ranges.
+> The tests passed immediately because the individual structural handler tasks
+> had already supplied RED/GREEN implementation evidence. Status: `green`.
