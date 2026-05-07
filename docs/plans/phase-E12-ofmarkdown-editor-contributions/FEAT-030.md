@@ -2,7 +2,7 @@
 id: "FEAT-030"
 title: "OFMarkdown Editor Contributions"
 type: feature
-status: in-progress
+status: in-review
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-030"]
 
 # OFMarkdown Editor Contributions
 
-> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `in-progress`
+> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `in-review`
 
 ## Goal
 
@@ -76,15 +76,15 @@ generic Markdown behavior.
 
 All of the following must be true before this ticket is marked `done`.
 
-- [ ] OFMarkdown snippets appear only for `ofmarkdown`
-- [ ] OFMarkdown keybindings are guarded by `editorLangId == ofmarkdown`
-- [ ] Language configuration changes are scoped to the OFMarkdown language id
-- [ ] Generic Markdown behavior is unchanged unless intentionally shared
-- [ ] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[test/matrix]]
-- [ ] [[test/index]] updated with every new verification file introduced
-- [ ] `cd extension && npm run check-types` exits 0
-- [ ] `cd extension && npm test` exits 0
-- [ ] `cd extension && npm run build:extension` exits 0
+- [x] OFMarkdown snippets appear only for `ofmarkdown`
+- [x] OFMarkdown keybindings are guarded by `editorLangId == ofmarkdown`
+- [x] Language configuration changes are scoped to the OFMarkdown language id
+- [x] Generic Markdown behavior is unchanged unless intentionally shared
+- [x] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[test/matrix]]
+- [x] [[test/index]] updated with every new verification file introduced
+- [x] `cd extension && npm run check-types` exits 0
+- [x] `cd extension && npm test` exits 0
+- [x] `cd extension && npm run build:extension` exits 0
 
 ---
 
@@ -162,3 +162,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > Phase E12 execution started on branch
 > `codex/phase-e12-ofmarkdown-contributions`. Child task tickets are present
 > and scoped; implementation now follows the phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> OFMarkdown snippets, scoped keybindings, language configuration tuning,
+> generic Markdown isolation, documentation, and traceability are locally
+> verified. Awaiting PR CI and review.
