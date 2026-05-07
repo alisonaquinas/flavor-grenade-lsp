@@ -1,7 +1,7 @@
 ---
 title: "Phase E11: Marketplace Evidence And Packaging Proof"
 phase: E11
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, marketplace, packaging]
 aliases: [Phase E11, Marketplace Proof]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E11 |
 | Title | Marketplace Evidence And Packaging Proof |
-| Status | planned |
+| Status | in-progress |
 | Gate | Required OFMarkdown visuals are present, referenced, and included in packaged VSIXs |
 | Depends on | Phase E10 |
 

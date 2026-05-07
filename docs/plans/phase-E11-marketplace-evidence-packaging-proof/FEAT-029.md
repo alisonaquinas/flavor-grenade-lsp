@@ -2,7 +2,7 @@
 id: "FEAT-029"
 title: "Marketplace Evidence And Packaging Proof"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E11
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-029"]
 
 # Marketplace Evidence And Packaging Proof
 
-> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-029` - Feature - Phase E11 - Priority: `high` - Status: `in-progress`
 
 ## Goal
 
@@ -155,3 +155,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E11 execution started on branch `codex/phase-e11-marketplace-proof`.
+> Child task tickets are present and scoped; implementation now follows the
+> phase execution procedure.
