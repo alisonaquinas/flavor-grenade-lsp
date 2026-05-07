@@ -2,7 +2,7 @@
 id: "TASK-208"
 title: "Document remote environment smoke tests"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-208"]
 
 # Document remote environment smoke tests
 
-> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `in-review`
+> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `done`
 
 ## Description
 
@@ -147,3 +147,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!SUCCESS] In Review - 2026-05-07
 > Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the parent feature row is updated to `done`.

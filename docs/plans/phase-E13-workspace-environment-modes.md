@@ -1,7 +1,7 @@
 ---
 title: "Phase E13: Workspace Environment Modes"
 phase: E13
-status: in-review
+status: complete
 tags: [plans, vscode, extension, workspace, remote]
 aliases: [Phase E13, Workspace Environments]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E13 |
 | Title | Workspace Environment Modes |
-| Status | in-review |
+| Status | complete |
 | Gate | Restricted, virtual, local, WSL, SSH, Dev Container, and remote behavior is explicit and verified |
 | Depends on | Phase E12 |
 
@@ -63,6 +63,8 @@ npm run build:extension
 ```
 
 Manual smoke tests are required for remote modes that cannot run in CI.
+CI evidence: PR #45 passed TypeScript typecheck, ESLint, Prettier format check,
+unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 

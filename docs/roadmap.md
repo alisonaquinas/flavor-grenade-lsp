@@ -15,7 +15,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.2.1**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
-> Extension phase E12 is **complete** as of 2026-05-07. Extension phase E13 is **in progress** for workspace environment modes.
+> Extension phase E13 is **complete** as of 2026-05-07. Extension phase E14 is next for membership refresh and compatibility guardrails.
 
 ## Phase Table
 
@@ -190,7 +190,7 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E10 | Status UX And Troubleshooting | complete | Rich status tooltip, crash/error states, quick actions, and diagnostic collection | 2026-05-07 |
 | E11 | Marketplace Evidence And Packaging Proof | complete | OFMarkdown screenshots, README proof, and packaged asset verification | 2026-05-07 |
 | E12 | OFMarkdown Editor Contributions | complete | Snippets, keybindings, language configuration, and scoped contribution checks | 2026-05-07 |
-| E13 | Workspace Environment Modes | in-progress | Restricted, virtual, WSL, SSH, Dev Container, and remote behavior verification | — |
+| E13 | Workspace Environment Modes | complete | Restricted, virtual, WSL, SSH, Dev Container, and remote behavior verification | 2026-05-07 |
 | E14 | Membership Refresh And Compatibility Guardrails | planned | Robust language-mode refresh plus client/server and package-target validation | — |
 
 ### Extension Phase Details

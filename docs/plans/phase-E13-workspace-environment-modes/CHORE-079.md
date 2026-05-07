@@ -2,7 +2,7 @@
 id: "CHORE-079"
 title: "Phase E13 manual verification ledger sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-079"]
 
 # Phase E13 manual verification ledger sweep
 
-> [!INFO] `CHORE-079` - Chore - Phase E13 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-079` - Chore - Phase E13 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -133,3 +133,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > `extension/docs/features/workspace-environments.md` records manual smoke-test
 > evidence expectations for local OS, WSL, SSH, Dev Container, Restricted Mode,
 > and virtual workspace modes.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the sweep remains complete.

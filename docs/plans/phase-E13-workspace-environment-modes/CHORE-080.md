@@ -2,7 +2,7 @@
 id: "CHORE-080"
 title: "Phase E13 troubleshooting trace sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-080"]
 
 # Phase E13 troubleshooting trace sweep
 
-> [!INFO] `CHORE-080` - Chore - Phase E13 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-080` - Chore - Phase E13 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -137,3 +137,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!SUCCESS] In Review - 2026-05-07
 > Troubleshooting, environment smoke-test docs, test matrix, test index, and
 > extension parity plan now agree on E13 workspace behavior.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the sweep remains complete.

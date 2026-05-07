@@ -2,7 +2,7 @@
 id: "FEAT-031"
 title: "Workspace Environment Modes"
 type: feature
-status: in-review
+status: done
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-031"]
 
 # Workspace Environment Modes
 
-> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `in-review`
+> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -99,13 +99,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-205]] | Block Restricted Mode server startup | `in-review` |
-| [[TASK-206]] | Block virtual workspace server startup | `in-review` |
-| [[TASK-207]] | Resolve server binary for local and remote hosts | `in-review` |
-| [[TASK-208]] | Document remote environment smoke tests | `in-review` |
-| [[CHORE-078]] | Phase E13 extension lint sweep | `in-review` |
-| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `in-review` |
-| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `in-review` |
+| [[TASK-205]] | Block Restricted Mode server startup | `done` |
+| [[TASK-206]] | Block virtual workspace server startup | `done` |
+| [[TASK-207]] | Resolve server binary for local and remote hosts | `done` |
+| [[TASK-208]] | Document remote environment smoke tests | `done` |
+| [[CHORE-078]] | Phase E13 extension lint sweep | `done` |
+| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `done` |
+| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `done` |
 
 ---
 
@@ -170,3 +170,36 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Workspace environment classifier, activation gating, remote/local smoke docs,
 > troubleshooting docs, and traceability are locally verified. Awaiting PR CI
 > and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI passed TypeScript typecheck, ESLint, Prettier format check, tests,
+> Markdown lint, and build. Phase E13 is complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+The phase worked best after moving the environment decision into a pure
+classifier. That made trust, virtual workspace, local, and remote cases
+testable without requiring real remote VS Code hosts.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | None | Existing activation code already had partial no-spawn behavior; E13 made it explicit and traceable | 0 h |
+
+### Process observations
+
+Manual remote verification belongs in documentation and trace rows, while
+automated tests should cover the deterministic classifier rules.
+
+### Carry-forward actions
+
+- [ ] Reuse the classifier's platform summary in E14 compatibility diagnostics.
+
+### Rule / template amendments
+
+- [ ] None.
