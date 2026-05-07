@@ -1,7 +1,7 @@
 ---
 title: "Phase E12: OFMarkdown Editor Contributions"
 phase: E12
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, ofmarkdown, snippets]
 aliases: [Phase E12, OFMarkdown Contributions]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E12 |
 | Title | OFMarkdown Editor Contributions |
-| Status | planned |
+| Status | in-progress |
 | Gate | OFMarkdown snippets, keybindings, and language configuration are scoped correctly |
 | Depends on | Phase E11 |
 

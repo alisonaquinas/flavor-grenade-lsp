@@ -8,7 +8,7 @@ aliases: ["Phase E12 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-030]] | OFMarkdown Editor Contributions | Feature | `draft` |
+| [[FEAT-030]] | OFMarkdown Editor Contributions | Feature | `in-progress` |
 | [[TASK-201]] | Add OFMarkdown snippets | Task | `open` |
 | [[TASK-202]] | Tune OFMarkdown language configuration | Task | `open` |
 | [[TASK-203]] | Add OFMarkdown-scoped keybindings | Task | `open` |

@@ -2,7 +2,7 @@
 id: "FEAT-030"
 title: "OFMarkdown Editor Contributions"
 type: feature
-status: draft
+status: in-progress
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-030"]
 
 # OFMarkdown Editor Contributions
 
-> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `in-progress`
 
 ## Goal
 
@@ -157,3 +157,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E12 execution started on branch
+> `codex/phase-e12-ofmarkdown-contributions`. Child task tickets are present
+> and scoped; implementation now follows the phase execution procedure.
