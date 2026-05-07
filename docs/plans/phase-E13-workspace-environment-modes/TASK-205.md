@@ -2,7 +2,7 @@
 id: "TASK-205"
 title: "Block Restricted Mode server startup"
 type: task
-status: red
+status: green
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-205"]
 
 # Block Restricted Mode server startup
 
-> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
+> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `green`
 
 ## Description
 
@@ -95,9 +95,9 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test or extension-host scenario written first.
-- [ ] Restricted Mode prevents language client/server startup.
-- [ ] Disabled status identifies workspace trust as the reason.
+- [x] Failing test or extension-host scenario written first.
+- [x] Restricted Mode prevents language client/server startup.
+- [x] Disabled status identifies workspace trust as the reason.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally or have documented manual evidence.
@@ -137,3 +137,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing workspace environment tests requiring Restricted Mode to block
 > server startup before binary resolution.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `describeWorkspaceEnvironment` and wired activation disabled status to
+> block Restricted Mode before server startup; extension tests pass.

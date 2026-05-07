@@ -2,6 +2,7 @@ import {
   type ExtensionContext,
   ExtensionMode,
   type StatusBarItem,
+  env,
   languages,
   window,
   workspace,
@@ -27,6 +28,7 @@ import type {
   FlavorGrenadeStatus,
   FlavorGrenadeStatusPresentation,
 } from './status-presentation.js';
+import { describeWorkspaceEnvironment } from './workspace-environment.js';
 
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
@@ -320,32 +322,24 @@ function withContextStatus(
 }
 
 function getDisabledStatus(context: ExtensionContext): FlavorGrenadeStatus | undefined {
-  if (!workspace.isTrusted) {
+  const environment = describeWorkspaceEnvironment({
+    arch: process.arch,
+    isTrusted: workspace.isTrusted,
+    platform: process.platform,
+    remoteName: env.remoteName,
+    workspaceFolderSchemes: workspace.workspaceFolders?.map((folder) => folder.uri.scheme),
+  });
+
+  if (!environment.canStartServer) {
     return withContextStatus(
       {
         state: 'disabled',
         vaultCount: workspace.workspaceFolders?.length ?? 0,
         docCount: 0,
         vaultRoot: workspace.workspaceFolders?.[0]?.uri.toString(),
-        message: 'Restricted Mode',
-        serverPathSummary: 'unavailable',
-      },
-      context,
-    );
-  }
-
-  if (
-    workspace.workspaceFolders !== undefined &&
-    workspace.workspaceFolders.length > 0 &&
-    workspace.workspaceFolders.every((folder) => folder.uri.scheme !== 'file')
-  ) {
-    return withContextStatus(
-      {
-        state: 'disabled',
-        vaultCount: workspace.workspaceFolders.length,
-        docCount: 0,
-        message: 'Virtual workspace',
-        serverPathSummary: 'unavailable',
+        message: environment.statusMessage,
+        platform: environment.platformSummary,
+        serverPathSummary: environment.serverPathSummary,
       },
       context,
     );

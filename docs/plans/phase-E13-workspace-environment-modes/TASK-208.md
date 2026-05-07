@@ -2,7 +2,7 @@
 id: "TASK-208"
 title: "Document remote environment smoke tests"
 type: task
-status: red
+status: green
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-208"]
 
 # Document remote environment smoke tests
 
-> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
+> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `green`
 
 ## Description
 
@@ -136,3 +136,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing environment behavior tests that define the local/remote states
 > to document in smoke-test evidence.
+
+> [!SUCCESS] Green - 2026-05-07
+> Environment classifier now defines local, remote, restricted, and virtual
+> states for the manual smoke-test documentation.

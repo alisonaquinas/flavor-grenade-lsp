@@ -2,7 +2,7 @@
 id: "TASK-206"
 title: "Block virtual workspace server startup"
 type: task
-status: red
+status: green
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-206"]
 
 # Block virtual workspace server startup
 
-> [!INFO] `TASK-206` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `red`
+> [!INFO] `TASK-206` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `green`
 
 ## Description
 
@@ -93,9 +93,9 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test or extension-host scenario written first.
-- [ ] Virtual workspaces prevent language client/server startup.
-- [ ] Disabled status identifies the file-system requirement.
+- [x] Failing test or extension-host scenario written first.
+- [x] Virtual workspaces prevent language client/server startup.
+- [x] Disabled status identifies the file-system requirement.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally or have documented manual evidence.
@@ -136,3 +136,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing workspace environment tests requiring virtual workspaces to
 > block server startup before binary resolution.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added virtual workspace classification and disabled status wording for
+> non-file workspace folders; extension tests pass.
