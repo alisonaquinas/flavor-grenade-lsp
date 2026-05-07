@@ -2,12 +2,12 @@
 id: "TASK-155"
 title: "Update release docs and Marketplace notes"
 type: task
-status: open
+status: in-review
 priority: "medium"
 phase: "E6"
 parent: "FEAT-020"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: ["TASK-154"]
 tags: [tickets/task, "phase/E6"]
 aliases: ["TASK-155"]
@@ -15,7 +15,7 @@ aliases: ["TASK-155"]
 
 # Update release docs and Marketplace notes
 
-> [!INFO] `TASK-155` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `open`
+> [!INFO] `TASK-155` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `in-review`
 
 ## Description
 
@@ -54,13 +54,13 @@ Update user-facing extension docs so OFMarkdown language mode is discoverable an
 
 ## Definition of Done
 
-- [ ] README describes OFMarkdown mode
+- [x] README describes OFMarkdown mode
 
-- [ ] Changelog entry added
+- [x] Changelog entry added
 
-- [ ] `[ofmarkdown]` settings example documented
+- [x] `[ofmarkdown]` settings example documented
 
-- [ ] No implementation behavior changes in this task
+- [x] No implementation behavior changes in this task
 
 ---
 
@@ -68,3 +68,6 @@ Update user-facing extension docs so OFMarkdown language mode is discoverable an
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `open`. Parent: [[FEAT-020]].
+
+> [!INFO] Review sync — 2026-05-07
+> User-facing extension docs already describe OFMarkdown mode and scoped settings; status moved to `in-review`.

@@ -2,7 +2,7 @@
 title: "Phase E6 — OFMarkdown Language Mode Tickets"
 tags: [plans/phase-E6, tickets/index]
 aliases: ["Phase E6 Tickets"]
-updated: 2026-05-03
+updated: 2026-05-07
 ---
 
 # Phase E6 — OFMarkdown Language Mode Tickets

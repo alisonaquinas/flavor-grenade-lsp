@@ -2,12 +2,12 @@
 id: "TASK-154"
 title: "Add OFMarkdown tests and smoke coverage"
 type: task
-status: open
+status: in-review
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: ["TASK-151", "TASK-152", "TASK-153"]
 tags: [tickets/task, "phase/E6"]
 aliases: ["TASK-154"]
@@ -15,7 +15,7 @@ aliases: ["TASK-154"]
 
 # Add OFMarkdown tests and smoke coverage
 
-> [!INFO] `TASK-154` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `open`
+> [!INFO] `TASK-154` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `in-review`
 
 ## Description
 
@@ -58,13 +58,13 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 ## Definition of Done
 
-- [ ] Extension tests pass
+- [x] Extension tests pass locally; CI confirmation pending
 
-- [ ] Server tests pass
+- [x] Server tests pass locally; CI confirmation pending
 
-- [ ] Manual smoke procedure documented
+- [x] Manual smoke procedure documented
 
-- [ ] Test index and matrix updated
+- [x] Test index and matrix updated
 
 ---
 
@@ -72,3 +72,6 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `open`. Parent: [[FEAT-020]].
+
+> [!INFO] Review sync — 2026-05-07
+> Test evidence is present in `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts`, and `src/vault/__tests__/vault.module.test.ts`; status moved to `in-review`.

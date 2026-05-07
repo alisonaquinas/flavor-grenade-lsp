@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { describe, it, afterEach } from 'node:test';
 import {
     DOCUMENT_MEMBERSHIP_METHOD,
@@ -80,6 +80,59 @@ function controllerFor(options: {
 }
 
 describe('language mode helpers', () => {
+    it('contributes OFMarkdown without taking over generic Markdown files', async () => {
+        const manifest = JSON.parse(await readFile(resolve('package.json'), 'utf8')) as {
+            activationEvents?: string[];
+            contributes?: {
+                languages?: Array<{
+                    id?: string;
+                    aliases?: string[];
+                    extensions?: string[];
+                    filenames?: string[];
+                    firstLine?: string;
+                    configuration?: string;
+                }>;
+                grammars?: Array<{ language?: string; scopeName?: string; path?: string }>;
+            };
+        };
+
+        const language = manifest.contributes?.languages?.find(
+            (entry) => entry.id === OFMARKDOWN_LANGUAGE_ID,
+        );
+        assert.ok(language);
+        assert.deepEqual(language.aliases, ['OFMarkdown', 'Obsidian Flavored Markdown']);
+        assert.equal(language.configuration, './language-configuration.json');
+        assert.equal(language.extensions, undefined);
+        assert.equal(language.filenames, undefined);
+        assert.equal(language.firstLine, undefined);
+        assert.ok(manifest.activationEvents?.includes(`onLanguage:${OFMARKDOWN_LANGUAGE_ID}`));
+
+        assert.deepEqual(manifest.contributes?.grammars?.[0], {
+            language: OFMARKDOWN_LANGUAGE_ID,
+            scopeName: 'text.html.markdown.ofmarkdown',
+            path: './syntaxes/ofmarkdown.tmLanguage.json',
+        });
+    });
+
+    it('bridges OFMarkdown to baseline Markdown grammar and editor behavior', async () => {
+        const grammar = JSON.parse(
+            await readFile(resolve('syntaxes', 'ofmarkdown.tmLanguage.json'), 'utf8'),
+        ) as { scopeName?: string; patterns?: Array<{ include?: string }> };
+        const languageConfig = JSON.parse(await readFile(resolve('language-configuration.json'), 'utf8')) as {
+            comments?: { blockComment?: string[] };
+            brackets?: string[][];
+            autoClosingPairs?: Array<{ open?: string; close?: string }>;
+        };
+
+        assert.equal(grammar.scopeName, 'text.html.markdown.ofmarkdown');
+        assert.deepEqual(grammar.patterns, [{ include: 'text.html.markdown' }]);
+        assert.deepEqual(languageConfig.comments?.blockComment, ['<!--', '-->']);
+        assert.ok(languageConfig.brackets?.some(([open, close]) => open === '[' && close === ']'));
+        assert.ok(
+            languageConfig.autoClosingPairs?.some(({ open, close }) => open === '`' && close === '`'),
+        );
+    });
+
     it('recognizes promotable Markdown file documents', () => {
         const doc = document(join('vault', 'note.md'));
 

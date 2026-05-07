@@ -3,7 +3,7 @@ title: "Phase E6: OFMarkdown Language Mode"
 phase: E6
 status: in-progress
 tags: [extension, vscode, ofmarkdown, language-mode]
-updated: 2026-05-03
+updated: 2026-05-07
 aliases: ["Phase E6", "OFMarkdown Language Mode Phase"]
 ---
 
@@ -13,7 +13,7 @@ aliases: ["Phase E6", "OFMarkdown Language Mode Phase"]
 |---|---|
 | Phase | E6 |
 | Title | OFMarkdown Language Mode |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Extension tests and smoke test prove dynamic `ofmarkdown` assignment without generic Markdown hijacking |
 | Depends on | Phase E5 (CI/CD Pipeline) |
 
