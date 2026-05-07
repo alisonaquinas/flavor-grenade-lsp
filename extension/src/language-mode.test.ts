@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { describe, it, afterEach } from 'node:test';
@@ -7,7 +7,7 @@ import {
     DOCUMENT_MEMBERSHIP_METHOD,
     LanguageModeController,
     OFMARKDOWN_LANGUAGE_ID,
-    hasObsidianAncestor,
+    hasOfMarkdownMarkerAncestor,
     isPromotableMarkdownDocument,
     shouldPreserveLanguage,
 } from './language-mode.js';
@@ -145,13 +145,23 @@ describe('language mode helpers', () => {
         assert.equal(shouldPreserveLanguage(doc as never), true);
     });
 
-    it('detects an .obsidian ancestor', async () => {
+    it('detects OFMarkdown marker ancestors', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, '.obsidian'));
         const note = join(root, 'notes', 'welcome.md');
 
-        assert.equal(await hasObsidianAncestor(note), true);
+        assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
+    });
+
+    it('detects a .flavor-grenade.toml ancestor', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, 'notes'));
+        await writeFile(join(root, '.flavor-grenade.toml'), '');
+        const note = join(root, 'notes', 'welcome.md');
+
+        assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 });
 
@@ -179,7 +189,7 @@ describe('LanguageModeController', () => {
         assert.deepEqual(promoted, []);
     });
 
-    it('does not ask the server when an Obsidian ancestor is present', async () => {
+    it('does not ask the server when an OFMarkdown marker ancestor is present', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, '.obsidian'));

@@ -296,7 +296,7 @@ function toNativeRange(api: CommandBridgeApi, range: JsonRange): unknown {
 }
 
 async function fail(api: CommandBridgeApi, message: string): Promise<false> {
-  await api.showErrorMessage(`Flavor Grenade command payload rejected: ${message}`);
+  void Promise.resolve(api.showErrorMessage(`Flavor Grenade command payload rejected: ${message}`));
   return false;
 }
 

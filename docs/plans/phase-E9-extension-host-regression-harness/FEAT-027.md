@@ -102,10 +102,10 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-189]] | Add extension-host test runner and fixtures | `red` |
-| [[TASK-190]] | Cover activation and language-mode membership | `red` |
-| [[TASK-191]] | Cover command bridge payload validation | `red` |
-| [[TASK-192]] | Cover status and server failure states | `red` |
+| [[TASK-189]] | Add extension-host test runner and fixtures | `green` |
+| [[TASK-190]] | Cover activation and language-mode membership | `green` |
+| [[TASK-191]] | Cover command bridge payload validation | `green` |
+| [[TASK-192]] | Cover status and server failure states | `green` |
 | [[CHORE-066]] | Phase E9 CI Test Command Sweep | `open` |
 | [[CHORE-067]] | Phase E9 Test Matrix Sweep | `open` |
 | [[CHORE-068]] | Phase E9 Documentation Trace Sweep | `open` |

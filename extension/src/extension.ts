@@ -1,4 +1,11 @@
-import { type ExtensionContext, languages, window, workspace } from 'vscode';
+import {
+  type ExtensionContext,
+  ExtensionMode,
+  type StatusBarItem,
+  languages,
+  window,
+  workspace,
+} from 'vscode';
 import {
   LanguageClient,
   State,
@@ -6,15 +13,25 @@ import {
   type ServerOptions,
 } from 'vscode-languageclient/node';
 import { resolveServerCommand } from './server-path.js';
-import { createStatusBar } from './status-bar.js';
+import { applyFlavorGrenadeStatus, createStatusBar } from './status-bar.js';
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
 import { decideStartupGate } from './activation-gate.js';
+import type {
+  FlavorGrenadeStatus,
+  FlavorGrenadeStatusPresentation,
+} from './status-presentation.js';
 
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
+let statusBarItem: Pick<StatusBarItem, 'text' | 'tooltip'> | undefined;
 
-export async function activate(context: ExtensionContext): Promise<void> {
+export interface FlavorGrenadeExtensionApi {
+  __testApplyStatus?(status: FlavorGrenadeStatus): FlavorGrenadeStatusPresentation | undefined;
+  isClientStarted(): boolean;
+}
+
+export async function activate(context: ExtensionContext): Promise<FlavorGrenadeExtensionApi> {
   const startClient = async (commandId?: string): Promise<LanguageClient> => {
     if (client) {
       return client;
@@ -91,6 +108,26 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // LanguageClient implements Disposable — pushing to subscriptions handles
   // stop() on deactivation. No explicit stop() in deactivate() needed.
+  return {
+    ...(context.extensionMode !== ExtensionMode.Production
+      ? {
+          __testApplyStatus(status: FlavorGrenadeStatus) {
+            if (!statusBarItem) {
+              return undefined;
+            }
+
+            applyFlavorGrenadeStatus(statusBarItem, status);
+            return {
+              text: statusBarItem.text,
+              tooltip: String(statusBarItem.tooltip ?? ''),
+            };
+          },
+        }
+      : {}),
+    isClientStarted() {
+      return client !== undefined || startClientPromise !== undefined;
+    },
+  };
 }
 
 export function deactivate(): void {
@@ -132,6 +169,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
   // Register status listeners before start() so early initialize/initialized
   // notifications cannot be missed during the LSP handshake.
   const statusBar = createStatusBar(nextClient);
+  statusBarItem = statusBar;
   context.subscriptions.push(statusBar);
 
   // Reset status bar text on restart cycles (e.g., after restartServer command)

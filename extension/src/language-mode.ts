@@ -46,17 +46,18 @@ export function shouldPreserveLanguage(document: Pick<TextDocument, 'languageId'
     return document.uri.scheme !== 'file' || !isManagedLanguage(document.languageId);
 }
 
-export async function hasObsidianAncestor(filePath: string, statFn: StatFn = stat): Promise<boolean> {
+export async function hasOfMarkdownMarkerAncestor(
+    filePath: string,
+    statFn: StatFn = stat,
+): Promise<boolean> {
     let current = dirname(filePath);
 
     while (true) {
-        try {
-            const marker = await statFn(join(current, '.obsidian'));
-            if (marker.isDirectory()) {
-                return true;
-            }
-        } catch {
-            // Continue walking toward the filesystem root.
+        if (
+            await markerExists(join(current, '.obsidian'), 'directory', statFn) ||
+            await markerExists(join(current, '.flavor-grenade.toml'), 'file', statFn)
+        ) {
+            return true;
         }
 
         const parent = dirname(current);
@@ -66,6 +67,8 @@ export async function hasObsidianAncestor(filePath: string, statFn: StatFn = sta
         current = parent;
     }
 }
+
+export const hasObsidianAncestor = hasOfMarkdownMarkerAncestor;
 
 export class LanguageModeController {
     private readonly inFlight = new Set<string>();
@@ -130,7 +133,7 @@ export class LanguageModeController {
     }
 
     private async isOfMarkdown(document: TextDocument): Promise<boolean> {
-        if (document.uri.fsPath && await hasObsidianAncestor(document.uri.fsPath)) {
+        if (document.uri.fsPath && await hasOfMarkdownMarkerAncestor(document.uri.fsPath)) {
             return true;
         }
 
@@ -155,5 +158,18 @@ export class LanguageModeController {
         } catch {
             return false;
         }
+    }
+}
+
+async function markerExists(
+    markerPath: string,
+    expectedKind: 'directory' | 'file',
+    statFn: StatFn,
+): Promise<boolean> {
+    try {
+        const marker = await statFn(markerPath);
+        return expectedKind === 'directory' ? marker.isDirectory() : marker.isFile();
+    } catch {
+        return false;
     }
 }

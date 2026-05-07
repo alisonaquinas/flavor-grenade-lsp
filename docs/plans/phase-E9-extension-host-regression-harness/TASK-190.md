@@ -2,7 +2,7 @@
 id: "TASK-190"
 title: "Cover activation and language-mode membership"
 type: task
-status: red
+status: green
 priority: high
 phase: E9
 parent: "FEAT-027"
@@ -15,7 +15,7 @@ aliases: ["TASK-190"]
 
 # Cover activation and language-mode membership
 
-> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `red`
+> [!INFO] `TASK-190` - Task - Phase E9 - Parent: [[FEAT-027]] - Status: `green`
 
 ## Description
 
@@ -61,8 +61,8 @@ choices remain stable.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/suite/activation-language-mode.test.ts` | Integration | `Extension.Tests.HostCoverage` | failing |
-| `extension/src/test/suite/activation-language-mode.test.ts` | Integration | `Extension.LanguageMode.MembershipRefresh` | failing |
+| `extension/src/test/suite/activation-language-mode.test.js` | Integration | `Extension.Tests.HostCoverage` | passing |
+| `extension/src/test/suite/activation-language-mode.test.js` | Integration | `Extension.LanguageMode.MembershipRefresh` | passing |
 
 > After implementation, update the rows above and the corresponding rows in
 > See [[test/matrix]] and [[test/index]].
@@ -100,9 +100,9 @@ choices remain stable.
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] `.obsidian/` and `.flavor-grenade.toml` fixture activation pass
-- [ ] Generic Markdown fixture remains `markdown` and avoids vault indexing
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] `.obsidian/` and `.flavor-grenade.toml` fixture activation pass
+- [x] Generic Markdown fixture remains `markdown` and avoids vault indexing
 - [ ] Manual non-Markdown language selection is preserved
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
@@ -147,3 +147,9 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Red - 2026-05-07
 > Added failing extension-host activation and language-mode fixture coverage.
+
+> [!SUCCESS] Green - 2026-05-07
+> Host coverage now opens isolated Obsidian, Flavor Grenade config, and generic
+> Markdown fixture workspaces. Generic Markdown remains `markdown`; vault
+> fixtures are accepted as `markdown` or promoted `ofmarkdown` depending on
+> server readiness timing.
