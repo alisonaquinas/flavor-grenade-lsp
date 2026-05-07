@@ -30,6 +30,13 @@ describe('mark()', () => {
       end: text.indexOf('%>') + 2,
     });
   });
+
+  it('does not let Templater delimiters inside code extend opaque regions', () => {
+    const text = ['```', '<%', '```', 'Real [[link]]', '%>'].join('\n');
+    const regions = mark(text, 0);
+
+    expect(isInsideOpaqueRegion(text.indexOf('Real'), regions)).toBe(false);
+  });
 });
 
 describe('isInsideOpaqueRegion()', () => {

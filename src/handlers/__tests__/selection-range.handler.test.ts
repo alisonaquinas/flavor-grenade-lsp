@@ -48,11 +48,21 @@ describe('SelectionRangeHandler', () => {
     ).toEqual([]);
   });
 
-  it('skips invalid positions', () => {
+  it('rejects invalid positions without returning partial results', () => {
     const doc = parser.parse('file:///vault/notes/selection.md', '# Project', 1);
     parseCache.set(doc.uri, doc);
 
-    expect(
+    expect(() =>
+      handler.handle({
+        textDocument: { uri: doc.uri },
+        positions: [
+          { line: 0, character: 0 },
+          { line: -1, character: 0 },
+        ],
+      }),
+    ).toThrow('Invalid selectionRange position');
+
+    expect(() =>
       handler.handle({
         textDocument: { uri: doc.uri },
         positions: [
@@ -60,7 +70,7 @@ describe('SelectionRangeHandler', () => {
           { line: 0, character: 99 },
         ],
       }),
-    ).toEqual([]);
+    ).toThrow('Invalid selectionRange position');
   });
 
   it('expands a cursor inside a wiki-link through paragraph, section, and document ranges', () => {
@@ -100,6 +110,19 @@ describe('SelectionRangeHandler', () => {
     const result = handler.handle({
       textDocument: { uri: doc.uri },
       positions: [{ line: 2, character: 8 }],
+    });
+
+    expect(chainRanges(result[0])).toEqual([range(1, 0, 3, 2)]);
+  });
+
+  it('finds opaque regions at CRLF line starts', () => {
+    const lines = ['# Project', '<%*', 'const title = tp.file.title;', '%>', 'After'];
+    const doc = parser.parse('file:///vault/notes/templater-crlf.md', lines.join('\r\n'), 1);
+    parseCache.set(doc.uri, doc);
+
+    const result = handler.handle({
+      textDocument: { uri: doc.uri },
+      positions: [{ line: 1, character: 0 }],
     });
 
     expect(chainRanges(result[0])).toEqual([range(1, 0, 3, 2)]);
