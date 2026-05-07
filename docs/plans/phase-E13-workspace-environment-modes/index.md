@@ -13,6 +13,6 @@ aliases: ["Phase E13 Tickets", Workspace Environment Modes Tickets]
 | [[TASK-206]] | Block virtual workspace server startup | Task | `green` |
 | [[TASK-207]] | Resolve server binary for local and remote hosts | Task | `green` |
 | [[TASK-208]] | Document remote environment smoke tests | Task | `green` |
-| [[CHORE-078]] | Phase E13 extension lint sweep | Chore | `open` |
-| [[CHORE-079]] | Phase E13 manual verification ledger sweep | Chore | `open` |
-| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | Chore | `open` |
+| [[CHORE-078]] | Phase E13 extension lint sweep | Chore | `in-review` |
+| [[CHORE-079]] | Phase E13 manual verification ledger sweep | Chore | `in-review` |
+| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | Chore | `in-review` |

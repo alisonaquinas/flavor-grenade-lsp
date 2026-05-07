@@ -2,7 +2,7 @@
 id: "CHORE-078"
 title: "Phase E13 extension lint sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-078"]
 
 # Phase E13 extension lint sweep
 
-> [!INFO] `CHORE-078` - Chore - Phase E13 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-078` - Chore - Phase E13 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -91,13 +91,13 @@ manual verification closeout.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] `bun test` passes with no regressions introduced.
-- [ ] No behaviour-affecting changes in `src/`.
-- [ ] [[test/matrix]] updated if any test files were added or removed.
-- [ ] [[test/index]] updated if any test files were added or removed.
-- [ ] Extension gate commands from [[plans/phase-E13-workspace-environment-modes]]
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added.
+- [x] `tsc --noEmit` exits 0.
+- [x] `bun test` passes with no regressions introduced.
+- [x] No behaviour-affecting changes in `src/`.
+- [x] [[test/matrix]] updated if any test files were added or removed.
+- [x] [[test/index]] updated if any test files were added or removed.
+- [x] Extension gate commands from [[plans/phase-E13-workspace-environment-modes]]
   are recorded.
 
 ---
@@ -127,3 +127,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: post-Phase-E13 lint and type sweep.
+
+> [!SUCCESS] In Review - 2026-05-07
+> `cd extension && npm run check-types`, `cd extension && npm test`, root docs
+> lint, and extension docs lint pass after the E13 environment changes.

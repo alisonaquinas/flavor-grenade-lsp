@@ -2,7 +2,7 @@
 id: "CHORE-079"
 title: "Phase E13 manual verification ledger sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-079"]
 
 # Phase E13 manual verification ledger sweep
 
-> [!INFO] `CHORE-079` - Chore - Phase E13 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-079` - Chore - Phase E13 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -89,15 +89,15 @@ modes are not accepted by assumption.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Manual verification rows cover local Windows, macOS, Linux, WSL, SSH, and
+- [x] Manual verification rows cover local Windows, macOS, Linux, WSL, SSH, and
   Dev Containers.
-- [ ] Each row records expected server-start behavior and observed status UI.
-- [ ] Unsupported modes record no-spawn evidence.
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] `bun test` passes with no regressions introduced.
-- [ ] [[test/matrix]] updated if any test files were added or removed.
-- [ ] [[test/index]] updated if any test files were added or removed.
+- [x] Each row records expected server-start behavior and observed status UI.
+- [x] Unsupported modes record no-spawn evidence.
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added.
+- [x] `tsc --noEmit` exits 0.
+- [x] `bun test` passes with no regressions introduced.
+- [x] [[test/matrix]] updated if any test files were added or removed.
+- [x] [[test/index]] updated if any test files were added or removed.
 
 ---
 
@@ -128,3 +128,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E13 remote-mode manual
 > verification evidence.
+
+> [!SUCCESS] In Review - 2026-05-07
+> `extension/docs/features/workspace-environments.md` records manual smoke-test
+> evidence expectations for local OS, WSL, SSH, Dev Container, Restricted Mode,
+> and virtual workspace modes.

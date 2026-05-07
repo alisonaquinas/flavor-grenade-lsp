@@ -20,7 +20,27 @@ describe('troubleshooting docs', () => {
       'Stale index',
       'Restricted Mode',
       'Virtual workspace',
+      'Remote workspaces',
       'Copy Diagnostic Info',
+    ]) {
+      assert.match(text, new RegExp(phrase, 'i'));
+    }
+  });
+
+  it('documents workspace environment smoke tests', async () => {
+    const text = await readFile(resolve('docs', 'features', 'workspace-environments.md'), 'utf8');
+
+    for (const phrase of [
+      'Local Windows',
+      'Local macOS',
+      'Local Linux',
+      'WSL',
+      'SSH',
+      'Dev Container',
+      'Restricted Mode',
+      'Virtual workspace',
+      'serverPath: not started',
+      'Manual evidence is acceptable',
     ]) {
       assert.match(text, new RegExp(phrase, 'i'));
     }

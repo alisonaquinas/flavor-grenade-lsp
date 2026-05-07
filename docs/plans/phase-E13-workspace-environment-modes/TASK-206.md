@@ -55,8 +55,8 @@ requires a real file system, and the user-facing status must explain that limit.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/extension.test.ts` | Extension-host | `Extension.Workspace.EnvironmentModes` | 🔴 failing |
-| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | 🔴 failing |
+| `extension/src/workspace-environment.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
+| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -96,11 +96,11 @@ All of the following must be true before this task is marked `done`:
 - [x] Failing test or extension-host scenario written first.
 - [x] Virtual workspaces prevent language client/server startup.
 - [x] Disabled status identifies the file-system requirement.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] All linked BDD scenarios pass locally or have documented manual evidence.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
+- [x] All linked BDD scenarios pass locally or have documented manual evidence.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---

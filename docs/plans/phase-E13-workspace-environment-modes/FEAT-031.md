@@ -103,9 +103,9 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-206]] | Block virtual workspace server startup | `green` |
 | [[TASK-207]] | Resolve server binary for local and remote hosts | `green` |
 | [[TASK-208]] | Document remote environment smoke tests | `green` |
-| [[CHORE-078]] | Phase E13 extension lint sweep | `open` |
-| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `open` |
-| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `open` |
+| [[CHORE-078]] | Phase E13 extension lint sweep | `in-review` |
+| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `in-review` |
+| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `in-review` |
 
 ---
 

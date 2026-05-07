@@ -54,7 +54,8 @@ that matches the files being indexed, not the user's desktop operating system.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/server-command.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | 🔴 failing |
+| `extension/src/workspace-environment.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
+| `extension/src/server-command.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -96,10 +97,10 @@ All of the following must be true before this task is marked `done`:
 - [x] Local Windows, macOS, and Linux mappings remain covered.
 - [x] Remote extension-host mapping is documented in code comments or tests.
 - [x] Custom server override remains supported for development.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
