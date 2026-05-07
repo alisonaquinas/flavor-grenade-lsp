@@ -2,7 +2,7 @@
 id: "FEAT-026"
 title: "Command Bridges And Native Navigation"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-026"]
 
 # Command Bridges And Native Navigation
 
-> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `in-progress`
+> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `in-review`
 
 ## Goal
 
@@ -98,13 +98,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-185]] | Register Native Reference And Link Bridges | `red` |
-| [[TASK-186]] | Validate Command Bridge Payloads | `red` |
-| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `red` |
-| [[TASK-188]] | Document Command Bridge Contracts | `open` |
-| [[CHORE-063]] | Phase E8 Lint Sweep | `open` |
-| [[CHORE-064]] | Phase E8 Test Trace Sweep | `open` |
-| [[CHORE-065]] | Phase E8 Documentation Trace Sweep | `open` |
+| [[TASK-185]] | Register Native Reference And Link Bridges | `in-review` |
+| [[TASK-186]] | Validate Command Bridge Payloads | `in-review` |
+| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `in-review` |
+| [[TASK-188]] | Document Command Bridge Contracts | `in-review` |
+| [[CHORE-063]] | Phase E8 Lint Sweep | `in-review` |
+| [[CHORE-064]] | Phase E8 Test Trace Sweep | `in-review` |
+| [[CHORE-065]] | Phase E8 Documentation Trace Sweep | `in-review` |
 
 ---
 
@@ -153,3 +153,14 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Started - 2026-05-07
 > Phase E8 execution started on branch `codex/phase-e8-command-bridges`.
+
+> [!INFO] Green - 2026-05-07
+> Command bridge implementation and docs reached local green state:
+> `cd extension && npm run check-types`, `cd extension && npm test`, and
+> `cd extension && npm run build:extension` passed.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate passed: `bun run lint`, `bun run typecheck`,
+> `bun run build`, `bun test`, `bun run format:check`, docs markdown lint,
+> non-doc markdown lint, extension typecheck/test/build, and extension
+> `npm audit --audit-level=low`.

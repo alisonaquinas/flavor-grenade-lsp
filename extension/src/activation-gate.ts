@@ -32,6 +32,13 @@ export const COMMAND_ACTIVATION_EVENTS = [
   'onCommand:flavorGrenade.restartServer',
   'onCommand:flavorGrenade.rebuildIndex',
   'onCommand:flavorGrenade.showOutput',
+  'onCommand:flavorGrenade.showReferences',
+  'onCommand:flavorGrenade.followLink',
+  'onCommand:flavorGrenade.openEmbedTarget',
+  'onCommand:flavorGrenade.showBacklinks',
+  'onCommand:flavorGrenade.showOutlinks',
+  'onCommand:flavorGrenade.revealVaultRoot',
+  'onCommand:flavorGrenade.copyDiagnosticInfo',
 ] as const;
 
 export type StatFile = typeof stat;

@@ -2,7 +2,7 @@
 id: "TASK-186"
 title: "Validate Command Bridge Payloads"
 type: task
-status: red
+status: in-review
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-186"]
 
 # Validate Command Bridge Payloads
 
-> [!INFO] `TASK-186` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `red`
+> [!INFO] `TASK-186` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
 
 ## Description
 
@@ -56,7 +56,7 @@ with no uncaught extension-host exception.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/command-bridge-payloads.test.ts` | Extension Host | `Extension.CommandBridges.PayloadValidation` | 🔴 failing |
+| `extension/src/command-bridges.test.ts` | Unit | `Extension.CommandBridges.PayloadValidation` | ✅ passing |
 
 ---
 
@@ -90,13 +90,13 @@ with no uncaught extension-host exception.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing valid and invalid payload tests are written first
-- [ ] Reference payload validation rejects malformed locations
-- [ ] URI payload validation rejects malformed or unsupported URI data
-- [ ] Invalid payloads produce safe failure behavior
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing valid and invalid payload tests are written first
+- [x] Reference payload validation rejects malformed locations
+- [x] URI payload validation rejects malformed or unsupported URI data
+- [x] Invalid payloads produce safe failure behavior
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -130,3 +130,11 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-07
 > Added failing valid and invalid command bridge payload tests in
 > `extension/src/command-bridges.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Added shared JSON payload validation for locations, ranges, positions, file
+> URIs, and diagnostic text; malformed payloads fail safely before native calls.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and payload validation coverage is ready for PR
+> review.

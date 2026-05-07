@@ -35,6 +35,13 @@
     "onCommand:flavorGrenade.restartServer",
     "onCommand:flavorGrenade.rebuildIndex",
     "onCommand:flavorGrenade.showOutput",
+    "onCommand:flavorGrenade.showReferences",
+    "onCommand:flavorGrenade.followLink",
+    "onCommand:flavorGrenade.openEmbedTarget",
+    "onCommand:flavorGrenade.showBacklinks",
+    "onCommand:flavorGrenade.showOutlinks",
+    "onCommand:flavorGrenade.revealVaultRoot",
+    "onCommand:flavorGrenade.copyDiagnosticInfo",
     "onLanguage:markdown",
     "onLanguage:ofmarkdown"
   ],
@@ -68,6 +75,34 @@
       {
         "command": "flavorGrenade.showOutput",
         "title": "Flavor Grenade: Show Output"
+      },
+      {
+        "command": "flavorGrenade.showReferences",
+        "title": "Flavor Grenade: Show References"
+      },
+      {
+        "command": "flavorGrenade.followLink",
+        "title": "Flavor Grenade: Follow Link"
+      },
+      {
+        "command": "flavorGrenade.openEmbedTarget",
+        "title": "Flavor Grenade: Open Embed Target"
+      },
+      {
+        "command": "flavorGrenade.showBacklinks",
+        "title": "Flavor Grenade: Show Backlinks"
+      },
+      {
+        "command": "flavorGrenade.showOutlinks",
+        "title": "Flavor Grenade: Show Outlinks"
+      },
+      {
+        "command": "flavorGrenade.revealVaultRoot",
+        "title": "Flavor Grenade: Reveal Vault Root"
+      },
+      {
+        "command": "flavorGrenade.copyDiagnosticInfo",
+        "title": "Flavor Grenade: Copy Diagnostic Info"
       }
     ],
     "configuration": {

@@ -2,7 +2,7 @@
 id: "TASK-187"
 title: "Add OFMarkdown Graph Action Bridges"
 type: task
-status: red
+status: in-review
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-187"]
 
 # Add OFMarkdown Graph Action Bridges
 
-> [!INFO] `TASK-187` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `red`
+> [!INFO] `TASK-187` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
 
 ## Description
 
@@ -58,7 +58,7 @@ client-owned payloads into native VS Code commands or APIs.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/ofmarkdown-graph-bridges.test.ts` | Extension Host | `Extension.CommandBridges.GraphActions` | 🔴 failing |
+| `extension/src/command-bridges.test.ts` | Unit | `Extension.CommandBridges.GraphActions` | ✅ passing |
 
 ---
 
@@ -92,13 +92,13 @@ client-owned payloads into native VS Code commands or APIs.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing graph bridge registration tests are written first
-- [ ] Embed, backlink, outlink, vault reveal, and diagnostic commands exist
-- [ ] Graph commands call the expected native VS Code surface
-- [ ] Invalid graph command payloads fail safely
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing graph bridge registration tests are written first
+- [x] Embed, backlink, outlink, vault reveal, and diagnostic commands exist
+- [x] Graph commands call the expected native VS Code surface
+- [x] Invalid graph command payloads fail safely
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -132,3 +132,10 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-07
 > Added failing OFMarkdown graph command bridge tests in
 > `extension/src/command-bridges.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Registered embed, backlink, outlink, vault reveal, and diagnostic copy bridge
+> commands and verified their native adapter behavior.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and graph action coverage is ready for PR review.

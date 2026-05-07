@@ -2,7 +2,7 @@
 id: "CHORE-065"
 title: "Phase E8 Documentation Trace Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-065"]
 
 # Phase E8 Documentation Trace Sweep
 
-> [!INFO] `CHORE-065` - Chore - Phase E8 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-065` - Chore - Phase E8 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -90,11 +90,11 @@ payload ownership and validation behavior unambiguous.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E8 docs link to relevant requirements and feature docs
-- [ ] Extension docs list every bridge command registered in Phase E8
-- [ ] Payload validation behavior is described consistently
-- [ ] Markdown lint passes for changed docs
-- [ ] No runtime behavior files are changed
+- [x] Phase E8 docs link to relevant requirements and feature docs
+- [x] Extension docs list every bridge command registered in Phase E8
+- [x] Payload validation behavior is described consistently
+- [x] Markdown lint passes for changed docs
+- [x] No runtime behavior files are changed
 
 ---
 
@@ -122,3 +122,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E8 documentation trace.
+
+> [!INFO] In Review - 2026-05-07
+> Reviewed command bridge docs and requirement trace; docs are ready for PR
+> review.

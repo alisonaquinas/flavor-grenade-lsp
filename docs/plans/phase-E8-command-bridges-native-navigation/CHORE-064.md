@@ -2,7 +2,7 @@
 id: "CHORE-064"
 title: "Phase E8 Test Trace Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-064"]
 
 # Phase E8 Test Trace Sweep
 
-> [!INFO] `CHORE-064` - Chore - Phase E8 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-064` - Chore - Phase E8 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -92,11 +92,11 @@ payload outcomes, so test traceability must stay exact.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E8 test rows exist in [[test/matrix]]
-- [ ] Phase E8 test files are listed in [[test/index]]
-- [ ] Requirement tags map to passing or planned evidence consistently
-- [ ] No runtime behavior files are changed
-- [ ] Markdown lint passes for changed docs
+- [x] Phase E8 test rows exist in [[test/matrix]]
+- [x] Phase E8 test files are listed in [[test/index]]
+- [x] Requirement tags map to passing or planned evidence consistently
+- [x] No runtime behavior files are changed
+- [x] Markdown lint passes for changed docs
 
 ---
 
@@ -124,3 +124,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E8 test traceability.
+
+> [!INFO] In Review - 2026-05-07
+> Added Phase E8 rows to [[test/matrix]] and listed
+> `extension/src/command-bridges.test.ts` in [[test/index]].

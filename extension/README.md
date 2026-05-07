@@ -76,6 +76,22 @@ Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Flavor Grena
 - **Flavor Grenade: Rebuild Index** — Re-scan the vault and rebuild the document index
 - **Flavor Grenade: Show Output** — Open the language server output channel for troubleshooting
 
+Flavor Grenade also registers bridge commands used by the language server and
+extension UI:
+
+- `flavorGrenade.showReferences`
+- `flavorGrenade.followLink`
+- `flavorGrenade.openEmbedTarget`
+- `flavorGrenade.showBacklinks`
+- `flavorGrenade.showOutlinks`
+- `flavorGrenade.revealVaultRoot`
+- `flavorGrenade.copyDiagnosticInfo`
+
+Bridge payloads are plain JSON: file URI strings, zero-based positions, ranges,
+locations, and diagnostic text. Invalid payloads fail safely before VS Code APIs
+are called, with no uncaught extension-host exception. Maintainer details live
+in [extension/docs/features/command-bridge-contracts.md](docs/features/command-bridge-contracts.md).
+
 ## Development Smoke Test
 
 1. From the repository root, run `bun install`.

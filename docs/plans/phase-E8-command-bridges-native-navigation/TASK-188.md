@@ -2,7 +2,7 @@
 id: "TASK-188"
 title: "Document Command Bridge Contracts"
 type: task
-status: open
+status: in-review
 priority: medium
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-188"]
 
 # Document Command Bridge Contracts
 
-> [!INFO] `TASK-188` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `open`
+> [!INFO] `TASK-188` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
 
 ## Description
 
@@ -56,7 +56,8 @@ server provides intelligence while the extension adapts safe payloads.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/docs/README.md` | Manual Docs Review | `Extension.CommandBridges.GraphActions` | 🔴 failing |
+| `extension/README.md` | Manual Docs Review | `Extension.CommandBridges.GraphActions` | ✅ passing |
+| `extension/docs/features/command-bridge-contracts.md` | Manual Docs Review | `Extension.CommandBridges.PayloadValidation` | ✅ passing |
 
 ---
 
@@ -92,12 +93,12 @@ server provides intelligence while the extension adapts safe payloads.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Docs list all Phase E8 bridge command names
-- [ ] Docs describe payload validation and safe failure behavior
-- [ ] Docs state that VS Code APIs stay in the client extension
-- [ ] Docs link back to Phase E8 and extension parity requirements
-- [ ] Markdown lint passes for changed docs
-- [ ] [[test/matrix]] and [[test/index]] updated if needed
+- [x] Docs list all Phase E8 bridge command names
+- [x] Docs describe payload validation and safe failure behavior
+- [x] Docs state that VS Code APIs stay in the client extension
+- [x] Docs link back to Phase E8 and extension parity requirements
+- [x] Markdown lint passes for changed docs
+- [x] [[test/matrix]] and [[test/index]] updated if needed
 
 ---
 
@@ -127,3 +128,16 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-026]].
+
+> [!INFO] Green - 2026-05-07
+> Drafted command bridge contracts in
+> `extension/docs/features/command-bridge-contracts.md`, linked them from
+> extension README and parity docs, and left behavior unchanged.
+
+> [!INFO] Green - 2026-05-07
+> Markdown lint passed for touched extension docs with `bunx
+> markdownlint-cli2`; root docs lint passed with `bun run lint:docs`.
+
+> [!INFO] In Review - 2026-05-07
+> Documentation matches the implemented bridge contracts and is ready for PR
+> review.
