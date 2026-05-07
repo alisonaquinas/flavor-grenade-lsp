@@ -2,7 +2,7 @@
 id: "CHORE-081"
 title: "Phase E14 extension lint sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-081"]
 
 # Phase E14 extension lint sweep
 
-> [!INFO] `CHORE-081` - Chore - Phase E14 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-081` - Chore - Phase E14 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -133,3 +133,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > Local gates passed: `bun run lint`, `bun run typecheck`, `bun test`,
 > `npm run check-types`, `npm test`, and `npm run build:extension`. No lint
 > suppressions were added.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and phase closeout completed.

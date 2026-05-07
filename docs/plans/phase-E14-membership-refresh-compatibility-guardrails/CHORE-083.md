@@ -2,7 +2,7 @@
 id: "CHORE-083"
 title: "Phase E14 compatibility documentation sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-083"]
 
 # Phase E14 compatibility documentation sweep
 
-> [!INFO] `CHORE-083` - Chore - Phase E14 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-083` - Chore - Phase E14 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -139,3 +139,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > Troubleshooting now documents membership refresh triggers, guarded downgrade,
 > and version mismatch diagnostics. ADR015 documents the shared package-target
 > validator used before release artifact upload.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and phase closeout completed.

@@ -1,7 +1,7 @@
 ---
 title: "Phase E14: Membership Refresh And Compatibility Guardrails"
 phase: E14
-status: in-review
+status: complete
 tags: [plans, vscode, extension, language-mode, compatibility]
 aliases: [Phase E14, Membership Refresh, Compatibility Guardrails]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E14 |
 | Title | Membership Refresh And Compatibility Guardrails |
-| Status | in-review |
+| Status | complete |
 | Gate | Language-mode refresh and packaged client/server compatibility checks pass |
 | Depends on | Phase E13 |
 
@@ -90,6 +90,11 @@ Local evidence, 2026-05-07:
 - `bun run lint:docs` - passed.
 - `bunx markdownlint-obsidian --config .obsidian-linter.jsonc "extension/README.md" "extension/docs/**/*.md"` - passed.
 - `bun run build:binary` - passed.
+
+PR evidence, 2026-05-07:
+
+- PR #46 checks passed: Build, Format check, Lint, Markdown lint for docs and
+  other files, Tests, and TypeScript typecheck.
 
 ## Related
 

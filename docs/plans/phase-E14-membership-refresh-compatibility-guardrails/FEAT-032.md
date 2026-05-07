@@ -2,7 +2,7 @@
 id: "FEAT-032"
 title: "Membership Refresh And Compatibility Guardrails"
 type: feature
-status: in-review
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-032"]
 
 # Membership Refresh And Compatibility Guardrails
 
-> [!INFO] `FEAT-032` - Feature - Phase E14 - Priority: `medium` - Status: `in-review`
+> [!INFO] `FEAT-032` - Feature - Phase E14 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -95,7 +95,7 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Packaged VSIX smoke checks catch missing or wrong server binaries.
 - [x] [[test/matrix]] updated with every new test file introduced.
 - [x] [[test/index]] updated with every new test file introduced.
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]]).
+- [x] Phase gate command passes in CI (see [[plans/execution-ledger]]).
 - [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
 - [x] `tsc --noEmit` exits 0.
 
@@ -105,13 +105,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-209]] | Refresh membership after server and index events | `in-review` |
-| [[TASK-210]] | Refresh membership after workspace and editor events | `in-review` |
-| [[TASK-211]] | Guard language-mode reversion | `in-review` |
-| [[TASK-212]] | Validate server version and package target metadata | `in-review` |
-| [[CHORE-081]] | Phase E14 extension lint sweep | `in-review` |
-| [[CHORE-082]] | Phase E14 package smoke-test trace sweep | `in-review` |
-| [[CHORE-083]] | Phase E14 compatibility documentation sweep | `in-review` |
+| [[TASK-209]] | Refresh membership after server and index events | `done` |
+| [[TASK-210]] | Refresh membership after workspace and editor events | `done` |
+| [[TASK-211]] | Guard language-mode reversion | `done` |
+| [[TASK-212]] | Validate server version and package target metadata | `done` |
+| [[CHORE-081]] | Phase E14 extension lint sweep | `done` |
+| [[CHORE-082]] | Phase E14 package smoke-test trace sweep | `done` |
+| [[CHORE-083]] | Phase E14 compatibility documentation sweep | `done` |
 
 ---
 
@@ -173,3 +173,6 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] In Review - 2026-05-07
 > Local gates passed and all child tickets moved to `in-review`. CI evidence
 > remains pending on the phase PR before this feature can move to `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed. Phase E14 is complete and ready to merge to `develop`.

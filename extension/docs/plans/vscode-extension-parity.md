@@ -17,7 +17,7 @@ aliases: [Extension Parity Plan]
 | E11 Marketplace proof | Complete: README visuals and packaged asset checks cover `Extension.Marketplace.OFMProof` and `Extension.Marketplace.AssetPackaging` |
 | E12 OFMarkdown contributions | Complete: snippets, scoped keybindings, language configuration refinements, and generic Markdown isolation cover `Extension.Contributions.OFMarkdownScoped` |
 | E13 Workspace environments | Complete: restricted, virtual, remote, WSL, SSH, and Dev Container behavior is classified and smoke-tested for `Extension.Workspace.EnvironmentModes` |
-| E14 Membership and compatibility | In review: membership refresh, guarded downgrade, status version warnings, and package target validation are implemented with local gates passing |
+| E14 Membership and compatibility | Complete: membership refresh, guarded downgrade, status version warnings, and package target validation are implemented with local and PR CI gates passing |
 
 ## Gate
 

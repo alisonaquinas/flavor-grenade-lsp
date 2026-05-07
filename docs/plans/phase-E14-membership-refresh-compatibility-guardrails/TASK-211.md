@@ -2,7 +2,7 @@
 id: "TASK-211"
 title: "Guard language-mode reversion"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-211"]
 
 # Guard language-mode reversion
 
-> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `in-review`
+> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `done`
 
 ## Description
 
@@ -148,3 +148,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] In Review - 2026-05-07
 > Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
 > awaiting PR CI before final `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and parent feature moved to `done`.

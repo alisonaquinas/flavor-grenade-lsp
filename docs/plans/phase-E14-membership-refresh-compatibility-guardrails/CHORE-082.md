@@ -2,7 +2,7 @@
 id: "CHORE-082"
 title: "Phase E14 package smoke-test trace sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-082"]
 
 # Phase E14 package smoke-test trace sweep
 
-> [!INFO] `CHORE-082` - Chore - Phase E14 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-082` - Chore - Phase E14 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -136,3 +136,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > missing, duplicate, and wrong-target binaries plus real VSIX inspection.
 > `.github/workflows/extension-release.yml` now runs the same validator for all
 > seven platform targets.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and phase closeout completed.
