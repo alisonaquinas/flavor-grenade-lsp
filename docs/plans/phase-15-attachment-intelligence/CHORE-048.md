@@ -98,7 +98,7 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] [[test/index]] includes every new Phase 15 test file.
 - [ ] Test rows use current pass/fail status after local verification.
 - [ ] `bun test` passes with no regressions introduced.
-- [ ] `bun run test:bdd` passes relevant attachment scenarios or documents a
+- [ ] `bun run bdd` passes relevant attachment scenarios or documents a
   named blocker.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.

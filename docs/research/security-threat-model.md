@@ -161,8 +161,8 @@ A malicious or buggy client could send an arbitrarily large `textDocument/didCha
 
 **Mitigations:**
 
-- Enforce a maximum `contentLength` for LSP messages (e.g., 10 MB)
-- Disconnect (close stdin read stream) if a message exceeds the limit
+- Enforce maximum LSP frame sizes: 8 KiB headers and 16 MiB bodies
+- Emit a framing error and clear the unreadable frame if a message exceeds the limit
 - Apply debounce to `textDocument/didChange` to avoid re-parsing on every keystroke
 
 ### Sub-threat 2.3: Prototype Pollution via JSON Parsing

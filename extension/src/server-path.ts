@@ -5,8 +5,8 @@ import { type ServerCommand, resolveServerCommandFromOptions } from './server-co
  * Resolves the path to the flavor-grenade-lsp server binary.
  *
  * Resolution order:
- * 1. User setting `flavorGrenade.server.path` — escape hatch for local dev builds.
- *    Resolved to an absolute path and validated for existence before use.
+ * 1. User or machine setting `flavorGrenade.server.path` — escape hatch
+ *    for local dev builds. Workspace values are ignored for safety.
  * 2. Development mode — root `dist/main.js` via `node`, so server restarts
  *    pick up TypeScript watch output without rebuilding a binary.
  * 3. Bundled binary at `server/flavor-grenade-lsp[.exe]` — default for users.

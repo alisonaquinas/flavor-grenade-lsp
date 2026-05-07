@@ -58,7 +58,8 @@ VS Code activates extension (onLanguage:markdown or onLanguage:ofmarkdown)
 activate(context: ExtensionContext)
   │
   ├─ BinaryResolver.resolveServerPath(context)
-  │    → user setting flavorGrenade.server.path (if set)
+  │    → user/machine setting flavorGrenade.server.path (if set)
+  │    → ignores workspace and workspace-folder server.path values
   │    → bundled server/flavor-grenade-lsp[.exe] (default)
   │    → ERROR if binary not found at resolved path
   │
@@ -116,7 +117,7 @@ function resolveServerPath(context: ExtensionContext): string
 
 **Resolution order:**
 
-1. **User setting** — `flavorGrenade.server.path` from VS Code configuration. Escape hatch for developers building the server from source.
+1. **User or machine setting** — `flavorGrenade.server.path` from VS Code configuration. Workspace and workspace-folder values are ignored so a repository cannot cause VS Code to execute an arbitrary server binary. The setting remains an escape hatch for developers building the server from source.
 2. **Bundled binary** — `server/flavor-grenade-lsp[.exe]` relative to `context.extensionUri`. Default for all normal users. Platform-specific VSIXs guarantee this binary is present.
 
 **No PATH fallback. No environment variable. No download.** The platform-specific VSIX distribution model ensures the binary is always bundled.
