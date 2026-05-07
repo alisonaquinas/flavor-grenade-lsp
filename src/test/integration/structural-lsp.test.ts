@@ -208,25 +208,25 @@ describe('Structural LSP Integration', () => {
     expect(folds).toEqual(
       expect.arrayContaining([
         { startLine: 0, endLine: 2, kind: 'region' },
-        { startLine: 4, endLine: 5, kind: 'region' },
-        { startLine: 7, endLine: 9, kind: 'region' },
-        { startLine: 11, endLine: 13, kind: 'region' },
-        { startLine: 15, endLine: 17, kind: 'comment' },
-        { startLine: 19, endLine: 21, kind: 'region' },
+        { startLine: 6, endLine: 7, kind: 'region' },
+        { startLine: 9, endLine: 11, kind: 'region' },
+        { startLine: 13, endLine: 15, kind: 'region' },
+        { startLine: 17, endLine: 19, kind: 'comment' },
+        { startLine: 21, endLine: 23, kind: 'region' },
       ]),
     );
 
     const selections = resultOf<SelectionRange[]>(
       await client.request('textDocument/selectionRange', {
         textDocument: { uri: sourceUri },
-        positions: [{ line: 20, character: 8 }],
+        positions: [{ line: 22, character: 8 }],
       }),
     );
     expect(selections).toEqual([
       {
         range: {
-          start: { line: 19, character: 0 },
-          end: { line: 21, character: 2 },
+          start: { line: 21, character: 0 },
+          end: { line: 23, character: 2 },
         },
       },
     ]);
