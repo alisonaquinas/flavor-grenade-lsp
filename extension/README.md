@@ -16,6 +16,21 @@ The status bar shows whether Flavor Grenade is starting, indexing, ready,
 disabled, crashed, or misconfigured. Status actions expose rebuild, output,
 diagnostic copy, troubleshooting, and vault reveal commands when they apply.
 
+![Flavor Grenade wiki-link completion](images/marketplace/wiki-link-completion.png)
+
+Wiki-link completion offers vault notes as soon as you type `[[`, using the
+same indexed document graph that powers definitions, references, and rename.
+
+![Flavor Grenade heading and block-anchor completion](images/marketplace/heading-block-completion.png)
+
+Heading and block-anchor completions make `[[note#heading]]` and
+`[[note#^block]]` links discoverable without memorizing target structure.
+
+![Flavor Grenade reference code lens](images/marketplace/reference-code-lens.png)
+
+Reference code lens puts incoming-link counts above headings and block anchors
+so frequently referenced knowledge surfaces are easy to spot.
+
 ## Features
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links

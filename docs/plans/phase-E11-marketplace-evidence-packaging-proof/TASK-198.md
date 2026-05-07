@@ -2,7 +2,7 @@
 id: "TASK-198"
 title: "Add completion and navigation visuals"
 type: task
-status: red
+status: green
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-198"]
 
 # Add completion and navigation visuals
 
-> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
+> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `green`
 
 ## Description
 
@@ -87,11 +87,11 @@ navigation affordances before installing.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Wiki-link completion visual is referenced from `extension/README.md`
-- [ ] Heading and block-anchor completion visuals are referenced
-- [ ] Reference code lens visual is referenced
-- [ ] Linked verification test covers these required categories
-- [ ] `cd extension && npm test` passes
+- [x] Wiki-link completion visual is referenced from `extension/README.md`
+- [x] Heading and block-anchor completion visuals are referenced
+- [x] Reference code lens visual is referenced
+- [x] Linked verification test covers these required categories
+- [x] `cd extension && npm test` passes
 - [ ] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
@@ -143,3 +143,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Extended Marketplace README asset coverage for wiki-link completion, heading
 > and block-anchor completion, and reference code lens visuals.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added README Marketplace visuals for wiki-link completion, heading/block-anchor
+> completion, and reference code lens.

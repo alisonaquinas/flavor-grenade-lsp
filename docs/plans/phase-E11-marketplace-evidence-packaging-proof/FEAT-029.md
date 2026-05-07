@@ -92,7 +92,7 @@ All of the following must be true before this ticket is marked `done`.
 | Ticket | Title | Status |
 |---|---|---|
 | [[TASK-197]] | Add OFMarkdown mode and status visuals | `green` |
-| [[TASK-198]] | Add completion and navigation visuals | `red` |
+| [[TASK-198]] | Add completion and navigation visuals | `green` |
 | [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `open` |
 | [[TASK-200]] | Verify README assets in packaged VSIX | `open` |
 | [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `open` |
