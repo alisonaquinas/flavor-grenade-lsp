@@ -2,7 +2,7 @@
 id: "FEAT-027"
 title: "Extension Host Regression Harness"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-027"]
 
 # Extension Host Regression Harness
 
-> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `in-progress`
+> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `in-review`
 
 ## Goal
 
@@ -106,9 +106,9 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-190]] | Cover activation and language-mode membership | `green` |
 | [[TASK-191]] | Cover command bridge payload validation | `green` |
 | [[TASK-192]] | Cover status and server failure states | `green` |
-| [[CHORE-066]] | Phase E9 CI Test Command Sweep | `open` |
-| [[CHORE-067]] | Phase E9 Test Matrix Sweep | `open` |
-| [[CHORE-068]] | Phase E9 Documentation Trace Sweep | `open` |
+| [[CHORE-066]] | Phase E9 CI Test Command Sweep | `done` |
+| [[CHORE-067]] | Phase E9 Test Matrix Sweep | `done` |
+| [[CHORE-068]] | Phase E9 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -161,3 +161,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Started - 2026-05-07
 > Phase E9 execution started on branch `codex/phase-e9-extension-host-harness`.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Phase E9 host harness, status presenter tests, trace docs, and local gates are
+> ready for PR review. `npm run test:host` passes all three fixtures locally;
+> CI host execution remains a documented blocker.

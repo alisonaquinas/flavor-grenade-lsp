@@ -1,7 +1,7 @@
 ---
 title: "Phase E9: Extension Host Regression Harness"
 phase: E9
-status: in-progress
+status: in-review
 tags: [plans, vscode, extension, testing, marksman-parity]
 aliases: [Phase E9, Extension Host Tests]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E9 |
 | Title | Extension Host Regression Harness |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Extension-host tests cover activation, language mode, commands, status, and failure states |
 | Depends on | Phase E8 |
 
@@ -63,7 +63,13 @@ cd extension
 npm run check-types
 npm test
 npm run build:extension
+npm run test:host
 ```
+
+`npm run test:host` runs all Phase E9 fixtures by default. The root CI workflow
+does not currently run the Electron extension host; Phase E9 records this as a
+CI-environment blocker and relies on the local host command plus normal PR CI
+until a dedicated VS Code host job is added.
 
 ## Related
 
