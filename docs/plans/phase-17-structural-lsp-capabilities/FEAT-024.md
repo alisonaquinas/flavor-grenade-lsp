@@ -109,9 +109,12 @@ All of the following must be true before this ticket is marked `done`:
 | [[TASK-177]] | Implement folding ranges | `green` |
 | [[TASK-178]] | Implement selection ranges | `red` |
 | [[TASK-179]] | Add structural LSP tests | `open` |
+| [[TASK-213]] | Add Templater opaque regions | `open` |
 | [[CHORE-053]] | Phase 17 Lint Sweep | `open` |
 | [[CHORE-054]] | Phase 17 Test Matrix Sweep | `open` |
 | [[CHORE-055]] | Phase 17 Documentation Trace Sweep | `open` |
+| [[CHORE-084]] | Phase 17 Code Quality Sweep | `open` |
+| [[CHORE-085]] | Phase 17 Security Sweep | `open` |
 
 ---
 

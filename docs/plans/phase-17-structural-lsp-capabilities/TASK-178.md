@@ -25,10 +25,18 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 ## Implementation Notes
 
-- Build parent chains from parsed spans where available
-- Expand from link target, tag, block anchor, heading text, callout marker, and frontmatter entry to broader constructs
-- Keep every returned range within the current document bounds
-- Do not expand across opaque region boundaries
+- Modify `src/handlers/selection-range.handler.ts`.
+- Use `ParseCache.get(uri)` to read the current parsed `OFMDoc`.
+- Accept params shaped as
+  `{ textDocument?: { uri?: string }; positions?: Position[] }`.
+- Return `SelectionRange[]`, one chain for each valid requested position.
+- Add helper functions for document bounds, line ranges, paragraph ranges,
+  heading-section ranges, opaque-region ranges, and parent-chain assembly.
+- Build parent chains from parsed spans where available.
+- Expand from link target, tag, block anchor, heading text, callout marker, and
+  frontmatter entry to broader constructs.
+- Keep every returned range within the current document bounds.
+- Do not expand across opaque region boundaries.
 - See also: [[design/api-layer]]
 
 ---
@@ -59,8 +67,8 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `tests/unit/handlers/selection-range-handler.spec.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
-| `tests/integration/selection-ranges/selection-ranges.integration.spec.ts` | Integration | `Security.Input.PositionValidation` | 🔴 failing |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
+| `src/test/integration/structural-lsp.test.ts` | Integration | `Security.Input.PositionValidation` | planned |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 

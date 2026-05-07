@@ -7,7 +7,7 @@ priority: medium
 phase: 17
 created: "2026-05-06"
 updated: "2026-05-06"
-dependencies: ["TASK-176", "TASK-177", "TASK-178", "TASK-179"]
+dependencies: ["TASK-176", "TASK-177", "TASK-178", "TASK-179", "TASK-213"]
 tags: [tickets/chore, "phase/17"]
 aliases: ["CHORE-053"]
 ---
@@ -74,6 +74,7 @@ Keeping lint clean after each feature phase prevents warning accumulation around
 - [[TASK-177]] - foldingRange implementation should be complete
 - [[TASK-178]] - selectionRange implementation should be complete
 - [[TASK-179]] - Phase 17 tests should be complete
+- [[TASK-213]] - Templater opaque region support should be complete
 
 **Unblocks:**
 
