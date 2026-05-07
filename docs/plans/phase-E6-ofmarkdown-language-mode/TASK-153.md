@@ -2,7 +2,7 @@
 id: "TASK-153"
 title: "Add document membership request"
 type: task
-status: in-review
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
@@ -15,7 +15,7 @@ aliases: ["TASK-153"]
 
 # Add document membership request
 
-> [!INFO] `TASK-153` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `in-review`
+> [!INFO] `TASK-153` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -73,3 +73,6 @@ Add `flavorGrenade/documentMembership`, a custom request that lets the VS Code e
 
 > [!INFO] Review sync — 2026-05-07
 > `flavorGrenade/documentMembership` and vault membership tests are present; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

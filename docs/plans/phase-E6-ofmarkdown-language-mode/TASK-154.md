@@ -2,7 +2,7 @@
 id: "TASK-154"
 title: "Add OFMarkdown tests and smoke coverage"
 type: task
-status: in-review
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
@@ -15,7 +15,7 @@ aliases: ["TASK-154"]
 
 # Add OFMarkdown tests and smoke coverage
 
-> [!INFO] `TASK-154` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `in-review`
+> [!INFO] `TASK-154` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -58,9 +58,9 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 ## Definition of Done
 
-- [x] Extension tests pass locally; CI confirmation pending
+- [x] Extension tests pass; PR #38 CI passed before merge
 
-- [x] Server tests pass locally; CI confirmation pending
+- [x] Server tests pass; PR #38 CI passed before merge
 
 - [x] Manual smoke procedure documented
 
@@ -75,3 +75,6 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 > [!INFO] Review sync — 2026-05-07
 > Test evidence is present in `extension/src/language-mode.test.ts`, `src/vault/__tests__/document-membership.test.ts`, and `src/vault/__tests__/vault.module.test.ts`; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

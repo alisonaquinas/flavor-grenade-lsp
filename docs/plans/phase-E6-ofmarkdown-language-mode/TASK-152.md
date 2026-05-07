@@ -2,7 +2,7 @@
 id: "TASK-152"
 title: "Implement LanguageModeController"
 type: task
-status: in-review
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
@@ -15,7 +15,7 @@ aliases: ["TASK-152"]
 
 # Implement LanguageModeController
 
-> [!INFO] `TASK-152` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `in-review`
+> [!INFO] `TASK-152` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -78,3 +78,6 @@ Create the extension-side component that promotes qualifying `markdown` document
 
 > [!INFO] Review sync — 2026-05-07
 > `LanguageModeController` behavior is implemented and covered by `extension/src/language-mode.test.ts`; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

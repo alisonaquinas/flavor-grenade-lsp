@@ -15,7 +15,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.2.1**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
-> Extension phase E6 is **in progress** for dynamic OFMarkdown language mode.
+> Extension phase E6 is **complete** as of 2026-05-07. Extension phase E7 is next for activation precision and startup gating.
 
 ## Phase Table
 
@@ -183,7 +183,7 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E3 | Status Bar & Commands | complete | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | 2026-04-22 |
 | E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
 | E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
-| E6 | OFMarkdown Language Mode | in-progress | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
+| E6 | OFMarkdown Language Mode | complete | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | 2026-05-07 |
 | E7 | Activation Precision And Startup Gating | planned | Vault-marker activation, command activation, and generic Markdown idle startup | — |
 | E8 | Command Bridges And Native Navigation | planned | VS Code-native references, follow-link, embed, backlink, outlink, and vault commands | — |
 | E9 | Extension Host Regression Harness | planned | Extension-host tests for activation, language mode, commands, status, and failure states | — |
