@@ -2,7 +2,7 @@
 id: "TASK-198"
 title: "Add completion and navigation visuals"
 type: task
-status: open
+status: red
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-198"]
 
 # Add completion and navigation visuals
 
-> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `open`
+> [!INFO] `TASK-198` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
 
 ## Description
 
@@ -139,3 +139,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-029]].
+
+> [!WARNING] Red - 2026-05-07
+> Extended Marketplace README asset coverage for wiki-link completion, heading
+> and block-anchor completion, and reference code lens visuals.

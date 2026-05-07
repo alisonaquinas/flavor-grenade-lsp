@@ -26,10 +26,25 @@ const requiredVisuals: RequiredMarketplaceVisual[] = [
     alt: /status bar indexing/i,
     path: 'images/marketplace/status-indexing.png',
   },
+  {
+    id: 'wiki-link-completion',
+    alt: /wiki-link completion/i,
+    path: 'images/marketplace/wiki-link-completion.png',
+  },
+  {
+    id: 'heading-block-completion',
+    alt: /heading and block-anchor completion/i,
+    path: 'images/marketplace/heading-block-completion.png',
+  },
+  {
+    id: 'reference-code-lens',
+    alt: /reference code lens/i,
+    path: 'images/marketplace/reference-code-lens.png',
+  },
 ];
 
 describe('Marketplace README assets', () => {
-  it('references required OFMarkdown mode and status visuals with supported local image formats', async () => {
+  it('references required Marketplace visuals with supported local image formats', async () => {
     const readme = await readFile(readmePath, 'utf8');
     const images = parseMarkdownImages(readme);
 
