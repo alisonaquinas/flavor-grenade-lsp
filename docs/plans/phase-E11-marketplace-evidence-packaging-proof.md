@@ -1,7 +1,7 @@
 ---
 title: "Phase E11: Marketplace Evidence And Packaging Proof"
 phase: E11
-status: in-review
+status: complete
 tags: [plans, vscode, extension, marketplace, packaging]
 aliases: [Phase E11, Marketplace Proof]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E11 |
 | Title | Marketplace Evidence And Packaging Proof |
-| Status | in-review |
+| Status | complete |
 | Gate | Required OFMarkdown visuals are present, referenced, and included in packaged VSIXs |
 | Depends on | Phase E10 |
 
@@ -58,8 +58,11 @@ installation, and packaging checks should prove those assets ship.
 ```bash
 cd extension
 npm run build:extension
-npx vsce package --no-dependencies
+npm run verify:marketplace-assets
 ```
+
+CI evidence: PR #43 passed TypeScript typecheck, ESLint, Prettier format check,
+unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 
