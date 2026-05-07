@@ -85,10 +85,10 @@ jobs:
           vsix="$(find . -maxdepth 1 -name '*.vsix' -print -quit)"
           test -n "$vsix"
 
-          expected="extension/server/${{ matrix.binary-name }}"
-          count="$(zipinfo -1 "$vsix" | grep -Ec '^extension/server/flavor-grenade-lsp(.exe)?$')"
-          test "$count" = "1"
-          zipinfo -1 "$vsix" | grep -Fx "$expected"
+          node --import tsx test/package-targets/server-binary.ts \
+            --vsix "$vsix" \
+            --target "${{ matrix.vsce-target }}"
+
           if zipinfo -1 "$vsix" | grep -E '\.vsix$'; then
             echo "Nested VSIX found in package." >&2
             exit 1

@@ -30,6 +30,19 @@ Actions:
 - If the crash started after an update, include copied diagnostics and the
   extension version in the report.
 
+## Version Mismatch
+
+Status tooltip or copied diagnostics may include:
+`versionWarning: extension ... differs from server ...`.
+
+Actions:
+
+- Reinstall the latest platform-specific VSIX if the warning appears after an
+  extension update.
+- Run **Flavor Grenade: Restart Server** after reinstalling.
+- Include copied diagnostics when reporting persistent mismatches; the warning
+  includes extension and server versions without exposing raw paths.
+
 ## No OFMarkdown Promotion
 
 Expected vault Markdown should switch from `markdown` to `ofmarkdown`.

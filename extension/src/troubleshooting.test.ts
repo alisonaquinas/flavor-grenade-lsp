@@ -15,6 +15,8 @@ describe('troubleshooting docs', () => {
     for (const phrase of [
       'Missing server binary',
       'Crash loop',
+      'Version mismatch',
+      'versionWarning',
       'No OFMarkdown promotion',
       'No completions',
       'Stale index',

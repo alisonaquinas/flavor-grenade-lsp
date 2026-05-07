@@ -44,6 +44,7 @@ function controllerFor(options: {
     documents: FakeDocument[];
     membership?: boolean;
     memberships?: Record<string, boolean>;
+    failMembership?: boolean;
     setLanguage?: (document: FakeDocument, languageId: string) => Promise<FakeDocument>;
 }): { controller: LanguageModeController; requests: unknown[]; promoted: string[] } {
     const requests: unknown[] = [];
@@ -53,6 +54,9 @@ function controllerFor(options: {
         {
             sendRequest: (method, params) => {
                 requests.push({ method, params });
+                if (options.failMembership) {
+                    return Promise.reject(new Error('membership unavailable')) as never;
+                }
                 const uri = (params as { uri?: string }).uri ?? '';
                 const membership = options.memberships?.[uri] ?? options.membership ?? false;
                 return Promise.resolve({
@@ -273,8 +277,10 @@ describe('LanguageModeController', () => {
         await controller.refreshAll();
 
         assert.deepEqual(
-            requests.map((request) => (request as { params: { uri: string } }).params.uri),
-            [markdown.uri.toString(), ofmarkdown.uri.toString()],
+            requests
+                .map((request) => (request as { params: { uri: string } }).params.uri)
+                .sort(),
+            [markdown.uri.toString(), ofmarkdown.uri.toString()].sort(),
         );
     });
 
@@ -288,6 +294,18 @@ describe('LanguageModeController', () => {
         await controller.refreshAll();
 
         assert.deepEqual(promoted, [MARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('does not downgrade ofmarkdown when server membership is unavailable', async () => {
+        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted } = controllerFor({
+            documents: [stale],
+            failMembership: true,
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, []);
     });
 
     it('does not downgrade ofmarkdown when a vault marker still applies', async () => {

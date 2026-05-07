@@ -205,7 +205,8 @@
     "watch:extension": "node scripts/watch-extension.mjs",
     "test": "node --import tsx --test \"src/**/*.test.ts\" \"test/**/*.test.ts\"",
     "test:host": "node scripts/run-host-tests.mjs",
-    "verify:marketplace-assets": "node --import tsx --test \"test/marketplace/readme-assets.test.ts\" \"test/marketplace/vsix-assets.test.ts\""
+    "verify:marketplace-assets": "node --import tsx --test \"test/marketplace/readme-assets.test.ts\" \"test/marketplace/vsix-assets.test.ts\"",
+    "verify:package-targets": "node --import tsx --test \"test/package-targets/server-binary.test.ts\""
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"

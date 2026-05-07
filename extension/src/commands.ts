@@ -16,6 +16,7 @@ import { TROUBLESHOOTING_URL } from './troubleshooting.js';
 
 type LanguageClientProvider = (commandId: string) => Promise<LanguageClient>;
 type StatusProvider = () => FlavorGrenadeStatus;
+type AfterRebuildIndex = () => Promise<void> | Thenable<void> | void;
 
 /**
  * Registers lifecycle commands and native VS Code command bridges.
@@ -31,6 +32,7 @@ type StatusProvider = () => FlavorGrenadeStatus;
 export function registerCommands(
   clientOrProvider: LanguageClient | LanguageClientProvider,
   statusProvider?: StatusProvider,
+  afterRebuildIndex?: AfterRebuildIndex,
 ): Disposable[] {
   const getClient =
     typeof clientOrProvider === 'function' ? clientOrProvider : async () => clientOrProvider;
@@ -55,6 +57,7 @@ export function registerCommands(
     commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
       const client = await getClient('flavorGrenade.rebuildIndex');
       await client.sendRequest('flavorGrenade/rebuildIndex');
+      await afterRebuildIndex?.();
     }),
 
     commands.registerCommand('flavorGrenade.showOutput', async () => {

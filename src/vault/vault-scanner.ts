@@ -13,6 +13,7 @@ import { buildAttachmentEntry } from './attachment-metadata.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
+import { SERVER_VERSION } from '../version.js';
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
@@ -72,6 +73,7 @@ export class VaultScanner {
         state: 'ready',
         vaultCount: 0,
         docCount: this.vaultIndex.size(),
+        serverVersion: SERVER_VERSION,
       });
       return;
     }
@@ -90,6 +92,7 @@ export class VaultScanner {
       state: 'ready',
       vaultCount: 1,
       docCount: this.vaultIndex.size(),
+      serverVersion: SERVER_VERSION,
     });
   }
 

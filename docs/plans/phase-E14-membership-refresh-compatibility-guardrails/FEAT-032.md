@@ -105,10 +105,10 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-209]] | Refresh membership after server and index events | `red` |
-| [[TASK-210]] | Refresh membership after workspace and editor events | `red` |
-| [[TASK-211]] | Guard language-mode reversion | `red` |
-| [[TASK-212]] | Validate server version and package target metadata | `red` |
+| [[TASK-209]] | Refresh membership after server and index events | `green` |
+| [[TASK-210]] | Refresh membership after workspace and editor events | `green` |
+| [[TASK-211]] | Guard language-mode reversion | `green` |
+| [[TASK-212]] | Validate server version and package target metadata | `green` |
 | [[CHORE-081]] | Phase E14 extension lint sweep | `open` |
 | [[CHORE-082]] | Phase E14 package smoke-test trace sweep | `open` |
 | [[CHORE-083]] | Phase E14 compatibility documentation sweep | `open` |

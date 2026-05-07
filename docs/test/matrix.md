@@ -308,6 +308,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Lifecycle.CrashRecovery` | Server crash triggers automatic restart (up to 4 in 3 minutes) | — | ⬜ not-yet-written | Phase E3 | Integration test; default error handler behavior |
 | `Extension.Lifecycle.CleanShutdown` | Deactivation stops client, server exits cleanly | — | ⬜ not-yet-written | Phase E3 | Integration test |
 | `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, and assets | `.github/workflows/extension-release.yml`, `extension/.vscodeignore` | ✅ passing | Phase E4 | Release workflow inspects packaged VSIX contents and rejects nested VSIXs or a missing target binary |
+| `Extension.Packaging.TargetBinaryValidation` | Platform VSIX output contains exactly one server binary matching the VSIX target | `extension/test/package-targets/server-binary.test.ts`, `.github/workflows/extension-release.yml` | ✅ passing | Phase E14 | Unit coverage checks target mapping and missing/duplicate/wrong-target rejection; package test inspects a real VSIX archive; release workflow runs the same validator for all seven targets |
 | `Extension.Packaging.VSIXInstall` | Local VSIX install succeeds and extension functions | — | ⬜ not-yet-written | Phase E4 | Manual smoke test |
 | `Extension.CICD.MatrixBuild` | All 7 platform-specific VSIXs build on tag push | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
 | `Extension.CICD.MarketplacePublish` | Publish job succeeds with VSCE_PAT | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
@@ -317,6 +318,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.LanguageMode.UserOverrideSafety` | Manual non-Markdown language selections are preserved | `extension/src/language-mode.test.ts`, `extension/src/test/suite/activation-language-mode.test.js` | ✅ passing | Phase E9 | |
 | `Extension.LanguageMode.LoopSafety` | Language assignment does not create reopen or restart loops | `extension/src/language-mode.test.ts` | ✅ passing | Phase E6 | In-flight assignment guard unit-tested |
 | `Extension.LanguageMode.MarkdownParity` | OFMarkdown mode preserves baseline Markdown editing behavior | `extension/src/language-mode.test.ts`, `extension/language-configuration.json`, `extension/syntaxes/ofmarkdown.tmLanguage.json` | ✅ passing | Phase E6 | Unit coverage verifies the Markdown grammar bridge and Markdown-compatible language configuration |
+| `Extension.LanguageMode.MembershipRefresh` | Membership refresh follows server, index, workspace, editor, and file-open events without unsafe downgrade | `extension/src/language-mode.test.ts`, `extension/src/extension.ts`, `extension/src/commands.ts` | ✅ passing | Phase E14 | Unit coverage verifies open/visible Markdown and OFMarkdown refresh, explicit downgrade agreement, marker preservation, server-failure preservation, and manual non-Markdown isolation; extension wiring refreshes on ready and rebuild completion |
 
 ---
 
@@ -352,7 +354,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E11 (Marketplace Proof) | 2 | 2 | 100% |
 | Phase E12 (Editor Contributions) | 1 | 1 | 100% |
 | Phase E13 (Workspace Environments) | 2 | 2 | 100% |
-| **Total** | **138** | **57** | **41%** |
+| Phase E14 (Membership And Compatibility) | 2 | 2 | 100% |
+| **Total** | **140** | **59** | **42%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

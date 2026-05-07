@@ -2,7 +2,7 @@
 id: "TASK-212"
 title: "Validate server version and package target metadata"
 type: task
-status: red
+status: green
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-212"]
 
 # Validate server version and package target metadata
 
-> [!INFO] `TASK-212` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `red`
+> [!INFO] `TASK-212` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `green`
 
 ## Description
 
@@ -59,8 +59,8 @@ output for exactly one matching bundled server binary per target.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | 🔴 failing |
-| `extension/scripts/package-smoke.test.ts` | Script | `Extension.Packaging.TargetBinaryValidation` | 🔴 failing |
+| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | ✅ passing |
+| `extension/test/package-targets/server-binary.test.ts` | Unit/Script | `Extension.Packaging.TargetBinaryValidation` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -97,17 +97,17 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test or package smoke check written first.
-- [ ] Server version and target metadata are available to status diagnostics.
-- [ ] Client/server version mismatch produces a visible warning.
-- [ ] Package inspection fails on missing server binary.
-- [ ] Package inspection fails on duplicate server binaries.
-- [ ] Package inspection fails on wrong target binary.
+- [x] Failing test or package smoke check written first.
+- [x] Server version and target metadata are available to status diagnostics.
+- [x] Client/server version mismatch produces a visible warning.
+- [x] Package inspection fails on missing server binary.
+- [x] Package inspection fails on duplicate server binaries.
+- [x] Package inspection fails on wrong target binary.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally or have documented manual evidence.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
@@ -144,3 +144,8 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing package-target tests requiring a repeatable script and server
 > binary validator for missing, duplicate, and wrong-target binaries.
+
+> [!SUCCESS] Green - 2026-05-07
+> Server status notifications now include `serverVersion`, status diagnostics
+> render a client/server version warning, and package-target validation inspects
+> real VSIX archives plus the release workflow's seven target matrix entries.

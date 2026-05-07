@@ -94,6 +94,10 @@ describe('formatFlavorGrenadeStatus', () => {
     assert.match(presentation.tooltip, /State: ready/);
     assert.match(presentation.tooltip, /Extension: 0\.1\.3/);
     assert.match(presentation.tooltip, /Server: 0\.2\.1/);
+    assert.match(
+      presentation.tooltip,
+      /Version warning: extension 0\.1\.3 differs from server 0\.2\.1/,
+    );
     assert.match(presentation.tooltip, /Vault root: C:\/vault/);
     assert.match(presentation.tooltip, /Server path: bundled server/);
     assert.doesNotMatch(presentation.tooltip, /Users\/.+\/secret/i);
@@ -110,7 +114,7 @@ describe('formatFlavorGrenadeStatus', () => {
       {
         text: '$(circle-slash) FG: Disabled',
         tooltip:
-          'Flavor Grenade\nState: disabled\nExtension: unavailable\nServer: unavailable\nVault root: unavailable\nVaults: 0\nDocuments: 0\nPlatform: unavailable\nServer path: unavailable\nLast error: Restricted Mode\nNext action: Open troubleshooting',
+          'Flavor Grenade\nState: disabled\nExtension: unavailable\nServer: unavailable\nVersion warning: none\nVault root: unavailable\nVaults: 0\nDocuments: 0\nPlatform: unavailable\nServer path: unavailable\nLast error: Restricted Mode\nNext action: Open troubleshooting',
       },
     );
     assert.equal(
@@ -193,6 +197,7 @@ describe('formatFlavorGrenadeStatus', () => {
     assert.match(text, /Flavor Grenade diagnostics/);
     assert.match(text, /state: error/);
     assert.match(text, /extensionVersion: 0\.1\.3/);
+    assert.match(text, /versionWarning: extension 0\.1\.3 differs from server 0\.2\.1/);
     assert.match(text, /serverPath: custom server path configured/);
     assert.doesNotMatch(text, /server\.path=/i);
   });

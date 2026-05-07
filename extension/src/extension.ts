@@ -34,6 +34,7 @@ let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
 let statusBarItem: Pick<StatusBarItem, 'text' | 'tooltip'> | undefined;
 let currentStatus: FlavorGrenadeStatus = createBaseStatus('disabled');
+let languageModeController: LanguageModeController | undefined;
 
 export interface FlavorGrenadeExtensionApi {
   __testApplyStatus?(status: FlavorGrenadeStatus): FlavorGrenadeStatusPresentation | undefined;
@@ -68,13 +69,18 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
     startClientPromise ??= startLanguageClient(context).catch((error: unknown) => {
       client = undefined;
+      languageModeController = undefined;
       startClientPromise = undefined;
       throw error;
     });
     return startClientPromise;
   };
 
-  const commandDisposables = registerCommands(startClient, () => currentStatus);
+  const commandDisposables = registerCommands(
+    startClient,
+    () => currentStatus,
+    () => languageModeController?.refreshAll(),
+  );
   context.subscriptions.push(...commandDisposables);
 
   // Restart on server path change
@@ -207,7 +213,15 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
   // notifications cannot be missed during the LSP handshake.
   const statusBar = ensureStatusBar(context);
   statusBarItem = statusBar;
-  registerFlavorGrenadeStatusNotifications(nextClient, statusBar);
+  registerFlavorGrenadeStatusNotifications(nextClient, statusBar, {
+    transform: (status) => withContextStatus({ ...currentStatus, ...status }, context),
+    onStatus: (status) => {
+      currentStatus = status;
+      if (status.state === 'ready') {
+        void languageModeController?.refreshAll();
+      }
+    },
+  });
   currentStatus = withContextStatus(
     {
       state: 'initializing',
@@ -240,7 +254,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
 
   await nextClient.start();
 
-  const languageModeController = new LanguageModeController(nextClient, {
+  languageModeController = new LanguageModeController(nextClient, {
     getOpenDocuments: () => workspace.textDocuments,
     getVisibleEditors: () => window.visibleTextEditors,
     setTextDocumentLanguage: (document, languageId) =>
@@ -273,6 +287,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
           context,
         );
         applyFlavorGrenadeStatus(statusBar, currentStatus);
+        void languageModeController?.refreshAll();
       },
       () => {
         // Ignore best-effort status refresh failures; normal LSP features still report errors.

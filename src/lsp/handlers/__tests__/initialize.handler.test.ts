@@ -58,6 +58,7 @@ describe('InitializeHandler', () => {
       state: 'initializing',
       vaultCount: 0,
       docCount: 0,
+      serverVersion: SERVER_VERSION,
     });
   });
 

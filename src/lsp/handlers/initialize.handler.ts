@@ -58,7 +58,14 @@ export class InitializeHandler {
 
     // Defer status notification until after the initialize response is written,
     // so the client always receives the response before the notification.
-    setImmediate(() => this.notifier.send({ state: 'initializing', vaultCount: 0, docCount: 0 }));
+    setImmediate(() =>
+      this.notifier.send({
+        state: 'initializing',
+        vaultCount: 0,
+        docCount: 0,
+        serverVersion: SERVER_VERSION,
+      }),
+    );
 
     return result;
   }
