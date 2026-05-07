@@ -1,9 +1,11 @@
 # Flavor Grenade Troubleshooting
 
-Use **Flavor Grenade: Copy Diagnostic Info** before opening a support issue.
-The copied text includes status, version, platform, vault count, document count,
-and a sanitized server path summary. It does not include tokens, environment
-variables, or raw command-line arguments.
+Use **Flavor Grenade: Show Status Actions** first. The status menu exposes
+recovery commands that match the current state. Use **Flavor Grenade: Copy
+Diagnostic Info** before opening a support issue. The copied text includes
+status, version, platform, vault count, document count, and a sanitized server
+path summary. It does not include tokens, environment variables, or raw
+command-line arguments.
 
 ## Missing Server Binary
 

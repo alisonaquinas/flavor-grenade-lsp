@@ -1,7 +1,7 @@
 ---
 title: "Phase E10: Status UX And Troubleshooting"
 phase: E10
-status: in-progress
+status: in-review
 tags: [plans, vscode, extension, status, troubleshooting]
 aliases: [Phase E10, Status UX]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E10 |
 | Title | Status UX And Troubleshooting |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Known server and workspace states have accurate status, tooltip detail, and recovery actions |
 | Depends on | Phase E9 |
 
@@ -39,6 +39,7 @@ misconfigured without opening logs first.
 - Add warning or disabled states for missing binary, crash exhaustion,
   Restricted Mode, virtual workspaces, and unsupported platforms.
 - Add `flavorGrenade.copyDiagnosticInfo`.
+- Add `flavorGrenade.openTroubleshooting`.
 - Add a status quick-action menu or equivalent command flow.
 - Add troubleshooting documentation for common install and runtime failures.
 
@@ -62,7 +63,14 @@ cd extension
 npm run check-types
 npm test
 npm run build:extension
+npm run test:host
 ```
+
+Root verification also runs `bun run lint`, `bun run typecheck`, `bun run
+build`, `bun test`, `bun run lint:docs`, and extension-doc Markdown lint.
+`bun run bdd` is currently blocked by pre-existing undefined and pending BDD
+steps outside Phase E10; Phase E10 coverage is supplied by extension unit tests
+and the VS Code host harness.
 
 ## Related
 
