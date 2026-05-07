@@ -2,7 +2,7 @@
 id: "TASK-174"
 title: "Add file operation regression suite"
 type: task
-status: green
+status: done
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-174"]
 
 # Add file operation regression suite
 
-> [!INFO] `TASK-174` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
+> [!INFO] `TASK-174` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `done`
 
 ## Description
 
@@ -150,4 +150,4 @@ Full state machine, TDD phase rules, and agent obligations:
 > Attachment move rewrites now include a safe raw vault-relative image-target
 > fallback, preserving the Phase 15 nested attachment lesson. Focused
 > regression/rewrite tests, `bun run typecheck`, and
-> `bun run lint -- --max-warnings 0` pass. Status: `green`.
+> `bun run lint -- --max-warnings 0` pass. Status: `done`.

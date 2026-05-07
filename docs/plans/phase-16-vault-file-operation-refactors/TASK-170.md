@@ -2,7 +2,7 @@
 id: "TASK-170"
 title: "Build vault-confined move planner"
 type: task
-status: green
+status: done
 priority: high
 phase: 16
 parent: "FEAT-023"
@@ -15,7 +15,7 @@ aliases: ["TASK-170"]
 
 # Build vault-confined move planner
 
-> [!INFO] `TASK-170` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `green`
+> [!INFO] `TASK-170` · Task · Phase 16 · Parent: [[FEAT-023]] · Status: `done`
 
 ## Description
 
@@ -143,4 +143,4 @@ Full state machine, TDD phase rules, and agent obligations:
 > to extension-free DocIds, preserves extension-bearing attachment paths, and
 > expands folder moves across known notes and attachments. Focused planner
 > tests, `bun run typecheck`, and `bun run lint -- --max-warnings 0` pass.
-> Status: `green`.
+> Status: `done`.
