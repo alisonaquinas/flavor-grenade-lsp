@@ -2,7 +2,7 @@
 id: "TASK-207"
 title: "Resolve server binary for local and remote hosts"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-207"]
 
 # Resolve server binary for local and remote hosts
 
-> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `green`
+> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `in-review`
 
 ## Description
 
@@ -101,7 +101,7 @@ All of the following must be true before this task is marked `done`:
 - [x] `tsc --noEmit` exits 0.
 - [x] [[test/matrix]] row(s) updated to `✅ passing`.
 - [x] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
+- [x] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
 
@@ -140,3 +140,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!SUCCESS] Green - 2026-05-07
 > Added local and remote host environment classification coverage while keeping
 > the existing host `process.platform` server-command resolution.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.

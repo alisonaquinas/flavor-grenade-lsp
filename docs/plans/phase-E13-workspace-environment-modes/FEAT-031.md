@@ -2,7 +2,7 @@
 id: "FEAT-031"
 title: "Workspace Environment Modes"
 type: feature
-status: in-progress
+status: in-review
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-031"]
 
 # Workspace Environment Modes
 
-> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `in-progress`
+> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `in-review`
 
 ## Goal
 
@@ -81,17 +81,17 @@ messages, while supported environments run the bundled server next to the files.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Restricted Mode shows disabled status and never spawns the server.
-- [ ] Virtual workspaces show disabled status and never spawn the server.
-- [ ] Local Windows, macOS, and Linux startup behavior is documented.
-- [ ] WSL, SSH, and Dev Container smoke-test procedures are documented.
-- [ ] Remote extension hosts resolve the matching platform server binary.
-- [ ] Status and troubleshooting docs agree on environment behavior.
-- [ ] [[test/matrix]] updated with every new test file introduced.
-- [ ] [[test/index]] updated with every new test file introduced.
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]]).
-- [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`).
-- [ ] `tsc --noEmit` exits 0.
+- [x] Restricted Mode shows disabled status and never spawns the server.
+- [x] Virtual workspaces show disabled status and never spawn the server.
+- [x] Local Windows, macOS, and Linux startup behavior is documented.
+- [x] WSL, SSH, and Dev Container smoke-test procedures are documented.
+- [x] Remote extension hosts resolve the matching platform server binary.
+- [x] Status and troubleshooting docs agree on environment behavior.
+- [x] [[test/matrix]] updated with every new test file introduced.
+- [x] [[test/index]] updated with every new test file introduced.
+- [x] Phase gate command passes locally; awaiting CI (see [[plans/execution-ledger]]).
+- [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
+- [x] `tsc --noEmit` exits 0.
 
 ---
 
@@ -99,10 +99,10 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-205]] | Block Restricted Mode server startup | `green` |
-| [[TASK-206]] | Block virtual workspace server startup | `green` |
-| [[TASK-207]] | Resolve server binary for local and remote hosts | `green` |
-| [[TASK-208]] | Document remote environment smoke tests | `green` |
+| [[TASK-205]] | Block Restricted Mode server startup | `in-review` |
+| [[TASK-206]] | Block virtual workspace server startup | `in-review` |
+| [[TASK-207]] | Resolve server binary for local and remote hosts | `in-review` |
+| [[TASK-208]] | Document remote environment smoke tests | `in-review` |
 | [[CHORE-078]] | Phase E13 extension lint sweep | `in-review` |
 | [[CHORE-079]] | Phase E13 manual verification ledger sweep | `in-review` |
 | [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `in-review` |
@@ -165,3 +165,8 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Phase E13 execution started on branch
 > `codex/phase-e13-workspace-environments`. Child task tickets are present and
 > scoped; implementation now follows the phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Workspace environment classifier, activation gating, remote/local smoke docs,
+> troubleshooting docs, and traceability are locally verified. Awaiting PR CI
+> and review.
