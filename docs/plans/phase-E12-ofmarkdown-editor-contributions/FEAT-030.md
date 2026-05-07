@@ -2,7 +2,7 @@
 id: "FEAT-030"
 title: "OFMarkdown Editor Contributions"
 type: feature
-status: draft
+status: done
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-030"]
 
 # OFMarkdown Editor Contributions
 
-> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-030` - Feature - Phase E12 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -76,15 +76,15 @@ generic Markdown behavior.
 
 All of the following must be true before this ticket is marked `done`.
 
-- [ ] OFMarkdown snippets appear only for `ofmarkdown`
-- [ ] OFMarkdown keybindings are guarded by `editorLangId == ofmarkdown`
-- [ ] Language configuration changes are scoped to the OFMarkdown language id
-- [ ] Generic Markdown behavior is unchanged unless intentionally shared
-- [ ] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[test/matrix]]
-- [ ] [[test/index]] updated with every new verification file introduced
-- [ ] `cd extension && npm run check-types` exits 0
-- [ ] `cd extension && npm test` exits 0
-- [ ] `cd extension && npm run build:extension` exits 0
+- [x] OFMarkdown snippets appear only for `ofmarkdown`
+- [x] OFMarkdown keybindings are guarded by `editorLangId == ofmarkdown`
+- [x] Language configuration changes are scoped to the OFMarkdown language id
+- [x] Generic Markdown behavior is unchanged unless intentionally shared
+- [x] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[test/matrix]]
+- [x] [[test/index]] updated with every new verification file introduced
+- [x] `cd extension && npm run check-types` exits 0
+- [x] `cd extension && npm test` exits 0
+- [x] `cd extension && npm run build:extension` exits 0
 
 ---
 
@@ -92,13 +92,13 @@ All of the following must be true before this ticket is marked `done`.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-201]] | Add OFMarkdown snippets | `open` |
-| [[TASK-202]] | Tune OFMarkdown language configuration | `open` |
-| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `open` |
-| [[TASK-204]] | Test generic Markdown isolation | `open` |
-| [[CHORE-075]] | Phase E12 Contribution Manifest Sweep | `open` |
-| [[CHORE-076]] | Phase E12 Snippet And Language Docs Sweep | `open` |
-| [[CHORE-077]] | Phase E12 Documentation Trace Sweep | `open` |
+| [[TASK-201]] | Add OFMarkdown snippets | `done` |
+| [[TASK-202]] | Tune OFMarkdown language configuration | `done` |
+| [[TASK-203]] | Add OFMarkdown-scoped keybindings | `done` |
+| [[TASK-204]] | Test generic Markdown isolation | `done` |
+| [[CHORE-075]] | Phase E12 Contribution Manifest Sweep | `done` |
+| [[CHORE-076]] | Phase E12 Snippet And Language Docs Sweep | `done` |
+| [[CHORE-077]] | Phase E12 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -157,3 +157,48 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E12 execution started on branch
+> `codex/phase-e12-ofmarkdown-contributions`. Child task tickets are present
+> and scoped; implementation now follows the phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> OFMarkdown snippets, scoped keybindings, language configuration tuning,
+> generic Markdown isolation, documentation, and traceability are locally
+> verified. Awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI passed TypeScript typecheck, ESLint, Prettier format check, tests,
+> Markdown lint, and build. Phase E12 is complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+Manifest-level tests were enough for this phase because snippets, keybindings,
+and language configuration are static VS Code contribution points. The RED
+tests cleanly failed before the manifest and snippet files existed.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | None | No sweep defects required new tickets | 0 h |
+
+### Process observations
+
+Keybindings needed one extra design pass before implementation. Payload-driven
+bridge commands are poor default keybinding targets, so E12 stayed with
+payload-free commands.
+
+### Carry-forward actions
+
+- [ ] Keep E13 focused on environment behavior; do not expand it with editor
+  contribution changes.
+
+### Rule / template amendments
+
+- [ ] None.

@@ -2,7 +2,7 @@
 id: "TASK-204"
 title: "Test generic Markdown isolation"
 type: task
-status: open
+status: done
 priority: high
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-204"]
 
 # Test generic Markdown isolation
 
-> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `open`
+> [!INFO] `TASK-204` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `done`
 
 ## Description
 
@@ -55,7 +55,7 @@ into generic `markdown`.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/contributions/ofmarkdown-isolation.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | 🔴 failing |
+| `extension/test/contributions/ofmarkdown-isolation.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | ✅ passing |
 
 ---
 
@@ -91,14 +91,14 @@ into generic `markdown`.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Tests prove snippets are scoped to `ofmarkdown`
-- [ ] Tests prove keybindings use OFMarkdown guards
-- [ ] Tests prove generic Markdown behavior is unchanged
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [ ] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
+- [x] Tests prove snippets are scoped to `ofmarkdown`
+- [x] Tests prove keybindings use OFMarkdown guards
+- [x] Tests prove generic Markdown behavior is unchanged
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[test/index]] updated if a new test file is added
+- [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
 
@@ -143,3 +143,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-030]].
+
+> [!WARNING] Red - 2026-05-07
+> Added manifest-level isolation tests proving generic Markdown does not receive
+> OFMarkdown-only snippets, keybindings, or language configuration.
+
+> [!SUCCESS] Green - 2026-05-07
+> Generic Markdown isolation tests pass for snippets, language contribution, and
+> OFMarkdown-only keybinding guards.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the parent feature row is updated to `done`.

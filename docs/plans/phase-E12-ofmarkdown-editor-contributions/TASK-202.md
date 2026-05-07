@@ -2,7 +2,7 @@
 id: "TASK-202"
 title: "Tune OFMarkdown language configuration"
 type: task
-status: open
+status: done
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-202"]
 
 # Tune OFMarkdown language configuration
 
-> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `open`
+> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `done`
 
 ## Description
 
@@ -53,7 +53,7 @@ Markdown configuration.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/contributions/language-configuration.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | 🔴 failing |
+| `extension/test/contributions/language-configuration.test.ts` | Extension | `Extension.Contributions.OFMarkdownScoped` | ✅ passing |
 
 ---
 
@@ -87,13 +87,13 @@ Markdown configuration.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] OFMarkdown language configuration covers comments and surrounding pairs
-- [ ] Folding markers and word patterns are tuned for OFMarkdown constructs
-- [ ] Generic Markdown language configuration is unchanged
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [ ] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
+- [x] OFMarkdown language configuration covers comments and surrounding pairs
+- [x] Folding markers and word patterns are tuned for OFMarkdown constructs
+- [x] Generic Markdown language configuration is unchanged
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[test/index]] updated if a new test file is added
+- [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
 
@@ -138,3 +138,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-030]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing language-configuration tests requiring OFMarkdown auto-pairs,
+> surrounding pairs, and word-pattern coverage.
+
+> [!SUCCESS] Green - 2026-05-07
+> Tuned `extension/language-configuration.json` for wiki-link, embed, comment,
+> tag, and block-anchor editing behavior; `cd extension && npm test` passes.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the parent feature row is updated to `done`.

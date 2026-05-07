@@ -1,7 +1,7 @@
 ---
 title: "Phase E12: OFMarkdown Editor Contributions"
 phase: E12
-status: planned
+status: complete
 tags: [plans, vscode, extension, ofmarkdown, snippets]
 aliases: [Phase E12, OFMarkdown Contributions]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E12 |
 | Title | OFMarkdown Editor Contributions |
-| Status | planned |
+| Status | complete |
 | Gate | OFMarkdown snippets, keybindings, and language configuration are scoped correctly |
 | Depends on | Phase E11 |
 
@@ -61,6 +61,9 @@ npm run check-types
 npm test
 npm run build:extension
 ```
+
+CI evidence: PR #44 passed TypeScript typecheck, ESLint, Prettier format check,
+unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 

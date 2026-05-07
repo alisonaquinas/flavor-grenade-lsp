@@ -2,7 +2,7 @@
 id: "CHORE-075"
 title: "Phase E12 Contribution Manifest Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-075"]
 
 # Phase E12 Contribution Manifest Sweep
 
-> [!INFO] `CHORE-075` - Chore - Phase E12 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-075` - Chore - Phase E12 - Priority: `medium` - Status: `done`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -87,13 +87,13 @@ Contribution scope mistakes can affect every Markdown document in VS Code.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Snippet contribution language is `ofmarkdown`
-- [ ] Keybinding `when` clauses include `editorLangId == ofmarkdown`
-- [ ] Language configuration is tied to the OFMarkdown language contribution
-- [ ] No generic Markdown contribution changes are accidental
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
+- [x] Snippet contribution language is `ofmarkdown`
+- [x] Keybinding `when` clauses include `editorLangId == ofmarkdown`
+- [x] Language configuration is tied to the OFMarkdown language contribution
+- [x] No generic Markdown contribution changes are accidental
+- [x] No behaviour-affecting changes in `src/`
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
 
 ---
 
@@ -132,3 +132,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: prevent OFMarkdown contribution
 > scope drift.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Manifest sweep passed: snippets target `ofmarkdown`, keybindings use
+> OFMarkdown guards, and no generic Markdown contribution was added.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #44 CI is green and the sweep remains complete.

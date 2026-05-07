@@ -56,6 +56,31 @@ Callout completion offers common Obsidian callout types inside quote blocks.
 - **Semantic Tokens** — Syntax highlighting for wiki-links, tags, embeds, and block references
 - **OFMarkdown language mode** — Obsidian vault notes are recognized as `OFMarkdown` without taking over generic Markdown files
 
+## OFMarkdown Editor Affordances
+
+The extension contributes snippets only for the **OFMarkdown** language mode:
+
+| Prefix | Inserts |
+|--------|---------|
+| `ofm-callout` | Obsidian callout block |
+| `ofm-embed` | `![[embed]]` link |
+| `ofm-wikilink` | `[[wiki-link]]` |
+| `ofm-aliases` | YAML `aliases` frontmatter |
+| `ofm-tags` | YAML `tags` frontmatter |
+| `ofm-block-anchor` | `^block-id` anchor |
+
+OFMarkdown mode also adds editor pairs for wiki-links, embeds, and Obsidian
+comments, plus word selection tuned for tags and block anchors. Generic
+Markdown keeps VS Code's normal Markdown behavior.
+
+Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
+
+| Command | Windows/Linux | macOS |
+|---------|---------------|-------|
+| Rebuild Index | `Ctrl+Alt+G Ctrl+Alt+R` | `Cmd+Alt+G Cmd+Alt+R` |
+| Show Status Actions | `Ctrl+Alt+G Ctrl+Alt+S` | `Cmd+Alt+G Cmd+Alt+S` |
+| Show Output | `Ctrl+Alt+G Ctrl+Alt+O` | `Cmd+Alt+G Cmd+Alt+O` |
+
 ## Configuration
 
 | Setting | Type | Default | Description |
