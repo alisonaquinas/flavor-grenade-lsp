@@ -2,7 +2,7 @@
 id: "TASK-186"
 title: "Validate Command Bridge Payloads"
 type: task
-status: in-review
+status: done
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-186"]
 
 # Validate Command Bridge Payloads
 
-> [!INFO] `TASK-186` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
+> [!INFO] `TASK-186` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `done`
 
 ## Description
 
@@ -138,3 +138,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] In Review - 2026-05-07
 > Local phase gate passed and payload validation coverage is ready for PR
 > review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; command bridge payload validation is complete.

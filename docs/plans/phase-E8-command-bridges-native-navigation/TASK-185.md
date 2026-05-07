@@ -2,7 +2,7 @@
 id: "TASK-185"
 title: "Register Native Reference And Link Bridges"
 type: task
-status: in-review
+status: done
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-185"]
 
 # Register Native Reference And Link Bridges
 
-> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
+> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `done`
 
 ## Description
 
@@ -137,3 +137,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] In Review - 2026-05-07
 > Local phase gate passed and native bridge coverage is ready for PR review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; native reference and link bridge work is complete.

@@ -1,7 +1,7 @@
 ---
 title: "Phase E8: Command Bridges And Native Navigation"
 phase: E8
-status: in-review
+status: complete
 tags: [plans, vscode, extension, commands, marksman-parity]
 aliases: [Phase E8, Command Bridges]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E8 |
 | Title | Command Bridges And Native Navigation |
-| Status | in-review |
+| Status | complete |
 | Gate | Bridge commands validate payloads and invoke native VS Code reference and navigation UI |
 | Depends on | Phase E7 |
 

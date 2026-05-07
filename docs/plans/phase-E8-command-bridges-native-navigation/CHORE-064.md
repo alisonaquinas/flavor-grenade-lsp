@@ -2,7 +2,7 @@
 id: "CHORE-064"
 title: "Phase E8 Test Trace Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-064"]
 
 # Phase E8 Test Trace Sweep
 
-> [!INFO] `CHORE-064` - Chore - Phase E8 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-064` - Chore - Phase E8 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -128,3 +128,6 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!INFO] In Review - 2026-05-07
 > Added Phase E8 rows to [[test/matrix]] and listed
 > `extension/src/command-bridges.test.ts` in [[test/index]].
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; test trace sweep is complete.

@@ -2,7 +2,7 @@
 id: "TASK-188"
 title: "Document Command Bridge Contracts"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-188"]
 
 # Document Command Bridge Contracts
 
-> [!INFO] `TASK-188` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `in-review`
+> [!INFO] `TASK-188` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `done`
 
 ## Description
 
@@ -141,3 +141,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] In Review - 2026-05-07
 > Documentation matches the implemented bridge contracts and is ready for PR
 > review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; command bridge contract documentation is complete.

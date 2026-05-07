@@ -2,7 +2,7 @@
 id: "CHORE-065"
 title: "Phase E8 Documentation Trace Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-065"]
 
 # Phase E8 Documentation Trace Sweep
 
-> [!INFO] `CHORE-065` - Chore - Phase E8 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-065` - Chore - Phase E8 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -126,3 +126,6 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!INFO] In Review - 2026-05-07
 > Reviewed command bridge docs and requirement trace; docs are ready for PR
 > review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; documentation trace sweep is complete.
