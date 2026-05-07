@@ -94,9 +94,9 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-181]] | Add Vault Marker Activation Events | `open` |
-| [[TASK-182]] | Gate Startup Vault Work | `open` |
-| [[TASK-183]] | Preserve Command And Language Wake Paths | `open` |
+| [[TASK-181]] | Add Vault Marker Activation Events | `red` |
+| [[TASK-182]] | Gate Startup Vault Work | `red` |
+| [[TASK-183]] | Preserve Command And Language Wake Paths | `red` |
 | [[TASK-184]] | Document Activation Behavior | `open` |
 | [[CHORE-060]] | Phase E7 Lint Sweep | `open` |
 | [[CHORE-061]] | Phase E7 Test Trace Sweep | `open` |

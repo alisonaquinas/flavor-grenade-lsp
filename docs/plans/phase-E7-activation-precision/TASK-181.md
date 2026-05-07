@@ -2,7 +2,7 @@
 id: "TASK-181"
 title: "Add Vault Marker Activation Events"
 type: task
-status: open
+status: red
 priority: high
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-181"]
 
 # Add Vault Marker Activation Events
 
-> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `open`
+> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `red`
 
 ## Description
 
@@ -125,3 +125,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-025]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing activation manifest and marker-detection tests in
+> `extension/src/activation-gate.test.ts`.

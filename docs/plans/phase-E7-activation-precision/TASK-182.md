@@ -2,7 +2,7 @@
 id: "TASK-182"
 title: "Gate Startup Vault Work"
 type: task
-status: open
+status: red
 priority: high
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-182"]
 
 # Gate Startup Vault Work
 
-> [!INFO] `TASK-182` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `open`
+> [!INFO] `TASK-182` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `red`
 
 ## Description
 
@@ -126,3 +126,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-025]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing startup-gate tests for generic Markdown idle and vault-marker
+> startup in `extension/src/activation-gate.test.ts`.
