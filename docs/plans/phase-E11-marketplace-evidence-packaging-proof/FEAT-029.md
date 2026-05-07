@@ -53,7 +53,7 @@ contains every required visual asset.
 | Requirement Tag | Gist | Source File |
 |---|---|---|
 | `Extension.Marketplace.OFMProof` | README shows required OFMarkdown screenshots or GIFs | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Packaging.TargetBinaryValidation` | Referenced Marketplace assets are included in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced Marketplace assets are included in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -79,9 +79,9 @@ All of the following must be true before this ticket is marked `done`.
 - [ ] `extension/README.md` references all required OFMarkdown visual categories
 - [ ] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
 - [ ] Packaged VSIX inspection confirms each referenced required asset ships
-- [ ] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
-- [ ] `Extension.Packaging.TargetBinaryValidation` has passing evidence in [[test/matrix]]
-- [ ] [[test/index]] updated with every new verification file introduced
+- [x] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
+- [x] `Extension.Marketplace.AssetPackaging` has passing evidence in [[test/matrix]]
+- [x] [[test/index]] updated with every new verification file introduced
 - [ ] `cd extension && npm run build:extension` exits 0
 - [ ] `cd extension && npx vsce package --no-dependencies` exits 0
 
@@ -97,7 +97,7 @@ All of the following must be true before this ticket is marked `done`.
 | [[TASK-200]] | Verify README assets in packaged VSIX | `green` |
 | [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `done` |
 | [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `done` |
-| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `open` |
+| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `done` |
 
 ---
 

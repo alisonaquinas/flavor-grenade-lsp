@@ -36,7 +36,7 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Packaging.TargetBinaryValidation` | Referenced README assets are present in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced README assets are present in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -52,7 +52,7 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/marketplace/vsix-assets.test.ts` | Extension | `Extension.Packaging.TargetBinaryValidation` | 🔴 failing |
+| `extension/test/marketplace/vsix-assets.test.ts` | Extension | `Extension.Marketplace.AssetPackaging` | ✅ passing |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Unsupported image formats fail the verification
 - [x] `cd extension && npm run build:extension` passes
 - [x] `cd extension && npx vsce package --no-dependencies` passes
-- [ ] [[test/matrix]] row updated for `Extension.Packaging.TargetBinaryValidation`
-- [ ] [[test/index]] updated if a new test file is added
+- [x] [[test/matrix]] row updated for `Extension.Marketplace.AssetPackaging`
+- [x] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
 
 ---

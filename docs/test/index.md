@@ -119,6 +119,8 @@ helpers or injected VS Code facades.
 | `extension/src/status-bar.test.ts` | Unit | Tests status text, rich tooltip detail, disabled/crashed/misconfigured states, quick actions, and sanitized diagnostic text | `Extension.StatusBar.StateTransition`, `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/src/status-actions.test.ts` | Unit | Tests status quick-pick action item creation for restart, rebuild, output, diagnostic copy, and vault reveal actions | `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/src/troubleshooting.test.ts` | Unit | Tests the troubleshooting document URL and required recovery topics | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
+| `extension/test/marketplace/readme-assets.test.ts` | Unit | Tests Marketplace README references every required OFMarkdown visual with supported local image formats | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
+| `extension/test/marketplace/vsix-assets.test.ts` | Unit | Tests the Marketplace asset verification script and packaged output include every required README visual | `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
 | `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests

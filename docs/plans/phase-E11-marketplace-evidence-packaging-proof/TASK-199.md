@@ -54,7 +54,7 @@ editing surface beyond basic links.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/test/marketplace/readme-assets.test.ts` | Extension | `Extension.Marketplace.OFMProof` | 🔴 failing |
+| `extension/test/marketplace/readme-assets.test.ts` | Extension | `Extension.Marketplace.OFMProof` | ✅ passing |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Callout completion visual is referenced
 - [x] Linked verification test covers these required categories
 - [x] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
-- [ ] [[test/index]] updated if a new test file is added
+- [x] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
+- [x] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
 
 ---

@@ -15,4 +15,4 @@ aliases: ["Phase E11 Tickets"]
 | [[TASK-200]] | Verify README assets in packaged VSIX | Task | `green` |
 | [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | Chore | `done` |
 | [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | Chore | `done` |
-| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | Chore | `open` |
+| [[CHORE-074]] | Phase E11 Documentation Trace Sweep | Chore | `done` |

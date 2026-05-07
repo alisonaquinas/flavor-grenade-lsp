@@ -35,7 +35,7 @@ without changing extension runtime behavior.
 The E11 gate depends on reproducible VSIX inspection rather than manual archive
 checking.
 
-- Motivated by: `Extension.Packaging.TargetBinaryValidation`
+- Motivated by: `Extension.Marketplace.AssetPackaging`
 
 ---
 
@@ -43,7 +43,7 @@ checking.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Packaging.TargetBinaryValidation` | Referenced README assets ship in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced README assets ship in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
 
 ---
 
