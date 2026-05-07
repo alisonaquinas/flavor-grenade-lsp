@@ -32,6 +32,7 @@ Code while keeping OFMarkdown intelligence in the language server.
 | Tests | `Extension.Tests.HostCoverage`, `Extension.Workspace.EnvironmentModes` |
 | Marketplace | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` |
 | Contributions | `Extension.Contributions.OFMarkdownScoped` |
+| Packaging | `Extension.Packaging.TargetBinaryValidation` |
 
 ## Command Bridge Contract
 

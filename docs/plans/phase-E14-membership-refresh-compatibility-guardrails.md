@@ -29,7 +29,7 @@ VSIXs should clearly match the bundled server target and version.
 |---|---|
 | [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] | Refresh membership after server and workspace events |
 | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Keep remote and local membership behavior consistent |
-| [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Validate packaged target contents |
+| [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] | Validate packaged target contents |
 
 ## Scope
 

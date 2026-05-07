@@ -17,7 +17,7 @@ aliases: [Extension Parity Plan]
 | E11 Marketplace proof | Add screenshots and README sections for `Extension.Marketplace.AssetPackaging` |
 | E12 OFMarkdown contributions | Add snippets, scoped keybindings, and language configuration refinements for `Extension.Contributions.OFMarkdownScoped` |
 | E13 Workspace environments | Document restricted, virtual, remote, WSL, SSH, and Dev Container behavior for `Extension.Workspace.EnvironmentModes` |
-| E14 Membership and compatibility | Harden membership refresh and package target/version checks for `Extension.LanguageMode.MembershipRefresh` |
+| E14 Membership and compatibility | Harden membership refresh and package target/version checks for `Extension.LanguageMode.MembershipRefresh` and `Extension.Packaging.TargetBinaryValidation` |
 
 ## Gate
 

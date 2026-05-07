@@ -327,7 +327,7 @@ validation so bundled binaries stay aligned with the extension. Gate: refresh
 triggers assign the correct language mode and packaged VSIX checks catch target
 or version mismatches.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]]
 
 Implementation plan: [[plans/phase-E14-membership-refresh-compatibility-guardrails]]
 
