@@ -8,7 +8,7 @@ aliases: ["Phase E13 Tickets", Workspace Environment Modes Tickets]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-031]] | Workspace Environment Modes | Feature | `draft` |
+| [[FEAT-031]] | Workspace Environment Modes | Feature | `in-progress` |
 | [[TASK-205]] | Block Restricted Mode server startup | Task | `open` |
 | [[TASK-206]] | Block virtual workspace server startup | Task | `open` |
 | [[TASK-207]] | Resolve server binary for local and remote hosts | Task | `open` |

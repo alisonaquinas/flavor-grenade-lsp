@@ -2,7 +2,7 @@
 id: "FEAT-031"
 title: "Workspace Environment Modes"
 type: feature
-status: draft
+status: in-progress
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-031"]
 
 # Workspace Environment Modes
 
-> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `in-progress`
 
 ## Goal
 
@@ -160,3 +160,8 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E13 execution started on branch
+> `codex/phase-e13-workspace-environments`. Child task tickets are present and
+> scoped; implementation now follows the phase execution procedure.

@@ -1,7 +1,7 @@
 ---
 title: "Phase E13: Workspace Environment Modes"
 phase: E13
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, workspace, remote]
 aliases: [Phase E13, Workspace Environments]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E13 |
 | Title | Workspace Environment Modes |
-| Status | planned |
+| Status | in-progress |
 | Gate | Restricted, virtual, local, WSL, SSH, Dev Container, and remote behavior is explicit and verified |
 | Depends on | Phase E12 |
 
