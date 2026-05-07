@@ -2,6 +2,20 @@
 
 Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) in Visual Studio Code. Powered by the [flavor-grenade-lsp](https://github.com/alisonaquinas/flavor-grenade-lsp) language server.
 
+## OFMarkdown In VS Code
+
+![OFMarkdown language mode promotion](images/marketplace/ofmarkdown-mode.png)
+
+Vault notes are promoted to **OFMarkdown** so Obsidian-specific links, embeds,
+tags, and block anchors get language-server support without taking over generic
+Markdown files.
+
+![Flavor Grenade status bar indexing](images/marketplace/status-indexing.png)
+
+The status bar shows whether Flavor Grenade is starting, indexing, ready,
+disabled, crashed, or misconfigured. Status actions expose rebuild, output,
+diagnostic copy, troubleshooting, and vault reveal commands when they apply.
+
 ## Features
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links

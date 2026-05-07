@@ -9,7 +9,7 @@ aliases: ["Phase E11 Tickets"]
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-029]] | Marketplace Evidence And Packaging Proof | Feature | `in-progress` |
-| [[TASK-197]] | Add OFMarkdown mode and status visuals | Task | `red` |
+| [[TASK-197]] | Add OFMarkdown mode and status visuals | Task | `green` |
 | [[TASK-198]] | Add completion and navigation visuals | Task | `open` |
 | [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | Task | `open` |
 | [[TASK-200]] | Verify README assets in packaged VSIX | Task | `open` |

@@ -2,7 +2,7 @@
 id: "TASK-197"
 title: "Add OFMarkdown mode and status visuals"
 type: task
-status: red
+status: green
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-197"]
 
 # Add OFMarkdown mode and status visuals
 
-> [!INFO] `TASK-197` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
+> [!INFO] `TASK-197` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `green`
 
 ## Description
 
@@ -87,11 +87,11 @@ vault.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] OFMarkdown mode promotion visual is referenced from `extension/README.md`
-- [ ] Status indexing visual is referenced from `extension/README.md`
-- [ ] Assets use Marketplace-supported formats
-- [ ] Linked verification test starts RED before implementation
-- [ ] `cd extension && npm test` passes after implementation
+- [x] OFMarkdown mode promotion visual is referenced from `extension/README.md`
+- [x] Status indexing visual is referenced from `extension/README.md`
+- [x] Assets use Marketplace-supported formats
+- [x] Linked verification test starts RED before implementation
+- [x] `cd extension && npm test` passes after implementation
 - [ ] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
 - [ ] [[test/index]] updated if a new test file is added
 - [ ] Parent feature [[FEAT-029]] child task row updated to `in-review`
@@ -143,3 +143,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!WARNING] Red - 2026-05-07
 > Added failing Marketplace README asset coverage for OFMarkdown mode promotion
 > and status indexing visuals.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added README Marketplace proof section with OFMarkdown mode and status
+> indexing PNG assets under `extension/images/marketplace/`.
