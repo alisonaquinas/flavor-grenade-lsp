@@ -288,6 +288,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Activation.Markdown` | Extension can wake on `onLanguage:markdown` and run the startup gate | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Phase E7 replaces unconditional server start with gated startup; extension-host coverage remains deferred to Phase E9 |
 | `Extension.Activation.VaultPrecision` | Vault marker workspaces start while generic Markdown remains idle | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Unit coverage verifies `.obsidian/`, `.flavor-grenade.toml`, generic Markdown idle, `ofmarkdown`, and command wake decisions |
 | `Extension.Activation.MarkerEvents` | Manifest and gate honor marker, language, and command activation signals | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Manifest coverage verifies vault marker, language, and command activation events |
+| `Extension.CommandBridges.NativeUI` | Server-provided locations invoke native VS Code reference and navigation UI | `extension/src/command-bridges.test.ts` | ✅ passing | Phase E8 | Unit coverage verifies `editor.action.showReferences` and native document opening through an injected VS Code facade |
+| `Extension.CommandBridges.PayloadValidation` | Command bridge payloads are validated before VS Code API calls | `extension/src/command-bridges.test.ts` | ✅ passing | Phase E8 | Invalid payloads return safe failure and do not call native APIs |
+| `Extension.CommandBridges.GraphActions` | Required graph, vault, embed, and diagnostic bridge commands are registered | `extension/src/command-bridges.test.ts` | ✅ passing | Phase E8 | Coverage verifies command contributions, activation events, backlinks, outlinks, reveal, embed, and diagnostic copy bridges |
 | `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
 | `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
 | `Extension.StatusBar.StateTransition` | Status bar text reflects all 4 server states (initializing, indexing, ready, error) | — | ⬜ not-yet-written | Phase E3 | Unit test; mock `flavorGrenade/status` notifications |
@@ -337,7 +340,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
 | Phase E6 (OFMarkdown Language Mode) | 6 | 6 | 100% |
 | Phase E7 (Activation Precision) | 3 | 3 | 100% |
-| **Total** | **130** | **49** | **38%** |
+| Phase E8 (Command Bridges) | 3 | 3 | 100% |
+| **Total** | **133** | **52** | **39%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

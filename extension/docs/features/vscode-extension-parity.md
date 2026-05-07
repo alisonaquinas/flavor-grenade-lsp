@@ -37,9 +37,19 @@ Code while keeping OFMarkdown intelligence in the language server.
 ## Command Bridge Contract
 
 Command bridge payloads must be JSON-serializable and must not require server
-types in the extension bundle.
+types or VS Code classes in the extension bundle.
 
-Minimum payload shape:
+Required Phase E8 bridge commands:
+
+- `flavorGrenade.showReferences`
+- `flavorGrenade.followLink`
+- `flavorGrenade.openEmbedTarget`
+- `flavorGrenade.showBacklinks`
+- `flavorGrenade.showOutlinks`
+- `flavorGrenade.revealVaultRoot`
+- `flavorGrenade.copyDiagnosticInfo`
+
+Minimum location payload shape:
 
 ```typescript
 interface LocationPayload {
@@ -51,7 +61,15 @@ interface LocationPayload {
 }
 ```
 
-The extension validates payload shape before calling VS Code APIs.
+The extension validates payload shape before calling VS Code APIs. Invalid
+payloads fail safely with a command-payload error and no uncaught
+extension-host exception.
+
+Detailed payload contracts live in
+[command-bridge-contracts.md](command-bridge-contracts.md). They trace to Phase
+E8 and the `Extension.CommandBridges.NativeUI`,
+`Extension.CommandBridges.PayloadValidation`, and
+`Extension.CommandBridges.GraphActions` requirements.
 
 ## Non-Goals
 

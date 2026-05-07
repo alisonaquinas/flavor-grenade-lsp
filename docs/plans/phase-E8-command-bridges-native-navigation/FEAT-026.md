@@ -2,7 +2,7 @@
 id: "FEAT-026"
 title: "Command Bridges And Native Navigation"
 type: feature
-status: draft
+status: done
 priority: high
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-026"]
 
 # Command Bridges And Native Navigation
 
-> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-026` - Feature - Phase E8 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -83,14 +83,14 @@ language intelligence remains server-owned.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Valid reference payloads call `editor.action.showReferences`
-- [ ] Valid link payloads call native VS Code location navigation
-- [ ] Embed, backlink, outlink, vault reveal, and diagnostic commands exist
-- [ ] Invalid payloads fail safely without uncaught extension-host exceptions
-- [ ] Payload contracts remain JSON-serializable and client-owned
-- [ ] Command contribution names match registered command names
-- [ ] Phase gate commands pass under `extension/`
-- [ ] [[test/matrix]] and [[test/index]] reflect new coverage
+- [x] Valid reference payloads call `editor.action.showReferences`
+- [x] Valid link payloads call native VS Code location navigation
+- [x] Embed, backlink, outlink, vault reveal, and diagnostic commands exist
+- [x] Invalid payloads fail safely without uncaught extension-host exceptions
+- [x] Payload contracts remain JSON-serializable and client-owned
+- [x] Command contribution names match registered command names
+- [x] Phase gate commands pass under `extension/`
+- [x] [[test/matrix]] and [[test/index]] reflect new coverage
 
 ---
 
@@ -98,13 +98,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-185]] | Register Native Reference And Link Bridges | `open` |
-| [[TASK-186]] | Validate Command Bridge Payloads | `open` |
-| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `open` |
-| [[TASK-188]] | Document Command Bridge Contracts | `open` |
-| [[CHORE-063]] | Phase E8 Lint Sweep | `open` |
-| [[CHORE-064]] | Phase E8 Test Trace Sweep | `open` |
-| [[CHORE-065]] | Phase E8 Documentation Trace Sweep | `open` |
+| [[TASK-185]] | Register Native Reference And Link Bridges | `done` |
+| [[TASK-186]] | Validate Command Bridge Payloads | `done` |
+| [[TASK-187]] | Add OFMarkdown Graph Action Bridges | `done` |
+| [[TASK-188]] | Document Command Bridge Contracts | `done` |
+| [[CHORE-063]] | Phase E8 Lint Sweep | `done` |
+| [[CHORE-064]] | Phase E8 Test Trace Sweep | `done` |
+| [[CHORE-065]] | Phase E8 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -150,3 +150,37 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E8 execution started on branch `codex/phase-e8-command-bridges`.
+
+> [!INFO] Green - 2026-05-07
+> Command bridge implementation and docs reached local green state:
+> `cd extension && npm run check-types`, `cd extension && npm test`, and
+> `cd extension && npm run build:extension` passed.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate passed: `bun run lint`, `bun run typecheck`,
+> `bun run build`, `bun test`, `bun run format:check`, docs markdown lint,
+> non-doc markdown lint, extension typecheck/test/build, and extension
+> `npm audit --audit-level=low`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed. Phase E8 completed with command bridge registration,
+> native adapter coverage, payload validation, docs, and traceability updates.
+
+## Retrospective
+
+### What changed
+
+- Added JSON-serializable command bridge payload contracts and validation.
+- Registered native reference, link, embed, backlink, outlink, vault reveal,
+  and diagnostic copy bridge commands.
+- Added extension unit coverage through an injected VS Code facade so bridge
+  logic can run without an extension host.
+- Documented the bridge contracts in extension-facing docs.
+
+### Follow-up
+
+- Phase E9 should exercise these command bridges in a real VS Code extension
+  host and verify the native command integrations against VS Code APIs.

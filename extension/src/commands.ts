@@ -1,10 +1,11 @@
-import { type Disposable, commands } from 'vscode';
+import { type Disposable, Location, Position, Range, Uri, commands, env, window } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
+import { createCommandBridgeHandlers } from './command-bridges.js';
 
 type LanguageClientProvider = (commandId: string) => Promise<LanguageClient>;
 
 /**
- * Registers the three extension commands exposed in the Command Palette.
+ * Registers lifecycle commands and native VS Code command bridges.
  *
  * - `flavorGrenade.restartServer` — restarts the LanguageClient (and server).
  * - `flavorGrenade.rebuildIndex` — sends a custom `flavorGrenade/rebuildIndex`
@@ -19,6 +20,17 @@ export function registerCommands(
 ): Disposable[] {
   const getClient =
     typeof clientOrProvider === 'function' ? clientOrProvider : async () => clientOrProvider;
+  const bridgeHandlers = createCommandBridgeHandlers({
+    createLocation: (uri, range) => new Location(uri as Uri, range as Range),
+    createPosition: (line, character) => new Position(line, character),
+    createRange: (start, end) => new Range(start as Position, end as Position),
+    executeCommand: (command, ...args) => commands.executeCommand(command, ...args),
+    parseUri: (value) => Uri.parse(value),
+    showErrorMessage: (message) => window.showErrorMessage(message),
+    showTextDocument: (uri, options) =>
+      window.showTextDocument(uri as Uri, { selection: options?.selection as Range | undefined }),
+    writeClipboard: (text) => env.clipboard.writeText(text),
+  });
 
   return [
     commands.registerCommand('flavorGrenade.restartServer', async () => {
@@ -35,5 +47,13 @@ export function registerCommands(
       const client = await getClient('flavorGrenade.showOutput');
       client.outputChannel.show();
     }),
+
+    commands.registerCommand('flavorGrenade.showReferences', bridgeHandlers.showReferences),
+    commands.registerCommand('flavorGrenade.followLink', bridgeHandlers.followLink),
+    commands.registerCommand('flavorGrenade.openEmbedTarget', bridgeHandlers.openEmbedTarget),
+    commands.registerCommand('flavorGrenade.showBacklinks', bridgeHandlers.showBacklinks),
+    commands.registerCommand('flavorGrenade.showOutlinks', bridgeHandlers.showOutlinks),
+    commands.registerCommand('flavorGrenade.revealVaultRoot', bridgeHandlers.revealVaultRoot),
+    commands.registerCommand('flavorGrenade.copyDiagnosticInfo', bridgeHandlers.copyDiagnosticInfo),
   ];
 }

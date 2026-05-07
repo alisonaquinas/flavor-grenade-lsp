@@ -2,7 +2,7 @@
 id: "TASK-185"
 title: "Register Native Reference And Link Bridges"
 type: task
-status: open
+status: done
 priority: high
 phase: E8
 parent: "FEAT-026"
@@ -15,7 +15,7 @@ aliases: ["TASK-185"]
 
 # Register Native Reference And Link Bridges
 
-> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `open`
+> [!INFO] `TASK-185` - Task - Phase E8 - Parent: [[FEAT-026]] - Status: `done`
 
 ## Description
 
@@ -56,7 +56,7 @@ valid link payloads should invoke native VS Code location navigation.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/command-bridges-native.test.ts` | Extension Host | `Extension.CommandBridges.NativeUI` | 🔴 failing |
+| `extension/src/command-bridges.test.ts` | Unit | `Extension.CommandBridges.NativeUI` | ✅ passing |
 
 ---
 
@@ -90,13 +90,13 @@ valid link payloads should invoke native VS Code location navigation.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing native bridge tests are written first
-- [ ] `flavorGrenade.showReferences` is contributed and registered
-- [ ] `flavorGrenade.followLink` is contributed and registered
-- [ ] Valid payloads call the expected native VS Code commands or APIs
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing native bridge tests are written first
+- [x] `flavorGrenade.showReferences` is contributed and registered
+- [x] `flavorGrenade.followLink` is contributed and registered
+- [x] Valid payloads call the expected native VS Code commands or APIs
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -126,3 +126,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-026]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing native reference and link bridge tests in
+> `extension/src/command-bridges.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Registered native reference and link bridge commands, validated happy-path
+> native calls, and verified the extension unit tests pass.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and native bridge coverage is ready for PR review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; native reference and link bridge work is complete.

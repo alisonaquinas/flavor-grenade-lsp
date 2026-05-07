@@ -2,7 +2,7 @@
 id: "CHORE-063"
 title: "Phase E8 Lint Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E8
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-063"]
 
 # Phase E8 Lint Sweep
 
-> [!INFO] `CHORE-063` - Chore - Phase E8 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-063` - Chore - Phase E8 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -90,11 +90,11 @@ kept separate from behavior changes.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] Markdown lint passes for Phase E8 docs
-- [ ] No new lint suppressions are added
-- [ ] No behavior-affecting changes beyond lint fixes
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] Markdown lint passes for Phase E8 docs
+- [x] No new lint suppressions are added
+- [x] No behavior-affecting changes beyond lint fixes
 
 ---
 
@@ -121,3 +121,11 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: post-Phase-E8 lint sweep.
+
+> [!INFO] In Review - 2026-05-07
+> Lint and quality sweep passed locally: extension typecheck/test/build,
+> repo lint/typecheck/build/test, root format check, docs markdown lint,
+> non-doc markdown lint, and extension npm audit.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #40 CI passed; lint sweep is complete.
