@@ -2,7 +2,7 @@
 id: "CHORE-085"
 title: "Phase 17 Security Sweep"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: 17
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-085"]
 
 # Phase 17 Security Sweep
 
-> [!INFO] `CHORE-085` - Chore - Phase 17 - Priority: `high` - Status: `in-review`
+> [!INFO] `CHORE-085` - Chore - Phase 17 - Priority: `high` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. Security findings
 > that affect behavior must be opened as `BUG` tickets before fixes are made.

@@ -2,7 +2,7 @@
 id: "TASK-179"
 title: "Add structural LSP tests"
 type: task
-status: green
+status: done
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-179"]
 
 # Add structural LSP tests
 
-> [!INFO] `TASK-179` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
+> [!INFO] `TASK-179` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `done`
 
 ## Description
 

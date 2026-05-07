@@ -2,7 +2,7 @@
 id: "CHORE-084"
 title: "Phase 17 Code Quality Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 17
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-084"]
 
 # Phase 17 Code Quality Sweep
 
-> [!INFO] `CHORE-084` - Chore - Phase 17 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-084` - Chore - Phase 17 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: naming, module boundaries, documentation, and maintainability.

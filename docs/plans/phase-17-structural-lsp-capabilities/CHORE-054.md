@@ -2,7 +2,7 @@
 id: "CHORE-054"
 title: "Phase 17 Test Matrix Sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 17
 created: "2026-05-06"
@@ -14,7 +14,7 @@ aliases: ["CHORE-054"]
 
 # Phase 17 Test Matrix Sweep
 
-> [!INFO] `CHORE-054` - Chore - Phase 17 - Priority: `medium` - Status: `in-review`
+> [!INFO] `CHORE-054` - Chore - Phase 17 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves internal quality: tooling, configuration, documentation, refactoring, or process. If a chore inadvertently changes observable LSP behaviour, convert it to a `TASK` ticket.
 

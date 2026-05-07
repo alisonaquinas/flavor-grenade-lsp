@@ -8,15 +8,15 @@ aliases: ["Phase 17 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-024]] | Structural LSP Capabilities | Feature | `in-progress` |
-| [[TASK-175]] | Register structural LSP capabilities | Task | `green` |
-| [[TASK-176]] | Implement document links | Task | `green` |
-| [[TASK-177]] | Implement folding ranges | Task | `green` |
-| [[TASK-178]] | Implement selection ranges | Task | `green` |
-| [[TASK-179]] | Add structural LSP tests | Task | `green` |
-| [[TASK-213]] | Add Templater opaque regions | Task | `green` |
-| [[CHORE-053]] | Phase 17 Lint Sweep | Chore | `in-review` |
-| [[CHORE-054]] | Phase 17 Test Matrix Sweep | Chore | `in-review` |
-| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | Chore | `in-review` |
-| [[CHORE-084]] | Phase 17 Code Quality Sweep | Chore | `in-review` |
-| [[CHORE-085]] | Phase 17 Security Sweep | Chore | `in-review` |
+| [[FEAT-024]] | Structural LSP Capabilities | Feature | `done` |
+| [[TASK-175]] | Register structural LSP capabilities | Task | `done` |
+| [[TASK-176]] | Implement document links | Task | `done` |
+| [[TASK-177]] | Implement folding ranges | Task | `done` |
+| [[TASK-178]] | Implement selection ranges | Task | `done` |
+| [[TASK-179]] | Add structural LSP tests | Task | `done` |
+| [[TASK-213]] | Add Templater opaque regions | Task | `done` |
+| [[CHORE-053]] | Phase 17 Lint Sweep | Chore | `done` |
+| [[CHORE-054]] | Phase 17 Test Matrix Sweep | Chore | `done` |
+| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | Chore | `done` |
+| [[CHORE-084]] | Phase 17 Code Quality Sweep | Chore | `done` |
+| [[CHORE-085]] | Phase 17 Security Sweep | Chore | `done` |

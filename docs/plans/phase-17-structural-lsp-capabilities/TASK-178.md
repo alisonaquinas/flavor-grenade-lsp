@@ -2,12 +2,12 @@
 id: "TASK-178"
 title: "Implement selection ranges"
 type: task
-status: green
+status: done
 priority: medium
 phase: 17
 parent: "FEAT-024"
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["TASK-175"]
 tags: [tickets/task, "phase/17"]
 aliases: ["TASK-178"]
@@ -15,7 +15,7 @@ aliases: ["TASK-178"]
 
 # Implement selection ranges
 
-> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
+> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `done`
 
 ## Description
 

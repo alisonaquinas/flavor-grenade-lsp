@@ -2,7 +2,7 @@
 id: "TASK-213"
 title: "Add Templater opaque regions"
 type: task
-status: green
+status: done
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-213"]
 
 # Add Templater opaque regions
 
-> [!INFO] `TASK-213` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
+> [!INFO] `TASK-213` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `done`
 
 ## Description
 

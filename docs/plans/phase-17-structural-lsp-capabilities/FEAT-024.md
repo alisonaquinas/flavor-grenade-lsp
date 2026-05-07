@@ -2,11 +2,11 @@
 id: "FEAT-024"
 title: "Structural LSP Capabilities"
 type: feature
-status: in-progress
+status: done
 priority: medium
 phase: 17
 created: "2026-05-06"
-updated: "2026-05-06"
+updated: "2026-05-07"
 dependencies: ["FEAT-023"]
 tags: [tickets/feature, "phase/17"]
 aliases: ["FEAT-024"]
@@ -14,7 +14,7 @@ aliases: ["FEAT-024"]
 
 # Structural LSP Capabilities
 
-> [!INFO] `FEAT-024` - Feature - Phase 17 - Priority: `medium` - Status: `in-progress`
+> [!INFO] `FEAT-024` - Feature - Phase 17 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -104,17 +104,17 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-175]] | Register structural LSP capabilities | `green` |
-| [[TASK-176]] | Implement document links | `green` |
-| [[TASK-177]] | Implement folding ranges | `green` |
-| [[TASK-178]] | Implement selection ranges | `green` |
-| [[TASK-179]] | Add structural LSP tests | `green` |
-| [[TASK-213]] | Add Templater opaque regions | `green` |
-| [[CHORE-053]] | Phase 17 Lint Sweep | `in-review` |
-| [[CHORE-054]] | Phase 17 Test Matrix Sweep | `in-review` |
-| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | `in-review` |
-| [[CHORE-084]] | Phase 17 Code Quality Sweep | `in-review` |
-| [[CHORE-085]] | Phase 17 Security Sweep | `in-review` |
+| [[TASK-175]] | Register structural LSP capabilities | `done` |
+| [[TASK-176]] | Implement document links | `done` |
+| [[TASK-177]] | Implement folding ranges | `done` |
+| [[TASK-178]] | Implement selection ranges | `done` |
+| [[TASK-179]] | Add structural LSP tests | `done` |
+| [[TASK-213]] | Add Templater opaque regions | `done` |
+| [[CHORE-053]] | Phase 17 Lint Sweep | `done` |
+| [[CHORE-054]] | Phase 17 Test Matrix Sweep | `done` |
+| [[CHORE-055]] | Phase 17 Documentation Trace Sweep | `done` |
+| [[CHORE-084]] | Phase 17 Code Quality Sweep | `done` |
+| [[CHORE-085]] | Phase 17 Security Sweep | `done` |
 
 ---
 
@@ -168,3 +168,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 > Phase 16 PR #32 and status-finalization PR #34 passed CI and merged to
 > `develop`. Phase 17 is now the active implementation phase. Status:
 > `in-progress`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #35 passed CI for build, tests, typecheck, source lint, docs lint, other
+> Markdown lint, and format check. Structural document links, folding ranges,
+> selection ranges, Templater opaque regions, integration coverage, and BDD
+> trace are complete. Status: `done`.

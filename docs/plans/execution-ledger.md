@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-05-06
+updated: 2026-05-07
 ---
 
 # Execution Ledger
@@ -32,7 +32,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 14    | Markdown Link Intelligence | ✅ complete | Local standard Markdown links resolve, diagnose, navigate, reference, and rename like OFM heading links | 2026-05-06 | 2026-05-06 |
 | 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
 | 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
-| 17    | Structural LSP Capabilities | 🔄 in-progress | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | — |
+| 17    | Structural LSP Capabilities | ✅ complete | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | 2026-05-07 |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
 | E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |
