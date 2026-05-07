@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -24,35 +25,76 @@ describe('Marketplace VSIX asset packaging', () => {
     );
   });
 
-  it('includes every required Marketplace README visual in packaged output', () => {
-    const result = spawnSync(vsceListCommand(), vsceListArgs(), {
-      cwd: extensionRoot,
-      encoding: 'utf8',
-    });
+  it('includes every required Marketplace README visual in the packaged VSIX archive', () => {
+    const tempDir = mkdtempSync(join(tmpdir(), 'fg-marketplace-assets-'));
 
-    assert.equal(result.status, 0, result.stderr || String(result.error));
+    try {
+      const vsixPath = join(tempDir, 'flavor-grenade-marketplace-assets.vsix');
+      const result = spawnSync(vscePackageCommand(), vscePackageArgs(vsixPath), {
+        cwd: extensionRoot,
+        encoding: 'utf8',
+      });
 
-    const packagedFiles = new Set(
-      result.stdout
-        .split(/\r?\n/)
-        .map((line) => line.trim().replaceAll('\\', '/'))
-        .filter(Boolean),
-    );
+      assert.equal(result.status, 0, result.stderr || String(result.error));
 
-    for (const visual of inventory.requiredVisuals) {
-      assert.equal(packagedFiles.has(visual.path), true, `${visual.id} must be packaged`);
+      const packagedFiles = readZipEntries(vsixPath);
+
+      for (const visual of inventory.requiredVisuals) {
+        assert.equal(
+          packagedFiles.has(`extension/${visual.path}`),
+          true,
+          `${visual.id} must be packaged`,
+        );
+      }
+    } finally {
+      rmSync(tempDir, { force: true, recursive: true });
     }
   });
 });
 
-function vsceListCommand(): string {
+function vscePackageCommand(): string {
   return process.platform === 'win32' ? 'cmd.exe' : 'npx';
 }
 
-function vsceListArgs(): string[] {
+function vscePackageArgs(vsixPath: string): string[] {
   if (process.platform === 'win32') {
-    return ['/d', '/s', '/c', 'npx vsce ls --no-dependencies'];
+    return ['/d', '/s', '/c', `npx vsce package --no-dependencies --out ${vsixPath}`];
   }
 
-  return ['vsce', 'ls', '--no-dependencies'];
+  return ['vsce', 'package', '--no-dependencies', '--out', vsixPath];
+}
+
+function readZipEntries(zipPath: string): Set<string> {
+  const archive = readFileSync(zipPath);
+  const endOfCentralDirectory = findEndOfCentralDirectory(archive);
+  const centralDirectorySize = archive.readUInt32LE(endOfCentralDirectory + 12);
+  const centralDirectoryOffset = archive.readUInt32LE(endOfCentralDirectory + 16);
+  const endOffset = centralDirectoryOffset + centralDirectorySize;
+  const entries = new Set<string>();
+
+  let offset = centralDirectoryOffset;
+  while (offset < endOffset) {
+    assert.equal(archive.readUInt32LE(offset), 0x02014b50, 'invalid ZIP central directory');
+
+    const fileNameLength = archive.readUInt16LE(offset + 28);
+    const extraLength = archive.readUInt16LE(offset + 30);
+    const commentLength = archive.readUInt16LE(offset + 32);
+    const fileNameStart = offset + 46;
+    const fileNameEnd = fileNameStart + fileNameLength;
+
+    entries.add(archive.toString('utf8', fileNameStart, fileNameEnd).replaceAll('\\', '/'));
+    offset = fileNameEnd + extraLength + commentLength;
+  }
+
+  return entries;
+}
+
+function findEndOfCentralDirectory(archive: Buffer): number {
+  for (let offset = archive.length - 22; offset >= 0; offset -= 1) {
+    if (archive.readUInt32LE(offset) === 0x06054b50) {
+      return offset;
+    }
+  }
+
+  throw new Error('ZIP end of central directory not found');
 }

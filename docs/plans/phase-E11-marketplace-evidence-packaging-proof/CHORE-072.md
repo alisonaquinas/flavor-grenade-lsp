@@ -93,9 +93,9 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Every referenced asset path resolves under `extension/`
 - [x] Every asset uses PNG, JPEG, or GIF
 - [x] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
-- [ ] Notes identify any intentionally combined visuals
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
+- [x] Notes identify any intentionally combined visuals
 
 ---
 

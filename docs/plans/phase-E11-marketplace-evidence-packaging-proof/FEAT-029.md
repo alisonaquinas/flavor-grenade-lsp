@@ -76,14 +76,14 @@ contains every required visual asset.
 
 All of the following must be true before this ticket is marked `done`.
 
-- [ ] `extension/README.md` references all required OFMarkdown visual categories
-- [ ] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
-- [ ] Packaged VSIX inspection confirms each referenced required asset ships
+- [x] `extension/README.md` references all required OFMarkdown visual categories
+- [x] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
+- [x] Packaged VSIX inspection confirms each referenced required asset ships
 - [x] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
 - [x] `Extension.Marketplace.AssetPackaging` has passing evidence in [[test/matrix]]
 - [x] [[test/index]] updated with every new verification file introduced
-- [ ] `cd extension && npm run build:extension` exits 0
-- [ ] `cd extension && npx vsce package --no-dependencies` exits 0
+- [x] `cd extension && npm run build:extension` exits 0
+- [x] `cd extension && npx vsce package --no-dependencies` exits 0
 
 ---
 

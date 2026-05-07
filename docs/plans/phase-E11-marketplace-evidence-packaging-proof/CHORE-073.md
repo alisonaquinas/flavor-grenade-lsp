@@ -92,8 +92,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Verification fails when a README asset is missing from the VSIX
 - [x] Verification does not require Marketplace publish credentials
 - [x] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
 - [x] `cd extension && npx vsce package --no-dependencies` passes
 
 ---
