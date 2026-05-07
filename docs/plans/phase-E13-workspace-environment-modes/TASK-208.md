@@ -2,7 +2,7 @@
 id: "TASK-208"
 title: "Document remote environment smoke tests"
 type: task
-status: open
+status: done
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-208"]
 
 # Document remote environment smoke tests
 
-> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-208` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `done`
 
 ## Description
 
@@ -55,7 +55,7 @@ disabled, what status appears, and what evidence closes the phase gate.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/docs/plans/vscode-extension-parity.md` | Manual | `Extension.Workspace.EnvironmentModes` | 🔴 failing |
+| `extension/docs/features/workspace-environments.md` | Manual | `Extension.Workspace.EnvironmentModes` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -93,15 +93,15 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Local Windows, macOS, and Linux smoke-test steps are documented.
-- [ ] WSL, SSH, and Dev Container smoke-test steps are documented.
-- [ ] Restricted Mode and virtual workspace disabled expectations are documented.
-- [ ] Manual evidence format is documented for phase closeout.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new manual verification entries.
-- [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
+- [x] Local Windows, macOS, and Linux smoke-test steps are documented.
+- [x] WSL, SSH, and Dev Container smoke-test steps are documented.
+- [x] Restricted Mode and virtual workspace disabled expectations are documented.
+- [x] Manual evidence format is documented for phase closeout.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new manual verification entries.
+- [x] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
 
@@ -132,3 +132,21 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing environment behavior tests that define the local/remote states
+> to document in smoke-test evidence.
+
+> [!SUCCESS] Green - 2026-05-07
+> Environment classifier now defines local, remote, restricted, and virtual
+> states for the manual smoke-test documentation.
+
+> [!SUCCESS] Docs - 2026-05-07
+> Added `extension/docs/features/workspace-environments.md`, troubleshooting
+> links, and trace rows for manual local/remote environment smoke evidence.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the parent feature row is updated to `done`.

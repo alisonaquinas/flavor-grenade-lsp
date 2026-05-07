@@ -2,7 +2,7 @@
 id: "TASK-207"
 title: "Resolve server binary for local and remote hosts"
 type: task
-status: open
+status: done
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-207"]
 
 # Resolve server binary for local and remote hosts
 
-> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-207` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `done`
 
 ## Description
 
@@ -54,7 +54,8 @@ that matches the files being indexed, not the user's desktop operating system.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/server-command.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | 🔴 failing |
+| `extension/src/workspace-environment.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
+| `extension/src/server-command.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -92,15 +93,15 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test written first.
-- [ ] Local Windows, macOS, and Linux mappings remain covered.
-- [ ] Remote extension-host mapping is documented in code comments or tests.
-- [ ] Custom server override remains supported for development.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
+- [x] Failing test written first.
+- [x] Local Windows, macOS, and Linux mappings remain covered.
+- [x] Remote extension-host mapping is documented in code comments or tests.
+- [x] Custom server override remains supported for development.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
+- [x] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
 
@@ -131,3 +132,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing workspace environment tests requiring local and remote extension
+> hosts to report host-relative platform behavior.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added local and remote host environment classification coverage while keeping
+> the existing host `process.platform` server-command resolution.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the parent feature row is updated to `done`.

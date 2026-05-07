@@ -2,7 +2,7 @@
 id: "TASK-205"
 title: "Block Restricted Mode server startup"
 type: task
-status: open
+status: done
 priority: medium
 phase: E13
 parent: "FEAT-031"
@@ -15,7 +15,7 @@ aliases: ["TASK-205"]
 
 # Block Restricted Mode server startup
 
-> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `open`
+> [!INFO] `TASK-205` - Task - Phase E13 - Parent: [[FEAT-031]] - Status: `done`
 
 ## Description
 
@@ -57,8 +57,8 @@ indexing is unavailable.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/extension.test.ts` | Extension-host | `Extension.Workspace.EnvironmentModes` | 🔴 failing |
-| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | 🔴 failing |
+| `extension/src/workspace-environment.test.ts` | Unit | `Extension.Workspace.EnvironmentModes` | ✅ passing |
+| `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -95,15 +95,15 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test or extension-host scenario written first.
-- [ ] Restricted Mode prevents language client/server startup.
-- [ ] Disabled status identifies workspace trust as the reason.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] All linked BDD scenarios pass locally or have documented manual evidence.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-031]] child task row updated to `in-review`.
+- [x] Failing test or extension-host scenario written first.
+- [x] Restricted Mode prevents language client/server startup.
+- [x] Disabled status identifies workspace trust as the reason.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
+- [x] All linked BDD scenarios pass locally or have documented manual evidence.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
+- [x] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
 
@@ -133,3 +133,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing workspace environment tests requiring Restricted Mode to block
+> server startup before binary resolution.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `describeWorkspaceEnvironment` and wired activation disabled status to
+> block Restricted Mode before server startup; extension tests pass.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI is green and the parent feature row is updated to `done`.

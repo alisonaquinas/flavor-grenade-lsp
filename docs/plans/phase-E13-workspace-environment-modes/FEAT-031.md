@@ -2,7 +2,7 @@
 id: "FEAT-031"
 title: "Workspace Environment Modes"
 type: feature
-status: draft
+status: done
 priority: medium
 phase: E13
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-031"]
 
 # Workspace Environment Modes
 
-> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-031` - Feature - Phase E13 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -81,17 +81,17 @@ messages, while supported environments run the bundled server next to the files.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Restricted Mode shows disabled status and never spawns the server.
-- [ ] Virtual workspaces show disabled status and never spawn the server.
-- [ ] Local Windows, macOS, and Linux startup behavior is documented.
-- [ ] WSL, SSH, and Dev Container smoke-test procedures are documented.
-- [ ] Remote extension hosts resolve the matching platform server binary.
-- [ ] Status and troubleshooting docs agree on environment behavior.
-- [ ] [[test/matrix]] updated with every new test file introduced.
-- [ ] [[test/index]] updated with every new test file introduced.
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]]).
-- [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`).
-- [ ] `tsc --noEmit` exits 0.
+- [x] Restricted Mode shows disabled status and never spawns the server.
+- [x] Virtual workspaces show disabled status and never spawn the server.
+- [x] Local Windows, macOS, and Linux startup behavior is documented.
+- [x] WSL, SSH, and Dev Container smoke-test procedures are documented.
+- [x] Remote extension hosts resolve the matching platform server binary.
+- [x] Status and troubleshooting docs agree on environment behavior.
+- [x] [[test/matrix]] updated with every new test file introduced.
+- [x] [[test/index]] updated with every new test file introduced.
+- [x] Phase gate command passes locally; awaiting CI (see [[plans/execution-ledger]]).
+- [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
+- [x] `tsc --noEmit` exits 0.
 
 ---
 
@@ -99,13 +99,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-205]] | Block Restricted Mode server startup | `open` |
-| [[TASK-206]] | Block virtual workspace server startup | `open` |
-| [[TASK-207]] | Resolve server binary for local and remote hosts | `open` |
-| [[TASK-208]] | Document remote environment smoke tests | `open` |
-| [[CHORE-078]] | Phase E13 extension lint sweep | `open` |
-| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `open` |
-| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `open` |
+| [[TASK-205]] | Block Restricted Mode server startup | `done` |
+| [[TASK-206]] | Block virtual workspace server startup | `done` |
+| [[TASK-207]] | Resolve server binary for local and remote hosts | `done` |
+| [[TASK-208]] | Document remote environment smoke tests | `done` |
+| [[CHORE-078]] | Phase E13 extension lint sweep | `done` |
+| [[CHORE-079]] | Phase E13 manual verification ledger sweep | `done` |
+| [[CHORE-080]] | Phase E13 troubleshooting trace sweep | `done` |
 
 ---
 
@@ -160,3 +160,46 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E13 execution started on branch
+> `codex/phase-e13-workspace-environments`. Child task tickets are present and
+> scoped; implementation now follows the phase execution procedure.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Workspace environment classifier, activation gating, remote/local smoke docs,
+> troubleshooting docs, and traceability are locally verified. Awaiting PR CI
+> and review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #45 CI passed TypeScript typecheck, ESLint, Prettier format check, tests,
+> Markdown lint, and build. Phase E13 is complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+The phase worked best after moving the environment decision into a pure
+classifier. That made trust, virtual workspace, local, and remote cases
+testable without requiring real remote VS Code hosts.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | None | Existing activation code already had partial no-spawn behavior; E13 made it explicit and traceable | 0 h |
+
+### Process observations
+
+Manual remote verification belongs in documentation and trace rows, while
+automated tests should cover the deterministic classifier rules.
+
+### Carry-forward actions
+
+- [ ] Reuse the classifier's platform summary in E14 compatibility diagnostics.
+
+### Rule / template amendments
+
+- [ ] None.

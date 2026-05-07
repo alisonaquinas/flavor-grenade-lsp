@@ -298,8 +298,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Marketplace.AssetPackaging` | Referenced Marketplace README assets ship in packaged VSIX output | `extension/test/marketplace/readme-assets.test.ts`, `extension/test/marketplace/vsix-assets.test.ts` | ✅ passing | Phase E11 | Checks local README references, supported image formats, inventory coverage, and packaged VSIX archive output |
 | `Extension.Contributions.OFMarkdownScoped` | Snippets, keybindings, and language configuration stay scoped to OFMarkdown | `extension/test/contributions/snippets.test.ts`, `extension/test/contributions/language-configuration.test.ts`, `extension/test/contributions/keybindings.test.ts`, `extension/test/contributions/ofmarkdown-isolation.test.ts` | ✅ passing | Phase E12 | Covers snippet language scope, language configuration scope, OFMarkdown-only keybinding guards, and generic Markdown isolation |
 | `Extension.StatusBar.StateTransition` | Status bar text reflects known server and workspace states | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Pure presentation tests cover initializing, indexing, ready, error, disabled, crashed, and misconfigured states; host test exercises the development-host status presentation hook |
-| `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Rich tooltip and diagnostic-copy tests cover extension/server versions, platform, vault counts, vault root, sanitized server path summary, and troubleshooting topics |
+| `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/workspace-environment.test.ts`, `extension/src/test/suite/status-failure.test.js`, `extension/docs/features/workspace-environments.md` | ✅ passing | Phase E13 | Rich tooltip and diagnostic-copy tests cover extension/server versions, platform, vault counts, disabled environment states, sanitized server path summary, and troubleshooting topics |
 | `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | `extension/src/status-bar.test.ts`, `extension/src/status-actions.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Quick actions cover restart, rebuild index, output, diagnostic copy, vault reveal, and troubleshooting command flow |
+| `Extension.Workspace.EnvironmentModes` | Restricted, virtual, local, and remote workspace modes have explicit startup behavior and smoke evidence | `extension/src/workspace-environment.test.ts`, `extension/docs/features/workspace-environments.md` | ✅ passing | Phase E13 | Automated classifier tests cover no-spawn and host-relative platform behavior; manual smoke ledger covers WSL, SSH, Dev Container, and local OS verification |
 | `Extension.StatusBar.RestartReset` | Status bar resets to "Starting..." on client restart | — | ⬜ not-yet-written | Phase E3 | Unit test; trigger `onDidChangeState` |
 | `Extension.Commands.Registration` | All 3 commands registered and callable via palette | — | ⬜ not-yet-written | Phase E3 | Unit test + integration test |
 | `Extension.Commands.RebuildIndex` | `rebuildIndex` sends `workspace/executeCommand` to server | — | ⬜ not-yet-written | Phase E3 | Unit test; verify `sendRequest` call shape |
@@ -350,7 +351,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E10 (Status UX) | 2 | 2 | 100% |
 | Phase E11 (Marketplace Proof) | 2 | 2 | 100% |
 | Phase E12 (Editor Contributions) | 1 | 1 | 100% |
-| **Total** | **137** | **56** | **41%** |
+| Phase E13 (Workspace Environments) | 2 | 2 | 100% |
+| **Total** | **138** | **57** | **41%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

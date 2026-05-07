@@ -65,7 +65,7 @@ Status: `FG: Disabled`.
 
 Flavor Grenade does not start the language server in Restricted Mode because
 the server reads workspace files. Trust the workspace before enabling server
-features.
+features. Diagnostics should report `serverPath: not started`.
 
 Actions:
 
@@ -78,10 +78,29 @@ Status: `FG: Disabled`.
 
 Flavor Grenade requires a file-system workspace so the server can scan and
 watch vault files. Virtual workspaces such as web-only or readonly providers are
-disabled until a file-backed workspace is opened.
+disabled until a file-backed workspace is opened. Diagnostics should report
+`serverPath: not started`.
 
 Actions:
 
 - Open a local, WSL, SSH, or Dev Container folder backed by files.
 - Use **Flavor Grenade: Copy Diagnostic Info** if VS Code reports a file-backed
   workspace but Flavor Grenade still shows disabled.
+
+## Remote Workspaces
+
+Status: `FG: Starting`, `FG: Indexing`, then `FG: N docs` for supported
+file-backed WSL, SSH, and Dev Container workspaces.
+
+Flavor Grenade runs in the workspace extension host, so the bundled server
+binary must match the host where the files live, not necessarily the desktop UI
+operating system. Use [workspace environment smoke tests](features/workspace-environments.md)
+when validating a release candidate.
+
+Actions:
+
+- Confirm the workspace is trusted and file-backed.
+- Run **Flavor Grenade: Copy Diagnostic Info** and verify `platform` matches the
+  remote host or container.
+- Reinstall the platform-specific VSIX for the host if the server binary is
+  missing.
