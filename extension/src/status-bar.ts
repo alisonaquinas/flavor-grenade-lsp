@@ -2,6 +2,11 @@ import { type StatusBarItem, StatusBarAlignment, window } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
 import { formatFlavorGrenadeStatus, type FlavorGrenadeStatus } from './status-presentation.js';
 
+interface StatusNotificationOptions {
+    onStatus?(status: FlavorGrenadeStatus): void;
+    transform?(status: FlavorGrenadeStatus): FlavorGrenadeStatus;
+}
+
 export function applyFlavorGrenadeStatus(
     item: Pick<StatusBarItem, 'text' | 'tooltip'>,
     params: FlavorGrenadeStatus,
@@ -36,11 +41,14 @@ export function createFlavorGrenadeStatusBar(): StatusBarItem {
 export function registerFlavorGrenadeStatusNotifications(
     client: LanguageClient,
     item: Pick<StatusBarItem, 'text' | 'tooltip'>,
+    options: StatusNotificationOptions = {},
 ): void {
     client.onNotification(
         'flavorGrenade/status',
         (params: FlavorGrenadeStatus) => {
-            applyFlavorGrenadeStatus(item, params);
+            const status = options.transform?.(params) ?? params;
+            applyFlavorGrenadeStatus(item, status);
+            options.onStatus?.(status);
         },
     );
 }

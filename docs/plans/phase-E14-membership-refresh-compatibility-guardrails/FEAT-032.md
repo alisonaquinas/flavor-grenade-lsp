@@ -2,7 +2,7 @@
 id: "FEAT-032"
 title: "Membership Refresh And Compatibility Guardrails"
 type: feature
-status: draft
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-032"]
 
 # Membership Refresh And Compatibility Guardrails
 
-> [!INFO] `FEAT-032` - Feature - Phase E14 - Priority: `medium` - Status: `draft`
+> [!INFO] `FEAT-032` - Feature - Phase E14 - Priority: `medium` - Status: `done`
 
 ## Goal
 
@@ -84,20 +84,20 @@ builds also warn when the client, bundled server, or package target do not match
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Server `ready` refreshes open Markdown document membership.
-- [ ] Rebuild-index completion refreshes open Markdown document membership.
-- [ ] Workspace folder changes refresh affected visible and open documents.
-- [ ] Visible editor changes and file-open events refresh membership.
-- [ ] Manual non-Markdown language choices are preserved.
-- [ ] `ofmarkdown` reverts only when server and marker checks both say outside
+- [x] Server `ready` refreshes open Markdown document membership.
+- [x] Rebuild-index completion refreshes open Markdown document membership.
+- [x] Workspace folder changes refresh affected visible and open documents.
+- [x] Visible editor changes and file-open events refresh membership.
+- [x] Manual non-Markdown language choices are preserved.
+- [x] `ofmarkdown` reverts only when server and marker checks both say outside
   vault.
-- [ ] Version and target mismatches are visible before publish or at startup.
-- [ ] Packaged VSIX smoke checks catch missing or wrong server binaries.
-- [ ] [[test/matrix]] updated with every new test file introduced.
-- [ ] [[test/index]] updated with every new test file introduced.
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]]).
-- [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`).
-- [ ] `tsc --noEmit` exits 0.
+- [x] Version and target mismatches are visible before publish or at startup.
+- [x] Packaged VSIX smoke checks catch missing or wrong server binaries.
+- [x] [[test/matrix]] updated with every new test file introduced.
+- [x] [[test/index]] updated with every new test file introduced.
+- [x] Phase gate command passes in CI (see [[plans/execution-ledger]]).
+- [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
+- [x] `tsc --noEmit` exits 0.
 
 ---
 
@@ -105,13 +105,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-209]] | Refresh membership after server and index events | `open` |
-| [[TASK-210]] | Refresh membership after workspace and editor events | `open` |
-| [[TASK-211]] | Guard language-mode reversion | `open` |
-| [[TASK-212]] | Validate server version and package target metadata | `open` |
-| [[CHORE-081]] | Phase E14 extension lint sweep | `open` |
-| [[CHORE-082]] | Phase E14 package smoke-test trace sweep | `open` |
-| [[CHORE-083]] | Phase E14 compatibility documentation sweep | `open` |
+| [[TASK-209]] | Refresh membership after server and index events | `done` |
+| [[TASK-210]] | Refresh membership after workspace and editor events | `done` |
+| [[TASK-211]] | Guard language-mode reversion | `done` |
+| [[TASK-212]] | Validate server version and package target metadata | `done` |
+| [[CHORE-081]] | Phase E14 extension lint sweep | `done` |
+| [[CHORE-082]] | Phase E14 package smoke-test trace sweep | `done` |
+| [[CHORE-083]] | Phase E14 compatibility documentation sweep | `done` |
 
 ---
 
@@ -164,3 +164,15 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E14 execution started on branch
+> `codex/phase-e14-membership-compatibility`. Child task tickets are present
+> and scoped; implementation now follows the phase execution procedure.
+
+> [!INFO] In Review - 2026-05-07
+> Local gates passed and all child tickets moved to `in-review`. CI evidence
+> remains pending on the phase PR before this feature can move to `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed. Phase E14 is complete and ready to merge to `develop`.

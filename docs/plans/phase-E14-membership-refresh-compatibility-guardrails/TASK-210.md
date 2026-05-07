@@ -2,7 +2,7 @@
 id: "TASK-210"
 title: "Refresh membership after workspace and editor events"
 type: task
-status: open
+status: done
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-210"]
 
 # Refresh membership after workspace and editor events
 
-> [!INFO] `TASK-210` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `open`
+> [!INFO] `TASK-210` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `done`
 
 ## Description
 
@@ -57,7 +57,7 @@ vault becomes visible and leave only through the guarded reversion path.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | 🔴 failing |
+| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -93,17 +93,17 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test written first.
-- [ ] Workspace folder add/remove events refresh affected documents.
-- [ ] Visible editor changes refresh displayed Markdown documents.
-- [ ] File-open events refresh opened Markdown documents.
-- [ ] Duplicate refreshes do not cause observable mode thrashing.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
+- [x] Failing test written first.
+- [x] Workspace folder add/remove events refresh affected documents.
+- [x] Visible editor changes refresh displayed Markdown documents.
+- [x] File-open events refresh opened Markdown documents.
+- [x] Duplicate refreshes do not cause observable mode thrashing.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
+- [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
 
@@ -133,3 +133,19 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing refresh coverage for open/visible managed documents used by
+> workspace and editor event refresh paths.
+
+> [!SUCCESS] Green - 2026-05-07
+> Existing open-document, visible-editor, and workspace-folder subscriptions now
+> share the broader managed-document refresh path, preserving manual
+> non-Markdown modes and avoiding duplicate in-flight assignments.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> awaiting PR CI before final `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and parent feature moved to `done`.

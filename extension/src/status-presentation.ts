@@ -134,6 +134,7 @@ export function buildDiagnosticInfo(status: FlavorGrenadeStatus): string {
     `state: ${status.state}`,
     `extensionVersion: ${valueOrUnavailable(status.extensionVersion)}`,
     `serverVersion: ${valueOrUnavailable(status.serverVersion)}`,
+    `versionWarning: ${versionWarning(status) ?? 'none'}`,
     `vaultRoot: ${valueOrUnavailable(status.vaultRoot)}`,
     `vaultCount: ${status.vaultCount}`,
     `documentCount: ${status.docCount}`,
@@ -149,6 +150,7 @@ function buildTooltip(status: FlavorGrenadeStatus): string {
     `State: ${status.state}`,
     `Extension: ${valueOrUnavailable(status.extensionVersion)}`,
     `Server: ${valueOrUnavailable(status.serverVersion)}`,
+    `Version warning: ${versionWarning(status) ?? 'none'}`,
     `Vault root: ${valueOrUnavailable(status.vaultRoot)}`,
     `Vaults: ${status.vaultCount}`,
     `Documents: ${status.docCount}`,
@@ -185,6 +187,18 @@ function shouldUseRichTooltip(status: FlavorGrenadeStatus): boolean {
     status.platform !== undefined ||
     status.serverPathSummary !== undefined
   );
+}
+
+function versionWarning(status: FlavorGrenadeStatus): string | undefined {
+  if (
+    status.extensionVersion === undefined ||
+    status.serverVersion === undefined ||
+    status.extensionVersion === status.serverVersion
+  ) {
+    return undefined;
+  }
+
+  return `extension ${status.extensionVersion} differs from server ${status.serverVersion}`;
 }
 
 function valueOrUnavailable(value: string | undefined): string {

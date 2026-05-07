@@ -7,6 +7,7 @@ export interface StatusPayload {
   vaultCount: number;
   docCount: number;
   message?: string;
+  serverVersion?: string;
 }
 
 /**

@@ -47,7 +47,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E11   | Marketplace Evidence And Packaging Proof | ✅ complete | OFMarkdown visuals are present, referenced, and included in packaged VSIXs | 2026-05-07 | 2026-05-07 |
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
-| E14   | Membership Refresh And Compatibility Guardrails | ⏳ planned | Language-mode refresh and packaged client/server compatibility checks pass | — | — |
+| E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
 
 ---
 

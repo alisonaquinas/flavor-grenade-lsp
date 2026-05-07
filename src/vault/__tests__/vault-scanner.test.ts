@@ -12,6 +12,7 @@ import type { VaultDetector } from '../vault-detector.js';
 import type { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
 import type { TagRegistry } from '../../tags/tag-registry.js';
 import type { DocId } from '../doc-id.js';
+import { SERVER_VERSION } from '../../version.js';
 
 function id(s: string): DocId {
   return s as DocId;
@@ -150,7 +151,7 @@ describe('VaultScanner', () => {
     expect(notifications).toHaveLength(1);
     expect(notifications[0]).toEqual({
       method: 'flavorGrenade/status',
-      params: { state: 'ready', vaultCount: 0, docCount: 0 },
+      params: { state: 'ready', vaultCount: 0, docCount: 0, serverVersion: SERVER_VERSION },
     });
     // No files should have been indexed
     expect(vaultIndex.size()).toBe(0);
@@ -169,7 +170,12 @@ describe('VaultScanner', () => {
     await scanner.scan(toFileUri(tmpDir));
 
     expect(notifications).toHaveLength(1);
-    expect(notifications[0].params).toEqual({ state: 'ready', vaultCount: 1, docCount: 0 });
+    expect(notifications[0].params).toEqual({
+      state: 'ready',
+      vaultCount: 1,
+      docCount: 0,
+      serverVersion: SERVER_VERSION,
+    });
     expect(vaultIndex.size()).toBe(0);
     expect(scanner.getAssetIndex().size).toBe(0);
   });

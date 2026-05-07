@@ -2,7 +2,7 @@
 id: "TASK-211"
 title: "Guard language-mode reversion"
 type: task
-status: open
+status: done
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-211"]
 
 # Guard language-mode reversion
 
-> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `open`
+> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `done`
 
 ## Description
 
@@ -57,7 +57,7 @@ vault. The refresh path must preserve user-selected non-Markdown languages.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | 🔴 failing |
+| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -94,17 +94,17 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test written first.
-- [ ] Server non-membership alone cannot downgrade `ofmarkdown`.
-- [ ] Marker absence alone cannot downgrade `ofmarkdown`.
-- [ ] Agreement between server and marker checks downgrades to `markdown`.
-- [ ] Manual non-Markdown language choices are preserved.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
+- [x] Failing test written first.
+- [x] Server non-membership alone cannot downgrade `ofmarkdown`.
+- [x] Marker absence alone cannot downgrade `ofmarkdown`.
+- [x] Agreement between server and marker checks downgrades to `markdown`.
+- [x] Manual non-Markdown language choices are preserved.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
+- [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
 
@@ -135,3 +135,19 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing guarded reversion tests requiring OFMarkdown downgrade only
+> when both marker and server membership checks say outside the vault.
+
+> [!SUCCESS] Green - 2026-05-07
+> Downgrade now requires marker absence and an explicit successful server
+> membership result of `false`; transient membership request failures preserve
+> existing `ofmarkdown` mode.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> awaiting PR CI before final `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and parent feature moved to `done`.

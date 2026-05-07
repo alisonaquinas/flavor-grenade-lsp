@@ -2,7 +2,7 @@
 id: "CHORE-082"
 title: "Phase E14 package smoke-test trace sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-082"]
 
 # Phase E14 package smoke-test trace sweep
 
-> [!INFO] `CHORE-082` - Chore - Phase E14 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-082` - Chore - Phase E14 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -91,15 +91,15 @@ publish.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Package smoke-test trace covers every supported platform VSIX target.
-- [ ] Evidence includes missing-binary failure behavior.
-- [ ] Evidence includes duplicate-binary failure behavior.
-- [ ] Evidence includes wrong-target failure behavior.
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] `bun test` passes with no regressions introduced.
-- [ ] [[test/matrix]] updated if any test files were added or removed.
-- [ ] [[test/index]] updated if any test files were added or removed.
+- [x] Package smoke-test trace covers every supported platform VSIX target.
+- [x] Evidence includes missing-binary failure behavior.
+- [x] Evidence includes duplicate-binary failure behavior.
+- [x] Evidence includes wrong-target failure behavior.
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added.
+- [x] `tsc --noEmit` exits 0.
+- [x] `bun test` passes with no regressions introduced.
+- [x] [[test/matrix]] updated if any test files were added or removed.
+- [x] [[test/index]] updated if any test files were added or removed.
 
 ---
 
@@ -130,3 +130,12 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E14 packaged VSIX trace
 > evidence.
+
+> [!INFO] In Review - 2026-05-07
+> `extension/test/package-targets/server-binary.test.ts` covers target mapping,
+> missing, duplicate, and wrong-target binaries plus real VSIX inspection.
+> `.github/workflows/extension-release.yml` now runs the same validator for all
+> seven platform targets.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and phase closeout completed.

@@ -2,7 +2,7 @@
 id: "TASK-209"
 title: "Refresh membership after server and index events"
 type: task
-status: open
+status: done
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-209"]
 
 # Refresh membership after server and index events
 
-> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `open`
+> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `done`
 
 ## Description
 
@@ -55,7 +55,7 @@ fresh vault state without requiring users to reload the VS Code window.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | 🔴 failing |
+| `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | ✅ passing |
 
 After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
 
@@ -91,16 +91,16 @@ After implementation, update the rows above and the corresponding rows in [[test
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing test written first.
-- [ ] Server `ready` refreshes open Markdown and `ofmarkdown` documents.
-- [ ] Rebuild-index completion refreshes open Markdown and `ofmarkdown` documents.
-- [ ] Non-Markdown language choices are not changed.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
+- [x] Failing test written first.
+- [x] Server `ready` refreshes open Markdown and `ofmarkdown` documents.
+- [x] Rebuild-index completion refreshes open Markdown and `ofmarkdown` documents.
+- [x] Non-Markdown language choices are not changed.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
+- [x] [[test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[test/index]] row(s) added for new test files.
+- [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
 
@@ -131,3 +131,19 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing membership-refresh tests requiring `refreshAll` to inspect both
+> Markdown and OFMarkdown documents after server/index events.
+
+> [!SUCCESS] Green - 2026-05-07
+> `LanguageModeController.refreshAll()` now checks both managed language ids,
+> server `ready` notifications trigger membership refresh, and
+> `flavorGrenade.rebuildIndex` refreshes after the rebuild request resolves.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> awaiting PR CI before final `done`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #46 CI passed and parent feature moved to `done`.
