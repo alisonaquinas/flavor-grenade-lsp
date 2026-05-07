@@ -28,3 +28,11 @@ without scanning the server docs.
 - `docs/ddd/editor-client/domain-model.md`
 - `docs/adr/ADR019-vscode-command-bridges-and-client-ux.md`
 - `docs/plans/phase-E7-vscode-extension-parity.md`
+- `docs/plans/phase-E7-activation-precision.md`
+- `docs/plans/phase-E8-command-bridges-native-navigation.md`
+- `docs/plans/phase-E9-extension-host-regression-harness.md`
+- `docs/plans/phase-E10-status-ux-troubleshooting.md`
+- `docs/plans/phase-E11-marketplace-evidence-packaging-proof.md`
+- `docs/plans/phase-E12-ofmarkdown-editor-contributions.md`
+- `docs/plans/phase-E13-workspace-environment-modes.md`
+- `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`

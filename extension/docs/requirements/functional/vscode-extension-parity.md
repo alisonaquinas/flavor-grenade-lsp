@@ -141,7 +141,7 @@ extension implementation capabilities.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], [[plans/phase-E7-vscode-extension-parity]].
+**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], `docs/plans/phase-E7-activation-precision.md`.
 
 ---
 

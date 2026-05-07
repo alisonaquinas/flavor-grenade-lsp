@@ -2,8 +2,9 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-04-22
-current-version: 0.1.2
+updated: 2026-05-07
+current-version: 0.2.1
+current-extension-version: 0.1.3
 ---
 
 # flavor-grenade-lsp — Feature Roadmap
@@ -12,9 +13,9 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 
 > [!NOTE]
 > Status values: `planned` | `in-progress` | `complete` | `blocked`
-> All v1 phases (0–13) are **complete** as of 2026-04-17. Current version: **0.1.2**.
+> All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.2.1**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
-> Extension phase E6 is **planned** for dynamic OFMarkdown language mode.
+> Extension phase E6 is **in progress** for dynamic OFMarkdown language mode.
 
 ## Phase Table
 
@@ -34,10 +35,10 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 11 | Rename | complete | Heading rename (all `[[doc#heading]]` updated); file rename via `workspace/willRenameFiles`; prepare-rename | 2026-04-17 |
 | 12 | Code Actions | complete | TOC generation (`fg.toc`); create-missing-file (`fg.createMissingFile`); tag-to-yaml (`fg.tagToYaml`); workspace symbols; document symbols; semantic tokens | 2026-04-17 |
 | 13 | CI & Delivery | complete | Bun bundle; cross-platform binaries; CI gates (lint, test, integration); release pipeline | 2026-04-17 |
-| 14 | Markdown Link Intelligence | in-progress | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | — |
-| 15 | Attachment Intelligence | planned | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | — |
-| 16 | Vault File Operation Refactors | planned | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | — |
-| 17 | Structural LSP Capabilities | planned | Document links, folding ranges, and selection ranges expose OFMarkdown structure | — |
+| 14 | Markdown Link Intelligence | complete | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | 2026-05-06 |
+| 15 | Attachment Intelligence | complete | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | 2026-05-06 |
+| 16 | Vault File Operation Refactors | complete | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | 2026-05-06 |
+| 17 | Structural LSP Capabilities | in-progress | Document links, folding ranges, and selection ranges expose OFMarkdown structure | — |
 
 ## Phase Details
 
@@ -182,8 +183,15 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E3 | Status Bar & Commands | complete | Status bar widget showing vault state; 3 palette commands (restart, rebuild, output); config change watcher | 2026-04-22 |
 | E4 | Packaging & Local Test | complete | `.vscodeignore`, Marketplace assets (README, CHANGELOG, LICENSE, icon); `vsce package` produces installable VSIX | 2026-04-22 |
 | E5 | CI/CD Pipeline | complete | `extension-release.yml` with 7-target matrix build; tag-triggered publish via `VSCE_PAT` | 2026-04-22 |
-| E6 | OFMarkdown Language Mode | planned | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
-| E7 | VS Code Extension Parity | planned | Activation precision; command bridges; extension-host tests; Marketplace proof; richer status UX | — |
+| E6 | OFMarkdown Language Mode | in-progress | Dynamic `ofmarkdown` language id for vault/index documents; generic Markdown preserved | — |
+| E7 | Activation Precision And Startup Gating | planned | Vault-marker activation, command activation, and generic Markdown idle startup | — |
+| E8 | Command Bridges And Native Navigation | planned | VS Code-native references, follow-link, embed, backlink, outlink, and vault commands | — |
+| E9 | Extension Host Regression Harness | planned | Extension-host tests for activation, language mode, commands, status, and failure states | — |
+| E10 | Status UX And Troubleshooting | planned | Rich status tooltip, crash/error states, quick actions, and diagnostic collection | — |
+| E11 | Marketplace Evidence And Packaging Proof | planned | OFMarkdown screenshots, README proof, and packaged asset verification | — |
+| E12 | OFMarkdown Editor Contributions | planned | Snippets, keybindings, language configuration, and scoped contribution checks | — |
+| E13 | Workspace Environment Modes | planned | Restricted, virtual, WSL, SSH, Dev Container, and remote behavior verification | — |
+| E14 | Membership Refresh And Compatibility Guardrails | planned | Robust language-mode refresh plus client/server and package-target validation | — |
 
 ### Extension Phase Details
 
@@ -229,28 +237,125 @@ Add a VS Code language id `ofmarkdown` displayed as **OFMarkdown**. The extensio
 
 Implementation plan: [[plans/phase-E6-ofmarkdown-language-mode]]
 
-#### Phase E7 — VS Code Extension Parity
+#### Phase E7 — Activation Precision And Startup Gating
 
-Add vault-marker activation events, VS Code command bridges for native
-references and navigation UI, richer status bar diagnostics, extension-host
-tests, Marketplace screenshots, OFMarkdown snippets, and remote/trust behavior
-documentation. Gate: extension parity BDD scenarios and extension-host tests
-cover activation, command bridges, status states, language-mode behavior, and
-failure states.
+Match Marksman VSCode's project-scoped activation while using OFMarkdown-native
+workspace signals. The extension activates for `.obsidian/`,
+`.flavor-grenade.toml`, `markdown`, `ofmarkdown`, and explicit commands, but it
+defers vault work until a positive vault signal exists. Gate: extension-host
+fixtures prove vault workspaces activate, generic Markdown remains idle, and
+commands can still wake the extension intentionally.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]]
 
-Implementation plan: [[plans/phase-E7-vscode-extension-parity]]
+Implementation plan: [[plans/phase-E7-activation-precision]]
+
+#### Phase E8 — Command Bridges And Native Navigation
+
+Add VS Code command bridges equivalent to Marksman's show-references and
+follow-link bridge, then extend them for OFMarkdown graph actions. Bridges
+validate JSON-serializable payloads and adapt server locations into native VS
+Code UI. Gate: bridge commands register, validate payloads, and invoke the
+expected VS Code action without leaking VS Code types into the server.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]]
+
+Implementation plan: [[plans/phase-E8-command-bridges-native-navigation]]
+
+#### Phase E9 — Extension Host Regression Harness
+
+Build the extension-host test harness needed to keep the VS Code integration
+stable. Coverage includes activation, language-mode promotion, command
+registration, status transitions, custom server path failures, and command
+bridge validation. Gate: extension tests run in CI and cover every required
+behavior group.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]]
+
+Implementation plan: [[plans/phase-E9-extension-host-regression-harness]]
+
+#### Phase E10 — Status UX And Troubleshooting
+
+Upgrade the status bar from a state indicator into an operational recovery
+surface. Add rich tooltip fields, disabled/error/crash states, quick actions,
+and diagnostic collection for support. Gate: known server and workspace states
+have accurate status text, useful tooltip detail, and at least one applicable
+action.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]]
+
+Implementation plan: [[plans/phase-E10-status-ux-troubleshooting]]
+
+#### Phase E11 — Marketplace Evidence And Packaging Proof
+
+Match Marksman's screenshot-backed Marketplace proof with OFMarkdown-specific
+visuals and package checks. Add README visuals for language mode, completions,
+embeds, tags, callouts, code lens, and status, then prove referenced assets ship
+inside VSIX output. Gate: required visuals are present, referenced, and packaged.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+
+Implementation plan: [[plans/phase-E11-marketplace-evidence-packaging-proof]]
+
+#### Phase E12 — OFMarkdown Editor Contributions
+
+Use the `ofmarkdown` language id for editor affordances that should not affect
+generic Markdown. Add snippets, scoped keybindings, language configuration
+refinements, and contribution scoping tests. Gate: OFMarkdown contributions
+appear only in intended language or command contexts.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]]
+
+Implementation plan: [[plans/phase-E12-ofmarkdown-editor-contributions]]
+
+#### Phase E13 — Workspace Environment Modes
+
+Make restricted, virtual, local, WSL, SSH, Dev Container, and remote extension
+host behavior explicit and verifiable. Gate: unsupported modes do not spawn the
+server and supported remote modes resolve the correct platform-specific binary.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]]
+
+Implementation plan: [[plans/phase-E13-workspace-environment-modes]]
+
+#### Phase E14 — Membership Refresh And Compatibility Guardrails
+
+Harden long-running sessions and platform packages. Refresh language-mode
+membership after server readiness, rebuilds, workspace folder changes, visible
+editor changes, and file opens. Add client/server version checks and VSIX target
+validation so bundled binaries stay aligned with the extension. Gate: refresh
+triggers assign the correct language mode and packaged VSIX checks catch target
+or version mismatches.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+
+Implementation plan: [[plans/phase-E14-membership-refresh-compatibility-guardrails]]
 
 ### Extension Phase Dependencies
 
 ```text
 Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
                                           │
-                                       Phase E4 ──► Phase E5 ──► Phase E6 ──► Phase E7
+                                       Phase E4 ──► Phase E5 ──► Phase E6
+                                                                  │
+                                                                  ▼
+                                      Phase E7 ──► Phase E8 ──► Phase E9
+                                                                  │
+                                                                  ▼
+                                     Phase E10 ─► Phase E11 ─► Phase E12
+                                                                  │
+                                                                  ▼
+                                                Phase E13 ───► Phase E14
 ```
 
-Phases are strictly sequential. E3 requires E2's `LanguageClient` to wire commands and status bar into. E4 requires E3 to have a complete extension for packaging. E5 requires E4 to have verified local packaging. E6 requires E2/E3 client lifecycle and command surfaces. E7 requires E6 language-mode behavior so extension parity work can target `ofmarkdown` precisely.
+Phases are mostly sequential. E3 requires E2's `LanguageClient` to wire
+commands and status bar into. E4 requires E3 to have a complete extension for
+packaging. E5 requires E4 to have verified local packaging. E6 requires E2/E3
+client lifecycle and command surfaces. E7 requires E6 language-mode behavior so
+startup gates can reason about `markdown` and `ofmarkdown`. E8 depends on E7's
+activation contract. E9 follows E8 so the host harness can lock command bridge
+behavior. E10-E14 then harden user-facing status, Marketplace proof, editor
+contributions, workspace environments, and compatibility guardrails.
 
 ## Feature Backlog (Post-v1)
 
