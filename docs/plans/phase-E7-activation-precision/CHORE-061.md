@@ -2,7 +2,7 @@
 id: "CHORE-061"
 title: "Phase E7 Test Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-061"]
 
 # Phase E7 Test Trace Sweep
 
-> [!INFO] `CHORE-061` - Chore - Phase E7 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-061` - Chore - Phase E7 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -91,11 +91,11 @@ traceability must show which cases prove each signal.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E7 test rows exist in [[test/matrix]]
-- [ ] Phase E7 test files are listed in [[test/index]]
-- [ ] Requirement tags map to passing or planned evidence consistently
-- [ ] No runtime behavior files are changed
-- [ ] Markdown lint passes for changed docs
+- [x] Phase E7 test rows exist in [[test/matrix]]
+- [x] Phase E7 test files are listed in [[test/index]]
+- [x] Requirement tags map to passing or planned evidence consistently
+- [x] No runtime behavior files are changed
+- [x] Markdown lint passes for changed docs
 
 ---
 
@@ -123,3 +123,10 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E7 test traceability.
+
+> [!INFO] In Review - 2026-05-07
+> Added Phase E7 rows to [[test/matrix]] and listed
+> `extension/src/activation-gate.test.ts` in [[test/index]].
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; test trace sweep is complete.

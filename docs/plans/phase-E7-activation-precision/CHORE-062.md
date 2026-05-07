@@ -2,7 +2,7 @@
 id: "CHORE-062"
 title: "Phase E7 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-062"]
 
 # Phase E7 Documentation Trace Sweep
 
-> [!INFO] `CHORE-062` - Chore - Phase E7 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-062` - Chore - Phase E7 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -87,11 +87,11 @@ more damaging than a missing internal note.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E7 docs link to relevant requirements and feature docs
-- [ ] Extension docs and README agree on marker, language, and command signals
-- [ ] No stale references to generic Markdown indexing remain
-- [ ] Markdown lint passes for changed docs
-- [ ] No runtime behavior files are changed
+- [x] Phase E7 docs link to relevant requirements and feature docs
+- [x] Extension docs and README agree on marker, language, and command signals
+- [x] No stale references to generic Markdown indexing remain
+- [x] Markdown lint passes for changed docs
+- [x] No runtime behavior files are changed
 
 ---
 
@@ -119,3 +119,10 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E7 documentation trace.
+
+> [!INFO] In Review - 2026-05-07
+> Reviewed Phase E7 activation docs and requirement wording; docs are ready
+> for PR review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; documentation trace sweep is complete.

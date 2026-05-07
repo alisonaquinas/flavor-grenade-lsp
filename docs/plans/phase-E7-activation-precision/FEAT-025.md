@@ -2,7 +2,7 @@
 id: "FEAT-025"
 title: "Activation Precision And Startup Gating"
 type: feature
-status: draft
+status: done
 priority: high
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-025"]
 
 # Activation Precision And Startup Gating
 
-> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -79,14 +79,14 @@ extension when the user intends to use it.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] `.obsidian/` workspaces activate and start membership detection
-- [ ] `.flavor-grenade.toml` workspaces activate and start membership detection
-- [ ] Generic Markdown workspaces remain idle until a positive signal appears
-- [ ] Explicit commands can wake the extension without bypassing startup checks
-- [ ] `onLanguage:markdown` and `onLanguage:ofmarkdown` remain supported
-- [ ] Extension docs describe active, idle, and command-wake behavior
-- [ ] Phase gate commands pass under `extension/`
-- [ ] [[test/matrix]] and [[test/index]] reflect new coverage
+- [x] `.obsidian/` workspaces activate and start membership detection
+- [x] `.flavor-grenade.toml` workspaces activate and start membership detection
+- [x] Generic Markdown workspaces remain idle until a positive signal appears
+- [x] Explicit commands can wake the extension without bypassing startup checks
+- [x] `onLanguage:markdown` and `onLanguage:ofmarkdown` remain supported
+- [x] Extension docs describe active, idle, and command-wake behavior
+- [x] Phase gate commands pass under `extension/`
+- [x] [[test/matrix]] and [[test/index]] reflect new coverage
 
 ---
 
@@ -94,13 +94,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-181]] | Add Vault Marker Activation Events | `open` |
-| [[TASK-182]] | Gate Startup Vault Work | `open` |
-| [[TASK-183]] | Preserve Command And Language Wake Paths | `open` |
-| [[TASK-184]] | Document Activation Behavior | `open` |
-| [[CHORE-060]] | Phase E7 Lint Sweep | `open` |
-| [[CHORE-061]] | Phase E7 Test Trace Sweep | `open` |
-| [[CHORE-062]] | Phase E7 Documentation Trace Sweep | `open` |
+| [[TASK-181]] | Add Vault Marker Activation Events | `done` |
+| [[TASK-182]] | Gate Startup Vault Work | `done` |
+| [[TASK-183]] | Preserve Command And Language Wake Paths | `done` |
+| [[TASK-184]] | Document Activation Behavior | `done` |
+| [[CHORE-060]] | Phase E7 Lint Sweep | `done` |
+| [[CHORE-061]] | Phase E7 Test Trace Sweep | `done` |
+| [[CHORE-062]] | Phase E7 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -146,3 +146,38 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E7 execution started on branch `codex/phase-e7-activation-precision`.
+
+> [!INFO] Green - 2026-05-07
+> Activation gate implementation and docs reached local green state:
+> `cd extension && npm run check-types`, `cd extension && npm test`, and
+> `cd extension && npm run build:extension` passed.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate passed: `bun run lint`, `bun run typecheck`,
+> `bun run build`, `bun test`, `bun run format:check`, docs markdown lint,
+> non-doc markdown lint, extension typecheck/test/build, and extension
+> `npm audit --audit-level=low`.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed. Phase E7 completed with lazy startup gating, activation
+> marker coverage, docs, and traceability updates.
+
+## Retrospective
+
+### What changed
+
+- Added vault-marker and command activation events to the extension manifest.
+- Introduced a startup gate so generic Markdown stays idle while `.obsidian/`,
+  `.flavor-grenade.toml`, `ofmarkdown`, and explicit commands remain supported
+  wake signals.
+- Added extension unit coverage for activation events, marker detection,
+  generic Markdown idle startup, `ofmarkdown` wake, and command wake.
+- Documented user-facing activation behavior in the extension README and docs.
+
+### Follow-up
+
+- Phase E9 should promote these pure activation-gate tests into extension-host
+  coverage that proves the LanguageClient is not started for generic Markdown.

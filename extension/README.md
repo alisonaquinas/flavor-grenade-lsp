@@ -43,6 +43,31 @@ Language-specific VS Code settings can target OFMarkdown:
 }
 ```
 
+## Activation Behavior
+
+Flavor Grenade starts automatically when VS Code opens a workspace that looks
+like an Obsidian or Flavor Grenade vault:
+
+- A workspace containing `.obsidian/` activates the extension and starts vault
+  membership detection.
+- A workspace containing `.flavor-grenade.toml` also activates the extension and
+  starts vault membership detection.
+- Opening Markdown in a generic workspace with neither marker keeps Flavor
+  Grenade idle. VS Code continues to treat those files as normal **Markdown**,
+  and the extension does not start vault indexing just because a README or other
+  ordinary `.md` file is open.
+- Opening a supported `markdown` or `ofmarkdown` file can wake the extension,
+  but startup still checks for a positive vault signal before doing vault work.
+- Running an explicit command, such as **Flavor Grenade: Restart Server**,
+  **Flavor Grenade: Rebuild Index**, or **Flavor Grenade: Show Output**, can
+  wake the extension. Command wake does not promise that a vault exists or that
+  indexing will find content; the same startup checks still run before the
+  command path starts server work.
+
+This behavior comes from Phase E7 activation precision and the extension parity
+requirements for `Extension.Activation.VaultPrecision` and
+`Extension.Activation.MarkerEvents`.
+
 ## Commands
 
 Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Flavor Grenade":

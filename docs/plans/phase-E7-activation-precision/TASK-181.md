@@ -2,7 +2,7 @@
 id: "TASK-181"
 title: "Add Vault Marker Activation Events"
 type: task
-status: open
+status: done
 priority: high
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-181"]
 
 # Add Vault Marker Activation Events
 
-> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `open`
+> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `done`
 
 ## Description
 
@@ -56,7 +56,7 @@ coexist with existing language and command activation events.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/activation-markers.test.ts` | Extension Host | `Extension.Activation.MarkerEvents` | 🔴 failing |
+| `extension/src/activation-gate.test.ts` | Unit | `Extension.Activation.MarkerEvents` | ✅ passing |
 
 ---
 
@@ -90,12 +90,12 @@ coexist with existing language and command activation events.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing activation marker test is written first
-- [ ] Extension manifest includes both vault marker activation events
-- [ ] Existing language and command activation events remain registered
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing activation marker test is written first
+- [x] Extension manifest includes both vault marker activation events
+- [x] Existing language and command activation events remain registered
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -125,3 +125,17 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-025]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing activation manifest and marker-detection tests in
+> `extension/src/activation-gate.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Added manifest marker and command activation events, implemented marker
+> detection, and verified the extension unit tests pass.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and activation marker coverage is ready for PR review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; activation marker work is complete.

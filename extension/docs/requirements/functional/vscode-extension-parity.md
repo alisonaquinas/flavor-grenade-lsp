@@ -29,7 +29,7 @@ intelligence remains governed by the OFMarkdown feature requirements.
 3. Open a workspace containing `.flavor-grenade.toml`.
 4. Verify the extension activates and starts membership detection.
 5. Open a generic Markdown workspace with neither marker.
-6. Verify the extension remains idle until a command or supported language activation requires it.
+6. Verify the extension remains idle until a command, `ofmarkdown` document, or vault signal requires it.
 7. Compute: (correct activation outcomes / total workspaces tested) x 100.
 **Fail:** Any vault workspace fails to activate, or generic Markdown startup performs vault indexing without a positive signal.
 **Goal:** 100% correct activation outcomes.

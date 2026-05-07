@@ -2,7 +2,7 @@
 id: "TASK-184"
 title: "Document Activation Behavior"
 type: task
-status: open
+status: done
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-184"]
 
 # Document Activation Behavior
 
-> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `open`
+> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `done`
 
 ## Description
 
@@ -55,7 +55,8 @@ The docs must match the implemented marker, language, and command behavior.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/docs/README.md` | Manual Docs Review | `Extension.Activation.VaultPrecision` | 🔴 failing |
+| `extension/README.md` | Manual Docs Review | `Extension.Activation.VaultPrecision` | ✅ passing |
+| `extension/docs/features/activation-behavior.md` | Manual Docs Review | `Extension.Activation.MarkerEvents` | ✅ passing |
 
 ---
 
@@ -91,12 +92,12 @@ The docs must match the implemented marker, language, and command behavior.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Extension docs describe all activation signals
-- [ ] Extension README describes generic Markdown idle behavior
-- [ ] Command wake behavior is documented without promising indexing
-- [ ] Docs link back to Phase E7 and extension parity requirements
-- [ ] Markdown lint passes for changed docs
-- [ ] [[test/matrix]] and [[test/index]] updated if needed
+- [x] Extension docs describe all activation signals
+- [x] Extension README describes generic Markdown idle behavior
+- [x] Command wake behavior is documented without promising indexing
+- [x] Docs link back to Phase E7 and extension parity requirements
+- [x] Markdown lint passes for changed docs
+- [x] [[test/matrix]] and [[test/index]] updated if needed
 
 ---
 
@@ -126,3 +127,15 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-025]].
+
+> [!INFO] Green - 2026-05-07
+> Documented activation behavior in `extension/README.md` and
+> `extension/docs/features/activation-behavior.md`; markdown lint passed for
+> the changed docs.
+
+> [!INFO] In Review - 2026-05-07
+> Documentation matches the implemented activation gate and is ready for PR
+> review.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #39 CI passed; activation behavior documentation is complete.

@@ -285,7 +285,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Extension.Activation.Markdown` | Extension activates on `onLanguage:markdown` and spawns server | — | ⬜ not-yet-written | Phase E2 | Integration test; requires Extension Development Host |
+| `Extension.Activation.Markdown` | Extension can wake on `onLanguage:markdown` and run the startup gate | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Phase E7 replaces unconditional server start with gated startup; extension-host coverage remains deferred to Phase E9 |
+| `Extension.Activation.VaultPrecision` | Vault marker workspaces start while generic Markdown remains idle | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Unit coverage verifies `.obsidian/`, `.flavor-grenade.toml`, generic Markdown idle, `ofmarkdown`, and command wake decisions |
+| `Extension.Activation.MarkerEvents` | Manifest and gate honor marker, language, and command activation signals | `extension/src/activation-gate.test.ts` | ✅ passing | Phase E7 | Manifest coverage verifies vault marker, language, and command activation events |
 | `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
 | `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
 | `Extension.StatusBar.StateTransition` | Status bar text reflects all 4 server states (initializing, indexing, ready, error) | — | ⬜ not-yet-written | Phase E3 | Unit test; mock `flavorGrenade/status` notifications |
@@ -334,7 +336,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E4 (Packaging) | 2 | 1 | 50% |
 | Phase E5 (CI/CD Pipeline) | 2 | 0 | 0% |
 | Phase E6 (OFMarkdown Language Mode) | 6 | 6 | 100% |
-| **Total** | **128** | **46** | **36%** |
+| Phase E7 (Activation Precision) | 3 | 3 | 100% |
+| **Total** | **130** | **49** | **38%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.
