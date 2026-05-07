@@ -65,4 +65,17 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 8, endLine: 10, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 11, endLine: 13, kind: 'comment' });
   });
+
+  it('folds multiline Templater opaque regions', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/templater.md',
+      ['# Doc', '<%*', 'const title = tp.file.title;', '%>', 'After'].join('\n'),
+      1,
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 1, endLine: 3, kind: 'region' });
+  });
 });

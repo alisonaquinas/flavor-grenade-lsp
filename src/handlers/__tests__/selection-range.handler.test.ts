@@ -91,4 +91,17 @@ describe('SelectionRangeHandler', () => {
       range(0, 0, 4, lines[4].length),
     ]);
   });
+
+  it('does not expand selections outside Templater opaque regions', () => {
+    const lines = ['# Project', '<%*', 'const title = tp.file.title;', '%>', 'After'];
+    const doc = parser.parse('file:///vault/notes/templater.md', lines.join('\n'), 1);
+    parseCache.set(doc.uri, doc);
+
+    const result = handler.handle({
+      textDocument: { uri: doc.uri },
+      positions: [{ line: 2, character: 8 }],
+    });
+
+    expect(chainRanges(result[0])).toEqual([range(1, 0, 3, 2)]);
+  });
 });
