@@ -2,7 +2,7 @@
 id: "TASK-178"
 title: "Implement selection ranges"
 type: task
-status: red
+status: green
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-178"]
 
 # Implement selection ranges
 
-> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
+> [!INFO] `TASK-178` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
 
 ## Description
 
@@ -67,7 +67,7 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🔴 failing |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.Coverage` | 🟢 passing |
 | `src/test/integration/structural-lsp.test.ts` | Integration | `Security.Input.PositionValidation` | planned |
 
 > After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
@@ -145,3 +145,8 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 > [!WARNING] Red - 2026-05-07
 > Added the focused failing unit test for `textDocument/selectionRange`. Status:
 > `red`; implementation is intentionally deferred to the GREEN stage.
+
+> [!SUCCESS] Green - 2026-05-07
+> Implemented minimal selection-range behavior for cached documents, valid
+> positions, wiki-link token ranges, paragraphs, sections, and whole-document
+> ranges. Focused unit test, typecheck, and lint pass. Status: `green`.

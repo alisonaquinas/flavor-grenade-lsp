@@ -12,7 +12,7 @@ aliases: ["Phase 17 Tickets"]
 | [[TASK-175]] | Register structural LSP capabilities | Task | `green` |
 | [[TASK-176]] | Implement document links | Task | `green` |
 | [[TASK-177]] | Implement folding ranges | Task | `green` |
-| [[TASK-178]] | Implement selection ranges | Task | `red` |
+| [[TASK-178]] | Implement selection ranges | Task | `green` |
 | [[TASK-179]] | Add structural LSP tests | Task | `open` |
 | [[TASK-213]] | Add Templater opaque regions | Task | `open` |
 | [[CHORE-053]] | Phase 17 Lint Sweep | Chore | `open` |
