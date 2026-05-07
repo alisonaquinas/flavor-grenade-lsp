@@ -177,7 +177,7 @@
     "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
     "watch": "npm run watch:extension",
     "watch:extension": "node scripts/watch-extension.mjs",
-    "test": "node --import tsx --test \"src/**/*.test.ts\"",
+    "test": "node --import tsx --test \"src/**/*.test.ts\" \"test/**/*.test.ts\"",
     "test:host": "node scripts/run-host-tests.mjs"
   },
   "dependencies": {

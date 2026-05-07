@@ -2,7 +2,7 @@
 id: "TASK-197"
 title: "Add OFMarkdown mode and status visuals"
 type: task
-status: open
+status: red
 priority: high
 phase: E11
 parent: "FEAT-029"
@@ -15,7 +15,7 @@ aliases: ["TASK-197"]
 
 # Add OFMarkdown mode and status visuals
 
-> [!INFO] `TASK-197` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `open`
+> [!INFO] `TASK-197` - Task - Phase E11 - Parent: [[FEAT-029]] - Status: `red`
 
 ## Description
 
@@ -139,3 +139,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-029]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing Marketplace README asset coverage for OFMarkdown mode promotion
+> and status indexing visuals.
