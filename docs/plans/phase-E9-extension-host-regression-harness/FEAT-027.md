@@ -2,7 +2,7 @@
 id: "FEAT-027"
 title: "Extension Host Regression Harness"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-027"]
 
 # Extension Host Regression Harness
 
-> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `in-progress`
 
 ## Goal
 
@@ -158,3 +158,6 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E9 execution started on branch `codex/phase-e9-extension-host-harness`.

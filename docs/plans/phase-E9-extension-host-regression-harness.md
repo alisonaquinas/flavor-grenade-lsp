@@ -1,7 +1,7 @@
 ---
 title: "Phase E9: Extension Host Regression Harness"
 phase: E9
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, testing, marksman-parity]
 aliases: [Phase E9, Extension Host Tests]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E9 |
 | Title | Extension Host Regression Harness |
-| Status | planned |
+| Status | in-progress |
 | Gate | Extension-host tests cover activation, language mode, commands, status, and failure states |
 | Depends on | Phase E8 |
 

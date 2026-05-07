@@ -8,7 +8,7 @@ aliases: ["Phase E9 Tickets"]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-027]] | Extension Host Regression Harness | Feature | `draft` |
+| [[FEAT-027]] | Extension Host Regression Harness | Feature | `in-progress` |
 | [[TASK-189]] | Add extension-host test runner and fixtures | Task | `open` |
 | [[TASK-190]] | Cover activation and language-mode membership | Task | `open` |
 | [[TASK-191]] | Cover command bridge payload validation | Task | `open` |
