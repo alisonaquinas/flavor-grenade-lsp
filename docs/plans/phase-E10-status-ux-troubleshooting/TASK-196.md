@@ -2,7 +2,7 @@
 id: "TASK-196"
 title: "Add troubleshooting docs and command flow"
 type: task
-status: open
+status: red
 priority: medium
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-196"]
 
 # Add troubleshooting docs and command flow
 
-> [!INFO] `TASK-196` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `open`
+> [!INFO] `TASK-196` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `red`
 
 ## Description
 
@@ -141,3 +141,6 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-028]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing unit coverage for the troubleshooting document and command URL.
