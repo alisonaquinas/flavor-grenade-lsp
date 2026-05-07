@@ -1,7 +1,7 @@
 ---
 title: "Phase E14: Membership Refresh And Compatibility Guardrails"
 phase: E14
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, language-mode, compatibility]
 aliases: [Phase E14, Membership Refresh, Compatibility Guardrails]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E14 |
 | Title | Membership Refresh And Compatibility Guardrails |
-| Status | planned |
+| Status | in-progress |
 | Gate | Language-mode refresh and packaged client/server compatibility checks pass |
 | Depends on | Phase E13 |
 

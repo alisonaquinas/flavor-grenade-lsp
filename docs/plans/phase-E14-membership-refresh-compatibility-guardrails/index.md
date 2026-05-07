@@ -8,7 +8,7 @@ aliases: ["Phase E14 Tickets", Membership Refresh Tickets]
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-032]] | Membership Refresh And Compatibility Guardrails | Feature | `draft` |
+| [[FEAT-032]] | Membership Refresh And Compatibility Guardrails | Feature | `in-progress` |
 | [[TASK-209]] | Refresh membership after server and index events | Task | `open` |
 | [[TASK-210]] | Refresh membership after workspace and editor events | Task | `open` |
 | [[TASK-211]] | Guard language-mode reversion | Task | `open` |
