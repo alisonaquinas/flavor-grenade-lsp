@@ -294,8 +294,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Tests.HostCoverage` | Extension-host tests cover required client behavior groups | `extension/src/test/suite/*.js` | ✅ passing | Phase E9 | `npm run test:host` runs all `.obsidian/`, `.flavor-grenade.toml`, and generic Markdown fixtures |
 | `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
 | `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
-| `Extension.StatusBar.StateTransition` | Status bar text reflects all 4 server states (initializing, indexing, ready, error) | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E9 | Pure presentation tests cover all states; host test exercises the development-host status presentation hook |
-| `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E9 | Phase E10 will add richer tooltip and quick-action UX |
+| `Extension.StatusBar.StateTransition` | Status bar text reflects known server and workspace states | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Pure presentation tests cover initializing, indexing, ready, error, disabled, crashed, and misconfigured states; host test exercises the development-host status presentation hook |
+| `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Rich tooltip and diagnostic-copy tests cover extension/server versions, platform, vault counts, vault root, sanitized server path summary, and troubleshooting topics |
+| `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | `extension/src/status-bar.test.ts`, `extension/src/status-actions.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Quick actions cover restart, rebuild index, output, diagnostic copy, vault reveal, and troubleshooting command flow |
 | `Extension.StatusBar.RestartReset` | Status bar resets to "Starting..." on client restart | — | ⬜ not-yet-written | Phase E3 | Unit test; trigger `onDidChangeState` |
 | `Extension.Commands.Registration` | All 3 commands registered and callable via palette | — | ⬜ not-yet-written | Phase E3 | Unit test + integration test |
 | `Extension.Commands.RebuildIndex` | `rebuildIndex` sends `workspace/executeCommand` to server | — | ⬜ not-yet-written | Phase E3 | Unit test; verify `sendRequest` call shape |
@@ -343,7 +344,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E6 (OFMarkdown Language Mode) | 6 | 6 | 100% |
 | Phase E7 (Activation Precision) | 3 | 3 | 100% |
 | Phase E8 (Command Bridges) | 3 | 3 | 100% |
-| **Total** | **133** | **52** | **39%** |
+| Phase E10 (Status UX) | 2 | 2 | 100% |
+| **Total** | **134** | **53** | **40%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

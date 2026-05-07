@@ -18,7 +18,7 @@ export function applyFlavorGrenadeStatus(
  * defined in the API layer (see docs/design/api-layer.md).
  * Clicking the status bar item opens the output channel.
  */
-export function createStatusBar(client: LanguageClient): StatusBarItem {
+export function createFlavorGrenadeStatusBar(): StatusBarItem {
     const item = window.createStatusBarItem(
         'flavorGrenade.status',
         StatusBarAlignment.Left,
@@ -26,16 +26,27 @@ export function createStatusBar(client: LanguageClient): StatusBarItem {
     );
 
     item.name = 'Flavor Grenade';
-    item.command = 'flavorGrenade.showOutput';
+    item.command = 'flavorGrenade.showStatusActions';
     item.text = '$(loading~spin) FG: Starting...';
     item.show();
 
+    return item;
+}
+
+export function registerFlavorGrenadeStatusNotifications(
+    client: LanguageClient,
+    item: Pick<StatusBarItem, 'text' | 'tooltip'>,
+): void {
     client.onNotification(
         'flavorGrenade/status',
         (params: FlavorGrenadeStatus) => {
             applyFlavorGrenadeStatus(item, params);
         },
     );
+}
 
+export function createStatusBar(client: LanguageClient): StatusBarItem {
+    const item = createFlavorGrenadeStatusBar();
+    registerFlavorGrenadeStatusNotifications(client, item);
     return item;
 }

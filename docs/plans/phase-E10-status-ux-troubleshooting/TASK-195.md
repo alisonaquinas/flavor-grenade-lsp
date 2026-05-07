@@ -2,7 +2,7 @@
 id: "TASK-195"
 title: "Add status quick actions and diagnostic copy"
 type: task
-status: open
+status: green
 priority: high
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-195"]
 
 # Add status quick actions and diagnostic copy
 
-> [!INFO] `TASK-195` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `open`
+> [!INFO] `TASK-195` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `green`
 
 ## Description
 
@@ -99,10 +99,10 @@ those actions apply.
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] Restart, rebuild index, show output, copy diagnostics, and reveal vault root actions are reachable when applicable
-- [ ] Unavailable actions are hidden or safely disabled
-- [ ] Diagnostic copy output omits secrets and includes useful support data
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] Restart, rebuild index, show output, copy diagnostics, and reveal vault root actions are reachable when applicable
+- [x] Unavailable actions are hidden or safely disabled
+- [x] Diagnostic copy output omits secrets and includes useful support data
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
@@ -143,3 +143,12 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-028]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing unit and host coverage for status quick actions and diagnostic
+> copy data.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `flavorGrenade.showStatusActions`, status quick-action modeling, and
+> extension-generated sanitized diagnostics. Host coverage passes across all
+> fixtures.

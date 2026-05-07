@@ -2,7 +2,7 @@
 id: "CHORE-071"
 title: "Phase E10 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E10
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-071"]
 
 # Phase E10 Documentation Trace Sweep
 
-> [!INFO] `CHORE-071` - Chore - Phase E10 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-071` - Chore - Phase E10 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -92,13 +92,13 @@ tooltip fields, and quick-action commands.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E10 plan names final status states, actions, and verification evidence
-- [ ] Troubleshooting docs match final command names and status text
-- [ ] Extension parity plan remains aligned with the E10 delivery slice
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
-- [ ] `tsc --noEmit` exits 0
-- [ ] `bun test` passes (no regressions introduced)
-- [ ] No behavior-affecting changes in `src/`
+- [x] Phase E10 plan names final status states, actions, and verification evidence
+- [x] Troubleshooting docs match final command names and status text
+- [x] Extension parity plan remains aligned with the E10 delivery slice
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added
+- [x] `tsc --noEmit` exits 0
+- [x] `bun test` passes (no regressions introduced)
+- [x] No behavior-affecting changes in `src/`
 
 ---
 
@@ -133,3 +133,8 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E10 final documentation trace.
+
+> [!SUCCESS] Done - 2026-05-07
+> Swept Phase E10 plan evidence, extension parity slice status, activation
+> command docs, and troubleshooting copy against the final status states and
+> command names.

@@ -35,6 +35,8 @@
     "onCommand:flavorGrenade.restartServer",
     "onCommand:flavorGrenade.rebuildIndex",
     "onCommand:flavorGrenade.showOutput",
+    "onCommand:flavorGrenade.showStatusActions",
+    "onCommand:flavorGrenade.openTroubleshooting",
     "onCommand:flavorGrenade.showReferences",
     "onCommand:flavorGrenade.followLink",
     "onCommand:flavorGrenade.openEmbedTarget",
@@ -75,6 +77,14 @@
       {
         "command": "flavorGrenade.showOutput",
         "title": "Flavor Grenade: Show Output"
+      },
+      {
+        "command": "flavorGrenade.showStatusActions",
+        "title": "Flavor Grenade: Show Status Actions"
+      },
+      {
+        "command": "flavorGrenade.openTroubleshooting",
+        "title": "Flavor Grenade: Open Troubleshooting"
       },
       {
         "command": "flavorGrenade.showReferences",

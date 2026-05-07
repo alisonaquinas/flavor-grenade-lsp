@@ -54,6 +54,10 @@ Explicit `flavorGrenade.*` commands can wake the extension from idle:
 | `flavorGrenade.restartServer` | Wakes the extension and reruns startup checks before restart work. |
 | `flavorGrenade.rebuildIndex` | Wakes the extension and asks the server to rebuild any indexable vault it can detect. |
 | `flavorGrenade.showOutput` | Wakes the extension enough to show troubleshooting output. |
+| `flavorGrenade.showStatusActions` | Wakes the extension enough to show available recovery actions for the current status. |
+| `flavorGrenade.openTroubleshooting` | Opens the extension troubleshooting document without starting the server. |
+| `flavorGrenade.copyDiagnosticInfo` | Copies sanitized extension status and support details. |
+| `flavorGrenade.revealVaultRoot` | Reveals the active vault root when one is known. |
 
 Command wake should not be read as proof that a vault exists. A command can
 start extension-side handling, but indexing still depends on `.obsidian/`,

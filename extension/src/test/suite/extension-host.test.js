@@ -6,6 +6,8 @@ const EXPECTED_COMMANDS = [
   'flavorGrenade.restartServer',
   'flavorGrenade.rebuildIndex',
   'flavorGrenade.showOutput',
+  'flavorGrenade.showStatusActions',
+  'flavorGrenade.openTroubleshooting',
   'flavorGrenade.showReferences',
   'flavorGrenade.followLink',
   'flavorGrenade.openEmbedTarget',

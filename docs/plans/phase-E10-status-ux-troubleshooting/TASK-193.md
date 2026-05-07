@@ -2,7 +2,7 @@
 id: "TASK-193"
 title: "Model rich status tooltip data"
 type: task
-status: open
+status: green
 priority: high
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-193"]
 
 # Model rich status tooltip data
 
-> [!INFO] `TASK-193` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `open`
+> [!INFO] `TASK-193` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `green`
 
 ## Description
 
@@ -97,9 +97,9 @@ document count, and last error from the status item.
 All of the following must be true before this task is marked `done`:
 
 - [ ] Failing test(s) written first (RED commit exists in git log)
-- [ ] Implementation written to make test(s) pass (GREEN commit follows)
-- [ ] Tooltip includes server state, server version, extension version, vault root, vault count, document count, and last error
-- [ ] Tooltip omits secrets and handles unavailable values predictably
+- [x] Implementation written to make test(s) pass (GREEN commit follows)
+- [x] Tooltip includes server state, server version, extension version, vault root, vault count, document count, and last error
+- [x] Tooltip omits secrets and handles unavailable values predictably
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
@@ -140,3 +140,11 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-028]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing unit coverage for rich status tooltip fields and sanitized
+> diagnostic data.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added rich status view-model fields, sanitized tooltip rendering, and
+> diagnostic-copy data. Extension unit, typecheck, build, and host tests pass.

@@ -2,7 +2,7 @@
 id: "CHORE-070"
 title: "Phase E10 Test Matrix Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E10
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-070"]
 
 # Phase E10 Test Matrix Sweep
 
-> [!INFO] `CHORE-070` - Chore - Phase E10 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-070` - Chore - Phase E10 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -93,13 +93,13 @@ from status states back to requirements and tests.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] includes Phase E10 rows for status diagnostics and quick actions
-- [ ] [[test/index]] includes every new Phase E10 unit or host test file
-- [ ] Test statuses match the actual verification command result
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
-- [ ] `tsc --noEmit` exits 0
-- [ ] `bun test` passes (no regressions introduced)
-- [ ] No behavior-affecting changes in `src/`
+- [x] [[test/matrix]] includes Phase E10 rows for status diagnostics and quick actions
+- [x] [[test/index]] includes every new Phase E10 unit or host test file
+- [x] Test statuses match the actual verification command result
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added
+- [x] `tsc --noEmit` exits 0
+- [x] `bun test` passes (no regressions introduced)
+- [x] No behavior-affecting changes in `src/`
 
 ---
 
@@ -134,3 +134,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E10 status test traceability.
+
+> [!SUCCESS] Done - 2026-05-07
+> Updated [[test/matrix]] and [[test/index]] for Phase E10 status diagnostics,
+> quick actions, troubleshooting coverage, and the expanded host status suite.

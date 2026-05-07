@@ -2,7 +2,7 @@
 id: "FEAT-028"
 title: "Status UX And Troubleshooting"
 type: feature
-status: draft
+status: done
 priority: high
 phase: E10
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-028"]
 
 # Status UX And Troubleshooting
 
-> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-028` - Feature - Phase E10 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -84,15 +84,15 @@ without searching raw logs first.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Every known status state has accurate text and tooltip detail
-- [ ] Disabled and error states expose useful next actions
-- [ ] Diagnostic copy output excludes secrets and includes actionable platform data
-- [ ] Status quick actions include restart, rebuild index, output, diagnostics, and vault reveal
-- [ ] Troubleshooting docs cover missing binary, crash loop, no OFMarkdown promotion, no completions, and stale index
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
-- [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
-- [ ] `tsc --noEmit` exits 0
+- [x] Every known status state has accurate text and tooltip detail
+- [x] Disabled and error states expose useful next actions
+- [x] Diagnostic copy output excludes secrets and includes actionable platform data
+- [x] Status quick actions include restart, rebuild index, output, diagnostics, and vault reveal
+- [x] Troubleshooting docs cover missing binary, crash loop, no OFMarkdown promotion, no completions, and stale index
+- [x] [[test/matrix]] updated with every new test file introduced
+- [x] [[test/index]] updated with every new test file introduced
+- [x] No new linter warnings introduced (`bun run lint --max-warnings 0`)
+- [x] `tsc --noEmit` exits 0
 
 ---
 
@@ -100,13 +100,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-193]] | Model rich status tooltip data | `open` |
-| [[TASK-194]] | Add disabled error and crash status states | `open` |
-| [[TASK-195]] | Add status quick actions and diagnostic copy | `open` |
-| [[TASK-196]] | Add troubleshooting docs and command flow | `open` |
-| [[CHORE-069]] | Phase E10 Lint And Typecheck Sweep | `open` |
-| [[CHORE-070]] | Phase E10 Test Matrix Sweep | `open` |
-| [[CHORE-071]] | Phase E10 Documentation Trace Sweep | `open` |
+| [[TASK-193]] | Model rich status tooltip data | `green` |
+| [[TASK-194]] | Add disabled error and crash status states | `green` |
+| [[TASK-195]] | Add status quick actions and diagnostic copy | `green` |
+| [[TASK-196]] | Add troubleshooting docs and command flow | `green` |
+| [[CHORE-069]] | Phase E10 Lint And Typecheck Sweep | `done` |
+| [[CHORE-070]] | Phase E10 Test Matrix Sweep | `done` |
+| [[CHORE-071]] | Phase E10 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -156,3 +156,16 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E10 execution started on branch `codex/phase-e10-status-ux`.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Phase E10 status UX, quick actions, diagnostic copy, troubleshooting docs,
+> trace docs, and local gates are ready for PR review. `npm run test:host`
+> passes all extension-host fixtures locally; full BDD still has existing
+> undefined and pending scenarios outside Phase E10.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #42 passed CI with build, tests, typecheck, ESLint, Prettier, and Markdown
+> lint. Phase E10 is complete and ready to merge to `develop`.
