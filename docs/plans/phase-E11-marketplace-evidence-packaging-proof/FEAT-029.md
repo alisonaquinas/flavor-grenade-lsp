@@ -96,7 +96,7 @@ All of the following must be true before this ticket is marked `done`.
 | [[TASK-199]] | Add diagnostics, hover, tag, and callout visuals | `green` |
 | [[TASK-200]] | Verify README assets in packaged VSIX | `green` |
 | [[CHORE-072]] | Phase E11 Marketplace Asset Inventory Sweep | `done` |
-| [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `open` |
+| [[CHORE-073]] | Phase E11 Package Inspection Script Sweep | `done` |
 | [[CHORE-074]] | Phase E11 Documentation Trace Sweep | `open` |
 
 ---
