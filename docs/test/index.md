@@ -121,6 +121,10 @@ helpers or injected VS Code facades.
 | `extension/src/troubleshooting.test.ts` | Unit | Tests the troubleshooting document URL and required recovery topics | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/test/marketplace/readme-assets.test.ts` | Unit | Tests Marketplace README references every required OFMarkdown visual with supported local image formats | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
 | `extension/test/marketplace/vsix-assets.test.ts` | Unit | Tests the Marketplace asset verification script and packaged output include every required README visual | `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
+| `extension/test/contributions/snippets.test.ts` | Unit | Tests OFMarkdown-only snippet contribution scope and required snippet prefixes | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
+| `extension/test/contributions/language-configuration.test.ts` | Unit | Tests OFMarkdown language configuration scope, auto-pairs, surrounding pairs, and word pattern tuning | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
+| `extension/test/contributions/keybindings.test.ts` | Unit | Tests OFMarkdown-scoped keybindings target payload-free commands and include language guards | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
+| `extension/test/contributions/ofmarkdown-isolation.test.ts` | Unit | Tests generic Markdown does not receive OFMarkdown-only snippets, keybindings, or language configuration | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
 | `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests

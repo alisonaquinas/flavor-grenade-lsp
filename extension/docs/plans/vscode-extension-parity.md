@@ -15,7 +15,7 @@ aliases: [Extension Parity Plan]
 | E9 Extension tests | Complete: extension-host tests cover `Extension.Tests.HostCoverage`, `Extension.LanguageMode.MembershipRefresh`, command bridges, and status/failure surfaces |
 | E10 Status UX | Complete: rich tooltip, disabled states, error states, quick actions, troubleshooting docs, and diagnostic collection cover `Extension.Status.Diagnostics` and `Extension.Status.QuickActions` |
 | E11 Marketplace proof | Complete: README visuals and packaged asset checks cover `Extension.Marketplace.OFMProof` and `Extension.Marketplace.AssetPackaging` |
-| E12 OFMarkdown contributions | In progress: add snippets, scoped keybindings, and language configuration refinements for `Extension.Contributions.OFMarkdownScoped` |
+| E12 OFMarkdown contributions | Ready for review: snippets, scoped keybindings, language configuration refinements, and generic Markdown isolation cover `Extension.Contributions.OFMarkdownScoped` |
 | E13 Workspace environments | Document restricted, virtual, remote, WSL, SSH, and Dev Container behavior for `Extension.Workspace.EnvironmentModes` |
 | E14 Membership and compatibility | Harden membership refresh and package target/version checks for `Extension.LanguageMode.MembershipRefresh` and `Extension.Packaging.TargetBinaryValidation` |
 

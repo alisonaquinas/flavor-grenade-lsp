@@ -2,7 +2,7 @@
 id: "CHORE-077"
 title: "Phase E12 Documentation Trace Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-077"]
 
 # Phase E12 Documentation Trace Sweep
 
-> [!INFO] `CHORE-077` - Chore - Phase E12 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-077` - Chore - Phase E12 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -88,13 +88,13 @@ isolation.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] E12 rows in [[test/matrix]] point to current contribution evidence
-- [ ] [[test/index]] lists any new E12 verification files
-- [ ] Phase links remain consistent with [[plans/phase-E12-ofmarkdown-editor-contributions]]
-- [ ] BDD trace still points to `docs/bdd/features/vscode-extension-parity.feature`
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] Markdown links and wikilinks are coherent
-- [ ] Phase E12 ticket statuses are ready for review updates
+- [x] E12 rows in [[test/matrix]] point to current contribution evidence
+- [x] [[test/index]] lists any new E12 verification files
+- [x] Phase links remain consistent with [[plans/phase-E12-ofmarkdown-editor-contributions]]
+- [x] BDD trace still points to `docs/bdd/features/vscode-extension-parity.feature`
+- [x] No behaviour-affecting changes in `src/`
+- [x] Markdown links and wikilinks are coherent
+- [x] Phase E12 ticket statuses are ready for review updates
 
 ---
 
@@ -133,3 +133,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: keep E12 contribution scoping
 > evidence traceable.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Test matrix and test index now trace E12 contribution evidence to
+> `Extension.Contributions.OFMarkdownScoped`.

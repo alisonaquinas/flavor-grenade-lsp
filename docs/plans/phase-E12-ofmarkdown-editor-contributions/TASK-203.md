@@ -2,7 +2,7 @@
 id: "TASK-203"
 title: "Add OFMarkdown-scoped keybindings"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-203"]
 
 # Add OFMarkdown-scoped keybindings
 
-> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `green`
+> [!INFO] `TASK-203` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `in-review`
 
 ## Description
 
@@ -91,9 +91,9 @@ All of the following must be true before this task is marked `done`:
 - [x] Every OFMarkdown-only keybinding has `editorLangId == ofmarkdown`
 - [x] Generic Markdown does not receive OFMarkdown-only keybindings
 - [x] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [ ] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
+- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[test/index]] updated if a new test file is added
+- [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
 
@@ -146,3 +146,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!SUCCESS] Green - 2026-05-07
 > Added OFMarkdown-scoped keybindings for rebuild index, status actions, and
 > output commands; `cd extension && npm test` passes.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.

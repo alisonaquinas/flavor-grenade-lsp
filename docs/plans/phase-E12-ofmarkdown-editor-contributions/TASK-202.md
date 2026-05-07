@@ -2,7 +2,7 @@
 id: "TASK-202"
 title: "Tune OFMarkdown language configuration"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E12
 parent: "FEAT-030"
@@ -15,7 +15,7 @@ aliases: ["TASK-202"]
 
 # Tune OFMarkdown language configuration
 
-> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `green`
+> [!INFO] `TASK-202` - Task - Phase E12 - Parent: [[FEAT-030]] - Status: `in-review`
 
 ## Description
 
@@ -91,9 +91,9 @@ All of the following must be true before this task is marked `done`:
 - [x] Folding markers and word patterns are tuned for OFMarkdown constructs
 - [x] Generic Markdown language configuration is unchanged
 - [x] `cd extension && npm test` passes
-- [ ] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [ ] [[test/index]] updated if a new test file is added
-- [ ] Parent feature [[FEAT-030]] child task row updated to `in-review`
+- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[test/index]] updated if a new test file is added
+- [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
 
@@ -146,3 +146,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!SUCCESS] Green - 2026-05-07
 > Tuned `extension/language-configuration.json` for wiki-link, embed, comment,
 > tag, and block-anchor editing behavior; `cd extension && npm test` passes.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Definition of Done is satisfied locally; awaiting PR CI and review.

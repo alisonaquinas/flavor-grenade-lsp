@@ -2,7 +2,7 @@
 id: "CHORE-076"
 title: "Phase E12 Snippet And Language Docs Sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E12
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-076"]
 
 # Phase E12 Snippet And Language Docs Sweep
 
-> [!INFO] `CHORE-076` - Chore - Phase E12 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-076` - Chore - Phase E12 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE]
 > A chore produces no user-visible behaviour change. It improves internal
@@ -89,13 +89,13 @@ affordances and their scope boundaries.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Documentation names OFMarkdown-only snippets if they ship
-- [ ] Documentation names OFMarkdown-only keybindings if they ship
-- [ ] Documentation does not imply generic Markdown behavior changed
-- [ ] Extension parity plan still lists E12 accurately
-- [ ] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if verification files were added or removed
-- [ ] [[test/index]] updated if verification files were added or removed
+- [x] Documentation names OFMarkdown-only snippets if they ship
+- [x] Documentation names OFMarkdown-only keybindings if they ship
+- [x] Documentation does not imply generic Markdown behavior changed
+- [x] Extension parity plan still lists E12 accurately
+- [x] No behaviour-affecting changes in `src/`
+- [x] [[test/matrix]] updated if verification files were added or removed
+- [x] [[test/index]] updated if verification files were added or removed
 
 ---
 
@@ -134,3 +134,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: document E12 contributions without
 > overstating generic Markdown impact.
+
+> [!SUCCESS] In Review - 2026-05-07
+> README and extension parity plan now describe OFMarkdown-only snippets,
+> keybindings, editor-pair behavior, and generic Markdown isolation.
