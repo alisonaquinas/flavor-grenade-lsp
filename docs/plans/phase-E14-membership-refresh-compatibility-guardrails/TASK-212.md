@@ -2,7 +2,7 @@
 id: "TASK-212"
 title: "Validate server version and package target metadata"
 type: task
-status: open
+status: red
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-212"]
 
 # Validate server version and package target metadata
 
-> [!INFO] `TASK-212` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `open`
+> [!INFO] `TASK-212` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `red`
 
 ## Description
 
@@ -140,3 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing package-target tests requiring a repeatable script and server
+> binary validator for missing, duplicate, and wrong-target binaries.

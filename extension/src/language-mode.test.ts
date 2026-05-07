@@ -6,6 +6,7 @@ import { describe, it, afterEach } from 'node:test';
 import {
     DOCUMENT_MEMBERSHIP_METHOD,
     LanguageModeController,
+    MARKDOWN_LANGUAGE_ID,
     OFMARKDOWN_LANGUAGE_ID,
     hasOfMarkdownMarkerAncestor,
     isPromotableMarkdownDocument,
@@ -42,6 +43,7 @@ function document(fsPath: string, languageId = 'markdown'): FakeDocument {
 function controllerFor(options: {
     documents: FakeDocument[];
     membership?: boolean;
+    memberships?: Record<string, boolean>;
     setLanguage?: (document: FakeDocument, languageId: string) => Promise<FakeDocument>;
 }): { controller: LanguageModeController; requests: unknown[]; promoted: string[] } {
     const requests: unknown[] = [];
@@ -51,10 +53,12 @@ function controllerFor(options: {
         {
             sendRequest: (method, params) => {
                 requests.push({ method, params });
+                const uri = (params as { uri?: string }).uri ?? '';
+                const membership = options.memberships?.[uri] ?? options.membership ?? false;
                 return Promise.resolve({
-                    isOfMarkdown: options.membership ?? false,
-                    indexed: options.membership ?? false,
-                    reason: options.membership ? 'flavor-config-vault' : 'not-indexed',
+                    isOfMarkdown: membership,
+                    indexed: membership,
+                    reason: membership ? 'flavor-config-vault' : 'not-indexed',
                 }) as never;
             },
         },
@@ -253,5 +257,49 @@ describe('LanguageModeController', () => {
 
         await assert.doesNotReject(() => controller.refreshAll());
         assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('refreshAll checks both markdown and ofmarkdown documents', async () => {
+        const markdown = document(join('vault', 'new.md'));
+        const ofmarkdown = document(join('old', 'stale.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, requests } = controllerFor({
+            documents: [markdown, ofmarkdown],
+            memberships: {
+                [markdown.uri.toString()]: true,
+                [ofmarkdown.uri.toString()]: false,
+            },
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(
+            requests.map((request) => (request as { params: { uri: string } }).params.uri),
+            [markdown.uri.toString(), ofmarkdown.uri.toString()],
+        );
+    });
+
+    it('downgrades ofmarkdown only when server and marker checks both say outside vault', async () => {
+        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted } = controllerFor({
+            documents: [stale],
+            membership: false,
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, [MARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('does not downgrade ofmarkdown when a vault marker still applies', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, '.obsidian'));
+        const doc = document(join(root, 'note.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted, requests } = controllerFor({ documents: [doc], membership: false });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, []);
+        assert.deepEqual(requests, []);
     });
 });

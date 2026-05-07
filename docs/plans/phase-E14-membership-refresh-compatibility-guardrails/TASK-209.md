@@ -2,7 +2,7 @@
 id: "TASK-209"
 title: "Refresh membership after server and index events"
 type: task
-status: open
+status: red
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-209"]
 
 # Refresh membership after server and index events
 
-> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `open`
+> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `red`
 
 ## Description
 
@@ -131,3 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
+
+> [!WARNING] Red - 2026-05-07
+> Added failing membership-refresh tests requiring `refreshAll` to inspect both
+> Markdown and OFMarkdown documents after server/index events.
