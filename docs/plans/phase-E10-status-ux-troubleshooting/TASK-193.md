@@ -2,7 +2,7 @@
 id: "TASK-193"
 title: "Model rich status tooltip data"
 type: task
-status: open
+status: red
 priority: high
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-193"]
 
 # Model rich status tooltip data
 
-> [!INFO] `TASK-193` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `open`
+> [!INFO] `TASK-193` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `red`
 
 ## Description
 
@@ -140,3 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-028]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing unit coverage for rich status tooltip fields and sanitized
+> diagnostic data.

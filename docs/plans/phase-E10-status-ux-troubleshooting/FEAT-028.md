@@ -100,9 +100,9 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-193]] | Model rich status tooltip data | `open` |
-| [[TASK-194]] | Add disabled error and crash status states | `open` |
-| [[TASK-195]] | Add status quick actions and diagnostic copy | `open` |
+| [[TASK-193]] | Model rich status tooltip data | `red` |
+| [[TASK-194]] | Add disabled error and crash status states | `red` |
+| [[TASK-195]] | Add status quick actions and diagnostic copy | `red` |
 | [[TASK-196]] | Add troubleshooting docs and command flow | `open` |
 | [[CHORE-069]] | Phase E10 Lint And Typecheck Sweep | `open` |
 | [[CHORE-070]] | Phase E10 Test Matrix Sweep | `open` |

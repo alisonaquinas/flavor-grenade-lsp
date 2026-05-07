@@ -64,5 +64,32 @@ module.exports = {
         );
       },
     },
+    {
+      name: 'development host exposes status quick actions and diagnostics',
+      run: async () => {
+        const api = await extensionApi();
+        assert.equal(typeof api.__testStatusActions, 'function');
+
+        const result = api.__testStatusActions({
+          state: 'ready',
+          vaultCount: 1,
+          docCount: 3,
+          vaultRoot: vscode.workspace.workspaceFolders[0].uri.toString(),
+        });
+
+        assert.deepEqual(
+          result.actions.map((action) => action.command),
+          [
+            'flavorGrenade.restartServer',
+            'flavorGrenade.rebuildIndex',
+            'flavorGrenade.showOutput',
+            'flavorGrenade.copyDiagnosticInfo',
+            'flavorGrenade.revealVaultRoot',
+          ],
+        );
+        assert.match(result.diagnostics, /Flavor Grenade diagnostics/);
+        assert.match(result.diagnostics, /state: ready/);
+      },
+    },
   ],
 };

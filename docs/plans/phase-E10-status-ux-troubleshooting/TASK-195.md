@@ -2,7 +2,7 @@
 id: "TASK-195"
 title: "Add status quick actions and diagnostic copy"
 type: task
-status: open
+status: red
 priority: high
 phase: E10
 parent: "FEAT-028"
@@ -15,7 +15,7 @@ aliases: ["TASK-195"]
 
 # Add status quick actions and diagnostic copy
 
-> [!INFO] `TASK-195` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `open`
+> [!INFO] `TASK-195` - Task - Phase E10 - Parent: [[FEAT-028]] - Status: `red`
 
 ## Description
 
@@ -143,3 +143,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-028]].
+
+> [!INFO] Red - 2026-05-07
+> Added failing unit and host coverage for status quick actions and diagnostic
+> copy data.
