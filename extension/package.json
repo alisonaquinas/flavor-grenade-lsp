@@ -30,6 +30,11 @@
   "main": "./dist/extension.js",
   "icon": "images/icon.png",
   "activationEvents": [
+    "workspaceContains:.obsidian",
+    "workspaceContains:.flavor-grenade.toml",
+    "onCommand:flavorGrenade.restartServer",
+    "onCommand:flavorGrenade.rebuildIndex",
+    "onCommand:flavorGrenade.showOutput",
     "onLanguage:markdown",
     "onLanguage:ofmarkdown"
   ],

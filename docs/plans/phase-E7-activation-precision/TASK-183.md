@@ -2,7 +2,7 @@
 id: "TASK-183"
 title: "Preserve Command And Language Wake Paths"
 type: task
-status: red
+status: green
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-183"]
 
 # Preserve Command And Language Wake Paths
 
-> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `red`
+> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `green`
 
 ## Description
 
@@ -56,7 +56,7 @@ These paths must not bypass the startup gate added for generic Markdown.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/activation-wake-paths.test.ts` | Extension Host | `Extension.Activation.MarkerEvents` | 🔴 failing |
+| `extension/src/activation-gate.test.ts` | Unit | `Extension.Activation.MarkerEvents` | ✅ passing |
 
 ---
 
@@ -90,13 +90,13 @@ These paths must not bypass the startup gate added for generic Markdown.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing command and language wake tests are written first
-- [ ] Supported language activation still wakes the extension
-- [ ] Explicit commands wake the extension intentionally
-- [ ] Wake paths do not start vault work without a positive signal
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing command and language wake tests are written first
+- [x] Supported language activation still wakes the extension
+- [x] Explicit commands wake the extension intentionally
+- [x] Wake paths do not start vault work without a positive signal
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -130,3 +130,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-07
 > Added failing command-wake startup check coverage in
 > `extension/src/activation-gate.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Preserved language and command wake signals through the lazy client start
+> path and verified command wake coverage passes.

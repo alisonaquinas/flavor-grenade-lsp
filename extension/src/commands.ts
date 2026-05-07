@@ -1,6 +1,8 @@
 import { type Disposable, commands } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
 
+type LanguageClientProvider = (commandId: string) => Promise<LanguageClient>;
+
 /**
  * Registers the three extension commands exposed in the Command Palette.
  *
@@ -12,18 +14,26 @@ import type { LanguageClient } from 'vscode-languageclient/node';
  *   custom JSON-RPC dispatchers.
  * - `flavorGrenade.showOutput` — reveals the LSP output channel.
  */
-export function registerCommands(client: LanguageClient): Disposable[] {
-    return [
-        commands.registerCommand('flavorGrenade.restartServer', async () => {
-            await client.restart();
-        }),
+export function registerCommands(
+  clientOrProvider: LanguageClient | LanguageClientProvider,
+): Disposable[] {
+  const getClient =
+    typeof clientOrProvider === 'function' ? clientOrProvider : async () => clientOrProvider;
 
-        commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
-            await client.sendRequest('flavorGrenade/rebuildIndex');
-        }),
+  return [
+    commands.registerCommand('flavorGrenade.restartServer', async () => {
+      const client = await getClient('flavorGrenade.restartServer');
+      await client.restart();
+    }),
 
-        commands.registerCommand('flavorGrenade.showOutput', () => {
-            client.outputChannel.show();
-        }),
-    ];
+    commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
+      const client = await getClient('flavorGrenade.rebuildIndex');
+      await client.sendRequest('flavorGrenade/rebuildIndex');
+    }),
+
+    commands.registerCommand('flavorGrenade.showOutput', async () => {
+      const client = await getClient('flavorGrenade.showOutput');
+      client.outputChannel.show();
+    }),
+  ];
 }

@@ -1,111 +1,181 @@
+import { type ExtensionContext, languages, window, workspace } from 'vscode';
 import {
-    type ExtensionContext,
-    languages,
-    window,
-    workspace,
-} from 'vscode';
-import {
-    LanguageClient,
-    State,
-    type LanguageClientOptions,
-    type ServerOptions,
+  LanguageClient,
+  State,
+  type LanguageClientOptions,
+  type ServerOptions,
 } from 'vscode-languageclient/node';
 import { resolveServerCommand } from './server-path.js';
 import { createStatusBar } from './status-bar.js';
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
+import { decideStartupGate } from './activation-gate.js';
 
 let client: LanguageClient | undefined;
+let startClientPromise: Promise<LanguageClient> | undefined;
 
 export async function activate(context: ExtensionContext): Promise<void> {
-    const serverCommand = resolveServerCommand(context);
-    const config = workspace.getConfiguration('flavorGrenade');
+  const startClient = async (commandId?: string): Promise<LanguageClient> => {
+    if (client) {
+      return client;
+    }
 
-    const serverOptions: ServerOptions = {
-        run: serverCommand,
-        debug: serverCommand,
-    };
+    if (commandId) {
+      await decideStartupGate({
+        openDocuments: workspace.textDocuments,
+        trigger: { kind: 'command', commandId },
+        workspaceFolders: workspace.workspaceFolders,
+      });
+    }
 
-    const clientOptions: LanguageClientOptions = {
-        documentSelector: [
-            { scheme: 'file', language: 'markdown' },
-            { scheme: 'file', language: 'ofmarkdown' },
-        ],
-        synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.md'),
-        },
-        initializationOptions: {
-            linkStyle: config.get('linkStyle'),
-            completionCandidates: config.get('completion.candidates'),
-            diagnosticsSuppress: config.get('diagnostics.suppress'),
-        },
-    };
-
-    client = new LanguageClient(
-        'flavorGrenade',
-        'Flavor Grenade',
-        serverOptions,
-        clientOptions,
-    );
-
-    // Register status listeners before start() so early initialize/initialized
-    // notifications cannot be missed during the LSP handshake.
-    const statusBar = createStatusBar(client);
-    context.subscriptions.push(statusBar);
-
-    // Reset status bar text on restart cycles (e.g., after restartServer command)
-    context.subscriptions.push(client.onDidChangeState((event) => {
-        if (event.newState === State.Starting) {
-            statusBar.text = '$(loading~spin) FG: Starting...';
-            statusBar.tooltip = 'Flavor Grenade: Starting server';
-        }
-    }));
-
-    context.subscriptions.push(client);
-
-    await client.start();
-
-    const languageModeController = new LanguageModeController(client, {
-        getOpenDocuments: () => workspace.textDocuments,
-        getVisibleEditors: () => window.visibleTextEditors,
-        setTextDocumentLanguage: (document, languageId) =>
-            languages.setTextDocumentLanguage(document, languageId),
-        onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
-        onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
-        onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),
+    startClientPromise ??= startLanguageClient(context).catch((error: unknown) => {
+      client = undefined;
+      startClientPromise = undefined;
+      throw error;
     });
-    context.subscriptions.push(...languageModeController.start());
-    await languageModeController.refreshAll();
+    return startClientPromise;
+  };
 
-    // If the server reached ready before the notification listener observed it,
-    // awaitIndexReady gives us a deterministic post-start status check.
-    client.sendRequest<{ docIds?: unknown[] }>('flavorGrenade/queryIndex', {
-        rootUri: workspace.workspaceFolders?.[0]?.uri.toString(),
-    }).then((result) => {
-        const docCount = Array.isArray(result?.docIds) ? result.docIds.length : 0;
-        statusBar.text = `$(check) FG: ${docCount} docs`;
-        statusBar.tooltip = `Flavor Grenade: Ready - ${docCount} docs`;
-    }, () => {
-        // Ignore best-effort status refresh failures; normal LSP features still report errors.
+  const commandDisposables = registerCommands(startClient);
+  context.subscriptions.push(...commandDisposables);
+
+  // Restart on server path change
+  context.subscriptions.push(
+    workspace.onDidChangeConfiguration(async (e) => {
+      if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
+        await client.restart();
+      }
+    }),
+  );
+
+  const maybeStartClient = async () => {
+    if (client || startClientPromise) {
+      return;
+    }
+
+    const decision = await decideStartupGate({
+      openDocuments: workspace.textDocuments,
+      workspaceFolders: workspace.workspaceFolders,
     });
 
-    // Palette commands
-    const commandDisposables = registerCommands(client);
-    context.subscriptions.push(...commandDisposables);
+    if (decision.startClient) {
+      await startClient();
+    }
+  };
 
-    // Restart on server path change
+  context.subscriptions.push(
+    workspace.onDidOpenTextDocument(() => {
+      void maybeStartClient();
+    }),
+    workspace.onDidChangeWorkspaceFolders(() => {
+      void maybeStartClient();
+    }),
+  );
+
+  for (const markerWatcher of [
+    workspace.createFileSystemWatcher('**/.obsidian'),
+    workspace.createFileSystemWatcher('**/.flavor-grenade.toml'),
+  ]) {
     context.subscriptions.push(
-        workspace.onDidChangeConfiguration(async (e) => {
-            if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
-                await client.restart();
-            }
-        }),
+      markerWatcher,
+      markerWatcher.onDidCreate(() => {
+        void maybeStartClient();
+      }),
+      markerWatcher.onDidChange(() => {
+        void maybeStartClient();
+      }),
     );
+  }
 
-    // LanguageClient implements Disposable — pushing to subscriptions handles
-    // stop() on deactivation. No explicit stop() in deactivate() needed.
+  await maybeStartClient();
+
+  // LanguageClient implements Disposable — pushing to subscriptions handles
+  // stop() on deactivation. No explicit stop() in deactivate() needed.
 }
 
 export function deactivate(): void {
-    // Client cleanup is handled by context.subscriptions disposal.
+  // Client cleanup is handled by context.subscriptions disposal.
+}
+
+async function startLanguageClient(context: ExtensionContext): Promise<LanguageClient> {
+  const serverCommand = resolveServerCommand(context);
+  const config = workspace.getConfiguration('flavorGrenade');
+
+  const serverOptions: ServerOptions = {
+    run: serverCommand,
+    debug: serverCommand,
+  };
+
+  const clientOptions: LanguageClientOptions = {
+    documentSelector: [
+      { scheme: 'file', language: 'markdown' },
+      { scheme: 'file', language: 'ofmarkdown' },
+    ],
+    synchronize: {
+      fileEvents: workspace.createFileSystemWatcher('**/*.md'),
+    },
+    initializationOptions: {
+      linkStyle: config.get('linkStyle'),
+      completionCandidates: config.get('completion.candidates'),
+      diagnosticsSuppress: config.get('diagnostics.suppress'),
+    },
+  };
+
+  const nextClient = new LanguageClient(
+    'flavorGrenade',
+    'Flavor Grenade',
+    serverOptions,
+    clientOptions,
+  );
+  client = nextClient;
+
+  // Register status listeners before start() so early initialize/initialized
+  // notifications cannot be missed during the LSP handshake.
+  const statusBar = createStatusBar(nextClient);
+  context.subscriptions.push(statusBar);
+
+  // Reset status bar text on restart cycles (e.g., after restartServer command)
+  context.subscriptions.push(
+    nextClient.onDidChangeState((event) => {
+      if (event.newState === State.Starting) {
+        statusBar.text = '$(loading~spin) FG: Starting...';
+        statusBar.tooltip = 'Flavor Grenade: Starting server';
+      }
+    }),
+  );
+
+  context.subscriptions.push(nextClient);
+
+  await nextClient.start();
+
+  const languageModeController = new LanguageModeController(nextClient, {
+    getOpenDocuments: () => workspace.textDocuments,
+    getVisibleEditors: () => window.visibleTextEditors,
+    setTextDocumentLanguage: (document, languageId) =>
+      languages.setTextDocumentLanguage(document, languageId),
+    onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
+    onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
+    onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),
+  });
+  context.subscriptions.push(...languageModeController.start());
+  await languageModeController.refreshAll();
+
+  // If the server reached ready before the notification listener observed it,
+  // awaitIndexReady gives us a deterministic post-start status check.
+  nextClient
+    .sendRequest<{ docIds?: unknown[] }>('flavorGrenade/queryIndex', {
+      rootUri: workspace.workspaceFolders?.[0]?.uri.toString(),
+    })
+    .then(
+      (result) => {
+        const docCount = Array.isArray(result?.docIds) ? result.docIds.length : 0;
+        statusBar.text = `$(check) FG: ${docCount} docs`;
+        statusBar.tooltip = `Flavor Grenade: Ready - ${docCount} docs`;
+      },
+      () => {
+        // Ignore best-effort status refresh failures; normal LSP features still report errors.
+      },
+    );
+
+  return nextClient;
 }

@@ -2,7 +2,7 @@
 id: "TASK-182"
 title: "Gate Startup Vault Work"
 type: task
-status: red
+status: green
 priority: high
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-182"]
 
 # Gate Startup Vault Work
 
-> [!INFO] `TASK-182` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `red`
+> [!INFO] `TASK-182` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `green`
 
 ## Description
 
@@ -56,7 +56,7 @@ should enter active vault behavior only after a positive vault signal exists.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `extension/src/test/startup-gating.test.ts` | Extension Host | `Extension.Activation.VaultPrecision` | 🔴 failing |
+| `extension/src/activation-gate.test.ts` | Unit | `Extension.Activation.VaultPrecision` | ✅ passing |
 
 ---
 
@@ -90,13 +90,13 @@ should enter active vault behavior only after a positive vault signal exists.
 
 All of the following must be true before this task is marked `done`:
 
-- [ ] Failing startup gating test is written first
-- [ ] Generic Markdown workspaces stay idle without vault markers
-- [ ] Vault-marker workspaces start membership detection
-- [ ] Command wake paths reuse the startup gate
-- [ ] `cd extension && npm run check-types` passes
-- [ ] `cd extension && npm test` passes
-- [ ] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] Failing startup gating test is written first
+- [x] Generic Markdown workspaces stay idle without vault markers
+- [x] Vault-marker workspaces start membership detection
+- [x] Command wake paths reuse the startup gate
+- [x] `cd extension && npm run check-types` passes
+- [x] `cd extension && npm test` passes
+- [x] [[test/matrix]] and [[test/index]] updated for new coverage
 
 ---
 
@@ -130,3 +130,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Red - 2026-05-07
 > Added failing startup-gate tests for generic Markdown idle and vault-marker
 > startup in `extension/src/activation-gate.test.ts`.
+
+> [!INFO] Green - 2026-05-07
+> Implemented startup gating so generic Markdown remains idle while vault
+> markers, `ofmarkdown`, and explicit command signals can start the client.

@@ -94,10 +94,10 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-181]] | Add Vault Marker Activation Events | `red` |
-| [[TASK-182]] | Gate Startup Vault Work | `red` |
-| [[TASK-183]] | Preserve Command And Language Wake Paths | `red` |
-| [[TASK-184]] | Document Activation Behavior | `open` |
+| [[TASK-181]] | Add Vault Marker Activation Events | `green` |
+| [[TASK-182]] | Gate Startup Vault Work | `green` |
+| [[TASK-183]] | Preserve Command And Language Wake Paths | `green` |
+| [[TASK-184]] | Document Activation Behavior | `green` |
 | [[CHORE-060]] | Phase E7 Lint Sweep | `open` |
 | [[CHORE-061]] | Phase E7 Test Trace Sweep | `open` |
 | [[CHORE-062]] | Phase E7 Documentation Trace Sweep | `open` |
@@ -149,3 +149,8 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Started - 2026-05-07
 > Phase E7 execution started on branch `codex/phase-e7-activation-precision`.
+
+> [!INFO] Green - 2026-05-07
+> Activation gate implementation and docs reached local green state:
+> `cd extension && npm run check-types`, `cd extension && npm test`, and
+> `cd extension && npm run build:extension` passed.

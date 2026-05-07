@@ -110,6 +110,7 @@ Extension unit tests exercise extension-side logic only, mocking the VS Code API
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
 | `extension/src/language-mode.test.ts` | Unit | Tests OFMarkdown contribution metadata, Markdown grammar/configuration parity, promotion rules, `.obsidian` fast-path detection, manual mode preservation, server membership requests, and in-flight assignment guard | `Extension.LanguageMode.Contribution`, `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation`, `Extension.LanguageMode.UserOverrideSafety`, `Extension.LanguageMode.LoopSafety`, `Extension.LanguageMode.MarkdownParity` | Phase E6 | ✅ implemented |
+| `extension/src/activation-gate.test.ts` | Unit | Tests activation manifest events, vault-marker detection, generic Markdown idle startup, OFMarkdown language wake, and explicit command wake decisions | `Extension.Activation.Markdown`, `Extension.Activation.VaultPrecision`, `Extension.Activation.MarkerEvents` | Phase E7 | ✅ implemented |
 | `extension/src/__tests__/server-path.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows .exe suffix | `Extension.Binary.Resolution` | Phase E2 | 📋 planned |
 | `extension/src/__tests__/status-bar.test.ts` | Unit | Tests StatusBarItem text/tooltip transitions for all 4 flavorGrenade/status states | `Extension.StatusBar.StateTransition` | Phase E3 | 📋 planned |
 | `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
@@ -123,7 +124,7 @@ Extension integration tests require the VS Code Extension Development Host launc
 
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
-| `extension/src/__tests__/activation.test.ts` | Integration | Tests extension activates on markdown file open, LanguageClient starts, server handshake completes | `Extension.Activation.Markdown` | Phase E2 | 📋 planned |
+| `extension/src/__tests__/activation.test.ts` | Integration | Tests Markdown activation runs the startup gate and starts the LanguageClient only after a positive vault, OFMarkdown, or command signal | `Extension.Activation.Markdown`, `Extension.Activation.VaultPrecision` | Phase E9 | 📋 planned |
 | `extension/src/__tests__/lifecycle.test.ts` | Integration | Tests clean deactivation, config change restart, crash recovery | `Extension.Lifecycle.Restart` | Phase E3 | 📋 planned |
 
 ### Extension BDD Scenarios
