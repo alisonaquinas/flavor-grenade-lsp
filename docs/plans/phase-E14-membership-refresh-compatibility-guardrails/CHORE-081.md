@@ -2,7 +2,7 @@
 id: "CHORE-081"
 title: "Phase E14 extension lint sweep"
 type: chore
-status: open
+status: in-review
 priority: medium
 phase: E14
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-081"]
 
 # Phase E14 extension lint sweep
 
-> [!INFO] `CHORE-081` - Chore - Phase E14 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-081` - Chore - Phase E14 - Priority: `medium` - Status: `in-review`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -92,13 +92,13 @@ A focused sweep prevents incidental warnings from hiding release risks.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] `bun run lint --max-warnings 0` passes with no new suppressions added.
-- [ ] `tsc --noEmit` exits 0.
-- [ ] `bun test` passes with no regressions introduced.
-- [ ] No behaviour-affecting changes in `src/`.
-- [ ] [[test/matrix]] updated if any test files were added or removed.
-- [ ] [[test/index]] updated if any test files were added or removed.
-- [ ] Extension gate commands from
+- [x] `bun run lint --max-warnings 0` passes with no new suppressions added.
+- [x] `tsc --noEmit` exits 0.
+- [x] `bun test` passes with no regressions introduced.
+- [x] No behaviour-affecting changes in `src/`.
+- [x] [[test/matrix]] updated if any test files were added or removed.
+- [x] [[test/index]] updated if any test files were added or removed.
+- [x] Extension gate commands from
   [[plans/phase-E14-membership-refresh-compatibility-guardrails]] are recorded.
 
 ---
@@ -128,3 +128,8 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: post-Phase-E14 lint and type sweep.
+
+> [!INFO] In Review - 2026-05-07
+> Local gates passed: `bun run lint`, `bun run typecheck`, `bun test`,
+> `npm run check-types`, `npm test`, and `npm run build:extension`. No lint
+> suppressions were added.

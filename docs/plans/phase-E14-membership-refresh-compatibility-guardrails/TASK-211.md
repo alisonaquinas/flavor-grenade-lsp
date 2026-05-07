@@ -2,7 +2,7 @@
 id: "TASK-211"
 title: "Guard language-mode reversion"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-211"]
 
 # Guard language-mode reversion
 
-> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `green`
+> [!INFO] `TASK-211` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `in-review`
 
 ## Description
 
@@ -99,12 +99,12 @@ All of the following must be true before this task is marked `done`:
 - [x] Marker absence alone cannot downgrade `ofmarkdown`.
 - [x] Agreement between server and marker checks downgrades to `markdown`.
 - [x] Manual non-Markdown language choices are preserved.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
 - [x] [[test/matrix]] row(s) updated to `✅ passing`.
 - [x] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
+- [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
 
@@ -144,3 +144,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Downgrade now requires marker absence and an explicit successful server
 > membership result of `false`; transient membership request failures preserve
 > existing `ofmarkdown` mode.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> awaiting PR CI before final `done`.

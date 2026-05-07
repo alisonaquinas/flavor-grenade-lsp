@@ -69,3 +69,9 @@ Extension `0.1.2` shipped a `win32-x64` server executable that crashed immediate
 - Windows-native Bun `1.3.13` builds did not reproduce the crash.
 
 The `0.1.3` hotfix removed `--bytecode` from extension release builds and added a Windows smoke test that extracts the `win32-x64` VSIX and launches `server/flavor-grenade-lsp.exe`. Marketplace publishing now depends on that smoke test.
+
+Phase E14 adds a shared package-target validator used by both local tests and
+the release workflow. Each VSIX archive is inspected for exactly one
+`extension/server/flavor-grenade-lsp` or `extension/server/flavor-grenade-lsp.exe`
+entry, and that entry must match the `vsce --target` platform. This check runs
+for all seven release targets before artifacts are uploaded.

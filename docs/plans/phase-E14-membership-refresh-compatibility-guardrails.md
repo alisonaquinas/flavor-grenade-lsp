@@ -1,7 +1,7 @@
 ---
 title: "Phase E14: Membership Refresh And Compatibility Guardrails"
 phase: E14
-status: in-progress
+status: in-review
 tags: [plans, vscode, extension, language-mode, compatibility]
 aliases: [Phase E14, Membership Refresh, Compatibility Guardrails]
 updated: 2026-05-07
@@ -13,7 +13,7 @@ updated: 2026-05-07
 |---|---|
 | Phase | E14 |
 | Title | Membership Refresh And Compatibility Guardrails |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Language-mode refresh and packaged client/server compatibility checks pass |
 | Depends on | Phase E13 |
 
@@ -65,11 +65,31 @@ cd extension
 npm run check-types
 npm test
 npm run build:extension
+npm run verify:package-targets
 ```
 
 ```bash
+bun run build
+bun run lint
+bun run typecheck
+bun test
+bun run lint:docs
 bun run build:binary
 ```
+
+Local evidence, 2026-05-07:
+
+- `npm run check-types` - passed.
+- `npm test` - passed, 62 tests.
+- `npm run build:extension` - passed.
+- `npm run verify:package-targets` - passed, including real VSIX inspection.
+- `bun run build` - passed.
+- `bun run lint` - passed.
+- `bun run typecheck` - passed.
+- `bun test` - passed, 664 tests.
+- `bun run lint:docs` - passed.
+- `bunx markdownlint-obsidian --config .obsidian-linter.jsonc "extension/README.md" "extension/docs/**/*.md"` - passed.
+- `bun run build:binary` - passed.
 
 ## Related
 

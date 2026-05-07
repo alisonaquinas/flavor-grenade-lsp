@@ -46,11 +46,18 @@ Actions:
 ## No OFMarkdown Promotion
 
 Expected vault Markdown should switch from `markdown` to `ofmarkdown`.
+Membership refresh runs after server `ready`, rebuild-index completion,
+workspace folder changes, visible editor changes, and file-open events.
+Existing `ofmarkdown` documents return to `markdown` only when no local vault
+marker applies and the server explicitly reports that the document is outside
+the indexed vault.
 
 Actions:
 
 - Confirm the workspace has `.obsidian/` or `.flavor-grenade.toml` at or above
   the note.
+- Run **Flavor Grenade: Rebuild Index** if the vault marker or file moved while
+  VS Code was already open.
 - Run **Flavor Grenade: Restart Server**.
 - Use **Flavor Grenade: Copy Diagnostic Info** and include whether the note is
   inside the expected vault root.

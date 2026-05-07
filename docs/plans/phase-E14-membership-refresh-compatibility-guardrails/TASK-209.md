@@ -2,7 +2,7 @@
 id: "TASK-209"
 title: "Refresh membership after server and index events"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E14
 parent: "FEAT-032"
@@ -15,7 +15,7 @@ aliases: ["TASK-209"]
 
 # Refresh membership after server and index events
 
-> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `green`
+> [!INFO] `TASK-209` - Task - Phase E14 - Parent: [[FEAT-032]] - Status: `in-review`
 
 ## Description
 
@@ -95,12 +95,12 @@ All of the following must be true before this task is marked `done`:
 - [x] Server `ready` refreshes open Markdown and `ofmarkdown` documents.
 - [x] Rebuild-index completion refreshes open Markdown and `ofmarkdown` documents.
 - [x] Non-Markdown language choices are not changed.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `tsc --noEmit` exits 0.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
 - [x] [[test/matrix]] row(s) updated to `✅ passing`.
 - [x] [[test/index]] row(s) added for new test files.
-- [ ] Parent feature [[FEAT-032]] child task row updated to `in-review`.
+- [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
 
@@ -140,3 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > `LanguageModeController.refreshAll()` now checks both managed language ids,
 > server `ready` notifications trigger membership refresh, and
 > `flavorGrenade.rebuildIndex` refreshes after the rebuild request resolves.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> awaiting PR CI before final `done`.
