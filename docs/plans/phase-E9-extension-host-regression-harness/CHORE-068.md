@@ -2,7 +2,7 @@
 id: "CHORE-068"
 title: "Phase E9 Documentation Trace Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-068"]
 
 # Phase E9 Documentation Trace Sweep
 
-> [!INFO] `CHORE-068` - Chore - Phase E9 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-068` - Chore - Phase E9 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -90,9 +90,9 @@ must name the real command, fixture layout, and trace targets.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Phase E9 plan names the local host-test command and CI status
-- [ ] Fixture documentation explains each workspace marker and expected state
-- [ ] Extension parity plan remains aligned with the E9 delivery slice
+- [x] Phase E9 plan names the local host-test command and CI status
+- [x] Fixture documentation explains each workspace marker and expected state
+- [x] Extension parity plan remains aligned with the E9 delivery slice
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
@@ -131,3 +131,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E9 final documentation trace.
+
+> [!SUCCESS] Done - 2026-05-07
+> Phase E9 docs now name the local host command, CI blocker, and trace evidence
+> for activation, language-mode, command bridge, and status coverage.

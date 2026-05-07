@@ -95,37 +95,41 @@ BDD step definitions live under `tests/bdd/steps/`. Each step file implements th
 
 ## Extension Tests
 
-Extension tests live under `extension/src/__tests__/` and use a separate test infrastructure from the server's Bun-based tests. Because extension code runs inside the VS Code extension host (a Node.js process with the `vscode` API available), extension tests require `@vscode/test-electron` and `@vscode/test-cli` rather than Bun test.
+Extension tests live under `extension/src/` and use a separate test
+infrastructure from the server's Bun-based tests. Pure extension unit tests run
+with Node's test runner and `tsx`; VS Code API integration tests run inside the
+Extension Development Host through `@vscode/test-electron`.
 
 > [!NOTE] Test Runner
-> Extension unit tests mock the VS Code API and can run without launching VS Code. Extension integration tests require the Extension Development Host launched via `@vscode/test-electron`. Both use the `@vscode/test-cli` runner. See the extension `package.json` `test` script for configuration.
+> `npm test` runs pure extension tests from `extension/`. `npm run test:host`
+> launches VS Code and runs all host fixtures: `.obsidian/`,
+> `.flavor-grenade.toml`, and generic Markdown.
 
 ### Extension Unit Tests
 
-Extension unit tests exercise extension-side logic only, mocking the VS Code API.
-
-> [!NOTE] Aspirational
-> The test files listed below do not exist yet. They represent the target test coverage once a VS Code API mock strategy is established. See FEAT-016 retrospective carry-forward actions.
+Extension unit tests exercise extension-side logic only, usually through pure
+helpers or injected VS Code facades.
 
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
 | `extension/src/language-mode.test.ts` | Unit | Tests OFMarkdown contribution metadata, Markdown grammar/configuration parity, promotion rules, `.obsidian` fast-path detection, manual mode preservation, server membership requests, and in-flight assignment guard | `Extension.LanguageMode.Contribution`, `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation`, `Extension.LanguageMode.UserOverrideSafety`, `Extension.LanguageMode.LoopSafety`, `Extension.LanguageMode.MarkdownParity` | Phase E6 | ✅ implemented |
 | `extension/src/activation-gate.test.ts` | Unit | Tests activation manifest events, vault-marker detection, generic Markdown idle startup, OFMarkdown language wake, and explicit command wake decisions | `Extension.Activation.Markdown`, `Extension.Activation.VaultPrecision`, `Extension.Activation.MarkerEvents` | Phase E7 | ✅ implemented |
 | `extension/src/command-bridges.test.ts` | Unit | Tests command bridge manifest events, native reference and link bridge calls, payload validation, graph action bridges, vault reveal, and diagnostic copy behavior | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.CommandBridges.GraphActions` | Phase E8 | ✅ implemented |
-| `extension/src/__tests__/server-path.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows .exe suffix | `Extension.Binary.Resolution` | Phase E2 | 📋 planned |
-| `extension/src/__tests__/status-bar.test.ts` | Unit | Tests StatusBarItem text/tooltip transitions for all 4 flavorGrenade/status states | `Extension.StatusBar.StateTransition` | Phase E3 | 📋 planned |
+| `extension/src/server-command.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows `.exe` suffix | `Extension.Binary.Resolution`, `Extension.Binary.PlatformSuffix` | Phase E2 | ✅ implemented |
+| `extension/src/status-bar.test.ts` | Unit | Tests status text/tooltip transitions for initializing, indexing, ready, and error states | `Extension.StatusBar.StateTransition`, `Extension.Status.Diagnostics` | Phase E9 | ✅ implemented |
 | `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests
 
 Extension integration tests require the VS Code Extension Development Host launched via `@vscode/test-electron`.
 
-> [!NOTE] Aspirational
-> The test files listed below do not exist yet. They require `@vscode/test-electron` infrastructure to be established. See FEAT-016 retrospective carry-forward actions.
-
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
-| `extension/src/__tests__/activation.test.ts` | Integration | Tests Markdown activation runs the startup gate and starts the LanguageClient only after a positive vault, OFMarkdown, or command signal | `Extension.Activation.Markdown`, `Extension.Activation.VaultPrecision` | Phase E9 | 📋 planned |
+| `extension/src/test/suite/index.js` | Host runner | Runs all extension-host suites inside isolated temp copies of the fixture workspaces | `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
+| `extension/src/test/suite/extension-host.test.js` | Integration | Verifies the development host loads Flavor Grenade and registers lifecycle plus bridge commands | `Extension.Tests.HostCoverage`, `Extension.Commands.Registration` | Phase E9 | ✅ implemented |
+| `extension/src/test/suite/activation-language-mode.test.js` | Integration | Tests vault startup, `.flavor-grenade.toml` startup, generic Markdown idle behavior, OFMarkdown promotion, and manual non-Markdown preservation | `Extension.Activation.VaultPrecision`, `Extension.LanguageMode.MembershipRefresh`, `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
+| `extension/src/test/suite/command-bridges.test.js` | Integration | Tests native bridge commands with valid payloads and invalid payload rejection in the VS Code host | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
+| `extension/src/test/suite/status-failure.test.js` | Integration | Tests troubleshooting command/settings visibility and development-host status presentation transitions | `Extension.Status.Diagnostics`, `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
 | `extension/src/__tests__/lifecycle.test.ts` | Integration | Tests clean deactivation, config change restart, crash recovery | `Extension.Lifecycle.Restart` | Phase E3 | 📋 planned |
 
 ### Extension BDD Scenarios

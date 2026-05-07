@@ -1,11 +1,14 @@
 import { type StatusBarItem, StatusBarAlignment, window } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
+import { formatFlavorGrenadeStatus, type FlavorGrenadeStatus } from './status-presentation.js';
 
-interface FlavorGrenadeStatus {
-    state: 'initializing' | 'indexing' | 'ready' | 'error';
-    vaultCount: number;
-    docCount: number;
-    message?: string;
+export function applyFlavorGrenadeStatus(
+    item: Pick<StatusBarItem, 'text' | 'tooltip'>,
+    params: FlavorGrenadeStatus,
+): void {
+    const presentation = formatFlavorGrenadeStatus(params);
+    item.text = presentation.text;
+    item.tooltip = presentation.tooltip;
 }
 
 /**
@@ -30,24 +33,7 @@ export function createStatusBar(client: LanguageClient): StatusBarItem {
     client.onNotification(
         'flavorGrenade/status',
         (params: FlavorGrenadeStatus) => {
-            switch (params.state) {
-                case 'initializing':
-                    item.text = '$(loading~spin) FG: Starting...';
-                    item.tooltip = 'Flavor Grenade: Initializing server';
-                    break;
-                case 'indexing':
-                    item.text = '$(loading~spin) FG: Indexing...';
-                    item.tooltip = `Flavor Grenade: Indexing ${params.docCount} docs across ${params.vaultCount} vaults`;
-                    break;
-                case 'ready':
-                    item.text = `$(check) FG: ${params.docCount} docs`;
-                    item.tooltip = `Flavor Grenade: Ready — ${params.docCount} docs in ${params.vaultCount} vaults`;
-                    break;
-                case 'error':
-                    item.text = '$(error) FG: Error';
-                    item.tooltip = `Flavor Grenade: ${params.message ?? 'Unknown error'}`;
-                    break;
-            }
+            applyFlavorGrenadeStatus(item, params);
         },
     );
 

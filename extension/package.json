@@ -167,7 +167,8 @@
     "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
     "watch": "npm run watch:extension",
     "watch:extension": "node scripts/watch-extension.mjs",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test \"src/**/*.test.ts\"",
+    "test:host": "node scripts/run-host-tests.mjs"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
@@ -175,6 +176,7 @@
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/vscode": "~1.82.0",
+    "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.0.0",
     "esbuild": "^0.28.0",
     "tsx": "^4.20.6",

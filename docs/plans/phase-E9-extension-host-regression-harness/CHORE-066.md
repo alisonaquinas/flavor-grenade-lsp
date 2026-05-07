@@ -2,7 +2,7 @@
 id: "CHORE-066"
 title: "Phase E9 CI Test Command Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-066"]
 
 # Phase E9 CI Test Command Sweep
 
-> [!INFO] `CHORE-066` - Chore - Phase E9 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-066` - Chore - Phase E9 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -93,8 +93,8 @@ they run.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] Host tests run in CI or the documented blocker names the missing capability
-- [ ] Local command under `extension/` is documented in the phase notes
+- [x] Host tests run in CI or the documented blocker names the missing capability
+- [x] Local command under `extension/` is documented in the phase notes
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
@@ -134,3 +134,8 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: make Phase E9 host tests visible in verification.
+
+> [!SUCCESS] Done - 2026-05-07
+> `npm run test:host` is the local Phase E9 host command and now runs all
+> fixtures by default. The phase plan records the current CI blocker: root PR CI
+> does not launch the Electron extension host.

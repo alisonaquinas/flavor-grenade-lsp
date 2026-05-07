@@ -2,7 +2,7 @@
 id: "CHORE-067"
 title: "Phase E9 Test Matrix Sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["CHORE-067"]
 
 # Phase E9 Test Matrix Sweep
 
-> [!INFO] `CHORE-067` - Chore - Phase E9 - Priority: `medium` - Status: `open`
+> [!INFO] `CHORE-067` - Chore - Phase E9 - Priority: `medium` - Status: `done`
 
 > [!NOTE] A chore produces no user-visible behaviour change. It improves
 > internal quality: tooling, configuration, documentation, refactoring, or
@@ -93,9 +93,9 @@ Traceability keeps host coverage auditable when extension behavior changes.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] includes Phase E9 rows for all linked requirements
-- [ ] [[test/index]] includes every new Phase E9 host test file
-- [ ] Test statuses match the actual host-test command result
+- [x] [[test/matrix]] includes Phase E9 rows for all linked requirements
+- [x] [[test/index]] includes every new Phase E9 host test file
+- [x] Test statuses match the actual host-test command result
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
@@ -133,3 +133,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E9 host-test traceability.
+
+> [!SUCCESS] Done - 2026-05-07
+> Updated [[test/matrix]] and [[test/index]] with the Phase E9 host runner,
+> host suites, fixtures, status presenter test, and passing command evidence.

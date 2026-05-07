@@ -2,7 +2,7 @@
 id: "FEAT-027"
 title: "Extension Host Regression Harness"
 type: feature
-status: draft
+status: done
 priority: high
 phase: E9
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-027"]
 
 # Extension Host Regression Harness
 
-> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `draft`
+> [!INFO] `FEAT-027` - Feature - Phase E9 - Priority: `high` - Status: `done`
 
 ## Goal
 
@@ -102,13 +102,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-189]] | Add extension-host test runner and fixtures | `open` |
-| [[TASK-190]] | Cover activation and language-mode membership | `open` |
-| [[TASK-191]] | Cover command bridge payload validation | `open` |
-| [[TASK-192]] | Cover status and server failure states | `open` |
-| [[CHORE-066]] | Phase E9 CI Test Command Sweep | `open` |
-| [[CHORE-067]] | Phase E9 Test Matrix Sweep | `open` |
-| [[CHORE-068]] | Phase E9 Documentation Trace Sweep | `open` |
+| [[TASK-189]] | Add extension-host test runner and fixtures | `done` |
+| [[TASK-190]] | Cover activation and language-mode membership | `done` |
+| [[TASK-191]] | Cover command bridge payload validation | `done` |
+| [[TASK-192]] | Cover status and server failure states | `done` |
+| [[CHORE-066]] | Phase E9 CI Test Command Sweep | `done` |
+| [[CHORE-067]] | Phase E9 Test Matrix Sweep | `done` |
+| [[CHORE-068]] | Phase E9 Documentation Trace Sweep | `done` |
 
 ---
 
@@ -158,3 +158,15 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.
+
+> [!INFO] Started - 2026-05-07
+> Phase E9 execution started on branch `codex/phase-e9-extension-host-harness`.
+
+> [!SUCCESS] In Review - 2026-05-07
+> Phase E9 host harness, status presenter tests, trace docs, and local gates are
+> ready for PR review. `npm run test:host` passes all three fixtures locally;
+> CI host execution remains a documented blocker.
+
+> [!SUCCESS] Done - 2026-05-07
+> PR #41 CI passed with build, tests, typecheck, ESLint, Prettier, and Markdown
+> lint. Phase E9 is complete and ready to merge to `develop`.
