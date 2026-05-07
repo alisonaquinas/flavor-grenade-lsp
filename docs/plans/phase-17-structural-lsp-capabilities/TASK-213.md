@@ -2,7 +2,7 @@
 id: "TASK-213"
 title: "Add Templater opaque regions"
 type: task
-status: red
+status: green
 priority: medium
 phase: 17
 parent: "FEAT-024"
@@ -15,7 +15,7 @@ aliases: ["TASK-213"]
 
 # Add Templater opaque regions
 
-> [!INFO] `TASK-213` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `red`
+> [!INFO] `TASK-213` - Task - Phase 17 - Parent: [[FEAT-024]] - Status: `green`
 
 ## Description
 
@@ -58,9 +58,9 @@ LSP ranges never parse through or expand across `<% ... %>` spans.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/parser/__tests__/opaque-region-marker.test.ts` | Unit | `ST-002` | 🔴 failing |
-| `src/handlers/__tests__/folding-range.handler.test.ts` | Unit | `Parity.StructuralLSP.FoldingRanges` | 🔴 failing |
-| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.SelectionRanges` | 🔴 failing |
+| `src/parser/__tests__/opaque-region-marker.test.ts` | Unit | `ST-002` | 🟢 passing |
+| `src/handlers/__tests__/folding-range.handler.test.ts` | Unit | `Parity.StructuralLSP.FoldingRanges` | 🟢 passing |
+| `src/handlers/__tests__/selection-range.handler.test.ts` | Unit | `Parity.StructuralLSP.SelectionRanges` | 🟢 passing |
 
 ---
 
@@ -138,3 +138,8 @@ Full state machine, TDD phase rules, and agent obligations:
 > Added failing parser, folding-range, and selection-range tests for Templater
 > opaque regions. Status: `red`; implementation is intentionally deferred to
 > the GREEN stage.
+
+> [!SUCCESS] Green - 2026-05-07
+> Added `TemplaterParser`, registered Templater spans in `OpaqueRegionMarker`,
+> and constrained selection ranges inside opaque Templater blocks. Focused
+> parser, folding, and selection tests now pass. Status: `green`.

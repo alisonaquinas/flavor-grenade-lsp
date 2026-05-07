@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import type { Position, Range, SelectionRange } from 'vscode-languageserver-types';
+import { rangeFromOffsets } from '../parser/offset-utils.js';
 import { ParseCache } from '../parser/parser.module.js';
-import type { OFMDoc } from '../parser/types.js';
+import type { OFMDoc, OpaqueRegion } from '../parser/types.js';
 
 interface SelectionRangeParams {
   textDocument?: { uri?: string };
@@ -26,6 +27,9 @@ export class SelectionRangeHandler {
   }
 
   private selectionRangeForPosition(doc: OFMDoc, position: Position): SelectionRange {
+    const opaqueRange = this.opaqueRangeAt(doc, position);
+    if (opaqueRange !== undefined) return buildChain([opaqueRange]);
+
     const ranges = [
       this.tokenRangeAt(doc, position),
       paragraphRangeAt(doc.text, position),
@@ -38,6 +42,12 @@ export class SelectionRangeHandler {
 
   private tokenRangeAt(doc: OFMDoc, position: Position): Range | undefined {
     return doc.index.wikiLinks.find((entry) => containsPosition(entry.range, position))?.range;
+  }
+
+  private opaqueRangeAt(doc: OFMDoc, position: Position): Range | undefined {
+    const offset = offsetAtPosition(doc.text, position);
+    const region = doc.opaqueRegions.find((candidate) => isInsideRegion(offset, candidate));
+    return region === undefined ? undefined : rangeFromOffsets(doc.text, region.start, region.end);
   }
 }
 
@@ -125,6 +135,19 @@ function isValidPosition(position: Position, text: string): boolean {
 
 function containsPosition(range: Range, position: Position): boolean {
   return comparePositions(range.start, position) <= 0 && comparePositions(position, range.end) < 0;
+}
+
+function isInsideRegion(offset: number, region: OpaqueRegion): boolean {
+  return offset >= region.start && offset < region.end;
+}
+
+function offsetAtPosition(text: string, position: Position): number {
+  const lines = textLines(text);
+  let offset = 0;
+  for (let line = 0; line < position.line; line++) {
+    offset += lines[line].length + 1;
+  }
+  return offset + position.character;
 }
 
 function sameRange(left: Range, right: Range): boolean {
