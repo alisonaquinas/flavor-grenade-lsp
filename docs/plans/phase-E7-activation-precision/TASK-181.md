@@ -2,7 +2,7 @@
 id: "TASK-181"
 title: "Add Vault Marker Activation Events"
 type: task
-status: green
+status: in-review
 priority: high
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-181"]
 
 # Add Vault Marker Activation Events
 
-> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `green`
+> [!INFO] `TASK-181` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `in-review`
 
 ## Description
 
@@ -133,3 +133,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Green - 2026-05-07
 > Added manifest marker and command activation events, implemented marker
 > detection, and verified the extension unit tests pass.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and activation marker coverage is ready for PR review.

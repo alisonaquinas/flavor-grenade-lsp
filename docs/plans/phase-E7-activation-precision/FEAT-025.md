@@ -2,7 +2,7 @@
 id: "FEAT-025"
 title: "Activation Precision And Startup Gating"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: E7
 created: "2026-05-07"
@@ -14,7 +14,7 @@ aliases: ["FEAT-025"]
 
 # Activation Precision And Startup Gating
 
-> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `in-progress`
+> [!INFO] `FEAT-025` - Feature - Phase E7 - Priority: `high` - Status: `in-review`
 
 ## Goal
 
@@ -94,13 +94,13 @@ All of the following must be true before this ticket is marked `done`:
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-181]] | Add Vault Marker Activation Events | `green` |
-| [[TASK-182]] | Gate Startup Vault Work | `green` |
-| [[TASK-183]] | Preserve Command And Language Wake Paths | `green` |
-| [[TASK-184]] | Document Activation Behavior | `green` |
-| [[CHORE-060]] | Phase E7 Lint Sweep | `open` |
-| [[CHORE-061]] | Phase E7 Test Trace Sweep | `open` |
-| [[CHORE-062]] | Phase E7 Documentation Trace Sweep | `open` |
+| [[TASK-181]] | Add Vault Marker Activation Events | `in-review` |
+| [[TASK-182]] | Gate Startup Vault Work | `in-review` |
+| [[TASK-183]] | Preserve Command And Language Wake Paths | `in-review` |
+| [[TASK-184]] | Document Activation Behavior | `in-review` |
+| [[CHORE-060]] | Phase E7 Lint Sweep | `in-review` |
+| [[CHORE-061]] | Phase E7 Test Trace Sweep | `in-review` |
+| [[CHORE-062]] | Phase E7 Documentation Trace Sweep | `in-review` |
 
 ---
 
@@ -154,3 +154,9 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > Activation gate implementation and docs reached local green state:
 > `cd extension && npm run check-types`, `cd extension && npm test`, and
 > `cd extension && npm run build:extension` passed.
+
+> [!INFO] In Review - 2026-05-07
+> Full local gate passed: `bun run lint`, `bun run typecheck`,
+> `bun run build`, `bun test`, `bun run format:check`, docs markdown lint,
+> non-doc markdown lint, extension typecheck/test/build, and extension
+> `npm audit --audit-level=low`.

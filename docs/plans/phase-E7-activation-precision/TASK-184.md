@@ -2,7 +2,7 @@
 id: "TASK-184"
 title: "Document Activation Behavior"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-184"]
 
 # Document Activation Behavior
 
-> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `green`
+> [!INFO] `TASK-184` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `in-review`
 
 ## Description
 
@@ -132,3 +132,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > Documented activation behavior in `extension/README.md` and
 > `extension/docs/features/activation-behavior.md`; markdown lint passed for
 > the changed docs.
+
+> [!INFO] In Review - 2026-05-07
+> Documentation matches the implemented activation gate and is ready for PR
+> review.

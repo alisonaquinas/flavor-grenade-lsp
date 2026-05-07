@@ -2,7 +2,7 @@
 id: "TASK-183"
 title: "Preserve Command And Language Wake Paths"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: E7
 parent: "FEAT-025"
@@ -15,7 +15,7 @@ aliases: ["TASK-183"]
 
 # Preserve Command And Language Wake Paths
 
-> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `green`
+> [!INFO] `TASK-183` - Task - Phase E7 - Parent: [[FEAT-025]] - Status: `in-review`
 
 ## Description
 
@@ -134,3 +134,6 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!INFO] Green - 2026-05-07
 > Preserved language and command wake signals through the lazy client start
 > path and verified command wake coverage passes.
+
+> [!INFO] In Review - 2026-05-07
+> Local phase gate passed and wake-path coverage is ready for PR review.
