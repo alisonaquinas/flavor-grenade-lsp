@@ -10,6 +10,7 @@ import { IgnoreFilter } from './ignore-filter.js';
 import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
 import { buildAttachmentEntry } from './attachment-metadata.js';
+import { confineExistingPathToVaultRoot } from './vault-path-confinement.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
@@ -137,10 +138,16 @@ export class VaultScanner {
         if (!this.reserveFileBudget()) {
           return;
         }
+        if (confineExistingPathToVaultRoot(vaultRoot, fullPath) === null) {
+          continue;
+        }
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
         if (!this.reserveFileBudget()) {
           return;
+        }
+        if (confineExistingPathToVaultRoot(vaultRoot, fullPath) === null) {
+          continue;
         }
         this.assetIndex.add(relPath);
         await this.indexAttachment(fullPath, relPath);

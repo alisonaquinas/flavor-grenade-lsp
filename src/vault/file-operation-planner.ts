@@ -1,8 +1,10 @@
 import { fileURLToPath } from 'url';
+import * as fs from 'fs';
 import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import { VaultIndex } from './vault-index.js';
 import type { DocId } from './doc-id.js';
+import { confineExistingPathToVaultRoot, isInsideOrEqualPath } from './vault-path-confinement.js';
 
 export interface FileRename {
   oldUri: string;
@@ -56,8 +58,8 @@ export class FileOperationPlanner {
     const pairs: VaultPathPair[] = [];
 
     for (const file of files) {
-      const oldPath = this.vaultRelativePath(vaultRoot, file.oldUri);
-      const newPath = this.vaultRelativePath(vaultRoot, file.newUri);
+      const oldPath = this.vaultRelativePath(vaultRoot, file.oldUri, true);
+      const newPath = this.vaultRelativePath(vaultRoot, file.newUri, false);
       if (oldPath === null || newPath === null) {
         return { status: 'rejected', reason: 'Path escapes vault root' };
       }
@@ -80,7 +82,7 @@ export class FileOperationPlanner {
     );
   }
 
-  private vaultRelativePath(vaultRoot: string, uri: string): string | null {
+  private vaultRelativePath(vaultRoot: string, uri: string, mustExist: boolean): string | null {
     let absPath: string;
     try {
       absPath = path.resolve(fileURLToPath(uri));
@@ -89,28 +91,19 @@ export class FileOperationPlanner {
     }
 
     const root = path.resolve(vaultRoot);
-    if (!this.isInsideOrEqual(root, absPath)) {
+    if (!isInsideOrEqualPath(root, absPath)) {
+      return null;
+    }
+
+    if (
+      mustExist &&
+      fs.existsSync(absPath) &&
+      confineExistingPathToVaultRoot(root, absPath) === null
+    ) {
       return null;
     }
 
     return path.relative(root, absPath).split(path.sep).join('/');
-  }
-
-  private isInsideOrEqual(root: string, candidate: string): boolean {
-    const normalizedRoot = this.normalizeForCompare(root);
-    const normalizedCandidate = this.normalizeForCompare(candidate);
-    if (normalizedCandidate === normalizedRoot) {
-      return true;
-    }
-
-    const rootWithSep = normalizedRoot.endsWith(path.sep)
-      ? normalizedRoot
-      : `${normalizedRoot}${path.sep}`;
-    return normalizedCandidate.startsWith(rootWithSep);
-  }
-
-  private normalizeForCompare(value: string): string {
-    return process.platform === 'win32' ? value.toLowerCase() : value;
   }
 
   private expandPair(pair: VaultPathPair): PlannedFileMove[] {
