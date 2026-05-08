@@ -76,6 +76,7 @@ function makeScanner(opts: {
   vaultDetector: VaultDetector;
   dispatcher: JsonRpcDispatcher;
   tagRegistry?: TagRegistry;
+  maxFiles?: number;
 }): {
   scanner: VaultScanner;
   vaultIndex: VaultIndex;
@@ -96,6 +97,7 @@ function makeScanner(opts: {
     ofmParser,
     opts.dispatcher,
     tagRegistry,
+    opts.maxFiles,
   );
 
   return { scanner, vaultIndex, folderLookup, ignoreFilter };
@@ -199,6 +201,30 @@ describe('VaultScanner', () => {
     expect(vaultIndex.has(id('notes/beta'))).toBe(true);
     expect(vaultIndex.size()).toBe(2);
     expect(scanner.getAssetIndex().size).toBe(0);
+  });
+
+  it('stops indexing when the configured file-count limit is reached', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'alpha.md'), '# Alpha');
+    fs.writeFileSync(path.join(tmpDir, 'beta.md'), '# Beta');
+    fs.writeFileSync(path.join(tmpDir, 'gamma.md'), '# Gamma');
+
+    const { dispatcher, notifications } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+      maxFiles: 2,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.size()).toBe(2);
+    expect(notifications).toContainEqual({
+      method: 'window/showMessage',
+      params: expect.objectContaining({
+        type: 2,
+        message: expect.stringContaining('file limit'),
+      }),
+    });
   });
 
   it('scan with configured extensions: indexes only configured document files', async () => {
