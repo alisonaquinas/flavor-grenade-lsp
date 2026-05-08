@@ -29,9 +29,12 @@ import { SERVER_VERSION } from '../version.js';
 @Injectable()
 export class VaultScanner {
   private static readonly DEFAULT_DOCUMENT_EXTENSIONS = new Set(['.md']);
+  private static readonly DEFAULT_MAX_SCAN_FILES = 50_000;
 
   /** Vault-relative paths of all non-`.md` files found during the last scan. */
   private assetIndex: Set<string> = new Set();
+  private scannedFileCount = 0;
+  private scanFileLimitReached = false;
 
   constructor(
     private readonly vaultDetector: VaultDetector,
@@ -41,6 +44,7 @@ export class VaultScanner {
     private readonly ofmParser: OFMParser,
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
+    private readonly maxScanFiles = VaultScanner.DEFAULT_MAX_SCAN_FILES,
   ) {}
 
   /**
@@ -82,10 +86,18 @@ export class VaultScanner {
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
+    this.scannedFileCount = 0;
+    this.scanFileLimitReached = false;
     this.vaultIndex.clear();
     const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
     this.vaultIndex.setAttachmentFolderHint(await this.loadObsidianAttachmentFolderHint(vaultRoot));
     await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
+    if (this.scanFileLimitReached) {
+      this.dispatcher.sendNotification('window/showMessage', {
+        type: 2,
+        message: `Flavor Grenade stopped indexing after reaching the ${this.maxScanFiles} file limit.`,
+      });
+    }
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
     this.dispatcher.sendNotification('flavorGrenade/status', {
@@ -118,13 +130,31 @@ export class VaultScanner {
 
       if (entry.isDirectory()) {
         await this.walkAndIndex(vaultRoot, fullPath, documentExtensions);
+        if (this.scanFileLimitReached) {
+          return;
+        }
       } else if (entry.isFile() && documentExtensions.has(path.extname(entry.name).toLowerCase())) {
+        if (!this.reserveFileBudget()) {
+          return;
+        }
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
+        if (!this.reserveFileBudget()) {
+          return;
+        }
         this.assetIndex.add(relPath);
         await this.indexAttachment(fullPath, relPath);
       }
     }
+  }
+
+  private reserveFileBudget(): boolean {
+    if (this.scannedFileCount >= this.maxScanFiles) {
+      this.scanFileLimitReached = true;
+      return false;
+    }
+    this.scannedFileCount += 1;
+    return true;
   }
 
   private async indexAttachment(filePath: string, relPath: string): Promise<void> {
