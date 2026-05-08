@@ -1,5 +1,8 @@
 import { load as yamlLoad, CORE_SCHEMA } from 'js-yaml';
 
+const MAX_FRONTMATTER_YAML_BYTES = 64 * 1024;
+const MAX_FRONTMATTER_YAML_ALIASES = 50;
+
 /** Result of parsing the YAML frontmatter block from a document. */
 export interface FrontmatterResult {
   /** Parsed YAML as a plain object, or `null` if absent or invalid. */
@@ -44,6 +47,13 @@ export class FrontmatterParser {
     const bodyOffset = closeMatch + this.closingDelimiterLength(text, closeMatch);
 
     try {
+      if (
+        Buffer.byteLength(yamlContent, 'utf8') > MAX_FRONTMATTER_YAML_BYTES ||
+        this.countYamlAliases(yamlContent) > MAX_FRONTMATTER_YAML_ALIASES
+      ) {
+        return { frontmatter: null, bodyOffset: 0, parseError: true };
+      }
+
       // CORE_SCHEMA prevents execution of !!js/... YAML tags (security requirement)
       const parsed = yamlLoad(yamlContent, { schema: CORE_SCHEMA });
       // Empty YAML (---\n---) → undefined → return {} to indicate an empty frontmatter block
@@ -79,5 +89,17 @@ export class FrontmatterParser {
   private closingDelimiterLength(text: string, at: number): number {
     const nl = text.indexOf('\n', at);
     return nl === -1 ? text.length - at : nl - at + 1;
+  }
+
+  private countYamlAliases(yamlContent: string): number {
+    const matches = yamlContent.matchAll(/(?:^|[\s,[{])\*[A-Za-z0-9_-]+(?=$|[\s,\]}])/g);
+    let count = 0;
+    for (const _match of matches) {
+      count += 1;
+      if (count > MAX_FRONTMATTER_YAML_ALIASES) {
+        return count;
+      }
+    }
+    return count;
   }
 }
