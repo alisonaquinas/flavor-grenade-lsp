@@ -2,7 +2,7 @@
 id: "CHORE-086"
 title: "Security audit verification sweep"
 type: chore
-status: open
+status: in-progress
 priority: "high"
 phase: "18"
 created: "2026-05-08"
@@ -14,7 +14,7 @@ aliases: ["CHORE-086"]
 
 # Security Audit Verification Sweep
 
-> [!INFO] `CHORE-086` · Chore · Phase 18 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-086` · Chore · Phase 18 · Priority: `high` · Status: `in-progress`
 
 ## Description
 
@@ -114,3 +114,6 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened — 2026-05-08
 > Chore created as final verification for Phase 18 security findings. Status: `open`.
+
+> [!INFO] Started — 2026-05-08
+> Final local verification sweep started after BUG-016 through BUG-022 reached `in-review`. Status: `in-progress`.
