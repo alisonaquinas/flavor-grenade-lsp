@@ -255,7 +255,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 |---|---|---|---|---|---|
 | `Security.Input.PositionValidation` | All `Position`/`Range` params validated as non-negative integers within document bounds | `src/handlers/__tests__/selection-range.handler.test.ts`, `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 17 | Phase 17 rejects invalid `selectionRange` position batches with JSON-RPC InvalidParams instead of returning partial results |
 | `Security.Input.PayloadSize` | Oversized JSON-RPC headers and bodies rejected before JSON parsing | `src/transport/stdio-reader.test.ts` | ✅ passing | Phase 2 | Current caps: 8 KiB header, 16 MiB body, and combined frame buffer cap |
-| `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | — | ⬜ not-yet-written | Phase 2 | Zod schema strips dangerous keys; see ADR013 |
+| `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 18 | Dispatcher rejects dangerous prototype keys in request params and drops invalid notifications before handlers receive payloads |
 
 ---
 
