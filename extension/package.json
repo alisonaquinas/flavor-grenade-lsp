@@ -209,15 +209,15 @@
     "verify:package-targets": "node --import tsx --test \"test/package-targets/server-binary.test.ts\""
   },
   "dependencies": {
-    "vscode-languageclient": "^9.0.1"
+    "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/vscode": "~1.82.0",
-    "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.0.0",
-    "esbuild": "^0.28.0",
-    "tsx": "^4.20.6",
-    "typescript": "^5.6.0"
+    "@types/node": "20.19.39",
+    "@types/vscode": "1.82.0",
+    "@vscode/test-electron": "2.5.2",
+    "@vscode/vsce": "3.9.1",
+    "esbuild": "0.28.0",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
   }
 }
