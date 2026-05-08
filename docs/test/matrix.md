@@ -234,7 +234,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Security.Parser.ParseTimeout` | Any single vault file must complete parsing within 200 ms; timeouts produce empty results | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Oversized documents return an empty parse result before token parsers run; adversarial in-budget fixture completes below the 200 ms requirement |
 | `Security.Parser.YAMLLimits` | YAML parsed with alias cap 50, size limit 64 KB, safe mode; parse failures are malformed frontmatter | `src/parser/__tests__/frontmatter-parser.test.ts` | ✅ passing | Phase 18 | Frontmatter parsing rejects YAML above 64 KiB or more than 50 alias references before `js-yaml` parsing |
 | `Security.Parser.EmbedDepth` | Embed resolution detects cycles and enforces max depth 10; circular embeds produce FG005 | — | ⬜ not-yet-written | Phase 3 | Visited-URI set in recursive resolver; see ADR012 |
-| `Security.Parser.VaultFileLimit` | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage` | — | ⬜ not-yet-written | Phase 3 | Count in VaultIndex.buildIndex(); see ADR012 |
+| `Security.Parser.VaultFileLimit` | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage` | `src/vault/__tests__/vault-scanner.test.ts` | ✅ passing | Phase 18 | Scanner stops at the configured file budget and sends a warning notification when the limit is reached |
 
 ---
 
