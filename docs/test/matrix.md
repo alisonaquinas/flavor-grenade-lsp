@@ -263,10 +263,10 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Supply.ExactPinning` | Exact dependency pinning target; remaining ranges tracked as supply-chain debt | — | ⏳ planned | Phase 1 | Current manifests still contain ranges; CI range linting has not landed |
+| `Security.Supply.ExactPinning` | Exact dependency pinning target; remaining ranges tracked as supply-chain debt | `scripts/check-exact-dependencies.test.js`, `scripts/check-exact-dependencies.mjs`, `.github/workflows/ci.yml` | ✅ passing | Phase 18 | Dependency range lint checks root and extension manifests; direct dependency specifiers are exact |
 | `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--frozen-lockfile` |
 | `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--ignore-scripts` |
-| `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | — | ⬜ not-yet-written | Phase 13 | Process requirement; `docs/security/dependency-audit-log.md` |
+| `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | `docs/security/dependency-audit-log.md` | ✅ passing | Phase 18 | Phase 18 recorded root and extension advisory scans and fixed the extension transitive `fast-uri` advisory |
 | `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` remains absent from manifests, lockfiles, and source | — | ⏳ planned | Phase 1 | Package/source audit passes; ESLint guard is still planned |
 
 ---
