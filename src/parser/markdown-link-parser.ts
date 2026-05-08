@@ -62,6 +62,10 @@ export class MarkdownLinkParser {
     };
 
     const occupiedRanges: Array<{ start: number; end: number }> = [];
+    if (!text.includes(']')) {
+      return result;
+    }
+
     MarkdownLinkParser.parseDefinitions(text, opaqueRegions, result, occupiedRanges);
     MarkdownLinkParser.parseInlineLinks(text, opaqueRegions, result, occupiedRanges);
     MarkdownLinkParser.parseLabelRefs(text, opaqueRegions, result, occupiedRanges);

@@ -10,6 +10,8 @@ import { CalloutParser } from './callout-parser.js';
 import { MarkdownLinkParser } from './markdown-link-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
+const MAX_PARSE_CHARACTERS = 1024 * 1024;
+
 /**
  * Orchestrates the 8-stage OFM parsing pipeline and produces an {@link OFMDoc}.
  *
@@ -29,6 +31,18 @@ export class OFMParser {
    * @param version - Incremental version counter from the LSP client.
    */
   parse(uri: string, text: string, version: number): OFMDoc {
+    if (text.length > MAX_PARSE_CHARACTERS) {
+      return {
+        uri,
+        version,
+        text,
+        frontmatter: null,
+        frontmatterEndOffset: 0,
+        opaqueRegions: [],
+        index: OFMParser.emptyIndex(),
+      };
+    }
+
     // Stage 1: frontmatter
     const {
       frontmatter,
@@ -63,6 +77,21 @@ export class OFMParser {
       frontmatterEndOffset: bodyOffset,
       opaqueRegions,
       index,
+    };
+  }
+
+  private static emptyIndex(): OFMIndex {
+    return {
+      wikiLinks: [],
+      embeds: [],
+      blockAnchors: [],
+      tags: [],
+      callouts: [],
+      headings: [],
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     };
   }
 
