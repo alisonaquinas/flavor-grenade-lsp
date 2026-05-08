@@ -27,6 +27,7 @@ updated: 2026-05-08
 | [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | `Security.Input.PrototypePollution` |
 | [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | `Security.Supply.ExactPinning` |
 | [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | `Security.Parser.ParseTimeout`, `Security.Parser.ReDoS` |
+| [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | `CICD.Workflow.PRGate`, `Security.Input.PayloadSize` |
 
 ## Chores
 
