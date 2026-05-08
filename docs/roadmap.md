@@ -40,7 +40,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 15 | Attachment Intelligence | complete | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | 2026-05-06 |
 | 16 | Vault File Operation Refactors | complete | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | 2026-05-06 |
 | 17 | Structural LSP Capabilities | complete | Document links, folding ranges, and selection ranges expose OFMarkdown structure | 2026-05-07 |
-| 18 | Security Hardening Audit | planned | Resolve deep-audit findings for URI validation, parser resource bounds, vault confinement, and supply-chain pinning | — |
+| 18 | Security Hardening Audit | in-progress | Resolve deep-audit findings for URI validation, parser resource bounds, vault confinement, and supply-chain pinning | — |
 
 ## Phase Details
 

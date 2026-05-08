@@ -2,7 +2,7 @@
 id: "FEAT-033"
 title: "Security hardening audit closure"
 type: feature
-status: ready
+status: in-progress
 priority: "high"
 phase: "18"
 created: "2026-05-08"
@@ -14,7 +14,7 @@ aliases: ["FEAT-033"]
 
 # Security Hardening Audit Closure
 
-> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -129,3 +129,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened — 2026-05-08
 > Ticket created from deep security audit. Status: `ready`; child findings are listed.
+
+> [!INFO] Started — 2026-05-08
+> Phase 18 execution began according to [[plans/phase-execution]]. Status: `in-progress`.

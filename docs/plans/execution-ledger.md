@@ -33,7 +33,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
 | 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
 | 17    | Structural LSP Capabilities | ✅ complete | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | 2026-05-07 |
-| 18    | Security Hardening Audit | ⏳ planned | Security audit findings have passing tests, exact pinning, and CI checks | — | — |
+| 18    | Security Hardening Audit | 🔄 in-progress | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | — |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
 | E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |
