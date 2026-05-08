@@ -2,19 +2,19 @@
 id: "CHORE-086"
 title: "Security audit verification sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: "high"
 phase: "18"
 created: "2026-05-08"
 updated: "2026-05-08"
-dependencies: ["BUG-016", "BUG-017", "BUG-018", "BUG-019", "BUG-020", "BUG-021", "BUG-022"]
+dependencies: ["BUG-016", "BUG-017", "BUG-018", "BUG-019", "BUG-020", "BUG-021", "BUG-022", "BUG-023", "BUG-024"]
 tags: [tickets/chore, "phase/18", security, verification]
 aliases: ["CHORE-086"]
 ---
 
 # Security Audit Verification Sweep
 
-> [!INFO] `CHORE-086` · Chore · Phase 18 · Priority: `high` · Status: `in-progress`
+> [!INFO] `CHORE-086` · Chore · Phase 18 · Priority: `high` · Status: `in-review`
 
 ## Description
 
@@ -75,7 +75,7 @@ and security requirement docs.
 
 **Blocked by:**
 
-- [[plans/phase-18-security-hardening-audit/BUG-016]] through [[plans/phase-18-security-hardening-audit/BUG-022]] — findings must be fixed first.
+- [[plans/phase-18-security-hardening-audit/BUG-016]] through [[plans/phase-18-security-hardening-audit/BUG-024]] — findings must be fixed first.
 
 **Unblocks:**
 
@@ -85,13 +85,13 @@ and security requirement docs.
 
 ## Acceptance Criteria
 
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `bun run typecheck` passes.
-- [ ] `bun test` passes.
-- [ ] `bun run lint:docs` passes.
-- [ ] `bun audit` passes or findings are ticketed.
-- [ ] `npm audit --prefix extension --omit=dev` passes or findings are ticketed.
-- [ ] No open Phase 18 security tickets remain.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `bun run typecheck` passes.
+- [x] `bun test` passes.
+- [x] `bun run lint:docs` passes.
+- [x] `bun audit` passes or findings are ticketed.
+- [x] `npm audit --prefix extension --omit=dev` passes or findings are ticketed.
+- [x] No open Phase 18 security tickets remain.
 
 ---
 
@@ -117,3 +117,6 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Started — 2026-05-08
 > Final local verification sweep started after BUG-016 through BUG-022 reached `in-review`. Status: `in-progress`.
+
+> [!SUCCESS] Local verification — 2026-05-08
+> `bun run lint --max-warnings 0`, `bun run typecheck`, `bun test`, `bun run lint:docs`, `bun run lint:dependencies`, `bun audit`, `npm audit --prefix extension`, `npm audit --prefix extension --omit=dev`, and `bun run bdd --tags "@smoke"` passed. Root `tests/integration`, `tests/verification`, and `tests/validation` contain no runnable `.test` or `.spec` files. BUG-023 and BUG-024 were opened and fixed during the sweep. Status: `in-review`.

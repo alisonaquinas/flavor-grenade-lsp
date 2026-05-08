@@ -96,16 +96,16 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[plans/phase-18-security-hardening-audit/BUG-016]] | Reject non-file LSP URIs before path handling | open |
-| [[plans/phase-18-security-hardening-audit/BUG-017]] | Enforce frontmatter YAML size and alias limits | open |
-| [[plans/phase-18-security-hardening-audit/BUG-018]] | Bound parser runtime and ReDoS exposure | open |
-| [[plans/phase-18-security-hardening-audit/BUG-019]] | Enforce vault scan file-count limits | open |
-| [[plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | open |
-| [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | open |
-| [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | open |
-| [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | open |
-| [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | open |
-| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | open |
+| [[plans/phase-18-security-hardening-audit/BUG-016]] | Reject non-file LSP URIs before path handling | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-017]] | Enforce frontmatter YAML size and alias limits | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-018]] | Bound parser runtime and ReDoS exposure | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-019]] | Enforce vault scan file-count limits | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | in-review |
+| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
 
 ---
 

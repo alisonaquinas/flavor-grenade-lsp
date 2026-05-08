@@ -13,7 +13,7 @@ updated: 2026-05-08
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[plans/phase-18-security-hardening-audit/FEAT-033]] | Security hardening audit closure | ready |
+| [[plans/phase-18-security-hardening-audit/FEAT-033]] | Security hardening audit closure | in-progress |
 
 ## Security Findings
 
@@ -33,4 +33,4 @@ updated: 2026-05-08
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | open |
+| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
