@@ -103,6 +103,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | open |
 | [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | open |
 | [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | open |
+| [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | open |
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | open |
 
 ---
