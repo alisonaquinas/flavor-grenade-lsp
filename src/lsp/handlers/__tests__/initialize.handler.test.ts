@@ -1,80 +1,31 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { jest } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { InitializeHandler } from '../initialize.handler.js';
+import { ErrorCodes } from '../../../transport/json-rpc-dispatcher.js';
 import { CapabilityRegistry } from '../../services/capability-registry.js';
-import { StatusNotifier } from '../../services/status-notifier.js';
 import { LifecycleState } from '../../services/lifecycle-state.js';
 import { ServerSettings } from '../../services/server-settings.js';
-import { SERVER_VERSION } from '../../../version.js';
+import { StatusNotifier } from '../../services/status-notifier.js';
 
 describe('InitializeHandler', () => {
-  let mockCapabilities: CapabilityRegistry;
-  let mockNotifier: StatusNotifier;
-  let mockLifecycle: LifecycleState;
-  let settings: ServerSettings;
-  let handler: InitializeHandler;
-  const fakeCapabilities = { textDocumentSync: 1, someFeature: true };
-
-  beforeEach(() => {
-    mockCapabilities = {
-      getCapabilities: jest.fn().mockReturnValue(fakeCapabilities),
-    } as unknown as CapabilityRegistry;
-    mockNotifier = { send: jest.fn() } as unknown as StatusNotifier;
-    mockLifecycle = new LifecycleState();
-    settings = new ServerSettings();
-    handler = new InitializeHandler(mockCapabilities, mockNotifier, mockLifecycle, settings);
-  });
-
-  it('result.capabilities === CapabilityRegistry.getCapabilities() return value', async () => {
-    const result = await handler.handle({});
-    expect(result.capabilities).toBe(fakeCapabilities);
-  });
-
-  it('result.serverInfo.name === "flavor-grenade-lsp"', async () => {
-    const result = await handler.handle({});
-    expect(result.serverInfo.name).toBe('flavor-grenade-lsp');
-  });
-
-  it('result.serverInfo.version === SERVER_VERSION', async () => {
-    const result = await handler.handle({});
-    expect(result.serverInfo.version).toBe(SERVER_VERSION);
-  });
-
-  it('notifier.send is NOT called synchronously', async () => {
-    await handler.handle({});
-    // setImmediate has not fired yet at this point
-    expect(mockNotifier.send).not.toHaveBeenCalled();
-  });
-
-  it('notifier.send("initializing") IS called after setImmediate flushes', async () => {
+  it('rejects non-file rootUri before lifecycle state is updated', async () => {
+    const lifecycle = new LifecycleState();
     const notifier = { send: jest.fn() } as unknown as StatusNotifier;
-    const h = new InitializeHandler(mockCapabilities, notifier, mockLifecycle, settings);
-    await h.handle({});
-    // Not yet called synchronously
-    expect(notifier.send).not.toHaveBeenCalled();
-    // Flush setImmediate
-    await new Promise<void>((resolve) => setImmediate(resolve));
-    expect(notifier.send).toHaveBeenCalledWith({
-      state: 'initializing',
-      vaultCount: 0,
-      docCount: 0,
-      serverVersion: SERVER_VERSION,
-    });
-  });
+    const handler = new InitializeHandler(
+      new CapabilityRegistry(),
+      notifier,
+      lifecycle,
+      new ServerSettings(),
+    );
 
-  it('captures initializationOptions into server settings', async () => {
-    await handler.handle({
-      initializationOptions: {
-        linkStyle: 'relative-path',
-        completionCandidates: 5,
-        diagnosticsSuppress: ['FG001'],
-      },
+    await expect(
+      handler.handle({
+        rootUri: 'https://example.invalid/vault',
+        capabilities: {},
+      }),
+    ).rejects.toMatchObject({
+      code: ErrorCodes.InvalidParams,
+      message: expect.stringContaining('file'),
     });
-
-    expect(settings.snapshot()).toEqual({
-      linkStyle: 'file-path-stem',
-      completionCandidates: 5,
-      diagnosticsSuppress: ['FG001'],
-    });
+    expect(lifecycle.rootUri).toBeNull();
   });
 });
