@@ -2,7 +2,7 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-07
+updated: 2026-05-08
 current-version: 0.2.1
 current-extension-version: 0.1.3
 ---
@@ -16,6 +16,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.2.1**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
+> Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
 
 ## Phase Table
 
@@ -38,7 +39,8 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 14 | Markdown Link Intelligence | complete | Standard Markdown local links, reference labels, same-document anchors, and heading ambiguity diagnostics | 2026-05-06 |
 | 15 | Attachment Intelligence | complete | Vault attachments referenced by embeds and Markdown image links support completion, diagnostics, definition, and hover | 2026-05-06 |
 | 16 | Vault File Operation Refactors | complete | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | 2026-05-06 |
-| 17 | Structural LSP Capabilities | in-progress | Document links, folding ranges, and selection ranges expose OFMarkdown structure | — |
+| 17 | Structural LSP Capabilities | complete | Document links, folding ranges, and selection ranges expose OFMarkdown structure | 2026-05-07 |
+| 18 | Security Hardening Audit | planned | Resolve deep-audit findings for URI validation, parser resource bounds, vault confinement, and supply-chain pinning | — |
 
 ## Phase Details
 
@@ -160,6 +162,17 @@ Detailed functional requirements: [[requirements/functional/ofmarkdown-parity#Pa
 
 Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
 
+### Phase 18 — Security Hardening Audit
+
+Close the remaining security gaps discovered in the 2026-05-08 deep audit of
+`develop`. This phase centralizes file URI validation, enforces parser and vault
+resource budgets, proves symlink realpath confinement, hardens JSON-RPC payload
+validation, and removes dependency range specifiers from package manifests.
+
+Requirement links: [[requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[requirements/security/parser-safety#Security.Parser.ParseTimeout]], [[requirements/security/parser-safety#Security.Parser.ReDoS]], [[requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[requirements/security/vault-confinement#Security.Vault.SymlinkConfinement]], [[requirements/security/input-validation#Security.Input.PrototypePollution]], [[requirements/security/supply-chain#Security.Supply.ExactPinning]], [[requirements/security/supply-chain#Security.Supply.AdvisoryMonitoring]]
+
+Implementation plan: [[plans/phase-18-security-hardening-audit]]
+
 ### Server Improvement Continuation
 
 | Phase | Primary Requirements |
@@ -168,6 +181,7 @@ Implementation plan: [[plans/phase-17-structural-lsp-capabilities]]
 | 15 | [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[requirements/hover#HV-002]] |
 | 16 | [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/rename#Rename.StyleBinding.Consistency]] |
 | 17 | [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
+| 18 | [[requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[requirements/security/supply-chain#Security.Supply.ExactPinning]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 

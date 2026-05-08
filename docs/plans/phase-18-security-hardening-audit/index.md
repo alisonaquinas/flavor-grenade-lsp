@@ -1,0 +1,34 @@
+---
+title: Phase 18 Security Hardening Audit Tickets
+phase: 18
+status: planned
+tags: [plans, tickets, security]
+aliases: [Phase 18 Tickets]
+updated: 2026-05-08
+---
+
+# Phase 18 Security Hardening Audit Tickets
+
+## Feature
+
+| Ticket | Title | Status |
+|---|---|---|
+| [[plans/phase-18-security-hardening-audit/FEAT-033]] | Security hardening audit closure | ready |
+
+## Security Findings
+
+| Ticket | Title | Requirement |
+|---|---|---|
+| [[plans/phase-18-security-hardening-audit/BUG-016]] | Reject non-file LSP URIs before path handling | `Security.Vault.URISchemeAllowlist` |
+| [[plans/phase-18-security-hardening-audit/BUG-017]] | Enforce frontmatter YAML size and alias limits | `Security.Parser.YAMLLimits` |
+| [[plans/phase-18-security-hardening-audit/BUG-018]] | Bound parser runtime and ReDoS exposure | `Security.Parser.ParseTimeout`, `Security.Parser.ReDoS` |
+| [[plans/phase-18-security-hardening-audit/BUG-019]] | Enforce vault scan file-count limits | `Security.Parser.VaultFileLimit` |
+| [[plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | `Security.Vault.SymlinkConfinement` |
+| [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | `Security.Input.PrototypePollution` |
+| [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | `Security.Supply.ExactPinning` |
+
+## Chores
+
+| Ticket | Title | Status |
+|---|---|---|
+| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | open |
