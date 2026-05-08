@@ -95,6 +95,25 @@ describe('JsonRpcDispatcher', () => {
       });
     });
 
+    it('rejects params containing dangerous prototype keys before handler dispatch', async () => {
+      const { dispatcher, sent } = captureOutput();
+      const handler = jest.fn<() => Promise<unknown>>().mockResolvedValue({ ok: true });
+      dispatcher.onRequest('pollute', handler);
+
+      await dispatcher.dispatch(
+        '{"jsonrpc":"2.0","id":6,"method":"pollute","params":{"__proto__":{"polluted":true}}}',
+      );
+
+      expect(handler).not.toHaveBeenCalled();
+      expect(sent).toHaveLength(1);
+      expect(sent[0]).toMatchObject({
+        jsonrpc: '2.0',
+        id: 6,
+        error: { code: ErrorCodes.InvalidParams },
+      });
+      expect(({} as { polluted?: boolean }).polluted).toBeUndefined();
+    });
+
     it('returns null result for shutdown (result must be null not undefined)', async () => {
       const { dispatcher, sent } = captureOutput();
       dispatcher.onRequest('shutdown', async () => null);
@@ -131,6 +150,20 @@ describe('JsonRpcDispatcher', () => {
       );
 
       expect(sent).toHaveLength(0);
+    });
+
+    it('drops notifications containing dangerous prototype keys before handler dispatch', async () => {
+      const { dispatcher, sent } = captureOutput();
+      const handler = jest.fn<() => Promise<void>>().mockResolvedValue(undefined);
+      dispatcher.onNotification('pollute', handler);
+
+      await dispatcher.dispatch(
+        '{"jsonrpc":"2.0","method":"pollute","params":{"constructor":{"prototype":{"polluted":true}}}}',
+      );
+
+      expect(handler).not.toHaveBeenCalled();
+      expect(sent).toHaveLength(0);
+      expect(({} as { polluted?: boolean }).polluted).toBeUndefined();
     });
   });
 
