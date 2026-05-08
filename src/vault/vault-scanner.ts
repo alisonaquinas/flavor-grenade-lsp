@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { pathToFileURL } from 'url';
@@ -15,6 +15,8 @@ import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { SERVER_VERSION } from '../version.js';
+
+export const VAULT_SCAN_FILE_LIMIT = Symbol('VAULT_SCAN_FILE_LIMIT');
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
@@ -36,6 +38,7 @@ export class VaultScanner {
   private assetIndex: Set<string> = new Set();
   private scannedFileCount = 0;
   private scanFileLimitReached = false;
+  private readonly maxScanFiles: number;
 
   constructor(
     private readonly vaultDetector: VaultDetector,
@@ -45,8 +48,10 @@ export class VaultScanner {
     private readonly ofmParser: OFMParser,
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
-    private readonly maxScanFiles = VaultScanner.DEFAULT_MAX_SCAN_FILES,
-  ) {}
+    @Optional() @Inject(VAULT_SCAN_FILE_LIMIT) maxScanFiles?: number,
+  ) {
+    this.maxScanFiles = maxScanFiles ?? VaultScanner.DEFAULT_MAX_SCAN_FILES;
+  }
 
   /**
    * Return the current asset index (vault-relative paths of non-`.md` files).
