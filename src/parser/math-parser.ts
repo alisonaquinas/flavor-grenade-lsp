@@ -51,16 +51,25 @@ export class MathParser {
   ): OpaqueRegion[] {
     const regions: OpaqueRegion[] = [];
     let pos = 0;
+    let excludeIndex = 0;
 
     while (pos < body.length) {
       const dollar = body.indexOf('$', pos);
       if (dollar === -1) break;
 
       const absPos = bodyOffset + dollar;
+      while (excludeIndex < exclude.length && absPos >= exclude[excludeIndex].end) {
+        excludeIndex++;
+      }
 
       // Skip if already inside a display region
-      if (MathParser.isExcluded(absPos, exclude)) {
-        pos = dollar + 1;
+      const currentExcluded = exclude[excludeIndex];
+      if (
+        currentExcluded !== undefined &&
+        absPos >= currentExcluded.start &&
+        absPos < currentExcluded.end
+      ) {
+        pos = currentExcluded.end - bodyOffset;
         continue;
       }
 
