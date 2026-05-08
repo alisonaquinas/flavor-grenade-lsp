@@ -46,6 +46,7 @@ import { VaultIndex } from '../vault/vault-index.js';
 import { RenameModule } from '../rename/rename.module.js';
 import { PrepareRenameHandler } from '../handlers/prepare-rename.handler.js';
 import { RenameHandler } from '../handlers/rename.handler.js';
+import { assertFileUri } from './file-uri.js';
 
 /**
  * Root NestJS module for the flavor-grenade LSP server.
@@ -205,35 +206,65 @@ export class LspModule implements OnModuleInit {
     );
 
     this.dispatcher.onRequest('textDocument/definition', (p) =>
-      Promise.resolve(this.definition.handle(p as Parameters<DefinitionHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.definition.handle(params as Parameters<DefinitionHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/references', (p) =>
-      Promise.resolve(this.references.handle(p as Parameters<ReferencesHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.references.handle(params as Parameters<ReferencesHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/completion', (p) =>
-      Promise.resolve(this.handleCompletion(p)),
+      Promise.resolve(this.handleTextDocumentRequest(p, (params) => this.handleCompletion(params))),
     );
     this.dispatcher.onRequest('textDocument/codeAction', (p) =>
-      Promise.resolve(this.codeAction.handle(p as Parameters<CodeActionHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.codeAction.handle(params as Parameters<CodeActionHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/hover', (p) =>
-      Promise.resolve(this.hover.handle(p as Parameters<HoverHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.hover.handle(params as Parameters<HoverHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/codeLens', (p) =>
-      Promise.resolve(this.codeLens.handle(p as Parameters<CodeLensHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.codeLens.handle(params as Parameters<CodeLensHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/documentHighlight', (p) =>
       Promise.resolve(
-        this.documentHighlight.handle(p as Parameters<DocumentHighlightHandler['handle']>[0]),
+        this.handleTextDocumentRequest(p, (params) =>
+          this.documentHighlight.handle(
+            params as Parameters<DocumentHighlightHandler['handle']>[0],
+          ),
+        ),
       ),
     );
     this.dispatcher.onRequest('textDocument/prepareRename', (p) =>
       Promise.resolve(
-        this.prepareRename.handle(p as Parameters<PrepareRenameHandler['handle']>[0]),
+        this.handleTextDocumentRequest(p, (params) =>
+          this.prepareRename.handle(params as Parameters<PrepareRenameHandler['handle']>[0]),
+        ),
       ),
     );
     this.dispatcher.onRequest('textDocument/rename', (p) =>
-      Promise.resolve(this.rename.handle(p as Parameters<RenameHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.rename.handle(params as Parameters<RenameHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('workspace/symbol', (p) =>
       Promise.resolve(
@@ -242,23 +273,37 @@ export class LspModule implements OnModuleInit {
     );
     this.dispatcher.onRequest('textDocument/documentSymbol', (p) =>
       Promise.resolve(
-        this.documentSymbol.handle(p as Parameters<DocumentSymbolHandler['handle']>[0]),
+        this.handleTextDocumentRequest(p, (params) =>
+          this.documentSymbol.handle(params as Parameters<DocumentSymbolHandler['handle']>[0]),
+        ),
       ),
     );
     this.dispatcher.onRequest('textDocument/documentLink', (p) =>
-      Promise.resolve(this.documentLink.handle(p as Parameters<DocumentLinkHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.documentLink.handle(params as Parameters<DocumentLinkHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/foldingRange', (p) =>
-      Promise.resolve(this.foldingRange.handle(p as Parameters<FoldingRangeHandler['handle']>[0])),
+      Promise.resolve(
+        this.handleTextDocumentRequest(p, (params) =>
+          this.foldingRange.handle(params as Parameters<FoldingRangeHandler['handle']>[0]),
+        ),
+      ),
     );
     this.dispatcher.onRequest('textDocument/selectionRange', (p) =>
       Promise.resolve(
-        this.selectionRange.handle(p as Parameters<SelectionRangeHandler['handle']>[0]),
+        this.handleTextDocumentRequest(p, (params) =>
+          this.selectionRange.handle(params as Parameters<SelectionRangeHandler['handle']>[0]),
+        ),
       ),
     );
     this.dispatcher.onRequest('textDocument/semanticTokens/full', (p) =>
       Promise.resolve(
-        this.semanticTokens.handle(p as Parameters<SemanticTokensHandler['handle']>[0]),
+        this.handleTextDocumentRequest(p, (params) =>
+          this.semanticTokens.handle(params as Parameters<SemanticTokensHandler['handle']>[0]),
+        ),
       ),
     );
 
@@ -299,6 +344,15 @@ export class LspModule implements OnModuleInit {
       );
     }
     return result;
+  }
+
+  private handleTextDocumentRequest<T>(params: unknown, handler: (params: unknown) => T): T {
+    const uri = (params as { textDocument?: { uri?: unknown } } | null | undefined)?.textDocument
+      ?.uri;
+    if (uri !== undefined) {
+      assertFileUri(uri, 'textDocument.uri');
+    }
+    return handler(params);
   }
 
   /**
