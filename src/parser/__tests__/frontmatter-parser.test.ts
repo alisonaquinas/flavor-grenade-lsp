@@ -51,4 +51,22 @@ describe('FrontmatterParser', () => {
     expect(result.frontmatter).toBeNull();
     expect(result.bodyOffset).toBe(0);
   });
+
+  it('rejects frontmatter larger than 64 KiB before parsing YAML', () => {
+    const oversizedValue = 'a'.repeat(64 * 1024 + 1);
+    const result = parser.parse(`---\ntitle: ${oversizedValue}\n---\nBody\n`);
+
+    expect(result.frontmatter).toBeNull();
+    expect(result.bodyOffset).toBe(0);
+    expect(result.parseError).toBe(true);
+  });
+
+  it('rejects frontmatter with more than 50 YAML aliases', () => {
+    const aliases = Array.from({ length: 51 }, (_, index) => `alias${index}: *base`).join('\n');
+    const result = parser.parse(`---\nbase: &base value\n${aliases}\n---\nBody\n`);
+
+    expect(result.frontmatter).toBeNull();
+    expect(result.bodyOffset).toBe(0);
+    expect(result.parseError).toBe(true);
+  });
 });
