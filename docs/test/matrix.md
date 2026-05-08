@@ -230,7 +230,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Parser.ReDoS` | All OFM parser regexes audited for catastrophic backtracking; super-linear patterns prohibited | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Adversarial unmatched delimiter coverage protects Markdown-link parsing from bracket-only super-linear scans |
+| `Security.Parser.ReDoS` | All OFM parser regexes audited for catastrophic backtracking; super-linear patterns prohibited | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Adversarial unmatched delimiter coverage protects Markdown-link parsing from bracket-only scans and math exclusion from display-region churn |
 | `Security.Parser.ParseTimeout` | Any single vault file must complete parsing within 200 ms; timeouts produce empty results | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Oversized documents return an empty parse result before token parsers run; adversarial in-budget fixture completes below the 200 ms requirement |
 | `Security.Parser.YAMLLimits` | YAML parsed with alias cap 50, size limit 64 KB, safe mode; parse failures are malformed frontmatter | `src/parser/__tests__/frontmatter-parser.test.ts` | ✅ passing | Phase 18 | Frontmatter parsing rejects YAML above 64 KiB or more than 50 alias references before `js-yaml` parsing |
 | `Security.Parser.EmbedDepth` | Embed resolution detects cycles and enforces max depth 10; circular embeds produce FG005 | — | ⬜ not-yet-written | Phase 3 | Visited-URI set in recursive resolver; see ADR012 |
