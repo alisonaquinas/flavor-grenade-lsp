@@ -86,6 +86,20 @@ export class JsonRpcDispatcher {
 
     const isRequest = message.id !== undefined && message.id !== null;
 
+    if (hasDangerousPrototypeKey(message.params)) {
+      if (isRequest) {
+        this.output({
+          jsonrpc: '2.0',
+          id: message.id,
+          error: {
+            code: ErrorCodes.InvalidParams,
+            message: 'Invalid params',
+          },
+        });
+      }
+      return;
+    }
+
     if (isRequest) {
       await this.dispatchRequest(message);
     } else {
@@ -147,4 +161,25 @@ export class JsonRpcDispatcher {
       // Notifications have no response channel — swallow errors silently.
     }
   }
+}
+
+function hasDangerousPrototypeKey(value: unknown): boolean {
+  if (Array.isArray(value)) {
+    return value.some((item) => hasDangerousPrototypeKey(item));
+  }
+
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  for (const key of Object.keys(value)) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return true;
+    }
+    if (hasDangerousPrototypeKey((value as Record<string, unknown>)[key])) {
+      return true;
+    }
+  }
+
+  return false;
 }
