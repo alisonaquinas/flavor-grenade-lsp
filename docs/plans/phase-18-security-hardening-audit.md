@@ -27,7 +27,7 @@ is marked complete.
 
 | Area | Result |
 |---|---|
-| Dependency advisories | `bun audit` and `npm audit --prefix extension --omit=dev` found 0 vulnerabilities |
+| Dependency advisories | `bun audit` and `npm audit --prefix extension --omit=dev` found 0 vulnerabilities; the full extension dev tree audit found and fixed a transitive `fast-uri` advisory |
 | LSP URI schemes | Server root/document URI handling has no central non-`file://` rejection path |
 | Parser safety | Frontmatter YAML and parser execution lack the documented size, alias, timeout, and ReDoS guardrails |
 | Vault indexing | Initial recursive scan lacks the documented file-count budget and realpath symlink proof |

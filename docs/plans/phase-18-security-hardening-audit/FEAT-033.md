@@ -2,7 +2,7 @@
 id: "FEAT-033"
 title: "Security hardening audit closure"
 type: feature
-status: in-progress
+status: in-review
 priority: "high"
 phase: "18"
 created: "2026-05-08"
@@ -14,7 +14,7 @@ aliases: ["FEAT-033"]
 
 # Security Hardening Audit Closure
 
-> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -83,11 +83,11 @@ crafted input, or silently drifting to unreviewed dependency versions.
 ## Acceptance Criteria
 
 - [ ] All child BUG tickets are `done`.
-- [ ] `bun run lint --max-warnings 0` passes.
-- [ ] `bun run typecheck` passes.
-- [ ] `bun test` passes.
-- [ ] `bun run lint:docs` passes.
-- [ ] [[test/matrix]] and [[test/index]] record passing security evidence.
+- [x] `bun run lint --max-warnings 0` passes.
+- [x] `bun run typecheck` passes.
+- [x] `bun test` passes.
+- [x] `bun run lint:docs` passes.
+- [x] [[test/matrix]] and [[test/index]] record passing security evidence.
 - [ ] Phase PR has clean CI.
 
 ---
@@ -134,3 +134,42 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Started — 2026-05-08
 > Phase 18 execution began according to [[plans/phase-execution]]. Status: `in-progress`.
+
+> [!SUCCESS] Local review ready — 2026-05-08
+> Phase 18 implementation and local verification completed. BUG-023 and BUG-024 were opened during CHORE-086 and moved to `in-review` after fixes. Status: `in-review`; final `done` remains blocked on PR CI and merge.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-08.
+
+### What went as planned
+
+The ticketed audit findings converted cleanly into focused regression tests and
+small implementation changes. Central URI validation, YAML limits, parser
+budgets, scanner limits, symlink confinement, prototype-key rejection, and exact
+dependency pinning all have local test or workflow evidence.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-023 | Bug | The adversarial parser test exposed repeated close-marker scans and O(n*m) math exclusion checks after the initial BUG-018 fix. | +0.5 h |
+| BUG-024 | Bug | The scanner file-limit constructor parameter was a primitive dependency, so Nest failed startup in spawned integration tests. | +0.5 h |
+
+### Process observations
+
+The A-M checklist caught both regressions before the phase reached PR review.
+The requirement to ticket sweep findings before fixing them kept the extra work
+traceable, although the CHORE ticket dependencies needed to expand after BUG-023
+and BUG-024 were opened.
+
+### Carry-forward actions
+
+- [ ] Consider adding a lightweight startup smoke test to catch Nest dependency
+      injection failures before integration suites wait on stdio responses.
+- [ ] Prefer injectable tokens or options objects for future configurable
+      service limits rather than primitive constructor parameters.
+
+### Rule / template amendments
+
+- [ ] None.
