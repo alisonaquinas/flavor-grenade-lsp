@@ -27,12 +27,15 @@ route metadata suitable for GitHub Pages discovery and SEO.
 - Add sitemap coverage for every How-To, Concepts, and Advanced Usage article.
 - Add route metadata for title, description, canonical path, and article group.
 - Confirm hub pages link to article routes in a crawlable way.
+- Keep article metadata aligned with dropdown navigation and hub card data.
 
 ## Asset Scope
 
 - No new visual asset required.
 - Add or update generated sitemap fixture/output.
 - Add tests or checks that compare route data against sitemap entries.
+- Add route group data that can support article lists, breadcrumbs, or dropdowns
+  without duplicating slugs.
 
 ## Definition of Done
 
@@ -46,4 +49,3 @@ route metadata suitable for GitHub Pages discovery and SEO.
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from request to include sitemap updates. Status: `open`.
-

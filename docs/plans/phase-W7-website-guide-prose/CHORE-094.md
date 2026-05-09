@@ -30,6 +30,7 @@ Verify the complete Phase W7 article set after implementation.
 - [ ] Dropdown navigation is verified on desktop.
 - [ ] Hubs are verified on mobile and desktop.
 - [ ] Every article route has prose, examples, links, and specified assets.
+- [ ] Every article route is included in sitemap output and route metadata.
 - [ ] No public article exposes internal ticket or phase language.
 
 ## Workflow Log

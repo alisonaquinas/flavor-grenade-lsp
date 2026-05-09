@@ -31,6 +31,130 @@ aliases: ["TASK-242"]
 - Reuse existing diagnostic or hover screenshot if available.
 - Include a before and after Markdown snippet.
 
+## Draft Article Copy
+
+# Fix Broken Links
+
+Broken-link diagnostics point to local references that do not resolve inside the
+current vault. They help you catch missing notes, misspelled headings, stale
+anchors, and attachment paths before they spread through the graph.
+
+Common examples:
+
+```markdown
+[[Missing Note]]
+[[Project Plan#Risks]]
+[diagram](assets/missing.png)
+```
+
+## Read the Diagnostic
+
+Start with the underlined link. The diagnostic tells you what kind of target did
+not resolve:
+
+- A wiki-link note target, such as `[[Missing Note]]`.
+- A heading anchor, such as `[[Project Plan#Risks]]`.
+- A Markdown file or attachment path, such as `[diagram](assets/missing.png)`.
+- An embed target, such as `![[diagram.png]]`.
+
+## Fix a Missing Note
+
+Before:
+
+```markdown
+Follow up in [[Missing Note]].
+```
+
+Fix it by creating the target note in the vault:
+
+```text
+notes/Missing Note.md
+```
+
+After:
+
+```markdown
+Follow up in [[Missing Note]].
+```
+
+Expected result: the diagnostic clears after the file exists and the index
+refreshes. When a create-missing-note code action is available, you can use it
+instead of creating the file manually.
+
+## Fix a Heading Anchor
+
+Before:
+
+```markdown
+Review [[Project Plan#Risks]].
+```
+
+Target note:
+
+```markdown
+# Project Plan
+
+## Risk Log
+```
+
+Either change the link:
+
+```markdown
+Review [[Project Plan#Risk Log]].
+```
+
+Or rename the heading:
+
+```markdown
+# Project Plan
+
+## Risks
+```
+
+Expected result: the link resolves to the heading in `Project Plan.md`.
+
+## Fix a Markdown Attachment Path
+
+Before:
+
+```markdown
+[diagram](assets/missing.png)
+```
+
+Confirm the file exists:
+
+```text
+MyVault/
+  notes/
+    Project Plan.md
+  assets/
+    architecture.png
+```
+
+After:
+
+```markdown
+[diagram](../assets/architecture.png)
+```
+
+Expected result: the path resolves from the note location to an attachment
+inside the vault.
+
+## Troubleshooting
+
+If a note exists but the link is still broken, check spelling, spaces,
+capitalization, and whether the file is inside the opened vault root.
+
+If a heading exists but the diagnostic remains, check the exact heading text.
+Punctuation and repeated headings can make anchors ambiguous.
+
+If a Markdown link uses `https://`, `mailto:`, or another external scheme, it is
+not a vault note. Use local paths only for files you want Flavor Grenade to
+resolve inside the vault.
+
+If a target was just created, save the file and wait for the vault index to
+refresh.
+
 ## Definition of Done
 
 - [ ] Article route exists and is linked from How-To hub and dropdown.

@@ -28,6 +28,8 @@ Advanced Usage so each top-level nav item links to its article subpages.
 - Concepts dropdown links to all concept article pages.
 - Advanced Usage dropdown links to all advanced topic pages.
 - Dropdown labels use public article titles, not ticket names.
+- Dropdown item descriptions may use the same short summaries as the hub cards
+  if layout allows.
 
 ## Asset Scope
 
@@ -35,6 +37,7 @@ Advanced Usage so each top-level nav item links to its article subpages.
 - Add typed navigation data that can feed topbar dropdowns, mobile navigation,
   and tests.
 - Add hover, focus, and keyboard interaction tests where practical.
+- Reuse route metadata so dropdown links cannot drift from article routes.
 
 ## Definition of Done
 
@@ -42,6 +45,8 @@ Advanced Usage so each top-level nav item links to its article subpages.
   dropdowns on hover and focus.
 - [ ] Mobile navigation keeps article links reachable without hover.
 - [ ] Dropdowns are accessible by keyboard and screen-reader naming.
+- [ ] Dropdowns do not include the standalone GitHub link removed from the
+  header in Phase W6.
 - [ ] Navigation tests and route completeness checks pass.
 
 ## Workflow Log
@@ -49,4 +54,3 @@ Advanced Usage so each top-level nav item links to its article subpages.
 > [!INFO] Opened · 2026-05-09
 > Ticket created from browser annotations requesting article dropdowns. Status:
 > `open`.
-

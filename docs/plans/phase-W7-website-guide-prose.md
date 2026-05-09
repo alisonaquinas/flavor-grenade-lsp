@@ -65,6 +65,19 @@ article groups.
 | Assets | Reused screenshots, Markdown examples, snippets, and diagrams for each article |
 | Verification | Website checks, route checks, content checks, and visual smoke |
 
+## Article Copy Standard
+
+Each article ticket owns a `Draft Article Copy` section that can be lifted into
+website content during implementation. Draft copy should:
+
+- Use public-facing article headings, not ticket terminology.
+- Include concrete Obsidian Vault paths, OFM snippets, tables, or diagrams.
+- State expected results and practical failure modes for task articles.
+- Keep concept articles short, linked, and useful for LLM maintainers.
+- Keep advanced articles conservative about supported behavior and direct LSP
+  integration.
+- Avoid internal phase, ticket, or planning language in final website prose.
+
 ## Acceptance
 
 - How-To desktop nav exposes article links in a hover and focus dropdown.
@@ -75,7 +88,9 @@ article groups.
 - How-To hub list items link to how-to articles.
 - Concepts hub entries link to concept articles.
 - Advanced Usage hub sections link to advanced topic articles.
+- Every article ticket includes `Draft Article Copy` ready for implementation.
 - Every article ticket listed below has prose scope and asset scope implemented.
+- Sitemap includes every Phase W7 article route.
 - `website` lint, typecheck, tests, and build pass.
 - Docs lint passes for `docs/` and `website/docs/`.
 
