@@ -53,7 +53,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W2    | Content Pipeline And SEO Skeleton | ✅ complete | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | 2026-05-09 | PR #52 CI green |
 | W3    | Homepage And Design System | ✅ complete | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | 2026-05-09 | PR #53 CI green |
 | W4    | Documentation Pages And LLM Wiki | ✅ complete | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | 2026-05-09 | PR #54 CI green |
-| W5    | Website CI And Pages Release | ⏳ planned | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | — | — |
+| W5    | Website CI And Pages Release | 🔄 in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | 2026-05-09 | — |
 
 ---
 

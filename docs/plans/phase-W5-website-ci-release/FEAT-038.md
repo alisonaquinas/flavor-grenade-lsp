@@ -2,7 +2,7 @@
 id: "FEAT-038"
 title: "Website CI And Pages Release"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W5
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-038"]
 
 # Website CI And Pages Release
 
-> [!INFO] `FEAT-038` · Feature · Phase W5 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-038` · Feature · Phase W5 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -70,3 +70,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created for Phase W5 website release. Status: `ready`.
+
+> [!INFO] Started · 2026-05-09
+> Phase W5 started after Phase W4 merged in PR #54 with green CI. Status:
+> `in-progress`.
