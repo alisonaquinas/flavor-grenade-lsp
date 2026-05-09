@@ -2,7 +2,7 @@
 id: "TASK-217"
 title: "Define typed route and metadata model"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-217"]
 
 # Define Typed Route And Metadata Model
 
-> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `green`
+> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `in-review`
 
 ## Description
 
@@ -46,12 +46,12 @@ Add RED coverage in `website/tests/routes.test.ts` before implementation.
 
 ## Definition of Done
 
-- [ ] Route IDs and paths are typed.
-- [ ] Page metadata includes title, description, canonical URL, H1, and page
+- [x] Route IDs and paths are typed.
+- [x] Page metadata includes title, description, canonical URL, H1, and page
   type.
-- [ ] Related-page links are represented in typed data.
-- [ ] Unit tests cover missing required metadata.
-- [ ] Parent feature child row is updated.
+- [x] Related-page links are represented in typed data.
+- [x] Unit tests cover missing required metadata.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -73,3 +73,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added `website/src/content/routes.ts` with typed route IDs, metadata, related
 > route links, canonical URLs, and metadata validation. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/routes.test.ts`. Definition of Done is satisfied locally.
+> Status: `in-review`.

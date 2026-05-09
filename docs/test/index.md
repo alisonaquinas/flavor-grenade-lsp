@@ -103,6 +103,9 @@ and website-specific source layout rules.
 | `website/tests/app-shell.test.ts` | Unit | Verifies the starter website shell exposes a stable app summary for the Vite/Svelte/TypeScript/SCSS scaffold | `Website.Technical.Stack` | Phase W1 | ✅ implemented |
 | `website/tests/tooling.test.ts` | Unit | Verifies website package scripts and required local tooling config exist for lint, typecheck, test, build, preview, and development | `Website.Technical.Stack`, `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
 | `website/tests/layout.test.ts` | Unit | Verifies implementation-like website source remains under `website/src` and tests remain under `website/tests` | `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
+| `website/tests/routes.test.ts` | Unit | Verifies required public routes have typed IDs, unique paths, SEO basics, canonical URLs, and related route links | `Website.Pages.RequiredSet`, `Website.Metadata.PageBasics` | Phase W2 | ✅ implemented |
+| `website/tests/content-links.test.ts` | Unit | Verifies typed public content records cover every route and that route/outbound links validate against known routes and approved hosts | `Website.Pages.RequiredSet` | Phase W2 | ✅ implemented |
+| `website/tests/seo-files.test.ts` | Unit | Verifies maintained sitemap and robots files match typed route metadata and that homepage metadata plus JSON-LD skeletons exist | `Website.Metadata.PageBasics`, `Website.StructuredData.RequiredTypes`, `Website.Indexing.SitemapRobots` | Phase W2 | ✅ implemented |
 
 ---
 

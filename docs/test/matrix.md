@@ -59,6 +59,10 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 |---|---|---|---|---|---|
 | `Website.Technical.Stack` | Website uses Vite, Svelte, strict TypeScript, SCSS, and static build scripts | `website/tests/app-shell.test.ts`, `website/tests/tooling.test.ts` | ✅ passing | Phase W1 | W1 covers the starter app shell and package-script/tooling contract; later phases add route, SEO, and content tests |
 | `Website.Technical.SourceLayout` | Website implementation source lives under `website/src` and tests live under `website/tests` | `website/tests/tooling.test.ts`, `website/tests/layout.test.ts` | ✅ passing | Phase W1 | Layout guard ignores generated output and docs while blocking implementation-like drift |
+| `Website.Pages.RequiredSet` | Required public page categories are represented by generated routes and content records | `website/tests/routes.test.ts`, `website/tests/content-links.test.ts` | ✅ passing | Phase W2 | W2 provides typed route/content records; later phases render richer page bodies |
+| `Website.Metadata.PageBasics` | Public pages have H1, title, description, and canonical URL metadata | `website/tests/routes.test.ts`, `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Route metadata validation covers every route and homepage social metadata |
+| `Website.StructuredData.RequiredTypes` | Required JSON-LD schema types are emitted for appropriate page intent | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Skeleton coverage includes WebSite, SoftwareApplication, FAQPage, HowTo, and BreadcrumbList |
+| `Website.Indexing.SitemapRobots` | Crawl files exist and list intended public routes | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Maintained static files are checked against generated sitemap and robots output |
 
 ---
 
@@ -364,7 +368,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E12 (Editor Contributions) | 1 | 1 | 100% |
 | Phase E13 (Workspace Environments) | 2 | 2 | 100% |
 | Phase E14 (Membership And Compatibility) | 2 | 2 | 100% |
-| **Total** | **140** | **59** | **42%** |
+| Phase W1 (Website Foundation) | 2 | 2 | 100% |
+| Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
+| **Total** | **146** | **65** | **45%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

@@ -2,7 +2,7 @@
 id: "TASK-218"
 title: "Build content transform and link model"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-218"]
 
 # Build Content Transform And Link Model
 
-> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `green`
+> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `in-review`
 
 ## Description
 
@@ -50,11 +50,11 @@ implementation.
 
 ## Definition of Done
 
-- [ ] Content records can feed static route rendering.
-- [ ] Internal route links resolve to public URLs.
-- [ ] Required outbound links are represented with descriptive text.
-- [ ] Broken public links fail tests.
-- [ ] Parent feature child row is updated.
+- [x] Content records can feed static route rendering.
+- [x] Internal route links resolve to public URLs.
+- [x] Required outbound links are represented with descriptive text.
+- [x] Broken public links fail tests.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -76,3 +76,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added typed public links, approved outbound hosts, starter page content, and
 > content/link validation. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/content-links.test.ts`. Definition of Done is satisfied
+> locally. Status: `in-review`.

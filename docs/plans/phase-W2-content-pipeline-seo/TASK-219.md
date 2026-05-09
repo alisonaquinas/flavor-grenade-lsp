@@ -2,7 +2,7 @@
 id: "TASK-219"
 title: "Generate SEO files and validation tests"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-219"]
 
 # Generate SEO Files And Validation Tests
 
-> [!INFO] `TASK-219` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `green`
+> [!INFO] `TASK-219` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `in-review`
 
 ## Description
 
@@ -49,12 +49,12 @@ Tests should verify static files match the generated output and that
 
 ## Definition of Done
 
-- [ ] Build output includes `sitemap.xml`.
-- [ ] Build output includes `robots.txt`.
-- [ ] Homepage includes Open Graph and Twitter metadata.
-- [ ] JSON-LD generation covers the required initial page types.
-- [ ] SEO validation tests pass.
-- [ ] Parent feature child row is updated.
+- [x] Build output includes `sitemap.xml`.
+- [x] Build output includes `robots.txt`.
+- [x] Homepage includes Open Graph and Twitter metadata.
+- [x] JSON-LD generation covers the required initial page types.
+- [x] SEO validation tests pass.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -76,3 +76,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added SEO helpers, maintained `robots.txt` and `sitemap.xml`, homepage social
 > metadata, and JSON-LD skeleton generation. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/seo-files.test.ts`. Definition of Done is satisfied locally.
+> Status: `in-review`.
