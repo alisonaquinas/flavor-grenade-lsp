@@ -22,6 +22,22 @@ aliases: ["TASK-217"]
 Create typed route and metadata modules for homepage, quickstart, how-to,
 concepts, advanced usage, FAQ, and feature pages.
 
+## Implementation Details
+
+Create the route metadata model in `website/src/content/routes.ts`.
+
+Expected public API:
+
+- `siteBaseUrl: string`
+- `routeIds: readonly RouteId[]`
+- `WebsiteRoute` interface with `id`, `path`, `title`, `description`, `h1`,
+  `pageType`, `canonicalUrl`, `related`, and `seo` fields
+- `websiteRoutes: readonly WebsiteRoute[]`
+- `getRouteById(id: RouteId): WebsiteRoute`
+- `validateRouteMetadata(routes: readonly WebsiteRoute[]): string[]`
+
+Add RED coverage in `website/tests/routes.test.ts` before implementation.
+
 ## Definition of Done
 
 - [ ] Route IDs and paths are typed.
@@ -39,3 +55,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Route metadata file paths, exported API shape, and RED test target were
+> recorded before implementation.

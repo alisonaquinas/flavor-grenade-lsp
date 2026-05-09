@@ -1,7 +1,7 @@
 ---
 title: Phase W2 Content Pipeline Tickets
 phase: W2
-status: planned
+status: in-progress
 tags: [plans/phase-W2, tickets/index, website]
 aliases: ["Phase W2 Tickets"]
 updated: 2026-05-09
@@ -11,7 +11,7 @@ updated: 2026-05-09
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-035]] | Content Pipeline And SEO Skeleton | Feature | `ready` |
+| [[FEAT-035]] | Content Pipeline And SEO Skeleton | Feature | `in-progress` |
 | [[TASK-217]] | Define typed route and metadata model | Task | `open` |
 | [[TASK-218]] | Build content transform and link model | Task | `open` |
 | [[TASK-219]] | Generate SEO files and validation tests | Task | `open` |

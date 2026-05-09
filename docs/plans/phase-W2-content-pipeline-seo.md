@@ -1,7 +1,7 @@
 ---
 title: "Phase W2: Content Pipeline And SEO Skeleton"
 phase: W2
-status: planned
+status: in-progress
 tags: [plans, website, content, seo]
 aliases: [Phase W2, Website Content Pipeline]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W2 |
 | Title | Content Pipeline And SEO Skeleton |
-| Status | planned |
+| Status | in-progress |
 | Gate | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks |
 | Depends on | Phase W1 |
 
@@ -85,3 +85,9 @@ npm run build
 
 - [[../website/docs/architecture/content-pipeline]]
 - [[../website/docs/requirements/functional/seo-and-metadata]]
+
+## Workflow Log
+
+> [!INFO] Started · 2026-05-09
+> Phase W2 began on `feature/phase-w2-content-pipeline-seo` after Phase W1 was
+> merged and marked complete by PR #51 CI.

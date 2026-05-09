@@ -2,7 +2,7 @@
 id: "FEAT-035"
 title: "Content Pipeline And SEO Skeleton"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W2
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-035"]
 
 # Content Pipeline And SEO Skeleton
 
-> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -70,3 +70,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created for Phase W2 content and SEO pipeline. Status: `ready`.
+
+> [!INFO] Started · 2026-05-09
+> Phase W2 started after W1 completed in PR #51. Status: `in-progress`.

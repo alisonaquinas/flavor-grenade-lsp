@@ -22,6 +22,26 @@ aliases: ["TASK-218"]
 Implement the first content transform or typed content records and validate
 that public links resolve to static routes or approved outbound URLs.
 
+## Implementation Details
+
+Create the content and public-link model in:
+
+- `website/src/content/links.ts`
+- `website/src/content/pages.ts`
+
+Expected public API:
+
+- `PublicLink` discriminated union for route links and outbound links
+- `approvedOutboundHosts: readonly string[]`
+- `validatePublicLinks(links, routes): string[]`
+- `WebsitePageContent` interface with `routeId`, `summary`, `sections`, and
+  `links`
+- `websitePages: readonly WebsitePageContent[]`
+- `validateWebsitePages(pages, routes): string[]`
+
+Add RED coverage in `website/tests/content-links.test.ts` before
+implementation.
+
 ## Definition of Done
 
 - [ ] Content records can feed static route rendering.
@@ -38,3 +58,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Content/link model file paths, exported API shape, and RED test target were
+> recorded before implementation.

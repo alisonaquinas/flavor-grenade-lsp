@@ -22,6 +22,25 @@ aliases: ["TASK-219"]
 Generate or maintain `sitemap.xml`, `robots.txt`, canonical metadata, Open
 Graph metadata, and JSON-LD skeletons for public routes.
 
+## Implementation Details
+
+Create SEO helpers and maintained static crawl files in:
+
+- `website/src/seo/seo-files.ts`
+- `website/public/robots.txt`
+- `website/public/sitemap.xml`
+
+Expected public API:
+
+- `generateSitemap(routes): string`
+- `generateRobotsTxt(siteMapUrl): string`
+- `getHomeMetadata(): Record<string, string>`
+- `generateJsonLd(routes, pages): object[]`
+
+Add RED coverage in `website/tests/seo-files.test.ts` before implementation.
+Tests should verify static files match the generated output and that
+`website/dist` includes crawl files after `npm run build`.
+
 ## Definition of Done
 
 - [ ] Build output includes `sitemap.xml`.
@@ -39,3 +58,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> SEO helper file paths, maintained crawl files, exported API shape, and RED
+> test target were recorded before implementation.
