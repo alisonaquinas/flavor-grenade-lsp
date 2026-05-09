@@ -2,7 +2,7 @@
 id: "CHORE-091"
 title: "Phase W5 release readiness sweep"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W5
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-091"]
 
 # Phase W5 Release Readiness Sweep
 
-> [!INFO] `CHORE-091` · Chore · Phase W5 · Status: `open`
+> [!INFO] `CHORE-091` · Chore · Phase W5 · Status: `in-progress`
 
 ## Description
 
@@ -39,3 +39,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created for the Phase W5 release readiness sweep. Status: `open`.
+
+> [!INFO] Started · 2026-05-09
+> Started the readiness sweep after TASK-226, TASK-227, and TASK-228 reached
+> `in-review`. Status: `in-progress`.
