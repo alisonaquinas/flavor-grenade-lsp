@@ -15,6 +15,10 @@ docs at a high standard.
 ## Acceptance Criteria
 
 - The concept index maps the core vocabulary of the tool.
+- The concept index entries link to concept subpage articles instead of
+  remaining static bullets.
+- The "For LLM maintainers" section presents a linked list of relevant concept
+  articles for generated-docs maintenance, not one static paragraph.
 - Each concept page answers one question.
 - Concept pages prefer concrete examples over abstract claims.
 - Concept pages link densely to related concepts and how-to pages.
@@ -38,6 +42,8 @@ docs at a high standard.
   - [Karpathy's LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
   - [Obsidian](https://obsidian.md/)
   - [Marksman LSP](https://github.com/artempyanykh/marksman)
+- The desktop Concepts navigation item provides a hover and focus dropdown
+  linking to the concept subpage articles.
 
 ## Follow-On Pages
 
