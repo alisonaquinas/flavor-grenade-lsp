@@ -2,7 +2,7 @@
 id: "TASK-226"
 title: "Add website CI gates"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-226"]
 
 # Add Website CI Gates
 
-> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `in-review`
+> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `done`
 
 ## Description
 
@@ -71,3 +71,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] In Review · 2026-05-09
 > Updated DoD and test traceability after local website lint, typecheck, and
 > tests passed. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #55 CI passed, including Website checks. Status: `done`.

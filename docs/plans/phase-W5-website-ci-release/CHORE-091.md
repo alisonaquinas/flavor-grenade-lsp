@@ -23,7 +23,7 @@ CI and deployment evidence before Phase W5 is marked complete.
 
 ## Acceptance Criteria
 
-- [ ] Website CI checks pass on the release PR.
+- [x] Website CI checks pass on the release PR.
 - [ ] Release tag workflow passes.
 - [ ] Pages deployment succeeds.
 - [ ] Production smoke checks pass.
@@ -57,3 +57,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > lint, typecheck, build, tests, dependency policy, format check, docs lint, and
 > non-docs Markdown lint. Remaining evidence requires PR CI, release tag
 > workflow, and Pages deployment. Status: `in-review`.
+
+> [!CHECK] PR CI · 2026-05-09
+> PR #55 CI passed. Release tag workflow and Pages deployment remain pending
+> until the website release is promoted through `main` and tagged.

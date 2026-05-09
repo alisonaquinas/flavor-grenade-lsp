@@ -2,7 +2,7 @@
 id: "TASK-228"
 title: "Add release evidence and production smoke checks"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-228"]
 
 # Add Release Evidence And Production Smoke Checks
 
-> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `in-review`
+> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `done`
 
 ## Description
 
@@ -80,3 +80,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] In Review · 2026-05-09
 > Updated DoD and test traceability after local website lint, typecheck, and
 > tests passed. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #55 CI passed, including Website checks. Status: `done`.

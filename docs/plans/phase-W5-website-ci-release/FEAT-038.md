@@ -57,9 +57,9 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-226]] | Add website CI gates | `in-review` |
-| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `in-review` |
-| [[TASK-228]] | Add release evidence and production smoke checks | `in-review` |
+| [[TASK-226]] | Add website CI gates | `done` |
+| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `done` |
+| [[TASK-228]] | Add release evidence and production smoke checks | `done` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
 
 ## Lifecycle
@@ -102,3 +102,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!WARNING] BUG-028 opened · 2026-05-09
 > CHORE-091 found that the website release trigger used a regex-shaped GitHub
 > Actions tag filter. BUG-028 was opened and triaged before fixing the workflow.
+
+> [!CHECK] PR CI · 2026-05-09
+> PR #55 CI passed. Implementation tasks moved to `done`; CHORE-091 remains
+> `in-review` until release tag workflow and Pages deployment evidence exists.
