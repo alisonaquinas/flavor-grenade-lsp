@@ -395,4 +395,27 @@ p {
   .site-footer {
     grid-template-columns: 1fr;
   }
+
+  .hero-shell {
+    overflow: hidden;
+    padding-inline: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    max-width: 30ch;
+    word-break: break-word;
+  }
+
+  .hero-lede {
+    font-size: 1rem;
+    max-width: 31ch;
+  }
+
+  .hero-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

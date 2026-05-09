@@ -46,3 +46,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!WARNING] Finding · 2026-05-09
 > Mobile visual smoke at 390px found clipped hero text and horizontal overflow.
 > Opened BUG-026 before fixing.
+
+> [!SUCCESS] Mobile recheck · 2026-05-09
+> BUG-026 fix rebuilt successfully and the 390px mobile screenshot no longer
+> shows clipped category, CTA, or proof content.
