@@ -162,7 +162,9 @@ button {
 }
 
 .site-main {
+  max-inline-size: 100vw;
   min-height: calc(100vh - 5rem);
+  overflow-x: clip;
 }
 
 .hero-shell {
@@ -328,6 +330,131 @@ p {
   border-color: color-mix(in srgb, var(--green) 45%, var(--line));
 }
 
+.docs-page {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  max-inline-size: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  padding: clamp(2rem, 6vw, 5rem);
+  width: 100%;
+}
+
+.docs-hero {
+  display: grid;
+  gap: 1rem;
+  max-inline-size: 100%;
+  max-width: 48rem;
+  min-width: 0;
+}
+
+.docs-hero h1 {
+  max-width: 14ch;
+}
+
+.docs-hero p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 1.1rem;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+.docs-layout {
+  align-items: start;
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.32fr);
+  max-inline-size: 100%;
+  min-width: 0;
+}
+
+.docs-sections {
+  display: grid;
+  gap: 1.25rem;
+  max-inline-size: 100%;
+  min-width: 0;
+}
+
+.docs-section {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 0.8rem;
+  max-inline-size: 100%;
+  max-width: 52rem;
+  min-width: 0;
+  padding-top: 1.25rem;
+}
+
+.docs-section h2,
+.docs-related h2 {
+  color: var(--ink-strong);
+  font-size: 1rem;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.docs-section p,
+.docs-section li {
+  color: var(--muted);
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+.docs-section ul,
+.docs-section ol {
+  display: grid;
+  gap: 0.5rem;
+  max-inline-size: 100%;
+  min-width: 0;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.docs-section li strong,
+.docs-section li span {
+  display: block;
+}
+
+.docs-section li strong {
+  color: var(--ink-strong);
+}
+
+.docs-section pre {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  max-inline-size: 100%;
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.docs-section code {
+  color: var(--ink-strong);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+}
+
+.docs-related {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.65rem;
+  max-inline-size: 100%;
+  min-width: 0;
+  padding: 1rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.docs-related a {
+  color: var(--cool);
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
 .site-footer {
   background: var(--ink-strong);
   color: var(--surface);
@@ -391,6 +518,7 @@ p {
   }
 
   .hero-shell,
+  .docs-layout,
   .feature-list,
   .site-footer {
     grid-template-columns: 1fr;
@@ -417,5 +545,27 @@ p {
   .hero-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .docs-page {
+    max-inline-size: 100vw;
+    padding-inline: clamp(1.25rem, 5vw, 2rem);
+    width: 100vw;
+  }
+
+  .docs-hero,
+  .docs-section,
+  .docs-related {
+    inline-size: min(100%, calc(100vw - 2.5rem));
+  }
+
+  .docs-section li,
+  .docs-section p,
+  .docs-hero p:not(.eyebrow) {
+    max-inline-size: calc(100vw - 3.75rem);
+  }
+
+  .docs-related {
+    position: static;
   }
 }

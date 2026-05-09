@@ -72,7 +72,13 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Website.Attribution.CreatorByline` | Footer credits Alison Aquinas with required profile links | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers byline and Alison website/GitHub/LinkedIn links |
 | `Website.Attribution.InspirationLinks` | Footer links Karpathy, Obsidian, and Marksman inspiration sources | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers required descriptive inspiration links |
 | `Website.Attribution.NoConfusion` | Attribution copy avoids implying endorsement or affiliation | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer rendering includes lineage/prior-art clarification copy |
-| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts` | ✅ passing | Phase W3 | Regression guard added after BUG-026 visual smoke finding |
+| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts`, `website/tests/docs-mobile-layout.test.ts` | ✅ passing | Phase W3, Phase W4 | Regression guards added after BUG-026 homepage and BUG-027 docs visual smoke findings |
+| `Website.VSCodeExtension.MarketplaceLink` | VS Code extension install path links to the Visual Studio Marketplace | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Quickstart and extension docs both expose the Marketplace path |
+| `Website.VSCodeExtension.InstallInstructions` | Extension docs explain install, activation, vault open, and verification | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Coverage requires prerequisites, OFMarkdown activation, first workflow, and troubleshooting |
+| `Website.VSCodeExtension.ExtensionServerDistinction` | Public docs distinguish VS Code extension behavior from bundled language-server behavior | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Extension page explains packaging, activation ownership, and server delegation |
+| `Website.LLMWiki.PageShape` | Concept pages are compact, linked, focused, and example-driven | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator checks question, answer length, examples, and related links |
+| `Website.LLMWiki.Terminology` | Public concept content preserves stable Flavor Grenade, OFM, and Obsidian Vault vocabulary | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept records avoid deprecated or internal planning terminology |
+| `Website.LLMWiki.PublicPrivateSeparation` | Public website docs avoid internal planning artifacts and ticket language | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator rejects internal phase/ticket wording |
 
 ---
 
@@ -381,7 +387,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase W1 (Website Foundation) | 2 | 2 | 100% |
 | Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
 | Phase W3 (Homepage And Design System) | 10 | 10 | 100% |
-| **Total** | **156** | **75** | **48%** |
+| Phase W4 (Documentation Pages And LLM Wiki) | 6 | 6 | 100% |
+| **Total** | **162** | **81** | **50%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

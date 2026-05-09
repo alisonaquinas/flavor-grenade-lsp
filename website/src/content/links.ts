@@ -16,6 +16,7 @@ export type PublicLink =
 /** Outbound hosts approved for public website content and attribution links. */
 export const approvedOutboundHosts = [
   'github.com',
+  'gist.github.com',
   'karpathy.ai',
   'marketplace.visualstudio.com',
   'obsidian.md',

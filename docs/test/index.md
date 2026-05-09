@@ -110,6 +110,10 @@ and website-specific source layout rules.
 | `website/tests/homepage.test.ts` | Unit | Verifies homepage first-viewport content, product proof, feature highlights, and accessible product asset placements | `Website.Homepage.FirstViewport`, `Website.BrandAssets.LogoUse`, `Website.BrandAssets.AccessibleText` | Phase W3 | ✅ implemented |
 | `website/tests/footer.test.ts` | Unit | Verifies footer byline, Alison profile links, project links, and required inspiration attribution links | `Website.Attribution.CreatorByline`, `Website.Attribution.InspirationLinks`, `Website.Attribution.NoConfusion` | Phase W3 | ✅ implemented |
 | `website/tests/mobile-layout.test.ts` | Unit | Verifies mobile homepage CSS includes overflow, wrapping, and shrink guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W3 | ✅ implemented |
+| `website/tests/docs-mobile-layout.test.ts` | Unit | Verifies docs-page CSS includes max-inline-size, hyphenation, and wrapping guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W4 | ✅ implemented |
+| `website/tests/quickstart-docs.test.ts` | Unit | Verifies quickstart and VS Code extension docs cover prerequisites, Marketplace install, activation, verification, first workflow, and troubleshooting | `Website.VSCodeExtension.MarketplaceLink`, `Website.VSCodeExtension.InstallInstructions`, `Website.VSCodeExtension.ExtensionServerDistinction` | Phase W4 | ✅ implemented |
+| `website/tests/howto-faq-docs.test.ts` | Unit | Verifies how-to workflow groups, task-page shape, advanced usage boundaries, and FAQ question coverage | `Website.Pages.RequiredSet`, `Website.Metadata.PageBasics` | Phase W4 | ✅ implemented |
+| `website/tests/concept-wiki.test.ts` | Unit | Verifies compact, linked, public, example-driven concept wiki records and required inspiration attribution | `Website.LLMWiki.PageShape`, `Website.LLMWiki.Terminology`, `Website.LLMWiki.PublicPrivateSeparation` | Phase W4 | ✅ implemented |
 
 ---
 
