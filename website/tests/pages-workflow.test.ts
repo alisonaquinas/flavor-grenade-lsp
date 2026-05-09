@@ -14,7 +14,10 @@ describe('GitHub Pages deployment workflow', () => {
     );
 
     expect(workflow).toContain("tags:");
-    expect(workflow).toContain("'v[0-9]+.[0-9]+.[0-9]+'");
+    expect(workflow).toContain("'v*.*.*'");
+    expect(workflow).toContain('Validate website release tag');
+    expect(workflow).toContain('^v[0-9]+\\.[0-9]+\\.[0-9]+');
+    expect(workflow).toContain('Invalid website release tag');
     expect(workflow).toContain('git merge-base --is-ancestor "$GITHUB_SHA" origin/main');
     expect(workflow).toContain('actions/configure-pages');
     expect(workflow).toContain('actions/upload-pages-artifact');
