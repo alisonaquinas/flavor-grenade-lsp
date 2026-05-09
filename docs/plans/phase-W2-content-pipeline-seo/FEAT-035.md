@@ -57,7 +57,7 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-217]] | Define typed route and metadata model | `open` |
+| [[TASK-217]] | Define typed route and metadata model | `red` |
 | [[TASK-218]] | Build content transform and link model | `open` |
 | [[TASK-219]] | Generate SEO files and validation tests | `open` |
 | [[CHORE-088]] | Phase W2 content pipeline verification sweep | `open` |
@@ -73,3 +73,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Started · 2026-05-09
 > Phase W2 started after W1 completed in PR #51. Status: `in-progress`.
+
+> [!INFO] TASK-217 red · 2026-05-09
+> TASK-217 entered `red` with a failing route metadata test.

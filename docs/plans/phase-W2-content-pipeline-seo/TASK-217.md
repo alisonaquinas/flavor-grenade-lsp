@@ -2,7 +2,7 @@
 id: "TASK-217"
 title: "Define typed route and metadata model"
 type: task
-status: open
+status: red
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-217"]
 
 # Define Typed Route And Metadata Model
 
-> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `open`
+> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `red`
 
 ## Description
 
@@ -59,3 +59,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Route metadata file paths, exported API shape, and RED test target were
 > recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/routes.test.ts`, which expects the route metadata module
+> before it exists. Status: `red`.
