@@ -1,7 +1,7 @@
 ---
 title: "Phase W1: Website Foundation And Toolchain"
 phase: W1
-status: planned
+status: complete
 tags: [plans, website, scaffold, toolchain]
 aliases: [Phase W1, Website Foundation]
 updated: 2026-05-09
@@ -13,9 +13,9 @@ updated: 2026-05-09
 |---|---|
 | Phase | W1 |
 | Title | Website Foundation And Toolchain |
-| Status | planned |
+| Status | complete |
 | Gate | Website dev, typecheck, lint, test, and build scripts pass from `website/` |
-| Depends on | Phase 18, Phase E14 |
+| Depends on | Phase E14 |
 
 ## Objective
 
@@ -93,3 +93,19 @@ bun run lint:docs
 
 - [[../website/docs/requirements/technical/index]]
 - [[../website/docs/architecture/index]]
+
+## Workflow Log
+
+> [!INFO] Started · 2026-05-09
+> Phase W1 began on `feature/phase-w1-website-foundation`. During Step A, the
+> Phase 18 dependency was removed because this website scaffold does not modify
+> LSP security behavior and Phase 18 remains an independent server-track audit.
+
+> [!SUCCESS] Local gate evidence · 2026-05-09
+> `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` pass from
+> `website/`. Repository docs lint, root lint/typecheck/unit tests, audits, and
+> BDD `@smoke` also pass locally. Phase remains `in-progress` in the execution
+> ledger until PR CI confirms the gate.
+
+> [!CHECK] Complete · 2026-05-09
+> PR #51 CI passed. Phase W1 is marked complete in the execution ledger.

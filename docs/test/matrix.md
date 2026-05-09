@@ -53,6 +53,15 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 ---
 
+## Website Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `Website.Technical.Stack` | Website uses Vite, Svelte, strict TypeScript, SCSS, and static build scripts | `website/tests/app-shell.test.ts`, `website/tests/tooling.test.ts` | ✅ passing | Phase W1 | W1 covers the starter app shell and package-script/tooling contract; later phases add route, SEO, and content tests |
+| `Website.Technical.SourceLayout` | Website implementation source lives under `website/src` and tests live under `website/tests` | `website/tests/tooling.test.ts`, `website/tests/layout.test.ts` | ✅ passing | Phase W1 | Layout guard ignores generated output and docs while blocking implementation-like drift |
+
+---
+
 ## Development Process Requirements
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
