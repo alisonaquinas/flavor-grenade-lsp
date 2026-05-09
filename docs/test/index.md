@@ -9,10 +9,13 @@ aliases:
 
 # Test Index
 
-This file is the authoritative inventory of all test files in the `tests/` directory. It is organized by test type and maps each file to its description, the Planguage requirement tags it exercises, and the phase in which it was introduced.
+This file is the authoritative inventory of repository, extension, and website
+test files. It is organized by test type and maps each file to its description,
+the Planguage requirement tags it exercises, and the phase in which it was
+introduced.
 
 > [!NOTE] Maintenance
-> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added to `tests/`. Always commit index updates in the same commit as the test file that triggered them.
+> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
 > For the full requirements × tests × work-performed traceability matrix, see [[test/matrix]].
@@ -86,6 +89,34 @@ multiple modules or against a real filesystem fixture.
 | `src/test/integration/rename.test.ts` | Integration | Tests prepare-rename and rename behavior through a spawned LSP server | `Rename.Refactoring.Completeness`, `Rename.Prepare.Rejection` | Phase 11 |
 | `src/test/integration/wiki-links.test.ts` | Integration | Tests wiki-link diagnostics, definition, and completion through a spawned LSP server | `Diagnostic.Severity.WikiLink`, `Navigation.Definition.AllLinkTypes`, `Completion.Trigger.Coverage` | Phase 5 |
 | `src/test/integration/structural-lsp.test.ts` | Integration | Tests document links, folding ranges, and selection ranges through a spawned LSP server | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges`, `ST-002` | Phase 17 |
+
+---
+
+## Website Tests
+
+Website tests live under `website/tests/` and run from the website package with
+`npm test`. They cover the static-site toolchain, local quality gate contracts,
+and website-specific source layout rules.
+
+| Test File | Type | Description | Requirements Tags | Phase | Status |
+|---|---|---|---|---|---|
+| `website/tests/app-shell.test.ts` | Unit | Verifies the starter website shell exposes a stable app summary for the Vite/Svelte/TypeScript/SCSS scaffold | `Website.Technical.Stack` | Phase W1 | ✅ implemented |
+| `website/tests/tooling.test.ts` | Unit | Verifies website package scripts and required local tooling config exist for lint, typecheck, test, build, preview, and development | `Website.Technical.Stack`, `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
+| `website/tests/layout.test.ts` | Unit | Verifies implementation-like website source remains under `website/src` and tests remain under `website/tests` | `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
+| `website/tests/routes.test.ts` | Unit | Verifies required public routes have typed IDs, unique paths, SEO basics, canonical URLs, and related route links | `Website.Pages.RequiredSet`, `Website.Metadata.PageBasics` | Phase W2 | ✅ implemented |
+| `website/tests/content-links.test.ts` | Unit | Verifies typed public content records cover every route and that route/outbound links validate against known routes and approved hosts | `Website.Pages.RequiredSet` | Phase W2 | ✅ implemented |
+| `website/tests/seo-files.test.ts` | Unit | Verifies maintained sitemap and robots files match typed route metadata and that homepage metadata plus JSON-LD skeletons exist | `Website.Metadata.PageBasics`, `Website.StructuredData.RequiredTypes`, `Website.Indexing.SitemapRobots` | Phase W2 | ✅ implemented |
+| `website/tests/shell-theme.test.ts` | Unit | Verifies required primary navigation labels plus system, light, and dark theme mode persistence helpers | `Website.Theme.ModeSelection`, `Website.Theme.SystemDefault`, `Website.Theme.Persistence` | Phase W3 | ✅ implemented |
+| `website/tests/homepage.test.ts` | Unit | Verifies homepage first-viewport content, product proof, feature highlights, and accessible product asset placements | `Website.Homepage.FirstViewport`, `Website.BrandAssets.LogoUse`, `Website.BrandAssets.AccessibleText` | Phase W3 | ✅ implemented |
+| `website/tests/footer.test.ts` | Unit | Verifies footer byline, Alison profile links, project links, and required inspiration attribution links | `Website.Attribution.CreatorByline`, `Website.Attribution.InspirationLinks`, `Website.Attribution.NoConfusion` | Phase W3 | ✅ implemented |
+| `website/tests/mobile-layout.test.ts` | Unit | Verifies mobile homepage CSS includes overflow, wrapping, and shrink guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W3 | ✅ implemented |
+| `website/tests/docs-mobile-layout.test.ts` | Unit | Verifies docs-page CSS includes max-inline-size, hyphenation, and wrapping guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W4 | ✅ implemented |
+| `website/tests/quickstart-docs.test.ts` | Unit | Verifies quickstart and VS Code extension docs cover prerequisites, Marketplace install, activation, verification, first workflow, and troubleshooting | `Website.VSCodeExtension.MarketplaceLink`, `Website.VSCodeExtension.InstallInstructions`, `Website.VSCodeExtension.ExtensionServerDistinction` | Phase W4 | ✅ implemented |
+| `website/tests/howto-faq-docs.test.ts` | Unit | Verifies how-to workflow groups, task-page shape, advanced usage boundaries, and FAQ question coverage | `Website.Pages.RequiredSet`, `Website.Metadata.PageBasics` | Phase W4 | ✅ implemented |
+| `website/tests/concept-wiki.test.ts` | Unit | Verifies compact, linked, public, example-driven concept wiki records and required inspiration attribution | `Website.LLMWiki.PageShape`, `Website.LLMWiki.Terminology`, `Website.LLMWiki.PublicPrivateSeparation` | Phase W4 | ✅ implemented |
+| `website/tests/ci-workflow.test.ts` | Unit | Verifies repository CI runs website install, lint, typecheck, tests, build, and build-artifact upload | `Website.CICD.PRGate` | Phase W5 | ✅ implemented |
+| `website/tests/pages-workflow.test.ts` | Unit | Verifies website Pages deployment is tag triggered, guarded by main ancestry, permission scoped, and environment protected | `Website.CICD.PagesDeployment` | Phase W5 | ✅ implemented |
+| `website/tests/release-evidence.test.ts` | Unit | Verifies website release workflow preserves evidence, distinguishes test and production tags, smoke-checks production output, and records changelog coverage | `Website.CICD.ReleaseEvidence` | Phase W5 | ✅ implemented |
 
 ---
 

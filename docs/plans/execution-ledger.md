@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-05-08
+updated: 2026-05-09
 ---
 
 # Execution Ledger
@@ -49,6 +49,12 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
+| W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |
+| W2    | Content Pipeline And SEO Skeleton | ✅ complete | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | 2026-05-09 | PR #52 CI green |
+| W3    | Homepage And Design System | ✅ complete | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | 2026-05-09 | PR #53 CI green |
+| W4    | Documentation Pages And LLM Wiki | ✅ complete | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | 2026-05-09 | PR #54 CI green |
+| W5    | Website CI And Pages Release | 🔄 in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | 2026-05-09 | — |
+| W6    | Website Review Polish | 🔄 in-progress | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | Second-round local gate green; PR intentionally not opened |
 
 ---
 
@@ -164,6 +170,17 @@ Extension phases are independent of the server phases (0–17). Phase R
 (Publishing Research) is the entry point. Phase E7-E14 are the Marksman VSCode
 feature-parity continuation phases for OFMarkdown-specific client behavior.
 
+```text
+Website Phases:
+
+Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5 ──► Phase W6
+```
+
+Website phases use `W`-prefixed numbering to distinguish them from server and
+extension implementation tracks. Phase W1 depends on the completed extension
+baseline because the public website documents both the LSP server and VS Code
+extension.
+
 ---
 
 ## Notes
@@ -172,3 +189,6 @@ feature-parity continuation phases for OFMarkdown-specific client behavior.
 - Phases 1–13 all require CI to be configured (Phase 13 bootstraps CI itself; phases 1–12 use a local gate script in the interim).
 - If CI is not yet running, use `bun run gate:N` scripts defined in `package.json` as interim gates.
 - Extension phases use `E`-prefixed numbering (E1–E14) to distinguish from server phases (0–17). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).
+- Website phases use `W`-prefixed numbering (W1–W6). Their gates are verified
+  with website-local npm scripts, repository docs lint, and GitHub Actions
+  evidence once CI is wired.

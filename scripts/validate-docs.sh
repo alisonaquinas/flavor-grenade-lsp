@@ -7,7 +7,7 @@
 # Usage: ./scripts/validate-docs.sh
 #
 # Linters run:
-#   1. markdownlint-obsidian — docs/ (enforces Obsidian-specific Markdown rules)
+#   1. markdownlint-obsidian — docs/ and website/docs/ (OFM-aware rules)
 #   2. markdownlint-cli2     — all other .md files (root, .github/, scripts/)
 #
 # Exit code: 0 if both linters pass, 1 if either fails.
@@ -36,10 +36,10 @@ PASS="${GREEN}PASS${RESET}"
 FAIL="${RED}FAIL${RESET}"
 
 # ---------------------------------------------------------------------------
-# 1. markdownlint-obsidian — docs/
+# 1. markdownlint-obsidian — OFM docs roots
 # ---------------------------------------------------------------------------
 
-echo "${BOLD}==> markdownlint-obsidian (docs/)${RESET}"
+echo "${BOLD}==> markdownlint-obsidian (OFM docs)${RESET}"
 set +e
 bun run lint:docs
 OBSIDIAN_RESULT=$?
@@ -52,7 +52,7 @@ echo ""
 
 echo "${BOLD}==> markdownlint-cli2 (other .md files)${RESET}"
 set +e
-bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
+bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
 CLI2_RESULT=$?
 set -e
 echo ""
@@ -68,9 +68,9 @@ echo "${BOLD}━━━━━━━━━━━━━━━━━━━━━━�
 OVERALL=0
 
 if [[ "$OBSIDIAN_RESULT" -eq 0 ]]; then
-  echo "  $PASS  markdownlint-obsidian (docs/)"
+  echo "  $PASS  markdownlint-obsidian (OFM docs)"
 else
-  echo "  $FAIL  markdownlint-obsidian (docs/)"
+  echo "  $FAIL  markdownlint-obsidian (OFM docs)"
   OVERALL=1
 fi
 

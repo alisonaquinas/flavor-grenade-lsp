@@ -53,6 +53,38 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 ---
 
+## Website Requirements
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `Website.Technical.Stack` | Website uses Vite, Svelte, strict TypeScript, SCSS, and static build scripts | `website/tests/app-shell.test.ts`, `website/tests/tooling.test.ts` | ✅ passing | Phase W1 | W1 covers the starter app shell and package-script/tooling contract; later phases add route, SEO, and content tests |
+| `Website.Technical.SourceLayout` | Website implementation source lives under `website/src` and tests live under `website/tests` | `website/tests/tooling.test.ts`, `website/tests/layout.test.ts` | ✅ passing | Phase W1 | Layout guard ignores generated output and docs while blocking implementation-like drift |
+| `Website.Pages.RequiredSet` | Required public page categories are represented by generated routes and content records | `website/tests/routes.test.ts`, `website/tests/content-links.test.ts` | ✅ passing | Phase W2 | W2 provides typed route/content records; later phases render richer page bodies |
+| `Website.Metadata.PageBasics` | Public pages have H1, title, description, and canonical URL metadata | `website/tests/routes.test.ts`, `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Route metadata validation covers every route and homepage social metadata |
+| `Website.StructuredData.RequiredTypes` | Required JSON-LD schema types are emitted for appropriate page intent | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Skeleton coverage includes WebSite, SoftwareApplication, FAQPage, HowTo, and BreadcrumbList |
+| `Website.Indexing.SitemapRobots` | Crawl files exist and list intended public routes | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Maintained static files are checked against generated sitemap and robots output |
+| `Website.Theme.ModeSelection` | Theme control exposes system, light, and dark modes | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Unit coverage verifies the supported modes and resolver behavior |
+| `Website.Theme.SystemDefault` | First-time visitors default to system preference | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Theme helper defaults to `system` with no stored preference |
+| `Website.Theme.Persistence` | Manual light and dark choices persist across reloads | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Storage helper persists manual choices and clears system override |
+| `Website.Homepage.FirstViewport` | Homepage communicates product, category, value, and actions immediately | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Content model verifies H1, category, CTAs, and product proof |
+| `Website.BrandAssets.LogoUse` | Existing Flavor Grenade assets are used in required placements | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Header, hero, and social asset placements are modeled and rendered |
+| `Website.BrandAssets.AccessibleText` | Product images and proof media have useful accessible text | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Asset placement data requires descriptive alt text |
+| `Website.Attribution.CreatorByline` | Footer credits Alison Aquinas with required profile links | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers byline and Alison website/GitHub/LinkedIn links |
+| `Website.Attribution.InspirationLinks` | Footer links Karpathy, Obsidian, and Marksman inspiration sources | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers required descriptive inspiration links |
+| `Website.Attribution.NoConfusion` | Attribution copy avoids implying endorsement or affiliation | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer rendering includes lineage/prior-art clarification copy |
+| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts`, `website/tests/docs-mobile-layout.test.ts` | ✅ passing | Phase W3, Phase W4 | Regression guards added after BUG-026 homepage and BUG-027 docs visual smoke findings |
+| `Website.VSCodeExtension.MarketplaceLink` | VS Code extension install path links to the Visual Studio Marketplace | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Quickstart and extension docs both expose the Marketplace path |
+| `Website.VSCodeExtension.InstallInstructions` | Extension docs explain install, activation, vault open, and verification | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Coverage requires prerequisites, OFMarkdown activation, first workflow, and troubleshooting |
+| `Website.VSCodeExtension.ExtensionServerDistinction` | Public docs distinguish VS Code extension behavior from bundled language-server behavior | `website/tests/quickstart-docs.test.ts` | ✅ passing | Phase W4 | Extension page explains packaging, activation ownership, and server delegation |
+| `Website.LLMWiki.PageShape` | Concept pages are compact, linked, focused, and example-driven | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator checks question, answer length, examples, and related links |
+| `Website.LLMWiki.Terminology` | Public concept content preserves stable Flavor Grenade, OFM, and Obsidian Vault vocabulary | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept records avoid deprecated or internal planning terminology |
+| `Website.LLMWiki.PublicPrivateSeparation` | Public website docs avoid internal planning artifacts and ticket language | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator rejects internal phase/ticket wording |
+| `Website.CICD.PRGate` | Repository CI runs website install, lint, typecheck, tests, build, and artifact upload for PR and branch gates | `website/tests/ci-workflow.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies the `website-checks` job and `website-dist` artifact contract |
+| `Website.CICD.PagesDeployment` | Website Pages deployment is tag triggered, main-branch guarded, minimally permissioned, and environment protected | `website/tests/pages-workflow.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies tag trigger, `git merge-base` guard, official Pages actions, permissions, environment, and concurrency |
+| `Website.CICD.ReleaseEvidence` | Website release workflow preserves evidence, distinguishes test and production tags, and smoke-checks release output | `website/tests/release-evidence.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies test-tag dry runs, `website-release-evidence`, homepage/quickstart/sitemap/robots/Marketplace smoke terms, and changelog coverage |
+
+---
+
 ## Development Process Requirements
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
@@ -355,7 +387,12 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E12 (Editor Contributions) | 1 | 1 | 100% |
 | Phase E13 (Workspace Environments) | 2 | 2 | 100% |
 | Phase E14 (Membership And Compatibility) | 2 | 2 | 100% |
-| **Total** | **140** | **59** | **42%** |
+| Phase W1 (Website Foundation) | 2 | 2 | 100% |
+| Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
+| Phase W3 (Homepage And Design System) | 10 | 10 | 100% |
+| Phase W4 (Documentation Pages And LLM Wiki) | 6 | 6 | 100% |
+| Phase W5 (Website CI And Pages Release) | 3 | 3 | 100% |
+| **Total** | **165** | **84** | **51%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

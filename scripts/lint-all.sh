@@ -7,7 +7,7 @@
 #   1. TypeScript typecheck       (bun run typecheck)
 #   2. ESLint                     (bun run lint, --max-warnings 0 enforced by script)
 #   3. Prettier format check      (bun run format:check)
-#   4. markdownlint-obsidian      (docs/ only)
+#   4. markdownlint-obsidian      (docs/ and website/docs/)
 #   5. markdownlint-cli2          (all other .md files)
 #
 # Exit code: 0 if all linters pass, 1 if any linter fails.
@@ -76,10 +76,10 @@ run_linter "ESLint (zero warnings)" bun run lint
 run_linter "Prettier format check" bun run format:check
 
 # ---------------------------------------------------------------------------
-# 4. markdownlint-obsidian — docs/ only
+# 4. markdownlint-obsidian — OFM docs roots
 # ---------------------------------------------------------------------------
 
-run_linter "markdownlint-obsidian (docs/)" \
+run_linter "markdownlint-obsidian (OFM docs)" \
   bun run lint:docs
 
 # ---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ run_linter "markdownlint-obsidian (docs/)" \
 # ---------------------------------------------------------------------------
 
 run_linter "markdownlint-cli2 (other .md files)" \
-  bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
+  bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
 
 # ---------------------------------------------------------------------------
 # Summary
@@ -103,7 +103,7 @@ for name in \
   "TypeScript typecheck" \
   "ESLint (zero warnings)" \
   "Prettier format check" \
-  "markdownlint-obsidian (docs/)" \
+  "markdownlint-obsidian (OFM docs)" \
   "markdownlint-cli2 (other .md files)"; do
 
   code="${RESULTS[$name]}"
