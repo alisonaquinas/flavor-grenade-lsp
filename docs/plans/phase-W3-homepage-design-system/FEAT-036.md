@@ -60,7 +60,7 @@ dark mode, and system theme mode.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-220]] | Implement responsive app shell and theme modes | `open` |
+| [[TASK-220]] | Implement responsive app shell and theme modes | `red` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | `open` |
 | [[TASK-222]] | Implement footer byline and attribution links | `open` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `open` |
@@ -76,3 +76,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Started · 2026-05-09
 > Phase W3 started after W2 completed in PR #52. Status: `in-progress`.
+
+> [!INFO] TASK-220 red · 2026-05-09
+> TASK-220 entered `red` with a failing shell navigation and theme test.

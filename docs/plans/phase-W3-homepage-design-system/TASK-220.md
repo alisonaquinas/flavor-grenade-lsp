@@ -2,7 +2,7 @@
 id: "TASK-220"
 title: "Implement responsive app shell and theme modes"
 type: task
-status: open
+status: red
 priority: high
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-220"]
 
 # Implement Responsive App Shell And Theme Modes
 
-> [!INFO] `TASK-220` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `open`
+> [!INFO] `TASK-220` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
 
 ## Description
 
@@ -63,3 +63,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Shell, navigation, theme module paths, exported API shape, and RED test target
 > were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/shell-theme.test.ts`, which expects shell navigation and
+> theme modules before they exist. Status: `red`.
