@@ -1,7 +1,10 @@
+import type { IconName } from './icons';
+
 /** Public footer link. */
 export interface FooterLink {
   label: string;
   href: string;
+  icon?: IconName;
 }
 
 /** Creator byline shown in the global footer. */
@@ -9,9 +12,9 @@ export const footerByline = 'Vibe-coded by: Alison Aquinas';
 
 /** Alison Aquinas public profile links. */
 export const profileLinks: readonly FooterLink[] = [
-  { label: 'Alison Aquinas website', href: 'https://www.alisonaquinas.com/' },
-  { label: 'Alison Aquinas on GitHub', href: 'https://github.com/alisonaquinas' },
-  { label: 'Alison Aquinas on LinkedIn', href: 'https://www.linkedin.com/in/alisonaquinas' },
+  { label: 'Alison Aquinas website', href: 'https://www.alisonaquinas.com/', icon: 'globe' },
+  { label: 'Alison Aquinas on GitHub', href: 'https://github.com/alisonaquinas', icon: 'github' },
+  { label: 'Alison Aquinas on LinkedIn', href: 'https://www.linkedin.com/in/alisonaquinas', icon: 'linkedin' },
 ];
 
 /** Project destination links. */
@@ -19,10 +22,12 @@ export const projectLinks: readonly FooterLink[] = [
   {
     label: 'Flavor Grenade LSP GitHub repository',
     href: 'https://github.com/alisonaquinas/flavor-grenade-lsp',
+    icon: 'github',
   },
   {
     label: 'Flavor Grenade LSP on the Visual Studio Marketplace',
     href: 'https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp',
+    icon: 'store',
   },
 ];
 

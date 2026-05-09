@@ -1,10 +1,12 @@
 import { getRouteById } from '../content/routes';
+import type { IconName } from '../shell/icons';
 
 /** Homepage call to action. */
 export interface HomepageAction {
   label: string;
   href: string;
   kind: 'primary' | 'secondary' | 'tertiary';
+  icon: IconName;
 }
 
 /** Homepage first-viewport content. */
@@ -43,16 +45,18 @@ export const homepageHero: HomepageHero = {
   value:
     'Keep Obsidian Vault links, headings, embeds, tags, and rename workflows sharp enough for humans and LLM maintainers.',
   actions: [
-    { label: 'Quickstart', href: getRouteById('quickstart').path, kind: 'primary' },
+    { label: 'Quickstart', href: getRouteById('quickstart').path, kind: 'primary', icon: 'book-open' },
     {
       label: 'Visual Studio Marketplace',
       href: 'https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp',
       kind: 'secondary',
+      icon: 'store',
     },
     {
       label: 'GitHub',
       href: 'https://github.com/alisonaquinas/flavor-grenade-lsp',
       kind: 'tertiary',
+      icon: 'github',
     },
   ],
 };
@@ -97,17 +101,22 @@ export const featureHighlights: readonly FeatureHighlight[] = [
 export const homepageAssetPlacements: readonly HomepageAssetPlacement[] = [
   {
     placement: 'header',
-    source: 'docs/assets/flavor-grenade-lsp-icon-light-transparent.png',
+    source: '/assets/flavor-grenade-lsp-icon.png',
     alt: 'Flavor Grenade LSP product icon',
   },
   {
     placement: 'hero',
-    source: 'extension/images/marketplace/wiki-link-completion.png',
+    source: '/assets/wiki-link-completion.png',
     alt: 'VS Code showing Flavor Grenade wiki-link completion in an Obsidian Vault',
   },
   {
+    placement: 'footer',
+    source: '/assets/flavor-grenade-lsp-icon.png',
+    alt: 'Flavor Grenade LSP product icon',
+  },
+  {
     placement: 'social',
-    source: 'docs/assets/flavor-grenade-lsp-logo-light.png',
+    source: '/assets/flavor-grenade-lsp-icon.png',
     alt: 'Flavor Grenade LSP logo for social previews',
   },
 ];
@@ -138,7 +147,7 @@ export function validateHomepageContent(): string[] {
     messages.push('Homepage needs at least four feature highlights.');
   }
 
-  for (const placement of ['header', 'hero'] as const) {
+  for (const placement of ['header', 'hero', 'footer'] as const) {
     if (!homepageAssetPlacements.some((asset) => asset.placement === placement && asset.alt)) {
       messages.push(`Homepage is missing accessible ${placement} asset placement.`);
     }

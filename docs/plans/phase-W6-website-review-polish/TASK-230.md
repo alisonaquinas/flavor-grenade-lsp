@@ -2,7 +2,7 @@
 id: "TASK-230"
 title: "Replace segmented theme control with compact icon toggle"
 type: task
-status: red
+status: green
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-230"]
 
 # Replace Segmented Theme Control With Compact Icon Toggle
 
-> [!INFO] `TASK-230` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-230` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -67,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added theme-cycle coverage requiring a compact single-control flow for
 > system, light, and dark modes.
+
+> [!SUCCESS] Green · 2026-05-09
+> Replaced the segmented mode picker with one accessible icon button that cycles
+> system, light, and dark while preserving storage behavior.

@@ -81,11 +81,21 @@ button {
   border-bottom: 1px solid var(--line);
   display: grid;
   gap: 1rem;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   padding: 0.9rem clamp(1rem, 4vw, 3rem);
   position: sticky;
   top: 0;
   z-index: 5;
+}
+
+.visually-hidden {
+  block-size: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
 }
 
 .brand-mark {
@@ -139,26 +149,45 @@ button {
   outline: 2px solid transparent;
 }
 
-.theme-control {
+.nav-toggle,
+.theme-toggle {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--surface-raised);
   border: 1px solid var(--line);
   border-radius: 8px;
-  display: inline-flex;
-  overflow: hidden;
-}
-
-.theme-control button {
-  background: var(--surface-raised);
-  border: 0;
   color: var(--muted);
   cursor: pointer;
-  min-width: 4.2rem;
-  padding: 0.45rem 0.65rem;
-  text-transform: capitalize;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+  width: 2.65rem;
 }
 
-.theme-control button.active {
-  background: var(--ink-strong);
-  color: var(--surface);
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle svg,
+.theme-toggle svg,
+.button-icon svg,
+.link-icon svg {
+  block-size: 1.05rem;
+  fill: none;
+  inline-size: 1.05rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.nav-toggle:focus-visible,
+.nav-toggle:hover,
+.theme-toggle:focus-visible,
+.theme-toggle:hover {
+  background: var(--brand-100);
+  color: var(--ink-strong);
+  outline: 2px solid transparent;
 }
 
 .site-main {
@@ -219,13 +248,24 @@ p {
 }
 
 .button-link {
+  align-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
+  display: inline-flex;
   font-weight: 700;
+  gap: 0.5rem;
+  justify-content: center;
   max-width: 100%;
   overflow-wrap: anywhere;
   padding: 0.75rem 0.95rem;
   text-decoration: none;
+}
+
+.button-icon,
+.link-icon {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
 }
 
 .button-link.primary {
@@ -465,9 +505,10 @@ p {
 }
 
 .footer-brand {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: 0.85rem;
+  min-width: 0;
 }
 
 .footer-brand img {
@@ -479,6 +520,10 @@ p {
 
 .footer-brand strong {
   display: block;
+}
+
+.footer-brand-copy {
+  min-width: 0;
 }
 
 .footer-brand p,
@@ -503,18 +548,38 @@ p {
   text-underline-offset: 0.18em;
 }
 
+.footer-link {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.footer-link span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 860px) {
   .site-header {
-    align-items: stretch;
-    grid-template-columns: 1fr;
+    align-items: center;
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 
   .primary-nav {
+    border-top: 1px solid var(--line);
+    display: none;
+    grid-column: 1 / -1;
     justify-content: flex-start;
+    padding-top: 0.75rem;
   }
 
-  .theme-control {
-    width: fit-content;
+  .primary-nav.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
   }
 
   .hero-shell,
@@ -545,6 +610,11 @@ p {
   .hero-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .hero-actions .button-link {
+    inline-size: min(100%, 14rem);
+    justify-content: flex-start;
   }
 
   .docs-page {

@@ -2,7 +2,7 @@
 id: "TASK-233"
 title: "Improve footer brand spacing on mobile"
 type: task
-status: red
+status: green
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-233"]
 
 # Improve Footer Brand Spacing On Mobile
 
-> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -63,3 +63,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!FAILURE] Red test · 2026-05-09
 > Added mobile layout coverage requiring footer brand copy spacing hooks.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added footer brand copy spacing hooks and min-width constraints so mobile
+> footer text keeps readable space beside the product icon.

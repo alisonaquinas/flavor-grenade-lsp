@@ -72,12 +72,12 @@ review.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-229]] | Repair homepage and footer image rendering | `red` |
-| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `red` |
-| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `red` |
-| [[TASK-232]] | Add icon affordances to footer links | `red` |
-| [[TASK-233]] | Improve footer brand spacing on mobile | `red` |
-| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `red` |
+| [[TASK-229]] | Repair homepage and footer image rendering | `green` |
+| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `green` |
+| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `green` |
+| [[TASK-232]] | Add icon affordances to footer links | `green` |
+| [[TASK-233]] | Improve footer brand spacing on mobile | `green` |
+| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `green` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `open` |
 
 ## Lifecycle
@@ -100,3 +100,8 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!FAILURE] Red tests · 2026-05-09
 > Added regression coverage for the reviewed asset, theme, CTA, footer, spacing,
 > and narrow-navigation contracts. Child implementation tasks moved to `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-09
+> Implemented local website assets, icon affordances, compact theme toggle,
+> equal-width stacked CTAs, mobile footer spacing, and hamburger navigation.
+> Website lint, typecheck, tests, and build pass.

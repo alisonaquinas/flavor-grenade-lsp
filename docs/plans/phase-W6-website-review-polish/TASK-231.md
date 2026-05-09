@@ -2,7 +2,7 @@
 id: "TASK-231"
 title: "Add icon affordances and equal stacked widths to hero actions"
 type: task
-status: red
+status: green
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-231"]
 
 # Add Icon Affordances And Equal Stacked Widths To Hero Actions
 
-> [!INFO] `TASK-231` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-231` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -64,3 +64,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added homepage CTA coverage requiring action icons and equal stacked mobile
 > widths.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added action icon metadata and rendered icons in all hero CTAs with a shared
+> stacked width rule for narrow viewports.

@@ -5,6 +5,7 @@
   import { getRouteById, websiteRoutes } from './content/routes';
   import {
     featureHighlights,
+    homepageAssetPlacements,
     homepageHero,
     homepageProof,
   } from './home/homepage';
@@ -14,11 +15,12 @@
     profileLinks,
     projectLinks,
   } from './shell/footer';
+  import { iconLabels, iconPath, type IconName } from './shell/icons';
   import { primaryNavigation } from './shell/navigation';
   import {
+    nextThemeMode,
     readStoredTheme,
     resolveTheme,
-    themeModes,
     writeStoredTheme,
     type ThemeMode,
   } from './theme/theme';
@@ -26,17 +28,18 @@
   let themeMode: ThemeMode = 'system';
   let resolvedTheme = 'light';
   let activePath = '/';
+  let navOpen = false;
   $: activePage = getWebsitePageByPath(activePath, websiteRoutes);
   $: activeRoute = getRouteById(activePage.routeId);
   $: isHome = activePage.routeId === 'home';
-  const productIcon = new URL(
-    '../../docs/assets/flavor-grenade-lsp-icon-light-transparent.png',
-    import.meta.url,
-  ).href;
-  const proofImage = new URL(
-    '../../extension/images/marketplace/wiki-link-completion.png',
-    import.meta.url,
-  ).href;
+  $: themeIconPath = getIconPath(themeModeIcon(themeMode));
+  $: themeIconLabel = iconLabels[themeModeIcon(themeMode)];
+  const productIcon =
+    homepageAssetPlacements.find((asset) => asset.placement === 'header')?.source ??
+    '/assets/flavor-grenade-lsp-icon.png';
+  const proofImage =
+    homepageAssetPlacements.find((asset) => asset.placement === 'hero')?.source ??
+    '/assets/wiki-link-completion.png';
 
   function applyTheme(mode: ThemeMode, prefersDark: boolean): void {
     resolvedTheme = resolveTheme(mode, prefersDark);
@@ -48,6 +51,30 @@
     themeMode = mode;
     writeStoredTheme(window.localStorage, mode);
     applyTheme(mode, window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+
+  function toggleThemeMode(): void {
+    setThemeMode(nextThemeMode(themeMode));
+  }
+
+  function toggleNav(): void {
+    navOpen = !navOpen;
+  }
+
+  function closeNav(): void {
+    navOpen = false;
+  }
+
+  function themeModeIcon(mode: ThemeMode): IconName {
+    if (mode === 'system') {
+      return 'monitor';
+    }
+
+    return mode === 'light' ? 'sun' : 'moon';
+  }
+
+  function getIconPath(icon: IconName): string {
+    return iconPath(icon);
   }
 
   function routePath(routeId: string): string {
@@ -90,30 +117,49 @@
     </span>
   </a>
 
-  <nav class="primary-nav" aria-label="Primary navigation">
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-label="Toggle primary navigation"
+    aria-expanded={navOpen}
+    aria-controls="primary-navigation"
+    on:click={toggleNav}
+  >
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d={getIconPath('menu')} />
+    </svg>
+  </button>
+
+  <nav
+    id="primary-navigation"
+    class="primary-nav"
+    class:open={navOpen}
+    aria-label="Primary navigation"
+  >
     {#each primaryNavigation as item (item.label)}
       <a
         href={item.href}
         target={item.external ? '_blank' : undefined}
         rel={item.external ? 'noreferrer' : undefined}
+        on:click={closeNav}
       >
         {item.label}
       </a>
     {/each}
   </nav>
 
-  <div class="theme-control" role="group" aria-label="Theme mode">
-    {#each themeModes as mode (mode)}
-      <button
-        type="button"
-        class:active={themeMode === mode}
-        aria-pressed={themeMode === mode}
-        on:click={() => setThemeMode(mode)}
-      >
-        {mode}
-      </button>
-    {/each}
-  </div>
+  <button
+    class="theme-toggle"
+    type="button"
+    aria-label={`Theme mode: ${themeMode}. Activate to switch to ${nextThemeMode(themeMode)}.`}
+    title={`Theme: ${themeMode}`}
+    on:click={toggleThemeMode}
+  >
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d={themeIconPath} />
+    </svg>
+    <span class="visually-hidden">{themeIconLabel}</span>
+  </button>
 </header>
 
 <main id="main-content" class="site-main" aria-labelledby="site-title">
@@ -125,7 +171,14 @@
         <p class="hero-lede">{homepageHero.value}</p>
         <div class="hero-actions" aria-label="Primary actions">
           {#each homepageHero.actions as action (action.label)}
-            <a class={`button-link ${action.kind}`} href={action.href}>{action.label}</a>
+            <a class={`button-link ${action.kind}`} href={action.href}>
+              <span class="button-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d={getIconPath(action.icon)} />
+                </svg>
+              </span>
+              <span>{action.label}</span>
+            </a>
           {/each}
         </div>
       </div>
@@ -225,7 +278,7 @@
 <footer class="site-footer">
   <div class="footer-brand">
     <img src={productIcon} alt="Flavor Grenade LSP product icon" />
-    <div>
+    <div class="footer-brand-copy">
       <strong>Flavor Grenade LSP</strong>
       <p>{footerByline}</p>
     </div>
@@ -234,14 +287,32 @@
   <nav aria-label="Creator links">
     <h2>Creator</h2>
     {#each profileLinks as link (link.href)}
-      <a href={link.href}>{link.label}</a>
+      <a class="footer-link" href={link.href}>
+        {#if link.icon}
+          <span class="link-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d={getIconPath(link.icon)} />
+            </svg>
+          </span>
+        {/if}
+        <span>{link.label}</span>
+      </a>
     {/each}
   </nav>
 
   <nav aria-label="Project links">
     <h2>Project</h2>
     {#each projectLinks as link (link.href)}
-      <a href={link.href}>{link.label}</a>
+      <a class="footer-link" href={link.href}>
+        {#if link.icon}
+          <span class="link-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d={getIconPath(link.icon)} />
+            </svg>
+          </span>
+        {/if}
+        <span>{link.label}</span>
+      </a>
     {/each}
   </nav>
 

@@ -2,7 +2,7 @@
 id: "TASK-234"
 title: "Collapse narrow navigation into hamburger menu"
 type: task
-status: red
+status: green
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-234"]
 
 # Collapse Narrow Navigation Into Hamburger Menu
 
-> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -67,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added shell coverage requiring a hamburger nav control with expanded-state
 > semantics on narrow viewports.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added a mobile hamburger control with `aria-expanded` state and narrow-width
+> menu styling while preserving desktop primary navigation.

@@ -24,6 +24,13 @@ export function resolveTheme(mode: ThemeMode, prefersDark: boolean): ResolvedThe
   return mode;
 }
 
+/** Returns the next compact theme-control state. */
+export function nextThemeMode(mode: ThemeMode): ThemeMode {
+  const currentIndex = themeModes.indexOf(mode);
+
+  return themeModes[(currentIndex + 1) % themeModes.length];
+}
+
 /** Reads a persisted theme mode, defaulting to system for first-time visitors. */
 export function readStoredTheme(storage: Pick<Storage, 'getItem'>): ThemeMode {
   const stored = storage.getItem(themeStorageKey);

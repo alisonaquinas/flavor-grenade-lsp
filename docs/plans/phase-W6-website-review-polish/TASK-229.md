@@ -2,7 +2,7 @@
 id: "TASK-229"
 title: "Repair homepage and footer image rendering"
 type: task
-status: red
+status: green
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-229"]
 
 # Repair Homepage And Footer Image Rendering
 
-> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -71,3 +71,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added asset placement coverage requiring reviewed header, hero, and footer
 > images to resolve from `website/public/assets`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Copied reviewed artwork into `website/public/assets` and updated homepage and
+> shell image sources to use public static asset paths.

@@ -2,7 +2,7 @@
 id: "TASK-232"
 title: "Add icon affordances to footer links"
 type: task
-status: red
+status: green
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-232"]
 
 # Add Icon Affordances To Footer Links
 
-> [!INFO] `TASK-232` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-232` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -64,3 +64,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!FAILURE] Red test · 2026-05-09
 > Added footer link coverage requiring creator and project link icons.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added icon metadata and rendered inline icons for creator and project footer
+> links.
