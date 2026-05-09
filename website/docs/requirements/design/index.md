@@ -74,6 +74,9 @@ examples, and troubleshooting.
   illustrations, decorative glassmorphism, and endless identical card grids.
 - Treat attribution as part of the user experience. Inspiration links must be
   visible, descriptive, and integrated into the homepage, concepts, or footer.
+- Treat creator credit as part of the user experience. The footer must include
+  a compact byline similar to Alison's LLM Skills Marketplace, including
+  "Vibe-coded by: Alison Aquinas" and links to Alison's public profiles.
 - Treat product identity as part of the user experience. Existing Flavor
   Grenade logo and icon assets must appear intentionally in the header, hero,
   social preview, or footer.
@@ -290,7 +293,8 @@ Required components:
 - Inspiration / attribution link group.
 - Callout.
 - Code block.
-- Footer with GitHub, docs links, and project metadata.
+- Footer with GitHub, docs links, project metadata, creator byline, and public
+  profile links.
 - Visual Studio Marketplace link.
 
 Components must expose accessible names and keyboard states where interactive.

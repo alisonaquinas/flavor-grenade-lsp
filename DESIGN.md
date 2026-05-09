@@ -126,12 +126,17 @@ identity in the header, hero, footer, and social preview materials. Product
 screenshots from the VS Code extension should be used as real evidence where
 they help users understand the tool.
 
+The footer should echo the simple creator-credit pattern from Alison's LLM
+Skills Marketplace: project metadata, a "Vibe-coded by: Alison Aquinas" byline,
+and compact links to Alison's website, GitHub, and LinkedIn.
+
 **Key Characteristics:**
 
 - Warm technical surfaces.
 - Concrete editor evidence.
 - Short linked explanations.
 - Visible attribution for inspiration and prior art.
+- Creator byline and public profile links in the footer.
 - High standards for LLM-maintained Karpathy wiki pages.
 - Strong light and dark theme parity.
 - Mobile-friendly layouts that keep docs and commands usable.

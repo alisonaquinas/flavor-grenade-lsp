@@ -34,6 +34,9 @@ marketing page.
 - The homepage explains that the tool is OFM-aware and vault-aware.
 - The homepage includes visible inspiration links to Karpathy's LLM Wiki
   concept, Obsidian, and Marksman LSP.
+- The homepage footer includes a compact creator byline similar to Alison's LLM
+  Skills Marketplace, including "Vibe-coded by: Alison Aquinas" and links to
+  Alison's website, GitHub, and LinkedIn.
 - The homepage links to public docs pages, not internal engineering plans.
 - The homepage has one H1, a unique title, a unique description, canonical
   metadata, and social preview metadata.

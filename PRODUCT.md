@@ -51,6 +51,10 @@ link Andrej Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP as
 influences for the project's public docs, OFM model, and Markdown language
 server direction.
 
+The footer should carry a creator byline similar to Alison's LLM Skills
+Marketplace: product metadata, "Vibe-coded by: Alison Aquinas", and links to
+Alison's website, GitHub, and LinkedIn.
+
 ## Brand Personality
 
 Warm, mechanical, precise.
@@ -84,6 +88,8 @@ observable, and reversible.
   and footer.
 - Credit the lineage. Public pages should clearly acknowledge Karpathy's LLM
   Wiki concept, Obsidian, and Marksman LSP where their influence is relevant.
+- Credit the creator. The site footer should include a compact creator byline
+  that credits Alison Aquinas and links to Alison's public profiles.
 - Teach by linking. Pages should be short, named, and densely connected like an
   LLM-readable wiki.
 - Raise the floor for LLM-maintained docs. Requirements, design rules, and

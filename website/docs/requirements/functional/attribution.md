@@ -80,3 +80,53 @@ Source: [[requirements/user/faq]], `PRODUCT.md`
 Open questions:
 
 - Does the project need a formal trademark or affiliation disclaimer?
+
+## Website.Attribution.CreatorByline
+
+Tag: `Website.Attribution.CreatorByline`
+
+Gist: Credit Alison Aquinas in the website footer.
+
+Ambition: The Flavor Grenade website preserves the creator-credit pattern from
+Alison's LLM Skills Marketplace while fitting the Flavor Grenade product
+identity.
+
+Scale: Presence and quality of creator byline content in the global footer.
+
+Required footer creator-credit elements:
+
+- Project metadata such as product name or current version when available.
+- The byline text "Vibe-coded by: Alison Aquinas".
+- Link to Alison's website.
+- Link to Alison's GitHub profile or organization.
+- Link to Alison's LinkedIn profile.
+
+Meter: Inspect the production build footer on homepage and docs pages. Count a
+footer as passing when the byline is visible, the creator name is present, and
+each required public profile link is reachable with descriptive link text.
+
+Fail: The footer omits the creator byline, hides it from normal readers, or
+uses generic link text such as "link" or "profile" for the public links.
+
+Goal: The global footer includes the required creator-credit elements on all
+public website pages.
+
+Stretch: Goal level plus the footer remains compact and readable on mobile
+without pushing primary page content into awkward overflow.
+
+Wish: Stretch level plus current package or website version metadata is
+automatically populated from the release source of truth.
+
+Stakeholders: Project maintainer, website visitors, users familiar with
+Alison's LLM Skills Marketplace.
+
+Owner: Website implementation.
+
+Source: [[project-brief]], `PRODUCT.md`, `DESIGN.md`,
+[Alison's LLM Skills Marketplace](https://llm-skills.alisonaquinas.com/)
+
+Open questions:
+
+- Which GitHub and LinkedIn URLs should be canonical for the public footer?
+- Should current version come from `package.json`, extension metadata, or a
+  generated site build value?

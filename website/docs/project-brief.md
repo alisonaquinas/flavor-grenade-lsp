@@ -26,6 +26,9 @@ workflow, then get them from installation to productive use quickly.
   extension setup.
 - Properly credit and link the inspirations behind the project: Andrej
   Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
+- Include a footer byline similar to Alison's LLM Skills Marketplace:
+  "Vibe-coded by: Alison Aquinas", with links to Alison's website, GitHub, and
+  LinkedIn.
 - Optimize for search queries around Obsidian Flavored Markdown, wiki-links,
   Markdown language servers, VS Code Obsidian extensions, diagnostics,
   completions, rename, references, and vault navigation.
@@ -91,6 +94,8 @@ The homepage should show the product immediately in the first viewport:
 - VS Code extension link:
   [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp).
 - Attribution links: Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
+- Footer: product metadata, creator byline, and Alison Aquinas public profile
+  links in the same spirit as the LLM Skills Marketplace footer.
 
 The page should not read like a marketing placeholder. It should be usable as
 the entry point into docs.
