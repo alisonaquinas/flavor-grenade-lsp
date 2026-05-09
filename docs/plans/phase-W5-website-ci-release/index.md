@@ -15,5 +15,5 @@ updated: 2026-05-09
 | [[TASK-226]] | Add website CI gates | Task | `in-review` |
 | [[TASK-227]] | Add tag-triggered GitHub Pages deployment | Task | `in-review` |
 | [[TASK-228]] | Add release evidence and production smoke checks | Task | `in-review` |
-| [[CHORE-091]] | Phase W5 release readiness sweep | Chore | `in-progress` |
+| [[CHORE-091]] | Phase W5 release readiness sweep | Chore | `in-review` |
 | [[BUG-028]] | Use GitHub glob-safe website release tag triggers | Bug | `in-review` |
