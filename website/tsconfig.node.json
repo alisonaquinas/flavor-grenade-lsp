@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "composite": true,
+    "incremental": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true,

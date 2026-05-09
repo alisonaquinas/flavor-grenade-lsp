@@ -2,7 +2,7 @@
 id: "TASK-214"
 title: "Scaffold Vite Svelte website app"
 type: task
-status: red
+status: green
 priority: high
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-214"]
 
 # Scaffold Vite Svelte Website App
 
-> [!INFO] `TASK-214` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `red`
+> [!INFO] `TASK-214` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
 
 ## Description
 
@@ -57,7 +57,7 @@ foundation page that proves Vite, Svelte, TypeScript, and SCSS are wired.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `website/tests/app-shell.test.ts` | Unit | `Website.Technical.Stack` | 🔴 failing |
+| `website/tests/app-shell.test.ts` | Unit | `Website.Technical.Stack` | ✅ passing |
 
 ## Definition of Done
 
@@ -84,3 +84,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/app-shell.test.ts`, which expects the initial app-shell
 > summary module before the implementation exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added the minimal Vite/Svelte/TypeScript/SCSS app shell. The scaffold smoke
+> test now passes. Status: `green`.
