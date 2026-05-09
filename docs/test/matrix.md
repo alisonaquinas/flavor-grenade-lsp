@@ -230,11 +230,11 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Parser.ReDoS` | All OFM parser regexes audited for catastrophic backtracking; super-linear patterns prohibited | — | ⬜ not-yet-written | Phase 3 | Static audit + fuzz tests; see ADR012 |
-| `Security.Parser.ParseTimeout` | Any single vault file must complete parsing within 200 ms; timeouts produce empty results | — | ⬜ not-yet-written | Phase 3 | Requires timer injection in parser; see ADR012 |
-| `Security.Parser.YAMLLimits` | YAML parsed with alias cap 50, size limit 64 KB, safe mode; parse failures are malformed frontmatter | — | ⬜ not-yet-written | Phase 3 | `js-yaml` safeLoad + maxAliases; see ADR012 |
+| `Security.Parser.ReDoS` | All OFM parser regexes audited for catastrophic backtracking; super-linear patterns prohibited | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Adversarial unmatched delimiter coverage protects Markdown-link parsing from bracket-only scans and math exclusion from display-region churn |
+| `Security.Parser.ParseTimeout` | Any single vault file must complete parsing within 200 ms; timeouts produce empty results | `src/parser/__tests__/parser-safety.test.ts` | ✅ passing | Phase 18 | Oversized documents return an empty parse result before token parsers run; adversarial in-budget fixture completes below the 200 ms requirement |
+| `Security.Parser.YAMLLimits` | YAML parsed with alias cap 50, size limit 64 KB, safe mode; parse failures are malformed frontmatter | `src/parser/__tests__/frontmatter-parser.test.ts` | ✅ passing | Phase 18 | Frontmatter parsing rejects YAML above 64 KiB or more than 50 alias references before `js-yaml` parsing |
 | `Security.Parser.EmbedDepth` | Embed resolution detects cycles and enforces max depth 10; circular embeds produce FG005 | — | ⬜ not-yet-written | Phase 3 | Visited-URI set in recursive resolver; see ADR012 |
-| `Security.Parser.VaultFileLimit` | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage` | — | ⬜ not-yet-written | Phase 3 | Count in VaultIndex.buildIndex(); see ADR012 |
+| `Security.Parser.VaultFileLimit` | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage` | `src/vault/__tests__/vault-scanner.test.ts` | ✅ passing | Phase 18 | Scanner stops at the configured file budget and sends a warning notification when the limit is reached |
 
 ---
 
@@ -243,8 +243,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Security.Vault.PathConfinement` | All file paths from vault content or LSP params canonicalized and vault-root-checked before I/O | `src/resolution/__tests__/markdown-target-classifier.test.ts`, `src/vault/__tests__/file-operation-planner.test.ts`, `src/lsp/handlers/__tests__/file-operations.handler.test.ts` | ✅ passing | Phase 16 | Phase 14 covers Markdown target traversal underflow; Phase 16 adds file-operation URI canonicalization and detected vault-root confinement |
-| `Security.Vault.SymlinkConfinement` | Out-of-vault symlinks treated as non-existent; `fs.realpath()` checked, not symlink path | — | ⬜ not-yet-written | Phase 4 | `fs.realpath()` call in `confineToVaultRoot()`; see ADR013 |
-| `Security.Vault.URISchemeAllowlist` | Only `file://` URIs accepted; non-`file://` URIs return InvalidParams (-32602) | — | ⬜ not-yet-written | Phase 2 | Transport-layer check before any resolver; see ADR013 |
+| `Security.Vault.SymlinkConfinement` | Out-of-vault symlinks treated as non-existent; `fs.realpath()` checked, not symlink path | `src/vault/__tests__/file-operation-planner.test.ts` | ✅ passing | Phase 18 | Existing paths pass both lexical and `fs.realpathSync.native()` vault-root checks before file-operation planning or scanner indexing |
+| `Security.Vault.URISchemeAllowlist` | Only `file://` URIs accepted; non-`file://` URIs return InvalidParams (-32602) | `src/lsp/handlers/__tests__/initialize.handler.test.ts`, `src/lsp/handlers/__tests__/initialized.handler.test.ts` | ✅ passing | Phase 18 | Shared file URI guard rejects non-file initialize and initialized root URIs before vault scanning or lifecycle state mutation |
 | `Security.Vault.RenameConfinement` | Rename edit targets must pass vault-root confinement; escaping URIs cancel entire rename | `src/vault/__tests__/file-operation-planner.test.ts`, `src/lsp/handlers/__tests__/file-operations.handler.test.ts` | ✅ passing | Phase 16 | Escaping old or new file-operation URI rejects the whole plan before edits or refresh |
 
 ---
@@ -255,7 +255,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 |---|---|---|---|---|---|
 | `Security.Input.PositionValidation` | All `Position`/`Range` params validated as non-negative integers within document bounds | `src/handlers/__tests__/selection-range.handler.test.ts`, `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 17 | Phase 17 rejects invalid `selectionRange` position batches with JSON-RPC InvalidParams instead of returning partial results |
 | `Security.Input.PayloadSize` | Oversized JSON-RPC headers and bodies rejected before JSON parsing | `src/transport/stdio-reader.test.ts` | ✅ passing | Phase 2 | Current caps: 8 KiB header, 16 MiB body, and combined frame buffer cap |
-| `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | — | ⬜ not-yet-written | Phase 2 | Zod schema strips dangerous keys; see ADR013 |
+| `Security.Input.PrototypePollution` | JSON-RPC bodies schema-validated before any merge; `__proto__` / `constructor.prototype` keys rejected | `src/transport/json-rpc-dispatcher.test.ts` | ✅ passing | Phase 18 | Dispatcher rejects dangerous prototype keys in request params and drops invalid notifications before handlers receive payloads |
 
 ---
 
@@ -263,10 +263,10 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `Security.Supply.ExactPinning` | Exact dependency pinning target; remaining ranges tracked as supply-chain debt | — | ⏳ planned | Phase 1 | Current manifests still contain ranges; CI range linting has not landed |
+| `Security.Supply.ExactPinning` | Exact dependency pinning target; remaining ranges tracked as supply-chain debt | `scripts/check-exact-dependencies.test.js`, `scripts/check-exact-dependencies.mjs`, `.github/workflows/ci.yml` | ✅ passing | Phase 18 | Dependency range lint checks root and extension manifests; direct dependency specifiers are exact |
 | `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--frozen-lockfile` |
 | `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--ignore-scripts` |
-| `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | — | ⬜ not-yet-written | Phase 13 | Process requirement; `docs/security/dependency-audit-log.md` |
+| `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | `docs/security/dependency-audit-log.md` | ✅ passing | Phase 18 | Phase 18 recorded root and extension advisory scans and fixed the extension transitive `fast-uri` advisory |
 | `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` remains absent from manifests, lockfiles, and source | — | ⏳ planned | Phase 1 | Package/source audit passes; ESLint guard is still planned |
 
 ---
@@ -300,7 +300,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.StatusBar.StateTransition` | Status bar text reflects known server and workspace states | `extension/src/status-bar.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Pure presentation tests cover initializing, indexing, ready, error, disabled, crashed, and misconfigured states; host test exercises the development-host status presentation hook |
 | `Extension.Status.Diagnostics` | Extension exposes useful status and failure information | `extension/src/status-bar.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/workspace-environment.test.ts`, `extension/src/test/suite/status-failure.test.js`, `extension/docs/features/workspace-environments.md` | ✅ passing | Phase E13 | Rich tooltip and diagnostic-copy tests cover extension/server versions, platform, vault counts, disabled environment states, sanitized server path summary, and troubleshooting topics |
 | `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | `extension/src/status-bar.test.ts`, `extension/src/status-actions.test.ts`, `extension/src/troubleshooting.test.ts`, `extension/src/test/suite/status-failure.test.js` | ✅ passing | Phase E10 | Quick actions cover restart, rebuild index, output, diagnostic copy, vault reveal, and troubleshooting command flow |
-| `Extension.Workspace.EnvironmentModes` | Restricted, virtual, local, and remote workspace modes have explicit startup behavior and smoke evidence | `extension/src/workspace-environment.test.ts`, `extension/docs/features/workspace-environments.md` | ✅ passing | Phase E13 | Automated classifier tests cover no-spawn and host-relative platform behavior; manual smoke ledger covers WSL, SSH, Dev Container, and local OS verification |
+| `Extension.Workspace.EnvironmentModes` | Restricted, virtual, local, and remote workspace modes have explicit startup behavior and smoke evidence | `extension/src/workspace-environment.test.ts`, `extension/src/extension-startup.test.ts`, `extension/docs/features/workspace-environments.md` | ✅ passing | Phase E13, Phase 18 | Automated classifier tests cover no-spawn and host-relative platform behavior; BUG-025 adds startup guard evidence for command-triggered server start in unsupported environments |
 | `Extension.StatusBar.RestartReset` | Status bar resets to "Starting..." on client restart | — | ⬜ not-yet-written | Phase E3 | Unit test; trigger `onDidChangeState` |
 | `Extension.Commands.Registration` | All 3 commands registered and callable via palette | — | ⬜ not-yet-written | Phase E3 | Unit test + integration test |
 | `Extension.Commands.RebuildIndex` | `rebuildIndex` sends `workspace/executeCommand` to server | — | ⬜ not-yet-written | Phase E3 | Unit test; verify `sendRequest` call shape |

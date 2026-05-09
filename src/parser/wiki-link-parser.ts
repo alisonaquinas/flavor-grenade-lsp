@@ -21,6 +21,10 @@ export class WikiLinkParser {
    */
   static parse(text: string, opaqueRegions: readonly OpaqueRegion[]): WikiLinkEntry[] {
     const entries: WikiLinkEntry[] = [];
+    if (!text.includes(']]')) {
+      return entries;
+    }
+
     const pattern = /!\[\[|(\[\[)/g;
     let match: RegExpExecArray | null;
 

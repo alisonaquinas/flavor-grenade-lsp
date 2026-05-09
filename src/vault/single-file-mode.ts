@@ -1,4 +1,5 @@
 import type { VaultDetector } from './vault-detector.js';
+import { fileUriToPath } from '../lsp/file-uri.js';
 
 /**
  * Guard utility for single-file mode detection.
@@ -25,15 +26,6 @@ export class SingleFileModeGuard {
    * @param uri - A `file://` URI string.
    */
   static uriToPath(uri: string): string {
-    try {
-      // Decode first so percent-encoded colons (%3A) become ':' before the
-      // drive-letter regex runs.  Without this, '/c%3A/...' bypasses the
-      // strip and resolves to an invalid path on Windows (C:\c:\...).
-      const decoded = decodeURIComponent(new URL(uri).pathname);
-      // On Windows: /C:/path → C:/path
-      return decoded.replace(/^\/([A-Za-z]:)/, '$1');
-    } catch {
-      return uri;
-    }
+    return fileUriToPath(uri, 'rootUri');
   }
 }

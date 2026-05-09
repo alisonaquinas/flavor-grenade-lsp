@@ -10,6 +10,7 @@ import {
 } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
 import { createCommandBridgeHandlers } from './command-bridges.js';
+import { isServerStartupBlockedError } from './server-startup-error.js';
 import { buildDiagnosticInfo, type FlavorGrenadeStatus } from './status-presentation.js';
 import { createStatusActionItems } from './status-actions.js';
 import { TROUBLESHOOTING_URL } from './troubleshooting.js';
@@ -36,6 +37,17 @@ export function registerCommands(
 ): Disposable[] {
   const getClient =
     typeof clientOrProvider === 'function' ? clientOrProvider : async () => clientOrProvider;
+  const getClientForCommand = async (commandId: string): Promise<LanguageClient | undefined> => {
+    try {
+      return await getClient(commandId);
+    } catch (error: unknown) {
+      if (isServerStartupBlockedError(error)) {
+        await window.showWarningMessage(error.message);
+        return undefined;
+      }
+      throw error;
+    }
+  };
   const bridgeHandlers = createCommandBridgeHandlers({
     createLocation: (uri, range) => new Location(uri as Uri, range as Range),
     createPosition: (line, character) => new Position(line, character),
@@ -50,18 +62,27 @@ export function registerCommands(
 
   return [
     commands.registerCommand('flavorGrenade.restartServer', async () => {
-      const client = await getClient('flavorGrenade.restartServer');
+      const client = await getClientForCommand('flavorGrenade.restartServer');
+      if (!client) {
+        return;
+      }
       await client.restart();
     }),
 
     commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
-      const client = await getClient('flavorGrenade.rebuildIndex');
+      const client = await getClientForCommand('flavorGrenade.rebuildIndex');
+      if (!client) {
+        return;
+      }
       await client.sendRequest('flavorGrenade/rebuildIndex');
       await afterRebuildIndex?.();
     }),
 
     commands.registerCommand('flavorGrenade.showOutput', async () => {
-      const client = await getClient('flavorGrenade.showOutput');
+      const client = await getClientForCommand('flavorGrenade.showOutput');
+      if (!client) {
+        return;
+      }
       client.outputChannel.show();
     }),
 

@@ -9,6 +9,7 @@ import { RefGraph } from '../../resolution/ref-graph.js';
 import { Oracle } from '../../resolution/oracle.js';
 import { EmbedResolver } from '../../resolution/embed-resolver.js';
 import { LifecycleState } from '../services/lifecycle-state.js';
+import { assertFileUri } from '../file-uri.js';
 
 /**
  * Handles the `initialized` LSP notification.
@@ -58,6 +59,7 @@ export class InitializedHandler {
       );
       return;
     }
+    assertFileUri(rootUri, 'rootUri');
 
     process.stderr.write(`[flavor-grenade-lsp] checking single-file mode...\n`);
     const isSingleFile = SingleFileModeGuard.isActive(this.vaultDetector, rootUri);

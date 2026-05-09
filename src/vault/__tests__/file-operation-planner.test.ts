@@ -1,5 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { pathToFileURL } from 'url';
+import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { FileOperationPlanner } from '../file-operation-planner.js';
 import { VaultIndex } from '../vault-index.js';
@@ -164,5 +166,40 @@ describe('FileOperationPlanner', () => {
       status: 'rejected',
       reason: 'Path escapes vault root',
     });
+  });
+
+  it('rejects symlinked source paths whose real target escapes the vault root', () => {
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-symlink-plan-'));
+    const outsideRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-symlink-outside-'));
+
+    try {
+      const outsideFile = path.join(outsideRoot, 'secret.md');
+      const linkPath = path.join(tempRoot, 'linked.md');
+      fs.writeFileSync(outsideFile, '# Secret\n');
+      try {
+        fs.symlinkSync(outsideFile, linkPath, 'file');
+      } catch {
+        return;
+      }
+
+      const vaultIndex = new VaultIndex();
+      const planner = new FileOperationPlanner(vaultIndex);
+      const plan = planner.planRenameFiles(tempRoot, {
+        files: [
+          {
+            oldUri: pathToFileURL(linkPath).toString(),
+            newUri: pathToFileURL(path.join(tempRoot, 'renamed.md')).toString(),
+          },
+        ],
+      });
+
+      expect(plan).toEqual({
+        status: 'rejected',
+        reason: 'Path escapes vault root',
+      });
+    } finally {
+      fs.rmSync(tempRoot, { recursive: true, force: true });
+      fs.rmSync(outsideRoot, { recursive: true, force: true });
+    }
   });
 });
