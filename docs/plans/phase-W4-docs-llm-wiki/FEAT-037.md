@@ -2,7 +2,7 @@
 id: "FEAT-037"
 title: "Documentation Pages And LLM Wiki"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-037"]
 
 # Documentation Pages And LLM Wiki
 
-> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -72,3 +72,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created for Phase W4 documentation pages. Status: `ready`.
+
+> [!INFO] Started · 2026-05-09
+> Phase W4 started after Phase W3 merged in PR #53 with green CI. Status:
+> `in-progress`.

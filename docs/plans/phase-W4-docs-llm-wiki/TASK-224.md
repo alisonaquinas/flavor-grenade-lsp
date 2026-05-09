@@ -22,6 +22,28 @@ aliases: ["TASK-224"]
 Author task pages, advanced usage, and FAQ content for high-intent workflows and
 questions.
 
+## Implementation Details
+
+Create and wire:
+
+- `website/src/content/pages.ts`
+- `website/src/seo/seo-files.ts`
+- `website/src/App.svelte`
+- `website/src/styles/global.scss`
+- `website/tests/howto-faq-docs.test.ts`
+
+Expected API/content shape:
+
+- `howTo` groups task pages by workflow.
+- How-to pages cover VS Code setup, vault configuration, broken links, and safe
+  rename with goal, steps, expected result, failure mode, and concept link.
+- `advancedUsage` explains configuration, indexing, parser boundaries, safety,
+  direct LSP boundaries, and current/planned behavior.
+- `faq` exposes direct question/answer sections suitable for FAQPage JSON-LD.
+
+Add RED coverage in `website/tests/howto-faq-docs.test.ts` before content
+implementation.
+
 ## Definition of Done
 
 - [ ] How-to index and initial task pages are published.
@@ -39,3 +61,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> How-to, advanced usage, FAQ source paths, content shape, and RED test target
+> were recorded before implementation.

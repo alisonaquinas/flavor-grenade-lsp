@@ -22,6 +22,26 @@ aliases: ["TASK-223"]
 Author public quickstart and VS Code extension setup pages that get users from
 install to first verified OFMarkdown workflow.
 
+## Implementation Details
+
+Create and wire:
+
+- `website/src/content/pages.ts`
+- `website/src/App.svelte`
+- `website/src/styles/global.scss`
+- `website/tests/quickstart-docs.test.ts`
+
+Expected API/content shape:
+
+- `websitePages` has detailed `quickstart` and `howToVsCodeExtension` records.
+- `quickstart` covers prerequisites, Marketplace install, Obsidian Vault open,
+  OFMarkdown activation, first workflow verification, and troubleshooting.
+- `howToVsCodeExtension` covers install, activation, vault open, verification,
+  and the extension/server distinction.
+
+Add RED coverage in `website/tests/quickstart-docs.test.ts` before content
+implementation.
+
 ## Definition of Done
 
 - [ ] Quickstart lists prerequisites.
@@ -40,3 +60,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Quickstart/VS Code source paths, expected content shape, and RED test target
+> were recorded before implementation.

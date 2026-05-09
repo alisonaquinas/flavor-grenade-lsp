@@ -22,6 +22,29 @@ aliases: ["TASK-225"]
 Author the first Karpathy-style concept wiki pages and connect them to task
 pages with related links.
 
+## Implementation Details
+
+Create and wire:
+
+- `website/src/content/pages.ts`
+- `website/src/content/wiki.ts`
+- `website/src/App.svelte`
+- `website/src/styles/global.scss`
+- `website/tests/concept-wiki.test.ts`
+
+Expected API/content shape:
+
+- Concept records include a focused question, short direct answer, concrete OFM
+  example, related task links, and adjacent concept links.
+- Initial concepts cover Obsidian Flavored Markdown, vault index, wiki-link
+  resolution, DocId/vault-relative paths, opaque regions, diagnostics,
+  completions, rename safety, references/navigation, tags, and embeds.
+- Public concept content credits Karpathy's LLM Wiki concept, Obsidian, and
+  Marksman LSP without implying affiliation.
+
+Add RED coverage in `website/tests/concept-wiki.test.ts` before content
+implementation.
+
 ## Definition of Done
 
 - [ ] Concept index is published.
@@ -39,3 +62,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Concept wiki source paths, expected concept API, attribution requirements, and
+> RED test target were recorded before implementation.

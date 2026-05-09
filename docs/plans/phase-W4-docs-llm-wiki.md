@@ -1,7 +1,7 @@
 ---
 title: "Phase W4: Documentation Pages And LLM Wiki"
 phase: W4
-status: planned
+status: in-progress
 tags: [plans, website, docs, llm-wiki]
 aliases: [Phase W4, Website Docs Wiki]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W4 |
 | Title | Documentation Pages And LLM Wiki |
-| Status | planned |
+| Status | in-progress |
 | Gate | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks |
 | Depends on | Phase W3 |
 
