@@ -19,6 +19,11 @@ workflow, then get them from installation to productive use quickly.
   maintaining public docs in this repo.
 - Cover the LSP server and the VS Code extension together, while keeping their
   responsibilities distinct.
+- Treat the VS Code extension as a first-class adoption path with clear links
+  and instructions.
+- Use existing product logos and extension imagery effectively across the site.
+- Make the site mobile friendly for reading, navigation, command copying, and
+  extension setup.
 - Properly credit and link the inspirations behind the project: Andrej
   Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
 - Optimize for search queries around Obsidian Flavored Markdown, wiki-links,
@@ -83,6 +88,8 @@ The homepage should show the product immediately in the first viewport:
   tags, embeds, and OFM-aware parsing.
 - Primary actions: quickstart, VS Code extension guide, feature overview, GitHub
   repository.
+- VS Code extension link:
+  [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp).
 - Attribution links: Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
 
 The page should not read like a marketing placeholder. It should be usable as
@@ -94,6 +101,9 @@ The quickstart should cover:
 
 - Prerequisites for server and extension users.
 - Install path for the VS Code extension.
+- Link to the Visual Studio Marketplace listing.
+- Instructions to open an Obsidian Vault in VS Code and verify OFMarkdown
+  activation.
 - Install path for direct LSP server use.
 - Minimal vault setup.
 - How to confirm the server indexed the workspace.

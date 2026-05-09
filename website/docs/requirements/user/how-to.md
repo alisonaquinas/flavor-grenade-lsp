@@ -22,6 +22,8 @@ link to deeper concepts only after the task is clear.
   - deeper concept link
 - Initial how-to pages cover:
   - installing and activating the VS Code extension
+  - installing from the Visual Studio Marketplace
+  - confirming OFMarkdown activation in VS Code
   - configuring a vault workspace
   - completing wiki-links and headings
   - navigating notes, headings, blocks, embeds, and attachments

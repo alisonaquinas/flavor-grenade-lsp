@@ -121,6 +121,11 @@ The site should include visible, respectful attribution for three inspirations:
 Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP. Attribution should feel
 like part of the documentation lineage, not a legal footnote hidden from users.
 
+The existing Flavor Grenade logo and icon assets should anchor the product
+identity in the header, hero, footer, and social preview materials. Product
+screenshots from the VS Code extension should be used as real evidence where
+they help users understand the tool.
+
 **Key Characteristics:**
 
 - Warm technical surfaces.
@@ -129,6 +134,7 @@ like part of the documentation lineage, not a legal footnote hidden from users.
 - Visible attribution for inspiration and prior art.
 - High standards for LLM-maintained Karpathy wiki pages.
 - Strong light and dark theme parity.
+- Mobile-friendly layouts that keep docs and commands usable.
 - Copyable, inspectable command and Markdown examples.
 
 ## 2. Colors

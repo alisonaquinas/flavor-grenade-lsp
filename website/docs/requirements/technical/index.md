@@ -111,6 +111,8 @@ implementation must stay independent from the LSP server runtime.
   themes.
 - The site must include a skip link to main content.
 - Images and screenshots must include useful alt text.
+- Existing product logo and extension imagery must be reused where suitable
+  instead of creating duplicate brand assets.
 
 ## GitHub Pages Deployment Requirements
 

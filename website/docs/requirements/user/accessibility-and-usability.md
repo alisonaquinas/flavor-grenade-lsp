@@ -19,6 +19,8 @@ basic information.
   and states.
 - Text contrast passes WCAG AA in light and dark themes.
 - Page layouts work on mobile and desktop without overlapping text or controls.
+- Mobile layouts support reading, navigation, command copying, and VS Code
+  extension setup without horizontal page overflow.
 - Copy buttons never replace visible commands; commands remain selectable text.
 - Screenshots and diagrams include useful alt text.
 - Core page content remains meaningful without JavaScript.
@@ -31,6 +33,8 @@ basic information.
 - System mode updates the site when the operating system color-scheme
   preference changes.
 - The first viewport hints at the next section on mobile and desktop.
+- Product logos and screenshots include useful alt text and do not replace
+  textual product identification.
 
 ## Theme User Stories
 

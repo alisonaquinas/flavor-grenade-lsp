@@ -23,8 +23,12 @@ marketing page.
   server and VS Code extension.
 - The first viewport links to quickstart, VS Code extension guidance, feature
   overview, and the GitHub repository.
+- The first viewport or primary CTA area links to
+  [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp).
 - The homepage includes a concrete screenshot, terminal demo, or editor demo
   visual.
+- The homepage uses the existing Flavor Grenade logo or icon as a meaningful
+  product identity element.
 - The homepage includes a compact feature grid for diagnostics, completions,
   navigation, rename, references, tags, embeds, and block references.
 - The homepage explains that the tool is OFM-aware and vault-aware.

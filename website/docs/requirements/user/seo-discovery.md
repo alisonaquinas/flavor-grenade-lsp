@@ -34,6 +34,9 @@ target both broad product queries and narrow long-tail workflow queries.
   - BreadcrumbList
 - The site links to GitHub, releases, issue reporting, quickstart, and
   extension guidance.
+- The site links to
+  [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp)
+  from relevant install and extension pages.
 - The site includes descriptive outbound links to inspiration and prior art:
   Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
 - Pages avoid internal ticket names as public search headings.

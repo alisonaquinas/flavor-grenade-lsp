@@ -16,6 +16,10 @@ extension or server, verify that indexing works, and complete a useful workflow
 such as wiki-link completion, broken-link diagnosis, reference lookup, or safe
 rename.
 
+The VS Code extension is a first-class adoption path. The website must link to
+the Marketplace listing and provide clear instructions for installation,
+activation, configuration, and troubleshooting.
+
 Secondary users include editor integrators, plugin authors, and tool builders
 who need precise information about Obsidian Flavored Markdown parsing, vault
 indexing, link resolution, and safety boundaries.
@@ -75,6 +79,9 @@ observable, and reversible.
 
 - Show the tool, not a vibe. Use editor states, command snippets, vault paths,
   wiki-links, diagnostics, and concrete workflows.
+- Use the product identity. The site should use the existing Flavor Grenade
+  logos and icon assets effectively across the header, hero, social previews,
+  and footer.
 - Credit the lineage. Public pages should clearly acknowledge Karpathy's LLM
   Wiki concept, Obsidian, and Marksman LSP where their influence is relevant.
 - Teach by linking. Pages should be short, named, and densely connected like an
@@ -95,6 +102,10 @@ The website must meet WCAG AA for text, controls, focus states, and code blocks
 in both light and dark themes. It must support keyboard navigation, a skip link,
 reduced motion expectations, no-JS meaningful content, and a theme control with
 light, dark, and system modes.
+
+The website must be mobile friendly. Mobile users must be able to navigate,
+read docs, inspect examples, copy commands, and reach the VS Code extension
+instructions without layout overlap or horizontal page overflow.
 
 The default theme mode is system. Users can force light or dark mode, then
 return to system mode. Theme changes must preserve focus and must not cause

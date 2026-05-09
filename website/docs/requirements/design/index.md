@@ -45,6 +45,8 @@ guide for Obsidian Vault work:
   concrete, and useful
 - generous enough to visibly credit the inspirations behind the project:
   Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP
+- compact enough to remain usable on mobile devices without hiding core setup
+  instructions
 
 ## Physical Scene
 
@@ -72,6 +74,9 @@ examples, and troubleshooting.
   illustrations, decorative glassmorphism, and endless identical card grids.
 - Treat attribution as part of the user experience. Inspiration links must be
   visible, descriptive, and integrated into the homepage, concepts, or footer.
+- Treat product identity as part of the user experience. Existing Flavor
+  Grenade logo and icon assets must appear intentionally in the header, hero,
+  social preview, or footer.
 
 ## Information Architecture
 
@@ -88,6 +93,7 @@ The primary navigation must expose:
 Secondary navigation may expose:
 
 - VS Code extension
+- Visual Studio Marketplace
 - Feature overview
 - Troubleshooting
 - Releases or changelog
@@ -238,6 +244,8 @@ Homepage:
 - A hint of the next section must be visible on mobile and desktop.
 - Hero visual must show the actual product state: editor, terminal, diagnostics,
   wiki-link completion, or vault navigation.
+- Hero or header must use the existing product logo or icon without crowding
+  the product name.
 - Feature overview must avoid identical icon-card monotony. Mix compact rows,
   bento blocks, screenshots, and short examples.
 
@@ -271,6 +279,7 @@ Required components:
 - Mobile navigation menu.
 - Theme mode control: light, dark, system.
 - Skip link.
+- Product logo or icon component.
 - Hero product demo.
 - Copyable command block.
 - Feature preview module.
@@ -282,6 +291,7 @@ Required components:
 - Callout.
 - Code block.
 - Footer with GitHub, docs links, and project metadata.
+- Visual Studio Marketplace link.
 
 Components must expose accessible names and keyboard states where interactive.
 
@@ -347,6 +357,9 @@ Mobile:
 - Code blocks scroll horizontally without page overflow.
 - Text never overlaps controls.
 - Hero visual remains inspectable.
+- Product logo remains recognizable without consuming excessive vertical space.
+- VS Code extension setup remains reachable from the main navigation or primary
+  content.
 
 Tablet:
 
