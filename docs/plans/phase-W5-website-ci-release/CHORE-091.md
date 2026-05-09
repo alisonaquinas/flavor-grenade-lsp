@@ -43,3 +43,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Started the readiness sweep after TASK-226, TASK-227, and TASK-228 reached
 > `in-review`. Status: `in-progress`.
+
+> [!WARNING] Finding · 2026-05-09
+> Found BUG-028: the website Pages tag trigger used a regex-shaped pattern
+> inside a GitHub Actions glob filter. Opened and triaged the bug before fixing.

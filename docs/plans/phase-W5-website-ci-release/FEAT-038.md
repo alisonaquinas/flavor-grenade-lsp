@@ -98,3 +98,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] TASKS in review · 2026-05-09
 > TASK-226, TASK-227, and TASK-228 moved to `in-review` after local W5 website
 > checks passed and traceability was updated.
+
+> [!WARNING] BUG-028 opened · 2026-05-09
+> CHORE-091 found that the website release trigger used a regex-shaped GitHub
+> Actions tag filter. BUG-028 was opened and triaged before fixing the workflow.
