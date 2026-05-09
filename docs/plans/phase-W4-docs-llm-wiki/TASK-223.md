@@ -2,7 +2,7 @@
 id: "TASK-223"
 title: "Author quickstart and VS Code extension pages"
 type: task
-status: open
+status: red
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-223"]
 
 # Author Quickstart And VS Code Extension Pages
 
-> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `open`
+> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `red`
 
 ## Description
 
@@ -64,3 +64,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Quickstart/VS Code source paths, expected content shape, and RED test target
 > were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/quickstart-docs.test.ts`, which expects detailed
+> quickstart and VS Code extension setup content before it exists. Status:
+> `red`.

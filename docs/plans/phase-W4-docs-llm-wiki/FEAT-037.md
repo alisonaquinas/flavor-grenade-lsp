@@ -59,7 +59,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-223]] | Author quickstart and VS Code extension pages | `open` |
+| [[TASK-223]] | Author quickstart and VS Code extension pages | `red` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `open` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `open` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `open` |
@@ -76,3 +76,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Phase W4 started after Phase W3 merged in PR #53 with green CI. Status:
 > `in-progress`.
+
+> [!INFO] TASK-223 red · 2026-05-09
+> TASK-223 entered `red` with failing quickstart and VS Code extension content
+> coverage.
