@@ -2,7 +2,7 @@
 id: "TASK-215"
 title: "Configure website quality gates"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-215"]
 
 # Configure Website Quality Gates
 
-> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
+> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `in-review`
 
 ## Description
 
@@ -60,12 +60,12 @@ Create website-local quality tooling:
 
 ## Definition of Done
 
-- [ ] `npm run lint` fails on warnings.
-- [ ] `npm run typecheck` runs strict TypeScript checks.
-- [ ] `npm test` runs website tests from `website/tests`.
-- [ ] `npm run build` produces static output.
-- [ ] One smoke test proves the test runner is wired.
-- [ ] Parent feature child row is updated.
+- [x] `npm run lint` fails on warnings.
+- [x] `npm run typecheck` runs strict TypeScript checks.
+- [x] `npm test` runs website tests from `website/tests`.
+- [x] `npm run build` produces static output.
+- [x] One smoke test proves the test runner is wired.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -87,3 +87,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added the website ESLint flat config and verified the tooling contract test
 > passes. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/tooling.test.ts`. Definition of Done is satisfied locally.
+> Status: `in-review`.

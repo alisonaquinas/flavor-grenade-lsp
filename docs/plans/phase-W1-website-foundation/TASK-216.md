@@ -2,7 +2,7 @@
 id: "TASK-216"
 title: "Establish source and test layout guards"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-216"]
 
 # Establish Source And Test Layout Guards
 
-> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
+> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `in-review`
 
 ## Description
 
@@ -55,11 +55,11 @@ The guard must ignore:
 
 ## Definition of Done
 
-- [ ] A test, script, or documented CI-ready check validates source/test layout.
-- [ ] The check ignores generated output and fixtures appropriately.
-- [ ] `website/docs` remains documentation-only.
-- [ ] Architecture docs are updated if the layout changes.
-- [ ] Parent feature child row is updated.
+- [x] A test, script, or documented CI-ready check validates source/test layout.
+- [x] The check ignores generated output and fixtures appropriately.
+- [x] `website/docs` remains documentation-only.
+- [x] Architecture docs are updated if the layout changes.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -87,3 +87,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Refactor complete · 2026-05-09
 > Added documentation to the exported layout validation helper. Layout tests
 > remain green. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/layout.test.ts`. Definition of Done is satisfied locally.
+> Status: `in-review`.

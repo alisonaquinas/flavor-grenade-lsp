@@ -9,10 +9,13 @@ aliases:
 
 # Test Index
 
-This file is the authoritative inventory of all test files in the `tests/` directory. It is organized by test type and maps each file to its description, the Planguage requirement tags it exercises, and the phase in which it was introduced.
+This file is the authoritative inventory of repository, extension, and website
+test files. It is organized by test type and maps each file to its description,
+the Planguage requirement tags it exercises, and the phase in which it was
+introduced.
 
 > [!NOTE] Maintenance
-> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added to `tests/`. Always commit index updates in the same commit as the test file that triggered them.
+> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
 > For the full requirements × tests × work-performed traceability matrix, see [[test/matrix]].
@@ -86,6 +89,20 @@ multiple modules or against a real filesystem fixture.
 | `src/test/integration/rename.test.ts` | Integration | Tests prepare-rename and rename behavior through a spawned LSP server | `Rename.Refactoring.Completeness`, `Rename.Prepare.Rejection` | Phase 11 |
 | `src/test/integration/wiki-links.test.ts` | Integration | Tests wiki-link diagnostics, definition, and completion through a spawned LSP server | `Diagnostic.Severity.WikiLink`, `Navigation.Definition.AllLinkTypes`, `Completion.Trigger.Coverage` | Phase 5 |
 | `src/test/integration/structural-lsp.test.ts` | Integration | Tests document links, folding ranges, and selection ranges through a spawned LSP server | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges`, `ST-002` | Phase 17 |
+
+---
+
+## Website Tests
+
+Website tests live under `website/tests/` and run from the website package with
+`npm test`. They cover the static-site toolchain, local quality gate contracts,
+and website-specific source layout rules.
+
+| Test File | Type | Description | Requirements Tags | Phase | Status |
+|---|---|---|---|---|---|
+| `website/tests/app-shell.test.ts` | Unit | Verifies the starter website shell exposes a stable app summary for the Vite/Svelte/TypeScript/SCSS scaffold | `Website.Technical.Stack` | Phase W1 | ✅ implemented |
+| `website/tests/tooling.test.ts` | Unit | Verifies website package scripts and required local tooling config exist for lint, typecheck, test, build, preview, and development | `Website.Technical.Stack`, `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
+| `website/tests/layout.test.ts` | Unit | Verifies implementation-like website source remains under `website/src` and tests remain under `website/tests` | `Website.Technical.SourceLayout` | Phase W1 | ✅ implemented |
 
 ---
 
