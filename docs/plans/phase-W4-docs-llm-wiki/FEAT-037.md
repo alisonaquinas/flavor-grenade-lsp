@@ -2,7 +2,7 @@
 id: "FEAT-037"
 title: "Documentation Pages And LLM Wiki"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-037"]
 
 # Documentation Pages And LLM Wiki
 
-> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -49,11 +49,11 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 ## Acceptance Criteria
 
-- [ ] Quickstart and VS Code extension pages are published.
-- [ ] Initial how-to pages are published.
-- [ ] Advanced usage and FAQ pages are published.
-- [ ] Concept pages follow LLM-wiki standards.
-- [ ] Public links and SEO metadata pass validation.
+- [x] Quickstart and VS Code extension pages are published.
+- [x] Initial how-to pages are published.
+- [x] Advanced usage and FAQ pages are published.
+- [x] Concept pages follow LLM-wiki standards.
+- [x] Public links and SEO metadata pass validation.
 
 ## Child Tasks
 
@@ -63,7 +63,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
 | [[BUG-027]] | Mobile docs pages clip long content | `in-review` |
-| [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-progress` |
+| [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-review` |
 
 ## Lifecycle
 
@@ -112,3 +112,8 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!WARNING] BUG-027 opened · 2026-05-09
 > CHORE-090 mobile docs visual smoke found clipped quickstart text at 390px
 > width. BUG-027 opened before fixing per Rule 5.
+
+> [!SUCCESS] Local W4 gate · 2026-05-09
+> BUG-027 fixed and CHORE-090 passed website lint, typecheck, unit tests, build,
+> docs lint, whitespace check, and public-content placeholder scan. Status:
+> `in-review` pending PR CI.

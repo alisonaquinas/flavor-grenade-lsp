@@ -2,7 +2,7 @@
 id: "CHORE-090"
 title: "Phase W4 documentation maturity sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-090"]
 
 # Phase W4 Documentation Maturity Sweep
 
-> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `in-progress`
+> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `in-review`
 
 ## Description
 
@@ -23,12 +23,12 @@ entries, links, SEO metadata, and build output before Phase W4 review.
 
 ## Acceptance Criteria
 
-- [ ] Website docs content builds.
-- [ ] Link and metadata tests pass.
-- [ ] `bun run lint:docs` passes.
-- [ ] Changelog entry is added when website-visible behavior changes.
-- [ ] No finished docs contain bootstrap placeholders.
-- [ ] `FEAT-037` acceptance checklist is updated.
+- [x] Website docs content builds.
+- [x] Link and metadata tests pass.
+- [x] `bun run lint:docs` passes.
+- [x] Changelog entry is added when website-visible behavior changes.
+- [x] No finished docs contain bootstrap placeholders.
+- [x] `FEAT-037` acceptance checklist is updated.
 
 ## Lifecycle
 
@@ -50,3 +50,8 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!SUCCESS] Mobile recheck · 2026-05-09
 > BUG-027 fix rebuilt successfully. Chrome device-metrics check at 390px CSS
 > width reports body and document scroll width of 390px for `/quickstart/`.
+
+> [!SUCCESS] Local gate · 2026-05-09
+> Passed website `npm run lint`, `npm run typecheck`, `npm test` (14 files, 29
+> tests), `npm run build`, `bun run lint:docs`, `git diff --check`, and a
+> public-content placeholder scan. Status: `in-review`.
