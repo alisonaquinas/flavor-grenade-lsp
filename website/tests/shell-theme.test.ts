@@ -50,6 +50,63 @@ describe('website shell navigation and theme modes', () => {
     ]);
   });
 
+  it('exposes guide article dropdowns for desktop navigation', () => {
+    const dropdownItems = primaryNavigation
+      .filter((item) => item.children?.length)
+      .map((item) => [item.label, item.children?.map((child) => child.label)]);
+
+    expect(dropdownItems).toEqual([
+      [
+        'How-To',
+        [
+          'Use the VS Code Extension',
+          'Configure Obsidian Vaults',
+          'Fix Broken Links',
+          'Rename Notes Safely',
+          'Complete Wiki-links and Headings',
+          'Navigate Notes, Headings, Blocks, Embeds, and Attachments',
+          'Find References and Highlights',
+          'Use Tags and Tag Completion',
+          'Work with OFM Opaque Regions',
+        ],
+      ],
+      [
+        'Concepts',
+        [
+          'Inspiration and Prior Art',
+          'Obsidian Flavored Markdown',
+          'Vault Index',
+          'Wiki-link Resolution',
+          'DocId and Vault-Relative Paths',
+          'Opaque Regions',
+          'Diagnostics',
+          'Completions',
+          'Rename Safety',
+          'References, Navigation, Tags, and Embeds',
+        ],
+      ],
+      [
+        'Advanced Usage',
+        [
+          'Configuration Model',
+          'Vault Mode and Single-file Mode',
+          'Indexing and Performance',
+          'Unsupported URI Schemes and Confinement',
+          'Parser Boundaries and Opaque Regions',
+          'Compatibility and Direct LSP Integration',
+        ],
+      ],
+    ]);
+    expect(
+      primaryNavigation.flatMap((item) => item.children?.map((child) => child.href) ?? []),
+    ).not.toContain('https://github.com');
+    expect(
+      primaryNavigation.flatMap(
+        (item) => item.children?.map((child) => child.description) ?? [],
+      ),
+    ).not.toContain('');
+  });
+
   it('supports system, light, and dark theme modes', () => {
     expect(themeModes).toEqual(['system', 'light', 'dark']);
     expect(nextThemeMode('system')).toBe('light');

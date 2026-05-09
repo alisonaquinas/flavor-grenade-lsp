@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  guideArticleGroups,
   getRouteById,
   routeIds,
   validateRouteMetadata,
@@ -15,18 +16,71 @@ describe('website route metadata', () => {
       'quickstart',
       'howTo',
       'howToVsCodeExtension',
-      'howToVaultConfiguration',
-      'howToBrokenLinks',
-      'howToSafeRename',
+      'howToConfigureObsidianVaults',
+      'howToFixBrokenLinks',
+      'howToRenameNotesSafely',
+      'howToCompleteWikiLinksHeadings',
+      'howToNavigateVaultTargets',
+      'howToFindReferencesHighlights',
+      'howToUseTagsCompletion',
+      'howToOpaqueRegions',
       'advancedUsage',
+      'advancedConfigurationModel',
+      'advancedVaultSingleFileMode',
+      'advancedIndexingPerformance',
+      'advancedUriConfinement',
+      'advancedParserBoundaries',
+      'advancedDirectLspIntegration',
       'faq',
       'concepts',
+      'conceptInspirationPriorArt',
       'conceptObsidianFlavoredMarkdown',
       'conceptVaultIndex',
       'conceptWikiLinkResolution',
+      'conceptDocIdVaultRelativePaths',
+      'conceptOpaqueRegions',
+      'conceptDiagnostics',
+      'conceptCompletions',
+      'conceptRenameSafety',
+      'conceptReferencesNavigationTagsEmbeds',
       'features',
     ]);
     expect(validateRouteMetadata(websiteRoutes)).toEqual([]);
+  });
+
+  it('keeps guide article groups aligned with Phase W7 route inventory', () => {
+    expect(guideArticleGroups.map((group) => group.label)).toEqual([
+      'How-To',
+      'Concepts',
+      'Advanced Usage',
+    ]);
+    expect(guideArticleGroups.flatMap((group) => group.routeIds)).toEqual([
+      'howToVsCodeExtension',
+      'howToVaultConfiguration',
+      'howToBrokenLinks',
+      'howToSafeRename',
+      'howToCompleteWikiLinksHeadings',
+      'howToNavigateVaultTargets',
+      'howToFindReferencesHighlights',
+      'howToUseTagsCompletion',
+      'howToOpaqueRegions',
+      'conceptInspirationPriorArt',
+      'conceptObsidianFlavoredMarkdown',
+      'conceptVaultIndex',
+      'conceptWikiLinkResolution',
+      'conceptDocIdVaultRelativePaths',
+      'conceptOpaqueRegions',
+      'conceptDiagnostics',
+      'conceptCompletions',
+      'conceptRenameSafety',
+      'conceptReferencesNavigationTagsEmbeds',
+      'advancedConfigurationModel',
+      'advancedVaultSingleFileMode',
+      'advancedIndexingPerformance',
+      'advancedUriConfinement',
+      'advancedParserBoundaries',
+      'advancedDirectLspIntegration',
+    ]);
   });
 
   it('rejects missing metadata and duplicate route paths', () => {

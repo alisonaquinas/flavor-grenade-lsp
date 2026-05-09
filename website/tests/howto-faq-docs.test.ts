@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { websitePages } from '../src/content/pages';
-import type { RouteId } from '../src/content/routes';
+import { guideArticleGroups, type RouteId } from '../src/content/routes';
 
 function page(routeId: RouteId) {
   const pageRecord = websitePages.find((candidate) => candidate.routeId === routeId);
@@ -41,12 +41,10 @@ describe('how-to, advanced usage, and FAQ docs', () => {
   });
 
   it('gives each initial how-to page the required task shape', () => {
-    for (const routeId of [
-      'howToVsCodeExtension',
-      'howToVaultConfiguration',
-      'howToBrokenLinks',
-      'howToSafeRename',
-    ] as const) {
+    const howToArticleIds =
+      guideArticleGroups.find((group) => group.hubRouteId === 'howTo')?.routeIds ?? [];
+
+    for (const routeId of howToArticleIds) {
       const pageText = text(routeId);
 
       expect(pageText).toContain('When to use it');
@@ -66,6 +64,19 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     expect(advanced).toContain('Unsupported URI schemes');
     expect(advanced).toContain('Current behavior');
     expect(advanced).toContain('Planned behavior');
+  });
+
+  it('gives each advanced article a concrete boundary or configuration example', () => {
+    const advancedArticleIds =
+      guideArticleGroups.find((group) => group.hubRouteId === 'advancedUsage')?.routeIds ?? [];
+
+    for (const routeId of advancedArticleIds) {
+      const pageText = text(routeId);
+
+      expect(page(routeId).sections.length).toBeGreaterThanOrEqual(3);
+      expect(pageText).toMatch(/```|\.obsidian|\.flavor-grenade|rootUri|unsupported URI|opaque/i);
+      expect(page(routeId).links.some((link) => link.kind === 'route')).toBe(true);
+    }
   });
 
   it('publishes FAQ questions suitable for FAQPage metadata', () => {
