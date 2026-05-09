@@ -1,9 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-const websiteRoot = new URL('..', import.meta.url);
+const websiteRoot = fileURLToPath(new URL('..', import.meta.url));
 
 function readPackageJson(): {
   scripts: Record<string, string>;
@@ -29,6 +30,6 @@ describe('website quality gate tooling', () => {
   });
 
   it('has an ESLint flat config for website source and tests', () => {
-    expect(existsSync(join(websiteRoot.pathname, 'eslint.config.js'))).toBe(true);
+    expect(existsSync(join(websiteRoot, 'eslint.config.js'))).toBe(true);
   });
 });

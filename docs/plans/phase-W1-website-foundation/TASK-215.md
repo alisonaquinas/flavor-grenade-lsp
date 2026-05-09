@@ -2,7 +2,7 @@
 id: "TASK-215"
 title: "Configure website quality gates"
 type: task
-status: red
+status: green
 priority: high
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-215"]
 
 # Configure Website Quality Gates
 
-> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `red`
+> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
 
 ## Description
 
@@ -56,7 +56,7 @@ Create website-local quality tooling:
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `website/tests/tooling.test.ts` | Unit | `Website.Technical.SourceLayout` | 🔴 failing |
+| `website/tests/tooling.test.ts` | Unit | `Website.Technical.SourceLayout` | ✅ passing |
 
 ## Definition of Done
 
@@ -83,3 +83,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added a tooling contract test that requires the website ESLint flat config
 > before that config exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added the website ESLint flat config and verified the tooling contract test
+> passes. Status: `green`.
