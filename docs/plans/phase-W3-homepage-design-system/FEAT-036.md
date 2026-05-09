@@ -63,7 +63,7 @@ dark mode, and system theme mode.
 | [[TASK-220]] | Implement responsive app shell and theme modes | `in-review` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | `in-review` |
 | [[TASK-222]] | Implement footer byline and attribution links | `in-review` |
-| [[BUG-026]] | Mobile homepage hero overflows viewport | `open` |
+| [[BUG-026]] | Mobile homepage hero overflows viewport | `triaged` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `in-progress` |
 
 ## Lifecycle
