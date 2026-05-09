@@ -2,7 +2,7 @@
 id: "TASK-244"
 title: "Article: Complete Wiki-links and Headings"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-244"]
 
 # Article: Complete Wiki-links And Headings
 
-> [!INFO] `TASK-244` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-244` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

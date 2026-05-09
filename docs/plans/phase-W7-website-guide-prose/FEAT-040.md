@@ -2,7 +2,7 @@
 id: "FEAT-040"
 title: "Website Guide Prose And Article Hubs"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W7
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-040"]
 
 # Website Guide Prose And Article Hubs
 
-> [!INFO] `FEAT-040` · Feature · Phase W7 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-040` · Feature · Phase W7 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -67,12 +67,17 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Feature created from browser review annotations requesting article dropdowns,
-> linked hubs, and deeper prose pages. Status: `in-review`.
+> linked hubs, and deeper prose pages. Status: `done`.
 
 > [!SUCCESS] Implemented locally · 2026-05-09
 > Phase W7 route inventory, article content, dropdown navigation, sitemap
 > coverage, and regression tests are implemented. Local gates passed. Status:
-> `in-review` until PR CI confirms.
+> `done`.
+
+> [!SUCCESS] CI verified · 2026-05-09
+> PR #61 CI passed TypeScript typecheck, lint, dependency policy, format check,
+> tests, OFM docs lint, markdownlint-cli2, website checks, and build. Status:
+> `done`.
 
 ## Retrospective
 

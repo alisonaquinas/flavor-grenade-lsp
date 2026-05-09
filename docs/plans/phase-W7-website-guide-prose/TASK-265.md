@@ -2,7 +2,7 @@
 id: "TASK-265"
 title: "Add article dropdown navigation"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-265"]
 
 # Add Article Dropdown Navigation
 
-> [!INFO] `TASK-265` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-265` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Description
 

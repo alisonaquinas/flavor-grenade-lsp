@@ -2,7 +2,7 @@
 id: "CHORE-094"
 title: "Phase W7 guide prose verification"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: W7
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-094"]
 
 # Phase W7 Guide Prose Verification
 
-> [!INFO] `CHORE-094` · Chore · Phase W7 · Status: `in-review`
+> [!INFO] `CHORE-094` · Chore · Phase W7 · Status: `done`
 
 ## Description
 
@@ -36,9 +36,12 @@ Verify the complete Phase W7 article set after implementation.
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-09
-> Chore created for Phase W7 verification. Status: `in-review`.
+> Chore created for Phase W7 verification. Status: `done`.
 
 > [!SUCCESS] Local gate passed · 2026-05-09
 > `npm run lint`, `npm run typecheck`, `npm test -- --run`,
 > `npm run build`, and `bun run lint:docs` passed locally. Status:
-> `in-review` until PR CI confirms.
+> `done`.
+
+> [!SUCCESS] CI verified · 2026-05-09
+> PR #61 CI passed all required checks. Status: `done`.

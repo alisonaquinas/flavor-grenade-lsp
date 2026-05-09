@@ -2,7 +2,7 @@
 id: "TASK-240"
 title: "Article: Use the VS Code Extension"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-240"]
 
 # Article: Use The VS Code Extension
 
-> [!INFO] `TASK-240` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-240` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

@@ -2,7 +2,7 @@
 id: "TASK-259"
 title: "Advanced Article: Configuration Model"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-259"]
 
 # Advanced Article: Configuration Model
 
-> [!INFO] `TASK-259` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-259` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

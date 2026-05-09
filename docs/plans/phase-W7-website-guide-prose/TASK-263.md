@@ -2,7 +2,7 @@
 id: "TASK-263"
 title: "Advanced Article: Parser Boundaries and Opaque Regions"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-263"]
 
 # Advanced Article: Parser Boundaries And Opaque Regions
 
-> [!INFO] `TASK-263` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-263` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

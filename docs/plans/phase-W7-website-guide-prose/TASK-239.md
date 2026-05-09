@@ -2,7 +2,7 @@
 id: "TASK-239"
 title: "Build linked article hub pages"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-239"]
 
 # Build Linked Article Hub Pages
 
-> [!INFO] `TASK-239` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-239` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Description
 
@@ -49,4 +49,4 @@ into linked article indexes.
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-09
-> Ticket created for linked article hub pages. Status: `in-review`.
+> Ticket created for linked article hub pages. Status: `done`.

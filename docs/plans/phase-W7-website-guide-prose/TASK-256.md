@@ -2,7 +2,7 @@
 id: "TASK-256"
 title: "Concept Article: Completions"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-256"]
 
 # Concept Article: Completions
 
-> [!INFO] `TASK-256` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
+> [!INFO] `TASK-256` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 
