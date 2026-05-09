@@ -111,7 +111,7 @@ jobs:
       - run: bun run build
 
   markdown-lint-docs:
-    name: Markdown lint (docs/ — markdownlint-obsidian)
+    name: Markdown lint (OFM docs — markdownlint-obsidian)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -124,9 +124,9 @@ jobs:
 
       # markdownlint-obsidian enforces Obsidian Flavored Markdown conventions
       # defined in .obsidian-linter.jsonc, including wikilink/embed resolution.
-      # Only applied to docs/ — other Markdown is handled by markdownlint-cli2.
-      # Explicit globs are required: a bare `docs/` positional arg scans
-      # non-Markdown files. Keep this glob in sync with .obsidian-linter.jsonc.
+      # Applied to docs/ and website/docs/ — other Markdown is handled by
+      # markdownlint-cli2. Explicit globs are required: a bare directory
+      # positional arg scans non-Markdown files.
       - run: bun run lint:docs
 
   markdown-lint-other:
@@ -141,9 +141,10 @@ jobs:
 
       - run: bun install --frozen-lockfile --ignore-scripts
 
-      # Lints all Markdown files that are NOT under docs/ or .github/ or
-      # node_modules/. Those directories are handled separately or skipped.
-      - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
+      # Lints all Markdown files that are NOT under OFM docs roots, .github/,
+      # node_modules/, or generated extension test fixtures. Those directories
+      # are handled separately or skipped.
+      - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
 
   publish:
     name: Publish to npm

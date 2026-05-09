@@ -1,15 +1,17 @@
-// markdownlint-obsidian configuration for flavor-grenade-lsp docs/
+// markdownlint-obsidian configuration for flavor-grenade-lsp OFM docs.
 // Used by: bun run lint:docs
 // Package: https://libraries.io/npm/markdownlint-obsidian
 // CLI: https://www.npmjs.com/package/markdownlint-obsidian-cli
 {
-  // Vault root for wikilink and embed resolution.
+  // Vault root for wikilink and embed resolution. package.json invokes the
+  // linter once per OFM docs root with --vault-root so docs/ and website/docs/
+  // each resolve links against their own tree.
   "vaultRoot": "./docs",
   // Enable vault-wide wikilink/embed resolution so broken internal links
   // are flagged as lint errors.
   "resolve": true,
-  // Default glob when no positional args are passed. Keep this in sync with
-  // .github/workflows/ci.yml.
+  // Default glob when no positional args are passed. Keep package.json
+  // lint:docs and .github/workflows/ci.yml in sync with this intent.
   "globs": ["docs/**/*.md"],
   "ignores": [
     "node_modules/**"

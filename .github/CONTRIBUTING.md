@@ -89,13 +89,13 @@ Run dependency and documentation checks when relevant:
 ```sh
 bun run lint:dependencies
 bun run lint:docs
-bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
+bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
 ```
 
 > [!NOTE]
-> CI uses `markdownlint-obsidian` for `docs/` and `markdownlint-cli2` for
-> root and other non-`docs/` Markdown. `.github/` Markdown is GitHub-facing and
-> may use GitHub Flavored Markdown features.
+> CI uses `markdownlint-obsidian` for `docs/` and `website/docs/`, and
+> `markdownlint-cli2` for root and other non-OFM Markdown. `.github/` Markdown
+> is GitHub-facing and may use GitHub Flavored Markdown features.
 
 ## Test Expectations
 
@@ -120,6 +120,8 @@ added or existing coverage moves.
   task lists, details, and alerts.
 - Documentation under `docs/` follows the OFM-aware documentation conventions
   used by `markdownlint-obsidian`.
+- Public website documentation under `website/docs/` follows the same
+  OFM-aware linting conventions before it is rendered for GitHub Pages.
 - Documentation under `extension/docs/` should remain coherent with the server
   specs when extension behavior depends on LSP capabilities.
 - Do not use Obsidian wiki-links in `.github/` files. Use standard Markdown
