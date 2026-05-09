@@ -51,6 +51,11 @@ async function collectFiles(directory: string): Promise<string[]> {
   return files;
 }
 
+/**
+ * Scans the website workspace and returns source-layout violations that would
+ * make implementation files drift outside `website/src` or tests outside
+ * `website/tests`.
+ */
 export async function validateWebsiteLayout(): Promise<string[]> {
   const files = await collectFiles(websiteRoot);
   const violations: string[] = [];

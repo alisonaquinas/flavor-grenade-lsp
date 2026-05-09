@@ -66,7 +66,7 @@ repeatable local gates.
 |---|---|---|
 | [[TASK-214]] | Scaffold Vite Svelte website app | `red` |
 | [[TASK-215]] | Configure website quality gates | `red` |
-| [[TASK-216]] | Establish source and test layout guards | `refactor` |
+| [[TASK-216]] | Establish source and test layout guards | `green` |
 | [[CHORE-087]] | Phase W1 documentation and verification sweep | `open` |
 
 ## Lifecycle
@@ -92,3 +92,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!NOTE] TASK-216 refactor · 2026-05-09
 > TASK-216 entered `refactor` to add exported-helper documentation before the
 > Phase W1 review sweep.
+
+> [!SUCCESS] TASK-216 refactor complete · 2026-05-09
+> TASK-216 returned to `green` after adding layout-guard helper documentation.
