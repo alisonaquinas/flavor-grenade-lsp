@@ -2,7 +2,7 @@
 id: "TASK-222"
 title: "Implement footer byline and attribution links"
 type: task
-status: open
+status: red
 priority: medium
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-222"]
 
 # Implement Footer Byline And Attribution Links
 
-> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `open`
+> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
 
 ## Description
 
@@ -64,3 +64,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Footer data, app rendering, style paths, exported API shape, and RED test
 > target were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/footer.test.ts`, which expects footer link data before it
+> exists. Status: `red`.
