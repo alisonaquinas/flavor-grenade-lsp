@@ -2,7 +2,7 @@
 id: "CHORE-089"
 title: "Phase W3 accessibility and visual QA sweep"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: W3
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-089"]
 
 # Phase W3 Accessibility And Visual QA Sweep
 
-> [!INFO] `CHORE-089` · Chore · Phase W3 · Status: `in-review`
+> [!INFO] `CHORE-089` · Chore · Phase W3 · Status: `done`
 
 ## Description
 
@@ -61,3 +61,6 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > Passed `bun run lint --max-warnings 0`, `bun run typecheck`,
 > `bun test src/` (668 tests), `bun run bdd --tags "@smoke"` (13 scenarios),
 > `bun audit`, website `npm audit`, and extension `npm audit`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #53 CI passed for the W3 branch. Status: `done`.

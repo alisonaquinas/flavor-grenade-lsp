@@ -2,7 +2,7 @@
 id: "FEAT-036"
 title: "Homepage And Design System"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W3
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-036"]
 
 # Homepage And Design System
 
-> [!INFO] `FEAT-036` · Feature · Phase W3 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-036` · Feature · Phase W3 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -60,11 +60,11 @@ dark mode, and system theme mode.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-220]] | Implement responsive app shell and theme modes | `in-review` |
-| [[TASK-221]] | Implement homepage hero and product proof sections | `in-review` |
-| [[TASK-222]] | Implement footer byline and attribution links | `in-review` |
-| [[BUG-026]] | Mobile homepage hero overflows viewport | `in-review` |
-| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `in-review` |
+| [[TASK-220]] | Implement responsive app shell and theme modes | `done` |
+| [[TASK-221]] | Implement homepage hero and product proof sections | `done` |
+| [[TASK-222]] | Implement footer byline and attribution links | `done` |
+| [[BUG-026]] | Mobile homepage hero overflows viewport | `done` |
+| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `done` |
 
 ## Lifecycle
 
@@ -118,3 +118,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] Repository sweep · 2026-05-09
 > Broader root and package verification passed: root lint, typecheck, unit
 > tests, smoke BDD, Bun audit, website npm audit, and extension npm audit.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #53 CI passed with W3 homepage, theme, responsive, footer, asset, and
+> mobile regression checks. Status: `done`.

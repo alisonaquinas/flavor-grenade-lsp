@@ -2,7 +2,7 @@
 id: "TASK-221"
 title: "Implement homepage hero and product proof sections"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-221"]
 
 # Implement Homepage Hero And Product Proof Sections
 
-> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `in-review`
+> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `done`
 
 ## Description
 
@@ -82,3 +82,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/homepage.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #53 CI passed with the W3 completion gate. Status: `done`.

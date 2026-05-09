@@ -2,7 +2,7 @@
 id: "TASK-222"
 title: "Implement footer byline and attribution links"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-222"]
 
 # Implement Footer Byline And Attribution Links
 
-> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `in-review`
+> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `done`
 
 ## Description
 
@@ -83,3 +83,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/footer.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #53 CI passed with the W3 completion gate. Status: `done`.
