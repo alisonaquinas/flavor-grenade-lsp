@@ -40,4 +40,5 @@ updated: 2026-05-09
 | [[TASK-264]] | Advanced Article: Compatibility and Direct LSP Integration | Task | `open` |
 | [[TASK-265]] | Add article dropdown navigation | Task | `open` |
 | [[TASK-266]] | Update sitemap and route metadata for guide articles | Task | `open` |
+| [[BUG-030]] | Restore website guide regression expectations | Bug | `triaged` |
 | [[CHORE-094]] | Phase W7 guide prose verification | Chore | `open` |
