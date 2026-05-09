@@ -87,6 +87,10 @@ const taskShapeSections = {
   failure: 'Common failure mode',
 } as const;
 
+function paragraphs(first: string, second: string): string {
+  return `${first}\n\n${second}`;
+}
+
 function taskArticle(
   routeId: RouteId,
   summary: string,
@@ -101,15 +105,36 @@ function taskArticle(
     routeId,
     summary,
     [
-      { heading: taskShapeSections.when, body: useCase },
+      {
+        heading: taskShapeSections.when,
+        body: paragraphs(
+          useCase,
+          'The examples below assume VS Code has opened the vault root and the language server has finished its first index pass. That keeps the instructions grounded in the same local graph used by completion, diagnostics, references, and rename.',
+        ),
+      },
       {
         heading: taskShapeSections.steps,
-        body: 'Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.',
+        body: paragraphs(
+          'Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.',
+          'Start with the smallest note that demonstrates the behavior, then add one missing or ambiguous target when you need to confirm the server is producing the expected feedback.',
+        ),
         steps,
         code,
       },
-      { heading: taskShapeSections.expected, body: expected },
-      { heading: taskShapeSections.failure, body: failure },
+      {
+        heading: taskShapeSections.expected,
+        body: paragraphs(
+          expected,
+          'The important sign is consistency: navigation, diagnostics, completion, and references should describe the same vault target instead of disagreeing across editor features.',
+        ),
+      },
+      {
+        heading: taskShapeSections.failure,
+        body: paragraphs(
+          failure,
+          'When this happens, check the opened folder, the exact link text, and whether the target is inside an opaque region or outside the vault boundary before changing content.',
+        ),
+      },
     ],
     links,
   );
@@ -129,16 +154,25 @@ function conceptArticle(
     [
       {
         heading: 'Compact definition',
-        body: definition,
+        body: paragraphs(
+          definition,
+          'Use this definition as the short version in task pages, related links, and LLM-maintained prose so the same concept is not re-explained with drifting terminology.',
+        ),
       },
       {
         heading: 'Vault example',
-        body: 'Use this example as the public vocabulary for humans and LLM maintainers.',
+        body: paragraphs(
+          'Use this example as the public vocabulary for humans and LLM maintainers.',
+          'The example is intentionally small enough to copy into a scratch vault, but it still shows the local relationship the concept is meant to explain.',
+        ),
         code: example,
       },
       {
         heading: 'For LLM maintainers',
-        body: maintainerNote,
+        body: paragraphs(
+          maintainerNote,
+          'Prefer precise language about vault boundaries, indexed state, and supported targets. Avoid turning conservative behavior into a broader product promise.',
+        ),
       },
     ],
     links,
@@ -151,7 +185,20 @@ function advancedArticle(
   sections: WebsitePageSection[],
   links: PublicLink[],
 ): WebsitePageContent {
-  return page(routeId, summary, sections, links);
+  return page(
+    routeId,
+    summary,
+    sections.map((section) => ({
+      ...section,
+      body: section.body.includes('\n\n')
+        ? section.body
+        : paragraphs(
+            section.body,
+            'Read this as an operating boundary, not just a configuration note: the server should keep vault-local behavior predictable and avoid guessing when the editor has not provided enough context.',
+          ),
+    })),
+    links,
+  );
 }
 
 /** Public content records for every website route. */
@@ -173,7 +220,10 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Prerequisites',
-        body: 'Use the recommended VS Code extension path when you want the fastest setup. Direct LSP server use is for advanced editor integrations.',
+        body: paragraphs(
+          'Use the recommended VS Code extension path when you want the fastest setup. Direct LSP server use is for advanced editor integrations.',
+          'Before installing anything, decide whether you want VS Code to manage the server for you or whether you are wiring the language server into another editor. The VS Code path is friendlier; the npm server path is lower-level and expects you to provide LSP client configuration.',
+        ),
         items: [
           'VS Code installed on Windows, macOS, Linux, WSL, SSH, or Dev Container.',
           'An Obsidian Vault folder or Markdown workspace that uses Obsidian-style links.',
@@ -182,7 +232,10 @@ export const websitePages: readonly WebsitePageContent[] = [
       },
       {
         heading: 'Install from the Visual Studio Marketplace',
-        body: 'Install Flavor Grenade LSP from the Visual Studio Marketplace, then reload VS Code if prompted.',
+        body: paragraphs(
+          'Install Flavor Grenade LSP from the Visual Studio Marketplace, then reload VS Code if prompted. The Marketplace link is included in this page so you can use the canonical extension listing instead of searching by hand.',
+          'After installation, open the actual Obsidian Vault folder. Opening a parent workspace can make vault-relative paths ambiguous, while opening a single loose file can prevent vault-wide features from turning on.',
+        ),
         steps: [
           {
             title: 'Open an Obsidian Vault folder',
@@ -196,7 +249,10 @@ export const websitePages: readonly WebsitePageContent[] = [
       },
       {
         heading: 'Verify the first vault workflow',
-        body: 'Create a note with a real local reference, then use completion, navigation, references, rename, and diagnostics in one pass.',
+        body: paragraphs(
+          'Create a note with a real local reference, then use completion, navigation, references, rename, and diagnostics in one pass.',
+          'A good first check deliberately mixes one valid target with one missing target. That lets you see both sides of the server: successful vault lookup and conservative diagnostics when a local reference cannot be resolved.',
+        ),
         code: '[[Daily Note]] links to [[People/Ada Lovelace]] and [[Missing Target]].',
         items: [
           'Type `[[` and choose a completion from the indexed Obsidian Vault.',
@@ -206,7 +262,10 @@ export const websitePages: readonly WebsitePageContent[] = [
       },
       {
         heading: 'Troubleshooting',
-        body: 'If activation does not happen, check workspace trust, the selected language mode, the extension status, and whether the opened folder is the vault root.',
+        body: paragraphs(
+          'If activation does not happen, check workspace trust, the selected language mode, the extension status, and whether the opened folder is the vault root.',
+          'If completion works but diagnostics do not, give the initial index a moment to finish and verify that the target file is inside the vault. If diagnostics work but rename is skipped, the reference may be ambiguous or outside the supported local target set.',
+        ),
       },
     ],
     [routeLink('howToVsCodeExtension', 'Use the VS Code extension'), marketplaceLink],
@@ -451,12 +510,18 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Advanced topics',
-        body: 'Configuration model, Vault mode and single-file mode, Indexing and performance, Unsupported URI schemes, Opaque regions, and direct LSP compatibility each have a focused article.',
+        body: paragraphs(
+          'Configuration model, Vault mode and single-file mode, Indexing and performance, Unsupported URI schemes, Opaque regions, and direct LSP compatibility each have a focused article.',
+          'These pages are written for people who are maintaining the tool, integrating the server outside VS Code, or asking an LLM to modify a Karpathy-style LLM wiki without inventing behavior. Each article starts from the actual boundary the server depends on, then shows a small example that can be checked in a vault.',
+        ),
         articleLinks: articleLinksFor('advancedUsage'),
       },
       {
         heading: 'Current behavior and planned behavior',
-        body: 'Current behavior is strongest in the VS Code extension and local LSP server. Planned behavior includes richer static website delivery and broader public docs, not unsupported editor claims.',
+        body: paragraphs(
+          'Current behavior is strongest in the VS Code extension and local LSP server. Planned behavior includes richer static website delivery and broader public docs, not unsupported editor claims.',
+          'When a page describes direct LSP clients, read it as integration guidance rather than a promise that every editor works out of the box. The server speaks LSP, but non-VS-Code clients still own launch, root selection, transport, and file watching details.',
+        ),
         items: [
           'Current behavior: VS Code extension, direct server, vault-aware OFM features.',
           'Planned behavior: deeper public docs and deployment automation.',
@@ -471,16 +536,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Configuration sources',
-        body: 'Flavor Grenade starts from the editor root, then uses `.obsidian/` or `.flavor-grenade.toml` to decide whether a folder is a vault.',
+        body: paragraphs(
+          'Flavor Grenade starts from the editor root, then uses `.obsidian/` or `.flavor-grenade.toml` to decide whether a folder is a vault.',
+          'That marker-based approach keeps the tool from treating every Markdown folder as an Obsidian Vault. If the marker is missing, the server should stay conservative because it cannot know which files, attachments, and paths belong together.',
+        ),
         code: 'DocsProject/\n  .flavor-grenade.toml\n  docs/\n    index.md',
       },
       {
         heading: 'Document boundaries',
-        body: 'Supported document extensions and ignore rules should keep generated output from becoming noisy indexed content.',
+        body: paragraphs(
+          'Supported document extensions and ignore rules should keep generated output from becoming noisy indexed content.',
+          'For example, a repository might contain source docs, generated API pages, and copied vendor Markdown. Only the human-maintained vault content should drive completions, diagnostics, and rename behavior.',
+        ),
       },
       {
         heading: 'Operational rule',
-        body: 'Prefer explicit vault markers over guessing from any Markdown folder.',
+        body: paragraphs(
+          'Prefer explicit vault markers over guessing from any Markdown folder.',
+          'If a user says completion is missing expected notes, the first check is usually folder selection rather than parser behavior: confirm the opened folder is the intended vault root and not a parent workspace.',
+        ),
       },
     ],
     [routeLink('howToConfigureObsidianVaults', 'Configure Obsidian Vaults'), routeLink('advancedVaultSingleFileMode', 'Compare operating modes')],
@@ -533,7 +607,7 @@ export const websitePages: readonly WebsitePageContent[] = [
       {
         heading: 'Unsupported URI schemes',
         body: 'External URLs, `mailto:`, custom schemes, and paths outside the vault are not editable vault targets.',
-        code: 'https://example.com\nmailto:team@example.com\n../outside-vault.md',
+        code: '[[Project Plan]]\nhttps://example.com\nmailto:team@example.com\n../outside-vault.md',
       },
       {
         heading: 'Vault confinement',
@@ -572,16 +646,33 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Supported path',
-        body: 'The VS Code extension packages the server, handles activation, and is the recommended setup for most users.',
+        body: paragraphs(
+          'The VS Code extension packages the server, handles activation, and is the recommended setup for most users. Use the Visual Studio Marketplace listing linked from this page when you want the extension-managed install.',
+          'The extension path is intentionally boring: install, open a vault, wait for the server status, and start using completion or diagnostics. Choose the server-only path only when you are integrating a different editor or testing the LSP server directly.',
+        ),
+      },
+      {
+        heading: 'Install the server from npm',
+        body: paragraphs(
+          'For direct LSP use, install the language server package with npm in the environment where your editor client will launch it. This does not install the VS Code extension or configure an editor by itself.',
+          'Use a local project install when you want the server pinned with the rest of a workspace, or use `npx` when you are testing the latest published package quickly. Your client still needs to start the command and send a usable `rootUri`.',
+        ),
+        code: 'npm install --save-dev flavor-grenade-lsp\nnpx flavor-grenade-lsp',
       },
       {
         heading: 'Direct LSP clients',
-        body: 'Direct clients must launch the server, provide a usable `rootUri`, and handle file-watching expectations.',
-        code: '{"rootUri":"file:///Users/alex/MyVault","workspaceFolders":[{"uri":"file:///Users/alex/MyVault","name":"MyVault"}]}',
+        body: paragraphs(
+          'Direct clients must launch the server, provide a usable `rootUri`, and handle file-watching expectations.',
+          'The root URI is not cosmetic. It decides whether the server can find `.obsidian/` or `.flavor-grenade.toml`, build a vault index, and provide vault-wide features such as note completion, references, and rename.',
+        ),
+        code: '{\n  "rootUri": "file:///Users/alex/MyVault",\n  "workspaceFolders": [\n    { "uri": "file:///Users/alex/MyVault", "name": "MyVault" }\n  ]\n}',
       },
       {
         heading: 'Compatibility boundary',
-        body: 'The server speaks LSP, but non-VS-Code clients may need custom transport and configuration work.',
+        body: paragraphs(
+          'The server speaks LSP, but non-VS-Code clients may need custom transport and configuration work.',
+          'If a direct client can launch a Node-based stdio language server and send normal LSP initialize parameters, it has the right starting point. If it cannot provide a stable file root, expect single-file behavior rather than full vault intelligence.',
+        ),
       },
     ],
     [routeLink('howToVsCodeExtension', 'Use the VS Code extension'), routeLink('advancedConfigurationModel', 'Configuration Model')],
@@ -650,7 +741,7 @@ export const websitePages: readonly WebsitePageContent[] = [
     'conceptInspirationPriorArt',
     'Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art.',
     'Flavor Grenade uses a Karpathy-inspired LLM wiki shape: short, linked concept pages that let humans and LLM maintainers share vocabulary.',
-    'Concept pages link to task pages instead of redefining vault index, DocId, and wiki-link resolution in every guide.',
+    'A guide can say "see [[Vault Index]]" instead of redefining DocId, wiki-link resolution, and rename safety in every task page.',
     'Credit Karpathy, Obsidian, and Marksman as inspiration and prior art without implying affiliation or endorsement.',
     [karpathyLink, obsidianLink, marksmanLink],
   ),
@@ -666,7 +757,7 @@ export const websitePages: readonly WebsitePageContent[] = [
     'conceptVaultIndex',
     'The vault index is the source of truth for documents, attachments, links, and tags.',
     'The vault index stores parsed OFM documents and attachment metadata so completions, diagnostics, navigation, references, and rename agree.',
-    'notes/Daily.md -> DocId notes/Daily -> headings, tags, links, embeds, and attachments.',
+    'notes/Daily.md -> DocId notes/Daily -> [[Project Plan]], #project/flavor-grenade, ![[diagram.png]].',
     'Do not describe feature-local caches as alternate truth; new features should read from the shared vault model.',
     [routeLink('conceptWikiLinkResolution', 'Understand link resolution'), routeLink('advancedIndexingPerformance', 'Indexing and performance')],
   ),
@@ -682,7 +773,7 @@ export const websitePages: readonly WebsitePageContent[] = [
     'conceptDocIdVaultRelativePaths',
     'See why document identity is vault-relative, extension-free, and portable.',
     'A DocId strips the vault root and Markdown extension so references stay portable across machines and never depend on private absolute paths.',
-    'C:/vault/notes/Daily.md is stored as notes/Daily, while links render as human-friendly vault paths.',
+    'C:/vault/notes/Daily.md is stored as notes/Daily, so [[notes/Daily#Open questions]] can stay vault-relative.',
     'Use DocId language when explaining rename, references, navigation, and index behavior.',
     [routeLink('conceptVaultIndex', 'Vault Index'), routeLink('conceptRenameSafety', 'Rename Safety')],
   ),

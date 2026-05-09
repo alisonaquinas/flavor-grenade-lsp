@@ -151,6 +151,10 @@
     return getRouteById(routeId as Parameters<typeof getRouteById>[0]).h1;
   }
 
+  function bodyParagraphs(body: string): string[] {
+    return body.split(/\n\s*\n/).filter((paragraph) => paragraph.trim().length > 0);
+  }
+
   onMount(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -355,7 +359,9 @@
           {#each activePage.sections as section (section.heading)}
             <section class="docs-section">
               <h2>{section.heading}</h2>
-              <p>{section.body}</p>
+              {#each bodyParagraphs(section.body) as paragraph (paragraph)}
+                <p>{paragraph}</p>
+              {/each}
 
               {#if section.items?.length}
                 <ul>
