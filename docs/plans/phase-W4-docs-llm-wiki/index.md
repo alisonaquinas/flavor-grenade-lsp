@@ -15,4 +15,4 @@ updated: 2026-05-09
 | [[TASK-223]] | Author quickstart and VS Code extension pages | Task | `in-review` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | Task | `in-review` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | Task | `in-review` |
-| [[CHORE-090]] | Phase W4 documentation maturity sweep | Chore | `open` |
+| [[CHORE-090]] | Phase W4 documentation maturity sweep | Chore | `in-progress` |

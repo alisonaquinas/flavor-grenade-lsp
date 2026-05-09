@@ -2,7 +2,7 @@
 id: "CHORE-090"
 title: "Phase W4 documentation maturity sweep"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-090"]
 
 # Phase W4 Documentation Maturity Sweep
 
-> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `open`
+> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `in-progress`
 
 ## Description
 
@@ -38,3 +38,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created for the Phase W4 documentation sweep. Status: `open`.
+
+> [!INFO] Started · 2026-05-09
+> Began the Phase W4 documentation maturity sweep after TASK-223, TASK-224, and
+> TASK-225 reached `in-review`. Status: `in-progress`.

@@ -62,7 +62,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 | [[TASK-223]] | Author quickstart and VS Code extension pages | `in-review` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
-| [[CHORE-090]] | Phase W4 documentation maturity sweep | `open` |
+| [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-progress` |
 
 ## Lifecycle
 
@@ -103,3 +103,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Implementation tasks in review · 2026-05-09
 > TASK-223, TASK-224, and TASK-225 moved to `in-review` after updating website
 > test index and matrix entries.
+
+> [!INFO] Verification sweep started · 2026-05-09
+> CHORE-090 entered `in-progress` to run W4 docs maturity, link, metadata,
+> build, and lint checks.
