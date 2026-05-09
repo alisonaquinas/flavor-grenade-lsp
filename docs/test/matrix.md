@@ -72,7 +72,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Website.Attribution.CreatorByline` | Footer credits Alison Aquinas with required profile links | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers byline and Alison website/GitHub/LinkedIn links |
 | `Website.Attribution.InspirationLinks` | Footer links Karpathy, Obsidian, and Marksman inspiration sources | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers required descriptive inspiration links |
 | `Website.Attribution.NoConfusion` | Attribution copy avoids implying endorsement or affiliation | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer rendering includes lineage/prior-art clarification copy |
-| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts` | 🔴 failing | Phase W3 | RED guard added after BUG-026 visual smoke finding |
+| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts` | ✅ passing | Phase W3 | Regression guard added after BUG-026 visual smoke finding |
 
 ---
 
@@ -380,8 +380,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E14 (Membership And Compatibility) | 2 | 2 | 100% |
 | Phase W1 (Website Foundation) | 2 | 2 | 100% |
 | Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
-| Phase W3 (Homepage And Design System) | 10 | 9 | 90% |
-| **Total** | **156** | **74** | **47%** |
+| Phase W3 (Homepage And Design System) | 10 | 10 | 100% |
+| **Total** | **156** | **75** | **48%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

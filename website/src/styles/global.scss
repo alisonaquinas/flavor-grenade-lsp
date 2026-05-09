@@ -49,6 +49,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 a {
@@ -176,6 +177,7 @@ button {
 .hero-copy {
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
 
 .eyebrow {
@@ -184,6 +186,7 @@ button {
   font-weight: 700;
   letter-spacing: 0.08em;
   margin: 0;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
@@ -204,6 +207,7 @@ p {
   color: var(--muted);
   font-size: 1.1rem;
   max-width: 42rem;
+  overflow-wrap: anywhere;
 }
 
 .hero-actions {
@@ -216,6 +220,8 @@ p {
   border: 1px solid var(--line);
   border-radius: 8px;
   font-weight: 700;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   padding: 0.75rem 0.95rem;
   text-decoration: none;
 }
@@ -242,7 +248,10 @@ p {
   box-shadow: 0 1.5rem 4rem color-mix(in srgb, var(--ink-strong) 12%, transparent);
   display: grid;
   gap: 1rem;
+  max-width: 100%;
+  min-width: 0;
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .proof-panel img {
@@ -296,6 +305,8 @@ p {
   border-radius: 8px;
   display: grid;
   gap: 0.6rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 1rem;
 }
 

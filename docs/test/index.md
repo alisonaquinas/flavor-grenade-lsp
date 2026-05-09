@@ -109,7 +109,7 @@ and website-specific source layout rules.
 | `website/tests/shell-theme.test.ts` | Unit | Verifies required primary navigation labels plus system, light, and dark theme mode persistence helpers | `Website.Theme.ModeSelection`, `Website.Theme.SystemDefault`, `Website.Theme.Persistence` | Phase W3 | ✅ implemented |
 | `website/tests/homepage.test.ts` | Unit | Verifies homepage first-viewport content, product proof, feature highlights, and accessible product asset placements | `Website.Homepage.FirstViewport`, `Website.BrandAssets.LogoUse`, `Website.BrandAssets.AccessibleText` | Phase W3 | ✅ implemented |
 | `website/tests/footer.test.ts` | Unit | Verifies footer byline, Alison profile links, project links, and required inspiration attribution links | `Website.Attribution.CreatorByline`, `Website.Attribution.InspirationLinks`, `Website.Attribution.NoConfusion` | Phase W3 | ✅ implemented |
-| `website/tests/mobile-layout.test.ts` | Unit | Verifies mobile homepage CSS includes overflow, wrapping, and shrink guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W3 | 🔴 failing |
+| `website/tests/mobile-layout.test.ts` | Unit | Verifies mobile homepage CSS includes overflow, wrapping, and shrink guards for narrow viewports | `Website.Mobile.CoreUseCases` | Phase W3 | ✅ implemented |
 
 ---
 
