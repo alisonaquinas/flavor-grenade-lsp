@@ -15,8 +15,12 @@ workflow, then get them from installation to productive use quickly.
 - Publish a homepage for the project on GitHub Pages.
 - Create a Karpathy-style LLM wiki: short linked pages, strong concepts, direct
   explanations, and examples that teach the model of the tool.
+- Use that wiki to keep standards high for LLM agents implementing and
+  maintaining public docs in this repo.
 - Cover the LSP server and the VS Code extension together, while keeping their
   responsibilities distinct.
+- Properly credit and link the inspirations behind the project: Andrej
+  Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
 - Optimize for search queries around Obsidian Flavored Markdown, wiki-links,
   Markdown language servers, VS Code Obsidian extensions, diagnostics,
   completions, rename, references, and vault navigation.
@@ -26,11 +30,11 @@ workflow, then get them from installation to productive use quickly.
 ## Audience
 
 - Obsidian users who want editor intelligence outside Obsidian.
-- VS Code users writing vault-style Markdown.
+- VS Code users writing in Obsidian Vaults.
 - Developers evaluating an LSP for Obsidian Flavored Markdown.
 - Plugin and tool authors looking for OFM parsing and resolution behavior.
 - Search users asking narrow questions like "VS Code Obsidian wiki-link
-  completion" or "Markdown LSP for Obsidian vaults".
+  completion" or "Markdown LSP for Obsidian Vaults".
 
 ## Content Principles
 
@@ -40,6 +44,10 @@ workflow, then get them from installation to productive use quickly.
 - Use plain language first, protocol and architecture terms second.
 - Link concepts densely, wiki-style, so each page answers one question and
   points to the next useful question.
+- Include visible attribution for inspiration and prior art where relevant.
+- Write requirements and concept pages so LLM agents can maintain a
+  Karpathy-style wiki without drifting into vague, generic, or inconsistent
+  documentation.
 - Avoid internal ticket language, implementation ledger details, and release
   process content unless it helps a public user.
 - Write titles and descriptions as search snippets: specific nouns, clear
@@ -70,11 +78,12 @@ The homepage should show the product immediately in the first viewport:
 - Name: Flavor Grenade LSP.
 - Category: language server and VS Code extension for Obsidian Flavored
   Markdown.
-- Primary value: editor intelligence for vault-style Markdown.
+- Primary value: editor intelligence for Obsidian Vaults.
 - Main proof points: diagnostics, completions, rename, references, navigation,
   tags, embeds, and OFM-aware parsing.
 - Primary actions: quickstart, VS Code extension guide, feature overview, GitHub
   repository.
+- Attribution links: Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
 
 The page should not read like a marketing placeholder. It should be usable as
 the entry point into docs.
@@ -154,6 +163,11 @@ FAQ should answer:
 - Use examples with realistic vault paths and wiki-links.
 - Add metadata when the eventual site generator is chosen.
 - Keep canonical public content separate from internal plans in `docs/`.
+- Include an attribution or inspiration section with outbound links to
+  canonical sources:
+  - [Karpathy's LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+  - [Obsidian](https://obsidian.md/)
+  - [Marksman LSP](https://github.com/artempyanykh/marksman)
 
 ## Open Decisions
 
