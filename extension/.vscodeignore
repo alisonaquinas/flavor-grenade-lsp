@@ -3,6 +3,7 @@ src/**
 docs/**
 node_modules/**
 scripts/**
+test-fixtures/**
 *.ts
 !dist/**
 tsconfig.json
@@ -13,3 +14,4 @@ tsconfig.json
 .vscode/**
 .gitignore
 package-lock.json
+*.vsix

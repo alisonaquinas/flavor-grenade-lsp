@@ -28,7 +28,9 @@ Thumbs.db
 *.swo
 *~
 .vscode/settings.json
+**/.vscode-test/
 .idea/
+/.obsidian/
 
 # ── Logs ─────────────────────────────────────────────────────────────────────
 *.log

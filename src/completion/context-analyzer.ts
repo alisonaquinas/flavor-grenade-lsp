@@ -8,6 +8,9 @@ export type CompletionContext =
   | { kind: 'wiki-link'; partial: string }
   | { kind: 'wiki-link-heading'; targetStem: string; headingPrefix: string }
   | { kind: 'wiki-link-block'; targetStem: string; blockPrefix: string }
+  | { kind: 'markdown-link-target'; partial: string }
+  | { kind: 'markdown-image-target'; partial: string }
+  | { kind: 'markdown-link-heading'; target: string; headingPrefix: string }
   | { kind: 'embed'; partial: string }
   | { kind: 'tag'; partial: string }
   | { kind: 'callout'; partial: string }
@@ -83,7 +86,28 @@ export class ContextAnalyzer {
       return { kind: 'wiki-link', partial: wikiMatch[1] };
     }
 
-    // 6. Tag: '#' preceded by whitespace, start-of-string, or punctuation
+    // 6. Markdown image target contexts: ![alt](target
+    const markdownImageMatch = /!\[[^\]\n]*\]\(([^)\s]*)$/.exec(prefix);
+    if (markdownImageMatch !== null) {
+      return { kind: 'markdown-image-target', partial: markdownImageMatch[1] };
+    }
+
+    // 7. Markdown link URL contexts: [text](target or [text](target#heading
+    const markdownLinkMatch = /(?<!!)\[[^\]\n]*\]\(([^)\s]*)$/.exec(prefix);
+    if (markdownLinkMatch !== null) {
+      const partial = markdownLinkMatch[1];
+      const hashIndex = partial.lastIndexOf('#');
+      if (hashIndex !== -1) {
+        return {
+          kind: 'markdown-link-heading',
+          target: partial.slice(0, hashIndex),
+          headingPrefix: partial.slice(hashIndex + 1),
+        };
+      }
+      return { kind: 'markdown-link-target', partial };
+    }
+
+    // 8. Tag: '#' preceded by whitespace, start-of-string, or punctuation
     //    The partial is the text after '#'
     const tagMatch = /(?:^|[\s\p{P}])#([\w/-]*)$/u.exec(prefix);
     if (tagMatch !== null) {

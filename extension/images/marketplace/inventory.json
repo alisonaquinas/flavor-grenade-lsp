@@ -1,0 +1,45 @@
+{
+  "requiredVisuals": [
+    {
+      "category": "OFMarkdown language mode promotion",
+      "id": "ofmarkdown-mode",
+      "path": "images/marketplace/ofmarkdown-mode.png"
+    },
+    {
+      "category": "Status bar indexing",
+      "id": "status-indexing",
+      "path": "images/marketplace/status-indexing.png"
+    },
+    {
+      "category": "Wiki-link completion",
+      "id": "wiki-link-completion",
+      "path": "images/marketplace/wiki-link-completion.png"
+    },
+    {
+      "category": "Heading and block-anchor completion",
+      "id": "heading-block-completion",
+      "path": "images/marketplace/heading-block-completion.png"
+    },
+    {
+      "category": "Reference code lens",
+      "id": "reference-code-lens",
+      "path": "images/marketplace/reference-code-lens.png"
+    },
+    {
+      "category": "Embed diagnostics and hover",
+      "id": "embed-diagnostics-hover",
+      "path": "images/marketplace/embed-diagnostics-hover.png"
+    },
+    {
+      "category": "Tag completion and references",
+      "id": "tag-completion-references",
+      "path": "images/marketplace/tag-completion-references.png"
+    },
+    {
+      "category": "Callout completion",
+      "id": "callout-completion",
+      "path": "images/marketplace/callout-completion.png"
+    }
+  ],
+  "supportedFormats": [".png", ".jpg", ".jpeg", ".gif"]
+}

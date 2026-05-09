@@ -20,34 +20,39 @@ Key capability declarations:
 
 ```json
 {
-  "textDocumentSync": { "change": 1, "openClose": true, "save": { "includeText": false } },
+  "textDocumentSync": 1,
   "completionProvider": {
-    "triggerCharacters": ["[", "#", "("],
-    "resolveProvider": true
+    "triggerCharacters": ["[", "!", "#", "^", ">", "("],
+    "commitCharacters": ["]"],
+    "resolveProvider": false
   },
   "definitionProvider": true,
   "referencesProvider": true,
   "hoverProvider": true,
   "renameProvider": { "prepareProvider": true },
+  "documentHighlightProvider": true,
   "documentSymbolProvider": true,
   "workspaceSymbolProvider": true,
   "codeLensProvider": { "resolveProvider": false },
-  "codeActionProvider": { "codeActionKinds": ["quickfix", "refactor", "source"] },
+  "codeActionProvider": true,
+  "documentLinkProvider": { "resolveProvider": false },
   "semanticTokensProvider": {
     "legend": { "tokenTypes": [...], "tokenModifiers": [] },
     "full": true,
     "range": false
   },
   "foldingRangeProvider": true,
+  "selectionRangeProvider": true,
   "workspace": {
     "fileOperations": {
-      "didRename": { "filters": [{ "pattern": { "glob": "**/*.md" } }] }
+      "willRename": { "filters": [{ "pattern": { "glob": "**/*" } }] },
+      "didRename": { "filters": [{ "pattern": { "glob": "**/*" } }] }
     }
   }
 }
 ```
 
-`textDocumentSync.change = 1` declares Full sync. `openClose: true` means the server listens for `textDocument/didOpen` and `textDocument/didClose`. `save.includeText: false` means `textDocument/didSave` carries no content (the server does not act on save).
+`textDocumentSync = 1` declares Full sync. The server handles `textDocument/didOpen`, `textDocument/didChange`, and `textDocument/didClose`; it does not currently advertise a save handler.
 
 ---
 
@@ -61,25 +66,27 @@ Key capability declarations:
 | `exit` | — | — | Process exits with code 0 (after shutdown) or 1 (without) |
 | `textDocument/didOpen` | `textDocumentSync.openClose` | — | Creates `OFMDoc` with version from params; triggers initial diagnostics |
 | `textDocument/didChange` | `textDocumentSync.change` | — | Full text sync; replaces `OFMDoc`; triggers RefGraph update |
-| `textDocument/didClose` | `textDocumentSync.openClose` | — | Sets doc to disk-version (version=null); retained in vault index |
-| `textDocument/didSave` | `textDocumentSync.save` | — | No-op (no text included); retained for future save-triggered actions |
-| `textDocument/completion` | `completionProvider` | `[`, `#`, `(` | OFM: wiki-links, tags, callout types, embeds, heading anchors, block refs |
-| `textDocument/completion/resolve` | `completionProvider.resolveProvider` | — | Populates `documentation` field with hover preview of target doc |
+| `textDocument/didClose` | `textDocumentSync` | — | Removes the document from `DocumentStore` and clears parse-cache state |
+| `textDocument/completion` | `completionProvider` | `[`, `!`, `#`, `^`, `>`, `(` | OFM: wiki-links, tags, callout types, embeds, heading anchors, block refs, Markdown link contexts |
+| `textDocument/completion/resolve` | `completionProvider.resolveProvider = false` | — | Not implemented |
 | `textDocument/definition` | `definitionProvider` | — | OFM: wiki-links (`DocDef`, `HeaderDef`, `BlockAnchorDef`), embeds, alias targets |
 | `textDocument/references` | `referencesProvider` | — | OFM: headings → all `CrossSection` refs; docs → all `CrossDoc` refs; block anchors → all `CrossBlock` refs; tags → all `TagRef`s |
 | `textDocument/hover` | `hoverProvider` | — | OFM: wiki-link preview (first 5 lines of target), tag info (usage count + subtags), frontmatter key description |
 | `textDocument/rename` | `renameProvider` | — | OFM: heading rename (updates all `CrossSection` refs); file rename via `workspace/applyEdit` (updates all `CrossDoc` refs + wiki-link text) |
 | `textDocument/prepareRename` | `renameProvider.prepareProvider` | — | Returns `null` if cursor is not on a renameable symbol (link target, heading, tag — not label text) |
-| `textDocument/publishDiagnostics` | — (notification, server → client) | — | OFM: `BrokenLink`, `BrokenSection`, `BrokenBlockRef`, `BrokenEmbed`, `BrokenIntraLink`, `MalformedBlockAnchor`, `MalformedFrontmatter` |
+| `textDocument/publishDiagnostics` | — (notification, server → client) | — | OFM: `BrokenLink`, `AmbiguousLink`, `MalformedWikiLink`, `BrokenEmbed`, `BrokenBlockRef`, `NonBreakableWhitespace`, `MalformedFrontmatter` |
 | `textDocument/documentSymbol` | `documentSymbolProvider` | — | Returns headings as a nested `DocumentSymbol` tree (h1 → h2 → h3 etc.) |
 | `workspace/symbol` | `workspaceSymbolProvider` | — | All headings across vault; subsequence matching on query string |
 | `textDocument/codeLens` | `codeLensProvider` | — | "N references" lens on each heading; "N references" on each block anchor |
-| `textDocument/codeAction` | `codeActionProvider` | — | `InsertTOC` (heading list), `CreateMissingFile` (broken wiki-link target), `TagToYaml` (move inline `#tag` to frontmatter), `NormalizeFrontmatter` |
+| `textDocument/codeAction` | `codeActionProvider` | — | `InsertTOC` (heading list), `CreateMissingFile` (broken wiki-link target), `FixNbsp` (replace U+00A0), `TagToYaml` (move inline `#tag` to frontmatter) |
+| `textDocument/documentLink` | `documentLinkProvider` | — | OFM and Markdown local links become clickable when unambiguous; ambiguous links rely on diagnostics |
 | `textDocument/semanticTokens/full` | `semanticTokensProvider.full` | — | OFM tokens: `wikiLink`, `wikiLinkTarget`, `wikiLinkLabel`, `embed`, `tag`, `blockAnchor`, `calloutType`, `calloutTitle`, `mathInline`, `mathBlock`, `ofmComment` |
-| `textDocument/foldingRange` | `foldingRangeProvider` | — | Callout blocks, display math blocks (`$$`), OFM comment blocks (`%%`), fenced code blocks |
+| `textDocument/foldingRange` | `foldingRangeProvider` | — | Frontmatter, headings, callout blocks, display math blocks (`$$`), OFM comment blocks (`%%`), fenced code blocks, and Templater blocks (`<% ... %>`) |
+| `textDocument/selectionRange` | `selectionRangeProvider` | — | Expands from OFM token to full construct, paragraph, section, and document; opaque regions are bounded to their own range |
 | `workspace/didChangeWatchedFiles` | `workspace.fileOperations` | — | Triggered on `*.md` create/delete; updates `VaultFolder` and `RefGraph` |
-| `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, rewrites all wiki-links to renamed file via `workspace/applyEdit` |
-| `workspace/executeCommand` | `executeCommandProvider` | — | Commands: `flavorGrenade.rebuildIndex`, `flavorGrenade.insertBlockAnchor`, `flavorGrenade.openLinkedNote` |
+| `workspace/willRenameFiles` | `workspace.fileOperations.willRename` | — | Returns WorkspaceEdit for note, folder, and attachment moves before the editor applies the file operation |
+| `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, refreshes index, and reports diagnostics when a client did not request `willRenameFiles` |
+| `workspace/executeCommand` | — | — | Command: `flavorGrenade.rebuildIndex` |
 | `flavorGrenade/documentMembership` | custom request | — | VS Code extension asks whether a URI belongs to a vault/index and should be assigned `ofmarkdown` |
 
 ---
@@ -90,14 +97,13 @@ Key capability declarations:
 
 | Code | Severity | Meaning | Suggested Fix |
 |------|----------|---------|---------------|
-| `BrokenLink` | Error | `[[target]]` — no document with matching slug | CodeAction: `CreateMissingFile` |
-| `BrokenSection` | Error | `[[doc#heading]]` — doc exists but heading not found | No auto-fix |
-| `BrokenBlockRef` | Error | `[[doc#^id]]` — doc exists but block anchor not found | No auto-fix |
-| `BrokenEmbed` | Error | `![[file]]` — no file with matching path | CodeAction: `CreateMissingFile` (for .md) |
-| `BrokenIntraLink` | Warning | `[[#heading]]` — heading not found in current doc | No auto-fix |
-| `MalformedBlockAnchor` | Warning | `^id` — block anchor ID contains invalid characters | No auto-fix |
-| `MalformedFrontmatter` | Warning | YAML parse error in frontmatter block | No auto-fix |
-| `AmbiguousLink` | Hint | `[[target]]` — matches more than one document | No auto-fix; hover shows all candidates |
+| `FG001` | Error | `[[target]]`, `[[doc#heading]]`, or Markdown local link target cannot resolve | CodeAction: `CreateMissingFile` for broken wiki-links |
+| `FG002` | Error | Link or attachment target matches more than one candidate | No auto-fix; diagnostic related information lists candidates where available |
+| `FG003` | Error | Wiki-link target is empty or blank | No auto-fix |
+| `FG004` | Warning | Embed or Markdown image attachment target cannot resolve | No auto-fix |
+| `FG005` | Error | `[[doc#^id]]` resolves to a document but block anchor `^id` is missing | No auto-fix |
+| `FG006` | Warning | U+00A0 non-breaking space appears in document body | CodeAction: `FixNbsp` |
+| `FG007` | Warning | YAML parse error in frontmatter block | No auto-fix |
 
 ---
 
@@ -182,28 +188,49 @@ The server must return `isOfMarkdown: false` for unsupported URI schemes and non
 
 ---
 
+## VS Code Command Bridge Payloads
+
+VS Code-specific command bridges are owned by the extension, not the server. The
+server may return `flavorGrenade.*` command identifiers and JSON payloads in
+code lens, code actions, or custom responses when a native VS Code UI surface is
+more appropriate than a plain LSP result.
+
+Candidate commands:
+
+| Command | Payload | VS Code action |
+|---|---|---|
+| `flavorGrenade.showReferences` | source location plus reference locations | `editor.action.showReferences` |
+| `flavorGrenade.followLink` | one source location and one or more target locations | VS Code location picker or direct open |
+| `flavorGrenade.openEmbedTarget` | target URI and optional range | Open note or asset |
+| `flavorGrenade.showBacklinks` | document URI | Backlink picker or panel |
+| `flavorGrenade.showOutlinks` | document URI | Outlink picker or panel |
+| `flavorGrenade.copyDiagnosticInfo` | extension/server/vault status fields | Clipboard write |
+
+All payloads must be JSON-serializable. The server must not import VS Code API
+types.
+
+---
+
 ## Code Action Catalog
 
 `CodeActionService` provides four code actions. Each is triggered by a diagnostic or by the editor's code action request on a specific symbol range:
 
 | Action ID | Kind | Trigger | Description |
 |-----------|------|---------|-------------|
-| `flavorGrenade.insertTOC` | `source` | Cursor in heading area | Inserts a Markdown table of contents at cursor position based on document headings |
-| `flavorGrenade.createMissingFile` | `quickfix` | `BrokenLink` or `BrokenEmbed` diagnostic | Creates an empty `.md` file at the path implied by the broken wiki-link target |
+| `flavorGrenade.insertTOC` | `source` | Cursor in heading area | Inserts or replaces a Markdown table of contents based on document headings |
+| `flavorGrenade.createMissingFile` | `quickfix` | Server-issued `BrokenLink` diagnostic whose range still matches a parsed wiki-link | Creates an empty `.md` file at the vault-confined path implied by the broken wiki-link target |
+| `flavorGrenade.fixNbsp` | `quickfix` | `FG006` diagnostic | Replaces a non-breaking space with a regular space |
 | `flavorGrenade.tagToYaml` | `refactor` | Cursor on inline `#tag` | Moves the tag from inline text to the `tags:` array in frontmatter |
-| `flavorGrenade.normalizeFrontmatter` | `source` | Any position in doc | Sorts frontmatter keys alphabetically and normalizes YAML formatting |
 
 ---
 
 ## Workspace Commands
 
-`workspace/executeCommand` supports these commands (registered via `executeCommandProvider`):
+`workspace/executeCommand` supports this command:
 
 | Command | Arguments | Description |
 |---------|-----------|-------------|
 | `flavorGrenade.rebuildIndex` | *(none)* | Forces full `RefGraph.mk` rebuild for all vault folders |
-| `flavorGrenade.insertBlockAnchor` | `{ uri, line }` | Inserts a generated `^block-id` at the end of the paragraph on `line` |
-| `flavorGrenade.openLinkedNote` | `{ uri, position }` | Opens the note targeted by the wiki-link at `position` (editor-side command) |
 
 ---
 

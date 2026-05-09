@@ -2,11 +2,11 @@
 id: "FEAT-020"
 title: "Dynamic OFMarkdown language mode"
 type: feature
-status: draft
+status: done
 priority: "high"
 phase: "E6"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: ["FEAT-019"]
 tags: [tickets/feature, "phase/E6"]
 aliases: ["FEAT-020"]
@@ -14,7 +14,7 @@ aliases: ["FEAT-020"]
 
 # Dynamic OFMarkdown language mode
 
-> [!INFO] `FEAT-020` · Feature · Phase E6 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-020` · Feature · Phase E6 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -94,23 +94,23 @@ When a VS Code user opens an Obsidian vault note, the editor recognizes it as **
 
 ## Acceptance Criteria
 
-- [ ] `ofmarkdown` appears in VS Code language picker as **OFMarkdown**
+- [x] `ofmarkdown` appears in VS Code language picker as **OFMarkdown**
 
-- [ ] `.md` files are not globally associated with `ofmarkdown`
+- [x] `.md` files are not globally associated with `ofmarkdown`
 
-- [ ] Obsidian vault documents promote automatically
+- [x] Obsidian vault documents promote automatically
 
-- [ ] Server-indexed `.flavor-grenade.toml` vault documents promote automatically
+- [x] Server-indexed `.flavor-grenade.toml` vault documents promote automatically
 
-- [ ] Generic Markdown remains `markdown`
+- [x] Generic Markdown remains `markdown`
 
-- [ ] Manual non-Markdown language modes are preserved
+- [x] Manual non-Markdown language modes are preserved
 
-- [ ] No language assignment or LanguageClient restart loops occur
+- [x] No language assignment or LanguageClient restart loops occur
 
-- [ ] Markdown-compatible highlighting/editing remains available after promotion
+- [x] Markdown-compatible highlighting/editing remains available after promotion
 
-- [ ] All linked tests and smoke checks pass
+- [x] All linked tests and smoke checks pass; PR #38 CI passed before merge
 
 ---
 
@@ -118,11 +118,11 @@ When a VS Code user opens an Obsidian vault note, the editor recognizes it as **
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-151]] | Contribute OFMarkdown language metadata | `open` |
-| [[TASK-152]] | Implement LanguageModeController | `open` |
-| [[TASK-153]] | Add document membership request | `open` |
-| [[TASK-154]] | Add OFMarkdown tests and smoke coverage | `open` |
-| [[TASK-155]] | Update release docs and Marketplace notes | `open` |
+| [[TASK-151]] | Contribute OFMarkdown language metadata | `done` |
+| [[TASK-152]] | Implement LanguageModeController | `done` |
+| [[TASK-153]] | Add document membership request | `done` |
+| [[TASK-154]] | Add OFMarkdown tests and smoke coverage | `done` |
+| [[TASK-155]] | Update release docs and Marketplace notes | `done` |
 
 ---
 
@@ -157,3 +157,36 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `draft`. Documentation and plan created; implementation not started.
+
+> [!INFO] Review sync — 2026-05-07
+> Implementation and local evidence are present on `develop`; ticket status moved to `in-review` pending phase PR CI.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Feature and child tickets moved to `done`; execution ledger and roadmap marked complete.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-07.
+
+### What went as planned
+
+The implementation already satisfied the E6 behavior surface: the extension contributes `ofmarkdown`, promotes vault/index Markdown documents, preserves generic Markdown and manual non-Markdown modes, and the server answers `flavorGrenade/documentMembership`.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| N/A | N/A | No new sweep tickets were needed. The only adjustment was adding automated evidence for Markdown grammar/config parity before closing E6. | +0.25 h |
+
+### Process observations
+
+The phase ticket frontmatter, index, and test matrix drifted after implementation landed on `develop`. Closing an already-implemented phase still needs a short reconciliation pass before the PR gate.
+
+### Carry-forward actions
+
+- [ ] Start E7 from updated `develop` after PR #38 merges.
+- [ ] Keep E7 ticket frontmatter, phase index, matrix, and ledger in sync as status changes occur.
+
+### Rule / template amendments
+
+- [ ] none

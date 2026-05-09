@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { describe, it, afterEach } from 'node:test';
 import {
     DOCUMENT_MEMBERSHIP_METHOD,
     LanguageModeController,
+    MARKDOWN_LANGUAGE_ID,
     OFMARKDOWN_LANGUAGE_ID,
-    hasObsidianAncestor,
+    hasOfMarkdownMarkerAncestor,
     isPromotableMarkdownDocument,
     shouldPreserveLanguage,
 } from './language-mode.js';
@@ -42,6 +43,8 @@ function document(fsPath: string, languageId = 'markdown'): FakeDocument {
 function controllerFor(options: {
     documents: FakeDocument[];
     membership?: boolean;
+    memberships?: Record<string, boolean>;
+    failMembership?: boolean;
     setLanguage?: (document: FakeDocument, languageId: string) => Promise<FakeDocument>;
 }): { controller: LanguageModeController; requests: unknown[]; promoted: string[] } {
     const requests: unknown[] = [];
@@ -51,10 +54,15 @@ function controllerFor(options: {
         {
             sendRequest: (method, params) => {
                 requests.push({ method, params });
+                if (options.failMembership) {
+                    return Promise.reject(new Error('membership unavailable')) as never;
+                }
+                const uri = (params as { uri?: string }).uri ?? '';
+                const membership = options.memberships?.[uri] ?? options.membership ?? false;
                 return Promise.resolve({
-                    isOfMarkdown: options.membership ?? false,
-                    indexed: options.membership ?? false,
-                    reason: options.membership ? 'flavor-config-vault' : 'not-indexed',
+                    isOfMarkdown: membership,
+                    indexed: membership,
+                    reason: membership ? 'flavor-config-vault' : 'not-indexed',
                 }) as never;
             },
         },
@@ -80,6 +88,59 @@ function controllerFor(options: {
 }
 
 describe('language mode helpers', () => {
+    it('contributes OFMarkdown without taking over generic Markdown files', async () => {
+        const manifest = JSON.parse(await readFile(resolve('package.json'), 'utf8')) as {
+            activationEvents?: string[];
+            contributes?: {
+                languages?: Array<{
+                    id?: string;
+                    aliases?: string[];
+                    extensions?: string[];
+                    filenames?: string[];
+                    firstLine?: string;
+                    configuration?: string;
+                }>;
+                grammars?: Array<{ language?: string; scopeName?: string; path?: string }>;
+            };
+        };
+
+        const language = manifest.contributes?.languages?.find(
+            (entry) => entry.id === OFMARKDOWN_LANGUAGE_ID,
+        );
+        assert.ok(language);
+        assert.deepEqual(language.aliases, ['OFMarkdown', 'Obsidian Flavored Markdown']);
+        assert.equal(language.configuration, './language-configuration.json');
+        assert.equal(language.extensions, undefined);
+        assert.equal(language.filenames, undefined);
+        assert.equal(language.firstLine, undefined);
+        assert.ok(manifest.activationEvents?.includes(`onLanguage:${OFMARKDOWN_LANGUAGE_ID}`));
+
+        assert.deepEqual(manifest.contributes?.grammars?.[0], {
+            language: OFMARKDOWN_LANGUAGE_ID,
+            scopeName: 'text.html.markdown.ofmarkdown',
+            path: './syntaxes/ofmarkdown.tmLanguage.json',
+        });
+    });
+
+    it('bridges OFMarkdown to baseline Markdown grammar and editor behavior', async () => {
+        const grammar = JSON.parse(
+            await readFile(resolve('syntaxes', 'ofmarkdown.tmLanguage.json'), 'utf8'),
+        ) as { scopeName?: string; patterns?: Array<{ include?: string }> };
+        const languageConfig = JSON.parse(await readFile(resolve('language-configuration.json'), 'utf8')) as {
+            comments?: { blockComment?: string[] };
+            brackets?: string[][];
+            autoClosingPairs?: Array<{ open?: string; close?: string }>;
+        };
+
+        assert.equal(grammar.scopeName, 'text.html.markdown.ofmarkdown');
+        assert.deepEqual(grammar.patterns, [{ include: 'text.html.markdown' }]);
+        assert.deepEqual(languageConfig.comments?.blockComment, ['<!--', '-->']);
+        assert.ok(languageConfig.brackets?.some(([open, close]) => open === '[' && close === ']'));
+        assert.ok(
+            languageConfig.autoClosingPairs?.some(({ open, close }) => open === '`' && close === '`'),
+        );
+    });
+
     it('recognizes promotable Markdown file documents', () => {
         const doc = document(join('vault', 'note.md'));
 
@@ -92,13 +153,23 @@ describe('language mode helpers', () => {
         assert.equal(shouldPreserveLanguage(doc as never), true);
     });
 
-    it('detects an .obsidian ancestor', async () => {
+    it('detects OFMarkdown marker ancestors', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, '.obsidian'));
         const note = join(root, 'notes', 'welcome.md');
 
-        assert.equal(await hasObsidianAncestor(note), true);
+        assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
+    });
+
+    it('detects a .flavor-grenade.toml ancestor', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, 'notes'));
+        await writeFile(join(root, '.flavor-grenade.toml'), '');
+        const note = join(root, 'notes', 'welcome.md');
+
+        assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 });
 
@@ -126,7 +197,7 @@ describe('LanguageModeController', () => {
         assert.deepEqual(promoted, []);
     });
 
-    it('does not ask the server when an Obsidian ancestor is present', async () => {
+    it('does not ask the server when an OFMarkdown marker ancestor is present', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, '.obsidian'));
@@ -190,5 +261,63 @@ describe('LanguageModeController', () => {
 
         await assert.doesNotReject(() => controller.refreshAll());
         assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('refreshAll checks both markdown and ofmarkdown documents', async () => {
+        const markdown = document(join('vault', 'new.md'));
+        const ofmarkdown = document(join('old', 'stale.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, requests } = controllerFor({
+            documents: [markdown, ofmarkdown],
+            memberships: {
+                [markdown.uri.toString()]: true,
+                [ofmarkdown.uri.toString()]: false,
+            },
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(
+            requests
+                .map((request) => (request as { params: { uri: string } }).params.uri)
+                .sort(),
+            [markdown.uri.toString(), ofmarkdown.uri.toString()].sort(),
+        );
+    });
+
+    it('downgrades ofmarkdown only when server and marker checks both say outside vault', async () => {
+        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted } = controllerFor({
+            documents: [stale],
+            membership: false,
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, [MARKDOWN_LANGUAGE_ID]);
+    });
+
+    it('does not downgrade ofmarkdown when server membership is unavailable', async () => {
+        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted } = controllerFor({
+            documents: [stale],
+            failMembership: true,
+        });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, []);
+    });
+
+    it('does not downgrade ofmarkdown when a vault marker still applies', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, '.obsidian'));
+        const doc = document(join(root, 'note.md'), OFMARKDOWN_LANGUAGE_ID);
+        const { controller, promoted, requests } = controllerFor({ documents: [doc], membership: false });
+
+        await controller.refreshAll();
+
+        assert.deepEqual(promoted, []);
+        assert.deepEqual(requests, []);
     });
 });

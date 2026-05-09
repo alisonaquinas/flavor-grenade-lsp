@@ -10,31 +10,32 @@ aliases:
 # Block Reference Requirements
 
 > [!NOTE] Scope
-> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a line of body text. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
+> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a block-level line, either after whitespace or at the start of a standalone anchor line. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
 
 ---
 
 **Tag:** Block.Anchor.Indexing
 **User Req:** User.Blocks.ReferenceSpecificText
-**Gist:** All `^blockid` anchors present in a document's body text must be discovered during indexing and registered in OFMIndex.blockAnchors for that document.
+**Gist:** All valid `^blockid` anchors present in a document must be discovered during indexing and registered in OFMIndex.blockAnchors for that document.
 **Ambition:** Block anchors are the mechanism Obsidian uses for precise transclusion and deep linking. An index that misses anchors produces silent gaps: users believe their block can be linked, create a `[[doc#^anchor]]` reference, and see no FG005 diagnostic — but the reference resolves to nothing at render time. Complete indexing is the prerequisite for every other block-reference feature (completion, diagnostics, go-to-definition).
-**Scale:** Percentage of actual `^blockid` anchor definitions present in a document's body text that appear in OFMIndex.blockAnchors for that document after indexing. Scope: all documents in the test vault; only end-of-line anchors in body text (not inside code blocks or math blocks).
+**Scale:** Percentage of actual `^blockid` anchor definitions present in a document that appear in OFMIndex.blockAnchors for that document after indexing. Scope: all documents in the test vault; only line-end or standalone anchors outside opaque regions.
 **Meter:**
 
 1. Create a test vault with at least 5 documents. Each document must contain:
-   - At least 5 end-of-line `^blockid` anchors in body text paragraphs and list items
+   - At least 5 end-of-line `^blockid` anchors across paragraphs, list items, headings, and table rows
+   - At least 1 standalone `^blockid` anchor line
    - At least 2 occurrences of `^id` mid-sentence (these should not be indexed as anchors)
    - At least 1 `^blockid` inside a fenced code block (should not be indexed)
 2. Run VaultIndex / OFMIndex build.
-3. Use the test harness to enumerate expected anchors (end-of-line body-text occurrences only).
+3. Use the test harness to enumerate expected anchors (line-end and standalone occurrences only).
 4. Query OFMIndex.blockAnchors for each document; compare the returned set to the expected set.
 5. Verify mid-sentence and code-block `^id` occurrences are absent from the index.
 6. Compute: (indexed anchors / expected anchors) × 100.
-**Fail:** Any expected end-of-line body-text `^blockid` absent from OFMIndex.blockAnchors (i.e., < 100%).
+**Fail:** Any expected valid `^blockid` absent from OFMIndex.blockAnchors (i.e., < 100%).
 **Goal:** 100% of expected anchors indexed; 0 false-positive anchors indexed.
 **Stakeholders:** Vault authors using block transclusion, evergreen note practitioners.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#block-anchor-index]], [[embed-resolution]].
+**Source:** [[ofm-spec/block-references]], [[design/domain-layer#block-anchor-index]], [[embed-resolution]].
 
 ---
 
@@ -57,7 +58,7 @@ aliases:
 **Goal:** 100% correct diagnostic behaviour in both modes.
 **Stakeholders:** Vault authors using block cross-references, transclusion chain maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/diagnostics#FG005]], [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
+**Source:** [[ofm-spec/block-references]], [[requirements/diagnostics#FG005]], [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
 
 ---
 
@@ -78,29 +79,29 @@ aliases:
 **Goal:** 100% of known block anchors appear in the completion list.
 **Stakeholders:** Vault authors composing transclusion networks, evergreen note systems users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
+**Source:** [[ofm-spec/block-references]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
 
 ---
 
 **Tag:** Block.Anchor.Lineend
 **User Req:** User.Blocks.CompleteBlockRef
-**Gist:** Only `^id` patterns that appear at the end of a line of body text are treated as block anchor definitions; `^id` patterns occurring mid-sentence or inside code blocks must not be indexed as block anchors.
+**Gist:** Only `^id` patterns at the end of a block-level line, or on a standalone anchor line, are treated as block anchor definitions; `^id` patterns occurring mid-sentence or inside opaque regions must not be indexed as block anchors.
 **Ambition:** Obsidian's block anchor specification is unambiguous: an anchor is a `^` immediately followed by an alphanumeric identifier at the end of a line, optionally preceded by whitespace. Mid-sentence `^id` occurrences (common in mathematical notation, e.g., `x^2`, or in text like "refer to section^note") are not block anchors. Incorrectly indexing them pollutes OFMIndex.blockAnchors with phantom entries, causing false-positive completion candidates and corrupting the block reference graph.
-**Scale:** Binary pass/fail per syntactic position tested. A position is a `^id`-like token in body text. The scale is the percentage of positions correctly classified: end-of-line body-text positions indexed as anchors, all other positions not indexed.
+**Scale:** Binary pass/fail per syntactic position tested. A position is a `^id`-like token in document text. The scale is the percentage of positions correctly classified: valid line-end or standalone positions indexed as anchors, all other positions not indexed.
 **Meter:**
 
 1. Create a document with the following occurrences, each on a separate line or within a line:
-   - 5 end-of-line anchors: `paragraph text ^anchor-a`, `- list item ^anchor-b`
+   - 5 end-of-line anchors: `paragraph text ^anchor-a`, `- list item ^anchor-b`, `## Heading ^anchor-c`
+   - 1 standalone anchor line: `^anchor-d`
    - 3 mid-sentence occurrences: `x^2 is quadratic`, `the value ^temp is`, `note^1`
    - 2 inside a fenced code block: `code ^anchor-x`
-   - 1 at end of a heading line: `## Heading ^anchor-c` (Obsidian does not support anchors on headings — should not be indexed)
 2. Run OFMIndex build.
 3. Query OFMIndex.blockAnchors for the document.
-4. Verify anchors `anchor-a` and `anchor-b` are present.
+4. Verify anchors `anchor-a`, `anchor-b`, `anchor-c`, and `anchor-d` are present.
 5. Verify no other tokens appear in blockAnchors.
 6. Compute: (correctly classified positions / total positions tested) × 100.
-**Fail:** Any mid-sentence, code-block, or heading `^id` token present in OFMIndex.blockAnchors, or any end-of-line body-text `^id` absent from OFMIndex.blockAnchors.
+**Fail:** Any mid-sentence or opaque-region `^id` token present in OFMIndex.blockAnchors, or any valid line-end or standalone `^id` absent from OFMIndex.blockAnchors.
 **Goal:** 100% correct classification.
 **Stakeholders:** All vault authors; particularly those using mathematical notation or footnote-style markers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-anchors]], [[design/domain-layer#ofm-parser]], `Block.Anchor.Indexing`.
+**Source:** [[ofm-spec/block-references]], [[design/domain-layer#ofm-parser]], `Block.Anchor.Indexing`.

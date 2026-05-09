@@ -89,6 +89,23 @@ describe('EmbedCompletionProvider', () => {
   // ── asset paths ───────────────────────────────────────────────────────────────
 
   describe('asset paths', () => {
+    it('returns attachment paths from VaultIndex for attachment-only completions', () => {
+      vaultIndex.setAttachment({
+        path: 'assets/diagram.png',
+        uri: 'file:///v/assets/diagram.png',
+        extension: 'png',
+        kind: 'image',
+        sizeBytes: 42,
+      });
+      vaultIndex.set(id('assets/diagram'), makeDoc('file:///v/assets/diagram.md'));
+      folderLookup.rebuild(vaultIndex);
+      provider = makeProvider();
+
+      const { items } = provider.getAttachmentCompletions('assets/d');
+
+      expect(items.map((i) => i.label)).toEqual(['assets/diagram.png']);
+    });
+
     it('includes asset paths from vaultScanner', () => {
       provider = makeProvider(['images/logo.png', 'docs/diagram.svg']);
 

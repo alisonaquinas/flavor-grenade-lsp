@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from '@jest/globals';
 import { jest } from '@jest/globals';
 import { InitializedHandler } from '../initialized.handler.js';
 import { LifecycleState } from '../../services/lifecycle-state.js';
+import { ErrorCodes } from '../../../transport/json-rpc-dispatcher.js';
 import { VaultScanner } from '../../../vault/vault-scanner.js';
 import { FileWatcher } from '../../../vault/file-watcher.js';
 import { VaultDetector } from '../../../vault/vault-detector.js';
@@ -77,6 +78,22 @@ describe('InitializedHandler', () => {
     );
     await handler.handle({});
     expect(vaultScanner.scan).toHaveBeenCalledWith('file:///vault');
+  });
+
+  it('rejects non-file rootUri before vault scan starts', async () => {
+    const handler = new InitializedHandler(
+      makeLifecycle('https://example.invalid/vault'),
+      vaultScanner,
+      fileWatcher,
+      vaultDetector,
+      awaitIndexReady,
+    );
+
+    await expect(handler.handle({})).rejects.toMatchObject({
+      code: ErrorCodes.InvalidParams,
+      message: expect.stringContaining('file'),
+    });
+    expect(vaultScanner.scan).not.toHaveBeenCalled();
   });
 
   it('calls awaitIndexReady.markReady() after scan', async () => {

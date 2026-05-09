@@ -12,6 +12,7 @@ import type { VaultDetector } from '../vault-detector.js';
 import type { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
 import type { TagRegistry } from '../../tags/tag-registry.js';
 import type { DocId } from '../doc-id.js';
+import { SERVER_VERSION } from '../../version.js';
 
 function id(s: string): DocId {
   return s as DocId;
@@ -75,6 +76,7 @@ function makeScanner(opts: {
   vaultDetector: VaultDetector;
   dispatcher: JsonRpcDispatcher;
   tagRegistry?: TagRegistry;
+  maxFiles?: number;
 }): {
   scanner: VaultScanner;
   vaultIndex: VaultIndex;
@@ -95,6 +97,7 @@ function makeScanner(opts: {
     ofmParser,
     opts.dispatcher,
     tagRegistry,
+    opts.maxFiles,
   );
 
   return { scanner, vaultIndex, folderLookup, ignoreFilter };
@@ -108,6 +111,16 @@ function toFileUri(absPath: string): string {
   const forward = absPath.split(path.sep).join('/');
   // Windows: C:/foo → file:///C:/foo  |  POSIX: /foo → file:///foo
   return forward.startsWith('/') ? `file://${forward}` : `file:///${forward}`;
+}
+
+function pngWithDimensions(width: number, height: number): Buffer {
+  const buffer = Buffer.alloc(24);
+  buffer.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], 0);
+  buffer.writeUInt32BE(13, 8);
+  buffer.write('IHDR', 12, 'ascii');
+  buffer.writeUInt32BE(width, 16);
+  buffer.writeUInt32BE(height, 20);
+  return buffer;
 }
 
 // ─── Tests ──────────────────────────────────────────────────────────────────
@@ -140,7 +153,7 @@ describe('VaultScanner', () => {
     expect(notifications).toHaveLength(1);
     expect(notifications[0]).toEqual({
       method: 'flavorGrenade/status',
-      params: { state: 'ready', vaultCount: 0, docCount: 0 },
+      params: { state: 'ready', vaultCount: 0, docCount: 0, serverVersion: SERVER_VERSION },
     });
     // No files should have been indexed
     expect(vaultIndex.size()).toBe(0);
@@ -159,7 +172,12 @@ describe('VaultScanner', () => {
     await scanner.scan(toFileUri(tmpDir));
 
     expect(notifications).toHaveLength(1);
-    expect(notifications[0].params).toEqual({ state: 'ready', vaultCount: 1, docCount: 0 });
+    expect(notifications[0].params).toEqual({
+      state: 'ready',
+      vaultCount: 1,
+      docCount: 0,
+      serverVersion: SERVER_VERSION,
+    });
     expect(vaultIndex.size()).toBe(0);
     expect(scanner.getAssetIndex().size).toBe(0);
   });
@@ -185,6 +203,56 @@ describe('VaultScanner', () => {
     expect(scanner.getAssetIndex().size).toBe(0);
   });
 
+  it('stops indexing when the configured file-count limit is reached', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'alpha.md'), '# Alpha');
+    fs.writeFileSync(path.join(tmpDir, 'beta.md'), '# Beta');
+    fs.writeFileSync(path.join(tmpDir, 'gamma.md'), '# Gamma');
+
+    const { dispatcher, notifications } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+      maxFiles: 2,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.size()).toBe(2);
+    expect(notifications).toContainEqual({
+      method: 'window/showMessage',
+      params: expect.objectContaining({
+        type: 2,
+        message: expect.stringContaining('file limit'),
+      }),
+    });
+  });
+
+  it('scan with configured extensions: indexes only configured document files', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'notes'));
+    fs.writeFileSync(
+      path.join(tmpDir, '.flavor-grenade.toml'),
+      '[vault]\nextensions = [".md", ".markdown", ".txt"]\n',
+    );
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.md'), '# Markdown');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.markdown'), '# Markdown long');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.txt'), '# Text');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'note.rst'), 'RST');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.has(id('notes/note'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.markdown'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.txt'))).toBe(true);
+    expect(vaultIndex.has(id('notes/note.rst'))).toBe(false);
+    expect(scanner.hasAsset('notes/note.rst')).toBe(true);
+  });
+
   // ── 4. Non-markdown files land in assetIndex ─────────────────────────────
 
   it('scan with non-markdown file: not in vaultIndex, IS in assetIndex', async () => {
@@ -202,6 +270,47 @@ describe('VaultScanner', () => {
     expect(vaultIndex.size()).toBe(0);
     expect(scanner.hasAsset('images/photo.png')).toBe(true);
     expect(scanner.getAssetIndex().size).toBe(1);
+  });
+
+  it('scan with non-markdown file: stores cheap attachment metadata in VaultIndex', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'images'));
+    fs.writeFileSync(path.join(tmpDir, 'images', 'photo.png'), 'PNG');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    const attachment = vaultIndex.getAttachment('images/photo.png');
+    expect(attachment).toMatchObject({
+      path: 'images/photo.png',
+      extension: 'png',
+      kind: 'image',
+      sizeBytes: 3,
+    });
+    expect(attachment?.uri.endsWith('/images/photo.png')).toBe(true);
+    expect(vaultIndex.size()).toBe(0);
+  });
+
+  it('scan with image attachment: stores cheap PNG dimensions in VaultIndex', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'images'));
+    fs.writeFileSync(path.join(tmpDir, 'images', 'diagram.png'), pngWithDimensions(640, 480));
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.getAttachment('images/diagram.png')?.dimensions).toEqual({
+      width: 640,
+      height: 480,
+    });
   });
 
   // ── 5. Nested subdirectory: docId path is correct ────────────────────────

@@ -3,6 +3,9 @@ import { Injectable } from '@nestjs/common';
 import type { DocId } from '../vault/doc-id.js';
 import { FolderLookup } from '../vault/folder-lookup.js';
 import { VaultIndex } from '../vault/vault-index.js';
+import type { HeadingEntry } from '../parser/types.js';
+import type { MarkdownTargetClassification } from './markdown-target-classifier.js';
+import { findHeadingsByAnchor, normalizeHeadingAnchor } from './heading-anchor.js';
 
 /** The result of resolving a wiki-link target. */
 export type ResolutionResult =
@@ -10,6 +13,28 @@ export type ResolutionResult =
   | { kind: 'broken'; reason: 'not-found'; diagnosticCode: 'FG001' }
   | { kind: 'ambiguous'; candidates: DocId[]; diagnosticCode: 'FG002' }
   | { kind: 'malformed'; diagnosticCode: 'FG003' };
+
+/** The result of resolving a classified standard Markdown target. */
+export type MarkdownResolutionResult =
+  | { kind: 'document-resolved'; targetDocId: DocId }
+  | {
+      kind: 'heading-resolved';
+      targetDocId: DocId;
+      heading: HeadingEntry;
+      fragment: string;
+      normalizedAnchor: string;
+    }
+  | { kind: 'document-missing'; diagnosticCode: 'FG001' }
+  | { kind: 'document-ambiguous'; candidates: DocId[]; diagnosticCode: 'FG002' }
+  | { kind: 'heading-missing'; targetDocId: DocId; fragment: string; diagnosticCode: 'FG001' }
+  | {
+      kind: 'heading-ambiguous';
+      targetDocId: DocId;
+      fragment: string;
+      candidates: HeadingEntry[];
+      diagnosticCode: 'FG002';
+    }
+  | { kind: 'non-vault' };
 
 /**
  * Resolves wiki-link targets to vault documents using a four-step strategy:
@@ -62,6 +87,43 @@ export class Oracle {
   }
 
   /**
+   * Resolve a classified standard Markdown target through vault document and
+   * heading rules.
+   *
+   * @param sourceDocId - DocId containing the Markdown target.
+   * @param target      - Classified Markdown target.
+   */
+  resolveMarkdownTarget(
+    sourceDocId: DocId,
+    target: MarkdownTargetClassification,
+  ): MarkdownResolutionResult {
+    if (
+      target.kind === 'external-url' ||
+      target.kind === 'unsupported-scheme' ||
+      target.kind === 'path-outside-vault'
+    ) {
+      return { kind: 'non-vault' };
+    }
+
+    if (target.kind === 'local-attachment') {
+      return { kind: 'non-vault' };
+    }
+
+    if (target.kind === 'same-document-fragment') {
+      return this.resolveMarkdownHeading(sourceDocId, target.fragment);
+    }
+
+    const targetDocId = this.resolveMarkdownDocId(target.path);
+    if (targetDocId.kind !== 'resolved') return targetDocId;
+
+    if (target.fragment !== undefined) {
+      return this.resolveMarkdownHeading(targetDocId.targetDocId, target.fragment);
+    }
+
+    return { kind: 'document-resolved', targetDocId: targetDocId.targetDocId };
+  }
+
+  /**
    * No-op stub kept for interface compatibility.
    *
    * Alias matching is handled lazily inside {@link resolve} via
@@ -87,6 +149,54 @@ export class Oracle {
       return this.makeResolved(docId, heading, blockRef);
     }
     return null;
+  }
+
+  private resolveMarkdownDocId(
+    targetDocId: DocId,
+  ):
+    | { kind: 'resolved'; targetDocId: DocId }
+    | { kind: 'document-missing'; diagnosticCode: 'FG001' }
+    | { kind: 'document-ambiguous'; candidates: DocId[]; diagnosticCode: 'FG002' } {
+    if (this.vaultIndex.has(targetDocId)) {
+      return { kind: 'resolved', targetDocId };
+    }
+
+    const result = this.resolve(targetDocId);
+    if (result.kind === 'resolved') {
+      return { kind: 'resolved', targetDocId: result.targetDocId };
+    }
+    if (result.kind === 'ambiguous') {
+      return { kind: 'document-ambiguous', candidates: result.candidates, diagnosticCode: 'FG002' };
+    }
+    return { kind: 'document-missing', diagnosticCode: 'FG001' };
+  }
+
+  private resolveMarkdownHeading(targetDocId: DocId, fragment: string): MarkdownResolutionResult {
+    const doc = this.vaultIndex.get(targetDocId);
+    if (doc === undefined) {
+      return { kind: 'document-missing', diagnosticCode: 'FG001' };
+    }
+
+    const candidates = findHeadingsByAnchor(doc.index.headings, fragment);
+    if (candidates.length === 1) {
+      return {
+        kind: 'heading-resolved',
+        targetDocId,
+        heading: candidates[0],
+        fragment,
+        normalizedAnchor: normalizeHeadingAnchor(fragment),
+      };
+    }
+    if (candidates.length > 1) {
+      return {
+        kind: 'heading-ambiguous',
+        targetDocId,
+        fragment,
+        candidates,
+        diagnosticCode: 'FG002',
+      };
+    }
+    return { kind: 'heading-missing', targetDocId, fragment, diagnosticCode: 'FG001' };
   }
 
   private tryAliasMatch(

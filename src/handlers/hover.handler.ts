@@ -5,8 +5,11 @@ import { pathToFileURL } from 'url';
 import { EmbedResolver } from '../resolution/embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
-import type { EmbedEntry, WikiLinkEntry } from '../parser/types.js';
+import type { AttachmentEntry } from '../vault/vault-index.js';
+import type { EmbedEntry, MarkdownImageRef, WikiLinkEntry } from '../parser/types.js';
 import type { DocId } from '../vault/doc-id.js';
+import { entityAtPosition } from './cursor-entity.js';
+import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
 
 /** LSP MarkupContent value. */
 export interface MarkupContent {
@@ -57,19 +60,20 @@ export class HoverHandler {
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return null;
 
-    // Check embeds first.
-    const embedEntry = this.findEmbedAtPosition(doc.index.embeds, params.position);
-    if (embedEntry !== null) {
-      return this.hoverForEmbed(embedEntry);
-    }
+    const entity = entityAtPosition(doc, params.position);
+    switch (entity.kind) {
+      case 'embed':
+        return this.hoverForEmbed(entity.entry);
 
-    // Then wiki-links.
-    const wikiEntry = this.findWikiLinkAtPosition(doc.index.wikiLinks, params.position);
-    if (wikiEntry !== null) {
-      return this.hoverForWikiLink(wikiEntry);
-    }
+      case 'markdown-image':
+        return this.hoverForMarkdownImage(entity.entry, doc.uri);
 
-    return null;
+      case 'wiki-link':
+        return this.hoverForWikiLink(entity.entry);
+
+      default:
+        return null;
+    }
   }
 
   private hoverForEmbed(entry: EmbedEntry): HoverResult | null {
@@ -82,11 +86,47 @@ export class HoverHandler {
     }
 
     if (resolution.kind === 'asset') {
+      const attachment = this.attachmentForTarget(resolution.assetPath);
+      if (attachment !== undefined) return this.hoverForAttachment(attachment);
+
       const assetUri = pathToFileURL(resolution.assetPath).href;
       return { contents: { kind: 'markdown', value: `![](${assetUri})` } };
     }
 
     return null;
+  }
+
+  private hoverForMarkdownImage(entry: MarkdownImageRef, sourceUri: string): HoverResult | null {
+    const sourceDocId = this.docIdForUri(sourceUri);
+    const classification = classifyMarkdownTarget(entry.target, {
+      ...(sourceDocId !== null && { sourceDocId }),
+      isImage: true,
+    });
+    if (classification.kind !== 'local-attachment') return null;
+
+    const attachment = this.attachmentForTargets([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
+    if (attachment === undefined) return null;
+
+    return this.hoverForAttachment(attachment);
+  }
+
+  private hoverForAttachment(attachment: AttachmentEntry): HoverResult {
+    const lines = [
+      `**${this.attachmentTypeLabel(attachment)}**`,
+      '',
+      `Path: \`${attachment.path}\``,
+      `Type: ${this.attachmentTypeLabel(attachment)} (${attachment.extension || 'unknown'})`,
+      `Size: ${this.formatSize(attachment.sizeBytes)}`,
+    ];
+
+    if (attachment.dimensions !== undefined) {
+      lines.push(`Dimensions: ${attachment.dimensions.width}x${attachment.dimensions.height}`);
+    }
+
+    return { contents: { kind: 'markdown', value: lines.join('\n') } };
   }
 
   private hoverForWikiLink(entry: WikiLinkEntry): HoverResult | null {
@@ -124,28 +164,70 @@ export class HoverHandler {
     return lines.join('\n');
   }
 
-  private findEmbedAtPosition(embeds: EmbedEntry[], position: Position): EmbedEntry | null {
-    for (const entry of embeds) {
-      if (this.positionInRange(position, entry.range)) return entry;
+  private docIdForUri(uri: string): DocId | null {
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return docId;
     }
     return null;
   }
 
-  private findWikiLinkAtPosition(
-    wikiLinks: WikiLinkEntry[],
-    position: Position,
-  ): WikiLinkEntry | null {
-    for (const entry of wikiLinks) {
-      if (this.positionInRange(position, entry.range)) return entry;
-    }
-    return null;
+  private attachmentForTarget(target: string): AttachmentEntry | undefined {
+    return this.attachmentForTargets([target]);
   }
 
-  private positionInRange(position: Position, range: WikiLinkEntry['range']): boolean {
-    const { start, end } = range;
-    if (position.line < start.line || position.line > end.line) return false;
-    if (position.line === start.line && position.character < start.character) return false;
-    if (position.line === end.line && position.character > end.character) return false;
-    return true;
+  private attachmentForTargets(targets: Array<string | undefined>): AttachmentEntry | undefined {
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
+    for (const target of candidates) {
+      const exact = this.vaultIndex.getAttachment(target);
+      if (exact !== undefined) return exact;
+    }
+
+    const matches = candidates.flatMap((target) => {
+      const suffix = '/' + target;
+      return Array.from(this.vaultIndex.attachments()).filter(
+        (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
+      );
+    });
+
+    const uniqueMatches = [
+      ...new Map(matches.map((attachment) => [attachment.path, attachment])).values(),
+    ];
+    return uniqueMatches.length === 1 ? uniqueMatches[0] : undefined;
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
+  }
+
+  private attachmentTypeLabel(attachment: AttachmentEntry): string {
+    switch (attachment.kind) {
+      case 'image':
+        return 'Image';
+      case 'audio':
+        return 'Audio';
+      case 'video':
+        return 'Video';
+      case 'pdf':
+        return 'PDF';
+      default:
+        return 'File';
+    }
+  }
+
+  private formatSize(sizeBytes: number): string {
+    if (sizeBytes < 1024) return `${sizeBytes} B`;
+    return `${(sizeBytes / 1024).toFixed(1)} KB`;
   }
 }

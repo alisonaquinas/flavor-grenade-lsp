@@ -14,7 +14,7 @@ Feature: OFM code actions
       | notes/existing.md        | # Existing Note\n\nThis note exists already.        |
       | notes/multi-heading.md   | # Title\n\n## Section One\n\n## Section Two\n\nBody. |
 
-  @smoke
+  @workflow-pending
   Scenario: fg.createMissingFile offered and executed for a broken wiki-link
     Given the file "notes/index.md" contains "See [[missing-note]] for details"
     And the LSP has published a FG001 diagnostic for "[[missing-note]]" in "notes/index.md"

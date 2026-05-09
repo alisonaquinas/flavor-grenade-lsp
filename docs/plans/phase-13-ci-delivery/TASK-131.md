@@ -46,8 +46,8 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
     needs: create-release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2.2.0
       - run: bun install --frozen-lockfile
       - run: bun run build
       - run: npm publish

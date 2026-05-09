@@ -95,7 +95,7 @@ cd flavor-grenade-lsp && mkdir -p extension
         "flavorGrenade.server.path": {
           "type": "string",
           "default": "",
-          "description": "Custom path to the language server binary. Leave empty to use the bundled binary."
+          "description": "Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary."
         },
         "flavorGrenade.linkStyle": {
           "type": "string",
@@ -351,7 +351,8 @@ import { type ExtensionContext, Uri, workspace } from 'vscode';
  */
 export function resolveServerPath(context: ExtensionContext): string {
     const config = workspace.getConfiguration('flavorGrenade');
-    const custom = config.get<string>('server.path');
+    const inspect = config.inspect<string>('server.path');
+    const custom = inspect?.globalValue;
 
     if (custom && custom.trim().length > 0) {
         return custom;
@@ -641,8 +642,8 @@ import type { LanguageClient } from 'vscode-languageclient/node';
  *
  * - `flavorGrenade.restartServer` — restarts the LanguageClient (and server).
  * - `flavorGrenade.rebuildIndex` — sends `workspace/executeCommand` to the
- *   server, triggering a full RefGraph rebuild. The server must register this
- *   command via `executeCommandProvider` capabilities (already implemented —
+ *   server, triggering a full RefGraph rebuild. The server handles this
+ *   command on the `workspace/executeCommand` request path (already implemented —
  *   see docs/design/api-layer.md, "Workspace Commands").
  * - `flavorGrenade.showOutput` — reveals the LSP output channel.
  */
@@ -1026,15 +1027,15 @@ jobs:
             binary-name: flavor-grenade-lsp.exe
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: latest
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install server dependencies
         run: bun install --frozen-lockfile
@@ -1060,7 +1061,7 @@ jobs:
         run: npx vsce package --target ${{ matrix.vsce-target }}
 
       - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vsix-${{ matrix.vsce-target }}
           path: extension/*.vsix
@@ -1071,7 +1072,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: vsix-win32-x64
           path: vsix-artifact
@@ -1100,15 +1101,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, smoke-test-windows-binary]
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: vsix-artifacts
           pattern: vsix-*
           merge-multiple: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install vsce
         run: npm install -g @vscode/vsce

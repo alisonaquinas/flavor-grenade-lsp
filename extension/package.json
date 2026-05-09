@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
   "engines": {
-    "vscode": "^1.81.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Programming Languages",
@@ -30,6 +30,20 @@
   "main": "./dist/extension.js",
   "icon": "images/icon.png",
   "activationEvents": [
+    "workspaceContains:.obsidian",
+    "workspaceContains:.flavor-grenade.toml",
+    "onCommand:flavorGrenade.restartServer",
+    "onCommand:flavorGrenade.rebuildIndex",
+    "onCommand:flavorGrenade.showOutput",
+    "onCommand:flavorGrenade.showStatusActions",
+    "onCommand:flavorGrenade.openTroubleshooting",
+    "onCommand:flavorGrenade.showReferences",
+    "onCommand:flavorGrenade.followLink",
+    "onCommand:flavorGrenade.openEmbedTarget",
+    "onCommand:flavorGrenade.showBacklinks",
+    "onCommand:flavorGrenade.showOutlinks",
+    "onCommand:flavorGrenade.revealVaultRoot",
+    "onCommand:flavorGrenade.copyDiagnosticInfo",
     "onLanguage:markdown",
     "onLanguage:ofmarkdown"
   ],
@@ -51,6 +65,12 @@
         "path": "./syntaxes/ofmarkdown.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "ofmarkdown",
+        "path": "./snippets/ofmarkdown.json"
+      }
+    ],
     "commands": [
       {
         "command": "flavorGrenade.restartServer",
@@ -63,6 +83,62 @@
       {
         "command": "flavorGrenade.showOutput",
         "title": "Flavor Grenade: Show Output"
+      },
+      {
+        "command": "flavorGrenade.showStatusActions",
+        "title": "Flavor Grenade: Show Status Actions"
+      },
+      {
+        "command": "flavorGrenade.openTroubleshooting",
+        "title": "Flavor Grenade: Open Troubleshooting"
+      },
+      {
+        "command": "flavorGrenade.showReferences",
+        "title": "Flavor Grenade: Show References"
+      },
+      {
+        "command": "flavorGrenade.followLink",
+        "title": "Flavor Grenade: Follow Link"
+      },
+      {
+        "command": "flavorGrenade.openEmbedTarget",
+        "title": "Flavor Grenade: Open Embed Target"
+      },
+      {
+        "command": "flavorGrenade.showBacklinks",
+        "title": "Flavor Grenade: Show Backlinks"
+      },
+      {
+        "command": "flavorGrenade.showOutlinks",
+        "title": "Flavor Grenade: Show Outlinks"
+      },
+      {
+        "command": "flavorGrenade.revealVaultRoot",
+        "title": "Flavor Grenade: Reveal Vault Root"
+      },
+      {
+        "command": "flavorGrenade.copyDiagnosticInfo",
+        "title": "Flavor Grenade: Copy Diagnostic Info"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "flavorGrenade.rebuildIndex",
+        "key": "ctrl+alt+g ctrl+alt+r",
+        "mac": "cmd+alt+g cmd+alt+r",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
+      },
+      {
+        "command": "flavorGrenade.showStatusActions",
+        "key": "ctrl+alt+g ctrl+alt+s",
+        "mac": "cmd+alt+g cmd+alt+s",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
+      },
+      {
+        "command": "flavorGrenade.showOutput",
+        "key": "ctrl+alt+g ctrl+alt+o",
+        "mac": "cmd+alt+g cmd+alt+o",
+        "when": "editorTextFocus && editorLangId == ofmarkdown"
       }
     ],
     "configuration": {
@@ -70,8 +146,9 @@
       "properties": {
         "flavorGrenade.server.path": {
           "type": "string",
+          "scope": "machine",
           "default": "",
-          "description": "Custom path to the language server binary. Leave empty to use the bundled binary."
+          "description": "Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary."
         },
         "flavorGrenade.linkStyle": {
           "type": "string",
@@ -126,17 +203,21 @@
     "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
     "watch": "npm run watch:extension",
     "watch:extension": "node scripts/watch-extension.mjs",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test \"src/**/*.test.ts\" \"test/**/*.test.ts\"",
+    "test:host": "node scripts/run-host-tests.mjs",
+    "verify:marketplace-assets": "node --import tsx --test \"test/marketplace/readme-assets.test.ts\" \"test/marketplace/vsix-assets.test.ts\"",
+    "verify:package-targets": "node --import tsx --test \"test/package-targets/server-binary.test.ts\""
   },
   "dependencies": {
-    "vscode-languageclient": "^9.0.1"
+    "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/vscode": "~1.81.0",
-    "@vscode/vsce": "^3.0.0",
-    "esbuild": "^0.24.0",
-    "tsx": "^4.20.6",
-    "typescript": "^5.6.0"
+    "@types/node": "20.19.39",
+    "@types/vscode": "1.82.0",
+    "@vscode/test-electron": "2.5.2",
+    "@vscode/vsce": "3.9.1",
+    "esbuild": "0.28.0",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
   }
 }

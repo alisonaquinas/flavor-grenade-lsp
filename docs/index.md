@@ -72,15 +72,19 @@ Tags are indexed with their full hierarchical path. A tag `#project/active` is d
 
 ## Project Status
 
-**Documentation phase — pre-implementation.**
+**Implementation phase — server parity continuation.**
 
-All documentation layers are being written before any TypeScript implementation files are created. The implementation order is defined in [[AGENTS]]. No `src/` files exist yet. The specification, domain model, architecture, ADRs, concepts, design, requirements, BDD scenarios, features, and plans must all be complete before implementation begins.
+The server and VS Code extension are implemented and are now being hardened
+through phase-by-phase parity work. Server phases 14-16 are complete, Phase 17
+is in progress, and extension parity continuation phases E7-E14 are planned in
+[[roadmap]].
 
 ## Navigation
 
 | Section | Description |
 |---|---|
 | [[ofm-spec/index]] | Normative OFM language specification with rule codes |
+| [[ofm-spec/markdown-links]] | Standard Markdown local link rules inside OFMarkdown |
 | [[ddd/bounded-contexts]] | Bounded context map and domain model overview |
 | [[ddd/ubiquitous-language]] | Canonical vocabulary used throughout all docs |
 | [[architecture/overview]] | System architecture, component diagram, layering |
@@ -115,6 +119,11 @@ All documentation layers are being written before any TypeScript implementation 
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
 | [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
+| [[features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
+| [[features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
+| [[requirements/index]] | Master Planguage functional requirements index |
+| [[requirements/functional/ofmarkdown-parity]] | Server-side OFMarkdown parity functional requirements |
+| [[requirements/functional/vscode-extension-parity]] | VS Code extension parity functional requirements |
 | [[design/behavior-layer]] | Behavior layer design |
 | [[design/domain-layer]] | Domain layer design |
 | [[ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |
@@ -127,6 +136,27 @@ All documentation layers are being written before any TypeScript implementation 
 |---|---|
 | [[research/vscode-extension-publishing]] | VS Code extension publishing research |
 | [[research/security-threat-model]] | Security threat model research |
+| [[research/marksman-feature-parity-ofmarkdown]] | Marksman parity research for OFMarkdown features |
+| [[research/marksman-vscode-feature-parity-ofmarkdown]] | Marksman VSCode parity research for OFMarkdown extension features |
+
+### Parity Plans
+
+| Document | Description |
+|---|---|
+| [[plans/phase-14-markdown-link-intelligence]] | Standard Markdown local link intelligence plan |
+| [[plans/phase-15-attachment-intelligence]] | Attachment intelligence plan |
+| [[plans/phase-16-vault-file-operation-refactors]] | Vault file operation refactor plan |
+| [[plans/phase-17-structural-lsp-capabilities]] | Structural LSP capabilities plan |
+| [[plans/phase-E7-vscode-extension-parity]] | VS Code extension parity split-phase index |
+| [[plans/phase-E7-activation-precision]] | Extension activation precision and startup gating plan |
+| [[plans/phase-E8-command-bridges-native-navigation]] | Extension command bridge and native navigation plan |
+| [[plans/phase-E9-extension-host-regression-harness]] | Extension-host regression harness plan |
+| [[plans/phase-E10-status-ux-troubleshooting]] | Extension status UX and troubleshooting plan |
+| [[plans/phase-E11-marketplace-evidence-packaging-proof]] | Extension Marketplace evidence and package proof plan |
+| [[plans/phase-E12-ofmarkdown-editor-contributions]] | OFMarkdown editor contribution plan |
+| [[plans/phase-E13-workspace-environment-modes]] | Workspace environment behavior plan |
+| [[plans/phase-E14-membership-refresh-compatibility-guardrails]] | Membership refresh and compatibility guardrail plan |
+| `extension/docs/index.md` | Extension-local parity specification mirror |
 
 ### Extension
 

@@ -46,17 +46,18 @@ export function shouldPreserveLanguage(document: Pick<TextDocument, 'languageId'
     return document.uri.scheme !== 'file' || !isManagedLanguage(document.languageId);
 }
 
-export async function hasObsidianAncestor(filePath: string, statFn: StatFn = stat): Promise<boolean> {
+export async function hasOfMarkdownMarkerAncestor(
+    filePath: string,
+    statFn: StatFn = stat,
+): Promise<boolean> {
     let current = dirname(filePath);
 
     while (true) {
-        try {
-            const marker = await statFn(join(current, '.obsidian'));
-            if (marker.isDirectory()) {
-                return true;
-            }
-        } catch {
-            // Continue walking toward the filesystem root.
+        if (
+            await markerExists(join(current, '.obsidian'), 'directory', statFn) ||
+            await markerExists(join(current, '.flavor-grenade.toml'), 'file', statFn)
+        ) {
+            return true;
         }
 
         const parent = dirname(current);
@@ -66,6 +67,8 @@ export async function hasObsidianAncestor(filePath: string, statFn: StatFn = sta
         current = parent;
     }
 }
+
+export const hasObsidianAncestor = hasOfMarkdownMarkerAncestor;
 
 export class LanguageModeController {
     private readonly inFlight = new Set<string>();
@@ -102,7 +105,7 @@ export class LanguageModeController {
     }
 
     async maybePromote(document: TextDocument): Promise<boolean> {
-        if (!isPromotableMarkdownDocument(document)) {
+        if (!isManagedFileDocument(document)) {
             return false;
         }
 
@@ -113,27 +116,44 @@ export class LanguageModeController {
 
         this.inFlight.add(uri);
         try {
-            const isOfMarkdown = await this.isOfMarkdown(document);
-            if (!isOfMarkdown) {
-                return false;
-            }
-
             const current = this.findCurrentDocument(uri) ?? document;
-            if (!isPromotableMarkdownDocument(current)) {
+            if (!isManagedFileDocument(current)) {
                 return false;
             }
-            await this.api.setTextDocumentLanguage(current, OFMARKDOWN_LANGUAGE_ID);
-            return true;
+            return await this.applyMembershipLanguage(current);
         } finally {
             this.inFlight.delete(uri);
         }
     }
 
-    private async isOfMarkdown(document: TextDocument): Promise<boolean> {
-        if (document.uri.fsPath && await hasObsidianAncestor(document.uri.fsPath)) {
+    private async applyMembershipLanguage(document: TextDocument): Promise<boolean> {
+        const hasMarker = document.uri.fsPath
+            ? await hasOfMarkdownMarkerAncestor(document.uri.fsPath)
+            : false;
+
+        if (hasMarker) {
+            if (document.languageId === MARKDOWN_LANGUAGE_ID) {
+                await this.api.setTextDocumentLanguage(document, OFMARKDOWN_LANGUAGE_ID);
+                return true;
+            }
+            return false;
+        }
+
+        const serverMembership = await this.getServerOfMarkdownMembership(document);
+        if (serverMembership === true && document.languageId === MARKDOWN_LANGUAGE_ID) {
+            await this.api.setTextDocumentLanguage(document, OFMARKDOWN_LANGUAGE_ID);
             return true;
         }
 
+        if (serverMembership === false && document.languageId === OFMARKDOWN_LANGUAGE_ID) {
+            await this.api.setTextDocumentLanguage(document, MARKDOWN_LANGUAGE_ID);
+            return true;
+        }
+
+        return false;
+    }
+
+    private async getServerOfMarkdownMembership(document: TextDocument): Promise<boolean | undefined> {
         try {
             const result = await this.client.sendRequest<DocumentMembershipResult>(
                 DOCUMENT_MEMBERSHIP_METHOD,
@@ -141,7 +161,7 @@ export class LanguageModeController {
             );
             return result.isOfMarkdown;
         } catch {
-            return false;
+            return undefined;
         }
     }
 
@@ -155,5 +175,22 @@ export class LanguageModeController {
         } catch {
             return false;
         }
+    }
+}
+
+function isManagedFileDocument(document: Pick<TextDocument, 'languageId' | 'uri'>): boolean {
+    return document.uri.scheme === 'file' && isManagedLanguage(document.languageId);
+}
+
+async function markerExists(
+    markerPath: string,
+    expectedKind: 'directory' | 'file',
+    statFn: StatFn,
+): Promise<boolean> {
+    try {
+        const marker = await statFn(markerPath);
+        return expectedKind === 'directory' ? marker.isDirectory() : marker.isFile();
+    } catch {
+        return false;
     }
 }

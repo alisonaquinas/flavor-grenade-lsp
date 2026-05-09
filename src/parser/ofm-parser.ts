@@ -7,7 +7,10 @@ import { EmbedParser } from './embed-parser.js';
 import { BlockAnchorParser } from './block-anchor-parser.js';
 import { TagParser } from './tag-parser.js';
 import { CalloutParser } from './callout-parser.js';
+import { MarkdownLinkParser } from './markdown-link-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
+
+const MAX_PARSE_CHARACTERS = 1024 * 1024;
 
 /**
  * Orchestrates the 8-stage OFM parsing pipeline and produces an {@link OFMDoc}.
@@ -28,6 +31,18 @@ export class OFMParser {
    * @param version - Incremental version counter from the LSP client.
    */
   parse(uri: string, text: string, version: number): OFMDoc {
+    if (text.length > MAX_PARSE_CHARACTERS) {
+      return {
+        uri,
+        version,
+        text,
+        frontmatter: null,
+        frontmatterEndOffset: 0,
+        opaqueRegions: [],
+        index: OFMParser.emptyIndex(),
+      };
+    }
+
     // Stage 1: frontmatter
     const {
       frontmatter,
@@ -39,6 +54,7 @@ export class OFMParser {
     const opaqueRegions = mark(text, bodyOffset);
 
     // Stage 3–7: token parsers
+    const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const index: OFMIndex = {
       wikiLinks: WikiLinkParser.parse(text, opaqueRegions),
       embeds: EmbedParser.parse(text, opaqueRegions),
@@ -46,6 +62,10 @@ export class OFMParser {
       tags: TagParser.parse(text, opaqueRegions),
       callouts: CalloutParser.parse(text),
       headings: OFMParser.scanHeadings(text, opaqueRegions),
+      markdownLinks: markdownLinks.markdownLinks,
+      markdownImages: markdownLinks.markdownImages,
+      linkLabelRefs: markdownLinks.linkLabelRefs,
+      linkLabelDefs: markdownLinks.linkLabelDefs,
     };
 
     return {
@@ -57,6 +77,21 @@ export class OFMParser {
       frontmatterEndOffset: bodyOffset,
       opaqueRegions,
       index,
+    };
+  }
+
+  private static emptyIndex(): OFMIndex {
+    return {
+      wikiLinks: [],
+      embeds: [],
+      blockAnchors: [],
+      tags: [],
+      callouts: [],
+      headings: [],
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     };
   }
 

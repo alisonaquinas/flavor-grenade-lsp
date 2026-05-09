@@ -7,6 +7,7 @@ import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { VaultScanner } from './vault-scanner.js';
 import { toDocId } from './doc-id.js';
+import { buildAttachmentEntry } from './attachment-metadata.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 
@@ -71,11 +72,13 @@ export class FileWatcher {
     if (!absPath.endsWith('.md')) {
       // Track non-markdown files in the asset index.
       if (eventType === 'rename') {
-        const exists = await this.fileExists(absPath);
-        if (exists) {
+        const stat = await this.fileStat(absPath);
+        if (stat !== null) {
           this.vaultScanner.getAssetIndex().add(relPath);
+          this.vaultIndex.setAttachment(await buildAttachmentEntry(absPath, relPath, stat));
         } else {
           this.vaultScanner.getAssetIndex().delete(relPath);
+          this.vaultIndex.deleteAttachment(relPath);
         }
       }
       return;
@@ -116,11 +119,14 @@ export class FileWatcher {
   }
 
   private async fileExists(absPath: string): Promise<boolean> {
+    return (await this.fileStat(absPath)) !== null;
+  }
+
+  private async fileStat(absPath: string): Promise<fs.Stats | null> {
     try {
-      await fs.promises.stat(absPath);
-      return true;
+      return await fs.promises.stat(absPath);
     } catch {
-      return false;
+      return null;
     }
   }
 }

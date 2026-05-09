@@ -1,147 +1,222 @@
 # Concepts
 
+This file defines the short vocabulary used in the server code and root
+documentation. The detailed domain model lives under `docs/`.
+
+## Attachment
+
+A non-Markdown vault file that can be referenced by an embed or Markdown image
+link. Examples include images, PDFs, audio files, and other local files.
+Attachments are indexed separately from Markdown documents so image links can
+resolve without being treated as notes.
+
+See also: `VaultIndex`, `Embed`, `MarkdownImage`.
+
 ## BlockAnchor
 
-A positional marker of the form `^identifier` placed at the end of a paragraph
-or list item in an OFM document. Enables `[[file#^identifier]]` deep-link
-navigation. The caret sigil is not stored in the identifier; the parser captures
-only the alphanumeric id. Block anchors are stored in `OFMIndex.blockAnchors`.
+A positional marker of the form `^identifier` placed at the end of a paragraph,
+list item, heading, or on a standalone anchor line in an OFM document. It makes
+that block addressable through links such as `[[file#^identifier]]`.
 
-**See also:** [`OFMIndex`](#ofmindex), [`WikiLink`](#wikilink)
+The caret sigil is not stored in the identifier. Block anchors are stored in
+`OFMIndex.blockAnchors`.
+
+See also: `OFMIndex`, `WikiLink`.
 
 ## Callout
 
-An Obsidian-style blockquote annotation of the form `> [!TYPE]± Title`. The
-type keyword (e.g. `NOTE`, `WARNING`, `TIP`) determines the visual style in
-Obsidian. An optional `+` or `-` suffix makes the callout foldable. Callouts
-are stored in `OFMIndex.callouts` and are a target for completion.
+An Obsidian-style blockquote annotation of the form `> [!TYPE]` with optional
+fold state and title text. The type keyword, such as `NOTE`, `WARNING`, or
+`TIP`, determines the visual style in Obsidian. Callouts are stored in
+`OFMIndex.callouts` and participate in completion, symbols, semantic tokens,
+and folding.
 
-**See also:** [`OFMIndex`](#ofmindex)
+See also: `OFMIndex`.
 
 ## DiagnosticCode
 
-A string code attached to an LSP diagnostic to identify which rule fired.
-Current codes: `FG001` (broken link), `FG002` (ambiguous link), `FG003`
-(malformed link), `FG006` (missing block anchor), `FG007` (frontmatter parse
-error). Used by code-action handlers to match quick fixes to the diagnostics
-they resolve.
+A string code attached to an LSP diagnostic. Current codes are:
 
-**See also:** [`Oracle`](#oracle), `src/resolution/oracle.ts` (codes declared on `ResolutionResult`)
+- `FG001`: broken wiki-link, Markdown note link, or heading target
+- `FG002`: ambiguous wiki-link, Markdown note link, attachment, or heading
+  target
+- `FG003`: malformed wiki-link
+- `FG004`: broken embed, Markdown image, or attachment target
+- `FG005`: missing block anchor target
+- `FG006`: non-breaking space in document body text
+- `FG007`: malformed YAML frontmatter
+
+Diagnostic codes are consumed by code-action handlers so quick fixes can match
+the diagnostics they resolve.
+
+See also: `Oracle`, `src/resolution/diagnostic-service.ts`.
 
 ## DocId
 
-A branded string type (`string & { readonly __brand: 'DocId' }`) representing a
-vault-relative path to a document **without file extension** (e.g. `notes/MyNote`,
-`daily/2026-04-17`). Used as the key in `VaultIndex` and throughout resolution.
-`toDocId()` strips the `.md` extension and normalises separators to `/`.
-Enforced at compile time via a type brand so that raw strings cannot be passed
-as DocIds without an explicit cast.
+A branded string type representing a vault-relative path to a Markdown document
+without the `.md` extension. Examples are `notes/MyNote` and
+`daily/2026-04-17`.
 
-**See also:** [`VaultIndex`](#vaultindex), `src/vault/doc-id.ts`
+`toDocId()` strips the `.md` extension and normalizes path separators to `/`.
+DocIds are used as keys in `VaultIndex` and throughout reference resolution.
+
+See also: `VaultIndex`, `src/vault/doc-id.ts`.
 
 ## Embed
 
 A transclusion link of the form `![[target]]` or `![[image.png|200x150]]`.
-Obsidian renders embeds by inlining the referenced document or image. The embed
-target is resolved the same way as a wiki-link but displayed inline rather than
-navigated to.
+Embeds can target notes, headings, block anchors, and local attachments. Broken
+embed or attachment targets produce `FG004`.
 
-**See also:** [`WikiLink`](#wikilink), [`OFMIndex`](#ofmindex)
+See also: `WikiLink`, `Attachment`, `OFMIndex`.
 
 ## Frontmatter
 
-YAML metadata block delimited by `---` at the very start of a document. The
-parser extracts it as `Record<string, unknown> | null`. A `frontmatterParseError`
-flag is set when the block is present but the YAML is invalid (triggers FG007).
-Frontmatter `aliases` and `tags` keys are consumed by the Oracle and TagRegistry
-respectively.
+A YAML metadata block delimited by `---` at the very start of a document. The
+parser stores it as `Record<string, unknown> | null` and sets
+`frontmatterParseError` when YAML parsing fails.
 
-**See also:** [`OFMDoc`](#ofmdoc), [`Oracle`](#oracle), [`TagRegistry`](#tagregistry)
+Frontmatter `aliases` participate in Oracle resolution. Frontmatter `tags`
+participate in the vault-wide tag registry. Frontmatter parsing has size,
+alias-count, and prototype-pollution safeguards.
+
+See also: `OFMDoc`, `Oracle`, `TagRegistry`.
 
 ## JsonRpcDispatcher
 
-Central message router for the JSON-RPC 2.0 protocol. Receives raw framed
-messages from `StdioReader`, looks up registered handlers by method name, and
-dispatches requests/notifications. Request handlers return `Promise<unknown>`;
-notification handlers return `void`. Errors are converted to JSON-RPC error
-responses automatically.
+The central message router for JSON-RPC 2.0. It receives framed messages from
+the stdio transport, looks up registered request or notification handlers, and
+converts thrown errors into JSON-RPC error responses.
 
-**See also:** `src/transport/json-rpc-dispatcher.ts`
+All request handlers registered with the dispatcher return `Promise<unknown>`.
 
-## OFM (Obsidian Flavored Markdown)
+See also: `src/transport/json-rpc-dispatcher.ts`.
 
-The superset of CommonMark used by the Obsidian note-taking app. Adds wiki-links
-(`[[target]]`), embeds (`![[target]]`), tags (`#tag/sub`), block anchors (`^id`),
-callouts (`> [!NOTE]`), and YAML frontmatter. This server implements LSP features
-specifically for OFM syntax.
+## MarkdownImage
+
+A standard Markdown image token of the form `![alt](target "title")`.
+Local image and attachment targets are classified and resolved against the vault
+attachment index. External URLs are ignored by vault diagnostics.
+
+See also: `Attachment`, `MarkdownLink`, `OFMIndex`.
+
+## MarkdownLink
+
+A standard Markdown inline link of the form `[text](target "title")`.
+Local Markdown targets, file-plus-fragment targets, and same-document fragments
+participate in definition, diagnostics, document links, references, and heading
+rename behavior. External URLs and unsupported schemes do not create vault
+diagnostics.
+
+See also: `LinkLabel`, `Oracle`, `OFMIndex`.
+
+## LinkLabel
+
+A reference-style Markdown label use or definition. The parser indexes
+`[text][label]`, `[label][]`, shortcut labels, and definitions of the form
+`[label]: target "title"`. Labels are matched document-locally with normalized
+case-insensitive keys.
+
+See also: `MarkdownLink`, `OFMIndex`.
+
+## OFM
+
+Obsidian Flavored Markdown. In this repository, OFM means Markdown plus the
+Obsidian constructs used by vaults: wiki-links, embeds, block anchors, callouts,
+frontmatter, tags, comments, math, and Templater regions.
 
 ## OFMDoc
 
-The fully parsed in-memory representation of a single document. Holds the raw
-`text`, `uri`, `version`, parsed `frontmatter`, `frontmatterEndOffset`, the list
-of `opaqueRegions` (math, code, comments that token parsers skip), and the
-`OFMIndex` of all extracted tokens.
+The fully parsed in-memory representation of one document. It stores the raw
+text, URI, LSP version, parsed frontmatter, frontmatter body offset,
+opaque regions, and the `OFMIndex`.
 
-**See also:** [`OFMIndex`](#ofmindex), `src/parser/types.ts`
+See also: `OFMIndex`, `src/parser/types.ts`.
 
 ## OFMIndex
 
-The token index extracted from an `OFMDoc`. Contains six named lists:
-`wikiLinks`, `embeds`, `blockAnchors`, `tags`, `callouts`, and `headings`.
-Populated by the OFM parser pipeline and stored in `VaultIndex` alongside the
-document.
+The token index extracted from an `OFMDoc`. It currently contains:
 
-**See also:** [`OFMDoc`](#ofmdoc), `src/parser/types.ts`
+- `wikiLinks`
+- `embeds`
+- `blockAnchors`
+- `tags`
+- `callouts`
+- `headings`
+- `markdownLinks`
+- `markdownImages`
+- `linkLabelRefs`
+- `linkLabelDefs`
+
+The parser rebuilds the index atomically when a document changes. `VaultIndex`
+stores the parsed document and its index.
+
+See also: `OFMDoc`, `src/parser/types.ts`.
 
 ## OpaqueRegion
 
-A range of document text that the OFM token parsers must skip — specifically
-code spans, fenced code blocks, math blocks (`$ … $`, `$$ … $$`), and HTML
-comments. The opaque-region marker runs first in the parse pipeline so that
-downstream parsers never misidentify e.g. `[[link]]` inside a code block.
+A range of document text that OFM token parsers must skip. Opaque regions cover
+code spans, fenced code blocks, indented code blocks, math, Obsidian comments,
+HTML comments, and Templater blocks.
 
-**See also:** `src/parser/opaque-region-marker.ts`
+The opaque-region pass runs before token parsers so constructs such as
+`[[link]]` inside code or comments are ignored.
+
+See also: `src/parser/opaque-region-marker.ts`.
 
 ## Oracle
 
-The wiki-link resolution engine. Given a link target string it tries, in order:
-exact DocId match → frontmatter alias match (case-insensitive) → stem suffix
-match via `FolderLookup` → H1 title match. Returns a `ResolutionResult` tagged
-as `resolved`, `broken` (FG001), `ambiguous` (FG002), or `malformed` (FG003).
+The resolution service for wiki-link and local Markdown targets. For wiki-links
+it tries exact DocId match, frontmatter alias match, stem suffix match, and H1
+title match. It returns resolved, broken, ambiguous, or malformed results with
+the appropriate diagnostic code.
 
-**See also:** `src/resolution/oracle.ts`, [`DocId`](#docid)
+For standard Markdown targets, the Oracle resolves same-document fragments,
+local note paths, file-plus-fragment targets, and heading anchors after target
+classification.
+
+See also: `src/resolution/oracle.ts`, `DocId`.
 
 ## TagRegistry
 
-Vault-wide index of all tag occurrences, built from both inline `#tag` tokens
-and frontmatter `tags:` arrays. Supports frequency queries (`allTags`), prefix
-filtering (`tagsWithPrefix`), and a slash-delimited hierarchy tree
-(`hierarchy`). Used by completion and references handlers.
+The vault-wide index of all tag occurrences, built from inline `#tag` tokens
+and frontmatter `tags:` arrays. It supports frequency queries, prefix filtering,
+and slash-delimited hierarchy lookup.
 
-**See also:** `src/tags/tag-registry.ts`
+See also: `src/tags/tag-registry.ts`.
 
 ## VaultIndex
 
-In-memory `Map<DocId, OFMDoc>` that acts as the single source of truth for all
-documents currently known to the server. Updated by `VaultScanner` on startup
-and by `didOpen`/`didChange`/`didClose` notifications at runtime.
+The in-memory index of documents and attachments known to the server.
+`VaultIndex` is the single source of truth for parsed `OFMDoc` objects. Handlers
+read from it rather than maintaining separate document caches.
 
-**See also:** `src/vault/vault-index.ts`, [`DocId`](#docid), [`OFMDoc`](#ofmdoc)
+The index is populated by the initial vault scan and updated from open, change,
+close, and file-watcher events.
+
+See also: `src/vault/vault-index.ts`, `DocId`, `OFMDoc`.
 
 ## VaultMode
 
-One of three vault detection outcomes: `'obsidian'` (`.obsidian/` directory
-found), `'flavor-grenade'` (`.flavor-grenade.toml` file found), or
-`'single-file'` (no vault marker found anywhere in the tree). Determines how
-the server scans for related documents.
+The outcome of vault detection:
 
-**See also:** `src/vault/vault-detector.ts`
+- `obsidian`: a `.obsidian/` directory was found
+- `flavor-grenade`: a `.flavor-grenade.toml` file was found
+- `single-file`: no vault marker was found
+
+Single-file mode keeps local parsing features available and suppresses
+vault-wide diagnostics that would otherwise become false positives.
+
+See also: `src/vault/vault-detector.ts`.
 
 ## WikiLink
 
-An inter-document link of the form `[[target]]`, optionally with an alias
-(`[[target|alias]]`), heading fragment (`[[target#Heading]]`), or block
-reference (`[[target#^anchor]]`). The `target` string is resolved by the Oracle
-to a `DocId`. WikiLinks are the primary navigation primitive in OFM.
+An Obsidian link of the form `[[target]]`, optionally with an alias, heading
+fragment, or block reference. Examples include `[[target|display]]`,
+`[[target#Heading]]`, `[[target#^anchor]]`, `[[#Heading]]`, and
+`[[#^anchor]]`.
 
-**See also:** [`Oracle`](#oracle), [`OFMIndex`](#ofmindex), `src/parser/types.ts`
+Wiki-links are the primary OFM navigation primitive and are resolved by the
+Oracle.
+
+See also: `Oracle`, `OFMIndex`, `src/parser/types.ts`.

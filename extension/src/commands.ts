@@ -1,8 +1,26 @@
-import { type Disposable, commands } from 'vscode';
+import {
+  type Disposable,
+  Location,
+  Position,
+  Range,
+  Uri,
+  commands,
+  env,
+  window,
+} from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
+import { createCommandBridgeHandlers } from './command-bridges.js';
+import { isServerStartupBlockedError } from './server-startup-error.js';
+import { buildDiagnosticInfo, type FlavorGrenadeStatus } from './status-presentation.js';
+import { createStatusActionItems } from './status-actions.js';
+import { TROUBLESHOOTING_URL } from './troubleshooting.js';
+
+type LanguageClientProvider = (commandId: string) => Promise<LanguageClient>;
+type StatusProvider = () => FlavorGrenadeStatus;
+type AfterRebuildIndex = () => Promise<void> | Thenable<void> | void;
 
 /**
- * Registers the three extension commands exposed in the Command Palette.
+ * Registers lifecycle commands and native VS Code command bridges.
  *
  * - `flavorGrenade.restartServer` — restarts the LanguageClient (and server).
  * - `flavorGrenade.rebuildIndex` — sends a custom `flavorGrenade/rebuildIndex`
@@ -12,18 +30,112 @@ import type { LanguageClient } from 'vscode-languageclient/node';
  *   custom JSON-RPC dispatchers.
  * - `flavorGrenade.showOutput` — reveals the LSP output channel.
  */
-export function registerCommands(client: LanguageClient): Disposable[] {
-    return [
-        commands.registerCommand('flavorGrenade.restartServer', async () => {
-            await client.restart();
-        }),
+export function registerCommands(
+  clientOrProvider: LanguageClient | LanguageClientProvider,
+  statusProvider?: StatusProvider,
+  afterRebuildIndex?: AfterRebuildIndex,
+): Disposable[] {
+  const getClient =
+    typeof clientOrProvider === 'function' ? clientOrProvider : async () => clientOrProvider;
+  const getClientForCommand = async (commandId: string): Promise<LanguageClient | undefined> => {
+    try {
+      return await getClient(commandId);
+    } catch (error: unknown) {
+      if (isServerStartupBlockedError(error)) {
+        await window.showWarningMessage(error.message);
+        return undefined;
+      }
+      throw error;
+    }
+  };
+  const bridgeHandlers = createCommandBridgeHandlers({
+    createLocation: (uri, range) => new Location(uri as Uri, range as Range),
+    createPosition: (line, character) => new Position(line, character),
+    createRange: (start, end) => new Range(start as Position, end as Position),
+    executeCommand: (command, ...args) => commands.executeCommand(command, ...args),
+    parseUri: (value) => Uri.parse(value),
+    showErrorMessage: (message) => window.showErrorMessage(message),
+    showTextDocument: (uri, options) =>
+      window.showTextDocument(uri as Uri, { selection: options?.selection as Range | undefined }),
+    writeClipboard: (text) => env.clipboard.writeText(text),
+  });
 
-        commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
-            await client.sendRequest('flavorGrenade/rebuildIndex');
-        }),
+  return [
+    commands.registerCommand('flavorGrenade.restartServer', async () => {
+      const client = await getClientForCommand('flavorGrenade.restartServer');
+      if (!client) {
+        return;
+      }
+      await client.restart();
+    }),
 
-        commands.registerCommand('flavorGrenade.showOutput', () => {
-            client.outputChannel.show();
-        }),
-    ];
+    commands.registerCommand('flavorGrenade.rebuildIndex', async () => {
+      const client = await getClientForCommand('flavorGrenade.rebuildIndex');
+      if (!client) {
+        return;
+      }
+      await client.sendRequest('flavorGrenade/rebuildIndex');
+      await afterRebuildIndex?.();
+    }),
+
+    commands.registerCommand('flavorGrenade.showOutput', async () => {
+      const client = await getClientForCommand('flavorGrenade.showOutput');
+      if (!client) {
+        return;
+      }
+      client.outputChannel.show();
+    }),
+
+    commands.registerCommand('flavorGrenade.showStatusActions', async () => {
+      const status = statusProvider?.();
+      if (!status) {
+        return;
+      }
+
+      const selected = await window.showQuickPick(createStatusActionItems(status), {
+        matchOnDescription: true,
+        placeHolder: 'Choose a Flavor Grenade action',
+        title: 'Flavor Grenade Status',
+      });
+      if (!selected) {
+        return;
+      }
+
+      if (selected.command === 'flavorGrenade.copyDiagnosticInfo') {
+        await env.clipboard.writeText(buildDiagnosticInfo(status));
+        return;
+      }
+
+      if (selected.command === 'flavorGrenade.revealVaultRoot' && status.vaultRoot) {
+        await bridgeHandlers.revealVaultRoot({ uri: status.vaultRoot });
+        return;
+      }
+
+      await commands.executeCommand(selected.command);
+    }),
+
+    commands.registerCommand('flavorGrenade.openTroubleshooting', async () => {
+      await env.openExternal(Uri.parse(TROUBLESHOOTING_URL));
+    }),
+
+    commands.registerCommand('flavorGrenade.showReferences', bridgeHandlers.showReferences),
+    commands.registerCommand('flavorGrenade.followLink', bridgeHandlers.followLink),
+    commands.registerCommand('flavorGrenade.openEmbedTarget', bridgeHandlers.openEmbedTarget),
+    commands.registerCommand('flavorGrenade.showBacklinks', bridgeHandlers.showBacklinks),
+    commands.registerCommand('flavorGrenade.showOutlinks', bridgeHandlers.showOutlinks),
+    commands.registerCommand('flavorGrenade.revealVaultRoot', bridgeHandlers.revealVaultRoot),
+    commands.registerCommand('flavorGrenade.copyDiagnosticInfo', async (payload?: unknown) => {
+      if (payload !== undefined) {
+        return bridgeHandlers.copyDiagnosticInfo(payload);
+      }
+
+      const status = statusProvider?.();
+      if (!status) {
+        return bridgeHandlers.copyDiagnosticInfo(payload);
+      }
+
+      await env.clipboard.writeText(buildDiagnosticInfo(status));
+      return true;
+    }),
+  ];
 }

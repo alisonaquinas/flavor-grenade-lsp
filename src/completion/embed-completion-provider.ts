@@ -56,7 +56,55 @@ export class EmbedCompletionProvider {
       }
     }
 
+    this.appendAttachmentCompletions(items, seen, lowerPartial);
+
     return { items, isIncomplete: false };
+  }
+
+  /**
+   * Return attachment-only completion items for Markdown image targets.
+   *
+   * @param partial - The partially typed attachment path.
+   */
+  getAttachmentCompletions(partial: string): { items: CompletionItem[]; isIncomplete: boolean } {
+    const items: CompletionItem[] = [];
+    this.appendAttachmentCompletions(items, new Set<string>(), partial.toLowerCase());
+    return { items, isIncomplete: false };
+  }
+
+  private appendAttachmentCompletions(
+    items: CompletionItem[],
+    seen: Set<string>,
+    lowerPartial: string,
+  ): void {
+    const attachmentFolderHint = this.vaultIndex.getAttachmentFolderHint();
+    const attachments = Array.from(this.vaultIndex.attachments())
+      .filter(
+        (attachment) =>
+          !seen.has(attachment.path) && attachment.path.toLowerCase().startsWith(lowerPartial),
+      )
+      .sort((a, b) => {
+        const aPreferred = this.isPreferredAttachment(a.path, attachmentFolderHint);
+        const bPreferred = this.isPreferredAttachment(b.path, attachmentFolderHint);
+        if (aPreferred !== bPreferred) return aPreferred ? -1 : 1;
+        return a.path.localeCompare(b.path);
+      });
+
+    for (const attachment of attachments) {
+      if (!seen.has(attachment.path) && attachment.path.toLowerCase().startsWith(lowerPartial)) {
+        seen.add(attachment.path);
+        items.push({
+          label: attachment.path,
+          kind: COMPLETION_KIND_FILE,
+          detail: attachment.kind,
+        });
+      }
+    }
+  }
+
+  private isPreferredAttachment(path: string, attachmentFolderHint: string | undefined): boolean {
+    if (attachmentFolderHint === undefined) return false;
+    return path === attachmentFolderHint || path.startsWith(`${attachmentFolderHint}/`);
   }
 
   private extractStem(docId: string): string {

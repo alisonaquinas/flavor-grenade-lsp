@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.4] — 2026-05-09
+
+### Fixed
+
+- Block command-triggered server startup in Restricted Mode and virtual workspaces.
+- Keep restart, rebuild index, and show output commands from spawning the language server when the workspace environment is unsupported.
+
+### Changed
+
+- Ignore only the repository-root `.obsidian/` folder so nested fixture vault markers remain trackable.
+
 ## [0.1.3] — 2026-05-06
 
 ### Fixed

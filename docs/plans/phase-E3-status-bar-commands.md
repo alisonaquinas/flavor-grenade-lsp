@@ -117,8 +117,8 @@ Add a status bar widget listening to the `flavorGrenade/status` custom notificat
    *
    * - `flavorGrenade.restartServer` — restarts the LanguageClient (and server).
    * - `flavorGrenade.rebuildIndex` — sends `workspace/executeCommand` to the
-   *   server, triggering a full RefGraph rebuild. The server must register this
-   *   command via `executeCommandProvider` capabilities (already implemented —
+   *   server, triggering a full RefGraph rebuild. The server handles this
+   *   command on the `workspace/executeCommand` request path (already implemented —
    *   see docs/design/api-layer.md, "Workspace Commands").
    * - `flavorGrenade.showOutput` — reveals the LSP output channel.
    */

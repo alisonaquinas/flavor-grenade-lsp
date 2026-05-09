@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { pathToFileURL } from 'url';
@@ -9,9 +9,14 @@ import { FolderLookup } from './folder-lookup.js';
 import { IgnoreFilter } from './ignore-filter.js';
 import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
+import { buildAttachmentEntry } from './attachment-metadata.js';
+import { confineExistingPathToVaultRoot } from './vault-path-confinement.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
+import { SERVER_VERSION } from '../version.js';
+
+export const VAULT_SCAN_FILE_LIMIT = Symbol('VAULT_SCAN_FILE_LIMIT');
 
 /**
  * Performs the initial recursive scan of a vault root, parsing all `.md`
@@ -26,8 +31,14 @@ import { TagRegistry } from '../tags/tag-registry.js';
  */
 @Injectable()
 export class VaultScanner {
+  private static readonly DEFAULT_DOCUMENT_EXTENSIONS = new Set(['.md']);
+  private static readonly DEFAULT_MAX_SCAN_FILES = 50_000;
+
   /** Vault-relative paths of all non-`.md` files found during the last scan. */
   private assetIndex: Set<string> = new Set();
+  private scannedFileCount = 0;
+  private scanFileLimitReached = false;
+  private readonly maxScanFiles: number;
 
   constructor(
     private readonly vaultDetector: VaultDetector,
@@ -37,7 +48,10 @@ export class VaultScanner {
     private readonly ofmParser: OFMParser,
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
-  ) {}
+    @Optional() @Inject(VAULT_SCAN_FILE_LIMIT) maxScanFiles?: number,
+  ) {
+    this.maxScanFiles = maxScanFiles ?? VaultScanner.DEFAULT_MAX_SCAN_FILES;
+  }
 
   /**
    * Return the current asset index (vault-relative paths of non-`.md` files).
@@ -52,7 +66,7 @@ export class VaultScanner {
    * @param vaultRelPath - Forward-slash vault-relative path.
    */
   hasAsset(vaultRelPath: string): boolean {
-    return this.assetIndex.has(vaultRelPath);
+    return this.vaultIndex.hasAttachment(vaultRelPath) || this.assetIndex.has(vaultRelPath);
   }
 
   /**
@@ -69,6 +83,7 @@ export class VaultScanner {
         state: 'ready',
         vaultCount: 0,
         docCount: this.vaultIndex.size(),
+        serverVersion: SERVER_VERSION,
       });
       return;
     }
@@ -77,17 +92,33 @@ export class VaultScanner {
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
-    await this.walkAndIndex(vaultRoot, vaultRoot);
+    this.scannedFileCount = 0;
+    this.scanFileLimitReached = false;
+    this.vaultIndex.clear();
+    const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
+    this.vaultIndex.setAttachmentFolderHint(await this.loadObsidianAttachmentFolderHint(vaultRoot));
+    await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
+    if (this.scanFileLimitReached) {
+      this.dispatcher.sendNotification('window/showMessage', {
+        type: 2,
+        message: `Flavor Grenade stopped indexing after reaching the ${this.maxScanFiles} file limit.`,
+      });
+    }
     this.folderLookup.rebuild(this.vaultIndex);
     this.tagRegistry.rebuild(this.vaultIndex);
     this.dispatcher.sendNotification('flavorGrenade/status', {
       state: 'ready',
       vaultCount: 1,
       docCount: this.vaultIndex.size(),
+      serverVersion: SERVER_VERSION,
     });
   }
 
-  private async walkAndIndex(vaultRoot: string, dir: string): Promise<void> {
+  private async walkAndIndex(
+    vaultRoot: string,
+    dir: string,
+    documentExtensions: ReadonlySet<string>,
+  ): Promise<void> {
     let entries: fs.Dirent[];
     try {
       entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -104,13 +135,134 @@ export class VaultScanner {
       }
 
       if (entry.isDirectory()) {
-        await this.walkAndIndex(vaultRoot, fullPath);
-      } else if (entry.isFile() && entry.name.endsWith('.md')) {
+        await this.walkAndIndex(vaultRoot, fullPath, documentExtensions);
+        if (this.scanFileLimitReached) {
+          return;
+        }
+      } else if (entry.isFile() && documentExtensions.has(path.extname(entry.name).toLowerCase())) {
+        if (!this.reserveFileBudget()) {
+          return;
+        }
+        if (confineExistingPathToVaultRoot(vaultRoot, fullPath) === null) {
+          continue;
+        }
         await this.indexFile(vaultRoot, fullPath);
       } else if (entry.isFile()) {
+        if (!this.reserveFileBudget()) {
+          return;
+        }
+        if (confineExistingPathToVaultRoot(vaultRoot, fullPath) === null) {
+          continue;
+        }
         this.assetIndex.add(relPath);
+        await this.indexAttachment(fullPath, relPath);
       }
     }
+  }
+
+  private reserveFileBudget(): boolean {
+    if (this.scannedFileCount >= this.maxScanFiles) {
+      this.scanFileLimitReached = true;
+      return false;
+    }
+    this.scannedFileCount += 1;
+    return true;
+  }
+
+  private async indexAttachment(filePath: string, relPath: string): Promise<void> {
+    try {
+      this.vaultIndex.setAttachment(await buildAttachmentEntry(filePath, relPath));
+    } catch {
+      // Skip unreadable attachments silently.
+    }
+  }
+
+  private async loadDocumentExtensions(vaultRoot: string): Promise<ReadonlySet<string>> {
+    const configPath = path.join(vaultRoot, '.flavor-grenade.toml');
+    let configText: string;
+
+    try {
+      configText = await fs.promises.readFile(configPath, 'utf8');
+    } catch {
+      return VaultScanner.DEFAULT_DOCUMENT_EXTENSIONS;
+    }
+
+    const configuredExtensions = this.parseVaultExtensions(configText);
+    if (configuredExtensions.length === 0) {
+      return VaultScanner.DEFAULT_DOCUMENT_EXTENSIONS;
+    }
+
+    return new Set(configuredExtensions);
+  }
+
+  private async loadObsidianAttachmentFolderHint(vaultRoot: string): Promise<string | undefined> {
+    const appJsonPath = path.join(vaultRoot, '.obsidian', 'app.json');
+    let configText: string;
+
+    try {
+      configText = await fs.promises.readFile(appJsonPath, 'utf8');
+    } catch {
+      return undefined;
+    }
+
+    try {
+      const parsed = JSON.parse(configText) as { attachmentFolderPath?: unknown };
+      if (typeof parsed.attachmentFolderPath !== 'string') {
+        return undefined;
+      }
+      return this.normalizeAttachmentFolder(parsed.attachmentFolderPath);
+    } catch {
+      return undefined;
+    }
+  }
+
+  private parseVaultExtensions(configText: string): string[] {
+    const sectionText = this.readTomlSection(configText, 'vault');
+    const extensionLine = /^\s*extensions\s*=\s*\[([^\]]*)\]/m.exec(sectionText);
+    if (!extensionLine) {
+      return [];
+    }
+
+    return [...extensionLine[1].matchAll(/["']([^"']+)["']/g)]
+      .map((match) => this.normalizeExtension(match[1]))
+      .filter((extension): extension is string => extension !== null);
+  }
+
+  private readTomlSection(configText: string, sectionName: string): string {
+    const lines = configText.split(/\r?\n/);
+    const sectionLines: string[] = [];
+    let inSection = false;
+
+    for (const line of lines) {
+      const header = /^\s*\[([^\]]+)\]\s*$/.exec(line);
+      if (header) {
+        if (inSection) {
+          break;
+        }
+        inSection = header[1].trim() === sectionName;
+        continue;
+      }
+
+      if (inSection) {
+        sectionLines.push(line);
+      }
+    }
+
+    return sectionLines.join('\n');
+  }
+
+  private normalizeExtension(value: string): string | null {
+    const trimmed = value.trim().toLowerCase();
+    if (trimmed.length === 0) {
+      return null;
+    }
+
+    return trimmed.startsWith('.') ? trimmed : `.${trimmed}`;
+  }
+
+  private normalizeAttachmentFolder(value: string): string | undefined {
+    const normalized = value.trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+    return normalized.length > 0 && normalized !== '.' ? normalized : undefined;
   }
 
   private async indexFile(vaultRoot: string, filePath: string): Promise<void> {

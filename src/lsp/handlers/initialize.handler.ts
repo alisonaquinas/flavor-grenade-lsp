@@ -4,6 +4,7 @@ import { StatusNotifier } from '../services/status-notifier.js';
 import { LifecycleState } from '../services/lifecycle-state.js';
 import { ServerSettings } from '../services/server-settings.js';
 import { SERVER_VERSION } from '../../version.js';
+import { assertFileUri } from '../file-uri.js';
 
 /** Result shape returned to the LSP client for `initialize`. */
 interface InitializeResult {
@@ -48,7 +49,11 @@ export class InitializeHandler {
     const p = params as InitializeParams | null | undefined;
 
     // Capture rootUri: prefer rootUri, fall back to first workspaceFolder.
-    this.lifecycle.rootUri = p?.rootUri ?? p?.workspaceFolders?.[0]?.uri ?? null;
+    const rootUri = p?.rootUri ?? p?.workspaceFolders?.[0]?.uri ?? null;
+    if (rootUri !== null) {
+      assertFileUri(rootUri, 'rootUri');
+    }
+    this.lifecycle.rootUri = rootUri;
     this.settings.applyInitializationOptions(p?.initializationOptions);
 
     const result: InitializeResult = {
@@ -58,7 +63,14 @@ export class InitializeHandler {
 
     // Defer status notification until after the initialize response is written,
     // so the client always receives the response before the notification.
-    setImmediate(() => this.notifier.send({ state: 'initializing', vaultCount: 0, docCount: 0 }));
+    setImmediate(() =>
+      this.notifier.send({
+        state: 'initializing',
+        vaultCount: 0,
+        docCount: 0,
+        serverVersion: SERVER_VERSION,
+      }),
+    );
 
     return result;
   }

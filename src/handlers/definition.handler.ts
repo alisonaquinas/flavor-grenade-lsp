@@ -6,10 +6,11 @@ import { Oracle } from '../resolution/oracle.js';
 import { EmbedResolver } from '../resolution/embed-resolver.js';
 import { ParseCache } from '../parser/parser.module.js';
 import { VaultIndex } from '../vault/vault-index.js';
-import type { WikiLinkEntry } from '../parser/types.js';
+import type { MarkdownImageRef, WikiLinkEntry } from '../parser/types.js';
 import { fromDocId } from '../vault/doc-id.js';
 import { entityAtPosition } from './cursor-entity.js';
 import type { DocId } from '../vault/doc-id.js';
+import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
 
 /** Parameters for a `textDocument/definition` request. */
 interface DefinitionParams {
@@ -115,9 +116,72 @@ export class DefinitionHandler {
         return null;
       }
 
+      case 'markdown-link':
+        return this.resolveMarkdownLinkDefinition(entity.entry, doc.uri);
+
+      case 'markdown-image':
+        return this.resolveMarkdownImageDefinition(entity.entry, doc.uri);
+
+      case 'link-label-ref': {
+        const definition = (doc.index.linkLabelDefs ?? []).find(
+          (def) => def.normalizedLabel === entity.entry.normalizedLabel,
+        );
+        if (definition === undefined) return null;
+        return { uri: doc.uri, range: definition.range };
+      }
+
       default:
         return null;
     }
+  }
+
+  private resolveMarkdownLinkDefinition(
+    entry: import('../parser/types.js').MarkdownLinkRef,
+    sourceUri: string,
+  ): Location | null {
+    const sourceDocId = this.docIdForUri(sourceUri);
+    if (sourceDocId === null) return null;
+
+    const classification = classifyMarkdownTarget(entry.target, { sourceDocId });
+    const result = this.oracle.resolveMarkdownTarget(sourceDocId, classification);
+
+    switch (result.kind) {
+      case 'document-resolved':
+        return {
+          uri: this.docIdToUri(result.targetDocId, this.extractVaultRoot(sourceUri)),
+          range: zeroRange(),
+        };
+
+      case 'heading-resolved': {
+        const targetDoc = this.vaultIndex?.get(result.targetDocId);
+        return { uri: targetDoc?.uri ?? sourceUri, range: result.heading.range };
+      }
+
+      default:
+        return null;
+    }
+  }
+
+  private resolveMarkdownImageDefinition(
+    entry: MarkdownImageRef,
+    sourceUri: string,
+  ): Location | null {
+    const sourceDocId = this.docIdForUri(sourceUri);
+    if (sourceDocId === null) return null;
+
+    const classification = classifyMarkdownTarget(entry.target, {
+      sourceDocId,
+      isImage: true,
+    });
+    if (classification.kind !== 'local-attachment') return null;
+
+    const attachment = this.attachmentForTargets([
+      classification.path,
+      this.rawVaultRelativeAttachmentCandidate(entry.target),
+    ]);
+    if (attachment === undefined) return null;
+
+    return { uri: attachment.uri, range: zeroRange() };
   }
 
   private resolveWikiLinkDefinition(
@@ -208,6 +272,14 @@ export class DefinitionHandler {
     return pathToFileURL(fromDocId(vaultRoot, docId)).toString();
   }
 
+  private docIdForUri(uri: string): DocId | null {
+    if (this.vaultIndex === undefined) return null;
+    for (const [docId, doc] of this.vaultIndex.entries()) {
+      if (doc.uri === uri) return docId;
+    }
+    return null;
+  }
+
   /**
    * Extract a best-effort vault root from a document URI.
    */
@@ -233,6 +305,11 @@ export class DefinitionHandler {
    * @param assetPath - Vault-relative path such as `assets/image.png`.
    */
   private assetPathToUri(assetPath: string): string {
+    const attachment = this.attachmentForTargets([assetPath]);
+    if (attachment !== undefined) {
+      return attachment.uri;
+    }
+
     if (this.vaultIndex !== undefined) {
       for (const [docId, doc] of this.vaultIndex.entries()) {
         const docSuffix = '/' + (docId as string) + '.md';
@@ -243,5 +320,43 @@ export class DefinitionHandler {
       }
     }
     return pathToFileURL(assetPath).href;
+  }
+
+  private attachmentForTargets(targets: Array<string | undefined>): { uri: string } | undefined {
+    if (this.vaultIndex === undefined) return undefined;
+
+    const candidates = [
+      ...new Set(targets.filter((target): target is string => target !== undefined)),
+    ];
+    for (const target of candidates) {
+      const exact = this.vaultIndex.getAttachment(target);
+      if (exact !== undefined) return exact;
+    }
+
+    const matches = candidates.flatMap((target) => {
+      const suffix = '/' + target;
+      return Array.from(this.vaultIndex!.attachments()).filter(
+        (attachment) => attachment.path === target || attachment.path.endsWith(suffix),
+      );
+    });
+
+    const uniqueMatches = [
+      ...new Map(matches.map((attachment) => [attachment.path, attachment])).values(),
+    ];
+    return uniqueMatches.length === 1 ? uniqueMatches[0] : undefined;
+  }
+
+  private rawVaultRelativeAttachmentCandidate(target: string): string | undefined {
+    const rawPath = target
+      .split('#')[0]
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/^\.\//, '');
+    if (rawPath.length === 0) return undefined;
+    const segments = rawPath.split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      return undefined;
+    }
+    return rawPath;
   }
 }

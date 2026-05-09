@@ -2,12 +2,12 @@
 id: "TASK-151"
 title: "Contribute OFMarkdown language metadata"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: []
 tags: [tickets/task, "phase/E6"]
 aliases: ["TASK-151"]
@@ -15,7 +15,7 @@ aliases: ["TASK-151"]
 
 # Contribute OFMarkdown language metadata
 
-> [!INFO] `TASK-151` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `open`
+> [!INFO] `TASK-151` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -58,13 +58,13 @@ Add the VS Code manifest and asset metadata needed for the `ofmarkdown` language
 
 ## Definition of Done
 
-- [ ] Manifest contributes `ofmarkdown`
+- [x] Manifest contributes `ofmarkdown`
 
-- [ ] No global `.md` association exists for `ofmarkdown`
+- [x] No global `.md` association exists for `ofmarkdown`
 
-- [ ] Markdown-compatible grammar/configuration is present
+- [x] Markdown-compatible grammar/configuration is present
 
-- [ ] Extension build passes
+- [x] Extension build passes; PR #38 CI passed before merge
 
 ---
 
@@ -72,3 +72,9 @@ Add the VS Code manifest and asset metadata needed for the `ofmarkdown` language
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `open`. Parent: [[FEAT-020]].
+
+> [!INFO] Review sync — 2026-05-07
+> Manifest, grammar, language configuration, and extension build evidence are present; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

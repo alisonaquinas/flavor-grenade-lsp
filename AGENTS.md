@@ -1,5 +1,9 @@
 # AGENTS.md — flavor-grenade-lsp
 
+Operational guidance for AI agents working in this repository. Product and
+architecture documentation lives in `README.md`, `CONCEPTS.md`, `docs/`, and
+`extension/docs/`.
+
 ## Scope
 
 **Only work inside this repository.**
@@ -19,7 +23,18 @@ bun run build      # compile
 bun run lint       # eslint src/
 bun run typecheck  # tsc --noEmit
 bun test           # unit tests
-bun run test:bdd   # BDD cucumber suite
+bun run bdd        # BDD cucumber suite
+```
+
+Extension checks live under `extension/`:
+
+```bash
+npm install
+npm run compile
+npm test
+npm run test:host
+npm run verify:marketplace-assets
+npm run verify:package-targets
 ```
 
 ## Layout
@@ -43,7 +58,9 @@ flavor-grenade-lsp/
 │   ├── code-actions/            # Code action handlers and quick-fix actions
 │   ├── tags/                    # TagRegistry (vault-wide tag index)
 │   └── test/                    # Test infrastructure, BDD step defs, fixtures
+├── extension/                   # VS Code client and marketplace package
 ├── docs/                        # Long-form design and requirements docs (excluded from well-documented scope)
+├── extension/docs/              # Extension design and requirements docs
 ├── dist/                        # Compiled output (gitignored)
 ├── AGENTS.md                    # This file
 ├── CHANGELOG.md
@@ -63,10 +80,13 @@ flavor-grenade-lsp/
   paths or extension-bearing strings as DocIds.
 - **Opaque regions are parsed first**: The `OpaqueRegionMarker` pass must
   complete before any token parser (wiki-links, tags, etc.) runs so that
-  tokens inside code/math/comment blocks are silently skipped.
+  tokens inside code, math, comment, and Templater blocks are silently skipped.
 - **RequestHandler must be async**: All lambdas passed to
   `dispatcher.onRequest(...)` must return `Promise<unknown>`. Synchronous
   handlers fail the TypeScript type check.
+- **Local targets stay local**: Markdown links, image links, embeds, and
+  attachments must be classified before resolution so unsupported URI schemes
+  and paths outside the vault do not become vault edits or diagnostics.
 - **No cross-repo changes**: All edits must stay inside
   `flavor-grenade-lsp/`. Never touch sibling repositories.
 - **Lint and typecheck must pass before commit**: Pre-commit hooks run

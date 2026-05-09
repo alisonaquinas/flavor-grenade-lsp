@@ -90,6 +90,46 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.LanguageMode.UserOverrideSafety** | The extension must not override manual non-Markdown language mode selections. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.LanguageMode.LoopSafety** | Language-mode assignment must not create reopen or restart loops. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.LanguageMode.MarkdownParity** | OFMarkdown mode must preserve baseline Markdown editing behavior. | [[requirements/ofmarkdown-language-mode]] |
+| **Parity.MarkdownLinks.LocalResolution** | Local standard Markdown links must resolve through the same vault rules as wiki-links. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.SameDocumentAnchor** | Same-document Markdown anchors must support definition, diagnostics, references, and heading rename behavior. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.HeadingAmbiguity.Diagnostics** | Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.AtomicRefactor** | File and folder moves must update every local reference to moved targets in one workspace edit. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.Intelligence** | Attachments referenced by embeds or Markdown image links must support completion, diagnostics, definition, and hover metadata. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.Coverage** | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.ParseCoverage** | The OFM parser must expose every supported standard Markdown link form as typed index data. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.TargetClassification** | Markdown link targets must be classified before resolution. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.ReferenceGraph** | The reference graph must index Markdown document refs, image refs, label refs, and label definitions. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.Completion** | Markdown link URL contexts must offer vault document and heading completions. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.NavigationAndReferences** | Definition and references must include supported Markdown link and label forms. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.MarkdownLinks.RenameAnchors** | Heading rename must update Markdown same-document and file-plus-fragment anchors. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.IndexCoverage** | Non-Markdown vault files must be indexed as attachment targets without parsed document entries. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.Completion** | Embed and Markdown image contexts must complete indexed attachment paths. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.Diagnostics** | Broken attachment references must produce diagnostics while existing attachments remain diagnostic-free. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.NavigationHover** | Existing attachment references must support definition and lightweight hover metadata. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.Attachments.ConfigHints** | Attachment completion and indexing must respect configured attachment folder hints. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.CapabilityRegistration** | The server must advertise and handle LSP file-operation rename capability when supported. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.MovePlannerConfinement** | File-operation planning must canonicalize paths and reject moves escaping the vault root. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.ReferenceRewrite** | File-operation refactors must rewrite all resolved moved-target reference forms while preserving syntax family. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.SkippedAmbiguousReporting** | Ambiguous moved-target references must be reported without speculative edits. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.AtomicValidation** | WorkspaceEdit output must be validated as deterministic, non-overlapping, and all-or-nothing. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.FileOperations.IndexRefresh** | `workspace/didRenameFiles` must refresh affected index entries and diagnostics. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.CapabilityRegistration** | Structural LSP providers must be advertised only when handlers are implemented. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.DocumentLinks** | Document links must target unambiguous local OFMarkdown links and leave ambiguous links unresolved. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.FoldingRanges** | Folding ranges must expose OFMarkdown foldable constructs without crossing opaque regions. | [[requirements/functional/ofmarkdown-parity]] |
+| **Parity.StructuralLSP.SelectionRanges** | Selection ranges must expand through valid OFMarkdown construct boundaries. | [[requirements/functional/ofmarkdown-parity]] |
+| **Extension.Activation.VaultPrecision** | The extension must activate automatically for vaults while avoiding unnecessary work in generic Markdown workspaces. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.CommandBridges.NativeUI** | Server-provided reference and navigation payloads must be bridgeable to native VS Code UI commands. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Tests.HostCoverage** | Extension-host tests must cover activation, commands, status, and language-mode behavior. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Marketplace.OFMProof** | The Marketplace README must show OFMarkdown-specific features with current screenshots or GIFs. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Status.Diagnostics** | The status bar must expose actionable server, vault, and error state. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Activation.MarkerEvents** | The extension must react to vault markers, language activation, and explicit commands. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.CommandBridges.PayloadValidation** | Command bridges must validate JSON-serializable payloads before calling VS Code APIs. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.CommandBridges.GraphActions** | The extension must bridge references, links, embeds, graph actions, vault reveal, and diagnostic copy actions. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Status.QuickActions** | Status UI must expose restart, rebuild index, show output, copy diagnostics, and reveal vault root actions. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.LanguageMode.MembershipRefresh** | Language-mode membership must refresh after server and workspace events. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Workspace.EnvironmentModes** | Restricted, virtual, remote, WSL, SSH, and Dev Container workspaces must have explicit behavior. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Contributions.OFMarkdownScoped** | OFMarkdown snippets, keybindings, language configuration, and theme examples must be scoped. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Marketplace.AssetPackaging** | Marketplace screenshots and README assets must be referenced and included in VSIX output. | [[requirements/functional/vscode-extension-parity]] |
 | **Config.Precedence.Layering** | Project config overrides user config overrides built-in defaults. | [[configuration]] |
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |
 | **Config.Fault.Isolation** | Malformed TOML must be dropped without crashing the server. | [[configuration]] |
@@ -123,20 +163,20 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[requirements/security/vault-confinement]] |
 | **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[requirements/security/vault-confinement]] |
 | **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[requirements/security/input-validation]] |
-| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 10 MB rejected at transport layer; stdin closed, no buffering or parsing attempted. | [[requirements/security/input-validation]] |
+| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, are rejected at the transport layer before JSON parsing. | [[requirements/security/input-validation]] |
 | **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[requirements/security/input-validation]] |
-| **Security.Supply.ExactPinning** | All `package.json` dependencies use exact versions; range specifiers (`^`, `~`) fail CI linting. | [[requirements/security/supply-chain]] |
+| **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[requirements/security/supply-chain]] |
 | **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[requirements/security/supply-chain]] |
 | **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[requirements/security/supply-chain]] |
 | **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[requirements/security/supply-chain]] |
-| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` never added as a dependency (CVE-2025-54782 RCE); enforced by ESLint `no-restricted-imports`. | [[requirements/security/supply-chain]] |
+| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[requirements/security/supply-chain]] |
 | **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[requirements/security/information-disclosure]] |
 | **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[requirements/security/information-disclosure]] |
 | **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[requirements/security/information-disclosure]] |
 
 ## User Requirements
 
-The user requirements layer lives in [[requirements/user/index]]. It contains 23 implementation-agnostic user goals across 9 themes, each mapping to one or more functional requirements in this index. Every functional requirement that has a user-level mapping carries a `User Req:` field directly below its `Tag` field.
+The user requirements layer lives in [[requirements/user/index]]. It contains implementation-agnostic user goals across the current feature themes, each mapping to one or more functional requirements in this index. Every functional requirement that has a user-level mapping carries a `User Req:` field directly below its `Tag` field.
 
 ## Related Documents
 

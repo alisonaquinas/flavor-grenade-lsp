@@ -45,7 +45,8 @@ Implement 2-tier binary resolution (user setting → bundled binary at `server/f
    */
   export function resolveServerPath(context: ExtensionContext): string {
       const config = workspace.getConfiguration('flavorGrenade');
-      const custom = config.get<string>('server.path');
+      const inspect = config.inspect<string>('server.path');
+      const custom = inspect?.globalValue;
 
       if (custom && custom.trim().length > 0) {
           return custom;

@@ -11,7 +11,7 @@ aliases:
 
 # Block References
 
-A block reference is a two-part construct: an **anchor** (`^blockid`) appended to a paragraph or list item, and a **reference** (`[[doc#^blockid]]`) that links or embeds that specific block.
+A block reference is a two-part construct: an **anchor** (`^blockid`) at the end of a block-level line or on its own line, and a **reference** (`[[doc#^blockid]]`) that links or embeds that specific block.
 
 Official reference: [Internal links — Block links](https://help.obsidian.md/Linking+notes+and+files/Internal+links#Link+to+a+block+in+a+note)
 
@@ -27,7 +27,7 @@ Official reference: [Internal links — Block links](https://help.obsidian.md/Li
 
 ## Anchor Syntax
 
-A block ID anchor is placed at the **end of a line**, separated from content by a space:
+A block ID anchor is placed at the **end of a line**. It may be separated from preceding content by whitespace, or appear alone at the start of the line:
 
 ```markdown
 This is the paragraph that will be referenceable. ^my-block-id
@@ -37,6 +37,8 @@ This is the paragraph that will be referenceable. ^my-block-id
 | Cell A | Cell B |
 |--------|--------|
 | data   | here   | ^table-row-ref
+
+^standalone-ref
 ```
 
 > [!WARNING]
@@ -47,7 +49,7 @@ This is the paragraph that will be referenceable. ^my-block-id
 ## Block ID Format
 
 ```regexp
-\^[a-zA-Z0-9-]+$
+(^|[ \t])\^[a-zA-Z0-9-]+$
 ```
 
 - Characters: ASCII letters, digits, and hyphens only.
@@ -81,7 +83,7 @@ The LSP must post-process the target field: split on `#`, then check whether the
 To index all block ID anchors in a document:
 
 ```regexp
-\^[a-zA-Z0-9-]+$
+(^|[ \t])\^[a-zA-Z0-9-]+$
 ```
 
 Apply with the multiline flag (`m`) so `$` matches end-of-line, not end-of-string. Scan the entire document after stripping opaque regions ([[math]], [[comments]], [[templater]], fenced code blocks).
@@ -92,7 +94,7 @@ Apply with the multiline flag (`m`) so `$` matches end-of-line, not end-of-strin
 
 | Rule | Detail |
 |---|---|
-| Position | Must be last on its line |
+| Position | Must be last on its line; may start the line or follow whitespace |
 | Characters | `[a-zA-Z0-9-]` only |
 | Uniqueness | Must be unique within a single document |
 | Line types | Valid after paragraphs, list items, table rows, and headings |

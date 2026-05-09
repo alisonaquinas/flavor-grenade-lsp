@@ -46,14 +46,14 @@ All `.feature` files live in `bdd/features/`. Each file covers one functional ar
 | `bdd/features/wiki-link-completion.feature` | Document slug completion, heading anchor completion, block ref completion, alias matching, `isIncomplete` flag | `@smoke`, `@ofm` | 14 |
 | `bdd/features/wiki-link-definition.feature` | Go-to-def for `CrossDoc`, `CrossSection`, `CrossBlock`, `IntraRef`; alias resolution; ambiguous target handling | `@smoke`, `@ofm` | 11 |
 | `bdd/features/wiki-link-references.feature` | Find-all-refs for `DocDef`, `HeaderDef`, `BlockAnchorDef`, `AliasDef`; vault-wide cross-ref counting | `@smoke`, `@ofm` | 10 |
-| `bdd/features/diagnostics.feature` | `BrokenLink`, `BrokenSection`, `BrokenBlockRef`, `BrokenEmbed`, `BrokenIntraLink`, `AmbiguousLink`; diagnostic lifecycle on doc change | `@smoke`, `@ofm` | 16 |
+| `bdd/features/diagnostics.feature` | FG001 broken links and headings, FG002 ambiguity, FG004 broken embeds, FG005 broken block refs; diagnostic lifecycle on doc change | `@smoke`, `@ofm` | 16 |
 | `bdd/features/embeds.feature` | Embed completion, embed definition (`.md` targets), embed definition (image targets), broken embed diagnostics, MIME hint in hover | `@ofm` | 9 |
 | `bdd/features/tags.feature` | Tag completion, tag references, tag hierarchy (`#project/active`), tags-never-broken invariant, frontmatter `tags:` equivalent to inline `#tag` | `@ofm` | 8 |
 | `bdd/features/hover.feature` | Wiki-link hover preview (first 5 lines), tag info (usage count), frontmatter key descriptions, no hover in ignore regions | `@smoke`, `@ofm` | 7 |
 | `bdd/features/rename.feature` | Heading rename (updates all section refs), file rename (updates all doc refs), `prepareRename` rejection on non-renameable positions, alias-aware rename | `@ofm` | 10 |
 | `bdd/features/symbols.feature` | `documentSymbol` heading tree, `workspace/symbol` subsequence matching, `codeLens` reference counts on headings and block anchors | `@smoke`, `@ofm` | 9 |
 | `bdd/features/semantic-tokens.feature` | Token type for each OFM element, no tokens inside ignore regions, callout type token, block anchor token | `@ofm` | 12 |
-| `bdd/features/code-actions.feature` | `InsertTOC` action, `CreateMissingFile` action, `TagToYaml` action, `NormalizeFrontmatter` action, action availability by cursor position | `@ofm` | 8 |
+| `bdd/features/code-actions.feature` | `InsertTOC` action, `CreateMissingFile` action, `FixNbsp` action, `TagToYaml` action, action availability by cursor position | `@ofm` | 8 |
 | `bdd/features/vscode-extension.feature` | VS Code extension activation, status bar widget, palette commands (restart, rebuild, show output), binary resolution (user setting / bundled), server config change restart, deactivation cleanup, crash recovery, LanguageClient selector continuity | `@smoke`, `@extension`, `@lsp` | 12 |
 | `bdd/features/ofmarkdown-language-mode.feature` | Dynamic `ofmarkdown` language assignment for vault/index documents; Markdown parity and manual mode safety | `@extension`, `@ofmarkdown` | 6 |
 

@@ -2,12 +2,12 @@
 id: "TASK-152"
 title: "Implement LanguageModeController"
 type: task
-status: open
+status: done
 priority: "high"
 phase: "E6"
 parent: "FEAT-020"
 created: "2026-05-03"
-updated: "2026-05-03"
+updated: "2026-05-07"
 dependencies: ["TASK-151"]
 tags: [tickets/task, "phase/E6"]
 aliases: ["TASK-152"]
@@ -15,7 +15,7 @@ aliases: ["TASK-152"]
 
 # Implement LanguageModeController
 
-> [!INFO] `TASK-152` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `open`
+> [!INFO] `TASK-152` · Task · Phase E6 · Parent: [[FEAT-020]] · Status: `done`
 
 ## Description
 
@@ -61,13 +61,13 @@ Create the extension-side component that promotes qualifying `markdown` document
 
 ## Definition of Done
 
-- [ ] Client-side `.obsidian/` detection promotes qualifying Markdown
+- [x] Client-side `.obsidian/` detection promotes qualifying Markdown
 
-- [ ] Non-vault Markdown remains Markdown
+- [x] Non-vault Markdown remains Markdown
 
-- [ ] Manual language selections are preserved
+- [x] Manual language selections are preserved
 
-- [ ] Loop guard covered by tests
+- [x] Loop guard covered by tests
 
 ---
 
@@ -75,3 +75,9 @@ Create the extension-side component that promotes qualifying `markdown` document
 
 > [!INFO] Opened — 2026-05-03
 > Ticket created. Status: `open`. Parent: [[FEAT-020]].
+
+> [!INFO] Review sync — 2026-05-07
+> `LanguageModeController` behavior is implemented and covered by `extension/src/language-mode.test.ts`; status moved to `in-review`.
+
+> [!INFO] Done — 2026-05-07
+> PR #38 CI passed. Status moved to `done`.

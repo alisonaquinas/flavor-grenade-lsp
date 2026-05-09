@@ -12,6 +12,7 @@ import { IgnoreFilter } from './ignore-filter.js';
 import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { DocumentMembershipService } from './document-membership.js';
+import { FileOperationPlanner } from './file-operation-planner.js';
 
 /**
  * NestJS module that wires all vault indexing services.
@@ -33,6 +34,7 @@ import { DocumentMembershipService } from './document-membership.js';
     AwaitIndexReadyHandler,
     TagRegistry,
     DocumentMembershipService,
+    FileOperationPlanner,
   ],
   exports: [
     VaultDetector,
@@ -44,6 +46,7 @@ import { DocumentMembershipService } from './document-membership.js';
     AwaitIndexReadyHandler,
     TagRegistry,
     DocumentMembershipService,
+    FileOperationPlanner,
   ],
 })
 export class VaultModule implements OnModuleInit {

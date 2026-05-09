@@ -13,7 +13,7 @@ Feature: VS Code extension lifecycle and integration
     Given a VS Code instance with the Flavor Grenade extension installed
     And a workspace folder containing a ".obsidian/" directory
 
-  @smoke
+  @extension-host
   Scenario: Extension activation on markdown file open
     When the user opens a file "notes/welcome.md" in the workspace
     Then the extension activates via the "onLanguage:markdown" activation event
@@ -87,6 +87,13 @@ Feature: VS Code extension lifecycle and integration
     Given the extension has activated and the LanguageClient is running
     When the user executes the "flavorGrenade.showOutput" command
     Then the "Flavor Grenade" output channel becomes visible
+
+  Scenario: Unsupported workspace commands do not spawn the server
+    Given the extension has activated in Restricted Mode or a virtual workspace
+    When the user executes the "flavorGrenade.rebuildIndex" command
+    Then the extension shows disabled workspace status
+    And the LanguageClient does not spawn the server binary
+    And the server process receives no "initialize" request
 
   Scenario: Custom server path
     Given the VS Code setting "flavorGrenade.server.path" is set to "/opt/fg/flavor-grenade-lsp"

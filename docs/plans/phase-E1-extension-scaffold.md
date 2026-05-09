@@ -74,7 +74,7 @@ Create the `extension/` directory at the repo root with its own `package.json` (
         "properties": {
           "flavorGrenade.server.path": {
             "type": "string", "default": "",
-            "description": "Custom path to the language server binary. Leave empty to use the bundled binary."
+            "description": "Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary."
           },
           "flavorGrenade.linkStyle": {
             "type": "string", "enum": ["file-stem", "relative-path"], "default": "file-stem",

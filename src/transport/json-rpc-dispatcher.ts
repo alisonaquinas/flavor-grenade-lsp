@@ -2,8 +2,20 @@
 export const ErrorCodes = {
   ParseError: -32700,
   MethodNotFound: -32601,
+  InvalidParams: -32602,
   InternalError: -32603,
 } as const;
+
+/** JSON-RPC error with an explicit protocol error code. */
+export class JsonRpcError extends Error {
+  constructor(
+    readonly code: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = 'JsonRpcError';
+  }
+}
 
 /** A raw JSON-RPC 2.0 request or notification object. */
 interface JsonRpcMessage {
@@ -74,6 +86,20 @@ export class JsonRpcDispatcher {
 
     const isRequest = message.id !== undefined && message.id !== null;
 
+    if (hasDangerousPrototypeKey(message.params)) {
+      if (isRequest) {
+        this.output({
+          jsonrpc: '2.0',
+          id: message.id,
+          error: {
+            code: ErrorCodes.InvalidParams,
+            message: 'Invalid params',
+          },
+        });
+      }
+      return;
+    }
+
     if (isRequest) {
       await this.dispatchRequest(message);
     } else {
@@ -118,7 +144,10 @@ export class JsonRpcDispatcher {
       this.output({
         jsonrpc: '2.0',
         id: message.id,
-        error: { code: ErrorCodes.InternalError, message: msg },
+        error: {
+          code: err instanceof JsonRpcError ? err.code : ErrorCodes.InternalError,
+          message: msg,
+        },
       });
     }
   }
@@ -132,4 +161,25 @@ export class JsonRpcDispatcher {
       // Notifications have no response channel — swallow errors silently.
     }
   }
+}
+
+function hasDangerousPrototypeKey(value: unknown): boolean {
+  if (Array.isArray(value)) {
+    return value.some((item) => hasDangerousPrototypeKey(item));
+  }
+
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  for (const key of Object.keys(value)) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return true;
+    }
+    if (hasDangerousPrototypeKey((value as Record<string, unknown>)[key])) {
+      return true;
+    }
+  }
+
+  return false;
 }

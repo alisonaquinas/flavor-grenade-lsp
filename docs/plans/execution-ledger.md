@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-04-22
+updated: 2026-05-08
 ---
 
 # Execution Ledger
@@ -29,13 +29,26 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 11    | Rename                   | ✅ complete    | rename.feature all scenarios pass                  | 2026-04-17 | 2026-04-17 |
 | 12    | Code Actions             | ✅ complete    | code-actions.feature pass; diagnostics.feature @FG006 pass; workspace-symbol and semantic-token unit tests pass | 2026-04-17 | 2026-04-17 |
 | 13    | CI & Delivery            | ✅ complete    | CI green on all PRs; binary artifacts published    | 2026-04-17 | 2026-04-17 |
+| 14    | Markdown Link Intelligence | ✅ complete | Local standard Markdown links resolve, diagnose, navigate, reference, and rename like OFM heading links | 2026-05-06 | 2026-05-06 |
+| 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
+| 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
+| 17    | Structural LSP Capabilities | ✅ complete | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | 2026-05-07 |
+| 18    | Security Hardening Audit | 🔄 in-progress | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | — |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
 | E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |
 | E3    | Status Bar & Commands    | ✅ complete    | Commands in palette; status bar reflects server state | 2026-04-22 | 2026-04-22 |
 | E4    | Packaging & Local Test   | ✅ complete    | `vsce package` produces installable VSIX; manual test passes | 2026-04-22 | 2026-04-22 |
 | E5    | CI/CD Pipeline           | ✅ complete    | All 7 platform-specific VSIXs build on tag push    | 2026-04-22 | 2026-04-22 |
-| E6    | OFMarkdown Language Mode | ⏳ planned     | Dynamic `ofmarkdown` mode for vault/index documents | —          | —         |
+| E6    | OFMarkdown Language Mode | ✅ complete | Dynamic `ofmarkdown` mode for vault/index documents | 2026-05-06 | 2026-05-07 |
+| E7    | Activation Precision And Startup Gating | ✅ complete | Vault-marker activation and generic Markdown idle startup | 2026-05-07 | 2026-05-07 |
+| E8    | Command Bridges And Native Navigation | ✅ complete | Native VS Code references, follow-link, embed, backlink, outlink, and vault commands | 2026-05-07 | 2026-05-07 |
+| E9    | Extension Host Regression Harness | ✅ complete | Extension-host tests cover activation, commands, language mode, status, and failure states | 2026-05-07 | 2026-05-07 |
+| E10   | Status UX And Troubleshooting | ✅ complete | Rich status tooltip, error states, quick actions, and diagnostic collection | 2026-05-07 | 2026-05-07 |
+| E11   | Marketplace Evidence And Packaging Proof | ✅ complete | OFMarkdown visuals are present, referenced, and included in packaged VSIXs | 2026-05-07 | 2026-05-07 |
+| E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
+| E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
+| E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
 
 ---
 
@@ -58,7 +71,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
    ```bash
    # Example for Phase 3
    bun test src/parser/**
-   bun run bdd -- --tags @smoke
+   bun run bdd --tags "@smoke"
    ```
 
 2. Update the row in this table:
@@ -136,9 +149,20 @@ Extension Phases:
 Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
                                           │
                                        Phase E4 ──► Phase E5 ──► Phase E6
+                                                                  │
+                                                                  ▼
+                                      Phase E7 ──► Phase E8 ──► Phase E9
+                                                                  │
+                                                                  ▼
+                                     Phase E10 ─► Phase E11 ─► Phase E12
+                                                                  │
+                                                                  ▼
+                                                Phase E13 ───► Phase E14
 ```
 
-Extension phases are independent of the server phases (0–13). Phase R (Publishing Research) is the entry point. All server phases are already complete.
+Extension phases are independent of the server phases (0–17). Phase R
+(Publishing Research) is the entry point. Phase E7-E14 are the Marksman VSCode
+feature-parity continuation phases for OFMarkdown-specific client behavior.
 
 ---
 
@@ -147,4 +171,4 @@ Extension phases are independent of the server phases (0–13). Phase R (Publish
 - Phase 0 is the only phase that the AI agent can mark complete without CI (it is documentation-only).
 - Phases 1–13 all require CI to be configured (Phase 13 bootstraps CI itself; phases 1–12 use a local gate script in the interim).
 - If CI is not yet running, use `bun run gate:N` scripts defined in `package.json` as interim gates.
-- Extension phases use `E`-prefixed numbering (E1–E6) to distinguish from server phases (0–13). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).
+- Extension phases use `E`-prefixed numbering (E1–E14) to distinguish from server phases (0–17). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).

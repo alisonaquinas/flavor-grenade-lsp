@@ -110,6 +110,7 @@ See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protoco
 | BC5 LSP Protocol | BC6 Editor Client | Custom Notification | BC6 consumes the `flavorGrenade/status` server→client notification to drive the StatusBarWidget. |
 | BC5 LSP Protocol | BC6 Editor Client | Custom Request | BC6 queries `flavorGrenade/documentMembership` before assigning the VS Code `ofmarkdown` language mode to a Markdown document. |
 | BC6 Editor Client | BC5 LSP Protocol | Command | BC6 sends `workspace/executeCommand` for `flavorGrenade.rebuildIndex` via the standard LSP command mechanism. |
+| BC5 LSP Protocol | BC6 Editor Client | Command Payload | BC5 may return `flavorGrenade.*` command identifiers and JSON payloads; BC6 adapts them to native VS Code UI through command bridges. |
 
 ---
 
@@ -237,6 +238,10 @@ BC3 (`RefGraph`, `Oracle`), BC4 (`VaultIndex`, `Workspace`), BC5 (LSP wire types
 | `WikiRef` | Standard `[[target]]` or `[[target\|alias]]` reference |
 | `EmbedRef` | `![[target]]` embed reference (first-class, not in marksman) |
 | `BlockRef` | `[[target#^anchor]]` block-level embed reference (first-class) |
+| `MarkdownLinkRef` | Standard Markdown local link reference, e.g. `[text](note.md)` |
+| `MarkdownImageRef` | Standard Markdown local image or attachment reference, e.g. `![alt](image.png)` |
+| `LinkLabelRef` | Standard Markdown reference-style label use, e.g. `[text][label]` |
+| `LinkLabelDef` | Standard Markdown reference-style definition, e.g. `[label]: note.md` |
 | `TagRef` | `#tag` reference |
 | `IntraRef` | Reference within the same document (`[[#heading]]`) |
 | `CrossRef` | Reference across documents |
@@ -362,7 +367,7 @@ TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient
 | Type | Description |
 |------|-------------|
 | `ExtensionClient` | The VS Code extension entry point — resolves binary, manages LanguageClient lifecycle, wires status bar and commands |
-| `BinaryResolver` | 2-tier resolution strategy: (1) user setting `flavorGrenade.server.path`, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
+| `BinaryResolver` | 2-tier resolution strategy: (1) user or machine `flavorGrenade.server.path`, with workspace values ignored, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
 | `StatusBarWidget` | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications |
 | `LanguageModeController` | Client-side service that decides when a Markdown document should be promoted to VS Code language id `ofmarkdown` |
 | `OFMarkdownLanguageMode` | VS Code language contribution for Obsidian Flavored Markdown documents detected by Flavor Grenade |
