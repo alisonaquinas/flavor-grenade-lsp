@@ -67,7 +67,7 @@ repeatable local gates.
 | [[TASK-214]] | Scaffold Vite Svelte website app | `in-review` |
 | [[TASK-215]] | Configure website quality gates | `in-review` |
 | [[TASK-216]] | Establish source and test layout guards | `in-review` |
-| [[CHORE-087]] | Phase W1 documentation and verification sweep | `open` |
+| [[CHORE-087]] | Phase W1 documentation and verification sweep | `in-progress` |
 
 ## Lifecycle
 
@@ -99,3 +99,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Implementation tasks in review · 2026-05-09
 > TASK-214, TASK-215, and TASK-216 moved to `in-review` after updating the
 > website test index and requirements matrix entries.
+
+> [!INFO] Verification sweep started · 2026-05-09
+> CHORE-087 entered `in-progress` to run Phase W1 local gates and record Step
+> E-L evidence.

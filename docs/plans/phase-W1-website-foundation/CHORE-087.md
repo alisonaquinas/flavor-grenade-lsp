@@ -2,7 +2,7 @@
 id: "CHORE-087"
 title: "Phase W1 documentation and verification sweep"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-087"]
 
 # Phase W1 Documentation And Verification Sweep
 
-> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `open`
+> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `in-progress`
 
 ## Description
 
@@ -39,3 +39,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created for the Phase W1 verification sweep. Status: `open`.
+
+> [!INFO] Started · 2026-05-09
+> Began the Phase W1 verification sweep after TASK-214, TASK-215, and TASK-216
+> reached `in-review`. Status: `in-progress`.
