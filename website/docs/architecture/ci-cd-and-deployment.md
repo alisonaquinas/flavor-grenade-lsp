@@ -36,6 +36,8 @@ Website CI must add website-specific checks once implementation exists:
 - website unit tests
 - static build
 - SEO and generated-file verification
+- documentation maturity checks for internal Markdown, changelog practice, and
+  source docstrings where automation can verify them
 
 ## Release Stages
 

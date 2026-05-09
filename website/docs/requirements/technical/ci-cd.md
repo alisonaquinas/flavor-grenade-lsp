@@ -86,6 +86,11 @@ Website checks, once the website implementation exists:
 - Verify the generated output is static and suitable for GitHub Pages.
 - Verify generated `sitemap.xml`, `robots.txt`, canonical URLs, and social
   metadata.
+- Verify that website source remains under `website/src` and website tests
+  remain under `website/tests`.
+- Verify website internal Markdown, changelog entries, and source docstrings
+  maintain the required `standard` documentation maturity where checks are
+  automatable.
 
 ## Required Release Gates
 

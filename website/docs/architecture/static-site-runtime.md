@@ -17,6 +17,7 @@ view time.
 | Content data | `website/src/content/` or generated modules | Typed content records derived from Markdown or authored metadata. |
 | Styles | `website/src/styles/` | SCSS tokens, resets, layout primitives, theme variables, and component styling. |
 | Assets | `website/src/assets/` and repository product assets | Product logos, icons, screenshots, social images, and static media. |
+| Tests | `website/tests/` | Unit, component, accessibility, routing, SEO, and build-output tests. |
 
 ## Vite Role
 

@@ -44,7 +44,8 @@ flowchart LR
 | Block | Responsibility |
 | --- | --- |
 | `website/docs` | Canonical planning, requirements, architecture, ADR, and source documentation while the site is being designed. |
-| `website/src` | Future Svelte, TypeScript, SCSS, route, metadata, and content-transform source. |
+| `website/src` | Required location for Svelte, TypeScript, SCSS, route, metadata, and content-transform source. |
+| `website/tests` | Required location for website unit, component, accessibility, routing, SEO, and build-output tests. |
 | `website/public` | Future static passthrough assets such as `robots.txt`, favicons, and social images when needed. |
 | `website/dist` | Generated static output for GitHub Pages. This directory is build output, not source of truth. |
 | Root package | Existing LSP server package and shared repository checks. |
@@ -72,6 +73,14 @@ Svelte components
 
 The website may depend on static project metadata and product assets. The LSP
 server and VS Code extension must not depend on website implementation code.
+
+## Documentation Maintenance Boundary
+
+The website documentation system is maintained at `standard` maturity. Internal
+Markdown, architecture docs, ADRs, changelog entries, and source docstrings
+must stay current with the implementation throughout development and
+maintenance. Source code belongs in `website/src`; tests belong in
+`website/tests`; requirements and architecture belong in `website/docs`.
 
 ## Runtime Boundary
 

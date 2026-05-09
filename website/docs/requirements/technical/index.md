@@ -19,6 +19,8 @@ implementation must stay independent from the LSP server runtime.
 ## Related Technical Specifications
 
 - [[ci-cd]]: CI, release, distribution, and publishing workflow requirements.
+- [[source-layout-and-documentation]]: website source layout, test layout,
+  internal documentation, changelog, and docstring standards.
 
 ## Static Site Output
 
@@ -72,6 +74,8 @@ implementation must stay independent from the LSP server runtime.
 
 - Svelte owns the page shell, routing/navigation, theme controls, search/filter
   UI, and interactive documentation controls.
+- Website source code must live under `website/src`.
+- Website tests must live under `website/tests`.
 - Shared UI tokens, copy, routes, and metadata must live in framework-neutral
   modules when they are consumed outside Svelte components.
 - Do not add another UI framework unless a later ADR documents the need and
@@ -141,9 +145,26 @@ implementation must stay independent from the LSP server runtime.
   - `preview`
   - `lint`
   - `typecheck`
+  - `test`
 - Document local startup from the repository root and from `website/`.
 - Keep website dependencies scoped to `website/package.json` unless a later
   decision intentionally shares root tooling.
+
+## Documentation Maintenance Requirements
+
+- Website internal Markdown, website changelog content, and website source
+  docstrings must be maintained at `standard` maturity throughout website
+  development and maintenance.
+- Internal Markdown under `website/docs` must follow the evidence-first
+  `$software-design:well-documented` standard: accurate links, current
+  commands, clear architecture boundaries, and folder-level docs for doc-worthy
+  areas.
+- Website changelog entries must follow the `$shared-skills:changelog`
+  standard: Keep a Changelog structure, `[Unreleased]` section, user-facing
+  entries, SemVer release sections, ISO 8601 dates, and compare links.
+- Website TypeScript source must use documentation comments for public modules,
+  exported symbols, and non-obvious behavior. Bootstrap comments must be
+  refined before merge.
 
 ## Open Decisions
 
