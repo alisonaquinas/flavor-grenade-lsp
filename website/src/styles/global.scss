@@ -328,6 +328,109 @@ p {
   border-color: color-mix(in srgb, var(--green) 45%, var(--line));
 }
 
+.docs-page {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(2rem, 6vw, 5rem);
+}
+
+.docs-hero {
+  display: grid;
+  gap: 1rem;
+  max-width: 48rem;
+}
+
+.docs-hero h1 {
+  max-width: 14ch;
+}
+
+.docs-hero p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.docs-layout {
+  align-items: start;
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.32fr);
+}
+
+.docs-sections {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.docs-section {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 0.8rem;
+  max-width: 52rem;
+  min-width: 0;
+  padding-top: 1.25rem;
+}
+
+.docs-section h2,
+.docs-related h2 {
+  color: var(--ink-strong);
+  font-size: 1rem;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.docs-section p,
+.docs-section li {
+  color: var(--muted);
+}
+
+.docs-section ul,
+.docs-section ol {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.docs-section li strong,
+.docs-section li span {
+  display: block;
+}
+
+.docs-section li strong {
+  color: var(--ink-strong);
+}
+
+.docs-section pre {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 0;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.docs-section code {
+  color: var(--ink-strong);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem;
+}
+
+.docs-related {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.docs-related a {
+  color: var(--cool);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
 .site-footer {
   background: var(--ink-strong);
   color: var(--surface);
@@ -391,6 +494,7 @@ p {
   }
 
   .hero-shell,
+  .docs-layout,
   .feature-list,
   .site-footer {
     grid-template-columns: 1fr;
@@ -417,5 +521,13 @@ p {
   .hero-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .docs-page {
+    padding-inline: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .docs-related {
+    position: static;
   }
 }

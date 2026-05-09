@@ -10,6 +10,12 @@ import type { RouteId, WebsiteRoute } from './routes';
 export interface WebsitePageSection {
   heading: string;
   body: string;
+  items?: string[];
+  steps?: Array<{
+    title: string;
+    body: string;
+  }>;
+  code?: string;
 }
 
 /** Typed content record used by the static website route renderer. */
@@ -56,11 +62,44 @@ export const websitePages: readonly WebsitePageContent[] = [
   ),
   page(
     'quickstart',
-    'Install the extension, open an Obsidian Vault, and verify language features.',
+    'Install the VS Code extension, open an Obsidian Vault folder, and verify that Flavor Grenade LSP is serving OFMarkdown features.',
     [
       {
-        heading: 'Install and verify',
-        body: 'Quickstart content covers prerequisites, extension installation, and the first successful vault workflow.',
+        heading: 'Prerequisites',
+        body: 'Use the recommended VS Code extension path when you want the fastest setup. Direct LSP server use is for advanced editor integrations.',
+        items: [
+          'VS Code installed on Windows, macOS, Linux, WSL, SSH, or Dev Container.',
+          'An Obsidian Vault folder or Markdown workspace that uses Obsidian-style links.',
+          'A note you can edit, such as notes/Daily Note.md.',
+        ],
+      },
+      {
+        heading: 'Install from the Visual Studio Marketplace',
+        body: 'Install Flavor Grenade LSP from the Visual Studio Marketplace, then reload VS Code if prompted.',
+        steps: [
+          {
+            title: 'Open an Obsidian Vault folder',
+            body: 'Use File > Open Folder and choose the folder that contains `.obsidian/` or `.flavor-grenade.toml`.',
+          },
+          {
+            title: 'Confirm OFMarkdown activation',
+            body: 'Open a Markdown note in the vault and confirm the language mode becomes OFMarkdown while the server status is ready.',
+          },
+        ],
+      },
+      {
+        heading: 'Verify the first vault workflow',
+        body: 'Create a note with a real local reference, then use completion, navigation, references, rename, and diagnostics in one pass.',
+        code: '[[Daily Note]] links to [[People/Ada Lovelace]] and [[Missing Target]].',
+        items: [
+          'Type `[[` and choose a completion from the indexed Obsidian Vault.',
+          'Navigate to `[[Daily Note]]`, find references, then rename a heading or note.',
+          'Leave `[[Missing Target]]` unresolved and confirm a broken-link diagnostic appears.',
+        ],
+      },
+      {
+        heading: 'Troubleshooting',
+        body: 'If activation does not happen, check workspace trust, the selected language mode, the extension status, and whether the opened folder is the vault root.',
       },
     ],
     [routeLink('howToVsCodeExtension', 'Use the VS Code extension'), marketplaceLink],
@@ -85,8 +124,30 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Set up Flavor Grenade from the Visual Studio Marketplace and confirm activation.',
     [
       {
-        heading: 'Use the extension path',
-        body: 'The extension guide explains installation, activation, and the relationship between the client and the bundled server.',
+        heading: 'Install from the Visual Studio Marketplace',
+        body: 'The VS Code extension is the recommended install path because the extension packages the language server and starts it for supported vault workspaces.',
+        steps: [
+          {
+            title: 'Install',
+            body: 'Install Flavor Grenade LSP from the Visual Studio Marketplace and let VS Code reload the extension host.',
+          },
+          {
+            title: 'Activation',
+            body: 'Open an Obsidian Vault folder. The extension starts for vault markers and OFMarkdown files instead of forcing every Markdown file into the tool.',
+          },
+          {
+            title: 'Verify server status',
+            body: 'Open a vault note, check that OFMarkdown is active, and use wiki-link completion to confirm the server status is ready.',
+          },
+        ],
+      },
+      {
+        heading: 'Vault open and first checks',
+        body: 'A good vault open test is a note that references `[[Daily Note]]`, an attachment, and one intentionally missing target so completion and diagnostics are both visible.',
+      },
+      {
+        heading: 'Extension and server boundary',
+        body: 'The extension packages the language server, owns VS Code activation and commands, and delegates OFMarkdown intelligence to the server process.',
       },
     ],
     [marketplaceLink, routeLink('quickstart', 'Return to quickstart')],
@@ -202,6 +263,24 @@ export const websitePages: readonly WebsitePageContent[] = [
     [routeLink('quickstart', 'Try the quickstart'), routeLink('concepts', 'Read concepts')],
   ),
 ];
+
+/** Finds the public content record for a route ID. */
+export function getWebsitePage(routeId: RouteId): WebsitePageContent {
+  const pageRecord = websitePages.find((candidate) => candidate.routeId === routeId);
+
+  if (!pageRecord) {
+    throw new Error(`Unknown website page: ${routeId}`);
+  }
+
+  return pageRecord;
+}
+
+/** Finds the public content record for a browser path, falling back to home. */
+export function getWebsitePageByPath(pathname: string, routes: readonly WebsiteRoute[]): WebsitePageContent {
+  const routeRecord = routes.find((route) => route.path === pathname);
+
+  return getWebsitePage(routeRecord?.id ?? 'home');
+}
 
 /** Returns validation messages for content records and their public links. */
 export function validateWebsitePages(
