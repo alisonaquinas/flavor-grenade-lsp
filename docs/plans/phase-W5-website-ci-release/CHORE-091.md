@@ -61,3 +61,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!CHECK] PR CI · 2026-05-09
 > PR #55 CI passed. Release tag workflow and Pages deployment remain pending
 > until the website release is promoted through `main` and tagged.
+
+> [!WARNING] Finding · 2026-05-09
+> Found BUG-029 while planning the release tag: `v*` tags also wake root npm
+> publish automation, so website-only release tags need the `site-v*` family.

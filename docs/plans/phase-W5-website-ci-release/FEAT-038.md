@@ -106,3 +106,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!CHECK] PR CI · 2026-05-09
 > PR #55 CI passed. Implementation tasks moved to `done`; CHORE-091 remains
 > `in-review` until release tag workflow and Pages deployment evidence exists.
+
+> [!WARNING] BUG-029 opened · 2026-05-09
+> After PR #55 merged, release planning found that website-only releases need
+> `site-v*` tags so Pages can deploy without waking root npm publish automation.
