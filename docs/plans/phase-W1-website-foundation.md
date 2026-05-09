@@ -100,3 +100,9 @@ bun run lint:docs
 > Phase W1 began on `feature/phase-w1-website-foundation`. During Step A, the
 > Phase 18 dependency was removed because this website scaffold does not modify
 > LSP security behavior and Phase 18 remains an independent server-track audit.
+
+> [!SUCCESS] Local gate evidence · 2026-05-09
+> `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` pass from
+> `website/`. Repository docs lint, root lint/typecheck/unit tests, audits, and
+> BDD `@smoke` also pass locally. Phase remains `in-progress` in the execution
+> ledger until PR CI confirms the gate.

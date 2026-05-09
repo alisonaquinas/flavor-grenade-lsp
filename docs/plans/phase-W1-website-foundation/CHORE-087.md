@@ -2,7 +2,7 @@
 id: "CHORE-087"
 title: "Phase W1 documentation and verification sweep"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-087"]
 
 # Phase W1 Documentation And Verification Sweep
 
-> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `in-progress`
+> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `in-review`
 
 ## Description
 
@@ -24,12 +24,12 @@ to review.
 
 ## Acceptance Criteria
 
-- [ ] `cd website && npm run lint` passes.
-- [ ] `cd website && npm run typecheck` passes.
-- [ ] `cd website && npm test` passes.
-- [ ] `cd website && npm run build` passes.
-- [ ] `bun run lint:docs` passes.
-- [ ] `FEAT-034` acceptance checklist is updated.
+- [x] `cd website && npm run lint` passes.
+- [x] `cd website && npm run typecheck` passes.
+- [x] `cd website && npm test` passes.
+- [x] `cd website && npm run build` passes.
+- [x] `bun run lint:docs` passes.
+- [x] `FEAT-034` acceptance checklist is updated.
 
 ## Lifecycle
 
@@ -43,3 +43,11 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Began the Phase W1 verification sweep after TASK-214, TASK-215, and TASK-216
 > reached `in-review`. Status: `in-progress`.
+
+> [!SUCCESS] Local gates passed · 2026-05-09
+> Verified `npm run lint`, `npm run typecheck`, `npm test`, and
+> `npm run build` from `website/`; `bun run lint:docs`; `git diff --check`;
+> root `bun run lint --max-warnings 0`, `bun run typecheck`, `bun test src/`,
+> `bun audit`; website and extension `npm audit`; and `bun run bdd --tags
+> "@smoke"`. No Step E-L findings required follow-up tickets. Status:
+> `in-review`.

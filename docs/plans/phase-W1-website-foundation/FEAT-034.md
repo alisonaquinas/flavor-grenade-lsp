@@ -2,7 +2,7 @@
 id: "FEAT-034"
 title: "Website Foundation And Toolchain"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-034"]
 
 # Website Foundation And Toolchain
 
-> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -54,11 +54,11 @@ repeatable local gates.
 ## Acceptance Criteria
 
 - [ ] All child tasks are `done`.
-- [ ] `cd website && npm run lint` passes.
-- [ ] `cd website && npm run typecheck` passes.
-- [ ] `cd website && npm test` passes.
-- [ ] `cd website && npm run build` produces static output.
-- [ ] `bun run lint:docs` passes.
+- [x] `cd website && npm run lint` passes.
+- [x] `cd website && npm run typecheck` passes.
+- [x] `cd website && npm test` passes.
+- [x] `cd website && npm run build` produces static output.
+- [x] `bun run lint:docs` passes.
 
 ## Child Tasks
 
@@ -67,7 +67,7 @@ repeatable local gates.
 | [[TASK-214]] | Scaffold Vite Svelte website app | `in-review` |
 | [[TASK-215]] | Configure website quality gates | `in-review` |
 | [[TASK-216]] | Establish source and test layout guards | `in-review` |
-| [[CHORE-087]] | Phase W1 documentation and verification sweep | `in-progress` |
+| [[CHORE-087]] | Phase W1 documentation and verification sweep | `in-review` |
 
 ## Lifecycle
 
@@ -103,3 +103,44 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Verification sweep started · 2026-05-09
 > CHORE-087 entered `in-progress` to run Phase W1 local gates and record Step
 > E-L evidence.
+
+> [!SUCCESS] Ready for PR · 2026-05-09
+> Phase W1 local gates passed. Steps J, K, and validation-folder checks were
+> N/A because `tests/integration`, `tests/verification`, and `tests/validation`
+> do not contain phase-specific test files; BDD `@smoke` passed. Status:
+> `in-review`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-09.
+
+### What went as planned
+
+The Vite/Svelte/TypeScript/SCSS scaffold fit the Phase W1 scope cleanly, and
+the RED/GREEN commits gave quick evidence for the app shell, tooling contract,
+and source-layout guard.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | — | No Step E-L defects were found. | 0 h |
+
+The only process adjustment was correcting the W1 dependency to Phase E14
+because the server security audit is an independent track and not a blocker for
+website scaffolding.
+
+### Process observations
+
+Website-specific tests needed explicit entries in the repository test index and
+matrix because those docs originally described `tests/` and extension tests more
+than package-local suites.
+
+### Carry-forward actions
+
+- [ ] Keep W2 tests under `website/tests` and update the matrix in the same
+  ticket-status commit when adding content-pipeline coverage.
+
+### Rule / template amendments
+
+- [ ] None.
