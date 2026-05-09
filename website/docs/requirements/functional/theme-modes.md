@@ -36,10 +36,20 @@ Owner: Website implementation.
 
 Source: [[requirements/user/accessibility-and-usability]], [[requirements/design/index]]
 
+Visual interaction requirements:
+
+- The header must expose theme selection through one compact icon affordance
+  instead of a persistent three-segment System / Light / Dark control.
+- The compact control may cycle modes or open a menu, but all three required
+  modes must remain reachable.
+- The active mode must be communicated through text available to assistive
+  technology, such as `aria-label`, `aria-pressed`, menu item state, or
+  equivalent semantics.
+
 Open questions:
 
 - What exact storage key should persist user preference?
-- Should the mode control be a segmented control, menu, or toggle menu?
+- Should the compact icon control cycle modes directly or open a menu?
 
 ## Website.Theme.SystemDefault
 

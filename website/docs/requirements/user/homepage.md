@@ -25,8 +25,13 @@ marketing page.
   overview, and the GitHub repository.
 - The first viewport or primary CTA area links to
   [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp).
+- Primary CTA links include recognizable icons that reinforce Quickstart,
+  Marketplace, and GitHub actions.
+- Primary CTA links use equal widths when stacked on narrow viewports.
 - The homepage includes a concrete screenshot, terminal demo, or editor demo
   visual.
+- The homepage screenshot or product proof visual loads without a broken-image
+  indicator.
 - The homepage uses the existing Flavor Grenade logo or icon as a meaningful
   product identity element.
 - The homepage includes a compact feature grid for diagnostics, completions,

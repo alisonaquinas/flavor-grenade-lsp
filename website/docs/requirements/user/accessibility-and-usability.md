@@ -27,6 +27,8 @@ basic information.
 - Theme preference respects system preference and can be overridden by the
   user.
 - Theme controls provide three explicit modes: light, dark, and system.
+- Theme controls use one compact icon affordance on the website header while
+  preserving access to light, dark, and system choices.
 - The default theme mode is system when the user has not chosen a manual
   preference.
 - Manual light and dark choices persist across page loads.
@@ -35,6 +37,11 @@ basic information.
 - The first viewport hints at the next section on mobile and desktop.
 - Product logos and screenshots include useful alt text and do not replace
   textual product identification.
+- Product logos, screenshots, and proof images load successfully without
+  broken-image indicators.
+- Narrow-view primary navigation collapses behind a hamburger/menu control with
+  accessible expanded state.
+- Icon buttons and icon-enhanced links keep visible labels or accessible names.
 
 ## Theme User Stories
 

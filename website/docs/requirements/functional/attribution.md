@@ -114,6 +114,16 @@ public website pages.
 Stretch: Goal level plus the footer remains compact and readable on mobile
 without pushing primary page content into awkward overflow.
 
+Review polish requirements:
+
+- Creator links must include recognizable icons for website, GitHub, and
+  LinkedIn.
+- Project links must include recognizable icons for the GitHub repository and
+  Visual Studio Marketplace.
+- Icons must supplement visible descriptive text rather than replacing it.
+- Footer brand image and byline must have enough space on narrow viewports and
+  must not collapse into an unreadable column.
+
 Wish: Stretch level plus current package or website version metadata is
 automatically populated from the release source of truth.
 

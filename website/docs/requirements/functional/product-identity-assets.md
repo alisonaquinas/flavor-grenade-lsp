@@ -31,8 +31,8 @@ Meter: Inspect the production build and source assets. Count a placement as
 satisfied when it uses an existing Flavor Grenade asset or a documented
 derivative generated from one.
 
-Fail: Any required placement is missing product identity or uses an unrelated
-asset.
+Fail: Any required placement is missing product identity, uses an unrelated
+asset, or renders as a broken image.
 
 Goal: 100% of required placements use existing Flavor Grenade logo/icon assets
 or documented derivatives.
@@ -54,6 +54,51 @@ Open questions:
 - Which logo variant is canonical for the website header?
 - Should social previews reuse an existing logo image or generate a dedicated
   preview asset?
+
+## Website.BrandAssets.RenderReliability
+
+Tag: `Website.BrandAssets.RenderReliability`
+
+Gist: Product identity and proof images must resolve correctly in development
+and production builds.
+
+Ambition: The website should never show broken-image indicators in core brand
+or product-proof regions.
+
+Scale: Percentage of required image regions that resolve to loadable assets.
+
+Required image regions:
+
+- header product icon or logo
+- footer product icon or logo
+- homepage product proof screenshot or demo image
+
+Meter: Run the Vite dev server and production build preview, inspect the
+homepage at mobile and desktop widths, and verify that every required image
+region loads without a broken-image indicator.
+
+Fail: Any required image region shows missing alt text as visible fallback,
+browser broken-image UI, a zero-size image, or a request failure.
+
+Goal: 100% of required image regions resolve in development and production
+builds.
+
+Stretch: Goal level plus automated tests verify that asset URLs are generated
+through Vite-compatible imports.
+
+Wish: Stretch level plus browser tests assert natural image dimensions after
+render.
+
+Stakeholders: Website visitors, project maintainer, search visitors.
+
+Owner: Website implementation.
+
+Source: [[requirements/design/index]], browser review feedback from 2026-05-09.
+
+Open questions:
+
+- Should proof screenshots remain sourced from extension marketplace assets or
+  move into website-owned public assets?
 
 ## Website.BrandAssets.AccessibleText
 

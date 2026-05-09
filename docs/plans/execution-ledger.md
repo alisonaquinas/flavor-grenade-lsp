@@ -54,6 +54,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W3    | Homepage And Design System | ✅ complete | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | 2026-05-09 | PR #53 CI green |
 | W4    | Documentation Pages And LLM Wiki | ✅ complete | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | 2026-05-09 | PR #54 CI green |
 | W5    | Website CI And Pages Release | 🔄 in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | 2026-05-09 | — |
+| W6    | Website Review Polish | ⏳ planned | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | — | — |
 
 ---
 
@@ -172,7 +173,7 @@ feature-parity continuation phases for OFMarkdown-specific client behavior.
 ```text
 Website Phases:
 
-Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5
+Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5 ──► Phase W6
 ```
 
 Website phases use `W`-prefixed numbering to distinguish them from server and
@@ -188,6 +189,6 @@ extension.
 - Phases 1–13 all require CI to be configured (Phase 13 bootstraps CI itself; phases 1–12 use a local gate script in the interim).
 - If CI is not yet running, use `bun run gate:N` scripts defined in `package.json` as interim gates.
 - Extension phases use `E`-prefixed numbering (E1–E14) to distinguish from server phases (0–17). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).
-- Website phases use `W`-prefixed numbering (W1–W5). Their gates are verified
+- Website phases use `W`-prefixed numbering (W1–W6). Their gates are verified
   with website-local npm scripts, repository docs lint, and GitHub Actions
   evidence once CI is wired.

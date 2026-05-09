@@ -31,6 +31,14 @@ mobile.
 
 Goal: 100% of required destinations are reachable on desktop and mobile.
 
+Review polish requirements:
+
+- On narrow viewports, the full primary navigation link list must collapse into
+  one top-right hamburger or menu icon.
+- The collapsed menu must expose every required primary destination.
+- The hamburger/menu control must expose an accessible name and expanded state.
+- Desktop viewports must keep visible primary navigation links.
+
 Stretch: Goal level plus the active or current section is visually indicated.
 
 Wish: Stretch level plus every primary destination has descriptive accessible

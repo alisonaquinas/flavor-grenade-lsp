@@ -1,0 +1,65 @@
+---
+id: "TASK-234"
+title: "Collapse narrow navigation into hamburger menu"
+type: task
+status: open
+priority: high
+phase: W6
+parent: "FEAT-039"
+created: "2026-05-09"
+updated: "2026-05-09"
+dependencies: ["FEAT-039"]
+tags: [tickets/task, "phase/W6", website, navigation, mobile, accessibility]
+aliases: ["TASK-234"]
+---
+
+# Collapse Narrow Navigation Into Hamburger Menu
+
+> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+
+## Description
+
+Collapse the primary navigation into a hamburger icon at the top right on
+narrow viewports so the header does not consume excessive vertical space or
+wrap into a dense link block.
+
+## Browser Review Feedback
+
+| Comment | Region | Finding |
+|---|---|---|
+| W6 extra 1 | Primary navigation | Reduce to a hamburger icon top right when narrow |
+
+## Implementation Details
+
+Create or update tests before implementation:
+
+- `website/tests/mobile-layout.test.ts`
+- Add a focused navigation test if source contracts need coverage.
+
+Expected behavior:
+
+- Narrow viewports show one hamburger/menu icon in the header.
+- Desktop viewports keep the visible primary navigation.
+- The menu exposes Home, Quickstart, How-To, Concepts, Advanced Usage, FAQ, and
+  GitHub.
+- The hamburger has an accessible name and exposes expanded/collapsed state.
+- Menu links remain keyboard reachable and focus-visible.
+
+## Definition of Done
+
+- [ ] Failing regression test exists before implementation.
+- [ ] Narrow header shows a hamburger icon instead of the full wrapped nav.
+- [ ] Desktop header still shows primary navigation links.
+- [ ] Menu state is keyboard and screen-reader accessible.
+- [ ] Browser screenshot verifies the narrow header region.
+- [ ] Parent feature child row is updated.
+
+## Lifecycle
+
+Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+
+## Workflow Log
+
+> [!INFO] Opened · 2026-05-09
+> Ticket created from additional browser review feedback on narrow primary
+> navigation. Status: `open`.

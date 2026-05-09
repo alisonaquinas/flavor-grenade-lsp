@@ -323,7 +323,9 @@ Required components:
 
 - Sticky header with desktop navigation.
 - Mobile navigation menu.
-- Theme mode control: light, dark, system.
+- Narrow-view hamburger navigation control.
+- Compact theme mode control: light, dark, system available through one icon
+  affordance or equivalent compact control.
 - Skip link.
 - Product logo or icon component.
 - Hero product demo.
@@ -341,6 +343,29 @@ Required components:
 - Visual Studio Marketplace link.
 
 Components must expose accessible names and keyboard states where interactive.
+
+### Browser Review Polish Requirements
+
+The first browser review of the homepage creates additional visual polish
+requirements before release:
+
+- Product images must never show broken-image indicators in the header, hero,
+  footer, or product proof regions.
+- Header product identity must remain visible without crowding the product
+  name.
+- On narrow viewports, primary navigation must collapse to a top-right
+  hamburger or menu icon instead of wrapping all navigation links into a dense
+  block.
+- The compact navigation control must expose expanded/collapsed state and keep
+  all primary navigation links keyboard reachable.
+- The theme control must reduce from a three-segment visible control to one
+  compact icon affordance while preserving system, light, and dark modes.
+- Homepage primary action buttons must include recognizable icons.
+- When homepage primary actions stack, their widths must match.
+- Footer creator and project links must include icons while keeping visible
+  descriptive text.
+- Footer brand image and text must have enough room on mobile; the product icon
+  must not squeeze the byline or product name into an unreadable column.
 
 ### Footer Requirements
 
@@ -425,7 +450,11 @@ metadata only:
 Mobile:
 
 - Navigation collapses into a menu.
+- The collapsed navigation uses a familiar hamburger/menu icon at the top
+  right.
+- The hamburger/menu control exposes an accessible name and expanded state.
 - CTAs stack cleanly.
+- Stacked CTAs have equal widths when they belong to the same action group.
 - Code blocks scroll horizontally without page overflow.
 - Text never overlaps controls.
 - Hero visual remains inspectable.
