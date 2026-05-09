@@ -30,6 +30,7 @@ Thumbs.db
 .vscode/settings.json
 **/.vscode-test/
 .idea/
+/.obsidian/
 
 # ── Logs ─────────────────────────────────────────────────────────────────────
 *.log
