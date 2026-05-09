@@ -7,7 +7,7 @@ priority: high
 phase: W1
 created: "2026-05-09"
 updated: "2026-05-09"
-dependencies: ["FEAT-033", "FEAT-032"]
+dependencies: ["FEAT-032"]
 tags: [tickets/feature, "phase/W1", website]
 aliases: ["FEAT-034"]
 ---
@@ -79,3 +79,8 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created for Phase W1 website foundation. Status: `ready`.
+
+> [!NOTE] Dependency correction · 2026-05-09
+> Step A removed the Phase 18 dependency from W1. The website scaffold phase is
+> docs/site tooling only and is not blocked by the server security hardening
+> audit. Phase E14 remains the completed extension baseline dependency.

@@ -34,6 +34,31 @@ inside `website/src`.
 - `website/src/**`
 - `website/src/styles/**`
 
+## Implementation Details
+
+Create a minimal static Svelte shell with these concrete files:
+
+- `website/index.html`
+- `website/package.json`
+- `website/package-lock.json`
+- `website/vite.config.ts`
+- `website/svelte.config.js`
+- `website/tsconfig.json`
+- `website/tsconfig.node.json`
+- `website/src/App.svelte`
+- `website/src/main.ts`
+- `website/src/vite-env.d.ts`
+- `website/src/styles/global.scss`
+
+The app shell exposes no public API yet. It only needs to render a stable
+foundation page that proves Vite, Svelte, TypeScript, and SCSS are wired.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/app-shell.test.ts` | Unit | `Website.Technical.Stack` | planned |
+
 ## Definition of Done
 
 - [ ] `website/src` contains the app entry point.
@@ -51,3 +76,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Concrete implementation files and the red test target were recorded before
+> writing code.

@@ -32,6 +32,32 @@ TypeScript and zero-warning lint behavior.
 - website test configuration
 - `website/tests/**`
 
+## Implementation Details
+
+Create website-local quality tooling:
+
+- `website/eslint.config.js`
+- `website/vitest.config.ts`
+- `website/tests/app-shell.test.ts`
+- `website/tests/tooling.test.ts`
+
+`website/package.json` must expose:
+
+- `dev`: `vite`
+- `build`: `svelte-check --tsconfig ./tsconfig.json && tsc --project
+  tsconfig.node.json && vite build`
+- `preview`: `vite preview`
+- `lint`: ESLint with zero warnings over `src`, `tests`, and config files
+- `typecheck`: `svelte-check --tsconfig ./tsconfig.json` plus Node/config
+  TypeScript checks
+- `test`: Vitest run mode
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/tooling.test.ts` | Unit | `Website.Technical.SourceLayout` | planned |
+
 ## Definition of Done
 
 - [ ] `npm run lint` fails on warnings.
@@ -49,3 +75,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Concrete scripts, config files, and test targets were recorded before
+> implementation.

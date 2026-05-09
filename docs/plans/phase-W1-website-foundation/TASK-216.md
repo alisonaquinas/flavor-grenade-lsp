@@ -29,6 +29,30 @@ does not drift into `website/docs`.
 |---|---|
 | Website source and test layout | [[../../../website/docs/requirements/technical/source-layout-and-documentation]] |
 
+## Implementation Details
+
+Add a website-local layout guard test in `website/tests/layout.test.ts`.
+
+The test should scan the website tree and fail if:
+
+- implementation source appears outside `website/src`
+- tests appear outside `website/tests`
+- application source is added under `website/docs`
+
+The guard must ignore:
+
+- `node_modules`
+- `dist`
+- coverage output
+- package lockfiles
+- documentation Markdown
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/layout.test.ts` | Unit | `Website.Technical.SourceLayout` | planned |
+
 ## Definition of Done
 
 - [ ] A test, script, or documented CI-ready check validates source/test layout.
@@ -45,3 +69,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> The layout guard behavior and test file were specified before implementation.
