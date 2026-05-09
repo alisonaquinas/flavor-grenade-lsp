@@ -91,3 +91,9 @@ npm run build
 > [!INFO] Started · 2026-05-09
 > Phase W2 began on `feature/phase-w2-content-pipeline-seo` after Phase W1 was
 > merged and marked complete by PR #51 CI.
+
+> [!SUCCESS] Local gate evidence · 2026-05-09
+> `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` pass from
+> `website/`. Repository docs lint, root lint/typecheck/unit tests, audits, and
+> BDD `@smoke` also pass locally. Phase remains `in-progress` in the execution
+> ledger until PR CI confirms the gate.

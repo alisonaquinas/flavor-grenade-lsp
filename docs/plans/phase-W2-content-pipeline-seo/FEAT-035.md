@@ -2,7 +2,7 @@
 id: "FEAT-035"
 title: "Content Pipeline And SEO Skeleton"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: W2
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-035"]
 
 # Content Pipeline And SEO Skeleton
 
-> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -47,11 +47,11 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 
 ## Acceptance Criteria
 
-- [ ] All required routes are represented in typed data.
-- [ ] Every route has title, description, canonical URL, and H1.
-- [ ] Sitemap and robots output are present in the build.
-- [ ] SEO validation tests pass.
-- [ ] `FEAT-035` child rows are updated.
+- [x] All required routes are represented in typed data.
+- [x] Every route has title, description, canonical URL, and H1.
+- [x] Sitemap and robots output are present in the build.
+- [x] SEO validation tests pass.
+- [x] `FEAT-035` child rows are updated.
 
 ## Child Tasks
 
@@ -60,7 +60,7 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 | [[TASK-217]] | Define typed route and metadata model | `in-review` |
 | [[TASK-218]] | Build content transform and link model | `in-review` |
 | [[TASK-219]] | Generate SEO files and validation tests | `in-review` |
-| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `in-progress` |
+| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `in-review` |
 
 ## Lifecycle
 
@@ -100,3 +100,44 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Verification sweep started · 2026-05-09
 > CHORE-088 entered `in-progress` to run Phase W2 local gates and Step E-L
 > evidence.
+
+> [!SUCCESS] Ready for PR · 2026-05-09
+> Phase W2 local gates passed. Steps J, K, and validation-folder checks were
+> N/A because `tests/integration`, `tests/verification`, and `tests/validation`
+> do not contain phase-specific test files; BDD `@smoke` passed. Status:
+> `in-review`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-09.
+
+### What went as planned
+
+Typed route metadata, starter content records, public-link validation, and SEO
+file checks fit the planned W2 split across TASK-217 through TASK-219.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | — | No Step E-L defects were found. | 0 h |
+
+During TASK-219 implementation, `replaceAll` was adjusted to regex
+replacement because the current website TypeScript target does not include the
+newer string helper. That happened before the sweep and did not require a
+follow-up ticket.
+
+### Process observations
+
+The sitemap is maintained as a static public file but tested against generated
+route metadata. This is a good interim fit until a later phase adds a dedicated
+prebuild generation step.
+
+### Carry-forward actions
+
+- [ ] W3 should consume `websiteRoutes` and `websitePages` in visible Svelte UI
+  so the homepage is no longer independent from the typed content model.
+
+### Rule / template amendments
+
+- [ ] None.
