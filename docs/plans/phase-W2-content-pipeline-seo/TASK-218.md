@@ -2,7 +2,7 @@
 id: "TASK-218"
 title: "Build content transform and link model"
 type: task
-status: red
+status: green
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-218"]
 
 # Build Content Transform And Link Model
 
-> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `red`
+> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `green`
 
 ## Description
 
@@ -42,6 +42,12 @@ Expected public API:
 Add RED coverage in `website/tests/content-links.test.ts` before
 implementation.
 
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/content-links.test.ts` | Unit | `Website.Pages.RequiredSet` | ✅ passing |
+
 ## Definition of Done
 
 - [ ] Content records can feed static route rendering.
@@ -66,3 +72,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/content-links.test.ts`, which expects the content and
 > public-link modules before they exist. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added typed public links, approved outbound hosts, starter page content, and
+> content/link validation. Status: `green`.

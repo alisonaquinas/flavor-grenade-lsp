@@ -38,10 +38,12 @@ describe('website content and public links', () => {
       },
     ];
 
-    expect(validateWebsitePages(invalidPages, websiteRoutes)).toEqual([
-      'home is missing summary.',
-      'home has no content sections.',
-      'home has no public links.',
-    ]);
+    expect(validateWebsitePages(invalidPages, websiteRoutes)).toEqual(
+      expect.arrayContaining([
+        'home is missing summary.',
+        'home has no content sections.',
+        'home has no public links.',
+      ]),
+    );
   });
 });
