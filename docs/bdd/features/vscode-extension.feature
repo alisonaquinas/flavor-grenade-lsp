@@ -88,6 +88,13 @@ Feature: VS Code extension lifecycle and integration
     When the user executes the "flavorGrenade.showOutput" command
     Then the "Flavor Grenade" output channel becomes visible
 
+  Scenario: Unsupported workspace commands do not spawn the server
+    Given the extension has activated in Restricted Mode or a virtual workspace
+    When the user executes the "flavorGrenade.rebuildIndex" command
+    Then the extension shows disabled workspace status
+    And the LanguageClient does not spawn the server binary
+    And the server process receives no "initialize" request
+
   Scenario: Custom server path
     Given the VS Code setting "flavorGrenade.server.path" is set to "/opt/fg/flavor-grenade-lsp"
     And the binary at "/opt/fg/flavor-grenade-lsp" exists and is executable
