@@ -1,7 +1,7 @@
 ---
 title: "Phase W6: Website Review Polish"
 phase: W6
-status: ready-for-pr
+status: in-progress
 tags: [plans, website, visual-polish, accessibility, review]
 aliases: [Phase W6, Website Review Polish]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W6 |
 | Title | Website Review Polish |
-| Status | ready-for-pr |
+| Status | in-progress |
 | Gate | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop |
 | Depends on | Phase W5 implementation review state |
 
@@ -50,6 +50,9 @@ responsive spacing, and image reliability rather than new content scope.
 - Collapse narrow primary navigation into a hamburger icon/menu at the top
   right.
 - Add tests or visual smoke evidence for the affected UI contracts.
+- Capture and implement second-round browser review feedback for interactive
+  product proof cards, mobile hero category visibility, and consistent feature
+  card borders.
 
 ### Out of Scope
 
@@ -67,6 +70,7 @@ responsive spacing, and image reliability rather than new content scope.
 | Footer affordance | Creator and project footer links use icons and preserve readable spacing |
 | Responsive navigation | Narrow header uses a hamburger menu instead of wrapped full navigation |
 | Verification | Tests and browser screenshots cover desktop and mobile review targets |
+| Second-round review polish | Selectable feature proof cards, hidden mobile eyebrow, and consistent card borders |
 
 ## Acceptance
 
@@ -80,6 +84,11 @@ responsive spacing, and image reliability rather than new content scope.
 - Footer creator and project links include icons with accessible names.
 - Narrow viewports show a hamburger menu instead of wrapped primary navigation.
 - Browser review shows no broken image icons in the reviewed homepage regions.
+- Homepage feature proof cards are selectable and reveal practical detail for
+  each capability.
+- Mobile hero hides the long category eyebrow when it visually crowds the
+  narrow first viewport.
+- Homepage feature card borders use a consistent default color.
 
 ## Gate Verification
 
@@ -117,7 +126,11 @@ or missing icon affordances.
 - [[plans/phase-W6-website-review-polish/TASK-232]]
 - [[plans/phase-W6-website-review-polish/TASK-233]]
 - [[plans/phase-W6-website-review-polish/TASK-234]]
+- [[plans/phase-W6-website-review-polish/TASK-235]]
+- [[plans/phase-W6-website-review-polish/TASK-236]]
+- [[plans/phase-W6-website-review-polish/TASK-237]]
 - [[plans/phase-W6-website-review-polish/CHORE-092]]
+- [[plans/phase-W6-website-review-polish/CHORE-093]]
 
 ## Related
 

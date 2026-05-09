@@ -28,6 +28,8 @@ marketing page.
 - Primary CTA links include recognizable icons that reinforce Quickstart,
   Marketplace, and GitHub actions.
 - Primary CTA links use equal widths when stacked on narrow viewports.
+- On narrow mobile viewports, the long hero category label can be hidden when
+  it makes the first viewport feel crowded or visually out of place.
 - The homepage includes a concrete screenshot, terminal demo, or editor demo
   visual.
 - The homepage screenshot or product proof visual loads without a broken-image
@@ -36,6 +38,11 @@ marketing page.
   product identity element.
 - The homepage includes a compact feature grid for diagnostics, completions,
   navigation, rename, references, tags, embeds, and block references.
+- Homepage feature cards are selectable and reveal deeper practical detail
+  about how Markdown linting, LSP indexing, diagnostics, completions, and safe
+  edits work in real Obsidian Vault documents.
+- Homepage feature cards use consistent default borders so the section feels
+  cohesive; selected and focused states may provide a shared visual accent.
 - The homepage explains that the tool is OFM-aware and vault-aware.
 - The homepage includes visible inspiration links to Karpathy's LLM Wiki
   concept, Obsidian, and Marksman LSP.

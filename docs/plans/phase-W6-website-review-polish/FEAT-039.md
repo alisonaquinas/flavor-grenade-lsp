@@ -2,7 +2,7 @@
 id: "FEAT-039"
 title: "Website Review Polish"
 type: feature
-status: ready-for-pr
+status: in-progress
 priority: high
 phase: W6
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-039"]
 
 # Website Review Polish
 
-> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `ready-for-pr`
+> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -67,6 +67,10 @@ review.
 - [x] Footer creator and project links include icons with accessible names.
 - [x] Narrow viewports collapse primary navigation into a hamburger menu.
 - [x] Browser screenshots verify the reviewed homepage and footer regions.
+- [ ] Homepage feature proof cards are selectable and reveal practical depth.
+- [ ] Mobile hero hides the long category eyebrow on narrow viewports.
+- [ ] Homepage feature cards use consistent default border color.
+- [ ] Second-round browser review feedback is verified.
 
 ## Child Tasks
 
@@ -78,7 +82,11 @@ review.
 | [[TASK-232]] | Add icon affordances to footer links | `green` |
 | [[TASK-233]] | Improve footer brand spacing on mobile | `green` |
 | [[TASK-234]] | Collapse narrow navigation into hamburger menu | `green` |
+| [[TASK-235]] | Make feature proof cards selectable | `open` |
+| [[TASK-236]] | Hide mobile hero category eyebrow | `open` |
+| [[TASK-237]] | Normalize feature card borders | `open` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `done` |
+| [[CHORE-093]] | Verify second-round W6 browser feedback | `open` |
 
 ## Lifecycle
 
@@ -112,3 +120,8 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!SUCCESS] Review polish follow-up · 2026-05-09
 > Widened the narrow hero action stack to match the proof card column width.
+
+> [!INFO] Second-round feedback captured · 2026-05-09
+> Added tickets for selectable proof cards with practical detail, hiding the
+> mobile hero eyebrow, and normalizing feature card borders. Phase returned to
+> `in-progress` until those tickets are implemented and verified.

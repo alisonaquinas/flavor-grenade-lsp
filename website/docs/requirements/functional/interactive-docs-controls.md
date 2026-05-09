@@ -74,3 +74,43 @@ Source: [[requirements/design/index]], [[requirements/user/quickstart]]
 Open questions:
 
 - Which install details count as required versus optional for direct LSP users?
+
+## Website.Homepage.FeatureProofSelection
+
+Tag: `Website.Homepage.FeatureProofSelection`
+
+Gist: Make homepage feature proof cards selectable and use selection to show
+deeper practical behavior.
+
+Ambition: Users can move from a short capability claim to a concrete example of
+how Flavor Grenade and related Markdown linting workflows detect, complete,
+rename, or keep Obsidian Vault content consistent.
+
+Scale: Percentage of homepage feature proof cards that can be selected with
+pointer and keyboard input and update a visible detail panel.
+
+Meter: Inspect the homepage in the production build. For each feature proof
+card, select it with pointer input and keyboard input, then verify that the
+selected state and detail panel update to capability-specific practical
+content.
+
+Fail: Any feature proof card is static only, cannot be selected by keyboard, or
+does not reveal capability-specific practical detail.
+
+Goal: 100% of feature proof cards are selectable and reveal practical details.
+
+Stretch: Goal level plus the detail panel includes concrete Markdown examples,
+indexed vault context, and the visible editor result for every feature.
+
+Wish: Stretch level plus selection state is reflected in the URL hash or
+otherwise remains stable across reloads without harming SEO.
+
+Stakeholders: Prospective users, docs readers, LLM maintainers, keyboard users.
+
+Owner: Website implementation.
+
+Source: [[requirements/user/homepage]], [[requirements/design/index]]
+
+Open questions:
+
+- Which feature should be selected by default on first render?

@@ -366,6 +366,17 @@ requirements before release:
   descriptive text.
 - Footer brand image and text must have enough room on mobile; the product icon
   must not squeeze the byline or product name into an unreadable column.
+- Homepage product proof cards must be selectable rather than static-only
+  cards. Selecting a card must reveal practical detail about how the tool
+  performs the capability in an Obsidian Vault, such as the input Markdown,
+  indexed vault data, diagnostic or completion behavior, and user-visible
+  editor result.
+- Feature proof cards must use consistent border color by default. Do not vary
+  each card border by capability color; selection, hover, and focus states may
+  use a shared accent treatment.
+- On narrow mobile viewports, the hero category eyebrow may be hidden when it
+  creates visual noise or crowds the first viewport. Product name, value, CTAs,
+  and proof visual must remain visible and understandable.
 
 ### Footer Requirements
 
