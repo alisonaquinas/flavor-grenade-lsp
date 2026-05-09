@@ -56,3 +56,8 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > `npm run build`, `bun run lint:docs`, and `git diff --check`. Desktop and
 > mobile Chrome screenshots were captured after the BUG-026 fix. Status:
 > `in-review`.
+
+> [!SUCCESS] Repository sweep · 2026-05-09
+> Passed `bun run lint --max-warnings 0`, `bun run typecheck`,
+> `bun test src/` (668 tests), `bun run bdd --tags "@smoke"` (13 scenarios),
+> `bun audit`, website `npm audit`, and extension `npm audit`.

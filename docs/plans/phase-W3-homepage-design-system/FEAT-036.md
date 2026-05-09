@@ -114,3 +114,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > BUG-026 fixed and reviewed locally. CHORE-089 passed website lint, typecheck,
 > unit tests, build, docs lint, whitespace check, and desktop/mobile visual
 > smoke. Status: `in-review` pending PR CI.
+
+> [!SUCCESS] Repository sweep · 2026-05-09
+> Broader root and package verification passed: root lint, typecheck, unit
+> tests, smoke BDD, Bun audit, website npm audit, and extension npm audit.
