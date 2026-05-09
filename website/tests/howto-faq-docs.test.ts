@@ -29,6 +29,10 @@ function text(routeId: RouteId): string {
   ].join('\n');
 }
 
+function paragraphCount(body: string): number {
+  return body.split(/\n\s*\n/).filter((paragraph) => paragraph.trim().length > 0).length;
+}
+
 describe('how-to, advanced usage, and FAQ docs', () => {
   it('publishes a task-focused how-to index with required workflow groups', () => {
     const howTo = text('howTo');
@@ -51,7 +55,22 @@ describe('how-to, advanced usage, and FAQ docs', () => {
       expect(pageText).toContain('Steps');
       expect(pageText).toContain('Expected result');
       expect(pageText).toContain('Common failure mode');
+      expect(page(routeId).sections.every((section) => paragraphCount(section.body) >= 1)).toBe(true);
       expect(page(routeId).links.some((link) => link.kind === 'route')).toBe(true);
+    }
+  });
+
+  it('gives article sections enough prose depth for public docs', () => {
+    const articleIds = guideArticleGroups.flatMap((group) => group.routeIds);
+
+    for (const routeId of articleIds) {
+      const article = page(routeId);
+      const proseSectionCount = article.sections.filter(
+        (section) => paragraphCount(section.body) >= 2,
+      ).length;
+
+      expect(proseSectionCount).toBeGreaterThanOrEqual(1);
+      expect(text(routeId)).not.toMatch(/\bstub\b|\bplaceholder\b/i);
     }
   });
 

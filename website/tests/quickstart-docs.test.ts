@@ -14,12 +14,18 @@ interface RichSectionShape {
   code?: string;
 }
 
-function pageText(routeId: RouteId): string {
+function routePage(routeId: RouteId) {
   const page = websitePages.find((candidate) => candidate.routeId === routeId);
 
   if (!page) {
     throw new Error(`Missing page ${routeId}`);
   }
+
+  return page;
+}
+
+function pageText(routeId: RouteId): string {
+  const page = routePage(routeId);
 
   return [
     page.summary,
@@ -48,6 +54,7 @@ describe('quickstart and VS Code extension docs', () => {
   });
 
   it('publishes the VS Code extension setup path clearly', () => {
+    const page = routePage('howToVsCodeExtension');
     const text = pageText('howToVsCodeExtension');
 
     expect(text).toContain('Install from the Visual Studio Marketplace');
@@ -55,5 +62,20 @@ describe('quickstart and VS Code extension docs', () => {
     expect(text).toContain('vault open');
     expect(text).toContain('server status');
     expect(text).toContain('extension packages the language server');
+    expect(page.links).toContainEqual(
+      expect.objectContaining({
+        kind: 'outbound',
+        href: expect.stringContaining('marketplace.visualstudio.com'),
+      }),
+    );
+  });
+
+  it('publishes a server-only npm install path', () => {
+    const text = pageText('advancedDirectLspIntegration');
+
+    expect(text).toContain('npm install');
+    expect(text).toContain('flavor-grenade-lsp');
+    expect(text).toContain('npx');
+    expect(text).toContain('rootUri');
   });
 });

@@ -27,6 +27,18 @@ describe('website content and public links', () => {
     }
   });
 
+  it('keeps article examples concrete instead of stub-like', () => {
+    const articleRouteIds = guideArticleGroups.flatMap((group) => group.routeIds);
+
+    for (const routeId of articleRouteIds) {
+      const pageRecord = websitePages.find((page) => page.routeId === routeId);
+      const examples = pageRecord?.sections.flatMap((section) => section.code ?? []) ?? [];
+
+      expect(examples.length).toBeGreaterThan(0);
+      expect(examples.join('\n')).toMatch(/\.obsidian|\.flavor-grenade|rootUri|\[\[|#|npm|npx|```|!?\[/);
+    }
+  });
+
   it('rejects broken internal route links and unapproved outbound hosts', () => {
     const invalidLinks: PublicLink[] = [
       { kind: 'route', routeId: 'missing-route', text: 'Missing route' },
