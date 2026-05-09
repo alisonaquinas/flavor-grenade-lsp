@@ -2,7 +2,7 @@
 id: "FEAT-033"
 title: "Security hardening audit closure"
 type: feature
-status: in-review
+status: in-progress
 priority: "high"
 phase: "18"
 created: "2026-05-08"
@@ -14,7 +14,7 @@ aliases: ["FEAT-033"]
 
 # Security Hardening Audit Closure
 
-> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-033` · Feature · Phase 18 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -105,7 +105,8 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | in-review |
 | [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | in-review |
 | [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | in-review |
-| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
+| [[plans/phase-18-security-hardening-audit/BUG-025]] | Block command-start server spawn in unsupported extension environments | open |
+| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-progress |
 
 ---
 
@@ -137,6 +138,9 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!SUCCESS] Local review ready — 2026-05-08
 > Phase 18 implementation and local verification completed. BUG-023 and BUG-024 were opened during CHORE-086 and moved to `in-review` after fixes. Status: `in-review`; final `done` remains blocked on PR CI and merge.
+
+> [!NOTE] Extension audit reopened phase work — 2026-05-08
+> Deep extension security audit opened BUG-025 for command-triggered server spawn in unsupported environments. Status: `in-progress`.
 
 ## Retrospective
 
