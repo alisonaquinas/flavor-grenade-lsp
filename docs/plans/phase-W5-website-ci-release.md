@@ -1,7 +1,7 @@
 ---
 title: "Phase W5: Website CI And Pages Release"
 phase: W5
-status: planned
+status: in-progress
 tags: [plans, website, ci, release, github-pages]
 aliases: [Phase W5, Website Release]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W5 |
 | Title | Website CI And Pages Release |
-| Status | planned |
+| Status | in-progress |
 | Gate | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks |
 | Depends on | Phase W4 |
 

@@ -1,0 +1,132 @@
+name: Website Pages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-test*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and verify website release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Release mode
+        run: |
+          if [[ "$GITHUB_REF_NAME" == *-test* ]]; then
+            echo "RELEASE_MODE=test" >> "$GITHUB_ENV"
+            echo "Release mode: test"
+          else
+            echo "RELEASE_MODE=production" >> "$GITHUB_ENV"
+            echo "Release mode: production"
+          fi
+
+      - name: Validate website release tag
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-test(\.[0-9]+)?)?$ ]]; then
+            echo "Invalid website release tag: $GITHUB_REF_NAME" >&2
+            exit 1
+          fi
+
+      - name: Verify production tag commit is on main
+        if: ${{ !contains(github.ref_name, '-test') }}
+        run: |
+          git fetch origin main --depth=1
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Install website dependencies
+        run: npm ci
+        working-directory: website
+
+      - name: Lint website
+        run: npm run lint
+        working-directory: website
+
+      - name: Typecheck website
+        run: npm run typecheck
+        working-directory: website
+
+      - name: Test website
+        run: npm test
+        working-directory: website
+
+      - name: Build website
+        run: npm run build
+        working-directory: website
+        env:
+          WEBSITE_BASE: /flavor-grenade-lsp/
+
+      - name: Smoke production build
+        run: |
+          mkdir -p website/release-evidence
+          test -f website/dist/index.html
+          test -f website/dist/sitemap.xml
+          test -f website/dist/robots.txt
+          grep -qi "Flavor Grenade LSP" website/dist/index.html
+          grep -q "/quickstart/" website/dist/sitemap.xml
+          grep -q "Sitemap:" website/dist/robots.txt
+          grep -R "marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp" website/src/content website/dist > website/release-evidence/marketplace-link.txt
+          {
+            echo "# Website release smoke evidence"
+            echo ""
+            echo "- Release mode: ${RELEASE_MODE}"
+            echo "- homepage: website/dist/index.html"
+            echo "- quickstart: sitemap contains /quickstart/"
+            echo "- sitemap.xml: website/dist/sitemap.xml"
+            echo "- robots.txt: website/dist/robots.txt"
+            echo "- Marketplace link: marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp"
+          } > website/release-evidence/website-release-summary.md
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: website-dist
+          path: website/dist/
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: website-release-evidence
+          path: website/release-evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: website/dist
+
+  deploy:
+    name: Deploy website to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ !contains(github.ref_name, '-test') }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
