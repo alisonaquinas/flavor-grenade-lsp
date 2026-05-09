@@ -2,7 +2,7 @@
 id: "TASK-225"
 title: "Author concept wiki pages and related navigation"
 type: task
-status: open
+status: red
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-225"]
 
 # Author Concept Wiki Pages And Related Navigation
 
-> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `open`
+> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `red`
 
 ## Description
 
@@ -66,3 +66,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Concept wiki source paths, expected concept API, attribution requirements, and
 > RED test target were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/concept-wiki.test.ts`, which expects a dedicated concept
+> wiki registry and validation before they exist. Status: `red`.

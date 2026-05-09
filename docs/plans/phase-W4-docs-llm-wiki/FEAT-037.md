@@ -61,7 +61,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 |---|---|---|
 | [[TASK-223]] | Author quickstart and VS Code extension pages | `green` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `green` |
-| [[TASK-225]] | Author concept wiki pages and related navigation | `open` |
+| [[TASK-225]] | Author concept wiki pages and related navigation | `red` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `open` |
 
 ## Lifecycle
@@ -92,3 +92,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] TASK-224 green · 2026-05-09
 > TASK-224 added how-to workflow groups, structured task-page content, advanced
 > usage boundaries, and FAQ questions.
+
+> [!INFO] TASK-225 red · 2026-05-09
+> TASK-225 entered `red` with failing concept wiki registry coverage.
