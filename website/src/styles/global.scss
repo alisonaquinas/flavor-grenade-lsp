@@ -317,6 +317,54 @@ p {
   border-color: color-mix(in srgb, var(--green) 45%, var(--line));
 }
 
+.site-footer {
+  background: var(--ink-strong);
+  color: var(--surface);
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(14rem, 1.2fr) repeat(3, minmax(10rem, 1fr));
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 6vw, 5rem);
+}
+
+.footer-brand {
+  align-items: center;
+  display: flex;
+  gap: 0.85rem;
+}
+
+.footer-brand img {
+  aspect-ratio: 1;
+  border-radius: 7px;
+  object-fit: contain;
+  width: 2.75rem;
+}
+
+.footer-brand strong {
+  display: block;
+}
+
+.footer-brand p,
+.site-footer nav p {
+  color: color-mix(in srgb, var(--surface) 72%, transparent);
+}
+
+.site-footer nav {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.site-footer h2 {
+  color: var(--surface);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.site-footer a {
+  color: color-mix(in srgb, var(--brand-500) 55%, var(--surface));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
 @media (max-width: 860px) {
   .site-header {
     align-items: stretch;
@@ -332,7 +380,8 @@ p {
   }
 
   .hero-shell,
-  .feature-list {
+  .feature-list,
+  .site-footer {
     grid-template-columns: 1fr;
   }
 }

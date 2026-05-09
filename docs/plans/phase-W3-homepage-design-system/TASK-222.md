@@ -2,7 +2,7 @@
 id: "TASK-222"
 title: "Implement footer byline and attribution links"
 type: task
-status: red
+status: green
 priority: medium
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-222"]
 
 # Implement Footer Byline And Attribution Links
 
-> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
+> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `green`
 
 ## Description
 
@@ -41,6 +41,12 @@ Expected API:
 - `validateFooterLinks()`
 
 Add RED coverage in `website/tests/footer.test.ts` before implementation.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/footer.test.ts` | Unit | `Website.Attribution.CreatorByline` | ✅ passing |
 
 ## Definition of Done
 
@@ -68,3 +74,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/footer.test.ts`, which expects footer link data before it
 > exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added footer link data, creator byline, profile links, project links,
+> inspiration links, and footer rendering. Status: `green`.

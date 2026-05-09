@@ -62,7 +62,7 @@ dark mode, and system theme mode.
 |---|---|---|
 | [[TASK-220]] | Implement responsive app shell and theme modes | `green` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | `green` |
-| [[TASK-222]] | Implement footer byline and attribution links | `red` |
+| [[TASK-222]] | Implement footer byline and attribution links | `green` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `open` |
 
 ## Lifecycle
@@ -92,3 +92,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] TASK-222 red · 2026-05-09
 > TASK-222 entered `red` with a failing footer link and byline test.
+
+> [!SUCCESS] TASK-222 green · 2026-05-09
+> TASK-222 added footer link data, visible creator byline, and required
+> attribution rendering.

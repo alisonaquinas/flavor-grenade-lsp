@@ -6,6 +6,12 @@
     homepageHero,
     homepageProof,
   } from './home/homepage';
+  import {
+    footerByline,
+    inspirationLinks,
+    profileLinks,
+    projectLinks,
+  } from './shell/footer';
   import { primaryNavigation } from './shell/navigation';
   import {
     readStoredTheme,
@@ -138,3 +144,38 @@
     </div>
   </section>
 </main>
+
+<footer class="site-footer">
+  <div class="footer-brand">
+    <img src={productIcon} alt="Flavor Grenade LSP product icon" />
+    <div>
+      <strong>Flavor Grenade LSP</strong>
+      <p>{footerByline}</p>
+    </div>
+  </div>
+
+  <nav aria-label="Creator links">
+    <h2>Creator</h2>
+    {#each profileLinks as link (link.href)}
+      <a href={link.href}>{link.label}</a>
+    {/each}
+  </nav>
+
+  <nav aria-label="Project links">
+    <h2>Project</h2>
+    {#each projectLinks as link (link.href)}
+      <a href={link.href}>{link.label}</a>
+    {/each}
+  </nav>
+
+  <nav aria-label="Inspiration links">
+    <h2>Inspired by</h2>
+    <p>
+      Flavor Grenade credits these inspirations as lineage and prior art, not
+      affiliation or endorsement.
+    </p>
+    {#each inspirationLinks as link (link.href)}
+      <a href={link.href}>{link.label}</a>
+    {/each}
+  </nav>
+</footer>
