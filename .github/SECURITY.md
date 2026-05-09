@@ -1,79 +1,103 @@
 # Security Policy
 
+Flavor Grenade LSP processes local vault files and exposes editor features over
+the Language Server Protocol. Treat issues that can escape the vault, execute
+unexpected code, disclose local data, corrupt user files, or compromise the
+release pipeline as security issues.
+
 ## Supported Versions
 
-Only the latest published version of Flavor Grenade LSP receives security fixes.
+Only the latest published release line receives security fixes.
 
-| Version | Supported |
+| Component | Supported version | Status |
+|---|---:|---|
+| LSP server | `0.3.x` | Supported |
+| VS Code extension | `0.1.x` | Supported |
+| Older server releases | `< 0.3.0` | Unsupported |
+| Older extension releases | `< 0.1.4` | Unsupported |
+
+> [!IMPORTANT]
+> Once a patched version is published, earlier releases are no longer supported.
+> Users should upgrade promptly.
+
+## Reporting A Vulnerability
+
+Do not open a public GitHub issue for a vulnerability.
+
+Use
+[GitHub private vulnerability reporting](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability):
+
+1. Open the repository on GitHub.
+2. Select the **Security** tab.
+3. Select **Report a vulnerability**.
+4. Include affected versions, operating system, editor, reproduction steps, and
+   expected impact.
+
+You should receive an acknowledgement within 48 hours.
+
+## Response Targets
+
+| Severity | Triage target | Patch target |
+|---|---:|---:|
+| Critical, CVSS 9.0-10.0 | 48 hours | 14 days |
+| High, CVSS 7.0-8.9 | 48 hours | 30 days |
+| Medium, CVSS 4.0-6.9 | 7 days | 60 days |
+| Low, CVSS below 4.0 | 14 days | Next scheduled release |
+
+These are targets, not guarantees. The project is maintained on a volunteer
+basis.
+
+## In Scope
+
+| Area | Examples |
 |---|---|
-| Latest (`main`) | Yes |
-| Older releases | No |
-
-Once a patched version is published, the previous release is no longer supported. Users are expected to upgrade.
-
----
-
-## Reporting a Vulnerability
-
-**Do not open a public GitHub issue to report a security vulnerability.**
-
-Use [GitHub's private security disclosure](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability) feature:
-
-1. Navigate to the repository on GitHub.
-2. Click the **Security** tab.
-3. Click **Report a vulnerability**.
-4. Fill in the form with a description of the issue, steps to reproduce, and any relevant version information.
-
-You will receive an acknowledgement within **48 hours**. Critical vulnerabilities will be patched within **14 days** of triage confirmation.
-
----
-
-## Response Timeline
-
-| Severity | Triage | Patch target |
-|---|---|---|
-| Critical (CVSS 9.0–10.0) | 48 hours | 14 days |
-| High (CVSS 7.0–8.9) | 48 hours | 30 days |
-| Medium (CVSS 4.0–6.9) | 7 days | 60 days |
-| Low (CVSS < 4.0) | 14 days | Next scheduled release |
-
-These are targets, not guarantees. The project is maintained on a volunteer basis.
-
----
-
-## Scope
-
-The following are **in scope** for this security policy:
-
-- The `flavor-grenade-lsp` server process itself
-- The LSP protocol implementation (stdio transport, message parsing, dispatch)
-- The vault indexer (file system traversal, OFM parser)
-- Configuration parsing (`.flavor-grenade.toml`)
-- npm / Bun package supply-chain issues (malicious dependency, compromised publish)
+| LSP server process | JSON-RPC framing, dispatch, lifecycle, request handling |
+| Vault scanner and indexer | Path traversal, symlink confinement, file watcher behavior |
+| OFM parser | Parser denial of service, YAML safety, prototype pollution |
+| Resolution and edits | Unsafe workspace edits, rename behavior, attachment resolution |
+| VS Code extension | Workspace trust, virtual workspace handling, command execution, binary path overrides |
+| Release pipeline | npm trusted publishing, package contents, VSIX package targets, pinned CI actions |
+| Supply chain | Malicious dependencies or compromised publish configuration |
 
 > [!NOTE]
-> Flavor Grenade LSP is **read-only** with respect to vault files during normal operation. The only write operation is rename refactoring, which is performed through the LSP `workspace/applyEdit` mechanism — meaning the editor confirms and applies the edit, not the server directly.
+> Normal diagnostics, completion, and navigation are read-only. Rename and
+> create-file workflows are returned as LSP workspace edits for the editor to
+> apply.
 
----
+## Out Of Scope
 
-## Out of Scope
+- Obsidian itself.
+- Vulnerabilities in editors or generic LSP clients.
+- User vault content quality or private content that the user intentionally
+  opens in the editor.
+- Issues requiring physical access to the machine.
+- Social engineering against maintainers.
+- Denial-of-service reports that require intentionally opening extremely large
+  or hostile local files beyond documented parser limits, unless they bypass an
+  implemented limit.
 
-The following are **not in scope** for this security policy:
+## Current Hardening
 
-- **Obsidian itself** — report Obsidian vulnerabilities to Obsidian Ltd.
-- **User vault content** — the server reads vault files to build an index but does not transmit, store, or log vault content beyond the in-process index. The vault content is the user's responsibility.
-- Vulnerabilities in the editor (Neovim, VS Code, Helix, Zed) that happen to involve LSP communication.
-- Issues that require physical access to the machine running the LSP server.
-- Social engineering attacks against maintainers.
-
----
+- Local file URI and target classification before resolution.
+- Realpath confinement for vault scans and symlink handling.
+- Root-level `.obsidian/` ignored by Git.
+- YAML frontmatter size and alias-count limits.
+- Prototype-pollution rejection during frontmatter parsing.
+- Parser and recursive embed budgets.
+- VS Code startup blocked in untrusted and virtual workspaces.
+- Custom server binary path scoped to user or machine settings, not workspace
+  settings.
+- GitHub Actions pinned by commit SHA.
 
 ## Disclosure Policy
 
-Once a patch is ready, the maintainers will:
+After a fix is ready, maintainers will:
 
-1. Publish the patched version to npm and the Bun registry.
-2. Create a GitHub Security Advisory with a CVE (if applicable).
-3. Add a note to the release changelog.
+1. Publish patched packages.
+2. Create or update a GitHub Security Advisory when appropriate.
+3. Add release notes to the changelog.
+4. Credit the reporter when requested and appropriate.
 
-We request that reporters allow a **90-day coordinated disclosure window** before publishing details publicly. This window may be shortened by mutual agreement if a public exploit is actively circulating.
+We request a 90-day coordinated disclosure window before public details are
+published. This window may be shortened by mutual agreement or when public
+exploitation is already active.

@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {

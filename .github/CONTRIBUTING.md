@@ -1,189 +1,195 @@
 # Contributing to Flavor Grenade LSP
 
-Thank you for taking the time to contribute. Please read this document before opening a pull request or starting a feature branch.
+Thanks for helping improve Flavor Grenade LSP. This project ships two related
+artifacts:
 
----
+| Artifact | Location | Current version |
+|---|---:|---:|
+| LSP server | repository root | `0.3.0` |
+| VS Code extension | `extension/` | `0.1.4` |
+
+> [!IMPORTANT]
+> Open feature and fix pull requests against `develop`. Open release pull
+> requests against `main`. Maintainers merge with merge commits.
 
 ## Development Setup
 
-You will need [Bun](https://bun.sh/) (latest) and [lefthook](https://github.com/evilmartians/lefthook) installed.
-
 ```sh
-# 1. Clone the repository
-git clone https://github.com/aaquinas/flavor-grenade-lsp.git
+git clone https://github.com/alisonaquinas/flavor-grenade-lsp.git
 cd flavor-grenade-lsp
-
-# 2. Install lefthook (manages git hooks)
-#    macOS / Linux via Homebrew:
-brew install lefthook
-#    Or via npm / Bun:
-bun add -g @evilmartians/lefthook
-
-# 3. Install project dependencies and register git hooks
-lefthook install
 bun install
 ```
 
----
+The VS Code extension has a separate Node toolchain:
 
-## Branching Strategy (git-flow)
+```sh
+cd extension
+npm install
+```
 
-This project follows a simplified git-flow:
+### Tooling
 
-- `main` — released, tagged versions only. Never commit directly to `main`.
-- `develop` — integration branch. All feature and fix branches merge here.
-- Feature branches: `feat/<short-description>`
-- Fix branches: `fix/<short-description>`
-- Release branches: `release/<version>` (maintainers only)
+| Tool | Purpose |
+|---|---|
+| Bun `1.3.13` or newer | Server build, tests, BDD, and CI parity |
+| Node.js `20` or newer | VS Code extension tooling |
+| lefthook | Local pre-commit checks |
+| GitHub CLI | Maintainer PR and release workflow |
 
-**Always branch from `develop`:**
+Install hooks after dependencies are present:
+
+```sh
+lefthook install
+```
+
+## Branching
+
+| Branch | Purpose | PR target |
+|---|---|---|
+| `main` | Released, tagged versions only | Not for feature PRs |
+| `develop` | Integration branch | Feature and fix work |
+| `feature/<short-name>` | Feature work | `develop` |
+| `fix/<short-name>` | Bug fixes | `develop` |
+| `release/<version>` | Maintainer release work | `main` |
 
 ```sh
 git switch develop
 git pull origin develop
-git switch -c feat/my-feature
+git switch -c feature/my-change
 ```
 
-**Open PRs against `develop`**, not `main`.
+All contributors, including AI-assisted workflows, must use the git-flow branch
+families above. Do not open repository PRs from tool-specific branch prefixes
+such as `codex/`.
 
----
+## Required Checks
 
-## Pre-commit Hooks
-
-lefthook runs the following checks automatically before each commit:
-
-1. **TypeScript typecheck** — `bun run typecheck`
-   Fails the commit if there are any type errors.
-
-2. **ESLint** — `bun run lint` (zero warnings allowed)
-   Fails the commit if ESLint reports any warnings or errors.
-
-3. **Prettier format check** — `bun run format:check`
-   Fails the commit if any staged file is not formatted according to the Prettier config.
-
-4. **Unit tests** — `bun test`
-   Fails the commit if any test fails.
-
-If a hook fails, fix the underlying issue and re-stage your changes — do not bypass hooks with `--no-verify`.
-
----
-
-## Test Requirements
-
-Every pull request that adds or changes behaviour **must include tests**.
-
-- Test files live under `tests/` and follow the naming convention `<module>.spec.ts`.
-- After adding a test file, add an entry for it in [`docs/test/matrix.md`](../docs/test/matrix.md). The matrix maps test files to the requirements they cover.
-- Run the full test suite locally before pushing:
+Run the server checks from the repository root:
 
 ```sh
-bun test --coverage
+bun run build
+bun run typecheck
+bun run lint
+bun test
+bun run bdd
 ```
 
-Coverage reports are written to `coverage/`. There is no hard coverage gate yet, but reviewers will ask for coverage of new code paths.
+Run extension checks from `extension/` when a change touches the extension:
 
----
+```sh
+npm run compile
+npm test
+npm run test:host
+npm run verify:marketplace-assets
+npm run verify:package-targets
+```
 
-## Docstring Requirement
+Run dependency and documentation checks when relevant:
 
-**All exported symbols must have JSDoc comments.** This includes functions, classes, interfaces, type aliases, and enum members.
+```sh
+bun run lint:dependencies
+bun run lint:docs
+bunx markdownlint-cli2 "**/*.md" "!docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**"
+```
+
+> [!NOTE]
+> CI uses `markdownlint-obsidian` for `docs/` and `markdownlint-cli2` for
+> root and other non-`docs/` Markdown. `.github/` Markdown is GitHub-facing and
+> may use GitHub Flavored Markdown features.
+
+## Test Expectations
+
+Every behavior change needs tests.
+
+| Change type | Expected evidence |
+|---|---|
+| Parser or resolver behavior | Unit tests near the changed module |
+| LSP handler behavior | Handler unit tests and integration coverage when protocol behavior changes |
+| Cross-feature workflow | BDD scenario or integration test |
+| VS Code extension behavior | Extension unit test or host test |
+| Marketplace/package behavior | Marketplace asset or package-target verification |
+| Documentation-only change | Markdown lint where applicable |
+
+Update [the test matrix](../docs/test/matrix.md) when new requirement coverage is
+added or existing coverage moves.
+
+## Documentation Expectations
+
+- Root-level Markdown should stay portable and use standard Markdown syntax.
+- Files in `.github/` may use GitHub Flavored Markdown, including tables,
+  task lists, details, and alerts.
+- Documentation under `docs/` follows the OFM-aware documentation conventions
+  used by `markdownlint-obsidian`.
+- Documentation under `extension/docs/` should remain coherent with the server
+  specs when extension behavior depends on LSP capabilities.
+- Do not use Obsidian wiki-links in `.github/` files. Use standard Markdown
+  links instead.
+
+## Code Style
+
+All exported symbols need JSDoc comments. This includes exported functions,
+classes, interfaces, type aliases, and enum members.
 
 ```typescript
 /**
- * Resolves a wiki-link target to an absolute vault path.
+ * Resolves a wiki-link target to a vault document.
  *
- * @param link - The raw link text, e.g. `Note Title` or `Note Title#Heading`.
- * @param sourcePath - Absolute path of the file containing the link.
- * @param index - The current vault index.
- * @returns The resolved absolute path, or `null` if the target does not exist.
+ * @param target - Raw wiki-link target without surrounding brackets.
+ * @returns The resolution result and any diagnostic code.
  */
-export function resolveWikiLink(
-  link: string,
-  sourcePath: string,
-  index: VaultIndex,
-): string | null { ... }
+export function resolveTarget(target: string): ResolutionResult {
+  // ...
+}
 ```
 
-Internal (non-exported) symbols should have comments when the logic is non-obvious, but are not required to have full JSDoc.
+Internal symbols should be commented only when the logic is not obvious.
 
----
+## Commit Messages
 
-## Markdown Requirements
+Use Conventional Commits:
 
-Two separate linting rules apply depending on the location of the Markdown file:
-
-| Location | Linter | Config |
-|---|---|---|
-| `docs/` | `markdownlint-obsidian` | `.obsidian-linter.jsonc` |
-| All other `.md` files (root, `.github/`, `scripts/`) | `markdownlint-cli2` | `.markdownlint-cli2.jsonc` |
-
-Run both linters locally with:
-
-```sh
-./scripts/validate-docs.sh
-```
-
-Do **not** use Obsidian wiki-links (`[[...]]`) in `.github/` Markdown files. Use standard GFM links (`[text](url)`).
-
----
-
-## Commit Message Format
-
-This project uses [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
+```text
 <type>(<optional scope>): <short summary>
-
-<optional body>
-
-<optional footer>
 ```
 
-Allowed types:
-
-| Type | When to use |
+| Type | Use for |
 |---|---|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation only |
-| `chore` | Tooling, config, dependency updates |
-| `test` | Adding or updating tests |
-| `refactor` | Code change that is neither a feature nor a fix |
-| `perf` | Performance improvement |
-| `ci` | CI/CD workflow changes |
+| `feat` | New behavior |
+| `fix` | Bug fixes |
+| `docs` | Documentation-only changes |
+| `test` | Test additions or updates |
+| `refactor` | Behavior-preserving code changes |
+| `perf` | Performance improvements |
+| `ci` | CI/CD changes |
+| `chore` | Tooling, release, or maintenance work |
 
 Examples:
 
-```
-feat(wikilink): resolve aliases defined in frontmatter
-fix(diagnostics): FG001 fires on self-referencing notes
-docs(contributing): add docstring requirement
-test(embed): cover circular embed detection
-```
-
-Breaking changes must include a `BREAKING CHANGE:` footer or append `!` after the type:
-
-```
-feat!: drop Node.js compatibility — Bun runtime only
+```text
+feat(markdown): resolve same-document anchors
+fix(extension): block startup in untrusted workspaces
+docs(readme): refresh release status
+test(rename): cover Markdown heading anchor updates
 ```
 
----
+Breaking changes must use `!` or a `BREAKING CHANGE:` footer.
 
 ## Pull Request Checklist
 
-Before marking your PR as ready for review, verify each item:
+- [ ] Branch was created from the correct base.
+- [ ] PR targets `develop` for feature and fix work, or `main` for release work.
+- [ ] Merge strategy is a merge commit.
+- [ ] Server checks pass when server code changed.
+- [ ] Extension checks pass when extension code changed.
+- [ ] New behavior has focused tests.
+- [ ] Test matrix is updated when requirement coverage changes.
+- [ ] Exported symbols have JSDoc.
+- [ ] Documentation is updated for user-visible behavior changes.
+- [ ] No Obsidian wiki-links were added to `.github/` files.
+- [ ] No sibling repositories were changed.
 
-- [ ] Branch was created from `develop` (not `main`)
-- [ ] Pre-commit hook passes locally (run `lefthook run pre-commit` to verify)
-- [ ] New test added for every new behaviour or bug fix
-- [ ] Test file indexed in [`docs/test/matrix.md`](../docs/test/matrix.md)
-- [ ] All new exported symbols have JSDoc comments
-- [ ] [`docs/plans/execution-ledger.md`](../docs/plans/execution-ledger.md) updated if a phase gate was reached
-- [ ] No Obsidian wiki-links in `.github/` Markdown files
-- [ ] `bun run build` succeeds locally
+## Code Of Conduct
 
----
-
-## Code of Conduct
-
-This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/). By participating, you agree to abide by its terms. Instances of unacceptable behaviour may be reported to the maintainers at the email listed in the repository.
+This project follows the
+[Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+By participating, you agree to abide by its terms.
