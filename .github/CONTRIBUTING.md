@@ -58,8 +58,9 @@ git pull origin develop
 git switch -c feature/my-change
 ```
 
-AI-assisted branches may use the `codex/` prefix, but the PR target rules are
-the same.
+All contributors, including AI-assisted workflows, must use the git-flow branch
+families above. Do not open repository PRs from tool-specific branch prefixes
+such as `codex/`.
 
 ## Required Checks
 
