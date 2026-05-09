@@ -57,7 +57,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-226]] | Add website CI gates | `open` |
+| [[TASK-226]] | Add website CI gates | `red` |
 | [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `open` |
 | [[TASK-228]] | Add release evidence and production smoke checks | `open` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
@@ -74,3 +74,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Phase W5 started after Phase W4 merged in PR #54 with green CI. Status:
 > `in-progress`.
+
+> [!INFO] TASK-226 red · 2026-05-09
+> TASK-226 entered `red` with failing website CI workflow coverage.
