@@ -604,16 +604,17 @@ p {
 
   .hero-lede {
     font-size: 1rem;
-    max-width: 31ch;
+    max-width: none;
   }
 
   .hero-actions {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    inline-size: 100%;
   }
 
   .hero-actions .button-link {
-    inline-size: min(100%, 14rem);
+    inline-size: 100%;
     justify-content: flex-start;
   }
 

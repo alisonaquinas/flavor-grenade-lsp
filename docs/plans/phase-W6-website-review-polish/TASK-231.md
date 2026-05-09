@@ -68,3 +68,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added action icon metadata and rendered icons in all hero CTAs with a shared
 > stacked width rule for narrow viewports.
+
+> [!SUCCESS] Mobile width polish · 2026-05-09
+> Updated the narrow homepage hero stack so action buttons use the full content
+> column width and visually align with the proof card below.

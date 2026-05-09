@@ -17,7 +17,7 @@ describe('mobile layout regression guards', () => {
     expect(css).toContain('overflow-wrap: anywhere;');
     expect(css).toContain('min-width: 0;');
     expect(css).toContain('.hero-actions .button-link');
-    expect(css).toContain('inline-size: min(100%, 14rem);');
+    expect(css).toContain('inline-size: 100%;');
     expect(css).toContain('.footer-brand-copy');
   });
 

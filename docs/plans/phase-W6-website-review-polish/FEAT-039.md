@@ -109,3 +109,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] Ready for PR · 2026-05-09
 > Local gate and visual smoke verification are complete. Stopped before opening
 > a pull request as requested.
+
+> [!SUCCESS] Review polish follow-up · 2026-05-09
+> Widened the narrow hero action stack to match the proof card column width.
