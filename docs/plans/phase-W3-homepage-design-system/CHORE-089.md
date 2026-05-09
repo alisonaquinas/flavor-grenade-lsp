@@ -7,7 +7,7 @@ priority: high
 phase: W3
 created: "2026-05-09"
 updated: "2026-05-09"
-dependencies: ["TASK-220", "TASK-221", "TASK-222"]
+dependencies: ["TASK-220", "TASK-221", "TASK-222", "BUG-026"]
 tags: [tickets/chore, "phase/W3", website, verification]
 aliases: ["CHORE-089"]
 ---
@@ -42,3 +42,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Began the Phase W3 accessibility and visual QA sweep after TASK-220,
 > TASK-221, and TASK-222 reached `in-review`. Status: `in-progress`.
+
+> [!WARNING] Finding · 2026-05-09
+> Mobile visual smoke at 390px found clipped hero text and horizontal overflow.
+> Opened BUG-026 before fixing.

@@ -63,6 +63,7 @@ dark mode, and system theme mode.
 | [[TASK-220]] | Implement responsive app shell and theme modes | `in-review` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | `in-review` |
 | [[TASK-222]] | Implement footer byline and attribution links | `in-review` |
+| [[BUG-026]] | Mobile homepage hero overflows viewport | `open` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `in-progress` |
 
 ## Lifecycle
@@ -104,3 +105,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Verification sweep started · 2026-05-09
 > CHORE-089 entered `in-progress` to run Phase W3 local gates, visual checks,
 > and Step E-L evidence.
+
+> [!WARNING] BUG-026 opened · 2026-05-09
+> CHORE-089 mobile visual smoke found clipped hero text at 390px width. BUG-026
+> opened before fixing per Rule 5.
