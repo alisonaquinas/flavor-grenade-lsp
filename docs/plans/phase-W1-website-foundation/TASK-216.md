@@ -2,7 +2,7 @@
 id: "TASK-216"
 title: "Establish source and test layout guards"
 type: task
-status: red
+status: green
 priority: medium
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-216"]
 
 # Establish Source And Test Layout Guards
 
-> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `red`
+> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
 
 ## Description
 
@@ -51,7 +51,7 @@ The guard must ignore:
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `website/tests/layout.test.ts` | Unit | `Website.Technical.SourceLayout` | 🔴 failing |
+| `website/tests/layout.test.ts` | Unit | `Website.Technical.SourceLayout` | ✅ passing |
 
 ## Definition of Done
 
@@ -76,3 +76,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/layout.test.ts`, which expects a layout guard before the
 > guard module exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added the layout guard module. The layout test now passes. Status: `green`.
