@@ -62,7 +62,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 | [[TASK-223]] | Author quickstart and VS Code extension pages | `in-review` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
-| [[BUG-027]] | Mobile docs pages clip long content | `in-progress` |
+| [[BUG-027]] | Mobile docs pages clip long content | `in-review` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-progress` |
 
 ## Lifecycle

@@ -46,3 +46,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!WARNING] Finding · 2026-05-09
 > Mobile docs visual smoke at 390px found clipped quickstart text and horizontal
 > overflow. Opened BUG-027 before fixing.
+
+> [!SUCCESS] Mobile recheck · 2026-05-09
+> BUG-027 fix rebuilt successfully. Chrome device-metrics check at 390px CSS
+> width reports body and document scroll width of 390px for `/quickstart/`.
