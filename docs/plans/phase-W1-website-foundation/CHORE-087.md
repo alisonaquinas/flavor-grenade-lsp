@@ -2,7 +2,7 @@
 id: "CHORE-087"
 title: "Phase W1 documentation and verification sweep"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-087"]
 
 # Phase W1 Documentation And Verification Sweep
 
-> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `in-review`
+> [!INFO] `CHORE-087` · Chore · Phase W1 · Status: `done`
 
 ## Description
 
@@ -51,3 +51,6 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > `bun audit`; website and extension `npm audit`; and `bun run bdd --tags
 > "@smoke"`. No Step E-L findings required follow-up tickets. Status:
 > `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #51 CI passed after the local sweep evidence was recorded. Status: `done`.

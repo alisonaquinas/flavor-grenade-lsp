@@ -2,7 +2,7 @@
 id: "FEAT-034"
 title: "Website Foundation And Toolchain"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-034"]
 
 # Website Foundation And Toolchain
 
-> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -53,7 +53,7 @@ repeatable local gates.
 
 ## Acceptance Criteria
 
-- [ ] All child tasks are `done`.
+- [x] All child tasks are `done`.
 - [x] `cd website && npm run lint` passes.
 - [x] `cd website && npm run typecheck` passes.
 - [x] `cd website && npm test` passes.
@@ -64,10 +64,10 @@ repeatable local gates.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-214]] | Scaffold Vite Svelte website app | `in-review` |
-| [[TASK-215]] | Configure website quality gates | `in-review` |
-| [[TASK-216]] | Establish source and test layout guards | `in-review` |
-| [[CHORE-087]] | Phase W1 documentation and verification sweep | `in-review` |
+| [[TASK-214]] | Scaffold Vite Svelte website app | `done` |
+| [[TASK-215]] | Configure website quality gates | `done` |
+| [[TASK-216]] | Establish source and test layout guards | `done` |
+| [[CHORE-087]] | Phase W1 documentation and verification sweep | `done` |
 
 ## Lifecycle
 
@@ -109,6 +109,10 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > N/A because `tests/integration`, `tests/verification`, and `tests/validation`
 > do not contain phase-specific test files; BDD `@smoke` passed. Status:
 > `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #51 CI passed. All child tickets are `done`, the retrospective is present,
+> and the execution ledger marks W1 complete. Status: `done`.
 
 ## Retrospective
 

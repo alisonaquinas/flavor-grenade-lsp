@@ -2,7 +2,7 @@
 id: "TASK-216"
 title: "Establish source and test layout guards"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-216"]
 
 # Establish Source And Test Layout Guards
 
-> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `in-review`
+> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `done`
 
 ## Description
 
@@ -92,3 +92,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/layout.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #51 CI passed with the source-layout guard in place. Status: `done`.

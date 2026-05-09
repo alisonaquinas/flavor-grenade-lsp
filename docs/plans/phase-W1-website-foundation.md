@@ -1,7 +1,7 @@
 ---
 title: "Phase W1: Website Foundation And Toolchain"
 phase: W1
-status: in-progress
+status: complete
 tags: [plans, website, scaffold, toolchain]
 aliases: [Phase W1, Website Foundation]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W1 |
 | Title | Website Foundation And Toolchain |
-| Status | in-progress |
+| Status | complete |
 | Gate | Website dev, typecheck, lint, test, and build scripts pass from `website/` |
 | Depends on | Phase E14 |
 
@@ -106,3 +106,6 @@ bun run lint:docs
 > `website/`. Repository docs lint, root lint/typecheck/unit tests, audits, and
 > BDD `@smoke` also pass locally. Phase remains `in-progress` in the execution
 > ledger until PR CI confirms the gate.
+
+> [!CHECK] Complete · 2026-05-09
+> PR #51 CI passed. Phase W1 is marked complete in the execution ledger.

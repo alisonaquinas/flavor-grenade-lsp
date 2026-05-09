@@ -49,7 +49,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
-| W1    | Website Foundation And Toolchain | 🔄 in-progress | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | — |
+| W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |
 | W2    | Content Pipeline And SEO Skeleton | ⏳ planned | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | — | — |
 | W3    | Homepage And Design System | ⏳ planned | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | — | — |
 | W4    | Documentation Pages And LLM Wiki | ⏳ planned | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | — | — |

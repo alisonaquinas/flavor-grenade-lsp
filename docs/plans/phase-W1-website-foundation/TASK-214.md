@@ -2,7 +2,7 @@
 id: "TASK-214"
 title: "Scaffold Vite Svelte website app"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-214"]
 
 # Scaffold Vite Svelte Website App
 
-> [!INFO] `TASK-214` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `in-review`
+> [!INFO] `TASK-214` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `done`
 
 ## Description
 
@@ -93,3 +93,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/app-shell.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #51 CI passed with the scaffold smoke test in place. Status: `done`.

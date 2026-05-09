@@ -2,7 +2,7 @@
 id: "TASK-215"
 title: "Configure website quality gates"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-215"]
 
 # Configure Website Quality Gates
 
-> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `in-review`
+> [!INFO] `TASK-215` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `done`
 
 ## Description
 
@@ -92,3 +92,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/tooling.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #51 CI passed with the website quality gate contract in place. Status:
+> `done`.
