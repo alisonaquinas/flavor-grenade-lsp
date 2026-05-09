@@ -342,6 +342,11 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.feature-card {
+  display: grid;
+  min-width: 0;
+}
+
 .feature-item {
   background: transparent;
   border: 1px solid var(--line);
@@ -354,6 +359,7 @@ p {
   overflow-wrap: anywhere;
   padding: 1rem;
   text-align: left;
+  width: 100%;
 }
 
 .feature-item h3 {
@@ -377,7 +383,8 @@ p {
   background: color-mix(in srgb, var(--brand-100) 55%, transparent);
 }
 
-.feature-detail {
+.feature-detail,
+.mobile-feature-detail {
   background: var(--surface-raised);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -389,17 +396,24 @@ p {
   padding: clamp(1rem, 3vw, 1.4rem);
 }
 
-.feature-detail h3 {
+.mobile-feature-detail {
+  display: none;
+}
+
+.feature-detail h3,
+.mobile-feature-detail h3 {
   color: var(--ink-strong);
   font-size: 1.15rem;
   margin: 0;
 }
 
-.feature-detail p:not(.eyebrow) {
+.feature-detail p:not(.eyebrow),
+.mobile-feature-detail p:not(.eyebrow) {
   color: var(--muted);
 }
 
-.feature-detail pre {
+.feature-detail pre,
+.mobile-feature-detail pre {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -409,7 +423,8 @@ p {
   padding: 0.9rem;
 }
 
-.feature-detail code {
+.feature-detail code,
+.mobile-feature-detail code {
   color: var(--ink-strong);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.9rem;
@@ -665,6 +680,31 @@ p {
   .hero-actions .button-link {
     inline-size: 100%;
     justify-content: flex-start;
+  }
+
+  .feature-detail {
+    display: none;
+  }
+
+  .feature-card.selected {
+    background: color-mix(in srgb, var(--brand-100) 55%, transparent);
+    border: 1px solid var(--brand-500);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .feature-card.selected .feature-item.selected {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+  }
+
+  .feature-card.selected .mobile-feature-detail {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    display: grid;
   }
 
   .docs-page {

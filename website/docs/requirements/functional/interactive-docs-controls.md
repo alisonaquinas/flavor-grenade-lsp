@@ -102,7 +102,10 @@ Goal: 100% of feature proof cards are selectable and reveal practical details.
 Stretch: Goal level plus the detail panel includes concrete Markdown examples,
 indexed vault context, and the visible editor result for every feature.
 
-Wish: Stretch level plus selection state is reflected in the URL hash or
+Wish: Stretch level plus desktop uses a shared full-width detail panel while
+mobile expands the selected card inline without losing context.
+
+Long-term Wish: Wish level plus selection state is reflected in the URL hash or
 otherwise remains stable across reloads without harming SEO.
 
 Stakeholders: Prospective users, docs readers, LLM maintainers, keyboard users.
@@ -114,3 +117,5 @@ Source: [[requirements/user/homepage]], [[requirements/design/index]]
 Open questions:
 
 - Which feature should be selected by default on first render?
+
+- Should mobile expanded card state persist when users navigate away and back?

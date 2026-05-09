@@ -371,6 +371,11 @@ requirements before release:
   performs the capability in an Obsidian Vault, such as the input Markdown,
   indexed vault data, diagnostic or completion behavior, and user-visible
   editor result.
+- On desktop, selectable feature proof cards may update a separate full-width
+  "How it works" detail panel below the card row.
+- On narrow mobile viewports, selectable feature proof cards must expand inline
+  instead of sending the user to a separate "How it works" panel. The expanded
+  content should stay visually attached to the selected card.
 - Feature proof cards must use consistent border color by default. Do not vary
   each card border by capability color; selection, hover, and focus states may
   use a shared accent treatment.

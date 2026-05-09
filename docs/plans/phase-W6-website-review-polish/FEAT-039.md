@@ -68,6 +68,8 @@ review.
 - [x] Narrow viewports collapse primary navigation into a hamburger menu.
 - [x] Browser screenshots verify the reviewed homepage and footer regions.
 - [x] Homepage feature proof cards are selectable and reveal practical depth.
+- [x] Mobile feature proof cards expand inline instead of relying on the
+  separate desktop detail panel.
 - [x] Mobile hero hides the long category eyebrow on narrow viewports.
 - [x] Homepage feature cards use consistent default border color.
 - [x] Second-round browser review feedback is verified.
@@ -85,6 +87,7 @@ review.
 | [[TASK-235]] | Make feature proof cards selectable | `green` |
 | [[TASK-236]] | Hide mobile hero category eyebrow | `green` |
 | [[TASK-237]] | Normalize feature card borders | `green` |
+| [[TASK-238]] | Expand mobile feature proof cards inline | `green` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `done` |
 | [[CHORE-093]] | Verify second-round W6 browser feedback | `done` |
 
@@ -134,3 +137,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Implemented selectable feature proof cards, practical detail content, hidden
 > mobile hero eyebrow, and consistent default feature card borders. Website
 > gate and follow-up screenshots pass.
+
+> [!SUCCESS] Mobile expansion feedback · 2026-05-09
+> Added TASK-238 and updated requirements so mobile card selection expands
+> inline, while desktop keeps the separate full-width detail panel.

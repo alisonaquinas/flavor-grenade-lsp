@@ -41,6 +41,10 @@ marketing page.
 - Homepage feature cards are selectable and reveal deeper practical detail
   about how Markdown linting, LSP indexing, diagnostics, completions, and safe
   edits work in real Obsidian Vault documents.
+- On desktop, selecting a homepage feature card can update a shared detail
+  panel below the row.
+- On mobile, selecting a homepage feature card expands that card inline with
+  its practical detail so users do not lose the card context.
 - Homepage feature cards use consistent default borders so the section feels
   cohesive; selected and focused states may provide a shared visual accent.
 - The homepage explains that the tool is OFM-aware and vault-aware.

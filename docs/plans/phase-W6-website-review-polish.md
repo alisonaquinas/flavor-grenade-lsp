@@ -86,6 +86,8 @@ responsive spacing, and image reliability rather than new content scope.
 - Browser review shows no broken image icons in the reviewed homepage regions.
 - Homepage feature proof cards are selectable and reveal practical detail for
   each capability.
+- Mobile feature proof cards expand inline instead of relying on the separate
+  desktop "How it works" panel.
 - Mobile hero hides the long category eyebrow when it visually crowds the
   narrow first viewport.
 - Homepage feature card borders use a consistent default color.
@@ -129,6 +131,7 @@ or missing icon affordances.
 - [[plans/phase-W6-website-review-polish/TASK-235]]
 - [[plans/phase-W6-website-review-polish/TASK-236]]
 - [[plans/phase-W6-website-review-polish/TASK-237]]
+- [[plans/phase-W6-website-review-polish/TASK-238]]
 - [[plans/phase-W6-website-review-polish/CHORE-092]]
 - [[plans/phase-W6-website-review-polish/CHORE-093]]
 

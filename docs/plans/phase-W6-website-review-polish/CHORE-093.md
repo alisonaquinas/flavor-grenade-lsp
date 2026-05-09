@@ -47,3 +47,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > desktop full-page screenshots through Microsoft Edge against
 > `http://127.0.0.1:5173/`, confirming the hidden mobile eyebrow, selectable
 > feature proof detail, and consistent card borders.
+
+> [!SUCCESS] Mobile expansion verified · 2026-05-09
+> Re-ran the website gate and captured a mobile full-page screenshot confirming
+> selected feature proof cards expand inline on narrow viewports.

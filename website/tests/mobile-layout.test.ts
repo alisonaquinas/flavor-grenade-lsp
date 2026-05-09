@@ -39,9 +39,13 @@ describe('mobile layout regression guards', () => {
     const css = await readFile(join(websiteRoot, 'src', 'styles', 'global.scss'), 'utf8');
 
     expect(app).toContain('aria-pressed={selectedFeatureSignal === feature.signal}');
+    expect(app).toContain('aria-expanded={selectedFeatureSignal === feature.signal}');
     expect(app).toContain('id="feature-detail"');
+    expect(app).toContain('class="mobile-feature-detail"');
     expect(css).toContain('.feature-item.selected');
     expect(css).toContain('.feature-detail');
+    expect(css).toContain('.mobile-feature-detail');
+    expect(css).toContain('.feature-card.selected .mobile-feature-detail');
     expect(css).toContain('inline-size: 100%;');
     expect(css).not.toContain('.feature-item.completion');
     expect(css).not.toContain('.feature-item.index');

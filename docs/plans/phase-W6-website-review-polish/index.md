@@ -21,5 +21,6 @@ updated: 2026-05-09
 | [[TASK-235]] | Make feature proof cards selectable | Task | `green` |
 | [[TASK-236]] | Hide mobile hero category eyebrow | Task | `green` |
 | [[TASK-237]] | Normalize feature card borders | Task | `green` |
+| [[TASK-238]] | Expand mobile feature proof cards inline | Task | `green` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | Chore | `done` |
 | [[CHORE-093]] | Verify second-round W6 browser feedback | Chore | `done` |

@@ -214,17 +214,33 @@
       <h2 id="feature-title">Built for vault work that has to stay precise</h2>
       <div class="feature-list">
         {#each featureHighlights as feature (feature.title)}
-          <button
-            class={`feature-item ${feature.signal}`}
+          <div
+            class="feature-card"
             class:selected={selectedFeatureSignal === feature.signal}
-            type="button"
-            aria-pressed={selectedFeatureSignal === feature.signal}
-            aria-controls="feature-detail"
-            on:click={() => selectFeature(feature.signal)}
           >
-            <h3>{feature.title}</h3>
-            <p>{feature.description}</p>
-          </button>
+            <button
+              class={`feature-item ${feature.signal}`}
+              class:selected={selectedFeatureSignal === feature.signal}
+              type="button"
+              aria-pressed={selectedFeatureSignal === feature.signal}
+              aria-expanded={selectedFeatureSignal === feature.signal}
+              aria-controls="feature-detail"
+              on:click={() => selectFeature(feature.signal)}
+            >
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </button>
+
+            {#if selectedFeatureSignal === feature.signal}
+              <div class="mobile-feature-detail">
+                <p class="eyebrow">How it works</p>
+                <h3>{feature.detail.title}</h3>
+                <p>{feature.detail.summary}</p>
+                <pre><code>{feature.detail.markdownExample.join('\n')}</code></pre>
+                <p>{feature.detail.outcome}</p>
+              </div>
+            {/if}
+          </div>
         {/each}
       </div>
 

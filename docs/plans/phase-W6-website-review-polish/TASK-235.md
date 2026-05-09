@@ -78,3 +78,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Width polish · 2026-05-09
 > Expanded the feature detail panel to span the full feature section width
 > established by the four-card row.
+
+> [!SUCCESS] Mobile expansion · 2026-05-09
+> Updated narrow viewports so selected feature cards expand inline with their
+> own detail content, while desktop keeps the separate full-width detail panel.
