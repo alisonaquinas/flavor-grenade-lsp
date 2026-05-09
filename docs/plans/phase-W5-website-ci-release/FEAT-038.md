@@ -57,9 +57,9 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-226]] | Add website CI gates | `green` |
-| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `green` |
-| [[TASK-228]] | Add release evidence and production smoke checks | `green` |
+| [[TASK-226]] | Add website CI gates | `in-review` |
+| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `in-review` |
+| [[TASK-228]] | Add release evidence and production smoke checks | `in-review` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
 
 ## Lifecycle
@@ -94,3 +94,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > TASK-228 preserved `website-dist` and `website-release-evidence`, added
 > production-build smoke checks, and separated test-tag dry runs from
 > production deploys.
+
+> [!INFO] TASKS in review · 2026-05-09
+> TASK-226, TASK-227, and TASK-228 moved to `in-review` after local W5 website
+> checks passed and traceability was updated.

@@ -79,6 +79,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Website.LLMWiki.PageShape` | Concept pages are compact, linked, focused, and example-driven | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator checks question, answer length, examples, and related links |
 | `Website.LLMWiki.Terminology` | Public concept content preserves stable Flavor Grenade, OFM, and Obsidian Vault vocabulary | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept records avoid deprecated or internal planning terminology |
 | `Website.LLMWiki.PublicPrivateSeparation` | Public website docs avoid internal planning artifacts and ticket language | `website/tests/concept-wiki.test.ts` | ✅ passing | Phase W4 | Concept wiki validator rejects internal phase/ticket wording |
+| `Website.CICD.PRGate` | Repository CI runs website install, lint, typecheck, tests, build, and artifact upload for PR and branch gates | `website/tests/ci-workflow.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies the `website-checks` job and `website-dist` artifact contract |
+| `Website.CICD.PagesDeployment` | Website Pages deployment is tag triggered, main-branch guarded, minimally permissioned, and environment protected | `website/tests/pages-workflow.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies tag trigger, `git merge-base` guard, official Pages actions, permissions, environment, and concurrency |
+| `Website.CICD.ReleaseEvidence` | Website release workflow preserves evidence, distinguishes test and production tags, and smoke-checks release output | `website/tests/release-evidence.test.ts` | ✅ passing | Phase W5 | Workflow inspection verifies test-tag dry runs, `website-release-evidence`, homepage/quickstart/sitemap/robots/Marketplace smoke terms, and changelog coverage |
 
 ---
 
@@ -388,7 +391,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
 | Phase W3 (Homepage And Design System) | 10 | 10 | 100% |
 | Phase W4 (Documentation Pages And LLM Wiki) | 6 | 6 | 100% |
-| **Total** | **162** | **81** | **50%** |
+| Phase W5 (Website CI And Pages Release) | 3 | 3 | 100% |
+| **Total** | **165** | **84** | **51%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

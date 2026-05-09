@@ -2,7 +2,7 @@
 id: "TASK-226"
 title: "Add website CI gates"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-226"]
 
 # Add Website CI Gates
 
-> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
+> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `in-review`
 
 ## Description
 
@@ -38,12 +38,18 @@ Expected workflow shape:
 
 ## Definition of Done
 
-- [ ] PRs to `develop` and `main` run website checks.
-- [ ] Pushes to `develop` and `main` run website checks.
-- [ ] Website checks use locked dependencies.
-- [ ] Website lint fails on warnings.
-- [ ] Website build artifact is uploaded when useful for inspection.
-- [ ] Parent feature child row is updated.
+- [x] PRs to `develop` and `main` run website checks.
+- [x] Pushes to `develop` and `main` run website checks.
+- [x] Website checks use locked dependencies.
+- [x] Website lint fails on warnings.
+- [x] Website build artifact is uploaded when useful for inspection.
+- [x] Parent feature child row is updated.
+
+## Linked Tests
+
+| Test | Status | Requirement |
+|---|---|---|
+| `website/tests/ci-workflow.test.ts` | ✅ passing | `Website.CICD.PRGate` |
 
 ## Lifecycle
 
@@ -61,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added the `website-checks` CI job with `npm ci`, lint, typecheck, tests,
 > build, and `website-dist` artifact upload. Status: `green`.
+
+> [!INFO] In Review · 2026-05-09
+> Updated DoD and test traceability after local website lint, typecheck, and
+> tests passed. Status: `in-review`.

@@ -114,6 +114,9 @@ and website-specific source layout rules.
 | `website/tests/quickstart-docs.test.ts` | Unit | Verifies quickstart and VS Code extension docs cover prerequisites, Marketplace install, activation, verification, first workflow, and troubleshooting | `Website.VSCodeExtension.MarketplaceLink`, `Website.VSCodeExtension.InstallInstructions`, `Website.VSCodeExtension.ExtensionServerDistinction` | Phase W4 | ✅ implemented |
 | `website/tests/howto-faq-docs.test.ts` | Unit | Verifies how-to workflow groups, task-page shape, advanced usage boundaries, and FAQ question coverage | `Website.Pages.RequiredSet`, `Website.Metadata.PageBasics` | Phase W4 | ✅ implemented |
 | `website/tests/concept-wiki.test.ts` | Unit | Verifies compact, linked, public, example-driven concept wiki records and required inspiration attribution | `Website.LLMWiki.PageShape`, `Website.LLMWiki.Terminology`, `Website.LLMWiki.PublicPrivateSeparation` | Phase W4 | ✅ implemented |
+| `website/tests/ci-workflow.test.ts` | Unit | Verifies repository CI runs website install, lint, typecheck, tests, build, and build-artifact upload | `Website.CICD.PRGate` | Phase W5 | ✅ implemented |
+| `website/tests/pages-workflow.test.ts` | Unit | Verifies website Pages deployment is tag triggered, guarded by main ancestry, permission scoped, and environment protected | `Website.CICD.PagesDeployment` | Phase W5 | ✅ implemented |
+| `website/tests/release-evidence.test.ts` | Unit | Verifies website release workflow preserves evidence, distinguishes test and production tags, smoke-checks production output, and records changelog coverage | `Website.CICD.ReleaseEvidence` | Phase W5 | ✅ implemented |
 
 ---
 

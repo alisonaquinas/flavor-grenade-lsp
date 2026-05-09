@@ -2,7 +2,7 @@
 id: "TASK-227"
 title: "Add tag-triggered GitHub Pages deployment"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-227"]
 
 # Add Tag-Triggered GitHub Pages Deployment
 
-> [!INFO] `TASK-227` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
+> [!INFO] `TASK-227` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `in-review`
 
 ## Description
 
@@ -40,12 +40,18 @@ Expected workflow shape:
 
 ## Definition of Done
 
-- [ ] Production Pages deployment is tag triggered.
-- [ ] Workflow verifies the tag SHA is contained in `origin/main`.
-- [ ] Workflow uses minimal Pages permissions.
-- [ ] Workflow uses a protected Pages environment.
-- [ ] Workflow uses concurrency for production deploys.
-- [ ] Parent feature child row is updated.
+- [x] Production Pages deployment is tag triggered.
+- [x] Workflow verifies the tag SHA is contained in `origin/main`.
+- [x] Workflow uses minimal Pages permissions.
+- [x] Workflow uses a protected Pages environment.
+- [x] Workflow uses concurrency for production deploys.
+- [x] Parent feature child row is updated.
+
+## Linked Tests
+
+| Test | Status | Requirement |
+|---|---|---|
+| `website/tests/pages-workflow.test.ts` | ✅ passing | `Website.CICD.PagesDeployment` |
 
 ## Lifecycle
 
@@ -64,3 +70,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added tag-triggered `website-pages.yml` with main ancestry guard, minimal
 > Pages permissions, protected environment, concurrency, and official Pages
 > deployment actions. Status: `green`.
+
+> [!INFO] In Review · 2026-05-09
+> Updated DoD and test traceability after local website lint, typecheck, and
+> tests passed. Status: `in-review`.

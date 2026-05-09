@@ -2,7 +2,7 @@
 id: "TASK-228"
 title: "Add release evidence and production smoke checks"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-228"]
 
 # Add Release Evidence And Production Smoke Checks
 
-> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
+> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `in-review`
 
 ## Description
 
@@ -51,6 +51,12 @@ Expected release evidence shape:
 - [x] Deployment evidence is linked from the phase workflow log.
 - [x] Parent feature child row is updated.
 
+## Linked Tests
+
+| Test | Status | Requirement |
+|---|---|---|
+| `website/tests/release-evidence.test.ts` | ✅ passing | `Website.CICD.ReleaseEvidence` |
+
 ## Lifecycle
 
 Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
@@ -70,3 +76,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > dry-run handling, and a changelog entry. Evidence artifacts are uploaded as
 > `website-dist` and `website-release-evidence` in `website-pages.yml`.
 > Status: `green`.
+
+> [!INFO] In Review · 2026-05-09
+> Updated DoD and test traceability after local website lint, typecheck, and
+> tests passed. Status: `in-review`.

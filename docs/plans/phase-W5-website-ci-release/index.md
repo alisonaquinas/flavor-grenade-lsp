@@ -12,7 +12,7 @@ updated: 2026-05-09
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-038]] | Website CI And Pages Release | Feature | `in-progress` |
-| [[TASK-226]] | Add website CI gates | Task | `green` |
-| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | Task | `green` |
-| [[TASK-228]] | Add release evidence and production smoke checks | Task | `green` |
+| [[TASK-226]] | Add website CI gates | Task | `in-review` |
+| [[TASK-227]] | Add tag-triggered GitHub Pages deployment | Task | `in-review` |
+| [[TASK-228]] | Add release evidence and production smoke checks | Task | `in-review` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | Chore | `open` |
