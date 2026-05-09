@@ -50,7 +50,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
 | W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |
-| W2    | Content Pipeline And SEO Skeleton | ⏳ planned | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | — | — |
+| W2    | Content Pipeline And SEO Skeleton | ✅ complete | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | 2026-05-09 | PR #52 CI green |
 | W3    | Homepage And Design System | ⏳ planned | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | — | — |
 | W4    | Documentation Pages And LLM Wiki | ⏳ planned | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | — | — |
 | W5    | Website CI And Pages Release | ⏳ planned | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | — | — |
