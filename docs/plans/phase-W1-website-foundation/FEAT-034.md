@@ -66,7 +66,7 @@ repeatable local gates.
 |---|---|---|
 | [[TASK-214]] | Scaffold Vite Svelte website app | `red` |
 | [[TASK-215]] | Configure website quality gates | `red` |
-| [[TASK-216]] | Establish source and test layout guards | `open` |
+| [[TASK-216]] | Establish source and test layout guards | `red` |
 | [[CHORE-087]] | Phase W1 documentation and verification sweep | `open` |
 
 ## Lifecycle
