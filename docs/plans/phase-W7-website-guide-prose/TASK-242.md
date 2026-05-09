@@ -19,12 +19,12 @@ aliases: ["TASK-242"]
 
 ## Text Scope
 
-- Explain broken wiki-link, Markdown link, heading anchor, and attachment
+- Explain broken wiki-link, heading anchor, Markdown image attachment, and embed
   diagnostics.
 - Include steps for inspecting the diagnostic, creating or correcting the
   target, and confirming the diagnostic clears.
-- Use examples: `[[Missing Note]]`, `[[Project Plan#Risks]]`, and
-  `[diagram](assets/missing.png)`.
+- Use examples: `[[Missing Note]]`, `[[Project Plan#Risks]]`,
+  `![diagram](assets/missing.png)`, and `![[diagram.png]]`.
 
 ## Asset Scope
 
@@ -37,14 +37,16 @@ aliases: ["TASK-242"]
 
 Broken-link diagnostics point to local references that do not resolve inside the
 current vault. They help you catch missing notes, misspelled headings, stale
-anchors, and attachment paths before they spread through the graph.
+anchors, Markdown image attachment paths, and embed targets before they spread
+through the graph.
 
 Common examples:
 
 ```markdown
 [[Missing Note]]
 [[Project Plan#Risks]]
-[diagram](assets/missing.png)
+![diagram](assets/missing.png)
+![[diagram.png]]
 ```
 
 ## Read the Diagnostic
@@ -54,7 +56,8 @@ not resolve:
 
 - A wiki-link note target, such as `[[Missing Note]]`.
 - A heading anchor, such as `[[Project Plan#Risks]]`.
-- A Markdown file or attachment path, such as `[diagram](assets/missing.png)`.
+- A Markdown image attachment path, such as
+  `![diagram](assets/missing.png)`.
 - An embed target, such as `![[diagram.png]]`.
 
 ## Fix a Missing Note
@@ -113,12 +116,12 @@ Or rename the heading:
 
 Expected result: the link resolves to the heading in `Project Plan.md`.
 
-## Fix a Markdown Attachment Path
+## Fix a Markdown Image Attachment Path
 
 Before:
 
 ```markdown
-[diagram](assets/missing.png)
+![diagram](assets/missing.png)
 ```
 
 Confirm the file exists:
@@ -134,7 +137,7 @@ MyVault/
 After:
 
 ```markdown
-[diagram](../assets/architecture.png)
+![diagram](../assets/architecture.png)
 ```
 
 Expected result: the path resolves from the note location to an attachment
@@ -151,6 +154,10 @@ Punctuation and repeated headings can make anchors ambiguous.
 If a Markdown link uses `https://`, `mailto:`, or another external scheme, it is
 not a vault note. Use local paths only for files you want Flavor Grenade to
 resolve inside the vault.
+
+Plain Markdown asset links such as `[diagram](assets/architecture.png)` are not
+currently reported as missing attachment diagnostics. Use Markdown images or
+Obsidian embeds when the target should be validated as an attachment.
 
 If a target was just created, save the file and wait for the vault index to
 refresh.

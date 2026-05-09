@@ -110,8 +110,8 @@ no stable vault boundary.
 | Initial scan | Recursively scans the detected vault root. | Skips recursive scanning. |
 | File watching | Starts a vault watcher for updates inside the vault. | Watcher does not start. |
 | Document IDs | Vault-relative, extension-free DocIds such as `Notes/Home`. | No vault-wide DocId graph is available. |
-| Wiki-link completions | Can suggest indexed notes across the vault. | Limited to information available from open/current documents. |
-| Heading and block completions | Can use indexed targets from known vault documents. | Limited when the target document is not indexed. |
+| Wiki-link completions | Can suggest indexed notes across the vault. | Vault-wide note-name suggestions are unavailable because no vault index graph is built. |
+| Heading and block completions | Can use indexed targets from known vault documents. | Same-document contexts may use the parsed open document where supported, but cross-document targets are unavailable. |
 | Tag completions and references | Uses the vault-wide tag registry. | Vault-wide tag results are not available. |
 | Broken-link diagnostics | Can resolve local vault targets and report missing supported targets. | Suppresses diagnostics that require a full vault graph to avoid false positives. |
 | References and backlinks | Uses the rebuilt reference graph. | Cross-vault references are unavailable. |
@@ -140,6 +140,12 @@ syntax in a folder that is not meant to be a vault.
 In single-file mode, Flavor Grenade cannot know every note, heading, tag,
 block anchor, embed, or attachment that may exist elsewhere. The server avoids
 pretending otherwise.
+
+Wiki-link note-name completion depends on the vault index. Because single-file
+mode does not build that graph, it should not be presented as note completion
+from open or current documents. Same-document heading or block contexts may
+still work where the open document has enough parsed structure, but cross-file
+targets require vault mode.
 
 That means a missing link diagnostic in vault mode can become no diagnostic in
 single-file mode. This is intentional. A loose file may later be moved into a

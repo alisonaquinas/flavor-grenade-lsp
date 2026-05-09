@@ -47,6 +47,9 @@ article groups.
 - Update typed routes, sitemap, route metadata, related links, and content tests.
 - Preserve mobile readability and avoid hiding essential article links behind
   hover-only behavior.
+- Use the route inventory in
+  [[plans/phase-W7-website-guide-prose/TASK-266]] as the canonical source for
+  sitemap, dropdown, hub, and route metadata coverage.
 
 ### Out of Scope
 
@@ -90,7 +93,8 @@ website content during implementation. Draft copy should:
 - Advanced Usage hub sections link to advanced topic articles.
 - Every article ticket includes `Draft Article Copy` ready for implementation.
 - Every article ticket listed below has prose scope and asset scope implemented.
-- Sitemap includes every Phase W7 article route.
+- Sitemap includes every Phase W7 article route from the TASK-266 canonical
+  inventory.
 - `website` lint, typecheck, tests, and build pass.
 - Docs lint passes for `docs/` and `website/docs/`.
 
