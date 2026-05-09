@@ -21,12 +21,31 @@ Required page categories:
 - vault configuration how-to
 - broken-link how-to
 - safe rename how-to
+- wiki-link and heading completion how-to
+- navigation and attachment how-to
+- references and document highlights how-to
+- tags and tag completion how-to
+- OFM opaque-region how-to for callouts, math, comments, frontmatter, and
+  Templater-aware parsing
 - advanced usage
+- advanced configuration article
+- advanced vault modes article
+- advanced indexing and performance article
+- advanced URI confinement article
+- advanced parser boundaries article
+- advanced compatibility article
 - FAQ
 - concept index
+- inspiration and prior art concept
 - Obsidian Flavored Markdown concept
 - vault index concept
 - wiki-link resolution concept
+- DocId and vault-relative paths concept
+- opaque regions concept
+- diagnostics concept
+- completions concept
+- rename safety concept
+- references, navigation, tags, and embeds concept
 
 Meter: Inspect generated website routes after production build. Count a
 category as present when the route exists, contains a single H1, and includes
@@ -41,6 +60,16 @@ least one next-step page.
 
 Wish: 100% of required page categories are present, each page links to at least
 one next-step page, and each page includes a concrete Obsidian Vault example.
+
+Hub-page requirements:
+
+- How-to index list items must link to task articles instead of remaining
+  static bullets.
+- How-to workflow groups must be represented as links to subpage articles.
+- Concepts index entries must link to concept article pages.
+- The concepts LLM-maintainer section must also present linked concept article
+  entries rather than one static paragraph.
+- Advanced Usage sections must link to advanced-topic article pages.
 
 Stakeholders: Obsidian users, VS Code users, LLM agents, project maintainer.
 

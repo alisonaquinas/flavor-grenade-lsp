@@ -13,6 +13,10 @@ link to deeper concepts only after the task is clear.
 ## Acceptance Criteria
 
 - The how-to index groups tasks by workflow.
+- The how-to index presents workflow topics as links to subpage articles, not
+  static bullet points.
+- The how-to index "Workflow groups" content is broken into subpage articles
+  and linked from the hub.
 - Each how-to page has one clear user goal.
 - Each how-to page includes:
   - when to use it
@@ -34,6 +38,8 @@ link to deeper concepts only after the task is clear.
   - working with callouts, math, comments, frontmatter, and Templater regions
 - How-to pages use concrete vault paths and Markdown examples.
 - How-to pages use descriptive link text and avoid internal ticket references.
+- The desktop How-To navigation item provides a hover and focus dropdown linking
+  to the how-to subpage articles.
 
 ## Follow-On Pages
 
