@@ -17,7 +17,7 @@
     projectLinks,
   } from './shell/footer';
   import { iconLabels, iconPath, type IconName } from './shell/icons';
-  import { primaryNavigation } from './shell/navigation';
+  import { primaryNavigation, type NavigationItem } from './shell/navigation';
   import {
     nextThemeMode,
     readStoredTheme,
@@ -30,6 +30,7 @@
   let resolvedTheme = 'light';
   let activePath = '/';
   let navOpen = false;
+  let openDropdownLabel: string | null = null;
   let selectedFeatureSignal: FeatureSignal = 'diagnostic';
   $: activePage = getWebsitePageByPath(activePath, websiteRoutes);
   $: activeRoute = getRouteById(activePage.routeId);
@@ -68,6 +69,62 @@
 
   function closeNav(): void {
     navOpen = false;
+    openDropdownLabel = null;
+  }
+
+  function hasArticles(item: NavigationItem): boolean {
+    return Boolean(item.children?.length);
+  }
+
+  function openDropdown(item: NavigationItem): void {
+    if (hasArticles(item)) {
+      openDropdownLabel = item.label;
+    }
+  }
+
+  function closeDropdown(event?: FocusEvent): void {
+    if (event?.currentTarget instanceof HTMLElement) {
+      const nextTarget = event.relatedTarget;
+
+      if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+        return;
+      }
+    }
+
+    openDropdownLabel = null;
+  }
+
+  function handleNavigationKeydown(event: KeyboardEvent, item: NavigationItem): void {
+    if (!hasArticles(item)) {
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      openDropdown(item);
+      document
+        .getElementById(item.menuId ?? '')
+        ?.querySelector<HTMLAnchorElement>('a')
+        ?.focus();
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      openDropdownLabel = null;
+    }
+  }
+
+  function handleDropdownLinkKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    event.preventDefault();
+    openDropdownLabel = null;
+    (event.currentTarget as HTMLElement)
+      .closest('.nav-item')
+      ?.querySelector<HTMLAnchorElement>('.nav-link')
+      ?.focus();
   }
 
   function themeModeIcon(mode: ThemeMode): IconName {
@@ -146,14 +203,47 @@
     aria-label="Primary navigation"
   >
     {#each primaryNavigation as item (item.label)}
-      <a
-        href={item.href}
-        target={item.external ? '_blank' : undefined}
-        rel={item.external ? 'noreferrer' : undefined}
-        on:click={closeNav}
+      <div
+        class="nav-item"
+        class:has-dropdown={hasArticles(item)}
+        class:open={openDropdownLabel === item.label}
+        on:focusout={closeDropdown}
       >
-        {item.label}
-      </a>
+        <a
+          class="nav-link"
+          href={item.href}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noreferrer' : undefined}
+          aria-haspopup={hasArticles(item) ? 'true' : undefined}
+          aria-expanded={hasArticles(item) ? openDropdownLabel === item.label : undefined}
+          aria-controls={item.menuId}
+          on:focus={() => openDropdown(item)}
+          on:keydown={(event) => handleNavigationKeydown(event, item)}
+          on:click={closeNav}
+        >
+          {item.label}
+        </a>
+
+        {#if item.children?.length}
+          <div
+            id={item.menuId}
+            class="nav-dropdown"
+            aria-label={`${item.label} article links`}
+          >
+            {#each item.children as article (article.routeId)}
+              <a
+                class="nav-dropdown-link"
+                href={article.href}
+                on:keydown={handleDropdownLinkKeydown}
+                on:click={closeNav}
+              >
+                <span>{article.label}</span>
+                <small>{article.description}</small>
+              </a>
+            {/each}
+          </div>
+        {/if}
+      </div>
     {/each}
   </nav>
 
@@ -273,6 +363,17 @@
                     <li>{item}</li>
                   {/each}
                 </ul>
+              {/if}
+
+              {#if section.articleLinks?.length}
+                <div class="article-link-grid" aria-label={`${section.heading} articles`}>
+                  {#each section.articleLinks as article (article.routeId)}
+                    <a class="article-link-card" href={routePath(article.routeId)}>
+                      <span>{article.title}</span>
+                      <small>{article.description}</small>
+                    </a>
+                  {/each}
+                </div>
               {/if}
 
               {#if section.steps?.length}

@@ -56,9 +56,9 @@ describe('website route metadata', () => {
     ]);
     expect(guideArticleGroups.flatMap((group) => group.routeIds)).toEqual([
       'howToVsCodeExtension',
-      'howToVaultConfiguration',
-      'howToBrokenLinks',
-      'howToSafeRename',
+      'howToConfigureObsidianVaults',
+      'howToFixBrokenLinks',
+      'howToRenameNotesSafely',
       'howToCompleteWikiLinksHeadings',
       'howToNavigateVaultTargets',
       'howToFindReferencesHighlights',
