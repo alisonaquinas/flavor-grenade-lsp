@@ -2,7 +2,7 @@
 id: "TASK-229"
 title: "Repair homepage and footer image rendering"
 type: task
-status: open
+status: red
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-229"]
 
 # Repair Homepage And Footer Image Rendering
 
-> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -67,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from browser review comments 1, 2, and 5. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added asset placement coverage requiring reviewed header, hero, and footer
+> images to resolve from `website/public/assets`.

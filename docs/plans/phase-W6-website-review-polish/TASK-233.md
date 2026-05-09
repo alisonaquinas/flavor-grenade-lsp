@@ -2,7 +2,7 @@
 id: "TASK-233"
 title: "Improve footer brand spacing on mobile"
 type: task
-status: open
+status: red
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-233"]
 
 # Improve Footer Brand Spacing On Mobile
 
-> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -60,3 +60,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from browser review comment 2. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added mobile layout coverage requiring footer brand copy spacing hooks.

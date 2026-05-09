@@ -2,7 +2,7 @@
 id: "TASK-234"
 title: "Collapse narrow navigation into hamburger menu"
 type: task
-status: open
+status: red
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-234"]
 
 # Collapse Narrow Navigation Into Hamburger Menu
 
-> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -63,3 +63,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Opened · 2026-05-09
 > Ticket created from additional browser review feedback on narrow primary
 > navigation. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added shell coverage requiring a hamburger nav control with expanded-state
+> semantics on narrow viewports.

@@ -72,12 +72,12 @@ review.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-229]] | Repair homepage and footer image rendering | `open` |
-| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `open` |
-| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `open` |
-| [[TASK-232]] | Add icon affordances to footer links | `open` |
-| [[TASK-233]] | Improve footer brand spacing on mobile | `open` |
-| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `open` |
+| [[TASK-229]] | Repair homepage and footer image rendering | `red` |
+| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `red` |
+| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `red` |
+| [[TASK-232]] | Add icon affordances to footer links | `red` |
+| [[TASK-233]] | Improve footer brand spacing on mobile | `red` |
+| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `red` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `open` |
 
 ## Lifecycle
@@ -96,3 +96,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Started · 2026-05-09
 > Phase W6 execution started on `feature/phase-w6-website-visual-feedback`.
+
+> [!FAILURE] Red tests · 2026-05-09
+> Added regression coverage for the reviewed asset, theme, CTA, footer, spacing,
+> and narrow-navigation contracts. Child implementation tasks moved to `red`.

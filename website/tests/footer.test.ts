@@ -16,6 +16,7 @@ describe('website footer links and byline', () => {
       'Alison Aquinas on GitHub',
       'Alison Aquinas on LinkedIn',
     ]);
+    expect(profileLinks.map((link) => link.icon)).toEqual(['globe', 'github', 'linkedin']);
   });
 
   it('links project destinations and required inspirations', () => {
@@ -23,6 +24,7 @@ describe('website footer links and byline', () => {
       'Flavor Grenade LSP GitHub repository',
       'Flavor Grenade LSP on the Visual Studio Marketplace',
     ]);
+    expect(projectLinks.map((link) => link.icon)).toEqual(['github', 'store']);
     expect(inspirationLinks.map((link) => link.label)).toEqual([
       "Karpathy's LLM Wiki gist",
       'Obsidian',

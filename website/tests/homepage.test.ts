@@ -17,6 +17,11 @@ describe('homepage content model', () => {
       'Visual Studio Marketplace',
       'GitHub',
     ]);
+    expect(homepageHero.actions.map((action) => action.icon)).toEqual([
+      'book-open',
+      'store',
+      'github',
+    ]);
     expect(validateHomepageContent()).toEqual([]);
   });
 
@@ -28,7 +33,9 @@ describe('homepage content model', () => {
       expect.arrayContaining([
         expect.objectContaining({ placement: 'header', alt: expect.stringContaining('Flavor Grenade') }),
         expect.objectContaining({ placement: 'hero', alt: expect.stringContaining('VS Code') }),
+        expect.objectContaining({ placement: 'footer', alt: expect.stringContaining('Flavor Grenade') }),
       ]),
     );
+    expect(homepageAssetPlacements.every((asset) => asset.source.startsWith('/assets/'))).toBe(true);
   });
 });

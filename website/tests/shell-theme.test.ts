@@ -4,6 +4,7 @@ import { primaryNavigation } from '../src/shell/navigation';
 import {
   readStoredTheme,
   resolveTheme,
+  nextThemeMode,
   themeModes,
   writeStoredTheme,
   type ThemeMode,
@@ -52,6 +53,9 @@ describe('website shell navigation and theme modes', () => {
 
   it('supports system, light, and dark theme modes', () => {
     expect(themeModes).toEqual(['system', 'light', 'dark']);
+    expect(nextThemeMode('system')).toBe('light');
+    expect(nextThemeMode('light')).toBe('dark');
+    expect(nextThemeMode('dark')).toBe('system');
     expect(resolveTheme('system', true)).toBe('dark');
     expect(resolveTheme('system', false)).toBe('light');
     expect(resolveTheme('light', true)).toBe('light');
