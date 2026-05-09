@@ -59,7 +59,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 |---|---|---|
 | [[TASK-226]] | Add website CI gates | `green` |
 | [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `green` |
-| [[TASK-228]] | Add release evidence and production smoke checks | `open` |
+| [[TASK-228]] | Add release evidence and production smoke checks | `red` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
 
 ## Lifecycle
@@ -86,3 +86,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!SUCCESS] TASK-227 green · 2026-05-09
 > TASK-227 added the tag-triggered GitHub Pages deployment workflow.
+
+> [!INFO] TASK-228 red · 2026-05-09
+> TASK-228 entered `red` with failing release evidence workflow coverage.

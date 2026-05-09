@@ -2,7 +2,7 @@
 id: "TASK-228"
 title: "Add release evidence and production smoke checks"
 type: task
-status: open
+status: red
 priority: medium
 phase: W5
 parent: "FEAT-038"
@@ -15,12 +15,31 @@ aliases: ["TASK-228"]
 
 # Add Release Evidence And Production Smoke Checks
 
-> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `open`
+> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `red`
 
 ## Description
 
 Preserve website release evidence and add smoke checks for the built production
 site after deployment.
+
+## Implementation Details
+
+Create and wire:
+
+- `website/tests/release-evidence.test.ts`
+- `.github/workflows/website-pages.yml`
+- `CHANGELOG.md`
+
+Expected release evidence shape:
+
+- Test website tags are accepted by the workflow for dry-run evidence but must
+  skip the protected production Pages deployment.
+- Workflow logs emit an explicit release mode for test and production tags.
+- Smoke checks verify built homepage output, public quickstart content,
+  `sitemap.xml`, `robots.txt`, and the VS Code Marketplace link.
+- Release evidence is written under `website/release-evidence/` and uploaded
+  as a retained artifact named `website-release-evidence`.
+- The changelog records the website release workflow.
 
 ## Definition of Done
 
@@ -40,3 +59,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/release-evidence.test.ts`, which expects release
+> evidence, smoke checks, test-tag handling, and changelog coverage before the
+> workflow implements them. Status: `red`.
