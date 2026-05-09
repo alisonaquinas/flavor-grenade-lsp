@@ -2,7 +2,7 @@
 id: "TASK-216"
 title: "Establish source and test layout guards"
 type: task
-status: green
+status: refactor
 priority: medium
 phase: W1
 parent: "FEAT-034"
@@ -15,7 +15,7 @@ aliases: ["TASK-216"]
 
 # Establish Source And Test Layout Guards
 
-> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `green`
+> [!INFO] `TASK-216` · Task · Phase W1 · Parent: [[FEAT-034]] · Status: `refactor`
 
 ## Description
 
@@ -79,3 +79,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!SUCCESS] Green · 2026-05-09
 > Added the layout guard module. The layout test now passes. Status: `green`.
+
+> [!NOTE] Refactor · 2026-05-09
+> Entered refactor to add source documentation for the exported layout guard
+> helper before review. Status: `refactor`.

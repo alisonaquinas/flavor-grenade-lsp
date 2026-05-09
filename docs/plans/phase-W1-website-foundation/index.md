@@ -14,5 +14,5 @@ updated: 2026-05-09
 | [[FEAT-034]] | Website Foundation And Toolchain | Feature | `in-progress` |
 | [[TASK-214]] | Scaffold Vite Svelte website app | Task | `red` |
 | [[TASK-215]] | Configure website quality gates | Task | `red` |
-| [[TASK-216]] | Establish source and test layout guards | Task | `red` |
+| [[TASK-216]] | Establish source and test layout guards | Task | `refactor` |
 | [[CHORE-087]] | Phase W1 documentation and verification sweep | Chore | `open` |
