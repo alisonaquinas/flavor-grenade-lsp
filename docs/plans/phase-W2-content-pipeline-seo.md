@@ -1,7 +1,7 @@
 ---
 title: "Phase W2: Content Pipeline And SEO Skeleton"
 phase: W2
-status: in-progress
+status: complete
 tags: [plans, website, content, seo]
 aliases: [Phase W2, Website Content Pipeline]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W2 |
 | Title | Content Pipeline And SEO Skeleton |
-| Status | in-progress |
+| Status | complete |
 | Gate | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks |
 | Depends on | Phase W1 |
 
@@ -97,3 +97,6 @@ npm run build
 > `website/`. Repository docs lint, root lint/typecheck/unit tests, audits, and
 > BDD `@smoke` also pass locally. Phase remains `in-progress` in the execution
 > ledger until PR CI confirms the gate.
+
+> [!CHECK] Complete · 2026-05-09
+> PR #52 CI passed. Phase W2 is marked complete in the execution ledger.

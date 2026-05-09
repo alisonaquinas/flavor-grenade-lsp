@@ -2,7 +2,7 @@
 id: "TASK-217"
 title: "Define typed route and metadata model"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-217"]
 
 # Define Typed Route And Metadata Model
 
-> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `in-review`
+> [!INFO] `TASK-217` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `done`
 
 ## Description
 
@@ -78,3 +78,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/routes.test.ts`. Definition of Done is satisfied locally.
 > Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #52 CI passed with the typed route metadata coverage in place. Status:
+> `done`.

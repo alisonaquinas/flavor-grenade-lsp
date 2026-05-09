@@ -2,7 +2,7 @@
 id: "TASK-218"
 title: "Build content transform and link model"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-218"]
 
 # Build Content Transform And Link Model
 
-> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `in-review`
+> [!INFO] `TASK-218` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `done`
 
 ## Description
 
@@ -81,3 +81,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/content-links.test.ts`. Definition of Done is satisfied
 > locally. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #52 CI passed with content and public-link validation in place. Status:
+> `done`.

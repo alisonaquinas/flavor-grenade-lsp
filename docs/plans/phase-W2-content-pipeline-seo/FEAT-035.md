@@ -2,7 +2,7 @@
 id: "FEAT-035"
 title: "Content Pipeline And SEO Skeleton"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W2
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-035"]
 
 # Content Pipeline And SEO Skeleton
 
-> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-035` · Feature · Phase W2 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -57,10 +57,10 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-217]] | Define typed route and metadata model | `in-review` |
-| [[TASK-218]] | Build content transform and link model | `in-review` |
-| [[TASK-219]] | Generate SEO files and validation tests | `in-review` |
-| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `in-review` |
+| [[TASK-217]] | Define typed route and metadata model | `done` |
+| [[TASK-218]] | Build content transform and link model | `done` |
+| [[TASK-219]] | Generate SEO files and validation tests | `done` |
+| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `done` |
 
 ## Lifecycle
 
@@ -106,6 +106,10 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > N/A because `tests/integration`, `tests/verification`, and `tests/validation`
 > do not contain phase-specific test files; BDD `@smoke` passed. Status:
 > `in-review`.
+
+> [!CHECK] Done · 2026-05-09
+> PR #52 CI passed. All child tickets are `done`, the retrospective is present,
+> and the execution ledger marks W2 complete. Status: `done`.
 
 ## Retrospective
 
