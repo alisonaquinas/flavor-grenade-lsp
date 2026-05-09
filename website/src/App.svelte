@@ -1,6 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
+  import {
+    featureHighlights,
+    homepageHero,
+    homepageProof,
+  } from './home/homepage';
   import { primaryNavigation } from './shell/navigation';
   import {
     readStoredTheme,
@@ -12,6 +17,14 @@
 
   let themeMode: ThemeMode = 'system';
   let resolvedTheme = 'light';
+  const productIcon = new URL(
+    '../../docs/assets/flavor-grenade-lsp-icon-light-transparent.png',
+    import.meta.url,
+  ).href;
+  const proofImage = new URL(
+    '../../extension/images/marketplace/wiki-link-completion.png',
+    import.meta.url,
+  ).href;
 
   function applyTheme(mode: ThemeMode, prefersDark: boolean): void {
     resolvedTheme = resolveTheme(mode, prefersDark);
@@ -49,7 +62,7 @@
 
 <header class="site-header">
   <a class="brand-mark" href="/" aria-label="Flavor Grenade LSP home">
-    <span class="brand-icon" aria-hidden="true">FG</span>
+    <img class="brand-icon" src={productIcon} alt="" aria-hidden="true" />
     <span>
       <strong>Flavor Grenade LSP</strong>
       <small>Obsidian Flavored Markdown tools</small>
@@ -84,11 +97,44 @@
 
 <main id="main-content" class="site-main" aria-labelledby="site-title">
   <section class="hero-shell">
-    <p class="eyebrow">Website shell</p>
-    <h1 id="site-title">Flavor Grenade LSP</h1>
-    <p class="hero-lede">
-      Language-server and VS Code extension tools for Obsidian Flavored
-      Markdown vaults.
-    </p>
+    <div class="hero-copy">
+      <p class="eyebrow">{homepageHero.category}</p>
+      <h1 id="site-title">{homepageHero.h1}</h1>
+      <p class="hero-lede">{homepageHero.value}</p>
+      <div class="hero-actions" aria-label="Primary actions">
+        {#each homepageHero.actions as action (action.label)}
+          <a class={`button-link ${action.kind}`} href={action.href}>{action.label}</a>
+        {/each}
+      </div>
+    </div>
+
+    <aside class="proof-panel" aria-label={homepageProof.title}>
+      <img
+        src={proofImage}
+        alt="VS Code showing Flavor Grenade wiki-link completion in an Obsidian Vault"
+      />
+      <div>
+        <p class="proof-title">{homepageProof.title}</p>
+        <p>{homepageProof.caption}</p>
+        <ul>
+          {#each homepageProof.lines as line (line)}
+            <li>{line}</li>
+          {/each}
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <section class="feature-section" aria-labelledby="feature-title">
+    <p class="eyebrow">Product proof</p>
+    <h2 id="feature-title">Built for vault work that has to stay precise</h2>
+    <div class="feature-list">
+      {#each featureHighlights as feature (feature.title)}
+        <article class={`feature-item ${feature.signal}`}>
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
+        </article>
+      {/each}
+    </div>
   </section>
 </main>

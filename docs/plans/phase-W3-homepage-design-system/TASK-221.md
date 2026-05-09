@@ -2,7 +2,7 @@
 id: "TASK-221"
 title: "Implement homepage hero and product proof sections"
 type: task
-status: red
+status: green
 priority: high
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-221"]
 
 # Implement Homepage Hero And Product Proof Sections
 
-> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
+> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `green`
 
 ## Description
 
@@ -40,6 +40,12 @@ Expected API:
 - `validateHomepageContent()`
 
 Add RED coverage in `website/tests/homepage.test.ts` before implementation.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/homepage.test.ts` | Unit | `Website.Homepage.FirstViewport` | ✅ passing |
 
 ## Definition of Done
 
@@ -67,3 +73,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/homepage.test.ts`, which expects homepage content data
 > before it exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added homepage content data, existing product asset placements, product proof
+> rendering, CTAs, and feature sections. Status: `green`.
