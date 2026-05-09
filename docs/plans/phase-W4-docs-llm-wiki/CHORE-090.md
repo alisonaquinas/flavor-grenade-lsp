@@ -55,3 +55,8 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > Passed website `npm run lint`, `npm run typecheck`, `npm test` (14 files, 29
 > tests), `npm run build`, `bun run lint:docs`, `git diff --check`, and a
 > public-content placeholder scan. Status: `in-review`.
+
+> [!SUCCESS] Repository sweep · 2026-05-09
+> Passed `bun run lint --max-warnings 0`, `bun run typecheck`,
+> `bun test src/` (668 tests), `bun run bdd --tags "@smoke"` (13 scenarios),
+> `bun audit`, website `npm audit`, and extension `npm audit`.
