@@ -65,3 +65,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!WARNING] Finding · 2026-05-09
 > Found BUG-029 while planning the release tag: `v*` tags also wake root npm
 > publish automation, so website-only release tags need the `site-v*` family.
+
+> [!INFO] BUG-029 in review · 2026-05-09
+> BUG-029 added independent `site-v*` website release tags and local regression
+> tests pass.

@@ -17,4 +17,4 @@ updated: 2026-05-09
 | [[TASK-228]] | Add release evidence and production smoke checks | Task | `done` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | Chore | `in-review` |
 | [[BUG-028]] | Use GitHub glob-safe website release tag triggers | Bug | `verified` |
-| [[BUG-029]] | Support independent website release tags | Bug | `in-progress` |
+| [[BUG-029]] | Support independent website release tags | Bug | `in-review` |
