@@ -60,7 +60,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 | Ticket | Title | Status |
 |---|---|---|
 | [[TASK-223]] | Author quickstart and VS Code extension pages | `green` |
-| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `red` |
+| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `green` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `open` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `open` |
 
@@ -88,3 +88,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] TASK-224 red · 2026-05-09
 > TASK-224 entered `red` with failing how-to, advanced usage, and FAQ content
 > coverage.
+
+> [!SUCCESS] TASK-224 green · 2026-05-09
+> TASK-224 added how-to workflow groups, structured task-page content, advanced
+> usage boundaries, and FAQ questions.

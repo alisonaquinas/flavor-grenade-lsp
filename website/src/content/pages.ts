@@ -109,8 +109,19 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Task-focused guides collect install, configuration, diagnostics, and rename workflows.',
     [
       {
-        heading: 'Choose a task',
-        body: 'The how-to index routes users to concrete vault operations rather than internal planning docs.',
+        heading: 'Choose a workflow',
+        body: 'Use these pages when you want a concrete result in an Obsidian Vault before reading the concept wiki.',
+        items: [
+          'Install and activate the VS Code extension from the Visual Studio Marketplace.',
+          'Complete wiki-links and headings from indexed vault notes.',
+          'Navigate notes, headings, blocks, embeds, and attachments.',
+          'Rename notes and headings safely inside the vault boundary.',
+          'Fix broken links with diagnostics and code actions.',
+        ],
+      },
+      {
+        heading: 'Workflow groups',
+        body: 'Start with setup, then use task pages for links, navigation, rename, diagnostics, tags, callouts, math, comments, frontmatter, and Templater-aware parsing.',
       },
     ],
     [
@@ -142,6 +153,22 @@ export const websitePages: readonly WebsitePageContent[] = [
         ],
       },
       {
+        heading: 'When to use it',
+        body: 'Use this page when you want VS Code to manage activation, commands, and the bundled server instead of configuring an LSP client yourself.',
+      },
+      {
+        heading: 'Steps',
+        body: 'Install from the Marketplace, open an Obsidian Vault folder, check OFMarkdown mode, then verify completion or diagnostics in a note.',
+      },
+      {
+        heading: 'Expected result',
+        body: 'The extension activates for the vault open event, the server status is ready, and vault-local language features appear in Markdown notes.',
+      },
+      {
+        heading: 'Common failure mode',
+        body: 'If activation does not happen, the folder may not be the vault root, workspace trust may be restricted, or the file may still be plain Markdown.',
+      },
+      {
         heading: 'Vault open and first checks',
         body: 'A good vault open test is a note that references `[[Daily Note]]`, an attachment, and one intentionally missing target so completion and diagnostics are both visible.',
       },
@@ -157,8 +184,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Configure vault detection and index behavior for Obsidian Vaults.',
     [
       {
-        heading: 'Keep vault boundaries explicit',
-        body: 'Configuration guidance explains vault markers, supported files, and safe indexing boundaries.',
+        heading: 'When to use it',
+        body: 'Use this page when completions or diagnostics look incomplete because VS Code opened the wrong folder or the vault markers are unclear.',
+      },
+      {
+        heading: 'Steps',
+        body: 'Open the Obsidian Vault root, keep `.obsidian/` or `.flavor-grenade.toml` at that root, then let the server index Markdown files and attachments.',
+        items: [
+          'Prefer opening the vault folder instead of a parent workspace.',
+          'Keep local references inside the vault boundary.',
+          'Use configured file-extension and ignore rules when the vault contains generated docs.',
+        ],
+      },
+      {
+        heading: 'Expected result',
+        body: 'The vault index can see notes, headings, tags, embeds, and attachments that belong to the current Obsidian Vault.',
+      },
+      {
+        heading: 'Common failure mode',
+        body: 'Opening a parent folder can make vault-relative paths ambiguous; opening only one loose file can fall back to single-file behavior.',
       },
     ],
     [routeLink('conceptVaultIndex', 'Understand the vault index'), obsidianLink],
@@ -168,8 +212,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Use diagnostics and navigation to fix broken local references.',
     [
       {
-        heading: 'Repair local links',
-        body: 'Broken-link guidance explains how diagnostics point to missing docs, headings, and attachment targets.',
+        heading: 'When to use it',
+        body: 'Use this page when `[[Missing Note]]`, `[text](missing.md)`, a heading anchor, or an attachment reference does not resolve.',
+      },
+      {
+        heading: 'Steps',
+        body: 'Open the diagnostic, inspect whether the target is a note, heading, block, or attachment, then create the target or update the link.',
+        items: [
+          'Use definition/navigation when the target exists but is hard to find.',
+          'Use code actions for missing-note creation when available.',
+          'Ignore external HTTPS links unless they are intentionally local vault references.',
+        ],
+      },
+      {
+        heading: 'Expected result',
+        body: 'The broken-link diagnostic clears after the local target resolves inside the Obsidian Vault.',
+      },
+      {
+        heading: 'Common failure mode',
+        body: 'A heading may be ambiguous or misspelled, while an attachment may live outside the configured vault attachment folder.',
       },
     ],
     [routeLink('conceptWikiLinkResolution', 'Understand wiki-link resolution')],
@@ -179,8 +240,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Rename notes and headings while preserving local references.',
     [
       {
-        heading: 'Preserve references',
-        body: 'Rename guidance focuses on vault-confined edits and avoiding unsafe external file changes.',
+        heading: 'When to use it',
+        body: 'Use this page when you want to rename a note or heading and keep wiki links, Markdown links, and same-document anchors aligned.',
+      },
+      {
+        heading: 'Steps',
+        body: 'Use VS Code rename on a supported note or heading, review the WorkspaceEdit, and apply only vault-confined edits.',
+        items: [
+          'Rename notes from references the server can resolve.',
+          'Rename headings when same-document and file-plus-heading anchors should update.',
+          'Re-run references after rename to confirm inbound links still point to the target.',
+        ],
+      },
+      {
+        heading: 'Expected result',
+        body: 'The rename updates supported local references without changing external URLs or files outside the vault.',
+      },
+      {
+        heading: 'Common failure mode',
+        body: 'Ambiguous links may be skipped so the server does not guess and damage unrelated references.',
       },
     ],
     [routeLink('howToBrokenLinks', 'Fix broken links'), routeLink('advancedUsage', 'Review advanced usage')],
@@ -190,8 +268,29 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Advanced usage covers direct LSP behavior, compatibility, and configuration details.',
     [
       {
-        heading: 'Go deeper',
-        body: 'Advanced docs separate direct server use from VS Code extension behavior and future deployment notes.',
+        heading: 'Configuration model',
+        body: 'Flavor Grenade uses explicit configuration for vault behavior, completion style, supported document extensions, and indexing boundaries.',
+      },
+      {
+        heading: 'Vault mode and single-file mode',
+        body: 'Vault mode indexes an Obsidian Vault graph. Single-file mode keeps behavior narrow when no vault root is available.',
+      },
+      {
+        heading: 'Indexing and performance',
+        body: 'The vault index is the source of truth for parsed documents, headings, tags, links, and attachments; large vaults should use ignore rules for generated output.',
+      },
+      {
+        heading: 'Unsupported URI schemes and confinement',
+        body: 'Unsupported URI schemes, external URLs, and paths outside the vault are not treated as editable vault targets.',
+      },
+      {
+        heading: 'Opaque regions',
+        body: 'Code fences, math, comments, and Templater regions are parsed as opaque regions before link/token parsing so examples and generated content do not create false diagnostics.',
+      },
+      {
+        heading: 'Current behavior and planned behavior',
+        body: 'Current behavior is strongest in the VS Code extension and local LSP server. Planned behavior includes richer static website delivery and broader public docs, not unsupported editor claims.',
+        items: ['Current behavior: VS Code extension, direct server, vault-aware OFM features.', 'Planned behavior: deeper public docs and deployment automation.'],
       },
     ],
     [routeLink('faq', 'Read the FAQ'), routeLink('howToVaultConfiguration', 'Configure vaults')],
@@ -201,8 +300,40 @@ export const websitePages: readonly WebsitePageContent[] = [
     'Answers to common questions about compatibility, activation, indexing, and rename safety.',
     [
       {
-        heading: 'Common questions',
-        body: 'FAQ content addresses practical objections before users need to inspect repository internals.',
+        heading: 'What is Flavor Grenade LSP?',
+        body: 'It is a language server and VS Code extension for Obsidian Flavored Markdown workflows: links, headings, tags, embeds, diagnostics, navigation, references, and rename.',
+      },
+      {
+        heading: 'Is Flavor Grenade LSP an Obsidian plugin?',
+        body: 'No. It is editor tooling for VS Code and LSP clients. Obsidian does not need to run for the server to understand an Obsidian Vault folder.',
+      },
+      {
+        heading: 'How is it different from Marksman?',
+        body: 'Marksman inspired the project and is excellent Markdown LSP prior art. Flavor Grenade focuses specifically on Obsidian Flavored Markdown conventions and vault-aware behavior.',
+      },
+      {
+        heading: 'Does Obsidian have to be installed?',
+        body: 'No. The important input is the Obsidian Vault folder structure and Markdown content.',
+      },
+      {
+        heading: 'Does it edit my vault automatically?',
+        body: 'No. Diagnostics and completions are suggestions. Rename and code actions produce explicit editor edits that stay vault-confined.',
+      },
+      {
+        heading: 'Which Markdown and OFM features are understood?',
+        body: 'The parser understands wiki links, Markdown links, embeds, block references, tags, callouts, math, comments, frontmatter, and Templater-style opaque regions.',
+      },
+      {
+        heading: 'Can Neovim or another LSP client use it?',
+        body: 'The server is an LSP server, but the VS Code extension is the supported packaged path. Other clients may require manual transport and configuration.',
+      },
+      {
+        heading: 'Why are some links not resolved?',
+        body: 'External URLs, unsupported URI schemes, paths outside the vault, ambiguous headings, and intentionally ignored files are not resolved as editable local targets.',
+      },
+      {
+        heading: 'How do I report a bug?',
+        body: 'Create a minimal vault that reproduces the issue, include the link text and expected target, and note whether the problem appears in diagnostics, completion, navigation, references, or rename.',
       },
     ],
     [routeLink('quickstart', 'Start setup'), routeLink('advancedUsage', 'Read advanced usage')],

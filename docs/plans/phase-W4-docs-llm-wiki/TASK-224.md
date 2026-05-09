@@ -2,7 +2,7 @@
 id: "TASK-224"
 title: "Author how-to advanced usage and FAQ pages"
 type: task
-status: red
+status: green
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-224"]
 
 # Author How-To Advanced Usage And FAQ Pages
 
-> [!INFO] `TASK-224` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `red`
+> [!INFO] `TASK-224` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `green`
 
 ## Description
 
@@ -69,3 +69,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/howto-faq-docs.test.ts`, which expects detailed how-to,
 > advanced usage, and FAQ content before it exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added task-focused how-to, advanced usage, and FAQ content.
+> `website/tests/howto-faq-docs.test.ts` passes. Status: `green`.
