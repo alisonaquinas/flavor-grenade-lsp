@@ -2,7 +2,7 @@
 id: "TASK-260"
 title: "Advanced Article: Vault Mode and Single-file Mode"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-260"]
 
 # Advanced Article: Vault Mode And Single-file Mode
 
-> [!INFO] `TASK-260` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-260` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

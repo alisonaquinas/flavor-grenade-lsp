@@ -2,7 +2,7 @@
 id: "TASK-253"
 title: "Concept Article: DocId and Vault-Relative Paths"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-253"]
 
 # Concept Article: DocId And Vault-Relative Paths
 
-> [!INFO] `TASK-253` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-253` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

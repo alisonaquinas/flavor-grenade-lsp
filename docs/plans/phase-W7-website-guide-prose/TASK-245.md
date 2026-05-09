@@ -2,7 +2,7 @@
 id: "TASK-245"
 title: "Article: Navigate Notes, Headings, Blocks, Embeds, and Attachments"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-245"]
 
 # Article: Navigate Notes, Headings, Blocks, Embeds, And Attachments
 
-> [!INFO] `TASK-245` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-245` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

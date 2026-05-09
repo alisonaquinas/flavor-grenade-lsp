@@ -2,7 +2,7 @@
 id: "TASK-266"
 title: "Update sitemap and route metadata for guide articles"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-266"]
 
 # Update Sitemap And Route Metadata For Guide Articles
 
-> [!INFO] `TASK-266` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-266` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Description
 
@@ -82,4 +82,4 @@ update this table and the corresponding article ticket in the same commit.
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-09
-> Ticket created from request to include sitemap updates. Status: `open`.
+> Ticket created from request to include sitemap updates. Status: `in-review`.

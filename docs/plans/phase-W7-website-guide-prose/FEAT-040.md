@@ -2,7 +2,7 @@
 id: "FEAT-040"
 title: "Website Guide Prose And Article Hubs"
 type: feature
-status: ready
+status: in-review
 priority: high
 phase: W7
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-040"]
 
 # Website Guide Prose And Article Hubs
 
-> [!INFO] `FEAT-040` · Feature · Phase W7 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-040` · Feature · Phase W7 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -67,4 +67,43 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Feature created from browser review annotations requesting article dropdowns,
-> linked hubs, and deeper prose pages. Status: `ready`.
+> linked hubs, and deeper prose pages. Status: `in-review`.
+
+> [!SUCCESS] Implemented locally · 2026-05-09
+> Phase W7 route inventory, article content, dropdown navigation, sitemap
+> coverage, and regression tests are implemented. Local gates passed. Status:
+> `in-review` until PR CI confirms.
+
+## Retrospective
+
+> Written after Step L passes locally. Date: 2026-05-09.
+
+### What went as planned
+
+The route inventory in [[TASK-266]] gave the implementation a useful canonical
+source for article metadata, hub links, dropdown navigation, and sitemap
+coverage. Test-first route, content, and navigation checks made the article hub
+work concrete before the Svelte renderer was updated.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| [[BUG-030]] | Bug | Replacing page content records removed existing quickstart regression phrases and required sitemap refresh work. | +0.3 h |
+
+### Process observations
+
+The strict RED -> GREEN workflow was useful for the route and hub behavior, but
+the number of article tickets made per-ticket status updates noisy. Future
+website prose phases should include a generated checklist or a smaller number
+of aggregate article tickets when the implementation is data-driven.
+
+### Carry-forward actions
+
+- [ ] Keep public article prose conservative about direct LSP client support.
+- [ ] Preserve existing regression-test phrases when replacing shared content
+  records wholesale.
+
+### Rule / template amendments
+
+- [ ] None.

@@ -2,7 +2,7 @@
 id: "TASK-247"
 title: "Article: Use Tags and Tag Completion"
 type: task
-status: open
+status: in-review
 priority: medium
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-247"]
 
 # Article: Use Tags And Tag Completion
 
-> [!INFO] `TASK-247` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-247` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

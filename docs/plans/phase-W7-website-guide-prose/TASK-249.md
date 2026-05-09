@@ -2,7 +2,7 @@
 id: "TASK-249"
 title: "Concept Article: Inspiration and Prior Art"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-249"]
 
 # Concept Article: Inspiration And Prior Art
 
-> [!INFO] `TASK-249` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-249` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

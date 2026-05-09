@@ -2,7 +2,7 @@
 id: "TASK-264"
 title: "Advanced Article: Compatibility and Direct LSP Integration"
 type: task
-status: open
+status: in-review
 priority: medium
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-264"]
 
 # Advanced Article: Compatibility And Direct LSP Integration
 
-> [!INFO] `TASK-264` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-264` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 

@@ -2,7 +2,7 @@
 id: "TASK-254"
 title: "Concept Article: Opaque Regions"
 type: task
-status: open
+status: in-review
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-254"]
 
 # Concept Article: Opaque Regions
 
-> [!INFO] `TASK-254` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-254` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `in-review`
 
 ## Text Scope
 
