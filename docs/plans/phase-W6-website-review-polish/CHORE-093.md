@@ -2,7 +2,7 @@
 id: "CHORE-093"
 title: "Verify second-round W6 browser feedback"
 type: chore
-status: open
+status: done
 priority: high
 phase: W6
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-093"]
 
 # Verify Second-Round W6 Browser Feedback
 
-> [!INFO] `CHORE-093` · Chore · Phase W6 · Status: `open`
+> [!INFO] `CHORE-093` · Chore · Phase W6 · Status: `done`
 
 ## Description
 
@@ -23,15 +23,15 @@ tickets are implemented.
 
 ## Acceptance Criteria
 
-- [ ] Website lint, typecheck, tests, and build pass.
-- [ ] Browser screenshot verifies selectable feature proof cards and detail
+- [x] Website lint, typecheck, tests, and build pass.
+- [x] Browser screenshot verifies selectable feature proof cards and detail
   content on desktop.
-- [ ] Browser screenshot verifies selectable feature proof cards and detail
+- [x] Browser screenshot verifies selectable feature proof cards and detail
   content on mobile.
-- [ ] Browser screenshot verifies the mobile hero category eyebrow is hidden.
-- [ ] Browser screenshot verifies feature card default borders are consistent.
-- [ ] Phase ticket statuses and traceability are updated.
-- [ ] Pull request is not opened until the user asks.
+- [x] Browser screenshot verifies the mobile hero category eyebrow is hidden.
+- [x] Browser screenshot verifies feature card default borders are consistent.
+- [x] Phase ticket statuses and traceability are updated.
+- [x] Pull request is not opened until the user asks.
 
 ## Lifecycle
 
@@ -41,3 +41,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created from second-round W6 browser review feedback. Status: `open`.
+
+> [!SUCCESS] Verified · 2026-05-09
+> Website lint, typecheck, tests, and build pass. Captured mobile full-page and
+> desktop full-page screenshots through Microsoft Edge against
+> `http://127.0.0.1:5173/`, confirming the hidden mobile eyebrow, selectable
+> feature proof detail, and consistent card borders.

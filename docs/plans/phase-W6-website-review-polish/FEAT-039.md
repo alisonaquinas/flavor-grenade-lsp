@@ -67,10 +67,10 @@ review.
 - [x] Footer creator and project links include icons with accessible names.
 - [x] Narrow viewports collapse primary navigation into a hamburger menu.
 - [x] Browser screenshots verify the reviewed homepage and footer regions.
-- [ ] Homepage feature proof cards are selectable and reveal practical depth.
-- [ ] Mobile hero hides the long category eyebrow on narrow viewports.
-- [ ] Homepage feature cards use consistent default border color.
-- [ ] Second-round browser review feedback is verified.
+- [x] Homepage feature proof cards are selectable and reveal practical depth.
+- [x] Mobile hero hides the long category eyebrow on narrow viewports.
+- [x] Homepage feature cards use consistent default border color.
+- [x] Second-round browser review feedback is verified.
 
 ## Child Tasks
 
@@ -82,11 +82,11 @@ review.
 | [[TASK-232]] | Add icon affordances to footer links | `green` |
 | [[TASK-233]] | Improve footer brand spacing on mobile | `green` |
 | [[TASK-234]] | Collapse narrow navigation into hamburger menu | `green` |
-| [[TASK-235]] | Make feature proof cards selectable | `red` |
-| [[TASK-236]] | Hide mobile hero category eyebrow | `red` |
-| [[TASK-237]] | Normalize feature card borders | `red` |
+| [[TASK-235]] | Make feature proof cards selectable | `green` |
+| [[TASK-236]] | Hide mobile hero category eyebrow | `green` |
+| [[TASK-237]] | Normalize feature card borders | `green` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `done` |
-| [[CHORE-093]] | Verify second-round W6 browser feedback | `open` |
+| [[CHORE-093]] | Verify second-round W6 browser feedback | `done` |
 
 ## Lifecycle
 
@@ -129,3 +129,8 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!FAILURE] Red tests · 2026-05-09
 > Added regression coverage for selectable feature proof detail, hidden mobile
 > hero eyebrow, and consistent default feature card borders.
+
+> [!SUCCESS] Follow-up green · 2026-05-09
+> Implemented selectable feature proof cards, practical detail content, hidden
+> mobile hero eyebrow, and consistent default feature card borders. Website
+> gate and follow-up screenshots pass.

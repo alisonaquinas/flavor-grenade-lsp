@@ -2,7 +2,7 @@
 id: "TASK-235"
 title: "Make feature proof cards selectable"
 type: task
-status: red
+status: green
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-235"]
 
 # Make Feature Proof Cards Selectable
 
-> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -50,13 +50,13 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Each feature proof card is selectable.
-- [ ] Keyboard selection works.
-- [ ] Selected state is visually clear and accessible.
-- [ ] Detail panel updates with capability-specific practical content.
-- [ ] Browser screenshot verifies the interaction on mobile and desktop.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Each feature proof card is selectable.
+- [x] Keyboard selection works.
+- [x] Selected state is visually clear and accessible.
+- [x] Detail panel updates with capability-specific practical content.
+- [x] Browser screenshot verifies the interaction on mobile and desktop.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -70,3 +70,11 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added homepage coverage requiring practical detail for each selectable
 > feature proof card and shell coverage for selected-state semantics.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added selectable feature proof buttons and a live detail panel with
+> capability-specific Markdown examples and outcomes.
+
+> [!SUCCESS] Width polish · 2026-05-09
+> Expanded the feature detail panel to span the full feature section width
+> established by the four-card row.

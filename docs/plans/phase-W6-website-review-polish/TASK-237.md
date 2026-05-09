@@ -2,7 +2,7 @@
 id: "TASK-237"
 title: "Normalize feature card borders"
 type: task
-status: red
+status: green
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-237"]
 
 # Normalize Feature Card Borders
 
-> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -45,12 +45,12 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Default card borders are consistent.
-- [ ] Hover/focus/selected states remain visible.
-- [ ] No per-card signal classes create different default border colors.
-- [ ] Browser screenshot verifies the feature section.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Default card borders are consistent.
+- [x] Hover/focus/selected states remain visible.
+- [x] No per-card signal classes create different default border colors.
+- [x] Browser screenshot verifies the feature section.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -64,3 +64,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added style coverage forbidding per-signal default feature card border
 > overrides.
+
+> [!SUCCESS] Green · 2026-05-09
+> Removed per-signal default border overrides and kept a shared accent treatment
+> for hover, focus, and selected feature cards.

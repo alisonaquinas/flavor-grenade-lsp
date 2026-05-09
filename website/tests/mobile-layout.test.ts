@@ -41,6 +41,8 @@ describe('mobile layout regression guards', () => {
     expect(app).toContain('aria-pressed={selectedFeatureSignal === feature.signal}');
     expect(app).toContain('id="feature-detail"');
     expect(css).toContain('.feature-item.selected');
+    expect(css).toContain('.feature-detail');
+    expect(css).toContain('inline-size: 100%;');
     expect(css).not.toContain('.feature-item.completion');
     expect(css).not.toContain('.feature-item.index');
   });

@@ -28,7 +28,19 @@ export interface HomepageProof {
 export interface FeatureHighlight {
   title: string;
   description: string;
-  signal: 'diagnostic' | 'completion' | 'rename' | 'index';
+  signal: FeatureSignal;
+  detail: FeatureDetail;
+}
+
+/** Homepage feature proof signal. */
+export type FeatureSignal = 'diagnostic' | 'completion' | 'rename' | 'index';
+
+/** Deeper practical detail for a selectable feature card. */
+export interface FeatureDetail {
+  title: string;
+  summary: string;
+  markdownExample: readonly string[];
+  outcome: string;
 }
 
 /** Existing product asset placement used by the homepage. */
@@ -79,21 +91,53 @@ export const featureHighlights: readonly FeatureHighlight[] = [
     title: 'Find broken links early',
     description: 'Diagnostics catch missing wiki links, Markdown anchors, and attachment targets.',
     signal: 'diagnostic',
+    detail: {
+      title: 'How diagnostics catch broken vault references',
+      summary:
+        'Flavor Grenade parses wiki-links and Markdown anchors against the indexed vault graph before the note drifts out of shape.',
+      markdownExample: ['[[Project Plan#Risks]]', '![roadmap](assets/roadmap.png)'],
+      outcome:
+        'Missing documents, headings, and local attachments become editor diagnostics with vault-relative targets the maintainer can fix.',
+    },
   },
   {
     title: 'Complete from the vault graph',
     description: 'Completions use indexed docs, headings, blocks, tags, and attachments.',
     signal: 'completion',
+    detail: {
+      title: 'How completions use indexed Obsidian Vault data',
+      summary:
+        'The language server keeps a vault index of documents, headings, tags, blocks, and attachments for ranking completion candidates.',
+      markdownExample: ['Today connects to [[', '#project/'],
+      outcome:
+        'The editor offers real note names, heading anchors, and tags from the workspace instead of generic Markdown snippets.',
+    },
   },
   {
     title: 'Rename without collateral damage',
     description: 'Workspace edits stay vault-confined and preserve local references.',
     signal: 'rename',
+    detail: {
+      title: 'How rename edits stay vault-confined',
+      summary:
+        'Prepare-rename checks the target kind, then workspace edits rewrite only references that belong to the detected vault.',
+      markdownExample: ['[[Project Plan#Open questions]]', '[[Project Plan|planning note]]'],
+      outcome:
+        'Renaming a note or heading updates inbound references while external URLs and files outside the vault stay untouched.',
+    },
   },
   {
     title: 'Keep LLM wiki pages consistent',
     description: 'Typed docs and strict checks help agents maintain Karpathy-style concept pages.',
     signal: 'index',
+    detail: {
+      title: 'How strict checks help LLM-maintained wiki pages',
+      summary:
+        'Markdown linting and vault-aware LSP checks give agents concrete feedback while they maintain Karpathy-style concept pages.',
+      markdownExample: ['# Concept: Vault Index', 'See also: [[DocId]] and [[Rename Safety]]'],
+      outcome:
+        'LLM edits can be reviewed against headings, links, tags, and local graph consistency before they become documentation debt.',
+    },
   },
 ];
 

@@ -2,7 +2,7 @@
 id: "TASK-236"
 title: "Hide mobile hero category eyebrow"
 type: task
-status: red
+status: green
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-236"]
 
 # Hide Mobile Hero Category Eyebrow
 
-> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
+> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
 
 ## Description
 
@@ -46,12 +46,12 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Hero category eyebrow is hidden on narrow mobile viewports.
-- [ ] Desktop category eyebrow remains visible.
-- [ ] Mobile first viewport feels less crowded.
-- [ ] Browser screenshot verifies the mobile hero region.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Hero category eyebrow is hidden on narrow mobile viewports.
+- [x] Desktop category eyebrow remains visible.
+- [x] Mobile first viewport feels less crowded.
+- [x] Browser screenshot verifies the mobile hero region.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -65,3 +65,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-09
 > Added mobile layout coverage requiring the hero category eyebrow to hide at
 > the narrow breakpoint.
+
+> [!SUCCESS] Green · 2026-05-09
+> Hid the long homepage hero category eyebrow at the narrow breakpoint while
+> preserving the desktop category label.

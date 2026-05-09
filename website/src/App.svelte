@@ -8,6 +8,7 @@
     homepageAssetPlacements,
     homepageHero,
     homepageProof,
+    type FeatureSignal,
   } from './home/homepage';
   import {
     footerByline,
@@ -29,9 +30,13 @@
   let resolvedTheme = 'light';
   let activePath = '/';
   let navOpen = false;
+  let selectedFeatureSignal: FeatureSignal = 'diagnostic';
   $: activePage = getWebsitePageByPath(activePath, websiteRoutes);
   $: activeRoute = getRouteById(activePage.routeId);
   $: isHome = activePage.routeId === 'home';
+  $: selectedFeature =
+    featureHighlights.find((feature) => feature.signal === selectedFeatureSignal) ??
+    featureHighlights[0];
   $: themeIconPath = getIconPath(themeModeIcon(themeMode));
   $: themeIconLabel = iconLabels[themeModeIcon(themeMode)];
   const productIcon =
@@ -75,6 +80,10 @@
 
   function getIconPath(icon: IconName): string {
     return iconPath(icon);
+  }
+
+  function selectFeature(signal: FeatureSignal): void {
+    selectedFeatureSignal = signal;
   }
 
   function routePath(routeId: string): string {
@@ -205,12 +214,27 @@
       <h2 id="feature-title">Built for vault work that has to stay precise</h2>
       <div class="feature-list">
         {#each featureHighlights as feature (feature.title)}
-          <article class={`feature-item ${feature.signal}`}>
+          <button
+            class={`feature-item ${feature.signal}`}
+            class:selected={selectedFeatureSignal === feature.signal}
+            type="button"
+            aria-pressed={selectedFeatureSignal === feature.signal}
+            aria-controls="feature-detail"
+            on:click={() => selectFeature(feature.signal)}
+          >
             <h3>{feature.title}</h3>
             <p>{feature.description}</p>
-          </article>
+          </button>
         {/each}
       </div>
+
+      <aside id="feature-detail" class="feature-detail" aria-live="polite">
+        <p class="eyebrow">How it works</p>
+        <h3>{selectedFeature.detail.title}</h3>
+        <p>{selectedFeature.detail.summary}</p>
+        <pre><code>{selectedFeature.detail.markdownExample.join('\n')}</code></pre>
+        <p>{selectedFeature.detail.outcome}</p>
+      </aside>
     </section>
   {:else}
     <article class="docs-page">
