@@ -2,7 +2,7 @@
 id: "TASK-223"
 title: "Author quickstart and VS Code extension pages"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-223"]
 
 # Author Quickstart And VS Code Extension Pages
 
-> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `green`
+> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `in-review`
 
 ## Description
 
@@ -44,13 +44,19 @@ implementation.
 
 ## Definition of Done
 
-- [ ] Quickstart lists prerequisites.
-- [ ] Quickstart links to Visual Studio Marketplace.
-- [ ] VS Code page explains install, activation, vault open, and verification.
-- [ ] First useful workflows include completion, navigation, references,
+- [x] Quickstart lists prerequisites.
+- [x] Quickstart links to Visual Studio Marketplace.
+- [x] VS Code page explains install, activation, vault open, and verification.
+- [x] First useful workflows include completion, navigation, references,
   rename, and broken-link diagnostics.
-- [ ] Troubleshooting links are present.
-- [ ] Parent feature child row is updated.
+- [x] Troubleshooting links are present.
+- [x] Parent feature child row is updated.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/quickstart-docs.test.ts` | Unit | `Website.VSCodeExtension.InstallInstructions` | ✅ passing |
 
 ## Lifecycle
 
@@ -74,3 +80,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added detailed quickstart and VS Code extension setup content plus the first
 > docs-page renderer. `website/tests/quickstart-docs.test.ts` passes. Status:
 > `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/quickstart-docs.test.ts`. Definition of Done is satisfied
+> locally. Status: `in-review`.

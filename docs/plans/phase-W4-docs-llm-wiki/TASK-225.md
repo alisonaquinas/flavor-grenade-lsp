@@ -2,7 +2,7 @@
 id: "TASK-225"
 title: "Author concept wiki pages and related navigation"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-225"]
 
 # Author Concept Wiki Pages And Related Navigation
 
-> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `green`
+> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `in-review`
 
 ## Description
 
@@ -47,12 +47,18 @@ implementation.
 
 ## Definition of Done
 
-- [ ] Concept index is published.
-- [ ] OFM, vault index, and wiki-link resolution concept pages are published.
-- [ ] Concept pages each answer one focused question.
-- [ ] Concept pages include realistic OFMarkdown examples.
-- [ ] Concepts link to related tasks and adjacent concepts.
-- [ ] Parent feature child row is updated.
+- [x] Concept index is published.
+- [x] OFM, vault index, and wiki-link resolution concept pages are published.
+- [x] Concept pages each answer one focused question.
+- [x] Concept pages include realistic OFMarkdown examples.
+- [x] Concepts link to related tasks and adjacent concepts.
+- [x] Parent feature child row is updated.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/concept-wiki.test.ts` | Unit | `Website.LLMWiki.PageShape` | ✅ passing |
 
 ## Lifecycle
 
@@ -75,3 +81,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added the concept wiki registry, validation, attribution source links, and
 > concept-index content. `website/tests/concept-wiki.test.ts` passes. Status:
 > `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/concept-wiki.test.ts`. Definition of Done is satisfied
+> locally. Status: `in-review`.

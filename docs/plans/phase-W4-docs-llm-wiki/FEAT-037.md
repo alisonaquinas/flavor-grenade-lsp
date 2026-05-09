@@ -59,9 +59,9 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-223]] | Author quickstart and VS Code extension pages | `green` |
-| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `green` |
-| [[TASK-225]] | Author concept wiki pages and related navigation | `green` |
+| [[TASK-223]] | Author quickstart and VS Code extension pages | `in-review` |
+| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
+| [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `open` |
 
 ## Lifecycle
@@ -99,3 +99,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] TASK-225 green · 2026-05-09
 > TASK-225 added compact concept wiki records, validation, related links, and
 > inspiration attribution.
+
+> [!INFO] Implementation tasks in review · 2026-05-09
+> TASK-223, TASK-224, and TASK-225 moved to `in-review` after updating website
+> test index and matrix entries.

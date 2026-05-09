@@ -2,7 +2,7 @@
 id: "TASK-224"
 title: "Author how-to advanced usage and FAQ pages"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-224"]
 
 # Author How-To Advanced Usage And FAQ Pages
 
-> [!INFO] `TASK-224` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `green`
+> [!INFO] `TASK-224` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `in-review`
 
 ## Description
 
@@ -46,12 +46,18 @@ implementation.
 
 ## Definition of Done
 
-- [ ] How-to index and initial task pages are published.
-- [ ] Advanced usage explains configuration, indexing, parser boundaries, and
+- [x] How-to index and initial task pages are published.
+- [x] Advanced usage explains configuration, indexing, parser boundaries, and
   editor integration limits.
-- [ ] FAQ answers comparison and safety questions.
-- [ ] FAQ and how-to pages have structured metadata.
-- [ ] Parent feature child row is updated.
+- [x] FAQ answers comparison and safety questions.
+- [x] FAQ and how-to pages have structured metadata.
+- [x] Parent feature child row is updated.
+
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/howto-faq-docs.test.ts` | Unit | `Website.Pages.RequiredSet` | ✅ passing |
 
 ## Lifecycle
 
@@ -73,3 +79,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added task-focused how-to, advanced usage, and FAQ content.
 > `website/tests/howto-faq-docs.test.ts` passes. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/howto-faq-docs.test.ts`. Definition of Done is satisfied
+> locally. Status: `in-review`.
