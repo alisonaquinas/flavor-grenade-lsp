@@ -47,3 +47,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!WARNING] Finding · 2026-05-09
 > Found BUG-028: the website Pages tag trigger used a regex-shaped pattern
 > inside a GitHub Actions glob filter. Opened and triaged the bug before fixing.
+
+> [!INFO] BUG-028 in review · 2026-05-09
+> BUG-028 replaced the tag trigger with a GitHub glob-safe pattern and added
+> semantic-version validation. Regression checks pass locally.

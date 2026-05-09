@@ -3,7 +3,7 @@ name: Website Pages
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v*.*.*'
       - 'v*.*.*-test*'
 
 permissions:
@@ -32,6 +32,13 @@ jobs:
           else
             echo "RELEASE_MODE=production" >> "$GITHUB_ENV"
             echo "Release mode: production"
+          fi
+
+      - name: Validate website release tag
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-test(\.[0-9]+)?)?$ ]]; then
+            echo "Invalid website release tag: $GITHUB_REF_NAME" >&2
+            exit 1
           fi
 
       - name: Verify production tag commit is on main
