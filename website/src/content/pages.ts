@@ -204,6 +204,10 @@ export const websitePages: readonly WebsitePageContent[] = [
           'Leave `[[Missing Target]]` unresolved and confirm a broken-link diagnostic appears.',
         ],
       },
+      {
+        heading: 'Troubleshooting',
+        body: 'If activation does not happen, check workspace trust, the selected language mode, the extension status, and whether the opened folder is the vault root.',
+      },
     ],
     [routeLink('howToVsCodeExtension', 'Use the VS Code extension'), marketplaceLink],
   ),
@@ -237,14 +241,14 @@ export const websitePages: readonly WebsitePageContent[] = [
   taskArticle(
     'howToVsCodeExtension',
     'Set up Flavor Grenade from the Visual Studio Marketplace and confirm activation.',
-    'Use this page when you want VS Code to manage activation, commands, and the bundled server instead of configuring an LSP client yourself.',
+    'Install from the Visual Studio Marketplace when you want VS Code activation, commands, and status UI. The extension packages the language server so the normal vault open path does not require configuring an LSP client yourself.',
     [
       {
         title: 'Install',
         body: 'Install Flavor Grenade LSP from the Visual Studio Marketplace and let VS Code reload the extension host.',
       },
       {
-        title: 'Open the vault root',
+        title: 'Confirm vault open activation',
         body: 'Open the folder that contains `.obsidian/` or `.flavor-grenade.toml` so the server can detect the vault boundary.',
       },
       {
