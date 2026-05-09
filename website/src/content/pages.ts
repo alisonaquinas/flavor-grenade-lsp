@@ -5,6 +5,7 @@ import {
   type PublicLink,
 } from './links';
 import type { RouteId, WebsiteRoute } from './routes';
+import { conceptWikiPages } from './wiki';
 
 /** A short section of public page content. */
 export interface WebsitePageSection {
@@ -45,7 +46,10 @@ const marketplaceLink = outboundLink(
 );
 const obsidianLink = outboundLink('https://obsidian.md', 'Obsidian');
 const marksmanLink = outboundLink('https://github.com/artempyanykh/marksman', 'Marksman LSP');
-const karpathyLink = outboundLink('https://karpathy.ai', 'Andrej Karpathy');
+const karpathyLink = outboundLink(
+  'https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f',
+  "Karpathy's LLM Wiki concept",
+);
 
 /** Starter public content records for every required Phase W2 route. */
 export const websitePages: readonly WebsitePageContent[] = [
@@ -344,7 +348,12 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Short linked concepts',
-        body: 'Concept pages follow a Karpathy-inspired wiki style while crediting Obsidian and Marksman inspiration.',
+        body: 'Concept pages follow a Karpathy-inspired LLM wiki style while crediting Obsidian and Marksman inspiration.',
+        items: conceptWikiPages.map((conceptPage) => `${conceptPage.title}: ${conceptPage.question}`),
+      },
+      {
+        heading: 'For LLM maintainers',
+        body: 'Use these public terms when generating or maintaining docs so Obsidian Vault workflows, OFM behavior, and server/extension boundaries stay consistent.',
       },
     ],
     [karpathyLink, obsidianLink, marksmanLink],
@@ -356,6 +365,7 @@ export const websitePages: readonly WebsitePageContent[] = [
       {
         heading: 'Markdown with vault semantics',
         body: 'This concept distinguishes OFM from generic Markdown so users understand why vault-aware tooling matters.',
+        code: '[[People/Ada Lovelace#Notes]] embeds context from ![[images/diagram.png]] and tags #project/flavor-grenade.',
       },
     ],
     [obsidianLink, routeLink('conceptWikiLinkResolution', 'Understand wiki-link resolution')],
@@ -367,6 +377,7 @@ export const websitePages: readonly WebsitePageContent[] = [
       {
         heading: 'One indexed graph',
         body: 'The concept explains how indexed vault data supports completions, diagnostics, navigation, and rename.',
+        code: 'notes/Daily.md -> DocId notes/Daily -> headings, tags, links, embeds, and attachments.',
       },
     ],
     [routeLink('conceptWikiLinkResolution', 'Understand link resolution')],
@@ -378,6 +389,7 @@ export const websitePages: readonly WebsitePageContent[] = [
       {
         heading: 'Resolve local references',
         body: 'The concept describes how Flavor Grenade reasons about local links while ignoring unsupported external targets.',
+        code: '[[Project Plan#Risks|risk list]] resolves the note first, then the heading, then the display alias.',
       },
     ],
     [routeLink('howToBrokenLinks', 'Fix broken links'), routeLink('howToSafeRename', 'Rename safely')],

@@ -14,5 +14,5 @@ updated: 2026-05-09
 | [[FEAT-037]] | Documentation Pages And LLM Wiki | Feature | `in-progress` |
 | [[TASK-223]] | Author quickstart and VS Code extension pages | Task | `green` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | Task | `green` |
-| [[TASK-225]] | Author concept wiki pages and related navigation | Task | `red` |
+| [[TASK-225]] | Author concept wiki pages and related navigation | Task | `green` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | Chore | `open` |
