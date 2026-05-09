@@ -2,7 +2,7 @@
 id: "FEAT-034"
 title: "Website Foundation And Toolchain"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W1
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-034"]
 
 # Website Foundation And Toolchain
 
-> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-034` · Feature · Phase W1 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -64,7 +64,7 @@ repeatable local gates.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-214]] | Scaffold Vite Svelte website app | `open` |
+| [[TASK-214]] | Scaffold Vite Svelte website app | `red` |
 | [[TASK-215]] | Configure website quality gates | `open` |
 | [[TASK-216]] | Establish source and test layout guards | `open` |
 | [[CHORE-087]] | Phase W1 documentation and verification sweep | `open` |
@@ -84,3 +84,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Step A removed the Phase 18 dependency from W1. The website scaffold phase is
 > docs/site tooling only and is not blocked by the server security hardening
 > audit. Phase E14 remains the completed extension baseline dependency.
+
+> [!INFO] Started · 2026-05-09
+> TASK-214 entered `red` with a failing app-shell smoke test. Status:
+> `in-progress`.
