@@ -2,7 +2,7 @@
 id: "TASK-228"
 title: "Add release evidence and production smoke checks"
 type: task
-status: red
+status: green
 priority: medium
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-228"]
 
 # Add Release Evidence And Production Smoke Checks
 
-> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `red`
+> [!INFO] `TASK-228` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
 
 ## Description
 
@@ -43,13 +43,13 @@ Expected release evidence shape:
 
 ## Definition of Done
 
-- [ ] Website build artifact is retained for release runs.
-- [ ] Release logs distinguish test tags from production tags.
-- [ ] Production smoke checks verify homepage, quickstart, sitemap, robots, and
+- [x] Website build artifact is retained for release runs.
+- [x] Release logs distinguish test tags from production tags.
+- [x] Production smoke checks verify homepage, quickstart, sitemap, robots, and
   Marketplace link.
-- [ ] Changelog entry records the website release.
-- [ ] Deployment evidence is linked from the phase workflow log.
-- [ ] Parent feature child row is updated.
+- [x] Changelog entry records the website release.
+- [x] Deployment evidence is linked from the phase workflow log.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -64,3 +64,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added `website/tests/release-evidence.test.ts`, which expects release
 > evidence, smoke checks, test-tag handling, and changelog coverage before the
 > workflow implements them. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added release evidence retention, production-build smoke checks, test-tag
+> dry-run handling, and a changelog entry. Evidence artifacts are uploaded as
+> `website-dist` and `website-release-evidence` in `website-pages.yml`.
+> Status: `green`.
