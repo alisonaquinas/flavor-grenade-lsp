@@ -15,4 +15,4 @@ updated: 2026-05-09
 | [[TASK-220]] | Implement responsive app shell and theme modes | Task | `in-review` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | Task | `in-review` |
 | [[TASK-222]] | Implement footer byline and attribution links | Task | `in-review` |
-| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | Chore | `open` |
+| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | Chore | `in-progress` |

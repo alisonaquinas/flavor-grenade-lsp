@@ -2,7 +2,7 @@
 id: "CHORE-089"
 title: "Phase W3 accessibility and visual QA sweep"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W3
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-089"]
 
 # Phase W3 Accessibility And Visual QA Sweep
 
-> [!INFO] `CHORE-089` · Chore · Phase W3 · Status: `open`
+> [!INFO] `CHORE-089` · Chore · Phase W3 · Status: `in-progress`
 
 ## Description
 
@@ -38,3 +38,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created for the Phase W3 verification sweep. Status: `open`.
+
+> [!INFO] Started · 2026-05-09
+> Began the Phase W3 accessibility and visual QA sweep after TASK-220,
+> TASK-221, and TASK-222 reached `in-review`. Status: `in-progress`.

@@ -63,7 +63,7 @@ dark mode, and system theme mode.
 | [[TASK-220]] | Implement responsive app shell and theme modes | `in-review` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | `in-review` |
 | [[TASK-222]] | Implement footer byline and attribution links | `in-review` |
-| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `open` |
+| [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `in-progress` |
 
 ## Lifecycle
 
@@ -100,3 +100,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Implementation tasks in review · 2026-05-09
 > TASK-220, TASK-221, and TASK-222 moved to `in-review` after updating website
 > test index and matrix entries.
+
+> [!INFO] Verification sweep started · 2026-05-09
+> CHORE-089 entered `in-progress` to run Phase W3 local gates, visual checks,
+> and Step E-L evidence.
