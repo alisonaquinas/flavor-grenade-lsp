@@ -2,7 +2,7 @@
 id: "FEAT-039"
 title: "Website Review Polish"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W6
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-039"]
 
 # Website Review Polish
 
-> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -93,3 +93,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Added nav feedback · 2026-05-09
 > Added TASK-234 for the narrow-header hamburger menu feedback captured after
 > the initial W6 review comments.
+
+> [!INFO] Started · 2026-05-09
+> Phase W6 execution started on `feature/phase-w6-website-visual-feedback`.

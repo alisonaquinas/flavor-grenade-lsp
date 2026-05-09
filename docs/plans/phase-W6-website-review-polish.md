@@ -1,7 +1,7 @@
 ---
 title: "Phase W6: Website Review Polish"
 phase: W6
-status: planned
+status: in-progress
 tags: [plans, website, visual-polish, accessibility, review]
 aliases: [Phase W6, Website Review Polish]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W6 |
 | Title | Website Review Polish |
-| Status | planned |
+| Status | in-progress |
 | Gate | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop |
 | Depends on | Phase W5 implementation review state |
 
