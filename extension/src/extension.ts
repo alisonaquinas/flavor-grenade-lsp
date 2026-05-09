@@ -23,6 +23,7 @@ import {
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
 import { decideStartupGate } from './activation-gate.js';
+import { ServerStartupBlockedError } from './server-startup-error.js';
 import { buildDiagnosticInfo, getStatusQuickActions } from './status-presentation.js';
 import type {
   FlavorGrenadeStatus,
@@ -47,14 +48,16 @@ export interface FlavorGrenadeExtensionApi {
 
 export async function activate(context: ExtensionContext): Promise<FlavorGrenadeExtensionApi> {
   currentStatus = createBaseStatus('disabled', context);
-  const disabledStatus = getDisabledStatus(context);
-  if (disabledStatus) {
-    ensureStatusBar(context);
-    currentStatus = disabledStatus;
-    applyFlavorGrenadeStatus(statusBarItem!, currentStatus);
-  }
+  applyDisabledEnvironmentStatus(context);
 
   const startClient = async (commandId?: string): Promise<LanguageClient> => {
+    const disabledStatus = applyDisabledEnvironmentStatus(context);
+    if (disabledStatus) {
+      throw new ServerStartupBlockedError(
+        disabledStatus.message ?? 'Flavor Grenade server is disabled in this workspace',
+      );
+    }
+
     if (client) {
       return client;
     }
@@ -96,11 +99,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
     if (client || startClientPromise) {
       return;
     }
-    const nextDisabledStatus = getDisabledStatus(context);
-    if (nextDisabledStatus) {
-      ensureStatusBar(context);
-      currentStatus = nextDisabledStatus;
-      applyFlavorGrenadeStatus(statusBarItem!, currentStatus);
+    if (applyDisabledEnvironmentStatus(context)) {
       return;
     }
 
@@ -361,6 +360,20 @@ function getDisabledStatus(context: ExtensionContext): FlavorGrenadeStatus | und
   }
 
   return undefined;
+}
+
+function applyDisabledEnvironmentStatus(
+  context: ExtensionContext,
+): FlavorGrenadeStatus | undefined {
+  const disabledStatus = getDisabledStatus(context);
+  if (!disabledStatus) {
+    return undefined;
+  }
+
+  const statusBar = ensureStatusBar(context);
+  currentStatus = disabledStatus;
+  applyFlavorGrenadeStatus(statusBar, currentStatus);
+  return disabledStatus;
 }
 
 function summarizeServerCommand(command: ServerCommand): string {

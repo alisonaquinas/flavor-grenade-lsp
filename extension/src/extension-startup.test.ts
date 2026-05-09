@@ -1,14 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { describe, it } from 'node:test';
 
 describe('extension startup disabled guard', () => {
   it('checks unsupported workspace status before the shared start path spawns the server', async () => {
-    const extensionSource = await readFile(
-      fileURLToPath(new URL('./extension.ts', import.meta.url)),
-      'utf8',
-    );
+    const extensionSource = await readFile(resolve('src', 'extension.ts'), 'utf8');
     const startClientStart = extensionSource.indexOf('const startClient = async');
     const startClientEnd = extensionSource.indexOf('const commandDisposables', startClientStart);
 
