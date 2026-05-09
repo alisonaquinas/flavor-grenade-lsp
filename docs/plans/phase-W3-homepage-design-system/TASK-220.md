@@ -2,7 +2,7 @@
 id: "TASK-220"
 title: "Implement responsive app shell and theme modes"
 type: task
-status: red
+status: green
 priority: high
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-220"]
 
 # Implement Responsive App Shell And Theme Modes
 
-> [!INFO] `TASK-220` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
+> [!INFO] `TASK-220` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `green`
 
 ## Description
 
@@ -42,6 +42,12 @@ Expected API:
 
 Add RED coverage in `website/tests/shell-theme.test.ts` before implementation.
 
+## Linked Tests
+
+| Test File | Type | Req Tag | Status |
+|---|---|---|---|
+| `website/tests/shell-theme.test.ts` | Unit | `Website.Theme.ModeSelection` | ✅ passing |
+
 ## Definition of Done
 
 - [ ] Header exposes required primary navigation.
@@ -67,3 +73,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/shell-theme.test.ts`, which expects shell navigation and
 > theme modules before they exist. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added navigation data, theme persistence helpers, responsive shell markup, and
+> theme styles. Status: `green`.

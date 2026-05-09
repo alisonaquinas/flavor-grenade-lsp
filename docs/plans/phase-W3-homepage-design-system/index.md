@@ -12,7 +12,7 @@ updated: 2026-05-09
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-036]] | Homepage And Design System | Feature | `in-progress` |
-| [[TASK-220]] | Implement responsive app shell and theme modes | Task | `red` |
+| [[TASK-220]] | Implement responsive app shell and theme modes | Task | `green` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | Task | `open` |
 | [[TASK-222]] | Implement footer byline and attribution links | Task | `open` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | Chore | `open` |
