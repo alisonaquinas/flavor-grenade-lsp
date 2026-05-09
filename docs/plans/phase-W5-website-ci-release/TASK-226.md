@@ -2,7 +2,7 @@
 id: "TASK-226"
 title: "Add website CI gates"
 type: task
-status: red
+status: green
 priority: high
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-226"]
 
 # Add Website CI Gates
 
-> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `red`
+> [!INFO] `TASK-226` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
 
 ## Description
 
@@ -57,3 +57,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/ci-workflow.test.ts`, which expects a website CI job
 > before it exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added the `website-checks` CI job with `npm ci`, lint, typecheck, tests,
+> build, and `website-dist` artifact upload. Status: `green`.

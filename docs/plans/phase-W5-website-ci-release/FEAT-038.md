@@ -57,7 +57,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-226]] | Add website CI gates | `red` |
+| [[TASK-226]] | Add website CI gates | `green` |
 | [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `open` |
 | [[TASK-228]] | Add release evidence and production smoke checks | `open` |
 | [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
@@ -77,3 +77,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] TASK-226 red · 2026-05-09
 > TASK-226 entered `red` with failing website CI workflow coverage.
+
+> [!SUCCESS] TASK-226 green · 2026-05-09
+> TASK-226 added the website CI gate and build artifact upload.
