@@ -2,7 +2,7 @@
 id: "TASK-221"
 title: "Implement homepage hero and product proof sections"
 type: task
-status: open
+status: red
 priority: high
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-221"]
 
 # Implement Homepage Hero And Product Proof Sections
 
-> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `open`
+> [!INFO] `TASK-221` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `red`
 
 ## Description
 
@@ -63,3 +63,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > Homepage data, app rendering, style paths, exported API shape, and RED test
 > target were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/homepage.test.ts`, which expects homepage content data
+> before it exists. Status: `red`.

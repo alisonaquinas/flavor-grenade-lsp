@@ -61,7 +61,7 @@ dark mode, and system theme mode.
 | Ticket | Title | Status |
 |---|---|---|
 | [[TASK-220]] | Implement responsive app shell and theme modes | `green` |
-| [[TASK-221]] | Implement homepage hero and product proof sections | `open` |
+| [[TASK-221]] | Implement homepage hero and product proof sections | `red` |
 | [[TASK-222]] | Implement footer byline and attribution links | `open` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `open` |
 
@@ -82,3 +82,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!SUCCESS] TASK-220 green · 2026-05-09
 > TASK-220 added the responsive shell, navigation data, and theme helpers.
+
+> [!INFO] TASK-221 red · 2026-05-09
+> TASK-221 entered `red` with a failing homepage content model test.
