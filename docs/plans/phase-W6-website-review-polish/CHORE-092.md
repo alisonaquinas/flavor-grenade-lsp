@@ -2,7 +2,7 @@
 id: "CHORE-092"
 title: "Phase W6 visual verification sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: W6
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-092"]
 
 # Phase W6 Visual Verification Sweep
 
-> [!INFO] `CHORE-092` · Chore · Phase W6 · Status: `open`
+> [!INFO] `CHORE-092` · Chore · Phase W6 · Status: `done`
 
 ## Description
 
@@ -23,14 +23,14 @@ tasks are in review.
 
 ## Acceptance Criteria
 
-- [ ] Website lint, typecheck, tests, and build pass.
-- [ ] Browser screenshot verifies mobile homepage header and theme control.
-- [ ] Browser screenshot verifies narrow hamburger navigation behavior.
-- [ ] Browser screenshot verifies mobile hero actions and proof image.
-- [ ] Browser screenshot verifies mobile footer brand block and footer links.
-- [ ] Browser screenshot verifies desktop homepage visual polish.
-- [ ] No broken image icons are visible in reviewed regions.
-- [ ] Phase ticket statuses and test traceability are updated.
+- [x] Website lint, typecheck, tests, and build pass.
+- [x] Browser screenshot verifies mobile homepage header and theme control.
+- [x] Browser screenshot verifies narrow hamburger navigation behavior.
+- [x] Browser screenshot verifies mobile hero actions and proof image.
+- [x] Browser screenshot verifies mobile footer brand block and footer links.
+- [x] Browser screenshot verifies desktop homepage visual polish.
+- [x] No broken image icons are visible in reviewed regions.
+- [x] Phase ticket statuses and test traceability are updated.
 
 ## Lifecycle
 
@@ -40,3 +40,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Chore created for the Phase W6 visual verification sweep. Status: `open`.
+
+> [!SUCCESS] Verified · 2026-05-09
+> Website lint, typecheck, tests, and build pass. Captured Playwright screenshots
+> through Microsoft Edge at mobile, mobile full-page, and desktop viewport sizes
+> against `http://127.0.0.1:5173/`; reviewed regions no longer show broken
+> images, missing icons, wrapped navigation, or cramped footer byline text.

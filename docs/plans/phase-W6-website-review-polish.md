@@ -1,7 +1,7 @@
 ---
 title: "Phase W6: Website Review Polish"
 phase: W6
-status: in-progress
+status: ready-for-pr
 tags: [plans, website, visual-polish, accessibility, review]
 aliases: [Phase W6, Website Review Polish]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W6 |
 | Title | Website Review Polish |
-| Status | in-progress |
+| Status | ready-for-pr |
 | Gate | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop |
 | Depends on | Phase W5 implementation review state |
 
@@ -94,6 +94,19 @@ npm run build
 Browser verification must capture the homepage at mobile and desktop widths and
 confirm the reviewed regions no longer show broken images, cramped footer text,
 or missing icon affordances.
+
+## Verification Log
+
+> [!SUCCESS] Local gate · 2026-05-09
+> `npm run lint`, `npm run typecheck`, `npm test -- --run`, and
+> `npm run build` pass from `website/`.
+
+> [!SUCCESS] Visual smoke · 2026-05-09
+> Captured Playwright screenshots through Microsoft Edge at `413x730`,
+> full-page mobile, and `1280x900` desktop. Reviewed regions show loaded
+> product/proof images, compact theme control, collapsed mobile navigation,
+> iconified CTAs, and readable footer spacing. PR intentionally not opened yet
+> per review instruction.
 
 ## Tickets
 
