@@ -32,31 +32,31 @@ colors:
   warning: "#B7791F"
 typography:
   display:
-    fontFamily: "TBD warm technical sans, system-ui, sans-serif"
+    fontFamily: "Recursive, Atkinson Hyperlegible Next, system-ui, sans-serif"
     fontSize: "clamp(2.5rem, 7vw, 5.25rem)"
     fontWeight: 750
     lineHeight: 0.95
     letterSpacing: "normal"
   headline:
-    fontFamily: "TBD warm technical sans, system-ui, sans-serif"
+    fontFamily: "Recursive, Atkinson Hyperlegible Next, system-ui, sans-serif"
     fontSize: "clamp(1.75rem, 4vw, 3rem)"
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "normal"
   title:
-    fontFamily: "TBD warm technical sans, system-ui, sans-serif"
+    fontFamily: "Recursive, Atkinson Hyperlegible Next, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 650
     lineHeight: 1.25
     letterSpacing: "normal"
   body:
-    fontFamily: "TBD warm readable sans, system-ui, sans-serif"
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.65
     letterSpacing: "normal"
   label:
-    fontFamily: "TBD warm technical sans, system-ui, sans-serif"
+    fontFamily: "Recursive, Atkinson Hyperlegible Next, system-ui, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 650
     lineHeight: 1.2
@@ -111,7 +111,9 @@ examples, and compact explanations rather than decorative product marketing.
 The system borrows the coral brand family from Alison Aquinas and the LLM
 Skills Marketplace, but it must stand apart through stronger product evidence:
 wiki-links, vault paths, diagnostics, code actions, and copyable setup commands.
-The visual tone is precise, grounded, and a little punchy.
+The visual tone is precise, grounded, and a little punchy. The brand strategy is
+restrained field-guide with one decisive accent: warm neutrals do the reading
+work, coral marks action and identity, and product evidence carries the drama.
 
 It explicitly rejects generic SaaS landing-page clichés, purple-blue AI
 gradients, abstract hero illustrations, glassmorphism, and endless identical
@@ -189,14 +191,19 @@ text. Color alone is never the only signal.
 
 ## 3. Typography
 
-**Display Font:** TBD warm technical sans, with system fallback  
-**Body Font:** TBD readable sans, with system fallback  
-**Label/Mono Font:** TBD only if code or UI labels need a distinct technical
-voice
+**Display Font:** Recursive, with Atkinson Hyperlegible Next and system fallback
+**Body Font:** Atkinson Hyperlegible Next, with system fallback
+**Label/Mono Font:** Recursive for labels and UI chrome; use a real monospace
+only for code, commands, and literal Markdown
 
 **Character:** Type should feel like a well-made technical manual, warm enough
 for long reading and sharp enough for API-style specificity. Avoid default
 developer-font reflexes unless they are deliberately justified.
+
+Recursive gives the site a variable, technical, slightly mechanical display
+voice without falling into terminal costume. Atkinson Hyperlegible Next gives
+docs, examples, and dense quickstart text a readable body face with strong
+character distinction.
 
 ### Hierarchy
 
@@ -281,6 +288,14 @@ color, and location context.
 The product demo panel shows real editor or terminal states: wiki-link
 completion, broken-link diagnostics, rename preview, references, tags, or vault
 index readiness. It must be inspectable, not decorative.
+
+### Signature Component: Field Guide Footer
+
+The footer is compact product metadata, not a sitemap dump. It carries the
+Flavor Grenade logo or icon, current project metadata when available, the
+"Vibe-coded by: Alison Aquinas" byline, Alison public profile links, GitHub,
+Visual Studio Marketplace, and inspiration links. On mobile it stacks into
+short labeled groups without hiding the byline.
 
 ## 6. Do's and Don'ts
 

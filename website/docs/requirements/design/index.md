@@ -130,6 +130,33 @@ Use a restrained but opinionated developer-docs look:
 The site should feel like a technical field guide: exact, approachable, and a
 little punchy.
 
+### Design Iteration Notes
+
+This pass hardens the spec against three risks:
+
+- A generic centered-stack landing page.
+- Typography that stays at placeholder level.
+- Footer credit that exists in content but has no design behavior.
+
+The intended design posture is restrained field-guide with one decisive accent.
+Warm neutral surfaces carry reading and examples. Coral marks identity, links,
+selected state, diagnostics, and primary action. Real product evidence supplies
+the strongest visual energy.
+
+The homepage should use an asymmetric first viewport on desktop, not a centered
+icon-title-card grid. A strong default composition is:
+
+- Left side: product name, category, value statement, primary quickstart action,
+  Visual Studio Marketplace action, and one compact trust line.
+- Right side: inspectable product demo panel showing VS Code, OFMarkdown,
+  wiki-links, diagnostics, completion, or vault navigation.
+- Below the fold line: the next content section is visibly peeking on mobile
+  and desktop.
+
+On mobile, the first viewport should prioritize product name, category,
+quickstart, Marketplace, and one product proof. The product demo may move below
+the CTAs, but it must remain readable and not become a decorative thumbnail.
+
 ## Color Requirements
 
 Use tokenized color values in implementation. `DESIGN.md` frontmatter is the
@@ -217,7 +244,12 @@ Brand voice words:
 
 Requirements:
 
-- Use one committed sans family or one sans plus one restrained display family.
+- Use Recursive for display, headings, labels, and UI chrome unless a later
+  implementation proof shows it weakens readability.
+- Use Atkinson Hyperlegible Next for body copy, docs content, and dense
+  quickstart instructions.
+- Use one real monospace family only for code, commands, paths, and literal
+  Markdown examples.
 - Avoid reflex defaults such as Inter, Roboto, Open Sans, IBM Plex, Space Mono,
   and Space Grotesk unless a later design decision explicitly justifies them.
 - Body text must be at least `1rem`.
@@ -228,6 +260,9 @@ Requirements:
 - Body text should use fixed `rem` sizing.
 - Use uppercase only for short labels.
 - Load only the font weights used by the site.
+- If external fonts fail, system fallback must preserve layout and line length.
+- Font loading must avoid layout shift that moves CTAs, copied commands, or
+  docs navigation.
 
 Named rules:
 
@@ -244,6 +279,9 @@ Homepage:
 
 - First viewport contains H1, value statement, primary CTA, secondary CTA, and
   product signal.
+- Desktop homepage uses an asymmetric layout or a strict visible grid. It must
+  not default to a centered stack with icon, headline, subtitle, and repeated
+  cards.
 - A hint of the next section must be visible on mobile and desktop.
 - Hero visual must show the actual product state: editor, terminal, diagnostics,
   wiki-link completion, or vault navigation.
@@ -251,6 +289,9 @@ Homepage:
   the product name.
 - Feature overview must avoid identical icon-card monotony. Mix compact rows,
   bento blocks, screenshots, and short examples.
+- The first content section after the hero should answer "What can it do in my
+  Obsidian Vault?" with concrete evidence, not abstract benefits.
+- Install paths should be visible before deep architecture content.
 
 Docs pages:
 
@@ -259,6 +300,8 @@ Docs pages:
 - Keep command and code examples visually stable.
 - Use accordions only for progressive detail, not for essential setup steps.
 - Avoid nested cards.
+- Use short concept backlinks and next-step links so the LLM wiki shape is
+  visible to human readers.
 
 Spacing:
 
@@ -298,6 +341,31 @@ Required components:
 - Visual Studio Marketplace link.
 
 Components must expose accessible names and keyboard states where interactive.
+
+### Footer Requirements
+
+The global footer must be compact and recognizably related to the LLM Skills
+Marketplace footer without copying it blindly.
+
+Required footer content:
+
+- Flavor Grenade LSP product name or logo.
+- Project metadata such as current version when available.
+- Creator byline: "Vibe-coded by: Alison Aquinas".
+- Links to Alison's website, GitHub, and LinkedIn.
+- Links to GitHub repository, Visual Studio Marketplace, and public docs.
+- Inspiration links for Karpathy's LLM Wiki concept, Obsidian, and Marksman
+  LSP.
+
+Footer layout:
+
+- Desktop footer may use two or three compact columns.
+- Mobile footer stacks into labeled groups with the creator byline still
+  visible without expanding a menu.
+- Footer links use descriptive text. Avoid icon-only profile links unless an
+  accessible name is present and the text label is visible somewhere nearby.
+- Footer should use the product logo or icon at a modest size and must not
+  visually compete with the page H1.
 
 ## Interaction Requirements
 
@@ -392,11 +460,16 @@ Desktop:
 ## Verification Checklist
 
 - First viewport communicates product, category, value, and next action.
+- Homepage avoids a generic centered-stack template.
 - Light, dark, and system theme modes work without layout shift.
 - The visual hierarchy is clear with a squint test.
 - Long-form docs stay within 65 to 75 characters per line.
+- Recursive and Atkinson Hyperlegible Next are loaded or fall back without
+  breaking layout.
 - Feature modules are not all identical cards.
 - Copyable commands are selectable and accessible.
 - Mobile layout has no text overlap.
+- Footer byline, profile links, Marketplace link, and inspiration links are
+  visible on mobile and desktop.
 - Metadata and visible content match the target search intent.
 - The site still communicates core value without JavaScript.
