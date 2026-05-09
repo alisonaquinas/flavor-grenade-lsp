@@ -41,4 +41,5 @@ updated: 2026-05-09
 | [[TASK-265]] | Add article dropdown navigation | Task | `done` |
 | [[TASK-266]] | Update sitemap and route metadata for guide articles | Task | `done` |
 | [[BUG-030]] | Restore website guide regression expectations | Bug | `done` |
+| [[BUG-031]] | Expand website guide article prose | Bug | `triaged` |
 | [[CHORE-094]] | Phase W7 guide prose verification | Chore | `done` |
