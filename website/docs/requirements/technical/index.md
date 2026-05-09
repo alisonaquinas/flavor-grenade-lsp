@@ -16,6 +16,10 @@ implementation must stay independent from the LSP server runtime.
 | SCSS | Required styling authoring format for site-level styles, tokens, layout, and component styling. |
 | GitHub Pages | Required static hosting target. |
 
+## Related Technical Specifications
+
+- [[ci-cd]]: CI, release, distribution, and publishing workflow requirements.
+
 ## Static Site Output
 
 - The website must build to static HTML, CSS, JavaScript, and assets.
@@ -118,8 +122,11 @@ implementation must stay independent from the LSP server runtime.
 
 - Add a CI workflow or job that builds the website and publishes the static
   output to GitHub Pages.
-- Deployment must run from a protected branch strategy chosen later, likely
-  `main` for published releases.
+- Public deployment must be tag triggered from release commits on `main`,
+  following the repository git-flow model.
+- Tag-triggered deployment workflows must verify that the tag commit is
+  contained in `origin/main` before publishing because GitHub tag events are not
+  branch-scoped by themselves.
 - The workflow must install website dependencies, run lint/type/build checks,
   and upload the static artifact.
 - If using repository Pages instead of a custom domain, Vite `base` must match
