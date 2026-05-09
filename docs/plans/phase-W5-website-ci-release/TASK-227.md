@@ -2,7 +2,7 @@
 id: "TASK-227"
 title: "Add tag-triggered GitHub Pages deployment"
 type: task
-status: red
+status: green
 priority: high
 phase: W5
 parent: "FEAT-038"
@@ -15,7 +15,7 @@ aliases: ["TASK-227"]
 
 # Add Tag-Triggered GitHub Pages Deployment
 
-> [!INFO] `TASK-227` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `red`
+> [!INFO] `TASK-227` · Task · Phase W5 · Parent: [[FEAT-038]] · Status: `green`
 
 ## Description
 
@@ -59,3 +59,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!WARNING] Red · 2026-05-09
 > Added `website/tests/pages-workflow.test.ts`, which expects a Pages workflow
 > before it exists. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-09
+> Added tag-triggered `website-pages.yml` with main ancestry guard, minimal
+> Pages permissions, protected environment, concurrency, and official Pages
+> deployment actions. Status: `green`.
