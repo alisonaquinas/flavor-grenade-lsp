@@ -2,7 +2,7 @@
 id: "TASK-236"
 title: "Hide mobile hero category eyebrow"
 type: task
-status: open
+status: red
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-236"]
 
 # Hide Mobile Hero Category Eyebrow
 
-> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -61,3 +61,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from second-round browser review comment 2. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added mobile layout coverage requiring the hero category eyebrow to hide at
+> the narrow breakpoint.

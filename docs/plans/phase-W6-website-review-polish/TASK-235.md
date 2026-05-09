@@ -2,7 +2,7 @@
 id: "TASK-235"
 title: "Make feature proof cards selectable"
 type: task
-status: open
+status: red
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-235"]
 
 # Make Feature Proof Cards Selectable
 
-> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -66,3 +66,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from second-round browser review comment 1. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added homepage coverage requiring practical detail for each selectable
+> feature proof card and shell coverage for selected-state semantics.

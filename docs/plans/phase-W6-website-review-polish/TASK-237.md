@@ -2,7 +2,7 @@
 id: "TASK-237"
 title: "Normalize feature card borders"
 type: task
-status: open
+status: red
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-237"]
 
 # Normalize Feature Card Borders
 
-> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `open`
+> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `red`
 
 ## Description
 
@@ -60,3 +60,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created from second-round browser review comment 3. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-09
+> Added style coverage forbidding per-signal default feature card border
+> overrides.

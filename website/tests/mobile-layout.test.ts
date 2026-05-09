@@ -19,6 +19,8 @@ describe('mobile layout regression guards', () => {
     expect(css).toContain('.hero-actions .button-link');
     expect(css).toContain('inline-size: 100%;');
     expect(css).toContain('.footer-brand-copy');
+    expect(css).toContain('.hero-copy > .eyebrow');
+    expect(css).toContain('display: none;');
   });
 
   it('collapses narrow navigation to an accessible hamburger control', async () => {
@@ -30,5 +32,16 @@ describe('mobile layout regression guards', () => {
     expect(app).toContain('class:open={navOpen}');
     expect(css).toContain('.nav-toggle');
     expect(css).toContain('.primary-nav.open');
+  });
+
+  it('keeps feature proof cards selectable with consistent default borders', async () => {
+    const app = await readFile(join(websiteRoot, 'src', 'App.svelte'), 'utf8');
+    const css = await readFile(join(websiteRoot, 'src', 'styles', 'global.scss'), 'utf8');
+
+    expect(app).toContain('aria-pressed={selectedFeatureSignal === feature.signal}');
+    expect(app).toContain('id="feature-detail"');
+    expect(css).toContain('.feature-item.selected');
+    expect(css).not.toContain('.feature-item.completion');
+    expect(css).not.toContain('.feature-item.index');
   });
 });

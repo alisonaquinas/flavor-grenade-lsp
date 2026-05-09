@@ -38,4 +38,13 @@ describe('homepage content model', () => {
     );
     expect(homepageAssetPlacements.every((asset) => asset.source.startsWith('/assets/'))).toBe(true);
   });
+
+  it('gives every feature proof card selectable practical detail', () => {
+    for (const feature of featureHighlights) {
+      expect(feature.detail.title).toContain('How');
+      expect(feature.detail.summary.length).toBeGreaterThan(20);
+      expect(feature.detail.markdownExample).toHaveLength(2);
+      expect(feature.detail.outcome.length).toBeGreaterThan(20);
+    }
+  });
 });

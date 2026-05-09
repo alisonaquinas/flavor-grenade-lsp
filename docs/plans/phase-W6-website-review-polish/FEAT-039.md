@@ -82,9 +82,9 @@ review.
 | [[TASK-232]] | Add icon affordances to footer links | `green` |
 | [[TASK-233]] | Improve footer brand spacing on mobile | `green` |
 | [[TASK-234]] | Collapse narrow navigation into hamburger menu | `green` |
-| [[TASK-235]] | Make feature proof cards selectable | `open` |
-| [[TASK-236]] | Hide mobile hero category eyebrow | `open` |
-| [[TASK-237]] | Normalize feature card borders | `open` |
+| [[TASK-235]] | Make feature proof cards selectable | `red` |
+| [[TASK-236]] | Hide mobile hero category eyebrow | `red` |
+| [[TASK-237]] | Normalize feature card borders | `red` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `done` |
 | [[CHORE-093]] | Verify second-round W6 browser feedback | `open` |
 
@@ -125,3 +125,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Added tickets for selectable proof cards with practical detail, hiding the
 > mobile hero eyebrow, and normalizing feature card borders. Phase returned to
 > `in-progress` until those tickets are implemented and verified.
+
+> [!FAILURE] Red tests · 2026-05-09
+> Added regression coverage for selectable feature proof detail, hidden mobile
+> hero eyebrow, and consistent default feature card borders.

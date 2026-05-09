@@ -18,8 +18,8 @@ updated: 2026-05-09
 | [[TASK-232]] | Add icon affordances to footer links | Task | `green` |
 | [[TASK-233]] | Improve footer brand spacing on mobile | Task | `green` |
 | [[TASK-234]] | Collapse narrow navigation into hamburger menu | Task | `green` |
-| [[TASK-235]] | Make feature proof cards selectable | Task | `open` |
-| [[TASK-236]] | Hide mobile hero category eyebrow | Task | `open` |
-| [[TASK-237]] | Normalize feature card borders | Task | `open` |
+| [[TASK-235]] | Make feature proof cards selectable | Task | `red` |
+| [[TASK-236]] | Hide mobile hero category eyebrow | Task | `red` |
+| [[TASK-237]] | Normalize feature card borders | Task | `red` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | Chore | `done` |
 | [[CHORE-093]] | Verify second-round W6 browser feedback | Chore | `open` |
