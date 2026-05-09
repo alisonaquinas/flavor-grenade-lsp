@@ -2,7 +2,7 @@
 id: "TASK-222"
 title: "Implement footer byline and attribution links"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: W3
 parent: "FEAT-036"
@@ -15,7 +15,7 @@ aliases: ["TASK-222"]
 
 # Implement Footer Byline And Attribution Links
 
-> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `green`
+> [!INFO] `TASK-222` · Task · Phase W3 · Parent: [[FEAT-036]] · Status: `in-review`
 
 ## Description
 
@@ -50,13 +50,13 @@ Add RED coverage in `website/tests/footer.test.ts` before implementation.
 
 ## Definition of Done
 
-- [ ] Footer includes product name or logo.
-- [ ] Footer includes creator byline.
-- [ ] Footer links to Alison's website, GitHub, and LinkedIn.
-- [ ] Footer links to GitHub repository and Visual Studio Marketplace.
-- [ ] Footer links to Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
-- [ ] Mobile footer keeps the byline visible.
-- [ ] Parent feature child row is updated.
+- [x] Footer includes product name or logo.
+- [x] Footer includes creator byline.
+- [x] Footer links to Alison's website, GitHub, and LinkedIn.
+- [x] Footer links to GitHub repository and Visual Studio Marketplace.
+- [x] Footer links to Karpathy's LLM Wiki concept, Obsidian, and Marksman LSP.
+- [x] Mobile footer keeps the byline visible.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -78,3 +78,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added footer link data, creator byline, profile links, project links,
 > inspiration links, and footer rendering. Status: `green`.
+
+> [!INFO] In review · 2026-05-09
+> Test index and matrix traceability were updated for
+> `website/tests/footer.test.ts`. Definition of Done is satisfied locally.
+> Status: `in-review`.

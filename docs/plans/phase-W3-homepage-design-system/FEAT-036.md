@@ -60,9 +60,9 @@ dark mode, and system theme mode.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-220]] | Implement responsive app shell and theme modes | `green` |
-| [[TASK-221]] | Implement homepage hero and product proof sections | `green` |
-| [[TASK-222]] | Implement footer byline and attribution links | `green` |
+| [[TASK-220]] | Implement responsive app shell and theme modes | `in-review` |
+| [[TASK-221]] | Implement homepage hero and product proof sections | `in-review` |
+| [[TASK-222]] | Implement footer byline and attribution links | `in-review` |
 | [[CHORE-089]] | Phase W3 accessibility and visual QA sweep | `open` |
 
 ## Lifecycle
@@ -96,3 +96,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] TASK-222 green · 2026-05-09
 > TASK-222 added footer link data, visible creator byline, and required
 > attribution rendering.
+
+> [!INFO] Implementation tasks in review · 2026-05-09
+> TASK-220, TASK-221, and TASK-222 moved to `in-review` after updating website
+> test index and matrix entries.
