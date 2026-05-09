@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.2.1...v0.3.0) (2026-05-09)
+
+### Security
+
+- Reject non-file LSP root URIs before vault scanning or lifecycle mutation.
+- Bound frontmatter YAML parsing, parser runtime, adversarial delimiter scans, and initial vault file scans.
+- Enforce realpath confinement for symlinked vault entries and reject prototype-polluting JSON-RPC payloads.
+- Pin direct dependency versions and add dependency range linting.
+- Block VS Code command-triggered server startup in Restricted Mode and virtual workspaces.
+
+### Features
+
+- Add attachment intelligence for embeds and Markdown image links, including indexing, completion, diagnostics, definition, hover metadata, and attachment-folder hints.
+- Add vault-confined file and folder operation planning, reference rewriting, and index refresh support.
+- Add structural LSP coverage for document links, folding ranges, selection ranges, and Templater opaque regions.
+- Complete VS Code extension parity hardening for activation precision, command bridges, host regression coverage, marketplace evidence, editor contributions, workspace environment handling, and package guardrails.
+
+### Documentation
+
+- Add Phase 18 security audit tickets, dependency audit evidence, execution notes, and test traceability updates.
+- Refresh roadmap status for completed extension parity and security hardening work.
+
 ## [0.2.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.1.2...v0.2.0) (2026-05-04)
 
 ### Features

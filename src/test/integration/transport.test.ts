@@ -9,6 +9,7 @@ import { spawn, ChildProcessWithoutNullStreams } from 'node:child_process';
 import { Readable } from 'node:stream';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SERVER_VERSION } from '../../version.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_ENTRY = path.resolve(__dirname, '../../../src/main.ts');
@@ -135,7 +136,7 @@ describe('LSP Transport Integration', () => {
       jsonrpc: '2.0',
       result: {
         capabilities: expect.objectContaining({ textDocumentSync: 1 }),
-        serverInfo: { name: 'flavor-grenade-lsp', version: '0.2.1' },
+        serverInfo: { name: 'flavor-grenade-lsp', version: SERVER_VERSION },
       },
     });
 
