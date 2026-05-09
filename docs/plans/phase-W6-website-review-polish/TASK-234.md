@@ -40,8 +40,9 @@ Expected behavior:
 
 - Narrow viewports show one hamburger/menu icon in the header.
 - Desktop viewports keep the visible primary navigation.
-- The menu exposes Home, Quickstart, How-To, Concepts, Advanced Usage, FAQ, and
-  GitHub.
+- The menu exposes Home, Quickstart, How-To, Concepts, Advanced Usage, and FAQ.
+- GitHub is not part of desktop or mobile primary navigation; it remains
+  reachable from the hero CTA and footer project links.
 - The hamburger has an accessible name and exposes expanded/collapsed state.
 - Menu links remain keyboard reachable and focus-visible.
 
@@ -71,3 +72,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added a mobile hamburger control with `aria-expanded` state and narrow-width
 > menu styling while preserving desktop primary navigation.
+
+> [!SUCCESS] Nav scope polish · 2026-05-09
+> Removed GitHub from desktop and mobile primary navigation. Repository access
+> remains available through the hero CTA and footer project links.

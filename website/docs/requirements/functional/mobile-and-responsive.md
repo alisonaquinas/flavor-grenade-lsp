@@ -74,12 +74,14 @@ Required destinations:
 - Concepts
 - Advanced Usage
 - FAQ
-- GitHub
 - Visual Studio Marketplace
+  - available through the homepage CTA or another prominent non-nav link
+- GitHub repository
+  - available through the homepage CTA or footer project links, not primary nav
 
 Meter: Inspect production build at representative mobile and desktop viewports.
 Count a destination as reachable when a keyboard user can navigate to it from
-site navigation or the first-page primary action area.
+site navigation, the first-page primary action area, or footer project links.
 
 Fail: Any required destination is unreachable on mobile or desktop.
 

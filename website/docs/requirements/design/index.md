@@ -91,7 +91,6 @@ The primary navigation must expose:
 - Concepts
 - Advanced Usage
 - FAQ
-- GitHub
 
 Secondary navigation may expose:
 
@@ -100,6 +99,7 @@ Secondary navigation may expose:
 - Feature overview
 - Troubleshooting
 - Releases or changelog
+- GitHub repository
 
 Docs pages must support breadcrumb context or a visible section marker so users
 never lose their place.
@@ -358,6 +358,9 @@ requirements before release:
   block.
 - The compact navigation control must expose expanded/collapsed state and keep
   all primary navigation links keyboard reachable.
+- GitHub must not appear in the primary topbar navigation on desktop or in the
+  collapsed mobile menu. The GitHub repository remains reachable from the hero
+  CTA and footer project links.
 - The theme control must reduce from a three-segment visible control to one
   compact icon affordance while preserving system, light, and dark modes.
 - Homepage primary action buttons must include recognizable icons.

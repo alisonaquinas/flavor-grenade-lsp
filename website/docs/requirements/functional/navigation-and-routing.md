@@ -20,7 +20,6 @@ Required destinations:
 - Concepts
 - Advanced Usage
 - FAQ
-- GitHub
 
 Meter: Inspect the production build on desktop and mobile. Count a destination
 as reachable when a keyboard user can navigate to it from the primary
@@ -36,6 +35,8 @@ Review polish requirements:
 - On narrow viewports, the full primary navigation link list must collapse into
   one top-right hamburger or menu icon.
 - The collapsed menu must expose every required primary destination.
+- The GitHub repository link must stay out of primary navigation and remain
+  available through the homepage CTA and footer project links.
 - The hamburger/menu control must expose an accessible name and expanded state.
 - Desktop viewports must keep visible primary navigation links.
 
@@ -52,7 +53,6 @@ Source: [[requirements/design/index]], [[requirements/user/index]]
 
 Open questions:
 
-- Should the GitHub link open in the same tab or a new tab?
 - Should Releases or Changelog become a primary or secondary destination?
 
 ## Website.Routing.StaticDirectAccess
