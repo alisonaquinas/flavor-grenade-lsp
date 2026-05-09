@@ -5,6 +5,8 @@ on:
     tags:
       - 'v*.*.*'
       - 'v*.*.*-test*'
+      - 'site-v*.*.*'
+      - 'site-v*.*.*-test*'
 
 permissions:
   contents: read
@@ -36,7 +38,7 @@ jobs:
 
       - name: Validate website release tag
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-test(\.[0-9]+)?)?$ ]]; then
+          if [[ ! "$GITHUB_REF_NAME" =~ ^(site-)?v[0-9]+\.[0-9]+\.[0-9]+(-test(\.[0-9]+)?)?$ ]]; then
             echo "Invalid website release tag: $GITHUB_REF_NAME" >&2
             exit 1
           fi
