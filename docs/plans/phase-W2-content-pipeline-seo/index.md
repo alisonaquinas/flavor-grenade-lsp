@@ -15,4 +15,4 @@ updated: 2026-05-09
 | [[TASK-217]] | Define typed route and metadata model | Task | `in-review` |
 | [[TASK-218]] | Build content transform and link model | Task | `in-review` |
 | [[TASK-219]] | Generate SEO files and validation tests | Task | `in-review` |
-| [[CHORE-088]] | Phase W2 content pipeline verification sweep | Chore | `open` |
+| [[CHORE-088]] | Phase W2 content pipeline verification sweep | Chore | `in-progress` |

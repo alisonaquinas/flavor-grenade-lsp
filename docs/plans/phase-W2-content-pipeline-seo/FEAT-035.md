@@ -60,7 +60,7 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 | [[TASK-217]] | Define typed route and metadata model | `in-review` |
 | [[TASK-218]] | Build content transform and link model | `in-review` |
 | [[TASK-219]] | Generate SEO files and validation tests | `in-review` |
-| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `open` |
+| [[CHORE-088]] | Phase W2 content pipeline verification sweep | `in-progress` |
 
 ## Lifecycle
 
@@ -96,3 +96,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Implementation tasks in review · 2026-05-09
 > TASK-217, TASK-218, and TASK-219 moved to `in-review` after updating website
 > test index and matrix entries.
+
+> [!INFO] Verification sweep started · 2026-05-09
+> CHORE-088 entered `in-progress` to run Phase W2 local gates and Step E-L
+> evidence.
