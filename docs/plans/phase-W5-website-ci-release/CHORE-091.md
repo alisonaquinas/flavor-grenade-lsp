@@ -69,3 +69,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] BUG-029 in review · 2026-05-09
 > BUG-029 added independent `site-v*` website release tags and local regression
 > tests pass.
+
+> [!CHECK] BUG-029 PR CI · 2026-05-09
+> PR #56 CI passed. The website release can now use `site-v*` tags without
+> waking root npm publish automation.

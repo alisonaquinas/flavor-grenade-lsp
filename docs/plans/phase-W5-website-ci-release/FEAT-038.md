@@ -110,3 +110,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!WARNING] BUG-029 opened · 2026-05-09
 > After PR #55 merged, release planning found that website-only releases need
 > `site-v*` tags so Pages can deploy without waking root npm publish automation.
+
+> [!CHECK] BUG-029 PR CI · 2026-05-09
+> PR #56 CI passed with independent website release tag support.
