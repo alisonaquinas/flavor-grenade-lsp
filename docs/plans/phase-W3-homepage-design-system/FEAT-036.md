@@ -2,7 +2,7 @@
 id: "FEAT-036"
 title: "Homepage And Design System"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W3
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-036"]
 
 # Homepage And Design System
 
-> [!INFO] `FEAT-036` · Feature · Phase W3 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-036` · Feature · Phase W3 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -73,3 +73,6 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created for Phase W3 homepage and design system. Status: `ready`.
+
+> [!INFO] Started · 2026-05-09
+> Phase W3 started after W2 completed in PR #52. Status: `in-progress`.

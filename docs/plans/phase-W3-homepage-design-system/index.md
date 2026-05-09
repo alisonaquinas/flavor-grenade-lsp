@@ -1,7 +1,7 @@
 ---
 title: Phase W3 Homepage Design Tickets
 phase: W3
-status: planned
+status: in-progress
 tags: [plans/phase-W3, tickets/index, website]
 aliases: ["Phase W3 Tickets"]
 updated: 2026-05-09
@@ -11,7 +11,7 @@ updated: 2026-05-09
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-036]] | Homepage And Design System | Feature | `ready` |
+| [[FEAT-036]] | Homepage And Design System | Feature | `in-progress` |
 | [[TASK-220]] | Implement responsive app shell and theme modes | Task | `open` |
 | [[TASK-221]] | Implement homepage hero and product proof sections | Task | `open` |
 | [[TASK-222]] | Implement footer byline and attribution links | Task | `open` |

@@ -23,6 +23,25 @@ Implement the global footer with product metadata, "Vibe-coded by: Alison
 Aquinas", Alison profile links, GitHub, Visual Studio Marketplace, and
 inspiration links.
 
+## Implementation Details
+
+Create and wire:
+
+- `website/src/shell/footer.ts`
+- `website/tests/footer.test.ts`
+- `website/src/App.svelte`
+- `website/src/styles/global.scss`
+
+Expected API:
+
+- `footerByline`
+- `profileLinks`
+- `projectLinks`
+- `inspirationLinks`
+- `validateFooterLinks()`
+
+Add RED coverage in `website/tests/footer.test.ts` before implementation.
+
 ## Definition of Done
 
 - [ ] Footer includes product name or logo.
@@ -41,3 +60,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Footer data, app rendering, style paths, exported API shape, and RED test
+> target were recorded before implementation.

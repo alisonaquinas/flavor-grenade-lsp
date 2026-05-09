@@ -22,6 +22,25 @@ aliases: ["TASK-221"]
 Implement the homepage first viewport, Marketplace CTA, product demo panel, and
 feature proof sections using real product concepts and existing brand assets.
 
+## Implementation Details
+
+Create and wire:
+
+- `website/src/home/homepage.ts`
+- `website/tests/homepage.test.ts`
+- `website/src/App.svelte`
+- `website/src/styles/global.scss`
+
+Expected API:
+
+- `homepageHero`
+- `homepageProof`
+- `featureHighlights`
+- `homepageAssetPlacements`
+- `validateHomepageContent()`
+
+Add RED coverage in `website/tests/homepage.test.ts` before implementation.
+
 ## Definition of Done
 
 - [ ] H1 identifies Flavor Grenade LSP.
@@ -40,3 +59,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-09
 > Ticket created. Status: `open`.
+
+> [!INFO] Step C details added · 2026-05-09
+> Homepage data, app rendering, style paths, exported API shape, and RED test
+> target were recorded before implementation.
