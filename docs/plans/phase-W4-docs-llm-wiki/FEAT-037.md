@@ -62,6 +62,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 | [[TASK-223]] | Author quickstart and VS Code extension pages | `in-review` |
 | [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
 | [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
+| [[BUG-027]] | Mobile docs pages clip long content | `open` |
 | [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-progress` |
 
 ## Lifecycle
@@ -107,3 +108,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!INFO] Verification sweep started · 2026-05-09
 > CHORE-090 entered `in-progress` to run W4 docs maturity, link, metadata,
 > build, and lint checks.
+
+> [!WARNING] BUG-027 opened · 2026-05-09
+> CHORE-090 mobile docs visual smoke found clipped quickstart text at 390px
+> width. BUG-027 opened before fixing per Rule 5.

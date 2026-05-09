@@ -7,7 +7,7 @@ priority: high
 phase: W4
 created: "2026-05-09"
 updated: "2026-05-09"
-dependencies: ["TASK-223", "TASK-224", "TASK-225"]
+dependencies: ["TASK-223", "TASK-224", "TASK-225", "BUG-027"]
 tags: [tickets/chore, "phase/W4", website, verification]
 aliases: ["CHORE-090"]
 ---
@@ -42,3 +42,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-09
 > Began the Phase W4 documentation maturity sweep after TASK-223, TASK-224, and
 > TASK-225 reached `in-review`. Status: `in-progress`.
+
+> [!WARNING] Finding · 2026-05-09
+> Mobile docs visual smoke at 390px found clipped quickstart text and horizontal
+> overflow. Opened BUG-027 before fixing.
