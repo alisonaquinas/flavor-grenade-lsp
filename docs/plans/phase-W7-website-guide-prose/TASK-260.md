@@ -57,7 +57,7 @@ From that filesystem location, Flavor Grenade walks upward looking for:
 1. `.obsidian/`
 2. `.flavor-grenade.toml`
 
-If it finds `.obsidian/`, the server uses Obsidian vault mode. If it finds
+If it finds `.obsidian/`, the server uses Obsidian Vault mode. If it finds
 `.flavor-grenade.toml`, it uses Flavor Grenade vault mode. If neither marker is
 found before the filesystem root, it uses single-file mode.
 
@@ -90,7 +90,7 @@ DocsProject/
 ```
 
 Open `DocsProject/`. The server treats the folder as a configured Flavor
-Grenade vault even though it is not an Obsidian vault.
+Grenade vault even though it is not an Obsidian Vault.
 
 Single-file mode:
 
@@ -120,7 +120,7 @@ no stable vault boundary.
 
 ## What Single-file Mode Is For
 
-Single-file mode is a safety fallback, not a replacement for an Obsidian vault.
+Single-file mode is a safety fallback, not a replacement for an Obsidian Vault.
 It exists so generic Markdown files and loose notes do not get incorrect
 vault-wide diagnostics, rename edits, or file operations.
 

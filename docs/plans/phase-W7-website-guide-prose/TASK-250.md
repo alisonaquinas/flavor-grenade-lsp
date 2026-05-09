@@ -75,7 +75,7 @@ Feature map:
 | `[[Project Plan#^risk-block]]` | Block reference | Block completion, definition, references, missing-block diagnostics |
 | `![[diagram.png]]` | Attachment embed | Attachment completion, definition, hover, broken-embed diagnostics |
 | `#project/flavor-grenade` | Inline tag | Tag completion, tag references, workspace symbols |
-| `> [!WARNING]` | Obsidian callout | Callout completion, symbols, folding, semantic tokens |
+| `> [!WARNING]` | Obsidian callout | Callout completion, folding ranges, semantic tokens |
 | `aliases:` in frontmatter | Alternate note names | Wiki-link resolution through frontmatter aliases |
 | `tags:` in frontmatter | Metadata tags | Vault-wide tag registry entries |
 

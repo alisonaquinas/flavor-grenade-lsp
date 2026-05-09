@@ -34,9 +34,9 @@ aliases: ["TASK-244"]
 # Complete Wiki-links and Headings
 
 Completion helps you write Obsidian-style links without memorizing exact file
-names, headings, aliases, or tags. Candidates come from the current vault index,
-so they reflect notes and structures Flavor Grenade can see inside the opened
-vault.
+names, headings, block anchors, attachments, callout types, or tags. Candidates
+come from the current vault index, so they reflect notes and structures Flavor
+Grenade can see inside the opened vault.
 
 ## Complete a Note Link
 
@@ -63,8 +63,8 @@ Expected result:
 ```
 
 If `Project Plan.md` has aliases in frontmatter, those aliases can participate
-in resolution and may appear in completion behavior depending on the current
-provider support.
+in wiki-link resolution after the link is written. Note-name completion itself
+is based on indexed documents and the configured link style.
 
 ## Complete a Heading Link
 

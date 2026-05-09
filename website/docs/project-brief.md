@@ -69,14 +69,14 @@ workflow, then get them from installation to productive use quickly.
 | `quickstart.md` | Install and verify the server or extension | install Obsidian Markdown VS Code extension |
 | `how-to/index.md` | Task index | Obsidian wiki-link completion, rename Markdown note |
 | `how-to/use-vscode-extension.md` | Set up and use the VS Code extension | VS Code Obsidian extension |
-| `how-to/configure-vault.md` | Configure workspace and vault behavior | Obsidian vault language server config |
+| `how-to/configure-vault.md` | Configure workspace and vault behavior | Obsidian Vault language server config |
 | `how-to/fix-broken-links.md` | Use diagnostics and quick fixes | Obsidian broken wiki links |
 | `how-to/rename-notes-safely.md` | Rename files, headings, and references | rename Obsidian note references |
 | `advanced-usage.md` | Advanced workflows and integrations | Markdown LSP advanced configuration |
 | `faq.md` | High-intent questions and objections | Flavor Grenade FAQ |
 | `concepts/index.md` | LLM-wiki concept map | Obsidian Flavored Markdown concepts |
 | `concepts/ofm.md` | Explain OFM scope | Obsidian Flavored Markdown |
-| `concepts/vault-index.md` | Explain vault-wide indexing | Obsidian vault index |
+| `concepts/vault-index.md` | Explain vault-wide indexing | Obsidian Vault index |
 | `concepts/wiki-link-resolution.md` | Explain link resolution | Obsidian wiki-link resolution |
 
 ## Homepage Brief

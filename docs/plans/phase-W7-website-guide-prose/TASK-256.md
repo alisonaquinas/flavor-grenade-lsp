@@ -33,7 +33,7 @@ aliases: ["TASK-256"]
 
 ### What makes completion vault-aware?
 
-Vault-aware completion does not guess from nearby words. It reads indexed vault data and offers candidates that make sense for the syntax under the cursor. After `[[`, notes and aliases matter. After `#` inside a wiki-link, headings matter. After `#^`, block anchors matter. Inside an embed or Markdown image target, attachments matter.
+Vault-aware completion does not guess from nearby words. It reads indexed vault data and offers candidates that make sense for the syntax under the cursor. After `[[`, indexed notes and the configured link style matter. After `#` inside a wiki-link, headings matter. After `#^`, block anchors matter. Inside an embed or Markdown image target, attachments matter.
 
 Compact definition: completions are LSP suggestions built from the vault index, reference graph inputs, tag registry, callout parser, and attachment index, then routed by the current OFM context.
 
@@ -56,7 +56,7 @@ Completion trigger map:
 
 | Context | Example trigger | Candidate source | Expected candidates |
 | --- | --- | --- | --- |
-| Wiki-link note | `[[Pro` | VaultIndex documents and resolver-friendly names | `[[Project Plan]]` |
+| Wiki-link note | `[[Pro` | VaultIndex documents plus configured link style | `[[Project Plan]]` |
 | Wiki-link heading | `[[Project Plan#Op` | Target document headings | `Open Questions` |
 | Wiki-link block | `[[Project Plan#^dec` | Target document block anchors | `decision-1` |
 | Same-document heading | `[[#Op` | Current document headings | `Open Questions` |

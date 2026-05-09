@@ -55,7 +55,7 @@ and workspace root selection themselves.
 | VS Code setting `flavorGrenade.diagnostics.suppress` | VS Code extension | Diagnostic-code suppression | Default: `[]`. Use exact diagnostic codes. |
 | VS Code setting `flavorGrenade.trace.server` | VS Code extension | Language-client trace logging | Default: `off`. This is a client trace setting, not a server behavior setting. |
 | User or machine setting `flavorGrenade.server.path` | VS Code extension | Custom server binary for development or local testing | Workspace values are ignored for safety. Empty means use the bundled server. |
-| `.obsidian/` directory | Vault detection | Obsidian vault marker | Preferred when present at the detected root. |
+| `.obsidian/` directory | Vault detection | Obsidian Vault marker | Preferred when present at the detected root. |
 | `.flavor-grenade.toml` file | Vault detection and vault scan options | Non-Obsidian Flavor Grenade vault marker, document extension list | Only documented keys are supported. |
 | `.gitignore` and `.ignore` | Vault scan | Skip generated or unwanted paths | Patterns are evaluated against vault-relative paths. `.obsidian/` is always skipped. |
 | `.obsidian/app.json` `attachmentFolderPath` | Attachment behavior | Preferred attachment folder hint | Used when present and readable. Missing or invalid values are ignored. |
@@ -90,7 +90,7 @@ replace the server executable.
 |---|---|---|
 | `file-stem` | `[[Note Name]]` | Default Obsidian-style links where note names are unique enough. |
 | `file-path-stem` | `[[folder/Note Name]]` | Vaults with repeated note names in different folders. |
-| `title-slug` | Derived from the note title/frontmatter where available | Generated docs or publishing workflows that prefer title-like targets. |
+| `title-slug` | Frontmatter `title` when present, otherwise the file stem | Generated docs or publishing workflows that prefer title-like targets. |
 
 Direct LSP clients may still send the legacy value `relative-path`; the server
 normalizes it to `file-path-stem`. New client configuration should use
