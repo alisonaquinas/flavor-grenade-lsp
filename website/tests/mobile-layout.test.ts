@@ -30,10 +30,8 @@ describe('mobile layout regression guards', () => {
     expect(app).toContain('class="nav-toggle"');
     expect(app).toContain('aria-expanded={navOpen}');
     expect(app).toContain('class:open={navOpen}');
-    expect(app).toContain('class:mobile-menu-hidden={item.hideInMobileMenu}');
     expect(css).toContain('.nav-toggle');
     expect(css).toContain('.primary-nav.open');
-    expect(css).toContain('.primary-nav.open .mobile-menu-hidden');
   });
 
   it('keeps feature proof cards selectable with consistent default borders', async () => {

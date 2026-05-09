@@ -150,7 +150,6 @@
         href={item.href}
         target={item.external ? '_blank' : undefined}
         rel={item.external ? 'noreferrer' : undefined}
-        class:mobile-menu-hidden={item.hideInMobileMenu}
         on:click={closeNav}
       >
         {item.label}

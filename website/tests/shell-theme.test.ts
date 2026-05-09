@@ -47,9 +47,7 @@ describe('website shell navigation and theme modes', () => {
       'Concepts',
       'Advanced Usage',
       'FAQ',
-      'GitHub',
     ]);
-    expect(primaryNavigation.find((item) => item.label === 'GitHub')?.hideInMobileMenu).toBe(true);
   });
 
   it('supports system, light, and dark theme modes', () => {
