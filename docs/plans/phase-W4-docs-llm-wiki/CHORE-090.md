@@ -2,7 +2,7 @@
 id: "CHORE-090"
 title: "Phase W4 documentation maturity sweep"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-090"]
 
 # Phase W4 Documentation Maturity Sweep
 
-> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `in-review`
+> [!INFO] `CHORE-090` · Chore · Phase W4 · Status: `done`
 
 ## Description
 
@@ -60,3 +60,6 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > Passed `bun run lint --max-warnings 0`, `bun run typecheck`,
 > `bun test src/` (668 tests), `bun run bdd --tags "@smoke"` (13 scenarios),
 > `bun audit`, website `npm audit`, and extension `npm audit`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #54 CI passed for the W4 branch. Status: `done`.

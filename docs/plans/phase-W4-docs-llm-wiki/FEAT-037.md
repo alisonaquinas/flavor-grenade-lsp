@@ -2,7 +2,7 @@
 id: "FEAT-037"
 title: "Documentation Pages And LLM Wiki"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W4
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-037"]
 
 # Documentation Pages And LLM Wiki
 
-> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-037` · Feature · Phase W4 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -59,11 +59,11 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-223]] | Author quickstart and VS Code extension pages | `in-review` |
-| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `in-review` |
-| [[TASK-225]] | Author concept wiki pages and related navigation | `in-review` |
-| [[BUG-027]] | Mobile docs pages clip long content | `in-review` |
-| [[CHORE-090]] | Phase W4 documentation maturity sweep | `in-review` |
+| [[TASK-223]] | Author quickstart and VS Code extension pages | `done` |
+| [[TASK-224]] | Author how-to advanced usage and FAQ pages | `done` |
+| [[TASK-225]] | Author concept wiki pages and related navigation | `done` |
+| [[BUG-027]] | Mobile docs pages clip long content | `done` |
+| [[CHORE-090]] | Phase W4 documentation maturity sweep | `done` |
 
 ## Lifecycle
 
@@ -121,3 +121,38 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] Repository sweep · 2026-05-09
 > Broader root and package verification passed: root lint, typecheck, unit
 > tests, smoke BDD, Bun audit, website npm audit, and extension npm audit.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #54 CI passed with W4 quickstart, how-to, advanced usage, FAQ, concept
+> wiki, metadata, and docs-mobile checks. Status: `done`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-09.
+
+### What went as planned
+
+The route/content skeleton from W2 and the homepage renderer from W3 made W4 a
+straightforward content expansion. The RED/GREEN tests mapped cleanly to the
+three implementation tickets.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-027 | Bug | Mobile docs smoke exposed viewport clipping from docs content width and Chrome screenshot scaling made the first visual read ambiguous | +0.5 h |
+
+### Process observations
+
+Chrome device metrics gave a more reliable mobile overflow check than raw
+headless screenshots, because screenshot pixels and CSS viewport width can
+diverge.
+
+### Carry-forward actions
+
+- [ ] Use CSS viewport metrics or an automated browser assertion for W5 Pages
+      deployment smoke instead of relying only on screenshots.
+
+### Rule / template amendments
+
+- [ ] None.

@@ -2,7 +2,7 @@
 id: "TASK-225"
 title: "Author concept wiki pages and related navigation"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-225"]
 
 # Author Concept Wiki Pages And Related Navigation
 
-> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `in-review`
+> [!INFO] `TASK-225` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `done`
 
 ## Description
 
@@ -86,3 +86,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/concept-wiki.test.ts`. Definition of Done is satisfied
 > locally. Status: `in-review`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #54 CI passed with the W4 completion gate. Status: `done`.

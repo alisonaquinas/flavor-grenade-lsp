@@ -2,7 +2,7 @@
 id: "TASK-223"
 title: "Author quickstart and VS Code extension pages"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W4
 parent: "FEAT-037"
@@ -15,7 +15,7 @@ aliases: ["TASK-223"]
 
 # Author Quickstart And VS Code Extension Pages
 
-> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `in-review`
+> [!INFO] `TASK-223` · Task · Phase W4 · Parent: [[FEAT-037]] · Status: `done`
 
 ## Description
 
@@ -85,3 +85,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Test index and matrix traceability were updated for
 > `website/tests/quickstart-docs.test.ts`. Definition of Done is satisfied
 > locally. Status: `in-review`.
+
+> [!SUCCESS] Done · 2026-05-09
+> PR #54 CI passed with the W4 completion gate. Status: `done`.
