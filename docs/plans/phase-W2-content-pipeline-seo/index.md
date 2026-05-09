@@ -14,5 +14,5 @@ updated: 2026-05-09
 | [[FEAT-035]] | Content Pipeline And SEO Skeleton | Feature | `in-progress` |
 | [[TASK-217]] | Define typed route and metadata model | Task | `green` |
 | [[TASK-218]] | Build content transform and link model | Task | `green` |
-| [[TASK-219]] | Generate SEO files and validation tests | Task | `open` |
+| [[TASK-219]] | Generate SEO files and validation tests | Task | `red` |
 | [[CHORE-088]] | Phase W2 content pipeline verification sweep | Chore | `open` |

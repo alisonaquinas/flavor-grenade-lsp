@@ -2,7 +2,7 @@
 id: "TASK-219"
 title: "Generate SEO files and validation tests"
 type: task
-status: open
+status: red
 priority: high
 phase: W2
 parent: "FEAT-035"
@@ -15,7 +15,7 @@ aliases: ["TASK-219"]
 
 # Generate SEO Files And Validation Tests
 
-> [!INFO] `TASK-219` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `open`
+> [!INFO] `TASK-219` · Task · Phase W2 · Parent: [[FEAT-035]] · Status: `red`
 
 ## Description
 
@@ -62,3 +62,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Step C details added · 2026-05-09
 > SEO helper file paths, maintained crawl files, exported API shape, and RED
 > test target were recorded before implementation.
+
+> [!WARNING] Red · 2026-05-09
+> Added `website/tests/seo-files.test.ts`, which expects SEO helper modules and
+> maintained crawl files before they exist. Status: `red`.
