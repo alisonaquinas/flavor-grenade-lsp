@@ -63,6 +63,16 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Website.Metadata.PageBasics` | Public pages have H1, title, description, and canonical URL metadata | `website/tests/routes.test.ts`, `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Route metadata validation covers every route and homepage social metadata |
 | `Website.StructuredData.RequiredTypes` | Required JSON-LD schema types are emitted for appropriate page intent | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Skeleton coverage includes WebSite, SoftwareApplication, FAQPage, HowTo, and BreadcrumbList |
 | `Website.Indexing.SitemapRobots` | Crawl files exist and list intended public routes | `website/tests/seo-files.test.ts` | ✅ passing | Phase W2 | Maintained static files are checked against generated sitemap and robots output |
+| `Website.Theme.ModeSelection` | Theme control exposes system, light, and dark modes | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Unit coverage verifies the supported modes and resolver behavior |
+| `Website.Theme.SystemDefault` | First-time visitors default to system preference | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Theme helper defaults to `system` with no stored preference |
+| `Website.Theme.Persistence` | Manual light and dark choices persist across reloads | `website/tests/shell-theme.test.ts` | ✅ passing | Phase W3 | Storage helper persists manual choices and clears system override |
+| `Website.Homepage.FirstViewport` | Homepage communicates product, category, value, and actions immediately | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Content model verifies H1, category, CTAs, and product proof |
+| `Website.BrandAssets.LogoUse` | Existing Flavor Grenade assets are used in required placements | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Header, hero, and social asset placements are modeled and rendered |
+| `Website.BrandAssets.AccessibleText` | Product images and proof media have useful accessible text | `website/tests/homepage.test.ts` | ✅ passing | Phase W3 | Asset placement data requires descriptive alt text |
+| `Website.Attribution.CreatorByline` | Footer credits Alison Aquinas with required profile links | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers byline and Alison website/GitHub/LinkedIn links |
+| `Website.Attribution.InspirationLinks` | Footer links Karpathy, Obsidian, and Marksman inspiration sources | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer test covers required descriptive inspiration links |
+| `Website.Attribution.NoConfusion` | Attribution copy avoids implying endorsement or affiliation | `website/tests/footer.test.ts` | ✅ passing | Phase W3 | Footer rendering includes lineage/prior-art clarification copy |
+| `Website.Mobile.CoreUseCases` | Mobile visitors can identify product, reach setup, and inspect proof without horizontal overflow | `website/tests/mobile-layout.test.ts` | ✅ passing | Phase W3 | Regression guard added after BUG-026 visual smoke finding |
 
 ---
 
@@ -370,7 +380,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Phase E14 (Membership And Compatibility) | 2 | 2 | 100% |
 | Phase W1 (Website Foundation) | 2 | 2 | 100% |
 | Phase W2 (Content Pipeline And SEO) | 4 | 4 | 100% |
-| **Total** | **146** | **65** | **45%** |
+| Phase W3 (Homepage And Design System) | 10 | 10 | 100% |
+| **Total** | **156** | **75** | **48%** |
 
 > [!NOTE]
 > Coverage percentages will increase phase by phase. The goal at each phase gate is 100% coverage of requirements introduced in that phase.

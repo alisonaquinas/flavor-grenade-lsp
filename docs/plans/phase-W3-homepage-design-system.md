@@ -1,7 +1,7 @@
 ---
 title: "Phase W3: Homepage And Design System"
 phase: W3
-status: planned
+status: in-progress
 tags: [plans, website, design, homepage]
 aliases: [Phase W3, Website Homepage]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W3 |
 | Title | Homepage And Design System |
-| Status | planned |
+| Status | in-progress |
 | Gate | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks |
 | Depends on | Phase W2 |
 
@@ -91,3 +91,9 @@ npm run build
 
 - [[../website/docs/requirements/design/index]]
 - [[../website/docs/requirements/functional/theme-modes]]
+
+## Workflow Log
+
+> [!INFO] Started · 2026-05-09
+> Phase W3 began on `feature/phase-w3-homepage-design-system` after Phase W2 was
+> merged and marked complete by PR #52 CI.
