@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -102,3 +102,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing coverage for `content:generate`, `content:check`, and the
 > Commonloom compiler scaffold. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-10
+> Added Commonloom scaffold modules, content command entry points, package
+> scripts, and documented W8 dependency choices. Targeted tests pass. Status:
+> `green`.
