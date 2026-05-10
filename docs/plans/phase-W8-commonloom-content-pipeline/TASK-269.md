@@ -2,7 +2,7 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -101,3 +101,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing Markdown/frontmatter parser coverage for CommonMark headings,
 > GFM tables/task lists, and invalid frontmatter diagnostics. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-10
+> Added gray-matter frontmatter parsing, Zod diagnostics, unified/remark-gfm
+> Markdown parsing, and source-line-aware heading extraction. Targeted tests
+> pass. Status: `green`.

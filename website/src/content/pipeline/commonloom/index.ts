@@ -1,4 +1,6 @@
 export { compileCommonloom } from './compiler';
+export { parseFrontmatter } from './frontmatter';
+export { parseMarkdown } from './markdown';
 export type {
   CommonloomConfig,
   CommonloomDiagnostic,
@@ -10,3 +12,5 @@ export type {
   CommonloomSeverity,
   CommonloomSourceTrace,
 } from './types';
+export type { ParsedFrontmatter } from './frontmatter';
+export type { ParsedMarkdown, ParseMarkdownInput } from './markdown';
