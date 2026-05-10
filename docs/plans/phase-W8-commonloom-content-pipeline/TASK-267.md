@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: refactor
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `refactor`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -111,3 +111,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!NOTE] Refactor · 2026-05-10
 > Lint found an unused scaffold config parameter. Cleaned the stub without
 > changing behavior. Status: `refactor`.
+
+> [!INFO] In review · 2026-05-10
+> `npm test -- --run content-pipeline tooling`, `npm run lint`, and
+> `npm run typecheck` pass from `website/`. Status: `in-review`.
