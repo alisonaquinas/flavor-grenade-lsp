@@ -2,11 +2,10 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 import { websiteContentManifests } from '../../manifests';
-import { websitePages } from '../../pages';
-import { guideArticleGroups, websiteRoutes } from '../../routes';
+import { websiteRoutes } from '../../routes';
+import { compileWebsiteContentFromManifests } from './content-compiler';
 import { validatePageGroupManifests } from './manifest';
 import { emitWebsiteGeneratedModules, type WebsiteGeneratedModules } from './emitter';
-import type { WebsiteCompiledContent } from './adapter';
 import type { CommonloomDiagnostic } from '../commonloom';
 
 export interface WebsiteContentBuildResult {
@@ -22,43 +21,22 @@ const generatedFileNames: Record<keyof WebsiteGeneratedModules, string> = {
   index: 'index.generated.ts',
 };
 
-export function buildWebsiteCompiledContent(): WebsiteCompiledContent {
-  return {
-    pages: websitePages.map((page) => ({
-      ...page,
-      bodyHtml: '',
-      sourceTrace: {
-        markdownPath:
-          websiteContentManifests
-            .flatMap((manifest) => manifest.entries)
-            .find((entry) => entry.routeId === page.routeId)?.copy ?? '',
-        contentHash: '',
-        headings: [],
-        links: [],
-        images: [],
-      },
-    })),
-    routes: [...websiteRoutes],
-    navigation: guideArticleGroups.map((group) => ({
-      id: group.hubRouteId,
-      label: group.label,
-      routeIds: [...group.routeIds],
-    })),
-    media: [],
-  };
-}
-
-export function buildWebsiteGeneratedModules(): WebsiteContentBuildResult {
+export async function buildWebsiteGeneratedModules(): Promise<WebsiteContentBuildResult> {
   const manifestValidation = validatePageGroupManifests([...websiteContentManifests]);
+  const compiled = await compileWebsiteContentFromManifests({
+    copyRoot: 'src/content/copy',
+    manifests: [...websiteContentManifests],
+    routes: websiteRoutes,
+  });
 
   return {
-    modules: emitWebsiteGeneratedModules(buildWebsiteCompiledContent()),
-    diagnostics: manifestValidation.diagnostics,
+    modules: emitWebsiteGeneratedModules(compiled.records),
+    diagnostics: [...manifestValidation.diagnostics, ...compiled.diagnostics],
   };
 }
 
 export async function writeWebsiteGeneratedModules(generatedRoot: string): Promise<WebsiteContentBuildResult> {
-  const result = buildWebsiteGeneratedModules();
+  const result = await buildWebsiteGeneratedModules();
 
   await mkdir(generatedRoot, { recursive: true });
 
@@ -72,7 +50,7 @@ export async function writeWebsiteGeneratedModules(generatedRoot: string): Promi
 }
 
 export async function checkWebsiteGeneratedModules(generatedRoot: string): Promise<WebsiteContentBuildResult> {
-  const result = buildWebsiteGeneratedModules();
+  const result = await buildWebsiteGeneratedModules();
 
   for (const [moduleName, expected] of Object.entries(result.modules) as Array<
     [keyof WebsiteGeneratedModules, string]

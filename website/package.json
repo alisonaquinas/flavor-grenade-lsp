@@ -10,8 +10,8 @@
     "content:check": "tsx scripts/content/check.ts",
     "preview": "vite preview",
     "lint": "eslint --max-warnings 0 src tests *.config.js *.config.ts",
-    "typecheck": "npm run content:check && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
-    "test": "npm run content:check && vitest run"
+    "typecheck": "npm run content:generate && npm run content:check && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
+    "test": "npm run content:generate && npm run content:check && vitest run"
   },
   "dependencies": {
     "svelte": "5.55.5"

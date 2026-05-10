@@ -2,7 +2,7 @@
 id: "TASK-277"
 title: "Compile generated page records from Markdown"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-277"]
 
 # Compile Generated Page Records From Markdown
 
-> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -74,11 +74,11 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Generated page body records are compiled from Markdown and manifests.
-- [ ] `websitePages` is no longer an input to the generated content builder.
-- [ ] Compatibility sections are derived from generated content or removed from
+- [x] Generated page body records are compiled from Markdown and manifests.
+- [x] `websitePages` is no longer an input to the generated content builder.
+- [x] Compatibility sections are derived from generated content or removed from
   renderer inputs in the same change set.
-- [ ] `content:generate`, `content:check`, `npm test`, and `npm run build`
+- [x] `content:generate`, `content:check`, `npm test`, and `npm run build`
   prove Markdown is the page body source of truth.
 
 ## Lifecycle
@@ -96,3 +96,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage proving generated page output must change when
 > Markdown changes, and that the builder must not import old `websitePages`
 > source data. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added the website Markdown compiler, frontmatter schema, and section adapter.
+> Generated page records now compile from manifests and Markdown copy rather
+> than old `websitePages` source data. Verified with `npm test -- --run
+> content-pipeline-generated-from-markdown`, `npm run lint`, and `npm run
+> typecheck`. Status: `green`.
