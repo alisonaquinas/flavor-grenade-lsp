@@ -2,7 +2,7 @@
 id: "CHORE-095"
 title: "Phase W8 content pipeline verification"
 type: chore
-status: open
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-095"]
 
 # Phase W8 Content Pipeline Verification
 
-> [!INFO] `CHORE-095` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-095` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -39,7 +39,18 @@ bun run lint:docs
 
 ## Definition of Done
 
-- [ ] All website gates pass locally.
-- [ ] Repository docs lint passes.
+- [x] All website gates pass locally.
+- [x] Repository docs lint passes.
 - [ ] CI is green before the phase is marked complete.
 - [ ] Execution ledger and roadmap are updated only after CI confirmation.
+
+## Workflow Log
+
+> [!INFO] Opened · 2026-05-10
+> Chore added for final W8 verification.
+
+> [!SUCCESS] Local verification · 2026-05-10
+> Passed from `website/`: `npm run content:generate`, `npm run content:check`,
+> `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`.
+> Passed from repository root: `bun run lint:docs`. Status: `in-review`
+> pending PR CI.

@@ -2,7 +2,7 @@
 id: "TASK-272"
 title: "Add website adapter and typed manifests"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-272"]
 
 # Add Website Adapter And Typed Manifests
 
-> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 

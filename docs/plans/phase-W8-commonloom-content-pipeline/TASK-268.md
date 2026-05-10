@@ -2,7 +2,7 @@
 id: "TASK-268"
 title: "Define Commonloom core contracts"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-268"]
 
 # Define Commonloom Core Contracts
 
-> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 

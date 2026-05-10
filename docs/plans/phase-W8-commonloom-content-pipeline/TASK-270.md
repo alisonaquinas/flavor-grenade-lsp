@@ -2,7 +2,7 @@
 id: "TASK-270"
 title: "Sanitize HTML and source trace content"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-270"]
 
 # Sanitize HTML And Source Trace Content
 
-> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 

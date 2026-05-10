@@ -2,7 +2,7 @@
 id: "TASK-276"
 title: "Verify website parity and authoring docs"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-276"]
 
 # Verify Website Parity And Authoring Docs
 
-> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
