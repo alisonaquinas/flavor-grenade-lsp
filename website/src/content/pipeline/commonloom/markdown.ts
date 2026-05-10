@@ -14,6 +14,7 @@ export interface ParseMarkdownInput<Frontmatter> {
 }
 
 export interface ParsedMarkdown<Frontmatter> {
+  sourcePath: string;
   frontmatter: Frontmatter;
   bodyMarkdown: string;
   headings: CommonloomHeading[];
@@ -34,6 +35,7 @@ export async function parseMarkdown<Frontmatter>(
   const mdast = markdownProcessor.parse(frontmatter.bodyMarkdown) as Root;
 
   return {
+    sourcePath: input.sourcePath,
     frontmatter: frontmatter.frontmatter,
     bodyMarkdown: frontmatter.bodyMarkdown,
     headings: extractHeadings(mdast, frontmatter.contentStartLine),

@@ -2,7 +2,7 @@
 id: "TASK-270"
 title: "Sanitize HTML and source trace content"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-270"]
 
 # Sanitize HTML And Source Trace Content
 
-> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -78,10 +78,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Allowed inline HTML renders in generated `bodyHtml`.
-- [ ] Unsafe HTML cannot reach generated renderer input.
-- [ ] Diagnostics identify the file and element that caused sanitization failure.
-- [ ] Generated records include source trace metadata needed for audits and
+- [x] Allowed inline HTML renders in generated `bodyHtml`.
+- [x] Unsafe HTML cannot reach generated renderer input.
+- [x] Diagnostics identify the file and element that caused sanitization failure.
+- [x] Generated records include source trace metadata needed for audits and
   content debugging.
 
 ## Lifecycle
@@ -96,3 +96,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing coverage for safe inline HTML, unsafe HTML diagnostics, and
 > stable source-trace content hashes. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added `renderMarkdownHtml`, source hashing, and source trace helpers. Verified
+> with `npm test -- --run content-pipeline`, `npm run lint`, and
+> `npm run typecheck`. Status: `green`.
