@@ -2,7 +2,7 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: in-review
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -84,10 +84,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Unit tests cover representative CommonMark and GFM constructs.
-- [ ] Invalid frontmatter reports a diagnostic instead of crashing generation.
-- [ ] Heading extraction supports route anchors and content quality checks.
-- [ ] Markdown body output is stable across repeated runs.
+- [x] Unit tests cover representative CommonMark and GFM constructs.
+- [x] Invalid frontmatter reports a diagnostic instead of crashing generation.
+- [x] Heading extraction supports route anchors and content quality checks.
+- [x] Markdown body output is stable across repeated runs.
 
 ## Lifecycle
 
@@ -110,3 +110,14 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] In review · 2026-05-10
 > `npm test -- --run content-pipeline`, `npm run lint`, and `npm run
 > typecheck` pass from `website/`. Status: `in-review`.
+
+> [!WARNING] Review feedback · 2026-05-10
+> Subagent review found malformed YAML could throw and invalid frontmatter was
+> exposed as typed metadata. Moved back to `green` while parser diagnostics are
+> tightened.
+
+> [!SUCCESS] Review fix · 2026-05-10
+> Malformed YAML now returns `FRONTMATTER_INVALID` diagnostics without throwing,
+> and invalid frontmatter is unavailable to callers while the Markdown body can
+> still parse. Verified with `npm test -- --run content-pipeline`, `npm run
+> lint`, and `npm run typecheck`. Status: `green`.

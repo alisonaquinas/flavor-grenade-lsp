@@ -84,11 +84,11 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Website package scripts include `content:generate` and `content:check`.
-- [ ] Commonloom source files compile under website TypeScript settings.
-- [ ] The scaffold can run and report "no manifests found" or equivalent
+- [x] Website package scripts include `content:generate` and `content:check`.
+- [x] Commonloom source files compile under website TypeScript settings.
+- [x] The scaffold can run and report "no manifests found" or equivalent
   non-destructive diagnostics.
-- [ ] No generated files are committed.
+- [x] No generated files are committed.
 
 ## Lifecycle
 
@@ -115,3 +115,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] In review · 2026-05-10
 > `npm test -- --run content-pipeline tooling`, `npm run lint`, and
 > `npm run typecheck` pass from `website/`. Status: `in-review`.
+
+> [!SUCCESS] Review evidence · 2026-05-10
+> Definition of Done checked against committed script scaffold and
+> non-destructive `NO_MANIFESTS` coverage. Status remains `in-review`.

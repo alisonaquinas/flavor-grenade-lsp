@@ -9,10 +9,20 @@ export interface CommonloomHeading extends CommonloomSourcePosition {
   level: number;
 }
 
+export const commonloomLinkKinds = [
+  'external',
+  'internal',
+  'same-document',
+  'wiki-link',
+  'unsupported',
+] as const;
+
+export type CommonloomLinkKind = (typeof commonloomLinkKinds)[number];
+
 export interface CommonloomLinkReference extends CommonloomSourcePosition {
   rawTarget: string;
   resolvedTarget?: string;
-  kind: 'external' | 'public-route' | 'same-document' | 'wiki-link' | 'unsupported';
+  kind: CommonloomLinkKind;
 }
 
 export interface CommonloomImageReference extends CommonloomSourcePosition {
@@ -57,12 +67,62 @@ export interface CommonloomDiagnostic {
   column?: number;
 }
 
+export const commonloomOutputModes = ['typescript', 'check-only'] as const;
+
+export type CommonloomOutputMode = (typeof commonloomOutputModes)[number];
+
+export interface CommonloomManifestEntry<AdapterData = unknown> {
+  id: string;
+  sourcePath: string;
+  outputName?: string;
+  data?: AdapterData;
+}
+
+export interface CommonloomHtmlPolicy {
+  allowInlineHtml: boolean;
+}
+
+export interface CommonloomLinkResolverInput extends CommonloomSourcePosition {
+  rawTarget: string;
+  sourcePath?: string;
+}
+
+export interface CommonloomLinkResolution {
+  kind: CommonloomLinkKind;
+  resolvedTarget?: string;
+  diagnostic?: CommonloomDiagnostic;
+}
+
+export interface CommonloomLinkPolicy {
+  resolveLink(
+    input: CommonloomLinkResolverInput,
+  ): CommonloomLinkResolution | Promise<CommonloomLinkResolution>;
+}
+
+export interface CommonloomOutputConfig {
+  mode: CommonloomOutputMode;
+  generatedModuleName?: string;
+}
+
 export interface CommonloomConfig {
   copyRoot: string;
   mediaRoot: string;
   generatedRoot: string;
+  manifests?: CommonloomManifestEntry[];
+  html?: CommonloomHtmlPolicy;
+  output?: CommonloomOutputConfig;
+  links?: CommonloomLinkPolicy;
+}
+
+export interface CommonloomCompiledDocument<Frontmatter = unknown, AdapterData = unknown> {
+  manifest: CommonloomManifestEntry<AdapterData>;
+  frontmatter: Frontmatter;
+  bodyHtml: string;
+  sourceTrace: CommonloomSourceTrace;
+  diagnostics: CommonloomDiagnostic[];
 }
 
 export interface CommonloomResult {
   diagnostics: CommonloomDiagnostic[];
+  documents?: CommonloomCompiledDocument[];
 }

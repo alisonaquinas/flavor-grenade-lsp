@@ -55,7 +55,7 @@ describe('Commonloom compiler scaffold', () => {
     expect(trace.markdownPath).toBe('copy/example.md');
   });
 
-  it('keeps website route concepts behind adapter-owned callbacks', () => {
+  it('keeps website route concepts behind adapter-owned callbacks', async () => {
     expect(commonloomLinkKinds).toEqual([
       'external',
       'internal',
@@ -85,7 +85,9 @@ describe('Commonloom compiler scaffold', () => {
       },
     };
 
+    const resolution = await config.links?.resolveLink({ rawTarget: '/quickstart/' });
+
     expect(link.kind).toBe('internal');
-    expect(config.links.resolveLink({ rawTarget: '/quickstart/' }).kind).toBe('internal');
+    expect(resolution?.kind).toBe('internal');
   });
 });

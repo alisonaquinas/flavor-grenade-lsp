@@ -2,7 +2,7 @@
 id: "TASK-268"
 title: "Define Commonloom core contracts"
 type: task
-status: in-review
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-268"]
 
 # Define Commonloom Core Contracts
 
-> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -93,10 +93,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Contract tests prove Commonloom accepts only adapter-supplied data.
-- [ ] Type names and fields match the ADR and architecture terminology.
-- [ ] Diagnostics carry enough source information for actionable author errors.
-- [ ] Core contracts do not import from website route or Svelte modules.
+- [x] Contract tests prove Commonloom accepts only adapter-supplied data.
+- [x] Type names and fields match the ADR and architecture terminology.
+- [x] Diagnostics carry enough source information for actionable author errors.
+- [x] Core contracts do not import from website route or Svelte modules.
 
 ## Lifecycle
 
@@ -118,3 +118,14 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] In review · 2026-05-10
 > `npm test -- --run content-pipeline`, `npm run lint`, and `npm run
 > typecheck` pass from `website/`. Status: `in-review`.
+
+> [!WARNING] Review feedback · 2026-05-10
+> Subagent review found route-specific link kinds and incomplete compiler
+> configuration contracts. Moved back to `green` while the contract boundary is
+> tightened.
+
+> [!SUCCESS] Review fix · 2026-05-10
+> Added route-agnostic link kinds, adapter-owned link policy callbacks, output
+> mode contracts, manifest entry contracts, and explicit HTML policy contracts.
+> Verified with `npm test -- --run content-pipeline`, `npm run lint`, and
+> `npm run typecheck`. Status: `green`.

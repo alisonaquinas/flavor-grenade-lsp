@@ -4,7 +4,7 @@ import { z } from 'zod';
 import type { CommonloomDiagnostic } from './types';
 
 export interface ParsedFrontmatter<Frontmatter> {
-  frontmatter: Frontmatter;
+  frontmatter: Frontmatter | undefined;
   bodyMarkdown: string;
   contentStartLine: number;
   diagnostics: CommonloomDiagnostic[];
@@ -15,7 +15,26 @@ export function parseFrontmatter<Frontmatter>(
   markdown: string,
   frontmatterSchema: z.ZodType<Frontmatter>,
 ): ParsedFrontmatter<Frontmatter> {
-  const file = matter(markdown);
+  let file: matter.GrayMatterFile<string>;
+
+  try {
+    file = matter(markdown);
+  } catch (error) {
+    return {
+      frontmatter: undefined,
+      bodyMarkdown: markdown,
+      contentStartLine: 1,
+      diagnostics: [
+        {
+          code: 'FRONTMATTER_INVALID',
+          severity: 'error',
+          message: error instanceof Error ? error.message : 'Invalid frontmatter.',
+          sourcePath,
+        },
+      ],
+    };
+  }
+
   const validation = frontmatterSchema.safeParse(file.data);
   const contentIndex = markdown.indexOf(file.content);
   const contentStartLine =
@@ -31,7 +50,7 @@ export function parseFrontmatter<Frontmatter>(
   }
 
   return {
-    frontmatter: file.data as Frontmatter,
+    frontmatter: undefined,
     bodyMarkdown: file.content,
     contentStartLine,
     diagnostics: validation.error.issues.map((issue) => ({

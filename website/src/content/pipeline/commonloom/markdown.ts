@@ -15,7 +15,7 @@ export interface ParseMarkdownInput<Frontmatter> {
 
 export interface ParsedMarkdown<Frontmatter> {
   sourcePath: string;
-  frontmatter: Frontmatter;
+  frontmatter: Frontmatter | undefined;
   bodyMarkdown: string;
   headings: CommonloomHeading[];
   mdast: Root;
