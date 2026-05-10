@@ -53,6 +53,7 @@ export const commonloomDiagnosticCodes = [
   'MARKDOWN_INVALID',
   'HTML_UNSAFE',
   'LINK_UNRESOLVED',
+  'MANIFEST_INVALID',
   'MEDIA_UNRESOLVED',
   'MEDIA_ALT_MISSING',
   'PATH_OUTSIDE_ROOT',

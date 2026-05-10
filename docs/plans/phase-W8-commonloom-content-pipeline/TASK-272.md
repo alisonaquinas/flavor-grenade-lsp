@@ -2,7 +2,7 @@
 id: "TASK-272"
 title: "Add website adapter and typed manifests"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-272"]
 
 # Add Website Adapter And Typed Manifests
 
-> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -87,10 +87,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Manifest authors write TypeScript data, not generated output.
-- [ ] Duplicate ids and copy paths fail validation.
-- [ ] Invalid route ids fail before Svelte typecheck.
-- [ ] Commonloom remains reusable because website-specific route concepts stay
+- [x] Manifest authors write TypeScript data, not generated output.
+- [x] Duplicate ids and copy paths fail validation.
+- [x] Invalid route ids fail before Svelte typecheck.
+- [x] Commonloom remains reusable because website-specific route concepts stay
   outside the core.
 
 ## Lifecycle
@@ -106,3 +106,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage for explicit manifest registry loading, duplicate
 > route/copy validation, unknown route ids, page-group mismatches, and copy path
 > confinement. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added website-only manifest types, explicit manifest registry, route registry
+> helpers, and the first quickstart page-group manifest. Verified with `npm
+> test -- --run content-pipeline-manifest`, `npm run lint`, and `npm run
+> typecheck`. Status: `green`.
