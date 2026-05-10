@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: draft
+status: ready
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `draft`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `ready`
 
 ## Goal
 
@@ -72,3 +72,8 @@ See [[index]] for the complete ticket list.
 > [!INFO] Lifecycle normalized · 2026-05-10
 > Replaced invalid `planned` status with lifecycle state `draft` before Step
 > A-C ticket readiness work.
+
+> [!INFO] Ready · 2026-05-10
+> Step A-C readiness details are recorded across child tickets: exact file
+> paths, API shapes, linked requirements, linked tests, BDD applicability, and
+> required sweep chores. Status: `ready`.

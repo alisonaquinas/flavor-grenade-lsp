@@ -31,6 +31,51 @@ the generated TypeScript is written.
 - Fail diagnostics for missing images, unsafe paths, unsupported URI schemes,
   unresolved local links, and unresolvable public wiki-links.
 
+## Implementation Notes
+
+Create or modify:
+
+- `website/src/content/pipeline/commonloom/links.ts`
+- `website/src/content/pipeline/commonloom/media.ts`
+- `website/src/content/pipeline/commonloom/paths.ts`
+- `website/tests/content-pipeline-links-media.test.ts`
+
+Resolver API:
+
+```ts
+export interface CommonloomLinkPolicy {
+  resolvePublicRoute(target: string): string | null;
+  resolveWikiLink(target: string): string | null;
+}
+
+export function classifyLinkTarget(rawTarget: string): CommonloomLinkReference;
+
+export function validateMediaReference(
+  reference: CommonloomImageReference,
+  mediaRoot: string,
+): CommonloomDiagnostic[];
+```
+
+Path confinement uses resolved absolute paths and verifies every resolved copy,
+media, and generated path remains inside its approved root.
+
+## Linked Requirements
+
+- [[../../../website/docs/architecture/content-pipeline]]
+- [[../../../website/docs/requirements/technical/source-layout-and-documentation]]
+
+## Linked Tests
+
+| Test file | Expected first assertion |
+|---|---|
+| `website/tests/content-pipeline-links-media.test.ts` | Missing media files produce diagnostics. |
+| `website/tests/content-pipeline-links-media.test.ts` | Traversal and unsupported URI schemes fail validation. |
+| `website/tests/content-pipeline-links-media.test.ts` | Wiki-links resolve only through the adapter callback. |
+
+## Linked BDD
+
+N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
+
 ## Definition of Done
 
 - [ ] Valid Markdown image syntax generates a tracked image reference.
@@ -39,3 +84,12 @@ the generated TypeScript is written.
   resolution.
 - [ ] Unsafe or unsupported link targets fail with actionable diagnostics.
 - [ ] Wiki-links do not become a hidden dependency on the LSP vault resolver.
+
+## Lifecycle
+
+Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+
+## Workflow Log
+
+> [!INFO] Opened · 2026-05-10
+> Ticket normalized for Phase Execution Step C. Status: `open`.
