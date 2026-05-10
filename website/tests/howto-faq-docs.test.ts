@@ -33,6 +33,10 @@ function paragraphCount(body: string): number {
   return body.split(/\n\s*\n/).filter((paragraph) => paragraph.trim().length > 0).length;
 }
 
+function articleRouteIds(): RouteId[] {
+  return guideArticleGroups.flatMap((group) => group.routeIds);
+}
+
 describe('how-to, advanced usage, and FAQ docs', () => {
   it('publishes a task-focused how-to index with required workflow groups', () => {
     const howTo = text('howTo');
@@ -61,9 +65,7 @@ describe('how-to, advanced usage, and FAQ docs', () => {
   });
 
   it('gives article sections enough prose depth for public docs', () => {
-    const articleIds = guideArticleGroups.flatMap((group) => group.routeIds);
-
-    for (const routeId of articleIds) {
+    for (const routeId of articleRouteIds()) {
       const article = page(routeId);
       const proseSectionCount = article.sections.filter(
         (section) => paragraphCount(section.body) >= 2,
@@ -71,6 +73,25 @@ describe('how-to, advanced usage, and FAQ docs', () => {
 
       expect(proseSectionCount).toBeGreaterThanOrEqual(1);
       expect(text(routeId)).not.toMatch(/\bstub\b|\bplaceholder\b/i);
+    }
+  });
+
+  it('keeps guide article prose specific instead of helper boilerplate', () => {
+    const bannedBoilerplate = [
+      'The examples below assume VS Code has opened the vault root',
+      'The important sign is consistency',
+      'Use this definition as the short version',
+      'Read this as an operating boundary, not just a configuration note',
+    ];
+
+    for (const routeId of articleRouteIds()) {
+      const pageText = text(routeId);
+
+      for (const phrase of bannedBoilerplate) {
+        expect(pageText).not.toContain(phrase);
+      }
+
+      expect(pageText.length).toBeGreaterThanOrEqual(1700);
     }
   });
 
