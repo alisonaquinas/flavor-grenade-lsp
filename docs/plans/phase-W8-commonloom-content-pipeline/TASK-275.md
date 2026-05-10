@@ -2,7 +2,7 @@
 id: "TASK-275"
 title: "Wire scripts, gitignore, tests, and build gates"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-275"]
 
 # Wire Scripts, Gitignore, Tests, And Build Gates
 
-> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -82,3 +82,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage requiring normal website gates to run content
+> generation/checking, generated output to be git-ignored, and `content:check`
+> to execute successfully. Status: `red`.
