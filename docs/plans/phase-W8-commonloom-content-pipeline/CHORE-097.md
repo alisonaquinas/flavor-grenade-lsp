@@ -2,7 +2,7 @@
 id: "CHORE-097"
 title: "Phase W8 code quality sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-097"]
 
 # Phase W8 Code Quality Sweep
 
-> [!INFO] `CHORE-097` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-097` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -31,15 +31,20 @@ Run the Step F code quality sweep for W8 after the lint sweep passes.
 
 ## Acceptance Criteria
 
-- [ ] Commonloom core has no imports from Svelte, route modules, or Flavor
+- [x] Commonloom core has no imports from Svelte, route modules, or Flavor
   Grenade product data.
-- [ ] Exported Commonloom and adapter symbols have clear names and comments
+- [x] Exported Commonloom and adapter symbols have clear names and comments
   where useful.
-- [ ] Functions and modules remain small enough to review.
-- [ ] `cd website && npm run typecheck` passes after any fixes.
-- [ ] Any issue found during the sweep is ticketed before it is fixed.
+- [x] Functions and modules remain small enough to review.
+- [x] `cd website && npm run typecheck` passes after any fixes.
+- [x] Any issue found during the sweep is ticketed before it is fixed.
 
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-10
 > Chore added for required Phase Execution Step F.
+
+> [!SUCCESS] Code quality sweep complete · 2026-05-10
+> Checked Commonloom imports for Svelte, route modules, wiki modules, page
+> modules, and Flavor Grenade product data; no core boundary violations found.
+> `npm run typecheck` passed from `website/`. Status: `done`.
