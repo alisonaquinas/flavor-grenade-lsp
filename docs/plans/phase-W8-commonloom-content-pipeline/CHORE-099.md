@@ -68,3 +68,9 @@ bun run lint:docs
 > `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
 > Generated output remains ignored, and no release tag or publication was
 > pushed. CHORE-099 stays `open` until PR CI and merge evidence exist.
+
+> [!SUCCESS] PR CI green · 2026-05-10
+> PR #63 CI run `25639122802` passed Build, dependency policy, format, ESLint,
+> TypeScript typecheck, tests, both Markdown lint jobs, and website checks.
+> The npm publish job was skipped. CHORE-099 remains `open` because the PR has
+> not been merged into `develop`.
