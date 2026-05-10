@@ -33,12 +33,14 @@ describe('content pipeline scripts', () => {
     const websiteRoot = fileURLToPath(new URL('..', import.meta.url));
 
     expect(gitignore).toContain('website/src/content/generated/');
+    const command = process.platform === 'win32' ? 'cmd.exe' : 'node_modules/.bin/tsx';
+    const args =
+      process.platform === 'win32'
+        ? ['/d', '/s', '/c', 'node_modules\\.bin\\tsx.cmd scripts\\content\\check.ts']
+        : ['scripts/content/check.ts'];
+
     expect(() =>
-      execFileSync('npm', ['run', 'content:check'], {
-        cwd: websiteRoot,
-        shell: true,
-        stdio: 'pipe',
-      }),
+      execFileSync(command, args, { cwd: websiteRoot, stdio: 'pipe' }),
     ).not.toThrow();
   });
 });

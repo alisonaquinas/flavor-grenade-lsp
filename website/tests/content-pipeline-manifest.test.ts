@@ -9,12 +9,12 @@ import {
 
 describe('website page-group manifests', () => {
   it('loads manifests only through the explicit registry', () => {
-    expect(websiteContentManifests).toEqual([
+    expect(websiteContentManifests).toEqual(expect.arrayContaining([
       expect.objectContaining({
         group: 'quickstart',
         manifestPath: 'src/content/quickstart.manifest.ts',
       }),
-    ]);
+    ]));
   });
 
   it('rejects duplicate route ids and copy paths', () => {

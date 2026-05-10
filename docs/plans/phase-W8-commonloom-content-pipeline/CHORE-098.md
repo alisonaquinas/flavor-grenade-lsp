@@ -2,7 +2,7 @@
 id: "CHORE-098"
 title: "Phase W8 security sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-098"]
 
 # Phase W8 Security Sweep
 
-> [!INFO] `CHORE-098` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-098` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -31,13 +31,20 @@ Run the Step G security sweep for W8 after the code quality sweep passes.
 
 ## Acceptance Criteria
 
-- [ ] Copy, manifest, media, and generated paths are confined to approved roots.
-- [ ] Inline HTML sanitization cannot emit unsafe scriptable markup.
-- [ ] Unsupported URI schemes and traversal attempts fail validation.
-- [ ] New dependencies are pinned and have W8 rationale.
-- [ ] Any security finding is ticketed before it is fixed.
+- [x] Copy, manifest, media, and generated paths are confined to approved roots.
+- [x] Inline HTML sanitization cannot emit unsafe scriptable markup.
+- [x] Unsupported URI schemes and traversal attempts fail validation.
+- [x] New dependencies are pinned and have W8 rationale.
+- [x] Any security finding is ticketed before it is fixed.
 
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-10
 > Chore added for required Phase Execution Step G.
+
+> [!SUCCESS] Security sweep complete · 2026-05-10
+> `npm test -- --run content-pipeline-html content-pipeline-links-media
+> content-pipeline-manifest content-pipeline-scripts`, `npm run lint`, and
+> `npm audit --audit-level=moderate` passed from `website/`. Path confinement,
+> unsafe HTML, unsupported link/media schemes, and generated-output checks have
+> regression coverage. Status: `done`.
