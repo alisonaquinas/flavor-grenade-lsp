@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: green
+status: refactor
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `refactor`
 
 ## Description
 
@@ -107,3 +107,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added Commonloom scaffold modules, content command entry points, package
 > scripts, and documented W8 dependency choices. Targeted tests pass. Status:
 > `green`.
+
+> [!NOTE] Refactor · 2026-05-10
+> Lint found an unused scaffold config parameter. Cleaned the stub without
+> changing behavior. Status: `refactor`.
