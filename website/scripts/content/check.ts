@@ -1,10 +1,6 @@
-import { compileCommonloom } from '../../src/content/pipeline/commonloom';
+import { checkWebsiteGeneratedModules } from '../../src/content/pipeline/website/build';
 
-const result = await compileCommonloom({
-  copyRoot: 'src/content/copy',
-  mediaRoot: 'src/content/media',
-  generatedRoot: 'src/content/generated',
-});
+const result = await checkWebsiteGeneratedModules('src/content/generated');
 
 for (const diagnostic of result.diagnostics) {
   console.log(`${diagnostic.severity}: ${diagnostic.message}`);

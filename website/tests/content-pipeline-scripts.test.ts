@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
@@ -29,8 +30,15 @@ describe('content pipeline scripts', () => {
 
   it('ignores generated content output and exercises content scripts', () => {
     const gitignore = readFileSync(new URL('../../.gitignore', import.meta.url), 'utf8');
+    const websiteRoot = fileURLToPath(new URL('..', import.meta.url));
 
     expect(gitignore).toContain('website/src/content/generated/');
-    expect(() => execFileSync('npm.cmd', ['run', 'content:check'], { cwd: new URL('..', import.meta.url) })).not.toThrow();
+    expect(() =>
+      execFileSync('npm', ['run', 'content:check'], {
+        cwd: websiteRoot,
+        shell: true,
+        stdio: 'pipe',
+      }),
+    ).not.toThrow();
   });
 });

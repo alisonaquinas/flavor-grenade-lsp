@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build",
+    "build": "npm run content:generate && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build",
     "content:generate": "tsx scripts/content/generate.ts",
     "content:check": "tsx scripts/content/check.ts",
     "preview": "vite preview",
     "lint": "eslint --max-warnings 0 src tests *.config.js *.config.ts",
-    "typecheck": "svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
-    "test": "vitest run"
+    "typecheck": "npm run content:check && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
+    "test": "npm run content:check && vitest run"
   },
   "dependencies": {
     "svelte": "5.55.5"

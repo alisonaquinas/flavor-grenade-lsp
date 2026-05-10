@@ -4,6 +4,7 @@ out/
 build/
 *.js.map
 *.d.ts.map
+website/src/content/generated/
 
 # ── Runtime / Bun ────────────────────────────────────────────────────────────
 node_modules/

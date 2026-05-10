@@ -2,7 +2,7 @@
 id: "TASK-275"
 title: "Wire scripts, gitignore, tests, and build gates"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-275"]
 
 # Wire Scripts, Gitignore, Tests, And Build Gates
 
-> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -69,10 +69,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Fresh clone plus install can build without committed generated content.
-- [ ] `content:check` fails when generated TypeScript is stale.
-- [ ] Website tests fail on broken content references.
-- [ ] Normal `npm run build` works without manual preconditions.
+- [x] Fresh clone plus install can build without committed generated content.
+- [x] `content:check` fails when generated TypeScript is stale.
+- [x] Website tests fail on broken content references.
+- [x] Normal `npm run build` works without manual preconditions.
 
 ## Lifecycle
 
@@ -87,3 +87,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage requiring normal website gates to run content
 > generation/checking, generated output to be git-ignored, and `content:check`
 > to execute successfully. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added generated-output gitignore rules, website generated module build
+> helpers, content script execution, and package gates for build, test, and
+> typecheck. Verified with `npm test -- --run content-pipeline-scripts`, `npm
+> run content:generate`, `npm run lint`, and `npm run typecheck`. Status:
+> `green`.
