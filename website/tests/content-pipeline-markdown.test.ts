@@ -60,5 +60,23 @@ describe('Commonloom Markdown parser', () => {
         sourcePath: 'copy/bad.md',
       }),
     );
+    expect(result.frontmatter).toBeUndefined();
+  });
+
+  it('reports malformed frontmatter as diagnostics without throwing', async () => {
+    const result = await parseMarkdown({
+      sourcePath: 'copy/malformed.md',
+      markdown: ['---', 'title: [unterminated', '---', '# Bad'].join('\n'),
+      frontmatterSchema,
+    });
+
+    expect(result.frontmatter).toBeUndefined();
+    expect(result.diagnostics).toContainEqual(
+      expect.objectContaining({
+        code: 'FRONTMATTER_INVALID',
+        severity: 'error',
+        sourcePath: 'copy/malformed.md',
+      }),
+    );
   });
 });

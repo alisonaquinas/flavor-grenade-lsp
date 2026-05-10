@@ -3,9 +3,15 @@ import { describe, expect, it } from 'vitest';
 import { compileCommonloom } from '../src/content/pipeline/commonloom';
 import {
   commonloomDiagnosticCodes,
+  commonloomLinkKinds,
+  commonloomOutputModes,
   commonloomSeverities,
 } from '../src/content/pipeline/commonloom/diagnostics';
-import type { CommonloomSourceTrace } from '../src/content/pipeline/commonloom';
+import type {
+  CommonloomConfig,
+  CommonloomLinkReference,
+  CommonloomSourceTrace,
+} from '../src/content/pipeline/commonloom';
 
 describe('Commonloom compiler scaffold', () => {
   it('exports a non-destructive compiler entry point', async () => {
@@ -47,5 +53,39 @@ describe('Commonloom compiler scaffold', () => {
     };
 
     expect(trace.markdownPath).toBe('copy/example.md');
+  });
+
+  it('keeps website route concepts behind adapter-owned callbacks', () => {
+    expect(commonloomLinkKinds).toEqual([
+      'external',
+      'internal',
+      'same-document',
+      'wiki-link',
+      'unsupported',
+    ]);
+    expect(commonloomOutputModes).toEqual(['typescript', 'check-only']);
+
+    const link: CommonloomLinkReference = {
+      rawTarget: '/quickstart/',
+      resolvedTarget: '/quickstart/',
+      kind: 'internal',
+    };
+    const config: CommonloomConfig = {
+      copyRoot: 'src/content/copy',
+      mediaRoot: 'src/content/media',
+      generatedRoot: 'src/content/generated',
+      manifests: [],
+      html: { allowInlineHtml: true },
+      output: { mode: 'typescript' },
+      links: {
+        resolveLink: ({ rawTarget }) => ({
+          kind: rawTarget.startsWith('/') ? 'internal' : 'unsupported',
+          resolvedTarget: rawTarget,
+        }),
+      },
+    };
+
+    expect(link.kind).toBe('internal');
+    expect(config.links.resolveLink({ rawTarget: '/quickstart/' }).kind).toBe('internal');
   });
 });
