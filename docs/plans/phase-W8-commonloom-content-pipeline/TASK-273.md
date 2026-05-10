@@ -2,7 +2,7 @@
 id: "TASK-273"
 title: "Generate TypeScript content records"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-273"]
 
 # Generate TypeScript Content Records
 
-> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -80,10 +80,10 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Generated TypeScript imports cleanly from existing page code.
-- [ ] Output is stable across repeated generation.
-- [ ] Generated modules include a "do not edit" banner.
-- [ ] Generated files are reproducible from Markdown and manifests alone.
+- [x] Generated TypeScript imports cleanly from existing page code.
+- [x] Output is stable across repeated generation.
+- [x] Generated modules include a "do not edit" banner.
+- [x] Generated files are reproducible from Markdown and manifests alone.
 
 ## Lifecycle
 
@@ -98,3 +98,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage for deterministic generated TypeScript module strings,
 > generated-file headers, stable re-exports, and excluding generated JSON from
 > renderer inputs. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added website generated content contracts and deterministic module emitters
+> for routes, pages, navigation, media, and index re-exports. Verified with
+> `npm test -- --run content-pipeline-generated-ts`, `npm run lint`, and `npm
+> run typecheck`. Status: `green`.
