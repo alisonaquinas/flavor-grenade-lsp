@@ -2,25 +2,25 @@
 title: "Work with OFM Opaque Regions | Flavor Grenade LSP"
 description: "Understand why code, math, comments, frontmatter, and templates avoid false OFM tokens."
 h1: "Work with OFM Opaque Regions"
-summary: "Understand why code, math, comments, frontmatter, and templates avoid false OFM tokens."
+summary: "Keep examples and generated snippets from being mistaken for real vault links."
 related: ["conceptOpaqueRegions","advancedParserBoundaries","howToFixBrokenLinks"]
 ---
 
 # Work with OFM Opaque Regions
 
-Understand why code, math, comments, frontmatter, and templates avoid false OFM tokens.
+Keep examples and generated snippets from being mistaken for real vault links.
 
 ## When to use it
 
-Use this page when examples or generated regions contain link-looking text that should not affect diagnostics.
+Use this page when code samples, comments, math, frontmatter, or templates contain text that looks like a wiki link but should not act like one.
 
-Opaque regions protect documentation, generated snippets, math, comments, and template code from being interpreted as real vault content. This is especially important when LLMs maintain pages full of examples.
+Flavor Grenade deliberately ignores those regions so examples stay examples. That keeps teaching snippets from turning into false broken-link warnings.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work in a vault folder with one real link and one example link so the difference is visible.
 
-Move one example link into a code fence and leave one real link in prose. Diagnostics and navigation should ignore the example while continuing to process the prose link.
+Put the example inside a code fence and leave the real link in normal prose. Diagnostics and navigation should ignore the example and keep working for the prose link.
 
 ### Identify the region
 
@@ -28,7 +28,7 @@ Look for code fences, inline code, math, comments, frontmatter, or Templater blo
 
 ### Keep examples inside opaque syntax
 
-Put sample links inside a code fence when they are documentation, not vault references.
+Put sample links inside a code fence when they are documentation, not real vault references.
 
 ### Move real links outside
 
@@ -42,12 +42,12 @@ If a link should resolve, place it in normal Markdown text.
 
 ## Expected result
 
-False diagnostics stay quiet for link-looking text inside opaque regions, while real prose links still participate in vault features.
+Link-looking text inside examples stays quiet, while real prose links still participate in vault features.
 
-The server should stay quiet about OFM-looking text inside opaque regions and remain active for normal Markdown around it. That keeps examples useful without polluting the vault graph.
+That lets docs show realistic syntax without filling the vault with fake missing targets.
 
 ## Common failure mode
 
-If a real link is accidentally placed inside a code fence, the server treats it as example text.
+If a real link is accidentally placed inside a code fence, Flavor Grenade treats it as example text.
 
-If a real link is inside a code fence or template block, the server will treat it as example text. Move it back into ordinary prose when you want it to resolve.
+Move it back into ordinary prose when you want completion, diagnostics, navigation, references, or rename to see it.

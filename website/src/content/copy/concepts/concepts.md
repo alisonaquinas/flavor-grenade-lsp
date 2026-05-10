@@ -2,17 +2,17 @@
 title: "Concepts | Flavor Grenade LSP"
 description: "Short wiki-style explanations for Obsidian Flavored Markdown language-server concepts."
 h1: "Concepts"
-summary: "Short concept pages explain the LLM wiki ideas behind the public docs."
+summary: "Short concept pages explain the ideas behind the guides in plain language."
 related: ["conceptInspirationPriorArt","conceptObsidianFlavoredMarkdown","conceptVaultIndex"]
 ---
 
 # Concepts
 
-Short concept pages explain the LLM wiki ideas behind the public docs.
+Short concept pages explain the ideas behind the guides in plain language.
 
-## Short linked concepts
+## Small ideas you can link to
 
-Concept pages follow a Karpathy-inspired LLM wiki style while crediting Obsidian and Marksman inspiration.
+These pages keep important terms small, linked, and easy to reuse. Read them when a guide mentions a term like vault index, rename safety, or opaque regions and you want the plain-English version.
 
 - Inspiration and Prior Art: What inspired the public wiki shape?
 - Obsidian Flavored Markdown: What makes Markdown become Obsidian Flavored Markdown?
@@ -36,6 +36,6 @@ Concept pages follow a Karpathy-inspired LLM wiki style while crediting Obsidian
 - [Rename Safety](/concepts/rename-safety/) - Learn how rename uses resolved local references instead of blind text replacement.
 - [References, Navigation, Tags, and Embeds](/concepts/references-navigation-tags-and-embeds/) - See how references, navigation, tags, highlights, and embeds share one vault graph.
 
-## For LLM maintainers
+## For future docs
 
-Use these public terms when generating or maintaining docs so Obsidian Vault workflows, OFM behavior, and server/extension boundaries stay consistent.
+Use these public terms when writing or updating docs so the site stays consistent about Obsidian vaults, Markdown behavior, and the boundary between the VS Code extension and the language server.

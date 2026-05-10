@@ -2,19 +2,19 @@
 title: "Parser Boundaries and Opaque Regions | Flavor Grenade LSP"
 description: "Review parser ordering, opaque-region marking, token parsing, and conservative edge cases."
 h1: "Parser Boundaries and Opaque Regions"
-summary: "Review parser ordering, opaque-region marking, token parsing, and conservative edge cases."
+summary: "Learn why Flavor Grenade reads examples differently from real vault text."
 related: ["conceptOpaqueRegions","howToOpaqueRegions","conceptDiagnostics"]
 ---
 
 # Parser Boundaries and Opaque Regions
 
-Review parser ordering, opaque-region marking, token parsing, and conservative edge cases.
+Learn why Flavor Grenade reads examples differently from real vault text.
 
 ## Opaque first
 
-The opaque-region pass runs before token parsing so code, math, comments, and templates can be skipped safely.
+Flavor Grenade marks code, math, comments, and templates before looking for vault tokens inside the document.
 
-Ordering is the key design point. Once a region is marked opaque, later token parsers can ignore its text and avoid turning examples into diagnostics, references, tags, or rename targets.
+That order matters. Once a region is marked as an example-like area, later parsing can ignore it and avoid turning snippets into diagnostics, references, tags, or rename targets.
 
 ````text
 ```markdown
@@ -24,18 +24,20 @@ Ordering is the key design point. Once a region is marked opaque, later token pa
 
 ## Token parsing
 
-After opaque regions are marked, wiki links, Markdown links, tags, embeds, headings, and blocks can be parsed as real OFM tokens.
+After example-like regions are marked, normal prose can be parsed for wiki links, Markdown links, tags, embeds, headings, and blocks.
 
-That gives the parser a clean split between examples and content. It also makes future parser changes easier to reason about because each token type shares the same skip rules.
+That gives the parser a clean split between examples and real content. It also keeps future parser changes easier to reason about because each token type shares the same skip rules.
 
 ## Conservative edge cases
 
-Ambiguous or unsupported syntax should stay quiet rather than produce false diagnostics.
+Ambiguous or unsupported syntax should stay quiet rather than produce false warnings.
 
-Quiet behavior is not a lack of ambition here; it is what keeps users from distrusting the tool. A false positive in generated or example text is more damaging than an omitted warning.
+That quiet behavior builds trust. A false warning in generated or example text is worse than skipping something the tool cannot classify safely.
 
 ## Practical check
 
-Parser-boundary examples should pair one real token with one lookalike token in code, math, comment, frontmatter, or template text. The real token demonstrates normal OFM behavior; the lookalike demonstrates why opaque marking happens before token parsing.
+Parser-boundary examples should pair one real token with one lookalike token in code, math, comment, frontmatter, or template text. The real token demonstrates normal vault behavior; the lookalike demonstrates why examples are marked first.
 
-That pattern is important for LLM-maintained docs because guide pages contain many examples that look like real vault content. The article should make it clear that fenced snippets are teaching material, not indexed relationships, unless the example is intentionally moved into normal prose for verification in a real vault.
+That pattern matters because guide pages contain many examples that look like real vault content. Fenced snippets are teaching material, not indexed relationships, unless the example is intentionally moved into normal prose.
+
+When a parser bug is suspected, reduce the case to one real link and one lookalike example. If the real link works and the example stays quiet, the boundary is doing its job. If both are treated the same, the problem is easier to explain and test.

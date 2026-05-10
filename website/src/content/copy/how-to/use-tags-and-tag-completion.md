@@ -2,29 +2,29 @@
 title: "Use Tags and Tag Completion | Flavor Grenade LSP"
 description: "Complete nested Obsidian tags and find tag references across indexed vault notes."
 h1: "Use Tags and Tag Completion"
-summary: "Complete nested Obsidian tags and find tag references across indexed vault notes."
+summary: "Keep tag spelling consistent and find where a tag is used across your vault."
 related: ["conceptReferencesNavigationTagsEmbeds","conceptCompletions","howToFindReferencesHighlights"]
 ---
 
 # Use Tags and Tag Completion
 
-Complete nested Obsidian tags and find tag references across indexed vault notes.
+Keep tag spelling consistent and find where a tag is used across your vault.
 
 ## When to use it
 
-Use this page when your vault uses tags as a lightweight graph alongside wiki links.
+Use this page when tags are part of how your vault groups projects, people, topics, or status.
 
-Tags are a lightweight graph layered over notes and links. Completion helps keep nested tag spelling consistent, while references make it possible to inspect where a tag is actually used. Treat the tag registry as shared vocabulary for project pages, people notes, status notes, and generated wiki maintenance work.
+Completion helps keep nested tag spelling consistent. References help you see where a tag already appears before you rename or split it.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work in a vault folder so tag suggestions come from more than the current note.
 
-Start with a tag prefix that already exists in more than one note, then add a new nested tag. This shows the difference between indexed candidates and new text the server has not seen yet.
+Start with a tag prefix that already exists in more than one note, then try a new nested tag so the difference is easy to see.
 
 ### Type a tag prefix
 
-Type `#project/` and select a known nested tag from the vault-wide tag registry.
+Type `#project/` and select a known nested tag from your vault.
 
 ### Find tag references
 
@@ -32,7 +32,7 @@ Run references on the tag to inspect notes that share the same project or topic.
 
 ### Keep tags outside opaque examples
 
-Tags inside code fences and comments are examples, not indexed tag facts.
+Tags inside code fences and comments are examples, not real tag usage.
 
 ```text
 #project/flavor-grenade
@@ -41,12 +41,14 @@ Tags inside code fences and comments are examples, not indexed tag facts.
 
 ## Expected result
 
-The tag candidate or reference result reflects tags parsed from indexed vault notes.
+The tag suggestion or reference list reflects tags found in indexed vault notes.
 
-The tag candidate should preserve the nested path you chose, and references should find the same tag in indexed notes. This helps maintain project taxonomies without relying on memory.
+That makes tag cleanup less dependent on memory and more grounded in the notes you already have.
 
 ## Common failure mode
 
-A tag typed before indexing completes may not have vault-wide suggestions yet.
+A tag typed before indexing finishes may not have vault-wide suggestions yet.
 
-Tags inside code fences, comments, and templates should not become indexed facts. If a tag is missing from completion, confirm it appears in normal Markdown and that indexing has finished.
+If a tag is missing from completion, confirm it appears in normal Markdown, outside code fences or comments, and that indexing has finished.
+
+If you are cleaning up a tag family, check references before changing the spelling. That gives you a list of notes that use the old tag and helps you decide whether the tag is truly obsolete, just misspelled, or still useful in another part of the vault. Tags are small, but they carry a lot of organizational meaning.

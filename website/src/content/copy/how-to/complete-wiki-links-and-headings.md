@@ -2,37 +2,37 @@
 title: "Complete Wiki-links and Headings | Flavor Grenade LSP"
 description: "Use vault-aware completion for notes, headings, tags, embeds, and attachments."
 h1: "Complete Wiki-links and Headings"
-summary: "Use vault-aware completion for note names, headings, tags, embeds, and attachments."
+summary: "Let the editor suggest notes, headings, tags, embeds, and attachments from your vault."
 related: ["conceptCompletions","conceptVaultIndex","howToUseTagsCompletion"]
 ---
 
 # Complete Wiki-links and Headings
 
-Use vault-aware completion for note names, headings, tags, embeds, and attachments.
+Let the editor suggest notes, headings, tags, embeds, and attachments from your vault.
 
 ## When to use it
 
-Use this page when you want to type less and select local vault targets from indexed candidates.
+Use this page when you want to type less and choose a local target instead of remembering the exact note or heading name.
 
-Completion is the quickest visible proof that the vault index is useful. It turns indexed notes, headings, blocks, tags, callouts, and attachments into suggestions that match the current OFM context.
+Completion is also a quick health check. If suggestions come from your vault, Flavor Grenade has found and indexed the notes you are working with.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work in a vault folder so completion has more than the current file to draw from.
 
-Try note completion first, then heading completion, then attachment or tag completion. This order makes it easier to tell whether the missing candidate is an index problem, a target-resolution problem, or just the wrong trigger context.
+Try note completion first, then heading completion, then tag or attachment completion. That order makes missing suggestions easier to diagnose.
 
 ### Trigger note completion
 
-Type `[[Pro` in a vault note and choose an indexed note candidate.
+Type `[[Pro` in a vault note and choose a note suggestion.
 
 ### Narrow to headings
 
-Type `[[Project Plan#` to request headings from the resolved note.
+Type `[[Project Plan#` to ask for headings inside that note.
 
 ### Keep the selected style
 
-Use the configured link style so completions match your vault conventions.
+Choose the suggestion shape that matches the way your vault already writes links.
 
 ```text
 Today connects to [[Project Plan#Open questions]].
@@ -40,12 +40,14 @@ Today connects to [[Project Plan#Open questions]].
 
 ## Expected result
 
-Completion inserts the selected vault target with the expected wiki-link or Markdown-link shape.
+Completion inserts the selected local target in the expected wiki-link or Markdown-link shape.
 
-The inserted text should match the configured link style and point to a target the server can resolve later. Completion should make the next diagnostic or navigation action more accurate, not merely fill in text.
+The inserted link should be something navigation and diagnostics can understand later.
 
 ## Common failure mode
 
-If the vault is not indexed, note-name completion is limited or unavailable because there is no vault graph to query.
+If the vault has not been indexed yet, note-name suggestions may be thin or missing.
 
-In single-file mode, vault-wide note-name completion is unavailable because there is no vault graph. If suggestions are missing in vault mode, wait for indexing and confirm the target file is not ignored.
+If suggestions are still missing in a vault, wait a moment for indexing and confirm the target file is not ignored.
+
+Also check the exact place where you are typing. Completion is context-sensitive: `[[` asks for notes, `#` inside a resolved note link asks for headings, and a tag prefix asks for tags. If the cursor is inside a code fence, comment, or other example region, Flavor Grenade keeps quiet on purpose so examples do not turn into real vault edits.

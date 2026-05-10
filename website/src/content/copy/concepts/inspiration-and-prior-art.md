@@ -2,38 +2,36 @@
 title: "Inspiration and Prior Art | Flavor Grenade LSP"
 description: "Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art."
 h1: "Inspiration and Prior Art"
-summary: "Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art."
+summary: "Flavor Grenade borrows useful ideas from linked docs, Obsidian vaults, and Markdown language servers."
 related: ["conceptObsidianFlavoredMarkdown","conceptVaultIndex","faq"]
 ---
 
 # Inspiration and Prior Art
 
-Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art.
+Flavor Grenade borrows useful ideas from linked docs, Obsidian vaults, and Markdown language servers.
 
-## Compact definition
+## In plain English
 
-Flavor Grenade uses a Karpathy-inspired LLM wiki shape: short, linked concept pages that let humans and LLM maintainers share vocabulary.
+Flavor Grenade’s docs use short linked concept pages so people and AI helpers can point to the same idea instead of redefining it in every guide.
 
-The public docs borrow the linked-wiki shape because it is easier for readers and LLM agents to reuse one precise concept than to maintain several partial definitions scattered across guides.
+That shape is inspired by Karpathy’s LLM wiki idea, Obsidian’s vault model, and Markdown language-server work such as Marksman. They are influences, not affiliations or endorsements.
 
-## Vault example
+## How it shows up here
 
-Use this example as the public vocabulary for humans and LLM maintainers.
-
-A task page can link to a concept when the reader needs background, then return to the workflow without turning every guide into a glossary. That is the tone to preserve: useful, linked, and direct.
+A task page can link to a concept when the reader needs background, then return to the workflow without becoming a glossary. The tone should stay useful, linked, and direct.
 
 ```text
 A guide can say "see [[Vault Index]]" instead of redefining DocId, wiki-link resolution, and rename safety in every task page.
 ```
 
-## For LLM maintainers
+## For future docs
 
-Credit Karpathy, Obsidian, and Marksman as inspiration and prior art without implying affiliation or endorsement.
+Credit Karpathy, Obsidian, and Marksman as inspiration without implying that they maintain, endorse, or define Flavor Grenade behavior.
 
-Always credit Karpathy, Obsidian, and Marksman as influences rather than dependencies or endorsements. The site should be clear about lineage while keeping Flavor Grenade behavior distinct.
+## Try this
 
-## Practical check
+Read one workflow page and ask whether each borrowed idea is named precisely. Karpathy should be credited for the linked wiki shape, Obsidian for vault and Markdown conventions, and Marksman for Markdown language-server inspiration.
 
-A practical prior-art check is to read one workflow page and ask whether each borrowed idea is named precisely. Karpathy should be credited for the linked LLM wiki shape, Obsidian for the vault and OFM conventions, and Marksman for Markdown LSP inspiration. None of those credits should imply that the project is affiliated with, endorsed by, or behaviorally identical to the source of inspiration.
+The goal is simple: show the lineage honestly while keeping Flavor Grenade’s own behavior clear.
 
-The reader should understand that Flavor Grenade is standing in a lineage, not claiming novelty for every part. The project combines those influences into a focused OFM language-server experience for Obsidian Vaults and LLM-maintained wiki docs.
+This also helps readers know what kind of comparison is fair. Obsidian explains the vault habits, Marksman explains a lot of Markdown language-server precedent, and the linked wiki style explains why these pages are short and cross-linked. Flavor Grenade combines those influences for a specific editing experience; it should not blur them together or claim ownership of ideas it inherited.

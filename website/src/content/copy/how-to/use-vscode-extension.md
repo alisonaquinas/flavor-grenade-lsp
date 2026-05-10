@@ -2,37 +2,37 @@
 title: "Use the VS Code Extension | Flavor Grenade LSP"
 description: "Install and activate the Flavor Grenade VS Code extension for Obsidian Vault workflows."
 h1: "Use the VS Code Extension"
-summary: "Set up Flavor Grenade from the Visual Studio Marketplace and confirm activation."
+summary: "Install the VS Code extension, open your vault, and confirm the editor sees Obsidian-style Markdown."
 related: ["quickstart","howToConfigureObsidianVaults","advancedDirectLspIntegration"]
 ---
 
 # Use the VS Code Extension
 
-Set up Flavor Grenade from the Visual Studio Marketplace and confirm activation.
+Install the VS Code extension, open your vault, and confirm the editor sees Obsidian-style Markdown.
 
 ## When to use it
 
-Install from the Visual Studio Marketplace when you want VS Code activation, commands, and status UI. The extension packages the language server so the normal vault open path does not require configuring an LSP client yourself.
+Install from the Visual Studio Marketplace when you want the easiest path. The extension packages the language server, starts it for your vault, and gives you normal server status and commands.
 
-This is the path for users who want the extension to handle activation, status, commands, and server startup. It is the best first install because VS Code owns the editor integration while the bundled server focuses on vault intelligence.
+This is the recommended first install. You should not need to configure an LSP client by hand just to try completion, navigation, or broken-link warnings in your notes.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work from inside a real vault folder so the extension can see the notes and attachments your links refer to.
 
-Start from the Marketplace listing, then open the vault root instead of a parent workspace. Use a note with one valid wiki link and one intentionally missing wiki link so activation, completion, and diagnostics are all visible.
+After installation, open the vault root rather than a parent workspace. A small note with one valid link and one missing link is enough to confirm that both completion and diagnostics are active.
 
 ### Install
 
-Install Flavor Grenade LSP from the Visual Studio Marketplace and let VS Code reload the extension host.
+Install Flavor Grenade LSP from the Visual Studio Marketplace and reload VS Code if prompted.
 
 ### Confirm vault open activation
 
-Open the folder that contains `.obsidian/` or `.flavor-grenade.toml` so the server can detect the vault boundary.
+Open the folder that contains `.obsidian/` or `.flavor-grenade.toml`. That folder is the boundary Flavor Grenade uses for local links.
 
 ### Verify activation
 
-Open a Markdown note, check OFMarkdown mode, then type `[[` to confirm vault-aware completion is active.
+Open a Markdown note, check that the language mode is OFMarkdown, then type `[[` and look for note suggestions from your vault.
 
 ```text
 [[Daily Note]] links to [[People/Ada Lovelace]] and [[Missing Target]].
@@ -40,12 +40,12 @@ Open a Markdown note, check OFMarkdown mode, then type `[[` to confirm vault-awa
 
 ## Expected result
 
-The extension activates for the vault open event, the server status is ready, and vault-local language features appear in Markdown notes.
+The extension activates when the vault opens, the server reaches a ready state, and vault-aware features appear in Markdown notes.
 
-A good install feels uneventful: the extension activates on vault open, OFMarkdown mode is available, and the server reaches a ready state without manual command-line work. Completion and diagnostics are the practical proof.
+A healthy install should feel uneventful. Completion and diagnostics are the easiest proof: one suggests notes that exist, the other warns about local targets that do not.
 
 ## Common failure mode
 
-If activation does not happen, the folder may not be the vault root, workspace trust may be restricted, or the file may still be plain Markdown.
+If activation does not happen, VS Code may not trust the workspace, the file may still be plain Markdown, or the opened folder may not be the vault root.
 
-If nothing activates, verify workspace trust, the selected language mode, and whether the folder contains `.obsidian/` or `.flavor-grenade.toml`. If activation works but vault features are thin, the folder may not be the vault root.
+If activation works but suggestions are sparse, double-check that you opened the folder containing `.obsidian/` or `.flavor-grenade.toml`, not a parent folder or one loose file.

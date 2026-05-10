@@ -2,37 +2,37 @@
 title: "Fix Broken Links | Flavor Grenade LSP"
 description: "Use diagnostics to repair missing notes, headings, embeds, images, and attachments."
 h1: "Fix Broken Links"
-summary: "Use diagnostics and navigation to fix broken local references."
+summary: "Use editor warnings to find local links that no longer point anywhere useful."
 related: ["conceptDiagnostics","conceptWikiLinkResolution","howToRenameNotesSafely"]
 ---
 
 # Fix Broken Links
 
-Use diagnostics and navigation to fix broken local references.
+Use editor warnings to find local links that no longer point anywhere useful.
 
 ## When to use it
 
-Use this page when `[[Missing Note]]`, `[[Project Plan#Risks]]`, a Markdown image, or an Obsidian embed does not resolve.
+Use this page when a note link, heading link, Markdown image, or Obsidian embed points to something that is missing or misspelled.
 
-Broken-link diagnostics are meant to catch local references that look like vault targets but do not resolve. They are most useful during writing, rename cleanup, and LLM-maintained documentation passes where stale links can spread quickly.
+Broken-link warnings are most helpful while writing, cleaning up after rename, or reviewing generated docs. They point to local vault relationships you can actually fix.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work in a vault folder so the warning is based on the same notes and attachments you see in the sidebar.
 
-Classify the target before editing it. A missing note, missing heading, missing Markdown image, and missing Obsidian embed all have different fixes, so read the diagnostic and compare it with the actual vault tree.
+Read the warning before editing. A missing note, missing heading, missing image, and missing embed each need a different fix.
 
 ### Read the diagnostic
 
-Start with the underlined local reference and identify whether the target is a note, heading, block, image, or embed.
+Start with the underlined reference and identify what kind of local target it was trying to reach.
 
 ### Create or correct the target
 
-Create the missing note, fix the heading text, or update the vault-relative attachment path.
+Create the missing note, fix the heading text, or update the local attachment path.
 
 ### Save and re-check
 
-Save the note and wait for the vault index to refresh before assuming the diagnostic is stale.
+Save the note and give the vault a moment to refresh before assuming the warning is stale.
 
 ```text
 [[Missing Note]]
@@ -43,12 +43,12 @@ Save the note and wait for the vault index to refresh before assuming the diagno
 
 ## Expected result
 
-The broken-link diagnostic clears after the supported local target resolves inside the Obsidian Vault.
+The warning clears after the local target exists and the link points to it.
 
-The diagnostic should clear only after the supported local target exists and the link points to it. That gives you confidence that the repair changed the vault relationship rather than merely hiding the warning text.
+That is the useful part: the fix changes the vault relationship, not just the visible text around the warning.
 
 ## Common failure mode
 
-Plain Markdown asset links such as `[diagram](assets/diagram.png)` are not currently missing attachment diagnostics; use Markdown images or Obsidian embeds for attachment validation.
+Not every Markdown link is treated like a vault target. A normal text link may be valid Markdown without becoming an attachment warning.
 
-Some links are intentionally outside this check. Plain external URLs, unsupported URI schemes, and ordinary Markdown asset links that are not images should not be treated like missing vault notes.
+External URLs, unsupported schemes, and non-image Markdown links are intentionally left alone so Flavor Grenade does not pretend it can repair the wider web.

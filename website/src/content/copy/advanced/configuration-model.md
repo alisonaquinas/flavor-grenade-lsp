@@ -2,19 +2,19 @@
 title: "Configuration Model | Flavor Grenade LSP"
 description: "Understand VS Code settings, vault markers, document extensions, and server options."
 h1: "Configuration Model"
-summary: "Understand VS Code settings, vault markers, document extensions, and server options."
+summary: "Learn how Flavor Grenade decides which folder is the vault and which files belong to it."
 related: ["howToConfigureObsidianVaults","advancedVaultSingleFileMode","advancedIndexingPerformance"]
 ---
 
 # Configuration Model
 
-Understand VS Code settings, vault markers, document extensions, and server options.
+Learn how Flavor Grenade decides which folder is the vault and which files belong to it.
 
 ## Configuration sources
 
-Flavor Grenade starts from the editor root, then uses `.obsidian/` or `.flavor-grenade.toml` to decide whether a folder is a vault.
+Flavor Grenade starts with the folder your editor opened. From there, it looks for `.obsidian/` or `.flavor-grenade.toml` to confirm that the folder should be treated as a vault.
 
-That marker-based approach keeps the tool from treating every Markdown folder as an Obsidian Vault. If the marker is missing, the server should stay conservative because it cannot know which files, attachments, and paths belong together.
+Those markers matter because not every Markdown folder is an Obsidian Vault. If the marker is missing, Flavor Grenade stays conservative instead of guessing which files belong together.
 
 ```text
 DocsProject/
@@ -25,18 +25,20 @@ DocsProject/
 
 ## Document boundaries
 
-Supported document extensions and ignore rules should keep generated output from becoming noisy indexed content.
+Supported document extensions and ignore rules keep generated output from becoming noisy indexed content.
 
-For example, a repository might contain source docs, generated API pages, and copied vendor Markdown. Only the human-maintained vault content should drive completions, diagnostics, and rename behavior.
+A repository might contain source docs, generated API pages, and copied vendor Markdown. Only the human-maintained vault content should drive completion, diagnostics, and rename.
 
 ## Operational rule
 
 Prefer explicit vault markers over guessing from any Markdown folder.
 
-If a user says completion is missing expected notes, the first check is usually folder selection rather than parser behavior: confirm the opened folder is the intended vault root and not a parent workspace.
+If completion is missing expected notes, check folder selection before parser behavior. Make sure the opened folder is the intended vault root, not a parent workspace.
 
 ## Practical check
 
-Check configuration by opening a folder that contains `.obsidian/` or `.flavor-grenade.toml`, then opening a parent folder that contains the same vault as a child. The first case should behave like a vault; the second should force the user or client to be explicit about the intended root. That contrast keeps the article grounded in the actual source of configuration truth.
+Check configuration by opening a folder that contains `.obsidian/` or `.flavor-grenade.toml`, then opening a parent folder that contains the same vault as a child. The first case should behave like a vault. The second should make the user or client be explicit about the intended root.
 
-The public page should also show the server-only and VS Code paths separately. Marketplace installation is the friendly path for most users, while direct configuration belongs to people launching the language server themselves. Mixing those paths makes support harder because the extension and raw server do not own the same setup responsibilities.
+Keep the VS Code extension path and raw server path separate in docs. Marketplace installation is friendlier for most users; direct configuration belongs to people launching the language server themselves.
+
+When someone reports that a setting “does nothing,” ask which path they are using. VS Code settings, workspace folders, and extension activation are part of the extension path. Raw language-server clients need to send their own initialization options and root information. Mixing those setup stories makes simple configuration issues look mysterious.
