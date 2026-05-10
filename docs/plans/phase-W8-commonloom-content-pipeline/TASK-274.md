@@ -2,7 +2,7 @@
 id: "TASK-274"
 title: "Migrate existing content into Markdown copy"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-274"]
 
 # Migrate Existing Content Into Markdown Copy
 
-> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -42,7 +42,7 @@ Create or modify:
 - `website/src/content/copy/faq/index.md`
 - `website/src/content/copy/features/index.md`
 - `website/src/content/media/**`
-- `website/src/content/docs.manifest.ts`
+- `website/src/content/*.manifest.ts`
 - `website/src/content/pages.ts`
 - `website/src/content/routes.ts`
 - `website/src/content/wiki.ts`
@@ -78,11 +78,11 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Existing public content can be regenerated from Markdown and manifests.
-- [ ] No route disappears from the sitemap.
-- [ ] Existing regression phrases remain covered by tests unless intentionally
+- [x] Existing public content can be regenerated from Markdown and manifests.
+- [x] No route disappears from the sitemap.
+- [x] Existing regression phrases remain covered by tests unless intentionally
   replaced in the same commit.
-- [ ] Article hubs still list the expected articles and summaries.
+- [x] Article hubs still list the expected articles and summaries.
 
 ## Lifecycle
 
@@ -96,3 +96,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing migration coverage requiring every current page record to have
 > Markdown copy and an explicit page-group manifest entry. Status: `red`.
+
+> [!SUCCESS] Green migration · 2026-05-10
+> Generated Markdown copy for all current public page records and added explicit
+> page-group manifests for home, quickstart, how-to, concepts, advanced usage,
+> FAQ, and features. Current TypeScript facades remain in place while generated
+> output is wired. Verified with `npm test -- --run content-pipeline-migration`,
+> `npm run lint`, and `npm run typecheck`. Status: `green`.
