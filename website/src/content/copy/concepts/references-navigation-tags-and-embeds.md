@@ -31,6 +31,7 @@ The example mixes a tag, note link, and embed because real vault workflows do th
 Explain these features as different views over shared vault data, not as unrelated parsers.
 
 When adding feature docs, link back to the shared graph model. Avoid presenting each editor action as if it parses OFM independently.
+Use the same vocabulary in tickets and public prose so future edits preserve that shared model.
 
 ## Practical check
 

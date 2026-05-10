@@ -52,7 +52,7 @@ deterministic TypeScript content modules for the Svelte website.
 - [x] Generated TypeScript is deterministic and ignored by git.
 - [x] `content:check` fails on invalid metadata, unresolved copy paths, broken
   local links, unsafe inline HTML, missing images, duplicate ids, or stale output.
-- [ ] Website pages consume generated TypeScript records without route-level
+- [x] Website pages consume generated TypeScript records without route-level
   knowledge of Markdown parsing.
 - [x] Commonloom has no direct dependency on Svelte, website route modules, or
   Flavor Grenade product data.
@@ -95,6 +95,12 @@ See [[index]] for the complete ticket list.
 > [!INFO] Closeout tickets added · 2026-05-10
 > Added TASK-277, TASK-278, and CHORE-099 to close the remaining generated
 > renderer-input gap before W8 can be marked complete.
+
+> [!SUCCESS] Generated renderer input · 2026-05-10
+> TASK-277 and TASK-278 now compile page records directly from Markdown and
+> expose them through the stable website content facade. The generated-renderer
+> acceptance criterion is satisfied locally; FEAT-041 remains `in-review`
+> pending CHORE-099 merge and CI evidence.
 
 > [!INFO] Started · 2026-05-10
 > TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.

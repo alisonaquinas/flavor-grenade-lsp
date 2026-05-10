@@ -49,11 +49,11 @@ bun run lint:docs
 
 ## Definition of Done
 
-- [ ] FEAT-041 has no unchecked acceptance criteria.
+- [x] FEAT-041 has no unchecked acceptance criteria.
 - [ ] W8 phase status is `complete` only after merge evidence exists.
 - [ ] Execution ledger and roadmap cite the final PR and CI evidence.
-- [ ] No generated files under `website/src/content/generated/` are committed.
-- [ ] No actual release tag or release publication is pushed.
+- [x] No generated files under `website/src/content/generated/` are committed.
+- [x] No actual release tag or release publication is pushed.
 
 ## Workflow Log
 
@@ -61,3 +61,10 @@ bun run lint:docs
 > Ticket added for the remaining W8 closeout sequence after PR #63 exposed the
 > generated-renderer switch as a follow-up needed before marking the phase
 > complete.
+
+> [!SUCCESS] Local closeout gates · 2026-05-10
+> Re-ran the final local W8 gates after TASK-277 and TASK-278:
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Generated output remains ignored, and no release tag or publication was
+> pushed. CHORE-099 stays `open` until PR CI and merge evidence exist.

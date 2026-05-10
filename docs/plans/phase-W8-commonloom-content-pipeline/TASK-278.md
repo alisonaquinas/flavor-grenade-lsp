@@ -2,7 +2,7 @@
 id: "TASK-278"
 title: "Switch website facades to generated content"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-278"]
 
 # Switch Website Facades To Generated Content
 
-> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -77,12 +77,12 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Existing renderer-facing content APIs consume generated TypeScript records.
-- [ ] Route-level Svelte and SEO code do not import Commonloom or Markdown
+- [x] Existing renderer-facing content APIs consume generated TypeScript records.
+- [x] Route-level Svelte and SEO code do not import Commonloom or Markdown
   parsing modules.
-- [ ] Hand-authored page body arrays are removed or clearly quarantined as
+- [x] Hand-authored page body arrays are removed or clearly quarantined as
   migration fixtures.
-- [ ] FEAT-041's generated-renderer acceptance criterion is satisfied.
+- [x] FEAT-041's generated-renderer acceptance criterion is satisfied.
 
 ## Lifecycle
 
@@ -98,3 +98,11 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage requiring `website/src/content/pages.ts` to export
 > generated page records and package test/typecheck gates to generate ignored
 > records before importing them. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Switched `website/src/content/pages.ts` to a compatibility facade over
+> `websitePagesGenerated`, removed the hand-authored page body arrays from the
+> renderer path, and kept app, SEO, and navigation imports behind the stable
+> content APIs. Verified with
+> `npm test -- --run content-pipeline-renderer-generated content-pipeline-generated-from-markdown content-links quickstart-docs howto-faq-docs content-pipeline-parity`.
+> Status: `green`.
