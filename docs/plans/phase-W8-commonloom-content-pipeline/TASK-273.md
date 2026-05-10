@@ -2,7 +2,7 @@
 id: "TASK-273"
 title: "Generate TypeScript content records"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-273"]
 
 # Generate TypeScript Content Records
 
-> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -93,3 +93,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage for deterministic generated TypeScript module strings,
+> generated-file headers, stable re-exports, and excluding generated JSON from
+> renderer inputs. Status: `red`.
