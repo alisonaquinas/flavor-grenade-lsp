@@ -151,10 +151,12 @@ Grenade product data. Its public API should accept configuration and callbacks
 for project-specific route resolution, image root approval, and generated
 output formatting.
 
-Initial in-repository placement may be under `website/src/content/pipeline` or
-`website/scripts/content-pipeline` while W8 proves the API. The implementation
-should keep module boundaries clean enough to extract later into a separate
-repository or workspace package after the approach is proven.
+Initial in-repository placement is under
+`website/src/content/pipeline/commonloom` while W8 proves the API. Website
+specific glue lives under `website/src/content/pipeline/website`. The
+implementation should keep module boundaries clean enough to extract
+Commonloom later into a separate repository or workspace package after the
+approach is proven.
 
 ## Selected Tooling
 

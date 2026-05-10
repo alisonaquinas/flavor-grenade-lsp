@@ -2,7 +2,7 @@
 id: "TASK-276"
 title: "Verify website parity and authoring docs"
 type: task
-status: red
+status: green
 priority: medium
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-276"]
 
 # Verify Website Parity And Authoring Docs
 
-> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -71,11 +71,11 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Authoring docs explain how to add a page, update copy, add images, use
+- [x] Authoring docs explain how to add a page, update copy, add images, use
   inline HTML, and run generation checks.
-- [ ] Browser or rendered-output checks confirm migrated routes are present.
-- [ ] Follow-up extraction criteria are documented without blocking W8.
-- [ ] Commonloom extraction criteria are documented without blocking W8 closeout.
+- [x] Browser or rendered-output checks confirm migrated routes are present.
+- [x] Follow-up extraction criteria are documented without blocking W8.
+- [x] Commonloom extraction criteria are documented without blocking W8 closeout.
 
 ## Lifecycle
 
@@ -89,3 +89,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing parity coverage for routed public pages, article hub inventory,
 > and the authoring workflow documentation page. Status: `red`.
+
+> [!SUCCESS] Green documentation · 2026-05-10
+> Added authoring documentation for Markdown copy, frontmatter, media, inline
+> HTML, manifests, commands, source traces, and Commonloom extraction criteria.
+> Verified with `npm test -- --run content-pipeline-parity`. Status: `green`.
