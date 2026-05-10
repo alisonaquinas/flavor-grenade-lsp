@@ -16,13 +16,17 @@ It applies to:
 
 ## Source Layout Requirements
 
-Website implementation source must live under `website/src`.
+Website implementation source must live under `website/src`, except for thin
+tool command entrypoints under `website/scripts` that delegate into
+`website/src`.
 
 Required source boundaries:
 
 - Svelte components, app shell, routes, and UI logic live under `website/src`.
 - TypeScript route, metadata, content, and SEO modules live under
   `website/src`.
+- Thin content command entrypoints may live under `website/scripts/content`
+  when they delegate to implementation modules under `website/src`.
 - Public website copy Markdown lives under `website/src/content/copy`.
 - Public website content media lives under `website/src/content/media` unless
   it is an existing product asset reused from a documented product asset path.
