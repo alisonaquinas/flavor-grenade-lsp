@@ -2,7 +2,7 @@
 id: "TASK-268"
 title: "Define Commonloom core contracts"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-268"]
 
 # Define Commonloom Core Contracts
 
-> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-268` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -110,3 +110,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!FAILURE] Red test · 2026-05-10
 > Added failing coverage for stable diagnostic codes, severities, and
 > `CommonloomSourceTrace`. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-10
+> Added Commonloom diagnostic constants and normalized source trace, heading,
+> link, and image reference contracts. Targeted tests pass. Status: `green`.
