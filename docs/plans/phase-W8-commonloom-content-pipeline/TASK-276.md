@@ -2,7 +2,7 @@
 id: "TASK-276"
 title: "Verify website parity and authoring docs"
 type: task
-status: planned
+status: open
 priority: medium
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-276"]
 
 # Verify Website Parity And Authoring Docs
 
-> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 
@@ -36,5 +36,4 @@ authoring workflow.
   inline HTML, and run generation checks.
 - [ ] Browser or rendered-output checks confirm migrated routes are present.
 - [ ] Follow-up extraction criteria are documented without blocking W8.
-- [ ] Phase W8 can be handed to implementation without unresolved pipeline
-  decisions.
+- [ ] Commonloom extraction criteria are documented without blocking W8 closeout.

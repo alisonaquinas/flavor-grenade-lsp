@@ -2,7 +2,7 @@
 id: "TASK-274"
 title: "Migrate existing content into Markdown copy"
 type: task
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-274"]
 
 # Migrate Existing Content Into Markdown Copy
 
-> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 

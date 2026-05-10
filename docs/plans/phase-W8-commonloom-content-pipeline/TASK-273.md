@@ -2,7 +2,7 @@
 id: "TASK-273"
 title: "Generate TypeScript content records"
 type: task
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-273"]
 
 # Generate TypeScript Content Records
 
-> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 

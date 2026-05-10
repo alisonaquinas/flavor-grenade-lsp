@@ -2,7 +2,7 @@
 id: "CHORE-095"
 title: "Phase W8 content pipeline verification"
 type: chore
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-095"]
 
 # Phase W8 Content Pipeline Verification
 
-> [!INFO] `CHORE-095` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `CHORE-095` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 

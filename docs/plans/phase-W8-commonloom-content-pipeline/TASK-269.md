@@ -2,7 +2,7 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 

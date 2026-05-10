@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: planned
+status: draft
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `planned`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `draft`
 
 ## Goal
 
@@ -68,3 +68,7 @@ See [[index]] for the complete ticket list.
 > [!INFO] Opened · 2026-05-10
 > Feature created from the W8 Commonloom ADR, architecture specification,
 > technical requirements, and technology research.
+
+> [!INFO] Lifecycle normalized · 2026-05-10
+> Replaced invalid `planned` status with lifecycle state `draft` before Step
+> A-C ticket readiness work.

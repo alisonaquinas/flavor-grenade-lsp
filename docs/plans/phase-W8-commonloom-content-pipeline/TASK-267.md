@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 

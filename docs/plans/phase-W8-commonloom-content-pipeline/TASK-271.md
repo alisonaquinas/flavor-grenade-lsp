@@ -2,7 +2,7 @@
 id: "TASK-271"
 title: "Validate links, wiki-links, and media references"
 type: task
-status: planned
+status: open
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-271"]
 
 # Validate Links, Wiki-links, And Media References
 
-> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
 
 ## Description
 
