@@ -2,7 +2,7 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -106,3 +106,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added gray-matter frontmatter parsing, Zod diagnostics, unified/remark-gfm
 > Markdown parsing, and source-line-aware heading extraction. Targeted tests
 > pass. Status: `green`.
+
+> [!INFO] In review · 2026-05-10
+> `npm test -- --run content-pipeline`, `npm run lint`, and `npm run
+> typecheck` pass from `website/`. Status: `in-review`.
