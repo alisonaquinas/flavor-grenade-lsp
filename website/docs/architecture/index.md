@@ -45,6 +45,10 @@ flowchart LR
 | --- | --- |
 | `website/docs` | Canonical planning, requirements, architecture, ADR, and source documentation while the site is being designed. |
 | `website/src` | Required location for Svelte, TypeScript, SCSS, route, metadata, and content-transform source. |
+| `website/src/content/copy` | Public Markdown copy source for generated website pages. |
+| `website/src/content/media` | Content-owned images and media referenced by public copy. |
+| `website/src/content/*.manifest.*` | Page-group manifest source for route mappings, ordering, and generated content targets. |
+| `website/src/content/generated` | Generated TypeScript content records consumed by the website renderer; ignored build output. |
 | `website/tests` | Required location for website unit, component, accessibility, routing, SEO, and build-output tests. |
 | `website/public` | Future static passthrough assets such as `robots.txt`, favicons, and social images when needed. |
 | `website/dist` | Generated static output for GitHub Pages. This directory is build output, not source of truth. |
@@ -59,6 +63,8 @@ flowchart LR
 - [[ci-cd-and-deployment]] describes checks, release gates, and Pages deploy.
 - [[../adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]]
   records the core technology decision.
+- [[../adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+  records the W8 content authoring decision.
 
 ## Dependency Direction
 
@@ -67,8 +73,9 @@ Website implementation dependencies should flow inward:
 ```text
 Svelte components
   -> typed route/content/metadata modules
-  -> generated content data
-  -> website/docs source content
+  -> generated content records
+  -> page-group manifests
+  -> Markdown copy and frontmatter
 ```
 
 The website may depend on static project metadata and product assets. The LSP
@@ -91,8 +98,8 @@ remain meaningful when JavaScript is unavailable.
 
 ## Open Questions
 
-- Whether generated public docs should keep Obsidian wiki-link source syntax or
-  convert every link to standard Markdown and route URLs at build time.
+- Whether public Markdown copy should keep Obsidian wiki-link source syntax or
+  convert every link to standard Markdown and route URLs during generation.
 - Whether client-side search is needed for the first public release.
 - Whether website releases share server version tags or use independent
   `site-vX.Y.Z` tags.

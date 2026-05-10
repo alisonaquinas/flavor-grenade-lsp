@@ -70,6 +70,25 @@ Hub-page requirements:
 - The concepts LLM-maintainer section must also present linked concept article
   entries rather than one static paragraph.
 - Advanced Usage sections must link to advanced-topic article pages.
+- Hub page article lists must be generated from page-group manifests rather
+  than duplicated in hand-authored page bodies.
+
+Content source requirements:
+
+- Each required public route or page must map to one Markdown copy file under
+  `website/src/content/copy`.
+- Each route must appear in exactly one page-group manifest.
+- Page-local metadata comes from Markdown frontmatter by default unless a
+  manifest override is needed for routing, grouping, ordering, output targets,
+  or a documented metadata exception.
+- Public copy may use inline HTML for static structures such as figures and
+  responsive images when plain Markdown is not expressive enough.
+- Public copy images must resolve from committed website content media or
+  documented product asset paths and must provide useful alt text unless marked
+  decorative.
+- The production build must consume generated TypeScript records from
+  `website/src/content/generated` rather than hand-maintained public page
+  TypeScript bodies or generated JSON page data.
 
 Stakeholders: Obsidian users, VS Code users, LLM agents, project maintainer.
 

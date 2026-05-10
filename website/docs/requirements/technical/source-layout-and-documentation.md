@@ -23,6 +23,13 @@ Required source boundaries:
 - Svelte components, app shell, routes, and UI logic live under `website/src`.
 - TypeScript route, metadata, content, and SEO modules live under
   `website/src`.
+- Public website copy Markdown lives under `website/src/content/copy`.
+- Public website content media lives under `website/src/content/media` unless
+  it is an existing product asset reused from a documented product asset path.
+- Page-group content manifests live as direct child files under
+  `website/src/content` with the `*.manifest.*` suffix.
+- Generated TypeScript content records live under
+  `website/src/content/generated` and are build output, not source of truth.
 - SCSS source lives under `website/src/styles`.
 - Static passthrough files may live under `website/public` when Vite requires
   that convention.
@@ -32,6 +39,10 @@ Required source boundaries:
 The website must not place implementation source under `docs/`,
 `extension/docs/`, or `website/docs`. Those directories are documentation
 sources and requirements sources, not application source code.
+
+`website/src/content/generated` must be git-ignored. Contributors must update
+Markdown copy files, frontmatter, or manifests instead of editing generated
+records directly.
 
 ## Test Layout Requirements
 
@@ -86,6 +97,64 @@ Internal Markdown under `website/docs` must:
 Markdown changes that affect website behavior should update the relevant
 requirement, architecture page, ADR, or changelog entry in the same change set.
 
+## Public Copy Authoring Requirements
+
+Public page copy under `website/src/content/copy` must:
+
+- be authored as Markdown
+- target CommonMark plus GitHub Flavored Markdown
+- allow inline HTML when Markdown cannot express the needed static structure
+- keep page-local metadata in frontmatter when practical
+- avoid internal ticket, phase, and implementation-ledger language in
+  user-facing prose
+- use descriptive public links that can be converted into route URLs
+- reference local images with useful alt text or an explicit decorative marker
+- keep examples concrete enough to verify against generated page records
+
+Inline HTML in public copy must remain static and accessible. Content
+generation must reject scripts, event handler attributes, and embeds that create
+runtime behavior outside the website component model.
+
+Content media under `website/src/content/media` must:
+
+- be committed source, not generated output
+- use stable filenames suitable for public URLs
+- include useful alt text in Markdown, frontmatter, or generated image records
+- support optional captions, credit links, and page roles such as body image,
+  hero image, proof image, or social image
+- resolve in development and production builds without broken-image indicators
+
+Page-group manifests under `website/src/content` must:
+
+- be split by page group instead of one central registry
+- live as direct child files named with the `*.manifest.*` suffix
+- map each public route to exactly one Markdown copy file
+- define ordering for group hubs, dropdowns, and article lists
+- identify generated TypeScript output targets consumed by the Svelte renderer
+- fail validation when they reference missing copy files, duplicate route ids,
+  or invalid related route ids
+
+Markdown frontmatter is the default source for page-local metadata such as
+title, description, H1, related routes, SEO fields, and structured data hints.
+Manifests may only override explicitly declared fields needed for routing,
+grouping, ordering, output targets, or documented metadata exceptions.
+Frontmatter may also declare hero, proof, or social image references when those
+images are part of page metadata rather than body copy.
+
+Generated content modules under `website/src/content/generated` must:
+
+- be TypeScript, not JSON, for renderer-consumed content records
+- export readonly records that satisfy hand-authored public interfaces
+- preserve literal route ids and page groups for TypeScript validation
+- import local content media when Vite asset URL resolution is required
+- contain no business logic beyond constants, indexes, and simple lookup maps
+- be disposable and reproducible from Markdown copy, content media, and
+  page-group manifests
+
+Generated JSON may exist only as a diagnostic or audit artifact. It must not be
+used as the public page renderer input and must not be committed unless a later
+ADR changes that rule.
+
 ## Website Changelog Requirements
 
 Website-visible changes must be tracked with the `$shared-skills:changelog`
@@ -136,6 +205,9 @@ Do not add comments that merely restate a function name or TypeScript type.
 Website development and maintenance must keep these checks green:
 
 - Markdown lint for `website/docs`.
+- Public copy and manifest validation for `website/src/content`.
+- Public content media validation for broken image references, missing alt
+  text, and unsafe inline HTML.
 - Website TypeScript typecheck.
 - Website lint with zero warnings.
 - Website tests.
@@ -150,6 +222,13 @@ violated in ways that can be checked automatically.
 
 - Website implementation source exists only under `website/src`.
 - Website tests exist only under `website/tests`.
+- Public website copy is authored in `website/src/content/copy`.
+- Public content media is authored in `website/src/content/media` or reused
+  from documented product asset paths.
+- Page-group manifests named `*.manifest.*` map Markdown copy files to public
+  page records.
+- Generated TypeScript records are written under
+  `website/src/content/generated` and are not committed.
 - `website/package.json` exposes a `test` script once implementation starts.
 - Internal website Markdown is maintained at `standard` maturity.
 - Website changelog practice follows Keep a Changelog and SemVer.

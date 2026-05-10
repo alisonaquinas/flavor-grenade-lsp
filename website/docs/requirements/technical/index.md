@@ -98,6 +98,21 @@ implementation must stay independent from the LSP server runtime.
 ## Content And SEO Requirements
 
 - Public pages must render meaningful static HTML for crawlers and no-JS users.
+- Public page copy must be authored as Markdown under
+  `website/src/content/copy`.
+- Public page copy may use inline HTML for static structures that Markdown
+  cannot express, subject to validation for safety and accessibility.
+- Public copy images must be committed under `website/src/content/media` or
+  reuse documented product asset paths.
+- Page-group manifests under `website/src/content` must use the
+  `*.manifest.*` suffix and map copy files to public page records.
+- Markdown frontmatter is the default source for page-local metadata such as
+  description, H1, related routes, SEO fields, and structured data hints.
+- Markdown frontmatter may declare hero, proof, or social image references.
+- Renderer-consumed generated content records must be TypeScript modules
+  written under `website/src/content/generated` and excluded from git.
+- Generated JSON may be emitted only as diagnostic or audit output, not as the
+  public page renderer input.
 - Each page must have one H1, a unique title, and a unique description.
 - Generate or maintain `robots.txt` and `sitemap.xml`.
 - Add Open Graph and Twitter preview metadata for the homepage.
@@ -170,7 +185,5 @@ implementation must stay independent from the LSP server runtime.
 
 - Whether to use Vite alone, SvelteKit static adapter, or another static-site
   layer on top of Vite.
-- Whether docs content is Markdown, MDsveX, generated JSON, or another source
-  format.
 - Whether search is build-time generated, client-side indexed, or deferred.
 - Whether GitHub Pages uses a custom domain or repository subpath.
