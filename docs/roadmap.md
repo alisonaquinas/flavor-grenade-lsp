@@ -2,7 +2,7 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-09
+updated: 2026-05-10
 current-version: 0.3.0
 current-extension-version: 0.1.4
 ---
@@ -17,6 +17,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
+> Website phase W8 is **planned** to replace hand-authored page content modules with the Commonloom Markdown content pipeline.
 
 ## Phase Table
 
@@ -370,6 +371,100 @@ startup gates can reason about `markdown` and `ofmarkdown`. E8 depends on E7's
 activation contract. E9 follows E8 so the host harness can lock command bridge
 behavior. E10-E14 then harden user-facing status, Marketplace proof, editor
 contributions, workspace environments, and compatibility guardrails.
+
+## Website Phases (`website/`)
+
+The website phases build and publish the public documentation site that explains
+the LSP server, VS Code extension, and OFMarkdown concepts. These phases are
+tracked separately because their gates run from `website/` and include website
+build, content, accessibility, and publishing checks.
+
+### Website Phase Table
+
+| # | Phase Name | Status | Key Deliverable | Completed |
+|---|---|---|---|---|
+| W1 | Website Foundation And Toolchain | complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 |
+| W2 | Content Pipeline And SEO Skeleton | complete | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | 2026-05-09 |
+| W3 | Homepage And Design System | complete | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | 2026-05-09 |
+| W4 | Documentation Pages And LLM Wiki | complete | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | 2026-05-09 |
+| W5 | Website CI And Pages Release | in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | — |
+| W6 | Website Review Polish | in-progress | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | — |
+| W7 | Website Guide Prose And Article Hubs | complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 |
+| W8 | Commonloom Content Pipeline | planned | Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | — |
+
+### Website Phase Details
+
+#### Phase W1 — Website Foundation And Toolchain
+
+Create the Svelte/Vite website workspace with local development, lint,
+typecheck, test, and production build gates.
+
+Implementation plan: [[plans/phase-W1-website-foundation]]
+
+#### Phase W2 — Content Pipeline And SEO Skeleton
+
+Add typed page metadata, route inventory, sitemap, robots, SEO checks, and the
+initial public content skeleton.
+
+Implementation plan: [[plans/phase-W2-content-pipeline-seo]]
+
+#### Phase W3 — Homepage And Design System
+
+Implement the public homepage, responsive shell, theme modes, product identity
+assets, and footer attribution system.
+
+Implementation plan: [[plans/phase-W3-homepage-design-system]]
+
+#### Phase W4 — Documentation Pages And LLM Wiki
+
+Build the core documentation pages, FAQ, public concepts, and LLM-readable wiki
+surface.
+
+Implementation plan: [[plans/phase-W4-docs-llm-wiki]]
+
+#### Phase W5 — Website CI And Pages Release
+
+Wire tag-triggered GitHub Pages deployment from `main` with CI gates, ancestry
+guardrails, and release evidence.
+
+Implementation plan: [[plans/phase-W5-website-ci-release]]
+
+#### Phase W6 — Website Review Polish
+
+Apply browser-review feedback to homepage visual quality, responsive behavior,
+and production polish.
+
+Implementation plan: [[plans/phase-W6-website-review-polish]]
+
+#### Phase W7 — Website Guide Prose And Article Hubs
+
+Expand the guide surface into linked how-to, concept, and advanced-usage article
+hubs with deeper prose, dropdown navigation, and asset evidence.
+
+Implementation plan: [[plans/phase-W7-website-guide-prose]]
+
+#### Phase W8 — Commonloom Content Pipeline
+
+Replace the hard-to-maintain `website/src/content` TypeScript copy modules with
+a Markdown-first authoring pipeline. Phase W8 introduces `website/src/content/copy`
+Markdown documents, one typed manifest per page group, `website/src/content/media`
+assets, git-ignored generated TypeScript records in `website/src/content/generated`,
+and a reusable Commonloom compiler core that can later be extracted into its own
+repository after the API is proven.
+
+Requirement links: [[../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]], [[../website/docs/architecture/content-pipeline]], [[../website/docs/requirements/technical/source-layout-and-documentation]], [[../website/docs/research/w8-content-pipeline-technology-research]]
+
+Implementation plan: [[plans/phase-W8-commonloom-content-pipeline]]
+
+### Website Phase Dependencies
+
+```text
+Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5 ──► Phase W6 ──► Phase W7 ──► Phase W8
+```
+
+W8 depends on W7 because it migrates existing article hubs and page content into
+Markdown copy files while preserving public routes, metadata, sitemap coverage,
+and rendering behavior.
 
 ## Feature Backlog (Post-v1)
 
