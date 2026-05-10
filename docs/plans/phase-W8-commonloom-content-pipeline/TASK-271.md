@@ -2,7 +2,7 @@
 id: "TASK-271"
 title: "Validate links, wiki-links, and media references"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-271"]
 
 # Validate Links, Wiki-links, And Media References
 
-> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -93,3 +93,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage for Markdown link/image extraction, adapter-owned
+> wiki-link resolution, media existence checks, path traversal rejection, and
+> required alt text. Status: `red`.
