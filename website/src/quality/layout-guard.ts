@@ -10,6 +10,7 @@ const rootAllowlist = new Set([
   'vite.config.ts',
   'vitest.config.ts',
 ]);
+const sourceEntryPointPrefixes = ['scripts/content/'];
 
 function isSourceLike(relativePath: string): boolean {
   if (relativePath.endsWith('.d.ts')) {
@@ -72,7 +73,12 @@ export async function validateWebsiteLayout(): Promise<string[]> {
       continue;
     }
 
-    if (file.startsWith('src/') || file.startsWith('tests/') || rootAllowlist.has(file)) {
+    if (
+      file.startsWith('src/') ||
+      file.startsWith('tests/') ||
+      rootAllowlist.has(file) ||
+      sourceEntryPointPrefixes.some((prefix) => file.startsWith(prefix))
+    ) {
       continue;
     }
 

@@ -20,6 +20,8 @@ describe('website quality gate tooling', () => {
 
     expect(Object.keys(scripts).sort()).toEqual([
       'build',
+      'content:check',
+      'content:generate',
       'dev',
       'lint',
       'preview',

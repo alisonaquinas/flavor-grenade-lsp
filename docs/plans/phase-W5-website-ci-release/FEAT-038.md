@@ -2,7 +2,7 @@
 id: "FEAT-038"
 title: "Website CI And Pages Release"
 type: feature
-status: in-progress
+status: done
 priority: high
 phase: W5
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-038"]
 
 # Website CI And Pages Release
 
-> [!INFO] `FEAT-038` · Feature · Phase W5 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-038` · Feature · Phase W5 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -46,12 +46,13 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 ## Acceptance Criteria
 
-- [ ] Pull requests run website checks.
-- [ ] `develop` and `main` pushes run website checks.
-- [ ] Production Pages deploy is tag triggered.
-- [ ] Production deploy verifies tag commit is on `main`.
-- [ ] Website artifact and release evidence are preserved.
-- [ ] First website release tag deploys successfully.
+- [x] Pull requests run website checks.
+- [x] `develop` and `main` pushes run website checks.
+- [x] Production Pages deploy is tag triggered.
+- [x] Production deploy verifies tag commit is on `main`.
+- [x] Website artifact and release evidence are preserved.
+- [x] First website release tag deployment was intentionally cancelled by human
+  instruction and is not required to unblock later website authoring phases.
 
 ## Child Tasks
 
@@ -60,7 +61,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 | [[TASK-226]] | Add website CI gates | `done` |
 | [[TASK-227]] | Add tag-triggered GitHub Pages deployment | `done` |
 | [[TASK-228]] | Add release evidence and production smoke checks | `done` |
-| [[CHORE-091]] | Phase W5 release readiness sweep | `open` |
+| [[CHORE-091]] | Phase W5 release readiness sweep | `cancelled` |
 
 ## Lifecycle
 
@@ -113,3 +114,46 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 > [!CHECK] BUG-029 PR CI · 2026-05-09
 > PR #56 CI passed with independent website release tag support.
+
+> [!CAUTION] Release execution cancelled · 2026-05-10
+> Human instruction cancelled the actual production release tag push. W5 closes
+> on implemented and CI-verified website checks, Pages workflow, ancestry guard,
+> release-evidence automation, and independent `site-v*` tag support. No
+> release tag was pushed and no production Pages deploy evidence is claimed.
+
+> [!CHECK] Accepted · 2026-05-10
+> W5 closeout accepted with CHORE-091 cancelled. Implementation evidence is PR
+> #55 and PR #56 green CI; release execution remains intentionally absent.
+> Status: `done`.
+
+## Retrospective
+
+> Written after W5 closeout. Date: 2026-05-10.
+
+### What went as planned
+
+The website CI job, Pages workflow, tag ancestry guard, and release evidence
+automation were implemented with regression coverage and passed PR CI.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-028 | Bug | GitHub Actions tag filters use globs, not regex-shaped patterns. | +0.3 h |
+| BUG-029 | Bug | Website-only releases needed `site-v*` tags to avoid waking root npm publish automation. | +0.3 h |
+| CHORE-091 | Chore | Production release execution was cancelled by human instruction. | -0.2 h |
+
+### Process observations
+
+The implementation and release-execution responsibilities were mixed in one
+phase. Future release phases should separate "automation implemented" from
+"production release executed" when a real deployment may be intentionally
+withheld.
+
+### Carry-forward actions
+
+- [ ] Keep production release execution as an explicit human-triggered decision.
+
+### Rule / template amendments
+
+- [ ] None.

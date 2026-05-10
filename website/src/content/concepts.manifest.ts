@@ -1,0 +1,85 @@
+import { definePageGroupManifest } from './pipeline/website/manifest';
+
+export const conceptsManifest = definePageGroupManifest({
+  group: "concepts",
+  manifestPath: "src/content/concepts.manifest.ts",
+  entries: [
+    {
+      routeId: "concepts",
+      group: "concepts",
+      copy: "concepts/concepts.md",
+      order: 1,
+      output: "pages",
+    },
+    {
+      routeId: "conceptInspirationPriorArt",
+      group: "concepts",
+      copy: "concepts/inspiration-and-prior-art.md",
+      order: 2,
+      output: "pages",
+    },
+    {
+      routeId: "conceptObsidianFlavoredMarkdown",
+      group: "concepts",
+      copy: "concepts/obsidian-flavored-markdown.md",
+      order: 3,
+      output: "pages",
+    },
+    {
+      routeId: "conceptVaultIndex",
+      group: "concepts",
+      copy: "concepts/vault-index.md",
+      order: 4,
+      output: "pages",
+    },
+    {
+      routeId: "conceptWikiLinkResolution",
+      group: "concepts",
+      copy: "concepts/wiki-link-resolution.md",
+      order: 5,
+      output: "pages",
+    },
+    {
+      routeId: "conceptDocIdVaultRelativePaths",
+      group: "concepts",
+      copy: "concepts/docid-and-vault-relative-paths.md",
+      order: 6,
+      output: "pages",
+    },
+    {
+      routeId: "conceptOpaqueRegions",
+      group: "concepts",
+      copy: "concepts/opaque-regions.md",
+      order: 7,
+      output: "pages",
+    },
+    {
+      routeId: "conceptDiagnostics",
+      group: "concepts",
+      copy: "concepts/diagnostics.md",
+      order: 8,
+      output: "pages",
+    },
+    {
+      routeId: "conceptCompletions",
+      group: "concepts",
+      copy: "concepts/completions.md",
+      order: 9,
+      output: "pages",
+    },
+    {
+      routeId: "conceptRenameSafety",
+      group: "concepts",
+      copy: "concepts/rename-safety.md",
+      order: 10,
+      output: "pages",
+    },
+    {
+      routeId: "conceptReferencesNavigationTagsEmbeds",
+      group: "concepts",
+      copy: "concepts/references-navigation-tags-and-embeds.md",
+      order: 11,
+      output: "pages",
+    },
+  ],
+});

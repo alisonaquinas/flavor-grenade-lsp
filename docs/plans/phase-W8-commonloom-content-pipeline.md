@@ -1,7 +1,7 @@
 ---
 title: "Phase W8: Commonloom Content Pipeline"
 phase: W8
-status: planned
+status: in-review
 tags: [plans, website, markdown, content-pipeline, commonloom]
 aliases: [Phase W8, Commonloom Content Pipeline, Website Markdown Pipeline]
 updated: 2026-05-10
@@ -13,7 +13,7 @@ updated: 2026-05-10
 |---|---|
 | Phase | W8 |
 | Title | Commonloom Content Pipeline |
-| Status | planned |
+| Status | in-review |
 | Gate | Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, migration, and website build gates pass |
 | Depends on | Phase W7 |
 
@@ -28,10 +28,10 @@ without committing generated files.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted Commonloom, typed-manifest, generated-TypeScript decision |
-| [[../website/docs/architecture/content-pipeline]] | Match the source, manifest, media, compiler, adapter, and generated output boundaries |
-| [[../website/docs/requirements/technical/source-layout-and-documentation]] | Add the documented content directories, generated output policy, and authoring affordances |
-| [[../website/docs/research/w8-content-pipeline-technology-research]] | Use the researched unified/remark/rehype/zod approach and avoid MDsveX/MDSX as the primary pipeline |
+| [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted Commonloom, typed-manifest, generated-TypeScript decision |
+| [[../../website/docs/architecture/content-pipeline]] | Match the source, manifest, media, compiler, adapter, and generated output boundaries |
+| [[../../website/docs/requirements/technical/source-layout-and-documentation]] | Add the documented content directories, generated output policy, and authoring affordances |
+| [[../../website/docs/research/w8-content-pipeline-technology-research]] | Use the researched unified/remark/rehype/zod approach and avoid MDsveX/MDSX as the primary pipeline |
 
 ## Scope
 
@@ -135,13 +135,19 @@ bun run lint:docs
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-274]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-275]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-276]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-277]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-278]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
 
 ## Related
 
-- [[../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
-- [[../website/docs/architecture/content-pipeline]]
-- [[../website/docs/research/w8-content-pipeline-technology-research]]
+- [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+- [[../../website/docs/architecture/content-pipeline]]
+- [[../../website/docs/research/w8-content-pipeline-technology-research]]
 - [[phase-W7-website-guide-prose]]
 
 ## Workflow Log

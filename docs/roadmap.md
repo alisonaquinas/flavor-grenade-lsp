@@ -387,10 +387,10 @@ build, content, accessibility, and publishing checks.
 | W2 | Content Pipeline And SEO Skeleton | complete | Static pages build with typed routes, metadata, sitemap, robots, and SEO checks | 2026-05-09 |
 | W3 | Homepage And Design System | complete | Homepage, theme modes, responsive shell, product assets, and footer pass tests and visual smoke checks | 2026-05-09 |
 | W4 | Documentation Pages And LLM Wiki | complete | Quickstart, how-to, advanced usage, FAQ, and concept wiki pages build and pass content checks | 2026-05-09 |
-| W5 | Website CI And Pages Release | in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | — |
-| W6 | Website Review Polish | in-progress | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | — |
+| W5 | Website CI And Pages Release | complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 |
+| W6 | Website Review Polish | complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 |
 | W7 | Website Guide Prose And Article Hubs | complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 |
-| W8 | Commonloom Content Pipeline | planned | Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | — |
+| W8 | Commonloom Content Pipeline | in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | — |
 
 ### Website Phase Details
 
@@ -425,7 +425,9 @@ Implementation plan: [[plans/phase-W4-docs-llm-wiki]]
 #### Phase W5 — Website CI And Pages Release
 
 Wire tag-triggered GitHub Pages deployment from `main` with CI gates, ancestry
-guardrails, and release evidence.
+guardrails, and release evidence. The actual production release tag was
+cancelled by human instruction, so W5 closes on implemented automation and PR
+CI evidence rather than a pushed release.
 
 Implementation plan: [[plans/phase-W5-website-ci-release]]
 

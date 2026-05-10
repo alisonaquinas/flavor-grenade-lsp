@@ -2,7 +2,7 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: planned
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `planned`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -32,9 +32,92 @@ Markdown formatting support.
 - Produce heading metadata for ids, labels, levels, and source positions where
   available.
 
+## Implementation Notes
+
+Create or modify:
+
+- `website/src/content/pipeline/commonloom/markdown.ts`
+- `website/src/content/pipeline/commonloom/frontmatter.ts`
+- `website/src/content/pipeline/commonloom/types.ts`
+- `website/tests/content-pipeline-markdown.test.ts`
+
+Parser API:
+
+```ts
+export interface ParseMarkdownInput<Frontmatter> {
+  sourcePath: string;
+  markdown: string;
+  frontmatterSchema: z.ZodType<Frontmatter>;
+}
+
+export interface ParsedMarkdown<Frontmatter> {
+  frontmatter: Frontmatter;
+  bodyMarkdown: string;
+  headings: CommonloomHeading[];
+  mdast: Root;
+  diagnostics: CommonloomDiagnostic[];
+}
+
+export async function parseMarkdown<Frontmatter>(
+  input: ParseMarkdownInput<Frontmatter>,
+): Promise<ParsedMarkdown<Frontmatter>>;
+```
+
+Code fences render as plain escaped code blocks in W8. Syntax highlighting is
+deferred; no highlighter dependency is added in this phase.
+
+## Linked Requirements
+
+- [[../../../website/docs/requirements/technical/source-layout-and-documentation]]
+- [[../../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+
+## Linked Tests
+
+| Test file | Expected first assertion |
+|---|---|
+| `website/tests/content-pipeline-markdown.test.ts` | CommonMark and GFM constructs parse and produce heading metadata. |
+| `website/tests/content-pipeline-markdown.test.ts` | Invalid frontmatter returns a diagnostic. |
+
+## Linked BDD
+
+N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
+
 ## Definition of Done
 
-- [ ] Unit tests cover representative CommonMark and GFM constructs.
-- [ ] Invalid frontmatter reports a diagnostic instead of crashing generation.
-- [ ] Heading extraction supports route anchors and content quality checks.
-- [ ] Markdown body output is stable across repeated runs.
+- [x] Unit tests cover representative CommonMark and GFM constructs.
+- [x] Invalid frontmatter reports a diagnostic instead of crashing generation.
+- [x] Heading extraction supports route anchors and content quality checks.
+- [x] Markdown body output is stable across repeated runs.
+
+## Lifecycle
+
+Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+
+## Workflow Log
+
+> [!INFO] Opened · 2026-05-10
+> Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing Markdown/frontmatter parser coverage for CommonMark headings,
+> GFM tables/task lists, and invalid frontmatter diagnostics. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-10
+> Added gray-matter frontmatter parsing, Zod diagnostics, unified/remark-gfm
+> Markdown parsing, and source-line-aware heading extraction. Targeted tests
+> pass. Status: `green`.
+
+> [!INFO] In review · 2026-05-10
+> `npm test -- --run content-pipeline`, `npm run lint`, and `npm run
+> typecheck` pass from `website/`. Status: `in-review`.
+
+> [!WARNING] Review feedback · 2026-05-10
+> Subagent review found malformed YAML could throw and invalid frontmatter was
+> exposed as typed metadata. Moved back to `green` while parser diagnostics are
+> tightened.
+
+> [!SUCCESS] Review fix · 2026-05-10
+> Malformed YAML now returns `FRONTMATTER_INVALID` diagnostics without throwing,
+> and invalid frontmatter is unavailable to callers while the Markdown body can
+> still parse. Verified with `npm test -- --run content-pipeline`, `npm run
+> lint`, and `npm run typecheck`. Status: `green`.

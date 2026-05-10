@@ -2,7 +2,7 @@
 id: "FEAT-039"
 title: "Website Review Polish"
 type: feature
-status: in-progress
+status: done
 priority: high
 phase: W6
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["FEAT-039"]
 
 # Website Review Polish
 
-> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-039` · Feature · Phase W6 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -78,16 +78,16 @@ review.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-229]] | Repair homepage and footer image rendering | `green` |
-| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `green` |
-| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `green` |
-| [[TASK-232]] | Add icon affordances to footer links | `green` |
-| [[TASK-233]] | Improve footer brand spacing on mobile | `green` |
-| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `green` |
-| [[TASK-235]] | Make feature proof cards selectable | `green` |
-| [[TASK-236]] | Hide mobile hero category eyebrow | `green` |
-| [[TASK-237]] | Normalize feature card borders | `green` |
-| [[TASK-238]] | Expand mobile feature proof cards inline | `green` |
+| [[TASK-229]] | Repair homepage and footer image rendering | `done` |
+| [[TASK-230]] | Replace segmented theme control with compact icon toggle | `done` |
+| [[TASK-231]] | Add icon affordances and equal stacked widths to hero actions | `done` |
+| [[TASK-232]] | Add icon affordances to footer links | `done` |
+| [[TASK-233]] | Improve footer brand spacing on mobile | `done` |
+| [[TASK-234]] | Collapse narrow navigation into hamburger menu | `done` |
+| [[TASK-235]] | Make feature proof cards selectable | `done` |
+| [[TASK-236]] | Hide mobile hero category eyebrow | `done` |
+| [[TASK-237]] | Normalize feature card borders | `done` |
+| [[TASK-238]] | Expand mobile feature proof cards inline | `done` |
 | [[CHORE-092]] | Phase W6 visual verification sweep | `done` |
 | [[CHORE-093]] | Verify second-round W6 browser feedback | `done` |
 
@@ -141,3 +141,38 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > [!SUCCESS] Mobile expansion feedback · 2026-05-09
 > Added TASK-238 and updated requirements so mobile card selection expands
 > inline, while desktop keeps the separate full-width detail panel.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. W6 is complete; implementation, visual smoke,
+> website checks, tests, typecheck, lint, docs lint, and build all passed.
+
+## Retrospective
+
+> Written after W6 CI passed. Date: 2026-05-09.
+
+### What went as planned
+
+The browser review feedback was decomposed into focused visual, asset, navigation,
+and interaction tasks. Regression tests and Playwright screenshots gave useful
+evidence for both the first pass and second-round feedback.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| TASK-235 | Task | Second-round review asked for selectable feature proof cards with practical detail. | +0.5 h |
+| TASK-238 | Task | Mobile interaction needed inline expansion instead of the desktop detail panel. | +0.3 h |
+
+### Process observations
+
+The W6 work was verified and merged, but several ticket statuses stayed at
+green. Future phase closeout should update ticket terminal states immediately
+after CI evidence is available.
+
+### Carry-forward actions
+
+- [ ] Close ticket statuses and parent tables in the same commit that records CI evidence.
+
+### Rule / template amendments
+
+- [ ] None.

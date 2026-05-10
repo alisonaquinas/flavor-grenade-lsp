@@ -2,7 +2,7 @@
 id: "CHORE-091"
 title: "Phase W5 release readiness sweep"
 type: chore
-status: in-review
+status: cancelled
 priority: high
 phase: W5
 created: "2026-05-09"
@@ -14,7 +14,7 @@ aliases: ["CHORE-091"]
 
 # Phase W5 Release Readiness Sweep
 
-> [!INFO] `CHORE-091` · Chore · Phase W5 · Status: `in-review`
+> [!INFO] `CHORE-091` · Chore · Phase W5 · Status: `cancelled`
 
 ## Description
 
@@ -28,8 +28,9 @@ CI and deployment evidence before Phase W5 is marked complete.
 - [ ] Pages deployment succeeds.
 - [ ] Production smoke checks pass.
 - [x] Changelog and release docs are current.
-- [ ] `FEAT-038` acceptance checklist is updated.
-- [ ] Execution ledger is updated only after CI and deploy evidence are green.
+- [x] `FEAT-038` acceptance checklist is updated.
+- [x] Execution ledger records that production release execution was cancelled
+  rather than completed.
 
 ## Lifecycle
 
@@ -73,3 +74,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!CHECK] BUG-029 PR CI · 2026-05-09
 > PR #56 CI passed. The website release can now use `site-v*` tags without
 > waking root npm publish automation.
+
+> [!CAUTION] Cancelled · 2026-05-10
+> Production release execution was cancelled by human instruction. No release
+> tag should be pushed for this closeout, so release-tag workflow, Pages deploy,
+> and production smoke evidence remain intentionally absent. Status:
+> `cancelled`.

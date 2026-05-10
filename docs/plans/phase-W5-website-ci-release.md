@@ -1,7 +1,7 @@
 ---
 title: "Phase W5: Website CI And Pages Release"
 phase: W5
-status: in-progress
+status: complete
 tags: [plans, website, ci, release, github-pages]
 aliases: [Phase W5, Website Release]
 updated: 2026-05-09
@@ -13,8 +13,8 @@ updated: 2026-05-09
 |---|---|
 | Phase | W5 |
 | Title | Website CI And Pages Release |
-| Status | in-progress |
-| Gate | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks |
+| Status | complete |
+| Gate | Website CI and Pages release automation pass PR CI; production release execution is cancelled by human instruction |
 | Depends on | Phase W4 |
 
 ## Objective
@@ -64,7 +64,7 @@ release through the tag-triggered git-flow release model.
 - Production Pages deployment runs only from the selected release tag pattern.
 - Production deploy verifies the tag commit is on `main`.
 - Website build artifact, SEO checks, and changelog evidence are preserved.
-- First release tag deploys the site successfully.
+- First release tag deployment is explicitly cancelled for this closeout.
 
 ## Gate Verification
 
@@ -76,8 +76,9 @@ npm test
 npm run build
 ```
 
-GitHub Actions evidence must show the Pages deployment job passing for the
-release tag before the phase can be marked complete.
+GitHub Actions evidence must show the website CI and Pages workflow regression
+checks passing. Production release-tag execution is not required for this
+closeout because it was cancelled by human instruction.
 
 ## Tickets
 
@@ -91,3 +92,10 @@ release tag before the phase can be marked complete.
 
 - [[../website/docs/requirements/technical/ci-cd]]
 - [[../website/docs/architecture/ci-cd-and-deployment]]
+
+## Workflow Log
+
+> [!CAUTION] Release execution cancelled · 2026-05-10
+> The production release tag push was cancelled by human instruction. W5 closes
+> on PR #55 and PR #56 green CI for the implemented automation; no production
+> Pages deployment evidence is claimed.
