@@ -2,7 +2,7 @@
 id: "TASK-277"
 title: "Compile generated page records from Markdown"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-277"]
 
 # Compile Generated Page Records From Markdown
 
-> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -91,3 +91,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Ticket added after PR #63 review preparation identified that generated modules
 > are emitted and validated, but page body generation still depends on the old
 > compatibility `websitePages` source data.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage proving generated page output must change when
+> Markdown changes, and that the builder must not import old `websitePages`
+> source data. Status: `red`.

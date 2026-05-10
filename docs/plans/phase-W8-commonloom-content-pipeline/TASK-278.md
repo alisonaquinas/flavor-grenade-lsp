@@ -2,7 +2,7 @@
 id: "TASK-278"
 title: "Switch website facades to generated content"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-278"]
 
 # Switch Website Facades To Generated Content
 
-> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -93,3 +93,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Opened · 2026-05-10
 > Ticket added to close the remaining FEAT-041 acceptance gap: generated records
 > must become the renderer input, not only generated audit output.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage requiring `website/src/content/pages.ts` to export
+> generated page records and package test/typecheck gates to generate ignored
+> records before importing them. Status: `red`.
