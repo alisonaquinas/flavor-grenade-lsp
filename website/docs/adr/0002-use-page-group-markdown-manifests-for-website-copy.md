@@ -37,6 +37,8 @@ TypeScript architecture?
 - Avoid one new central registry that grows like the current content modules.
 - Preserve typed generated records for the app.
 - Generate TypeScript, not JSON, for renderer-consumed content records.
+- Isolate Markdown compilation and validation behind a reusable TypeScript
+  library boundary.
 - Keep generated build output out of git.
 - Let page-local metadata live with copy when that improves maintainability.
 - Stay compatible with Vite and GitHub Pages static builds.
@@ -91,6 +93,29 @@ section arrays.
 Public copy may use Obsidian wiki-links only when the generator resolves them
 to public routes and emits standard crawlable URLs.
 
+The Markdown compilation and validation core will be implemented as
+**Commonloom**, a reusable TypeScript library or assembly. It will own generic
+Markdown parsing, frontmatter parsing, GFM support, inline HTML sanitization,
+image extraction, source tracing, and normalized content records. It must not
+import Svelte components, Flavor Grenade route modules, or product-specific
+data.
+
+The Flavor Grenade website adapter will provide route ids, page groups,
+`PageGroupManifest`, route resolution, approved media roots, and generated
+TypeScript module formatting.
+
+Commonloom will start inside this repository while W8 proves the API. After the
+approach is proven, Commonloom may be extracted into a separate repository or
+package. Extraction must preserve the adapter boundary so Flavor
+Grenade-specific route, renderer, and product logic stays outside the reusable
+core.
+
+The selected content tooling is unified, remark, rehype, and zod. MDsveX,
+MDSX, `vite-plugin-markdown`, `@goodforyou/vite-plugin-markdown-import`, and
+`vite-plugin-svelte-md` are rejected as the primary W8 pipeline because they
+solve Markdown import or Markdown-as-component workflows rather than validated
+content compilation into typed records.
+
 ### Consequences
 
 - Good, because W8 can add or revise a page group without editing a giant
@@ -103,6 +128,11 @@ to public routes and emits standard crawlable URLs.
   while authoring moves to Markdown.
 - Good, because generated TypeScript keeps route ids, page groups, image
   records, and renderer contracts inside TypeScript validation.
+- Good, because isolating the content compiler keeps most W8 logic reusable for
+  other website projects.
+- Good, because unified, remark, and rehype provide mature parsing,
+  transformation, and sanitization primitives without project-specific Markdown
+  parsing.
 - Good, because group manifests can drive hub pages, dropdown inventories, and
   article ordering from one source.
 - Bad, because the build now needs a content generation step before typecheck,
@@ -113,6 +143,8 @@ to public routes and emits standard crawlable URLs.
   asset validation.
 - Bad, because generated TypeScript is less portable than generated JSON for
   non-app tooling.
+- Bad, because a reusable boundary adds API design work before the first W8
+  implementation can be completed.
 
 ### Confirmation
 
@@ -132,6 +164,11 @@ The decision is confirmed when:
 - `website/src/content/generated` is git-ignored.
 - `website/src/content/generated/` is listed in `.gitignore`.
 - `website/package.json` exposes `content:generate` and `content:check`.
+- Generic Markdown compilation and validation modules do not import Svelte,
+  website route modules, or Flavor Grenade product data.
+- Website-specific adapters own route resolution and generated TypeScript
+  formatting.
+- Commonloom naming is used for the reusable core boundary.
 - The website renderer consumes generated TypeScript records instead of
   hand-authored page body TypeScript or generated JSON page data.
 - Generated records are disposable and reproducible from Markdown copy plus
@@ -250,6 +287,69 @@ Write TypeScript for the app and JSON for tooling.
 JSON may be added later as an audit report if CI or documentation tooling needs
 it. It must remain generated output.
 
+## Tooling Decision
+
+Use a project-owned TypeScript generator built on unified, remark, rehype, and
+zod.
+
+Required packages:
+
+- `unified`
+- `remark-parse`
+- `remark-gfm`
+- `remark-frontmatter`
+- `vfile-matter`
+- `remark-rehype`
+- `rehype-raw`
+- `rehype-sanitize`
+- `rehype-stringify`
+- `unist-util-visit`
+- `hast-util-to-string`
+- `zod`
+
+Optional packages:
+
+- `rehype-slug` or `github-slugger` for heading ids
+- `shiki` for syntax highlighting
+
+### Svelte or Vite Markdown Plugins
+
+Use MDsveX, MDSX, `vite-plugin-markdown`,
+`@goodforyou/vite-plugin-markdown-import`, or `vite-plugin-svelte-md`.
+
+- Good, because these tools can be quick for Markdown-as-component workflows.
+- Good, because MDsveX and MDSX integrate directly with Svelte preprocessing.
+- Bad, because W8 needs manifest-driven validation, source traces, image
+  records, wiki-link resolution, and generated TypeScript records.
+- Bad, because adopting them as the primary pipeline would couple public copy
+  to Svelte component compilation.
+
+## Reusable Boundary Decision
+
+The W8 content compiler should be reusable outside this website and is named
+Commonloom.
+
+Commonloom:
+
+- parses Markdown and frontmatter
+- applies GFM support
+- sanitizes allowed inline HTML
+- extracts headings, links, images, and source traces
+- validates generic image and HTML constraints
+- emits a normalized content model
+
+Website adapter:
+
+- loads Flavor Grenade manifests
+- validates Flavor Grenade route ids and page groups
+- resolves public routes and Obsidian wiki-links
+- formats generated TypeScript for the existing renderer
+- wires package scripts and CI
+
+Commonloom remains in-repository for W8. It should be extracted to a separate
+repository only after one working adapter proves the API and dependency
+direction.
+
 ## Generated Page Shape
 
 Generated page records expose sanitized static HTML as the canonical body:
@@ -289,6 +389,8 @@ Revisit this decision if:
 - page-group manifests become too small to justify separate files,
 - generated records need framework-native content collections,
 - non-app tooling needs a committed portable content artifact,
+- the reusable content compiler API proves too abstract for a second website,
+- Commonloom is extracted and its public API changes independently,
 - route generation moves to a dedicated static-site framework, or
 - public copy authoring needs non-Markdown content blocks that frontmatter and
   manifests cannot represent cleanly.

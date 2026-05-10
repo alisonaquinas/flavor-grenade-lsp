@@ -15,6 +15,8 @@ implementation must stay independent from the LSP server runtime.
 | TypeScript | Required scripting language; all website scripts must be strictly typechecked and linted. |
 | SCSS | Required styling authoring format for site-level styles, tokens, layout, and component styling. |
 | GitHub Pages | Required static hosting target. |
+| unified/remark/rehype | Required foundation for W8 Markdown content generation. |
+| zod | Required schema validation library for W8 manifests, frontmatter, and generated content models. |
 
 ## Related Technical Specifications
 
@@ -124,6 +126,11 @@ implementation must stay independent from the LSP server runtime.
 - Website scripts must include `content:generate` and `content:check`; build,
   typecheck, and test must run after generation or invoke it.
 - `website/src/content/generated/` must be listed in `.gitignore`.
+- Markdown parsing, HTML sanitization, source tracing, and content validation
+  should live behind a reusable TypeScript library boundary named Commonloom
+  that does not import Svelte components or Flavor Grenade route modules.
+- The website-specific adapter may import route ids, page groups, and renderer
+  interfaces and may generate Flavor Grenade `*.generated.ts` modules.
 - Each page must have one H1, a unique title, and a unique description.
 - Generate or maintain `robots.txt` and `sitemap.xml`.
 - Add Open Graph and Twitter preview metadata for the homepage.

@@ -118,6 +118,75 @@ used by public pages. Manual edits belong in Markdown or manifests, not in
 `generated`. Generated records must be disposable and reproducible from
 Markdown copy plus page-group manifests.
 
+## Reusable Library Boundary
+
+The Markdown compilation and validation logic should be isolated as
+**Commonloom**, a reusable TypeScript library or assembly. The Flavor Grenade
+website should provide configuration, manifests, copy files, media files, and
+renderer-specific output templates; Commonloom should provide the generic
+content pipeline.
+
+Reusable library responsibilities:
+
+- load and validate manifest objects through caller-provided schemas
+- parse Markdown and frontmatter
+- run CommonMark and GitHub Flavored Markdown transforms
+- sanitize allowed inline HTML
+- extract headings, links, images, and source trace data
+- validate local media references and alt/decorative metadata
+- expose a normalized content model that can be rendered or code-generated
+
+Website adapter responsibilities:
+
+- define Flavor Grenade route ids, page groups, and generated TypeScript
+  interfaces
+- provide the `PageGroupManifest` type and route registry
+- resolve Obsidian wiki-links to public website routes
+- choose generated module names and renderer record shapes
+- write `*.generated.ts` files under `website/src/content/generated`
+- wire package scripts, `.gitignore`, and CI checks
+
+Commonloom must not import Svelte components, website route modules, or Flavor
+Grenade product data. Its public API should accept configuration and callbacks
+for project-specific route resolution, image root approval, and generated
+output formatting.
+
+Initial in-repository placement may be under `website/src/content/pipeline` or
+`website/scripts/content-pipeline` while W8 proves the API. The implementation
+should keep module boundaries clean enough to extract later into a separate
+repository or workspace package after the approach is proven.
+
+## Selected Tooling
+
+The reusable pipeline should use mature open-source Markdown building blocks
+instead of a Svelte or Vite Markdown component plugin.
+
+Required libraries:
+
+- `unified`
+- `remark-parse`
+- `remark-gfm`
+- `remark-frontmatter`
+- `vfile-matter`
+- `remark-rehype`
+- `rehype-raw`
+- `rehype-sanitize`
+- `rehype-stringify`
+- `unist-util-visit`
+- `hast-util-to-string`
+- `zod`
+
+Recommended optional libraries:
+
+- `rehype-slug` or `github-slugger` for heading ids
+- `shiki` for syntax highlighting if W8 includes highlighted code blocks
+
+Do not use MDsveX, MDSX, `vite-plugin-markdown`,
+`@goodforyou/vite-plugin-markdown-import`, or `vite-plugin-svelte-md` as the
+primary W8 pipeline. Those tools solve Markdown import or
+Markdown-as-component workflows. W8 needs validated content compilation into
+typed records.
+
 ## Generated TypeScript Model
 
 Generated TypeScript is the canonical content output. The website renderer must

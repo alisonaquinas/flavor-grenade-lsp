@@ -28,6 +28,12 @@ Required source boundaries:
   it is an existing product asset reused from a documented product asset path.
 - Page-group content manifests live as direct child files under
   `website/src/content` with the `*.manifest.ts` suffix.
+- Reusable content-pipeline library code is named Commonloom and lives under a
+  dedicated boundary such as `website/src/content/pipeline` or
+  `website/scripts/content-pipeline` during W8.
+- Website-specific content adapter code lives outside the reusable pipeline
+  boundary and may depend on Flavor Grenade route ids, page groups, and
+  renderer interfaces.
 - Generated TypeScript content records live under
   `website/src/content/generated` and are build output, not source of truth.
 - SCSS source lives under `website/src/styles`.
@@ -183,6 +189,55 @@ Generated JSON may exist only as a diagnostic or audit artifact. It must not be
 used as the public page renderer input and must not be committed unless a later
 ADR changes that rule.
 
+Reusable content-pipeline modules must:
+
+- avoid importing Svelte components
+- avoid importing Flavor Grenade route modules or product data
+- accept project-specific route resolution, approved media roots, schema
+  validation, and code generation behavior as configuration or callbacks
+- expose normalized content records that another website project could consume
+  with its own adapter
+- depend on generic Markdown, HTML, schema, and AST tooling rather than
+  website-specific renderer code
+- use Commonloom naming in public module comments, folder docs, and exported
+  generic APIs once implementation starts
+
+Website-specific adapter modules may:
+
+- import Flavor Grenade route ids, page groups, and renderer interfaces
+- load `*.manifest.ts` files
+- resolve Obsidian wiki-links to public website routes
+- generate Flavor Grenade `*.generated.ts` modules
+
+After W8 proves the Commonloom API inside this repository, the project may
+extract it into a separate repository or package. Extraction should happen only
+after the adapter boundary is stable enough to avoid moving Flavor
+Grenade-specific route or renderer logic into the reusable core.
+
+The selected W8 content tooling is:
+
+- `unified`
+- `remark-parse`
+- `remark-gfm`
+- `remark-frontmatter`
+- `vfile-matter`
+- `remark-rehype`
+- `rehype-raw`
+- `rehype-sanitize`
+- `rehype-stringify`
+- `unist-util-visit`
+- `hast-util-to-string`
+- `zod`
+
+Optional tooling:
+
+- `rehype-slug` or `github-slugger` for heading ids
+- `shiki` for syntax highlighting if highlighted code blocks ship in W8
+
+The W8 implementation must not use MDsveX, MDSX, `vite-plugin-markdown`,
+`@goodforyou/vite-plugin-markdown-import`, or `vite-plugin-svelte-md` as the
+primary content pipeline.
+
 Inline HTML validation must allow only these tags:
 
 - `figure`
@@ -291,6 +346,8 @@ Website development and maintenance must keep these checks green:
 - Public link validation for unresolved wiki-links and internal planning doc
   links.
 - Generated content reproducibility validation.
+- Reusable content-pipeline unit tests that do not import website Svelte
+  components or Flavor Grenade route modules.
 - Website TypeScript typecheck.
 - Website lint with zero warnings.
 - Website tests.
