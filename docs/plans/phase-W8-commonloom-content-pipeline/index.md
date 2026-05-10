@@ -15,7 +15,7 @@ updated: 2026-05-10
 | [[TASK-267]] | Add Commonloom tooling scaffold | Task | `in-review` |
 | [[TASK-268]] | Define Commonloom core contracts | Task | `in-review` |
 | [[TASK-269]] | Parse Markdown and frontmatter | Task | `in-review` |
-| [[TASK-270]] | Sanitize HTML and source trace content | Task | `open` |
+| [[TASK-270]] | Sanitize HTML and source trace content | Task | `red` |
 | [[TASK-271]] | Validate links, wiki-links, and media references | Task | `open` |
 | [[TASK-272]] | Add website adapter and typed manifests | Task | `open` |
 | [[TASK-273]] | Generate TypeScript content records | Task | `open` |

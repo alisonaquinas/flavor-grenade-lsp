@@ -2,7 +2,7 @@
 id: "TASK-270"
 title: "Sanitize HTML and source trace content"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-270"]
 
 # Sanitize HTML And Source Trace Content
 
-> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -92,3 +92,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage for safe inline HTML, unsafe HTML diagnostics, and
+> stable source-trace content hashes. Status: `red`.
