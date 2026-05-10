@@ -135,10 +135,13 @@ bun run lint:docs
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-274]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-275]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-276]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-277]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-278]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
 
 ## Related
 

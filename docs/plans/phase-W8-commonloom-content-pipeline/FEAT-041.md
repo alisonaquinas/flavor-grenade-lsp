@@ -63,6 +63,15 @@ deterministic TypeScript content modules for the Svelte website.
 
 See [[index]] for the complete ticket list.
 
+## Remaining Closeout Tickets
+
+- [[TASK-277]] compiles generated page records from Markdown and manifests
+  instead of from old `websitePages` compatibility data.
+- [[TASK-278]] switches website renderer-facing facades to consume generated
+  TypeScript records.
+- [[CHORE-099]] records final merge and CI evidence before W8 is marked
+  complete.
+
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-10
@@ -82,6 +91,10 @@ See [[index]] for the complete ticket list.
 > W8 implementation is in PR #63 with green CI. Generated records are emitted
 > and validated; existing Svelte page facades remain compatibility inputs until
 > the generated-record renderer switch is reviewed. Status: `in-review`.
+
+> [!INFO] Closeout tickets added · 2026-05-10
+> Added TASK-277, TASK-278, and CHORE-099 to close the remaining generated
+> renderer-input gap before W8 can be marked complete.
 
 > [!INFO] Started · 2026-05-10
 > TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.

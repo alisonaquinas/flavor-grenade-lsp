@@ -22,7 +22,10 @@ updated: 2026-05-10
 | [[TASK-274]] | Migrate existing content into Markdown copy | Task | `in-review` |
 | [[TASK-275]] | Wire scripts, gitignore, tests, and build gates | Task | `in-review` |
 | [[TASK-276]] | Verify website parity and authoring docs | Task | `in-review` |
+| [[TASK-277]] | Compile generated page records from Markdown | Task | `open` |
+| [[TASK-278]] | Switch website facades to generated content | Task | `open` |
 | [[CHORE-096]] | Phase W8 lint sweep | Chore | `done` |
 | [[CHORE-097]] | Phase W8 code quality sweep | Chore | `done` |
 | [[CHORE-098]] | Phase W8 security sweep | Chore | `done` |
 | [[CHORE-095]] | Phase W8 content pipeline verification | Chore | `done` |
+| [[CHORE-099]] | Phase W8 final closeout | Chore | `open` |
