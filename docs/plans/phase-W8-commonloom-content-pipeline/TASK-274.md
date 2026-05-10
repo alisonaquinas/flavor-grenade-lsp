@@ -2,7 +2,7 @@
 id: "TASK-274"
 title: "Migrate existing content into Markdown copy"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-274"]
 
 # Migrate Existing Content Into Markdown Copy
 
-> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-274` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -40,6 +40,7 @@ Create or modify:
 - `website/src/content/copy/concepts/*.md`
 - `website/src/content/copy/advanced/*.md`
 - `website/src/content/copy/faq/index.md`
+- `website/src/content/copy/features/index.md`
 - `website/src/content/media/**`
 - `website/src/content/docs.manifest.ts`
 - `website/src/content/pages.ts`
@@ -91,3 +92,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing migration coverage requiring every current page record to have
+> Markdown copy and an explicit page-group manifest entry. Status: `red`.
