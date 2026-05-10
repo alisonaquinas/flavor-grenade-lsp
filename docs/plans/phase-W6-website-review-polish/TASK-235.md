@@ -2,7 +2,7 @@
 id: "TASK-235"
 title: "Make feature proof cards selectable"
 type: task
-status: green
+status: done
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-235"]
 
 # Make Feature Proof Cards Selectable
 
-> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-235` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -82,3 +82,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Mobile expansion · 2026-05-09
 > Updated narrow viewports so selected feature cards expand inline with their
 > own detail content, while desktop keeps the separate full-width detail panel.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

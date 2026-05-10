@@ -1,7 +1,7 @@
 ---
 title: "Phase W6: Website Review Polish"
 phase: W6
-status: in-progress
+status: complete
 tags: [plans, website, visual-polish, accessibility, review]
 aliases: [Phase W6, Website Review Polish]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W6 |
 | Title | Website Review Polish |
-| Status | in-progress |
+| Status | complete |
 | Gate | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop |
 | Depends on | Phase W5 implementation review state |
 
@@ -116,8 +116,7 @@ or missing icon affordances.
 > Captured Playwright screenshots through Microsoft Edge at `413x730`,
 > full-page mobile, and `1280x900` desktop. Reviewed regions show loaded
 > product/proof images, compact theme control, collapsed mobile navigation,
-> iconified CTAs, and readable footer spacing. PR intentionally not opened yet
-> per review instruction.
+> iconified CTAs, and readable footer spacing. PR #58 merged with green CI.
 
 ## Tickets
 
@@ -142,3 +141,7 @@ or missing icon affordances.
 - [[../website/docs/requirements/functional/theme-modes]]
 - [[../website/docs/requirements/functional/attribution]]
 - [[../website/docs/requirements/user/homepage]]
+
+> [!SUCCESS] PR #58 CI · 2026-05-09
+> PR #58 merged. Website checks, tests, typecheck, lint, docs lint, and build
+> passed for the W6 implementation branch.

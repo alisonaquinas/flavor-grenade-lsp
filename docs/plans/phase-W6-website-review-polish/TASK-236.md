@@ -2,7 +2,7 @@
 id: "TASK-236"
 title: "Hide mobile hero category eyebrow"
 type: task
-status: green
+status: done
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-236"]
 
 # Hide Mobile Hero Category Eyebrow
 
-> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-236` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -69,3 +69,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Hid the long homepage hero category eyebrow at the narrow breakpoint while
 > preserving the desktop category label.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

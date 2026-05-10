@@ -2,7 +2,7 @@
 id: "TASK-233"
 title: "Improve footer brand spacing on mobile"
 type: task
-status: green
+status: done
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-233"]
 
 # Improve Footer Brand Spacing On Mobile
 
-> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-233` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -45,12 +45,12 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Footer brand block has stable image dimensions.
-- [ ] Footer brand text has enough space on mobile.
-- [ ] Creator byline remains visible.
-- [ ] Browser screenshot verifies the reviewed mobile footer region.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Footer brand block has stable image dimensions.
+- [x] Footer brand text has enough space on mobile.
+- [x] Creator byline remains visible.
+- [x] Browser screenshot verifies the reviewed mobile footer region.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
@@ -67,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added footer brand copy spacing hooks and min-width constraints so mobile
 > footer text keeps readable space beside the product icon.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.
