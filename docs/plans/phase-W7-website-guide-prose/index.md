@@ -42,5 +42,5 @@ updated: 2026-05-09
 | [[TASK-266]] | Update sitemap and route metadata for guide articles | Task | `done` |
 | [[BUG-030]] | Restore website guide regression expectations | Bug | `done` |
 | [[BUG-031]] | Expand website guide article prose | Bug | `done` |
-| [[BUG-032]] | Deepen website article prose beyond first-pass copy | Bug | `in-review` |
+| [[BUG-032]] | Deepen website article prose beyond first-pass copy | Bug | `done` |
 | [[CHORE-094]] | Phase W7 guide prose verification | Chore | `done` |
