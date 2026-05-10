@@ -9,15 +9,33 @@ export const routeIds = [
   'quickstart',
   'howTo',
   'howToVsCodeExtension',
-  'howToVaultConfiguration',
-  'howToBrokenLinks',
-  'howToSafeRename',
+  'howToConfigureObsidianVaults',
+  'howToFixBrokenLinks',
+  'howToRenameNotesSafely',
+  'howToCompleteWikiLinksHeadings',
+  'howToNavigateVaultTargets',
+  'howToFindReferencesHighlights',
+  'howToUseTagsCompletion',
+  'howToOpaqueRegions',
   'advancedUsage',
+  'advancedConfigurationModel',
+  'advancedVaultSingleFileMode',
+  'advancedIndexingPerformance',
+  'advancedUriConfinement',
+  'advancedParserBoundaries',
+  'advancedDirectLspIntegration',
   'faq',
   'concepts',
+  'conceptInspirationPriorArt',
   'conceptObsidianFlavoredMarkdown',
   'conceptVaultIndex',
   'conceptWikiLinkResolution',
+  'conceptDocIdVaultRelativePaths',
+  'conceptOpaqueRegions',
+  'conceptDiagnostics',
+  'conceptCompletions',
+  'conceptRenameSafety',
+  'conceptReferencesNavigationTagsEmbeds',
   'features',
 ] as const;
 
@@ -26,6 +44,16 @@ export type RouteId = (typeof routeIds)[number];
 
 /** Route intent used for rendering and structured data selection. */
 export type PageType = 'home' | 'docs' | 'how-to' | 'concept' | 'faq' | 'features';
+
+/** Public content group used for article lists, breadcrumbs, and dropdowns. */
+export type RouteGroup =
+  | 'home'
+  | 'quickstart'
+  | 'how-to'
+  | 'advanced-usage'
+  | 'faq'
+  | 'concepts'
+  | 'features';
 
 /** Social metadata attached to each public route. */
 export interface RouteSeoMetadata {
@@ -43,10 +71,78 @@ export interface WebsiteRoute {
   description: string;
   h1: string;
   pageType: PageType;
+  group: RouteGroup;
+  isArticle: boolean;
   canonicalUrl: string;
   related: RouteId[];
   seo: RouteSeoMetadata;
 }
+
+export const howToArticleRouteIds = [
+  'howToVsCodeExtension',
+  'howToConfigureObsidianVaults',
+  'howToFixBrokenLinks',
+  'howToRenameNotesSafely',
+  'howToCompleteWikiLinksHeadings',
+  'howToNavigateVaultTargets',
+  'howToFindReferencesHighlights',
+  'howToUseTagsCompletion',
+  'howToOpaqueRegions',
+] as const satisfies readonly RouteId[];
+
+export const conceptArticleRouteIds = [
+  'conceptInspirationPriorArt',
+  'conceptObsidianFlavoredMarkdown',
+  'conceptVaultIndex',
+  'conceptWikiLinkResolution',
+  'conceptDocIdVaultRelativePaths',
+  'conceptOpaqueRegions',
+  'conceptDiagnostics',
+  'conceptCompletions',
+  'conceptRenameSafety',
+  'conceptReferencesNavigationTagsEmbeds',
+] as const satisfies readonly RouteId[];
+
+export const advancedArticleRouteIds = [
+  'advancedConfigurationModel',
+  'advancedVaultSingleFileMode',
+  'advancedIndexingPerformance',
+  'advancedUriConfinement',
+  'advancedParserBoundaries',
+  'advancedDirectLspIntegration',
+] as const satisfies readonly RouteId[];
+
+export const articleRouteIds = [
+  ...howToArticleRouteIds,
+  ...conceptArticleRouteIds,
+  ...advancedArticleRouteIds,
+] as const satisfies readonly RouteId[];
+
+/** Article route group used by hubs, dropdowns, and sitemap coverage tests. */
+export interface GuideArticleGroup {
+  label: 'How-To' | 'Concepts' | 'Advanced Usage';
+  hubRouteId: 'howTo' | 'concepts' | 'advancedUsage';
+  routeIds: readonly RouteId[];
+}
+
+/** Canonical Phase W7 article route inventory. */
+export const guideArticleGroups: readonly GuideArticleGroup[] = [
+  {
+    label: 'How-To',
+    hubRouteId: 'howTo',
+    routeIds: howToArticleRouteIds,
+  },
+  {
+    label: 'Concepts',
+    hubRouteId: 'concepts',
+    routeIds: conceptArticleRouteIds,
+  },
+  {
+    label: 'Advanced Usage',
+    hubRouteId: 'advancedUsage',
+    routeIds: advancedArticleRouteIds,
+  },
+];
 
 function canonicalUrl(path: WebsiteRoute['path']): string {
   return `${siteBaseUrl}${path}`;
@@ -68,7 +164,9 @@ function route(
   description: string,
   h1: string,
   pageType: PageType,
+  group: RouteGroup,
   related: RouteId[],
+  isArticle = false,
 ): WebsiteRoute {
   return {
     id,
@@ -77,6 +175,8 @@ function route(
     description,
     h1,
     pageType,
+    group,
+    isArticle,
     canonicalUrl: canonicalUrl(path),
     related,
     seo: makeSeo(title, description),
@@ -92,6 +192,7 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Language server and VS Code extension support for Obsidian-style Markdown vaults.',
     'Flavor Grenade LSP',
     'home',
+    'home',
     ['quickstart', 'features', 'howToVsCodeExtension'],
   ),
   route(
@@ -101,6 +202,7 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Install Flavor Grenade LSP and verify Obsidian Flavored Markdown features in VS Code.',
     'Quickstart',
     'docs',
+    'quickstart',
     ['howToVsCodeExtension', 'concepts', 'faq'],
   ),
   route(
@@ -110,7 +212,8 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Task-focused guides for using Flavor Grenade with Obsidian Vaults and VS Code.',
     'How-to Guides',
     'docs',
-    ['howToVsCodeExtension', 'howToVaultConfiguration', 'howToSafeRename'],
+    'how-to',
+    ['howToVsCodeExtension', 'howToCompleteWikiLinksHeadings', 'howToRenameNotesSafely'],
   ),
   route(
     'howToVsCodeExtension',
@@ -119,43 +222,173 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Install and activate the Flavor Grenade VS Code extension for Obsidian Vault workflows.',
     'Use the VS Code Extension',
     'how-to',
-    ['quickstart', 'advancedUsage', 'faq'],
+    'how-to',
+    ['quickstart', 'howToConfigureObsidianVaults', 'advancedDirectLspIntegration'],
+    true,
   ),
   route(
-    'howToVaultConfiguration',
-    '/how-to/configure-vaults/',
+    'howToConfigureObsidianVaults',
+    '/how-to/configure-obsidian-vaults/',
     'Configure Obsidian Vaults | Flavor Grenade LSP',
-    'Configure vault detection and indexing for Obsidian Flavored Markdown projects.',
+    'Configure vault root detection, indexing boundaries, and generated-output behavior.',
     'Configure Obsidian Vaults',
     'how-to',
-    ['conceptVaultIndex', 'advancedUsage', 'howToBrokenLinks'],
+    'how-to',
+    ['conceptVaultIndex', 'advancedConfigurationModel', 'howToFixBrokenLinks'],
+    true,
   ),
   route(
-    'howToBrokenLinks',
+    'howToFixBrokenLinks',
     '/how-to/fix-broken-links/',
-    'Fix Broken Obsidian Links | Flavor Grenade LSP',
-    'Use diagnostics and navigation to find and fix broken wiki links and Markdown links.',
+    'Fix Broken Links | Flavor Grenade LSP',
+    'Use diagnostics to repair missing notes, headings, embeds, images, and attachments.',
     'Fix Broken Links',
     'how-to',
-    ['conceptWikiLinkResolution', 'howToSafeRename', 'features'],
+    'how-to',
+    ['conceptDiagnostics', 'conceptWikiLinkResolution', 'howToRenameNotesSafely'],
+    true,
   ),
   route(
-    'howToSafeRename',
+    'howToRenameNotesSafely',
     '/how-to/rename-notes-safely/',
-    'Rename Obsidian Notes Safely | Flavor Grenade LSP',
-    'Rename notes and headings while preserving local references inside an Obsidian Vault.',
+    'Rename Notes Safely | Flavor Grenade LSP',
+    'Rename notes and headings while preserving supported local references inside a vault.',
     'Rename Notes Safely',
     'how-to',
-    ['howToBrokenLinks', 'conceptWikiLinkResolution', 'advancedUsage'],
+    'how-to',
+    ['conceptRenameSafety', 'howToFixBrokenLinks', 'advancedUriConfinement'],
+    true,
+  ),
+  route(
+    'howToCompleteWikiLinksHeadings',
+    '/how-to/complete-wiki-links-and-headings/',
+    'Complete Wiki-links and Headings | Flavor Grenade LSP',
+    'Use vault-aware completion for notes, headings, tags, embeds, and attachments.',
+    'Complete Wiki-links and Headings',
+    'how-to',
+    'how-to',
+    ['conceptCompletions', 'conceptVaultIndex', 'howToUseTagsCompletion'],
+    true,
+  ),
+  route(
+    'howToNavigateVaultTargets',
+    '/how-to/navigate-notes-headings-blocks-embeds-and-attachments/',
+    'Navigate Notes, Headings, Blocks, Embeds, and Attachments | Flavor Grenade LSP',
+    'Jump from Obsidian-style references to local notes, anchors, embeds, and attachments.',
+    'Navigate Notes, Headings, Blocks, Embeds, and Attachments',
+    'how-to',
+    'how-to',
+    ['conceptReferencesNavigationTagsEmbeds', 'conceptWikiLinkResolution', 'howToFindReferencesHighlights'],
+    true,
+  ),
+  route(
+    'howToFindReferencesHighlights',
+    '/how-to/find-references-and-highlights/',
+    'Find References and Highlights | Flavor Grenade LSP',
+    'Find backlinks, outbound references, tag references, and repeated local references.',
+    'Find References and Highlights',
+    'how-to',
+    'how-to',
+    ['conceptReferencesNavigationTagsEmbeds', 'howToRenameNotesSafely', 'howToUseTagsCompletion'],
+    true,
+  ),
+  route(
+    'howToUseTagsCompletion',
+    '/how-to/use-tags-and-tag-completion/',
+    'Use Tags and Tag Completion | Flavor Grenade LSP',
+    'Complete nested Obsidian tags and find tag references across indexed vault notes.',
+    'Use Tags and Tag Completion',
+    'how-to',
+    'how-to',
+    ['conceptReferencesNavigationTagsEmbeds', 'conceptCompletions', 'howToFindReferencesHighlights'],
+    true,
+  ),
+  route(
+    'howToOpaqueRegions',
+    '/how-to/work-with-ofm-opaque-regions/',
+    'Work with OFM Opaque Regions | Flavor Grenade LSP',
+    'Understand why code, math, comments, frontmatter, and templates avoid false OFM tokens.',
+    'Work with OFM Opaque Regions',
+    'how-to',
+    'how-to',
+    ['conceptOpaqueRegions', 'advancedParserBoundaries', 'howToFixBrokenLinks'],
+    true,
   ),
   route(
     'advancedUsage',
     '/advanced-usage/',
     'Advanced Usage | Flavor Grenade LSP',
-    'Advanced configuration, editor integration, and compatibility notes for Flavor Grenade LSP.',
+    'Advanced configuration, indexing, confinement, parser, and direct-LSP integration notes.',
     'Advanced Usage',
     'docs',
-    ['quickstart', 'howToVaultConfiguration', 'faq'],
+    'advanced-usage',
+    ['advancedConfigurationModel', 'advancedVaultSingleFileMode', 'advancedDirectLspIntegration'],
+  ),
+  route(
+    'advancedConfigurationModel',
+    '/advanced-usage/configuration-model/',
+    'Configuration Model | Flavor Grenade LSP',
+    'Understand VS Code settings, vault markers, document extensions, and server options.',
+    'Configuration Model',
+    'docs',
+    'advanced-usage',
+    ['howToConfigureObsidianVaults', 'advancedVaultSingleFileMode', 'advancedIndexingPerformance'],
+    true,
+  ),
+  route(
+    'advancedVaultSingleFileMode',
+    '/advanced-usage/vault-mode-and-single-file-mode/',
+    'Vault Mode and Single-file Mode | Flavor Grenade LSP',
+    'Compare vault-wide behavior with the conservative single-file fallback mode.',
+    'Vault Mode and Single-file Mode',
+    'docs',
+    'advanced-usage',
+    ['advancedConfigurationModel', 'conceptVaultIndex', 'advancedDirectLspIntegration'],
+    true,
+  ),
+  route(
+    'advancedIndexingPerformance',
+    '/advanced-usage/indexing-and-performance/',
+    'Indexing and Performance | Flavor Grenade LSP',
+    'Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features.',
+    'Indexing and Performance',
+    'docs',
+    'advanced-usage',
+    ['conceptVaultIndex', 'advancedConfigurationModel', 'howToConfigureObsidianVaults'],
+    true,
+  ),
+  route(
+    'advancedUriConfinement',
+    '/advanced-usage/unsupported-uri-schemes-and-confinement/',
+    'Unsupported URI Schemes and Confinement | Flavor Grenade LSP',
+    'See how local vault targets are separated from external URLs, schemes, and outside paths.',
+    'Unsupported URI Schemes and Confinement',
+    'docs',
+    'advanced-usage',
+    ['conceptWikiLinkResolution', 'conceptRenameSafety', 'howToFixBrokenLinks'],
+    true,
+  ),
+  route(
+    'advancedParserBoundaries',
+    '/advanced-usage/parser-boundaries-and-opaque-regions/',
+    'Parser Boundaries and Opaque Regions | Flavor Grenade LSP',
+    'Review parser ordering, opaque-region marking, token parsing, and conservative edge cases.',
+    'Parser Boundaries and Opaque Regions',
+    'docs',
+    'advanced-usage',
+    ['conceptOpaqueRegions', 'howToOpaqueRegions', 'conceptDiagnostics'],
+    true,
+  ),
+  route(
+    'advancedDirectLspIntegration',
+    '/advanced-usage/compatibility-and-direct-lsp-integration/',
+    'Compatibility and Direct LSP Integration | Flavor Grenade LSP',
+    'Use the supported VS Code extension path first; direct LSP clients own advanced setup.',
+    'Compatibility and Direct LSP Integration',
+    'docs',
+    'advanced-usage',
+    ['howToVsCodeExtension', 'advancedConfigurationModel', 'advancedVaultSingleFileMode'],
+    true,
   ),
   route(
     'faq',
@@ -163,6 +396,7 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'FAQ | Flavor Grenade LSP',
     'Answers about Obsidian compatibility, VS Code setup, rename safety, and LSP behavior.',
     'Frequently Asked Questions',
+    'faq',
     'faq',
     ['quickstart', 'advancedUsage', 'howToVsCodeExtension'],
   ),
@@ -173,7 +407,19 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Short wiki-style explanations for Obsidian Flavored Markdown language-server concepts.',
     'Concepts',
     'docs',
-    ['conceptObsidianFlavoredMarkdown', 'conceptVaultIndex', 'conceptWikiLinkResolution'],
+    'concepts',
+    ['conceptInspirationPriorArt', 'conceptObsidianFlavoredMarkdown', 'conceptVaultIndex'],
+  ),
+  route(
+    'conceptInspirationPriorArt',
+    '/concepts/inspiration-and-prior-art/',
+    'Inspiration and Prior Art | Flavor Grenade LSP',
+    'Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art.',
+    'Inspiration and Prior Art',
+    'concept',
+    'concepts',
+    ['conceptObsidianFlavoredMarkdown', 'conceptVaultIndex', 'faq'],
+    true,
   ),
   route(
     'conceptObsidianFlavoredMarkdown',
@@ -182,25 +428,97 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Learn how Obsidian Flavored Markdown differs from plain Markdown in vault workflows.',
     'Obsidian Flavored Markdown',
     'concept',
-    ['conceptVaultIndex', 'conceptWikiLinkResolution', 'quickstart'],
+    'concepts',
+    ['conceptWikiLinkResolution', 'conceptOpaqueRegions', 'quickstart'],
+    true,
   ),
   route(
     'conceptVaultIndex',
     '/concepts/vault-index/',
     'Vault Index | Flavor Grenade LSP',
-    'Understand how Flavor Grenade indexes Obsidian Vaults for completions and navigation.',
+    'Understand how Flavor Grenade indexes vault documents, attachments, tags, and links.',
     'Vault Index',
     'concept',
-    ['conceptObsidianFlavoredMarkdown', 'conceptWikiLinkResolution', 'howToVaultConfiguration'],
+    'concepts',
+    ['conceptDocIdVaultRelativePaths', 'conceptCompletions', 'howToConfigureObsidianVaults'],
+    true,
   ),
   route(
     'conceptWikiLinkResolution',
     '/concepts/wiki-link-resolution/',
     'Wiki-link Resolution | Flavor Grenade LSP',
-    'Understand how Flavor Grenade resolves wiki links, Markdown links, aliases, and headings.',
+    'Understand how Flavor Grenade resolves wiki links, aliases, headings, and attachments.',
     'Wiki-link Resolution',
     'concept',
-    ['conceptVaultIndex', 'howToBrokenLinks', 'howToSafeRename'],
+    'concepts',
+    ['conceptVaultIndex', 'conceptDiagnostics', 'howToFixBrokenLinks'],
+    true,
+  ),
+  route(
+    'conceptDocIdVaultRelativePaths',
+    '/concepts/docid-and-vault-relative-paths/',
+    'DocId and Vault-Relative Paths | Flavor Grenade LSP',
+    'See why document identity is vault-relative, extension-free, and portable.',
+    'DocId and Vault-Relative Paths',
+    'concept',
+    'concepts',
+    ['conceptVaultIndex', 'conceptWikiLinkResolution', 'conceptRenameSafety'],
+    true,
+  ),
+  route(
+    'conceptOpaqueRegions',
+    '/concepts/opaque-regions/',
+    'Opaque Regions | Flavor Grenade LSP',
+    'Learn why the parser skips OFM-looking text inside code, math, comments, and templates.',
+    'Opaque Regions',
+    'concept',
+    'concepts',
+    ['conceptObsidianFlavoredMarkdown', 'conceptDiagnostics', 'advancedParserBoundaries'],
+    true,
+  ),
+  route(
+    'conceptDiagnostics',
+    '/concepts/diagnostics/',
+    'Diagnostics | Flavor Grenade LSP',
+    'Understand vault-aware diagnostics for broken, ambiguous, malformed, and unsafe targets.',
+    'Diagnostics',
+    'concept',
+    'concepts',
+    ['conceptWikiLinkResolution', 'conceptOpaqueRegions', 'howToFixBrokenLinks'],
+    true,
+  ),
+  route(
+    'conceptCompletions',
+    '/concepts/completions/',
+    'Completions | Flavor Grenade LSP',
+    'Understand context-routed completions from the vault index, tag registry, and attachments.',
+    'Completions',
+    'concept',
+    'concepts',
+    ['conceptVaultIndex', 'conceptWikiLinkResolution', 'howToCompleteWikiLinksHeadings'],
+    true,
+  ),
+  route(
+    'conceptRenameSafety',
+    '/concepts/rename-safety/',
+    'Rename Safety | Flavor Grenade LSP',
+    'Learn how rename uses resolved local references instead of blind text replacement.',
+    'Rename Safety',
+    'concept',
+    'concepts',
+    ['conceptDocIdVaultRelativePaths', 'conceptWikiLinkResolution', 'howToRenameNotesSafely'],
+    true,
+  ),
+  route(
+    'conceptReferencesNavigationTagsEmbeds',
+    '/concepts/references-navigation-tags-and-embeds/',
+    'References, Navigation, Tags, and Embeds | Flavor Grenade LSP',
+    'See how references, navigation, tags, highlights, and embeds share one vault graph.',
+    'References, Navigation, Tags, and Embeds',
+    'concept',
+    'concepts',
+    ['conceptVaultIndex', 'conceptCompletions', 'features'],
+    true,
   ),
   route(
     'features',
@@ -208,6 +526,7 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'Features | Flavor Grenade LSP',
     'Explore diagnostics, completions, references, rename, tags, embeds, and structural navigation.',
     'Features',
+    'features',
     'features',
     ['quickstart', 'howTo', 'concepts'],
   ),
@@ -231,6 +550,7 @@ export function validateRouteMetadata(routes: readonly WebsiteRoute[]): string[]
   const seenTitles = new Set<string>();
   const seenDescriptions = new Set<string>();
   const ids = new Set<RouteId>(routeIds);
+  const articleIds = new Set<RouteId>(articleRouteIds);
 
   for (const routeRecord of routes) {
     const requiredFields = [
@@ -239,6 +559,7 @@ export function validateRouteMetadata(routes: readonly WebsiteRoute[]): string[]
       'h1',
       'canonicalUrl',
       'pageType',
+      'group',
     ] as const;
 
     for (const field of requiredFields) {
@@ -264,6 +585,10 @@ export function validateRouteMetadata(routes: readonly WebsiteRoute[]): string[]
 
     if (routeRecord.canonicalUrl && routeRecord.canonicalUrl !== canonicalUrl(routeRecord.path)) {
       messages.push(`${routeRecord.id} has non-canonical URL ${routeRecord.canonicalUrl}.`);
+    }
+
+    if (articleIds.has(routeRecord.id) && !routeRecord.isArticle) {
+      messages.push(`${routeRecord.id} is missing article metadata.`);
     }
 
     for (const relatedId of routeRecord.related) {

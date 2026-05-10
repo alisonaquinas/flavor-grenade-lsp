@@ -2,7 +2,7 @@
 id: "TASK-251"
 title: "Concept Article: Vault Index"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-251"]
 
 # Concept Article: Vault Index
 
-> [!INFO] `TASK-251` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-251` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

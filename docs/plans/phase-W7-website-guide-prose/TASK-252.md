@@ -2,7 +2,7 @@
 id: "TASK-252"
 title: "Concept Article: Wiki-link Resolution"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-252"]
 
 # Concept Article: Wiki-link Resolution
 
-> [!INFO] `TASK-252` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-252` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

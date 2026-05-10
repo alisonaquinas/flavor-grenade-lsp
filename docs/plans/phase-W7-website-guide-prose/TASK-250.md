@@ -2,7 +2,7 @@
 id: "TASK-250"
 title: "Concept Article: Obsidian Flavored Markdown"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-250"]
 
 # Concept Article: Obsidian Flavored Markdown
 
-> [!INFO] `TASK-250` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-250` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

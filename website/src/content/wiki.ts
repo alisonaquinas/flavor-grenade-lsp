@@ -66,7 +66,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'The vault index is the source of truth for parsed documents, headings, links, tags, and attachments so completions, diagnostics, references, and rename use one graph.',
     example: 'notes/daily.md becomes DocId notes/daily, with headings, tags, and outbound references attached to that indexed document.',
     relatedConceptIds: ['docid-vault-relative-paths', 'completions'],
-    relatedRouteIds: ['conceptVaultIndex', 'howToVaultConfiguration'],
+    relatedRouteIds: ['conceptVaultIndex', 'howToConfigureObsidianVaults'],
     sourceLinks: [],
   }),
   concept({
@@ -77,7 +77,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'Resolution classifies the local target, matches a vault-relative document or attachment, and optionally narrows to a heading or block without treating external schemes as vault edits.',
     example: '[[Project Plan#Risks|risk list]] resolves to the Project Plan note, then to the Risks heading.',
     relatedConceptIds: ['vault-index', 'diagnostics'],
-    relatedRouteIds: ['conceptWikiLinkResolution', 'howToBrokenLinks'],
+    relatedRouteIds: ['conceptWikiLinkResolution', 'howToFixBrokenLinks'],
     sourceLinks: [],
   }),
   concept({
@@ -88,7 +88,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'A DocId strips the vault root and Markdown extension so references stay portable across machines and never depend on a private absolute path.',
     example: 'C:/vault/notes/Daily.md is stored as notes/Daily, while links still render as human-friendly vault paths.',
     relatedConceptIds: ['vault-index', 'rename-safety'],
-    relatedRouteIds: ['howToVaultConfiguration', 'advancedUsage'],
+    relatedRouteIds: ['howToConfigureObsidianVaults', 'advancedUsage'],
     sourceLinks: [],
   }),
   concept({
@@ -110,7 +110,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'Diagnostics report local reference problems only when the server has enough vault context to avoid guessing, such as missing notes, headings, attachments, or ambiguous anchors.',
     example: '[[Missing Note]] can report a broken-link diagnostic while https://example.com remains outside local vault checking.',
     relatedConceptIds: ['wiki-link-resolution', 'opaque-regions'],
-    relatedRouteIds: ['howToBrokenLinks', 'faq'],
+    relatedRouteIds: ['howToFixBrokenLinks', 'faq'],
     sourceLinks: [],
   }),
   concept({
@@ -132,7 +132,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'Rename plans are vault-confined, syntax-aware, and explicit; ambiguous or unsupported references are skipped instead of rewritten by guesswork.',
     example: 'Renaming #Risks can update [[Project Plan#Risks]] while leaving an unrelated external URL unchanged.',
     relatedConceptIds: ['docid-vault-relative-paths', 'wiki-link-resolution'],
-    relatedRouteIds: ['howToSafeRename', 'advancedUsage'],
+    relatedRouteIds: ['howToRenameNotesSafely', 'advancedUsage'],
     sourceLinks: [],
   }),
   concept({
@@ -143,7 +143,7 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
       'References, definitions, highlights, tags, and embeds all read from the same indexed OFM graph, so the editor view stays consistent across related actions.',
     example: '#project/flavor-grenade, [[Daily Note]], and ![[diagram.png]] are indexed together for navigation and lookup.',
     relatedConceptIds: ['vault-index', 'completions'],
-    relatedRouteIds: ['features', 'howToBrokenLinks'],
+    relatedRouteIds: ['features', 'howToFixBrokenLinks'],
     sourceLinks: [],
   }),
 ];

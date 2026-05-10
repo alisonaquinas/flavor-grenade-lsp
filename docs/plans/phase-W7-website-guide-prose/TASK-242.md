@@ -2,7 +2,7 @@
 id: "TASK-242"
 title: "Article: Fix Broken Links"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-242"]
 
 # Article: Fix Broken Links
 
-> [!INFO] `TASK-242` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-242` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

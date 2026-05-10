@@ -2,7 +2,7 @@
 id: "TASK-248"
 title: "Article: Work with OFM Opaque Regions"
 type: task
-status: open
+status: done
 priority: medium
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-248"]
 
 # Article: Work With OFM Opaque Regions
 
-> [!INFO] `TASK-248` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-248` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

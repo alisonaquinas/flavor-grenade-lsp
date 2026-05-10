@@ -2,7 +2,7 @@
 id: "TASK-262"
 title: "Advanced Article: Unsupported URI Schemes and Confinement"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-262"]
 
 # Advanced Article: Unsupported URI Schemes And Confinement
 
-> [!INFO] `TASK-262` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-262` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

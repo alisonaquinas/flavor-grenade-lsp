@@ -2,7 +2,7 @@
 id: "TASK-261"
 title: "Advanced Article: Indexing and Performance"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-261"]
 
 # Advanced Article: Indexing And Performance
 
-> [!INFO] `TASK-261` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-261` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

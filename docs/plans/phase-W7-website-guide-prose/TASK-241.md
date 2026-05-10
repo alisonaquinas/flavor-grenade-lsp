@@ -2,7 +2,7 @@
 id: "TASK-241"
 title: "Article: Configure Obsidian Vaults"
 type: task
-status: open
+status: done
 priority: high
 phase: W7
 parent: "FEAT-040"
@@ -15,7 +15,7 @@ aliases: ["TASK-241"]
 
 # Article: Configure Obsidian Vaults
 
-> [!INFO] `TASK-241` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `open`
+> [!INFO] `TASK-241` · Task · Phase W7 · Parent: [[FEAT-040]] · Status: `done`
 
 ## Text Scope
 

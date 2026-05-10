@@ -13,7 +13,7 @@
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/use-vscode-extension/</loc>
   </url>
   <url>
-    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/configure-vaults/</loc>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/configure-obsidian-vaults/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/fix-broken-links/</loc>
@@ -22,13 +22,49 @@
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/rename-notes-safely/</loc>
   </url>
   <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/complete-wiki-links-and-headings/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/navigate-notes-headings-blocks-embeds-and-attachments/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/find-references-and-highlights/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/use-tags-and-tag-completion/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/work-with-ofm-opaque-regions/</loc>
+  </url>
+  <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/configuration-model/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/vault-mode-and-single-file-mode/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/indexing-and-performance/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/unsupported-uri-schemes-and-confinement/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/parser-boundaries-and-opaque-regions/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/advanced-usage/compatibility-and-direct-lsp-integration/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/faq/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/inspiration-and-prior-art/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/obsidian-flavored-markdown/</loc>
@@ -38,6 +74,24 @@
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/wiki-link-resolution/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/docid-and-vault-relative-paths/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/opaque-regions/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/diagnostics/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/completions/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/rename-safety/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/references-navigation-tags-and-embeds/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/features/</loc>
