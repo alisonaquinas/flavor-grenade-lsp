@@ -2,7 +2,7 @@
 id: "CHORE-096"
 title: "Phase W8 lint sweep"
 type: chore
-status: open
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-096"]
 
 # Phase W8 Lint Sweep
 
-> [!INFO] `CHORE-096` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-096` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -33,12 +33,16 @@ Run the Step E lint sweep for W8 after all implementation tasks reach `done`.
 
 ## Acceptance Criteria
 
-- [ ] `cd website && npm run lint` passes.
-- [ ] `cd website && npm run typecheck` passes.
-- [ ] Any lint issue that changes behavior is ticketed before fixing.
-- [ ] The workflow log records command evidence.
+- [x] `cd website && npm run lint` passes.
+- [x] `cd website && npm run typecheck` passes.
+- [x] Any lint issue that changes behavior is ticketed before fixing.
+- [x] The workflow log records command evidence.
 
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-10
 > Chore added for required Phase Execution Step E.
+
+> [!SUCCESS] Lint sweep complete · 2026-05-10
+> `npm run lint` and `npm run typecheck` passed from `website/`. No behavior
+> changing lint fixes were required. Status: `done`.
