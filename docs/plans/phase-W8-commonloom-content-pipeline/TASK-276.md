@@ -2,7 +2,7 @@
 id: "TASK-276"
 title: "Verify website parity and authoring docs"
 type: task
-status: open
+status: red
 priority: medium
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-276"]
 
 # Verify Website Parity And Authoring Docs
 
-> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -85,3 +85,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing parity coverage for routed public pages, article hub inventory,
+> and the authoring workflow documentation page. Status: `red`.
