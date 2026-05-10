@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `ready`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -77,3 +77,7 @@ See [[index]] for the complete ticket list.
 > Step A-C readiness details are recorded across child tickets: exact file
 > paths, API shapes, linked requirements, linked tests, BDD applicability, and
 > required sweep chores. Status: `ready`.
+
+> [!INFO] Started · 2026-05-10
+> TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.
+> Status: `in-progress`.

@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -98,3 +98,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage for `content:generate`, `content:check`, and the
+> Commonloom compiler scaffold. Status: `red`.
