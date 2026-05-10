@@ -100,19 +100,30 @@ implementation must stay independent from the LSP server runtime.
 - Public pages must render meaningful static HTML for crawlers and no-JS users.
 - Public page copy must be authored as Markdown under
   `website/src/content/copy`.
+- Public copy generation must support CommonMark plus GitHub Flavored Markdown
+  formatting, including headings, emphasis, code, lists, blockquotes, links,
+  images, tables, thematic breaks, escaped characters, and HTML entities.
 - Public page copy may use inline HTML for static structures that Markdown
   cannot express, subject to validation for safety and accessibility.
 - Public copy images must be committed under `website/src/content/media` or
   reuse documented product asset paths.
 - Page-group manifests under `website/src/content` must use the
-  `*.manifest.*` suffix and map copy files to public page records.
+  `*.manifest.ts` suffix and map copy files to public page records.
 - Markdown frontmatter is the default source for page-local metadata such as
-  description, H1, related routes, SEO fields, and structured data hints.
+  title, description, H1, related routes, SEO fields, and structured data
+  hints.
 - Markdown frontmatter may declare hero, proof, or social image references.
 - Renderer-consumed generated content records must be TypeScript modules
   written under `website/src/content/generated` and excluded from git.
 - Generated JSON may be emitted only as diagnostic or audit output, not as the
   public page renderer input.
+- Generated page records must expose sanitized static HTML as the canonical
+  body and must preserve source trace data useful for validation diagnostics.
+- Public copy may use Obsidian wiki-links only when the generator resolves them
+  to public routes.
+- Website scripts must include `content:generate` and `content:check`; build,
+  typecheck, and test must run after generation or invoke it.
+- `website/src/content/generated/` must be listed in `.gitignore`.
 - Each page must have one H1, a unique title, and a unique description.
 - Generate or maintain `robots.txt` and `sitemap.xml`.
 - Add Open Graph and Twitter preview metadata for the homepage.

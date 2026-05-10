@@ -27,7 +27,7 @@ Required source boundaries:
 - Public website content media lives under `website/src/content/media` unless
   it is an existing product asset reused from a documented product asset path.
 - Page-group content manifests live as direct child files under
-  `website/src/content` with the `*.manifest.*` suffix.
+  `website/src/content` with the `*.manifest.ts` suffix.
 - Generated TypeScript content records live under
   `website/src/content/generated` and are build output, not source of truth.
 - SCSS source lives under `website/src/styles`.
@@ -103,6 +103,10 @@ Public page copy under `website/src/content/copy` must:
 
 - be authored as Markdown
 - target CommonMark plus GitHub Flavored Markdown
+- support public-copy formatting for headings H1 through H6, paragraphs,
+  emphasis, strong emphasis, strikethrough, inline code, fenced code blocks,
+  ordered lists, unordered lists, task lists, blockquotes, links, autolinks,
+  images, tables, thematic breaks, escaped characters, and HTML entities
 - allow inline HTML when Markdown cannot express the needed static structure
 - keep page-local metadata in frontmatter when practical
 - avoid internal ticket, phase, and implementation-ledger language in
@@ -127,7 +131,11 @@ Content media under `website/src/content/media` must:
 Page-group manifests under `website/src/content` must:
 
 - be split by page group instead of one central registry
-- live as direct child files named with the `*.manifest.*` suffix
+- live as direct child files named with the `*.manifest.ts` suffix
+- export one object that satisfies the hand-authored `PageGroupManifest`
+  interface
+- import only hand-authored route, manifest, or content types
+- avoid importing generated content
 - map each public route to exactly one Markdown copy file
 - define ordering for group hubs, dropdowns, and article lists
 - identify generated TypeScript output targets consumed by the Svelte renderer
@@ -141,6 +149,20 @@ grouping, ordering, output targets, or documented metadata exceptions.
 Frontmatter may also declare hero, proof, or social image references when those
 images are part of page metadata rather than body copy.
 
+Required frontmatter fields:
+
+- `title`
+- `description`
+
+Optional frontmatter fields:
+
+- `h1`
+- `summary`
+- `related`
+- `seo`
+- `structuredData`
+- `images`
+
 Generated content modules under `website/src/content/generated` must:
 
 - be TypeScript, not JSON, for renderer-consumed content records
@@ -150,10 +172,68 @@ Generated content modules under `website/src/content/generated` must:
 - contain no business logic beyond constants, indexes, and simple lookup maps
 - be disposable and reproducible from Markdown copy, content media, and
   page-group manifests
+- preserve source trace data for Markdown path, manifest path, content hash,
+  headings, links, and images where parser support allows it
+
+`pages.generated.ts` must expose sanitized static HTML as the canonical page
+body. Generated compatibility adapters may expose section arrays for existing
+renderers, but new copy must not be authored as hand-maintained section arrays.
 
 Generated JSON may exist only as a diagnostic or audit artifact. It must not be
 used as the public page renderer input and must not be committed unless a later
 ADR changes that rule.
+
+Inline HTML validation must allow only these tags:
+
+- `figure`
+- `figcaption`
+- `picture`
+- `source`
+- `img`
+- `span`
+- `div`
+- `kbd`
+- `abbr`
+
+Inline HTML validation must allow only these attributes:
+
+- `class`
+- `id`
+- `src`
+- `srcset`
+- `sizes`
+- `alt`
+- `width`
+- `height`
+- `loading`
+- `decoding`
+- `aria-*`
+- `role`
+- `title`
+
+Inline HTML validation must reject scripts, style tags, iframes, event handler
+attributes, JavaScript URLs, and runtime embeds outside the website component
+model.
+
+Public copy links must:
+
+- prefer standard Markdown links
+- allow Obsidian wiki-links only when they resolve to public routes
+- fail validation for unresolved wiki-links
+- avoid user-facing links to internal planning docs under `website/docs`
+- use descriptive link text
+
+Website package scripts must include:
+
+- `content:generate`
+- `content:check`
+
+The `build`, `typecheck`, and `test` scripts must run after content generation
+or explicitly invoke it. CI must fail when generated records are stale, missing,
+committed, or not reproducible from source.
+
+Website tooling may exclude generated TypeScript from ESLint and Prettier, but
+TypeScript must still check generated records through the app type graph.
 
 ## Website Changelog Requirements
 
@@ -208,6 +288,9 @@ Website development and maintenance must keep these checks green:
 - Public copy and manifest validation for `website/src/content`.
 - Public content media validation for broken image references, missing alt
   text, and unsafe inline HTML.
+- Public link validation for unresolved wiki-links and internal planning doc
+  links.
+- Generated content reproducibility validation.
 - Website TypeScript typecheck.
 - Website lint with zero warnings.
 - Website tests.
@@ -225,10 +308,12 @@ violated in ways that can be checked automatically.
 - Public website copy is authored in `website/src/content/copy`.
 - Public content media is authored in `website/src/content/media` or reused
   from documented product asset paths.
-- Page-group manifests named `*.manifest.*` map Markdown copy files to public
+- Page-group manifests named `*.manifest.ts` map Markdown copy files to public
   page records.
 - Generated TypeScript records are written under
   `website/src/content/generated` and are not committed.
+- `website/src/content/generated/` is listed in `.gitignore`.
+- `website/package.json` exposes `content:generate` and `content:check`.
 - `website/package.json` exposes a `test` script once implementation starts.
 - Internal website Markdown is maintained at `standard` maturity.
 - Website changelog practice follows Keep a Changelog and SemVer.

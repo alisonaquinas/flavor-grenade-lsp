@@ -47,7 +47,7 @@ flowchart LR
 | `website/src` | Required location for Svelte, TypeScript, SCSS, route, metadata, and content-transform source. |
 | `website/src/content/copy` | Public Markdown copy source for generated website pages. |
 | `website/src/content/media` | Content-owned images and media referenced by public copy. |
-| `website/src/content/*.manifest.*` | Page-group manifest source for route mappings, ordering, and generated content targets. |
+| `website/src/content/*.manifest.ts` | Page-group manifest source for route mappings, ordering, and generated content targets. |
 | `website/src/content/generated` | Generated TypeScript content records consumed by the website renderer; ignored build output. |
 | `website/tests` | Required location for website unit, component, accessibility, routing, SEO, and build-output tests. |
 | `website/public` | Future static passthrough assets such as `robots.txt`, favicons, and social images when needed. |
@@ -98,8 +98,6 @@ remain meaningful when JavaScript is unavailable.
 
 ## Open Questions
 
-- Whether public Markdown copy should keep Obsidian wiki-link source syntax or
-  convert every link to standard Markdown and route URLs during generation.
 - Whether client-side search is needed for the first public release.
 - Whether website releases share server version tags or use independent
   `site-vX.Y.Z` tags.

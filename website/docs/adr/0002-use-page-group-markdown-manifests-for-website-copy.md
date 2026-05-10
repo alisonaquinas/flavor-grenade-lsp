@@ -28,6 +28,8 @@ TypeScript architecture?
 ## Decision Drivers
 
 - Keep public copy easy to author as Markdown.
+- Support full public-copy Markdown formatting instead of a narrow custom
+  subset.
 - Allow inline HTML for static document structures that Markdown cannot express
   cleanly.
 - Support images in public copy without forcing authors back into TypeScript.
@@ -44,6 +46,8 @@ TypeScript architecture?
 - One manifest per page group.
 - One central manifest for all public pages.
 - Markdown files as implicit routes with no manifest.
+- TypeScript manifests.
+- Data-only manifests.
 
 ## Decision Outcome
 
@@ -56,10 +60,17 @@ structured data hints. Inline HTML is allowed for static structures such as
 figures, captions, and responsive images when Markdown is not expressive
 enough.
 
-Page-group manifests will be direct child files under `website/src/content`
-with the `*.manifest.*` suffix. They will map Markdown files to public routes,
-route groups, ordering, generated output targets, and any explicit overrides
-needed for placement or build behavior. The build will write generated
+The generator will support CommonMark plus GitHub Flavored Markdown formatting,
+including heading levels, emphasis, strong emphasis, strikethrough, inline code,
+fenced code blocks, ordered and unordered lists, task lists, blockquotes, links,
+autolinks, images, tables, thematic breaks, escaped characters, and HTML
+entities.
+
+Page-group manifests will be direct child TypeScript files under
+`website/src/content` with the `*.manifest.ts` suffix. They will map Markdown
+files to public routes, route groups, ordering, generated output targets, and
+any explicit overrides needed for placement or build behavior. The build will
+write generated
 TypeScript records under `website/src/content/generated`. That directory is
 generated output and must be git-ignored.
 
@@ -71,6 +82,14 @@ markers, optional captions, optional credit links, and page roles.
 Manifests may only override explicitly declared fields needed for routing,
 grouping, ordering, output targets, or documented metadata exceptions.
 Frontmatter keeps page-local facts near the copy.
+
+Generated page records will expose sanitized static HTML as the canonical body.
+Compatibility section arrays may be generated while existing Svelte renderers
+still need them, but authors should not maintain page copy as TypeScript
+section arrays.
+
+Public copy may use Obsidian wiki-links only when the generator resolves them
+to public routes and emits standard crawlable URLs.
 
 ### Consequences
 
@@ -102,14 +121,17 @@ The decision is confirmed when:
 - `website/src/content/copy` contains committed public Markdown copy files.
 - `website/src/content/media` contains committed content-owned images when
   public copy needs document-specific media.
-- `website/src/content` contains one `*.manifest.*` file per page group.
+- `website/src/content` contains one `*.manifest.ts` file per page group.
 - Markdown frontmatter can provide page-local metadata.
 - Inline HTML in public copy is validated and limited to safe static output.
 - Public copy image references resolve in development and production builds and
   provide useful alt text or explicit decorative markers.
+- Public copy wiki-links resolve to public routes or fail validation.
 - The generation step writes TypeScript records to
   `website/src/content/generated`.
 - `website/src/content/generated` is git-ignored.
+- `website/src/content/generated/` is listed in `.gitignore`.
+- `website/package.json` exposes `content:generate` and `content:check`.
 - The website renderer consumes generated TypeScript records instead of
   hand-authored page body TypeScript or generated JSON page data.
 - Generated records are disposable and reproducible from Markdown copy plus
@@ -162,6 +184,28 @@ paths and frontmatter alone.
   frontmatter conventions.
 - Bad, because the build would have less explicit information for validation.
 
+### TypeScript Manifests
+
+Use `*.manifest.ts` files that export one manifest object satisfying the
+hand-authored `PageGroupManifest` interface.
+
+- Good, because route ids and page groups are checked while authors edit.
+- Good, because the generator can share source types with the website app.
+- Good, because this matches the decision to generate TypeScript for renderer
+  input.
+- Bad, because manifests are less friendly to non-TypeScript tooling.
+
+### Data-only Manifests
+
+Use YAML, TOML, or JSON manifests.
+
+- Good, because data-only manifests are easy for generic tooling to parse.
+- Good, because authors do not need to touch TypeScript syntax.
+- Bad, because route ids and page groups need a separate runtime validation
+  pass before TypeScript can help.
+- Bad, because it weakens the typed contract the W8 pipeline is trying to
+  preserve.
+
 ## Generated Output Decision
 
 Generated TypeScript is the canonical output consumed by the website renderer.
@@ -205,6 +249,29 @@ Write TypeScript for the app and JSON for tooling.
 
 JSON may be added later as an audit report if CI or documentation tooling needs
 it. It must remain generated output.
+
+## Generated Page Shape
+
+Generated page records expose sanitized static HTML as the canonical body:
+
+- route id
+- source trace
+- summary
+- `bodyHtml`
+- heading outline
+- extracted links
+- extracted media records
+- structured data hints
+
+Source trace includes the Markdown path, manifest path, content hash, heading
+ids, and link or image source lines where the parser can provide them.
+
+## Validation And Tooling
+
+The website must expose `content:generate` and `content:check` package scripts.
+Build, typecheck, and test must run after generation or invoke generation
+directly. Generated records are TypeScript-checked through the app type graph.
+ESLint and Prettier may exclude generated files if the exclusion is explicit.
 
 ## More Information
 

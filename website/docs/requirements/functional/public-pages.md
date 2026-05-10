@@ -78,14 +78,22 @@ Content source requirements:
 - Each required public route or page must map to one Markdown copy file under
   `website/src/content/copy`.
 - Each route must appear in exactly one page-group manifest.
+- Page-group manifests must be TypeScript files named `*.manifest.ts`.
 - Page-local metadata comes from Markdown frontmatter by default unless a
   manifest override is needed for routing, grouping, ordering, output targets,
   or a documented metadata exception.
+- Public copy Markdown formatting must render semantically for headings,
+  paragraphs, emphasis, code, lists, blockquotes, links, images, tables, and
+  thematic breaks.
+- Public page bodies must be generated as sanitized static HTML, with section
+  array adapters allowed only for compatibility with existing renderers.
 - Public copy may use inline HTML for static structures such as figures and
   responsive images when plain Markdown is not expressive enough.
 - Public copy images must resolve from committed website content media or
   documented product asset paths and must provide useful alt text unless marked
   decorative.
+- Obsidian wiki-links in public copy must resolve to public routes before they
+  are emitted into generated pages.
 - The production build must consume generated TypeScript records from
   `website/src/content/generated` rather than hand-maintained public page
   TypeScript bodies or generated JSON page data.

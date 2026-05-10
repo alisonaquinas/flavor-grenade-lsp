@@ -55,12 +55,12 @@ The W8 content authoring model has three layers:
 | --- | --- | --- | --- |
 | Markdown copy | `website/src/content/copy` | Human-authored public page body copy. | Committed source |
 | Content media | `website/src/content/media` | Images and other media referenced by public copy. | Committed source |
-| Page-group manifests | `website/src/content/*.manifest.*` | Mappings from copy files to routes, groups, ordering, and renderer records. | Committed source |
+| Page-group manifests | `website/src/content/*.manifest.ts` | Mappings from copy files to routes, groups, ordering, and renderer records. | Committed source |
 | Generated records | `website/src/content/generated` | Build-produced TypeScript consumed by the app. | Git-ignored output |
 
 Manifests are split by page group rather than centralized in one large file.
 Each manifest is a direct child of `website/src/content` and uses the
-`*.manifest.*` suffix. The generator must not discover manifests by scanning
+`*.manifest.ts` suffix. The generator must not discover manifests by scanning
 inside `copy` or `generated`.
 
 Expected groups include:
@@ -80,11 +80,17 @@ Each manifest entry must identify:
 - page type
 - output record name or generated TypeScript module target
 
+Each page-group manifest must be authored as TypeScript and must export one
+manifest object that satisfies a hand-authored `PageGroupManifest` interface.
+Manifest files may import hand-authored route and manifest types, but they must
+not import generated content.
+
 Each copy file frontmatter may identify:
 
 - title
 - description
 - H1
+- summary
 - hero, proof, or social image references
 - related route ids
 - structured data needs when the page produces JSON-LD
@@ -93,6 +99,19 @@ Each copy file frontmatter may identify:
 Frontmatter is the default source for page-local metadata. Manifests may only
 override explicitly declared fields needed for routing, grouping, ordering,
 output targets, or documented metadata exceptions.
+
+Frontmatter schema:
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `title` | yes | Unique document title. |
+| `description` | yes | Unique SEO description. |
+| `h1` | no | Defaults to the first Markdown H1 when omitted. |
+| `summary` | no | Defaults to `description` when omitted. |
+| `related` | no | Route ids validated against the route registry. |
+| `seo` | no | Page-specific Open Graph or Twitter overrides. |
+| `structuredData` | no | JSON-LD hints for FAQ, HowTo, breadcrumbs, or software data. |
+| `images` | no | `hero`, `proof`, or `social` image references with alt/decorative metadata. |
 
 The generated record shape must remain compatible with the renderer contracts
 used by public pages. Manual edits belong in Markdown or manifests, not in
@@ -125,6 +144,23 @@ Generated TypeScript must:
 - include a generated-file header that points authors back to Markdown copy and
   manifests
 
+`pages.generated.ts` should expose sanitized static HTML as the canonical page
+body, plus typed metadata that the renderer can inspect without reparsing
+Markdown. A generated page record should include:
+
+- route id
+- source trace
+- summary
+- sanitized `bodyHtml`
+- heading outline
+- extracted links
+- extracted media records
+- structured data hints
+
+Generated compatibility adapters may expose section arrays while existing
+Svelte renderers still need them. New public copy must not be forced into
+hand-authored section arrays.
+
 Generated JSON is not a renderer input. The generator may emit JSON only as a
 diagnostic or audit artifact, such as a content report used by tests or CI.
 Such JSON is generated output and must not be committed unless a later ADR
@@ -135,6 +171,21 @@ changes that rule.
 Public copy Markdown targets CommonMark plus GitHub Flavored Markdown.
 Frontmatter is a website tooling contract, not portable Markdown.
 
+The generator must support the full public-copy Markdown formatting set:
+
+- heading levels H1 through H6
+- paragraphs and hard or soft line breaks
+- emphasis, strong emphasis, strikethrough, inline code, and code blocks
+- ordered, unordered, and task lists
+- blockquotes
+- links, autolinks, and images
+- tables
+- thematic breaks
+- escaped characters and HTML entities
+
+Generated output must preserve semantic HTML for these constructs so public
+pages remain readable, accessible, and crawlable without JavaScript.
+
 Inline HTML is allowed in public copy when Markdown cannot express the needed
 structure. Expected uses include:
 
@@ -142,10 +193,38 @@ structure. Expected uses include:
 - `<picture>` and `<source>` for responsive images
 - small semantic wrappers needed by the renderer
 
-The generator must reject unsafe inline HTML such as scripts, event handler
-attributes, or embeds that create runtime behavior outside the website
-component model. Inline HTML must still produce accessible, crawlable static
-HTML.
+Allowed inline HTML tags are:
+
+- `figure`
+- `figcaption`
+- `picture`
+- `source`
+- `img`
+- `span`
+- `div`
+- `kbd`
+- `abbr`
+
+Allowed attributes are:
+
+- `class`
+- `id`
+- `src`
+- `srcset`
+- `sizes`
+- `alt`
+- `width`
+- `height`
+- `loading`
+- `decoding`
+- `aria-*`
+- `role`
+- `title`
+
+The generator must reject unsafe inline HTML such as scripts, style tags,
+iframes, event handler attributes, JavaScript URLs, or embeds that create
+runtime behavior outside the website component model. Inline HTML must still
+produce accessible, crawlable static HTML.
 
 ## Image Authoring Model
 
@@ -166,10 +245,39 @@ Image records produced by generation should preserve:
 Image references must be local to approved website asset roots unless a
 specific external image source is documented and allowed.
 
+## Link Authoring Model
+
+Public copy should prefer standard Markdown links for public routes, external
+URLs, and media. Obsidian wiki-links are allowed only when the generator can
+resolve them to a public route and emit a standard crawlable URL. Unresolved
+wiki-links fail validation.
+
+Public copy must not link to internal planning docs under `website/docs` as
+user-facing content. Local file links must resolve to public routes or approved
+media assets. External links must be canonical URLs and must use descriptive
+link text.
+
+## Source Trace Model
+
+Generated records must preserve enough source trace data for diagnostics and
+review:
+
+- source Markdown path
+- source manifest path
+- content hash for the Markdown file
+- heading ids and approximate source lines
+- link and image source lines when available
+
+Validation messages should report source Markdown paths and line numbers when a
+parser can provide them. Generated TypeScript modules should include a header
+that states they are reproducible from Markdown copy, content media, and
+page-group manifests.
+
 ## Link Model
 
-The source docs may use Obsidian wiki-links while planning. The public build
-must output crawlable and accessible links:
+Internal planning docs may use Obsidian wiki-links while planning. Public copy
+may use Obsidian wiki-links only when they resolve to public routes. The public
+build must output crawlable and accessible links:
 
 - internal public links resolve to static route URLs
 - public link text is descriptive
@@ -193,6 +301,21 @@ flowchart TD
 
 Generation must run before typecheck, tests, and production build because the
 generated TypeScript modules are part of the app type graph.
+
+Website package scripts must include:
+
+- `content:generate` to write generated TypeScript records
+- `content:check` to validate content without leaving stale generated output
+
+The `build`, `typecheck`, and `test` scripts must run after content generation
+or explicitly invoke it. CI must fail if `website/src/content/generated` is
+missing, stale, committed, or not reproducible from source.
+
+`website/src/content/generated/` must be listed in `.gitignore`.
+
+Generated TypeScript should be checked by TypeScript. ESLint and Prettier may
+exclude generated files, but that exclusion must be explicit in website tooling
+configuration so generated code style does not become a hand-maintained burden.
 
 ## SEO Output
 
