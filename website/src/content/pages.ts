@@ -91,6 +91,117 @@ function paragraphs(first: string, second: string): string {
   return `${first}\n\n${second}`;
 }
 
+interface TaskArticleDetail {
+  context: string;
+  stepsContext: string;
+  expectedContext: string;
+  failureContext: string;
+}
+
+const defaultTaskDetail: TaskArticleDetail = {
+  context:
+    'Use a small vault note while you try the workflow so the result is easy to inspect. The page should leave you with one concrete editor behavior you can verify before moving to the next guide.',
+  stepsContext:
+    'Keep the example narrow: one source note, one target note, and one deliberate edge case. That makes it clear whether the server is reading the vault graph or only reacting to text in the current file.',
+  expectedContext:
+    'When the workflow is healthy, the editor feature and the underlying vault model point to the same target. If two features disagree, treat that as a signal to check root selection, indexing, or link syntax.',
+  failureContext:
+    'Most failures come from opening the wrong folder, using syntax that is intentionally ignored, or asking the server to resolve a target outside the vault. Check those boundaries before changing project files.',
+};
+
+const taskArticleDetails: Partial<Record<RouteId, TaskArticleDetail>> = {
+  howToVsCodeExtension: {
+    context:
+      'This is the path for users who want the extension to handle activation, status, commands, and server startup. It is the best first install because VS Code owns the editor integration while the bundled server focuses on vault intelligence.',
+    stepsContext:
+      'Start from the Marketplace listing, then open the vault root instead of a parent workspace. Use a note with one valid wiki link and one intentionally missing wiki link so activation, completion, and diagnostics are all visible.',
+    expectedContext:
+      'A good install feels uneventful: the extension activates on vault open, OFMarkdown mode is available, and the server reaches a ready state without manual command-line work. Completion and diagnostics are the practical proof.',
+    failureContext:
+      'If nothing activates, verify workspace trust, the selected language mode, and whether the folder contains `.obsidian/` or `.flavor-grenade.toml`. If activation works but vault features are thin, the folder may not be the vault root.',
+  },
+  howToConfigureObsidianVaults: {
+    context:
+      'Use this guide when the server appears to be working but the vault graph is incomplete. Configuration starts with choosing the correct root because DocIds, attachments, and local paths are all interpreted relative to that boundary.',
+    stepsContext:
+      'Check the folder tree before changing settings. A single `.obsidian/` folder or `.flavor-grenade.toml` marker should identify the content you want indexed, while generated output and unrelated repositories should stay outside the active root.',
+    expectedContext:
+      'After configuration is right, completions should see vault notes, diagnostics should resolve local targets, and references should stay inside the intended workspace. The same note should not resolve differently across features.',
+    failureContext:
+      'Opening a parent directory is the common trap: the server may see too much or fail to choose the vault you meant. Opening one loose file is the opposite trap because the server may fall back to single-file behavior.',
+  },
+  howToFixBrokenLinks: {
+    context:
+      'Broken-link diagnostics are meant to catch local references that look like vault targets but do not resolve. They are most useful during writing, rename cleanup, and LLM-maintained documentation passes where stale links can spread quickly.',
+    stepsContext:
+      'Classify the target before editing it. A missing note, missing heading, missing Markdown image, and missing Obsidian embed all have different fixes, so read the diagnostic and compare it with the actual vault tree.',
+    expectedContext:
+      'The diagnostic should clear only after the supported local target exists and the link points to it. That gives you confidence that the repair changed the vault relationship rather than merely hiding the warning text.',
+    failureContext:
+      'Some links are intentionally outside this check. Plain external URLs, unsupported URI schemes, and ordinary Markdown asset links that are not images should not be treated like missing vault notes.',
+  },
+  howToRenameNotesSafely: {
+    context:
+      'Use rename when you want a semantic edit rather than a search-and-replace. The server should update references it can resolve and skip references that would require guessing.',
+    stepsContext:
+      'Start from a target that navigation can already resolve, then inspect the WorkspaceEdit before applying it. For heading rename, include one inbound `[[Note#Heading]]` link so you can see the reference update.',
+    expectedContext:
+      'A safe rename updates the target and its supported inbound references while leaving external links, unrelated headings, and outside-vault files untouched. The result should still pass references and diagnostics checks.',
+    failureContext:
+      'If rename skips a link, it may be ambiguous, unsupported, or outside the vault boundary. Treat skipped edits as protection rather than failure until you confirm the link should have been resolvable.',
+  },
+  howToCompleteWikiLinksHeadings: {
+    context:
+      'Completion is the quickest visible proof that the vault index is useful. It turns indexed notes, headings, blocks, tags, callouts, and attachments into suggestions that match the current OFM context.',
+    stepsContext:
+      'Try note completion first, then heading completion, then attachment or tag completion. This order makes it easier to tell whether the missing candidate is an index problem, a target-resolution problem, or just the wrong trigger context.',
+    expectedContext:
+      'The inserted text should match the configured link style and point to a target the server can resolve later. Completion should make the next diagnostic or navigation action more accurate, not merely fill in text.',
+    failureContext:
+      'In single-file mode, vault-wide note-name completion is unavailable because there is no vault graph. If suggestions are missing in vault mode, wait for indexing and confirm the target file is not ignored.',
+  },
+  howToNavigateVaultTargets: {
+    context:
+      'Navigation turns the link graph into an editor workflow. Use it when you need to jump from a wiki link, heading anchor, embed, block reference, or attachment reference to the thing it names.',
+    stepsContext:
+      'Place the cursor on one local reference at a time and use go to definition. Compare the result with the vault tree so you can spot alias mistakes, heading mismatches, and attachments stored outside the expected folder.',
+    expectedContext:
+      'Successful navigation should land on the note, heading, block, or attachment inside the vault boundary. The same target should also be eligible for references, diagnostics, and rename where those features apply.',
+    failureContext:
+      'If navigation does nothing, the target may be external, unsupported, ambiguous, or hidden in an opaque region. Check whether diagnostics report the same issue before rewriting the link.',
+  },
+  howToFindReferencesHighlights: {
+    context:
+      'References answer the question “what depends on this?” before you edit a note, heading, or tag. Highlights answer the smaller question “where does this repeat in the current document?”',
+    stepsContext:
+      'Run references on a resolved target, then compare the result list with a search in your vault. The reference graph should surface OFM-aware relationships that plain text search cannot safely distinguish.',
+    expectedContext:
+      'The reference list should reflect indexed inbound links, tag usages, and local relationships the parser understands. Use the result list before rename or cleanup work so you know the blast radius.',
+    failureContext:
+      'References can miss content outside the vault, ignored files, and example text inside opaque regions. If a known reference is missing, inspect the syntax and confirm the source document is indexed.',
+  },
+  howToUseTagsCompletion: {
+    context:
+      'Tags are a lightweight graph layered over notes and links. Completion helps keep nested tag spelling consistent, while references make it possible to inspect where a tag is actually used. Treat the tag registry as shared vocabulary for project pages, people notes, status notes, and generated wiki maintenance work.',
+    stepsContext:
+      'Start with a tag prefix that already exists in more than one note, then add a new nested tag. This shows the difference between indexed candidates and new text the server has not seen yet.',
+    expectedContext:
+      'The tag candidate should preserve the nested path you chose, and references should find the same tag in indexed notes. This helps maintain project taxonomies without relying on memory.',
+    failureContext:
+      'Tags inside code fences, comments, and templates should not become indexed facts. If a tag is missing from completion, confirm it appears in normal Markdown and that indexing has finished.',
+  },
+  howToOpaqueRegions: {
+    context:
+      'Opaque regions protect documentation, generated snippets, math, comments, and template code from being interpreted as real vault content. This is especially important when LLMs maintain pages full of examples.',
+    stepsContext:
+      'Move one example link into a code fence and leave one real link in prose. Diagnostics and navigation should ignore the example while continuing to process the prose link.',
+    expectedContext:
+      'The server should stay quiet about OFM-looking text inside opaque regions and remain active for normal Markdown around it. That keeps examples useful without polluting the vault graph.',
+    failureContext:
+      'If a real link is inside a code fence or template block, the server will treat it as example text. Move it back into ordinary prose when you want it to resolve.',
+  },
+};
+
 function taskArticle(
   routeId: RouteId,
   summary: string,
@@ -101,44 +212,181 @@ function taskArticle(
   code: string,
   links: PublicLink[],
 ): WebsitePageContent {
+  const detail = taskArticleDetails[routeId] ?? defaultTaskDetail;
+
   return page(
     routeId,
     summary,
     [
       {
         heading: taskShapeSections.when,
-        body: paragraphs(
-          useCase,
-          'The examples below assume VS Code has opened the vault root and the language server has finished its first index pass. That keeps the instructions grounded in the same local graph used by completion, diagnostics, references, and rename.',
-        ),
+        body: paragraphs(useCase, detail.context),
       },
       {
         heading: taskShapeSections.steps,
         body: paragraphs(
           'Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.',
-          'Start with the smallest note that demonstrates the behavior, then add one missing or ambiguous target when you need to confirm the server is producing the expected feedback.',
+          detail.stepsContext,
         ),
         steps,
         code,
       },
       {
         heading: taskShapeSections.expected,
-        body: paragraphs(
-          expected,
-          'The important sign is consistency: navigation, diagnostics, completion, and references should describe the same vault target instead of disagreeing across editor features.',
-        ),
+        body: paragraphs(expected, detail.expectedContext),
       },
       {
         heading: taskShapeSections.failure,
-        body: paragraphs(
-          failure,
-          'When this happens, check the opened folder, the exact link text, and whether the target is inside an opaque region or outside the vault boundary before changing content.',
-        ),
+        body: paragraphs(failure, detail.failureContext),
       },
     ],
     links,
   );
 }
+
+interface ConceptArticleDetail {
+  definitionDetail: string;
+  exampleDetail: string;
+  maintainerDetail: string;
+  practicalCheck: string;
+  readerOutcome: string;
+}
+
+const defaultConceptDetail: ConceptArticleDetail = {
+  definitionDetail:
+    'Use the concept as shared vocabulary between the public website, implementation tickets, and generated docs. The point is to make the term stable enough that future changes can link back to one explanation.',
+  exampleDetail:
+    'The example is deliberately small but complete: it names a note, a local relationship, or a boundary the server can reason about without relying on private machine paths.',
+  maintainerDetail:
+    'When maintaining prose, describe what the server can verify and what it intentionally leaves alone. That keeps the docs useful to people and less likely to mislead LLM agents.',
+  practicalCheck:
+    'A useful article should leave the reader with a concrete check they can perform in a small vault. If the concept cannot be verified through a note, link, diagnostic, completion, or editor action, keep the language clearly conceptual.',
+  readerOutcome:
+    'The reader should leave with a term they can use accurately in a ticket, guide, or code review. The concept does not need to explain every implementation detail, but it should prevent the most common misunderstanding.',
+};
+
+const conceptArticleDetails: Partial<Record<RouteId, ConceptArticleDetail>> = {
+  conceptInspirationPriorArt: {
+    definitionDetail:
+      'The public docs borrow the linked-wiki shape because it is easier for readers and LLM agents to reuse one precise concept than to maintain several partial definitions scattered across guides.',
+    exampleDetail:
+      'A task page can link to a concept when the reader needs background, then return to the workflow without turning every guide into a glossary. That is the tone to preserve: useful, linked, and direct.',
+    maintainerDetail:
+      'Always credit Karpathy, Obsidian, and Marksman as influences rather than dependencies or endorsements. The site should be clear about lineage while keeping Flavor Grenade behavior distinct.',
+    practicalCheck:
+      'A practical prior-art check is to read one workflow page and ask whether each borrowed idea is named precisely. Karpathy should be credited for the linked LLM wiki shape, Obsidian for the vault and OFM conventions, and Marksman for Markdown LSP inspiration. None of those credits should imply that the project is affiliated with, endorsed by, or behaviorally identical to the source of inspiration.',
+    readerOutcome:
+      'The reader should understand that Flavor Grenade is standing in a lineage, not claiming novelty for every part. The project combines those influences into a focused OFM language-server experience for Obsidian Vaults and LLM-maintained wiki docs.',
+  },
+  conceptObsidianFlavoredMarkdown: {
+    definitionDetail:
+      'The language server treats OFM as Markdown with vault-local meaning. A wiki link is not just punctuation; it points to a document, heading, block, or alias inside a specific vault boundary.',
+    exampleDetail:
+      'The example combines a note target, heading target, embed, and tag because real vault notes often use all of them together. That combination is why plain Markdown tooling is not enough.',
+    maintainerDetail:
+      'When adding docs, distinguish generic Markdown features from Obsidian-specific conventions. Do not imply that every Markdown link is safe to rewrite as a vault reference.',
+    practicalCheck:
+      'Create one note with `[[Project Plan]]`, `[[Project Plan#Risks]]`, `![[diagram.png]]`, and `#project/flavor-grenade`. Those tokens should be described as OFM because their meaning depends on the vault. A normal paragraph, an external web link, and a fenced code sample should remain ordinary Markdown unless the article is explicitly explaining how the server classifies them.',
+    readerOutcome:
+      'The reader should be able to explain why OFM needs vault-aware tooling. Markdown syntax alone can show text and links, but OFM adds local graph meaning that powers completion, diagnostics, navigation, references, and rename.',
+  },
+  conceptVaultIndex: {
+    definitionDetail:
+      'The index is the shared model behind the user-facing features. If diagnostics, completion, references, and rename do not read the same indexed facts, they can contradict each other.',
+    exampleDetail:
+      'The example shows a note becoming a DocId plus attached facts. Those facts are what make `[[Project Plan]]`, tags, and embeds available to multiple LSP features.',
+    maintainerDetail:
+      'Avoid writing docs that invent a second cache or feature-specific graph. If a behavior needs parsed document state, describe it as coming from the vault index or a service derived from it.',
+    practicalCheck:
+      'A simple index check is to add a note, wait for completion to offer it, then rename or fix a link that targets it. If completion, diagnostics, references, and rename disagree about the same note, the documentation should point maintainers back to the shared index rather than treating the disagreement as four unrelated feature bugs.',
+    readerOutcome:
+      'The reader should understand the index as the central reliability contract. When the index is correct, features can agree; when it is wrong or incomplete, the right fix usually starts with vault detection, scanning, parsing, or derived registries.',
+  },
+  conceptWikiLinkResolution: {
+    definitionDetail:
+      'Resolution starts by classifying the link target before looking it up. That is how the server keeps local notes separate from external URLs and unsupported schemes.',
+    exampleDetail:
+      'The alias in the example is display text, not the identity of the target. The target still resolves through the note and heading so rename and diagnostics can reason about it.',
+    maintainerDetail:
+      'Use resolution language whenever docs discuss broken links, navigation, or rename. Those features should sound like different uses of one resolver, not separate guessing systems.',
+    practicalCheck:
+      'To verify the concept, compare `[[Project Plan|plan]]`, `[[Project Plan#Risks]]`, and `https://example.com`. The first two should resolve through the vault model, while the external URL should stay outside local resolution. That distinction is what lets diagnostics and rename be useful without pretending every Markdown target is a vault object.',
+    readerOutcome:
+      'The reader should leave knowing that resolution is classification plus lookup. Display aliases, heading anchors, and local paths can participate in vault behavior, while external targets keep their Markdown meaning without becoming editable vault facts.',
+  },
+  conceptDocIdVaultRelativePaths: {
+    definitionDetail:
+      'DocIds keep identity portable by removing the vault root and Markdown extension. That lets the same vault work on another machine without rewriting absolute paths.',
+    exampleDetail:
+      'The example includes a heading link because DocId identity and anchor identity are separate. `notes/Daily` identifies the document, while `Open questions` identifies a location inside it.',
+    maintainerDetail:
+      'Do not use absolute local paths in public examples unless the article is explaining why they are not stored as identity. Prefer vault-relative examples that users can adapt.',
+    practicalCheck:
+      'Move a sample vault from one folder to another and keep the same note structure. The DocId for `notes/Daily.md` should still read like `notes/Daily`, not like a machine-specific path. Public docs should follow that pattern so examples remain portable across Windows, macOS, Linux, CI, and LLM-maintained fixtures.',
+    readerOutcome:
+      'The reader should be able to spot unsafe identity language. If an article starts treating absolute file paths or extension-bearing filenames as the durable note identity, it is drifting away from the vault-relative model and making examples harder to reuse in another workspace.',
+  },
+  conceptOpaqueRegions: {
+    definitionDetail:
+      'Opaque regions are parsed before tokens so examples, code, math, comments, and templates do not produce fake vault facts. They protect both diagnostics and the index.',
+    exampleDetail:
+      'A documentation page can show `[[Example Link]]` inside a code fence without creating a missing-link warning. Moving the same text into normal prose changes its meaning.',
+    maintainerDetail:
+      'When LLM agents generate examples, keep sample OFM inside fenced code. When the text should be a real vault relationship, keep it outside opaque syntax.',
+    practicalCheck:
+      'Put `[[Missing Example]]` inside a fenced code block and `[[Missing Real Note]]` in normal prose. The example should stay quiet while the prose link can produce a missing-target diagnostic. That difference is especially important for guide articles because they need to teach syntax without corrupting the vault graph with demonstration links.',
+    readerOutcome:
+      'The reader should understand that silence inside opaque regions is intentional. The server is protecting examples, generated snippets, comments, math, and templates from becoming false positives in user-facing editor features, especially on pages that teach OFM syntax by showing inert samples.',
+  },
+  conceptDiagnostics: {
+    definitionDetail:
+      'A diagnostic should mean the server has enough local context to make a useful claim. It should not complain about external links or targets it cannot safely classify.',
+    exampleDetail:
+      'The example contrasts a missing vault note with an external URL. One belongs to the local graph; the other is intentionally outside local vault validation.',
+    maintainerDetail:
+      'Explain diagnostics as conservative editor feedback. Avoid suggesting that the server validates the entire web, every editor convention, or every possible Markdown interpretation.',
+    practicalCheck:
+      'A good diagnostic example should name the local thing the user can fix. `[[Missing Note]]` can produce an actionable warning because creating or correcting the note resolves it. `mailto:team@example.com` should not produce the same warning because the server cannot repair that target through an Obsidian Vault edit.',
+    readerOutcome:
+      'The reader should treat diagnostics as scoped claims, not universal validation. A useful warning says what local relationship failed and gives enough context for a user or LLM maintainer to choose the next edit safely without inventing unsupported validation behavior.',
+  },
+  conceptCompletions: {
+    definitionDetail:
+      'Completion is context-routed: candidates depend on where the cursor is, the trigger text, and the indexed source of candidates. That keeps suggestions relevant instead of global.',
+    exampleDetail:
+      'The example starts with a note prefix and then narrows to a heading prefix. That progression mirrors how users build precise OFM references while writing.',
+    maintainerDetail:
+      'Be explicit that vault-wide note completion depends on vault mode. Single-file mode can parse the open document, but it does not have a vault graph for note-name suggestions.',
+    practicalCheck:
+      'Type `[[Pro` in a vault with `Project Plan.md`, then type `[[Project Plan#` after the note exists. The first completion proves note candidates came from the index; the second proves heading candidates came from the resolved target. If either candidate is missing, the article should guide users toward root detection, indexing, and trigger context.',
+    readerOutcome:
+      'The reader should know how to diagnose missing candidates. Ask whether the vault was detected, whether indexing finished, whether the cursor is in an OFM context, and whether the target is hidden by ignore rules or opaque syntax.',
+  },
+  conceptRenameSafety: {
+    definitionDetail:
+      'Rename safety comes from resolving targets before editing text. The server should change links that refer to the target and skip cases where identity is uncertain.',
+    exampleDetail:
+      'The example keeps the edit local to `[[Project Plan#Risks]]`. It should not rewrite unrelated prose, external URLs, or headings that only happen to share the same words.',
+    maintainerDetail:
+      'Use safety-focused language for rename docs. LLM-generated maintenance instructions should tell agents to inspect edits and respect skipped ambiguous references.',
+    practicalCheck:
+      'Before a rename article claims broad coverage, test one inbound wiki link, one heading link, one external URL, and one fenced example. The supported inbound references should be candidates for a WorkspaceEdit. The external URL and fenced example should remain untouched because they are not safe vault references to rewrite.',
+    readerOutcome:
+      'The reader should understand that skipped edits are often a safety feature. Rename should prefer a smaller correct WorkspaceEdit over a broad text replacement that changes examples, external links, or ambiguous matches, then let the user inspect any remaining manual cleanup.',
+  },
+  conceptReferencesNavigationTagsEmbeds: {
+    definitionDetail:
+      'These features are different views over the same graph. References ask who points here, navigation asks where this points, tags group notes, and embeds name local attachments or documents.',
+    exampleDetail:
+      'The example mixes a tag, note link, and embed because real vault workflows do the same. The server should keep those relationships consistent across editor actions.',
+    maintainerDetail:
+      'When adding feature docs, link back to the shared graph model. Avoid presenting each editor action as if it parses OFM independently.',
+    practicalCheck:
+      'A combined check is to create a note with one tag, one wiki link, and one embed, then use navigation and references from each token. The results should feel like different views over the same vault facts. When docs describe those workflows, they should preserve that consistency instead of making each feature sound like a separate parser.',
+    readerOutcome:
+      'The reader should see tags, embeds, references, and navigation as connected editor behaviors. That framing helps both users and LLM agents predict why a fix in the vault model can improve several features at once instead of chasing isolated symptoms in separate pages.',
+  },
+};
 
 function conceptArticle(
   routeId: RouteId,
@@ -148,36 +396,63 @@ function conceptArticle(
   maintainerNote: string,
   links: PublicLink[],
 ): WebsitePageContent {
+  const detail = conceptArticleDetails[routeId] ?? defaultConceptDetail;
+
   return page(
     routeId,
     summary,
     [
       {
         heading: 'Compact definition',
-        body: paragraphs(
-          definition,
-          'Use this definition as the short version in task pages, related links, and LLM-maintained prose so the same concept is not re-explained with drifting terminology.',
-        ),
+        body: paragraphs(definition, detail.definitionDetail),
       },
       {
         heading: 'Vault example',
         body: paragraphs(
           'Use this example as the public vocabulary for humans and LLM maintainers.',
-          'The example is intentionally small enough to copy into a scratch vault, but it still shows the local relationship the concept is meant to explain.',
+          detail.exampleDetail,
         ),
         code: example,
       },
       {
         heading: 'For LLM maintainers',
-        body: paragraphs(
-          maintainerNote,
-          'Prefer precise language about vault boundaries, indexed state, and supported targets. Avoid turning conservative behavior into a broader product promise.',
-        ),
+        body: paragraphs(maintainerNote, detail.maintainerDetail),
+      },
+      {
+        heading: 'Practical check',
+        body: paragraphs(detail.practicalCheck, detail.readerOutcome),
       },
     ],
     links,
   );
 }
+
+const advancedArticleChecks: Partial<Record<RouteId, string>> = {
+  advancedConfigurationModel: paragraphs(
+    'Check configuration by opening a folder that contains `.obsidian/` or `.flavor-grenade.toml`, then opening a parent folder that contains the same vault as a child. The first case should behave like a vault; the second should force the user or client to be explicit about the intended root. That contrast keeps the article grounded in the actual source of configuration truth.',
+    'The public page should also show the server-only and VS Code paths separately. Marketplace installation is the friendly path for most users, while direct configuration belongs to people launching the language server themselves. Mixing those paths makes support harder because the extension and raw server do not own the same setup responsibilities.',
+  ),
+  advancedVaultSingleFileMode: paragraphs(
+    'Verify the mode boundary with the same Markdown file in two contexts: first inside a detected vault, then as a loose file outside any marked root. In the vault, note completion and cross-file references can use indexed files. Outside the vault, the server should stay conservative because there is no safe graph for vault-wide answers.',
+    'This distinction matters for documentation tone. Single-file mode is not a broken install by itself; it is the correct fallback when the client has not provided enough workspace context. The article should help users decide whether they need to reopen the vault root, add an explicit marker, or accept narrow behavior for a standalone note.',
+  ),
+  advancedIndexingPerformance: paragraphs(
+    'Use a small synthetic vault to explain lifecycle, then name the knobs that matter in a real vault: ignored folders, generated output, large archives, and file watching. Users do not need implementation internals before they understand that every feature depends on the same parsed document set.',
+    'For examples, prefer a before-and-after story: a generated docs folder pollutes completion, then an ignore rule removes it from the active graph. That makes performance guidance practical and reinforces the accuracy benefit of indexing only content that should participate in vault intelligence.',
+  ),
+  advancedUriConfinement: paragraphs(
+    'Test confinement with four links in one note: a wiki link, a local image, an external URL, and a path that escapes the vault. The first two may be vault-local targets; the others should not become rename or code-action edits. The distinction is the article’s core safety promise.',
+    'The prose should avoid saying unsupported targets are invalid Markdown. They may be perfectly valid Markdown or application links; they are just outside the set of targets Flavor Grenade can safely resolve and edit. That wording keeps diagnostics honest and prevents users from interpreting silence as a parser failure or a promise to inspect the wider machine.',
+  ),
+  advancedParserBoundaries: paragraphs(
+    'Parser-boundary examples should pair one real token with one lookalike token in code, math, comment, frontmatter, or template text. The real token demonstrates normal OFM behavior; the lookalike demonstrates why opaque marking happens before token parsing.',
+    'That pattern is important for LLM-maintained docs because guide pages contain many examples that look like real vault content. The article should make it clear that fenced snippets are teaching material, not indexed relationships, unless the example is intentionally moved into normal prose for verification in a real vault.',
+  ),
+  advancedDirectLspIntegration: paragraphs(
+    'A direct-client example should include both the command that launches the npm-installed server and the initialize data the client sends afterward. Installing the package is only half the work; the client still owns stdio transport, workspace folders, root URI selection, and restart behavior.',
+    'The VS Code article should stay linked from here because it is the supported path for most readers. Direct integration is for editor maintainers, advanced users, and test harnesses that already understand LSP wiring. The article should make that boundary explicit instead of implying npm installation alone gives a complete editor experience.',
+  ),
+};
 
 function advancedArticle(
   routeId: RouteId,
@@ -185,18 +460,20 @@ function advancedArticle(
   sections: WebsitePageSection[],
   links: PublicLink[],
 ): WebsitePageContent {
+  const practicalCheck = advancedArticleChecks[routeId];
+
   return page(
     routeId,
     summary,
-    sections.map((section) => ({
-      ...section,
-      body: section.body.includes('\n\n')
-        ? section.body
-        : paragraphs(
-            section.body,
-            'Read this as an operating boundary, not just a configuration note: the server should keep vault-local behavior predictable and avoid guessing when the editor has not provided enough context.',
-          ),
-    })),
+    practicalCheck === undefined
+      ? sections
+      : [
+          ...sections,
+          {
+            heading: 'Practical check',
+            body: practicalCheck,
+          },
+        ],
     links,
   );
 }
@@ -565,17 +842,26 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Vault mode',
-        body: 'Vault mode scans a detected `.obsidian/` or `.flavor-grenade.toml` root and builds the graph used by completions, diagnostics, references, and rename.',
+        body: paragraphs(
+          'Vault mode scans a detected `.obsidian/` or `.flavor-grenade.toml` root and builds the graph used by completions, diagnostics, references, and rename.',
+          'Use vault mode for normal Obsidian work. It gives the server enough context to understand document identity, inbound links, attachments, tags, and headings across files instead of treating one note as an island.',
+        ),
         code: 'MyVault/\n  .obsidian/\n  Notes/\n    Home.md',
       },
       {
         heading: 'Single-file mode',
-        body: 'Single-file mode skips recursive scanning when no vault marker is available. Wiki-link note-name completion is unavailable because no vault index graph is built.',
+        body: paragraphs(
+          'Single-file mode skips recursive scanning when no vault marker is available. Wiki-link note-name completion is unavailable because no vault index graph is built.',
+          'This fallback is intentionally quiet. A loose Markdown file may use syntax from another editor or belong to a vault that was not opened, so the server should avoid broad diagnostics or cross-file rename edits.',
+        ),
       },
       {
         heading: 'Direct clients',
-        body: 'A direct LSP client should send a `rootUri` or workspace folder for the intended vault root.',
-        code: '{"rootUri":"file:///Users/alex/MyVault"}',
+        body: paragraphs(
+          'A direct LSP client should send a `rootUri` or workspace folder for the intended vault root.',
+          'If the client sends no usable file root, the server cannot discover vault markers. That is the difference between a direct client getting vault-wide behavior and only getting conservative single-file behavior.',
+        ),
+        code: '{\n  "rootUri": "file:///Users/alex/MyVault"\n}',
       },
     ],
     [routeLink('conceptVaultIndex', 'Understand the vault index'), routeLink('advancedDirectLspIntegration', 'Direct LSP integration')],
@@ -586,16 +872,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Index lifecycle',
-        body: 'The index begins with a vault scan, stores parsed OFM documents, and refreshes as watched files change.',
+        body: paragraphs(
+          'The index begins with a vault scan, stores parsed OFM documents, and refreshes as watched files change.',
+          'A healthy lifecycle is boring: scan the vault, parse documents, store facts, rebuild derived views, and let features read the same state. If a feature needs different data, add it to that path instead of creating a private interpretation.',
+        ),
         code: '.obsidian/ root -> scan -> parse -> VaultIndex -> diagnostics/completions/references',
       },
       {
         heading: 'Large vaults',
-        body: 'Use ignore rules for generated docs, exports, and vendor folders so user-authored notes stay fast and precise.',
+        body: paragraphs(
+          'Use ignore rules for generated docs, exports, and vendor folders so user-authored notes stay fast and precise.',
+          'Large vaults often contain copied documentation, build output, and archives that should not drive completions. Keeping those folders out of the active graph improves both performance and trust in diagnostics.',
+        ),
       },
       {
         heading: 'Performance boundary',
-        body: 'The index is the source of truth; feature-local caches should not create a second document model.',
+        body: paragraphs(
+          'The index is the source of truth; feature-local caches should not create a second document model.',
+          'This matters for maintainers because duplicate caches create subtle drift: completion may see one target while rename sees another. Prefer derived registries that can be rebuilt from the same indexed documents.',
+        ),
       },
     ],
     [routeLink('conceptVaultIndex', 'Vault Index'), routeLink('howToConfigureObsidianVaults', 'Configure vaults')],
@@ -606,16 +901,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Unsupported URI schemes',
-        body: 'External URLs, `mailto:`, custom schemes, and paths outside the vault are not editable vault targets.',
+        body: paragraphs(
+          'External URLs, `mailto:`, custom schemes, and paths outside the vault are not editable vault targets.',
+          'The resolver must classify these before diagnostics or rename planning. A web URL can be valid Markdown, but it is not a missing note and should not become part of a vault-confined edit.',
+        ),
         code: '[[Project Plan]]\nhttps://example.com\nmailto:team@example.com\n../outside-vault.md',
       },
       {
         heading: 'Vault confinement',
-        body: 'Rename and code actions should stay inside the detected vault root.',
+        body: paragraphs(
+          'Rename and code actions should stay inside the detected vault root.',
+          'That rule protects adjacent repositories, parent folders, and operating-system paths from accidental edits. If a target would resolve outside the vault, the safer behavior is to leave it alone.',
+        ),
       },
       {
         heading: 'Diagnostic behavior',
-        body: 'Unsupported URI schemes are ignored instead of reported as missing local notes.',
+        body: paragraphs(
+          'Unsupported URI schemes are ignored instead of reported as missing local notes.',
+          'This keeps diagnostics meaningful. A diagnostic should tell the user to fix a local vault relationship, not complain that an external protocol is not a Markdown file.',
+        ),
       },
     ],
     [routeLink('conceptWikiLinkResolution', 'Wiki-link Resolution'), routeLink('conceptRenameSafety', 'Rename Safety')],
@@ -626,16 +930,25 @@ export const websitePages: readonly WebsitePageContent[] = [
     [
       {
         heading: 'Opaque first',
-        body: 'The opaque-region pass runs before token parsing so code, math, comments, and templates can be skipped safely.',
+        body: paragraphs(
+          'The opaque-region pass runs before token parsing so code, math, comments, and templates can be skipped safely.',
+          'Ordering is the key design point. Once a region is marked opaque, later token parsers can ignore its text and avoid turning examples into diagnostics, references, tags, or rename targets.',
+        ),
         code: '```markdown\n[[Example Link]]\n```',
       },
       {
         heading: 'Token parsing',
-        body: 'After opaque regions are marked, wiki links, Markdown links, tags, embeds, headings, and blocks can be parsed as real OFM tokens.',
+        body: paragraphs(
+          'After opaque regions are marked, wiki links, Markdown links, tags, embeds, headings, and blocks can be parsed as real OFM tokens.',
+          'That gives the parser a clean split between examples and content. It also makes future parser changes easier to reason about because each token type shares the same skip rules.',
+        ),
       },
       {
         heading: 'Conservative edge cases',
-        body: 'Ambiguous or unsupported syntax should stay quiet rather than produce false diagnostics.',
+        body: paragraphs(
+          'Ambiguous or unsupported syntax should stay quiet rather than produce false diagnostics.',
+          'Quiet behavior is not a lack of ambition here; it is what keeps users from distrusting the tool. A false positive in generated or example text is more damaging than an omitted warning.',
+        ),
       },
     ],
     [routeLink('conceptOpaqueRegions', 'Opaque Regions'), routeLink('howToOpaqueRegions', 'Work with OFM opaque regions')],
