@@ -34,11 +34,11 @@ Put sample links inside a code fence when they are documentation, not vault refe
 
 If a link should resolve, place it in normal Markdown text.
 
-```text
+````text
 ```markdown
 [[Example Link]] stays inert in this code fence.
 ```
-```
+````
 
 ## Expected result
 

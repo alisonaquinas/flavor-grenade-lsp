@@ -16,11 +16,11 @@ The opaque-region pass runs before token parsing so code, math, comments, and te
 
 Ordering is the key design point. Once a region is marked opaque, later token parsers can ignore its text and avoid turning examples into diagnostics, references, tags, or rename targets.
 
-```text
+````text
 ```markdown
 [[Example Link]]
 ```
-```
+````
 
 ## Token parsing
 
