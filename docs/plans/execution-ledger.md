@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-05-09
+updated: 2026-05-10
 ---
 
 # Execution Ledger
@@ -56,6 +56,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W5    | Website CI And Pages Release | 🔄 in-progress | Tag-triggered Pages deployment from `main` passes CI, ancestry guard, and release evidence checks | 2026-05-09 | — |
 | W6    | Website Review Polish | 🔄 in-progress | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | Second-round local gate green; PR intentionally not opened |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
+| W8    | Commonloom Content Pipeline | ⏳ planned | Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | — | — |
 
 ---
 
@@ -174,13 +175,14 @@ feature-parity continuation phases for OFMarkdown-specific client behavior.
 ```text
 Website Phases:
 
-Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5 ──► Phase W6 ──► Phase W7
+Phase E14 ──► Phase W1 ──► Phase W2 ──► Phase W3 ──► Phase W4 ──► Phase W5 ──► Phase W6 ──► Phase W7 ──► Phase W8
 ```
 
 Website phases use `W`-prefixed numbering to distinguish them from server and
 extension implementation tracks. Phase W1 depends on the completed extension
 baseline because the public website documents both the LSP server and VS Code
-extension.
+extension. Phase W8 depends on W7 because it migrates the existing article hubs
+and public copy into the Commonloom Markdown pipeline.
 
 ---
 
@@ -190,6 +192,6 @@ extension.
 - Phases 1–13 all require CI to be configured (Phase 13 bootstraps CI itself; phases 1–12 use a local gate script in the interim).
 - If CI is not yet running, use `bun run gate:N` scripts defined in `package.json` as interim gates.
 - Extension phases use `E`-prefixed numbering (E1–E14) to distinguish from server phases (0–17). Extension phases do not use the `bun run gate:N` pattern — gates are verified differently (npm scripts, manual smoke tests, CI workflow).
-- Website phases use `W`-prefixed numbering (W1–W7). Their gates are verified
+- Website phases use `W`-prefixed numbering (W1–W8). Their gates are verified
   with website-local npm scripts, repository docs lint, and GitHub Actions
   evidence once CI is wired.

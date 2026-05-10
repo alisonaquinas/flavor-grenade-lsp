@@ -76,12 +76,19 @@ Required dropdowns:
 - Concepts: links to every concept article route.
 - Advanced Usage: links to every advanced topic article route.
 
+Dropdown article inventories must come from page-group manifests or generated
+content records. They must not be maintained as a separate hand-authored list
+that can drift from the published page set.
+
 Meter: Inspect the production build at a desktop viewport. Hover each required
 section hub, then tab to each required section hub, and count whether the
 expected subpage links become visible and keyboard reachable.
 
 Fail: Any required dropdown is missing, cannot be opened by hover, cannot be
 opened by keyboard focus, or omits a published subpage article.
+
+Also fail when a page-group manifest publishes an article that is absent from
+the matching dropdown inventory.
 
 Goal: 100% of required dropdowns are hoverable, focusable, and contain all
 published article routes for their section.
