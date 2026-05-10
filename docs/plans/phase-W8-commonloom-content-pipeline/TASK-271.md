@@ -2,7 +2,7 @@
 id: "TASK-271"
 title: "Validate links, wiki-links, and media references"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-271"]
 
 # Validate Links, Wiki-links, And Media References
 
-> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -78,12 +78,12 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] Valid Markdown image syntax generates a tracked image reference.
-- [ ] Missing image files fail `content:check`.
-- [ ] External HTTP and HTTPS links are preserved without local filesystem
+- [x] Valid Markdown image syntax generates a tracked image reference.
+- [x] Missing image files fail `content:check`.
+- [x] External HTTP and HTTPS links are preserved without local filesystem
   resolution.
-- [ ] Unsafe or unsupported link targets fail with actionable diagnostics.
-- [ ] Wiki-links do not become a hidden dependency on the LSP vault resolver.
+- [x] Unsafe or unsupported link targets fail with actionable diagnostics.
+- [x] Wiki-links do not become a hidden dependency on the LSP vault resolver.
 
 ## Lifecycle
 
@@ -98,3 +98,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added failing coverage for Markdown link/image extraction, adapter-owned
 > wiki-link resolution, media existence checks, path traversal rejection, and
 > required alt text. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-10
+> Added Commonloom link extraction, adapter-owned wiki-link resolution, path
+> confinement, and media validation helpers. Verified with `npm test -- --run
+> content-pipeline-links-media`, `npm run lint`, and `npm run typecheck`.
+> Status: `green`.

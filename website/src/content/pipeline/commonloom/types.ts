@@ -23,12 +23,14 @@ export interface CommonloomLinkReference extends CommonloomSourcePosition {
   rawTarget: string;
   resolvedTarget?: string;
   kind: CommonloomLinkKind;
+  sourcePath?: string;
 }
 
 export interface CommonloomImageReference extends CommonloomSourcePosition {
   rawTarget: string;
   altText: string;
   resolvedPath?: string;
+  sourcePath?: string;
 }
 
 export interface CommonloomSourceTrace {

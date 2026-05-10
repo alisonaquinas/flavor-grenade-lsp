@@ -1,4 +1,5 @@
 import { hashContent } from './hash';
+import { extractMarkdownReferences } from './links';
 import type { ParsedMarkdown } from './markdown';
 import type { CommonloomSourceTrace } from './types';
 
@@ -12,12 +13,14 @@ export interface CreateSourceTraceInput<Frontmatter> {
 export function createSourceTrace<Frontmatter>(
   input: CreateSourceTraceInput<Frontmatter>,
 ): CommonloomSourceTrace {
+  const references = extractMarkdownReferences(input.parsed);
+
   return {
     markdownPath: input.markdownPath,
     manifestPath: input.manifestPath,
     contentHash: hashContent(input.markdown),
     headings: input.parsed.headings,
-    links: [],
-    images: [],
+    links: references.links,
+    images: references.images,
   };
 }
