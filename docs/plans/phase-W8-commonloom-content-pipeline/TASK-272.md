@@ -2,7 +2,7 @@
 id: "TASK-272"
 title: "Add website adapter and typed manifests"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-272"]
 
 # Add Website Adapter And Typed Manifests
 
-> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-272` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -37,7 +37,7 @@ Create or modify:
 - `website/src/content/pipeline/website/manifest.ts`
 - `website/src/content/pipeline/website/route-registry.ts`
 - `website/src/content/manifests.ts`
-- `website/src/content/docs.manifest.ts`
+- `website/src/content/quickstart.manifest.ts`
 - `website/tests/content-pipeline-manifest.test.ts`
 
 Manifest API:
@@ -101,3 +101,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!INFO] Opened · 2026-05-10
 > Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing coverage for explicit manifest registry loading, duplicate
+> route/copy validation, unknown route ids, page-group mismatches, and copy path
+> confinement. Status: `red`.
