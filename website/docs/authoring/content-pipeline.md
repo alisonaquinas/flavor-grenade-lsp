@@ -78,10 +78,12 @@ when generated files are present. A fresh checkout does not need committed
 generated files. `content:generate` writes disposable records under
 `website/src/content/generated`, which is ignored by git.
 
-## Commonloom Extraction
+## Commonloom Package
 
-Commonloom lives in this repository while W8 proves the API. Extraction to a
-separate repository should wait until the website adapter has proven the
-boundary: Commonloom owns generic Markdown, frontmatter, HTML, link, media, and
-source trace behavior; the website adapter owns Flavor Grenade route ids,
-renderer compatibility, and generated TypeScript formatting.
+Commonloom is consumed as the external `commonloom` npm package. This
+repository should not maintain local Commonloom source under
+`website/src/content/pipeline/commonloom`.
+
+Commonloom owns generic Markdown, frontmatter, HTML, link, media, and source
+trace behavior. The website adapter owns Flavor Grenade route ids, renderer
+compatibility, and generated TypeScript formatting.

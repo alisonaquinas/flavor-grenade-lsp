@@ -2,7 +2,7 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-10
+updated: 2026-05-11
 current-version: 0.3.0
 current-extension-version: 0.1.4
 ---
@@ -17,7 +17,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
-> Website phase W8 is **planned** to replace hand-authored page content modules with the Commonloom Markdown content pipeline.
+> Website phase W8 is **planned** to replace hand-authored page content modules with the Commonloom Markdown content pipeline. Commonloom is now an external npm package, not source maintained in this repository.
 
 ## Phase Table
 
@@ -390,7 +390,7 @@ build, content, accessibility, and publishing checks.
 | W5 | Website CI And Pages Release | complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 |
 | W6 | Website Review Polish | complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 |
 | W7 | Website Guide Prose And Article Hubs | complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 |
-| W8 | Commonloom Content Pipeline | in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | — |
+| W8 | Commonloom Content Pipeline | in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, the external `commonloom` package, generated TypeScript records, and migration gates replace hand-authored content modules | — |
 
 ### Website Phase Details
 
@@ -451,8 +451,9 @@ Replace the hard-to-maintain `website/src/content` TypeScript copy modules with
 a Markdown-first authoring pipeline. Phase W8 introduces `website/src/content/copy`
 Markdown documents, one typed manifest per page group, `website/src/content/media`
 assets, git-ignored generated TypeScript records in `website/src/content/generated`,
-and a reusable Commonloom compiler core that can later be extracted into its own
-repository after the API is proven.
+and the external `commonloom` package for reusable Markdown compilation. The
+website keeps only Flavor Grenade-specific adapter code; it must not maintain
+`website/src/content/pipeline/commonloom` as local source.
 
 Requirement links: [[../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]], [[../website/docs/architecture/content-pipeline]], [[../website/docs/requirements/technical/source-layout-and-documentation]], [[../website/docs/research/w8-content-pipeline-technology-research]]
 

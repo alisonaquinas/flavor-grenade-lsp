@@ -7,7 +7,7 @@ priority: medium
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["TASK-274", "TASK-275"]
 tags: [tickets/task, "phase/W8", website, docs, verification]
 aliases: ["TASK-276"]
@@ -28,7 +28,8 @@ authoring workflow.
   inline HTML, manifests, generation, and diagnostics.
 - Verify page rendering parity for migrated routes.
 - Verify generated source traces help authors locate bad Markdown or media.
-- Record known follow-up work for eventual Commonloom extraction.
+- Document that Commonloom is consumed from the external npm package and is not
+  maintained locally.
 
 ## Implementation Notes
 
@@ -50,8 +51,9 @@ Authoring docs must explain:
 - running `npm run content:generate` and `npm run content:check`
 - interpreting diagnostics with source traces
 
-Commonloom extraction remains a follow-up after W8 proves the API. W8 must not
-start a separate repository.
+Commonloom now lives outside this repository. W8 must not maintain local
+Commonloom source under `website/src/content/pipeline/commonloom`; future
+Commonloom changes are package updates.
 
 ## Linked Requirements
 
@@ -74,8 +76,8 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 - [x] Authoring docs explain how to add a page, update copy, add images, use
   inline HTML, and run generation checks.
 - [x] Browser or rendered-output checks confirm migrated routes are present.
-- [x] Follow-up extraction criteria are documented without blocking W8.
-- [x] Commonloom extraction criteria are documented without blocking W8 closeout.
+- [x] Authoring docs identify Commonloom as an external package.
+- [x] Local Commonloom maintenance requirements are removed from W8 closeout.
 
 ## Lifecycle
 
@@ -92,5 +94,11 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 
 > [!SUCCESS] Green documentation · 2026-05-10
 > Added authoring documentation for Markdown copy, frontmatter, media, inline
-> HTML, manifests, commands, source traces, and Commonloom extraction criteria.
+> HTML, manifests, commands, source traces, and the Commonloom package
+> boundary.
 > Verified with `npm test -- --run content-pipeline-parity`. Status: `green`.
+
+> [!INFO] External package update · 2026-05-11
+> Replaced extraction follow-up requirements with the current package boundary:
+> Commonloom is external, and this repository maintains only integration and
+> website adapter docs.

@@ -6,7 +6,7 @@ status: in-review
 priority: high
 phase: W8
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["FEAT-040"]
 tags: [tickets/feature, "phase/W8", website, markdown, commonloom]
 aliases: ["FEAT-041"]
@@ -26,7 +26,7 @@ deterministic TypeScript content modules for the Svelte website.
 
 **In scope:**
 
-- Commonloom internal TypeScript compiler core.
+- External `commonloom` package integration.
 - Thin website adapter for route ids, page groups, media roots, and generated
   TypeScript formatting.
 - `website/src/content/copy`, `website/src/content/media`, typed manifests, and
@@ -40,7 +40,8 @@ deterministic TypeScript content modules for the Svelte website.
 
 **Out of scope:**
 
-- Separate Commonloom repository or package publication.
+- Maintaining, publishing, or versioning Commonloom package source from this
+  repository.
 - Runtime Markdown rendering in routes.
 - MDsveX component islands.
 - Author-facing content management UI.
@@ -54,8 +55,8 @@ deterministic TypeScript content modules for the Svelte website.
   local links, unsafe inline HTML, missing images, duplicate ids, or stale output.
 - [x] Website pages consume generated TypeScript records without route-level
   knowledge of Markdown parsing.
-- [x] Commonloom has no direct dependency on Svelte, website route modules, or
-  Flavor Grenade product data.
+- [x] The website adapter consumes Commonloom without recreating local
+  `website/src/content/pipeline/commonloom` source.
 - [x] Existing W7 public routes and content render without intentional loss.
 - [x] Website lint, typecheck, tests, build, and docs lint pass.
 
@@ -101,6 +102,12 @@ See [[index]] for the complete ticket list.
 > expose them through the stable website content facade. The generated-renderer
 > acceptance criterion is satisfied locally; FEAT-041 remains `in-review`
 > pending CHORE-099 merge and CI evidence.
+
+> [!INFO] External package update · 2026-05-11
+> Commonloom is now published independently as `commonloom`. Future W8
+> requirements in this repository are limited to package integration and the
+> Flavor Grenade website adapter; local Commonloom source maintenance no longer
+> applies.
 
 > [!INFO] Started · 2026-05-10
 > TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.

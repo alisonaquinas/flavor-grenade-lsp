@@ -7,7 +7,7 @@ priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["TASK-267"]
 tags: [tickets/task, "phase/W8", website, commonloom, types]
 aliases: ["TASK-268"]
@@ -19,62 +19,27 @@ aliases: ["TASK-268"]
 
 ## Description
 
-Define the reusable data contracts that separate Commonloom from the website
-adapter.
+Consume the reusable data contracts exported by `commonloom` and keep Flavor
+Grenade-specific contracts in the website adapter.
 
 ## Work Scope
 
-- Define compiler input types for copy roots, media roots, manifest entries,
-  HTML policy, link policy, and output mode.
-- Define output types for compiled documents, rendered HTML, headings,
-  frontmatter, content hashes, diagnostics, links, images, and source traces.
-- Define diagnostic severity and stable diagnostic codes.
+- Import compiler input, output, diagnostic, link, image, and source-trace
+  contracts from `commonloom`.
+- Define only Flavor Grenade manifest and generated-record adapter types
+  locally.
 - Keep route ids and page-group enums in the website adapter, not in Commonloom.
 
 ## Implementation Notes
 
 Create or modify:
 
-- `website/src/content/pipeline/commonloom/types.ts`
-- `website/src/content/pipeline/commonloom/diagnostics.ts`
+- `website/src/content/pipeline/website/**`
 - `website/tests/content-pipeline-core.test.ts`
 
-Core API shapes:
-
-```ts
-export type CommonloomSeverity = "error" | "warning" | "info";
-
-export type CommonloomDiagnosticCode =
-  | "COPY_NOT_FOUND"
-  | "FRONTMATTER_INVALID"
-  | "MARKDOWN_INVALID"
-  | "HTML_UNSAFE"
-  | "LINK_UNRESOLVED"
-  | "MEDIA_UNRESOLVED"
-  | "MEDIA_ALT_MISSING"
-  | "PATH_OUTSIDE_ROOT";
-
-export interface CommonloomDiagnostic {
-  code: CommonloomDiagnosticCode;
-  severity: CommonloomSeverity;
-  message: string;
-  sourcePath?: string;
-  line?: number;
-  column?: number;
-}
-
-export interface CommonloomSourceTrace {
-  markdownPath: string;
-  manifestPath?: string;
-  contentHash: string;
-  headings: CommonloomHeading[];
-  links: CommonloomLinkReference[];
-  images: CommonloomImageReference[];
-}
-```
-
-Source line and column values are best-effort when unified positional data is
-available. `markdownPath`, `contentHash`, and reference arrays are mandatory.
+Commonloom core API shapes are package-owned. Local code should depend on the
+published exports rather than redefining them under
+`website/src/content/pipeline/commonloom`.
 
 ## Linked Requirements
 
@@ -85,7 +50,7 @@ available. `markdownPath`, `contentHash`, and reference arrays are mandatory.
 
 | Test file | Expected first assertion |
 |---|---|
-| `website/tests/content-pipeline-core.test.ts` | Diagnostic codes and source trace fields are stable exported types. |
+| `website/tests/content-pipeline-core.test.ts` | Website adapter compiles against package-owned Commonloom contracts. |
 
 ## Linked BDD
 
@@ -93,10 +58,11 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [x] Contract tests prove Commonloom accepts only adapter-supplied data.
+- [x] Contract tests prove the website adapter passes only adapter-supplied data
+  into Commonloom.
 - [x] Type names and fields match the ADR and architecture terminology.
 - [x] Diagnostics carry enough source information for actionable author errors.
-- [x] Core contracts do not import from website route or Svelte modules.
+- [x] Local adapter contracts do not recreate package-owned Commonloom types.
 
 ## Lifecycle
 
@@ -129,3 +95,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > mode contracts, manifest entry contracts, and explicit HTML policy contracts.
 > Verified with `npm test -- --run content-pipeline`, `npm run lint`, and
 > `npm run typecheck`. Status: `green`.
+
+> [!INFO] External package update · 2026-05-11
+> Package-owned Commonloom contracts are no longer maintained in this
+> repository. Future work should import them from `commonloom` and keep only
+> website adapter contracts local.

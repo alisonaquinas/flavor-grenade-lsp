@@ -2,7 +2,7 @@
 title: Execution Ledger — Phase Status Tracker
 tags: [planning, phases, ledger, status]
 project: flavor-grenade-lsp
-updated: 2026-05-10
+updated: 2026-05-11
 ---
 
 # Execution Ledger
@@ -56,7 +56,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W5    | Website CI And Pages Release | ✅ complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 | PR #55/#56 CI green; release tag cancelled |
 | W6    | Website Review Polish | ✅ complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | PR #58 CI green |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
-| W8    | Commonloom Content Pipeline | 🔎 in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, and migration gates replace hand-authored content modules | 2026-05-10 | PR #63 CI green |
+| W8    | Commonloom Content Pipeline | 🔎 in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, the external `commonloom` package, generated TypeScript records, and migration gates replace hand-authored content modules | 2026-05-10 | PR #63 CI green |
 
 ---
 

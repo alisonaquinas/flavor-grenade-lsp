@@ -7,7 +7,7 @@ priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["FEAT-041"]
 tags: [tickets/task, "phase/W8", website, tooling]
 aliases: ["TASK-267"]
@@ -19,47 +19,33 @@ aliases: ["TASK-267"]
 
 ## Description
 
-Add the directory and command scaffold for the internal Commonloom compiler
-without wiring page rendering yet.
+Add the content command scaffold and wire it to the external `commonloom`
+package without wiring page rendering yet.
 
 ## Work Scope
 
-- Create the internal Commonloom source location under the website workspace.
-- Add dependency choices from the W8 research: `unified`, `remark-parse`,
-  `remark-gfm`, `remark-rehype`, `rehype-raw`, `rehype-sanitize`,
-  `rehype-stringify`, `gray-matter`, `zod`, and `tsx`.
+- Add the external `commonloom` package dependency.
 - Add initial command entry points for `content:generate` and `content:check`.
-- Keep the Commonloom core isolated from Svelte, route files, and product data.
+- Keep the website adapter isolated from Svelte route rendering while delegating
+  generic Markdown compilation to `commonloom`.
 
 ## Implementation Notes
 
-Create:
+Create or modify:
 
-- `website/src/content/pipeline/commonloom/index.ts`
-- `website/src/content/pipeline/commonloom/compiler.ts`
-- `website/src/content/pipeline/commonloom/types.ts`
 - `website/scripts/content/generate.ts`
 - `website/scripts/content/check.ts`
+- `website/src/content/pipeline/website/**`
 
 Modify:
 
 - `website/package.json`
 - `website/package-lock.json`
 
-Initial API:
+Package integration:
 
 ```ts
-export interface CommonloomConfig {
-  copyRoot: string;
-  mediaRoot: string;
-  generatedRoot: string;
-}
-
-export interface CommonloomResult {
-  diagnostics: CommonloomDiagnostic[];
-}
-
-export async function compileCommonloom(config: CommonloomConfig): Promise<CommonloomResult>;
+import { compileCommonloom } from "commonloom";
 ```
 
 The scaffold commands must exit `0` when no manifests are configured and print
@@ -76,7 +62,7 @@ real manifest input.
 | Test file | Expected first assertion |
 |---|---|
 | `website/tests/content-pipeline-scripts.test.ts` | `content:generate` and `content:check` scripts exist in `website/package.json`. |
-| `website/tests/content-pipeline-core.test.ts` | Commonloom scaffold exports `compileCommonloom`. |
+| `website/tests/content-pipeline-core.test.ts` | Website pipeline imports reusable APIs from `commonloom`. |
 
 ## Linked BDD
 
@@ -85,7 +71,7 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 ## Definition of Done
 
 - [x] Website package scripts include `content:generate` and `content:check`.
-- [x] Commonloom source files compile under website TypeScript settings.
+- [x] The website pipeline compiles against the external `commonloom` package.
 - [x] The scaffold can run and report "no manifests found" or equivalent
   non-destructive diagnostics.
 - [x] No generated files are committed.
@@ -119,3 +105,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Review evidence · 2026-05-10
 > Definition of Done checked against committed script scaffold and
 > non-destructive `NO_MANIFESTS` coverage. Status remains `in-review`.
+
+> [!INFO] External package update · 2026-05-11
+> Local Commonloom scaffold requirements are superseded by the independently
+> published `commonloom` package. This task now describes command and adapter
+> integration only.

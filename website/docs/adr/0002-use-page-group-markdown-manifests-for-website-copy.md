@@ -93,22 +93,20 @@ section arrays.
 Public copy may use Obsidian wiki-links only when the generator resolves them
 to public routes and emits standard crawlable URLs.
 
-The Markdown compilation and validation core will be implemented as
-**Commonloom**, a reusable TypeScript library or assembly. It will own generic
-Markdown parsing, frontmatter parsing, GFM support, inline HTML sanitization,
-image extraction, source tracing, and normalized content records. It must not
-import Svelte components, Flavor Grenade route modules, or product-specific
-data.
+The Markdown compilation and validation core is **Commonloom**, a reusable
+TypeScript package published outside this repository. It owns generic Markdown
+parsing, frontmatter parsing, GFM support, inline HTML sanitization, image
+extraction, source tracing, and normalized content records. It must not import
+Svelte components, Flavor Grenade route modules, or product-specific data.
 
 The Flavor Grenade website adapter will provide route ids, page groups,
 `PageGroupManifest`, route resolution, approved media roots, and generated
 TypeScript module formatting.
 
-Commonloom will start inside this repository while W8 proves the API. After the
-approach is proven, Commonloom may be extracted into a separate repository or
-package. Extraction must preserve the adapter boundary so Flavor
-Grenade-specific route, renderer, and product logic stays outside the reusable
-core.
+Commonloom package source, release automation, and API versioning are maintained
+in the independent Commonloom repository. This repository consumes the
+published `commonloom` package and keeps only Flavor Grenade-specific route,
+renderer, adapter, and generated-output logic locally.
 
 The selected content tooling is unified, remark, rehype, and zod. MDsveX,
 MDSX, `vite-plugin-markdown`, `@goodforyou/vite-plugin-markdown-import`, and
@@ -168,7 +166,8 @@ The decision is confirmed when:
   website route modules, or Flavor Grenade product data.
 - Website-specific adapters own route resolution and generated TypeScript
   formatting.
-- Commonloom naming is used for the reusable core boundary.
+- Commonloom naming is reserved for the external package boundary; local source
+  should not recreate `website/src/content/pipeline/commonloom`.
 - The website renderer consumes generated TypeScript records instead of
   hand-authored page body TypeScript or generated JSON page data.
 - Generated records are disposable and reproducible from Markdown copy plus
@@ -346,9 +345,9 @@ Website adapter:
 - formats generated TypeScript for the existing renderer
 - wires package scripts and CI
 
-Commonloom remains in-repository for W8. It should be extracted to a separate
-repository only after one working adapter proves the API and dependency
-direction.
+Commonloom is consumed as the external `commonloom` package. Its source and
+release process are out of scope here; W8 maintains only the Flavor
+Grenade-specific website adapter.
 
 ## Generated Page Shape
 
@@ -389,8 +388,8 @@ Revisit this decision if:
 - page-group manifests become too small to justify separate files,
 - generated records need framework-native content collections,
 - non-app tooling needs a committed portable content artifact,
-- the reusable content compiler API proves too abstract for a second website,
-- Commonloom is extracted and its public API changes independently,
+- the external Commonloom API no longer fits the website adapter,
+- Commonloom changes its public API independently,
 - route generation moves to a dedicated static-site framework, or
 - public copy authoring needs non-Markdown content blocks that frontmatter and
   manifests cannot represent cleanly.

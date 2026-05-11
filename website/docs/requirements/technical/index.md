@@ -127,8 +127,9 @@ implementation must stay independent from the LSP server runtime.
   typecheck, and test must run after generation or invoke it.
 - `website/src/content/generated/` must be listed in `.gitignore`.
 - Markdown parsing, HTML sanitization, source tracing, and content validation
-  should live behind a reusable TypeScript library boundary named Commonloom
-  that does not import Svelte components or Flavor Grenade route modules.
+  should come from the external `commonloom` package. This repository should
+  not maintain local Commonloom source under
+  `website/src/content/pipeline/commonloom`.
 - The website-specific adapter may import route ids, page groups, and renderer
   interfaces and may generate Flavor Grenade `*.generated.ts` modules.
 - Each page must have one H1, a unique title, and a unique description.

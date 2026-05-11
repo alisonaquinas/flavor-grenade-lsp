@@ -1,6 +1,7 @@
 # W8 Content Pipeline Technology Research
 
-Observed on 2026-05-10.
+Observed on 2026-05-10. Updated on 2026-05-11 after Commonloom was published
+as an independent npm package.
 
 ## Research Question
 
@@ -265,8 +266,8 @@ Verdict:
 
 ## Recommendation
 
-Use a project-owned TypeScript generator named Commonloom, built on unified,
-remark, and rehype.
+Use the external `commonloom` TypeScript package, built on unified, remark, and
+rehype.
 
 Recommended dependency set:
 
@@ -294,8 +295,7 @@ problems. W8 is a validated content compilation problem.
 
 Chosen stack:
 
-- Commonloom reusable TypeScript generator core under a clean in-repository
-  boundary during W8.
+- External `commonloom` package for the reusable TypeScript generator core.
 - Flavor Grenade adapter code for route resolution and generated TypeScript
   formatting.
 - `*.manifest.ts` page-group manifests with `satisfies PageGroupManifest`.
@@ -336,9 +336,10 @@ flowchart TD
 
 The reusable core is named **Commonloom**.
 
-Commonloom starts inside this repository while W8 proves the API. Once the
-approach works and the website adapter boundary is stable, Commonloom may move
-to a separate repository or package for reuse by other website projects.
+Commonloom now lives outside this repository as the published `commonloom` npm
+package. The Flavor Grenade website should consume the package and keep only
+adapter code locally. Maintaining Commonloom source, release automation, and
+public API versioning is no longer a W8 requirement in this repository.
 
 The name fits the selected direction:
 
