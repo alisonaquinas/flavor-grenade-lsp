@@ -2,7 +2,7 @@
 id: "TASK-267"
 title: "Add Commonloom tooling scaffold"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-267"]
 
 # Add Commonloom Tooling Scaffold
 
-> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-267` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -110,3 +110,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Local Commonloom scaffold requirements are superseded by the independently
 > published `commonloom` package. This task now describes command and adapter
 > integration only.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.

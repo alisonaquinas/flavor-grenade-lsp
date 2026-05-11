@@ -12,7 +12,7 @@ updated: 2026-05-11
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-041]] | Commonloom Content Pipeline | Feature | `in-review` |
-| [[TASK-267]] | Add Commonloom tooling scaffold | Task | `in-review` |
+| [[TASK-267]] | Add Commonloom tooling scaffold | Task | `done` |
 | [[TASK-268]] | Define Commonloom core contracts | Task | `in-review` |
 | [[TASK-269]] | Parse Markdown and frontmatter | Task | `in-review` |
 | [[TASK-270]] | Sanitize HTML and source trace content | Task | `in-review` |
