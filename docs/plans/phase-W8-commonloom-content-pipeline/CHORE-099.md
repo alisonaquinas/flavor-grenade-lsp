@@ -7,8 +7,8 @@ priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
-dependencies: ["TASK-277", "TASK-278", "CHORE-095"]
+updated: "2026-05-11"
+dependencies: ["TASK-277", "TASK-278", "CHORE-095", "CHORE-100"]
 tags: [tickets/chore, "phase/W8", website, closeout]
 aliases: ["CHORE-099"]
 ---
@@ -29,6 +29,8 @@ merged with green CI evidence.
 - Confirm PR merge into `develop`.
 - Update FEAT-041 acceptance criteria.
 - Update W8 phase status, roadmap, and execution ledger.
+- Leave Step M retrospective work to [[CHORE-101]] after final closeout
+  evidence exists.
 - Keep actual release publishing out of scope.
 
 ## Gate Commands
@@ -54,6 +56,8 @@ bun run lint:docs
 - [ ] Execution ledger and roadmap cite the final PR and CI evidence.
 - [x] No generated files under `website/src/content/generated/` are committed.
 - [x] No actual release tag or release publication is pushed.
+- [ ] [[CHORE-100]] phase execution compliance audit is complete or has no
+  blocking findings.
 
 ## Workflow Log
 
@@ -74,3 +78,8 @@ bun run lint:docs
 > TypeScript typecheck, tests, both Markdown lint jobs, and website checks.
 > The npm publish job was skipped. CHORE-099 remains `open` because the PR has
 > not been merged into `develop`.
+
+> [!INFO] Operational closeout dependency · 2026-05-11
+> Added CHORE-100 as a blocker so final closeout cannot mark W8 complete before
+> the phase execution rules are audited. Step M retrospective work is tracked
+> separately in CHORE-101.

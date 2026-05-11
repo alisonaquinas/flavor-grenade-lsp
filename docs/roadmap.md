@@ -12,12 +12,12 @@ current-extension-version: 0.1.4
 This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from initial scaffold to first release. Each phase has a name, status, and key deliverable. Detailed per-phase implementation plans live in `plans/`.
 
 > [!NOTE]
-> Status values: `planned` | `in-progress` | `complete` | `blocked`
+> Status values: `planned` | `in-progress` | `in-review` | `complete` | `blocked`
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.3.0**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
-> Website phase W8 is **planned** to replace hand-authored page content modules with the Commonloom Markdown content pipeline. Commonloom is now an external npm package, not source maintained in this repository.
+> Website phase W8 is **in-review** to replace hand-authored page content modules with the Commonloom Markdown content pipeline. Commonloom is now an external npm package, not source maintained in this repository.
 
 ## Phase Table
 

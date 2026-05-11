@@ -288,10 +288,11 @@ it. It must remain generated output.
 
 ## Tooling Decision
 
-Use a project-owned TypeScript generator built on unified, remark, rehype, and
-zod.
+Consume the published `commonloom` package for generic Markdown compilation and
+validation. The Flavor Grenade website owns adapter code, manifests, route
+resolution, and generated TypeScript formatting.
 
-Required packages:
+Commonloom package internals include Markdown and schema tooling such as:
 
 - `unified`
 - `remark-parse`
@@ -306,7 +307,7 @@ Required packages:
 - `hast-util-to-string`
 - `zod`
 
-Optional packages:
+Optional Commonloom-backed behavior may use:
 
 - `rehype-slug` or `github-slugger` for heading ids
 - `shiki` for syntax highlighting

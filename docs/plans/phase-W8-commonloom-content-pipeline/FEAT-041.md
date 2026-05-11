@@ -72,6 +72,8 @@ See [[index]] for the complete ticket list.
   TypeScript records.
 - [[CHORE-099]] records final merge and CI evidence before W8 is marked
   complete.
+- [[CHORE-100]] audits W8 against phase execution Rules 1-5 and Steps A-L.
+- [[CHORE-101]] records the required Step M retrospective after final evidence.
 
 ## Workflow Log
 
@@ -82,6 +84,10 @@ See [[index]] for the complete ticket list.
 > [!INFO] Lifecycle normalized · 2026-05-10
 > Replaced invalid `planned` status with lifecycle state `draft` before Step
 > A-C ticket readiness work.
+
+> [!INFO] Started · 2026-05-10
+> TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.
+> Status: `in-progress`.
 
 > [!INFO] Ready · 2026-05-10
 > Step A-C readiness details are recorded across child tickets: exact file
@@ -108,7 +114,3 @@ See [[index]] for the complete ticket list.
 > requirements in this repository are limited to package integration and the
 > Flavor Grenade website adapter; local Commonloom source maintenance no longer
 > applies.
-
-> [!INFO] Started · 2026-05-10
-> TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.
-> Status: `in-progress`.

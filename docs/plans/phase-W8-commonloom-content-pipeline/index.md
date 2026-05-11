@@ -4,7 +4,7 @@ phase: W8
 status: in-review
 tags: [plans/phase-W8, tickets/index, website, markdown, commonloom]
 aliases: ["Phase W8 Tickets"]
-updated: 2026-05-10
+updated: 2026-05-11
 ---
 
 # Phase W8 Commonloom Content Pipeline Tickets
@@ -29,3 +29,5 @@ updated: 2026-05-10
 | [[CHORE-098]] | Phase W8 security sweep | Chore | `done` |
 | [[CHORE-095]] | Phase W8 content pipeline verification | Chore | `done` |
 | [[CHORE-099]] | Phase W8 final closeout | Chore | `open` |
+| [[CHORE-100]] | Phase W8 phase execution compliance audit | Chore | `open` |
+| [[CHORE-101]] | Phase W8 retrospective and operational closeout | Chore | `open` |

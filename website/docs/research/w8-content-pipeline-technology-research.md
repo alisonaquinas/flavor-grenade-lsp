@@ -269,7 +269,7 @@ Verdict:
 Use the external `commonloom` TypeScript package, built on unified, remark, and
 rehype.
 
-Recommended dependency set:
+Commonloom package internals:
 
 - `unified`
 - `remark-parse`
@@ -299,9 +299,10 @@ Chosen stack:
 - Flavor Grenade adapter code for route resolution and generated TypeScript
   formatting.
 - `*.manifest.ts` page-group manifests with `satisfies PageGroupManifest`.
-- unified/remark/rehype for Markdown parsing, AST transforms, sanitization, and
-  HTML serialization.
-- zod for frontmatter and generated model validation.
+- `commonloom` as the website dependency for Markdown parsing, AST transforms,
+  sanitization, diagnostics, source traces, and HTML serialization.
+- Local adapter validation only where Flavor Grenade manifests or generated
+  model checks need project-specific schemas.
 - generated `.generated.ts` modules for renderer input.
 - optional generated JSON report for diagnostics only.
 

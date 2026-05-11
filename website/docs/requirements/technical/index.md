@@ -15,8 +15,8 @@ implementation must stay independent from the LSP server runtime.
 | TypeScript | Required scripting language; all website scripts must be strictly typechecked and linted. |
 | SCSS | Required styling authoring format for site-level styles, tokens, layout, and component styling. |
 | GitHub Pages | Required static hosting target. |
-| unified/remark/rehype | Required foundation for W8 Markdown content generation. |
-| zod | Required schema validation library for W8 manifests, frontmatter, and generated content models. |
+| commonloom | Required package for W8 Markdown content generation, sanitization, diagnostics, and source traces. |
+| zod | Required only where the local website adapter validates Flavor Grenade manifests or generated content models directly. |
 
 ## Related Technical Specifications
 

@@ -146,6 +146,8 @@ bun run lint:docs
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-100]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-101]]
 
 ## Related
 

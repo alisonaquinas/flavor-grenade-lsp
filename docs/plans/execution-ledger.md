@@ -56,7 +56,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W5    | Website CI And Pages Release | ✅ complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 | PR #55/#56 CI green; release tag cancelled |
 | W6    | Website Review Polish | ✅ complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | PR #58 CI green |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
-| W8    | Commonloom Content Pipeline | 🔎 in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, the external `commonloom` package, generated TypeScript records, and migration gates replace hand-authored content modules | 2026-05-10 | PR #63 CI green |
+| W8    | Commonloom Content Pipeline | 🔎 in-review | PR #63 is open against `develop` with green CI; Markdown copy, typed manifests, the external `commonloom` package, generated TypeScript records, and migration gates replace hand-authored content modules. CI evidence: PR #63 green. | 2026-05-10 | — |
 
 ---
 
@@ -65,6 +65,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | Symbol | Meaning |
 |--------|---------|
 | 🔄 in-progress | Work has started; gate not yet passing |
+| 🔎 in-review | PR open or review pending; final merge evidence not yet recorded |
 | ✅ complete | Gate verified passing in CI |
 | ⏳ planned | Work not yet started; prerequisites not met |
 | 🚫 blocked | Blocked by an unresolved dependency or decision |

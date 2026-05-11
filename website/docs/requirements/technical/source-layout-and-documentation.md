@@ -215,7 +215,9 @@ package publication are out of scope for this repository. Changes needed in
 Commonloom must be made in the independent Commonloom repository and consumed
 here through a package update.
 
-The selected W8 content tooling is:
+The selected W8 content tooling is the external `commonloom` package. The
+package provides Markdown, HTML, schema, AST, diagnostics, and source-trace
+behavior backed by:
 
 - `unified`
 - `remark-parse`
@@ -230,10 +232,13 @@ The selected W8 content tooling is:
 - `hast-util-to-string`
 - `zod`
 
-Optional tooling:
+Optional Commonloom-backed behavior:
 
 - `rehype-slug` or `github-slugger` for heading ids
 - `shiki` for syntax highlighting if highlighted code blocks ship in W8
+
+The local website adapter remains responsible for Flavor Grenade manifests,
+route ids, generated TypeScript formatting, and build script wiring.
 
 The W8 implementation must not use MDsveX, MDSX, `vite-plugin-markdown`,
 `@goodforyou/vite-plugin-markdown-import`, or `vite-plugin-svelte-md` as the
