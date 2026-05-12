@@ -23,7 +23,7 @@ updated: 2026-05-11
 | [[TASK-275]] | Wire scripts, gitignore, tests, and build gates | Task | `done` |
 | [[TASK-276]] | Verify website parity and authoring docs | Task | `done` |
 | [[TASK-277]] | Compile generated page records from Markdown | Task | `done` |
-| [[TASK-278]] | Switch website facades to generated content | Task | `green` |
+| [[TASK-278]] | Switch website facades to generated content | Task | `done` |
 | [[CHORE-096]] | Phase W8 lint sweep | Chore | `done` |
 | [[CHORE-097]] | Phase W8 code quality sweep | Chore | `done` |
 | [[CHORE-098]] | Phase W8 security sweep | Chore | `done` |

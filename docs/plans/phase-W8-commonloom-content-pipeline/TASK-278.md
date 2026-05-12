@@ -2,7 +2,7 @@
 id: "TASK-278"
 title: "Switch website facades to generated content"
 type: task
-status: green
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-278"]
 
 # Switch Website Facades To Generated Content
 
-> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-278` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -106,3 +106,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > content APIs. Verified with
 > `npm test -- --run content-pipeline-renderer-generated content-pipeline-generated-from-markdown content-links quickstart-docs howto-faq-docs content-pipeline-parity`.
 > Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.
