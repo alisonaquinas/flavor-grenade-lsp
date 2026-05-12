@@ -2,7 +2,7 @@
 id: "TASK-281"
 title: "Move BDD step source notes out of docs"
 type: task
-status: green
+status: red
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-281"]
 
 # Move BDD Step Source Notes Out Of Docs
 
-> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `green`
+> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
 
 ## Description
 
@@ -52,7 +52,7 @@ references live with the BDD harness.
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
 | `src/test/bdd/bdd-layout.test.ts` | Unit | `Quality.SourceLayout.DocsBoundary` | passing |
-| `src/test/bdd/step-definitions/STEP-MAP.md` | Harness documentation | `Quality.SourceLayout.DocsBoundary` | passing |
+| `src/test/bdd/step-definitions/STEP-MAP.md` | Harness documentation | `Quality.SourceLayout.DocsBoundary` | failing |
 
 ## Definition of Done
 
@@ -86,3 +86,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Moved the BDD step map to `src/test/bdd/step-definitions/STEP-MAP.md`,
 > removed `docs/bdd/steps/`, and verified `bun test
 > src/test/bdd/bdd-layout.test.ts` plus `bun run bdd` pass. Status: `green`.
+
+> [!FAILURE] Format gate failed · 2026-05-12
+> Full gate rerun found `bun run format:check` fails on
+> `src/test/bdd/step-definitions/STEP-MAP.md`. Status: `red`.
