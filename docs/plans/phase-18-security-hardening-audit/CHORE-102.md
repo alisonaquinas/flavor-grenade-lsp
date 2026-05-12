@@ -2,7 +2,7 @@
 id: "CHORE-102"
 title: "Backfill BDD gate requirements and specs"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: "18"
 created: "2026-05-12"
@@ -14,7 +14,7 @@ aliases: ["CHORE-102"]
 
 # Backfill BDD Gate Requirements And Specs
 
-> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `in-progress`
+> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `in-review`
 
 ## Description
 
@@ -52,11 +52,11 @@ BUG-038.
 
 ## Acceptance Criteria
 
-- [ ] CI/CD requirements describe the full default BDD gate.
-- [ ] Code-quality requirements define the docs/source boundary.
-- [ ] Development-process requirements match current `src/test` and BDD layout.
-- [ ] Behavior-layer spec reflects current Cucumber command and feature catalog.
-- [ ] Test index/matrix include the new BDD layout and harness coverage.
+- [x] CI/CD requirements describe the full default BDD gate.
+- [x] Code-quality requirements define the docs/source boundary.
+- [x] Development-process requirements match current `src/test` and BDD layout.
+- [x] Behavior-layer spec reflects current Cucumber command and feature catalog.
+- [x] Test index/matrix include the new BDD layout and harness coverage.
 
 ## Lifecycle
 
@@ -71,3 +71,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-12
 > Beginning requirements, behavior spec, and test traceability updates. Status:
 > `in-progress`.
+
+> [!SUCCESS] Review ready · 2026-05-12
+> Updated requirements, behavior-layer spec, test index, and test matrix for
+> BDD gate coverage and docs/source boundaries. Verification passed:
+> `bun run lint:docs`, `bun test src/test/bdd/bdd-layout.test.ts`, and
+> `bun run bdd`. Status: `in-review`.

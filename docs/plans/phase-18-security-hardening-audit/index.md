@@ -42,7 +42,7 @@ updated: 2026-05-08
 | Ticket | Title | Status |
 |---|---|---|
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
-| [[plans/phase-18-security-hardening-audit/CHORE-102]] | Backfill BDD gate requirements and specs | in-progress |
+| [[plans/phase-18-security-hardening-audit/CHORE-102]] | Backfill BDD gate requirements and specs | in-review |
 
 ## Verification Tasks
 
