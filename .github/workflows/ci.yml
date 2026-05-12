@@ -213,6 +213,9 @@ jobs:
       - run: bun install --frozen-lockfile --ignore-scripts
         working-directory: .
 
+      - run: bun run build:binary
+        working-directory: .
+
       - run: bun run build:binary:win
         working-directory: .
 

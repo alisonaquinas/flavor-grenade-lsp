@@ -536,8 +536,11 @@ Given('the vault currently has 5 documents', async function (this: FGWorld) {
   const docs = Array.from({ length: 5 }, (_, index) => `notes/existing-${index + 1}.md`);
   for (const relPath of docs) {
     this.writeVaultFile(relPath, `# Existing ${relPath}\n`);
-    await this.openDocument(relPath);
   }
+
+  const rootUri = this.vaultUri();
+  await this.stopServer();
+  await this.startServer(rootUri);
 
   const indexed = await waitForIndex(
     this,

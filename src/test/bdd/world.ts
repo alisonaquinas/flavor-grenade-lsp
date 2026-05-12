@@ -293,7 +293,7 @@ export class FGWorld extends World {
     });
   }
 
-  async cleanup(): Promise<void> {
+  async stopServer(): Promise<void> {
     if (this.proc) {
       try {
         await Promise.race([this.request('shutdown'), new Promise((r) => setTimeout(r, 2000))]);
@@ -305,6 +305,18 @@ export class FGWorld extends World {
       this.proc.kill('SIGKILL');
       this.proc = null;
     }
+    this.buf = Buffer.alloc(0);
+    this.resPending = [];
+    this.notifListeners = [];
+    this.bufferedNotifs = [];
+    this.idCounter = 1;
+    this.lastResponse = null;
+    this.lastStatusNotif = null;
+    this.lastDiagnostics = new Map();
+  }
+
+  async cleanup(): Promise<void> {
+    await this.stopServer();
     if (this.vaultDir) {
       try {
         fs.rmSync(this.vaultDir, { recursive: true, force: true });
@@ -313,13 +325,6 @@ export class FGWorld extends World {
       }
       this.vaultDir = '';
     }
-    this.buf = Buffer.alloc(0);
-    this.resPending = [];
-    this.notifListeners = [];
-    this.bufferedNotifs = [];
-    this.idCounter = 1;
-    this.lastResponse = null;
-    this.lastDiagnostics = new Map();
     this.initializationOptions = {};
     this.bddState = {};
   }
