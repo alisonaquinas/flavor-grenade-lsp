@@ -2,38 +2,40 @@
 title: "DocId and Vault-Relative Paths | Flavor Grenade LSP"
 description: "See why document identity is vault-relative, extension-free, and portable."
 h1: "DocId and Vault-Relative Paths"
-summary: "See why document identity is vault-relative, extension-free, and portable."
+summary: "Document IDs stay relative to the vault so notes remain portable across machines."
 related: ["conceptVaultIndex","conceptWikiLinkResolution","conceptRenameSafety"]
 ---
 
 # DocId and Vault-Relative Paths
 
-See why document identity is vault-relative, extension-free, and portable.
+Document IDs stay relative to the vault so notes remain portable across machines.
 
-## Compact definition
+## In plain English
 
-A DocId strips the vault root and Markdown extension so references stay portable across machines and never depend on private absolute paths.
+A DocId is the stable name Flavor Grenade uses for a note. It removes the machine-specific vault path and the `.md` extension, so `notes/Daily.md` becomes `notes/Daily`.
 
-DocIds keep identity portable by removing the vault root and Markdown extension. That lets the same vault work on another machine without rewriting absolute paths.
+That keeps links and references portable when the same vault moves between Windows, macOS, Linux, CI, or another clone.
 
-## Vault example
+## In a vault
 
-Use this example as the public vocabulary for humans and LLM maintainers.
-
-The example includes a heading link because DocId identity and anchor identity are separate. `notes/Daily` identifies the document, while `Open questions` identifies a location inside it.
+The note identity and heading identity are separate. `notes/Daily` names the note; `Open questions` names a place inside that note.
 
 ```text
 C:/vault/notes/Daily.md is stored as notes/Daily, so [[notes/Daily#Open questions]] can stay vault-relative.
 ```
 
-## For LLM maintainers
+## For future docs
 
-Use DocId language when explaining rename, references, navigation, and index behavior.
+Use vault-relative examples unless the article is specifically showing why absolute paths are not stored as identity.
 
-Do not use absolute local paths in public examples unless the article is explaining why they are not stored as identity. Prefer vault-relative examples that users can adapt.
-
-## Practical check
+## Try this
 
 Move a sample vault from one folder to another and keep the same note structure. The DocId for `notes/Daily.md` should still read like `notes/Daily`, not like a machine-specific path. Public docs should follow that pattern so examples remain portable across Windows, macOS, Linux, CI, and LLM-maintained fixtures.
 
-The reader should be able to spot unsafe identity language. If an article starts treating absolute file paths or extension-bearing filenames as the durable note identity, it is drifting away from the vault-relative model and making examples harder to reuse in another workspace.
+If an article treats `C:/Users/.../Daily.md` as the durable identity, it is making the example harder to reuse.
+
+Use absolute paths only when you are explaining why they are not the identity. Most public examples should start from the vault root because that is how users think about note links. It also keeps examples from leaking private machine paths into docs, tests, or generated content.
+
+For a reader, the payoff is simple: a vault can move, but its internal links should still make sense.
+
+That portability is one reason vault-relative language belongs in public docs. It matches how people share notes, clone repositories, and move projects between machines.

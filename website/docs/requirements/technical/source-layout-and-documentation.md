@@ -32,9 +32,9 @@ Required source boundaries:
   it is an existing product asset reused from a documented product asset path.
 - Page-group content manifests live as direct child files under
   `website/src/content` with the `*.manifest.ts` suffix.
-- Reusable content-pipeline library code is named Commonloom and lives under a
-  dedicated boundary such as `website/src/content/pipeline` or
-  `website/scripts/content-pipeline` during W8.
+- Reusable content-pipeline library code comes from the external `commonloom`
+  package. This repository must not maintain local Commonloom source under
+  `website/src/content/pipeline/commonloom`.
 - Website-specific content adapter code lives outside the reusable pipeline
   boundary and may depend on Flavor Grenade route ids, page groups, and
   renderer interfaces.
@@ -193,18 +193,15 @@ Generated JSON may exist only as a diagnostic or audit artifact. It must not be
 used as the public page renderer input and must not be committed unless a later
 ADR changes that rule.
 
-Reusable content-pipeline modules must:
+External Commonloom integration must:
 
-- avoid importing Svelte components
-- avoid importing Flavor Grenade route modules or product data
-- accept project-specific route resolution, approved media roots, schema
+- import reusable Markdown, HTML, schema, diagnostics, and source-trace APIs
+  from the published `commonloom` package
+- keep Svelte components, Flavor Grenade route modules, and product data in the
+  website adapter rather than in reusable Commonloom code
+- pass project-specific route resolution, approved media roots, schema
   validation, and code generation behavior as configuration or callbacks
-- expose normalized content records that another website project could consume
-  with its own adapter
-- depend on generic Markdown, HTML, schema, and AST tooling rather than
-  website-specific renderer code
-- use Commonloom naming in public module comments, folder docs, and exported
-  generic APIs once implementation starts
+- consume normalized content records through a Flavor Grenade adapter
 
 Website-specific adapter modules may:
 
@@ -213,12 +210,14 @@ Website-specific adapter modules may:
 - resolve Obsidian wiki-links to public website routes
 - generate Flavor Grenade `*.generated.ts` modules
 
-After W8 proves the Commonloom API inside this repository, the project may
-extract it into a separate repository or package. Extraction should happen only
-after the adapter boundary is stable enough to avoid moving Flavor
-Grenade-specific route or renderer logic into the reusable core.
+Commonloom package source, release automation, public API versioning, and
+package publication are out of scope for this repository. Changes needed in
+Commonloom must be made in the independent Commonloom repository and consumed
+here through a package update.
 
-The selected W8 content tooling is:
+The selected W8 content tooling is the external `commonloom` package. The
+package provides Markdown, HTML, schema, AST, diagnostics, and source-trace
+behavior backed by:
 
 - `unified`
 - `remark-parse`
@@ -233,10 +232,13 @@ The selected W8 content tooling is:
 - `hast-util-to-string`
 - `zod`
 
-Optional tooling:
+Optional Commonloom-backed behavior:
 
 - `rehype-slug` or `github-slugger` for heading ids
 - `shiki` for syntax highlighting if highlighted code blocks ship in W8
+
+The local website adapter remains responsible for Flavor Grenade manifests,
+route ids, generated TypeScript formatting, and build script wiring.
 
 The W8 implementation must not use MDsveX, MDSX, `vite-plugin-markdown`,
 `@goodforyou/vite-plugin-markdown-import`, or `vite-plugin-svelte-md` as the
@@ -350,8 +352,9 @@ Website development and maintenance must keep these checks green:
 - Public link validation for unresolved wiki-links and internal planning doc
   links.
 - Generated content reproducibility validation.
-- Reusable content-pipeline unit tests that do not import website Svelte
-  components or Flavor Grenade route modules.
+- Commonloom integration tests that prove the website adapter does not require
+  local Commonloom source and does not leak Svelte components or Flavor
+  Grenade route modules into reusable package calls.
 - Website TypeScript typecheck.
 - Website lint with zero warnings.
 - Website tests.

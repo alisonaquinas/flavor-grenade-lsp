@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 import { outboundLink, routeLink, type PublicLink } from '../../links';
 import { guideArticleGroups, type RouteId, type WebsiteRoute } from '../../routes';
-import { createSourceTrace, parseMarkdown, renderMarkdownHtml, type CommonloomDiagnostic } from '../commonloom';
+import { createSourceTrace, parseMarkdown, renderMarkdownHtml, type CommonloomDiagnostic } from 'commonloom';
 import type { WebsiteCompiledContent, WebsiteGeneratedMediaRecord } from './adapter';
 import {
   frontmatterLinks,

@@ -2,12 +2,12 @@
 id: "TASK-271"
 title: "Validate links, wiki-links, and media references"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["TASK-269", "TASK-270"]
 tags: [tickets/task, "phase/W8", website, links, media]
 aliases: ["TASK-271"]
@@ -15,16 +15,16 @@ aliases: ["TASK-271"]
 
 # Validate Links, Wiki-links, And Media References
 
-> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-271` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
-Validate local Markdown links, images, and allowed wiki-link references before
-the generated TypeScript is written.
+Validate local Markdown links, images, and allowed wiki-link references through
+the external `commonloom` package before generated TypeScript is written.
 
 ## Work Scope
 
-- Classify external URLs, same-document anchors, root-relative links,
+- Use Commonloom package APIs to classify external URLs, same-document anchors, root-relative links,
   copy-relative links, media references, and wiki-links.
 - Resolve local images through `website/src/content/media`.
 - Let the website adapter resolve wiki-links only when they map to public routes.
@@ -35,26 +35,12 @@ the generated TypeScript is written.
 
 Create or modify:
 
-- `website/src/content/pipeline/commonloom/links.ts`
-- `website/src/content/pipeline/commonloom/media.ts`
-- `website/src/content/pipeline/commonloom/paths.ts`
+- `website/src/content/pipeline/website/**`
 - `website/tests/content-pipeline-links-media.test.ts`
 
-Resolver API:
-
-```ts
-export interface CommonloomLinkPolicy {
-  resolvePublicRoute(target: string): string | null;
-  resolveWikiLink(target: string): string | null;
-}
-
-export function classifyLinkTarget(rawTarget: string): CommonloomLinkReference;
-
-export function validateMediaReference(
-  reference: CommonloomImageReference,
-  mediaRoot: string,
-): CommonloomDiagnostic[];
-```
+Resolver and media-validation API shapes are package-owned. Local code should
+import them from `commonloom` and provide only website-specific callbacks and
+route policy.
 
 Path confinement uses resolved absolute paths and verifies every resolved copy,
 media, and generated path remains inside its approved root.
@@ -104,3 +90,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > confinement, and media validation helpers. Verified with `npm test -- --run
 > content-pipeline-links-media`, `npm run lint`, and `npm run typecheck`.
 > Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.

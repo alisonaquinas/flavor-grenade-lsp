@@ -74,6 +74,8 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/lsp/handlers/__tests__/initialized.handler.test.ts` | Unit | Tests `initialized` rejects non-file root URIs before vault scan starts | `Security.Vault.URISchemeAllowlist` | Phase 18 |
 | `src/transport/json-rpc-dispatcher.test.ts` | Unit | Tests JSON-RPC routing, protocol errors, and rejection of dangerous prototype keys before handler dispatch | `Security.Input.PrototypePollution` | Phase 18 |
 | `scripts/check-exact-dependencies.test.js` | Unit | Tests dependency range detection ignores compatibility engine ranges and reports dependency/devDependency ranges | `Security.Supply.ExactPinning` | Phase 18 |
+| `src/test/ci-workflow.test.ts` | Unit | Verifies repository CI runs the root, BDD, extension, and website verification battery | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | Phase 18 |
+| `src/test/bdd/bdd-layout.test.ts` | Unit | Verifies raw source files and BDD step implementation notes stay out of `docs/` while Gherkin feature specs remain in `docs/bdd/features/` | `Quality.SourceLayout.DocsBoundary`, `Process.Testing.DirectoryStructure` | Phase 18 |
 
 ---
 
@@ -122,11 +124,18 @@ and website-specific source layout rules.
 
 ## BDD Scenarios
 
-BDD step definitions live under `tests/bdd/steps/`. Each step file implements the Gherkin scenarios from the corresponding `docs/bdd/features/*.feature` file.
+BDD feature specs live under `docs/bdd/features/`. Step definitions and source-owned harness notes live under `src/test/bdd/step-definitions/`; `STEP-MAP.md` is the detailed phrase-to-implementation reference moved out of `docs/` by TASK-281.
 
 | Step File | Feature File | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
+| `src/test/bdd/step-definitions/common.steps.ts` | Shared across `docs/bdd/features/*.feature` | Provides shared vault setup, document open/change, diagnostics, completion, and assertion steps | `CICD.Workflow.BDDGate` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/code-actions.steps.ts` | `docs/bdd/features/code-actions.feature` | Tests code-action availability and deterministic execution/edit expectations | `CICD.Workflow.BDDGate`, `CA-001`, `CA-002`, `CA-003` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/extension-harness.steps.ts` | `docs/bdd/features/vscode-extension.feature`, `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/vscode-extension-parity.feature` | Provides deterministic extension acceptance state for activation, status, command, binary, crash, and language-mode scenarios | `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/navigation.steps.ts` | `docs/bdd/features/navigation.feature` | Tests definition, reference, CodeLens, document highlight, and tag reference precision scenarios | `CICD.Workflow.BDDGate`, `Navigation.Definition.AllLinkTypes`, `Navigation.References.Completeness`, `Navigation.CodeLens.Count` | Phase 18 | ✅ implemented |
 | `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | `docs/bdd/features/ofmarkdown-parity.feature` | Tests the structural LSP parity scenario for document links, folding ranges, and selection ranges | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges` | Phase 17 | ✅ implemented |
+| `src/test/bdd/step-definitions/tags.steps.ts` | `docs/bdd/features/tags.feature` | Tests tag indexing, hierarchy, completion, YAML equivalence, and nested-reference behavior | `CICD.Workflow.BDDGate`, `Tag.Index.Completeness`, `Tag.Hierarchy.Awareness`, `Tag.YAML.Equivalence` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/vault-detection.steps.ts` | `docs/bdd/features/vault-detection.feature`, `docs/bdd/features/workspace.feature` | Tests vault detection, single-file mode, scanner, file watcher, and workspace assertions | `CICD.Workflow.BDDGate`, `Workspace.VaultDetection.Primary`, `Workspace.FileExtension.Filter` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/STEP-MAP.md` | All `docs/bdd/features/*.feature` files | Documents step phrase groups next to the source-owned BDD harness instead of under `docs/bdd/steps/` | `Quality.SourceLayout.DocsBoundary` | Phase 18 | ✅ implemented |
 
 ---
 
@@ -183,13 +192,15 @@ Extension integration tests require the VS Code Extension Development Host launc
 
 ### Extension BDD Scenarios
 
-> [!NOTE] Aspirational
-> The step definition file listed below does not exist yet. The feature file contains scenarios but no step implementations.
+Extension BDD acceptance scenarios are implemented in the shared Cucumber
+harness under `src/test/bdd/step-definitions/extension-harness.steps.ts`.
+VS Code API execution remains covered by the extension host suite above.
 
 | Feature File | Step File | Description | Phase | Status |
 |---|---|---|---|---|
-| `docs/bdd/features/vscode-extension.feature` | `extension/src/__tests__/bdd/vscode-extension.steps.ts` | 11 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery | Phase E4 | 📋 planned |
-| `docs/bdd/features/ofmarkdown-language-mode.feature` | `extension/src/__tests__/bdd/ofmarkdown-language-mode.steps.ts` | 6 acceptance scenarios covering dynamic OFMarkdown assignment and Markdown/manual mode preservation | Phase E6 | 📋 specified; extension-host step implementation deferred to Phase E9 |
+| `docs/bdd/features/vscode-extension.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 13 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery, and lifecycle behavior | Phase 18 | ✅ implemented |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 6 acceptance scenarios covering dynamic OFMarkdown assignment and Markdown/manual mode preservation | Phase 18 | ✅ implemented |
+| `docs/bdd/features/vscode-extension-parity.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 6 acceptance scenarios covering extension parity, activation precision, membership refresh, and package behavior | Phase 18 | ✅ implemented |
 
 ---
 

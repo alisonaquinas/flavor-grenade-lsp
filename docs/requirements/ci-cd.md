@@ -15,13 +15,13 @@ aliases:
 ---
 
 **Tag:** CICD.Workflow.PRGate
-**Gist:** Every pull request targeting `main` or `develop` must pass all CI checks — typecheck, lint, test, build — before merge is permitted.
-**Ambition:** A PR gate without mandatory pass enforcement degrades to an advisory system: contributors learn to merge with red CI and fix it later, which is the exact failure mode the gate is designed to prevent. GitHub branch protection rules (required status checks) enforce the gate at the platform level so that no reviewer can bypass it by approving a PR with failing checks. The gate must cover all four quality dimensions: type safety, lint correctness, test coverage, and artifact buildability.
+**Gist:** Every pull request targeting `main` or `develop` must pass all CI checks — typecheck, lint, dependency policy, format, root tests, BDD scenarios, docs lint, website checks, extension checks, and build — before merge is permitted.
+**Ambition:** A PR gate without mandatory pass enforcement degrades to an advisory system: contributors learn to merge with red CI and fix it later, which is the exact failure mode the gate is designed to prevent. GitHub branch protection rules (required status checks) enforce the gate at the platform level so that no reviewer can bypass it by approving a PR with failing checks. The gate must cover type safety, lint correctness, dependency policy, formatting, root test coverage, executable BDD requirements, documentation linting, website quality, extension behavior, and artifact buildability.
 **Scale:** Percentage of pull requests merged into `main` or `develop` that did not pass all required status checks at the time of merge.
 **Meter:**
 
 1. Enable branch protection on `main` and `develop` in GitHub repository settings.
-2. Set required status checks to: `typecheck`, `lint`, `format`, `test`, `build`.
+2. Set required status checks to: `TypeScript typecheck`, `Lint (ESLint, zero warnings)`, `Dependency policy`, `Format check (Prettier)`, `Tests`, `BDD scenarios`, `Markdown lint (OFM docs — markdownlint-obsidian)`, `Markdown lint (other — markdownlint-cli2)`, `Website checks`, `Extension checks`, and `Build`.
 3. For a sample of 10 merged PRs, verify that all required checks were green at the merge commit.
 4. Compute: (PRs merged with all checks green / total PRs merged) × 100.
 **Fail:** Any PR merged while at least one required status check was failing or pending.
@@ -29,6 +29,25 @@ aliases:
 **Stakeholders:** All contributors, CI pipeline maintainers, release engineers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[adr/ADR007-git-flow-branching]], `.github/workflows/ci.yml`, GitHub Actions documentation §Branch Protection.
+
+---
+
+**Tag:** CICD.Workflow.BDDGate
+**Gist:** The default Cucumber BDD gate (`bun run bdd`) must execute every checked-in scenario in local verification and in CI with no undefined, pending, or failed steps.
+**Ambition:** Gherkin scenarios in `docs/bdd/features/` are executable requirements, not aspirational prose. If checked-in scenarios are undefined or pending, the requirements layer gives a false signal: reviewers can read an acceptance scenario that the repository cannot actually verify. The default BDD gate must therefore run the full scenario catalog through the source-owned harness in `src/test/bdd/step-definitions/` locally and as the `BDD scenarios` pull-request check.
+**Scale:** Count of undefined, pending, or failed Cucumber steps in the default `bun run bdd` run.
+**Meter:**
+
+1. Run `bun run bdd` from the repository root.
+2. Confirm Cucumber loads feature files from `docs/bdd/features/**/*.feature`.
+3. Confirm step definitions load from `src/test/bdd/step-definitions/**/*.ts`.
+4. Verify `.github/workflows/ci.yml` runs `bun run bdd` in the `BDD scenarios` pull-request check.
+5. Record the scenario and step summary.
+**Fail:** Any undefined step, pending step, failed scenario, or non-zero exit from `bun run bdd`.
+**Goal:** `bun run bdd` exits 0 with all checked-in scenarios and steps passing.
+**Stakeholders:** Phase reviewers, contributors, CI maintainers, requirements auditors.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** `.github/workflows/ci.yml`, `cucumber.yaml`, [[design/behavior-layer]], [[test/index]], [[plans/phase-18-security-hardening-audit/TASK-280]], [[plans/phase-18-security-hardening-audit/TASK-282]], [[plans/phase-18-security-hardening-audit/BUG-033]].
 
 ---
 

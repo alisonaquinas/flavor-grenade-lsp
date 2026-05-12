@@ -15,8 +15,8 @@ implementation must stay independent from the LSP server runtime.
 | TypeScript | Required scripting language; all website scripts must be strictly typechecked and linted. |
 | SCSS | Required styling authoring format for site-level styles, tokens, layout, and component styling. |
 | GitHub Pages | Required static hosting target. |
-| unified/remark/rehype | Required foundation for W8 Markdown content generation. |
-| zod | Required schema validation library for W8 manifests, frontmatter, and generated content models. |
+| commonloom | Required package for W8 Markdown content generation, sanitization, diagnostics, and source traces. |
+| zod | Required only where the local website adapter validates Flavor Grenade manifests or generated content models directly. |
 
 ## Related Technical Specifications
 
@@ -127,8 +127,9 @@ implementation must stay independent from the LSP server runtime.
   typecheck, and test must run after generation or invoke it.
 - `website/src/content/generated/` must be listed in `.gitignore`.
 - Markdown parsing, HTML sanitization, source tracing, and content validation
-  should live behind a reusable TypeScript library boundary named Commonloom
-  that does not import Svelte components or Flavor Grenade route modules.
+  should come from the external `commonloom` package. This repository should
+  not maintain local Commonloom source under
+  `website/src/content/pipeline/commonloom`.
 - The website-specific adapter may import route ids, page groups, and renderer
   interfaces and may generate Flavor Grenade `*.generated.ts` modules.
 - Each page must have one H1, a unique title, and a unique description.

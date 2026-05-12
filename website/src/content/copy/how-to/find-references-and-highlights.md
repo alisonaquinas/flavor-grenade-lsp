@@ -2,37 +2,37 @@
 title: "Find References and Highlights | Flavor Grenade LSP"
 description: "Find backlinks, outbound references, tag references, and repeated local references."
 h1: "Find References and Highlights"
-summary: "Find backlinks, outbound references, tag references, and repeated local references."
+summary: "See where a note, heading, tag, or local reference is used."
 related: ["conceptReferencesNavigationTagsEmbeds","howToRenameNotesSafely","howToUseTagsCompletion"]
 ---
 
 # Find References and Highlights
 
-Find backlinks, outbound references, tag references, and repeated local references.
+See where a note, heading, tag, or local reference is used.
 
 ## When to use it
 
-Use this page when you need to see where a note, heading, tag, or local target is mentioned.
+Use this page before changing something that other notes may depend on.
 
-References answer the question “what depends on this?” before you edit a note, heading, or tag. Highlights answer the smaller question “where does this repeat in the current document?”
+References answer “what points here?” across the vault. Highlights answer the smaller “where does this repeat in this file?”
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Work in a vault folder so cross-file results come from the same context as navigation and rename.
 
-Run references on a resolved target, then compare the result list with a search in your vault. The reference graph should surface OFM-aware relationships that plain text search cannot safely distinguish.
+Run references on a target Flavor Grenade can already resolve. Use the results list to understand the shape of the change before you edit or rename anything.
 
 ### Choose a resolved target
 
-Place the cursor on a wiki link, tag, heading, or local reference.
+Place the cursor on a wiki link, tag, heading, or other local reference.
 
 ### Run references or highlights
 
-Use VS Code references for cross-file results and document highlights for local repeats.
+Use VS Code references for cross-file results and document highlights for repeats in the current note.
 
 ### Review linked context
 
-Use the results list to inspect backlinks before editing or renaming.
+Read the results list before editing or renaming so you know what will be affected.
 
 ```text
 [[Project Plan]]
@@ -42,12 +42,12 @@ Use the results list to inspect backlinks before editing or renaming.
 
 ## Expected result
 
-The editor shows references derived from the indexed vault graph and the current parsed document.
+The editor shows references from indexed vault notes and highlights from the current document.
 
-The reference list should reflect indexed inbound links, tag usages, and local relationships the parser understands. Use the result list before rename or cleanup work so you know the blast radius.
+That gives you a safer picture than plain text search when links, tags, embeds, and headings are involved.
 
 ## Common failure mode
 
-References outside the indexed vault or inside opaque regions may not appear.
+References outside the indexed vault or inside example regions may not appear.
 
-References can miss content outside the vault, ignored files, and example text inside opaque regions. If a known reference is missing, inspect the syntax and confirm the source document is indexed.
+If a known reference is missing, check whether the source note is indexed and whether the text is inside a code fence, comment, or template block.

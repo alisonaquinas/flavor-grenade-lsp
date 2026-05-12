@@ -290,12 +290,14 @@ Then(/^the response is a valid \(non-error\) WorkspaceEdit$/, function (this: FG
  * Pending: no way to verify file-stem style specifics via LSP protocol alone.
  */
 Then('the WorkspaceEdit contains only changes to file-stem style links', function (this: FGWorld) {
-  return 'pending';
+  const text = JSON.stringify(this.lastResponse);
+  expect(text).toContain('source#New Heading');
 });
 
 /**
  * Pending: no way to verify path-prefix absence via LSP protocol alone.
  */
 Then('no path-prefixed links are modified', function (this: FGWorld) {
-  return 'pending';
+  const text = JSON.stringify(this.lastResponse);
+  expect(text).not.toContain('notes/source#New Heading');
 });

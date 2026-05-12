@@ -2,29 +2,29 @@
 title: "Configure Obsidian Vaults | Flavor Grenade LSP"
 description: "Configure vault root detection, indexing boundaries, and generated-output behavior."
 h1: "Configure Obsidian Vaults"
-summary: "Configure vault detection and index behavior for Obsidian Vaults."
+summary: "Help Flavor Grenade find the right vault root so links, tags, and attachments line up."
 related: ["conceptVaultIndex","advancedConfigurationModel","howToFixBrokenLinks"]
 ---
 
 # Configure Obsidian Vaults
 
-Configure vault detection and index behavior for Obsidian Vaults.
+Help Flavor Grenade find the right vault root so links, tags, and attachments line up.
 
 ## When to use it
 
-Use this page when completions or diagnostics look incomplete because VS Code opened the wrong folder or the vault markers are unclear.
+Use this page when completion or diagnostics look incomplete and you suspect VS Code opened the wrong folder.
 
-Use this guide when the server appears to be working but the vault graph is incomplete. Configuration starts with choosing the correct root because DocIds, attachments, and local paths are all interpreted relative to that boundary.
+Most vault problems start with the root folder. Flavor Grenade reads notes, attachments, and local paths relative to that folder, so opening the right one matters more than tweaking settings first.
 
 ## Steps
 
-Work through the task in a vault folder so completion, diagnostics, navigation, and rename all use the same indexed context.
+Start with the folder tree before changing configuration.
 
-Check the folder tree before changing settings. A single `.obsidian/` folder or `.flavor-grenade.toml` marker should identify the content you want indexed, while generated output and unrelated repositories should stay outside the active root.
+A single `.obsidian/` folder or `.flavor-grenade.toml` file should identify the content you want indexed. Keep generated output and unrelated repositories outside that active vault when they should not affect your notes.
 
 ### Open the intended root
 
-Prefer opening the folder that owns `.obsidian/` instead of a parent folder containing several unrelated vaults.
+Open the folder that owns `.obsidian/`, not a parent folder that happens to contain several projects.
 
 ### Keep markers explicit
 
@@ -32,7 +32,7 @@ Use `.obsidian/` for Obsidian Vaults or `.flavor-grenade.toml` for a configured 
 
 ### Confirm indexed files
 
-Keep generated output and external assets outside the indexed boundary when they should not participate in diagnostics.
+Keep generated output and unrelated assets outside the indexed boundary when they should not show up in completion or diagnostics.
 
 ```text
 MyVault/
@@ -45,12 +45,12 @@ MyVault/
 
 ## Expected result
 
-The vault index can see notes, headings, tags, embeds, and attachments that belong to the current Obsidian Vault.
+Flavor Grenade can see the notes, headings, tags, embeds, and attachments that belong to the current vault.
 
-After configuration is right, completions should see vault notes, diagnostics should resolve local targets, and references should stay inside the intended workspace. The same note should not resolve differently across features.
+Once the root is right, completion, diagnostics, navigation, references, and rename should all agree about the same local targets.
 
 ## Common failure mode
 
-Opening a parent folder can make vault-relative paths ambiguous; opening only one loose file can fall back to single-file behavior.
+Opening a parent folder can make local paths ambiguous. Opening only one loose file can leave Flavor Grenade without enough context for vault-wide features.
 
-Opening a parent directory is the common trap: the server may see too much or fail to choose the vault you meant. Opening one loose file is the opposite trap because the server may fall back to single-file behavior.
+If the extension feels half-awake, check the folder first. It is often seeing too much workspace, or not enough.

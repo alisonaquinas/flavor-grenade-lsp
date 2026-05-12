@@ -5,6 +5,9 @@ Cucumber step definition files — one file per BDD feature area.
 Each file implements the Given/When/Then steps for the corresponding
 `.feature` file in `docs/bdd/features/`.
 
+`STEP-MAP.md` contains the detailed phrase-to-implementation reference for the
+BDD harness.
+
 ## Files
 
 | File                        | Feature area                                                                                                |

@@ -2,19 +2,19 @@
 title: "Indexing and Performance | Flavor Grenade LSP"
 description: "Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features."
 h1: "Indexing and Performance"
-summary: "Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features."
+summary: "Learn why the right indexed files make vault features faster and more trustworthy."
 related: ["conceptVaultIndex","advancedConfigurationModel","howToConfigureObsidianVaults"]
 ---
 
 # Indexing and Performance
 
-Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features.
+Learn why the right indexed files make vault features faster and more trustworthy.
 
 ## Index lifecycle
 
-The index begins with a vault scan, stores parsed OFM documents, and refreshes as watched files change.
+Indexing starts by scanning the vault, reading Markdown files, and storing the facts Flavor Grenade needs later.
 
-A healthy lifecycle is boring: scan the vault, parse documents, store facts, rebuild derived views, and let features read the same state. If a feature needs different data, add it to that path instead of creating a private interpretation.
+A healthy lifecycle should feel boring: scan, parse, store facts, refresh when files change, then let every feature read the same state.
 
 ```text
 .obsidian/ root -> scan -> parse -> VaultIndex -> diagnostics/completions/references
@@ -24,16 +24,18 @@ A healthy lifecycle is boring: scan the vault, parse documents, store facts, reb
 
 Use ignore rules for generated docs, exports, and vendor folders so user-authored notes stay fast and precise.
 
-Large vaults often contain copied documentation, build output, and archives that should not drive completions. Keeping those folders out of the active graph improves both performance and trust in diagnostics.
+Large vaults often contain copied documentation, build output, or archives that should not drive completion. Keeping those folders out of the active index improves speed and makes diagnostics easier to trust.
 
 ## Performance boundary
 
-The index is the source of truth; feature-local caches should not create a second document model.
+The index is the shared source of truth; individual features should not invent a second private model of the vault.
 
-This matters for maintainers because duplicate caches create subtle drift: completion may see one target while rename sees another. Prefer derived registries that can be rebuilt from the same indexed documents.
+Duplicate models drift. That is how completion can see one target while rename sees another. Prefer data that can be rebuilt from the same indexed documents.
 
 ## Practical check
 
-Use a small synthetic vault to explain lifecycle, then name the knobs that matter in a real vault: ignored folders, generated output, large archives, and file watching. Users do not need implementation internals before they understand that every feature depends on the same parsed document set.
+Use a small sample vault to explain the lifecycle, then name the real-world knobs: ignored folders, generated output, large archives, and file watching. Users do not need implementation internals before they understand that every feature depends on the same parsed document set.
 
-For examples, prefer a before-and-after story: a generated docs folder pollutes completion, then an ignore rule removes it from the active graph. That makes performance guidance practical and reinforces the accuracy benefit of indexing only content that should participate in vault intelligence.
+For examples, use a before-and-after story: a generated docs folder pollutes completion, then an ignore rule removes it from the active index. That makes performance guidance practical.
+
+Performance advice should stay tied to usefulness. The goal is not simply to index fewer files; it is to index the files that actually belong to the user’s vault. A smaller, cleaner index gives faster suggestions and fewer misleading warnings because Flavor Grenade is spending attention on the notes the user expects it to understand.

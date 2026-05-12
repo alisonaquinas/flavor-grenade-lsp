@@ -2,38 +2,38 @@
 title: "Rename Safety | Flavor Grenade LSP"
 description: "Learn how rename uses resolved local references instead of blind text replacement."
 h1: "Rename Safety"
-summary: "Learn how rename uses resolved local references instead of blind text replacement."
+summary: "Safe rename changes links that point to the target and leaves uncertain text alone."
 related: ["conceptDocIdVaultRelativePaths","conceptWikiLinkResolution","howToRenameNotesSafely"]
 ---
 
 # Rename Safety
 
-Learn how rename uses resolved local references instead of blind text replacement.
+Safe rename changes links that point to the target and leaves uncertain text alone.
 
-## Compact definition
+## In plain English
 
-Rename plans are vault-confined, syntax-aware, and explicit; ambiguous or unsupported references are skipped instead of rewritten by guesswork.
+Rename should not be a blind search-and-replace. Flavor Grenade resolves the target first, plans the local edits it understands, and skips cases where guessing could damage unrelated text.
 
-Rename safety comes from resolving targets before editing text. The server should change links that refer to the target and skip cases where identity is uncertain.
+That smaller, more careful edit is the point.
 
-## Vault example
+## In a vault
 
-Use this example as the public vocabulary for humans and LLM maintainers.
-
-The example keeps the edit local to `[[Project Plan#Risks]]`. It should not rewrite unrelated prose, external URLs, or headings that only happen to share the same words.
+The example keeps the edit local to `[[Project Plan#Risks]]`. It should not rewrite unrelated prose, external URLs, or headings that merely share the same words.
 
 ```text
 Renaming #Risks can update [[Project Plan#Risks]] while leaving an unrelated external URL unchanged.
 ```
 
-## For LLM maintainers
+## For future docs
 
-Use safety language when describing rename so LLM-maintained docs avoid promising global text replacement.
+Use safety-focused language for rename docs. Tell readers to inspect proposed edits and respect skipped ambiguous references.
 
-Use safety-focused language for rename docs. LLM-generated maintenance instructions should tell agents to inspect edits and respect skipped ambiguous references.
-
-## Practical check
+## Try this
 
 Before a rename article claims broad coverage, test one inbound wiki link, one heading link, one external URL, and one fenced example. The supported inbound references should be candidates for a WorkspaceEdit. The external URL and fenced example should remain untouched because they are not safe vault references to rewrite.
 
-The reader should understand that skipped edits are often a safety feature. Rename should prefer a smaller correct WorkspaceEdit over a broad text replacement that changes examples, external links, or ambiguous matches, then let the user inspect any remaining manual cleanup.
+Skipped edits are often protection. Prefer a smaller correct edit over a sweeping replacement that changes examples, external links, or ambiguous matches.
+
+This is the difference between an editor feature and a text macro. Rename should understand the target before changing surrounding files. If the target cannot be resolved, or if two possible targets look the same, the safer behavior is to leave that text for a human review instead of guessing.
+
+The user can always make a manual follow-up edit. The tool should avoid making a confident automated edit when it does not know the target.

@@ -2,14 +2,14 @@
 title: "Features | Flavor Grenade LSP"
 description: "Explore diagnostics, completions, references, rename, tags, embeds, and structural navigation."
 h1: "Features"
-summary: "Feature pages summarize diagnostics, completions, references, rename, tags, embeds, and navigation."
+summary: "Explore the editor features that help your Obsidian-style Markdown feel connected and safe to edit."
 related: ["quickstart","howTo","concepts"]
 ---
 
 # Features
 
-Feature pages summarize diagnostics, completions, references, rename, tags, embeds, and navigation.
+Explore the editor features that help your Obsidian-style Markdown feel connected and safe to edit.
 
-## Language-server features
+## What the extension helps with
 
-The feature overview gives users a scannable map of the tool before they read task docs.
+Flavor Grenade helps with the everyday moments that make a vault feel alive: finishing a wiki link, jumping to a note, finding who links back, renaming a heading without breaking references, and spotting local links that no longer resolve.

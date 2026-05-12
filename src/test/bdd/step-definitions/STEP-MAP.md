@@ -21,13 +21,13 @@ Step implementations are populated incrementally across phases:
 
 The flavor-grenade-lsp BDD suite uses:
 
-| Tool | Role |
-|------|------|
-| `@cucumber/cucumber` | Gherkin runner, step registration, hooks |
-| `jest` | Assertion library (`expect`) used inside step bodies |
-| `bun test` | Test runner for unit tests (separate from BDD) |
-| `ts-node` or `bun` loader | TypeScript compilation for step files |
-| `vscode-languageserver-protocol` | LSP types for asserting response shapes |
+| Tool                             | Role                                                 |
+| -------------------------------- | ---------------------------------------------------- |
+| `@cucumber/cucumber`             | Gherkin runner, step registration, hooks             |
+| `jest`                           | Assertion library (`expect`) used inside step bodies |
+| `bun test`                       | Test runner for unit tests (separate from BDD)       |
+| `ts-node` or `bun` loader        | TypeScript compilation for step files                |
+| `vscode-languageserver-protocol` | LSP types for asserting response shapes              |
 
 ### Running the BDD suite
 
@@ -198,30 +198,27 @@ Given steps set up preconditions — vault files, server config, and initial sta
 import { Given } from '@cucumber/cucumber';
 import { FlavorGrenadeWorldImpl } from '../../support/world';
 
-Given(
-  'a vault containing:',
-  async function (this: FlavorGrenadeWorldImpl, table: DataTable) {
-    // Create .obsidian/ marker and all files from table
-    await this.vault.createDir('.obsidian');
-    for (const row of table.hashes()) {
-      await this.vault.createFile(row.path, row.content ?? '');
-    }
-    await this.lsp.initialize(this.vault.root);
+Given('a vault containing:', async function (this: FlavorGrenadeWorldImpl, table: DataTable) {
+  // Create .obsidian/ marker and all files from table
+  await this.vault.createDir('.obsidian');
+  for (const row of table.hashes()) {
+    await this.vault.createFile(row.path, row.content ?? '');
   }
-);
+  await this.lsp.initialize(this.vault.root);
+});
 
 Given(
   'the file {string} contains {string}',
   async function (this: FlavorGrenadeWorldImpl, path: string, content: string) {
     await this.vault.createFile(path, content);
-  }
+  },
 );
 
 Given(
   'the file {string} contains:',
   async function (this: FlavorGrenadeWorldImpl, path: string, docString: string) {
     await this.vault.createFile(path, docString);
-  }
+  },
 );
 
 Given(
@@ -229,36 +226,30 @@ Given(
   async function (this: FlavorGrenadeWorldImpl) {
     // Initialize with a bare directory — no .obsidian/, no .flavor-grenade.toml
     await this.lsp.initialize(this.vault.root);
-  }
+  },
 );
 
 Given(
   'the server is configured with {word} = {string}',
   async function (this: FlavorGrenadeWorldImpl, key: string, value: string) {
     await this.lsp.notify('workspace/didChangeConfiguration', {
-      settings: { flavorGrenade: { [key]: value } }
+      settings: { flavorGrenade: { [key]: value } },
     });
-  }
+  },
 );
 ```
 
 ### File: `src/test/steps/given/index-state.steps.ts`
 
 ```typescript
-Given(
-  'the vault has been fully indexed',
-  async function (this: FlavorGrenadeWorldImpl) {
-    // Wait for the vault index to reach a stable state
-    await this.lsp.request('flavorGrenade/awaitIndexReady', {});
-  }
-);
+Given('the vault has been fully indexed', async function (this: FlavorGrenadeWorldImpl) {
+  // Wait for the vault index to reach a stable state
+  await this.lsp.request('flavorGrenade/awaitIndexReady', {});
+});
 
-Given(
-  'the LSP has fully indexed the vault',
-  async function (this: FlavorGrenadeWorldImpl) {
-    await this.lsp.request('flavorGrenade/awaitIndexReady', {});
-  }
-);
+Given('the LSP has fully indexed the vault', async function (this: FlavorGrenadeWorldImpl) {
+  await this.lsp.request('flavorGrenade/awaitIndexReady', {});
+});
 ```
 
 ---
@@ -278,11 +269,11 @@ When(
     const uri = this.vault.uri(relativePath);
     const content = await this.vault.readFile(relativePath);
     await this.lsp.notify('textDocument/didOpen', {
-      textDocument: { uri, languageId: 'markdown', version: 1, text: content }
+      textDocument: { uri, languageId: 'markdown', version: 1, text: content },
     });
     // Give server time to publish diagnostics
-    await new Promise(resolve => setTimeout(resolve, 50));
-  }
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  },
 );
 
 When(
@@ -293,22 +284,19 @@ When(
     this.lastResponse = await this.lsp.request('textDocument/completion', {
       textDocument: { uri },
       position,
-      context: { triggerKind: 2, triggerCharacter: trigger.slice(-1) }
+      context: { triggerKind: 2, triggerCharacter: trigger.slice(-1) },
     });
-  }
+  },
 );
 
-When(
-  'a textDocument/definition request is made',
-  async function (this: FlavorGrenadeWorldImpl) {
-    // Uses position stored by preceding Given step (cursor positioning)
-    const { uri, position } = this.currentCursorPosition;
-    this.lastResponse = await this.lsp.request('textDocument/definition', {
-      textDocument: { uri },
-      position
-    });
-  }
-);
+When('a textDocument/definition request is made', async function (this: FlavorGrenadeWorldImpl) {
+  // Uses position stored by preceding Given step (cursor positioning)
+  const { uri, position } = this.currentCursorPosition;
+  this.lastResponse = await this.lsp.request('textDocument/definition', {
+    textDocument: { uri },
+    position,
+  });
+});
 
 When(
   'a textDocument/references request is made with includeDeclaration={word}',
@@ -318,9 +306,9 @@ When(
     this.lastResponse = await this.lsp.request('textDocument/references', {
       textDocument: { uri },
       position,
-      context: { includeDeclaration: include }
+      context: { includeDeclaration: include },
     });
-  }
+  },
 );
 
 When(
@@ -330,30 +318,27 @@ When(
     this.lastResponse = await this.lsp.request('textDocument/rename', {
       textDocument: { uri },
       position,
-      newName
+      newName,
     });
-  }
+  },
 );
 
-When(
-  'a textDocument/prepareRename request is made',
-  async function (this: FlavorGrenadeWorldImpl) {
-    const { uri, position } = this.currentCursorPosition;
-    this.lastResponse = await this.lsp.request('textDocument/prepareRename', {
-      textDocument: { uri },
-      position
-    });
-  }
-);
+When('a textDocument/prepareRename request is made', async function (this: FlavorGrenadeWorldImpl) {
+  const { uri, position } = this.currentCursorPosition;
+  this.lastResponse = await this.lsp.request('textDocument/prepareRename', {
+    textDocument: { uri },
+    position,
+  });
+});
 
 When(
   'a textDocument/codeLens request is made for {string}',
   async function (this: FlavorGrenadeWorldImpl, relativePath: string) {
     const uri = this.vault.uri(relativePath);
     this.lastResponse = await this.lsp.request('textDocument/codeLens', {
-      textDocument: { uri }
+      textDocument: { uri },
     });
-  }
+  },
 );
 ```
 
@@ -375,7 +360,7 @@ Then(
     const uri = this.vault.uri(relativePath);
     const diags = this.diagnostics.get(uri) ?? [];
     expect(diags).toHaveLength(0);
-  }
+  },
 );
 
 Then(
@@ -383,9 +368,9 @@ Then(
   function (this: FlavorGrenadeWorldImpl, code: string, relativePath: string) {
     const uri = this.vault.uri(relativePath);
     const diags = this.diagnostics.get(uri) ?? [];
-    const match = diags.find(d => String(d.code) === code);
+    const match = diags.find((d) => String(d.code) === code);
     expect(match).toBeDefined();
-  }
+  },
 );
 
 Then(
@@ -393,11 +378,14 @@ Then(
   function (this: FlavorGrenadeWorldImpl, severityName: string) {
     // Severity: 1=Error 2=Warning 3=Information 4=Hint
     const severityMap: Record<string, number> = {
-      Error: 1, Warning: 2, Information: 3, Hint: 4
+      Error: 1,
+      Warning: 2,
+      Information: 3,
+      Hint: 4,
     };
     const lastDiag = this.lastMatchedDiagnostic;
     expect(lastDiag.severity).toBe(severityMap[severityName]);
-  }
+  },
 );
 
 Then(
@@ -405,18 +393,15 @@ Then(
   function (this: FlavorGrenadeWorldImpl, substring: string) {
     const lastDiag = this.lastMatchedDiagnostic;
     expect(lastDiag.message).toContain(substring);
-  }
+  },
 );
 
-Then(
-  'the diagnostic range covers {string}',
-  function (this: FlavorGrenadeWorldImpl, text: string) {
-    // Validates that the diagnostic range spans the expected text token
-    const lastDiag = this.lastMatchedDiagnostic;
-    expect(lastDiag.range).toBeDefined();
-    // Actual span check done against document content
-  }
-);
+Then('the diagnostic range covers {string}', function (this: FlavorGrenadeWorldImpl, text: string) {
+  // Validates that the diagnostic range spans the expected text token
+  const lastDiag = this.lastMatchedDiagnostic;
+  expect(lastDiag.range).toBeDefined();
+  // Actual span check done against document content
+});
 ```
 
 ### File: `src/test/steps/then/completions.steps.ts`
@@ -427,18 +412,15 @@ Then(
   function (this: FlavorGrenadeWorldImpl, label: string) {
     const result = this.lastResponse as CompletionList | CompletionItem[];
     const items = Array.isArray(result) ? result : result.items;
-    const found = items.some(i => i.label === label || i.insertText === label);
+    const found = items.some((i) => i.label === label || i.insertText === label);
     expect(found).toBe(true);
-  }
+  },
 );
 
-Then(
-  'the response field isIncomplete is true',
-  function (this: FlavorGrenadeWorldImpl) {
-    const result = this.lastResponse as CompletionList;
-    expect(result.isIncomplete).toBe(true);
-  }
-);
+Then('the response field isIncomplete is true', function (this: FlavorGrenadeWorldImpl) {
+  const result = this.lastResponse as CompletionList;
+  expect(result.isIncomplete).toBe(true);
+});
 ```
 
 ### File: `src/test/steps/then/navigation.steps.ts`
@@ -450,7 +432,7 @@ Then(
     const uri = this.vault.uri(relativePath);
     const location = this.lastResponse as Location;
     expect(location.uri).toBe(uri);
-  }
+  },
 );
 
 Then(
@@ -458,9 +440,9 @@ Then(
   function (this: FlavorGrenadeWorldImpl, linkText: string, relativePath: string) {
     const uri = this.vault.uri(relativePath);
     const refs = this.lastResponse as Location[];
-    const found = refs.some(r => r.uri === uri);
+    const found = refs.some((r) => r.uri === uri);
     expect(found).toBe(true);
-  }
+  },
 );
 ```
 
@@ -473,11 +455,9 @@ Then(
     const uri = this.vault.uri(relativePath);
     const edit = this.lastResponse as WorkspaceEdit;
     const changes = edit.changes?.[uri] ?? edit.documentChanges?.flatMap(/* ... */) ?? [];
-    const hasChange = changes.some(
-      c => c.newText === newText && /* range covers oldText */ true
-    );
+    const hasChange = changes.some((c) => c.newText === newText && /* range covers oldText */ true);
     expect(hasChange).toBe(true);
-  }
+  },
 );
 ```
 
@@ -513,15 +493,15 @@ src/test/
 
 ## Implementation Timeline
 
-| Phase | Step files added |
-|-------|-----------------|
-| Phase 0 (now) | This README |
-| Phase 2 (LSP Transport) | `support/lsp-client.ts`, `support/hooks.ts`, basic When steps for `initialize` |
-| Phase 3 (OFM Parser) | `given/vault-setup.steps.ts`, `then/ofm-index.steps.ts` |
-| Phase 4 (Vault Index) | `given/index-state.steps.ts`, `then/vault-state.steps.ts` |
-| Phase 5 (Wiki-Links) | `when/lsp-methods.steps.ts` (full), `then/diagnostics.steps.ts`, `then/navigation.steps.ts` |
-| Phase 9 (Completions) | `then/completions.steps.ts` |
-| Phase 11 (Rename) | `then/rename.steps.ts` |
+| Phase                   | Step files added                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| Phase 0 (now)           | This README                                                                                 |
+| Phase 2 (LSP Transport) | `support/lsp-client.ts`, `support/hooks.ts`, basic When steps for `initialize`              |
+| Phase 3 (OFM Parser)    | `given/vault-setup.steps.ts`, `then/ofm-index.steps.ts`                                     |
+| Phase 4 (Vault Index)   | `given/index-state.steps.ts`, `then/vault-state.steps.ts`                                   |
+| Phase 5 (Wiki-Links)    | `when/lsp-methods.steps.ts` (full), `then/diagnostics.steps.ts`, `then/navigation.steps.ts` |
+| Phase 9 (Completions)   | `then/completions.steps.ts`                                                                 |
+| Phase 11 (Rename)       | `then/rename.steps.ts`                                                                      |
 
 ---
 

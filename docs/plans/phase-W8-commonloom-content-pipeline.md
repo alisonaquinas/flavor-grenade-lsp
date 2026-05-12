@@ -1,10 +1,10 @@
 ---
 title: "Phase W8: Commonloom Content Pipeline"
 phase: W8
-status: in-review
+status: complete
 tags: [plans, website, markdown, content-pipeline, commonloom]
 aliases: [Phase W8, Commonloom Content Pipeline, Website Markdown Pipeline]
-updated: 2026-05-10
+updated: 2026-05-12
 ---
 
 # Phase W8: Commonloom Content Pipeline
@@ -13,8 +13,8 @@ updated: 2026-05-10
 |---|---|
 | Phase | W8 |
 | Title | Commonloom Content Pipeline |
-| Status | in-review |
-| Gate | Markdown copy, typed manifests, reusable Commonloom compiler, generated TypeScript records, migration, and website build gates pass |
+| Status | complete |
+| Gate | Markdown copy, typed manifests, external Commonloom package integration, generated TypeScript records, migration, and website build gates pass |
 | Depends on | Phase W7 |
 
 ## Objective
@@ -28,7 +28,7 @@ without committing generated files.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted Commonloom, typed-manifest, generated-TypeScript decision |
+| [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted external Commonloom, typed-manifest, generated-TypeScript decision |
 | [[../../website/docs/architecture/content-pipeline]] | Match the source, manifest, media, compiler, adapter, and generated output boundaries |
 | [[../../website/docs/requirements/technical/source-layout-and-documentation]] | Add the documented content directories, generated output policy, and authoring affordances |
 | [[../../website/docs/research/w8-content-pipeline-technology-research]] | Use the researched unified/remark/rehype/zod approach and avoid MDsveX/MDSX as the primary pipeline |
@@ -41,8 +41,8 @@ without committing generated files.
 - `website/src/content/media/**` as the author-owned image and attachment tree.
 - One typed `*.manifest.ts` file per page group.
 - Git-ignored `website/src/content/generated/*.generated.ts` renderer inputs.
-- A reusable Commonloom core module with no imports from Svelte, routes, or
-  Flavor Grenade product data.
+- An external `commonloom` package dependency for reusable Markdown parsing,
+  validation, source tracing, and generic content records.
 - A thin website adapter that owns route ids, page groups, media roots,
   wiki-link policy, and generated file formatting.
 - Full CommonMark plus GFM authoring support, including headings, emphasis,
@@ -56,7 +56,9 @@ without committing generated files.
 
 ### Out of Scope
 
-- Extracting Commonloom into a separate repository or npm package.
+- Maintaining Commonloom library source under
+  `website/src/content/pipeline/commonloom`.
+- Publishing or versioning the Commonloom package from this repository.
 - Runtime Markdown rendering in Svelte routes.
 - MDsveX component embedding as the primary authoring model.
 - Unbounded raw HTML passthrough.
@@ -64,10 +66,12 @@ without committing generated files.
 
 ## Architecture
 
-Commonloom is an internal TypeScript library during W8. It accepts project
+Commonloom is an external TypeScript package during W8. It accepts project
 configuration, manifests, Markdown files, and media roots, then returns validated
 content records plus diagnostics. The website adapter translates those records
 into generated TypeScript modules that preserve the existing page contracts.
+Commonloom package source, release process, and reusable API maintenance live
+outside this repository.
 
 The pipeline is intentionally data-oriented:
 
@@ -84,7 +88,7 @@ The pipeline is intentionally data-oriented:
 
 | Workstream | Deliverable |
 |---|---|
-| Core | Commonloom parser, validation contracts, diagnostics, source tracing, and media/link analysis |
+| Core | Depend on the external `commonloom` package for parser, validation contracts, diagnostics, source tracing, and media/link analysis |
 | Adapter | Website-specific route ids, manifest schema, generated TypeScript emitter, and command scripts |
 | Authoring | Markdown copy tree, frontmatter metadata, image affordances, and inline HTML policy |
 | Migration | Existing public page and article copy moved into Markdown with parity tests |
@@ -137,11 +141,14 @@ bun run lint:docs
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-276]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-277]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-278]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-279]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-100]]
+- [[plans/phase-W8-commonloom-content-pipeline/CHORE-101]]
 
 ## Related
 
@@ -156,3 +163,18 @@ bun run lint:docs
 > Phase W8 was opened after the Commonloom ADR, architecture spec, and
 > technology research selected a reusable TypeScript Markdown compiler core with
 > a thin website adapter.
+>
+> [!INFO] Updated · 2026-05-11
+> Commonloom is now published independently as the `commonloom` npm package.
+> W8 no longer requires this repository to maintain
+> `website/src/content/pipeline/commonloom`; local work is limited to package
+> integration and the Flavor Grenade website adapter.
+
+> [!SUCCESS] Package boundary executed · 2026-05-12
+> TASK-279 removed `website/src/content/pipeline/commonloom`, switched website
+> imports to `commonloom@0.1.0`, and passed the full local W8 gate. Phase W8 is
+> in PR review pending PR #65 CI confirmation.
+
+> [!SUCCESS] Completed · 2026-05-12
+> PR #65 CI run `25705556117` passed after the package-boundary removal.
+> Phase W8 is complete with no local Commonloom source remaining.

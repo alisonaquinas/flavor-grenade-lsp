@@ -2,38 +2,38 @@
 title: "Vault Index | Flavor Grenade LSP"
 description: "Understand how Flavor Grenade indexes vault documents, attachments, tags, and links."
 h1: "Vault Index"
-summary: "The vault index is the source of truth for documents, attachments, links, and tags."
+summary: "The vault index is Flavor Grenade’s map of the notes, links, tags, and files in your vault."
 related: ["conceptDocIdVaultRelativePaths","conceptCompletions","howToConfigureObsidianVaults"]
 ---
 
 # Vault Index
 
-The vault index is the source of truth for documents, attachments, links, and tags.
+The vault index is Flavor Grenade’s map of the notes, links, tags, and files in your vault.
 
-## Compact definition
+## In plain English
 
-The vault index stores parsed OFM documents and attachment metadata so completions, diagnostics, navigation, references, and rename agree.
+The index is the shared map behind the editor features. Completion, diagnostics, navigation, references, and rename all work better when they read from the same picture of the vault.
 
-The index is the shared model behind the user-facing features. If diagnostics, completion, references, and rename do not read the same indexed facts, they can contradict each other.
+Without that shared map, one feature might think a note exists while another feature cannot find it.
 
-## Vault example
+## In a vault
 
-Use this example as the public vocabulary for humans and LLM maintainers.
-
-The example shows a note becoming a DocId plus attached facts. Those facts are what make `[[Project Plan]]`, tags, and embeds available to multiple LSP features.
+This example shows one note becoming a stable identity plus the facts Flavor Grenade can use: links, tags, and embeds.
 
 ```text
 notes/Daily.md -> DocId notes/Daily -> [[Project Plan]], #project/flavor-grenade, ![[diagram.png]].
 ```
 
-## For LLM maintainers
+## For future docs
 
-Do not describe feature-local caches as alternate truth; new features should read from the shared vault model.
+Do not describe each feature as building its own private version of the vault. If a behavior needs parsed note data, describe it as coming from the index or from something derived from the index.
 
-Avoid writing docs that invent a second cache or feature-specific graph. If a behavior needs parsed document state, describe it as coming from the vault index or a service derived from it.
+## Try this
 
-## Practical check
+Add a note, wait for completion to offer it, then navigate to it or fix a link that points to it. If those features disagree about the same note, the first place to look is the shared index.
 
-A simple index check is to add a note, wait for completion to offer it, then rename or fix a link that targets it. If completion, diagnostics, references, and rename disagree about the same note, the documentation should point maintainers back to the shared index rather than treating the disagreement as four unrelated feature bugs.
+When the index is right, the features can agree. When it is incomplete, the fix usually starts with root detection, scanning, parsing, or ignored files.
 
-The reader should understand the index as the central reliability contract. When the index is correct, features can agree; when it is wrong or incomplete, the right fix usually starts with vault detection, scanning, parsing, or derived registries.
+That is why many troubleshooting steps start with the same few questions: did VS Code open the vault root, did indexing finish, and is the note ignored? Those checks may sound simple, but they explain a surprising number of missing completions, stale diagnostics, and empty reference lists. The index is the shared starting point.
+
+For users, the index should mostly be invisible. You notice it only when it is still warming up, looking at the wrong folder, or skipping a file you expected it to read.

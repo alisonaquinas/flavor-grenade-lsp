@@ -121,10 +121,10 @@ Markdown copy plus page-group manifests.
 ## Reusable Library Boundary
 
 The Markdown compilation and validation logic should be isolated as
-**Commonloom**, a reusable TypeScript library or assembly. The Flavor Grenade
-website should provide configuration, manifests, copy files, media files, and
-renderer-specific output templates; Commonloom should provide the generic
-content pipeline.
+**Commonloom**, a reusable TypeScript package published outside this repository.
+The Flavor Grenade website should provide configuration, manifests, copy files,
+media files, and renderer-specific output templates; the `commonloom` package
+should provide the generic content pipeline.
 
 Reusable library responsibilities:
 
@@ -151,19 +151,19 @@ Grenade product data. Its public API should accept configuration and callbacks
 for project-specific route resolution, image root approval, and generated
 output formatting.
 
-Initial in-repository placement is under
-`website/src/content/pipeline/commonloom` while W8 proves the API. Website
-specific glue lives under `website/src/content/pipeline/website`. The
-implementation should keep module boundaries clean enough to extract
-Commonloom later into a separate repository or workspace package after the
-approach is proven.
+The reusable Commonloom source is not maintained under
+`website/src/content/pipeline/commonloom`. Website-specific glue lives under
+`website/src/content/pipeline/website` and imports the published `commonloom`
+package. Local source should contain only Flavor Grenade-specific adapter,
+manifest, command, and generated-output code.
 
 ## Selected Tooling
 
-The reusable pipeline should use mature open-source Markdown building blocks
-instead of a Svelte or Vite Markdown component plugin.
+The reusable pipeline should come from the published `commonloom` package,
+which is built on mature open-source Markdown building blocks instead of a
+Svelte or Vite Markdown component plugin.
 
-Required libraries:
+The external package is expected to provide behavior backed by:
 
 - `unified`
 - `remark-parse`
@@ -178,7 +178,7 @@ Required libraries:
 - `hast-util-to-string`
 - `zod`
 
-Recommended optional libraries:
+Optional package-backed behavior:
 
 - `rehype-slug` or `github-slugger` for heading ids
 - `shiki` for syntax highlighting if W8 includes highlighted code blocks

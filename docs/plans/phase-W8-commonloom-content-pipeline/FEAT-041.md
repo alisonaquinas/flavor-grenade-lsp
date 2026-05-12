@@ -2,11 +2,11 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W8
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-12"
 dependencies: ["FEAT-040"]
 tags: [tickets/feature, "phase/W8", website, markdown, commonloom]
 aliases: ["FEAT-041"]
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -26,7 +26,7 @@ deterministic TypeScript content modules for the Svelte website.
 
 **In scope:**
 
-- Commonloom internal TypeScript compiler core.
+- External `commonloom` package integration.
 - Thin website adapter for route ids, page groups, media roots, and generated
   TypeScript formatting.
 - `website/src/content/copy`, `website/src/content/media`, typed manifests, and
@@ -40,7 +40,8 @@ deterministic TypeScript content modules for the Svelte website.
 
 **Out of scope:**
 
-- Separate Commonloom repository or package publication.
+- Maintaining, publishing, or versioning Commonloom package source from this
+  repository.
 - Runtime Markdown rendering in routes.
 - MDsveX component islands.
 - Author-facing content management UI.
@@ -54,8 +55,8 @@ deterministic TypeScript content modules for the Svelte website.
   local links, unsafe inline HTML, missing images, duplicate ids, or stale output.
 - [x] Website pages consume generated TypeScript records without route-level
   knowledge of Markdown parsing.
-- [x] Commonloom has no direct dependency on Svelte, website route modules, or
-  Flavor Grenade product data.
+- [x] The website adapter consumes Commonloom without recreating local
+  `website/src/content/pipeline/commonloom` source.
 - [x] Existing W7 public routes and content render without intentional loss.
 - [x] Website lint, typecheck, tests, build, and docs lint pass.
 
@@ -71,6 +72,10 @@ See [[index]] for the complete ticket list.
   TypeScript records.
 - [[CHORE-099]] records final merge and CI evidence before W8 is marked
   complete.
+- [[CHORE-100]] audits W8 against phase execution Rules 1-5 and Steps A-L.
+- [[CHORE-101]] records the required Step M retrospective after final evidence.
+- [[TASK-279]] removes the remaining local Commonloom source and verifies the
+  published package boundary.
 
 ## Workflow Log
 
@@ -81,6 +86,10 @@ See [[index]] for the complete ticket list.
 > [!INFO] Lifecycle normalized · 2026-05-10
 > Replaced invalid `planned` status with lifecycle state `draft` before Step
 > A-C ticket readiness work.
+
+> [!INFO] Started · 2026-05-10
+> TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.
+> Status: `in-progress`.
 
 > [!INFO] Ready · 2026-05-10
 > Step A-C readiness details are recorded across child tickets: exact file
@@ -102,6 +111,70 @@ See [[index]] for the complete ticket list.
 > acceptance criterion is satisfied locally; FEAT-041 remains `in-review`
 > pending CHORE-099 merge and CI evidence.
 
-> [!INFO] Started · 2026-05-10
-> TASK-267 moved to `red` with failing Commonloom tooling scaffold tests.
+> [!INFO] External package update · 2026-05-11
+> Commonloom is now published independently as `commonloom`. Future W8
+> requirements in this repository are limited to package integration and the
+> Flavor Grenade website adapter; local Commonloom source maintenance no longer
+> applies.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-11.
+
+### What went as planned
+
+Markdown copy, typed manifests, generated TypeScript records, and website
+renderer facades all converged on the W8 architecture. The website gate passed
+locally with `npm run content:generate`, `npm run content:check`,
+`npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and
+`bun run lint:docs`; PR #64 also merged into `develop` with green CI.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-100 | Chore | W8 needed an explicit operational compliance audit after tickets were already in review. | +0.5 h |
+| CHORE-101 | Chore | Step M was not represented as a dedicated ticket until closeout. | +0.3 h |
+| CHORE-099 | Chore | Final closeout originally ran before the retrospective dependency was explicit. | +0.2 h |
+| TASK-279 | Task | User review found local Commonloom source still present after package-boundary requirements changed. | +0.7 h |
+| — | Scope change | Commonloom was published independently, so local Commonloom source maintenance was removed from this repository's W8 requirements. | -0.5 h |
+
+### Process observations
+
+The A-M checklist caught useful closeout gaps, but W8 website phases need
+dedicated operational chores at planning time, not at the end. Package boundary
+changes should trigger a specification sweep before final ticket closure.
+
+### Carry-forward actions
+
+- [ ] Add phase-execution compliance and retrospective chores when opening the
+  next website phase.
+- [ ] Treat external package publication as a requirements-changing event that
+  updates ADRs, requirements, architecture, research, plans, and ticket scopes
+  together.
+
+### Rule / template amendments
+
+- [ ] Consider updating the website phase planning template so Step M and the
+  phase-execution compliance audit are present before implementation starts.
+
+> [!SUCCESS] Phase closed · 2026-05-11
+> All W8 tasks and chores are terminal, PR #64 merged into `develop` with green
+> CI, current branch local gates passed, and the W8 retrospective is recorded.
+> Status: `done`.
+
+> [!WARNING] Reopened · 2026-05-12
+> User review found `website/src/content/pipeline/commonloom` still present.
+> Added TASK-279 to remove local Commonloom source and re-entered W8 execution.
 > Status: `in-progress`.
+
+> [!SUCCESS] Package boundary complete · 2026-05-12
+> TASK-279 deleted `website/src/content/pipeline/commonloom`, moved website
+> pipeline imports to the published `commonloom` package, and passed the full
+> W8 local gate. FEAT-041 is back in PR review pending PR #65 CI. Status:
+> `in-review`.
+
+> [!SUCCESS] Phase closed after TASK-279 · 2026-05-12
+> PR #65 CI run `25705556117` passed after TASK-279 and the local Commonloom
+> source removal. All W8 tickets are terminal and the external package boundary
+> is complete. Status: `done`.

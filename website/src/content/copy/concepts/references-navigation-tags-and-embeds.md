@@ -2,39 +2,38 @@
 title: "References, Navigation, Tags, and Embeds | Flavor Grenade LSP"
 description: "See how references, navigation, tags, highlights, and embeds share one vault graph."
 h1: "References, Navigation, Tags, and Embeds"
-summary: "See how references, navigation, tags, highlights, and embeds share one vault graph."
+summary: "References, navigation, tags, highlights, and embeds all use the same local picture of the vault."
 related: ["conceptVaultIndex","conceptCompletions","features"]
 ---
 
 # References, Navigation, Tags, and Embeds
 
-See how references, navigation, tags, highlights, and embeds share one vault graph.
+References, navigation, tags, highlights, and embeds all use the same local picture of the vault.
 
-## Compact definition
+## In plain English
 
-References, definitions, highlights, tags, and embeds read from the same indexed OFM graph so editor actions stay consistent.
+These features look different in the editor, but they all depend on the same indexed vault. That shared map keeps them from disagreeing about notes, tags, and files.
 
-These features are different views over the same graph. References ask who points here, navigation asks where this points, tags group notes, and embeds name local attachments or documents.
+References ask “who points here?” Navigation asks “where does this point?” Tags group notes. Embeds name local files or notes.
 
-## Vault example
+## In a vault
 
-Use this example as the public vocabulary for humans and LLM maintainers.
-
-The example mixes a tag, note link, and embed because real vault workflows do the same. The server should keep those relationships consistent across editor actions.
+This example mixes a tag, note link, and embed because real vault notes often do the same.
 
 ```text
 #project/flavor-grenade, [[Daily Note]], and ![[diagram.png]] are indexed together for navigation and lookup.
 ```
 
-## For LLM maintainers
+## For future docs
 
-Explain these features as different views over shared vault data, not as unrelated parsers.
+Explain these features as different views over shared vault data, not as unrelated parsers. Use the same vocabulary in tickets and public prose so future edits preserve that shared model.
 
-When adding feature docs, link back to the shared graph model. Avoid presenting each editor action as if it parses OFM independently.
-Use the same vocabulary in tickets and public prose so future edits preserve that shared model.
-
-## Practical check
+## Try this
 
 A combined check is to create a note with one tag, one wiki link, and one embed, then use navigation and references from each token. The results should feel like different views over the same vault facts. When docs describe those workflows, they should preserve that consistency instead of making each feature sound like a separate parser.
 
-The reader should see tags, embeds, references, and navigation as connected editor behaviors. That framing helps both users and LLM agents predict why a fix in the vault model can improve several features at once instead of chasing isolated symptoms in separate pages.
+The reader should see tags, embeds, references, and navigation as connected editor behaviors. A fix in the shared vault model can improve several of them at once.
+
+That shared view also makes bugs easier to explain. If navigation and references disagree about the same link, the problem is probably not two unrelated features failing at the same time. It is more likely that the indexed vault facts, link resolution, or ignored-file boundary needs a closer look.
+
+For day-to-day use, this means one good vault model can make several editor actions feel calmer and more predictable.

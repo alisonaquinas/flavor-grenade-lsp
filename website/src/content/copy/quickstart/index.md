@@ -1,30 +1,34 @@
 ---
 title: "Quickstart | Flavor Grenade LSP"
-description: "Install Flavor Grenade LSP and verify Obsidian Flavored Markdown features in VS Code."
+description: "Install Flavor Grenade LSP through VS Code or the npm language-server package, then try a small vault workflow."
 h1: "Quickstart"
-summary: "Install the VS Code extension, open an Obsidian Vault folder, and verify that Flavor Grenade LSP is serving OFMarkdown features."
-related: ["howToVsCodeExtension","concepts","faq"]
+summary: "Start with the VS Code extension if you want the smooth path, or use the npm package when you are wiring Flavor Grenade into another LSP-capable editor."
+related: ["howToVsCodeExtension","advancedDirectLspIntegration","faq"]
 ---
 
 # Quickstart
 
-Install the VS Code extension, open an Obsidian Vault folder, and verify that Flavor Grenade LSP is serving OFMarkdown features.
+Start with the VS Code extension if you want the smooth path, or use the npm package when you are wiring Flavor Grenade into another LSP-capable editor.
 
 ## Prerequisites
 
-Use the recommended VS Code extension path when you want the fastest setup. Direct LSP server use is for advanced editor integrations.
+Start with the VS Code extension if you want the smoothest setup. It packages the language server, starts it for trusted file-system workspaces, shows server status, and handles the normal vault open flow for you.
 
-Before installing anything, decide whether you want VS Code to manage the server for you or whether you are wiring the language server into another editor. The VS Code path is friendlier; the npm server path is lower-level and expects you to provide LSP client configuration.
+Use the npm package when you are setting up a direct LSP client. That path fits editors or tools that can launch a stdio language server, send the normal LSP initialize request, and provide a useful vault root through `rootUri` or workspace folders.
 
-- VS Code installed on Windows, macOS, Linux, WSL, SSH, or Dev Container.
-- An Obsidian Vault folder or Markdown workspace that uses Obsidian-style links.
-- A note you can edit, such as notes/Daily Note.md.
+- Use the VS Code extension for the easiest first run.
+- Use the npm package for Neovim, Helix, custom editor clients, or test harnesses that already know how to speak LSP.
+- In both paths, open or point at the folder that contains `.obsidian/` or `.flavor-grenade.toml`.
 
-## Install from the Visual Studio Marketplace
+## Option 1: VS Code extension
 
-Install Flavor Grenade LSP from the Visual Studio Marketplace, then reload VS Code if prompted. The Marketplace link is included in this page so you can use the canonical extension listing instead of searching by hand.
+Install Flavor Grenade LSP from the Visual Studio Marketplace when you want VS Code to own setup and activation. After installation, open the actual Obsidian Vault folder instead of a parent workspace or one loose file.
 
-After installation, open the actual Obsidian Vault folder. Opening a parent workspace can make vault-relative paths ambiguous, while opening a single loose file can prevent vault-wide features from turning on.
+That folder choice matters. Flavor Grenade resolves wiki links, tags, embeds, and Markdown links relative to the vault root, so the right folder makes completion, navigation, diagnostics, references, and rename agree.
+
+### Install from the Visual Studio Marketplace
+
+Install [Flavor Grenade LSP from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp), then reload VS Code if prompted.
 
 ### Open an Obsidian Vault folder
 
@@ -32,13 +36,46 @@ Use File > Open Folder and choose the folder that contains `.obsidian/` or `.fla
 
 ### Confirm OFMarkdown activation
 
-Open a Markdown note in the vault and confirm the language mode becomes OFMarkdown while the server status is ready.
+Open a Markdown note in the vault. The language mode should become OFMarkdown, and the Flavor Grenade server status should settle into a ready state after indexing.
 
-## Verify the first vault workflow
+```text
+MyVault/
+  .obsidian/
+  Notes/
+    Daily Note.md
+```
 
-Create a note with a real local reference, then use completion, navigation, references, rename, and diagnostics in one pass.
+## Option 2: npm language-server package
 
-A good first check deliberately mixes one valid target with one missing target. That lets you see both sides of the server: successful vault lookup and conservative diagnostics when a local reference cannot be resolved.
+Install the npm package when another editor or tool will launch the language server directly. The package exposes the `flavor-grenade-lsp` command, which communicates over stdin and stdout using standard LSP messages.
+
+This is not an interactive terminal app. If you run it by hand, it will wait for an LSP client to send protocol messages. In a real setup, your editor starts the command and passes the vault root during initialization.
+
+### Install locally
+
+Install the package in the workspace where your editor integration expects to find it.
+
+### Try the latest package with npx
+
+Use `npx` when you want a quick client command without pinning the package yet.
+
+### Point your LSP client at the vault
+
+Configure your client to launch `flavor-grenade-lsp` and send a `rootUri` or workspace folder for the vault. Without a usable root, Flavor Grenade falls back to a quieter single-file mode.
+
+```text
+npm install --save-dev flavor-grenade-lsp
+npx flavor-grenade-lsp
+
+command: flavor-grenade-lsp
+rootUri: file:///Users/alex/MyVault
+```
+
+## Try one tiny vault workflow
+
+Create or open a note with one real local reference and one intentionally missing reference. This small example shows both sides of the tool: helpful suggestions for things that exist and a broken-link diagnostic for something that does not.
+
+You do not need a complicated vault to test the basics. A couple of notes are enough to prove that completion, navigation, references, rename, and diagnostics are all reading the same local context.
 
 - Type `[[` and choose a completion from the indexed Obsidian Vault.
 - Navigate to `[[Daily Note]]`, find references, then rename a heading or note.
@@ -50,6 +87,6 @@ A good first check deliberately mixes one valid target with one missing target. 
 
 ## Troubleshooting
 
-If activation does not happen, check workspace trust, the selected language mode, the extension status, and whether the opened folder is the vault root.
+If the VS Code extension does not activate, check workspace trust, the selected language mode, the extension status, and whether you opened the vault root.
 
-If completion works but diagnostics do not, give the initial index a moment to finish and verify that the target file is inside the vault. If diagnostics work but rename is skipped, the reference may be ambiguous or outside the supported local target set.
+If direct npm usage does not behave like vault mode, check that the client is actually launching `flavor-grenade-lsp`, using stdio transport, and sending a `rootUri` or workspace folder that points at the vault. If completion works but diagnostics do not, give the first index a moment to finish and make sure the target file is inside the vault.

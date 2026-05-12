@@ -1,9 +1,7 @@
 import { z } from 'zod';
 import { describe, expect, it } from 'vitest';
 
-import { renderMarkdownHtml } from '../src/content/pipeline/commonloom/html';
-import { parseMarkdown } from '../src/content/pipeline/commonloom/markdown';
-import { createSourceTrace } from '../src/content/pipeline/commonloom/source-trace';
+import { createSourceTrace, parseMarkdown, renderMarkdownHtml } from 'commonloom';
 
 const frontmatterSchema = z.object({
   title: z.string(),

@@ -2,12 +2,12 @@
 id: "TASK-270"
 title: "Sanitize HTML and source trace content"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["TASK-269"]
 tags: [tickets/task, "phase/W8", website, html, diagnostics]
 aliases: ["TASK-270"]
@@ -15,7 +15,7 @@ aliases: ["TASK-270"]
 
 # Sanitize HTML And Source Trace Content
 
-> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-270` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -24,8 +24,8 @@ allowlist and preserving source trace data for generated records.
 
 ## Work Scope
 
-- Enable inline HTML parsing through the unified/rehype pipeline.
-- Apply the approved `rehype-sanitize` schema.
+- Use Commonloom package support for inline HTML parsing and sanitization.
+- Apply the approved sanitizer policy through package configuration.
 - Reject or strip disallowed tags and attributes with diagnostics.
 - Record source Markdown path, manifest path, content hash, headings, links,
   image references, and line numbers where available.
@@ -34,26 +34,12 @@ allowlist and preserving source trace data for generated records.
 
 Create or modify:
 
-- `website/src/content/pipeline/commonloom/html.ts`
-- `website/src/content/pipeline/commonloom/hash.ts`
-- `website/src/content/pipeline/commonloom/source-trace.ts`
+- `website/src/content/pipeline/website/**`
 - `website/tests/content-pipeline-html.test.ts`
 
-HTML API:
-
-```ts
-export interface RenderHtmlInput {
-  parsed: ParsedMarkdown<unknown>;
-  allowHtml: boolean;
-}
-
-export interface RenderHtmlResult {
-  bodyHtml: string;
-  diagnostics: CommonloomDiagnostic[];
-}
-
-export async function renderMarkdownHtml(input: RenderHtmlInput): Promise<RenderHtmlResult>;
-```
+HTML rendering and source-trace API shapes are package-owned. Local code should
+import them from `commonloom` instead of redefining reusable modules under
+`website/src/content/pipeline/commonloom`.
 
 Inline HTML is allowed only through the project sanitizer schema. Unsafe tags
 and attributes must produce `HTML_UNSAFE` diagnostics and must not reach
@@ -101,3 +87,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added `renderMarkdownHtml`, source hashing, and source trace helpers. Verified
 > with `npm test -- --run content-pipeline`, `npm run lint`, and
 > `npm run typecheck`. Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.

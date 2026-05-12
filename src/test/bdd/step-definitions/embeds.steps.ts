@@ -136,7 +136,7 @@ Then(
  */
 Then(
   'the embed {string} is recognized as a sized image embed',
-  function (this: FGWorld, _embedText: string) {
-    return 'pending';
+  function (this: FGWorld, embedText: string) {
+    expect(embedText).toMatch(/^!\[\[[^|\]]+\|\d+\]\]$/);
   },
 );

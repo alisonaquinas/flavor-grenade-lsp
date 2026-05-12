@@ -2,19 +2,19 @@
 title: "Advanced Usage | Flavor Grenade LSP"
 description: "Advanced configuration, indexing, confinement, parser, and direct-LSP integration notes."
 h1: "Advanced Usage"
-summary: "Advanced usage covers direct LSP behavior, compatibility, and configuration details."
+summary: "Advanced pages explain the boundaries you may need when configuring, integrating, or troubleshooting Flavor Grenade."
 related: ["advancedConfigurationModel","advancedVaultSingleFileMode","advancedDirectLspIntegration"]
 ---
 
 # Advanced Usage
 
-Advanced usage covers direct LSP behavior, compatibility, and configuration details.
+Advanced pages explain the boundaries you may need when configuring, integrating, or troubleshooting Flavor Grenade.
 
-## Advanced topics
+## Where to go next
 
-Configuration model, Vault mode and single-file mode, Indexing and performance, Unsupported URI schemes, Opaque regions, and direct LSP compatibility each have a focused article.
+These pages are for readers who need more than the happy path: Configuration model details, Vault mode and single-file mode, Indexing and performance, Unsupported URI schemes, Opaque regions, and direct language-server integration.
 
-These pages are written for people who are maintaining the tool, integrating the server outside VS Code, or asking an LLM to modify a Karpathy-style LLM wiki without inventing behavior. Each article starts from the actual boundary the server depends on, then shows a small example that can be checked in a vault.
+Each article explains the boundary in plain English first, then gives a small example you can check in a vault.
 
 - [Configuration Model](/advanced-usage/configuration-model/) - Understand VS Code settings, vault markers, document extensions, and server options.
 - [Vault Mode and Single-file Mode](/advanced-usage/vault-mode-and-single-file-mode/) - Compare vault-wide behavior with the conservative single-file fallback mode.
@@ -25,9 +25,9 @@ These pages are written for people who are maintaining the tool, integrating the
 
 ## Current behavior and planned behavior
 
-Current behavior is strongest in the VS Code extension and local LSP server. Planned behavior includes richer static website delivery and broader public docs, not unsupported editor claims.
+Current behavior is strongest in the VS Code extension and local language server. Planned behavior includes richer website delivery and broader public docs, not promises that every editor works out of the box.
 
-When a page describes direct LSP clients, read it as integration guidance rather than a promise that every editor works out of the box. The server speaks LSP, but non-VS-Code clients still own launch, root selection, transport, and file watching details.
+When a page describes direct LSP clients, read it as integration guidance. The server speaks LSP, but non-VS-Code clients still own launch, root selection, transport, and file watching.
 
-- Current behavior: VS Code extension, direct server, vault-aware OFM features.
+- Current behavior: VS Code extension, direct server use, and vault-aware Markdown features.
 - Planned behavior: deeper public docs and deployment automation.

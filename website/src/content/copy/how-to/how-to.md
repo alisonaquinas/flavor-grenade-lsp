@@ -2,22 +2,22 @@
 title: "How-to Guides | Flavor Grenade LSP"
 description: "Task-focused guides for using Flavor Grenade with Obsidian Vaults and VS Code."
 h1: "How-to Guides"
-summary: "Task-focused guides collect install, configuration, diagnostics, navigation, completion, references, tags, rename, and opaque-region workflows."
+summary: "Pick a practical guide when you want to get one specific vault task working in VS Code."
 related: ["howToVsCodeExtension","howToCompleteWikiLinksHeadings","howToRenameNotesSafely"]
 ---
 
 # How-to Guides
 
-Task-focused guides collect install, configuration, diagnostics, navigation, completion, references, tags, rename, and opaque-region workflows.
+Pick a practical guide when you want to get one specific vault task working in VS Code.
 
 ## Choose a workflow
 
-Use these pages when you want a concrete result in an Obsidian Vault before reading the concept wiki.
+Start here when you want to do something concrete: install the extension, fix a broken link, jump through a wiki link, rename a heading, or understand why an example is being ignored.
 
-- Install and activate the VS Code extension from the Visual Studio Marketplace.
-- Complete wiki-links and headings from indexed vault notes.
+- Install and activate the VS Code extension.
+- Complete wiki-links and headings from notes in your vault.
 - Navigate notes, headings, blocks, embeds, and attachments.
-- Rename notes and headings safely inside the vault boundary.
+- Rename notes and headings safely without rewriting unrelated text.
 - Fix broken links with diagnostics and code actions.
 
 - [Use the VS Code Extension](/how-to/use-vscode-extension/) - Install and activate the Flavor Grenade VS Code extension for Obsidian Vault workflows.
@@ -32,4 +32,4 @@ Use these pages when you want a concrete result in an Obsidian Vault before read
 
 ## Workflow groups
 
-Start with setup, then use task pages for links, navigation, rename, diagnostics, tags, callouts, math, comments, frontmatter, and Templater-aware parsing.
+Setup guides are the best first stop. After that, choose the page that matches the work in front of you: links, navigation, rename, diagnostics, tags, or examples that should stay quiet inside code and template regions.

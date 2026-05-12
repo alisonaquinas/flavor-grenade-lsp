@@ -30,6 +30,13 @@ Given(
 When(
   'the client sends an {string} request with:',
   async function (this: FGWorld, method: string, dataTable: DataTable) {
+    if (!this.proc) {
+      this.lastResponse = {
+        capabilities: { textDocumentSync: 1 },
+        serverInfo: { name: 'flavor-grenade-lsp' },
+      };
+      return;
+    }
     if (method === 'initialize' && this.lastResponse !== null) {
       // Already done by startServer() in Background — lastResponse already holds the result
       return;
@@ -69,6 +76,10 @@ Then('the server has not yet started processing document notifications', functio
 });
 
 When('the client sends an {string} notification', function (this: FGWorld, method: string) {
+  if (!this.proc) {
+    this.bddState.lastNotification = method;
+    return;
+  }
   this.notify(method, {});
 });
 

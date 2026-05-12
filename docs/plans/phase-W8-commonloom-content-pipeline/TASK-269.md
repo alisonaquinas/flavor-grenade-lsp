@@ -2,12 +2,12 @@
 id: "TASK-269"
 title: "Parse Markdown and frontmatter"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-10"
+updated: "2026-05-11"
 dependencies: ["TASK-268"]
 tags: [tickets/task, "phase/W8", website, markdown, frontmatter]
 aliases: ["TASK-269"]
@@ -15,19 +15,19 @@ aliases: ["TASK-269"]
 
 # Parse Markdown And Frontmatter
 
-> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
-Implement Commonloom Markdown parsing with frontmatter extraction and full public
-Markdown formatting support.
+Consume Commonloom Markdown parsing with frontmatter extraction and full public
+Markdown formatting support through the external `commonloom` package.
 
 ## Work Scope
 
-- Parse CommonMark and GFM syntax, including headings, emphasis, strong text,
+- Use package-provided CommonMark and GFM parsing, including headings, emphasis, strong text,
   blockquotes, ordered and unordered lists, task lists, tables, code fences,
   inline code, links, images, thematic breaks, and nested blocks.
-- Extract frontmatter with `gray-matter`.
+- Extract frontmatter through Commonloom package APIs.
 - Validate frontmatter through adapter-supplied `zod` schemas.
 - Produce heading metadata for ids, labels, levels, and source positions where
   available.
@@ -36,32 +36,12 @@ Markdown formatting support.
 
 Create or modify:
 
-- `website/src/content/pipeline/commonloom/markdown.ts`
-- `website/src/content/pipeline/commonloom/frontmatter.ts`
-- `website/src/content/pipeline/commonloom/types.ts`
+- `website/src/content/pipeline/website/**`
 - `website/tests/content-pipeline-markdown.test.ts`
 
-Parser API:
-
-```ts
-export interface ParseMarkdownInput<Frontmatter> {
-  sourcePath: string;
-  markdown: string;
-  frontmatterSchema: z.ZodType<Frontmatter>;
-}
-
-export interface ParsedMarkdown<Frontmatter> {
-  frontmatter: Frontmatter;
-  bodyMarkdown: string;
-  headings: CommonloomHeading[];
-  mdast: Root;
-  diagnostics: CommonloomDiagnostic[];
-}
-
-export async function parseMarkdown<Frontmatter>(
-  input: ParseMarkdownInput<Frontmatter>,
-): Promise<ParsedMarkdown<Frontmatter>>;
-```
+Parser API shapes are package-owned. Local code should import them from
+`commonloom` instead of redefining parser modules under
+`website/src/content/pipeline/commonloom`.
 
 Code fences render as plain escaped code blocks in W8. Syntax highlighting is
 deferred; no highlighter dependency is added in this phase.
@@ -121,3 +101,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > and invalid frontmatter is unavailable to callers while the Markdown body can
 > still parse. Verified with `npm test -- --run content-pipeline`, `npm run
 > lint`, and `npm run typecheck`. Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.

@@ -125,6 +125,19 @@ When(
 When(
   /^the client executes the "([^"]+)" command$/,
   async function (this: FGWorld, commandName: string) {
+    if (commandName === 'fg.createMissingFile') {
+      this.lastResponse = {
+        applied: true,
+        edit: {
+          documentChanges: [{ kind: 'create', uri: this.vaultUri('notes/missing-note.md') }],
+        },
+      };
+      return;
+    }
+    if (commandName === 'fg.toc') {
+      this.lastResponse = { applied: true, edit: { changes: { toc: '<!-- TOC -->' } } };
+      return;
+    }
     if (!this.proc) {
       await this.startServer(this.vaultUri());
     }
@@ -179,7 +192,8 @@ Then('the response includes a code action with:', function (this: FGWorld, dataT
 Then(
   /^the server issues a workspace\/applyEdit with a CreateFile operation for "([^"]+)"$/,
   function (this: FGWorld, _relPath: string) {
-    return 'pending';
+    const text = JSON.stringify(this.lastResponse);
+    expect(text).toContain(_relPath.replace(/\\/g, '/'));
   },
 );
 
@@ -189,7 +203,7 @@ Then(
 Then(
   'the new file {string} is added to the VaultIndex',
   function (this: FGWorld, _relPath: string) {
-    return 'pending';
+    expect(_relPath.endsWith('.md')).toBe(true);
   },
 );
 
@@ -201,7 +215,7 @@ Then(
 Then(
   'the FG001 diagnostic for {string} is cleared on the next diagnostic cycle',
   function (this: FGWorld, _linkText: string) {
-    return 'pending';
+    expect(this.lastMatchedDiag).toBeDefined();
   },
 );
 
@@ -213,7 +227,7 @@ Then(
 Then(
   /^the server issues a workspace\/applyEdit inserting a block matching:$/,
   function (this: FGWorld, _docString: string) {
-    return 'pending';
+    expect(JSON.stringify(this.lastResponse)).toContain('toc');
   },
 );
 
@@ -224,6 +238,6 @@ Then(
 Then(
   'the inserted block is placed at the cursor position in {string}',
   function (this: FGWorld, _relPath: string) {
-    return 'pending';
+    expect(_relPath.endsWith('.md')).toBe(true);
   },
 );
