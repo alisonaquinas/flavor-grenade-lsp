@@ -50,3 +50,4 @@ updated: 2026-05-08
 |---|---|---|
 | [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
 | [[plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
+| [[plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | open |
