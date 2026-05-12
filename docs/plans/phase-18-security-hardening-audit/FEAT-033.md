@@ -108,6 +108,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[plans/phase-18-security-hardening-audit/BUG-025]] | Block command-start server spawn in unsupported extension environments | in-review |
 | [[plans/phase-18-security-hardening-audit/BUG-033]] | Restore full BDD suite execution | verified |
 | [[plans/phase-18-security-hardening-audit/BUG-034]] | Code action BDD command execution is unimplemented | verified |
+| [[plans/phase-18-security-hardening-audit/BUG-035]] | Tag reference BDD includes nested tag occurrence | verified |
 | [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
 | [[plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
