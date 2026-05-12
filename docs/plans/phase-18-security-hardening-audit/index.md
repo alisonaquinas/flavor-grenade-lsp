@@ -36,3 +36,9 @@ updated: 2026-05-08
 | Ticket | Title | Status |
 |---|---|---|
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
+
+## Verification Tasks
+
+| Ticket | Title | Status |
+|---|---|---|
+| [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | red |
