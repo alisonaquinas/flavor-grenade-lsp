@@ -99,3 +99,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > steps), extension compile/unit/host/marketplace/package-target checks, and
 > website lint/typecheck/test/build. Awaiting PR CI evidence.
 > Status: `in-review`.
+
+> [!WARNING] CI findings · 2026-05-12
+> PR #65 run `25708443397` failed the expanded `Extension checks` and `BDD
+> scenarios` jobs. Tracked as [[BUG-040]] and [[BUG-041]] before fixes.
+> Status: `in-review`.

@@ -36,6 +36,8 @@ updated: 2026-05-08
 | [[plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | `Extension.Tests.HostCoverage` |
 | [[plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | `CICD.Workflow.PRGate` |
 | [[plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | `CICD.Workflow.BDDGate` |
+| [[plans/phase-18-security-hardening-audit/BUG-040]] | Extension CI package-target check lacks bundled server binary | `CICD.Workflow.PRGate`, `Extension.Packaging.TargetBinaryValidation` |
+| [[plans/phase-18-security-hardening-audit/BUG-041]] | BDD file watcher scenario fails on Linux CI precondition | `CICD.Workflow.BDDGate` |
 
 ## Chores
 
