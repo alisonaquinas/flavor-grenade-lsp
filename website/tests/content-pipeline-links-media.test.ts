@@ -4,9 +4,7 @@ import { join } from 'node:path';
 import { z } from 'zod';
 import { describe, expect, it } from 'vitest';
 
-import { extractMarkdownReferences, resolveLinkReferences } from '../src/content/pipeline/commonloom/links';
-import { validateMediaReference } from '../src/content/pipeline/commonloom/media';
-import { parseMarkdown } from '../src/content/pipeline/commonloom/markdown';
+import { extractMarkdownReferences, parseMarkdown, resolveLinkReferences, validateMediaReference } from 'commonloom';
 
 const frontmatterSchema = z.object({
   title: z.string(),

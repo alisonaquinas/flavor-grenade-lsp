@@ -1,5 +1,4 @@
-import { resolveInsideRoot } from '../commonloom/paths';
-import type { CommonloomDiagnostic } from '../commonloom/types';
+import { resolveInsideRoot, type CommonloomDiagnostic } from 'commonloom';
 
 import { routeIds, type RouteGroup, type RouteId } from '../../routes';
 

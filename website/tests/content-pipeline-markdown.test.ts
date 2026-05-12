@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { describe, expect, it } from 'vitest';
 
-import { parseMarkdown } from '../src/content/pipeline/commonloom/markdown';
+import { parseMarkdown } from 'commonloom';
 
 const frontmatterSchema = z.object({
   title: z.string(),

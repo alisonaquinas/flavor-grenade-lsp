@@ -6,7 +6,7 @@ import { websiteRoutes } from '../../routes';
 import { compileWebsiteContentFromManifests } from './content-compiler';
 import { validatePageGroupManifests } from './manifest';
 import { emitWebsiteGeneratedModules, type WebsiteGeneratedModules } from './emitter';
-import type { CommonloomDiagnostic } from '../commonloom';
+import type { CommonloomDiagnostic } from 'commonloom';
 
 export interface WebsiteContentBuildResult {
   modules: WebsiteGeneratedModules;

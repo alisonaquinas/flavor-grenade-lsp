@@ -2,7 +2,7 @@
 id: "TASK-279"
 title: "Remove local Commonloom source"
 type: task
-status: red
+status: green
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-279"]
 
 # Remove Local Commonloom Source
 
-> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
+> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
 
 ## Description
 
@@ -69,9 +69,9 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Definition of Done
 
-- [ ] `website/src/content/pipeline/commonloom` no longer exists.
-- [ ] `rg "src/content/pipeline/commonloom|../commonloom|pipeline/commonloom" website/src website/tests website/scripts` finds no active local imports.
-- [ ] Website package dependencies represent `commonloom` as the reusable
+- [x] `website/src/content/pipeline/commonloom` no longer exists.
+- [x] `rg "src/content/pipeline/commonloom|../commonloom|pipeline/commonloom" website/src website/tests website/scripts` finds no active local imports.
+- [x] Website package dependencies represent `commonloom` as the reusable
   content-pipeline dependency.
 - [ ] `npm run content:generate`, `npm run content:check`, `npm run lint`,
   `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`
@@ -92,3 +92,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Updated Commonloom core coverage to import from the published `commonloom`
 > package, require `commonloom` in website package dependencies, and fail while
 > `website/src/content/pipeline/commonloom` exists. Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-12
+> Installed `commonloom@0.1.0`, replaced website adapter and test imports with
+> package imports, removed direct website dependencies that belonged to the
+> local Commonloom implementation, and deleted
+> `website/src/content/pipeline/commonloom`. Targeted content-pipeline tests
+> pass and no local Commonloom import references remain. Status: `green`.

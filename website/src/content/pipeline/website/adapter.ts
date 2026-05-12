@@ -5,7 +5,7 @@ import type {
   CommonloomImageReference,
   CommonloomLinkReference,
   CommonloomSourceTrace,
-} from '../commonloom';
+} from 'commonloom';
 
 export interface WebsiteGeneratedPage {
   routeId: RouteId;
