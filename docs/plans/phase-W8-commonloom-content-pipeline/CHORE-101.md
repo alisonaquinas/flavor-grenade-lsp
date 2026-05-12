@@ -2,7 +2,7 @@
 id: "CHORE-101"
 title: "Phase W8 retrospective and operational closeout"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-101"]
 
 # Phase W8 Retrospective And Operational Closeout
 
-> [!INFO] `CHORE-101` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-101` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-progress`
 
 ## Description
 
@@ -85,3 +85,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Dependency correction · 2026-05-11
 > CHORE-101 must run before final closeout; CHORE-099 now depends on this
 > retrospective ticket instead.
+
+> [!INFO] Started · 2026-05-11
+> Beginning Step M retrospective after CHORE-100 completed the operational
+> compliance audit. Status: `in-progress`.

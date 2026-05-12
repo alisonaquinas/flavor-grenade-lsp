@@ -30,4 +30,4 @@ updated: 2026-05-11
 | [[CHORE-095]] | Phase W8 content pipeline verification | Chore | `done` |
 | [[CHORE-099]] | Phase W8 final closeout | Chore | `in-progress` |
 | [[CHORE-100]] | Phase W8 phase execution compliance audit | Chore | `done` |
-| [[CHORE-101]] | Phase W8 retrospective and operational closeout | Chore | `open` |
+| [[CHORE-101]] | Phase W8 retrospective and operational closeout | Chore | `in-progress` |
