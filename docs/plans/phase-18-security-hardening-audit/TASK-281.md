@@ -2,7 +2,7 @@
 id: "TASK-281"
 title: "Move executable BDD assets out of docs"
 type: task
-status: open
+status: red
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-281"]
 
 # Move Executable BDD Assets Out Of Docs
 
-> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `open`
+> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
 
 ## Description
 
@@ -52,6 +52,7 @@ test-source location.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
+| `src/test/bdd/bdd-layout.test.ts` | Unit | `Quality.SourceLayout.DocsBoundary` | failing |
 | `cucumber.yaml` | BDD gate config | `CICD.Workflow.PRGate` | pending |
 | `src/test/bdd/features/**/*.feature` | BDD scenarios | `CICD.Workflow.PRGate` | pending |
 
@@ -73,3 +74,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > User review found executable test assets intermingled with documentation
 > under `docs/bdd`. This task tracks moving those raw test assets into an
 > appropriate test-source location. Status: `open`.
+
+> [!FAILURE] Red layout test · 2026-05-12
+> Added `src/test/bdd/bdd-layout.test.ts` to require executable `.feature`
+> files to live outside `docs/` and require Cucumber to load from
+> `src/test/bdd/features/**/*.feature`. Status: `red`.

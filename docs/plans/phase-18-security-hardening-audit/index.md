@@ -47,4 +47,4 @@ updated: 2026-05-08
 | Ticket | Title | Status |
 |---|---|---|
 | [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | in-review |
-| [[plans/phase-18-security-hardening-audit/TASK-281]] | Move executable BDD assets out of docs | open |
+| [[plans/phase-18-security-hardening-audit/TASK-281]] | Move executable BDD assets out of docs | red |
