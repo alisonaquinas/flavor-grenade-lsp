@@ -8,7 +8,7 @@ phase: W8
 parent: "FEAT-041"
 created: "2026-05-11"
 updated: "2026-05-11"
-dependencies: ["CHORE-100", "CHORE-099"]
+dependencies: ["CHORE-100"]
 tags: [tickets/chore, "phase/W8", website, process, closeout]
 aliases: ["CHORE-101"]
 ---
@@ -81,3 +81,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Opened · 2026-05-11
 > Added so W8 has an explicit Step M ticket tied to the phase execution
 > procedure and the external Commonloom package transition.
+
+> [!INFO] Dependency correction · 2026-05-11
+> CHORE-101 must run before final closeout; CHORE-099 now depends on this
+> retrospective ticket instead.

@@ -8,7 +8,7 @@ phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
 updated: "2026-05-11"
-dependencies: ["TASK-277", "TASK-278", "CHORE-095", "CHORE-100"]
+dependencies: ["TASK-277", "TASK-278", "CHORE-095", "CHORE-100", "CHORE-101"]
 tags: [tickets/chore, "phase/W8", website, closeout]
 aliases: ["CHORE-099"]
 ---
@@ -87,3 +87,7 @@ bun run lint:docs
 > [!INFO] Started closeout · 2026-05-11
 > CHORE-100 is `done`, PR #64 is merged, and local W8 gates passed on the
 > current branch. Status: `in-progress`.
+
+> [!INFO] Dependency correction · 2026-05-11
+> Final closeout must wait for Step M retrospective evidence, so CHORE-101 is a
+> blocker for CHORE-099 rather than depending on CHORE-099.
