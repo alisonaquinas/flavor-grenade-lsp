@@ -2,7 +2,7 @@
 id: "TASK-279"
 title: "Remove local Commonloom source"
 type: task
-status: open
+status: red
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-279"]
 
 # Remove Local Commonloom Source
 
-> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `red`
 
 ## Description
 
@@ -87,3 +87,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > User review found the local Commonloom source directory still present after
 > W8 was marked complete. Reopening W8 execution to remove local source and
 > prove package-boundary compliance.
+
+> [!FAILURE] Red test · 2026-05-12
+> Updated Commonloom core coverage to import from the published `commonloom`
+> package, require `commonloom` in website package dependencies, and fail while
+> `website/src/content/pipeline/commonloom` exists. Status: `red`.

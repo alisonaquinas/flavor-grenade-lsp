@@ -1,24 +1,30 @@
 import { describe, expect, it } from 'vitest';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-import { compileCommonloom } from '../src/content/pipeline/commonloom';
-import {
-  commonloomDiagnosticCodes,
-  commonloomLinkKinds,
-  commonloomOutputModes,
-  commonloomSeverities,
-} from '../src/content/pipeline/commonloom/diagnostics';
+import { compileCommonloom } from 'commonloom';
 import type {
   CommonloomConfig,
   CommonloomLinkReference,
   CommonloomSourceTrace,
-} from '../src/content/pipeline/commonloom';
+} from 'commonloom';
 
 describe('Commonloom compiler scaffold', () => {
+  it('uses the published package instead of local Commonloom source', () => {
+    const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
+    const localCommonloomPath = join(process.cwd(), 'src', 'content', 'pipeline', 'commonloom');
+
+    expect(packageJson.dependencies?.commonloom ?? packageJson.devDependencies?.commonloom).toBeDefined();
+    expect(existsSync(localCommonloomPath)).toBe(false);
+  });
+
   it('exports a non-destructive compiler entry point', async () => {
     const result = await compileCommonloom({
       copyRoot: 'website/src/content/copy',
       mediaRoot: 'website/src/content/media',
-      generatedRoot: 'website/src/content/generated',
     });
 
     expect(result.diagnostics).toEqual([
@@ -31,20 +37,6 @@ describe('Commonloom compiler scaffold', () => {
   });
 
   it('exports stable diagnostics and source trace contracts', () => {
-    expect(commonloomSeverities).toEqual(['error', 'warning', 'info']);
-    expect(commonloomDiagnosticCodes).toEqual([
-      'NO_MANIFESTS',
-      'COPY_NOT_FOUND',
-      'FRONTMATTER_INVALID',
-      'MARKDOWN_INVALID',
-      'HTML_UNSAFE',
-      'LINK_UNRESOLVED',
-      'MANIFEST_INVALID',
-      'MEDIA_UNRESOLVED',
-      'MEDIA_ALT_MISSING',
-      'PATH_OUTSIDE_ROOT',
-    ]);
-
     const trace: CommonloomSourceTrace = {
       markdownPath: 'copy/example.md',
       contentHash: 'abc123',
@@ -57,15 +49,6 @@ describe('Commonloom compiler scaffold', () => {
   });
 
   it('keeps website route concepts behind adapter-owned callbacks', async () => {
-    expect(commonloomLinkKinds).toEqual([
-      'external',
-      'internal',
-      'same-document',
-      'wiki-link',
-      'unsupported',
-    ]);
-    expect(commonloomOutputModes).toEqual(['typescript', 'check-only']);
-
     const link: CommonloomLinkReference = {
       rawTarget: '/quickstart/',
       resolvedTarget: '/quickstart/',
@@ -74,10 +57,8 @@ describe('Commonloom compiler scaffold', () => {
     const config: CommonloomConfig = {
       copyRoot: 'src/content/copy',
       mediaRoot: 'src/content/media',
-      generatedRoot: 'src/content/generated',
       manifests: [],
       html: { allowInlineHtml: true },
-      output: { mode: 'typescript' },
       links: {
         resolveLink: ({ rawTarget }) => ({
           kind: rawTarget.startsWith('/') ? 'internal' : 'unsupported',
