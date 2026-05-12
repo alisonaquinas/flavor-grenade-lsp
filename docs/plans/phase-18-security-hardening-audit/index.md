@@ -30,6 +30,11 @@ updated: 2026-05-08
 | [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | `CICD.Workflow.PRGate`, `Security.Input.PayloadSize` |
 | [[plans/phase-18-security-hardening-audit/BUG-025]] | Block command-start server spawn in unsupported extension environments | `Extension.Workspace.EnvironmentModes` |
 | [[plans/phase-18-security-hardening-audit/BUG-033]] | Restore full BDD suite execution | `CICD.Workflow.PRGate` |
+| [[plans/phase-18-security-hardening-audit/BUG-034]] | Code action BDD command execution is unimplemented | `CICD.Workflow.PRGate` |
+| [[plans/phase-18-security-hardening-audit/BUG-035]] | Tag reference BDD includes nested tag occurrence | `Navigation.References.Completeness` |
+| [[plans/phase-18-security-hardening-audit/BUG-036]] | OFMarkdown parity BDD step coverage is incomplete | `CICD.Workflow.PRGate` |
+| [[plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | `Extension.Tests.HostCoverage` |
+| [[plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | `CICD.Workflow.PRGate` |
 
 ## Chores
 
