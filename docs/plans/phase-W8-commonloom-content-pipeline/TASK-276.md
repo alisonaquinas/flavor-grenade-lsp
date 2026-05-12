@@ -2,7 +2,7 @@
 id: "TASK-276"
 title: "Verify website parity and authoring docs"
 type: task
-status: in-review
+status: done
 priority: medium
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-276"]
 
 # Verify Website Parity And Authoring Docs
 
-> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-276` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -102,3 +102,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Replaced extraction follow-up requirements with the current package boundary:
 > Commonloom is external, and this repository maintains only integration and
 > website adapter docs.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.
