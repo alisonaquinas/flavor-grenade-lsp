@@ -111,3 +111,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Cucumber scenario, `bun run build:binary:win`, and extension
 > `npm run verify:package-targets`.
 > Status: `in-review`.
+
+> [!SUCCESS] CI retry fixes updated · 2026-05-12
+> Follow-up fixes staged both Linux and Windows extension server binaries and
+> made the BDD watcher precondition use a deterministic startup scan. Rechecked:
+> `bun run lint`, `bun run typecheck`, `bun test`, `bun run bdd`,
+> `npm run test:host`, and `npm run verify:package-targets`.
+> Status: `in-review`.
