@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -154,3 +154,8 @@ changes should trigger a specification sweep before final ticket closure.
 
 - [ ] Consider updating the website phase planning template so Step M and the
   phase-execution compliance audit are present before implementation starts.
+
+> [!SUCCESS] Phase closed · 2026-05-11
+> All W8 tasks and chores are terminal, PR #64 merged into `develop` with green
+> CI, current branch local gates passed, and the W8 retrospective is recorded.
+> Status: `done`.
