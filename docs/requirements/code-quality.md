@@ -152,3 +152,21 @@ aliases:
 **Stakeholders:** All contributors, code reviewers, phase auditors.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** Kent Beck, *Test-Driven Development by Example*; [[plans/phase-01-scaffold#Task-9]], [[requirements/development-process#Process.Testing.DirectoryStructure]].
+
+---
+
+**Tag:** Quality.SourceLayout.DocsBoundary
+**Gist:** Documentation folders may contain requirements, specs, plans, ADRs, and Gherkin feature specs, but raw source files and source-like implementation notes must live with the source or test harness they describe.
+**Ambition:** The `docs/` tree is the long-form product and process knowledge base. Mixing raw implementation source or step-definition bodies into docs makes the documentation folder behave like a shadow source tree: code search, formatting, ownership, and review expectations become ambiguous. Gherkin `.feature` files are allowed in `docs/bdd/features/` because they are executable specifications; step definitions, harness state, and implementation reference maps belong under `src/test/bdd/`.
+**Scale:** Count of raw source files and source-owned BDD implementation-note directories under `docs/`.
+**Meter:**
+
+1. Search `docs/` for raw source files with extensions such as `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.py`, `.sh`, `.go`, `.rs`, `.java`, and `.cs`.
+2. Verify `docs/bdd/steps/` does not exist.
+3. Verify BDD feature specs remain in `docs/bdd/features/**/*.feature`.
+4. Verify source-owned step maps and harness implementation notes live under `src/test/bdd/`.
+**Fail:** Any raw source file under `docs/`, any restored `docs/bdd/steps/` implementation-note tree, or any source-owned BDD step documentation maintained outside the BDD harness tree.
+**Goal:** Zero raw source files under `docs/`; BDD implementation notes live under `src/test/bdd/`; Gherkin feature specs remain allowed under `docs/bdd/features/`.
+**Stakeholders:** Documentation maintainers, test harness maintainers, phase reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[plans/phase-18-security-hardening-audit/TASK-281]], `src/test/bdd/bdd-layout.test.ts`, `src/test/bdd/step-definitions/STEP-MAP.md`.

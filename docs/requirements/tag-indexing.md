@@ -75,7 +75,7 @@ aliases:
 **Goal:** 100% of YAML tag values appear in the index equivalent to inline tags.
 **Stakeholders:** Vault authors mixing frontmatter tags and inline tags, Dataview users, plugin developers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#yaml-frontmatter-tags]], [[design/domain-layer#tag-index]], `bdd/features/tag-equivalence.feature`.
+**Source:** [[ofm-spec/tags#yaml-frontmatter-tags]], [[design/domain-layer#tag-index]], `docs/bdd/features/tags.feature`.
 
 ---
 
@@ -95,4 +95,4 @@ aliases:
 **Goal:** 100% of Unicode tag test cases handled correctly.
 **Stakeholders:** Non-English vault authors, multilingual knowledge workers, emoji-tagging users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#inline-tag-syntax]], [[design/domain-layer#tag-parser]], `bdd/features/unicode-tags.feature`.
+**Source:** [[ofm-spec/tags#inline-tag-syntax]], [[design/domain-layer#tag-parser]], `docs/bdd/features/tags.feature`.

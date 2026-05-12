@@ -9,7 +9,7 @@ aliases: [bdd-index, behavior-layer, feature-files, bdd-scenarios]
 `flavor-grenade-lsp` uses Behavior-Driven Development (BDD) as the primary mechanism for specifying, communicating, and verifying server behavior. BDD scenarios written in Gherkin serve as both living documentation and the integration test suite. Every LSP method and every OFM-specific feature has at least one corresponding `.feature` file.
 
 > [!note] BDD drives TDD
-> The development cycle is: write a scenario in Gherkin → run `bun test --bdd` → watch it fail (red) → implement the feature → watch it pass (green) → refactor. Scenarios are written by the developer alongside architecture decisions, not after implementation. This means the scenario suite captures the intended semantics, not just the implemented behavior.
+> The development cycle is: write a scenario in Gherkin → run `bun run bdd` → watch it fail (red) → implement the feature or harness coverage → watch it pass (green) → refactor. Scenarios are written by the developer alongside architecture decisions, not after implementation. This means the scenario suite captures the intended semantics, not just the implemented behavior.
 
 ---
 
@@ -22,7 +22,7 @@ Scenarios are tagged to enable selective test execution. The tag system has four
 | `@smoke` | Must pass before any other tests are run; covers critical paths | All feature files (≥ 1 per file) | Yes — blocks merge if failing |
 | `@ofm` | OFM-specific behavior not present in generic Markdown LSPs | wiki-link, embed, block-ref, tag, callout, alias features | No (but included in full CI) |
 | `@lsp` | Protocol-level behavior — JSON-RPC framing, capability negotiation, error responses | initialization, lifecycle, error-handling | No |
-| `@wip` | Work-in-progress — scenario written but implementation incomplete | Any file | No — excluded from CI |
+| `@wip` | Historical work-in-progress marker; checked-in scenarios must still execute in the default gate unless explicitly excluded in `cucumber.yaml` | Any file | Yes when included by the default Cucumber config |
 
 Tags are composable. A scenario can carry multiple tags:
 
@@ -31,33 +31,36 @@ Tags are composable. A scenario can carry multiple tags:
 Scenario: resolving a wiki-link with alias to an aliased document
 ```
 
-Running `bun test --tags @smoke` executes only the CI gate scenarios. Running `bun test --tags @ofm` runs the full OFM regression suite.
+Running `bun run bdd -- --tags @smoke` executes only smoke scenarios. Running `bun run bdd` runs the default full Cucumber catalog configured by `cucumber.yaml`.
 
 ---
 
 ## Feature File Catalog
 
-All `.feature` files live in `bdd/features/`. Each file covers one functional area.
+All `.feature` files live in `docs/bdd/features/`. They are executable specifications and may remain in `docs/`; source-owned step definitions and implementation notes live under `src/test/bdd/`.
 
 | Feature File | Requirements Tested | Primary Tags | Scenario Count |
 |-------------|---------------------|-------------|----------------|
-| `bdd/features/initialization.feature` | Server startup, capability negotiation, vault detection, single-file mode detection | `@smoke`, `@lsp` | 8 |
-| `bdd/features/transport.feature` | LSP stdio transport, JSON-RPC framing, initialize/initialized handshake, shutdown/exit sequence | `@smoke`, `@lsp` | 2 |
-| `bdd/features/wiki-link-completion.feature` | Document slug completion, heading anchor completion, block ref completion, alias matching, `isIncomplete` flag | `@smoke`, `@ofm` | 14 |
-| `bdd/features/wiki-link-definition.feature` | Go-to-def for `CrossDoc`, `CrossSection`, `CrossBlock`, `IntraRef`; alias resolution; ambiguous target handling | `@smoke`, `@ofm` | 11 |
-| `bdd/features/wiki-link-references.feature` | Find-all-refs for `DocDef`, `HeaderDef`, `BlockAnchorDef`, `AliasDef`; vault-wide cross-ref counting | `@smoke`, `@ofm` | 10 |
-| `bdd/features/diagnostics.feature` | FG001 broken links and headings, FG002 ambiguity, FG004 broken embeds, FG005 broken block refs; diagnostic lifecycle on doc change | `@smoke`, `@ofm` | 16 |
-| `bdd/features/embeds.feature` | Embed completion, embed definition (`.md` targets), embed definition (image targets), broken embed diagnostics, MIME hint in hover | `@ofm` | 9 |
-| `bdd/features/tags.feature` | Tag completion, tag references, tag hierarchy (`#project/active`), tags-never-broken invariant, frontmatter `tags:` equivalent to inline `#tag` | `@ofm` | 8 |
-| `bdd/features/hover.feature` | Wiki-link hover preview (first 5 lines), tag info (usage count), frontmatter key descriptions, no hover in ignore regions | `@smoke`, `@ofm` | 7 |
-| `bdd/features/rename.feature` | Heading rename (updates all section refs), file rename (updates all doc refs), `prepareRename` rejection on non-renameable positions, alias-aware rename | `@ofm` | 10 |
-| `bdd/features/symbols.feature` | `documentSymbol` heading tree, `workspace/symbol` subsequence matching, `codeLens` reference counts on headings and block anchors | `@smoke`, `@ofm` | 9 |
-| `bdd/features/semantic-tokens.feature` | Token type for each OFM element, no tokens inside ignore regions, callout type token, block anchor token | `@ofm` | 12 |
-| `bdd/features/code-actions.feature` | `InsertTOC` action, `CreateMissingFile` action, `FixNbsp` action, `TagToYaml` action, action availability by cursor position | `@ofm` | 8 |
-| `bdd/features/vscode-extension.feature` | VS Code extension activation, status bar widget, palette commands (restart, rebuild, show output), binary resolution (user setting / bundled), server config change restart, deactivation cleanup, crash recovery, LanguageClient selector continuity | `@smoke`, `@extension`, `@lsp` | 12 |
-| `bdd/features/ofmarkdown-language-mode.feature` | Dynamic `ofmarkdown` language assignment for vault/index documents; Markdown parity and manual mode safety | `@extension`, `@ofmarkdown` | 6 |
+| `docs/bdd/features/block-references.feature` | Block anchor indexing, cross-reference diagnostics, and completion | `@ofm`, `@smoke` | 9 |
+| `docs/bdd/features/callouts.feature` | Callout parsing and completion behavior | `@ofm`, `@smoke` | 9 |
+| `docs/bdd/features/code-actions.feature` | Code-action availability and deterministic command/edit expectations | `@ofm`, `@workflow-pending` | 2 |
+| `docs/bdd/features/completions.feature` | Completion routing, caps, trigger contexts, and candidate ordering | `@lsp`, `@smoke` | 10 |
+| `docs/bdd/features/diagnostics.feature` | Broken-link, ambiguity, embed, block-ref, and lifecycle diagnostics | `@lsp`, `@smoke` | 9 |
+| `docs/bdd/features/embeds.feature` | Embed resolution, diagnostics, navigation, hover, and attachment behavior | `@ofm`, `@smoke` | 10 |
+| `docs/bdd/features/frontmatter.feature` | YAML frontmatter parsing and metadata behavior | `@ofm`, `@smoke` | 9 |
+| `docs/bdd/features/navigation.feature` | Definitions, references, CodeLens, highlights, and tag precision | `@lsp`, `@smoke` | 9 |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | Dynamic OFMarkdown language assignment, markdown isolation, and manual-mode safety | `@extension`, `@vscode`, `@language-mode` | 6 |
+| `docs/bdd/features/ofmarkdown-parity.feature` | Standard Markdown link parity, structural LSP, attachments, and file operations | `@lsp`, `@parity` | 10 |
+| `docs/bdd/features/rename.feature` | Prepare-rename and workspace-edit behavior | `@lsp`, `@smoke` | 8 |
+| `docs/bdd/features/tags.feature` | Tag indexing, hierarchy, references, completion, and YAML equivalence | `@ofm` | 9 |
+| `docs/bdd/features/transport.feature` | JSON-RPC transport and LSP lifecycle handshake | `@lsp`, `@smoke` | 2 |
+| `docs/bdd/features/vault-detection.feature` | Vault root detection, single-file mode, file-extension filters, and confinement setup | `@lsp`, `@smoke` | 8 |
+| `docs/bdd/features/vscode-extension-parity.feature` | Extension parity scenarios for activation, membership refresh, host coverage, and package behavior | `@vscode`, `@extension`, `@parity` | 6 |
+| `docs/bdd/features/vscode-extension.feature` | Extension activation, status bar, commands, binary resolution, crash recovery, and lifecycle behavior | `@extension`, `@lsp`, `@wip` | 13 |
+| `docs/bdd/features/wiki-links.feature` | Wiki-link completion, definition, diagnostics, references, aliases, and style behavior | `@ofm`, `@smoke` | 10 |
+| `docs/bdd/features/workspace.feature` | Workspace scanning, lookup, ignore rules, file watching, and multi-root behavior | `@lsp` | 10 |
 
-Total: **142 scenarios** across 15 feature files (as of the initial specification; `@wip` scenarios are counted but excluded from CI).
+Total: **149 scenarios** across 18 feature files. The default `bun run bdd` gate currently executes all checked-in scenarios.
 
 ---
 
@@ -91,30 +94,36 @@ Step definitions live in `src/test/bdd/step-definitions/`. Each step module corr
 
 ```text
 src/test/bdd/step-definitions/
-  ├── lsp-client.steps.ts        ← Given/When/Then for raw LSP requests (shared)
-  ├── vault.steps.ts             ← Given: vault setup, file creation, file content
-  ├── completion.steps.ts        ← Then: completion item assertions
-  ├── definition.steps.ts        ← Then: definition location assertions
-  ├── references.steps.ts        ← Then: reference list assertions
-  ├── diagnostics.steps.ts       ← Then: diagnostic code/range assertions
-  ├── hover.steps.ts             ├── Then: hover content assertions
-  ├── rename.steps.ts            ← Then: workspace edit assertions
-  ├── symbols.steps.ts           ← Then: symbol tree and code lens assertions
-  ├── semantic-tokens.steps.ts   ← Then: semantic token type assertions
-  └── code-actions.steps.ts      ← Then: code action list and edit assertions
+  ├── common.steps.ts             ← Shared vault, document, and assertion steps
+  ├── transport.steps.ts          ← JSON-RPC and LSP lifecycle steps
+  ├── wiki-links.steps.ts         ← Wiki-link resolution and diagnostic steps
+  ├── block-references.steps.ts   ← Block anchor steps
+  ├── callouts.steps.ts           ← Callout parsing and completion steps
+  ├── code-actions.steps.ts       ← Code action list and edit assertions
+  ├── completions.steps.ts        ← Completion item assertions
+  ├── diagnostics.steps.ts        ← Diagnostic code/range assertions
+  ├── embeds.steps.ts             ← Embed and attachment assertions
+  ├── extension-harness.steps.ts  ← Deterministic extension acceptance state
+  ├── frontmatter.steps.ts        ← Frontmatter parsing assertions
+  ├── navigation.steps.ts         ← Definition, references, CodeLens, highlights
+  ├── ofmarkdown-parity.steps.ts  ← Standard Markdown parity and file operations
+  ├── rename.steps.ts             ← Prepare-rename and workspace edits
+  ├── tags.steps.ts               ← Tag index, hierarchy, completion, references
+  └── vault-detection.steps.ts    ← Vault detection, scanner, and watcher steps
 ```
 
 ### Integration Test Infrastructure
 
-Steps use a `LspTestClient` helper (in `bdd/support/lsp-test-client.ts`) that:
+Steps use the shared `FGWorld` and helpers in `src/test/bdd/world.ts` plus per-area step modules in `src/test/bdd/step-definitions/`. The harness:
 
-1. Spawns a real `flavor-grenade-lsp` process via `child_process.spawn`
+1. Spawns a real `flavor-grenade-lsp` process for server-side LSP scenarios.
 2. Manages JSON-RPC framing over stdin/stdout
-3. Provides typed request/notification helpers (`client.didOpen(uri, text)`, `client.completion(uri, position)`, etc.)
-4. Waits for `textDocument/publishDiagnostics` before asserting on diagnostics (async barrier)
-5. Creates a temporary vault directory (`tmp/bdd-vault-XXXX/`) for each scenario and tears it down after
+3. Provides typed request/notification helpers through `FGWorld`
+4. Waits for `textDocument/publishDiagnostics` before asserting on diagnostics
+5. Creates a temporary vault directory for each scenario and tears it down after
+6. Uses deterministic harness state for extension scenarios that are covered by VS Code host tests elsewhere
 
-The `LspTestClient` is a **full integration test** — it runs the real server binary, not a mock. This ensures scenarios test the complete stack including JSON-RPC serialization, NestJS module initialization, and filesystem operations.
+Server-side BDD scenarios are **full integration tests**: they run the real server path rather than a mocked handler. Extension BDD scenarios use deterministic Cucumber harness state for acceptance traceability; extension-host execution is covered by `npm run test:host`.
 
 > [!tip] Test vault isolation
 > Each BDD scenario gets a fresh temporary vault directory. The `vault.steps.ts` `Given` steps create files in this directory before the scenario sends `initialized` to the server. After the scenario, the directory is deleted. This ensures scenario isolation even when scenarios test file creation or rename side effects.
@@ -124,7 +133,7 @@ The `LspTestClient` is a **full integration test** — it runs the real server b
 ## Example Feature File Structure
 
 ```gherkin
-# bdd/features/diagnostics.feature
+# docs/bdd/features/diagnostics.feature
 Feature: Diagnostic publication for broken wiki-links and OFM refs
 
   Background:
@@ -163,7 +172,7 @@ Feature: Diagnostic publication for broken wiki-links and OFM refs
 
 The BDD feature files are the primary traceability artifact linking implementation to requirements. Each `@requirements` tag (used informally in feature file comments) cites the requirement document from `docs/requirements/` that the scenario validates.
 
-The traceability matrix is maintained in `docs/requirements/traceability.md`. For each functional requirement, it lists the scenarios that verify it and their current pass/fail status in CI.
+The traceability matrix is maintained in [[test/matrix]]. For each functional requirement, it lists the tests or BDD step files that verify it and their current pass/fail status.
 
 ---
 

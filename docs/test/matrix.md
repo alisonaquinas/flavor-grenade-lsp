@@ -37,6 +37,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Quality.Lint.ZeroWarnings` | All linters produce 0 errors and 0 warnings | — | ⏳ planned | Phase 1 | Verified by `bun run lint --max-warnings 0`; gate script |
 | `Quality.Types.StrictMode` | TypeScript strict mode; `tsc --noEmit` exits 0 | — | ⏳ planned | Phase 1 | Verified by `bun run typecheck`; gate script |
 | `Quality.TDD.StrictRedGreen` | Every implementation preceded by a failing test | — | ⏳ planned | Phase 1 | Verified by git log discipline; red commit before green commit |
+| `Quality.SourceLayout.DocsBoundary` | Docs may contain specs but not raw source files or source-like BDD implementation notes | `src/test/bdd/bdd-layout.test.ts`, `src/test/bdd/step-definitions/STEP-MAP.md` | ✅ passing | Phase 18 | TASK-281 keeps `.feature` specs in `docs/bdd/features/` while moving step implementation notes to the BDD harness tree |
 
 ---
 
@@ -44,7 +45,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
-| `CICD.Workflow.PRGate` | Every PR must pass all CI checks before merge | — | ⏳ planned | Phase 13 | Enforced by GitHub branch protection; not a unit test |
+| `CICD.Workflow.PRGate` | Every PR must pass all CI checks before merge | `.github/workflows/ci.yml` | ✅ passing | Phase 13 | PR #65 CI passed typecheck, lint, dependency policy, format, tests, docs lint, website checks, and build on commit `914f701` |
+| `CICD.Workflow.BDDGate` | Default Cucumber BDD gate executes all checked-in scenarios | `cucumber.yaml`, `docs/bdd/features/**/*.feature`, `src/test/bdd/step-definitions/**/*.ts` | ✅ passing | Phase 18 | TASK-280 restored the default `bun run bdd` gate: 149 scenarios and 891 steps pass locally |
 | `CICD.Markdown.DocsFolderLinting` | `docs/` markdown linted by markdownlint-obsidian in CI | — | ⏳ planned | Phase 13 | Verified by CI `markdown-lint-docs` job |
 | `CICD.Markdown.SourceLinting` | Non-docs markdown linted by markdownlint-cli2 in CI | — | ⏳ planned | Phase 13 | Verified by CI `markdown-lint-other` job |
 | `CICD.Publish.OIDC` | Publishing uses OIDC provenance attestation | — | ⏳ planned | Phase 13 | Verified by `npm audit signatures` post-publish |
@@ -90,8 +92,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Process.Branching.MainReleasesOnly` | `main` receives only release/hotfix merges | — | ⏳ planned | Phase 13 | Enforced by branch protection; not a unit test |
-| `Process.Testing.DirectoryStructure` | All tests under `tests/`, never under `src/` | — | ⏳ planned | Phase 1 | Verified by `find src/ -name '*.spec.ts'` returning empty |
-| `Process.TestIndex.Matrix` | `docs/test/matrix.md` updated for every new test file | — | ⏳ planned | Phase 1 | Enforced by PR review checklist in `.github/CONTRIBUTING.md` |
+| `Process.Testing.DirectoryStructure` | Tests and harnesses live in their package-owned trees; Gherkin specs remain in `docs/bdd/features/` | `src/test/bdd/bdd-layout.test.ts`, `src/test/bdd/step-definitions/**/*.ts`, `docs/bdd/features/**/*.feature` | ✅ passing | Phase 18 | Current layout allows source-adjacent unit tests, shared harnesses under `src/test/`, website tests under `website/tests/`, extension tests under `extension/`, and feature specs under docs |
+| `Process.TestIndex.Matrix` | `docs/test/matrix.md` updated for every new test file | `docs/test/index.md`, `docs/test/matrix.md` | ✅ passing | Phase 18 | CHORE-102 backfills BDD harness and docs-boundary traceability for TASK-280/TASK-281 |
 | `Process.Scripts.Automation` | Repetitive procedures automated in `scripts/` | — | ⏳ planned | Phase 1 | Advisory metric; verified by `scripts/` directory content |
 | `Process.BinaryFiles.LFS` | All binary files tracked via Git LFS | — | ⏳ planned | Phase 1 | Verified by `git lfs ls-files` vs `git ls-files` cross-check |
 
@@ -116,7 +118,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Embed.Resolution.MarkdownTarget` | `![[file.md]]` embeds resolve to VaultIndex docs | — | ⬜ not-yet-written | Phase 7 | |
 | `Embed.Resolution.ImageTarget` | `![[image.png]]` embeds produce no FG001 | `src/resolution/__tests__/embed-resolver.test.ts`, `src/resolution/__tests__/attachment-diagnostics.test.ts` | ✅ passing | Phase 15 | Phase 15 verifies indexed attachments resolve through embed diagnostics, including non-image attachments |
 | `Embed.HeadingEmbed.Resolution` | `![[doc#heading]]` validates both doc and heading | — | ⬜ not-yet-written | Phase 7 | |
-| `Embed.BlockEmbed.Resolution` | `![[doc#^blockid]]` validates anchor exists in target | `src/resolution/__tests__/embed-resolver.test.ts`, `docs/bdd/features/embeds.feature` | ✅ passing | Phase 7 | Unit evidence passes; targeted BDD scenarios pass, while the full BDD suite still has unrelated pending steps |
+| `Embed.BlockEmbed.Resolution` | `![[doc#^blockid]]` validates anchor exists in target | `src/resolution/__tests__/embed-resolver.test.ts`, `docs/bdd/features/embeds.feature` | ✅ passing | Phase 7 | Unit evidence passes and the full default BDD suite passes |
 
 ---
 
@@ -136,7 +138,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Block.Anchor.Indexing` | All valid `^blockid` anchors appear in OFMIndex.blockAnchors | `src/parser/__tests__/block-anchor-parser.test.ts`, `src/parser/__tests__/ofm-parser.integration.test.ts` | ✅ passing | Phase 8 | Covers line-end, heading, standalone, duplicate, and opaque-region behavior |
-| `Block.CrossRef.Diagnostic` | `[[doc#^nonexistent]]` produces FG005; suppressed in single-file mode | `src/resolution/__tests__/block-ref-resolver.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `docs/bdd/features/block-references.feature` | ✅ passing | Phase 8 | Unit evidence passes; targeted BDD scenarios pass, while the full BDD suite still has unrelated pending steps |
+| `Block.CrossRef.Diagnostic` | `[[doc#^nonexistent]]` produces FG005; suppressed in single-file mode | `src/resolution/__tests__/block-ref-resolver.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `docs/bdd/features/block-references.feature` | ✅ passing | Phase 8 | Unit evidence passes and the full default BDD suite passes |
 | `Block.Completion.Offer` | After `[[doc#^`, completion offers known block IDs | `src/completion/__tests__/context-analyzer.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `docs/bdd/features/block-references.feature` | ✅ passing | Phase 8 | Covers intra-document and cross-document block completion contexts |
 | `Block.Anchor.Lineend` | Only valid line-end or standalone `^id` patterns are treated as block anchors | `src/parser/__tests__/block-anchor-parser.test.ts` | ✅ passing | Phase 8 | Mid-line, invalid-character, and opaque-region tokens are rejected |
 

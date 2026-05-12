@@ -142,7 +142,9 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Quality.Lint.ZeroWarnings** | All linters must produce zero errors and zero warnings; `--max-warnings 0` enforced. | [[code-quality]] |
 | **Quality.Types.StrictMode** | TypeScript strict mode enabled; `tsc --noEmit` must exit 0 with zero errors. | [[code-quality]] |
 | **Quality.TDD.StrictRedGreen** | Every implementation commit must be preceded by a failing test that drives it; no code without a red test first. | [[code-quality]] |
+| **Quality.SourceLayout.DocsBoundary** | Documentation folders may contain specs, but raw source files and source-like BDD implementation notes stay with source/test harnesses. | [[code-quality]] |
 | **CICD.Workflow.PRGate** | Every PR to `main` or `develop` must pass all CI checks before merge. | [[ci-cd]] |
+| **CICD.Workflow.BDDGate** | The default Cucumber BDD gate must execute every checked-in scenario without undefined, pending, or failed steps. | [[ci-cd]] |
 | **CICD.Markdown.DocsFolderLinting** | `docs/` markdown linted by markdownlint-obsidian in CI; violations fail CI. | [[ci-cd]] |
 | **CICD.Markdown.SourceLinting** | Non-docs, non-.github markdown linted by markdownlint-cli2 in CI. | [[ci-cd]] |
 | **CICD.Publish.OIDC** | npm and Bun publishing use OIDC provenance; `npm publish --provenance` required. | [[ci-cd]] |
@@ -182,7 +184,7 @@ The user requirements layer lives in [[requirements/user/index]]. It contains im
 
 - [[design/domain-layer]] — domain model: VaultIndex, OFMIndex, document entities
 - [[design/api-layer]] — LSP method handlers and request/response contracts
-- `bdd/features/` — Gherkin scenarios that exercise requirements as acceptance tests
+- `docs/bdd/features/` — Gherkin scenarios that exercise requirements as acceptance tests
 - [[architecture/overview]] — system decomposition, NestJS module boundaries, Bun runtime constraints
 - [[ofm-spec/index]] — Obsidian Flavored Markdown specification used as primary evidence source
 - [[roadmap]] — delivery milestones and requirement prioritisation

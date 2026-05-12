@@ -33,29 +33,31 @@ aliases:
 ---
 
 **Tag:** Process.Testing.DirectoryStructure
-**Gist:** All test files must reside under `tests/` (not co-located in `src/`); unit tests mirror the `src/` structure under `tests/unit/`; integration tests go in `tests/integration/`; BDD step definitions go in `tests/bdd/steps/`.
-**Ambition:** Co-located test files (`src/lsp/lsp.server.spec.ts` next to `src/lsp/lsp.server.ts`) create friction during refactoring — moving a source file requires moving its test, and `src/` directory listings intermix implementation and test files. A separate `tests/` root with a mirrored structure provides a clean separation: `src/` contains only implementation, `tests/` contains only test artifacts. The `tsconfig.test.json` that includes both `src/` and `tests/` makes the separation explicit at the TypeScript compiler level.
-**Scale:** Percentage of test files in the repository (`*.spec.ts`, `*.test.ts`, `*.feature` step definitions) that reside outside the `tests/` directory tree.
+**Gist:** Tests follow the repository's current split layout: focused unit tests may live beside the source module, shared integration and BDD harness code lives under `src/test/`, website tests live under `website/tests/`, extension tests live under `extension/`, and Gherkin feature specs live under `docs/bdd/features/`.
+**Ambition:** The project has multiple execution environments: Bun server tests, spawned LSP integration tests, Cucumber BDD scenarios, website npm/Vitest checks, and VS Code extension host tests. A single top-level `tests/` tree no longer matches reality. The required invariant is ownership clarity: executable harness code must sit with the package that runs it, while `docs/bdd/features/` remains the requirements-facing location for executable Gherkin specs.
+**Scale:** Count of test or harness files located outside their owned tree.
 **Meter:**
 
-1. Run `find src/ -name '*.spec.ts' -o -name '*.test.ts'` from the repo root.
-2. Any output from this command is a violation — all spec files must be under `tests/`.
-3. Compute: (test files under tests/ / total test files) × 100.
-**Fail:** Any `.spec.ts` or `.test.ts` file found under `src/`.
-**Goal:** 0% violations — `find src/ -name '*.spec.ts'` returns no output.
+1. Verify server unit tests are under `src/**/__tests__/` or use a clear `*.test.ts` file near the module they exercise.
+2. Verify shared server integration and BDD harness files are under `src/test/`.
+3. Verify website tests are under `website/tests/`.
+4. Verify extension tests are under `extension/src/` or `extension/test/` according to the extension package runner.
+5. Verify Gherkin feature specs are under `docs/bdd/features/`, while BDD step definitions and source-owned step maps are under `src/test/bdd/`.
+**Fail:** Any new test or harness file placed outside its owned tree without updating this requirement and [[test/index]]; any raw BDD step implementation material restored under `docs/bdd/steps/`.
+**Goal:** 100% of test files live in the package-appropriate test tree, with `docs/bdd/features/` reserved for Gherkin feature specs.
 **Stakeholders:** All contributors, CI pipeline, build tooling.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR010-tests-directory-structure]], `tsconfig.test.json`, `bunfig.toml`.
+**Source:** [[adr/ADR010-tests-directory-structure]], `bunfig.toml`, `cucumber.yaml`, [[test/index]], [[plans/phase-18-security-hardening-audit/TASK-280]], [[plans/phase-18-security-hardening-audit/TASK-281]].
 
 ---
 
 **Tag:** Process.TestIndex.Matrix
 **Gist:** `docs/test/matrix.md` is maintained as a live matrix relating test files to Planguage requirement tags and to the phase and commit in which they were written; it must be updated whenever a new test file is added.
 **Ambition:** Without a traceability matrix, it is impossible to answer the question "which requirements have test coverage?" without reading every test file. The matrix provides at-a-glance requirement coverage: a reviewer can verify that every Planguage tag in the requirements layer has at least one corresponding test, identify untested requirements before shipping a phase, and understand which phases introduced coverage for which requirements. The `scripts/update-test-index.sh` automation stub exists to support automated matrix maintenance starting in Phase 3.
-**Scale:** Percentage of test files in `tests/` that have a corresponding entry in `docs/test/matrix.md` with at least one Planguage tag in the Requirements Tags column.
+**Scale:** Percentage of test files in the owned test trees that have a corresponding entry in `docs/test/matrix.md` with at least one Planguage tag in the Requirements Tags column.
 **Meter:**
 
-1. List all `.spec.ts` and `.test.ts` files under `tests/`.
+1. List all `.spec.ts`, `.test.ts`, extension host test, website test, and BDD step-definition files under the owned test trees described by `Process.Testing.DirectoryStructure`.
 2. For each file, check whether an entry exists in `docs/test/matrix.md`.
 3. Verify the entry has at least one valid Planguage tag (a tag that appears in `docs/requirements/index.md`).
 4. Compute: (test files with matrix entries / total test files) × 100.
