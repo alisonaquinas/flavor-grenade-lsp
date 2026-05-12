@@ -103,3 +103,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!SUCCESS] Closed · 2026-05-11
 > Audit acceptance criteria are complete and no blocking operational findings
 > remain. Status: `done`.
+
+> [!SUCCESS] Follow-up audit · 2026-05-12
+> TASK-279 was opened after user review found local Commonloom source still
+> present. The task followed red-green-review-done lifecycle commits, removed
+> `website/src/content/pipeline/commonloom`, passed the full W8 local gate, and
+> closed with no additional operational findings.
