@@ -1,6 +1,6 @@
 ---
 id: "TASK-281"
-title: "Move executable BDD assets out of docs"
+title: "Move BDD step source notes out of docs"
 type: task
 status: red
 priority: high
@@ -13,39 +13,38 @@ tags: [tickets/task, "phase/18", bdd, docs, refactor]
 aliases: ["TASK-281"]
 ---
 
-# Move Executable BDD Assets Out Of Docs
+# Move BDD Step Source Notes Out Of Docs
 
 > [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
 
 ## Description
 
-Refactor executable BDD assets out of `docs/` so documentation contains only
-documentation, while the default BDD gate continues to run from an appropriate
-test-source location.
+Refactor BDD step implementation notes out of `docs/` so documentation contains
+requirements and design prose, while source-adjacent test implementation
+references live with the BDD harness.
 
 ## Scope of Change
 
 **Move:**
 
-- `docs/bdd/features/**/*.feature` to a test-owned path such as
-  `src/test/bdd/features/**/*.feature` or another established test fixture
-  location.
+- `docs/bdd/steps/README.md` to a source-adjacent BDD harness location such as
+  `src/test/bdd/step-definitions/STEP-MAP.md`.
 
 **Update:**
 
-- `cucumber.yaml` paths.
-- BDD links in tickets, requirements, and test index/matrix references.
-- Any documentation that describes where executable BDD scenarios live.
+- Any documentation that describes where BDD step implementation references
+  live.
 
 **Do not move:**
 
 - Human-readable requirements, plans, ADRs, or design docs.
+- Gherkin `.feature` files; per user clarification, they may remain under
+  `docs/bdd/features/`.
 
 ## Linked Requirements
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | The default BDD gate must remain executable after relocation. | [[requirements/ci-cd]] |
 | `Quality.SourceLayout.DocsBoundary` | Documentation folders must not contain raw executable source or test assets. | [[requirements/code-quality]] |
 
 ## Linked Tests
@@ -53,15 +52,13 @@ test-source location.
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
 | `src/test/bdd/bdd-layout.test.ts` | Unit | `Quality.SourceLayout.DocsBoundary` | failing |
-| `cucumber.yaml` | BDD gate config | `CICD.Workflow.PRGate` | pending |
-| `src/test/bdd/features/**/*.feature` | BDD scenarios | `CICD.Workflow.PRGate` | pending |
+| `src/test/bdd/step-definitions/STEP-MAP.md` | Harness documentation | `Quality.SourceLayout.DocsBoundary` | pending |
 
 ## Definition of Done
 
-- [ ] No executable `.feature` files remain under `docs/`.
-- [ ] `bun run bdd` exits 0 from the new feature-file location.
-- [ ] Documentation links and test matrix/index references point to the new
-  location.
+- [ ] `docs/bdd/steps/` is removed.
+- [ ] BDD step implementation notes live next to the BDD step definitions.
+- [ ] `bun run bdd` continues to exit 0.
 - [ ] No generated report files are committed.
 
 ## Lifecycle
@@ -76,6 +73,11 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > appropriate test-source location. Status: `open`.
 
 > [!FAILURE] Red layout test · 2026-05-12
-> Added `src/test/bdd/bdd-layout.test.ts` to require executable `.feature`
-> files to live outside `docs/` and require Cucumber to load from
-> `src/test/bdd/features/**/*.feature`. Status: `red`.
+> Added `src/test/bdd/bdd-layout.test.ts` to require raw source files to stay
+> out of `docs/` and require BDD step implementation notes to move out of
+> `docs/bdd/steps/`. Status: `red`.
+
+> [!INFO] Scope clarified · 2026-05-12
+> User clarified that `.feature` files can remain in place. Narrowed this task
+> to moving BDD step implementation notes out of `docs/bdd/steps/` and into the
+> test harness tree. Status remains `red`.

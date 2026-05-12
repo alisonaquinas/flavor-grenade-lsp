@@ -2,14 +2,31 @@ import { describe, expect, it } from 'bun:test';
 import fs from 'node:fs';
 import path from 'node:path';
 
-function collectFeatureFiles(dir: string): string[] {
+function collectRawSourceFiles(dir: string): string[] {
   if (!fs.existsSync(dir)) return [];
   const result: string[] = [];
+  const rawSourceExtensions = new Set([
+    '.c',
+    '.cpp',
+    '.cs',
+    '.go',
+    '.java',
+    '.js',
+    '.jsx',
+    '.kt',
+    '.mjs',
+    '.py',
+    '.rb',
+    '.rs',
+    '.sh',
+    '.ts',
+    '.tsx',
+  ]);
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      result.push(...collectFeatureFiles(fullPath));
-    } else if (entry.isFile() && entry.name.endsWith('.feature')) {
+      result.push(...collectRawSourceFiles(fullPath));
+    } else if (entry.isFile() && rawSourceExtensions.has(path.extname(entry.name))) {
       result.push(fullPath);
     }
   }
@@ -17,12 +34,16 @@ function collectFeatureFiles(dir: string): string[] {
 }
 
 describe('BDD feature layout', () => {
-  it('keeps executable feature files out of docs', () => {
-    expect(collectFeatureFiles(path.resolve('docs'))).toEqual([]);
+  it('keeps raw source files out of docs', () => {
+    expect(collectRawSourceFiles(path.resolve('docs'))).toEqual([]);
   });
 
-  it('points Cucumber at the test-owned BDD feature tree', () => {
+  it('keeps BDD step implementation notes outside docs', () => {
+    expect(fs.existsSync(path.resolve('docs/bdd/steps'))).toBe(false);
+  });
+
+  it('keeps Cucumber pointed at the documented BDD feature specs', () => {
     const config = fs.readFileSync(path.resolve('cucumber.yaml'), 'utf8');
-    expect(config).toContain('src/test/bdd/features/**/*.feature');
+    expect(config).toContain('docs/bdd/features/**/*.feature');
   });
 });
