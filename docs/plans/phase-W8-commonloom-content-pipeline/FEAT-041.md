@@ -114,3 +114,43 @@ See [[index]] for the complete ticket list.
 > requirements in this repository are limited to package integration and the
 > Flavor Grenade website adapter; local Commonloom source maintenance no longer
 > applies.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-11.
+
+### What went as planned
+
+Markdown copy, typed manifests, generated TypeScript records, and website
+renderer facades all converged on the W8 architecture. The website gate passed
+locally with `npm run content:generate`, `npm run content:check`,
+`npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and
+`bun run lint:docs`; PR #64 also merged into `develop` with green CI.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-100 | Chore | W8 needed an explicit operational compliance audit after tickets were already in review. | +0.5 h |
+| CHORE-101 | Chore | Step M was not represented as a dedicated ticket until closeout. | +0.3 h |
+| CHORE-099 | Chore | Final closeout originally ran before the retrospective dependency was explicit. | +0.2 h |
+| — | Scope change | Commonloom was published independently, so local Commonloom source maintenance was removed from this repository's W8 requirements. | -0.5 h |
+
+### Process observations
+
+The A-M checklist caught useful closeout gaps, but W8 website phases need
+dedicated operational chores at planning time, not at the end. Package boundary
+changes should trigger a specification sweep before final ticket closure.
+
+### Carry-forward actions
+
+- [ ] Add phase-execution compliance and retrospective chores when opening the
+  next website phase.
+- [ ] Treat external package publication as a requirements-changing event that
+  updates ADRs, requirements, architecture, research, plans, and ticket scopes
+  together.
+
+### Rule / template amendments
+
+- [ ] Consider updating the website phase planning template so Step M and the
+  phase-execution compliance audit are present before implementation starts.

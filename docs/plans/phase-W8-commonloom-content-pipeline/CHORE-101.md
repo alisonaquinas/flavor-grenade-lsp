@@ -2,7 +2,7 @@
 id: "CHORE-101"
 title: "Phase W8 retrospective and operational closeout"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-101"]
 
 # Phase W8 Retrospective And Operational Closeout
 
-> [!INFO] `CHORE-101` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-progress`
+> [!INFO] `CHORE-101` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -61,15 +61,15 @@ package while the phase was in review.
 
 ## Acceptance Criteria
 
-- [ ] FEAT-041 contains a completed `## Retrospective` section with all Step M
+- [x] FEAT-041 contains a completed `## Retrospective` section with all Step M
   subsections.
-- [ ] Retrospective records the Commonloom package-boundary change as a
+- [x] Retrospective records the Commonloom package-boundary change as a
   deviation from the original plan.
-- [ ] Retrospective lists any tickets opened from CHORE-100 or final closeout
+- [x] Retrospective lists any tickets opened from CHORE-100 or final closeout
   findings.
-- [ ] Roadmap and execution ledger are updated only after final PR CI and merge
+- [x] Roadmap and execution ledger are updated only after final PR CI and merge
   evidence exists.
-- [ ] No release tag or package publication is performed from this repository
+- [x] No release tag or package publication is performed from this repository
   as part of W8 closeout.
 
 ## Lifecycle
@@ -89,3 +89,8 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Started · 2026-05-11
 > Beginning Step M retrospective after CHORE-100 completed the operational
 > compliance audit. Status: `in-progress`.
+
+> [!SUCCESS] Retrospective added · 2026-05-11
+> FEAT-041 now contains the Step M retrospective with the external Commonloom
+> package deviation, CHORE-100 audit result, closeout dependency correction,
+> and carry-forward actions. Status: `in-review`.
