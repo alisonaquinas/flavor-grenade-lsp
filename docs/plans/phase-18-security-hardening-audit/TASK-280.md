@@ -2,7 +2,7 @@
 id: "TASK-280"
 title: "Implement BDD harness coverage for default gate"
 type: task
-status: red
+status: in-review
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-280"]
 
 # Implement BDD Harness Coverage For Default Gate
 
-> [!INFO] `TASK-280` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
+> [!INFO] `TASK-280` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
 
 ## Description
 
@@ -62,8 +62,8 @@ undefined or pending steps.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.PRGate` | failing |
-| `src/test/bdd/step-definitions/**/*.ts` | Harness | `CICD.Workflow.PRGate` | changing |
+| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.PRGate` | passing |
+| `src/test/bdd/step-definitions/**/*.ts` | Harness | `CICD.Workflow.PRGate` | passing |
 
 ## Parent Feature
 
@@ -81,11 +81,11 @@ undefined or pending steps.
 
 ## Definition of Done
 
-- [ ] `bun run bdd` exits 0.
-- [ ] No default-gate Cucumber steps remain undefined.
-- [ ] No default-gate Cucumber steps return `pending`.
-- [ ] Harness changes are committed separately from ticket status changes.
-- [ ] BUG-033 can move to `in-review`.
+- [x] `bun run bdd` exits 0.
+- [x] No default-gate Cucumber steps remain undefined.
+- [x] No default-gate Cucumber steps return `pending`.
+- [x] Harness changes are committed separately from ticket status changes.
+- [x] BUG-033 can move to `in-review`.
 
 ## Lifecycle
 
@@ -97,3 +97,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Created after `bun run bdd` failed with 34 undefined and 24 pending scenarios.
 > This task explicitly accounts for adding or updating BDD harness coverage.
 > Status: `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-12
+> Added BDD harness state, extension harness steps, initialization options,
+> and concrete assertions for default-gate pending/undefined steps. `bun run
+> bdd` passed with 149 scenarios and 891 steps. Status: `in-review`.
