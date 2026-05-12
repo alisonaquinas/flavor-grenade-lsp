@@ -2,7 +2,7 @@
 id: "CHORE-102"
 title: "Backfill BDD gate requirements and specs"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: "18"
 created: "2026-05-12"
@@ -14,7 +14,7 @@ aliases: ["CHORE-102"]
 
 # Backfill BDD Gate Requirements And Specs
 
-> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `open`
+> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `in-progress`
 
 ## Description
 
@@ -67,3 +67,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Opened · 2026-05-12
 > Created to catch requirements and specs up to the ticketed BDD harness and
 > docs-boundary work. Status: `open`.
+
+> [!INFO] Started · 2026-05-12
+> Beginning requirements, behavior spec, and test traceability updates. Status:
+> `in-progress`.
