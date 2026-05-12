@@ -158,6 +158,22 @@ async function queryIndex(
   };
 }
 
+async function waitForIndex(
+  world: FGWorld,
+  predicate: (docIds: string[]) => boolean,
+  timeoutMs: number,
+): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  do {
+    const { docIds } = await queryIndex(world);
+    if (predicate(docIds)) return true;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  } while (Date.now() < deadline);
+
+  const { docIds } = await queryIndex(world);
+  return predicate(docIds);
+}
+
 // ── VaultDetector internal state (not exposed via LSP) ────────────────────
 
 Then('the VaultDetector returns:', async function (this: FGWorld, dataTable: DataTable) {
@@ -516,8 +532,18 @@ Given('a running LSP server with an indexed vault', async function (this: FGWorl
   }
 });
 
-Given('the vault currently has 5 documents', function (this: FGWorld) {
-  // No-op — just informational; actual file count doesn't affect test
+Given('the vault currently has 5 documents', async function (this: FGWorld) {
+  const docs = Array.from({ length: 5 }, (_, index) => `notes/existing-${index + 1}.md`);
+  for (const relPath of docs) {
+    this.writeVaultFile(relPath, `# Existing ${relPath}\n`);
+  }
+
+  const indexed = await waitForIndex(
+    this,
+    (docIds) => docs.every((relPath) => docIds.some((id) => matchesAssertion(id, relPath))),
+    1500,
+  );
+  expect(indexed).toBe(true);
 });
 
 When('a new file {string} is created in the vault', function (this: FGWorld, relPath: string) {
@@ -527,13 +553,12 @@ When('a new file {string} is created in the vault', function (this: FGWorld, rel
 Then(
   'within 500ms the document index contains {string}',
   async function (this: FGWorld, relPath: string) {
-    for (let i = 0; i < 10; i++) {
-      const { docIds } = await queryIndex(this);
-      if (docIds.some((id) => matchesAssertion(id, relPath))) return;
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-    const { docIds } = await queryIndex(this);
-    expect(docIds.some((id) => matchesAssertion(id, relPath))).toBe(true);
+    const indexed = await waitForIndex(
+      this,
+      (docIds) => docIds.some((id) => matchesAssertion(id, relPath)),
+      500,
+    );
+    expect(indexed).toBe(true);
   },
 );
 
@@ -572,13 +597,12 @@ When('the file {string} is deleted from the filesystem', function (this: FGWorld
 Then(
   'within 500ms the document index no longer contains {string}',
   async function (this: FGWorld, relPath: string) {
-    for (let i = 0; i < 10; i++) {
-      const { docIds } = await queryIndex(this);
-      if (!docIds.some((id) => matchesAssertion(id, relPath))) return;
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-    const { docIds } = await queryIndex(this);
-    expect(docIds.some((id) => matchesAssertion(id, relPath))).toBe(false);
+    const removed = await waitForIndex(
+      this,
+      (docIds) => !docIds.some((id) => matchesAssertion(id, relPath)),
+      500,
+    );
+    expect(removed).toBe(true);
   },
 );
 
