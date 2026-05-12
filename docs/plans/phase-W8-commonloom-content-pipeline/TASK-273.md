@@ -2,7 +2,7 @@
 id: "TASK-273"
 title: "Generate TypeScript content records"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-273"]
 
 # Generate TypeScript Content Records
 
-> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-273` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -104,3 +104,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > for routes, pages, navigation, media, and index re-exports. Verified with
 > `npm test -- --run content-pipeline-generated-ts`, `npm run lint`, and `npm
 > run typecheck`. Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.
