@@ -2,7 +2,7 @@
 id: "TASK-282"
 title: "Add full local test battery to CI"
 type: task
-status: red
+status: green
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-282"]
 
 # Add Full Local Test Battery To CI
 
-> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
+> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `green`
 
 ## Description
 
@@ -54,10 +54,10 @@ subset.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | pending |
-| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | pending in CI |
-| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | pending in CI |
-| `src/test/ci-workflow.test.ts` | Unit | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | failing as expected |
+| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | passing workflow guard |
+| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | wired into CI; pending full run |
+| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | wired into CI; pending full run |
+| `src/test/ci-workflow.test.ts` | Unit | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | passing |
 
 ## Definition of Done
 
@@ -84,3 +84,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > `.github/workflows/ci.yml` does not yet include `bun run bdd` or extension
 > verification commands.
 > Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-12
+> Added the `BDD scenarios` and `Extension checks` CI jobs, preserved website
+> checks, gated release publishing on the expanded battery, and updated
+> CI/CD requirements plus test traceability. `bun test
+> src/test/ci-workflow.test.ts` passes.
+> Status: `green`.
