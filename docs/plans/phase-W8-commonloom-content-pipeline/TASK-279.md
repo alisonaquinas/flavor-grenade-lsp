@@ -2,7 +2,7 @@
 id: "TASK-279"
 title: "Remove local Commonloom source"
 type: task
-status: green
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-279"]
 
 # Remove Local Commonloom Source
 
-> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -73,7 +73,7 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 - [x] `rg "src/content/pipeline/commonloom|../commonloom|pipeline/commonloom" website/src website/tests website/scripts` finds no active local imports.
 - [x] Website package dependencies represent `commonloom` as the reusable
   content-pipeline dependency.
-- [ ] `npm run content:generate`, `npm run content:check`, `npm run lint`,
+- [x] `npm run content:generate`, `npm run content:check`, `npm run lint`,
   `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`
   pass.
 
@@ -99,3 +99,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > local Commonloom implementation, and deleted
 > `website/src/content/pipeline/commonloom`. Targeted content-pipeline tests
 > pass and no local Commonloom import references remain. Status: `green`.
+
+> [!INFO] In review · 2026-05-12
+> Full W8 gate passed after local Commonloom source removal:
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> `website/src/content/pipeline/commonloom` no longer exists and local import
+> scans are clean. Status: `in-review`.
