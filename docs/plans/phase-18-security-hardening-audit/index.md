@@ -35,6 +35,7 @@ updated: 2026-05-08
 | [[plans/phase-18-security-hardening-audit/BUG-036]] | OFMarkdown parity BDD step coverage is incomplete | `CICD.Workflow.PRGate` |
 | [[plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | `Extension.Tests.HostCoverage` |
 | [[plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | `CICD.Workflow.PRGate` |
+| [[plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | `CICD.Workflow.BDDGate` |
 
 ## Chores
 

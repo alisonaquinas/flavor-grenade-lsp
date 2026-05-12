@@ -112,6 +112,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[plans/phase-18-security-hardening-audit/BUG-036]] | OFMarkdown parity BDD step coverage is incomplete | verified |
 | [[plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | verified |
 | [[plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | verified |
+| [[plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | open |
 | [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
 | [[plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
