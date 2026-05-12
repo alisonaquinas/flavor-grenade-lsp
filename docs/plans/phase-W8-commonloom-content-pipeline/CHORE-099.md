@@ -7,7 +7,7 @@ priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-10"
-updated: "2026-05-11"
+updated: "2026-05-12"
 dependencies: ["TASK-277", "TASK-278", "CHORE-095", "CHORE-100", "CHORE-101"]
 tags: [tickets/chore, "phase/W8", website, closeout]
 aliases: ["CHORE-099"]
@@ -105,3 +105,10 @@ bun run lint:docs
 > [!SUCCESS] Closed · 2026-05-11
 > Final closeout evidence is recorded and all blocking closeout chores are
 > complete. Status: `done`.
+
+> [!SUCCESS] Follow-up closeout evidence · 2026-05-12
+> TASK-279 removed `website/src/content/pipeline/commonloom`, added
+> `commonloom@0.1.0` as the package boundary, and verified no local Commonloom
+> source imports remain. The full W8 local gate passed after the removal:
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
