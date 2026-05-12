@@ -2,7 +2,7 @@
 id: "TASK-282"
 title: "Add full local test battery to CI"
 type: task
-status: green
+status: in-review
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-282"]
 
 # Add Full Local Test Battery To CI
 
-> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `green`
+> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
 
 ## Description
 
@@ -54,18 +54,18 @@ subset.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | passing workflow guard |
-| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | wired into CI; pending full run |
-| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | wired into CI; pending full run |
+| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | passing local guard |
+| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | passing locally; pending CI |
+| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | passing locally; pending CI |
 | `src/test/ci-workflow.test.ts` | Unit | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | passing |
 
 ## Definition of Done
 
-- [ ] CI runs `bun run bdd` on pull requests.
-- [ ] CI runs extension compile, unit, host, marketplace asset, and package
+- [x] CI runs `bun run bdd` on pull requests.
+- [x] CI runs extension compile, unit, host, marketplace asset, and package
   target verification on pull requests.
-- [ ] Existing website CI coverage is preserved.
-- [ ] CI job names are reflected in requirements/test traceability docs.
+- [x] Existing website CI coverage is preserved.
+- [x] CI job names are reflected in requirements/test traceability docs.
 - [ ] PR #65 or successor PR has green CI after the battery is expanded.
 
 ## Lifecycle
@@ -91,3 +91,11 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > CI/CD requirements plus test traceability. `bun test
 > src/test/ci-workflow.test.ts` passes.
 > Status: `green`.
+
+> [!INFO] In review · 2026-05-12
+> Full local battery passed: `bun run lint`, `bun run typecheck`,
+> `bun run format:check`, `bun run lint:dependencies`, `bun run lint:docs`,
+> `bun run build`, `bun test` (674 tests), `bun run bdd` (149 scenarios, 891
+> steps), extension compile/unit/host/marketplace/package-target checks, and
+> website lint/typecheck/test/build. Awaiting PR CI evidence.
+> Status: `in-review`.
