@@ -2,7 +2,7 @@
 id: "TASK-275"
 title: "Wire scripts, gitignore, tests, and build gates"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-275"]
 
 # Wire Scripts, Gitignore, Tests, And Build Gates
 
-> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-275` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -94,3 +94,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > typecheck. Verified with `npm test -- --run content-pipeline-scripts`, `npm
 > run content:generate`, `npm run lint`, and `npm run typecheck`. Status:
 > `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.
