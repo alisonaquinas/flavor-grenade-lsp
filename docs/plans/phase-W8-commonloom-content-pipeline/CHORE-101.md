@@ -7,7 +7,7 @@ priority: high
 phase: W8
 parent: "FEAT-041"
 created: "2026-05-11"
-updated: "2026-05-11"
+updated: "2026-05-12"
 dependencies: ["CHORE-100"]
 tags: [tickets/chore, "phase/W8", website, process, closeout]
 aliases: ["CHORE-101"]
@@ -97,3 +97,9 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!SUCCESS] Closed · 2026-05-11
 > Step M retrospective acceptance criteria are complete. Status: `done`.
+
+> [!INFO] Follow-up retrospective delta · 2026-05-12
+> TASK-279 was opened after user review found local Commonloom source still in
+> the repository. Carry-forward action remains: external package publication
+> must trigger an explicit source-removal task and package-boundary test before
+> phase closeout.
