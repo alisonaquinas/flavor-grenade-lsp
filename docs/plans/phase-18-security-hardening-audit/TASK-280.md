@@ -2,7 +2,7 @@
 id: "TASK-280"
 title: "Implement BDD harness coverage for default gate"
 type: task
-status: in-review
+status: done
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-280"]
 
 # Implement BDD Harness Coverage For Default Gate
 
-> [!INFO] `TASK-280` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
+> [!INFO] `TASK-280` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `done`
 
 ## Description
 
@@ -102,3 +102,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Added BDD harness state, extension harness steps, initialization options,
 > and concrete assertions for default-gate pending/undefined steps. `bun run
 > bdd` passed with 149 scenarios and 891 steps. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-12
+> PR #65 CI passed on commit `a7aa510`, including the repository `Tests` job
+> that exercises the default BDD gate. Acceptance criteria met. Status: `done`.
