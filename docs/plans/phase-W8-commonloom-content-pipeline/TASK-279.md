@@ -2,7 +2,7 @@
 id: "TASK-279"
 title: "Remove local Commonloom source"
 type: task
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-279"]
 
 # Remove Local Commonloom Source
 
-> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `TASK-279` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -106,3 +106,6 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
 > `website/src/content/pipeline/commonloom` no longer exists and local import
 > scans are clean. Status: `in-review`.
+
+> [!SUCCESS] Closed · 2026-05-12
+> Package-boundary removal is complete and verified. Status: `done`.
