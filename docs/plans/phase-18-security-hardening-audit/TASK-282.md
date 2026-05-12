@@ -104,3 +104,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > PR #65 run `25708443397` failed the expanded `Extension checks` and `BDD
 > scenarios` jobs. Tracked as [[BUG-040]] and [[BUG-041]] before fixes.
 > Status: `in-review`.
+
+> [!SUCCESS] CI findings fixed locally · 2026-05-12
+> BUG-040 and BUG-041 fixes are implemented. Targeted checks passed:
+> `bun test src/test/ci-workflow.test.ts`, targeted `workspace.feature`
+> Cucumber scenario, `bun run build:binary:win`, and extension
+> `npm run verify:package-targets`.
+> Status: `in-review`.
