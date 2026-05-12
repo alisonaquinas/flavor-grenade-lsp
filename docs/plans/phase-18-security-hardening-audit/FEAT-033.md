@@ -115,7 +115,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | verified |
 | [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
 | [[plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
-| [[plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | open |
+| [[plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | red |
 | [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
 | [[plans/phase-18-security-hardening-audit/CHORE-102]] | Backfill BDD gate requirements and specs | done |
 

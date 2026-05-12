@@ -2,7 +2,7 @@
 id: "TASK-282"
 title: "Add full local test battery to CI"
 type: task
-status: open
+status: red
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-282"]
 
 # Add Full Local Test Battery To CI
 
-> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `open`
+> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
 
 ## Description
 
@@ -57,6 +57,7 @@ subset.
 | `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | pending |
 | `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | pending in CI |
 | `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | pending in CI |
+| `src/test/ci-workflow.test.ts` | Unit | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | failing as expected |
 
 ## Definition of Done
 
@@ -76,3 +77,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!INFO] Opened · 2026-05-12
 > User requested ticket tracking for adding the full local test battery to CI.
 > Status: `open`.
+
+> [!FAILURE] Red · 2026-05-12
+> Added `src/test/ci-workflow.test.ts` to assert the CI workflow runs the root,
+> BDD, extension, and website verification battery. The new test fails because
+> `.github/workflows/ci.yml` does not yet include `bun run bdd` or extension
+> verification commands.
+> Status: `red`.
