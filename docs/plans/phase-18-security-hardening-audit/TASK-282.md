@@ -2,7 +2,7 @@
 id: "TASK-282"
 title: "Add full local test battery to CI"
 type: task
-status: in-review
+status: done
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-282"]
 
 # Add Full Local Test Battery To CI
 
-> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
+> [!INFO] `TASK-282` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `done`
 
 ## Description
 
@@ -54,9 +54,9 @@ subset.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | passing local guard |
-| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | passing locally; pending CI |
-| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | passing locally; pending CI |
+| `.github/workflows/ci.yml` | Workflow | `CICD.Workflow.PRGate` | passing in CI |
+| `docs/bdd/features/**/*.feature` | BDD | `CICD.Workflow.BDDGate` | passing in CI |
+| `extension/src/test/suite/*.js` | Extension host | `Extension.Tests.HostCoverage` | passing in CI |
 | `src/test/ci-workflow.test.ts` | Unit | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | passing |
 
 ## Definition of Done
@@ -66,7 +66,7 @@ subset.
   target verification on pull requests.
 - [x] Existing website CI coverage is preserved.
 - [x] CI job names are reflected in requirements/test traceability docs.
-- [ ] PR #65 or successor PR has green CI after the battery is expanded.
+- [x] PR #65 or successor PR has green CI after the battery is expanded.
 
 ## Lifecycle
 
@@ -118,3 +118,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > `bun run lint`, `bun run typecheck`, `bun test`, `bun run bdd`,
 > `npm run test:host`, and `npm run verify:package-targets`.
 > Status: `in-review`.
+
+> [!SUCCESS] Done · 2026-05-12
+> PR #65 CI run `25709023741` passed the expanded battery: root checks, BDD
+> scenarios, extension checks, website checks, docs lint, dependency policy,
+> format, tests, typecheck, and build. BUG-040 and BUG-041 are verified.
+> Status: `done`.
