@@ -2,7 +2,7 @@
 id: "TASK-281"
 title: "Move BDD step source notes out of docs"
 type: task
-status: in-review
+status: done
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-281"]
 
 # Move BDD Step Source Notes Out Of Docs
 
-> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
+> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `done`
 
 ## Description
 
@@ -59,7 +59,7 @@ references live with the BDD harness.
 - [x] `docs/bdd/steps/` is removed.
 - [x] BDD step implementation notes live next to the BDD step definitions.
 - [x] `bun run bdd` continues to exit 0.
-- [ ] No generated report files are committed.
+- [x] No generated report files are committed.
 
 ## Lifecycle
 
@@ -102,3 +102,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > build`, `bun test`, `bun run bdd`, `npm run compile`, `npm test`, `npm run
 > verify:marketplace-assets`, `npm run verify:package-targets`, and `npm run
 > test:host`. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-12
+> PR #65 CI passed on commit `a7aa510`, including format, tests, docs lint,
+> website checks, and build. Acceptance criteria met. Status: `done`.
