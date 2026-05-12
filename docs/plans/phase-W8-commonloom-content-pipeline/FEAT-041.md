@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: in-review
+status: done
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-review`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `done`
 
 ## Goal
 
@@ -173,3 +173,8 @@ changes should trigger a specification sweep before final ticket closure.
 > pipeline imports to the published `commonloom` package, and passed the full
 > W8 local gate. FEAT-041 is back in PR review pending PR #65 CI. Status:
 > `in-review`.
+
+> [!SUCCESS] Phase closed after TASK-279 · 2026-05-12
+> PR #65 CI run `25705556117` passed after TASK-279 and the local Commonloom
+> source removal. All W8 tickets are terminal and the external package boundary
+> is complete. Status: `done`.

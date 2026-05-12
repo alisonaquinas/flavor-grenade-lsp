@@ -56,7 +56,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W5    | Website CI And Pages Release | ✅ complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 | PR #55/#56 CI green; release tag cancelled |
 | W6    | Website Review Polish | ✅ complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | PR #58 CI green |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
-| W8    | Commonloom Content Pipeline | 🔎 in-review | TASK-279 removed `website/src/content/pipeline/commonloom` and the full local W8 gate passed; PR #65 CI is the final completion gate. Prior PR #64 merged at `9569e37` with green CI. | 2026-05-10 | — |
+| W8    | Commonloom Content Pipeline | ✅ complete | TASK-279 removed `website/src/content/pipeline/commonloom`; full local W8 gate and PR #65 CI run `25705556117` passed. Prior PR #64 merged at `9569e37` with green CI. | 2026-05-10 | 2026-05-12 |
 
 ---
 

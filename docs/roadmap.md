@@ -17,7 +17,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
-> Website phase W8 is **in-review** as of 2026-05-12 after TASK-279 removed the remaining local Commonloom source; PR #65 CI is the final completion gate.
+> Website phase W8 is **complete** as of 2026-05-12 after TASK-279 removed the remaining local Commonloom source and PR #65 CI passed.
 
 ## Phase Table
 
@@ -390,7 +390,7 @@ build, content, accessibility, and publishing checks.
 | W5 | Website CI And Pages Release | complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 |
 | W6 | Website Review Polish | complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 |
 | W7 | Website Guide Prose And Article Hubs | complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 |
-| W8 | Commonloom Content Pipeline | in-review | Markdown copy pipeline consumes the external `commonloom` package; local Commonloom source is removed and PR #65 CI is pending | — |
+| W8 | Commonloom Content Pipeline | complete | Markdown copy pipeline consumes the external `commonloom` package; local Commonloom source is removed and PR #65 CI passed | 2026-05-12 |
 
 ### Website Phase Details
 

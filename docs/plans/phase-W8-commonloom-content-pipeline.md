@@ -1,7 +1,7 @@
 ---
 title: "Phase W8: Commonloom Content Pipeline"
 phase: W8
-status: in-review
+status: complete
 tags: [plans, website, markdown, content-pipeline, commonloom]
 aliases: [Phase W8, Commonloom Content Pipeline, Website Markdown Pipeline]
 updated: 2026-05-12
@@ -13,7 +13,7 @@ updated: 2026-05-12
 |---|---|
 | Phase | W8 |
 | Title | Commonloom Content Pipeline |
-| Status | in-review |
+| Status | complete |
 | Gate | Markdown copy, typed manifests, external Commonloom package integration, generated TypeScript records, migration, and website build gates pass |
 | Depends on | Phase W7 |
 
@@ -174,3 +174,7 @@ bun run lint:docs
 > TASK-279 removed `website/src/content/pipeline/commonloom`, switched website
 > imports to `commonloom@0.1.0`, and passed the full local W8 gate. Phase W8 is
 > in PR review pending PR #65 CI confirmation.
+
+> [!SUCCESS] Completed · 2026-05-12
+> PR #65 CI run `25705556117` passed after the package-boundary removal.
+> Phase W8 is complete with no local Commonloom source remaining.

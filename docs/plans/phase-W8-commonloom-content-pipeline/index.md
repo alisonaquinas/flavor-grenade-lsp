@@ -1,7 +1,7 @@
 ---
 title: Phase W8 Commonloom Content Pipeline Tickets
 phase: W8
-status: in-review
+status: complete
 tags: [plans/phase-W8, tickets/index, website, markdown, commonloom]
 aliases: ["Phase W8 Tickets"]
 updated: 2026-05-12
@@ -11,7 +11,7 @@ updated: 2026-05-12
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-041]] | Commonloom Content Pipeline | Feature | `in-review` |
+| [[FEAT-041]] | Commonloom Content Pipeline | Feature | `done` |
 | [[TASK-267]] | Add Commonloom tooling scaffold | Task | `done` |
 | [[TASK-268]] | Define Commonloom core contracts | Task | `done` |
 | [[TASK-269]] | Parse Markdown and frontmatter | Task | `done` |
