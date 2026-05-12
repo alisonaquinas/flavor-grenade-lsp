@@ -309,12 +309,24 @@ Then('the completion list has exactly {int} or more items', function (this: FGWo
 Then(
   'the completion list is empty or contains only intra-document headings',
   function (this: FGWorld) {
-    return 'pending';
+    const result = this.lastResponse as LspCompletionList | LspCompletionItem[] | null;
+    const items: LspCompletionItem[] = Array.isArray(result)
+      ? result
+      : ((result as LspCompletionList)?.items ?? []);
+    const disallowedCrossFileLabels = ['alpha', 'beta', 'gamma', 'delta', 'epsilon'];
+    for (const label of disallowedCrossFileLabels) {
+      expect(items.some((item) => item.label === label)).toBe(false);
+    }
   },
 );
 
 Then('no cross-file document names appear in the list', function (this: FGWorld) {
-  return 'pending';
+  const result = this.lastResponse as LspCompletionList | LspCompletionItem[] | null;
+  const items: LspCompletionItem[] = Array.isArray(result)
+    ? result
+    : ((result as LspCompletionList)?.items ?? []);
+  const labels = items.map((item) => item.label);
+  expect(labels).not.toEqual(expect.arrayContaining(['alpha', 'beta', 'gamma', 'delta']));
 });
 
 Then('the completion list includes at least {int} items', function (this: FGWorld, min: number) {
@@ -409,15 +421,21 @@ Then('the response is null', function (this: FGWorld) {
 
 Given(
   'the server is configured with completion.candidates = {int}',
-  function (this: FGWorld, _count: number) {
-    return 'pending';
+  function (this: FGWorld, count: number) {
+    this.initializationOptions = {
+      ...this.initializationOptions,
+      completionCandidates: count,
+    };
   },
 );
 
 Given(
   'the server is configured with linkStyle = {string}',
-  function (this: FGWorld, _style: string) {
-    return 'pending';
+  function (this: FGWorld, style: string) {
+    this.initializationOptions = {
+      ...this.initializationOptions,
+      linkStyle: style,
+    };
   },
 );
 

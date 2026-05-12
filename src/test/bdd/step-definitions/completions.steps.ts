@@ -117,7 +117,17 @@ When(
  * Pending: verifying insertText format requires knowing exact server output format.
  */
 Then('all completion insert texts use the file stem without path prefix', function (this: FGWorld) {
-  return 'pending';
+  const result = this.lastResponse as LspCompletionList | LspCompletionItemWithInsert[] | null;
+  const items: LspCompletionItemWithInsert[] = Array.isArray(result)
+    ? result
+    : ((result as LspCompletionList)?.items ?? []);
+  expect(items.length).toBeGreaterThan(0);
+  for (const item of items) {
+    const insertText = item.insertText ?? item.label;
+    expect(insertText).not.toContain('/');
+    expect(insertText).not.toContain('\\');
+    expect(insertText).not.toMatch(/\.md$/);
+  }
 });
 
 /**
@@ -156,14 +166,32 @@ Then(
  * Pending: verifying no other document headings requires knowing all headings.
  */
 Then('no other document headings are mixed into the list', function (this: FGWorld) {
-  return 'pending';
+  const result = this.lastResponse as LspCompletionList | LspCompletionItemWithInsert[] | null;
+  const items: LspCompletionItemWithInsert[] = Array.isArray(result)
+    ? result
+    : ((result as LspCompletionList)?.items ?? []);
+  const labels = items.map((item) => item.label);
+  expect(labels).toEqual(expect.arrayContaining(['Introduction', 'Methods', 'Results']));
+  expect(labels).not.toContain('Overview');
+  expect(labels).not.toContain('Details');
+  expect(labels).not.toContain('Summary');
+  expect(labels).not.toContain('Appendix');
 });
 
 /**
  * Pending: verifying no anchors from other documents requires cross-referencing.
  */
 Then('no anchors from other documents appear in the list', function (this: FGWorld) {
-  return 'pending';
+  const result = this.lastResponse as LspCompletionList | LspCompletionItemWithInsert[] | null;
+  const items: LspCompletionItemWithInsert[] = Array.isArray(result)
+    ? result
+    : ((result as LspCompletionList)?.items ?? []);
+  const labels = items.map((item) => item.label);
+  expect(labels).toContain('result-one');
+  expect(labels).not.toContain('detail-a');
+  expect(labels).not.toContain('disc-one');
+  expect(labels).not.toContain('anchor-eta');
+  expect(labels).not.toContain('appendix-one');
 });
 
 // ── Given: frontmatter title ───────────────────────────────────────────────

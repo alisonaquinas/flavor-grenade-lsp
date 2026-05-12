@@ -65,6 +65,8 @@ export class FGWorld extends World {
   cursorPosition: { uri: string; position: { line: number; character: number } } | null = null;
   currentFile: string | null = null;
   lastOpenedUri: string | null = null;
+  initializationOptions: Record<string, unknown> = {};
+  bddState: Record<string, unknown> = {};
 
   constructor(opts: IWorldOptions) {
     super(opts);
@@ -256,6 +258,7 @@ export class FGWorld extends World {
       processId: null,
       rootUri: rootUri ?? null,
       capabilities: {},
+      initializationOptions: this.initializationOptions,
     });
     this.lastStatusNotif = await this.waitForNotification('flavorGrenade/status');
     // Pass rootUri in initialized so server triggers vault scan
@@ -317,6 +320,8 @@ export class FGWorld extends World {
     this.idCounter = 1;
     this.lastResponse = null;
     this.lastDiagnostics = new Map();
+    this.initializationOptions = {};
+    this.bddState = {};
   }
 }
 
