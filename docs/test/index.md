@@ -74,6 +74,7 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/lsp/handlers/__tests__/initialized.handler.test.ts` | Unit | Tests `initialized` rejects non-file root URIs before vault scan starts | `Security.Vault.URISchemeAllowlist` | Phase 18 |
 | `src/transport/json-rpc-dispatcher.test.ts` | Unit | Tests JSON-RPC routing, protocol errors, and rejection of dangerous prototype keys before handler dispatch | `Security.Input.PrototypePollution` | Phase 18 |
 | `scripts/check-exact-dependencies.test.js` | Unit | Tests dependency range detection ignores compatibility engine ranges and reports dependency/devDependency ranges | `Security.Supply.ExactPinning` | Phase 18 |
+| `src/test/ci-workflow.test.ts` | Unit | Verifies repository CI runs the root, BDD, extension, and website verification battery | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | Phase 18 |
 | `src/test/bdd/bdd-layout.test.ts` | Unit | Verifies raw source files and BDD step implementation notes stay out of `docs/` while Gherkin feature specs remain in `docs/bdd/features/` | `Quality.SourceLayout.DocsBoundary`, `Process.Testing.DirectoryStructure` | Phase 18 |
 
 ---
