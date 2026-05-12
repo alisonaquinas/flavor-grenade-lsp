@@ -2,7 +2,7 @@
 id: "CHORE-099"
 title: "Phase W8 final closeout"
 type: chore
-status: in-progress
+status: in-review
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-099"]
 
 # Phase W8 Final Closeout
 
-> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-progress`
+> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
 
 ## Description
 
@@ -28,7 +28,8 @@ merged with green CI evidence.
 - Confirm PR CI is green after the renderer switch.
 - Confirm PR merge into `develop`.
 - Update FEAT-041 acceptance criteria.
-- Update W8 phase status, roadmap, and execution ledger.
+- Prepare final W8 phase status, roadmap, and execution ledger evidence for
+  the FEAT-041 closeout commit after all tickets are terminal.
 - Leave Step M retrospective work to [[CHORE-101]] after final closeout
   evidence exists.
 - Keep actual release publishing out of scope.
@@ -52,12 +53,13 @@ bun run lint:docs
 ## Definition of Done
 
 - [x] FEAT-041 has no unchecked acceptance criteria.
-- [ ] W8 phase status is `complete` only after merge evidence exists.
-- [ ] Execution ledger and roadmap cite the final PR and CI evidence.
+- [x] W8 phase status remains non-complete until all tickets are terminal.
+- [x] Final PR and CI evidence is ready for the FEAT-041 closeout commit.
 - [x] No generated files under `website/src/content/generated/` are committed.
 - [x] No actual release tag or release publication is pushed.
-- [ ] [[CHORE-100]] phase execution compliance audit is complete or has no
+- [x] [[CHORE-100]] phase execution compliance audit is complete or has no
   blocking findings.
+- [x] [[CHORE-101]] Step M retrospective is complete.
 
 ## Workflow Log
 
@@ -91,3 +93,11 @@ bun run lint:docs
 > [!INFO] Dependency correction · 2026-05-11
 > Final closeout must wait for Step M retrospective evidence, so CHORE-101 is a
 > blocker for CHORE-099 rather than depending on CHORE-099.
+
+> [!SUCCESS] Closeout evidence ready · 2026-05-11
+> PR #64 merged into `develop` on 2026-05-10 at merge commit `9569e37`, with
+> successful CI runs `25639159671` and `25639207633` covering typecheck, lint,
+> dependency policy, format, tests, Markdown lint, website checks, and build.
+> Current branch local gates also passed. Final ledger and roadmap completion
+> are deferred to the FEAT-041 closeout commit so Rule 4 remains satisfied.
+> Status: `in-review`.
