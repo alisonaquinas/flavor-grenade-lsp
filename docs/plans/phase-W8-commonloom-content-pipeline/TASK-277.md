@@ -2,7 +2,7 @@
 id: "TASK-277"
 title: "Compile generated page records from Markdown"
 type: task
-status: green
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["TASK-277"]
 
 # Compile Generated Page Records From Markdown
 
-> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `green`
+> [!INFO] `TASK-277` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -103,3 +103,9 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > than old `websitePages` source data. Verified with `npm test -- --run
 > content-pipeline-generated-from-markdown`, `npm run lint`, and `npm run
 > typecheck`. Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.
