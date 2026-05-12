@@ -2,7 +2,7 @@
 id: "CHORE-099"
 title: "Phase W8 final closeout"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-099"]
 
 # Phase W8 Final Closeout
 
-> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-review`
+> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
 
 ## Description
 
@@ -101,3 +101,7 @@ bun run lint:docs
 > Current branch local gates also passed. Final ledger and roadmap completion
 > are deferred to the FEAT-041 closeout commit so Rule 4 remains satisfied.
 > Status: `in-review`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> Final closeout evidence is recorded and all blocking closeout chores are
+> complete. Status: `done`.
