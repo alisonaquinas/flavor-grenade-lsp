@@ -2,7 +2,7 @@
 id: "TASK-281"
 title: "Move BDD step source notes out of docs"
 type: task
-status: red
+status: green
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-281"]
 
 # Move BDD Step Source Notes Out Of Docs
 
-> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `red`
+> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `green`
 
 ## Description
 
@@ -51,14 +51,14 @@ references live with the BDD harness.
 
 | Test File | Type | Req Tag | Status |
 |---|---|---|---|
-| `src/test/bdd/bdd-layout.test.ts` | Unit | `Quality.SourceLayout.DocsBoundary` | failing |
-| `src/test/bdd/step-definitions/STEP-MAP.md` | Harness documentation | `Quality.SourceLayout.DocsBoundary` | pending |
+| `src/test/bdd/bdd-layout.test.ts` | Unit | `Quality.SourceLayout.DocsBoundary` | passing |
+| `src/test/bdd/step-definitions/STEP-MAP.md` | Harness documentation | `Quality.SourceLayout.DocsBoundary` | passing |
 
 ## Definition of Done
 
-- [ ] `docs/bdd/steps/` is removed.
-- [ ] BDD step implementation notes live next to the BDD step definitions.
-- [ ] `bun run bdd` continues to exit 0.
+- [x] `docs/bdd/steps/` is removed.
+- [x] BDD step implementation notes live next to the BDD step definitions.
+- [x] `bun run bdd` continues to exit 0.
 - [ ] No generated report files are committed.
 
 ## Lifecycle
@@ -81,3 +81,8 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > User clarified that `.feature` files can remain in place. Narrowed this task
 > to moving BDD step implementation notes out of `docs/bdd/steps/` and into the
 > test harness tree. Status remains `red`.
+
+> [!SUCCESS] Green implementation · 2026-05-12
+> Moved the BDD step map to `src/test/bdd/step-definitions/STEP-MAP.md`,
+> removed `docs/bdd/steps/`, and verified `bun test
+> src/test/bdd/bdd-layout.test.ts` plus `bun run bdd` pass. Status: `green`.
