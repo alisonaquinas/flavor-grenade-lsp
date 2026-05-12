@@ -2,7 +2,7 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: done
+status: in-progress
 priority: high
 phase: W8
 created: "2026-05-10"
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `done`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-progress`
 
 ## Goal
 
@@ -159,3 +159,8 @@ changes should trigger a specification sweep before final ticket closure.
 > All W8 tasks and chores are terminal, PR #64 merged into `develop` with green
 > CI, current branch local gates passed, and the W8 retrospective is recorded.
 > Status: `done`.
+
+> [!WARNING] Reopened · 2026-05-12
+> User review found `website/src/content/pipeline/commonloom` still present.
+> Added TASK-279 to remove local Commonloom source and re-entered W8 execution.
+> Status: `in-progress`.

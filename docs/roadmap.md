@@ -17,7 +17,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
-> Website phase W8 is **complete** as of 2026-05-11. It replaces hand-authored page content modules with the Commonloom Markdown content pipeline. Commonloom is now an external npm package, not source maintained in this repository.
+> Website phase W8 is **in-progress** again as of 2026-05-12 to remove the remaining local Commonloom source and finish the external package boundary.
 
 ## Phase Table
 
@@ -390,7 +390,7 @@ build, content, accessibility, and publishing checks.
 | W5 | Website CI And Pages Release | complete | Website CI and Pages release automation pass PR CI; production release execution was cancelled | 2026-05-09 |
 | W6 | Website Review Polish | complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 |
 | W7 | Website Guide Prose And Article Hubs | complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 |
-| W8 | Commonloom Content Pipeline | complete | PR #64 merged into `develop` with green CI; Markdown copy, typed manifests, the external `commonloom` package, generated TypeScript records, and migration gates replace hand-authored content modules | 2026-05-11 |
+| W8 | Commonloom Content Pipeline | in-progress | Reopened after user review found `website/src/content/pipeline/commonloom` still present; TASK-279 removes local Commonloom source and completes the external package boundary | — |
 
 ### Website Phase Details
 

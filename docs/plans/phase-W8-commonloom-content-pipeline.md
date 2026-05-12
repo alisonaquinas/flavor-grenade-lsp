@@ -1,7 +1,7 @@
 ---
 title: "Phase W8: Commonloom Content Pipeline"
 phase: W8
-status: complete
+status: in-progress
 tags: [plans, website, markdown, content-pipeline, commonloom]
 aliases: [Phase W8, Commonloom Content Pipeline, Website Markdown Pipeline]
 updated: 2026-05-11
@@ -13,7 +13,7 @@ updated: 2026-05-11
 |---|---|
 | Phase | W8 |
 | Title | Commonloom Content Pipeline |
-| Status | complete |
+| Status | in-progress |
 | Gate | Markdown copy, typed manifests, external Commonloom package integration, generated TypeScript records, migration, and website build gates pass |
 | Depends on | Phase W7 |
 

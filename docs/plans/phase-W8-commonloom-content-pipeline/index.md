@@ -1,7 +1,7 @@
 ---
 title: Phase W8 Commonloom Content Pipeline Tickets
 phase: W8
-status: complete
+status: in-progress
 tags: [plans/phase-W8, tickets/index, website, markdown, commonloom]
 aliases: ["Phase W8 Tickets"]
 updated: 2026-05-11
@@ -24,6 +24,7 @@ updated: 2026-05-11
 | [[TASK-276]] | Verify website parity and authoring docs | Task | `done` |
 | [[TASK-277]] | Compile generated page records from Markdown | Task | `done` |
 | [[TASK-278]] | Switch website facades to generated content | Task | `done` |
+| [[TASK-279]] | Remove local Commonloom source | Task | `open` |
 | [[CHORE-096]] | Phase W8 lint sweep | Chore | `done` |
 | [[CHORE-097]] | Phase W8 code quality sweep | Chore | `done` |
 | [[CHORE-098]] | Phase W8 security sweep | Chore | `done` |
