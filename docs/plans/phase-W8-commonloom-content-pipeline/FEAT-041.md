@@ -2,11 +2,11 @@
 id: "FEAT-041"
 title: "Commonloom Content Pipeline"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: W8
 created: "2026-05-10"
-updated: "2026-05-11"
+updated: "2026-05-12"
 dependencies: ["FEAT-040"]
 tags: [tickets/feature, "phase/W8", website, markdown, commonloom]
 aliases: ["FEAT-041"]
@@ -14,7 +14,7 @@ aliases: ["FEAT-041"]
 
 # Commonloom Content Pipeline
 
-> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-progress`
+> [!INFO] `FEAT-041` · Feature · Phase W8 · Priority: `high` · Status: `in-review`
 
 ## Goal
 
@@ -74,6 +74,8 @@ See [[index]] for the complete ticket list.
   complete.
 - [[CHORE-100]] audits W8 against phase execution Rules 1-5 and Steps A-L.
 - [[CHORE-101]] records the required Step M retrospective after final evidence.
+- [[TASK-279]] removes the remaining local Commonloom source and verifies the
+  published package boundary.
 
 ## Workflow Log
 
@@ -134,6 +136,7 @@ locally with `npm run content:generate`, `npm run content:check`,
 | CHORE-100 | Chore | W8 needed an explicit operational compliance audit after tickets were already in review. | +0.5 h |
 | CHORE-101 | Chore | Step M was not represented as a dedicated ticket until closeout. | +0.3 h |
 | CHORE-099 | Chore | Final closeout originally ran before the retrospective dependency was explicit. | +0.2 h |
+| TASK-279 | Task | User review found local Commonloom source still present after package-boundary requirements changed. | +0.7 h |
 | — | Scope change | Commonloom was published independently, so local Commonloom source maintenance was removed from this repository's W8 requirements. | -0.5 h |
 
 ### Process observations
@@ -164,3 +167,9 @@ changes should trigger a specification sweep before final ticket closure.
 > User review found `website/src/content/pipeline/commonloom` still present.
 > Added TASK-279 to remove local Commonloom source and re-entered W8 execution.
 > Status: `in-progress`.
+
+> [!SUCCESS] Package boundary complete · 2026-05-12
+> TASK-279 deleted `website/src/content/pipeline/commonloom`, moved website
+> pipeline imports to the published `commonloom` package, and passed the full
+> W8 local gate. FEAT-041 is back in PR review pending PR #65 CI. Status:
+> `in-review`.

@@ -1,10 +1,10 @@
 ---
 title: "Phase W8: Commonloom Content Pipeline"
 phase: W8
-status: in-progress
+status: in-review
 tags: [plans, website, markdown, content-pipeline, commonloom]
 aliases: [Phase W8, Commonloom Content Pipeline, Website Markdown Pipeline]
-updated: 2026-05-11
+updated: 2026-05-12
 ---
 
 # Phase W8: Commonloom Content Pipeline
@@ -13,7 +13,7 @@ updated: 2026-05-11
 |---|---|
 | Phase | W8 |
 | Title | Commonloom Content Pipeline |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Markdown copy, typed manifests, external Commonloom package integration, generated TypeScript records, migration, and website build gates pass |
 | Depends on | Phase W7 |
 
@@ -141,6 +141,7 @@ bun run lint:docs
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-276]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-277]]
 - [[plans/phase-W8-commonloom-content-pipeline/TASK-278]]
+- [[plans/phase-W8-commonloom-content-pipeline/TASK-279]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
 - [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
@@ -168,3 +169,8 @@ bun run lint:docs
 > W8 no longer requires this repository to maintain
 > `website/src/content/pipeline/commonloom`; local work is limited to package
 > integration and the Flavor Grenade website adapter.
+
+> [!SUCCESS] Package boundary executed · 2026-05-12
+> TASK-279 removed `website/src/content/pipeline/commonloom`, switched website
+> imports to `commonloom@0.1.0`, and passed the full local W8 gate. Phase W8 is
+> in PR review pending PR #65 CI confirmation.
