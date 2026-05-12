@@ -17,7 +17,7 @@ updated: 2026-05-11
 | [[TASK-269]] | Parse Markdown and frontmatter | Task | `done` |
 | [[TASK-270]] | Sanitize HTML and source trace content | Task | `done` |
 | [[TASK-271]] | Validate links, wiki-links, and media references | Task | `done` |
-| [[TASK-272]] | Add website adapter and typed manifests | Task | `in-review` |
+| [[TASK-272]] | Add website adapter and typed manifests | Task | `done` |
 | [[TASK-273]] | Generate TypeScript content records | Task | `in-review` |
 | [[TASK-274]] | Migrate existing content into Markdown copy | Task | `in-review` |
 | [[TASK-275]] | Wire scripts, gitignore, tests, and build gates | Task | `in-review` |
