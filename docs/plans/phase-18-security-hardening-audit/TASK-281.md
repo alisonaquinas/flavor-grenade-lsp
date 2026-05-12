@@ -2,7 +2,7 @@
 id: "TASK-281"
 title: "Move BDD step source notes out of docs"
 type: task
-status: green
+status: in-review
 priority: high
 phase: "18"
 parent: "FEAT-033"
@@ -15,7 +15,7 @@ aliases: ["TASK-281"]
 
 # Move BDD Step Source Notes Out Of Docs
 
-> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `green`
+> [!INFO] `TASK-281` · Task · Phase 18 · Parent: [[FEAT-033]] · Status: `in-review`
 
 ## Description
 
@@ -95,3 +95,10 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Ran Prettier on `src/test/bdd/step-definitions/STEP-MAP.md`; `bun run
 > format:check` and `bun test src/test/bdd/bdd-layout.test.ts` now pass.
 > Status: `green`.
+
+> [!SUCCESS] Review gates passed · 2026-05-12
+> Full local verification passed: `bun run lint`, `bun run typecheck`, `bun run
+> format:check`, `bun run lint:dependencies`, `bun run lint:docs`, `bun run
+> build`, `bun test`, `bun run bdd`, `npm run compile`, `npm test`, `npm run
+> verify:marketplace-assets`, `npm run verify:package-targets`, and `npm run
+> test:host`. Status: `in-review`.
