@@ -2,7 +2,7 @@
 id: "CHORE-099"
 title: "Phase W8 final closeout"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-099"]
 
 # Phase W8 Final Closeout
 
-> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-099` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-progress`
 
 ## Description
 
@@ -83,3 +83,7 @@ bun run lint:docs
 > Added CHORE-100 as a blocker so final closeout cannot mark W8 complete before
 > the phase execution rules are audited. Step M retrospective work is tracked
 > separately in CHORE-101.
+
+> [!INFO] Started closeout · 2026-05-11
+> CHORE-100 is `done`, PR #64 is merged, and local W8 gates passed on the
+> current branch. Status: `in-progress`.
