@@ -2,7 +2,7 @@
 id: "CHORE-100"
 title: "Phase W8 phase execution compliance audit"
 type: chore
-status: open
+status: in-progress
 priority: high
 phase: W8
 parent: "FEAT-041"
@@ -15,7 +15,7 @@ aliases: ["CHORE-100"]
 
 # Phase W8 Phase Execution Compliance Audit
 
-> [!INFO] `CHORE-100` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `open`
+> [!INFO] `CHORE-100` · Chore · Phase W8 · Parent: [[FEAT-041]] · Status: `in-progress`
 
 ## Description
 
@@ -83,3 +83,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > [!INFO] Opened · 2026-05-11
 > Added after the external Commonloom package update so W8 has an explicit
 > operational-rule audit before final closeout.
+
+> [!INFO] Started · 2026-05-11
+> Beginning Rule 1-5 and Step A-L audit after all implementation tasks reached
+> `done`. Status: `in-progress`.
