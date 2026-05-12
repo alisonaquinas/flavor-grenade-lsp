@@ -2,7 +2,7 @@
 id: "CHORE-102"
 title: "Backfill BDD gate requirements and specs"
 type: chore
-status: in-review
+status: done
 priority: high
 phase: "18"
 created: "2026-05-12"
@@ -14,7 +14,7 @@ aliases: ["CHORE-102"]
 
 # Backfill BDD Gate Requirements And Specs
 
-> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `in-review`
+> [!INFO] `CHORE-102` · Chore · Phase 18 · Priority: `high` · Status: `done`
 
 ## Description
 
@@ -77,3 +77,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > BDD gate coverage and docs/source boundaries. Verification passed:
 > `bun run lint:docs`, `bun test src/test/bdd/bdd-layout.test.ts`, and
 > `bun run bdd`. Status: `in-review`.
+
+> [!CHECK] Done · 2026-05-12
+> PR #65 CI passed on commit `bf70c18`; CHORE-102 acceptance criteria are met.
+> Status: `done`.
