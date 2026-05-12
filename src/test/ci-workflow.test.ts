@@ -21,6 +21,7 @@ describe('CI workflow verification battery', () => {
 
   test('runs the extension verification battery', () => {
     for (const command of [
+      'bun run build:binary:win',
       'npm run compile',
       'npm test',
       'npm run test:host',
