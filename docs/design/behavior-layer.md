@@ -87,10 +87,10 @@ The subject is the feature area, the verb is the action or behavior, and the con
 
 ## Step Definition Structure
 
-Step definitions live in `bdd/steps/`. Each step module corresponds to a domain area:
+Step definitions live in `src/test/bdd/step-definitions/`. Each step module corresponds to a domain area:
 
 ```text
-bdd/steps/
+src/test/bdd/step-definitions/
   ├── lsp-client.steps.ts        ← Given/When/Then for raw LSP requests (shared)
   ├── vault.steps.ts             ← Given: vault setup, file creation, file content
   ├── completion.steps.ts        ← Then: completion item assertions

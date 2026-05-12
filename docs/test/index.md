@@ -122,7 +122,7 @@ and website-specific source layout rules.
 
 ## BDD Scenarios
 
-BDD step definitions live under `tests/bdd/steps/`. Each step file implements the Gherkin scenarios from the corresponding `docs/bdd/features/*.feature` file.
+BDD step definitions live under `src/test/bdd/step-definitions/`. Each step file implements the Gherkin scenarios from the corresponding `docs/bdd/features/*.feature` file.
 
 | Step File | Feature File | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
