@@ -31,6 +31,12 @@ interface DescriptionListResult {
   malformedDescriptionLists: GlfmMalformedDescriptionListEntry[];
 }
 
+interface DescriptionBlockResult {
+  endLine: number;
+  definitionCount: number;
+  malformed: boolean;
+}
+
 /** Parses local, source-backed GitLab Flavored Markdown extension syntax. */
 export class GlfmParser {
   static parse(text: string, opaqueRegions: readonly OpaqueRegion[]): GlfmParseResult {
@@ -87,43 +93,56 @@ export class GlfmParser {
       const firstDefinitionMatch = /^[ \t]{0,3}:[ \t]*(.*)$/.exec(firstDefinition.content);
       if (firstDefinitionMatch === null) continue;
 
-      let cursor = index;
-      let endLine = index;
-      let definitionCount = 0;
-      let sawBlankDefinition = false;
-      while (cursor < lines.length) {
-        const line = lines[cursor];
-        if (GlfmParser.isOpaqueLine(line, opaqueRegions)) break;
-        const match = /^[ \t]{0,3}:[ \t]*(.*)$/.exec(line.content);
-        if (match === null) break;
-        if (match[1].trim() === '') {
-          sawBlankDefinition = true;
-        } else {
-          definitionCount++;
-        }
-        endLine = cursor;
-        cursor++;
-      }
+      const block = GlfmParser.collectDescriptionDefinitions(index, lines, opaqueRegions);
 
-      const range = rangeFromOffsets(text, term.start, lines[endLine].end);
-      if (sawBlankDefinition || definitionCount === 0) {
+      const range = rangeFromOffsets(text, term.start, lines[block.endLine].end);
+      if (block.malformed) {
         malformedDescriptionLists.push({
-          raw: text.slice(term.start, lines[endLine].end),
+          raw: text.slice(term.start, lines[block.endLine].end),
           term: term.content.trim(),
           range,
         });
       } else {
         descriptionLists.push({
-          raw: text.slice(term.start, lines[endLine].end),
+          raw: text.slice(term.start, lines[block.endLine].end),
           term: term.content.trim(),
-          definitionCount,
+          definitionCount: block.definitionCount,
           range,
         });
       }
-      index = endLine;
+      index = block.endLine;
     }
 
     return { descriptionLists, malformedDescriptionLists };
+  }
+
+  private static collectDescriptionDefinitions(
+    startIndex: number,
+    lines: readonly LineEntry[],
+    opaqueRegions: readonly OpaqueRegion[],
+  ): DescriptionBlockResult {
+    let cursor = startIndex;
+    let endLine = startIndex;
+    let definitionCount = 0;
+    let sawBlankDefinition = false;
+    while (cursor < lines.length) {
+      const line = lines[cursor];
+      if (GlfmParser.isOpaqueLine(line, opaqueRegions)) break;
+      const match = /^[ \t]{0,3}:[ \t]*(.*)$/.exec(line.content);
+      if (match === null) break;
+      if (match[1].trim() === '') {
+        sawBlankDefinition = true;
+      } else {
+        definitionCount++;
+      }
+      endLine = cursor;
+      cursor++;
+    }
+    return {
+      endLine,
+      definitionCount,
+      malformed: sawBlankDefinition || definitionCount === 0,
+    };
   }
 
   private static parseFootnotes(

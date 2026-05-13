@@ -17,6 +17,7 @@ updated: 2026-05-13
 | [[TASK-329]] | Add GLFM tests and validation evidence | Task | `green` |
 | [[CHORE-123]] | Phase 26 trace and documentation sweep | Chore | `open` |
 | [[CHORE-124]] | Phase 26 verification and closeout sweep | Chore | `open` |
+| [[CHORE-144]] | Split GLFM description-list parser helper | Chore | `done` |
 
 ## Ticket Details
 
