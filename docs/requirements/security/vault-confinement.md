@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## Security.Vault.PathConfinement
+
 **Tag:** Security.Vault.PathConfinement
 **Gist:** Every file path derived from vault content or LSP parameters must be canonicalized and verified against the vault root before any I/O operation; paths that resolve outside the vault root must produce a null result and never reach the file system.
 **Ambition:** CVE-2024-22415 (JupyterLab-LSP, CVSS 8.8) demonstrated that a path traversal vulnerability in an LSP extension can give unauthorized read access to files anywhere on the file system. The attack requires no special privileges — the LSP server is already running as the user. A vault document containing `[[../../../etc/passwd]]` or `[[%2e%2e/sensitive]]` (percent-encoded traversal) must not cause the server to resolve and read that file. The confinement function is the single enforcement point: all path resolution flows through it, and it is unit-tested against every known bypass technique.
@@ -40,6 +42,8 @@ aliases:
 
 ---
 
+## Security.Vault.SymlinkConfinement
+
 **Tag:** Security.Vault.SymlinkConfinement
 **Gist:** Symlinks within the vault that resolve to targets outside the vault root must be treated as non-existent files, producing FG001 or FG004; the real symlink target path must be checked, not the symlink's own path.
 **Ambition:** A symlink inside the vault (e.g., `vault/link-to-secret -> /etc/ssh/id_rsa`) passes the `startsWith(vaultRoot)` check on the symlink's own path but points to a file outside the vault root. Any server that checks the symlink path rather than the resolved target path is vulnerable to a symlink-based path traversal. The fix is to call `fs.realpath()` on the resolved path and apply the vault root check to the real path, not the symlink path. This is a distinct code path from percent-encoding traversal and must be tested separately.
@@ -61,6 +65,8 @@ aliases:
 
 ---
 
+## Security.Vault.URISchemeAllowlist
+
 **Tag:** Security.Vault.URISchemeAllowlist
 **Gist:** The server must only process `file://` URIs; any LSP request referencing a URI with a non-`file://` scheme must be rejected with a JSON-RPC InvalidParams error (-32602) before reaching any resolver.
 **Ambition:** The LSP protocol accepts URIs for document identification. An editor extension, a buggy client, or a future TCP-transport mode could pass URIs with schemes other than `file://` (e.g., `http://`, `ftp://`, `data:`, `untitled://`). Processing these URIs could cause the server to make outbound network requests (information exfiltration via SSRF patterns), attempt to read from unsupported sources, or produce undefined behaviour in the file path resolver. Rejecting non-`file://` URIs at the transport boundary is the simplest and most robust mitigation.
@@ -79,6 +85,8 @@ aliases:
 **Source:** [[research/security-threat-model#Threat-Category-6]], [[adr/ADR013-vault-root-confinement#3-uri-scheme-allowlist]].
 
 ---
+
+## Security.Vault.RenameConfinement
 
 **Tag:** Security.Vault.RenameConfinement
 **Gist:** Every file URI produced by the rename edit builder must pass vault-root confinement before being included in the `workspace/applyEdit` request; any edit targeting a path outside the vault root must cause the rename to be rejected entirely.

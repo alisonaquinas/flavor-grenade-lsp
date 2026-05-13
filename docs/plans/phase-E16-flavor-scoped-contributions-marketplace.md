@@ -31,8 +31,8 @@ behavior instead of historical language-mode promotion.
 | [[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]] | Scope snippets, keybindings, and commands by flavor/context |
 | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Show Markdown flavor selector proof |
 | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Keep referenced assets packaged |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-010]] | Close stale contribution scoping gap |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-012]] | Close Marketplace language-mode proof gap |
+| [GAP-E-010](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close stale contribution scoping gap |
+| [GAP-E-012](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close Marketplace language-mode proof gap |
 
 ## Scope
 
@@ -73,4 +73,4 @@ Ticket index: [[plans/phase-E16-flavor-scoped-contributions-marketplace/index]]
 ## Related
 
 - [[plans/phase-E15-markdown-flavor-selector-settings]]
-- [[extension/docs/gaps/markdown-flavor-gap-analysis]]
+- [extension Markdown flavor gap analysis](../../extension/docs/gaps/markdown-flavor-gap-analysis.md)

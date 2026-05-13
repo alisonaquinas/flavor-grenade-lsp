@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-057` | Markdown Extra Language Support | Feature | `draft` |
-| `TASK-342` | Implement Markdown Extra parser semantics | Task | `open` |
-| `TASK-343` | Add Markdown Extra diagnostics and LSP features | Task | `open` |
-| `TASK-344` | Add Markdown Extra tests and validation evidence | Task | `open` |
-| `CHORE-133` | Phase 31 trace and documentation sweep | Chore | `open` |
-| `CHORE-134` | Phase 31 verification and closeout sweep | Chore | `open` |
+| [[FEAT-057]] | Markdown Extra Language Support | Feature | `draft` |
+| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | `open` |
+| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | `open` |
+| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | `open` |
+| [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | `open` |
+| [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

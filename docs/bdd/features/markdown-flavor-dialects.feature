@@ -1,4 +1,4 @@
-@extension @vscode @markdown-flavor @original-markdown @commonmark
+@extension @vscode @markdown-flavor @original-markdown @commonmark @obsidian
 @gfm @glfm @pandoc @multimarkdown @mdx @kramdown @markdown-extra @r-markdown @reddit @stack-overflow
 @adr:ADR020
 Feature: Markdown flavor dialect behavior
@@ -85,6 +85,9 @@ Feature: Markdown flavor dialect behavior
 
     Examples:
       | id             | source                                      | signature                                    |
+      | original       | commonmark-and-original-markdown           | historical core Markdown baseline           |
+      | commonmark     | commonmark-and-original-markdown           | standardized CommonMark edge cases          |
+      | obsidian       | ofm-spec/index                             | wiki links, embeds, and vault semantics     |
       | gfm            | github-flavored-markdown-analysis          | tables, task lists, strikethrough            |
       | glfm           | gitlab-flavored-markdown-analysis          | GitLab-specific CommonMark extensions        |
       | pandoc         | pandoc-markdown-deep-research-report       | citations, math, metadata, extension toggles |

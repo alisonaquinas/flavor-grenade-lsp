@@ -29,12 +29,32 @@ Support fenced code, ATX/setext headings, reference links, autolinks, normalized
 labels, HTML blocks, blockquote/list edge cases, document links, folding,
 semantic tokens, completion, diagnostics, and navigation where applicable.
 
+## Requirement Trace
+
+| Source | Phase responsibility |
+|---|---|
+| [[research/commonmark-and-original-markdown]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
+| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
+| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
+| [[gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
+| [[test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
+| [[test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
+| [[test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
+| [[test/markdown-flavor-verification-spec]] | Cover CI and command verification |
+| [[test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
+
 ## Acceptance
 
 - Generic Markdown in `auto` resolves to CommonMark and gets CommonMark
   behavior.
 - GFM tables/tasks and Obsidian wiki links are not treated as CommonMark core.
 - Spawned-server and BDD coverage prove behavior under `commonmark`.
+
+## Related
+
+- [[adr/ADR020-markdown-flavor-selection]]
+- [[features/ofmarkdown-language-mode]]
+- [[gaps/markdown-flavor-gap-analysis]]
 
 ## Tickets
 

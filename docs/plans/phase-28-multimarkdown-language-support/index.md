@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-054` | MultiMarkdown Language Support | Feature | `draft` |
-| `TASK-333` | Implement MultiMarkdown parser semantics | Task | `open` |
-| `TASK-334` | Add MultiMarkdown diagnostics and LSP features | Task | `open` |
-| `TASK-335` | Add MultiMarkdown tests and validation evidence | Task | `open` |
-| `CHORE-127` | Phase 28 trace and documentation sweep | Chore | `open` |
-| `CHORE-128` | Phase 28 verification and closeout sweep | Chore | `open` |
+| [[FEAT-054]] | MultiMarkdown Language Support | Feature | `draft` |
+| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | `open` |
+| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | `open` |
+| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | `open` |
+| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | `open` |
+| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

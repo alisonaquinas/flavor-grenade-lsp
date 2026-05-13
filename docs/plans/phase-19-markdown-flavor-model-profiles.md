@@ -30,8 +30,8 @@ scope instead of documentation-only requirements.
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
 | [[test/markdown-flavor-unit-spec]] | Implement profile registry unit test coverage |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-001]] | Close missing server flavor enum/model gap |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-002]] | Close missing dialect profile registry gap |
+| [GAP-S-001](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor enum/model gap |
+| [GAP-S-002](../gaps/markdown-flavor-gap-analysis.md) | Close missing dialect profile registry gap |
 
 ## Scope
 

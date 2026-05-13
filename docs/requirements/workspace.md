@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Workspace.VaultDetection.Primary
+
 **Tag:** Workspace.VaultDetection.Primary
 **User Req:** User.Vault.AutoDetectVault
 **Gist:** Any directory that contains a `.obsidian/` subdirectory must be automatically identified as a vault root and indexed by the server without requiring additional user configuration.
@@ -34,6 +36,8 @@ aliases:
 **Source:** [[design/domain-layer#vault-detection]], [[architecture/overview#indexer]], Obsidian documentation on vault structure.
 
 ---
+
+## Workspace.VaultDetection.Fallback
 
 **Tag:** Workspace.VaultDetection.Fallback
 **User Req:** User.Vault.AutoDetectVault
@@ -56,6 +60,8 @@ aliases:
 
 ---
 
+## Workspace.FileExtension.Filter
+
 **Tag:** Workspace.FileExtension.Filter
 **User Req:** User.Vault.WorkAcrossEntireVault
 **Gist:** Only files whose extension appears in the configured extensions list (default: `["md"]`) must be included in the VaultIndex; files with other extensions must be silently ignored without emitting errors or warnings.
@@ -77,6 +83,8 @@ aliases:
 **Source:** [[configuration]], [[design/domain-layer#vault-index]], [[architecture/overview#indexer]].
 
 ---
+
+## Workspace.MultiFolder.Isolation
 
 **Tag:** Workspace.MultiFolder.Isolation
 **User Req:** User.Vault.WorkAcrossEntireVault

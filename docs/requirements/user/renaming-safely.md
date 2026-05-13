@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Rename.RenameNoteEverywhere
+
 **Tag:** User.Rename.RenameNoteEverywhere
 **Gist:** Vault author renames a note and receives a `WorkspaceEdit` that updates every link to it across the entire vault in one operation.
 **Ambition:** Rename is exhaustive — no link to the old name survives in any vault document — and every updated link conforms to the active link style, preserving custom display aliases untouched.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Rename.Refactoring.Completeness, Rename.StyleBinding.Consistency
 
 ---
+
+## User.Rename.RenameHeadingEverywhere
 
 **Tag:** User.Rename.RenameHeadingEverywhere
 **Gist:** Vault author renames a heading and receives a `WorkspaceEdit` that updates every heading-link across the vault while preserving display aliases.

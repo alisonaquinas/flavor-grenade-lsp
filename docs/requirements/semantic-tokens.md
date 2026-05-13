@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## ST-001
+
 **Tag:** ST-001
 **Gist:** The server must emit semantic token ranges for all five primary OFM construct categories — wiki-links, embed links, block anchors, inline tags, and callout markers — so that LSP-capable editors can apply syntax highlighting to OFM-specific constructs beyond what base Markdown TextMate grammars provide.
 **Ambition:** Standard Markdown TextMate grammars have no knowledge of Obsidian-specific constructs. Without semantic tokens, `[[wiki-links]]`, `![[embeds]]`, `^block-anchors`, `#tags`, and `> [!CALLOUT]` markers all render as plain text or generic punctuation in LSP editors such as Neovim, Helix, and Zed. Semantic tokens are the LSP-standard mechanism for the server to communicate these construct boundaries to editors in a theme-agnostic way. Full construct coverage ensures that authors using any LSP editor get the same structural visual feedback that Obsidian's native renderer provides, making the OFM document structure legible regardless of editor choice.
@@ -35,6 +37,8 @@ aliases:
 **Goal:** 100% (all 5 construct categories covered; all token positions correct).
 
 ---
+
+## ST-002
 
 **Tag:** ST-002
 **Gist:** Semantic tokens must not be emitted for OFM constructs that appear inside fenced code blocks or display math blocks (`$$...$$`); such spans must be completely absent from the `textDocument/semanticTokens/full` response.

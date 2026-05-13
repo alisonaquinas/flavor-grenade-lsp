@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Navigation.Definition.AllLinkTypes
+
 **Tag:** Navigation.Definition.AllLinkTypes
 **User Req:** User.Navigate.JumpToNote, User.Blocks.ReferenceSpecificText
 **Gist:** The `textDocument/definition` handler must return a valid `Location` response for cursor positions on wiki-links, embed links, block references, and tag occurrences.
@@ -37,6 +39,8 @@ aliases:
 
 ---
 
+## Navigation.References.Completeness
+
 **Tag:** Navigation.References.Completeness
 **User Req:** User.Navigate.FindAllReferences
 **Gist:** The `textDocument/references` handler must return every reference in the vault folder that resolves to the target document, heading, block anchor, or tag — with no omissions.
@@ -56,6 +60,8 @@ aliases:
 **Source:** [[design/api-layer#references-handler]], [[design/domain-layer#vault-index]], LSP specification §3.15 textDocument/references.
 
 ---
+
+## Navigation.CodeLens.Count
 
 **Tag:** Navigation.CodeLens.Count
 **User Req:** User.Navigate.SeeReferenceCount

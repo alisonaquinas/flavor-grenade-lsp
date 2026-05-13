@@ -14,8 +14,10 @@ aliases:
 
 ---
 
+## Link.Wiki.StyleBinding
+
 **Tag:** Link.Wiki.StyleBinding
-**User Req:** User.Navigate.JumpToNote, User.Author.CompleteWikiLink, User.Author.FollowLinkStyle, User.Config.CustomiseLinkStyle
+**User Req:** User.Navigate.JumpToNote, User.Author.CompleteWikiLink, User.Author.FollowLinkStyle, User.Config.CustomizeLinkStyle
 **Gist:** Completion items and rename edits must conform to the wiki link style that is active in the current configuration.
 **Ambition:** Obsidian vaults commit to one of three link-text conventions (file-stem, title-slug, file-path-stem). LSP edits that violate that convention corrupt the vault's internal consistency and break Obsidian's own link resolution. Enforcing style at the LSP layer prevents silent divergence between what the server proposes and what Obsidian accepts.
 **Scale:** Percentage of completion items and rename `WorkspaceEdit` text edits in a given test session whose link text conforms to the active `wiki.style` setting. Scope: all wiki-link positions across all documents in the test vault.
@@ -34,6 +36,8 @@ aliases:
 **Source:** [[ofm-spec/wiki-links]], [[design/api-layer#completion-handler]], [[design/domain-layer#wiki-style]].
 
 ---
+
+## Link.Wiki.AliasResolution
 
 **Tag:** Link.Wiki.AliasResolution
 **User Req:** User.Navigate.JumpToNote
@@ -56,6 +60,8 @@ aliases:
 
 ---
 
+## Link.Resolution.ModeScope
+
 **Tag:** Link.Resolution.ModeScope
 **User Req:** User.Diagnose.SpotBrokenLinks
 **Gist:** Single-file mode must suppress all cross-file link resolution and must not return cross-file results in any LSP response.
@@ -77,6 +83,8 @@ aliases:
 
 ---
 
+## Link.Inline.URLSkip
+
 **Tag:** Link.Inline.URLSkip
 **User Req:** User.Diagnose.SpotBrokenLinks
 **Gist:** Standard inline Markdown links whose URL is not a markdown file path must produce no FG001 (BrokenWikiLink) diagnostic.
@@ -97,6 +105,8 @@ aliases:
 **Source:** [[ofm-spec/wiki-links#inline-links]], [[design/api-layer#diagnostic-handler]], [[requirements/diagnostics]].
 
 ---
+
+## Link.Resolution.IgnoreGlob
 
 **Tag:** Link.Resolution.IgnoreGlob
 **User Req:** User.Author.CompleteWikiLink

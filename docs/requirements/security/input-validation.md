@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## Security.Input.PositionValidation
+
 **Tag:** Security.Input.PositionValidation
 **Gist:** All `Position` and `Range` parameters in LSP requests must be validated as non-negative integers within the bounds of the referenced document before any VaultIndex operation; invalid positions return an InvalidParams error (-32602).
 **Ambition:** LSP methods such as `textDocument/completion`, `textDocument/hover`, `textDocument/definition`, and `textDocument/rename` accept `Position` objects with `line` and `character` fields. In JavaScript, out-of-bounds array access returns `undefined` rather than throwing — `lines[-1]` is `undefined`, and `lines[NaN]` is also `undefined`. These silently produce `undefined` values that propagate through the VaultIndex, causing incorrect responses or subtle bugs in rename edit generation. `NaN` comparisons always return `false`, which can cause range intersection logic to behave incorrectly. Validating at the handler boundary before any index access prevents these issues and makes bugs deterministic (an error response) rather than silent (a wrong result).
@@ -34,6 +36,8 @@ aliases:
 
 ---
 
+## Security.Input.PayloadSize
+
 **Tag:** Security.Input.PayloadSize
 **Gist:** JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, must be rejected at the transport layer before unbounded buffering or JSON parsing occurs.
 **Ambition:** A malicious or buggy client sending a `textDocument/didChange` notification with a 500 MB document body can otherwise force the server to allocate large buffers before parsing begins. In Bun's V8-backed runtime, this can trigger out-of-memory crashes or garbage collection pauses that make the server unresponsive. A 16 MiB body limit is far above the practical size of ordinary LSP messages while preventing runaway memory consumption from a single malformed message. The 8 KiB header limit prevents clients from keeping the reader in an unbounded pre-body state.
@@ -51,6 +55,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-2.2]], LSP Specification §3.17 Base Protocol.
 
 ---
+
+## Security.Input.PrototypePollution
 
 **Tag:** Security.Input.PrototypePollution
 **Gist:** All incoming JSON-RPC message bodies must be validated by schema before any object merge operation; `__proto__`, `constructor`, and `prototype` keys in parsed JSON must not propagate into application objects or pollute `Object.prototype`.

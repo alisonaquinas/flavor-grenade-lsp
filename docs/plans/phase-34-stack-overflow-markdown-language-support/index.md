@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-060` | Stack Overflow Markdown Language Support | Feature | `draft` |
-| `TASK-351` | Implement Stack Overflow Markdown parser semantics | Task | `open` |
-| `TASK-352` | Add Stack Overflow diagnostics and LSP features | Task | `open` |
-| `TASK-353` | Add Stack Overflow tests and validation evidence | Task | `open` |
-| `CHORE-139` | Phase 34 trace and documentation sweep | Chore | `open` |
-| `CHORE-140` | Phase 34 verification and closeout sweep | Chore | `open` |
+| [[FEAT-060]] | Stack Overflow Markdown Language Support | Feature | `draft` |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | `open` |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | `open` |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | `open` |
+| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | `open` |
+| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

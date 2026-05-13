@@ -17,6 +17,36 @@ Feature: VS Code extension parity
     Then generic Markdown remains in "markdown" mode
     And no vault indexing work is requested
 
+  @req:Extension.MarkdownFlavor.Selector @req:Extension.MarkdownFlavor.RequiredCoverage
+  Scenario: Markdown flavor selector exposes every required choice
+    Given a Markdown document is active with language id "markdown"
+    When the user opens the Markdown flavor selector
+    Then the selector includes "Auto Detect"
+    And the selector includes "Original Markdown", "CommonMark", and "Obsidian"
+    And the selector includes every researched Markdown flavor required by ADR020
+
+  @req:Extension.MarkdownFlavor.OverridePersistence
+  Scenario: Markdown flavor overrides persist at the active document scope
+    Given a Markdown document belongs to an open workspace folder
+    When the user selects "CommonMark" from the Markdown flavor selector
+    Then "flavorGrenade.markdownFlavor" is written to the workspace setting
+    When the user opens a standalone Markdown file and selects "Original Markdown"
+    Then "flavorGrenade.markdownFlavor" is written to the user setting
+
+  @req:Extension.MarkdownFlavor.ServerPropagation
+  Scenario: Markdown flavor changes refresh server analysis
+    Given a Markdown document is active with effective flavor "commonmark"
+    When the user selects "Obsidian" from the Markdown flavor selector
+    Then the extension sends the effective flavor "obsidian" to the server
+    And open Markdown diagnostics are refreshed
+
+  @req:Extension.MarkdownFlavor.ManualLanguageSafety
+  Scenario: Manual non-Markdown language selections are preserved
+    Given a ".md" document has language id "plaintext"
+    When Markdown flavor auto-detection runs
+    Then the document language id remains "plaintext"
+    And no Markdown flavor override is applied to that document
+
   @req:Extension.CommandBridges.PayloadValidation @req:Extension.CommandBridges.GraphActions
   Scenario: Command bridge invokes native references UI
     Given "flavorGrenade.showReferences" is registered

@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Vault.AutoDetectVault
+
 **Tag:** User.Vault.AutoDetectVault
 **Gist:** The server automatically identifies the vault root on startup without any manual path configuration from the author.
 **Ambition:** Detection is reliable for every standard Obsidian vault and for any folder containing a `.flavor-grenade.toml` file, so no author ever needs to specify a vault path explicitly.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Workspace.VaultDetection.Primary, Workspace.VaultDetection.Fallback
 
 ---
+
+## User.Vault.WorkAcrossEntireVault
 
 **Tag:** User.Vault.WorkAcrossEntireVault
 **Gist:** All LSP features operate across every note in the vault, with the index kept current as files are created, edited, or deleted.

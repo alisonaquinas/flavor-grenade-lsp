@@ -12,11 +12,13 @@ aliases:
 # VS Code Extension Parity Requirements
 
 Scope: These requirements govern the VS Code client roadmap derived from
-[[research/marksman-vscode-feature-parity-ofmarkdown]]. Server-side language
+[Marksman VSCode feature parity research](../../../../docs/research/marksman-vscode-feature-parity-ofmarkdown.md). Server-side language
 intelligence remains governed by the Markdown flavor and OFMarkdown feature
 requirements.
 
 ---
+
+## Extension.Activation.VaultPrecision
 
 **Tag:** Extension.Activation.VaultPrecision
 **User Req:** User.Extension.StartOnlyForVaults
@@ -36,9 +38,11 @@ requirements.
 **Goal:** 100% correct activation outcomes.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md).
 
 ---
+
+## Extension.CommandBridges.NativeUI
 
 **Tag:** Extension.CommandBridges.NativeUI
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -57,9 +61,11 @@ requirements.
 **Goal:** 100% bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]].
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
+
+## Extension.Tests.HostCoverage
 
 **Tag:** Extension.Tests.HostCoverage
 **User Req:** User.Extension.TrustExtensionBehavior
@@ -76,9 +82,11 @@ requirements.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md).
 
 ---
+
+## Extension.Marketplace.OFMProof
 
 **Tag:** Extension.Marketplace.OFMProof
 **User Req:** User.Extension.EvaluateBeforeInstall
@@ -95,9 +103,11 @@ requirements.
 **Goal:** 100% required visuals present.
 **Stakeholders:** Prospective users, publisher, maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [VS Code extension publishing research](../../../../docs/research/vscode-extension-publishing.md).
 
 ---
+
+## Extension.Status.Diagnostics
 
 **Tag:** Extension.Status.Diagnostics
 **User Req:** User.Extension.UnderstandServerState
@@ -115,7 +125,7 @@ requirements.
 **Goal:** 100% status coverage for known states.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md).
 
 ---
 
@@ -125,6 +135,8 @@ The following Planguage requirements refine the client-side parity goal into
 extension implementation capabilities.
 
 ---
+
+## Extension.Activation.MarkerEvents
 
 **Tag:** Extension.Activation.MarkerEvents
 **User Req:** User.Extension.StartOnlyForVaults
@@ -142,9 +154,11 @@ extension implementation capabilities.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], `docs/plans/phase-E7-activation-precision.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
 
 ---
+
+## Extension.CommandBridges.PayloadValidation
 
 **Tag:** Extension.CommandBridges.PayloadValidation
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -163,9 +177,11 @@ extension implementation capabilities.
 **Goal:** 100% payload validation correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
+
+## Extension.CommandBridges.GraphActions
 
 **Tag:** Extension.CommandBridges.GraphActions
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -183,9 +199,11 @@ extension implementation capabilities.
 **Goal:** 100% required bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md).
 
 ---
+
+## Extension.Status.QuickActions
 
 **Tag:** Extension.Status.QuickActions
 **User Req:** User.Extension.UnderstandServerState
@@ -203,9 +221,11 @@ extension implementation capabilities.
 **Goal:** 100% known-state status coverage.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md), `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
+
+## Extension.MarkdownFlavor.Refresh
 
 **Tag:** Extension.MarkdownFlavor.Refresh
 **User Req:** User.Extension.TrustExtensionBehavior
@@ -224,9 +244,11 @@ extension implementation capabilities.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/ofmarkdown-language-mode]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
+
+## Extension.Workspace.EnvironmentModes
 
 **Tag:** Extension.Workspace.EnvironmentModes
 **User Req:** User.Extension.UnderstandServerState
@@ -245,9 +267,11 @@ extension implementation capabilities.
 **Goal:** 100% explicit behavior for listed environment modes.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/functional/vscode-extension-parity]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [extension parity functional requirements](vscode-extension-parity.md), `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
+
+## Extension.Contributions.FlavorScoped
 
 **Tag:** Extension.Contributions.FlavorScoped
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -265,9 +289,11 @@ extension implementation capabilities.
 **Goal:** 100% contribution scoping correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[features/ofmarkdown-language-mode]], [[adr/ADR020-markdown-flavor-selection]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [ADR020](../../../../docs/adr/ADR020-markdown-flavor-selection.md), [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md).
 
 ---
+
+## Extension.Marketplace.AssetPackaging
 
 **Tag:** Extension.Marketplace.AssetPackaging
 **User Req:** User.Extension.EvaluateBeforeInstall
@@ -286,9 +312,11 @@ extension implementation capabilities.
 **Goal:** 100% required asset packaging correctness.
 **Stakeholders:** Prospective users, publisher, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/functional/vscode-extension-parity]], [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [extension parity functional requirements](vscode-extension-parity.md), [VS Code extension parity](../../features/vscode-extension-parity.md), [VS Code extension publishing research](../../../../docs/research/vscode-extension-publishing.md).
 
 ---
+
+## Extension.Packaging.TargetBinaryValidation
 
 **Tag:** Extension.Packaging.TargetBinaryValidation
 **User Req:** User.Extension.InstallCompatiblePackage
@@ -309,4 +337,4 @@ extension implementation capabilities.
 **Goal:** 100% packaged target validation.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR015-platform-specific-vsix]], [[features/vscode-extension-parity]], `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.
+**Source:** [ADR015](../../../../docs/adr/ADR015-platform-specific-vsix.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.

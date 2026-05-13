@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Blocks.ReferenceSpecificText
+
 **Tag:** User.Blocks.ReferenceSpecificText
 **Gist:** Vault author creates a block reference, navigates directly to the target block, and is warned when the referenced block no longer exists.
 **Ambition:** Block-level navigation is as reliable as note-level navigation — go-to-definition always lands on the correct block, and a diagnostic is raised immediately whenever a referenced block anchor is removed from its host note.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Block.Anchor.Indexing, Block.CrossRef.Diagnostic, Navigation.Definition.AllLinkTypes
 
 ---
+
+## User.Blocks.CompleteBlockRef
 
 **Tag:** User.Blocks.CompleteBlockRef
 **Gist:** Vault author receives a list of all known block anchors in the target note upon typing `[[note#^`.

@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Tag.Index.Completeness
+
 **Tag:** Tag.Index.Completeness
 **User Req:** User.Tags.CompleteTag
 **Gist:** All `#tag` occurrences in vault body text must be discovered and indexed by VaultIndex, excluding only occurrences inside fenced code blocks, indented code blocks, math blocks, and HTML comments.
@@ -37,6 +39,8 @@ aliases:
 
 ---
 
+## Tag.Hierarchy.Awareness
+
 **Tag:** Tag.Hierarchy.Awareness
 **User Req:** User.Tags.FindTaggedNotes, User.Tags.UseHierarchicalTags
 **Gist:** The tag index must support hierarchical parent-tag queries such that querying `#project` also returns documents and positions tagged with `#project/active` and `#project/done`.
@@ -56,6 +60,8 @@ aliases:
 **Source:** [[ofm-spec/tags#tag-hierarchy]], [[design/domain-layer#tag-index]], [[requirements/navigation]].
 
 ---
+
+## Tag.YAML.Equivalence
 
 **Tag:** Tag.YAML.Equivalence
 **User Req:** User.Tags.FindTaggedNotes
@@ -78,6 +84,8 @@ aliases:
 **Source:** [[ofm-spec/tags#yaml-frontmatter-tags]], [[design/domain-layer#tag-index]], `docs/bdd/features/tags.feature`.
 
 ---
+
+## Tag.Completion.Unicode
 
 **Tag:** Tag.Completion.Unicode
 **User Req:** User.Tags.CompleteTag

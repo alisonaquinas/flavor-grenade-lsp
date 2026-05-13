@@ -30,11 +30,11 @@ safety evidence.
 | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add host coverage for flavor selector behavior |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
-| [[extension/docs/tests/markdown-flavor-e2e-spec]] | Implement extension host e2e test cases |
-| [[extension/docs/tests/markdown-flavor-verification-spec]] | Wire extension commands and CI gates |
-| [[extension/docs/tests/markdown-flavor-validation-spec]] | Add user-visible validation evidence |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-011]] | Close missing host flavor suite gap |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-014]] | Close missing validation evidence gap |
+| [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md) | Implement extension host e2e test cases |
+| [extension markdown flavor verification spec](../../extension/docs/tests/markdown-flavor-verification-spec.md) | Wire extension commands and CI gates |
+| [extension markdown flavor validation spec](../../extension/docs/tests/markdown-flavor-validation-spec.md) | Add user-visible validation evidence |
+| [GAP-E-011](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close missing host flavor suite gap |
+| [GAP-E-014](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close missing validation evidence gap |
 
 ## Scope
 
@@ -76,5 +76,5 @@ Ticket index: [[plans/phase-E17-extension-flavor-host-verification/index]]
 
 ## Related
 
-- [[extension/docs/tests/markdown-flavor-e2e-spec]]
-- [[extension/docs/gaps/markdown-flavor-gap-analysis]]
+- [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md)
+- [extension Markdown flavor gap analysis](../../extension/docs/gaps/markdown-flavor-gap-analysis.md)

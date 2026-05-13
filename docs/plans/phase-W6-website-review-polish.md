@@ -27,12 +27,12 @@ responsive spacing, and image reliability rather than new content scope.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/design/index]] | Apply homepage and footer visual feedback requirements |
-| [[../website/docs/requirements/functional/product-identity-assets]] | Ensure product images and screenshots render without broken icons |
-| [[../website/docs/requirements/functional/theme-modes]] | Replace the segmented theme mode control with a compact icon toggle |
-| [[../website/docs/requirements/functional/attribution]] | Add recognizable icons to footer creator and project links |
-| [[../website/docs/requirements/user/accessibility-and-usability]] | Preserve accessible names, spacing, and keyboard support |
-| [[../website/docs/requirements/user/homepage]] | Improve CTA iconography and stacked mobile button widths |
+| [requirements/design/index](../../website/docs/requirements/design/index.md) | Apply homepage and footer visual feedback requirements |
+| [requirements/functional/product-identity-assets](../../website/docs/requirements/functional/product-identity-assets.md) | Ensure product images and screenshots render without broken icons |
+| [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md) | Replace the segmented theme mode control with a compact icon toggle |
+| [requirements/functional/attribution](../../website/docs/requirements/functional/attribution.md) | Add recognizable icons to footer creator and project links |
+| [requirements/user/accessibility-and-usability](../../website/docs/requirements/user/accessibility-and-usability.md) | Preserve accessible names, spacing, and keyboard support |
+| [requirements/user/homepage](../../website/docs/requirements/user/homepage.md) | Improve CTA iconography and stacked mobile button widths |
 
 ## Scope
 
@@ -136,11 +136,11 @@ or missing icon affordances.
 
 ## Related
 
-- [[../website/docs/requirements/design/index]]
-- [[../website/docs/requirements/functional/product-identity-assets]]
-- [[../website/docs/requirements/functional/theme-modes]]
-- [[../website/docs/requirements/functional/attribution]]
-- [[../website/docs/requirements/user/homepage]]
+- [requirements/design/index](../../website/docs/requirements/design/index.md)
+- [requirements/functional/product-identity-assets](../../website/docs/requirements/functional/product-identity-assets.md)
+- [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md)
+- [requirements/functional/attribution](../../website/docs/requirements/functional/attribution.md)
+- [requirements/user/homepage](../../website/docs/requirements/user/homepage.md)
 
 > [!SUCCESS] PR #58 CI · 2026-05-09
 > PR #58 merged. Website checks, tests, typecheck, lint, docs lint, and build

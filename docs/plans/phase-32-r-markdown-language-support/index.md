@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-058` | R Markdown Language Support | Feature | `draft` |
-| `TASK-345` | Implement R Markdown parser semantics | Task | `open` |
-| `TASK-346` | Add R Markdown diagnostics and LSP features | Task | `open` |
-| `TASK-347` | Add R Markdown tests and validation evidence | Task | `open` |
-| `CHORE-135` | Phase 32 trace and documentation sweep | Chore | `open` |
-| `CHORE-136` | Phase 32 verification and closeout sweep | Chore | `open` |
+| [[FEAT-058]] | R Markdown Language Support | Feature | `draft` |
+| [[TASK-345]] | Implement R Markdown parser semantics | Task | `open` |
+| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | `open` |
+| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | `open` |
+| [[CHORE-135]] | Phase 32 trace and documentation sweep | Chore | `open` |
+| [[CHORE-136]] | Phase 32 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Process.Branching.MainReleasesOnly
+
 **Tag:** Process.Branching.MainReleasesOnly
 **Gist:** The `main` branch receives only tagged release merges from `release/*` or `hotfix/*` branches; direct pushes to `main` are prohibited.
 **Ambition:** `main` represents the production-released state of the package. Every commit on `main` must correspond to a published npm version with a semver tag. Allowing direct pushes, squash merges from arbitrary branches, or merge commits from `feature/*` branches breaks this invariant: `main` would contain commits not associated with a release, the git tag history would be inconsistent, and OIDC provenance would link publishes to non-release commits. git-flow discipline enforces a clean separation between integration work (on `develop`) and released work (on `main`).
@@ -31,6 +33,8 @@ aliases:
 **Source:** [[adr/ADR007-git-flow-branching]], [[requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
 
 ---
+
+## Process.Testing.DirectoryStructure
 
 **Tag:** Process.Testing.DirectoryStructure
 **Gist:** Tests follow the repository's current split layout: focused unit tests may live beside the source module, shared integration and BDD harness code lives under `src/test/`, website tests live under `website/tests/`, extension tests live under `extension/`, and Gherkin feature specs live under `docs/bdd/features/`.
@@ -51,6 +55,8 @@ aliases:
 
 ---
 
+## Process.TestIndex.Matrix
+
 **Tag:** Process.TestIndex.Matrix
 **Gist:** `docs/test/matrix.md` is maintained as a live matrix relating test files to Planguage requirement tags and to the phase and commit in which they were written; it must be updated whenever a new test file is added.
 **Ambition:** Without a traceability matrix, it is impossible to answer the question "which requirements have test coverage?" without reading every test file. The matrix provides at-a-glance requirement coverage: a reviewer can verify that every Planguage tag in the requirements layer has at least one corresponding test, identify untested requirements before shipping a phase, and understand which phases introduced coverage for which requirements. The `scripts/update-test-index.sh` automation stub exists to support automated matrix maintenance starting in Phase 3.
@@ -69,6 +75,8 @@ aliases:
 
 ---
 
+## Process.Scripts.Automation
+
 **Tag:** Process.Scripts.Automation
 **Gist:** Repetitive scriptable actions — version bumping, running all linters, generating docs, updating the test matrix — are automated in `scripts/` shell scripts that act on the repository only and are not linked into `src/`.
 **Ambition:** Undocumented manual procedures create knowledge silos and introduce inconsistency: two contributors performing the same operation may produce different results. Automating them in `scripts/` with `#!/usr/bin/env bash` scripts makes procedures reproducible, reviewable, and auditable. The constraint that scripts act on the repository only — not called from `src/` — enforces a clean separation between build-time tooling and runtime application code.
@@ -85,6 +93,8 @@ aliases:
 **Source:** `scripts/README.md`, `scripts/lint-all.sh`, `scripts/set-version.sh`, `scripts/validate-docs.sh`, `scripts/update-test-index.sh`.
 
 ---
+
+## Process.BinaryFiles.LFS
 
 **Tag:** Process.BinaryFiles.LFS
 **Gist:** All binary files — images, PDFs, archives, compiled artifacts — must be tracked via Git LFS; binary blobs must not be committed directly to the repository object store.

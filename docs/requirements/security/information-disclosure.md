@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## Security.Disclosure.LogSanitization
+
 **Tag:** Security.Disclosure.LogSanitization
 **Gist:** Server logs must never include vault document content; only file paths, line numbers, diagnostic codes, and error types may appear in log output.
 **Ambition:** A developer enabling debug logging to troubleshoot an LSP issue should not find the contents of their personal journal or medical notes in a log file. Log files may be: shared with the project for bug reports, captured by log aggregation tools, stored in world-readable locations, or accidentally committed to version control. Any log message that includes document content (even a snippet in an error message like "Failed to parse: `---\npassword: hunter2\n---`") is a potential disclosure channel. The constraint is absolute: content never appears in logs, regardless of log level.
@@ -33,6 +35,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-4.1]], general privacy best practices.
 
 ---
+
+## Security.Disclosure.CompletionFilter
 
 **Tag:** Security.Disclosure.CompletionFilter
 **Gist:** Completion candidates derived from frontmatter values must not include values from sensitive key names (`password`, `token`, `secret`, `api_key`, `private_key`, `credential`, `auth`); the blocked key list must be configurable.
@@ -53,6 +57,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-4.2]], [[requirements/completions]], [[plans/phase-09-completions]].
 
 ---
+
+## Security.Config.NoCodeExecution
 
 **Tag:** Security.Config.NoCodeExecution
 **Gist:** The `.flavor-grenade.toml` configuration schema must never include fields that specify commands, executables, or scripts to be run by the server; vault-provided configuration must never cause process spawning.

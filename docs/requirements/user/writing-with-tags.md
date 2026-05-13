@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Tags.CompleteTag
+
 **Tag:** User.Tags.CompleteTag
 **Gist:** Vault author receives tag suggestions from across the entire vault as they type `#tag`, including Unicode and emoji tag names from both note bodies and YAML frontmatter.
 **Ambition:** Tag completion is comprehensive — every tag in the vault appears as a candidate regardless of where it was declared — so authors stay consistent with their established vocabulary without any manual cross-referencing.
@@ -25,6 +27,8 @@ aliases:
 
 ---
 
+## User.Tags.FindTaggedNotes
+
 **Tag:** User.Tags.FindTaggedNotes
 **Gist:** Vault author retrieves a complete list of notes using a given tag, drawing equally from inline body tags and YAML frontmatter tags.
 **Ambition:** Tag-based find-references is exhaustive and source-agnostic — inline and frontmatter occurrences are treated identically so no tagged note is ever hidden from the results.
@@ -36,6 +40,8 @@ aliases:
 **Maps to:** Tag.Hierarchy.Awareness, Tag.YAML.Equivalence
 
 ---
+
+## User.Tags.UseHierarchicalTags
 
 **Tag:** User.Tags.UseHierarchicalTags
 **Gist:** Vault author queries a parent tag and receives results for all notes tagged with any descendant under that parent hierarchy.

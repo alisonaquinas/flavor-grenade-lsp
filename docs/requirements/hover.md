@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## HV-001
+
 **Tag:** HV-001
 **Gist:** Hovering a wiki-link must return a `Hover` response containing the target document's title (H1 heading or file stem), its vault-relative path, and the first non-frontmatter, non-heading paragraph of the target document, truncated to `hover.preview_chars` characters.
 **Ambition:** The primary friction of navigating a large vault is not the navigation itself but the decision of whether to navigate — authors must open a note to determine whether it contains the information they need. A hover that surfaces the title and first paragraph provides a preview-before-navigate affordance that eliminates speculative opens. Accurate truncation ensures that long introductory paragraphs do not overwhelm the hover popup, and the inclusion of the vault-relative path lets authors distinguish documents with identical titles in different directories without opening either.
@@ -34,6 +36,8 @@ aliases:
 **Goal:** 100% compliance on all three sub-scales.
 
 ---
+
+## HV-002
 
 **Tag:** HV-002
 **Gist:** Hovering an embed link must return a `Hover` response containing the embedded target's resolved vault-relative path and its detected file type, using type-appropriate content as defined in the embed hover specification.

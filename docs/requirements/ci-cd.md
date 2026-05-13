@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## CICD.Workflow.PRGate
+
 **Tag:** CICD.Workflow.PRGate
 **Gist:** Every pull request targeting `main` or `develop` must pass all CI checks — typecheck, lint, dependency policy, format, root tests, BDD scenarios, docs lint, website checks, extension checks, and build — before merge is permitted.
 **Ambition:** A PR gate without mandatory pass enforcement degrades to an advisory system: contributors learn to merge with red CI and fix it later, which is the exact failure mode the gate is designed to prevent. GitHub branch protection rules (required status checks) enforce the gate at the platform level so that no reviewer can bypass it by approving a PR with failing checks. The gate must cover type safety, lint correctness, dependency policy, formatting, root test coverage, executable BDD requirements, documentation linting, website quality, extension behavior, and artifact buildability.
@@ -31,6 +33,8 @@ aliases:
 **Source:** [[adr/ADR007-git-flow-branching]], `.github/workflows/ci.yml`, GitHub Actions documentation §Branch Protection.
 
 ---
+
+## CICD.Workflow.BDDGate
 
 **Tag:** CICD.Workflow.BDDGate
 **Gist:** The default Cucumber BDD gate (`bun run bdd`) must execute every checked-in scenario in local verification and in CI with no undefined, pending, or failed steps.
@@ -51,6 +55,8 @@ aliases:
 
 ---
 
+## CICD.Markdown.DocsFolderLinting
+
 **Tag:** CICD.Markdown.DocsFolderLinting
 **Gist:** All Markdown files under `docs/` must be linted by `markdownlint-obsidian` (the obsidian-linter CLI package) in CI; lint failures cause CI to fail.
 **Ambition:** The `docs/` tree is written in Obsidian Flavored Markdown — it uses wiki-links, callout syntax, and frontmatter patterns that standard Markdown linters reject as invalid. Using a standard linter on `docs/` would produce false positives on every OFM construct. `markdownlint-obsidian` understands OFM syntax and validates the docs/ tree with rules appropriate to the content. Failing CI on lint violations ensures that documentation debt is caught in review, not discovered later during a docs audit.
@@ -69,6 +75,8 @@ aliases:
 
 ---
 
+## CICD.Markdown.SourceLinting
+
 **Tag:** CICD.Markdown.SourceLinting
 **Gist:** All Markdown files NOT in `docs/` and NOT in `.github/` must be linted by `markdownlint-cli2` in CI; violations cause CI failure.
 **Ambition:** The root `README.md`, `scripts/*.md`, and any other Markdown outside the OFM-specific `docs/` tree must conform to standard Markdown conventions enforced by `markdownlint-cli2`. These files target GitHub rendering, not Obsidian, so OFM syntax linting would be incorrect. Separating the linting strategies prevents false positives in both directions: OFM content in `docs/` is not rejected by a standard linter, and non-OFM content outside `docs/` is not given a pass on standard Markdown violations.
@@ -86,6 +94,8 @@ aliases:
 **Source:** `.github/workflows/ci.yml`, `.markdownlint-cli2.jsonc`, markdownlint-cli2 documentation.
 
 ---
+
+## CICD.Extension.WindowsBinarySmokeTest
 
 **Tag:** CICD.Extension.WindowsBinarySmokeTest
 **Gist:** Marketplace extension publishing must be blocked unless the packaged `win32-x64` VSIX server executable launches successfully on a Windows runner.
@@ -106,6 +116,8 @@ aliases:
 
 ---
 
+## CICD.Publish.OIDC
+
 **Tag:** CICD.Publish.OIDC
 **Gist:** npm and Bun registry publishing must use OIDC keyless authentication with provenance attestation; `npm publish --provenance` is required for every release.
 **Ambition:** Long-lived npm tokens stored as repository secrets are a high-value attack target: if the secret is compromised, an attacker can publish malicious package versions indefinitely. OIDC trusted publishing eliminates the static token: the GitHub Actions runner requests a short-lived OIDC token from GitHub's identity provider, which the npm registry accepts as proof of identity. Combined with `--provenance`, every published version carries a cryptographically verifiable link back to the specific GitHub Actions run that produced it — consumers can verify not just who published but exactly what source commit and workflow produced the artifact.
@@ -125,6 +137,8 @@ aliases:
 
 ---
 
+## CICD.Publish.Trigger
+
 **Tag:** CICD.Publish.Trigger
 **Gist:** Publishing must only be triggered by a push of a semver tag (`v*.*.*`) to `main`; no manual publish from developer machines.
 **Ambition:** Manual publishes from developer machines bypass the CI gate, the provenance chain, and the release review process. A tag-triggered workflow ensures that every published version corresponds to a specific commit on `main` that has passed all CI checks and is identified in git history by the semver tag. It also creates a permanent audit trail: the published version, the git tag, the CI run, and the source commit are all linked.
@@ -142,6 +156,8 @@ aliases:
 **Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/release.yml`.
 
 ---
+
+## CICD.PreCommit.Gate
 
 **Tag:** CICD.PreCommit.Gate
 **Gist:** The `lefthook` pre-commit hook must run typecheck, lint (`--max-warnings 0`), format check, and tests before each commit; `--no-verify` bypass must not be used on `develop` or `main`.

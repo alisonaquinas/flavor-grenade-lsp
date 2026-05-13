@@ -38,7 +38,7 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Embed size specifier `|WxH` distinguished from display alias | [[requirements/embed-resolution]] |
+| — | Embed size specifier `\|WxH` distinguished from display alias | [[requirements/embed-resolution]] |
 
 ---
 

@@ -29,12 +29,32 @@ comments, Templater opaque regions, vault-local resolution, completions,
 diagnostics, navigation, rename, semantic tokens, document links, folding, and
 selection ranges.
 
+## Requirement Trace
+
+| Source | Phase responsibility |
+|---|---|
+| [[ofm-spec/index]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
+| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
+| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
+| [[gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
+| [[test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
+| [[test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
+| [[test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
+| [[test/markdown-flavor-verification-spec]] | Cover CI and command verification |
+| [[test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
+
 ## Acceptance
 
 - Obsidian behavior works when effective flavor is `obsidian`.
 - `.md` documents stay in VS Code `markdown` language mode.
 - Tests prove Obsidian features are gated by flavor and no longer by
   `ofmarkdown`.
+
+## Related
+
+- [[adr/ADR020-markdown-flavor-selection]]
+- [[features/ofmarkdown-language-mode]]
+- [[gaps/markdown-flavor-gap-analysis]]
 
 ## Tickets
 

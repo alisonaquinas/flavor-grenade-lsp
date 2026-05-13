@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-053` | Pandoc Markdown Language Support | Feature | `draft` |
-| `TASK-330` | Implement Pandoc Markdown parser semantics | Task | `open` |
-| `TASK-331` | Add Pandoc diagnostics and LSP features | Task | `open` |
-| `TASK-332` | Add Pandoc tests and validation evidence | Task | `open` |
-| `CHORE-125` | Phase 27 trace and documentation sweep | Chore | `open` |
-| `CHORE-126` | Phase 27 verification and closeout sweep | Chore | `open` |
+| [[FEAT-053]] | Pandoc Markdown Language Support | Feature | `draft` |
+| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | `open` |
+| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | `open` |
+| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | `open` |
+| [[CHORE-125]] | Phase 27 trace and documentation sweep | Chore | `open` |
+| [[CHORE-126]] | Phase 27 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

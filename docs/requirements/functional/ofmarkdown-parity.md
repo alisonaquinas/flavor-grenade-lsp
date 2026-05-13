@@ -17,6 +17,8 @@ standard Markdown link forms and vault file operations.
 
 ---
 
+## Parity.MarkdownLinks.LocalResolution
+
 **Tag:** Parity.MarkdownLinks.LocalResolution
 **User Req:** User.Author.UseStandardMarkdownLinks
 **Gist:** Local standard Markdown links must resolve through the same vault rules as wiki-links.
@@ -37,6 +39,8 @@ standard Markdown link forms and vault file operations.
 **Source:** [[ADR017-standard-markdown-link-intelligence]], [[features/ofmarkdown-parity-roadmap]].
 
 ---
+
+## Parity.MarkdownLinks.SameDocumentAnchor
 
 **Tag:** Parity.MarkdownLinks.SameDocumentAnchor
 **User Req:** User.Author.UseStandardMarkdownLinks
@@ -60,6 +64,8 @@ standard Markdown link forms and vault file operations.
 
 ---
 
+## Parity.HeadingAmbiguity.Diagnostics
+
 **Tag:** Parity.HeadingAmbiguity.Diagnostics
 **User Req:** User.Diagnose.SpotAmbiguousHeadingAnchors
 **Gist:** Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations.
@@ -80,6 +86,8 @@ standard Markdown link forms and vault file operations.
 **Source:** [[features/ofmarkdown-parity-roadmap]], [[ADR017-standard-markdown-link-intelligence]].
 
 ---
+
+## Parity.FileOperations.AtomicRefactor
 
 **Tag:** Parity.FileOperations.AtomicRefactor
 **User Req:** User.Rename.MoveNotesSafely
@@ -103,6 +111,8 @@ standard Markdown link forms and vault file operations.
 
 ---
 
+## Parity.Attachments.Intelligence
+
 **Tag:** Parity.Attachments.Intelligence
 **User Req:** User.Embed.ManageAttachments
 **Gist:** Attachments referenced by embeds or Markdown image links must support completion, diagnostics, definition, and hover metadata.
@@ -123,6 +133,8 @@ standard Markdown link forms and vault file operations.
 **Source:** [[features/ofmarkdown-parity-roadmap]], [[requirements/embed-resolution]].
 
 ---
+
+## Parity.StructuralLSP.Coverage
 
 **Tag:** Parity.StructuralLSP.Coverage
 **User Req:** User.Navigate.UseEditorStructure
@@ -152,6 +164,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.MarkdownLinks.ParseCoverage
+
 **Tag:** Parity.MarkdownLinks.ParseCoverage
 **User Req:** User.Author.UseStandardMarkdownLinks
 **Gist:** The OFM parser must expose every supported standard Markdown link form as typed index data.
@@ -173,6 +187,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.MarkdownLinks.TargetClassification
+
 **Tag:** Parity.MarkdownLinks.TargetClassification
 **User Req:** User.Author.UseStandardMarkdownLinks
 **Gist:** Markdown link targets must be classified as local document, local attachment, same-document fragment, external URL, or unsupported scheme before resolution.
@@ -193,6 +209,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.MarkdownLinks.ReferenceGraph
+
 **Tag:** Parity.MarkdownLinks.ReferenceGraph
 **User Req:** User.Author.UseStandardMarkdownLinks
 **Gist:** The reference graph must index Markdown document refs, image refs, label refs, and label definitions without a second document cache.
@@ -212,6 +230,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[ADR017-standard-markdown-link-intelligence]], `CONCEPTS.md`, [[plans/phase-14-markdown-link-intelligence]].
 
 ---
+
+## Parity.MarkdownLinks.Completion
 
 **Tag:** Parity.MarkdownLinks.Completion
 **User Req:** User.Author.UseStandardMarkdownLinks
@@ -235,6 +255,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.MarkdownLinks.NavigationAndReferences
+
 **Tag:** Parity.MarkdownLinks.NavigationAndReferences
 **User Req:** User.Navigate.JumpToNote
 **Gist:** Definition and references must include Markdown inline links, image links, label uses, label definitions, and same-document anchors where applicable.
@@ -254,6 +276,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[requirements/navigation]], [[ADR017-standard-markdown-link-intelligence]], [[plans/phase-14-markdown-link-intelligence]].
 
 ---
+
+## Parity.MarkdownLinks.RenameAnchors
 
 **Tag:** Parity.MarkdownLinks.RenameAnchors
 **User Req:** User.Rename.RenameHeadingEverywhere
@@ -276,6 +300,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.Attachments.IndexCoverage
+
 **Tag:** Parity.Attachments.IndexCoverage
 **User Req:** User.Embed.ManageAttachments
 **Gist:** Non-Markdown vault files must be indexed as attachment targets without creating parsed `OFMDoc` entries.
@@ -297,6 +323,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.Attachments.Completion
+
 **Tag:** Parity.Attachments.Completion
 **User Req:** User.Embed.ManageAttachments
 **Gist:** Embed and Markdown image contexts must complete indexed attachment paths.
@@ -317,6 +345,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.Attachments.Diagnostics
+
 **Tag:** Parity.Attachments.Diagnostics
 **User Req:** User.Embed.ManageAttachments
 **Gist:** Broken attachment references must produce diagnostics while existing attachments remain diagnostic-free.
@@ -336,6 +366,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[requirements/diagnostics]], [[requirements/embed-resolution]], [[plans/phase-15-attachment-intelligence]].
 
 ---
+
+## Parity.Attachments.NavigationHover
 
 **Tag:** Parity.Attachments.NavigationHover
 **User Req:** User.Embed.ManageAttachments
@@ -358,6 +390,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.Attachments.ConfigHints
+
 **Tag:** Parity.Attachments.ConfigHints
 **User Req:** User.Embed.ManageAttachments
 **Gist:** Attachment completion and indexing must respect configured attachment folder hints when available.
@@ -379,6 +413,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.FileOperations.CapabilityRegistration
+
 **Tag:** Parity.FileOperations.CapabilityRegistration
 **User Req:** User.Rename.MoveNotesSafely
 **Gist:** The server must advertise and handle LSP file-operation rename capability when the client supports it.
@@ -399,6 +435,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.FileOperations.MovePlannerConfinement
+
 **Tag:** Parity.FileOperations.MovePlannerConfinement
 **User Req:** User.Rename.MoveNotesSafely
 **Gist:** File-operation planning must canonicalize old and new paths and reject any move escaping the vault root.
@@ -418,6 +456,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[requirements/security/vault-confinement]], [[ADR018-vault-file-operation-refactoring]], [[plans/phase-16-vault-file-operation-refactors]].
 
 ---
+
+## Parity.FileOperations.ReferenceRewrite
 
 **Tag:** Parity.FileOperations.ReferenceRewrite
 **User Req:** User.Rename.MoveNotesSafely
@@ -440,6 +480,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.FileOperations.SkippedAmbiguousReporting
+
 **Tag:** Parity.FileOperations.SkippedAmbiguousReporting
 **User Req:** User.Rename.MoveNotesSafely
 **Gist:** References skipped because ambiguity prevents safe rewrite must be reported without generating speculative edits.
@@ -459,6 +501,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[ADR018-vault-file-operation-refactoring]], [[plans/phase-16-vault-file-operation-refactors]].
 
 ---
+
+## Parity.FileOperations.AtomicValidation
 
 **Tag:** Parity.FileOperations.AtomicValidation
 **User Req:** User.Rename.MoveNotesSafely
@@ -480,6 +524,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.FileOperations.IndexRefresh
+
 **Tag:** Parity.FileOperations.IndexRefresh
 **User Req:** User.Rename.MoveNotesSafely
 **Gist:** `workspace/didRenameFiles` must refresh affected index entries and diagnostics after editor-applied moves.
@@ -499,6 +545,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[plans/phase-16-vault-file-operation-refactors]], [[requirements/workspace]].
 
 ---
+
+## Parity.StructuralLSP.CapabilityRegistration
 
 **Tag:** Parity.StructuralLSP.CapabilityRegistration
 **User Req:** User.Navigate.UseEditorStructure
@@ -520,6 +568,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.StructuralLSP.DocumentLinks
+
 **Tag:** Parity.StructuralLSP.DocumentLinks
 **User Req:** User.Navigate.UseEditorStructure
 **Gist:** `textDocument/documentLink` must return targets for unambiguous local OFMarkdown links and leave ambiguous links unresolved.
@@ -540,6 +590,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 
 ---
 
+## Parity.StructuralLSP.FoldingRanges
+
 **Tag:** Parity.StructuralLSP.FoldingRanges
 **User Req:** User.Navigate.UseEditorStructure
 **Gist:** `textDocument/foldingRange` must expose OFMarkdown foldable constructs without crossing opaque-region boundaries.
@@ -559,6 +611,8 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Source:** [[ofm-spec/index]], [[requirements/semantic-tokens]], [[plans/phase-17-structural-lsp-capabilities]].
 
 ---
+
+## Parity.StructuralLSP.SelectionRanges
 
 **Tag:** Parity.StructuralLSP.SelectionRanges
 **User Req:** User.Navigate.UseEditorStructure

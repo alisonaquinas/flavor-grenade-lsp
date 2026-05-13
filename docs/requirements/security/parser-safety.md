@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## Security.Parser.ReDoS
+
 **Tag:** Security.Parser.ReDoS
 **Gist:** All regular expressions in the OFM parser must be audited for catastrophic backtracking; any pattern with super-linear worst-case behaviour against crafted input is prohibited from merging into `src/parser/`.
 **Ambition:** Multiple Markdown parsing libraries have shipped ReDoS vulnerabilities: markdown-it (CVE-2022-21670), CodeMirror (CVE-2025-6493), marked (pre-4.0.10), and markdown-to-jsx (GHSL-2020-300). The OFM parser writes its own regexes for wiki-links, tags, block IDs, callouts, and comments — all of which accept user-controlled vault content. A single file containing a crafted sequence of characters (e.g., `[[` followed by thousands of `|` characters) could lock the Bun event loop for seconds, causing the editor to time out. The prohibition on nested quantifiers and overlapping alternation patterns, enforced by static analysis before merge, prevents this class of vulnerability from being introduced.
@@ -31,6 +33,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-1.1]], [[adr/ADR012-parser-safety-policy]], CVE-2022-21670, CVE-2025-6493.
 
 ---
+
+## Security.Parser.ParseTimeout
 
 **Tag:** Security.Parser.ParseTimeout
 **Gist:** Processing of any single vault file must complete within 200 ms; files exceeding the timeout must be skipped with an empty parse result, a warning log entry, and no crash or index corruption.
@@ -51,6 +55,8 @@ aliases:
 
 ---
 
+## Security.Parser.YAMLLimits
+
 **Tag:** Security.Parser.YAMLLimits
 **Gist:** Frontmatter YAML must be parsed with an alias expansion cap of 50, a maximum size of 64 KB, and in `js-yaml` safe mode; any parse failure must be caught, logged without content, and treated as malformed frontmatter.
 **Ambition:** YAML anchor/alias expansion can amplify a small input into an exponentially large object graph ("billion laughs" pattern). A frontmatter block using 10 levels of 10-alias references expands to 10 billion objects on heap allocation. `js-yaml` provides a `maxAliases` option to cap this. The 64 KB size limit prevents even reaching the alias expansion stage for unreasonably large frontmatter blocks. Safe mode (no `!!js/function` or `!!python/object` tags) prevents YAML from being used as a code execution vector — though JavaScript YAML parsers default to safe mode, this must be explicitly enforced to prevent future dependency upgrades from changing the default.
@@ -68,6 +74,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-1.3]], [[adr/ADR012-parser-safety-policy#3-yaml-frontmatter-depth-and-alias-limits]], js-yaml documentation.
 
 ---
+
+## Security.Parser.EmbedDepth
 
 **Tag:** Security.Parser.EmbedDepth
 **Gist:** Embed resolution must detect cycles using a visited-URI set and enforce a maximum depth of 10; circular embeds produce FG005 and depth-exceeded embeds stop resolution without error propagation.
@@ -87,6 +95,8 @@ aliases:
 **Source:** [[research/security-threat-model#Sub-threat-5.2]], [[adr/ADR012-parser-safety-policy#4-embed-cycle-detection-and-depth-limit]], [[requirements/diagnostics]].
 
 ---
+
+## Security.Parser.VaultFileLimit
 
 **Tag:** Security.Parser.VaultFileLimit
 **Gist:** Initial vault indexing must stop at a configurable maximum file count (built-in default: 50,000); when the limit is reached, the server must notify the client via `window/showMessage` and continue operating with a partial index.

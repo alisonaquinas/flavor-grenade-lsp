@@ -33,8 +33,8 @@ server propagation calls.
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-001]] | Close language promotion gap |
-| [[extension/docs/gaps/markdown-flavor-gap-analysis#GAP-E-006]] | Close client-to-server propagation gap |
+| [GAP-E-001](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close language promotion gap |
+| [GAP-E-006](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close client-to-server propagation gap |
 
 ## Scope
 
@@ -77,4 +77,4 @@ Ticket index: [[plans/phase-E15-markdown-flavor-selector-settings/index]]
 ## Related
 
 - [[adr/ADR020-markdown-flavor-selection]]
-- [[extension/docs/gaps/markdown-flavor-gap-analysis]]
+- [extension Markdown flavor gap analysis](../../extension/docs/gaps/markdown-flavor-gap-analysis.md)

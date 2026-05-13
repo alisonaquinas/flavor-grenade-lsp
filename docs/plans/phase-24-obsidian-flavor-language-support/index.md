@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-050` | Obsidian Flavor Language Support | Feature | `draft` |
-| `TASK-321` | Map existing OFM parser behavior to Obsidian flavor | Task | `open` |
-| `TASK-322` | Gate Obsidian diagnostics and LSP features by flavor | Task | `open` |
-| `TASK-323` | Add Obsidian flavor regression and selector-mode coverage | Task | `open` |
-| `CHORE-119` | Phase 24 trace and documentation sweep | Chore | `open` |
-| `CHORE-120` | Phase 24 verification and closeout sweep | Chore | `open` |
+| [[FEAT-050]] | Obsidian Flavor Language Support | Feature | `draft` |
+| [[TASK-321]] | Map existing OFM parser behavior to Obsidian flavor | Task | `open` |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | `open` |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | `open` |
+| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | `open` |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

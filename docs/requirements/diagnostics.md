@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Diagnostic.Severity.WikiLink
+
 **Tag:** Diagnostic.Severity.WikiLink
 **User Req:** User.Diagnose.SpotBrokenLinks
 **Gist:** Diagnostics with codes FG001 (BrokenWikiLink), FG002 (AmbiguousWikiLink), and FG003 (MalformedWikiLink) must be published with LSP `DiagnosticSeverity.Error` (value 1).
@@ -33,6 +35,8 @@ aliases:
 **Source:** [[wiki-link-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticSeverity.
 
 ---
+
+## Diagnostic.Severity.Embed
 
 **Tag:** Diagnostic.Severity.Embed
 **User Req:** User.Diagnose.SpotBrokenEmbeds
@@ -54,6 +58,8 @@ aliases:
 
 ---
 
+## Diagnostic.Code.Assignment
+
 **Tag:** Diagnostic.Code.Assignment
 **User Req:** User.Diagnose.SpotBrokenLinks, User.Diagnose.SpotBrokenEmbeds
 **Gist:** Each diagnostic type emitted by the server must carry its assigned FG-prefixed numeric code string in the `code` field, and no two distinct diagnostic types may share the same code.
@@ -73,6 +79,8 @@ aliases:
 **Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]].
 
 ---
+
+## Diagnostic.Debounce.Latency
 
 **Tag:** Diagnostic.Debounce.Latency
 **User Req:** User.Diagnose.SpotBrokenLinks, User.Diagnose.SpotBrokenEmbeds
@@ -94,6 +102,8 @@ aliases:
 **Source:** [[architecture/overview#debounce-strategy]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 publishDiagnostics.
 
 ---
+
+## Diagnostic.Ambiguous.RelatedInfo
 
 **Tag:** Diagnostic.Ambiguous.RelatedInfo
 **User Req:** User.Diagnose.SpotAmbiguousLinks
@@ -118,6 +128,8 @@ aliases:
 **Source:** [[wiki-link-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticRelatedInformation.
 
 ---
+
+## Diagnostic.SingleFile.Suppression
 
 **Tag:** Diagnostic.SingleFile.Suppression
 **User Req:** User.Diagnose.SpotBrokenLinks

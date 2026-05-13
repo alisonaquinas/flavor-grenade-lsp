@@ -26,10 +26,10 @@ release through the tag-triggered git-flow release model.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/technical/ci-cd]] | Implement CI, release, tag guard, and Pages deployment |
-| [[../website/docs/architecture/ci-cd-and-deployment]] | Implement deployment architecture |
-| [[../website/docs/requirements/technical/source-layout-and-documentation]] | Enforce docs, changelog, source, and test maturity |
-| [[../website/docs/requirements/functional/seo-and-metadata]] | Verify production metadata output |
+| [requirements/technical/ci-cd](../../website/docs/requirements/technical/ci-cd.md) | Implement CI, release, tag guard, and Pages deployment |
+| [architecture/ci-cd-and-deployment](../../website/docs/architecture/ci-cd-and-deployment.md) | Implement deployment architecture |
+| [requirements/technical/source-layout-and-documentation](../../website/docs/requirements/technical/source-layout-and-documentation.md) | Enforce docs, changelog, source, and test maturity |
+| [requirements/functional/seo-and-metadata](../../website/docs/requirements/functional/seo-and-metadata.md) | Verify production metadata output |
 
 ## Scope
 
@@ -90,8 +90,8 @@ closeout because it was cancelled by human instruction.
 
 ## Related
 
-- [[../website/docs/requirements/technical/ci-cd]]
-- [[../website/docs/architecture/ci-cd-and-deployment]]
+- [requirements/technical/ci-cd](../../website/docs/requirements/technical/ci-cd.md)
+- [architecture/ci-cd-and-deployment](../../website/docs/architecture/ci-cd-and-deployment.md)
 
 ## Workflow Log
 

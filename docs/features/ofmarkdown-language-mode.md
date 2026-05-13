@@ -17,6 +17,10 @@ This supersedes the earlier dynamic `ofmarkdown` language-mode design. Flavor is
 not a VS Code language id. It is document/workspace analysis state owned by
 Flavor Grenade and surfaced through a separate selector.
 
+> [!NOTE]
+> This file keeps its legacy slug so older requirements, tickets, and roadmap
+> links remain valid. The feature it now defines is Markdown flavor selection.
+
 ## User-Visible Behavior
 
 When a user opens a Markdown document in VS Code:
@@ -63,16 +67,16 @@ Markdown.
 | `original` | Gruber 2004 Markdown syntax and Markdown.pl-era ambiguities; no fenced code, tables, task lists, or wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
 | `commonmark` | Versioned CommonMark core semantics with fenced code blocks and standardized edge-case behavior; no GFM tables or Obsidian wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
 | `obsidian` | Obsidian-style wiki links, embeds, block anchors, tags, callouts, frontmatter, math, comments, and vault-local link semantics. | [[ofm-spec/index]] |
-| `gfm` | CommonMark plus GitHub tables, task lists, strikethrough, autolinks, and GitHub platform rendering boundaries. | [[github-flavored-markdown-analysis]] |
-| `glfm` | CommonMark/GFM base plus GitLab-specific references, media behavior, and heading/link conventions. | [[gitlab-flavored-markdown-analysis]] |
-| `pandoc` | Extension-oriented Markdown with citations, math, metadata, attributes, labels, cross-references, and conversion-sensitive behavior. | [[pandoc-markdown-deep-research-report]] |
-| `multimarkdown` | Document-production Markdown with metadata, tables, footnotes, citations, cross-references, and export-oriented behavior. | [[multimarkdown-analysis]] |
-| `mdx` | Markdown with JSX expressions/components and ESM-oriented constraints; treat `.mdx` language-mode ownership as external to Markdown flavor selection. | [[mdx-analysis]] |
-| `kramdown` | kramdown block/span attributes, definition lists, tables, math, footnotes, and parser option behavior. | [[kramdown-analysis]] |
-| `markdown-extra` | PHP Markdown Extra tables, definition lists, footnotes, abbreviations, fenced code, and attribute blocks. | [[markdown-extra-analysis]] |
-| `r-markdown` | YAML metadata, prose Markdown, and executable R code chunk conventions across knitr/rmarkdown-style pipelines. | [[r-markdown-analysis]] |
-| `reddit` | Reddit's platform Markdown rules, including host-specific rendering, escaping, and portability limits. | [[reddit-markdown-analysis]] |
-| `stack-overflow` | Stack Overflow's CommonMark-based technical-writing profile, code blocks, syntax highlighting conventions, and platform constraints. | [[stack-overflow-markdown-analysis]] |
+| `gfm` | CommonMark plus GitHub tables, task lists, strikethrough, autolinks, and GitHub platform rendering boundaries. | [[research/github-flavored-markdown-analysis]] |
+| `glfm` | CommonMark/GFM base plus GitLab-specific references, media behavior, and heading/link conventions. | [[research/gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Extension-oriented Markdown with citations, math, metadata, attributes, labels, cross-references, and conversion-sensitive behavior. | [[research/pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | Document-production Markdown with metadata, tables, footnotes, citations, cross-references, and export-oriented behavior. | [[research/multimarkdown-analysis]] |
+| `mdx` | Markdown with JSX expressions/components and ESM-oriented constraints; treat `.mdx` language-mode ownership as external to Markdown flavor selection. | [[research/mdx-analysis]] |
+| `kramdown` | kramdown block/span attributes, definition lists, tables, math, footnotes, and parser option behavior. | [[research/kramdown-analysis]] |
+| `markdown-extra` | PHP Markdown Extra tables, definition lists, footnotes, abbreviations, fenced code, and attribute blocks. | [[research/markdown-extra-analysis]] |
+| `r-markdown` | YAML metadata, prose Markdown, and executable R code chunk conventions across knitr/rmarkdown-style pipelines. | [[research/r-markdown-analysis]] |
+| `reddit` | Reddit's platform Markdown rules, including host-specific rendering, escaping, and portability limits. | [[research/reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow's CommonMark-based technical-writing profile, code blocks, syntax highlighting conventions, and platform constraints. | [[research/stack-overflow-markdown-analysis]] |
 
 ## Selector UI
 

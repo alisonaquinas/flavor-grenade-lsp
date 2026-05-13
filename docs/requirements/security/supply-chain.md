@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## Security.Supply.ExactPinning
+
 **Tag:** Security.Supply.ExactPinning
 **Gist:** Runtime and development dependencies should use exact version strings where possible; range specifiers (`^`, `~`, `>=`, `*`) remain tracked supply-chain debt until CI range linting is added.
 **Ambition:** Semver range specifiers allow a package registry update to silently upgrade a dependency to a newer (potentially compromised) version without a lockfile change appearing in the PR. The Shai-Hulud 2.0 campaign exploited this by publishing malicious patch versions of popular packages — any consumer with `"^1.2.3"` received the malicious `1.2.4` on their next `npm install`. Exact pinning means the lockfile is the sole authoritative source of resolved versions; registry updates cannot introduce new versions without an explicit PR that modifies `package.json` and `bun.lockb`, which requires human review.
@@ -32,6 +34,8 @@ aliases:
 **Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#1-exact-version-pinning]], Shai-Hulud 2.0 analysis.
 
 ---
+
+## Security.Supply.FrozenLockfile
 
 **Tag:** Security.Supply.FrozenLockfile
 **Gist:** All CI `bun install` invocations must use `--frozen-lockfile`; any discrepancy between `package.json` and `bun.lockb` must fail the build rather than update the lockfile.
@@ -51,6 +55,8 @@ aliases:
 
 ---
 
+## Security.Supply.IgnoreScripts
+
 **Tag:** Security.Supply.IgnoreScripts
 **Gist:** All CI `bun install` invocations must include the `--ignore-scripts` CLI flag to prevent postinstall script execution; the `.npmrc` directive alone is insufficient due to Bun's known bypass.
 **Ambition:** The Bun package manager prioritizes its own internal package allow-list over the `ignore-scripts=true` directive in `.npmrc` (bunsecurity.dev, CVSS 5.5, CWE-183). This means a centrally-configured no-script policy through `.npmrc` provides no protection against postinstall scripts in packages on Bun's allow-list. The `--ignore-scripts` CLI flag does work correctly. The Shai-Hulud 2.0 campaign used `preinstall` scripts to execute payloads — this is the exact attack vector that `--ignore-scripts` prevents. Because the flag must be explicitly passed on every invocation rather than set once in configuration, each `bun install` call in the CI workflow must include it.
@@ -69,6 +75,8 @@ aliases:
 
 ---
 
+## Security.Supply.AdvisoryMonitoring
+
 **Tag:** Security.Supply.AdvisoryMonitoring
 **Gist:** Direct dependencies must be reviewed against published security advisories before each upgrade; findings must be documented in `docs/security/dependency-audit-log.md` with reviewer sign-off.
 **Ambition:** Automated tools such as Dependabot surface known CVEs but cannot assess whether a newly published advisory for a core dependency (e.g., `@nestjs/common`, `typescript-eslint`, `vscode-languageserver-protocol`) has a viable exploit path in the specific usage pattern of this server. Human review adds the contextual judgment that automation cannot provide. CVE-2024-29409 (`@nestjs/common` arbitrary code injection via `FileTypeValidator`) is an example where review would have identified that the server does not use `FileTypeValidator`, making the upgrade advisory rather than critical — without review, teams either panic-upgrade or ignore the advisory entirely. The audit log creates an institutional record.
@@ -85,6 +93,8 @@ aliases:
 **Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#4-security-advisory-monitoring]], CVE-2024-29409.
 
 ---
+
+## Security.Supply.NoDevtoolsIntegration
 
 **Tag:** Security.Supply.NoDevtoolsIntegration
 **Gist:** `@nestjs/devtools-integration` must never be added as a dependency; package audit and future lint rules enforce this prohibition.

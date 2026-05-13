@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Block.Anchor.Indexing
+
 **Tag:** Block.Anchor.Indexing
 **User Req:** User.Blocks.ReferenceSpecificText
 **Gist:** All valid `^blockid` anchors present in a document must be discovered during indexing and registered in OFMIndex.blockAnchors for that document.
@@ -39,6 +41,8 @@ aliases:
 
 ---
 
+## Block.CrossRef.Diagnostic
+
 **Tag:** Block.CrossRef.Diagnostic
 **User Req:** User.Blocks.ReferenceSpecificText
 **Gist:** A `[[doc#^nonexistent]]` wiki-link referencing a block anchor that does not exist in OFMIndex.blockAnchors for the target document must produce one FG005 (BrokenBlockRef) diagnostic; this diagnostic must be suppressed when the server is in single-file mode.
@@ -62,6 +66,8 @@ aliases:
 
 ---
 
+## Block.Completion.Offer
+
 **Tag:** Block.Completion.Offer
 **User Req:** User.Blocks.CompleteBlockRef
 **Gist:** When the cursor is positioned after `[[doc#^` in a wiki-link, the completion response must offer all `^blockid` values registered in OFMIndex.blockAnchors for the resolved target document.
@@ -82,6 +88,8 @@ aliases:
 **Source:** [[ofm-spec/block-references]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
 
 ---
+
+## Block.Anchor.Lineend
 
 **Tag:** Block.Anchor.Lineend
 **User Req:** User.Blocks.CompleteBlockRef

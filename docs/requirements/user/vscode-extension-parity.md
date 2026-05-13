@@ -10,12 +10,16 @@ aliases:
 
 ---
 
+## User.Extension.StartOnlyForVaults
+
 **Tag:** User.Extension.StartOnlyForVaults
 **Goal:** Start automatically for vaults without invading generic Markdown
 **Need:** A VS Code user wants Flavor Grenade to activate when they open an Obsidian or Flavor Grenade vault, while ordinary README files and generic Markdown workspaces remain lightweight.
 **Maps to:** Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.MarkdownFlavor.Refresh
 
 ---
+
+## User.Extension.UseNativeVSCodeActions
 
 **Tag:** User.Extension.UseNativeVSCodeActions
 **Goal:** Use native VS Code actions for vault navigation
@@ -24,12 +28,16 @@ aliases:
 
 ---
 
+## User.Extension.TrustExtensionBehavior
+
 **Tag:** User.Extension.TrustExtensionBehavior
 **Goal:** Trust extension behavior across updates
 **Need:** A VS Code user wants activation, commands, status, and Markdown flavor behavior to be tested so extension updates do not break basic editing workflows.
 **Maps to:** Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.TargetBinaryValidation
 
 ---
+
+## User.Extension.EvaluateBeforeInstall
 
 **Tag:** User.Extension.EvaluateBeforeInstall
 **Goal:** Understand the extension before installing
@@ -38,12 +46,16 @@ aliases:
 
 ---
 
+## User.Extension.InstallCompatiblePackage
+
 **Tag:** User.Extension.InstallCompatiblePackage
 **Goal:** Install a platform-compatible extension package
 **Need:** A VS Code user wants the installed package to contain a server binary that matches their platform and extension version, so the extension starts reliably after install or update.
 **Maps to:** Extension.Packaging.TargetBinaryValidation, Extension.Workspace.EnvironmentModes
 
 ---
+
+## User.Extension.UnderstandServerState
 
 **Tag:** User.Extension.UnderstandServerState
 **Goal:** Understand server state at a glance

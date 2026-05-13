@@ -46,8 +46,8 @@ Each user requirement uses the following fields:
 | User.Rename.RenameHeadingEverywhere | Rename a heading and have all links to it updated | [[renaming-safely]] | Rename.Refactoring.Completeness, Rename.Prepare.Rejection |
 | User.Vault.AutoDetectVault | Have the server automatically find and use the vault root | [[vault-setup]] | Workspace.VaultDetection.Primary, Workspace.VaultDetection.Fallback |
 | User.Vault.WorkAcrossEntireVault | Have links resolve across all notes in the vault | [[vault-setup]] | Workspace.FileExtension.Filter, Workspace.MultiFolder.Isolation |
-| User.Config.CustomiseLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behaviour]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
-| User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behaviour]] | Config.Validation.Candidates, Completion.Candidates.Cap |
+| User.Config.CustomizeLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behavior]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
+| User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behavior]] | Config.Validation.Candidates, Completion.Candidates.Cap |
 | User.Extension.PreserveMarkdownLanguage | Keep `.md` files in VS Code's normal Markdown mode | [[vscode-language-mode]] | Extension.MarkdownLanguage.PreserveDefault |
 | User.Extension.SelectMarkdownFlavor | Choose any supported researched Markdown flavor | [[vscode-language-mode]] | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage |
 | User.Extension.AutoDetectFlavor | Let VS Code infer the Markdown flavor from vault context | [[vscode-language-mode]] | Extension.MarkdownFlavor.AutoDetection |
@@ -76,7 +76,7 @@ Each user requirement uses the following fields:
 - [[requirements/user/seeing-broken-links]] — diagnostic user requirements
 - [[requirements/user/renaming-safely]] — rename user requirements
 - [[requirements/user/vault-setup]] — vault detection user requirements
-- [[requirements/user/configuring-behaviour]] — configuration user requirements
+- [[requirements/user/configuring-behavior]] — configuration user requirements
 - [[requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
 - [[requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
 - [[requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements

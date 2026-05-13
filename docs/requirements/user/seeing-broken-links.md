@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Diagnose.SpotBrokenLinks
+
 **Tag:** User.Diagnose.SpotBrokenLinks
 **Gist:** Vault author sees a clearly marked error diagnostic for every `[[wiki-link]]` that points to a note not present in the vault.
 **Ambition:** Broken-link diagnostics are always accurate, never silent, and never produce false alarms in single-file mode — authors can trust that any unmarked link is valid.
@@ -25,6 +27,8 @@ aliases:
 
 ---
 
+## User.Diagnose.SpotAmbiguousLinks
+
 **Tag:** User.Diagnose.SpotAmbiguousLinks
 **Gist:** Vault author receives an FG002 warning diagnostic for every link whose short name matches more than one note in the vault.
 **Ambition:** Ambiguity warnings are precise and actionable — every multi-match link is flagged and the diagnostic's `relatedInformation` identifies each candidate, giving the author enough context to resolve the ambiguity immediately.
@@ -36,6 +40,8 @@ aliases:
 **Maps to:** Diagnostic.Ambiguous.RelatedInfo
 
 ---
+
+## User.Diagnose.SpotBrokenEmbeds
 
 **Tag:** User.Diagnose.SpotBrokenEmbeds
 **Gist:** Vault author sees a distinct embed-broken diagnostic for every `![[embed]]` whose target cannot be found in the vault.

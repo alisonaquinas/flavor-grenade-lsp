@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## CA-001
+
 **Tag:** CA-001
 **Gist:** The server must surface a `fg.createMissingFile` code action when the cursor is inside a wiki-link whose target resolves to zero documents, and executing that action must create the missing file in the vault and clear the FG001 diagnostic.
 **Ambition:** Broken wiki-links are the most common entry-point error in rapid note-taking workflows: authors write the link before the note exists. If the LSP offers no repair path from the error to the fix, authors must manually create the file, name it correctly, and wait for the next diagnostic cycle — three friction points that interrupt the writing flow. A single code action invocation that performs all three steps keeps the author in flow and reinforces the "link first, write later" OFM working style.
@@ -34,6 +36,8 @@ aliases:
 
 ---
 
+## CA-002
+
 **Tag:** CA-002
 **Gist:** The server must surface a `fg.toc` code action whenever the current document contains at least one heading, and executing the action must insert or replace a `<!-- TOC -->` block with a correctly formatted Markdown list of heading links respecting the configured `toc.max_depth`.
 **Ambition:** Long OFM notes with many headings become navigable only if the author manually maintains a table of contents — a tedious, error-prone, and invariably stale process. An LSP code action that regenerates the TOC on demand eliminates that maintenance burden and ensures the TOC always reflects the current heading structure. The `<!-- TOC -->` comment markers allow idempotent re-generation: a second invocation updates rather than duplicates, which is the behaviour authors expect from a "keep it fresh" workflow.
@@ -52,6 +56,8 @@ aliases:
 **Goal:** 100% compliance on all three sub-scales.
 
 ---
+
+## CA-003
 
 **Tag:** CA-003
 **Gist:** The server must surface a `fg.tagToYaml` code action when the cursor is on an inline `#tag` in the document body (outside code and math blocks), and executing the action must move the selected tag(s) into the frontmatter `tags:` array and remove them from the body text.

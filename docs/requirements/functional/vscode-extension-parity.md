@@ -17,6 +17,8 @@ requirements.
 
 ---
 
+## Extension.Activation.VaultPrecision
+
 **Tag:** Extension.Activation.VaultPrecision
 **User Req:** User.Extension.StartOnlyForVaults
 **Gist:** The extension must activate automatically for Obsidian and Flavor Grenade vaults while avoiding unnecessary work in generic Markdown workspaces.
@@ -39,6 +41,8 @@ requirements.
 
 ---
 
+## Extension.CommandBridges.NativeUI
+
 **Tag:** Extension.CommandBridges.NativeUI
 **User Req:** User.Extension.UseNativeVSCodeActions
 **Gist:** Server-provided reference and navigation payloads must be bridgeable to native VS Code UI commands.
@@ -60,6 +64,8 @@ requirements.
 
 ---
 
+## Extension.Tests.HostCoverage
+
 **Tag:** Extension.Tests.HostCoverage
 **User Req:** User.Extension.TrustExtensionBehavior
 **Gist:** Extension-host tests must cover activation, commands, status, and Markdown flavor behavior.
@@ -79,6 +85,8 @@ requirements.
 
 ---
 
+## Extension.Marketplace.OFMProof
+
 **Tag:** Extension.Marketplace.OFMProof
 **User Req:** User.Extension.EvaluateBeforeInstall
 **Gist:** The Marketplace README must show OFMarkdown-specific features with current screenshots or GIFs.
@@ -97,6 +105,8 @@ requirements.
 **Source:** [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
 
 ---
+
+## Extension.Status.Diagnostics
 
 **Tag:** Extension.Status.Diagnostics
 **User Req:** User.Extension.UnderstandServerState
@@ -125,6 +135,8 @@ extension implementation capabilities.
 
 ---
 
+## Extension.Activation.MarkerEvents
+
 **Tag:** Extension.Activation.MarkerEvents
 **User Req:** User.Extension.StartOnlyForVaults
 **Gist:** The extension manifest and activation controller must react to `.obsidian/`, `.flavor-grenade.toml`, `markdown`, flavor selector commands, and explicit command activation signals.
@@ -144,6 +156,8 @@ extension implementation capabilities.
 **Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], [[plans/phase-E7-activation-precision]].
 
 ---
+
+## Extension.CommandBridges.PayloadValidation
 
 **Tag:** Extension.CommandBridges.PayloadValidation
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -166,6 +180,8 @@ extension implementation capabilities.
 
 ---
 
+## Extension.CommandBridges.GraphActions
+
 **Tag:** Extension.CommandBridges.GraphActions
 **User Req:** User.Extension.UseNativeVSCodeActions
 **Gist:** The extension must bridge references, link following, embed opening, backlinks, outlinks, vault reveal, and diagnostic copy actions to native VS Code surfaces.
@@ -186,6 +202,8 @@ extension implementation capabilities.
 
 ---
 
+## Extension.Status.QuickActions
+
 **Tag:** Extension.Status.QuickActions
 **User Req:** User.Extension.UnderstandServerState
 **Gist:** Status UI must expose restart, rebuild index, show output, copy diagnostics, and reveal vault root actions when applicable.
@@ -205,6 +223,8 @@ extension implementation capabilities.
 **Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]], `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
+
+## Extension.MarkdownFlavor.Refresh
 
 **Tag:** Extension.MarkdownFlavor.Refresh
 **User Req:** User.Extension.TrustExtensionBehavior
@@ -227,6 +247,8 @@ extension implementation capabilities.
 
 ---
 
+## Extension.Workspace.EnvironmentModes
+
 **Tag:** Extension.Workspace.EnvironmentModes
 **User Req:** User.Extension.UnderstandServerState
 **Gist:** Restricted, virtual, remote, WSL, SSH, and Dev Container workspaces must have explicit server-start behavior and documentation.
@@ -248,6 +270,8 @@ extension implementation capabilities.
 
 ---
 
+## Extension.Contributions.FlavorScoped
+
 **Tag:** Extension.Contributions.FlavorScoped
 **User Req:** User.Extension.UseNativeVSCodeActions
 **Gist:** Snippets, keybindings, commands, and optional theme examples must be scoped by Markdown flavor/context where they would affect generic Markdown.
@@ -267,6 +291,8 @@ extension implementation capabilities.
 **Source:** [[features/vscode-extension-parity]], [[features/ofmarkdown-language-mode]], [[adr/ADR020-markdown-flavor-selection]], [[ADR019-vscode-command-bridges-and-client-ux]].
 
 ---
+
+## Extension.Marketplace.AssetPackaging
 
 **Tag:** Extension.Marketplace.AssetPackaging
 **User Req:** User.Extension.EvaluateBeforeInstall
@@ -288,6 +314,8 @@ extension implementation capabilities.
 **Source:** [[requirements/functional/vscode-extension-parity]], [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
 
 ---
+
+## Extension.Packaging.TargetBinaryValidation
 
 **Tag:** Extension.Packaging.TargetBinaryValidation
 **User Req:** User.Extension.InstallCompatiblePackage

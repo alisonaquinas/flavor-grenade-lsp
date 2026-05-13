@@ -27,11 +27,11 @@ the footer byline and attribution system.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/design/index]] | Apply UI/UX, layout, typography, theme, and footer requirements |
-| [[../website/docs/requirements/functional/theme-modes]] | Implement light, dark, and system theme behavior |
-| [[../website/docs/requirements/functional/product-identity-assets]] | Reuse product logo and icon assets |
-| [[../website/docs/requirements/functional/attribution]] | Implement inspiration links and creator byline |
-| [[../website/docs/requirements/functional/mobile-and-responsive]] | Keep homepage usable on mobile |
+| [requirements/design/index](../../website/docs/requirements/design/index.md) | Apply UI/UX, layout, typography, theme, and footer requirements |
+| [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md) | Implement light, dark, and system theme behavior |
+| [requirements/functional/product-identity-assets](../../website/docs/requirements/functional/product-identity-assets.md) | Reuse product logo and icon assets |
+| [requirements/functional/attribution](../../website/docs/requirements/functional/attribution.md) | Implement inspiration links and creator byline |
+| [requirements/functional/mobile-and-responsive](../../website/docs/requirements/functional/mobile-and-responsive.md) | Keep homepage usable on mobile |
 
 ## Scope
 
@@ -89,8 +89,8 @@ npm run build
 
 ## Related
 
-- [[../website/docs/requirements/design/index]]
-- [[../website/docs/requirements/functional/theme-modes]]
+- [requirements/design/index](../../website/docs/requirements/design/index.md)
+- [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md)
 
 ## Workflow Log
 

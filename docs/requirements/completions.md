@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Completion.Candidates.Cap
+
 **Tag:** Completion.Candidates.Cap
 **User Req:** User.Author.CompleteWikiLink, User.Config.TuneCompletions
 **Gist:** The completion candidate list must be capped at the integer value configured by `completion.candidates`, and `CompletionList.isIncomplete` must be set to `true` whenever the cap is reached.
@@ -36,6 +38,8 @@ aliases:
 **Source:** [[configuration#Config.Validation.Candidates]], [[design/api-layer#completion-handler]], LSP specification §3.16 `CompletionList`.
 
 ---
+
+## Completion.Trigger.Coverage
 
 **Tag:** Completion.Trigger.Coverage
 **User Req:** User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Author.CompleteCallout, User.Tags.CompleteTag
@@ -60,6 +64,8 @@ aliases:
 
 ---
 
+## Completion.CalloutType.Coverage
+
 **Tag:** Completion.CalloutType.Coverage
 **User Req:** User.Author.CompleteCallout
 **Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 13 primary standard Obsidian callout type names as candidates.
@@ -79,6 +85,8 @@ aliases:
 **Source:** [[ofm-spec/callouts#standard-types]], [[design/api-layer#completion-handler]], Obsidian Help: Callouts.
 
 ---
+
+## Completion.WikiStyle.Binding
 
 **Tag:** Completion.WikiStyle.Binding
 **User Req:** User.Author.CompleteWikiLink, User.Author.FollowLinkStyle

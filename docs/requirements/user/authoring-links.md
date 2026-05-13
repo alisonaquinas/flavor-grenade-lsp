@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Author.CompleteWikiLink
+
 **Tag:** User.Author.CompleteWikiLink
 **Gist:** Vault author receives a filtered list of note candidates immediately upon typing `[[`.
 **Ambition:** Completion activates without delay for any vault size, narrows correctly as the author types, and every item conforms to the active link style so the vault never needs manual correction.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Completion.Trigger.Coverage, Completion.WikiStyle.Binding, Completion.Candidates.Cap, Link.Resolution.IgnoreGlob
 
 ---
+
+## User.Author.CompleteHeading
 
 **Tag:** User.Author.CompleteHeading
 **Gist:** Vault author receives heading suggestions for the target note immediately upon typing `[[note#`.
@@ -37,6 +41,8 @@ aliases:
 
 ---
 
+## User.Author.CompleteCallout
+
 **Tag:** User.Author.CompleteCallout
 **Gist:** Vault author receives callout-type suggestions immediately upon typing `> [!`.
 **Ambition:** All standard OFM callout types are offered instantly so the author never needs to consult external documentation for exact spelling or casing.
@@ -48,6 +54,8 @@ aliases:
 **Maps to:** Completion.CalloutType.Coverage, Completion.Trigger.Coverage
 
 ---
+
+## User.Author.FollowLinkStyle
 
 **Tag:** User.Author.FollowLinkStyle
 **Gist:** Every link the server inserts or modifies conforms to the vault's configured link-writing convention.

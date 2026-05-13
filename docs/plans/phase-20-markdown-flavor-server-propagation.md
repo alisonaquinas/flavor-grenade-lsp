@@ -33,8 +33,8 @@ flavor context.
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
 | [[test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-003]] | Close missing server flavor configuration gap |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-007]] | Close flavor-blind parser/diagnostics gap |
+| [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |
+| [GAP-S-007](../gaps/markdown-flavor-gap-analysis.md) | Close flavor-blind parser/diagnostics gap |
 
 ## Scope
 

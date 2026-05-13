@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| `FEAT-051` | GitHub Flavored Markdown Language Support | Feature | `draft` |
-| `TASK-324` | Implement GFM parser semantics | Task | `open` |
-| `TASK-325` | Add GFM diagnostics and LSP features | Task | `open` |
-| `TASK-326` | Add GFM tests and validation evidence | Task | `open` |
-| `CHORE-121` | Phase 25 trace and documentation sweep | Chore | `open` |
-| `CHORE-122` | Phase 25 verification and closeout sweep | Chore | `open` |
+| [[FEAT-051]] | GitHub Flavored Markdown Language Support | Feature | `draft` |
+| [[TASK-324]] | Implement GFM parser semantics | Task | `open` |
+| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `open` |
+| [[TASK-326]] | Add GFM tests and validation evidence | Task | `open` |
+| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `open` |
+| [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details
 

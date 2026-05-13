@@ -15,6 +15,8 @@ aliases:
 
 ---
 
+## User.Extension.PreserveMarkdownLanguage
+
 **Tag:** User.Extension.PreserveMarkdownLanguage
 **Gist:** A Markdown author opens a `.md` file and it stays in VS Code's normal Markdown language mode.
 **Ambition:** Flavor Grenade should improve Markdown intelligence without breaking the user's existing Markdown editor setup.
@@ -26,6 +28,8 @@ aliases:
 **Maps to:** Extension.MarkdownLanguage.PreserveDefault
 
 ---
+
+## User.Extension.SelectMarkdownFlavor
 
 **Tag:** User.Extension.SelectMarkdownFlavor
 **Gist:** A Markdown author can see and choose the active Markdown flavor from a separate Flavor Grenade selector.
@@ -39,6 +43,8 @@ aliases:
 
 ---
 
+## User.Extension.AutoDetectFlavor
+
 **Tag:** User.Extension.AutoDetectFlavor
 **Gist:** A vault author opens an Obsidian note and Flavor Grenade automatically treats it as Obsidian flavored Markdown.
 **Ambition:** Obsidian vaults should keep zero-config behavior, while generic Markdown should not be assumed to be Obsidian.
@@ -50,6 +56,8 @@ aliases:
 **Maps to:** Extension.MarkdownFlavor.AutoDetection
 
 ---
+
+## User.Extension.OverrideMarkdownFlavor
 
 **Tag:** User.Extension.OverrideMarkdownFlavor
 **Gist:** A user override persists at project scope when a folder is open and at user scope when only a standalone file is open.
@@ -63,6 +71,8 @@ aliases:
 
 ---
 
+## User.Extension.TrustFlavorBehavior
+
 **Tag:** User.Extension.TrustFlavorBehavior
 **Gist:** The selected flavor affects Flavor Grenade diagnostics, completions, and navigation.
 **Ambition:** The selector must be real product state, not decorative UI.
@@ -74,6 +84,8 @@ aliases:
 **Maps to:** Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles
 
 ---
+
+## User.Extension.PreserveManualMode
 
 **Tag:** User.Extension.PreserveManualMode
 **Gist:** A user manually chooses another VS Code language mode and Flavor Grenade does not override it.

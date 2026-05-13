@@ -26,10 +26,10 @@ future public content into static SEO-ready pages.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/functional/public-pages]] | Define required public routes |
-| [[../website/docs/requirements/functional/seo-and-metadata]] | Generate required SEO metadata |
-| [[../website/docs/architecture/content-pipeline]] | Implement typed route, metadata, and validation flow |
-| [[../website/docs/requirements/technical/source-layout-and-documentation]] | Keep internal Markdown and generated docs traceable |
+| [requirements/functional/public-pages](../../website/docs/requirements/functional/public-pages.md) | Define required public routes |
+| [requirements/functional/seo-and-metadata](../../website/docs/requirements/functional/seo-and-metadata.md) | Generate required SEO metadata |
+| [architecture/content-pipeline](../../website/docs/architecture/content-pipeline.md) | Implement typed route, metadata, and validation flow |
+| [requirements/technical/source-layout-and-documentation](../../website/docs/requirements/technical/source-layout-and-documentation.md) | Keep internal Markdown and generated docs traceable |
 
 ## Scope
 
@@ -83,8 +83,8 @@ npm run build
 
 ## Related
 
-- [[../website/docs/architecture/content-pipeline]]
-- [[../website/docs/requirements/functional/seo-and-metadata]]
+- [architecture/content-pipeline](../../website/docs/architecture/content-pipeline.md)
+- [requirements/functional/seo-and-metadata](../../website/docs/requirements/functional/seo-and-metadata.md)
 
 ## Workflow Log
 

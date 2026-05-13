@@ -1,0 +1,47 @@
+---
+id: "TASK-315"
+title: "Implement Original Markdown parser semantics"
+type: task
+status: open
+priority: high
+phase: 22
+parent: "FEAT-048"
+created: "2026-05-13"
+updated: "2026-05-13"
+dependencies: ["FEAT-048"]
+tags: [tickets/task, "phase/22", markdown-flavor, "original"]
+aliases: ["TASK-315"]
+---
+
+# Implement Original Markdown parser semantics
+
+## Description
+
+Deliver parser/profile semantics for the original flavor using [[research/commonmark-and-original-markdown]] and ADR020 as the controlling specification.
+
+## Work Scope
+
+- Preserve the default VS Code markdown language mode while applying original behavior through flavor state.
+- Record Original Markdown signature behavior: historical core Markdown without fenced code, pipe tables, task lists, wiki links, or callouts.
+- Keep Obsidian-only behavior disabled unless the effective flavor is obsidian or a later requirement explicitly allows it.
+
+## Linked Requirements
+
+| Requirement | Gap |
+|---|---|
+| Extension.MarkdownFlavor.DialectProfiles | GAP-S-002 |
+| Extension.MarkdownFlavor.ServerPropagation | GAP-S-003 |
+
+## Linked Tests
+
+| Test spec | Expected coverage |
+|---|---|
+| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for original. |
+| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor original. |
+| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+
+## Definition of Done
+
+- [ ] original behavior is implemented behind the flavor model.
+- [ ] Tests cover positive and portability/unsupported syntax cases.
+- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.

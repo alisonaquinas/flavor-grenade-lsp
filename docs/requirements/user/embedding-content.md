@@ -13,6 +13,8 @@ aliases:
 
 ---
 
+## User.Embed.DetectBrokenEmbed
+
 **Tag:** User.Embed.DetectBrokenEmbed
 **Gist:** Vault author sees a diagnostic warning immediately when an `![[embed]]` target does not exist or has been moved.
 **Ambition:** Every broken embed is surfaced as a visible editor diagnostic within the debounce window after each change, so no broken embed silently persists in the vault.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Embed.Resolution.MarkdownTarget, Embed.Resolution.ImageTarget, Embed.HeadingEmbed.Resolution, Embed.BlockEmbed.Resolution
 
 ---
+
+## User.Embed.PreviewLinkedContent
 
 **Tag:** User.Embed.PreviewLinkedContent
 **Gist:** Vault author sees a hover preview of the embedded content without leaving the current document.

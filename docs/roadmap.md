@@ -16,7 +16,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.3.0**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
-> Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
+> Security hardening Phase 18 is **in-progress** from the 2026-05-08 deep audit of `develop`.
 > Website phase W8 is **complete** as of 2026-05-12 after TASK-279 removed the remaining local Commonloom source and PR #65 CI passed.
 > Markdown flavor gap closure phases 19-34 and E15-E17 are **planned** from the 2026-05-13 gap analysis.
 
@@ -345,16 +345,16 @@ Implementation plan: [[plans/phase-34-stack-overflow-markdown-language-support]]
 | 22 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 | 23 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 | 24 | [[ofm-spec/index]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] |
-| 25 | [[github-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 26 | [[gitlab-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 27 | [[pandoc-markdown-deep-research-report]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 28 | [[multimarkdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 29 | [[mdx-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] |
-| 30 | [[kramdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 31 | [[markdown-extra-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 32 | [[r-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 33 | [[reddit-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 34 | [[stack-overflow-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 25 | [[research/github-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 26 | [[research/gitlab-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 27 | [[research/pandoc-markdown-deep-research-report]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 28 | [[research/multimarkdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 29 | [[research/mdx-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] |
+| 30 | [[research/kramdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 31 | [[research/markdown-extra-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 32 | [[research/r-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 33 | [[research/reddit-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 34 | [[research/stack-overflow-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 
@@ -384,6 +384,12 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E17 | Extension Flavor Host Verification | planned | Extension-host, CI, and validation evidence prove selector behavior | — |
 
 ### Extension Phase Details
+
+> [!NOTE]
+> E6, E12, and E14 remain historical completion records for the prior
+> `ofmarkdown` language-mode implementation. ADR020 and phases E15-E17 define
+> the current target behavior: keep `.md` files in VS Code's built-in
+> `markdown` mode and represent dialect choice as Markdown flavor state.
 
 #### Phase R — Publishing Research
 
@@ -553,7 +559,7 @@ CommonMark fallback, Obsidian auto-detection, and manual-language safety. It
 also retires stale language-mode host expectations and updates root plus
 extension traceability matrices.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[extension/docs/tests/markdown-flavor-e2e-spec]], [[extension/docs/tests/markdown-flavor-verification-spec]], [[extension/docs/tests/markdown-flavor-validation-spec]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
 
 Implementation plan: [[plans/phase-E17-extension-flavor-host-verification]]
 
@@ -669,7 +675,7 @@ and the external `commonloom` package for reusable Markdown compilation. The
 website keeps only Flavor Grenade-specific adapter code; it must not maintain
 `website/src/content/pipeline/commonloom` as local source.
 
-Requirement links: [[../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]], [[../website/docs/architecture/content-pipeline]], [[../website/docs/requirements/technical/source-layout-and-documentation]], [[../website/docs/research/w8-content-pipeline-technology-research]]
+Requirement links: [website ADR 0002](../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy.md), [website content pipeline](../website/docs/architecture/content-pipeline.md), [website source layout requirements](../website/docs/requirements/technical/source-layout-and-documentation.md), [W8 content pipeline research](../website/docs/research/w8-content-pipeline-technology-research.md)
 
 Implementation plan: [[plans/phase-W8-commonloom-content-pipeline]]
 

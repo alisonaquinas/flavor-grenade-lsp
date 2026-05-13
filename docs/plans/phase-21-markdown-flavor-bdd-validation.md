@@ -33,8 +33,8 @@ traceable gates.
 | [[test/markdown-flavor-e2e-spec]] | Implement root BDD e2e scenarios |
 | [[test/markdown-flavor-verification-spec]] | Verify CI and traceability gates |
 | [[test/markdown-flavor-validation-spec]] | Add product validation evidence |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-009]] | Close stale BDD step gap |
-| [[gaps/markdown-flavor-gap-analysis#GAP-S-011]] | Close validation trace gap |
+| [GAP-S-009](../gaps/markdown-flavor-gap-analysis.md) | Close stale BDD step gap |
+| [GAP-S-011](../gaps/markdown-flavor-gap-analysis.md) | Close validation trace gap |
 
 ## Scope
 

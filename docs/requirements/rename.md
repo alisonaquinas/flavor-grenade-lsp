@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Rename.Refactoring.Completeness
+
 **Tag:** Rename.Refactoring.Completeness
 **User Req:** User.Rename.RenameNoteEverywhere, User.Rename.RenameHeadingEverywhere
 **Gist:** A `textDocument/rename` request on a renameable element (document title or heading) must produce a `WorkspaceEdit` that updates every cross-document reference to that element in a single atomic edit, with no reference left unupdated.
@@ -36,6 +38,8 @@ aliases:
 **Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[requirements/navigation#Navigation.References.Completeness]].
 
 ---
+
+## Rename.Prepare.Rejection
 
 **Tag:** Rename.Prepare.Rejection
 **User Req:** User.Rename.RenameHeadingEverywhere
@@ -60,6 +64,8 @@ aliases:
 **Source:** [[design/api-layer#rename-handler]], LSP specification §3.16 textDocument/prepareRename, [[ofm-spec/wiki-links]].
 
 ---
+
+## Rename.StyleBinding.Consistency
 
 **Tag:** Rename.StyleBinding.Consistency
 **User Req:** User.Rename.RenameNoteEverywhere, User.Author.FollowLinkStyle

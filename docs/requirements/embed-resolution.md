@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Embed.Resolution.MarkdownTarget
+
 **Tag:** Embed.Resolution.MarkdownTarget
 **User Req:** User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent
 **Gist:** `![[file.md]]` embed syntax must resolve to documents present in VaultIndex, and must produce FG004 (BrokenEmbed) when the target document cannot be found.
@@ -33,6 +35,8 @@ aliases:
 **Source:** [[ofm-spec/embeds#markdown-embeds]], [[design/domain-layer#vault-index]], [[requirements/diagnostics#FG004]].
 
 ---
+
+## Embed.Resolution.ImageTarget
 
 **Tag:** Embed.Resolution.ImageTarget
 **User Req:** User.Embed.DetectBrokenEmbed
@@ -54,6 +58,8 @@ aliases:
 **Source:** [[ofm-spec/embeds#image-embeds]], [[requirements/diagnostics#FG001]], [[requirements/diagnostics#FG004]], [[design/domain-layer#asset-index]].
 
 ---
+
+## Embed.HeadingEmbed.Resolution
 
 **Tag:** Embed.HeadingEmbed.Resolution
 **User Req:** User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent
@@ -79,6 +85,8 @@ aliases:
 **Source:** [[ofm-spec/embeds#heading-embeds]], [[design/domain-layer#heading-index]], [[requirements/diagnostics#FG004]].
 
 ---
+
+## Embed.BlockEmbed.Resolution
 
 **Tag:** Embed.BlockEmbed.Resolution
 **User Req:** User.Embed.DetectBrokenEmbed

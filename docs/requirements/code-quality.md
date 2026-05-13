@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Quality.SOLID.SingleResponsibility
+
 **Tag:** Quality.SOLID.SingleResponsibility
 **Gist:** Each class or service must have exactly one reason to change — a single cohesive set of related behaviours.
 **Ambition:** Classes with multiple unrelated responsibilities become the locus of unrelated change pressure: a fix to one concern risks breaking another. Single Responsibility keeps blast radius small, makes unit tests narrowly scoped, and is the prerequisite for all other SOLID principles. In a NestJS bounded-context architecture this means each `@Injectable()` owns one domain concept — not a domain concept plus persistence plus validation.
@@ -31,6 +33,8 @@ aliases:
 **Source:** [[architecture/layers]], [[ddd/bounded-contexts]], Robert C. Martin, *Clean Architecture* §7.
 
 ---
+
+## Quality.SOLID.DependencyInversion
 
 **Tag:** Quality.SOLID.DependencyInversion
 **Gist:** All cross-module dependencies must point toward abstractions (NestJS injection tokens or TypeScript interfaces), never toward concrete implementation classes from another module.
@@ -50,6 +54,8 @@ aliases:
 
 ---
 
+## Quality.Coherence.OneClassPerFile
+
 **Tag:** Quality.Coherence.OneClassPerFile
 **Gist:** Each `.ts` source file must export exactly one primary class, service, module, or interface; barrel `index.ts` files that re-export from other files in the same directory are the sole exception.
 **Ambition:** A one-entity-per-file discipline makes the codebase navigable — the filename is a reliable signal of what is inside. It also enforces that a class's full context (constructor, methods, injected dependencies) is contained in a single scrollable unit, reducing the cognitive overhead of cross-file reading. Files that contain multiple unrelated classes are harder to test in isolation, harder to rename, and harder to move between modules.
@@ -67,6 +73,8 @@ aliases:
 **Source:** [[adr/ADR011-one-class-per-file-namespaces]], [[requirements/ci-cd]].
 
 ---
+
+## Quality.Coupling.ModuleBoundaries
 
 **Tag:** Quality.Coupling.ModuleBoundaries
 **Gist:** Cross-module imports must only cross via a module's public `index.ts` barrel — never via internal paths such as `../../lsp/lsp.server`.
@@ -86,6 +94,8 @@ aliases:
 
 ---
 
+## Quality.Docs.Docstrings
+
 **Tag:** Quality.Docs.Docstrings
 **Gist:** Every exported class, public method, and public property must carry a JSDoc docstring that describes its purpose, parameters, and return value.
 **Ambition:** Docstrings are the first line of API documentation for contributors and for future-self maintenance. An undocumented public export forces the reader to infer intent from implementation, which is error-prone and slow. In a NestJS project where many classes are resolved by injection tokens, the docstring on the class is often the only human-readable description of what the token provides. `eslint-plugin-jsdoc` enforces this at lint time so that documentation debt never accumulates silently.
@@ -102,6 +112,8 @@ aliases:
 **Source:** [[requirements/ci-cd#CICD.PreCommit.Gate]], [[adr/ADR009-precommit-hooks-zero-warnings]].
 
 ---
+
+## Quality.Lint.ZeroWarnings
 
 **Tag:** Quality.Lint.ZeroWarnings
 **Gist:** All linters — ESLint, TypeScript compiler, Prettier check — must produce zero errors AND zero warnings; `--max-warnings 0` is enforced in CI and pre-commit.
@@ -121,6 +133,8 @@ aliases:
 
 ---
 
+## Quality.Types.StrictMode
+
 **Tag:** Quality.Types.StrictMode
 **Gist:** TypeScript strict mode is enabled (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`); compiler warnings are treated as errors (`noEmitOnError: true`).
 **Ambition:** TypeScript's default settings permit a wide class of runtime errors — nullable dereferences, implicit `any`, unchecked array accesses — to pass type checking silently. Strict mode closes these gaps. `noUncheckedIndexedAccess` prevents array index access from producing `T` when it should produce `T | undefined`. `exactOptionalPropertyTypes` prevents assigning `undefined` to optional properties not declared to accept it. Together these settings mean that a passing typecheck provides genuine safety guarantees, not just syntactic validation.
@@ -138,6 +152,8 @@ aliases:
 
 ---
 
+## Quality.TDD.StrictRedGreen
+
 **Tag:** Quality.TDD.StrictRedGreen
 **Gist:** Every piece of production code must be preceded by a failing test; no implementation may be written without a red test that drives it.
 **Ambition:** Test-Driven Development in its strict form — write the failing test, see it fail for the right reason, then write the minimal implementation to make it pass — is not optional in this project. Skipping the red phase breaks the causal chain between requirement and code: the test no longer proves the implementation is needed, only that it exists. Strict TDD also prevents test code from being retrofitted to match an implementation that may already be wrong. In a project where the correctness of the LSP wire protocol and vault index is non-negotiable, every new behaviour must be demonstrated to fail before it passes.
@@ -154,6 +170,8 @@ aliases:
 **Source:** Kent Beck, *Test-Driven Development by Example*; [[plans/phase-01-scaffold#Task-9]], [[requirements/development-process#Process.Testing.DirectoryStructure]].
 
 ---
+
+## Quality.SourceLayout.DocsBoundary
 
 **Tag:** Quality.SourceLayout.DocsBoundary
 **Gist:** Documentation folders may contain requirements, specs, plans, ADRs, and Gherkin feature specs, but raw source files and source-like implementation notes must live with the source or test harness they describe.

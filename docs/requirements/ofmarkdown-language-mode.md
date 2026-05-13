@@ -12,8 +12,12 @@ aliases:
 
 > [!NOTE] Scope
 > These requirements replace the earlier alternate `ofmarkdown` language-mode design. VS Code must keep `.md` files in the built-in `markdown` language mode and expose Markdown flavor as a separate selector. Server parsing, diagnostics, completion, and navigation semantics remain governed by the existing Markdown and OFM feature requirements.
+>
+> The `ofmarkdown-language-mode.md` slug is retained as a legacy backlink target. The current requirements target Markdown flavor selection, not alternate language-mode promotion.
 
 ---
+
+## Extension.MarkdownLanguage.PreserveDefault
 
 **Tag:** Extension.MarkdownLanguage.PreserveDefault
 **User Req:** User.Extension.PreserveMarkdownLanguage
@@ -37,6 +41,8 @@ aliases:
 
 ---
 
+## Extension.MarkdownFlavor.Selector
+
 **Tag:** Extension.MarkdownFlavor.Selector
 **User Req:** User.Extension.SelectMarkdownFlavor
 **Gist:** The extension must expose a second Markdown flavor selector near the VS Code language mode control, independent of the built-in language picker.
@@ -58,6 +64,8 @@ aliases:
 
 ---
 
+## Extension.MarkdownFlavor.RequiredCoverage
+
 **Tag:** Extension.MarkdownFlavor.RequiredCoverage
 **User Req:** User.Extension.SelectMarkdownFlavor
 **Gist:** The selector, setting schema, and server-facing flavor model must include every Markdown flavor researched in `docs/research/`, plus an `auto` mode.
@@ -75,7 +83,7 @@ aliases:
 **Goal:** 100% required flavor coverage.
 **Stakeholders:** Markdown authors, vault authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/commonmark-and-original-markdown]], [[github-flavored-markdown-analysis]], [[gitlab-flavored-markdown-analysis]], [[pandoc-markdown-deep-research-report]], [[multimarkdown-analysis]], [[mdx-analysis]], [[kramdown-analysis]], [[markdown-extra-analysis]], [[r-markdown-analysis]], [[reddit-markdown-analysis]], [[stack-overflow-markdown-analysis]], [[ofm-spec/index]], [[adr/ADR020-markdown-flavor-selection]].
+**Source:** [[research/commonmark-and-original-markdown]], [[research/github-flavored-markdown-analysis]], [[research/gitlab-flavored-markdown-analysis]], [[research/pandoc-markdown-deep-research-report]], [[research/multimarkdown-analysis]], [[research/mdx-analysis]], [[research/kramdown-analysis]], [[research/markdown-extra-analysis]], [[research/r-markdown-analysis]], [[research/reddit-markdown-analysis]], [[research/stack-overflow-markdown-analysis]], [[ofm-spec/index]], [[adr/ADR020-markdown-flavor-selection]].
 
 | Flavor id | Selector label | Research source |
 |---|---|---|
@@ -83,22 +91,24 @@ aliases:
 | `original` | Original Markdown | [[research/commonmark-and-original-markdown]] |
 | `commonmark` | CommonMark | [[research/commonmark-and-original-markdown]] |
 | `obsidian` | Obsidian | [[ofm-spec/index]] |
-| `gfm` | GitHub Flavored Markdown | [[github-flavored-markdown-analysis]] |
-| `glfm` | GitLab Flavored Markdown | [[gitlab-flavored-markdown-analysis]] |
-| `pandoc` | Pandoc Markdown | [[pandoc-markdown-deep-research-report]] |
-| `multimarkdown` | MultiMarkdown | [[multimarkdown-analysis]] |
-| `mdx` | MDX | [[mdx-analysis]] |
-| `kramdown` | kramdown | [[kramdown-analysis]] |
-| `markdown-extra` | Markdown Extra | [[markdown-extra-analysis]] |
-| `r-markdown` | R Markdown | [[r-markdown-analysis]] |
-| `reddit` | Reddit Markdown | [[reddit-markdown-analysis]] |
-| `stack-overflow` | Stack Overflow Markdown | [[stack-overflow-markdown-analysis]] |
+| `gfm` | GitHub Flavored Markdown | [[research/github-flavored-markdown-analysis]] |
+| `glfm` | GitLab Flavored Markdown | [[research/gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Pandoc Markdown | [[research/pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | MultiMarkdown | [[research/multimarkdown-analysis]] |
+| `mdx` | MDX | [[research/mdx-analysis]] |
+| `kramdown` | kramdown | [[research/kramdown-analysis]] |
+| `markdown-extra` | Markdown Extra | [[research/markdown-extra-analysis]] |
+| `r-markdown` | R Markdown | [[research/r-markdown-analysis]] |
+| `reddit` | Reddit Markdown | [[research/reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow Markdown | [[research/stack-overflow-markdown-analysis]] |
 
 ---
 
+## Extension.MarkdownFlavor.DialectProfiles
+
 **Tag:** Extension.MarkdownFlavor.DialectProfiles
 **User Req:** User.Extension.TrustFlavorBehavior
-**Gist:** Every supported explicit flavor must have a documented dialect profile derived from its research note.
+**Gist:** Every supported explicit flavor must have a documented dialect profile derived from its research note or normative OFM specification source.
 **Ambition:** A flavor must be more than a selector label. Each supported flavor needs a stable profile of core syntax, extensions, disabled constructs, and host-specific behavior so diagnostics and completions can become precise over time.
 **Scale:** Percentage of supported explicit flavors with a documented profile and source trace.
 **Meter:**
@@ -112,9 +122,11 @@ aliases:
 **Goal:** 100% documented dialect profiles for required explicit flavors.
 **Stakeholders:** Markdown authors, extension maintainers, server maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** All Markdown flavor research notes in `docs/research/`.
+**Source:** Markdown flavor research notes in `docs/research/`, plus `docs/ofm-spec/` for the Obsidian profile.
 
 ---
+
+## Extension.MarkdownFlavor.AutoDetection
 
 **Tag:** Extension.MarkdownFlavor.AutoDetection
 **User Req:** User.Extension.AutoDetectFlavor
@@ -137,6 +149,8 @@ aliases:
 **Source:** [[requirements/workspace]], [[adr/ADR020-markdown-flavor-selection]], [[features/ofmarkdown-language-mode]].
 
 ---
+
+## Extension.MarkdownFlavor.OverridePersistence
 
 **Tag:** Extension.MarkdownFlavor.OverridePersistence
 **User Req:** User.Extension.OverrideMarkdownFlavor
@@ -162,6 +176,8 @@ aliases:
 
 ---
 
+## Extension.MarkdownFlavor.ServerPropagation
+
 **Tag:** Extension.MarkdownFlavor.ServerPropagation
 **User Req:** User.Extension.TrustFlavorBehavior
 **Gist:** The effective Markdown flavor must be propagated to the server so diagnostics, completion, parsing, and navigation use the selected dialect.
@@ -183,6 +199,8 @@ aliases:
 **Source:** [[design/api-layer]], [[adr/ADR020-markdown-flavor-selection]].
 
 ---
+
+## Extension.MarkdownFlavor.ManualLanguageSafety
 
 **Tag:** Extension.MarkdownFlavor.ManualLanguageSafety
 **User Req:** User.Extension.PreserveManualMode

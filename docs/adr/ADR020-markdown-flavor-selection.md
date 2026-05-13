@@ -27,7 +27,7 @@ The revised product requirement is different:
 - persist folder-backed overrides as project settings;
 - persist standalone-file overrides as user settings;
 - support every Markdown flavor currently researched in `docs/research/`, plus
-  auto-detection.
+  Obsidian's normative OFM specification source and auto-detection.
 
 ## Decision
 
@@ -97,9 +97,10 @@ diagnostic, completion, navigation, and semantic-token behavior can become
 flavor-aware over time.
 
 Each explicit flavor must also have a dialect profile traced to its research
-note. Platform-oriented flavors such as MDX, R Markdown, Reddit, and Stack
-Overflow are flavor profiles for Markdown documents; they do not authorize the
-extension to override a user-selected non-`markdown` VS Code language id.
+note or normative OFM specification source. Platform-oriented flavors such as
+MDX, R Markdown, Reddit, and Stack Overflow are flavor profiles for Markdown
+documents; they do not authorize the extension to override a user-selected
+non-`markdown` VS Code language id.
 
 ## Consequences
 
@@ -146,14 +147,14 @@ editor without hunting through settings.
 - [[requirements/user/vscode-language-mode]]
 - [[ddd/editor-client/domain-model]]
 - [[research/commonmark-and-original-markdown]]
-- [[github-flavored-markdown-analysis]]
-- [[gitlab-flavored-markdown-analysis]]
-- [[pandoc-markdown-deep-research-report]]
-- [[multimarkdown-analysis]]
-- [[mdx-analysis]]
-- [[kramdown-analysis]]
-- [[markdown-extra-analysis]]
-- [[r-markdown-analysis]]
-- [[reddit-markdown-analysis]]
-- [[stack-overflow-markdown-analysis]]
+- [[research/github-flavored-markdown-analysis]]
+- [[research/gitlab-flavored-markdown-analysis]]
+- [[research/pandoc-markdown-deep-research-report]]
+- [[research/multimarkdown-analysis]]
+- [[research/mdx-analysis]]
+- [[research/kramdown-analysis]]
+- [[research/markdown-extra-analysis]]
+- [[research/r-markdown-analysis]]
+- [[research/reddit-markdown-analysis]]
+- [[research/stack-overflow-markdown-analysis]]
 - [[ofm-spec/index]]
