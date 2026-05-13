@@ -2,7 +2,7 @@
 id: "TASK-320"
 title: "Add CommonMark tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -84,3 +84,11 @@ Deliver unit, integration, BDD, verification, and validation evidence for the co
 > portability assertions separate from broken-link assertions.
 > Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> CommonMark unit and spawned-server coverage passes for parser behavior,
+> portability diagnostics, completion suppression, and generic Markdown
+> propagation. The integration fixture separates portability assertions from
+> local broken-link diagnostics.
+> Command passed: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `green`.

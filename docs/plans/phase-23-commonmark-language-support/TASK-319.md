@@ -2,7 +2,7 @@
 id: "TASK-319"
 title: "Add CommonMark diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -98,3 +98,11 @@ Deliver diagnostics and LSP feature behavior for the commonmark flavor using [[d
 > emit `FG102` and CommonMark still receives wiki-link completions.
 > Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> CommonMark LSP behavior is implemented for the Phase 23 surface: `FG102`
+> portability diagnostics cover GFM tables/tasks and Obsidian wiki/callout
+> syntax, while Obsidian-only completion contexts are suppressed outside the
+> Obsidian flavor.
+> Command passed: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `green`.

@@ -26,6 +26,7 @@ import { classifyMarkdownTarget } from './markdown-target-classifier.js';
  * - **FG006** non-breaking space (U+00A0) in the document body
  * - **FG007** malformed YAML frontmatter
  * - **FG101** Original Markdown portability warning for unsupported extensions
+ * - **FG102** CommonMark portability warning for non-core flavor extensions
  */
 @Injectable()
 export class DiagnosticService {
@@ -73,7 +74,11 @@ export class DiagnosticService {
     }
 
     if (doc.markdownFlavor === 'original') {
-      diagnostics.push(...this.diagnoseOriginalMarkdownPortability(doc));
+      diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'original'));
+    }
+
+    if (doc.markdownFlavor === 'commonmark') {
+      diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'commonmark'));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -102,7 +107,10 @@ export class DiagnosticService {
     return diagnostics;
   }
 
-  private diagnoseOriginalMarkdownPortability(doc: OFMDoc): Diagnostic[] {
+  private diagnoseMarkdownPortability(
+    doc: OFMDoc,
+    flavor: 'original' | 'commonmark',
+  ): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
     const lineStartOffsets = this.lineStartOffsets(doc.text);
     const lines = doc.text.split('\n');
@@ -124,14 +132,17 @@ export class DiagnosticService {
       const fenceMatch = /^[ \t]{0,3}(```+|~~~+)/.exec(line);
       if (fenceMatch !== null) {
         fence = fenceMatch[1][0]!.repeat(fenceMatch[1].length);
-        diagnostics.push(
-          this.originalPortabilityDiagnostic(
-            offset + (fenceMatch.index ?? 0),
-            lineEnd,
-            lineStartOffsets,
-            'Fenced code blocks are not part of Original Markdown.',
-          ),
-        );
+        if (flavor === 'original') {
+          diagnostics.push(
+            this.portabilityDiagnostic(
+              offset + (fenceMatch.index ?? 0),
+              lineEnd,
+              lineStartOffsets,
+              'FG101',
+              'Fenced code blocks are not part of Original Markdown.',
+            ),
+          );
+        }
         offset += rawLine.length + 1;
         continue;
       }
@@ -139,33 +150,36 @@ export class DiagnosticService {
       if (!this.isOpaqueOffset(offset, doc)) {
         if (this.isPipeTableSeparator(line)) {
           diagnostics.push(
-            this.originalPortabilityDiagnostic(
+            this.portabilityDiagnostic(
               offset,
               lineEnd,
               lineStartOffsets,
-              'Pipe tables are not part of Original Markdown.',
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Pipe tables are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
             ),
           );
         }
 
         if (/^[ \t]{0,3}[-*+][ \t]+\[[ xX]\][ \t]+/.test(line)) {
           diagnostics.push(
-            this.originalPortabilityDiagnostic(
+            this.portabilityDiagnostic(
               offset,
               lineEnd,
               lineStartOffsets,
-              'Task list items are not part of Original Markdown.',
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Task list items are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
             ),
           );
         }
 
         if (/^[ \t]{0,3}>[ \t]*\[![^\]]+\]/.test(line)) {
           diagnostics.push(
-            this.originalPortabilityDiagnostic(
+            this.portabilityDiagnostic(
               offset,
               lineEnd,
               lineStartOffsets,
-              'Callouts are not part of Original Markdown.',
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Callouts are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
             ),
           );
         }
@@ -179,11 +193,12 @@ export class DiagnosticService {
     while ((match = wikiPattern.exec(doc.text)) !== null) {
       if (this.isOpaqueOffset(match.index, doc)) continue;
       diagnostics.push(
-        this.originalPortabilityDiagnostic(
+        this.portabilityDiagnostic(
           match.index,
           match.index + match[0].length,
           lineStartOffsets,
-          'Wiki links and embeds are not part of Original Markdown.',
+          flavor === 'original' ? 'FG101' : 'FG102',
+          `Wiki links and embeds are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
         ),
       );
     }
@@ -194,10 +209,11 @@ export class DiagnosticService {
     });
   }
 
-  private originalPortabilityDiagnostic(
+  private portabilityDiagnostic(
     startOffset: number,
     endOffset: number,
     lineStartOffsets: number[],
+    code: 'FG101' | 'FG102',
     message: string,
   ): Diagnostic {
     return {
@@ -206,10 +222,14 @@ export class DiagnosticService {
         end: this.offsetToPosition(endOffset, lineStartOffsets),
       },
       severity: 2,
-      code: 'FG101',
+      code,
       source: 'flavor-grenade',
       message,
     };
+  }
+
+  private flavorDiagnosticLabel(flavor: 'original' | 'commonmark'): string {
+    return flavor === 'original' ? 'Original Markdown' : 'CommonMark';
   }
 
   private isPipeTableSeparator(line: string): boolean {

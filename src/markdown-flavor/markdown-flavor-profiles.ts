@@ -204,6 +204,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     inertSyntax: commonmarkInertSyntax,
     hostSpecificSyntax: [],
     opaqueRegions: commonmarkOpaqueRegions,
+    surfaceStatus: 'implemented',
     surfaceSummary: 'CommonMark parsing and LSP behavior are implemented in Phase 23.',
   }),
   obsidian: profile({

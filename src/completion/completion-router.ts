@@ -81,7 +81,7 @@ export class CompletionRouter {
 
     // 4. Detect context
     const context = this.contextAnalyzer.analyze(text, offset);
-    if (doc.markdownFlavor === 'original' && this.isOriginalInactiveContext(context)) {
+    if (doc.markdownFlavor !== 'obsidian' && this.isObsidianInactiveContext(context)) {
       return { items: [], isIncomplete: false };
     }
 
@@ -228,7 +228,7 @@ export class CompletionRouter {
     };
   }
 
-  private isOriginalInactiveContext(context: CompletionContext): boolean {
+  private isObsidianInactiveContext(context: CompletionContext): boolean {
     return [
       'wiki-link',
       'wiki-link-heading',
