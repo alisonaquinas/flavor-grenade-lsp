@@ -171,6 +171,23 @@ ownership remain deferred.
 | Hover | Existing local Markdown hover surfaces remain available; MDX component/runtime metadata hover is deferred as renderer-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; React/TypeScript imports, JSX components, and expression targets remain non-local without integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 30 kramdown Disposition
+
+Phase 30 marks the `kramdown` profile's local LSP surfaces implemented for
+source-backed kramdown syntax. kramdown adds local indices for attribute
+lists, definition lists, pipe tables, footnotes, and math blocks. Ruby,
+Jekyll, renderer-generated output, converters, syntax highlighters, and
+sanitizers remain out of scope.
+
+| Surface | Phase 30 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed kramdown attributes (`FG501`); renderer output and generated anchors do not become broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for kramdown attribute and footnote snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, kramdown attribute symbols, definition-list symbols, table symbols, footnote symbols, definition-list folds, table folds, and math folds. Renderer-generated anchors and conversion output remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for kramdown attribute markers and footnote labels. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; renderer-generated output and sanitizer metadata hover are deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; renderer-generated anchors and conversion output remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research
@@ -201,6 +218,7 @@ bibliography, JSX/ESM, or execution-bound references.
 | `pandoc` | Renderer/conversion extension behavior, bibliography databases not configured in the workspace, and output-format-specific cross-reference behavior. | Out of scope for Phase 27; local citation/reference shape and configured local bibliography behavior remains required. |
 | `multimarkdown` | Export-only cross-reference, metadata, and generated-output behavior. | Out of scope for Phase 28; local cross-reference and metadata syntax support remains required. |
 | `mdx` | React/TypeScript symbol lookup for JSX components, imports, and expressions. | Out of scope for Phase 29; Markdown/MDX boundary support remains required without owning VS Code `mdx` language mode. |
+| `kramdown` | Ruby/Jekyll renderer behavior, generated anchors, converters, syntax highlighters, sanitizers, and output HTML metadata. | Out of scope for Phase 30; local kramdown attribute, definition-list, table, footnote, and math syntax support remains required. |
 | `r-markdown` | R execution, package-aware symbol lookup, generated output, and runtime chunk evaluation. | Out of scope for Phase 32; local chunk boundary and label support remains required. |
 | `reddit` | Live Reddit user, subreddit, post, comment, and moderation-state lookup. | Out of scope for Phase 33; local Reddit Markdown syntax and portability diagnostics remain required. |
 | `stack-overflow` | Live Stack Exchange tag, question, answer, user, and site metadata lookup. | Out of scope for Phase 34; local Stack Overflow Markdown syntax and tag-reference shape support remain required. |

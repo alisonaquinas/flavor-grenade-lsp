@@ -15,8 +15,8 @@ updated: 2026-05-13
 | [[TASK-339]] | Implement kramdown parser semantics | Task | `green` |
 | [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | `green` |
 | [[TASK-341]] | Add kramdown tests and validation evidence | Task | `green` |
-| [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | `open` |
-| [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | `open` |
+| [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | `done` |
+| [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | `done` |
 
 ## Ticket Details
 
