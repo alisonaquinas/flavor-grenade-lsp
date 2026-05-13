@@ -2,7 +2,7 @@
 id: "TASK-335"
 title: "Add MultiMarkdown tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -80,3 +80,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the mu
 > syntax, spawned-server propagation, completion/symbol/fold/token surfaces,
 > malformed metadata/table diagnostics, and export/citation boundary
 > classification before implementation changes are made.
+
+> [!INFO] RED - 2026-05-13
+> Added failing spawned-server integration coverage for MultiMarkdown syntax
+> counts, diagnostics, inactive Obsidian behavior, and conversion-bound
+> cross-reference classification.

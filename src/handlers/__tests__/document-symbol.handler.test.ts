@@ -220,4 +220,53 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Pandoc label: sec:intro');
     expect(names).toContain('Footnote: n');
   });
+
+  it('adds MultiMarkdown metadata, labels, citations, and footnotes as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('MultiMarkdown', 1, 0)]);
+    doc.index.multimarkdownMetadata = [
+      {
+        raw: 'Title: Demo',
+        key: 'Title',
+        value: 'Demo',
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 11 } },
+        keyRange: { start: { line: 0, character: 0 }, end: { line: 0, character: 5 } },
+      },
+    ];
+    doc.index.multimarkdownLabels = [
+      {
+        raw: '[sec:intro]',
+        label: 'sec:intro',
+        range: { start: { line: 1, character: 8 }, end: { line: 1, character: 19 } },
+        labelRange: { start: { line: 1, character: 9 }, end: { line: 1, character: 18 } },
+      },
+    ];
+    doc.index.multimarkdownCitations = [
+      {
+        raw: '[#doe2020]: Citation',
+        key: 'doe2020',
+        range: { start: { line: 3, character: 0 }, end: { line: 3, character: 21 } },
+        keyRange: { start: { line: 3, character: 2 }, end: { line: 3, character: 9 } },
+      },
+    ];
+    doc.index.multimarkdownFootnotes = [
+      {
+        raw: '[^n]: note',
+        label: 'n',
+        range: { start: { line: 4, character: 0 }, end: { line: 4, character: 10 } },
+        labelRange: { start: { line: 4, character: 2 }, end: { line: 4, character: 3 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('MultiMarkdown metadata');
+    expect(names).toContain('MultiMarkdown label: sec:intro');
+    expect(names).toContain('Citation: doe2020');
+    expect(names).toContain('Footnote: n');
+  });
 });

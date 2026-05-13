@@ -121,4 +121,29 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
   });
+
+  it('folds MultiMarkdown metadata and table blocks when the MultiMarkdown flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/multimarkdown.md',
+      [
+        'Title: Demo',
+        'Author: Ada',
+        '',
+        '# Doc',
+        '',
+        '| A | B |',
+        '| - | - |',
+        '| 1 | 2 |',
+        '[Caption][tbl:one]',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'multimarkdown' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 0, endLine: 1, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 5, endLine: 8, kind: 'region' });
+  });
 });

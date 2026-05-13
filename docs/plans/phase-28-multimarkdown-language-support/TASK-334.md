@@ -2,7 +2,7 @@
 id: "TASK-334"
 title: "Add MultiMarkdown diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -91,3 +91,7 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 > symbols, folds, semantic tokens, analysis counts, and export/citation
 > boundary classification. No MultiMarkdown CLI, BibTeX, Pandoc, transclusion,
 > or generated-output operation is in scope.
+
+> [!INFO] RED - 2026-05-13
+> Added failing diagnostics, completion, folding, document-symbol,
+> semantic-token, and boundary coverage for MultiMarkdown LSP surfaces.
