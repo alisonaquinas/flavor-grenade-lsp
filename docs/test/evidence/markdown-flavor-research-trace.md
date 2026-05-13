@@ -3,9 +3,20 @@ title: Markdown Flavor Research Trace
 tags: [test/evidence, markdown-flavor, phase-19]
 aliases:
   - Markdown flavor profile trace
+updated: 2026-05-13
 ---
 
 # Markdown Flavor Research Trace
+
+## Review Metadata
+
+| Field | Value |
+|---|---|
+| Review date | 2026-05-13 |
+| Reviewer / command | Codex Phase 21 evidence review |
+| Commit reviewed | `5aad12ce` |
+| Source inputs | `docs/research/*.md`, `docs/features/*markdown-flavor.md`, `docs/ofm-spec/index.md`, `docs/bdd/features/markdown-flavor-dialects.feature` |
+| Sanitization | Repository-relative paths and source slugs only; no note bodies, TOML contents, environment variables, tokens, local user paths, or raw server output included |
 
 Phase 19 records profile scope only. Later Phase 22-34 tickets replace planned
 surface entries with implemented, deferred, or not-applicable behavior evidence.
@@ -35,3 +46,10 @@ is local and inert in Phase 19. The registry declares these boundaries so later
 parser work does not accidentally treat them as local vault links, diagnostics,
 navigation targets, or rename targets before the owning implementation ticket
 adds tests and validation evidence.
+
+## Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-001 | Pass | Every displayed explicit flavor has a source row above. |
+| MF-VA-003 | Pass | Source slugs align with `markdown-flavor-dialects.feature` profile examples. |

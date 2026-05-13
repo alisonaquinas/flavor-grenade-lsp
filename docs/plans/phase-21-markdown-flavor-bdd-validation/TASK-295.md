@@ -2,7 +2,7 @@
 id: "TASK-295"
 title: "Implement Markdown flavor selection BDD steps"
 type: task
-status: open
+status: done
 priority: high
 phase: 21
 parent: "FEAT-044"
@@ -70,3 +70,9 @@ in `ofmarkdown-language-mode.feature`.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> The Markdown flavor selection feature executes through the root BDD harness,
+> including selector enumeration, workspace-folder/workspace/user persistence,
+> auto-detect reset, recorded `workspace/didChangeConfiguration` payloads, and
+> manual non-Markdown language safety.

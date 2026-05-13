@@ -2,7 +2,7 @@
 id: "TASK-297"
 title: "Add flavor verification gate checks"
 type: task
-status: red
+status: done
 priority: medium
 phase: 21
 parent: "FEAT-044"
@@ -78,3 +78,7 @@ are removed.
 > Added `src/test/ci-workflow.test.ts` guards for Phase 21 validation artifact
 > paths. The guard fails until `markdown-flavor-product-review.md` and
 > `markdown-flavor-validation-run.md` exist under `docs/test/evidence/`.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added the missing artifact paths and reran
+> `bun test src/test/ci-workflow.test.ts`; all 6 tests passed.

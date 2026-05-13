@@ -2,7 +2,7 @@
 id: "TASK-296"
 title: "Implement dialect profile BDD steps"
 type: task
-status: open
+status: done
 priority: high
 phase: 21
 parent: "FEAT-044"
@@ -64,3 +64,9 @@ than real parser/server behavior.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Dialect profile BDD scenarios execute for every researched flavor. The
+> harness records source-backed profile signatures and planned LSP surface
+> contracts while later dialect phases retain ownership of concrete parser and
+> LSP behavior fixtures.

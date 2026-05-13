@@ -2,7 +2,7 @@
 id: "TASK-294"
 title: "Rewrite BDD harness around effective flavor state"
 type: task
-status: open
+status: done
 priority: high
 phase: 21
 parent: "FEAT-044"
@@ -63,3 +63,9 @@ VS Code `languageId`.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature`
+> passed with 178 scenarios and 1074 steps. Existing harness state tracks
+> `languageId`, `configuredFlavor`, `effectiveFlavor`, settings writes, and
+> server notifications separately.

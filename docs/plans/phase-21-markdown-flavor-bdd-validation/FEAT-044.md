@@ -35,12 +35,12 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-294]] | Rewrite BDD harness around effective flavor state | `open` |
-| [[TASK-295]] | Implement Markdown flavor selection BDD steps | `open` |
-| [[TASK-296]] | Implement dialect profile BDD steps | `open` |
-| [[TASK-297]] | Add flavor verification gate checks | `red` |
-| [[TASK-298]] | Add flavor validation review evidence | `open` |
-| [[CHORE-107]] | Phase 21 BDD traceability sweep | `open` |
+| [[TASK-294]] | Rewrite BDD harness around effective flavor state | `done` |
+| [[TASK-295]] | Implement Markdown flavor selection BDD steps | `done` |
+| [[TASK-296]] | Implement dialect profile BDD steps | `done` |
+| [[TASK-297]] | Add flavor verification gate checks | `done` |
+| [[TASK-298]] | Add flavor validation review evidence | `done` |
+| [[CHORE-107]] | Phase 21 BDD traceability sweep | `done` |
 | [[CHORE-108]] | Phase 21 verification and closeout sweep | `open` |
 
 ## Definition of Done

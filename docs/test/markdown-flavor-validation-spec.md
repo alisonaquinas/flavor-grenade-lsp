@@ -25,9 +25,9 @@ research corpus.
 
 ## Planned Evidence Artifacts
 
-These paths are generated validation artifacts. Phase 19 implements the research
-trace artifact; the remaining Phase 21 validation artifacts stay planned until
-their review commands and BDD output exist.
+These paths are generated validation artifacts. Phase 19 implemented the
+research trace artifact, and Phase 21 adds the product review, validation run,
+and host-boundary review metadata required before release-readiness claims.
 
 | Artifact path | Required content |
 |---|---|

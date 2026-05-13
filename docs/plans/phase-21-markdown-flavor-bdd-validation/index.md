@@ -12,10 +12,10 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-044]] | Markdown Flavor BDD Verification And Validation | Feature | `in-progress` |
-| [[TASK-294]] | Rewrite BDD harness around effective flavor state | Task | `open` |
-| [[TASK-295]] | Implement Markdown flavor selection BDD steps | Task | `open` |
-| [[TASK-296]] | Implement dialect profile BDD steps | Task | `open` |
-| [[TASK-297]] | Add flavor verification gate checks | Task | `red` |
-| [[TASK-298]] | Add flavor validation review evidence | Task | `open` |
-| [[CHORE-107]] | Phase 21 BDD traceability sweep | Chore | `open` |
+| [[TASK-294]] | Rewrite BDD harness around effective flavor state | Task | `done` |
+| [[TASK-295]] | Implement Markdown flavor selection BDD steps | Task | `done` |
+| [[TASK-296]] | Implement dialect profile BDD steps | Task | `done` |
+| [[TASK-297]] | Add flavor verification gate checks | Task | `done` |
+| [[TASK-298]] | Add flavor validation review evidence | Task | `done` |
+| [[CHORE-107]] | Phase 21 BDD traceability sweep | Chore | `done` |
 | [[CHORE-108]] | Phase 21 verification and closeout sweep | Chore | `open` |
