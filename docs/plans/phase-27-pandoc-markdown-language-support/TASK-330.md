@@ -64,3 +64,9 @@ Deliver parser/profile semantics for the pandoc flavor using [[docs/research/pan
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `PandocParser.parse(text, opaqueRegions)` for title
+> blocks, citations, footnotes, attributes/labels, fenced Divs, and definition
+> lists while keeping Obsidian-only constructs inert outside the Obsidian
+> flavor.

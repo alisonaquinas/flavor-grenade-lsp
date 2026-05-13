@@ -2,7 +2,7 @@
 id: "FEAT-053"
 title: "Pandoc Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 27
 created: "2026-05-13"
@@ -14,7 +14,41 @@ aliases: ["FEAT-053"]
 
 # Pandoc Markdown Language Support
 
-> [!INFO] FEAT-053 - Feature - Phase 27 - Status: draft
+> [!INFO] FEAT-053 - Feature - Phase 27 - Status: in-progress
+
+## Implementation Plan
+
+Phase 27 is stacked after Phase 26 and reuses the explicit flavor dispatch,
+CommonMark base, and recent GFM/GLFM local-surface pattern. Pandoc work will
+model source-local Markdown syntax only: title/YAML metadata, citations as
+bibliography-bound shapes, footnotes, attributes and labels, fenced Divs,
+definition lists, symbols, folds, semantic tokens, snippets, diagnostics, and
+host/conversion boundary classification. It will not run Pandoc, citeproc,
+filters, templates, or output writers.
+
+Primary source paths:
+
+- `src/parser/pandoc-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/markdown-flavor/non-local-boundary-classifier.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +100,9 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Added concrete implementation and RED test paths
+> for TASK-330 through TASK-332. Pandoc conversion, citeproc, filters,
+> templates, output writer behavior, and unconfigured bibliography databases
+> remain deferred/non-local.

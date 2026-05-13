@@ -1,7 +1,7 @@
 ---
 title: "Phase 27: Pandoc Markdown Language Support"
 phase: 27
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, pandoc, language-support]
 aliases: [Phase 27, Pandoc Markdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 27 |
 | Title | Pandoc Markdown Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | Practical local Pandoc Markdown constructs are implemented and tested |
 | Depends on | Phase 23 |
 

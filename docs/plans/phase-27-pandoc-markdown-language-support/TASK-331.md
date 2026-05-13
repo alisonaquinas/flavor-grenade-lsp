@@ -89,3 +89,9 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[docs/
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose Pandoc diagnostics, completion snippets, document
+> symbols, folds, semantic tokens, and bibliography/conversion boundary
+> classification. No Pandoc, citeproc, filter, template, writer, or network
+> operation is in scope.
