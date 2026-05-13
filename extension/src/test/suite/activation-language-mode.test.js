@@ -35,7 +35,7 @@ module.exports = {
   name: 'activation and language mode',
   tests: [
     {
-      name: 'workspace fixture activates precisely and assigns the expected language',
+      name: 'workspace fixture activates precisely and preserves Markdown language mode',
       run: async () => {
         const fixture = fixtureName();
         if (!fixture) {
@@ -53,8 +53,9 @@ module.exports = {
           assert.equal(api.isClientStarted(), false);
         } else {
           await waitFor(() => api.isClientStarted(), 'LanguageClient startup');
-          await waitFor(() => document.languageId === 'ofmarkdown', 'OFMarkdown promotion');
-          assert.equal(document.languageId, 'ofmarkdown');
+          assert.equal(document.languageId, 'markdown');
+          const commands = await vscode.commands.getCommands(true);
+          assert.ok(commands.includes('flavorGrenade.selectMarkdownFlavor'));
         }
       },
     },

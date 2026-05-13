@@ -44,7 +44,7 @@ separate selector and setting control effective Markdown flavor.
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | `green` |
 | [[CHORE-110]] | Phase E15 verification and closeout sweep | `green` |
 | [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `done` |
-| [[BUG-047]] | Update stale host test after E15 language preservation | `triaged` |
+| [[BUG-047]] | Update stale host test after E15 language preservation | `done` |
 
 ## Definition of Done
 
