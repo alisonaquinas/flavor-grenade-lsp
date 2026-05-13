@@ -2,19 +2,19 @@
 id: "FEAT-050"
 title: "Obsidian Flavor Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 24
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-049"]
+dependencies: ["FEAT-049", "FEAT-045"]
 tags: [tickets/feature, "phase/24", markdown-flavor, "obsidian"]
 aliases: ["FEAT-050"]
 ---
 
 # Obsidian Flavor Language Support
 
-> [!INFO] FEAT-050 - Feature - Phase 24 - Status: draft
+> [!INFO] FEAT-050 - Feature - Phase 24 - Status: in-progress
 
 ## Description
 
@@ -30,7 +30,7 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-321]] | Map existing OFM parser behavior to Obsidian flavor | Task | open |
+| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | open |
 | [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | open |
 | [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | open |
 | [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | open |
@@ -64,3 +64,9 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Started - 2026-05-13
+> Phase 24 started after Phase 23 and Phase E15 had open, CI-green stacked PRs.
+> Branch `feature/FEAT-050-phase-24-obsidian-flavor-language-support` was
+> fast-forwarded onto `feature/FEAT-045-phase-E15-markdown-flavor-selector-settings`
+> so the Obsidian phase uses the selector/settings contract from PR #74.

@@ -41,3 +41,8 @@ Perform trace and documentation kickoff hygiene for Obsidian language-support wo
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step A-C sweep - 2026-05-13
+> Phase ticket dependencies, exact implementation details, and source/test
+> paths were aligned with the Phase E15 selector/settings contract before RED
+> coverage.

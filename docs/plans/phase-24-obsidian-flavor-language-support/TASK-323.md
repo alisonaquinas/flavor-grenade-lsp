@@ -61,6 +61,21 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ob
 | Evidence | `docs/test/evidence/markdown-flavor-validation-run.md` |
 | Evidence | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 
+## Implementation Details
+
+- Extend `docs/bdd/features/markdown-flavor-dialects.feature` from planned
+  Obsidian examples to executable implemented Obsidian language-support
+  assertions.
+- Update `docs/test/markdown-flavor-unit-spec.md`,
+  `docs/test/markdown-flavor-integration-spec.md`, `docs/test/index.md`, and
+  `docs/test/matrix.md` with Phase 24 Obsidian evidence paths.
+- Update `docs/test/evidence/markdown-flavor-research-trace.md`,
+  `docs/test/evidence/markdown-flavor-validation-run.md`, and
+  `docs/test/evidence/markdown-flavor-host-boundary-review.md` when Obsidian
+  surface dispositions move from planned to implemented.
+- Verification command API remains the phase gate in
+  `docs/plans/phase-24-obsidian-flavor-language-support.md`.
+
 ## Definition of Done
 
 - [ ] obsidian behavior is implemented behind the flavor model.

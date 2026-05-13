@@ -74,6 +74,22 @@ Deliver diagnostics and LSP feature behavior for the obsidian flavor using [[doc
 | Test | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
 | Test | `src/handlers/__tests__/hover.handler.test.ts` |
 
+## Implementation Details
+
+- Use the existing `OFMDoc.markdownFlavor` and `parseContext.effectiveFlavor`
+  fields as the LSP-surface dispatch API.
+- Add RED coverage in `src/resolution/__tests__/diagnostic-service.test.ts`
+  proving Obsidian vault diagnostics remain active for Obsidian and portability
+  diagnostics are not emitted for active Obsidian wiki/callout syntax.
+- Add RED coverage in `src/completion/__tests__/completion-router.test.ts`
+  proving Obsidian wiki-link, embed, tag, block, and callout completions remain
+  available only when `doc.markdownFlavor === "obsidian"`.
+- Use `src/test/integration/markdown-flavor.test.ts` for spawned-server proof
+  that the `obsidian` effective flavor activates parser, diagnostics, and
+  completion behavior without depending on `ofmarkdown`.
+- ADR020 constraint: `.md` documents remain VS Code `markdown`; Phase 24 only
+  consumes effective flavor state.
+
 ## Definition of Done
 
 - [ ] obsidian behavior is implemented behind the flavor model.

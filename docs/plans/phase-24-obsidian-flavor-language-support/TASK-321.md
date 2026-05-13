@@ -52,6 +52,20 @@ Deliver parser/profile semantics for the obsidian flavor using [[docs/ofm-spec/i
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
+## Implementation Details
+
+- Update `src/markdown-flavor/markdown-flavor-profiles.ts` so every Obsidian
+  LSP surface records `status: "implemented"` after Phase 24 evidence exists.
+- Keep `OFMParser.parse(uri, text, version, { effectiveFlavor: "obsidian" })`
+  as the parser dispatch API for Obsidian behavior; do not reintroduce
+  `ofmarkdown` language-mode gating.
+- Add RED coverage in
+  `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` for active
+  Obsidian wiki links, embeds, tags, block anchors, callouts, math/comment/code
+  opaque regions, and inactive host syntax.
+- ADR020 constraint: `auto` remains selector state only; the server profile is
+  keyed by explicit `obsidian`.
+
 ## Definition of Done
 
 - [ ] obsidian behavior is implemented behind the flavor model.
