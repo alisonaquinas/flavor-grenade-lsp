@@ -69,8 +69,8 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 | [[TASK-336]] | Implement MDX flavor parser semantics | Task | green |
 | [[TASK-337]] | Add MDX diagnostics and LSP features | Task | green |
 | [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | green |
-| [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | open |
-| [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | open |
+| [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | done |
+| [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -113,3 +113,41 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 > document symbols, folding, semantic tokens, spawned-server counts, and
 > renderer-bound classification. Focused Phase 29 test set, typecheck, lint,
 > and build passed locally before trace documentation updates.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The RED → GREEN split worked cleanly: the first commit established failing
+coverage for parser, diagnostics, completion, symbols, folding, semantic
+tokens, spawned-server counts, and renderer-bound classification; the GREEN
+commit implemented only those local MDX surfaces. The existing flavor-phase
+pattern from Pandoc and MultiMarkdown transferred directly to MDX.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | N/A | Steps E, F, G, I, J, K, and L found no new defects or sweep findings. | +0 h |
+
+The only implementation adjustment was tightening the malformed-expression
+check so balanced multi-line MDX expressions are not reported as broken.
+
+### Process observations
+
+The A-M checklist fit this phase well. Step K and the validation-directory
+portion of Step L remain N/A because this repository has no
+`src/test/verification/` or `src/test/validation/` directories; BDD remains the
+active validation gate.
+
+### Carry-forward actions
+
+- [ ] Keep Phase 30 on the same flavor-surface template: RED parser/profile
+      tests first, then local diagnostics/completion/symbol/fold/token wiring,
+      then trace and host-boundary evidence.
+
+### Rule / template amendments
+
+- [ ] none

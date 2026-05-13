@@ -2,7 +2,7 @@
 id: "CHORE-129"
 title: "Phase 29 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 29
 parent: "FEAT-055"
@@ -33,11 +33,19 @@ Perform trace and documentation kickoff hygiene for MDX language-support work wi
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for mdx.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-130]].
+- [x] Documentation trace gaps are identified or resolved for mdx.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-130]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Updated Phase 29 trace rows in `docs/test/index.md`, `docs/test/matrix.md`,
+> `docs/test/markdown-flavor-integration-spec.md`,
+> `docs/test/evidence/markdown-flavor-research-trace.md`,
+> `docs/test/evidence/markdown-flavor-host-boundary-review.md`, and
+> `docs/plans/markdown-flavor-lsp-applicability-matrix.md`. Closeout evidence
+> remains owned by CHORE-130.
