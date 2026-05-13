@@ -1,7 +1,7 @@
 ---
 title: Phase 18 Security Hardening Audit Tickets
 phase: 18
-status: planned
+status: in-progress
 tags: [plans, tickets, security]
 aliases: [Phase 18 Tickets]
 updated: 2026-05-08
@@ -38,6 +38,7 @@ updated: 2026-05-08
 | [[docs/plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | `CICD.Workflow.BDDGate` |
 | [[docs/plans/phase-18-security-hardening-audit/BUG-040]] | Extension CI package-target check lacks bundled server binary | `CICD.Workflow.PRGate`, `Extension.Packaging.TargetBinaryValidation` |
 | [[docs/plans/phase-18-security-hardening-audit/BUG-041]] | BDD file watcher scenario fails on Linux CI precondition | `CICD.Workflow.BDDGate` |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-042]] | Extension host test blocked by VS Code update mutex | `Extension.Tests.HostCoverage`, `CICD.Workflow.PRGate` |
 
 ## Chores
 
