@@ -98,3 +98,9 @@ open Markdown documents.
 > every explicit flavor id, resource-specific state, and propagation suppression
 > for restricted or inactive resources.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Extension refresh sends resource-specific `workspace/didChangeConfiguration`
+> payloads with selected/effective/source state and suppresses propagation for
+> restricted, unsupported-scheme, or non-Markdown resources.
+> Status: `green`.

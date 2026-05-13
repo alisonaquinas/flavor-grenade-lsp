@@ -55,3 +55,8 @@ ADR020.
 > `extension/src/markdown-flavor.test.ts`. Expected to fail until the selector
 > item model and command are implemented.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> `flavorGrenade.selectMarkdownFlavor` is contributed, activated, registered,
+> and backed by quick-pick rows for `auto` plus every explicit flavor id.
+> Status: `green`.

@@ -78,3 +78,9 @@ membership/project-config inputs according to
 > Obsidian marker evidence, then CommonMark fallback, while non-Markdown
 > language ids remain inactive.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Auto Detect resolution covers explicit settings, project evidence, Obsidian
+> marker/membership evidence, CommonMark fallback, and inactive non-Markdown
+> documents without language promotion.
+> Status: `green`.

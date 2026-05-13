@@ -1,6 +1,11 @@
 import { dirname, join } from 'node:path';
 import { stat } from 'node:fs/promises';
 import type { Disposable, TextDocument, TextEditor } from 'vscode';
+import {
+    buildMarkdownFlavorConfigurationNotification,
+    resolveMarkdownFlavor,
+    type MarkdownFlavorSelection,
+} from './markdown-flavor.js';
 
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const OFMARKDOWN_LANGUAGE_ID = 'ofmarkdown';
@@ -21,12 +26,15 @@ export interface DocumentMembershipResult {
 
 interface LanguageClientLike {
     sendRequest<T>(method: string, params: unknown): Thenable<T>;
+    sendNotification?(method: string, params?: unknown): Thenable<void> | void;
 }
 
 interface LanguageModeApi {
     getOpenDocuments(): readonly TextDocument[];
     getVisibleEditors(): readonly TextEditor[];
     setTextDocumentLanguage(document: TextDocument, languageId: string): Thenable<TextDocument>;
+    getMarkdownFlavorSelection?(document: TextDocument): MarkdownFlavorSelection | undefined;
+    getProjectMarkdownFlavor?(document: TextDocument): MarkdownFlavorSelection | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
     onDidChangeWorkspaceFolders(listener: () => void): Disposable;
@@ -120,37 +128,25 @@ export class LanguageModeController {
             if (!isManagedFileDocument(current)) {
                 return false;
             }
-            return await this.applyMembershipLanguage(current);
+            await this.applyMembershipFlavor(current);
+            return false;
         } finally {
             this.inFlight.delete(uri);
         }
     }
 
-    private async applyMembershipLanguage(document: TextDocument): Promise<boolean> {
+    private async applyMembershipFlavor(document: TextDocument): Promise<void> {
         const hasMarker = document.uri.fsPath
             ? await hasOfMarkdownMarkerAncestor(document.uri.fsPath)
             : false;
 
         if (hasMarker) {
-            if (document.languageId === MARKDOWN_LANGUAGE_ID) {
-                await this.api.setTextDocumentLanguage(document, OFMARKDOWN_LANGUAGE_ID);
-                return true;
-            }
-            return false;
+            this.notifyFlavor(document, true);
+            return;
         }
 
         const serverMembership = await this.getServerOfMarkdownMembership(document);
-        if (serverMembership === true && document.languageId === MARKDOWN_LANGUAGE_ID) {
-            await this.api.setTextDocumentLanguage(document, OFMARKDOWN_LANGUAGE_ID);
-            return true;
-        }
-
-        if (serverMembership === false && document.languageId === OFMARKDOWN_LANGUAGE_ID) {
-            await this.api.setTextDocumentLanguage(document, MARKDOWN_LANGUAGE_ID);
-            return true;
-        }
-
-        return false;
+        this.notifyFlavor(document, serverMembership === true);
     }
 
     private async getServerOfMarkdownMembership(document: TextDocument): Promise<boolean | undefined> {
@@ -169,6 +165,26 @@ export class LanguageModeController {
         return this.api.getOpenDocuments().find((document) => document.uri.toString() === uri);
     }
 
+    private notifyFlavor(document: TextDocument, hasObsidianMarker: boolean): void {
+        if (!this.client.sendNotification) {
+            return;
+        }
+
+        const resolution = resolveMarkdownFlavor({
+            document,
+            hasObsidianMarker,
+            projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
+            selected: this.api.getMarkdownFlavorSelection?.(document) ?? 'auto',
+        });
+        const notification = buildMarkdownFlavorConfigurationNotification({
+            states: [{ document, resolution }],
+        });
+        if (!notification) {
+            return;
+        }
+        void this.client.sendNotification(notification.method, notification.params);
+    }
+
     private async tryPromote(document: TextDocument): Promise<boolean> {
         try {
             return await this.maybePromote(document);
@@ -179,7 +195,7 @@ export class LanguageModeController {
 }
 
 function isManagedFileDocument(document: Pick<TextDocument, 'languageId' | 'uri'>): boolean {
-    return document.uri.scheme === 'file' && isManagedLanguage(document.languageId);
+    return document.uri.scheme === 'file' && document.languageId === MARKDOWN_LANGUAGE_ID;
 }
 
 async function markerExists(

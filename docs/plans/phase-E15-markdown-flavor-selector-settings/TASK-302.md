@@ -69,3 +69,8 @@ folder-owned documents and user settings for standalone files.
 > RED coverage added for workspace-folder/workspace/global override target
 > selection and Auto Detect clearing through `undefined`.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Selector persistence chooses workspace-folder, workspace, or global targets
+> from the active Markdown resource and clears Auto Detect with `undefined`.
+> Status: `green`.

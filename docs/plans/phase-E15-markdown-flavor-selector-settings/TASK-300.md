@@ -70,3 +70,9 @@ that preserves VS Code language mode and tracks effective flavor.
 > `markdown` language ids and avoid `setTextDocumentLanguage` during flavor
 > refresh. Expected to fail until promotion behavior is replaced.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Language refresh no longer calls `setTextDocumentLanguage`; `LanguageClient`
+> document selection is file-backed `markdown` only, while retired
+> contribution/host promotion checks remain E16/E17-owned.
+> Status: `green`.

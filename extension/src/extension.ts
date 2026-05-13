@@ -1,9 +1,10 @@
 import {
+  ConfigurationTarget,
   type ExtensionContext,
   ExtensionMode,
   type StatusBarItem,
+  commands,
   env,
-  languages,
   window,
   workspace,
 } from 'vscode';
@@ -22,6 +23,17 @@ import {
 } from './status-bar.js';
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
+import {
+  MARKDOWN_FLAVOR_COMMAND,
+  MARKDOWN_FLAVOR_SECTION,
+  MARKDOWN_FLAVOR_SETTING_KEY,
+  MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
+  createMarkdownFlavorQuickPickItems,
+  isFlavorEligibleDocument,
+  isMarkdownFlavorSelection,
+  resolveMarkdownFlavorUpdateTarget,
+  selectionSettingValue,
+} from './markdown-flavor.js';
 import { decideStartupGate } from './activation-gate.js';
 import { ServerStartupBlockedError } from './server-startup-error.js';
 import { buildDiagnosticInfo, getStatusQuickActions } from './status-presentation.js';
@@ -85,6 +97,48 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
     () => languageModeController?.refreshAll(),
   );
   context.subscriptions.push(...commandDisposables);
+  context.subscriptions.push(
+    commands.registerCommand(MARKDOWN_FLAVOR_COMMAND, async () => {
+      if (applyDisabledEnvironmentStatus(context)) {
+        return;
+      }
+
+      const editor = window.activeTextEditor;
+      if (!editor || !isFlavorEligibleDocument(editor.document)) {
+        await window.showWarningMessage('Markdown flavor applies only to file-backed Markdown documents.');
+        return;
+      }
+
+      const selected = await window.showQuickPick(createMarkdownFlavorQuickPickItems(), {
+        matchOnDescription: true,
+        placeHolder: 'Choose a Markdown flavor',
+        title: 'Flavor Grenade Markdown Flavor',
+      });
+      if (!selected) {
+        return;
+      }
+
+      const config = workspace.getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri);
+      const inspect = config.inspect<unknown>(MARKDOWN_FLAVOR_SETTING_KEY);
+      const target = resolveMarkdownFlavorUpdateTarget({
+        hasFolderOverride: inspect?.workspaceFolderValue !== undefined,
+        hasWorkspaceFolder: workspace.getWorkspaceFolder(editor.document.uri) !== undefined,
+        workspaceFolderCount: workspace.workspaceFolders?.length ?? 0,
+      });
+      await config.update(
+        MARKDOWN_FLAVOR_SETTING_KEY,
+        selectionSettingValue(selected.id),
+        target === 'workspace-folder'
+          ? ConfigurationTarget.WorkspaceFolder
+          : target === 'workspace'
+            ? ConfigurationTarget.Workspace
+            : ConfigurationTarget.Global,
+      );
+
+      await startClient(MARKDOWN_FLAVOR_COMMAND);
+      await languageModeController?.refreshAll();
+    }),
+  );
 
   // Restart on server path change
   context.subscriptions.push(
@@ -187,8 +241,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
-      { scheme: 'file', language: 'markdown' },
-      { scheme: 'file', language: 'ofmarkdown' },
+      ...MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
     ],
     synchronize: {
       fileEvents: workspace.createFileSystemWatcher('**/*.md'),
@@ -256,8 +309,13 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
   languageModeController = new LanguageModeController(nextClient, {
     getOpenDocuments: () => workspace.textDocuments,
     getVisibleEditors: () => window.visibleTextEditors,
-    setTextDocumentLanguage: (document, languageId) =>
-      languages.setTextDocumentLanguage(document, languageId),
+    setTextDocumentLanguage: (document) => Promise.resolve(document),
+    getMarkdownFlavorSelection: (document) => {
+      const value = workspace
+        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+        .get(MARKDOWN_FLAVOR_SETTING_KEY);
+      return isMarkdownFlavorSelection(value) ? value : 'auto';
+    },
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
     onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),

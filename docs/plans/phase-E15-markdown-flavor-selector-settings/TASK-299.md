@@ -64,3 +64,9 @@ configuration schema.
 > quick-pick labels, and client/server flavor enum compatibility. Expected to
 > fail until the extension constants/schema exist.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Extension flavor constants, package schema, selector command activation, and
+> quick-pick labels are implemented. `npm test` and `npm run compile` pass from
+> `extension/`.
+> Status: `green`.

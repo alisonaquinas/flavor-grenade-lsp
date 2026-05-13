@@ -38,8 +38,9 @@ Detailed extension test cases live in:
 
 | Test file | Purpose |
 |---|---|
-| `extension/src/markdown-flavor.test.ts` | Pure unit coverage for selector state, flavor enum/schema, auto-detection, overrides, refresh triggers, and server propagation calls. |
-| `extension/src/client-options.test.ts` | Planned guard for `LanguageClient.clientOptions.documentSelector` and stale `ofmarkdown` rejection. |
+| `extension/src/markdown-flavor.test.ts` | Pure unit coverage for selector state, flavor enum/schema, auto-detection, override targets, document scope, and server propagation payloads. |
+| `extension/src/language-mode.test.ts` | Preserves `markdown` language ids and rejects promotion during refresh. |
+| `extension/src/client-options.test.ts` | Deferred guard for deeper `LanguageClient.clientOptions.documentSelector` wiring beyond the E15 unit assertion. |
 | `extension/src/test/suite/markdown-flavor.test.js` | Extension-host coverage for user-visible selector behavior, settings targets, and language preservation. |
 | `extension/test/contributions/*.test.ts` | Retarget existing OFMarkdown language-scope tests to flavor/context-key scoping. |
 | `extension/test/marketplace/readme-assets.test.ts` | Add Markdown flavor selector visual coverage alongside OFM feature proof. |
@@ -104,8 +105,8 @@ Detailed extension test cases live in:
 
 ## Current Gap
 
-Existing extension tests still exercise the retired `ofmarkdown` language-mode
-controller. They should be treated as legacy coverage until replaced or
-rewritten for `MarkdownFlavorController`.
+E15 replaced the language-promotion unit assertions with selector and
+configuration-payload coverage. Remaining stale `ofmarkdown` contribution,
+Marketplace, and host expectations are intentionally owned by E16 and E17.
 
 See [Extension Test Matrix](matrix.md) for the extension-local traceability matrix.
