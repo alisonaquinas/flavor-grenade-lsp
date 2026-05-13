@@ -19,6 +19,7 @@ without scanning the server docs.
 | [features/command-bridge-contracts.md](features/command-bridge-contracts.md) | Maintainer-facing command bridge payload contracts and safe failure behavior |
 | [features/vscode-extension-parity.md](features/vscode-extension-parity.md) | User-facing VS Code extension parity feature spec |
 | [features/workspace-environments.md](features/workspace-environments.md) | Workspace trust, virtual workspace, local, and remote environment behavior |
+| [requirements/user/index.md](requirements/user/index.md) | Extension-local user requirements for Markdown flavor UX |
 | [requirements/functional/vscode-extension-parity.md](requirements/functional/vscode-extension-parity.md) | Extension-specific functional requirements |
 | [ddd/editor-client-parity-model.md](ddd/editor-client-parity-model.md) | Extension client domain model additions |
 | [bdd/vscode-extension-parity.feature](bdd/vscode-extension-parity.feature) | Extension parity acceptance scenarios |

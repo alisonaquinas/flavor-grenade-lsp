@@ -130,10 +130,15 @@ interface MarkdownIndex {
   images: MarkdownImageNode[]
   linkLabels: LinkLabelNode[]
   frontmatter: FrontmatterBlock | null
+  tables: TableNode[]
+  footnotes: FootnoteNode[]
+  attributes: AttributeNode[]
+  citations: CitationNode[]
+  hostReferences: HostReferenceNode[]
   mathBlocks: MathNode[]
   comments: CommentNode[]
   obsidian?: ObsidianFlavorProjection
-  dialect?: Record<string, unknown>
+  dialect?: Record<MarkdownFlavorId, DialectProjection>
 }
 
 interface ObsidianFlavorProjection {
@@ -142,6 +147,12 @@ interface ObsidianFlavorProjection {
   blockAnchors: BlockAnchorNode[]
   tags: TagNode[]
   callouts: CalloutNode[]
+}
+
+interface DialectProjection {
+  syntaxSurfaces: string[]
+  nodes: unknown[]
+  hostBoundaries: string[]
 }
 ```
 
@@ -153,6 +164,11 @@ interface ObsidianFlavorProjection {
 | `MarkdownLinkNode` | `{ target: string; fragment: string \| null; title: string \| null; range: Range }` | Standard inline links. Local-vault classification happens before BC3 refs are built. |
 | `MarkdownImageNode` | `{ target: string; alt: string; range: Range }` | Standard image links. May become attachment refs when local. |
 | `LinkLabelNode` | `{ label: string; target?: string; range: Range }` | Reference-style link use or definition. |
+| `TableNode` | `{ dialect: MarkdownFlavorId; range: Range; columns: number; alignments: string[] }` | Profile-gated tables for GFM, GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, Reddit, and Stack Overflow. |
+| `FootnoteNode` | `{ label: string; kind: 'ref' \| 'def'; range: Range }` | Profile-gated footnotes for GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, and compatible profiles. |
+| `AttributeNode` | `{ targetRange: Range; id?: string; classes: string[]; keyValues: Record<string, string>; range: Range }` | Profile-gated attributes for Pandoc, kramdown, Markdown Extra, and compatible profiles. |
+| `CitationNode` | `{ key: string; prefix?: string; suffix?: string; range: Range }` | Profile-gated citation syntax for Pandoc, MultiMarkdown, R Markdown, and compatible profiles. |
+| `HostReferenceNode` | `{ host: string; kind: string; text: string; range: Range }` | Host-specific refs such as GitHub issues, GitLab MRs, Reddit users/subreddits, or Stack Overflow questions/tags. Classified locally; not vault refs by default. |
 | `WikiLinkNode` | `{ target: string; fragment: string \| null; alias: string \| null; range: Range }` | `[[target]]`, `[[target#frag]]`, `[[target\|alias]]`. |
 | `EmbedLinkNode` | `{ target: string; fragment: string \| null; range: Range; isImage: boolean }` | `![[target]]`. `isImage: true` if target extension is an image format. |
 | `BlockAnchorNode` | `{ id: string; range: Range; blockRange: Range }` | `^anchor-id` at end of block. `blockRange` is the range of the entire block it anchors. |
@@ -213,9 +229,9 @@ Raw text (string)
 
 tree-sitter's Markdown grammar does not natively understand every dialect extension. Stage 3 first marks opaque regions: code spans/blocks, math blocks/spans, HTML comments, Obsidian comments, and Templater blocks. No token parser may emit syntax from inside an opaque region.
 
-After opaque marking, Stage 3 annotates `paragraph` or `inline` nodes for active flavor extensions. Obsidian placeholders are emitted only when `ParseContext.effectiveMarkdownFlavor` enables the Obsidian-compatible projection.
+After opaque marking, Stage 3 annotates `paragraph`, `inline`, or block nodes for active flavor extensions. A placeholder is emitted only when the active `MarkdownFlavorProfile` declares that syntax surface.
 
-Placeholder identification rules:
+Common placeholder identification rules:
 
 | Pattern | Placeholder annotation |
 |---------|----------------------|
@@ -224,6 +240,13 @@ Placeholder identification rules:
 | Block starting with `> [!` | `CALLOUT_PLACEHOLDER` |
 | Text matching `#[\w/]+` in inline (not code) | `TAG_PLACEHOLDER` |
 | Text matching `\^[\w-]+` at end of block | `BLOCK_ANCHOR_PLACEHOLDER` |
+| Pipe-table or profile table syntax | `TABLE_PLACEHOLDER` |
+| Text matching profile footnote syntax | `FOOTNOTE_PLACEHOLDER` |
+| Text matching profile citation syntax | `CITATION_PLACEHOLDER` |
+| Text matching profile attribute syntax | `ATTRIBUTE_PLACEHOLDER` |
+| MDX JSX / expression / ESM region | `MDX_OPAQUE_PLACEHOLDER` |
+| R Markdown chunk or inline R expression | `RMD_CHUNK_PLACEHOLDER` |
+| GitHub/GitLab/Reddit/Stack Overflow object syntax | `HOST_REFERENCE_PLACEHOLDER` |
 
 #### Stage 4: AST
 
@@ -237,6 +260,13 @@ Run each enabled extension parser against its corresponding placeholder nodes:
 | `TagParser` | `TAG_PLACEHOLDER` | `TagNode` |
 | `CalloutParser` | `CALLOUT_PLACEHOLDER` | `CalloutNode` |
 | `FrontmatterParser` | First node if `document → front_matter` | `FrontmatterBlock` |
+| `TableParser` | `TABLE_PLACEHOLDER` | `TableNode` |
+| `FootnoteParser` | `FOOTNOTE_PLACEHOLDER` | `FootnoteNode` |
+| `CitationParser` | `CITATION_PLACEHOLDER` | `CitationNode` |
+| `AttributeParser` | `ATTRIBUTE_PLACEHOLDER` | `AttributeNode` |
+| `MdxOpaqueParser` | `MDX_OPAQUE_PLACEHOLDER` | dialect projection node / opaque region |
+| `RMarkdownChunkParser` | `RMD_CHUNK_PLACEHOLDER` | dialect projection node / optional addressable chunk label |
+| `HostReferenceParser` | `HOST_REFERENCE_PLACEHOLDER` | `HostReferenceNode` |
 | `MathParser` | tree-sitter `math_block` / `math_inline` | `MathNode` |
 | `CommentParser` | HTML comment nodes + `%%` text | `CommentNode` |
 
@@ -248,6 +278,7 @@ Walk the completed AST in source order, collecting generic Markdown nodes and an
 
 - All `HeadingNode` values into `index.headings`
 - All standard local/non-local link syntax into generic Markdown collections
+- All profile-gated table, footnote, citation, attribute, chunk, component, and host-reference syntax into generic or dialect projections
 - All `WikiLinkNode` values into `index.obsidian.wikiLinks` when Obsidian projection is enabled
 - All `EmbedLinkNode` values into `index.obsidian.embedLinks` when enabled
 - All `BlockAnchorNode` values into `index.obsidian.blockAnchors` when enabled
@@ -258,6 +289,8 @@ Walk the completed AST in source order, collecting generic Markdown nodes and an
 - All `CommentNode` values into `index.comments`
 
 All lists are in source order (ascending by `range.start`). Existing `OFMIndex` compatibility may expose Obsidian projection fields at top level until code is renamed.
+
+Host-specific nodes remain syntax/index data. BC2 must not decide that a GitHub issue, GitLab merge request, Reddit user, Stack Overflow question, Pandoc output target, MDX component import, or R Markdown execution result exists.
 
 ---
 
@@ -289,8 +322,13 @@ The following table documents current Obsidian-compatible behavior and how futur
 | Frontmatter `--- yaml ---` | Yes | `FrontmatterParser` (YAML via `js-yaml`) |
 | Math `$...$` / `$$...$$` | Yes | `MathParser` (content not evaluated) |
 | Comments `%% ... %%` | Yes | `CommentParser` |
+| Tables | Dialect-gated | GFM-compatible, Pandoc, MultiMarkdown, kramdown, Markdown Extra, Reddit, and Stack Overflow table variants are active only when declared by the profile. |
 | Footnotes `[^1]` | Dialect-gated | Syntax-only parsing is BC2-local. If a dialect enables navigation/references, emit `FootnoteRef` / `FootnoteDef` symbols for BC3. |
 | Citations / labels / cross-references | Dialect-gated | Syntax-only constructs stay in BC2. Addressable constructs become BC3 refs/defs only when the dialect profile declares navigation semantics. |
+| Attributes / explicit IDs | Dialect-gated | Pandoc, kramdown, Markdown Extra, and compatible profiles may promote IDs to local anchors. Decorative attributes stay BC2-local. |
+| Host references | Dialect-gated | GitHub, GitLab, Reddit, and Stack Overflow refs are classified for syntax/hover/semantic tokens but do not become vault refs without host integration. |
+| MDX JSX / ESM | Dialect-gated | Treated as opaque for Markdown parsing. Component identifiers may be indexed only when source context is available. |
+| R Markdown chunks / inline R | Dialect-gated | Chunk headers and labels are static analysis data. Code is never executed. |
 | Mermaid diagrams | No | Treated as fenced code blocks; content is opaque |
 | DataviewJS | No | Treated as fenced code blocks; content is opaque |
 | HTML blocks | Partial | Standard HTML comments captured; other HTML passed through |

@@ -92,6 +92,15 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[docs/requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[docs/requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.ManualLanguageSafety** | The selector must not override manual non-Markdown language mode selections. | [[docs/requirements/ofmarkdown-language-mode]] |
+| **FlavorLSP.Profile.SignatureCoverage** | Every explicit Markdown flavor must have a server profile declaring active, inert, and host-specific syntax. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Parser.ProfileDispatch** | The parser must dispatch through the effective flavor profile. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Diagnostics.ProfileRules** | Diagnostics must use flavor-specific grammar, portability, and boundary rules. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Completion.ProfileCandidates** | Completion must offer candidates valid or explicitly helpful for the effective flavor. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Navigation.ProfileResolution** | Navigation and structural LSP responses must resolve only local symbols and structures defined by the effective flavor. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Hover.ProfileMetadata** | Hover must describe profile-supported syntax, local metadata, and host or conversion boundaries. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.SemanticTokens.ProfileTokens** | Semantic tokens must mark only active flavor constructs and respect profile opaque regions. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.Rename.ProfileSafety** | Rename must update only flavor-supported local symbols and references inside safe scope. | [[docs/requirements/functional/markdown-flavor-lsp]] |
+| **FlavorLSP.HostBoundary.NonLocalReferences** | Host-specific and conversion-specific references must stay separate from local vault targets. | [[docs/requirements/functional/markdown-flavor-lsp]] |
 | **Parity.MarkdownLinks.LocalResolution** | Local standard Markdown links must resolve through the same vault rules as wiki-links. | [[docs/requirements/functional/ofmarkdown-parity]] |
 | **Parity.MarkdownLinks.SameDocumentAnchor** | Same-document Markdown anchors must support definition, diagnostics, references, and heading rename behavior. | [[docs/requirements/functional/ofmarkdown-parity]] |
 | **Parity.HeadingAmbiguity.Diagnostics** | Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations. | [[docs/requirements/functional/ofmarkdown-parity]] |

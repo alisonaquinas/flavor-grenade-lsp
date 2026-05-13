@@ -35,6 +35,8 @@ VaultFolder
 ├── refGraph:   RefGraph                 — current reference graph for this vault
 ├── config:     FlavorConfig             — merged config for this vault
 ├── flavor:     EffectiveMarkdownFlavor  — resolved default for this vault
+├── profiles:   Map<MarkdownFlavorId, MarkdownFlavorProfile>
+│                                      — shared flavor corpus used for parse context
 ├── selections: Map<DocId, MarkdownFlavorSelection>
 │                                      — optional document-specific selectors
 ├── lookup:     FolderLookup             — stem/title/alias → DocId[] index
@@ -86,6 +88,7 @@ All commands are pure functions returning a new `VaultFolder`. They do not perfo
 | `VaultFolder.withConfig` | `(folder: VaultFolder, config: FlavorConfig) → VaultFolder` | Replace the merged config, recompute default effective flavor, and mark changed docs for reparse. |
 | `VaultFolder.withMarkdownFlavorSelection` | `(folder: VaultFolder, selection: MarkdownFlavorSelection, scope?: DocId) → VaultFolder` | Store a validated selector from VS Code/TOML scope, recompute affected `EffectiveMarkdownFlavor` values, and mark changed docs for reparse. |
 | `VaultFolder.effectiveFlavorFor` | `(folder: VaultFolder, id: DocId) → EffectiveMarkdownFlavor` | Resolve explicit effective flavor for one document from document selector, folder config, marker, and fallback. |
+| `VaultFolder.profileFor` | `(folder: VaultFolder, id: DocId) → MarkdownFlavorProfile` | Return the profile matching `effectiveFlavorFor(id)` for BC2 parse context construction. |
 | `VaultFolder.openDoc` | `(folder: VaultFolder, id: DocId, version: number) → VaultFolder` | Mark a document as editor-open. Sets `doc.version`. |
 | `VaultFolder.closeDoc` | `(folder: VaultFolder, id: DocId) → VaultFolder` | Revert editor-open document to disk version (`doc.version = null`). |
 
@@ -226,6 +229,28 @@ BC4 tie-breakers:
 - Invalid values are never stored by BC4; BC5/Config reject them before mutation.
 
 `EffectiveMarkdownFlavor` belongs to `VaultFolder`/`Workspace`, not BC2 or BC5. BC2 receives it only through `ParseContext`.
+
+### Effective Flavor Responsibilities
+
+BC4 owns the server-authoritative answer to "which Markdown flavor is this document parsed as?" The answer is the pair:
+
+```text
+EffectiveMarkdownFlavor
+  ├── id: MarkdownFlavorId
+  └── profile: MarkdownFlavorProfile
+```
+
+The id decides which explicit profile is active; the profile carries the syntax surfaces and host boundaries BC2 needs. A selector value of `auto` is discarded during resolution and never reaches BC2.
+
+When effective flavor changes for a document, BC4 must:
+
+1. Build a fresh `ParseContext` with the new profile.
+2. Reparse or re-project the `MarkdownDoc`.
+3. Rebuild `FolderLookup` entries whose defs changed.
+4. Update `RefGraph` through BC3 with the new symbol set.
+5. Trigger diagnostic refresh through BC5.
+
+Host-specific boundaries stay local to the profile. BC4 does not create vault scopes for GitHub, GitLab, Reddit, Stack Overflow, Pandoc render targets, R execution environments, or MDX language services.
 
 ### VaultDetector
 

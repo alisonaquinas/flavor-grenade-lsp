@@ -115,7 +115,15 @@ type MarkdownFlavorId =
   | 'commonmark'
   | 'gfm'
   | 'obsidian'
-  // plus every explicit id in the researched profile corpus
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow'
 
 type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
 
@@ -123,10 +131,39 @@ interface MarkdownFlavorProfile {
   id: MarkdownFlavorId
   label: string
   displayOrder: number
-  syntaxCapabilities: Record<string, boolean | string>
-  hostBehavior: string[]
+  syntaxSurfaces: MarkdownSyntaxSurface[]
+  hostBoundaries: HostSpecificBoundary[]
   unsupportedConstructs: string[]
   sourceTrace: string[]
+}
+
+interface MarkdownSyntaxSurface {
+  id: string
+  category:
+    | 'commonmark-core'
+    | 'table'
+    | 'task-list'
+    | 'metadata'
+    | 'reference'
+    | 'attribute'
+    | 'math'
+    | 'diagram'
+    | 'code-execution'
+    | 'component'
+    | 'host-reference'
+    | 'platform-rendering'
+  localAnalysis:
+    | 'parse-only'
+    | 'semantic-token'
+    | 'diagnostic'
+    | 'completion'
+    | 'navigation'
+}
+
+interface HostSpecificBoundary {
+  surface: string
+  host: 'github' | 'gitlab' | 'reddit' | 'stack-overflow' | 'pandoc' | 'r-markdown' | 'mdx' | 'other'
+  boundary: 'classify-only' | 'renderer-dependent' | 'execution-forbidden' | 'requires-integration'
 }
 ```
 
@@ -149,6 +186,26 @@ Rules:
 - `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
 - Unknown ids are invalid in both TOML and LSP configuration payloads.
 - Profile metadata is deterministic and source-backed so tests can compare ids, labels, order, and trace coverage.
+- Feature pages in `docs/features/*-flavor.md` are the product-facing source for profile behavior. The Config contract converts those pages into machine-readable ids, syntax surfaces, unsupported constructs, and host boundaries.
+- Host references are not local vault references by default. GitHub/GitLab/Reddit/Stack Overflow object refs, Pandoc conversion behavior, R Markdown execution, and MDX language-mode ownership remain bounded unless a future integration explicitly crosses that boundary.
+
+### Supported Profile Corpus
+
+| Flavor id | Feature page | Primary syntax surfaces | Boundary notes |
+|-----------|--------------|-------------------------|----------------|
+| `original` | [[docs/features/original-markdown-flavor]] | Original headings, lists, blockquotes, inline/reference links, images, raw HTML | Modern syntax is unsupported unless another profile is active. |
+| `commonmark` | [[docs/features/commonmark-flavor]] | CommonMark block/inline structure, fenced code, reference labels, headings | Default fallback when no vault/config signal exists. |
+| `gfm` | [[docs/features/github-flavored-markdown-flavor]] | Tables, task lists, strikethrough, autolinks, GitHub alerts | GitHub issue refs, mentions, emoji, highlighting, and sanitization are host behavior. |
+| `glfm` | [[docs/features/gitlab-flavored-markdown-flavor]] | GFM-compatible core, `[~]` tasks, footnotes, description lists, math/diagram fences, TOC/include tags | GitLab object refs require project/group context. |
+| `obsidian` | [[docs/features/obsidian-markdown-flavor]] | Wiki-links, embeds, block anchors, tags, callouts, frontmatter, opaque regions | `.obsidian/` marker resolves `auto` to this profile. |
+| `pandoc` | [[docs/features/pandoc-markdown-flavor]] | Metadata, citations, footnotes, math, attributes, tables, cross-references | Conversion depends on Pandoc CLI extensions, filters, templates, citeproc, and output format. |
+| `multimarkdown` | [[docs/features/multimarkdown-flavor]] | Metadata, tables, footnotes, citations, labels/cross-references, math | Export/rendering parity is outside local analysis. |
+| `mdx` | [[docs/features/mdx-flavor]] | Markdown plus JSX, expressions, ESM declarations, component identifiers | Dedicated `mdx` language mode remains owned by MDX tooling; Flavor Grenade handles Markdown-mode docs only. |
+| `kramdown` | [[docs/features/kramdown-flavor]] | Attribute lists, definition lists, tables, footnotes, math, explicit header IDs | Attribute IDs become addressable only under this profile. |
+| `markdown-extra` | [[docs/features/markdown-extra-flavor]] | Tables, definition lists, footnotes, abbreviations, fenced code, attribute blocks | Abbreviations and attributes are profile-gated. |
+| `r-markdown` | [[docs/features/r-markdown-flavor]] | YAML metadata, chunks, inline R, chunk labels, citations, cross-references | R code is never executed by the LSP. |
+| `reddit` | [[docs/features/reddit-markdown-flavor]] | Reddit prose Markdown, spoilers, superscript, tables, platform links | Subreddit/user/comment references are classified, not live-resolved. |
+| `stack-overflow` | [[docs/features/stack-overflow-markdown-flavor]] | CommonMark base, code authoring, tables, spoilers, post/comment profiles, platform links | Stack Exchange question/user/tag refs require host context. |
 
 ---
 

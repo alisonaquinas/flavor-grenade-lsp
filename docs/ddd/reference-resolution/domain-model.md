@@ -208,6 +208,8 @@ interface Oracle {
 | `CitationRef` | source doc or dialect-declared bibliography scope | matching `CitationDef` / `LabelDef` |
 | `CrossReferenceRef` | source doc, target doc, or dialect-declared global label scope | matching `LabelDef`, `HeaderDef`, `FootnoteDef`, or dialect-specific Def |
 | `FootnoteRef` | source document only by default | matching `FootnoteDef` |
+| `AttributeDef` / explicit ID refs | source document or local Markdown fragment scope | matching `AttributeDef` or promoted `LabelDef` |
+| `HostReference` | not a vault scope | no local `Def`; classify outside RefGraph unless an integration supplies an Oracle |
 | `IntraRef` (`#heading`) | `[sourceDocId]` | heading Defs in source doc matching fragment |
 | `IntraRef` (`#^anchor`) | `[sourceDocId]` | block anchor Defs in source doc |
 | `TagRef` | all docs containing the tag | tag Def |
@@ -227,6 +229,9 @@ Examples:
 - A citation becomes `CitationRef` only when the active dialect profile defines a key space or bibliography source.
 - A label or attribute becomes `LabelDef` / `AttributeDef` only when another construct can target it.
 - A decorative attribute, inline role, raw directive, or host-rendering option with no navigation target stays in `MarkdownIndex` and never enters `RefGraph`.
+- GitHub issue refs, GitLab MR refs, Reddit `/u` and `/r` refs, and Stack Overflow question/tag/user refs are host references. They may be syntax-highlighted or explained, but they are not `Unresolved` vault refs.
+- R Markdown chunk labels may become local `LabelDef` values, but chunk code is never executed and execution results are never part of `RefGraph`.
+- MDX component identifiers may become navigation targets only when local source context is available; JSX/ESM syntax alone is BC2 parse data.
 
 Default scopes:
 
@@ -237,6 +242,9 @@ Default scopes:
 | Citations | Dialect-declared bibliography scope, otherwise source document | Dialect profile declares workspace/global bibliography lookup |
 | Labels / cross-references | Source document | Dialect profile declares global label or document-target syntax |
 | Attributes | Source document | Attribute is promoted to addressable `LabelDef` or `AttributeDef` |
+| Host references | Host/integration scope | A future host integration supplies authenticated/project context and an Oracle adapter |
+| R Markdown chunks | Source document | Chunk label is addressable and profile declares navigation semantics |
+| MDX components | Project source context | A future source resolver supplies component definition candidates |
 
 ---
 

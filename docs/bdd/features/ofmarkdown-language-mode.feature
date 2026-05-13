@@ -23,6 +23,32 @@ Feature: Markdown flavor selection
     Then the document language id remains "markdown"
     And the Markdown flavor selector shows "Auto Detect (CommonMark)"
 
+  @req:Extension.MarkdownFlavor.AutoDetection
+  Scenario Outline: Workspace flavor config sets the Auto Detect default
+    Given a workspace folder containing ".flavor-grenade.toml"
+    And the workspace config declares default Markdown flavor "<id>"
+    And no Markdown flavor override is configured
+    When the user opens "notes/welcome.md"
+    Then the document language id remains "markdown"
+    And the Markdown flavor selector shows "Auto Detect (<label>)"
+    And the server is refreshed with effective flavor "<id>"
+
+    Examples:
+      | id             | label                    |
+      | original       | Original Markdown        |
+      | commonmark     | CommonMark               |
+      | obsidian       | Obsidian                 |
+      | gfm            | GitHub Flavored Markdown |
+      | glfm           | GitLab Flavored Markdown |
+      | pandoc         | Pandoc Markdown          |
+      | multimarkdown  | MultiMarkdown            |
+      | mdx            | MDX                      |
+      | kramdown       | kramdown                 |
+      | markdown-extra | Markdown Extra           |
+      | r-markdown     | R Markdown               |
+      | reddit         | Reddit Markdown          |
+      | stack-overflow | Stack Overflow Markdown  |
+
   Scenario Outline: Markdown flavor selector enumerates every required choice
     Given a Markdown document is active with language id "markdown"
     When the user opens the Markdown flavor selector
@@ -87,6 +113,32 @@ Feature: Markdown flavor selection
       | Reddit Markdown          | reddit         |
       | Stack Overflow Markdown  | stack-overflow |
 
+  @req:Extension.MarkdownFlavor.ServerPropagation @req:Extension.MarkdownFlavor.DialectProfiles
+  Scenario Outline: Selecting a flavor changes analysis without changing language mode
+    Given a Markdown document is active with language id "markdown"
+    And the server last analyzed it as effective flavor "commonmark"
+    When the user selects "<label>" from the Markdown flavor selector
+    Then the document language id remains "markdown"
+    And the server is refreshed with effective flavor "<id>"
+    And open Markdown diagnostics, completions, navigation, hover, semantic tokens, and rename use the "<id>" dialect profile
+    And the VS Code language picker still shows "Markdown"
+
+    Examples:
+      | label                    | id             |
+      | Original Markdown        | original       |
+      | CommonMark               | commonmark     |
+      | Obsidian                 | obsidian       |
+      | GitHub Flavored Markdown | gfm            |
+      | GitLab Flavored Markdown | glfm           |
+      | Pandoc Markdown          | pandoc         |
+      | MultiMarkdown            | multimarkdown  |
+      | MDX                      | mdx            |
+      | kramdown                 | kramdown       |
+      | Markdown Extra           | markdown-extra |
+      | R Markdown               | r-markdown     |
+      | Reddit Markdown          | reddit         |
+      | Stack Overflow Markdown  | stack-overflow |
+
   Scenario: User overrides flavor for a standalone file
     Given the user opens a standalone Markdown file with no workspace folder
     When the user selects "Original Markdown" from the Markdown flavor selector
@@ -117,3 +169,12 @@ Feature: Markdown flavor selection
       | languageId |
       | plaintext  |
       | mdx        |
+
+  @req:Extension.MarkdownFlavor.ManualLanguageSafety
+  Scenario: Explicit MDX language mode is not taken over by the MDX flavor
+    Given the user opens "docs/page.mdx"
+    And the document language id is "mdx"
+    When Markdown flavor auto-detection runs
+    Then the document language id remains "mdx"
+    And no "flavorGrenade.markdownFlavor" override is applied to that document
+    And no workspace/didChangeConfiguration notification is sent to the server

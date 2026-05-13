@@ -64,6 +64,56 @@ Feature: VS Code extension parity
     And open Markdown diagnostics are refreshed
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
+  @req:Extension.MarkdownFlavor.AutoDetection
+  Scenario Outline: Workspace flavor config controls Auto Detect label
+    Given a workspace config declares default Markdown flavor "<id>"
+    And a Markdown document is active with language id "markdown"
+    When Markdown flavor auto-detection runs
+    Then the selector shows "Auto Detect (<label>)"
+    And the effective flavor sent to the server is "<id>"
+
+    Examples:
+      | id             | label                    |
+      | original       | Original Markdown        |
+      | commonmark     | CommonMark               |
+      | obsidian       | Obsidian                 |
+      | gfm            | GitHub Flavored Markdown |
+      | glfm           | GitLab Flavored Markdown |
+      | pandoc         | Pandoc Markdown          |
+      | multimarkdown  | MultiMarkdown            |
+      | mdx            | MDX                      |
+      | kramdown       | kramdown                 |
+      | markdown-extra | Markdown Extra           |
+      | r-markdown     | R Markdown               |
+      | reddit         | Reddit Markdown          |
+      | stack-overflow | Stack Overflow Markdown  |
+
+  # Source: docs/bdd/features/markdown-flavor-dialects.feature
+  @req:FlavorLSP.Profile.SignatureCoverage @req:Extension.MarkdownFlavor.DialectProfiles
+  Scenario Outline: Markdown flavor choice selects matching dialect profile
+    Given a Markdown document is active with language id "markdown"
+    When the effective Markdown flavor becomes "<id>"
+    Then server diagnostics, completions, navigation, hover, semantic tokens, and rename use the "<id>" profile
+    And "<signature>" is treated as flavor-specific behavior
+    And non-local host, conversion, or execution references are not resolved as vault files
+
+    Examples:
+      | id             | signature                                    |
+      | original       | historical core Markdown baseline           |
+      | commonmark     | standardized CommonMark edge cases          |
+      | obsidian       | wiki links, embeds, and vault semantics     |
+      | gfm            | tables, task lists, strikethrough            |
+      | glfm           | GitLab-specific CommonMark extensions        |
+      | pandoc         | citations, math, metadata, extension toggles |
+      | multimarkdown  | metadata, tables, cross-references           |
+      | mdx            | JSX expressions and components               |
+      | kramdown       | block and span attributes                    |
+      | markdown-extra | tables, definition lists, footnotes          |
+      | r-markdown     | YAML metadata and executable code chunks     |
+      | reddit         | Reddit platform Markdown behavior            |
+      | stack-overflow | Stack Overflow technical-writing behavior    |
+
+  # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.ManualLanguageSafety
   Scenario Outline: Manual non-Markdown language selections are preserved
     Given a ".md" document has language id "<languageId>"

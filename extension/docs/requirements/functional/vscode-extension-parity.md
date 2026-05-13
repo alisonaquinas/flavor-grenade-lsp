@@ -276,6 +276,122 @@ flavor/context state without requiring a custom Markdown language id.
 
 ---
 
+## Extension.MarkdownFlavor.Selector
+
+**Tag:** Extension.MarkdownFlavor.Selector
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The extension must expose a Markdown flavor selector separate from VS Code's built-in language picker while leaving the active document in VS Code's built-in `markdown` language mode.
+**Ambition:** Users should be able to inspect and change the effective flavor from Flavor Grenade UI without losing normal Markdown editor integrations.
+**Scale:** Percentage of supported Markdown editor contexts where the selector is available, reports the effective flavor, and changes flavor without changing `languageId`.
+**Meter:**
+
+1. Open file-backed Markdown documents in workspace-folder, workspace-only, vault, generic Markdown, and standalone-file contexts.
+2. Verify a Flavor Grenade Markdown flavor selector is visible or command-accessible without opening the VS Code language picker.
+3. Select `Auto Detect` and each explicit flavor.
+4. Verify the selector state changes and the active document remains `languageId = markdown`.
+5. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
+6. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
+**Fail:** The user must use the VS Code language picker for flavor selection, the selector is unavailable for supported Markdown contexts, or selecting a flavor changes the document away from `markdown`.
+**Goal:** 100% selector availability for supported file-backed Markdown contexts.
+**Stakeholders:** VS Code users, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.MarkdownFlavor.RequiredCoverage
+
+**Tag:** Extension.MarkdownFlavor.RequiredCoverage
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The extension must expose `Auto Detect` and every planned Markdown flavor as selector choices while leaving the active document in VS Code's built-in `markdown` language mode.
+**Ambition:** Users should be able to choose the same flavor set documented for server behavior from the VS Code client without using the VS Code language picker or losing normal Markdown editor integrations.
+**Scale:** Percentage of required selector choices present with the correct id, label, and language-mode behavior.
+**Meter:**
+
+1. Open a file-backed `.md` document whose `languageId` is `markdown`.
+2. Open the Flavor Grenade Markdown flavor selector.
+3. Verify the selector exposes exactly the required choices in the table below.
+4. Select each explicit flavor and verify `flavorGrenade.markdownFlavor` accepts the corresponding id.
+5. Verify the active document remains `languageId = markdown` after each selection.
+6. Verify `Auto Detect` is available as the reversible non-explicit choice.
+7. Compute: (required selector choices present and valid / 14) x 100.
+**Fail:** Any required flavor is missing, an unsupported flavor is exposed, the VS Code language picker is used for flavor selection, or selecting a flavor changes the document away from `markdown`.
+**Goal:** 100% required selector coverage.
+**Stakeholders:** VS Code users, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+| Setting id | Selector label | Feature set |
+|---|---|---|
+| `auto` | Auto Detect | [Markdown flavor selection](../../../../docs/features/ofmarkdown-language-mode.md) |
+| `original` | Original Markdown | [Original Markdown flavor](../../../../docs/features/original-markdown-flavor.md) |
+| `commonmark` | CommonMark | [CommonMark flavor](../../../../docs/features/commonmark-flavor.md) |
+| `obsidian` | Obsidian | [Obsidian flavor](../../../../docs/features/obsidian-markdown-flavor.md) |
+| `gfm` | GitHub Flavored Markdown | [GitHub Flavored Markdown flavor](../../../../docs/features/github-flavored-markdown-flavor.md) |
+| `glfm` | GitLab Flavored Markdown | [GitLab Flavored Markdown flavor](../../../../docs/features/gitlab-flavored-markdown-flavor.md) |
+| `pandoc` | Pandoc Markdown | [Pandoc Markdown flavor](../../../../docs/features/pandoc-markdown-flavor.md) |
+| `multimarkdown` | MultiMarkdown | [MultiMarkdown flavor](../../../../docs/features/multimarkdown-flavor.md) |
+| `mdx` | MDX | [MDX flavor](../../../../docs/features/mdx-flavor.md) |
+| `kramdown` | kramdown | [kramdown flavor](../../../../docs/features/kramdown-flavor.md) |
+| `markdown-extra` | Markdown Extra | [Markdown Extra flavor](../../../../docs/features/markdown-extra-flavor.md) |
+| `r-markdown` | R Markdown | [R Markdown flavor](../../../../docs/features/r-markdown-flavor.md) |
+| `reddit` | Reddit Markdown | [Reddit Markdown flavor](../../../../docs/features/reddit-markdown-flavor.md) |
+| `stack-overflow` | Stack Overflow Markdown | [Stack Overflow Markdown flavor](../../../../docs/features/stack-overflow-markdown-flavor.md) |
+
+---
+
+## Extension.MarkdownFlavor.OverridePersistence
+
+**Tag:** Extension.MarkdownFlavor.OverridePersistence
+**User Req:** User.Extension.OverrideMarkdownFlavor
+**Gist:** Markdown flavor overrides made from the extension UI must persist to folder settings when a workspace folder owns the active Markdown file and to user settings when the context is only a standalone file.
+**Ambition:** The same selector should behave predictably in project and single-file contexts. Project choices belong with the folder; standalone-file choices cannot be written to a project and should follow the user.
+**Scale:** Percentage of selector write and clear operations that target the correct VS Code configuration scope.
+**Meter:**
+
+1. Open a Markdown file inside a workspace folder.
+2. Select each explicit flavor from the selector.
+3. Verify `flavorGrenade.markdownFlavor` is written to the owning workspace folder or workspace setting, not only to user settings.
+4. Select `Auto Detect`.
+5. Verify the override is cleared or reset at the same folder/workspace scope.
+6. Open a standalone Markdown file with no owning workspace folder.
+7. Select an explicit flavor and verify `flavorGrenade.markdownFlavor` is written to user settings.
+8. Select `Auto Detect` and verify the user-scope override is cleared or reset.
+9. Compute: (correct configuration-scope operations / total write and clear operations) x 100.
+**Fail:** A folder-backed override is written only to user settings, a standalone-file override attempts to write a project setting, `Auto Detect` clears a different scope from the explicit override scope, or the setting accepts a value outside the required flavor set.
+**Goal:** 100% correct override persistence scope.
+**Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.MarkdownFlavor.AutoDetection
+
+**Tag:** Extension.MarkdownFlavor.AutoDetection
+**User Req:** User.Extension.AutoDetectFlavor
+**Gist:** In `auto` mode, the extension UI must display and propagate the effective Markdown flavor inferred from vault, project, workspace, and standalone-file context while allowing explicit user overrides to take precedence.
+**Ambition:** Auto detection should preserve zero-config Obsidian vault behavior and conservative generic Markdown behavior, while still making the effective flavor visible enough for users to trust and override.
+**Scale:** Percentage of documented editor contexts where the selector, configuration state, and server-facing flavor state agree.
+**Meter:**
+
+1. Open a Markdown document under a `.obsidian/` folder with `flavorGrenade.markdownFlavor` set to `auto`.
+2. Verify the selector reports `Auto Detect` with effective flavor `obsidian`.
+3. Open a Markdown document in a Flavor Grenade workspace with explicit project flavor config or workspace setting.
+4. Verify `auto` resolves to that configured supported flavor id.
+5. Open a standalone generic `.md` file with no vault or config signal.
+6. Verify `auto` resolves to `commonmark`.
+7. Override the active context to each explicit required flavor and verify the override takes precedence over auto detection until cleared.
+8. Manually change a `.md` document to a non-`markdown` language id and verify flavor state is inactive for that document.
+9. Compute: (correct effective-state outcomes / total documented contexts) x 100.
+**Fail:** Generic Markdown is auto-detected as Obsidian without a positive signal, Obsidian vault notes fail to resolve to Obsidian in `auto`, explicit overrides are ignored, or non-`markdown` documents receive active flavor behavior.
+**Goal:** 100% documented auto/effective-state correctness.
+**Stakeholders:** Vault authors, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
 ## Extension.Workspace.EnvironmentModes
 
 **Tag:** Extension.Workspace.EnvironmentModes

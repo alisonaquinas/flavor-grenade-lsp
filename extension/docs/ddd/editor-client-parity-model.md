@@ -15,7 +15,7 @@ This model extends the root Editor Client bounded context for VS Code parity.
 | ExtensionClient | Owns activation and LanguageClient lifecycle |
 | BinaryResolver | Resolves custom, development, or bundled server command |
 | StatusBarWidget | Displays server and vault state only |
-| MarkdownFlavorController | Resolves auto-detected and user-selected Markdown flavor state while preserving VS Code's `markdown` language mode |
+| MarkdownFlavorController | Owns visible selector state and sends `MarkdownFlavorSelection` inputs while preserving VS Code's `markdown` language mode |
 | CommandBridgeRegistry | Registers VS Code commands that consume server payloads |
 | MarketplaceEvidence | README screenshots and packaged visual assets |
 | ExtensionHostTestHarness | Tests activation, commands, status, and failure states |
@@ -32,6 +32,7 @@ server-generated data out of VS Code-specific code until the bridge boundary.
 - Command bridge payloads are JSON-serializable.
 - The server never imports VS Code APIs.
 - Markdown flavor changes do not restart the LanguageClient.
-- MarkdownFlavorController owns selector and effective flavor state; StatusBarWidget owns server and vault state. Shared status bar placement does not merge the state machines.
+- MarkdownFlavorController owns selector state only; server BC4 owns authoritative effective flavor state. StatusBarWidget owns server and vault state. Shared status bar placement does not merge the state machines.
 - LanguageClient `clientOptions.documentSelector` is file-backed `markdown` only for current flavor behavior; `ofmarkdown` must not remain in the current selector.
+- Non-`markdown` editor language ids such as `mdx` are outside current selector behavior; the extension must not steal them for Markdown flavor analysis.
 - Restricted and virtual workspaces do not spawn the server.

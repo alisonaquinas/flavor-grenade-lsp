@@ -13,7 +13,7 @@ aliases:
 
 # BC6 — Editor Client Domain Model
 
-This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selection. All Obsidian Flavored Markdown intelligence lives in the server (BC2–BC5).
+This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol/domain-model]], [[docs/design/api-layer]], [[docs/superpowers/specs/2026-04-21-vscode-extension-design]].
 
@@ -46,7 +46,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol
 2. Construct and start a `LanguageClient` with `Executable` server options (stdio transport).
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
-5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while receiving an effective Flavor Grenade Markdown flavor.
+5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending a `MarkdownFlavorSelection` to the server.
 6. Push all disposables to `context.subscriptions` for automatic cleanup.
 
 ### Lifecycle
@@ -189,21 +189,24 @@ custom server path failures, and command bridge payload validation.
 
 ### MarkdownFlavorController
 
-The VS Code component that owns Markdown flavor state. It watches visible editors, opened documents, active editor changes, workspace folder changes, server readiness, and relevant configuration changes.
+The VS Code component that owns selector display state. It watches visible editors, opened documents, active editor changes, workspace folder changes, server readiness, and relevant configuration changes.
 
 **Language invariant:** file-backed Markdown documents remain in VS Code's built-in `markdown` language mode. The controller must not call `setTextDocumentLanguage` for Flavor Grenade flavor selection.
 
 **Selector invariant:** `MarkdownFlavorController` owns selector display state,
-effective flavor state, and refresh decisions. It may expose that state through
+persisted selector values, and refresh decisions. It may expose that state through
 a command, status bar item, or another VS Code UI surface, but the
 `StatusBarWidget` remains limited to server and vault status.
 
-**Auto-detection rule:** a file-backed `markdown` document has effective flavor `obsidian` when either:
+**Auto-detection hint rule:** a file-backed `markdown` document displays an
+Obsidian hint when either:
 
 1. A `.obsidian/` directory is found in one of its ancestor directories.
 2. The server returns `isOfMarkdown: true` from `flavorGrenade/documentMembership`.
 
-Without a vault/config signal, `auto` resolves to `commonmark`.
+Without a vault/config signal, the selector remains `auto`. BC4 resolves that
+selector to the authoritative `EffectiveMarkdownFlavor`, commonly
+`commonmark` for generic Markdown.
 
 **Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor`
 to any supported Markdown flavor id. Folder-backed documents write the override
@@ -218,10 +221,13 @@ override to the user setting.
 - Propagate selector changes through `workspace/didChangeConfiguration` with
   `flavorGrenade.markdownFlavor`; the server resolves the authoritative
   `EffectiveMarkdownFlavor`.
+- If a document language id is `mdx`, `r`, `quarto`, or any non-`markdown`
+  language id, the selector is disabled for that editor. Dedicated language
+  tooling may own that editor experience.
 
 ### MarkdownFlavorSelection
 
-The user-visible flavor state for a Markdown document.
+The user-visible selector state for a Markdown document.
 
 ```typescript
 type MarkdownFlavor =
@@ -241,7 +247,7 @@ type MarkdownFlavor =
   | 'stack-overflow';
 ```
 
-`MarkdownFlavorSelection` is not a VS Code language id. The normal language id remains `markdown`; flavor selection tells Flavor Grenade how to interpret the Markdown document.
+`MarkdownFlavorSelection` is not a VS Code language id and is not server-authoritative effective state. The normal language id remains `markdown`; flavor selection tells Flavor Grenade which profile input to send to BC4. The server then resolves an explicit `EffectiveMarkdownFlavor`.
 
 ---
 
@@ -283,7 +289,7 @@ interface DocumentMembershipResult {
 }
 ```
 
-The server-side answer is authoritative for `.flavor-grenade.toml` vaults and any document already present in the index.
+The server-side answer is authoritative for `.flavor-grenade.toml` vaults and any document already present in the index. It is a membership hint, not a flavor computation result; BC6 must not infer the final effective flavor from it except to keep the selector UI coherent.
 
 ---
 
@@ -322,7 +328,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 **Crash recovery:** `LanguageClient` uses its default error handler, which restarts the server up to 4 times within 3 minutes. No custom handler is needed.
 
-**Config propagation:** User settings (`linkStyle`, `completion.candidates`, `diagnostics.suppress`) are passed to the server via `initializationOptions` at startup. Changes to these settings trigger a client restart, which re-sends `initializationOptions` with updated values.
+**Config propagation:** Markdown flavor selector changes are sent through `workspace/didChangeConfiguration` and must not restart the LanguageClient. Other startup-only settings may still flow through `initializationOptions` when the implementation requires it.
 
 ---
 
@@ -336,7 +342,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
 
-5. **Markdown flavor selection is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings.
+5. **Markdown flavor selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns effective flavor state after receiving the selector.
 
 6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.
 
