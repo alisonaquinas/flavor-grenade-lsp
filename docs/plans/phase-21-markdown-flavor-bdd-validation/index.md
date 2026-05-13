@@ -1,7 +1,7 @@
 ---
 title: Phase 21 Markdown Flavor BDD Verification And Validation Tickets
 phase: 21
-status: in-progress
+status: in-review
 tags: [plans/phase-21, tickets/index, markdown-flavor, bdd]
 aliases: ["Phase 21 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-044]] | Markdown Flavor BDD Verification And Validation | Feature | `in-progress` |
+| [[FEAT-044]] | Markdown Flavor BDD Verification And Validation | Feature | `in-review` |
 | [[TASK-294]] | Rewrite BDD harness around effective flavor state | Task | `done` |
 | [[TASK-295]] | Implement Markdown flavor selection BDD steps | Task | `done` |
 | [[TASK-296]] | Implement dialect profile BDD steps | Task | `done` |

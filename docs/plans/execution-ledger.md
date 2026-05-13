@@ -36,7 +36,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 18    | Security Hardening Audit | 🔎 in-review | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | [PR #68](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/68) |
 | 19    | Markdown Flavor Model And Profiles | 🔎 in-review | Canonical flavor id contract and source-backed dialect profile registry | 2026-05-13 | [PR #69](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/69) |
 | 20    | Markdown Flavor Server Propagation | 🔎 in-review | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | 2026-05-13 | [PR #70](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/70) |
-| 21    | Markdown Flavor BDD Verification And Validation | 🔄 in-progress | BDD, verification, and validation evidence execute against flavor state | 2026-05-13 | — |
+| 21    | Markdown Flavor BDD Verification And Validation | 🔎 in-review | BDD, verification, and validation evidence execute against flavor state | 2026-05-13 | [PR #71](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/71) |
 | 22    | Original Markdown Language Support | ⏳ planned | Historical Original Markdown parser and LSP behavior | — | — |
 | 23    | CommonMark Language Support | ⏳ planned | CommonMark parser and LSP behavior with standardized edge cases | — | — |
 | 24    | Obsidian Flavor Language Support | ⏳ planned | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | — | — |

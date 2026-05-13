@@ -2,7 +2,7 @@
 id: "FEAT-044"
 title: "Markdown Flavor BDD Verification And Validation"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 21
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-044"]
 
 # Markdown Flavor BDD Verification And Validation
 
-> [!INFO] `FEAT-044` - Feature - Phase 21 - Status: `in-progress`
+> [!INFO] `FEAT-044` - Feature - Phase 21 - Status: `in-review`
 
 ## Goal
 
