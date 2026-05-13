@@ -329,6 +329,32 @@ describe('DiagnosticService', () => {
       'Fenced code blocks are not part of CommonMark.',
     );
   });
+
+  it('does not publish portability diagnostics for active Obsidian syntax', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/obsidian.md', []),
+      text: ['[[Note]]', '> [!note]', '#tag'].join('\n'),
+      markdownFlavor: 'obsidian' as const,
+      parseContext: { effectiveFlavor: 'obsidian' as const },
+    };
+
+    service.publishDiagnostics(id('obsidian'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain('FG101');
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain('FG102');
+  });
 });
 
 describe('block reference diagnostics', () => {

@@ -2,7 +2,7 @@
 id: "TASK-323"
 title: "Add Obsidian flavor regression and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -89,3 +89,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ob
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED regression coverage added at unit and integration levels. Documentation
+> trace/evidence updates remain green-work after the Obsidian profile surfaces
+> are implemented.
+> Status: `red`.

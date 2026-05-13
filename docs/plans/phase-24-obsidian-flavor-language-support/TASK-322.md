@@ -2,7 +2,7 @@
 id: "TASK-322"
 title: "Gate Obsidian diagnostics and LSP features by flavor"
 type: task
-status: open
+status: red
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -105,3 +105,11 @@ Deliver diagnostics and LSP feature behavior for the obsidian flavor using [[doc
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for Obsidian diagnostics, completions, and spawned-server
+> behavior in `src/resolution/__tests__/diagnostic-service.test.ts`,
+> `src/completion/__tests__/completion-router.test.ts`, and
+> `src/test/integration/markdown-flavor.test.ts`. These tests depend on the
+> profile registry moving Obsidian surfaces from planned to implemented.
+> Status: `red`.

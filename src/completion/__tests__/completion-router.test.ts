@@ -201,6 +201,25 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('Obsidian flavor routing', () => {
+    it('keeps Obsidian-only completions active for the Obsidian flavor', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const wikiText = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'obsidian' }));
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      const calloutText = '> [!';
+      router.setDocumentText(TEST_URI, calloutText);
+      const calloutResult = router.route(makeParams(TEST_URI, calloutText, '!'));
+
+      expect(wikiResult.items.some((item) => item.label === 'alpha')).toBe(true);
+      expect(calloutResult.items.some((item) => item.label === 'NOTE')).toBe(true);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

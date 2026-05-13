@@ -109,3 +109,58 @@ describe('CommonMark parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('Obsidian parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats Obsidian vault syntax as active and host syntax as inert', () => {
+    const doc = parser.parse(
+      'file:///vault/obsidian.md',
+      [
+        '---',
+        'title: Obsidian Demo',
+        '---',
+        '',
+        '# Vault Note',
+        '',
+        '[[Target#Heading^block]]',
+        '![[assets/image.png]]',
+        '#project/tag',
+        '^block',
+        '> [!note]',
+        '> body',
+        '',
+        '$$',
+        '[[hidden-in-math]]',
+        '$$',
+        '',
+        '%% [[hidden-in-comment]] %%',
+        '',
+        '<%*',
+        'const hidden = "[[hidden-in-templater]]";',
+        '%>',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'obsidian' },
+    );
+
+    expect(doc.markdownFlavor).toBe('obsidian');
+    expect(doc.frontmatter).toMatchObject({ title: 'Obsidian Demo' });
+    expect(doc.index.headings.map((heading) => heading.text)).toEqual(['Vault Note']);
+    expect(doc.index.wikiLinks.map((link) => link.target)).toEqual(['Target']);
+    expect(doc.index.embeds.map((embed) => embed.target)).toEqual(['assets/image.png']);
+    expect(doc.index.tags.map((tag) => tag.tag)).toEqual(['#project/tag']);
+    expect(doc.index.blockAnchors.map((anchor) => anchor.id)).toEqual(['block']);
+    expect(doc.index.callouts.map((callout) => callout.type)).toEqual(['note']);
+    expect(doc.opaqueRegions.map((region) => region.kind)).toEqual(
+      expect.arrayContaining(['math', 'comment', 'templater']),
+    );
+  });
+
+  it('marks Obsidian LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('obsidian');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

@@ -380,6 +380,63 @@ describe('Markdown flavor spawned-server propagation', () => {
     await client.close();
   }, 15000);
 
+  it('applies Obsidian parser and diagnostic behavior', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    fs.mkdirSync(path.join(vault, 'assets'), { recursive: true });
+    const targetPath = path.join(vault, 'Target.md');
+    const notePath = path.join(vault, 'obsidian.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "obsidian"\n',
+    );
+    fs.writeFileSync(targetPath, '# Heading\n\n^block\n');
+    fs.writeFileSync(
+      notePath,
+      ['[[Target#Heading^block]]', '![[assets/image.png]]', '#tag', '> [!note]', '[['].join('\n'),
+    );
+    fs.writeFileSync(path.join(vault, 'assets', 'image.png'), 'png');
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG101',
+    );
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'obsidian',
+      wikiLinks: 1,
+      headings: 0,
+    });
+
+    await client.close();
+  }, 15000);
+
   it('classifies non-local boundaries through the spawned server', async () => {
     client = new LspClient();
     await client.request('initialize', { processId: null, rootUri: null, capabilities: {} });
