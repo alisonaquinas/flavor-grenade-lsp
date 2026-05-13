@@ -74,3 +74,44 @@ aliases:
 **Stakeholders:** Application security, NestJS DI integrity, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/research/security-threat-model]], CVE-2024-29409, SNYK-JS-NESTJSCOMMON-9538801.
+
+---
+
+## Security.Input.ProjectConfigTOMLSafety
+
+**Tag:** Security.Input.ProjectConfigTOMLSafety
+**Gist:** `.flavor-grenade.toml` must be size-limited, schema-validated, vault-confined by realpath, and parsed without propagating `__proto__`, `constructor`, or `prototype` keys into application configuration.
+**Ambition:** Markdown flavor auto-detection treats project TOML as a flavor signal. That makes the TOML file user-controlled configuration that can affect server analysis. A malicious config must not trigger memory pressure, prototype pollution, unsafe path traversal, or content-bearing logs.
+**Scale:** Percentage of TOML parse attempts that enforce size, schema, path, dangerous-key, and redacted-log guarantees.
+**Meter:**
+
+1. Create fixtures for oversized TOML, invalid TOML, unknown flavor ids, dangerous keys, symlinked config paths, and traversal attempts.
+2. Verify the server reads TOML only after vault-root realpath confinement passes.
+3. Verify invalid or oversized TOML is treated as absent configuration and cannot corrupt prior flavor state.
+4. Verify dangerous keys are rejected or stripped before merge.
+5. Verify logs contain file path/status only, not TOML content.
+**Fail:** Any unsafe TOML path is read, any oversized/invalid TOML crashes the server, any dangerous key pollutes application objects, or TOML content appears in logs.
+**Goal:** 100% safe TOML handling.
+**Stakeholders:** Workspace owners, vault authors, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/security/vault-confinement]], [[docs/research/security-threat-model]].
+
+---
+
+## Security.Input.FlavorPropagationPayload
+
+**Tag:** Security.Input.FlavorPropagationPayload
+**Gist:** Resource-specific Markdown flavor propagation payloads must be schema-validated with enum checks, map-size limits, supported `file://` URI keys, resource ownership checks, stale-entry eviction, and dangerous-key rejection.
+**Ambition:** Phase E15 and Phase 20 allow the extension to send selected/effective flavor state for multiple resources. Without bounds and ownership checks, a buggy or malicious client can send huge maps, non-file URIs, stale entries, or prototype-pollution keys that consume memory or leak flavor state across documents.
+**Scale:** Percentage of malformed flavor propagation payloads rejected before Config, BC4, or parser state changes.
+**Meter:**
+
+1. Send payloads with unsupported flavor ids, `auto` as effective flavor, non-`file://` URI keys, unknown resource keys, oversized maps, nested unexpected objects, stale workspace entries, and dangerous keys.
+2. Verify each invalid payload returns InvalidParams or is ignored without mutating active flavor state.
+3. Verify valid payloads are capped and resource-specific.
+4. Verify stale resources are evicted when documents close or workspace folders are removed.
+**Fail:** Any invalid payload mutates effective flavor state, reaches parser/cache state, or pollutes application objects.
+**Goal:** 100% invalid payload rejection before state mutation.
+**Stakeholders:** Extension users, LSP maintainers, future transport-mode users.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/ofmarkdown-language-mode]], [[docs/plans/phase-20-markdown-flavor-server-propagation]].

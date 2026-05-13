@@ -11,7 +11,7 @@ aliases:
 # Parser Safety Requirements
 
 > [!NOTE] Scope
-> These are **technical security requirements** governing the OFM parser introduced in Phase 3. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR012-parser-safety-policy]].
+> These are **technical security requirements** governing the OFM parser introduced in Phase 3 and every later Markdown flavor parser/profile added by Phase 19-34 work. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR012-parser-safety-policy]].
 
 ---
 
@@ -115,3 +115,24 @@ aliases:
 **Stakeholders:** Users with accidentally large vault roots, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]].
+
+---
+
+## Security.Parser.FlavorProfileResourceSafety
+
+**Tag:** Security.Parser.FlavorProfileResourceSafety
+**Gist:** Every Markdown flavor parser, tokenizer, and profile projection must inherit parser safety limits: ReDoS review, per-file parse timeout, bounded fixture size, safe opaque-region handling, and no unbounded recursion.
+**Ambition:** Phase 22-34 dialect work introduces new syntax scanners for tables, citations, attributes, JSX/ESM, R chunks, platform references, and other constructs. These scanners are exposed to user-controlled Markdown just like the original OFM parser. A flavor-specific regex or recursive parser can therefore reintroduce denial-of-service behavior even if the baseline OFM parser remains safe.
+**Scale:** Percentage of new flavor parser/profile changes that include resource-safety evidence before merge.
+**Meter:**
+
+1. For each flavor parser or tokenizer change, run safe-regex or equivalent worst-case analysis against added regex patterns.
+2. Run pathological fixtures for long delimiters, nested constructs, unterminated syntax, and large table/list/chunk/citation bodies.
+3. Verify parsing respects the same per-file timeout and memory-budget behavior as the OFM parser.
+4. Verify opaque regions prevent nested Markdown parsing in code, math, JSX/ESM, R chunk, and execution-bound regions where the profile defines them.
+5. Compute: (flavor parser changes with complete safety evidence / total flavor parser changes) x 100.
+**Fail:** Any new flavor parser/tokenizer merges without safety evidence, or any pathological fixture causes unbounded CPU, memory, or recursion.
+**Goal:** 100% of flavor parser changes carry resource-safety evidence.
+**Stakeholders:** Markdown authors, server reliability, security reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/plans/phase-19-markdown-flavor-model-profiles]].

@@ -32,6 +32,10 @@ open Markdown documents.
   (`auto` or explicit flavor), the resolved effective flavor, the source, and a
   resource key such as document URI or workspace folder URI. `auto` must never
   be sent as the effective flavor.
+- Enforce payload security before sending: bounded resource map, supported
+  `file://` resource keys, no dangerous object keys, no stale/unknown resources,
+  and no propagation from restricted, virtual, unsupported-scheme, or untrusted
+  contexts.
 - Refresh server analysis after selector changes.
 - Select every required explicit flavor id and verify the exact server payload
   and effective flavor, including standalone `original`.
@@ -51,6 +55,7 @@ open Markdown documents.
 |---|---|
 | `Extension.MarkdownFlavor.ServerPropagation` | `GAP-E-006`, `AUD-E-001`, `AUD-ET-003` |
 | `Extension.MarkdownFlavor.Refresh` | `GAP-E-007`, `AUD-E-007` |
+| `Security.Input.FlavorPropagationPayload` | `AUD-SEC-003`, `AUD-SEC-006` |
 
 ## Linked Tests
 
@@ -70,6 +75,9 @@ open Markdown documents.
       effective, source, and resource-key data.
 - [ ] Multi-root and standalone tests prove one document's override does not
       change another document's effective flavor.
+- [ ] Payload tests prove oversized maps, unsupported schemes, dangerous keys,
+      unknown/stale resources, and restricted/virtual/untrusted contexts do not
+      propagate state.
 - [ ] Every required explicit flavor id is covered by propagation tests.
 - [ ] Standalone `original` is propagated and reanalyzed correctly.
 - [ ] Open Markdown refresh path runs after selector, workspace-folder, visible

@@ -78,6 +78,12 @@ Validation evidence must link the targeted unit/integration output,
 `docs/test/evidence/markdown-flavor-host-boundary-review.md` when boundary
 dispositions are introduced, changed, deferred, or rejected.
 
+Security evidence must also show the dialect parser/profile satisfies
+`Security.Parser.FlavorProfileResourceSafety`; host, conversion, renderer,
+bibliography, JSX/ESM, and execution-bound references perform no network access,
+process execution, dynamic import, or out-of-root file reads; and rename evidence
+satisfies `Security.Vault.RenameConfinement` before any workspace edit is sent.
+
 ## Related
 
 - [[docs/adr/ADR020-markdown-flavor-selection]]

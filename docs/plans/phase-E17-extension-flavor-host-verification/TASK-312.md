@@ -39,6 +39,9 @@ using VS Code's language picker.
   link to [[TASK-313]] as the artifact owner when the scan is produced there.
 - Split validation evidence so extension work proves selector/schema/profile
   compatibility while server dialect phases prove parser/profile semantics.
+- Redact local usernames, absolute home paths, vault text, TOML contents,
+  environment variables, API-like tokens, and raw server output before evidence
+  files are committed.
 
 ## Linked Requirements
 
@@ -70,6 +73,8 @@ using VS Code's language picker.
 - [ ] Research/profile evidence states the extension verifies contract
       compatibility only; server phases own dialect semantic proof.
 - [ ] Evidence files use the artifact paths required by
+      `extension/docs/tests/markdown-flavor-validation-spec.md`.
+- [ ] Evidence files satisfy the redaction rules in
       `extension/docs/tests/markdown-flavor-validation-spec.md`.
 
 ## Workflow Log

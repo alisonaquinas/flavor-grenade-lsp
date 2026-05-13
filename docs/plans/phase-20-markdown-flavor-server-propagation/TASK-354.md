@@ -32,6 +32,8 @@ local vault/file targets.
   [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]].
 - Keep the classifier local and deterministic; authenticated or networked
   platform lookup remains deferred unless a later integration ticket adds it.
+- The classifier must not perform network access, process execution, dynamic
+  module import, or file reads outside the workspace/vault root.
 - Expose a shared disposition that per-flavor Phase 22-34 tickets can reuse:
   `local`, `non-local-host`, `conversion-bound`, `renderer-bound`,
   `bibliography-bound`, `execution-bound`, or `unsupported`.
@@ -44,6 +46,7 @@ local vault/file targets.
 | `FlavorLSP.Navigation.ProfileResolution` | `AUD-S-003` |
 | `FlavorLSP.Hover.ProfileMetadata` | `AUD-X-002` |
 | `FlavorLSP.Rename.ProfileSafety` | `AUD-S-002` |
+| `Security.Vault.PathConfinement` | `AUD-SEC-004` |
 
 ## Linked Tests
 
@@ -58,6 +61,8 @@ local vault/file targets.
       tokens, and rename.
 - [ ] Host/conversion fixtures never become broken vault diagnostics, local
       definition targets, or speculative rename edits.
+- [ ] Host/conversion fixtures perform no network requests, process execution,
+      dynamic imports, or out-of-root file reads.
 - [ ] Per-flavor tickets can cite the shared classifier instead of duplicating
       classification rules.
 - [ ] Spawned-server integration evidence covers at least one boundary example

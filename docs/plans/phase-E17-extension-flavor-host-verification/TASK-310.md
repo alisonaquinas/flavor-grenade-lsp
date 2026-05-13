@@ -28,6 +28,8 @@ flavor behavior in the VS Code Extension Development Host.
   non-`markdown`, untitled/unsupported, restricted, virtual, WSL, SSH, and Dev
   Container contexts where automation is available. Unsupported contexts must
   assert selector inactive/disabled behavior and no server spawn/propagation.
+- Cover untrusted workspace behavior where automation is available: no
+  workspace-folder setting writes, no server spawn, and no propagation.
 - Open the selector and assert all required ids and labels are present:
   `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`,
   `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`,
@@ -61,6 +63,8 @@ flavor behavior in the VS Code Extension Development Host.
       availability across unsupported contexts, and host propagation fixtures.
 - [ ] Host or verification evidence covers selector availability/inactive state
       across supported, unsupported, restricted, virtual, and remote contexts.
+- [ ] Host or verification evidence covers untrusted workspace no-write/no-spawn
+      behavior.
 - [ ] Host suite selects every required explicit flavor and never observes an
       `ofmarkdown` language id.
 - [ ] `npm run test:host` includes the suite.

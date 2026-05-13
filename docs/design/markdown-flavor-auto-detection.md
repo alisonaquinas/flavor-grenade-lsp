@@ -82,6 +82,18 @@ type ResolveFlavorInput = {
 Invalid selector or TOML values are not part of `MarkdownFlavorSelection`. The
 validation layer rejects them before resolution and treats that layer as absent.
 
+Security invariants:
+
+- `.flavor-grenade.toml` is read only after workspace/vault realpath
+  confinement passes.
+- TOML size, value types, and dangerous object keys are validated before merge.
+- Invalid TOML is treated as absent configuration and logs status without
+  logging file contents.
+- Resource keys in server propagation are validated as supported `file://`
+  resources owned by the workspace/vault or standalone document context.
+- Unsupported schemes, virtual documents, restricted contexts, and untrusted
+  contexts return `inactive` before server analysis or propagation.
+
 ## Output
 
 ```typescript
@@ -241,6 +253,11 @@ for the specific document being parsed. A valid design can use either:
 Whatever mechanism is implemented, tests must prove that one document's
 override does not leak into another document's effective flavor.
 
+The propagation payload must also satisfy
+[[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]]:
+bounded map size, enum validation, supported URI schemes, resource ownership
+checks, stale-resource eviction, and dangerous-key rejection.
+
 ## Selector Display
 
 Selector display uses both selected and effective state:
@@ -268,6 +285,7 @@ change:
 - `.flavor-grenade.toml` appears, disappears, or changes;
 - `flavorGrenade.markdownFlavor` changes at folder, workspace, or user scope;
 - restricted/virtual workspace state changes.
+- workspace trust state changes.
 
 If the effective flavor changes, BC4 schedules parse, diagnostics, completion,
 semantic token, hover, navigation, and rename refresh for affected documents.

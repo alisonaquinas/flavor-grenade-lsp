@@ -52,6 +52,8 @@ safety evidence.
   Container selector behavior. Unsupported environments must not spawn the
   server; supported remote modes must keep selector state and package-target
   evidence aligned.
+- Add untrusted workspace coverage proving selector UI degrades safely without
+  workspace-folder writes, server spawn, or flavor propagation.
 - Add package-target validation evidence for flavor-era VSIX output.
 - Run a stale `ofmarkdown` expectation scan for current host tests and host
   evidence; historical docs may keep historical mentions when classified.
@@ -70,6 +72,8 @@ safety evidence.
 - CI and local commands fail if flavor host tests are removed.
 - Package-target evidence proves flavor-era VSIX output is covered by
   `npm run verify:package-targets`.
+- Restricted, virtual, unsupported-scheme, and untrusted contexts never spawn
+  the server or persist workspace-folder flavor settings.
 - Extension validation docs show current user-visible behavior.
 
 ## Gate Verification

@@ -59,6 +59,9 @@ after Phase 20 propagation is ready.
 - Add CI/file-presence verification for flavor test layers.
 - Add dated validation artifacts for research-to-profile review, product review,
   and validation run evidence.
+- Add validation evidence redaction checks so committed artifacts do not contain
+  user paths, vault content, TOML contents, environment variables, API-like
+  tokens, or raw server output with document content.
 - Add the host-boundary validation artifact path and require later dialect
   phases to fill platform/conversion false-local-resolution evidence before
   they claim LSP-surface validation.
@@ -83,6 +86,8 @@ after Phase 20 propagation is ready.
 - Validation can trace every displayed flavor to research or `ofm-spec`.
 - Validation evidence names the reviewer or command, commit, date, commands run,
   and links to output for every artifact.
+- Validation evidence is sanitized according to
+  [[docs/test/markdown-flavor-validation-spec]] before commit.
 - Validation artifact planning includes `docs/test/evidence/` paths for
   research trace, product review, validation run, and host-boundary review.
 - The matrix shows honest passing/failing status after implementation.

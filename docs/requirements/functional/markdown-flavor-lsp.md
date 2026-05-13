@@ -58,8 +58,9 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 3. Verify active constructs emit typed index entries with stable ranges.
 4. Verify inactive constructs are plain text or portability candidates, not active symbols.
 5. Verify opaque regions apply per profile, including Obsidian opaque regions, MDX JSX/ESM regions, R Markdown chunks, math regions, and fenced code blocks where defined.
-6. Compute: (correct parser outcomes / total expected parser outcomes) x 100.
-**Fail:** Any inactive construct is emitted as active profile syntax, or any active signature construct is absent from parse output.
+6. Verify parser changes satisfy [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]].
+7. Compute: (correct parser outcomes / total expected parser outcomes) x 100.
+**Fail:** Any inactive construct is emitted as active profile syntax, any active signature construct is absent from parse output, or any profile parser lacks required resource-safety evidence.
 **Goal:** 100% parser dispatch correctness for required fixtures.
 **Stakeholders:** Markdown authors, LSP implementers.
 **Owner:** flavor-grenade-lsp contributors.
@@ -193,9 +194,10 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 1. Create rename fixtures for headings, local Markdown links, reference labels, explicit IDs, labels, footnotes, abbreviations, R chunk labels, MDX local components, and Obsidian notes, blocks, tags, embeds, and attachments.
 2. Request `textDocument/prepareRename` and `textDocument/rename` under the relevant flavor.
 3. Verify supported local symbols produce complete WorkspaceEdits that preserve syntax family.
-4. Verify unsupported, inactive, host-specific, conversion-bound, and execution-bound targets are rejected.
-5. Compute: (correct rename outcomes / total rename cases) x 100.
-**Fail:** Any supported local rename leaves stale references, or any unsafe host/platform/execution target receives speculative edits.
+4. Verify every generated edit URI and range satisfies [[docs/requirements/security/vault-confinement#Security.Vault.RenameConfinement]] before `workspace/applyEdit`.
+5. Verify unsupported, inactive, host-specific, conversion-bound, and execution-bound targets are rejected atomically with no partial edit.
+6. Compute: (correct rename outcomes / total rename cases) x 100.
+**Fail:** Any supported local rename leaves stale references, any unsafe host/platform/execution target receives speculative edits, or any out-of-vault/stale-resource edit reaches `workspace/applyEdit`.
 **Goal:** 100% rename profile safety.
 **Stakeholders:** Markdown authors, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
@@ -215,10 +217,11 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 1. Create fixtures for GitHub issues, commits, users, labels, and alerts; GitLab issues, MRs, epics, labels, includes, diagrams, and TOC tags; Reddit subreddit, user, comment, and spoiler syntax; Stack Overflow tags, users, questions, answers, comments, spoilers, and language hints; Pandoc conversion extensions; MultiMarkdown export features; MDX JSX/ESM; and R Markdown chunks.
 2. Analyze each fixture under its relevant flavor.
 3. Verify host or conversion references are typed as non-local unless configured integration context exists.
-4. Verify broken-vault-link diagnostics, local navigation, and rename edits are not emitted for non-local references.
-5. Verify hover explains the boundary.
-6. Compute: (correct boundary classifications / total boundary fixtures) x 100.
-**Fail:** Any host-specific or conversion-specific reference becomes a vault edit, broken vault diagnostic, or local definition without verified local context.
+4. Verify classification performs no network request, process execution, dynamic module import, or file read outside the vault/workspace root.
+5. Verify broken-vault-link diagnostics, local navigation, and rename edits are not emitted for non-local references.
+6. Verify hover explains the boundary.
+7. Compute: (correct boundary classifications / total boundary fixtures) x 100.
+**Fail:** Any host-specific or conversion-specific reference becomes a vault edit, broken vault diagnostic, local definition, network request, process execution, dynamic import, or out-of-root file read without verified local context.
 **Goal:** 100% non-local boundary correctness.
 **Stakeholders:** Markdown authors, security reviewers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.

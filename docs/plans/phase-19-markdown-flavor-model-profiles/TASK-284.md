@@ -27,6 +27,9 @@ traces and structured syntax capability sections.
 - Define the minimum profile schema for active, inert, host-specific,
   opaque-region, diagnostic, completion, navigation, hover, semantic-token,
   folding, document-symbol, and rename surfaces.
+- Define security fields for parser resource limits, ReDoS review status,
+  no-network/no-execution boundary class, TOML/config interaction where
+  relevant, and rename confinement disposition.
 - Allow `planned` surface values only when they link the owning Phase 22-34
   implementation ticket.
 - Add a profile for every explicit flavor id.
@@ -40,6 +43,7 @@ traces and structured syntax capability sections.
 |---|---|
 | `Extension.MarkdownFlavor.DialectProfiles` | `GAP-S-002` |
 | `FlavorLSP.Profile.SignatureCoverage` | `AUD-S-005` |
+| `Security.Parser.FlavorProfileResourceSafety` | `AUD-SEC-001` |
 
 ## Linked Tests
 
@@ -53,6 +57,8 @@ traces and structured syntax capability sections.
 - [ ] Every profile has a research source or `ofm-spec` source.
 - [ ] Every profile includes the minimum server surface schema, including
       rename and host/conversion boundary disposition.
+- [ ] Every profile includes security metadata for parser resource safety,
+      no-network/no-execution boundaries, and rename confinement.
 - [ ] `planned` surface values link to the later phase ticket that must replace
       them with implemented/deferred/not-applicable evidence.
 - [ ] Registry excludes `auto`.

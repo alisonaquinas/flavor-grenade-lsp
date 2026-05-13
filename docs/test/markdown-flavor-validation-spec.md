@@ -43,6 +43,12 @@ supports the result. The validation run artifact must include `bun run bdd`,
 `bun test src/test/ci-workflow.test.ts`, and the current Phase 21 gate command
 set from [[docs/plans/phase-21-markdown-flavor-bdd-validation]].
 
+Evidence artifacts must be sanitized before commit. They must not include note
+body text, frontmatter values, `.flavor-grenade.toml` contents, environment
+variables, API-like tokens, local usernames, home-directory paths, or raw server
+stderr/stdout that contains vault content. Use repository-relative paths and
+redacted excerpts when command output is needed.
+
 ## Exit Criteria
 
 - Product review can trace each displayed flavor to research or `ofm-spec/`.

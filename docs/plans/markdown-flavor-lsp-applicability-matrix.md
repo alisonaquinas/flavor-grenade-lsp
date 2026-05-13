@@ -46,6 +46,11 @@ These follow-ups are outside the local Markdown-language-support phases unless
 a later platform-integration ticket explicitly adds authenticated, networked,
 renderer, conversion, bibliography, or execution-context lookup behavior.
 
+Until such a ticket exists, boundary classification must be local and inert: no
+network requests, process execution, dynamic module imports, or out-of-root file
+reads may be performed while classifying host, conversion, renderer,
+bibliography, JSX/ESM, or execution-bound references.
+
 | Flavor | Deferred lookup | Follow-up disposition |
 |---|---|---|
 | `gfm` | Live GitHub issue, pull request, commit, user, label, alert rendering, and repository metadata lookup. | Out of scope for Phase 25; local GFM syntax, reference-shape classification, and unsafe rename rejection remain required. |

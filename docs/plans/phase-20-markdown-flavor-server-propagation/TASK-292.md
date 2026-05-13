@@ -53,7 +53,8 @@ flavor transitions. The process-boundary protocol is
 | [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]] | Handler-level refresh reaches diagnostics, completion, navigation/document links, hover, semantic tokens, folding, and rename. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]] | Multi-root and standalone resource keys keep effective flavor document-specific. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] | Host/conversion boundary dispositions survive spawned-server propagation. |
-| `src/test/integration/markdown-flavor.test.ts` | MF-I-001 through MF-I-008. |
+| [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Malformed propagation payloads and unsafe TOML fixtures fail before state mutation. |
+| `src/test/integration/markdown-flavor.test.ts` | MF-I-001 through MF-I-009. |
 
 ## Definition of Done
 

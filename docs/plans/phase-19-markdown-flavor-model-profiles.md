@@ -30,6 +30,7 @@ scope instead of documentation-only requirements.
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]] | Define the minimum server profile schema and registry coverage for all explicit flavors |
+| [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]] | Add parser/resource-safety fields to the profile schema |
 | [[docs/test/markdown-flavor-unit-spec]] | Implement profile registry unit test coverage |
 | [GAP-S-001](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor enum/model gap |
 | [GAP-S-002](../gaps/markdown-flavor-gap-analysis.md) | Close missing dialect profile registry gap |
@@ -45,6 +46,8 @@ scope instead of documentation-only requirements.
 - Minimum server profile schema covering active, inert, host-specific,
   opaque-region, diagnostic, completion, navigation, hover, semantic-token,
   folding, document-symbol, and rename surfaces.
+- Security metadata for parser resource budgets, unsafe-regex review status,
+  no-network/no-execution boundaries, and rename confinement disposition.
 - Unit tests for required coverage and profile shape.
 - Documentation trace from profile ids to research notes.
 
@@ -61,6 +64,8 @@ scope instead of documentation-only requirements.
 - Original Markdown and CommonMark profiles document the Obsidian constructs
   that are not core syntax.
 - Unit tests fail when a required flavor id or source trace is removed.
+- Unit tests fail when profile security metadata is missing for any explicit
+  flavor.
 - Phase 19 profiles may mark a surface `planned` only when the entry links the
   owning Phase 22-34 ticket; later phases that change profile surfaces must
   update the registry tests, test matrix/index, and validation evidence.

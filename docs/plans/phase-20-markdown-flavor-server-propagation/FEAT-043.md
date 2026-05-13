@@ -19,13 +19,17 @@ aliases: ["FEAT-043"]
 ## Goal
 
 Thread server-owned `EffectiveMarkdownFlavor` through configuration, parsing,
-diagnostics, and spawned-server integration tests.
+diagnostics, and spawned-server integration tests without weakening input,
+config, or boundary security gates.
 
 ## Scope
 
 - Accept and validate `flavorGrenade.markdownFlavor` from
   `workspace/didChangeConfiguration` in BC5, then dispatch to BC4/Config.
 - Resolve explicit and `auto` modes in BC4 using `MarkdownFlavorCascade`.
+- Validate resource-specific flavor payloads before Config/BC4 mutation.
+- Confine and validate `.flavor-grenade.toml` project evidence before flavor
+  state uses it.
 - Refresh open documents after flavor changes.
 - Gate initial Original, CommonMark, and Obsidian analysis behavior.
 
@@ -45,6 +49,8 @@ diagnostics, and spawned-server integration tests.
   resource-specific flavor propagation.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] covers
   host/conversion boundary behavior across the spawned server boundary.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] covers
+  malformed flavor payload and unsafe project-config rejection.
 
 ## Child Tasks
 
@@ -65,6 +71,10 @@ diagnostics, and spawned-server integration tests.
 - [ ] Supported flavor ids apply without server restart.
 - [ ] Unsupported ids are rejected without state corruption.
 - [ ] BC4 owns effective flavor state; BC5 only validates protocol payloads.
+- [ ] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
+      oversized maps, and stale resource keys are rejected before state changes.
+- [ ] Project TOML evidence is confined, size-limited, schema-validated, and
+      redacted in logs.
 - [ ] Open document diagnostics refresh after flavor changes.
 - [ ] Integration tests cover supported and unsupported flavor transitions,
       handler refresh, resource-specific state, and host/conversion boundary

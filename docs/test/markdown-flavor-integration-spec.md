@@ -24,7 +24,8 @@ and affects analysis without requiring VS Code UI.
 | MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with `.flavor-grenade.toml`, workspace setting, both present, standalone file context, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: folder/workspace override, standalone user override, project config, Obsidian marker, membership evidence, then CommonMark fallback. |
 | MF-I-006 | `src/test/integration/markdown-flavor.test.ts` | Change effective flavor with an open fixture containing diagnostics, completion, navigation, hover, semantic-token, and rename trigger points. | Each handler consumes the refreshed effective flavor and returns flavor-specific results without requiring server restart. |
 | MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
-| MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, or broken-vault diagnostics. |
+| MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
+| MF-I-009 | `src/test/integration/markdown-flavor.test.ts` | Send malformed flavor propagation payloads and unsafe `.flavor-grenade.toml` fixtures. | Oversized maps, non-file URI keys, dangerous keys, stale resources, unsafe TOML paths, oversized TOML, and invalid values are rejected before effective flavor state changes. |
 
 ## Spawned-Server IDs
 
@@ -55,7 +56,15 @@ one resolves to `commonmark` or another explicit flavor.
 
 Integration evidence for `FlavorLSP.HostBoundary.NonLocalReferences`. It must
 prove non-local references do not produce vault edits or vault diagnostics
-across a real server process boundary.
+across a real server process boundary and do not trigger network, execution,
+dynamic import, or out-of-root file access.
+
+### MF-I-009 - Flavor Security Input Validation
+
+Integration evidence for `Security.Input.FlavorPropagationPayload`,
+`Security.Input.ProjectConfigTOMLSafety`, and
+`Security.Vault.ProjectConfigConfinement`. It must prove malformed propagation
+payloads and unsafe project config evidence fail before state mutation.
 
 ## Exit Criteria
 
@@ -67,4 +76,6 @@ across a real server process boundary.
   consume refreshed effective flavor state.
 - Host-boundary references stay non-local across diagnostics, navigation,
   hover, and rename surfaces.
+- Malformed flavor payloads and unsafe TOML evidence cannot mutate effective
+  flavor state.
 - Invalid flavor ids fail without corrupting active document state.

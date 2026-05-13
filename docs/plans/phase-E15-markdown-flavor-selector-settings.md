@@ -37,6 +37,7 @@ server propagation calls. The auto-detection resolver follows
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Keep non-`markdown` manual language selections out of flavor scope |
+| [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]] | Send only bounded, resource-owned flavor payloads |
 | [GAP-E-001](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close language promotion gap |
 | [GAP-E-006](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close client-to-server propagation gap |
 
@@ -59,6 +60,8 @@ server propagation calls. The auto-detection resolver follows
 - Client-to-server propagation using `workspace/didChangeConfiguration` carrying
   `flavorGrenade.markdownFlavor` plus resource-specific selected/effective
   flavor state, matching the Phase 20 contract.
+- Restricted, virtual, unsupported-scheme, and untrusted contexts must not write
+  workspace-folder settings, spawn the server, or propagate flavor state.
 - Unit tests in `extension/src/markdown-flavor.test.ts`.
 
 ### Out of Scope
@@ -83,6 +86,8 @@ server propagation calls. The auto-detection resolver follows
   multi-root and standalone documents cannot leak flavor state into one another.
 - Propagation is skipped for documents whose VS Code language id is not
   `markdown`.
+- Propagation is skipped for restricted, virtual, unsupported-scheme, and
+  untrusted contexts; selector UI reports inactive/disabled state instead.
 
 ## Gate Ordering Notes
 

@@ -27,6 +27,11 @@ invalid input.
 - Handle `workspace/didChangeConfiguration` carrying
   `flavorGrenade.markdownFlavor`.
 - Validate payload shape: `settings.flavorGrenade.markdownFlavor`.
+- Validate resource-specific payload shape when present: selected value,
+  effective value, source, and resource key.
+- Reject oversized maps, nested unexpected objects, dangerous object keys,
+  non-`file://` URI keys, unknown resources, stale resources, and `auto` as an
+  effective flavor.
 - Store configured selector state through Config/BC4, not in BC5.
 - Mutation target is `Workspace.withMarkdownFlavorSelection` /
   `VaultFolder.withMarkdownFlavorSelection`.
@@ -37,17 +42,21 @@ invalid input.
 | Requirement | Gap |
 |---|---|
 | `Extension.MarkdownFlavor.ServerPropagation` | `GAP-S-003` |
+| `Security.Input.FlavorPropagationPayload` | `AUD-SEC-003` |
 
 ## Linked Tests
 
 | Test file | Expected coverage |
 |---|---|
 | [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]] | Accepts required ids and rejects unknown ids through `workspace/didChangeConfiguration`. |
+| [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Rejects malformed propagation payloads and unsafe TOML evidence before state mutation. |
 
 ## Definition of Done
 
 - [ ] All required ids are accepted.
 - [ ] Unknown ids leave previous flavor state intact.
+- [ ] Malformed, oversized, polluted, stale, unknown-resource, and non-file URI
+      payloads leave previous flavor state intact.
 - [ ] BC5 does not compute or store `EffectiveMarkdownFlavor`.
 - [ ] Unit tests prove validation behavior.
 

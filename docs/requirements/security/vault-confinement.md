@@ -104,3 +104,23 @@ aliases:
 **Stakeholders:** File system security, vault authors, users on multi-user systems.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]], [[docs/plans/phase-11-rename]].
+
+---
+
+## Security.Vault.ProjectConfigConfinement
+
+**Tag:** Security.Vault.ProjectConfigConfinement
+**Gist:** Project config discovery for `.flavor-grenade.toml` must canonicalize and realpath the candidate path under the owning workspace or vault root before reading; config files outside that root must be ignored.
+**Ambition:** Flavor auto-detection introduces a project-level configuration file. If discovery follows symlinks or traversal outside the workspace/vault root, a document can influence analysis with configuration from an arbitrary filesystem location. Config confinement must match link and rename confinement principles.
+**Scale:** Percentage of config discovery attempts that reject out-of-root, symlink-escaped, absolute, encoded traversal, and unsupported-scheme candidates before file I/O.
+**Meter:**
+
+1. Create workspaces with valid config, symlinked config to outside root, traversal-like paths, and unsupported URI schemes.
+2. Trigger flavor detection.
+3. Verify only the valid in-root realpath is read.
+4. Verify unsafe candidates are treated as absent configuration and do not log content.
+**Fail:** Any config file outside the workspace/vault root is read or merged.
+**Goal:** 100% project config confinement.
+**Stakeholders:** Workspace owners, security reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/adr/ADR013-vault-root-confinement]], [[docs/research/security-threat-model]].

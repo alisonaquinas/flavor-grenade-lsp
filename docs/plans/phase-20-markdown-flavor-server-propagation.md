@@ -39,6 +39,9 @@ flavor context.
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.SemanticTokens.ProfileTokens]] | Refresh semantic-token context from the effective profile after flavor changes |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Rename.ProfileSafety]] | Provide effective profile context to rename safety checks |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]] | Add shared non-local host/conversion boundary classification |
+| [[docs/requirements/security/input-validation#Security.Input.ProjectConfigTOMLSafety]] | Validate project config evidence before it affects flavor state |
+| [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]] | Validate resource-specific propagation payloads before state mutation |
+| [[docs/requirements/security/vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.flavor-grenade.toml` discovery to the workspace/vault root |
 | [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[docs/test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |
@@ -50,6 +53,10 @@ flavor context.
 
 - `workspace/didChangeConfiguration` or equivalent server configuration path
   for `flavorGrenade.markdownFlavor`.
+- Payload schema validation for resource-specific flavor maps, including size,
+  enum, URI scheme, dangerous-key, resource ownership, and stale-entry checks.
+- Confined, size-limited, schema-validated project config evidence for
+  `.flavor-grenade.toml`.
 - Effective flavor resolver for explicit and `auto` settings.
 - Flavor-bearing parse or analysis context.
 - Initial profile gates for Original Markdown, CommonMark, and Obsidian.
@@ -58,6 +65,8 @@ flavor context.
   bibliography-bound, MDX/JSX, and execution-bound references before
   diagnostics, navigation, or rename treat a target as local.
 - Spawned LSP integration tests for supported and unsupported flavor ids.
+- Security fixtures for malformed propagation payloads and unsafe project
+  config evidence.
 
 ### Out of Scope
 
@@ -76,6 +85,8 @@ flavor context.
 - Spawned-server integration evidence proves handler refresh, resource-specific
   effective flavor state, and host/conversion boundary classification across
   the process boundary.
+- Invalid payloads, unsafe resource keys, unsafe TOML evidence, and dangerous
+  object keys are rejected before flavor state changes.
 
 ## Gate Verification
 

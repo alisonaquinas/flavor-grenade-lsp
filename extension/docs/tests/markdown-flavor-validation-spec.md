@@ -34,6 +34,12 @@ reviewer or command that produced it, and links the verification output.
 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Displayed flavor id and label table traced to `docs/research/` or `docs/ofm-spec/`. |
 | `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | Command output or reviewer notes listing allowed historical `ofmarkdown` mentions and proving current activation, document selector, package, contribution, and host tests do not depend on language promotion. |
 
+Evidence artifacts must be sanitized before commit. They must not include note
+body text, frontmatter values, `.flavor-grenade.toml` contents, environment
+variables, API-like tokens, local usernames, home-directory paths, or raw server
+stderr/stdout that contains vault content. Use repository-relative paths and
+redacted excerpts when command output is needed.
+
 ## Exit Criteria
 
 - Product review validates selector behavior in VS Code.
