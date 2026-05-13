@@ -34,6 +34,12 @@ selection ranges.
 | Source | Phase responsibility |
 |---|---|
 | [[ofm-spec/index]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
+| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Preserve vault-aware wiki and Markdown link resolution in Obsidian flavor |
+| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Preserve same-document heading anchor behavior for Obsidian notes |
+| [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Preserve ambiguous heading diagnostics under Obsidian normalization |
+| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Preserve Obsidian embed and Markdown image attachment intelligence |
+| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Preserve vault file-operation refactors for Obsidian references |
+| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Preserve document links, folding, and selection ranges for Obsidian structures |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
 | [[gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |

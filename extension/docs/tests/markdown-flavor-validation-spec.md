@@ -10,14 +10,18 @@ Validation proves the extension behavior matches user-facing product intent.
 
 ## Test Cases
 
-| Spec ID | Evidence | Acceptance criteria |
+| Spec ID | Planned/generated evidence | Acceptance criteria |
 |---|---|---|
 | EXT-MF-VA-001 | `extension/docs/tests/evidence/markdown-flavor-selector-smoke.md` | User can identify the effective Markdown flavor without using VS Code's language picker. |
 | EXT-MF-VA-002 | `extension/docs/tests/evidence/markdown-flavor-settings-scope.md` | Workspace-folder and user settings are written at the expected scope for override flows. |
 | EXT-MF-VA-003 | `extension/docs/tests/evidence/markdown-flavor-host-log.md` | No call changes a Markdown document to `ofmarkdown` or another custom Markdown language id. |
 | EXT-MF-VA-004 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Every displayed flavor has a source-backed profile and no unresearched flavor is exposed. |
 
-## Required Evidence Artifacts
+## Planned Evidence Artifacts
+
+These paths are generated validation artifacts, not current proof. A validation
+row cannot move to passing until the artifact exists, is dated, names the
+reviewer or command that produced it, and links the verification output.
 
 | Artifact path | Required content |
 |---|---|
@@ -31,5 +35,5 @@ Validation proves the extension behavior matches user-facing product intent.
 - Product review validates selector behavior in VS Code.
 - Screenshots or smoke records show Markdown flavor behavior.
 - Review evidence confirms the extension does not retcon language mode state.
-- Evidence artifacts exist at the paths above before validation rows move from
-  planned/failing to passing.
+- Planned evidence artifacts exist at the paths above before validation rows
+  move from planned/failing to passing.

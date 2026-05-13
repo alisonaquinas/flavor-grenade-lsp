@@ -83,9 +83,9 @@ Markdown.
 The extension contributes a status bar item or equivalent command surface:
 
 ```text
-Markdown Flavor: Auto (Obsidian)
+Markdown Flavor: Auto Detect (Obsidian)
 Markdown Flavor: CommonMark
-Markdown Flavor: Original
+Markdown Flavor: Original Markdown
 Markdown Flavor: Obsidian
 Markdown Flavor: GitHub Flavored Markdown
 Markdown Flavor: GitLab Flavored Markdown

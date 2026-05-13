@@ -23,9 +23,16 @@ wired into verification.
 ## Work Scope
 
 - Update CI workflow tests if needed.
-- Ensure `npm test` runs `markdown-flavor.test.ts`.
-- Ensure `npm run test:host` runs `markdown-flavor.test.js`.
+- Ensure `npm test` runs `extension/src/markdown-flavor.test.ts`.
+- Ensure `npm run test:host` runs
+  `extension/src/test/suite/markdown-flavor.test.js`.
 - Keep package and marketplace verification commands active.
+- Keep marketplace selector proof explicitly cross-linked to
+  `docs/plans/phase-E16-flavor-scoped-contributions-marketplace/TASK-309.md`,
+  where `extension/test/marketplace/readme-assets.test.ts` and
+  `extension/test/marketplace/vsix-assets.test.ts` are updated for selector
+  proof.
+- Keep `bun run lint:docs` covering `extension/docs/**/*.md`.
 - Cross-link server-side `GAP-S-010` so CI protection covers the root unit,
   integration, BDD, and extension host flavor suites together.
 
@@ -46,6 +53,8 @@ wired into verification.
 
 - [ ] Local extension commands include flavor tests.
 - [ ] CI verification detects missing host flavor suite.
+- [ ] CI verification detects missing marketplace selector-proof handoff.
+- [ ] CI verification detects missing extension docs lint coverage.
 - [ ] CI verification detects missing root flavor BDD/spec wiring and missing
       extension host flavor wiring.
 - [ ] Extension verification spec rows are updated.

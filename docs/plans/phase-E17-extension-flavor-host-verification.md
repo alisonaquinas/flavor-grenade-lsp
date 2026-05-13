@@ -28,7 +28,7 @@ safety evidence.
 | Requirement | Phase responsibility |
 |---|---|
 | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add host coverage for flavor selector behavior |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
+| [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
 | [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md) | Implement extension host e2e test cases |
 | [extension markdown flavor verification spec](../../extension/docs/tests/markdown-flavor-verification-spec.md) | Wire extension commands and CI gates |

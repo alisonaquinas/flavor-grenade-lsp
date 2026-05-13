@@ -28,3 +28,11 @@ completion or quick fixes where useful.
 
 `TASK-353` adds unit, integration, BDD, and validation coverage for
 `stack-overflow`.
+
+## Deferred Follow-Up Notes
+
+Live Stack Exchange tag, question, answer, user, and site metadata lookup is out
+of scope for Phase 34. Any later Stack Exchange API behavior must be opened as a
+separate platform-integration ticket; Phase 34 remains responsible for local
+Stack Overflow Markdown syntax, tag-reference shape support, and portability
+diagnostics.

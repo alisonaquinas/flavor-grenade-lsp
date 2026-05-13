@@ -211,7 +211,7 @@ the result through parser and cache paths, gates initial Obsidian-only behavior
 for Original Markdown and CommonMark, and adds spawned-server integration tests
 for supported and unsupported flavor ids.
 
-Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[test/markdown-flavor-integration-spec]]
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[test/markdown-flavor-integration-spec]]
 
 Implementation plan: [[plans/phase-20-markdown-flavor-server-propagation]]
 
@@ -221,7 +221,9 @@ Replace stale BDD assumptions about `ofmarkdown` language assignment with
 acceptance tests that track effective flavor separately from VS Code language
 mode. This phase implements the Markdown flavor BDD steps, adds verification
 checks that the flavor test layers stay wired into CI, and records validation
-evidence tying the displayed/profiled flavor set to research.
+evidence tying the displayed/profiled flavor set to research. This phase is a
+validation and release gate; server dialect phases may proceed once Phase 20
+propagation and Phase 19 model readiness are available.
 
 Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-e2e-spec]], [[test/markdown-flavor-verification-spec]], [[test/markdown-flavor-validation-spec]]
 
@@ -232,6 +234,9 @@ Implementation plan: [[plans/phase-21-markdown-flavor-bdd-validation]]
 Implement actual language support for `original`: historical core constructs,
 LSP behavior for supported syntax, and explicit non-core treatment for fenced
 code, tables, task lists, wiki links, and callouts.
+
+Depends on Phase 19 model readiness and Phase 20 server propagation. Phase 21
+validates release evidence but is not a server dialect prerequisite.
 
 Implementation plan: [[plans/phase-22-original-markdown-language-support]]
 
@@ -250,6 +255,8 @@ Reframe existing OFM intelligence as behavior for the `obsidian` flavor under
 the selector model. This phase preserves wiki links, embeds, tags, block
 anchors, callouts, vault-local resolution, and structural LSP behavior without
 requiring `ofmarkdown` language promotion.
+
+Requirement links: [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]]
 
 Implementation plan: [[plans/phase-24-obsidian-flavor-language-support]]
 
@@ -340,11 +347,11 @@ Implementation plan: [[plans/phase-34-stack-overflow-markdown-language-support]]
 | 17 | [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
 | 18 | [[requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[requirements/security/supply-chain#Security.Supply.ExactPinning]] |
 | 19 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 20 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] |
+| 20 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] |
 | 21 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-validation-spec]] |
-| 22 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 22 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] |
 | 23 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
-| 24 | [[ofm-spec/index]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] |
+| 24 | [[ofm-spec/index]], [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 | 25 | [[research/github-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 | 26 | [[research/gitlab-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 | 27 | [[research/pandoc-markdown-deep-research-report]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
@@ -466,7 +473,10 @@ registration, status transitions, custom server path failures, and command
 bridge validation. Gate: extension tests run in CI and cover every required
 behavior group.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]]
+
+Historical trace: the retired language-mode membership-refresh requirement is
+superseded by [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]].
 
 Implementation plan: [[plans/phase-E9-extension-host-regression-harness]]
 
@@ -500,7 +510,8 @@ generic Markdown. Add snippets, scoped keybindings, language configuration
 refinements, and contribution scoping tests. Gate: OFMarkdown contributions
 appear only in intended language or command contexts.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]]
+Historical trace: retired `ofmarkdown` contribution scoping is superseded by
+[[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]].
 
 Implementation plan: [[plans/phase-E12-ofmarkdown-editor-contributions]]
 
@@ -523,7 +534,10 @@ validation so bundled binaries stay aligned with the extension. Gate: refresh
 triggers assign the correct language mode and packaged VSIX checks catch target
 or version mismatches.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]], [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]]
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]]
+
+Historical trace: the retired language-mode membership-refresh requirement is
+superseded by [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]].
 
 Implementation plan: [[plans/phase-E14-membership-refresh-compatibility-guardrails]]
 
@@ -535,7 +549,7 @@ built-in `markdown` language mode, adds `flavorGrenade.markdownFlavor`, resolves
 Auto Detect from markers/settings/membership inputs, persists overrides to the
 correct project or user scope, and propagates effective flavor to the server.
 
-Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]]
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]]
 
 Implementation plan: [[plans/phase-E15-markdown-flavor-selector-settings]]
 
@@ -559,7 +573,7 @@ CommonMark fallback, Obsidian auto-detection, and manual-language safety. It
 also retires stale language-mode host expectations and updates root plus
 extension traceability matrices.
 
-Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
 
 Implementation plan: [[plans/phase-E17-extension-flavor-host-verification]]
 

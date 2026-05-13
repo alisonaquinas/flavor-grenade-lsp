@@ -26,7 +26,7 @@ Detailed cases for the rows below live in:
 | `Extension.MarkdownFlavor.ManualLanguageSafety` | Planned unit and host tests | ⏳ planned | Must preserve non-`markdown` language ids, including `mdx`. |
 | `Extension.MarkdownFlavor.Refresh` | Planned refresh-trigger tests | ⏳ planned | Replaces retired membership refresh behavior. |
 | `Extension.Contributions.FlavorScoped` | Existing contribution tests require rewrite | 🔴 failing | Replace `ofmarkdown` language scopes with flavor/context keys. |
-| `Extension.Marketplace.OFMProof` | Existing marketplace asset tests require selector proof update | 🔴 failing | README proof must show Markdown flavor behavior. |
+| `Extension.Marketplace.OFMProof` | E16/TASK-309 updates `extension/test/marketplace/readme-assets.test.ts` and `extension/test/marketplace/vsix-assets.test.ts` for selector proof | 🔴 failing | README proof must show Markdown flavor behavior; final verification keeps the selector-proof handoff explicit. |
 | `Extension.Tests.HostCoverage` | Existing host suite plus planned `markdown-flavor.test.js` | 🔴 failing | Host suite needs selector, persistence, and language-preservation scenarios. |
 
 ## Test-Level Matrix
@@ -34,9 +34,9 @@ Detailed cases for the rows below live in:
 | Level | Evidence | Status | Required outcome |
 |---|---|---|---|
 | Unit | `extension/src/markdown-flavor.test.ts`; updated contribution tests | 📋 planned | Pure extension logic covers selector, flavor ids, auto-detection, persistence, propagation calls, refresh triggers, and flavor-scoped contributions. |
-| Integration | `extension/src/activation-gate.test.ts`; marketplace/package tests; server refresh wiring tests | 🔴 needs update | Extension startup and package evidence align with Markdown flavor selection instead of custom language mode. |
+| Integration | `extension/src/activation-gate.test.ts`; `extension/test/marketplace/readme-assets.test.ts`; `extension/test/marketplace/vsix-assets.test.ts`; server refresh wiring tests | 🔴 needs update | Extension startup and package evidence align with Markdown flavor selection instead of custom language mode. |
 | E2E | `extension/src/test/suite/markdown-flavor.test.js` | 📋 planned | VS Code host proves user-visible selector, settings persistence, language preservation, and generic Markdown fallback. |
-| Verification | `npm test`; `npm run compile`; `npm run test:host`; CI workflow checks | 🔴 needs update | Local and CI gates run the new flavor tests and fail on stale `ofmarkdown` assumptions. |
+| Verification | `npm test`; `npm run compile`; `npm run test:host`; `npm run verify:marketplace-assets`; CI workflow checks; `bun run lint:docs` for `extension/docs/**/*.md` | 🔴 needs update | Local and CI gates run the new flavor tests, protect marketplace selector proof through E16/TASK-309, and fail on stale `ofmarkdown` assumptions. |
 | Validation | BDD scenarios plus research-source trace review | 🔴 needs step updates | Acceptance evidence proves required flavor ids and dialect profiles match the research corpus. |
 
 ## Legacy Tests To Retire Or Rewrite

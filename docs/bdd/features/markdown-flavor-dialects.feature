@@ -1,4 +1,4 @@
-@extension @vscode @markdown-flavor @original-markdown @commonmark @obsidian
+@extension @vscode @markdown-flavor @original @commonmark @obsidian
 @gfm @glfm @pandoc @multimarkdown @mdx @kramdown @markdown-extra @r-markdown @reddit @stack-overflow
 @adr:ADR020
 Feature: Markdown flavor dialect behavior
@@ -99,7 +99,7 @@ Feature: Markdown flavor dialect behavior
       | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
       | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |
 
-  Scenario Outline: Flavor signatures produce observable analysis behavior
+  Scenario Outline: Flavor signatures produce observable LSP behavior
     Given "flavorGrenade.markdownFlavor" is set to "<id>"
     And the document contains:
       """
@@ -107,7 +107,7 @@ Feature: Markdown flavor dialect behavior
       """
     When Flavor Grenade analyzes the document
     Then the effective Markdown flavor is "<id>"
-    And the analysis records "<expected>"
+    And a flavor-scoped diagnostic, semantic token, hover, document link, or completion result includes "<expected>"
     And the document language id remains "markdown"
 
     Examples:

@@ -14,14 +14,16 @@ updated: 2026-05-13
 | Phase | 21 |
 | Title | Markdown Flavor BDD Verification And Validation |
 | Status | planned |
-| Gate | BDD, verification, and validation evidence execute against flavor state |
+| Gate | BDD, verification, and validation evidence execute against flavor state before release |
 | Depends on | Phase 20, Phase E15 |
 
 ## Objective
 
 Replace stale `ofmarkdown` BDD assumptions with flavor-state acceptance tests,
 then wire the unit, integration, e2e, verification, and validation specs into
-traceable gates.
+traceable release gates. This phase validates the flavor model and selector; it
+does not block server dialect implementation after Phase 20 propagation is
+ready.
 
 ## Requirement Trace
 

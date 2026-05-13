@@ -32,8 +32,21 @@ verification evidence.
 
 - A flavor phase may mark a surface `not applicable` only when the research
   source shows that the flavor has no syntax or behavior for that surface.
-- A flavor phase may mark a surface `deferred` only with a reason and a follow-up
-  ticket, such as a live platform API lookup that is outside local Markdown
-  analysis.
+- A flavor phase may mark a surface `deferred` only with a reason plus either a
+  follow-up ticket or an explicit out-of-scope note, such as a live platform API
+  lookup that is outside local Markdown analysis.
 - Validation evidence must cite this matrix and confirm that all required
   surfaces are either implemented or intentionally deferred with links.
+
+## Deferred Platform Lookup Notes
+
+These follow-ups are outside the local Markdown-language-support phases unless
+a later platform-integration ticket explicitly adds authenticated or networked
+lookup behavior.
+
+| Flavor | Deferred lookup | Follow-up disposition |
+|---|---|---|
+| `glfm` | Live GitLab issue, merge request, commit, user, and project metadata lookup. | Out of scope for Phase 26; local GLFM syntax and reference shape support remains required. |
+| `mdx` | React/TypeScript symbol lookup for JSX components, imports, and expressions. | Out of scope for Phase 29; Markdown/MDX boundary support remains required without owning VS Code `mdx` language mode. |
+| `reddit` | Live Reddit user, subreddit, post, comment, and moderation-state lookup. | Out of scope for Phase 33; local Reddit Markdown syntax and portability diagnostics remain required. |
+| `stack-overflow` | Live Stack Exchange tag, question, answer, user, and site metadata lookup. | Out of scope for Phase 34; local Stack Overflow Markdown syntax and tag-reference shape support remain required. |

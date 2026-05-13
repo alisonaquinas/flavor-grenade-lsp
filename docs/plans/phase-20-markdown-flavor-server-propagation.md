@@ -30,7 +30,7 @@ flavor context.
 |---|---|
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
+| [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
 | [[test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |

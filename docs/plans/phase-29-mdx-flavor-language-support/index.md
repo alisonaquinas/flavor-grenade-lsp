@@ -28,3 +28,11 @@ without type-checking React components.
 
 `TASK-338` proves `mdx` flavor does not overwrite a user-selected VS Code `mdx`
 language mode.
+
+## Deferred Follow-Up Notes
+
+React or TypeScript symbol lookup for JSX components, imports, and expressions
+is out of scope for Phase 29. Any later cross-language symbol resolution must be
+opened as a separate platform- or language-service integration ticket; Phase 29
+remains responsible for local Markdown/MDX boundary support and VS Code
+language-mode safety.

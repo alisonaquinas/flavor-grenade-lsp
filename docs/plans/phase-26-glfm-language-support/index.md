@@ -27,3 +27,10 @@ behavior, and heading/link conventions that can be modeled locally.
 navigation while separating host-only GitLab behavior.
 
 `TASK-329` adds unit, integration, BDD, and validation coverage for `glfm`.
+
+## Deferred Follow-Up Notes
+
+Live GitLab issue, merge request, commit, user, and project metadata lookup is
+out of scope for Phase 26. Any later networked GitLab lookup must be opened as a
+separate platform-integration ticket; Phase 26 remains responsible for local
+GLFM syntax, reference-shape recognition, and portability diagnostics.

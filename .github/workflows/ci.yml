@@ -138,9 +138,9 @@ jobs:
 
       # markdownlint-obsidian enforces Obsidian Flavored Markdown conventions
       # defined in .obsidian-linter.jsonc, including wikilink/embed resolution.
-      # Applied to docs/ and website/docs/ — other Markdown is handled by
-      # markdownlint-cli2. Explicit globs are required: a bare directory
-      # positional arg scans non-Markdown files.
+      # Applied to docs/, website/docs/, and extension/docs/ — other Markdown
+      # is handled by markdownlint-cli2. Explicit globs are required: a bare
+      # directory positional arg scans non-Markdown files.
       - run: bun run lint:docs
 
   markdown-lint-other:
@@ -158,7 +158,7 @@ jobs:
       # Lints all Markdown files that are NOT under OFM docs roots, .github/,
       # node_modules/, or generated extension test fixtures. Those directories
       # are handled separately or skipped.
-      - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
+      - run: bunx markdownlint-cli2 "**/*.md" "!docs/**" "!website/docs/**" "!extension/docs/**" "!.github/**" "!node_modules/**" "!extension/node_modules/**" "!extension/.vscode-test/**"
 
   website-checks:
     name: Website checks

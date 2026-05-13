@@ -27,3 +27,10 @@ behavior, supported spoiler syntax, and portability boundaries.
 completion or quick fixes where useful.
 
 `TASK-350` adds unit, integration, BDD, and validation coverage for `reddit`.
+
+## Deferred Follow-Up Notes
+
+Live Reddit user, subreddit, post, comment, and moderation-state lookup is out
+of scope for Phase 33. Any later Reddit API behavior must be opened as a
+separate platform-integration ticket; Phase 33 remains responsible for local
+Reddit Markdown syntax, recognized link shapes, and portability diagnostics.

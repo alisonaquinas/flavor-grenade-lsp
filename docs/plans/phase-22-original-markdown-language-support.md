@@ -15,13 +15,15 @@ updated: 2026-05-13
 | Title | Original Markdown Language Support |
 | Status | planned |
 | Gate | Historical Original Markdown behavior is implemented and tested |
-| Depends on | Phase 21 |
+| Depends on | Phase 19, Phase 20 |
 
 ## Objective
 
 Implement actual language support for the `original` flavor: historical core
 Markdown constructs, deliberate exclusion of later extensions, and LSP behavior
 that does not accidentally enable CommonMark, GFM, or Obsidian features.
+Phase 21 is a validation and release gate for flavor evidence, not a dependency
+for this server-side dialect work.
 
 ## Scope
 

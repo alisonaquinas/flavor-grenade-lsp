@@ -135,6 +135,31 @@ extension implementation capabilities.
 
 ---
 
+## Retired Historical Tags
+
+The following tags remain as historical anchors for completed pre-ADR020 phase
+records. They are not active gates for new work.
+
+### Extension.LanguageMode.MembershipRefresh
+
+**Tag:** Extension.LanguageMode.MembershipRefresh
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.MarkdownFlavor.Refresh.
+**Note:** Historical E9/E14 plans used this tag for `ofmarkdown` promotion and
+membership refresh behavior. Current work keeps `.md` documents in VS Code's
+`markdown` language id and refreshes Markdown flavor state instead.
+
+### Extension.Contributions.OFMarkdownScoped
+
+**Tag:** Extension.Contributions.OFMarkdownScoped
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.Contributions.FlavorScoped.
+**Note:** Historical E12 plans used this tag for `ofmarkdown` contribution
+scoping. Current work scopes contribution behavior through Markdown
+flavor/context state without requiring a custom Markdown language id.
+
+---
+
 ## Extension.Activation.MarkerEvents
 
 **Tag:** Extension.Activation.MarkerEvents
