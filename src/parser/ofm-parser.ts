@@ -101,7 +101,7 @@ export class OFMParser {
     };
   }
 
-  /** Stage 8: scan ATX headings (`#` to `######`). */
+  /** Stage 8: scan ATX (`#`) and setext (`===` / `---`) headings. */
   private static scanHeadings(
     text: string,
     opaqueRegions: ReturnType<typeof mark>,
@@ -111,7 +111,7 @@ export class OFMParser {
     let match: RegExpExecArray | null;
 
     while ((match = pattern.exec(text)) !== null) {
-      if (opaqueRegions.some((r) => match!.index >= r.start && match!.index < r.end)) continue;
+      if (OFMParser.isOpaqueOffset(match.index, opaqueRegions)) continue;
 
       entries.push({
         level: match[1].length,
@@ -120,6 +120,48 @@ export class OFMParser {
       });
     }
 
-    return entries;
+    const lines = OFMParser.indexLines(text);
+    for (let i = 1; i < lines.length; i++) {
+      const underline = lines[i];
+      const previous = lines[i - 1];
+      const underlineMatch = /^[ \t]*(=+|-+)[ \t]*$/.exec(underline.content);
+      if (underlineMatch === null || previous.content.trim().length === 0) continue;
+      if (
+        OFMParser.isOpaqueOffset(previous.start, opaqueRegions) ||
+        OFMParser.isOpaqueOffset(underline.start, opaqueRegions)
+      ) {
+        continue;
+      }
+
+      entries.push({
+        level: underlineMatch[1][0] === '=' ? 1 : 2,
+        text: previous.content.trim(),
+        range: rangeFromOffsets(text, previous.start, underline.end),
+      });
+    }
+
+    return entries.sort((a, b) => {
+      if (a.range.start.line !== b.range.start.line) return a.range.start.line - b.range.start.line;
+      return a.range.start.character - b.range.start.character;
+    });
+  }
+
+  private static isOpaqueOffset(offset: number, opaqueRegions: ReturnType<typeof mark>): boolean {
+    return opaqueRegions.some((region) => offset >= region.start && offset < region.end);
+  }
+
+  private static indexLines(text: string): Array<{ content: string; start: number; end: number }> {
+    const lines: Array<{ content: string; start: number; end: number }> = [];
+    const pattern = /[^\r\n]*(?:\r\n|\n|\r|$)/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = pattern.exec(text)) !== null) {
+      if (match[0] === '') break;
+      const start = match.index;
+      const content = match[0].replace(/\r?\n$|\r$/, '');
+      lines.push({ content, start, end: start + match[0].length });
+    }
+
+    return lines;
   }
 }

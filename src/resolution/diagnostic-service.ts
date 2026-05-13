@@ -25,6 +25,7 @@ import { classifyMarkdownTarget } from './markdown-target-classifier.js';
  * - **FG005** broken block reference (`[[…#^id]]` anchor not found)
  * - **FG006** non-breaking space (U+00A0) in the document body
  * - **FG007** malformed YAML frontmatter
+ * - **FG101** Original Markdown portability warning for unsupported extensions
  */
 @Injectable()
 export class DiagnosticService {
@@ -71,6 +72,10 @@ export class DiagnosticService {
       });
     }
 
+    if (doc.markdownFlavor === 'original') {
+      diagnostics.push(...this.diagnoseOriginalMarkdownPortability(doc));
+    }
+
     for (const entry of doc.index.wikiLinks) {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
@@ -95,6 +100,136 @@ export class DiagnosticService {
     const nbspDiags = this.diagnoseNbsp(doc);
     diagnostics.push(...nbspDiags);
     return diagnostics;
+  }
+
+  private diagnoseOriginalMarkdownPortability(doc: OFMDoc): Diagnostic[] {
+    const diagnostics: Diagnostic[] = [];
+    const lineStartOffsets = this.lineStartOffsets(doc.text);
+    const lines = doc.text.split('\n');
+    let offset = 0;
+    let fence: string | undefined;
+
+    for (const rawLine of lines) {
+      const line = rawLine.replace(/\r$/, '');
+      const lineEnd = offset + line.length;
+
+      if (fence !== undefined) {
+        if (line.trimStart().startsWith(fence)) {
+          fence = undefined;
+        }
+        offset += rawLine.length + 1;
+        continue;
+      }
+
+      const fenceMatch = /^[ \t]{0,3}(```+|~~~+)/.exec(line);
+      if (fenceMatch !== null) {
+        fence = fenceMatch[1][0]!.repeat(fenceMatch[1].length);
+        diagnostics.push(
+          this.originalPortabilityDiagnostic(
+            offset + (fenceMatch.index ?? 0),
+            lineEnd,
+            lineStartOffsets,
+            'Fenced code blocks are not part of Original Markdown.',
+          ),
+        );
+        offset += rawLine.length + 1;
+        continue;
+      }
+
+      if (!this.isOpaqueOffset(offset, doc)) {
+        if (this.isPipeTableSeparator(line)) {
+          diagnostics.push(
+            this.originalPortabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              'Pipe tables are not part of Original Markdown.',
+            ),
+          );
+        }
+
+        if (/^[ \t]{0,3}[-*+][ \t]+\[[ xX]\][ \t]+/.test(line)) {
+          diagnostics.push(
+            this.originalPortabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              'Task list items are not part of Original Markdown.',
+            ),
+          );
+        }
+
+        if (/^[ \t]{0,3}>[ \t]*\[![^\]]+\]/.test(line)) {
+          diagnostics.push(
+            this.originalPortabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              'Callouts are not part of Original Markdown.',
+            ),
+          );
+        }
+      }
+
+      offset += rawLine.length + 1;
+    }
+
+    const wikiPattern = /!?\[\[[^\]\n]+\]\]/g;
+    let match: RegExpExecArray | null;
+    while ((match = wikiPattern.exec(doc.text)) !== null) {
+      if (this.isOpaqueOffset(match.index, doc)) continue;
+      diagnostics.push(
+        this.originalPortabilityDiagnostic(
+          match.index,
+          match.index + match[0].length,
+          lineStartOffsets,
+          'Wiki links and embeds are not part of Original Markdown.',
+        ),
+      );
+    }
+
+    return diagnostics.sort((a, b) => {
+      if (a.range.start.line !== b.range.start.line) return a.range.start.line - b.range.start.line;
+      return a.range.start.character - b.range.start.character;
+    });
+  }
+
+  private originalPortabilityDiagnostic(
+    startOffset: number,
+    endOffset: number,
+    lineStartOffsets: number[],
+    message: string,
+  ): Diagnostic {
+    return {
+      range: {
+        start: this.offsetToPosition(startOffset, lineStartOffsets),
+        end: this.offsetToPosition(endOffset, lineStartOffsets),
+      },
+      severity: 2,
+      code: 'FG101',
+      source: 'flavor-grenade',
+      message,
+    };
+  }
+
+  private isPipeTableSeparator(line: string): boolean {
+    return (
+      line.includes('|') && line.includes('---') && /^[ \t]*\|?[ \t:|-]+\|[ \t:|-]+$/.test(line)
+    );
+  }
+
+  private lineStartOffsets(text: string): number[] {
+    const starts = [0];
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '\n') {
+        starts.push(i + 1);
+      }
+    }
+    return starts;
+  }
+
+  private isOpaqueOffset(offset: number, doc: OFMDoc): boolean {
+    return doc.opaqueRegions.some((region) => offset >= region.start && offset < region.end);
   }
 
   private diagnoseMarkdownTarget(

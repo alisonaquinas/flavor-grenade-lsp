@@ -52,6 +52,21 @@ Later dialect phases must add surface-specific false-local-resolution fixtures
 before diagnostics, navigation, rename, hover, and semantic-token behavior are
 marked complete for that flavor.
 
+## Phase 22 Original Markdown Review
+
+Original Markdown has no host-specific syntax in the profile registry. Phase 22
+therefore treats later extensions such as wiki links, embeds, tags, callouts,
+pipe tables, task lists, and fenced code blocks as inert or portability-warning
+syntax, not as local vault navigation or rename targets.
+
+Evidence:
+
+| Surface | Result |
+|---|---|
+| Diagnostics | FG101 portability warnings cover Original-inert extension syntax. |
+| Completion | Obsidian-only completion contexts return no candidates for Original Markdown. |
+| Navigation / rename | Inactive constructs have no Original index entries, so shared local handlers do not treat them as vault targets. |
+
 ## Validation Result
 
 | Validation row | Result | Evidence |

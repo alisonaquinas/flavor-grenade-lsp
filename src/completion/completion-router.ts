@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import type { CompletionItem } from 'vscode-languageserver-types';
 import { ContextAnalyzer } from './context-analyzer.js';
+import type { CompletionContext } from './context-analyzer.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
 import { HeadingCompletionProvider } from './heading-completion-provider.js';
 import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-provider.js';
@@ -80,6 +81,9 @@ export class CompletionRouter {
 
     // 4. Detect context
     const context = this.contextAnalyzer.analyze(text, offset);
+    if (doc.markdownFlavor === 'original' && this.isOriginalInactiveContext(context)) {
+      return { items: [], isIncomplete: false };
+    }
 
     // 5. Dispatch to provider
     let result: { items: CompletionItem[]; isIncomplete: boolean };
@@ -222,6 +226,17 @@ export class CompletionRouter {
       insertText: newText,
       textEdit: { range, newText },
     };
+  }
+
+  private isOriginalInactiveContext(context: CompletionContext): boolean {
+    return [
+      'wiki-link',
+      'wiki-link-heading',
+      'wiki-link-block',
+      'embed',
+      'tag',
+      'callout',
+    ].includes(context.kind);
   }
 
   private docIdForUri(uri: string): DocId | undefined {

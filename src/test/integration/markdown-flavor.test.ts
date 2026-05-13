@@ -36,6 +36,11 @@ class LspClient {
   private readonly proc: ChildProcessWithoutNullStreams;
   private buffer = Buffer.alloc(0);
   private readonly responses = new Map<number, (msg: unknown) => void>();
+  private readonly notificationListeners: Array<{
+    method: string;
+    resolve: (msg: unknown) => void;
+  }> = [];
+  private readonly bufferedNotifications: Array<{ method: string; msg: unknown }> = [];
   private stderr = '';
   private idCounter = 1;
 
@@ -53,6 +58,8 @@ class LspClient {
           const id = Number(msg.id);
           this.responses.get(id)?.(message);
           this.responses.delete(id);
+        } else if ('method' in msg && !('id' in msg)) {
+          this.routeNotification(msg.method as string, message);
         }
       }
     });
@@ -80,6 +87,34 @@ class LspClient {
     this.proc.stdin.write(frame({ jsonrpc: '2.0', method, params }));
   }
 
+  waitForNotification(method: string): Promise<unknown> {
+    const bufferedIndex = this.bufferedNotifications.findIndex((entry) => entry.method === method);
+    if (bufferedIndex !== -1) {
+      const [entry] = this.bufferedNotifications.splice(bufferedIndex, 1);
+      return Promise.resolve(entry.msg);
+    }
+
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        const listenerIndex = this.notificationListeners.findIndex(
+          (entry) => entry.method === method && entry.resolve === resolve,
+        );
+        if (listenerIndex !== -1) {
+          this.notificationListeners.splice(listenerIndex, 1);
+        }
+        reject(new Error(`Timed out waiting for ${method}. Server stderr:\n${this.stderr}`));
+      }, 5000);
+
+      this.notificationListeners.push({
+        method,
+        resolve: (msg) => {
+          clearTimeout(timer);
+          resolve(msg);
+        },
+      });
+    });
+  }
+
   async close(): Promise<void> {
     await this.request('shutdown');
     this.notify('exit');
@@ -87,6 +122,17 @@ class LspClient {
 
   kill(): void {
     this.proc.kill();
+  }
+
+  private routeNotification(method: string, msg: unknown): void {
+    const listenerIndex = this.notificationListeners.findIndex((entry) => entry.method === method);
+    if (listenerIndex !== -1) {
+      const [listener] = this.notificationListeners.splice(listenerIndex, 1);
+      listener.resolve(msg);
+      return;
+    }
+
+    this.bufferedNotifications.push({ method, msg });
   }
 }
 
@@ -181,6 +227,77 @@ describe('Markdown flavor spawned-server propagation', () => {
       wikiLinks: 0,
       headings: 1,
     });
+
+    await client.close();
+  }, 15000);
+
+  it('applies Original Markdown parser, diagnostics, and completion behavior', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'original.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "original"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        'Setext Title',
+        '============',
+        '',
+        '# ATX Title',
+        '',
+        '[[Note]]',
+        '| a | b |',
+        '|---|---|',
+        '- [x] task',
+        '> [!note]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual([
+      'FG101',
+      'FG101',
+      'FG101',
+      'FG101',
+    ]);
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'original',
+      wikiLinks: 0,
+      headings: 2,
+    });
+
+    const completion = await client.request('textDocument/completion', {
+      textDocument: { uri: noteUri },
+      position: { line: 5, character: 2 },
+      context: { triggerCharacter: '[' },
+    });
+    expect(completion.result).toMatchObject({ items: [], isIncomplete: false });
 
     await client.close();
   }, 15000);

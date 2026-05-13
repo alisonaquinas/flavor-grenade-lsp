@@ -71,10 +71,19 @@ type ProfileInput = Omit<
   'label' | 'surfaces' | 'security' | 'parserCapabilities'
 > & {
   surfaceSummary: string;
+  surfaceStatus?: MarkdownFlavorSurfaceStatus;
 };
 
-function plannedSurfaces(owningTicket: string, summary: string): MarkdownFlavorProfile['surfaces'] {
-  const surface = { status: 'planned' as const, summary, owningTicket };
+function lspSurfaces(
+  owningTicket: string,
+  summary: string,
+  status: MarkdownFlavorSurfaceStatus = 'planned',
+): MarkdownFlavorProfile['surfaces'] {
+  const surface: MarkdownFlavorSurfaceProfile = {
+    status,
+    summary,
+    ...(status === 'planned' ? { owningTicket } : {}),
+  };
   return {
     diagnostics: surface,
     completion: surface,
@@ -103,7 +112,7 @@ function profile(input: ProfileInput): MarkdownFlavorProfile {
   return {
     ...input,
     label: MARKDOWN_FLAVOR_LABELS[input.id],
-    surfaces: plannedSurfaces(input.phaseTicket, input.surfaceSummary),
+    surfaces: lspSurfaces(input.phaseTicket, input.surfaceSummary, input.surfaceStatus),
     security: securityProfile(),
     parserCapabilities: {
       localSyntax: input.activeSyntax,
@@ -167,6 +176,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: [],
     opaqueRegions: ['indented-code', 'inline-code', 'html'],
+    surfaceStatus: 'implemented',
     surfaceSummary:
       'Original Markdown local links, headings, symbols, folds, tokens, and safe local rename are implemented in Phase 22.',
   }),

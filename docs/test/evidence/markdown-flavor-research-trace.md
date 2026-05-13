@@ -23,6 +23,14 @@ surface entries with implemented, deferred, or not-applicable behavior evidence.
 `auto` is excluded because it is selector and detection state, not a dialect
 profile.
 
+Phase 22 replaces the `original` planned surface entries with implemented
+local Markdown behavior. Evidence is recorded in
+`src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`,
+`src/resolution/__tests__/diagnostic-service.test.ts`,
+`src/completion/__tests__/completion-router.test.ts`,
+`src/test/integration/markdown-flavor.test.ts`, and
+`docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
+
 | Flavor id | Label | Feature page | Primary source | Implementation ticket |
 |---|---|---|---|---|
 | `original` | Original Markdown | docs/features/original-markdown-flavor.md | docs/research/commonmark-and-original-markdown.md | TASK-315 |

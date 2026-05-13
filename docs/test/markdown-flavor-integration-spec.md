@@ -26,6 +26,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
 | MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
 | MF-I-009 | `src/test/integration/markdown-flavor.test.ts` | Send malformed flavor propagation payloads and unsafe `.flavor-grenade.toml` fixtures. | Oversized maps, non-file URI keys, dangerous keys, stale resources, unsafe TOML paths, oversized TOML, and invalid values are rejected before effective flavor state changes. |
+| MF-I-010 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `original` and open a document with Original core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `original`, indexes headings but not wiki links, publishes FG101 portability diagnostics, and suppresses wiki-link completions. |
 
 ## Spawned-Server IDs
 
@@ -65,6 +66,12 @@ Integration evidence for `Security.Input.FlavorPropagationPayload`,
 `Security.Input.ProjectConfigTOMLSafety`, and
 `Security.Vault.ProjectConfigConfinement`. It must prove malformed propagation
 payloads and unsafe project config evidence fail before state mutation.
+
+### MF-I-010 - Original Markdown Spawned-Server Behavior
+
+Integration evidence for Phase 22. It proves Original Markdown behavior crosses
+the JSON-RPC process boundary for parser dispatch, diagnostics, and completion
+candidate routing without requiring VS Code UI.
 
 ## Exit Criteria
 
