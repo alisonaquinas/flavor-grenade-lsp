@@ -65,7 +65,7 @@ export class OFMParser {
       blockAnchors: enableObsidianSyntax ? BlockAnchorParser.parse(text, opaqueRegions) : [],
       tags: enableObsidianSyntax ? TagParser.parse(text, opaqueRegions) : [],
       callouts: enableObsidianSyntax ? CalloutParser.parse(text) : [],
-      headings: OFMParser.scanHeadings(text, opaqueRegions),
+      headings: OFMParser.scanHeadings(text, opaqueRegions, bodyOffset),
       markdownLinks: markdownLinks.markdownLinks,
       markdownImages: markdownLinks.markdownImages,
       linkLabelRefs: markdownLinks.linkLabelRefs,
@@ -105,12 +105,14 @@ export class OFMParser {
   private static scanHeadings(
     text: string,
     opaqueRegions: ReturnType<typeof mark>,
+    bodyOffset: number,
   ): HeadingEntry[] {
     const entries: HeadingEntry[] = [];
     const pattern = /^(#{1,6})[ \t]+(.+?)[ \t]*$/gm;
     let match: RegExpExecArray | null;
 
     while ((match = pattern.exec(text)) !== null) {
+      if (match.index < bodyOffset) continue;
       if (OFMParser.isOpaqueOffset(match.index, opaqueRegions)) continue;
 
       entries.push({
@@ -124,6 +126,7 @@ export class OFMParser {
     for (let i = 1; i < lines.length; i++) {
       const underline = lines[i];
       const previous = lines[i - 1];
+      if (previous.start < bodyOffset || underline.start < bodyOffset) continue;
       const underlineMatch = /^[ \t]*(=+|-+)[ \t]*$/.exec(underline.content);
       if (underlineMatch === null || previous.content.trim().length === 0) continue;
       if (

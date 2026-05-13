@@ -33,6 +33,7 @@ Implement first-class original language support for Original Markdown, using [[d
 | [[TASK-315]] | Implement Original Markdown parser semantics | Task | in-progress |
 | [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | in-progress |
 | [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | in-progress |
+| [[BUG-045]] | Ignore frontmatter when scanning Original setext headings | Bug | done |
 | [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | open |
 | [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | open |
 
