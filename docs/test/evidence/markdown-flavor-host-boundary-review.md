@@ -116,3 +116,24 @@ GitHub platform lookup remains deferred.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 25 records GFM GitHub references as host-bound. |
+
+## Phase 26 GLFM Review
+
+GLFM declares GitLab issue, merge request, epic, commit, user, label, and
+project references as host-specific syntax in the profile registry. Phase 26
+implements local syntax for inherited GFM constructs plus inapplicable task
+markers, description lists, footnotes, and TOC tags, while live GitLab platform
+lookup remains deferred.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Inherited GFM syntax and GLFM task, description-list, footnote, TOC, and host-reference shapes are active only under effective flavor `glfm`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG202` covers malformed local GLFM description lists; GitLab host references do not become broken vault links. |
+| Completion | GLFM inapplicable task and TOC snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links, headings, inherited GFM tables, description lists, and TOC tags use local behavior where represented; `#123`, `!456`, `&789`, `@user`, and cross-project references remain `non-local-host` without network access or workspace edits. |
+
+## Phase 26 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 26 records GLFM GitLab references as host-bound. |

@@ -2,7 +2,7 @@
 id: "CHORE-124"
 title: "Phase 26 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 26
 parent: "FEAT-052"
@@ -38,12 +38,16 @@ Perform the operational sweep for GitLab Flavored Markdown language-support phas
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for glfm.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [x] Documentation trace is complete for glfm.
+- [x] Required verification evidence is attached or linked.
+- [x] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
+- [x] Phase closeout notes identify any deferred work explicitly.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Recorded local gate, unit/integration/BDD/audit evidence, verification and
+> validation N/A disposition, and GLFM deferred live GitLab lookup notes.

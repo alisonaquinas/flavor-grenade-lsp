@@ -102,6 +102,23 @@ dynamic imports, or out-of-root file reads.
 | Hover | Existing local Markdown hover surfaces remain available; live GitHub metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; GitHub issue, pull request, commit, user, and label references are rejected by remaining non-local. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 26 GLFM Disposition
+
+Phase 26 marks the `glfm` profile's local LSP surfaces implemented for the
+offline-testable GitLab syntax subset. GLFM inherits the GFM base and adds
+local indices for inapplicable task markers, description lists, footnote
+definitions, table-of-contents tags, and GitLab host-reference shapes. Live
+GitLab object lookup remains deferred.
+
+| Surface | Phase 26 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed GLFM description lists (`FG202`); inherited malformed GFM tables still use `FG201`; GitLab host objects do not become vault diagnostics. | `src/resolution/__tests__/diagnostic-service.test.ts` |
+| Completion | Implemented for GLFM inapplicable task-item and table-of-contents snippets plus inherited GFM table/task snippets; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, inherited GFM tables, GLFM description-list symbols/folds, and TOC symbols. GitLab host references remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for GLFM inapplicable task markers and footnote labels plus inherited GFM token behavior. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live GitLab metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; GitLab issue, merge request, epic, user, and project references remain non-local without integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

@@ -30,6 +30,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-011 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `commonmark` and open a document with CommonMark core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `commonmark`, indexes headings but not wiki links, publishes FG102 portability diagnostics, and suppresses wiki-link completions. |
 | MF-I-012 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `obsidian` and open a document with wiki links, embeds, tags, callouts, and block references. | Open-document analysis reports effective flavor `obsidian`, indexes wiki links, and does not publish Original/CommonMark portability diagnostics for active Obsidian syntax. |
 | MF-I-013 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `gfm` and open a document with a pipe table, task-list item, strikethrough, extended bare autolink, and Obsidian wiki link. | Open-document analysis reports effective flavor `gfm`, indexes GFM table/task/strikethrough/autolink counts, keeps wiki links inert, and does not publish CommonMark portability warnings for active GFM syntax. |
+| MF-I-014 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `glfm` and open a document with inherited GFM table syntax, GLFM inapplicable task marker, description list, footnote, TOC tag, GitLab host references, and Obsidian wiki link. | Open-document analysis reports effective flavor `glfm`, indexes GLFM local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active GLFM syntax, and classifies GitLab host references as non-local. |
 
 ## Spawned-Server IDs
 
@@ -93,6 +94,13 @@ requiring VS Code UI or `ofmarkdown` language-mode promotion.
 Integration evidence for Phase 25. It proves GFM behavior crosses the JSON-RPC
 process boundary for parser dispatch, local syntax counts, diagnostics, and
 inactive Obsidian syntax without requiring VS Code UI.
+
+### MF-I-014 - GLFM Spawned-Server Behavior
+
+Integration evidence for Phase 26. It proves GLFM behavior crosses the JSON-RPC
+process boundary for parser dispatch, local syntax counts, diagnostics,
+inactive Obsidian syntax, and GitLab host-boundary classification without
+requiring GitLab service access or VS Code UI.
 
 ## Exit Criteria
 

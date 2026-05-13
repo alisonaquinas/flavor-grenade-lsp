@@ -2,7 +2,7 @@
 id: "CHORE-123"
 title: "Phase 26 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 26
 parent: "FEAT-052"
@@ -33,11 +33,15 @@ Perform trace and documentation kickoff hygiene for GitLab Flavored Markdown lan
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for glfm.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-124]].
+- [x] Documentation trace gaps are identified or resolved for glfm.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-124]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Updated GLFM trace references in the unit/integration specs, test matrix,
+> test index, research trace, host-boundary review, and applicability matrix.
