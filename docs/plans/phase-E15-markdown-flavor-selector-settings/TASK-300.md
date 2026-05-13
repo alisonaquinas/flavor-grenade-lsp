@@ -64,3 +64,9 @@ that preserves VS Code language mode and tracks effective flavor.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage updates `extension/src/language-mode.test.ts` to preserve
+> `markdown` language ids and avoid `setTextDocumentLanguage` during flavor
+> refresh. Expected to fail until promotion behavior is replaced.
+> Status: `red`.

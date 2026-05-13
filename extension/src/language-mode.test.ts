@@ -174,15 +174,15 @@ describe('language mode helpers', () => {
 });
 
 describe('LanguageModeController', () => {
-    it('promotes Markdown when server membership is positive', async () => {
+    it('preserves Markdown language id when server membership is positive', async () => {
         const doc = document(join('vault', 'note.md'));
         const { controller, requests, promoted } = controllerFor({
             documents: [doc],
             membership: true,
         });
 
-        assert.equal(await controller.maybePromote(doc as never), true);
-        assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+        assert.equal(await controller.maybePromote(doc as never), false);
+        assert.deepEqual(promoted, []);
         assert.equal((requests[0] as { method: string }).method, DOCUMENT_MEMBERSHIP_METHOD);
     });
 
@@ -197,15 +197,15 @@ describe('LanguageModeController', () => {
         assert.deepEqual(promoted, []);
     });
 
-    it('does not ask the server when an OFMarkdown marker ancestor is present', async () => {
+    it('keeps Markdown language id when an OFMarkdown marker ancestor is present', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, '.obsidian'));
         const doc = document(join(root, 'note.md'));
         const { controller, requests, promoted } = controllerFor({ documents: [doc] });
 
-        assert.equal(await controller.maybePromote(doc as never), true);
-        assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+        assert.equal(await controller.maybePromote(doc as never), false);
+        assert.deepEqual(promoted, []);
         assert.deepEqual(requests, []);
     });
 
@@ -221,56 +221,25 @@ describe('LanguageModeController', () => {
         assert.deepEqual(requests, []);
     });
 
-    it('suppresses duplicate promotion while an assignment is in flight', async () => {
+    it('does not call setTextDocumentLanguage during refresh', async () => {
         const doc = document(join('vault', 'note.md'));
-        let finish!: () => void;
-        const assignment = new Promise<void>((resolve) => {
-            finish = resolve;
-        });
         const { controller, promoted } = controllerFor({
             documents: [doc],
             membership: true,
-            setLanguage: async (current) => {
-                await assignment;
-                return { ...current, languageId: OFMARKDOWN_LANGUAGE_ID };
-            },
         });
 
-        const first = controller.maybePromote(doc as never);
-        const second = controller.maybePromote(doc as never);
-        finish();
-
-        assert.equal(await first, true);
-        assert.equal(await second, false);
-        assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
-    });
-
-    it('refreshAll continues when one language assignment rejects', async () => {
-        const failing = document(join('vault', 'bad.md'));
-        const succeeding = document(join('vault', 'good.md'));
-        const { controller, promoted } = controllerFor({
-            documents: [failing, succeeding],
-            membership: true,
-            setLanguage: async (current) => {
-                if (current === failing) {
-                    throw new Error('document closed');
-                }
-                return { ...current, languageId: OFMARKDOWN_LANGUAGE_ID };
-            },
-        });
-
-        await assert.doesNotReject(() => controller.refreshAll());
-        assert.deepEqual(promoted, [OFMARKDOWN_LANGUAGE_ID]);
+        await controller.refreshAll();
+        assert.deepEqual(promoted, []);
     });
 
     it('refreshAll checks both markdown and ofmarkdown documents', async () => {
         const markdown = document(join('vault', 'new.md'));
-        const ofmarkdown = document(join('old', 'stale.md'), OFMARKDOWN_LANGUAGE_ID);
+        const plaintext = document(join('old', 'stale.md'), 'plaintext');
         const { controller, requests } = controllerFor({
-            documents: [markdown, ofmarkdown],
+            documents: [markdown, plaintext],
             memberships: {
                 [markdown.uri.toString()]: true,
-                [ofmarkdown.uri.toString()]: false,
+                [plaintext.uri.toString()]: true,
             },
         });
 
@@ -280,44 +249,7 @@ describe('LanguageModeController', () => {
             requests
                 .map((request) => (request as { params: { uri: string } }).params.uri)
                 .sort(),
-            [markdown.uri.toString(), ofmarkdown.uri.toString()].sort(),
+            [markdown.uri.toString()],
         );
-    });
-
-    it('downgrades ofmarkdown only when server and marker checks both say outside vault', async () => {
-        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
-        const { controller, promoted } = controllerFor({
-            documents: [stale],
-            membership: false,
-        });
-
-        await controller.refreshAll();
-
-        assert.deepEqual(promoted, [MARKDOWN_LANGUAGE_ID]);
-    });
-
-    it('does not downgrade ofmarkdown when server membership is unavailable', async () => {
-        const stale = document(join('notes', 'outside.md'), OFMARKDOWN_LANGUAGE_ID);
-        const { controller, promoted } = controllerFor({
-            documents: [stale],
-            failMembership: true,
-        });
-
-        await controller.refreshAll();
-
-        assert.deepEqual(promoted, []);
-    });
-
-    it('does not downgrade ofmarkdown when a vault marker still applies', async () => {
-        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
-        tempDirs.push(root);
-        await mkdir(join(root, '.obsidian'));
-        const doc = document(join(root, 'note.md'), OFMARKDOWN_LANGUAGE_ID);
-        const { controller, promoted, requests } = controllerFor({ documents: [doc], membership: false });
-
-        await controller.refreshAll();
-
-        assert.deepEqual(promoted, []);
-        assert.deepEqual(requests, []);
     });
 });

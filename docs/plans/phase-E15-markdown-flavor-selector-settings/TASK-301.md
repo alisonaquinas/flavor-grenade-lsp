@@ -49,3 +49,9 @@ ADR020.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for selector quick-pick ids and labels in
+> `extension/src/markdown-flavor.test.ts`. Expected to fail until the selector
+> item model and command are implemented.
+> Status: `red`.

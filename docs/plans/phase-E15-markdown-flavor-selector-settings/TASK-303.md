@@ -72,3 +72,9 @@ membership/project-config inputs according to
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for Auto Detect precedence: project flavor evidence,
+> Obsidian marker evidence, then CommonMark fallback, while non-Markdown
+> language ids remain inactive.
+> Status: `red`.

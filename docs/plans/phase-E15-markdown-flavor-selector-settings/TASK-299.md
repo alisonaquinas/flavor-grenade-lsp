@@ -57,3 +57,10 @@ configuration schema.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for `extension/src/markdown-flavor.test.ts`: selector
+> constants, `flavorGrenade.markdownFlavor` package schema, command activation,
+> quick-pick labels, and client/server flavor enum compatibility. Expected to
+> fail until the extension constants/schema exist.
+> Status: `red`.

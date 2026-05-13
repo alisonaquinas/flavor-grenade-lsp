@@ -64,3 +64,8 @@ folder-owned documents and user settings for standalone files.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for workspace-folder/workspace/global override target
+> selection and Auto Detect clearing through `undefined`.
+> Status: `red`.

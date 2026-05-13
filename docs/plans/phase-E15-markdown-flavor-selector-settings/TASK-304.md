@@ -92,3 +92,9 @@ open Markdown documents.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for exact `workspace/didChangeConfiguration` payloads,
+> every explicit flavor id, resource-specific state, and propagation suppression
+> for restricted or inactive resources.
+> Status: `red`.
