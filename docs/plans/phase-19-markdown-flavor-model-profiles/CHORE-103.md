@@ -2,7 +2,7 @@
 id: "CHORE-103"
 title: "Phase 19 execution setup and trace sweep"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 19
 parent: "FEAT-042"
@@ -35,3 +35,6 @@ Perform phase execution setup before implementation starts.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Started - 2026-05-13
+> Step A-B-C setup confirmed Phase 19 is stacked after Phase 18, task scopes are current, and RED-first implementation will begin with `src/parser/__tests__/markdown-flavor-profiles.test.ts`.

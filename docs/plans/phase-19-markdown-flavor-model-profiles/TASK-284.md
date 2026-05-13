@@ -51,6 +51,15 @@ traces and structured syntax capability sections.
 |---|---|
 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Every explicit flavor has exactly one complete profile. |
 
+## Implementation Notes
+
+- Create `src/markdown-flavor/markdown-flavor-profiles.ts`.
+- Export `MARKDOWN_FLAVOR_PROFILES`, `getMarkdownFlavorProfile(id: MarkdownFlavorId)`, and profile schema types for syntax, LSP surfaces, source traces, and security metadata.
+- Minimum profile schema must include `activeSyntax`, `inertSyntax`, `hostSpecificSyntax`, `opaqueRegions`, `surfaces.diagnostics`, `surfaces.completion`, `surfaces.navigation`, `surfaces.hover`, `surfaces.semanticTokens`, `surfaces.folding`, `surfaces.documentSymbols`, `surfaces.rename`, `sources`, `security`, and `parserCapabilities`.
+- Surface status `planned` must include the owning Phase 22-34 ticket id.
+- Security metadata must record parser size budget, ReDoS review disposition, no-network/no-execution boundaries, config/TOML interaction, and rename confinement.
+- RED assertions live in `src/parser/__tests__/markdown-flavor-profiles.test.ts`.
+
 ## Definition of Done
 
 - [ ] All explicit flavors have profile entries.
@@ -68,3 +77,6 @@ traces and structured syntax capability sections.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

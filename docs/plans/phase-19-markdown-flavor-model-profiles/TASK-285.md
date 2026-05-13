@@ -39,6 +39,14 @@ Original Markdown, CommonMark, and Obsidian.
 |---|---|
 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Original, CommonMark, and Obsidian profile assertions. |
 
+## Implementation Notes
+
+- Populate `MARKDOWN_FLAVOR_PROFILES.original`, `.commonmark`, and `.obsidian` in `src/markdown-flavor/markdown-flavor-profiles.ts`.
+- Original profile must mark fenced code, pipe tables, task lists, wiki links, embeds, tags, and callouts as inert/non-core.
+- CommonMark profile must activate fenced code, CommonMark block/inline structure, link labels, and headings while keeping GFM/Obsidian constructs inert.
+- Obsidian profile must activate wiki links, embeds, tags, block anchors/refs, callouts, frontmatter, opaque regions, and vault-local Markdown links.
+- RED assertions live in `src/parser/__tests__/markdown-flavor-profiles.test.ts`.
+
 ## Definition of Done
 
 - [ ] Original Markdown profile has historical baseline constraints.
@@ -49,3 +57,6 @@ Original Markdown, CommonMark, and Obsidian.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

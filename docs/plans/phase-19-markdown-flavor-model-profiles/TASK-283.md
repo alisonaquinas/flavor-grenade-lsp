@@ -40,6 +40,15 @@ extension; labels and profile metadata are not parser-owned UI state.
 |---|---|
 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Required id list and labels match ADR020. |
 
+## Implementation Notes
+
+- Create `src/markdown-flavor/markdown-flavor-contract.ts`.
+- Export `MARKDOWN_FLAVOR_IDS`, `MARKDOWN_FLAVOR_SELECTIONS`, `MarkdownFlavorId`, `MarkdownFlavorSelection`, `MARKDOWN_FLAVOR_LABELS`, and `isMarkdownFlavorId(value: unknown): value is MarkdownFlavorId`.
+- Keep `MarkdownFlavorId` explicit-only and `MarkdownFlavorSelection` as `auto | MarkdownFlavorId`.
+- Re-export the contract from `src/markdown-flavor/index.ts`.
+- Write the RED assertions in `src/parser/__tests__/markdown-flavor-profiles.test.ts` before implementation.
+- ADR020 requires exact id order, exact labels, and no profile entry for `auto`.
+
 ## Definition of Done
 
 - [ ] Flavor ids match ADR020 exactly.
@@ -51,3 +60,6 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

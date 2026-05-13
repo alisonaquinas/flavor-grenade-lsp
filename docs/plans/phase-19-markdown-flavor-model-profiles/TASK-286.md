@@ -40,6 +40,13 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 |---|---|
 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Remaining researched flavor source and signature assertions. |
 
+## Implementation Notes
+
+- Populate profiles for `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`.
+- Source traces must point to the matching `docs/features/*-flavor.md` page and `docs/research/*` note.
+- Platform, renderer, conversion, MDX/ESM, and execution-bound constructs must be listed under `hostSpecificSyntax` or boundary metadata, not as locally resolvable syntax.
+- RED assertions live in `src/parser/__tests__/markdown-flavor-profiles.test.ts`.
+
 ## Definition of Done
 
 - [ ] Every researched explicit flavor has signature behavior.
@@ -50,3 +57,6 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

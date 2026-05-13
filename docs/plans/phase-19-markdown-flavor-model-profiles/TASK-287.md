@@ -38,6 +38,13 @@ research note that justified it.
 |---|---|
 | `docs/test/markdown-flavor-validation-spec.md` | Validation evidence references profile trace. |
 
+## Implementation Notes
+
+- Create `docs/test/evidence/markdown-flavor-research-trace.md`.
+- Map every explicit flavor id to its label, profile source files, feature page, research or OFM source, and owning Phase 22-34 ticket.
+- Update `docs/test/index.md`, `docs/test/matrix.md`, and `docs/test/markdown-flavor-validation-spec.md` to reference the implemented evidence.
+- Keep excluded future flavors explicit: only ADR020 flavors are supported by this phase.
+
 ## Definition of Done
 
 - [ ] Every displayed flavor has a source trace.
@@ -48,3 +55,6 @@ research note that justified it.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

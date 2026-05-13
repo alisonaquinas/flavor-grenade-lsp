@@ -2,7 +2,7 @@
 id: "FEAT-042"
 title: "Markdown Flavor Model And Profiles"
 type: feature
-status: draft
+status: ready
 priority: high
 phase: 19
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-042"]
 
 # Markdown Flavor Model And Profiles
 
-> [!INFO] `FEAT-042` - Feature - Phase 19 - Status: `draft`
+> [!INFO] `FEAT-042` - Feature - Phase 19 - Status: `ready`
 
 ## Goal
 
@@ -51,3 +51,6 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 > [!INFO] Opened - 2026-05-13
 > Created from Markdown flavor gap analysis.
+
+> [!INFO] Ready - 2026-05-13
+> Step A-C sweep confirmed Phase 18 is complete, Phase 19 is next in the execution ledger, and implementation will add `src/markdown-flavor/markdown-flavor-contract.ts`, `src/markdown-flavor/markdown-flavor-profiles.ts`, `src/markdown-flavor/index.ts`, `src/parser/__tests__/markdown-flavor-profiles.test.ts`, and `docs/test/evidence/markdown-flavor-research-trace.md`.
