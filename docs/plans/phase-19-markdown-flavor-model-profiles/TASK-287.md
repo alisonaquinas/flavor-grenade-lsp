@@ -2,7 +2,7 @@
 id: "TASK-287"
 title: "Document research-to-profile validation trace"
 type: task
-status: red
+status: green
 priority: medium
 phase: 19
 parent: "FEAT-042"
@@ -36,7 +36,7 @@ research note that justified it.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `docs/test/markdown-flavor-validation-spec.md` | 🔴 Failing coverage requires `docs/test/evidence/markdown-flavor-research-trace.md` to exist and cite every profile source. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `docs/test/markdown-flavor-validation-spec.md` | ✅ Passing coverage requires `docs/test/evidence/markdown-flavor-research-trace.md` to exist and cite every profile source. |
 
 ## Implementation Notes
 
@@ -47,9 +47,9 @@ research note that justified it.
 
 ## Definition of Done
 
-- [ ] Every displayed flavor has a source trace.
-- [ ] Validation docs can be reviewed without reading code first.
-- [ ] Matrix links are updated.
+- [x] Every displayed flavor has a source trace.
+- [x] Validation docs can be reviewed without reading code first.
+- [x] Matrix links are updated.
 
 ## Workflow Log
 
@@ -61,3 +61,6 @@ research note that justified it.
 
 > [!NOTE] RED - 2026-05-13
 > Failing evidence-file assertion added before `docs/test/evidence/markdown-flavor-research-trace.md` exists.
+
+> [!NOTE] GREEN - 2026-05-13
+> Added `docs/test/evidence/markdown-flavor-research-trace.md` and traceability updates; focused profile test passes.

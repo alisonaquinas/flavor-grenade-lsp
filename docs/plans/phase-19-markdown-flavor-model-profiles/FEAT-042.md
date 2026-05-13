@@ -32,11 +32,11 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-283]] | Define canonical Markdown flavor contract | `red` |
-| [[TASK-284]] | Add source-backed dialect profile registry | `red` |
-| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `red` |
-| [[TASK-286]] | Cover remaining researched flavor profiles | `red` |
-| [[TASK-287]] | Document research-to-profile validation trace | `red` |
+| [[TASK-283]] | Define canonical Markdown flavor contract | `green` |
+| [[TASK-284]] | Add source-backed dialect profile registry | `green` |
+| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `green` |
+| [[TASK-286]] | Cover remaining researched flavor profiles | `green` |
+| [[TASK-287]] | Document research-to-profile validation trace | `green` |
 | [[CHORE-103]] | Phase 19 execution setup and trace sweep | `open` |
 | [[CHORE-104]] | Phase 19 verification and closeout sweep | `open` |
 
@@ -57,3 +57,6 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 > [!NOTE] RED - 2026-05-13
 > Added failing profile registry contract coverage in `src/parser/__tests__/markdown-flavor-profiles.test.ts` before implementation.
+
+> [!NOTE] GREEN - 2026-05-13
+> Added `src/markdown-flavor/` contract/profile registry and `docs/test/evidence/markdown-flavor-research-trace.md`; focused profile test now passes.

@@ -2,7 +2,7 @@
 id: "TASK-284"
 title: "Add source-backed dialect profile registry"
 type: task
-status: red
+status: green
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -49,7 +49,7 @@ traces and structured syntax capability sections.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for explicit profile registry shape, source traces, LSP surfaces, parser capabilities, and security metadata. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | ✅ Passing coverage for explicit profile registry shape, source traces, LSP surfaces, parser capabilities, and security metadata. |
 
 ## Implementation Notes
 
@@ -62,16 +62,16 @@ traces and structured syntax capability sections.
 
 ## Definition of Done
 
-- [ ] All explicit flavors have profile entries.
-- [ ] Every profile has a research source or `ofm-spec` source.
-- [ ] Every profile includes the minimum server surface schema, including
+- [x] All explicit flavors have profile entries.
+- [x] Every profile has a research source or `ofm-spec` source.
+- [x] Every profile includes the minimum server surface schema, including
       rename and host/conversion boundary disposition.
-- [ ] Every profile includes security metadata for parser resource safety,
+- [x] Every profile includes security metadata for parser resource safety,
       no-network/no-execution boundaries, and rename confinement.
-- [ ] `planned` surface values link to the later phase ticket that must replace
+- [x] `planned` surface values link to the later phase ticket that must replace
       them with implemented/deferred/not-applicable evidence.
-- [ ] Registry excludes `auto`.
-- [ ] Parser code can consume capability flags without becoming owner of profile labels/order.
+- [x] Registry excludes `auto`.
+- [x] Parser code can consume capability flags without becoming owner of profile labels/order.
 
 ## Workflow Log
 
@@ -83,3 +83,6 @@ traces and structured syntax capability sections.
 
 > [!NOTE] RED - 2026-05-13
 > Failing assertions added before `src/markdown-flavor/markdown-flavor-profiles.ts` exists.
+
+> [!NOTE] GREEN - 2026-05-13
+> Implemented the explicit profile registry in `src/markdown-flavor/markdown-flavor-profiles.ts`; focused profile test passes.

@@ -2,7 +2,7 @@
 id: "TASK-283"
 title: "Define canonical Markdown flavor contract"
 type: task
-status: red
+status: green
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -38,7 +38,7 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for ADR020 id list, labels, selector order, and explicit-only type guard. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | ✅ Passing coverage for ADR020 id list, labels, selector order, and explicit-only type guard. |
 
 ## Implementation Notes
 
@@ -51,10 +51,10 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 ## Definition of Done
 
-- [ ] Flavor ids match ADR020 exactly.
-- [ ] `auto` is represented separately from explicit profiles.
-- [ ] Labels/order are available without importing parser internals.
-- [ ] Unit test fails when a required id is removed.
+- [x] Flavor ids match ADR020 exactly.
+- [x] `auto` is represented separately from explicit profiles.
+- [x] Labels/order are available without importing parser internals.
+- [x] Unit test fails when a required id is removed.
 
 ## Workflow Log
 
@@ -66,3 +66,6 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 > [!NOTE] RED - 2026-05-13
 > Failing assertions added before `src/markdown-flavor/markdown-flavor-contract.ts` exists.
+
+> [!NOTE] GREEN - 2026-05-13
+> Implemented the shared flavor contract in `src/markdown-flavor/markdown-flavor-contract.ts`; focused profile test passes.

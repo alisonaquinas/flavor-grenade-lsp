@@ -2,7 +2,7 @@
 id: "TASK-285"
 title: "Cover Original, CommonMark, and Obsidian profiles"
 type: task
-status: red
+status: green
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -37,7 +37,7 @@ Original Markdown, CommonMark, and Obsidian.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for Original, CommonMark, and Obsidian signature boundaries. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | ✅ Passing coverage for Original, CommonMark, and Obsidian signature boundaries. |
 
 ## Implementation Notes
 
@@ -49,9 +49,9 @@ Original Markdown, CommonMark, and Obsidian.
 
 ## Definition of Done
 
-- [ ] Original Markdown profile has historical baseline constraints.
-- [ ] CommonMark profile has standardized core behavior.
-- [ ] Obsidian profile maps current OFM parser capabilities.
+- [x] Original Markdown profile has historical baseline constraints.
+- [x] CommonMark profile has standardized core behavior.
+- [x] Obsidian profile maps current OFM parser capabilities.
 
 ## Workflow Log
 
@@ -63,3 +63,6 @@ Original Markdown, CommonMark, and Obsidian.
 
 > [!NOTE] RED - 2026-05-13
 > Failing assertions added for core and Obsidian profile boundaries before profile data exists.
+
+> [!NOTE] GREEN - 2026-05-13
+> Added Original, CommonMark, and Obsidian profile signatures; focused profile test passes.

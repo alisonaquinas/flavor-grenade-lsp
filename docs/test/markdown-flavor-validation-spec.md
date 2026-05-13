@@ -19,15 +19,15 @@ research corpus.
 |---|---|---|
 | MF-VA-001 | `docs/research/*.md`, `docs/features/ofmarkdown-language-mode.md` | Every researched Markdown flavor appears in the selector requirements or is explicitly excluded with rationale. |
 | MF-VA-002 | `docs/adr/ADR020-markdown-flavor-selection.md` | ADR flavor enum matches requirements, BDD examples, and extension test plans. |
-| MF-VA-003 | `docs/bdd/features/markdown-flavor-dialects.feature` | Profile examples cite the correct research source slug and at least one signature behavior per flavor. |
+| MF-VA-003 | `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/evidence/markdown-flavor-research-trace.md` | Profile examples cite the correct research source slug and at least one signature behavior per flavor. |
 | MF-VA-004 | `docs/test/evidence/markdown-flavor-product-review.md` | Reviewer confirms `mdx` as a flavor does not authorize changing the VS Code language id away from `markdown`. |
 | MF-VA-005 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Reviewer confirms platform, conversion, renderer, and execution-bound references have non-local fixture coverage or an explicit deferred lookup disposition. |
 
 ## Planned Evidence Artifacts
 
-These paths are generated validation artifacts, not current proof. A validation
-row cannot move to passing until the artifact exists, is dated, names the
-reviewer or command that produced it, and links the verification output.
+These paths are generated validation artifacts. Phase 19 implements the research
+trace artifact; the remaining Phase 21 validation artifacts stay planned until
+their review commands and BDD output exist.
 
 | Artifact path | Required content |
 |---|---|
