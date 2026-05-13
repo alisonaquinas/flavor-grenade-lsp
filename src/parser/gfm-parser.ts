@@ -10,6 +10,7 @@ import type {
 import { rangeFromOffsets } from './offset-utils.js';
 import { isInsideOpaqueRegion } from './opaque-region-marker.js';
 
+/** Parsed GFM extension entries grouped by syntax surface. */
 export interface GfmParseResult {
   tables: GfmTableEntry[];
   malformedTables: GfmMalformedTableEntry[];
