@@ -2,7 +2,7 @@
 id: "TASK-316"
 title: "Add Original Markdown diagnostics and LSP features"
 type: task
-status: open
+status: in-progress
 priority: high
 phase: 22
 parent: "FEAT-048"
@@ -104,3 +104,8 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[doc
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] RED - 2026-05-13
+> Added failing diagnostic and completion coverage for Original Markdown
+> portability warnings and inactive Obsidian completion routing before the LSP
+> behavior is implemented.

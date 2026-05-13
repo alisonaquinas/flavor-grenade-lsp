@@ -2,7 +2,7 @@
 id: "TASK-317"
 title: "Add Original Markdown tests and validation evidence"
 type: task
-status: open
+status: in-progress
 priority: high
 phase: 22
 parent: "FEAT-048"
@@ -85,3 +85,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the or
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] RED - 2026-05-13
+> Started Phase 22 validation coverage with Original Markdown unit,
+> diagnostic, and completion assertions. Integration, BDD, and evidence updates
+> remain part of the GREEN/closeout pass.

@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-048]] | Original Markdown Language Support | Feature | `in-progress` |
-| [[TASK-315]] | Implement Original Markdown parser semantics | Task | `open` |
-| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | `open` |
-| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | `open` |
+| [[TASK-315]] | Implement Original Markdown parser semantics | Task | `in-progress` |
+| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | `in-progress` |
+| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | `in-progress` |
 | [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | `open` |
 | [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | `open` |
 

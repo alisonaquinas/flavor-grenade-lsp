@@ -2,7 +2,7 @@
 id: "TASK-315"
 title: "Implement Original Markdown parser semantics"
 type: task
-status: open
+status: in-progress
 priority: high
 phase: 22
 parent: "FEAT-048"
@@ -73,3 +73,8 @@ Deliver parser/profile semantics for the original flavor using [[docs/research/c
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] RED - 2026-05-13
+> Added `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` for
+> Original Markdown setext headings, historical core syntax, inactive Obsidian
+> constructs, and profile surface status before implementation is complete.

@@ -30,9 +30,9 @@ Implement first-class original language support for Original Markdown, using [[d
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-315]] | Implement Original Markdown parser semantics | Task | open |
-| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | open |
-| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | open |
+| [[TASK-315]] | Implement Original Markdown parser semantics | Task | in-progress |
+| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | in-progress |
+| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | in-progress |
 | [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | open |
 | [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | open |
 
@@ -74,3 +74,8 @@ Implement first-class original language support for Original Markdown, using [[d
 > `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing
 > diagnostics/completion tests, `src/test/integration/markdown-flavor.test.ts`,
 > and validation evidence under `docs/test/evidence/`.
+
+> [!WARNING] RED - 2026-05-13
+> Added failing Phase 22 coverage for Original Markdown parser/profile behavior,
+> portability diagnostics, and inactive Obsidian completions before
+> implementation.

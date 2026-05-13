@@ -29,6 +29,7 @@ function makeDoc(
     blockAnchors = [] as string[],
     callouts = [] as string[],
     frontmatter = null as Record<string, unknown> | null,
+    markdownFlavor = 'obsidian' as OFMDoc['markdownFlavor'],
   } = {},
 ): OFMDoc {
   return {
@@ -56,7 +57,13 @@ function makeDoc(
         text: h.text,
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } },
       })),
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     },
+    markdownFlavor,
+    parseContext: { effectiveFlavor: markdownFlavor },
   };
 }
 
@@ -161,6 +168,21 @@ describe('CompletionRouter', () => {
         range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
         newText: 'alpha',
       });
+    });
+
+    it('suppresses inactive Obsidian completions for Original Markdown', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'original' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
     });
   });
 

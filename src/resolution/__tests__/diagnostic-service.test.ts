@@ -35,7 +35,13 @@ function makeDocWithAnchors(
       callouts: [],
       headings: [],
       blockAnchors: anchors.map((anchorId) => ({ id: anchorId, range: RANGE })),
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     },
+    markdownFlavor: 'obsidian',
+    parseContext: { effectiveFlavor: 'obsidian' },
   };
 }
 
@@ -60,7 +66,20 @@ function makeDoc(uri: string, wikiLinks: WikiLinkEntry[] = []): OFMDoc {
     frontmatterEndOffset: 0,
     text: '',
     opaqueRegions: [],
-    index: { wikiLinks, embeds: [], blockAnchors: [], tags: [], callouts: [], headings: [] },
+    index: {
+      wikiLinks,
+      embeds: [],
+      blockAnchors: [],
+      tags: [],
+      callouts: [],
+      headings: [],
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
+    },
+    markdownFlavor: 'obsidian',
+    parseContext: { effectiveFlavor: 'obsidian' },
   };
 }
 
@@ -215,6 +234,52 @@ describe('DiagnosticService', () => {
       params: { uri: string; diagnostics: unknown[] };
     };
     expect(params.diagnostics).toHaveLength(0);
+  });
+
+  it('publishes Original Markdown portability diagnostics without resolving inert syntax', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/original.md', []),
+      text: [
+        '```js',
+        'x()',
+        '```',
+        '',
+        '| a | b |',
+        '|---|---|',
+        '',
+        '- [x] task',
+        '',
+        '[[Note]]',
+        '> [!note]',
+      ].join('\n'),
+      markdownFlavor: 'original' as const,
+      parseContext: { effectiveFlavor: 'original' as const },
+    };
+
+    service.publishDiagnostics(id('original'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual([
+      'FG101',
+      'FG101',
+      'FG101',
+      'FG101',
+      'FG101',
+    ]);
+    expect(params.diagnostics.map((diagnostic) => diagnostic['severity'])).toEqual(
+      Array(5).fill(2),
+    );
   });
 });
 
