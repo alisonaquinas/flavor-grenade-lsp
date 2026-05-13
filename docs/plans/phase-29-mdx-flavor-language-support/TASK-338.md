@@ -2,7 +2,7 @@
 id: "TASK-338"
 title: "Add MDX tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -80,3 +80,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the md
 > spawned-server propagation, completion/symbol/fold/token surfaces, malformed
 > JSX/ESM diagnostics, renderer-bound classification, and preservation of the
 > separate VS Code `mdx` language-mode safety contract.
+
+> [!INFO] RED - 2026-05-13
+> Added failing spawned-server integration coverage for MDX syntax counts,
+> diagnostics, inactive Obsidian behavior, and renderer-bound component
+> classification.

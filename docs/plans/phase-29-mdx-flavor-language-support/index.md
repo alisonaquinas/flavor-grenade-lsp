@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-055]] | MDX Flavor Language Support | Feature | `in-progress` |
-| [[TASK-336]] | Implement MDX flavor parser semantics | Task | `open` |
-| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | `open` |
-| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | `open` |
+| [[TASK-336]] | Implement MDX flavor parser semantics | Task | `red` |
+| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | `red` |
+| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | `red` |
 | [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | `open` |
 | [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | `open` |
 

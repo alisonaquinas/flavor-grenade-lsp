@@ -459,6 +459,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG302']);
     expect(params.diagnostics[0]['message']).toContain('Malformed MultiMarkdown metadata');
   });
+
+  it('publishes MDX boundary diagnostics without resolving renderer-bound components', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/mdx.md', []),
+      text: ['import Broken from "./Broken"', '', '<Broken prop={value}', '[[Nope]]'].join('\n'),
+      markdownFlavor: 'mdx' as const,
+      parseContext: { effectiveFlavor: 'mdx' as const },
+    };
+
+    service.publishDiagnostics(id('mdx'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG401']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed MDX boundary');
+  });
 });
 
 describe('block reference diagnostics', () => {

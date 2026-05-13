@@ -2,7 +2,7 @@
 id: "TASK-336"
 title: "Implement MDX flavor parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -72,3 +72,8 @@ Deliver parser/profile semantics for the mdx flavor using [[docs/research/mdx-an
 > declarations, JSX element regions, JSX expression regions, component
 > references, and malformed local MDX boundaries. MDX regions will be treated as
 > opaque for Markdown token parsing where local MDX syntax owns the text.
+
+> [!INFO] RED - 2026-05-13
+> Added failing parser/profile coverage for MDX ESM declarations, JSX elements,
+> expression regions, MDX opaque boundaries, inactive Obsidian syntax, and
+> implemented MDX surface status.

@@ -403,3 +403,55 @@ describe('MultiMarkdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('MDX parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats MDX JSX and ESM syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/mdx.md',
+      [
+        "import Chart from './Chart'",
+        "export const title = 'Demo'",
+        '',
+        '# {title}',
+        '',
+        '<Chart value={total}>',
+        '  **Markdown** inside JSX',
+        '</Chart>',
+        '',
+        '{items.map((item) => <Item key={item.id} />)}',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'mdx' },
+    );
+    const mdxIndex = doc.index as typeof doc.index & {
+      mdxEsmDeclarations: Array<{ kind: string }>;
+      mdxJsxElements: Array<{ name: string }>;
+      mdxExpressions: unknown[];
+    };
+
+    expect(doc.markdownFlavor).toBe('mdx');
+    expect(mdxIndex.mdxEsmDeclarations.map((entry) => entry.kind)).toEqual(['import', 'export']);
+    expect(mdxIndex.mdxJsxElements.map((entry) => entry.name)).toEqual(['Chart', 'Item']);
+    expect(mdxIndex.mdxExpressions).toHaveLength(1);
+    expect(doc.index.headings.map((entry) => entry.text)).toEqual(['{title}']);
+    expect(doc.opaqueRegions.map((region) => region.kind)).toEqual(
+      expect.arrayContaining(['mdx-esm', 'mdx-jsx', 'mdx-expression']),
+    );
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks MDX LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('mdx');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

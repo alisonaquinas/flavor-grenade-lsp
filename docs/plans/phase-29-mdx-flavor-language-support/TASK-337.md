@@ -2,7 +2,7 @@
 id: "TASK-337"
 title: "Add MDX diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -96,3 +96,7 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 > folds, semantic tokens, analysis counts, and renderer-bound classification.
 > React/TypeScript symbol lookup, import resolution, MDX compilation, and
 > JavaScript evaluation are out of scope.
+
+> [!INFO] RED - 2026-05-13
+> Added failing diagnostics, completion, document-symbol, folding,
+> semantic-token, and renderer-boundary coverage for MDX LSP surfaces.
