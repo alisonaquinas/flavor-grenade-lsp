@@ -2,7 +2,7 @@
 id: "FEAT-056"
 title: "kramdown Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 30
 created: "2026-05-13"
@@ -65,9 +65,9 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-339]] | Implement kramdown parser semantics | Task | green |
-| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | green |
-| [[TASK-341]] | Add kramdown tests and validation evidence | Task | green |
+| [[TASK-339]] | Implement kramdown parser semantics | Task | done |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | done |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | done |
 | [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | done |
 | [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | done |
 
@@ -122,6 +122,11 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 > sweeps passed. Step K and validation-test Step L are N/A because no
 > `src/test/verification/` or `src/test/validation/` suites exist. No new
 > findings or tickets were opened during sweeps.
+
+> [!INFO] In review - 2026-05-13
+> PR #81 opened against `develop` and CI run `25831274609` passed all checks.
+> Child TASK and CHORE tickets moved to `done`; FEAT-056 remains `in-review`
+> until merge.
 
 ## Retrospective
 

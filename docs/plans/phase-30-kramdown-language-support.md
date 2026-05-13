@@ -1,7 +1,7 @@
 ---
 title: "Phase 30: kramdown Language Support"
 phase: 30
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, kramdown, language-support]
 aliases: [Phase 30, kramdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 30 |
 | Title | kramdown Language Support |
-| Status | in-progress |
+| Status | in-review |
 | Gate | kramdown-specific constructs are implemented and tested |
 | Depends on | Phase 23 |
 

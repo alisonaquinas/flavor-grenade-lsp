@@ -2,7 +2,7 @@
 id: "TASK-341"
 title: "Add kramdown tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -91,3 +91,6 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 > Re-ran the focused kramdown command after implementation. Result: 118 passing
 > tests, 0 failures, 331 assertions. `bun run typecheck` and `bun run lint`
 > also pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #81 CI run `25831274609` passed all checks. Ticket moved to `done`.

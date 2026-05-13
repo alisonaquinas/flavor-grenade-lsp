@@ -2,7 +2,7 @@
 id: "TASK-339"
 title: "Implement kramdown parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -82,3 +82,6 @@ Deliver parser/profile semantics for the kramdown flavor using [[docs/research/k
 > [!SUCCESS] GREEN validation - 2026-05-13
 > Implemented `KramdownParser`, parser index types, OFM flavor dispatch, and
 > implemented profile surface status. Focused kramdown parser tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #81 CI run `25831274609` passed all checks. Ticket moved to `done`.
