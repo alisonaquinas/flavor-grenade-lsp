@@ -2,7 +2,7 @@
 id: "FEAT-045"
 title: "Markdown Flavor Selector And Settings"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: E15
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-045"]
 
 # Markdown Flavor Selector And Settings
 
-> [!INFO] `FEAT-045` - Feature - Phase E15 - Status: `in-progress`
+> [!INFO] `FEAT-045` - Feature - Phase E15 - Status: `in-review`
 
 ## Goal
 
@@ -35,31 +35,31 @@ separate selector and setting control effective Markdown flavor.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-299]] | Add extension flavor constants and setting schema | `green` |
-| [[TASK-300]] | Replace language promotion with Markdown flavor controller | `green` |
-| [[TASK-301]] | Add Markdown flavor selector UI and quick pick | `green` |
-| [[TASK-302]] | Persist flavor overrides at the correct settings scope | `green` |
-| [[TASK-303]] | Resolve Auto Detect from workspace and membership signals | `green` |
-| [[TASK-304]] | Propagate effective flavor from extension to server | `green` |
-| [[CHORE-109]] | Phase E15 extension trace and docs sweep | `green` |
-| [[CHORE-110]] | Phase E15 verification and closeout sweep | `green` |
+| [[TASK-299]] | Add extension flavor constants and setting schema | `done` |
+| [[TASK-300]] | Replace language promotion with Markdown flavor controller | `done` |
+| [[TASK-301]] | Add Markdown flavor selector UI and quick pick | `done` |
+| [[TASK-302]] | Persist flavor overrides at the correct settings scope | `done` |
+| [[TASK-303]] | Resolve Auto Detect from workspace and membership signals | `done` |
+| [[TASK-304]] | Propagate effective flavor from extension to server | `done` |
+| [[CHORE-109]] | Phase E15 extension trace and docs sweep | `done` |
+| [[CHORE-110]] | Phase E15 verification and closeout sweep | `done` |
 | [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `done` |
 | [[BUG-047]] | Update stale host test after E15 language preservation | `done` |
 
 ## Definition of Done
 
-- [ ] Vault Markdown remains `markdown`.
-- [ ] Selector contains every required flavor id and label.
-- [ ] Selector constants, package schema, quick-pick ids, and shared dialect
+- [x] Vault Markdown remains `markdown`.
+- [x] Selector contains every required flavor id and label.
+- [x] Selector constants, package schema, quick-pick ids, and shared dialect
       profile ids stay compatible.
-- [ ] Overrides persist to the correct settings target.
-- [ ] Server refresh receives `workspace/didChangeConfiguration` changes for
+- [x] Overrides persist to the correct settings target.
+- [x] Server refresh receives `workspace/didChangeConfiguration` changes for
       `flavorGrenade.markdownFlavor` plus resource-specific selected/effective
       flavor state for every required explicit flavor id, including standalone
       `original`.
-- [ ] Server propagation and reanalysis are skipped for open documents whose
+- [x] Server propagation and reanalysis are skipped for open documents whose
       language id is `plaintext`, `mdx`, or any non-`markdown` value.
-- [ ] Extension unit tests pass for selector, detection, persistence, and propagation.
+- [x] Extension unit tests pass for selector, detection, persistence, and propagation.
 
 ## Workflow Log
 
@@ -85,6 +85,10 @@ separate selector and setting control effective Markdown flavor.
 > [!WARNING] CI finding - 2026-05-13
 > BUG-047 opened from PR #74 CI run `25823078553`: the extension host suite
 > still waited for retired `ofmarkdown` promotion.
+
+> [!SUCCESS] CI green - 2026-05-13
+> PR #74 CI run `25823364393` passed after BUG-047 updated host coverage to
+> assert Markdown language preservation and selector command registration.
 
 ## Retrospective
 

@@ -65,7 +65,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
-| E15   | Markdown Flavor Selector And Settings | 🔄 in-progress | Separate selector, settings schema, override persistence, auto detection, and server propagation | 2026-05-13 | — |
+| E15   | Markdown Flavor Selector And Settings | 🔎 in-review | Separate selector, settings schema, override persistence, auto detection, and server propagation | 2026-05-13 | [PR #74](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/74) |
 | E16   | Flavor-Scoped Contributions And Marketplace | ⏳ planned | Editor contributions and Marketplace proof align with Markdown flavor selection | — | — |
 | E17   | Extension Flavor Host Verification | ⏳ planned | Extension-host, CI, and validation evidence prove selector behavior | — | — |
 | W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |

@@ -2,7 +2,7 @@
 id: "TASK-300"
 title: "Replace language promotion with Markdown flavor controller"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -50,13 +50,13 @@ that preserves VS Code language mode and tracks effective flavor.
 
 ## Definition of Done
 
-- [ ] Vault `.md` documents remain `markdown`.
-- [ ] Client document selector contains `markdown` only for current Markdown
+- [x] Vault `.md` documents remain `markdown`.
+- [x] Client document selector contains `markdown` only for current Markdown
       flavor behavior.
-- [ ] `plaintext` and `mdx` language documents are ignored by flavor application.
-- [ ] Selector refresh does not send server flavor updates for non-`markdown`
+- [x] `plaintext` and `mdx` language documents are ignored by flavor application.
+- [x] Selector refresh does not send server flavor updates for non-`markdown`
       language documents.
-- [ ] Obsolete promotion unit tests owned by E15 are rewritten or removed;
+- [x] Obsolete promotion unit tests owned by E15 are rewritten or removed;
       contribution/Marketplace stale tests are linked to E16 and host stale
       tests are linked to E17.
 

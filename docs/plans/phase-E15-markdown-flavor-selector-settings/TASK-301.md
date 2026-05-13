@@ -2,7 +2,7 @@
 id: "TASK-301"
 title: "Add Markdown flavor selector UI and quick pick"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -41,9 +41,9 @@ ADR020.
 
 ## Definition of Done
 
-- [ ] Selector surface exists.
-- [ ] Quick-pick labels match requirements.
-- [ ] Selector does not use VS Code language picker for flavor.
+- [x] Selector surface exists.
+- [x] Quick-pick labels match requirements.
+- [x] Selector does not use VS Code language picker for flavor.
 
 ## Workflow Log
 

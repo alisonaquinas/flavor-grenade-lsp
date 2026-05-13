@@ -2,7 +2,7 @@
 id: "CHORE-110"
 title: "Phase E15 verification and closeout sweep"
 type: chore
-status: green
+status: done
 priority: medium
 phase: E15
 parent: "FEAT-045"

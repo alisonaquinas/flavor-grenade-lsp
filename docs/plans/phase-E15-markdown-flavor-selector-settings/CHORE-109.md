@@ -2,7 +2,7 @@
 id: "CHORE-109"
 title: "Phase E15 extension trace and docs sweep"
 type: chore
-status: green
+status: done
 priority: medium
 phase: E15
 parent: "FEAT-045"
