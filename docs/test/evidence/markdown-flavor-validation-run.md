@@ -16,7 +16,7 @@ updated: 2026-05-13
 |---|---|
 | Run date | 2026-05-13 |
 | Runner / command | Codex local Phase 21 gate execution |
-| Commit under test | `5aad12ce` |
+| Commit under test | `b23f739d` |
 | Source inputs | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `src/test/ci-workflow.test.ts`, `docs/test/markdown-flavor-verification-spec.md`, `docs/test/markdown-flavor-validation-spec.md`, `docs/test/evidence/markdown-flavor-product-review.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md`, `docs/test/evidence/markdown-flavor-research-trace.md` |
 | Output policy | Summaries only; no vault note content, TOML contents, environment variables, API-like tokens, local user paths, or raw server output included |
 
@@ -26,8 +26,14 @@ updated: 2026-05-13
 |---|---|---|
 | `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature` | Pass | 178 scenarios and 1074 steps passed. |
 | `bun test src/test/ci-workflow.test.ts` | Pass after artifact creation | Guard protects flavor feature files, root flavor specs, extension flavor specs, and Phase 21 validation artifacts. |
-| `bun run lint:docs` | Pending local closeout | Required by Phase 21 closeout. |
-| `bun run build` | Pending local closeout | Required by Phase 21 closeout. |
+| `bun test src/` | Pass | 693 tests passed. |
+| `bun test src/test/integration/` | Pass | 17 integration tests passed. |
+| `bun run typecheck` | Pass | `tsc --noEmit` completed successfully. |
+| `bun run lint --max-warnings 0` | Pass | ESLint completed with zero warnings. |
+| `bun audit` | Pass | No vulnerabilities found. |
+| `bun run lint:docs` | Pass | OFM docs lint completed successfully. |
+| `bun run format:check` | Pass | Prettier check completed successfully. |
+| `bun run build` | Pass | TypeScript project build completed successfully. |
 
 ## Validation Rows
 
@@ -46,7 +52,7 @@ updated: 2026-05-13
 | MF-VF-001 | Pass | `src/test/ci-workflow.test.ts` guards the root CI battery. |
 | MF-VF-002 | Pass | Cucumber config includes `docs/bdd/features/**/*.feature`; exact flavor feature paths are protected by CI workflow tests. |
 | MF-VF-003 | Pass | Matrix rows remain honest: root BDD and evidence pass, later extension/host/parser dialect work stays planned or failing. |
-| MF-VF-004 | Pending local closeout | `bun run lint:docs` will be rerun before the Phase 21 PR. |
+| MF-VF-004 | Pass | `bun run lint:docs` passed during local closeout. |
 | MF-VF-005 | Pass | CI workflow test protects exact flavor gate files. |
 | MF-VF-006 | Pass | CI workflow test protects Phase 21 validation artifact paths. |
 | MF-VF-007 | Pass | Host-boundary review artifact exists and records deferred non-local behavior rules. |

@@ -41,7 +41,7 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 | [[TASK-297]] | Add flavor verification gate checks | `done` |
 | [[TASK-298]] | Add flavor validation review evidence | `done` |
 | [[CHORE-107]] | Phase 21 BDD traceability sweep | `done` |
-| [[CHORE-108]] | Phase 21 verification and closeout sweep | `open` |
+| [[CHORE-108]] | Phase 21 verification and closeout sweep | `done` |
 
 ## Definition of Done
 
@@ -68,3 +68,36 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 > `docs/test/matrix.md`, `docs/test/markdown-flavor-verification-spec.md`,
 > `docs/test/markdown-flavor-validation-spec.md`, and Phase 21 validation
 > artifacts under `docs/test/evidence/`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The existing flavor BDD scenarios already executed against the effective-flavor
+harness. The main Phase 21 work was therefore traceability and validation:
+protecting artifact paths in `src/test/ci-workflow.test.ts`, adding sanitized
+product and validation evidence, and updating the test index and matrix.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| TASK-297 | Task | The CI workflow guard already protected flavor feature/spec files but did not protect Phase 21 validation evidence artifacts. | +0.2 h |
+| TASK-298 | Task | `markdown-flavor-product-review.md` and `markdown-flavor-validation-run.md` were planned in the validation spec but absent. | +0.3 h |
+
+### Process observations
+
+Step K and the validation-test portion of Step L were N/A because this repo has
+no `src/test/verification/` or `src/test/validation/` suites. The BDD gate is
+the executable validation layer for this phase.
+
+### Carry-forward actions
+
+- [ ] Phase 22 should keep parser/LSP dialect behavior separate from extension
+      host proof, which remains owned by Phase E17.
+
+### Rule / template amendments
+
+- [ ] none

@@ -18,4 +18,4 @@ updated: 2026-05-13
 | [[TASK-297]] | Add flavor verification gate checks | Task | `done` |
 | [[TASK-298]] | Add flavor validation review evidence | Task | `done` |
 | [[CHORE-107]] | Phase 21 BDD traceability sweep | Chore | `done` |
-| [[CHORE-108]] | Phase 21 verification and closeout sweep | Chore | `open` |
+| [[CHORE-108]] | Phase 21 verification and closeout sweep | Chore | `done` |

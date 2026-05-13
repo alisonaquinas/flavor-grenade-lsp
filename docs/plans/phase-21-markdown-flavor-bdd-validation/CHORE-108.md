@@ -2,7 +2,7 @@
 id: "CHORE-108"
 title: "Phase 21 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 21
 parent: "FEAT-044"
@@ -35,3 +35,11 @@ Run BDD, verification, docs lint, and closeout updates for Phase 21.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Local closeout passed: `bun run bdd`, `bun test src/test/ci-workflow.test.ts`,
+> `bun test src/`, `bun test src/test/integration/`, `bun run typecheck`,
+> `bun run lint --max-warnings 0`, `bun audit`, `bun run lint:docs`,
+> `bun run format:check`, and `bun run build`. No
+> `src/test/verification/` or `src/test/validation/` suites exist, so those
+> A-M steps were recorded as N/A.
