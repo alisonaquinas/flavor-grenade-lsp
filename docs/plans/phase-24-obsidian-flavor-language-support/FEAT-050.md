@@ -30,9 +30,9 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | red |
-| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | red |
-| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | red |
+| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | green |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | green |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | green |
 | [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | open |
 | [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | open |
 

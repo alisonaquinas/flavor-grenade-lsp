@@ -2,7 +2,7 @@
 id: "TASK-323"
 title: "Add Obsidian flavor regression and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -95,3 +95,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ob
 > trace/evidence updates remain green-work after the Obsidian profile surfaces
 > are implemented.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Phase 24 unit and spawned-server regression coverage now exercises Obsidian
+> parser, diagnostic, completion, and selector-mode flavor behavior without
+> depending on `ofmarkdown` language-mode promotion.
+> Status: `green`.

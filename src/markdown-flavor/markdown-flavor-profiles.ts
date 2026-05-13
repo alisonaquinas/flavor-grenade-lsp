@@ -240,6 +240,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['obsidian-vault-resolution', 'obsidian-renderer-semantics'],
     opaqueRegions: ['code', 'math', 'comments', 'templater'],
+    surfaceStatus: 'implemented',
     surfaceSummary:
       'Existing OFM behavior is mapped to explicit Obsidian flavor support in Phase 24.',
   }),

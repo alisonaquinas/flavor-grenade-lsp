@@ -2,7 +2,7 @@
 id: "TASK-321"
 title: "Rebase existing OFM parser behavior onto the Obsidian flavor"
 type: task
-status: red
+status: green
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -85,3 +85,9 @@ Deliver parser/profile semantics for the obsidian flavor using [[docs/ofm-spec/i
 > Obsidian parser syntax and implemented profile surfaces. Expected failure:
 > Obsidian LSP surfaces are still marked `planned` in the profile registry.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Obsidian profile surfaces now report `implemented`; parser coverage confirms
+> active wiki links, embeds, tags, block anchors, callouts, frontmatter, and
+> opaque regions under effective flavor `obsidian`.
+> Status: `green`.

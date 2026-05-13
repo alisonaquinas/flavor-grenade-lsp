@@ -2,7 +2,7 @@
 id: "TASK-322"
 title: "Gate Obsidian diagnostics and LSP features by flavor"
 type: task
-status: red
+status: green
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -113,3 +113,9 @@ Deliver diagnostics and LSP feature behavior for the obsidian flavor using [[doc
 > `src/test/integration/markdown-flavor.test.ts`. These tests depend on the
 > profile registry moving Obsidian surfaces from planned to implemented.
 > Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Obsidian diagnostics avoid Original/CommonMark portability warnings for active
+> Obsidian syntax, Obsidian-only completions remain active for the Obsidian
+> flavor, and spawned-server analysis observes effective flavor `obsidian`.
+> Status: `green`.
