@@ -89,3 +89,9 @@ Deliver diagnostics and LSP feature behavior for the commonmark flavor using [[d
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Started - 2026-05-13
+> LSP scope confirmed: diagnostics and completions must apply CommonMark-specific
+> portability rules while preserving local Markdown link navigation and keeping
+> Obsidian-only completion/navigation/rename surfaces inactive.
+> Status: `open`.

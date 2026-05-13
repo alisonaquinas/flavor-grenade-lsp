@@ -74,3 +74,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the co
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Started - 2026-05-13
+> Test scope confirmed: add unit and spawned-server coverage for CommonMark parser
+> behavior, portability diagnostics, inactive Obsidian completions, and generic
+> Markdown `auto` fallback evidence.
+> Status: `open`.

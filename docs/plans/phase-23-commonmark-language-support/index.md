@@ -1,7 +1,7 @@
 ---
 title: Phase 23 CommonMark Language Support Tickets
 phase: 23
-status: planned
+status: in-progress
 tags: [plans/phase-23, tickets/index, commonmark]
 aliases: ["Phase 23 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-049]] | CommonMark Language Support | Feature | `draft` |
+| [[FEAT-049]] | CommonMark Language Support | Feature | `in-progress` |
 | [[TASK-318]] | Implement CommonMark parser semantics | Task | `open` |
 | [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | `open` |
 | [[TASK-320]] | Add CommonMark tests and validation evidence | Task | `open` |

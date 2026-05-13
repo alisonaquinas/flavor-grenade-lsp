@@ -2,7 +2,7 @@
 id: "FEAT-049"
 title: "CommonMark Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 23
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-049"]
 
 # CommonMark Language Support
 
-> [!INFO] FEAT-049 - Feature - Phase 23 - Status: draft
+> [!INFO] FEAT-049 - Feature - Phase 23 - Status: in-progress
 
 ## Description
 
@@ -64,3 +64,9 @@ Implement first-class commonmark language support for CommonMark, using [[docs/r
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Started - 2026-05-13
+> Phase 23 started from Phase 22 branch `feature/FEAT-048-phase-22-original-markdown-language-support`.
+> Scope confirmed against [[docs/plans/phase-execution]], [[docs/plans/execution-ledger]], and this phase plan.
+> Implementation will keep CommonMark syntax active while GFM and Obsidian extensions remain inert or portability-diagnosed.
+> Status: `in-progress`.

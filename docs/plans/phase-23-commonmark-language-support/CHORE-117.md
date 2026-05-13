@@ -41,3 +41,8 @@ Perform trace and documentation kickoff hygiene for CommonMark language-support 
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Started - 2026-05-13
+> Trace sweep started. Phase source docs, requirements links, and test evidence
+> paths are present; closeout evidence remains deferred to [[CHORE-118]].
+> Status: `open`.

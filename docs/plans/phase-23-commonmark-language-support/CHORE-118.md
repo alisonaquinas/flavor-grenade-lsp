@@ -47,3 +47,7 @@ Perform the operational sweep for CommonMark language-support phase closure.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Pending - 2026-05-13
+> Closeout sweep is blocked on implementation, evidence updates, and the local gate.
+> Status: `open`.

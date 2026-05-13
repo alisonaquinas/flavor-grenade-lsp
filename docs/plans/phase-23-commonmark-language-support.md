@@ -1,7 +1,7 @@
 ---
 title: "Phase 23: CommonMark Language Support"
 phase: 23
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, commonmark, language-support]
 aliases: [Phase 23, CommonMark Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 23 |
 | Title | CommonMark Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | CommonMark behavior is implemented and tested |
 | Depends on | Phase 22 |
 
