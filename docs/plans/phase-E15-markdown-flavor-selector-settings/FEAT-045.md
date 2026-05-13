@@ -2,7 +2,7 @@
 id: "FEAT-045"
 title: "Markdown Flavor Selector And Settings"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: E15
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-045"]
 
 # Markdown Flavor Selector And Settings
 
-> [!INFO] `FEAT-045` - Feature - Phase E15 - Status: `draft`
+> [!INFO] `FEAT-045` - Feature - Phase E15 - Status: `in-progress`
 
 ## Goal
 
@@ -63,3 +63,9 @@ separate selector and setting control effective Markdown flavor.
 
 > [!INFO] Opened - 2026-05-13
 > Created from extension selector and settings gaps.
+
+> [!INFO] Started - 2026-05-13
+> Phase E15 started after Phase 23 because Phase 24 depends on the
+> selector/settings contract. Execution order updated in
+> [[docs/plans/execution-ledger]] so Obsidian flavor language support resumes
+> after E15 is CI-green.

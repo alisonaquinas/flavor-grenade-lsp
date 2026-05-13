@@ -1,7 +1,7 @@
 ---
 title: "Phase E15: Markdown Flavor Selector And Settings"
 phase: E15
-status: planned
+status: in-progress
 tags: [plans, vscode, extension, markdown-flavor, selector]
 aliases: [Phase E15, Markdown Flavor Selector]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | E15 |
 | Title | Markdown Flavor Selector And Settings |
-| Status | planned |
+| Status | in-progress |
 | Gate | VS Code keeps Markdown language mode while a selector controls effective flavor |
 | Depends on | Phase E14, Phase 19, Phase 20 |
 

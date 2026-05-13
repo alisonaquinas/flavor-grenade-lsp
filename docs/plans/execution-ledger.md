@@ -65,7 +65,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
-| E15   | Markdown Flavor Selector And Settings | ⏳ planned | Separate selector, settings schema, override persistence, auto detection, and server propagation | — | — |
+| E15   | Markdown Flavor Selector And Settings | 🔄 in-progress | Separate selector, settings schema, override persistence, auto detection, and server propagation | 2026-05-13 | — |
 | E16   | Flavor-Scoped Contributions And Marketplace | ⏳ planned | Editor contributions and Marketplace proof align with Markdown flavor selection | — | — |
 | E17   | Extension Flavor Host Verification | ⏳ planned | Extension-host, CI, and validation evidence prove selector behavior | — | — |
 | W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |
@@ -172,7 +172,7 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
                                                                  Phase 14 ──► Phase 15 ──► Phase 16 ──► Phase 17 ──► Phase 18
                                                                                                       │
                                                                                                       ▼
-                                                                 Phase 19 ──► Phase 20 ──► Phase 21 ──► Phase 22 ──► Phase 23 ──► Phase 24 ──► Phase 25 ──► Phase 26
+                                                                 Phase 19 ──► Phase 20 ──► Phase 21 ──► Phase 22 ──► Phase 23 ──► Phase E15 ──► Phase 24 ──► Phase 25 ──► Phase 26
                                                                                                       │
                                                                                                       ▼
                                              Phase 27 ──► Phase 28 ──► Phase 29 ──► Phase 30 ──► Phase 31 ──► Phase 32 ──► Phase 33 ──► Phase 34
@@ -199,17 +199,23 @@ Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
 Server cross-links:
 Phase 19 ──► Phase E15
 Phase 20 ──► Phase E15
+Phase E15 ─► Phase 24
+Phase E15 ─► Phase 29
 Phase 20 ──► Phase E17
 ```
 
 Extension phases mostly track separately from the server phases, but the
 Markdown flavor extension phases have explicit server dependencies: Phase E15
-requires the Phase 19 flavor model and Phase 20 server propagation contract, and
-Phase E17 requires Phase 20 so host tests can verify client-to-server refresh
-behavior. Phase R (Publishing Research) is the entry point. Phase E7-E14 are the
-Marksman VSCode feature-parity continuation phases for OFMarkdown-specific
-client behavior. Phase E15-E17 supersede the historical `ofmarkdown` promotion
-target with the ADR020 Markdown flavor selector model.
+requires the Phase 19 flavor model and Phase 20 server propagation contract.
+Phase 24 requires Phase E15 because Obsidian flavor support must be exercised
+through the selector/settings contract rather than the retired `ofmarkdown`
+language-mode promotion path. Phase 29 also requires Phase E15 because MDX is a
+selector flavor while the VS Code language id remains unchanged. Phase E17
+requires Phase 20 so host tests can verify client-to-server refresh behavior.
+Phase R (Publishing Research) is the entry point. Phase E7-E14 are the Marksman
+VSCode feature-parity continuation phases for OFMarkdown-specific client
+behavior. Phase E15-E17 supersede the historical `ofmarkdown` promotion target
+with the ADR020 Markdown flavor selector model.
 
 ```text
 Website Phases:
