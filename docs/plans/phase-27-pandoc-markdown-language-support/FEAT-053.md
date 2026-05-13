@@ -2,7 +2,7 @@
 id: "FEAT-053"
 title: "Pandoc Markdown Language Support"
 type: feature
-status: done
+status: in-review
 priority: high
 phase: 27
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-053"]
 
 # Pandoc Markdown Language Support
 
-> [!INFO] FEAT-053 - Feature - Phase 27 - Status: done
+> [!INFO] FEAT-053 - Feature - Phase 27 - Status: in-review
 
 ## Implementation Plan
 
@@ -110,6 +110,10 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 > [!INFO] Local gate passed - 2026-05-13
 > Status set to `done` after A-M local execution. Exact phase gate passed:
 > `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts; bun test src/test/integration/markdown-flavor.test.ts; bun run bdd; bun test src/test/ci-workflow.test.ts; bun run lint:docs; bun run typecheck; bun run lint; bun run build`.
+
+> [!INFO] In review - 2026-05-13
+> PR #78 opened and CI run `25827784301` passed. Ledger set to in-review with
+> PR URL.
 
 ## Retrospective
 
