@@ -171,10 +171,7 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
                                                                  Phase 14 ──► Phase 15 ──► Phase 16 ──► Phase 17 ──► Phase 18
                                                                                                       │
                                                                                                       ▼
-                                                                 Phase 19 ──► Phase 20 ──► Phase 21
-                                                                    │
-                                                                    ▼
-                                             Phase 22 ──► Phase 23 ──► Phase 24 ──► Phase 25 ──► Phase 26
+                                                                 Phase 19 ──► Phase 20 ──► Phase 21 ──► Phase 22 ──► Phase 23 ──► Phase 24 ──► Phase 25 ──► Phase 26
                                                                                                       │
                                                                                                       ▼
                                              Phase 27 ──► Phase 28 ──► Phase 29 ──► Phase 30 ──► Phase 31 ──► Phase 32 ──► Phase 33 ──► Phase 34
@@ -197,13 +194,21 @@ Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
                                                                   │
                                                                   ▼
                                                 Phase E13 ───► Phase E14 ──► Phase E15 ──► Phase E16 ──► Phase E17
+
+Server cross-links:
+Phase 19 ──► Phase E15
+Phase 20 ──► Phase E15
+Phase 20 ──► Phase E17
 ```
 
-Extension phases are independent of the server phases (0–34). Phase R
-(Publishing Research) is the entry point. Phase E7-E14 are the Marksman VSCode
-feature-parity continuation phases for OFMarkdown-specific client behavior.
-Phase E15-E17 supersede the historical `ofmarkdown` promotion target with the
-ADR020 Markdown flavor selector model.
+Extension phases mostly track separately from the server phases, but the
+Markdown flavor extension phases have explicit server dependencies: Phase E15
+requires the Phase 19 flavor model and Phase 20 server propagation contract, and
+Phase E17 requires Phase 20 so host tests can verify client-to-server refresh
+behavior. Phase R (Publishing Research) is the entry point. Phase E7-E14 are the
+Marksman VSCode feature-parity continuation phases for OFMarkdown-specific
+client behavior. Phase E15-E17 supersede the historical `ofmarkdown` promotion
+target with the ADR020 Markdown flavor selector model.
 
 ```text
 Website Phases:

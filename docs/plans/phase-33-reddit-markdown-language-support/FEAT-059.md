@@ -23,18 +23,18 @@ Implement first-class reddit language support for Reddit Markdown, using [[resea
 ## Scope
 
 - Define parser/profile behavior for Reddit Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-348]] | Task | open |
-| [[TASK-349]] | Task | open |
-| [[TASK-350]] | Task | open |
-| [[CHORE-137]] | Chore | open |
-| [[CHORE-138]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | open |
+| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | open |
+| [[TASK-350]] | Add Reddit tests and validation evidence | Task | open |
+| [[CHORE-137]] | Phase 33 trace and documentation sweep | Chore | open |
+| [[CHORE-138]] | Phase 33 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class reddit language support for Reddit Markdown, using [[resea
 ## Definition of Done
 
 - [ ] reddit has source-backed parser/profile behavior.
+- [ ] reddit satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] reddit behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

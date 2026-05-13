@@ -24,7 +24,7 @@ configuration schema.
 
 - Define required flavor ids, labels, and quick-pick order.
 - Add package configuration enum with default `auto`.
-- Unit-test schema and constants against ADR020.
+- Unit-test schema and constants against ADR020 and the server flavor contract.
 
 ## Linked Requirements
 
@@ -37,9 +37,11 @@ configuration schema.
 | Test file | Expected coverage |
 |---|---|
 | `extension/src/markdown-flavor.test.ts` | Flavor constants and schema contain required ids. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` or shared contract fixture | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
 
 ## Definition of Done
 
 - [ ] Package schema includes `flavorGrenade.markdownFlavor`.
 - [ ] Constants include all required ids.
+- [ ] A contract test guards client/server flavor enum drift.
 - [ ] `npm test` covers enum and label order.

@@ -23,6 +23,12 @@ membership inputs.
 ## Work Scope
 
 - `.obsidian/` resolves to Obsidian.
+- `.flavor-grenade.toml` can resolve `auto` to each supported explicit flavor
+  when the project config names that flavor.
+- Workspace setting resolution covers every explicit flavor id.
+- Precedence is explicit: manual override, workspace setting/project config,
+  vault marker, then generic fallback.
+- Invalid configured flavors are rejected or ignored with fallback behavior.
 - Generic Markdown resolves to CommonMark.
 - Explicit settings win over detection.
 - Server membership can contribute vault/context evidence without changing
@@ -39,9 +45,14 @@ membership inputs.
 | Test file | Expected coverage |
 |---|---|
 | `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
+| `extension/src/markdown-flavor.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
 
 ## Definition of Done
 
 - [ ] Auto detection resolves expected effective flavor.
+- [ ] `.flavor-grenade.toml` and workspace settings can resolve `auto` to each
+      required explicit flavor id.
+- [ ] Invalid configured flavor values preserve prior state or fall back to the
+      documented default without changing language id.
 - [ ] Generic Markdown does not auto-detect as Obsidian.
 - [ ] Membership fallback does not trigger language promotion.

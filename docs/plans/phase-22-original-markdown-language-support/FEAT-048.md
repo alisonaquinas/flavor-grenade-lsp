@@ -7,7 +7,7 @@ priority: high
 phase: 22
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-043"]
+dependencies: ["FEAT-044"]
 tags: [tickets/feature, "phase/22", markdown-flavor, "original"]
 aliases: ["FEAT-048"]
 ---
@@ -23,18 +23,18 @@ Implement first-class original language support for Original Markdown, using [[r
 ## Scope
 
 - Define parser/profile behavior for Original Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-315]] | Task | open |
-| [[TASK-316]] | Task | open |
-| [[TASK-317]] | Task | open |
-| [[CHORE-115]] | Chore | open |
-| [[CHORE-116]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-315]] | Implement Original Markdown parser semantics | Task | open |
+| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | open |
+| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | open |
+| [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | open |
+| [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class original language support for Original Markdown, using [[r
 ## Definition of Done
 
 - [ ] original has source-backed parser/profile behavior.
+- [ ] original satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] original behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

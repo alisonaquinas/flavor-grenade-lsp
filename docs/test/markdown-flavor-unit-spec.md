@@ -30,9 +30,13 @@ flavors only.
 | MF-U-005 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM and GLFM profiles inherit CommonMark baseline and declare their platform extensions separately. |
 | MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation` | `workspace/didChangeConfiguration` accepts every required flavor id and rejects unknown ids without mutating active flavor state. |
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
+| MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | `.flavor-grenade.toml` and workspace settings resolve `auto` to each required explicit flavor id; invalid configured values fall back without mutating active flavor state. |
+| MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
 
 ## Exit Criteria
 
 - All explicit flavor ids from ADR020 are represented in the profile registry.
 - Configuration validation cannot accept an unresearched flavor id.
+- Auto-detection precedence and invalid configured flavor fallback are covered.
+- Client/server enum drift fails a unit contract test.
 - Unit evidence exists before integration or E2E tests rely on the flavor model.

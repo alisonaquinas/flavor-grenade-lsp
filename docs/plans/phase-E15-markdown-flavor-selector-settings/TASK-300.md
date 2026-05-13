@@ -25,6 +25,8 @@ that preserves VS Code language mode and tracks effective flavor.
 - Remove flavor-state calls to `setTextDocumentLanguage`.
 - Preserve non-`markdown` documents.
 - Track current effective flavor per active Markdown context.
+- Suppress flavor refresh and metadata propagation for open documents whose
+  current VS Code language id is not `markdown`.
 
 ## Linked Requirements
 
@@ -38,9 +40,12 @@ that preserves VS Code language mode and tracks effective flavor.
 | Test file | Expected coverage |
 |---|---|
 | `extension/src/markdown-flavor.test.ts` | Refresh logic never changes language id for flavor. |
+| `extension/src/markdown-flavor.test.ts` | `.md` files manually set to `plaintext` or `mdx` do not receive flavor refresh or server reanalysis until their language id returns to `markdown`. |
 
 ## Definition of Done
 
 - [ ] Vault `.md` documents remain `markdown`.
 - [ ] `plaintext` and `mdx` language documents are ignored by flavor application.
+- [ ] Selector refresh does not send server flavor updates for non-`markdown`
+      language documents.
 - [ ] Obsolete promotion tests are marked for rewrite or removal.

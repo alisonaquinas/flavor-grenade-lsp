@@ -23,18 +23,18 @@ Implement first-class glfm language support for GitLab Flavored Markdown, using 
 ## Scope
 
 - Define parser/profile behavior for GitLab Flavored Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-327]] | Task | open |
-| [[TASK-328]] | Task | open |
-| [[TASK-329]] | Task | open |
-| [[CHORE-123]] | Chore | open |
-| [[CHORE-124]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-327]] | Implement GLFM parser semantics | Task | open |
+| [[TASK-328]] | Add GLFM diagnostics and LSP features | Task | open |
+| [[TASK-329]] | Add GLFM tests and validation evidence | Task | open |
+| [[CHORE-123]] | Phase 26 trace and documentation sweep | Chore | open |
+| [[CHORE-124]] | Phase 26 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class glfm language support for GitLab Flavored Markdown, using 
 ## Definition of Done
 
 - [ ] glfm has source-backed parser/profile behavior.
+- [ ] glfm satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] glfm behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

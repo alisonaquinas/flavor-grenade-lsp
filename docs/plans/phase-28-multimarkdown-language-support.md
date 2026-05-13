@@ -24,8 +24,9 @@ Implement actual language support for the `multimarkdown` flavor.
 ## Scope
 
 Support metadata, tables, footnotes, citations, cross-references, labels,
-attributes where applicable, diagnostics, completions, document symbols,
-folding, semantic tokens, and navigation for document-production constructs.
+supported attributes, diagnostics, completions, document symbols, folding,
+semantic tokens, and navigation for document-production constructs according to
+[[plans/markdown-flavor-lsp-applicability-matrix]].
 
 ## Requirement Trace
 

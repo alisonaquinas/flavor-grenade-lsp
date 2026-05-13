@@ -22,5 +22,7 @@ Target file: `extension/src/test/suite/markdown-flavor.test.js`.
 ## Exit Criteria
 
 - E2E tests prove visible behavior, not only internal state.
+- E2E tests enumerate every required selector id and label and select each
+  explicit flavor while `languageId` remains `markdown`.
 - Workspace and standalone persistence both pass.
 - No E2E flow changes a `.md` document to a custom Markdown language id.

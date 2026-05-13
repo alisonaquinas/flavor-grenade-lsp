@@ -23,18 +23,18 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[resea
 ## Scope
 
 - Define parser/profile behavior for Pandoc Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-330]] | Task | open |
-| [[TASK-331]] | Task | open |
-| [[TASK-332]] | Task | open |
-| [[CHORE-125]] | Chore | open |
-| [[CHORE-126]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | open |
+| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | open |
+| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | open |
+| [[CHORE-125]] | Phase 27 trace and documentation sweep | Chore | open |
+| [[CHORE-126]] | Phase 27 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[resea
 ## Definition of Done
 
 - [ ] pandoc has source-backed parser/profile behavior.
+- [ ] pandoc satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] pandoc behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

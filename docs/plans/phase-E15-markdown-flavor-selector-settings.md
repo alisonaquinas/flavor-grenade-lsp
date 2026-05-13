@@ -15,7 +15,7 @@ updated: 2026-05-13
 | Title | Markdown Flavor Selector And Settings |
 | Status | planned |
 | Gate | VS Code keeps Markdown language mode while a selector controls effective flavor |
-| Depends on | Phase E14, Phase 19 |
+| Depends on | Phase E14, Phase 19, Phase 20 |
 
 ## Objective
 
@@ -46,6 +46,7 @@ server propagation calls.
 - Selector status item or equivalent command surface.
 - Workspace/user override target selection.
 - Auto-detection from markers, settings, and server membership input.
+- Client-to-server propagation using the Phase 20 effective-flavor contract.
 - Unit tests in `extension/src/markdown-flavor.test.ts`.
 
 ### Out of Scope
@@ -61,6 +62,8 @@ server propagation calls.
 - Folder-backed overrides write workspace-folder or workspace scope.
 - Standalone-file overrides write user scope.
 - Effective flavor is sent to the server refresh path.
+- Propagation is skipped for documents whose VS Code language id is not
+  `markdown`.
 
 ## Gate Verification
 

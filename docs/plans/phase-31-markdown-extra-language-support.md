@@ -25,7 +25,8 @@ Implement actual language support for the `markdown-extra` flavor.
 
 Support pipe tables, definition lists, footnotes, abbreviations, fenced code,
 attribute blocks, diagnostics, completions, document symbols, folding, semantic
-tokens, and navigation where applicable.
+tokens, and navigation according to
+[[plans/markdown-flavor-lsp-applicability-matrix]].
 
 ## Requirement Trace
 

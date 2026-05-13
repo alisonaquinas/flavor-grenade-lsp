@@ -23,18 +23,18 @@ Implement first-class kramdown language support for kramdown, using [[research/k
 ## Scope
 
 - Define parser/profile behavior for kramdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-339]] | Task | open |
-| [[TASK-340]] | Task | open |
-| [[TASK-341]] | Task | open |
-| [[CHORE-131]] | Chore | open |
-| [[CHORE-132]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-339]] | Implement kramdown parser semantics | Task | open |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | open |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | open |
+| [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | open |
+| [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class kramdown language support for kramdown, using [[research/k
 ## Definition of Done
 
 - [ ] kramdown has source-backed parser/profile behavior.
+- [ ] kramdown satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] kramdown behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

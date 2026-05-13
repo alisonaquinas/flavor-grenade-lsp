@@ -44,4 +44,5 @@ Deliver diagnostics and LSP feature behavior for the gfm flavor using [[research
 
 - [ ] gfm behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
+- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.

@@ -26,6 +26,11 @@ detection using vault/config/context signals.
 - `.obsidian/` resolves to `obsidian`.
 - Generic single-file Markdown resolves to `commonmark`.
 - `.flavor-grenade.toml` can contribute configured project flavor when present.
+- Workspace settings can contribute configured project flavor when present.
+- Precedence is explicit: explicit override, workspace setting/project config,
+  vault marker, then generic fallback.
+- Invalid configured flavor values are rejected or ignored without mutating the
+  active effective flavor.
 
 ## Linked Requirements
 
@@ -37,10 +42,14 @@ detection using vault/config/context signals.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Resolves explicit, Obsidian auto, and CommonMark fallback. |
+| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
+| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
 
 ## Definition of Done
 
 - [ ] Resolver outputs an explicit effective flavor.
 - [ ] Auto detection does not infer Obsidian for generic Markdown.
+- [ ] `.flavor-grenade.toml` and workspace setting resolution cover every
+      required explicit flavor id.
+- [ ] Precedence and invalid-value fallback behavior are tested.
 - [ ] Existing vault detection inputs are reused where appropriate.

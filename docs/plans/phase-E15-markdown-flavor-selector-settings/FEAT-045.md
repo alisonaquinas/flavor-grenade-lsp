@@ -7,7 +7,7 @@ priority: high
 phase: E15
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-030", "FEAT-042"]
+dependencies: ["FEAT-030", "FEAT-042", "FEAT-043"]
 tags: [tickets/feature, "phase/E15", markdown-flavor, vscode]
 aliases: ["FEAT-045"]
 ---
@@ -26,7 +26,7 @@ separate selector and setting control effective Markdown flavor.
 - Add extension flavor constants and `flavorGrenade.markdownFlavor`.
 - Replace language promotion with a flavor controller.
 - Add selector UI, quick-pick choices, and override persistence.
-- Propagate effective flavor to the server.
+- Propagate effective flavor to the server using the Phase 20 contract.
 
 ## Child Tasks
 
@@ -46,6 +46,10 @@ separate selector and setting control effective Markdown flavor.
 - [ ] Vault Markdown remains `markdown`.
 - [ ] Selector contains every required flavor id and label.
 - [ ] Overrides persist to the correct settings target.
+- [ ] Server refresh receives effective flavor changes for every required
+      explicit flavor id, including standalone `original`.
+- [ ] Server propagation and reanalysis are skipped for open documents whose
+      language id is `plaintext`, `mdx`, or any non-`markdown` value.
 - [ ] Extension unit tests pass for selector, detection, persistence, and propagation.
 
 ## Workflow Log

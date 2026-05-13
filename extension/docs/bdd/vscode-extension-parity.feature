@@ -18,12 +18,27 @@ Feature: VS Code extension parity
     And no vault indexing work is requested
 
   @req:Extension.MarkdownFlavor.Selector @req:Extension.MarkdownFlavor.RequiredCoverage
-  Scenario: Markdown flavor selector exposes every required choice
+  Scenario Outline: Markdown flavor selector exposes every required choice
     Given a Markdown document is active with language id "markdown"
     When the user opens the Markdown flavor selector
-    Then the selector includes "Auto Detect"
-    And the selector includes "Original Markdown", "CommonMark", and "Obsidian"
-    And the selector includes every researched Markdown flavor required by ADR020
+    Then the selector includes id "<id>" with label "<label>"
+
+    Examples:
+      | id             | label                         |
+      | auto           | Auto Detect                   |
+      | original       | Original Markdown             |
+      | commonmark     | CommonMark                    |
+      | obsidian       | Obsidian                      |
+      | gfm            | GitHub Flavored Markdown      |
+      | glfm           | GitLab Flavored Markdown      |
+      | pandoc         | Pandoc Markdown               |
+      | multimarkdown  | MultiMarkdown                 |
+      | mdx            | MDX                           |
+      | kramdown       | kramdown                      |
+      | markdown-extra | Markdown Extra                |
+      | r-markdown     | R Markdown                    |
+      | reddit         | Reddit Markdown               |
+      | stack-overflow | Stack Overflow Markdown       |
 
   @req:Extension.MarkdownFlavor.OverridePersistence
   Scenario: Markdown flavor overrides persist at the active document scope

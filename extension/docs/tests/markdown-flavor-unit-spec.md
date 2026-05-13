@@ -15,15 +15,16 @@ Target file: `extension/src/markdown-flavor.test.ts`.
 | EXT-MF-U-001 | Flavor constants | `Extension.MarkdownFlavor.RequiredCoverage` | Exported flavor list includes `auto` and every required explicit flavor id in stable display order. |
 | EXT-MF-U-002 | Selector labels | `Extension.MarkdownFlavor.Selector` | Quick-pick labels and status labels match requirements for all flavors. |
 | EXT-MF-U-003 | Language preservation | `Extension.MarkdownLanguage.PreserveDefault` | Refresh logic never calls `setTextDocumentLanguage` for flavor selection. |
-| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | `.obsidian/` resolves to `obsidian`; explicit config wins; generic Markdown resolves to `commonmark`. |
+| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | `.obsidian/` resolves to `obsidian`; `.flavor-grenade.toml` and workspace settings can resolve `auto` to every required explicit flavor id; explicit config wins; generic Markdown resolves to `commonmark`; invalid configured values fall back without language promotion. |
 | EXT-MF-U-005 | Membership fallback | `Extension.MarkdownFlavor.AutoDetection` | Server membership response can resolve Obsidian/Flavor Grenade vault state after startup. |
 | EXT-MF-U-006 | Workspace override target | `Extension.MarkdownFlavor.OverridePersistence` | Folder-backed active document writes `flavorGrenade.markdownFlavor` to workspace-folder or workspace scope. |
 | EXT-MF-U-007 | Standalone override target | `Extension.MarkdownFlavor.OverridePersistence` | Standalone Markdown file writes override to user scope. |
 | EXT-MF-U-008 | Auto clearing | `Extension.MarkdownFlavor.OverridePersistence` | Selecting `Auto Detect` clears or resets the override at the active scope. |
-| EXT-MF-U-009 | Server propagation | `Extension.MarkdownFlavor.ServerPropagation` | Changing flavor sends configuration or metadata refresh with the effective flavor id. |
+| EXT-MF-U-009 | Server propagation | `Extension.MarkdownFlavor.ServerPropagation` | Changing flavor sends configuration or metadata refresh with the exact effective flavor id for every required explicit flavor, including standalone `original`. |
 | EXT-MF-U-010 | Refresh triggers | `Extension.MarkdownFlavor.Refresh` | Server ready, index rebuild, workspace folder changes, visible editor changes, file-open events, and selector changes recompute effective flavor. |
-| EXT-MF-U-011 | Manual language safety | `Extension.MarkdownFlavor.ManualLanguageSafety` | Documents with `plaintext`, `mdx`, or any non-`markdown` language id are ignored by flavor application. |
+| EXT-MF-U-011 | Manual language safety | `Extension.MarkdownFlavor.ManualLanguageSafety` | Documents with `plaintext`, `mdx`, or any non-`markdown` language id are ignored by flavor application and do not receive server propagation/reanalysis until their language id returns to `markdown`. |
 | EXT-MF-U-012 | MDX distinction | `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.RequiredCoverage` | `mdx` can be selected as a flavor only when the document language id remains `markdown`; a VS Code `mdx` language document is not modified. |
+| EXT-MF-U-013 | Flavor contract parity | `Extension.MarkdownFlavor.RequiredCoverage` | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
 
 ## Contribution Unit Cases
 

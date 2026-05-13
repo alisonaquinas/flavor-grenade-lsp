@@ -23,18 +23,18 @@ Implement first-class r-markdown language support for R Markdown, using [[resear
 ## Scope
 
 - Define parser/profile behavior for R Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-345]] | Task | open |
-| [[TASK-346]] | Task | open |
-| [[TASK-347]] | Task | open |
-| [[CHORE-135]] | Chore | open |
-| [[CHORE-136]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-345]] | Implement R Markdown parser semantics | Task | open |
+| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | open |
+| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | open |
+| [[CHORE-135]] | Phase 32 trace and documentation sweep | Chore | open |
+| [[CHORE-136]] | Phase 32 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class r-markdown language support for R Markdown, using [[resear
 ## Definition of Done
 
 - [ ] r-markdown has source-backed parser/profile behavior.
+- [ ] r-markdown satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] r-markdown behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

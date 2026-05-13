@@ -23,10 +23,17 @@ Run extension compile/unit/docs checks and prepare E15 for review.
 
 - Run `npm run compile` and `npm test` from `extension/`.
 - Run docs lint for changed documentation.
+- Record E15 selector/settings validation evidence in
+  `extension/docs/tests/evidence/markdown-flavor-settings-scope.md`, including
+  workspace-folder/workspace/user target behavior.
+- Link any remaining user-visible validation evidence to Phase E17 when it
+  requires an Extension Development Host screenshot or log.
 - Update feature ticket status and workflow log.
 
 ## Definition of Done
 
 - [ ] E15 gate commands pass.
+- [ ] E15 validation evidence paths are linked from the extension test index or
+      the Phase E17 validation ticket.
 - [ ] Residual extension gaps are documented for E16/E17.
 - [ ] Phase is ready for review.

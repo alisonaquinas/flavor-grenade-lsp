@@ -15,7 +15,7 @@ updated: 2026-05-13
 | Title | Original Markdown Language Support |
 | Status | planned |
 | Gate | Historical Original Markdown behavior is implemented and tested |
-| Depends on | Phase 20 |
+| Depends on | Phase 21 |
 
 ## Objective
 

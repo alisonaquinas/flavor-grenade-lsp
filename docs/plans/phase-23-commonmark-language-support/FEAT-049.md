@@ -23,18 +23,18 @@ Implement first-class commonmark language support for CommonMark, using [[resear
 ## Scope
 
 - Define parser/profile behavior for CommonMark.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-318]] | Task | open |
-| [[TASK-319]] | Task | open |
-| [[TASK-320]] | Task | open |
-| [[CHORE-117]] | Chore | open |
-| [[CHORE-118]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-318]] | Implement CommonMark parser semantics | Task | open |
+| [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | open |
+| [[TASK-320]] | Add CommonMark tests and validation evidence | Task | open |
+| [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | open |
+| [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class commonmark language support for CommonMark, using [[resear
 ## Definition of Done
 
 - [ ] commonmark has source-backed parser/profile behavior.
+- [ ] commonmark satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] commonmark behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

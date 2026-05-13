@@ -98,3 +98,30 @@ Feature: Markdown flavor dialect behavior
       | r-markdown     | r-markdown-analysis                        | YAML metadata and executable code chunks     |
       | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
       | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |
+
+  Scenario Outline: Flavor signatures produce observable analysis behavior
+    Given "flavorGrenade.markdownFlavor" is set to "<id>"
+    And the document contains:
+      """
+      <markdown>
+      """
+    When Flavor Grenade analyzes the document
+    Then the effective Markdown flavor is "<id>"
+    And the analysis records "<expected>"
+    And the document language id remains "markdown"
+
+    Examples:
+      | id             | markdown                                      | expected                                      |
+      | original       | # Title\n\n    code\n\n\| a \| b \|\n\|---\|---\| | indented code is core; pipe table is non-core Original Markdown |
+      | commonmark     | # Title\n\n```js\nx()\n```                  | fenced code block is CommonMark syntax       |
+      | obsidian       | [[Note]]\n![[image.png]]\n#tag               | wiki links, embeds, and tags are vault-aware |
+      | gfm            | - [x] done\n\n~~old~~\n\n\| a \| b \|\n\|---\|---\| | task lists, strikethrough, and tables are enabled |
+      | glfm           | ```mermaid\ngraph TD\nA-->B\n```             | GitLab code-fence extension behavior is recognized |
+      | pandoc         | ---\ntitle: Demo\n---\n\n[@smith]\n\n^note  | metadata, citations, and footnote-like syntax are recognized |
+      | multimarkdown  | Title: Demo\n\n[#target]\n\n[link][id]       | metadata and cross-reference syntax are recognized |
+      | mdx            | # Title\n\n<Component prop={value} />         | JSX component syntax is treated as MDX content without changing VS Code language id |
+      | kramdown       | paragraph\n{:.lead}\n\n# H {#custom}        | block/span attributes are recognized         |
+      | markdown-extra | Term\n: Definition\n\nFootnote[^1]\n\n[^1]: Note | definition lists and footnotes are recognized |
+      | r-markdown     | ---\ntitle: Demo\n---\n\n```{r}\nplot(x)\n``` | YAML metadata and R code chunks are recognized |
+      | reddit         | >!spoiler!<\n\n/u/example                    | Reddit spoiler and platform link behavior is recognized |
+      | stack-overflow | `code`\n\n    block\n\n[tag:markdown]        | technical-writing code and tag references are recognized |

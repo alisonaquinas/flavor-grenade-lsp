@@ -27,7 +27,8 @@ extensions.
 
 Support fenced code, ATX/setext headings, reference links, autolinks, normalized
 labels, HTML blocks, blockquote/list edge cases, document links, folding,
-semantic tokens, completion, diagnostics, and navigation where applicable.
+semantic tokens, completion, diagnostics, and navigation according to
+[[plans/markdown-flavor-lsp-applicability-matrix]].
 
 ## Requirement Trace
 

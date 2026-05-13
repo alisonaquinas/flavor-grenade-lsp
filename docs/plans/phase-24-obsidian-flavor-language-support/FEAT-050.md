@@ -23,18 +23,18 @@ Implement first-class obsidian language support for Obsidian, using [[ofm-spec/i
 ## Scope
 
 - Define parser/profile behavior for Obsidian.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-321]] | Task | open |
-| [[TASK-322]] | Task | open |
-| [[TASK-323]] | Task | open |
-| [[CHORE-119]] | Chore | open |
-| [[CHORE-120]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-321]] | Map existing OFM parser behavior to Obsidian flavor | Task | open |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | open |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | open |
+| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | open |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class obsidian language support for Obsidian, using [[ofm-spec/i
 ## Definition of Done
 
 - [ ] obsidian has source-backed parser/profile behavior.
+- [ ] obsidian satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] obsidian behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

@@ -317,8 +317,8 @@ Implementation plan: [[plans/phase-32-r-markdown-language-support]]
 ### Phase 33 — Reddit Markdown Language Support
 
 Implement practical local support for `reddit`: Reddit-specific syntax
-awareness, escaping and line-break behavior, spoiler handling where applicable,
-and portability diagnostics without calling Reddit services.
+awareness, escaping and line-break behavior, supported spoiler syntax, and
+portability diagnostics without calling Reddit services.
 
 Implementation plan: [[plans/phase-33-reddit-markdown-language-support]]
 
@@ -589,8 +589,10 @@ activation contract. E9 follows E8 so the host harness can lock command bridge
 behavior. E10-E14 then harden user-facing status, Marketplace proof, editor
 contributions, workspace environments, and compatibility guardrails.
 E15-E17 are new Markdown flavor gap-closure phases. E15 depends on the
-server-side flavor model from Phase 19; E17 depends on E16 and Phase 20 because
-host verification needs both selector UI and server propagation.
+server-side flavor model from Phase 19 and the propagation contract from Phase
+20 because the selector must send effective flavor changes to the server. E17
+depends on E16 and Phase 20 because host verification needs both selector UI and
+server propagation.
 
 ## Website Phases (`website/`)
 

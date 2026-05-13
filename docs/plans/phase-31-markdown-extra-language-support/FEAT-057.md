@@ -23,18 +23,18 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 ## Scope
 
 - Define parser/profile behavior for Markdown Extra.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-342]] | Task | open |
-| [[TASK-343]] | Task | open |
-| [[TASK-344]] | Task | open |
-| [[CHORE-133]] | Chore | open |
-| [[CHORE-134]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | open |
+| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | open |
+| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | open |
+| [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | open |
+| [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 ## Definition of Done
 
 - [ ] markdown-extra has source-backed parser/profile behavior.
+- [ ] markdown-extra satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] markdown-extra behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

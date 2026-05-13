@@ -22,15 +22,24 @@ using VS Code's language picker.
 
 ## Work Scope
 
-- Add smoke record or screenshot reference for selector behavior.
-- Record settings-scope evidence.
-- Record host log evidence showing no `.md` document changes to `ofmarkdown`.
+- Add smoke record or screenshot reference for selector behavior at
+  `extension/docs/tests/evidence/markdown-flavor-selector-smoke.md`.
+- Record settings-scope evidence at
+  `extension/docs/tests/evidence/markdown-flavor-settings-scope.md`.
+- Record host log evidence at
+  `extension/docs/tests/evidence/markdown-flavor-host-log.md` showing no `.md`
+  document changes to `ofmarkdown`.
+- Record research-backed flavor review at
+  `extension/docs/tests/evidence/markdown-flavor-research-review.md`.
 
 ## Linked Requirements
 
 | Requirement | Gap |
 |---|---|
-| `Extension.MarkdownFlavor.Validation` | `GAP-E-014` |
+| `Extension.MarkdownFlavor.Selector` | `GAP-E-014` |
+| `Extension.MarkdownFlavor.OverridePersistence` | `GAP-E-014` |
+| `Extension.MarkdownFlavor.ManualLanguageSafety` | `GAP-E-014` |
+| `Extension.MarkdownLanguage.PreserveDefault` | `GAP-E-014` |
 
 ## Linked Tests
 
@@ -43,3 +52,5 @@ using VS Code's language picker.
 - [ ] Validation evidence exists.
 - [ ] Evidence is linked from extension docs.
 - [ ] Manual-language and settings-scope evidence are included.
+- [ ] Evidence files use the artifact paths required by
+      `extension/docs/tests/markdown-flavor-validation-spec.md`.

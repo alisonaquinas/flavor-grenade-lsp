@@ -26,12 +26,15 @@ wired into verification.
 - Ensure `npm test` runs `markdown-flavor.test.ts`.
 - Ensure `npm run test:host` runs `markdown-flavor.test.js`.
 - Keep package and marketplace verification commands active.
+- Cross-link server-side `GAP-S-010` so CI protection covers the root unit,
+  integration, BDD, and extension host flavor suites together.
 
 ## Linked Requirements
 
 | Requirement | Gap |
 |---|---|
 | `Extension.Tests.HostCoverage` | `GAP-E-013` |
+| `CICD.Workflow.BDDGate` | `GAP-S-010` |
 
 ## Linked Tests
 
@@ -43,4 +46,6 @@ wired into verification.
 
 - [ ] Local extension commands include flavor tests.
 - [ ] CI verification detects missing host flavor suite.
+- [ ] CI verification detects missing root flavor BDD/spec wiring and missing
+      extension host flavor wiring.
 - [ ] Extension verification spec rows are updated.

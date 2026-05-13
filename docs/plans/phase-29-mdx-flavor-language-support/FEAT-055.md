@@ -23,18 +23,18 @@ Implement first-class mdx language support for MDX, using [[research/mdx-analysi
 ## Scope
 
 - Define parser/profile behavior for MDX.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-336]] | Task | open |
-| [[TASK-337]] | Task | open |
-| [[TASK-338]] | Task | open |
-| [[CHORE-129]] | Chore | open |
-| [[CHORE-130]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-336]] | Implement MDX flavor parser semantics | Task | open |
+| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | open |
+| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | open |
+| [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | open |
+| [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class mdx language support for MDX, using [[research/mdx-analysi
 ## Definition of Done
 
 - [ ] mdx has source-backed parser/profile behavior.
+- [ ] mdx satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] mdx behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

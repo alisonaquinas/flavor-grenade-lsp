@@ -23,18 +23,18 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 ## Scope
 
 - Define parser/profile behavior for MultiMarkdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-333]] | Task | open |
-| [[TASK-334]] | Task | open |
-| [[TASK-335]] | Task | open |
-| [[CHORE-127]] | Chore | open |
-| [[CHORE-128]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | open |
+| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | open |
+| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | open |
+| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | open |
+| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 ## Definition of Done
 
 - [ ] multimarkdown has source-backed parser/profile behavior.
+- [ ] multimarkdown satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] multimarkdown behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

@@ -25,6 +25,9 @@ are removed.
 - Update `src/test/ci-workflow.test.ts` or equivalent checks.
 - Verify Cucumber config includes the flavor feature files.
 - Add file-presence checks for root flavor unit/integration specs where useful.
+- Cross-link extension host flavor suite protection through Phase E17/TASK-311
+  so `GAP-S-010` covers root unit, integration, BDD, and extension host
+  coverage without duplicating host implementation in Phase 21.
 
 ## Linked Requirements
 
@@ -42,4 +45,5 @@ are removed.
 
 - [ ] CI verification checks include flavor feature files.
 - [ ] Local checks fail on missing flavor test wiring.
+- [ ] Phase E17/TASK-311 is linked as the extension host gate for `GAP-S-010`.
 - [ ] Verification spec rows are updated.

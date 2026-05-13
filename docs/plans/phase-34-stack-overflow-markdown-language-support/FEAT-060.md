@@ -23,18 +23,18 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 ## Scope
 
 - Define parser/profile behavior for Stack Overflow Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior where applicable.
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit, integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 
-| Ticket | Type | Status |
-|---|---|---|
-| [[TASK-351]] | Task | open |
-| [[TASK-352]] | Task | open |
-| [[TASK-353]] | Task | open |
-| [[CHORE-139]] | Chore | open |
-| [[CHORE-140]] | Chore | open |
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | open |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | open |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | open |
+| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | open |
+| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | open |
 
 ## Linked Requirements
 
@@ -46,5 +46,6 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 ## Definition of Done
 
 - [ ] stack-overflow has source-backed parser/profile behavior.
+- [ ] stack-overflow satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] stack-overflow behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.

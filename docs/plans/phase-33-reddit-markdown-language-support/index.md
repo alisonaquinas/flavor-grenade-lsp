@@ -21,7 +21,7 @@ updated: 2026-05-13
 ## Ticket Details
 
 `TASK-348` covers Reddit-specific Markdown constructs, escaping, line-break
-behavior, spoilers where applicable, and portability boundaries.
+behavior, supported spoiler syntax, and portability boundaries.
 
 `TASK-349` wires diagnostics, semantic tokens, folding, and guidance-oriented
 completion or quick fixes where useful.

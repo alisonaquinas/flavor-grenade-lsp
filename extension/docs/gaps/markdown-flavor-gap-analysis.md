@@ -79,7 +79,7 @@ Net state:
 | GAP-E-011 | `Extension.Tests.HostCoverage`; `EXT-MF-E-001` to `EXT-MF-E-006` | Host suite has `activation-language-mode.test.js`; no `markdown-flavor.test.js`. | Host tests must prove selector labels, settings targets, server refresh, and language preservation. | High |
 | GAP-E-012 | `Extension.Marketplace.OFMProof`; `EXT-MF-I-005`, `EXT-MF-VF-005` | README and marketplace tests require `ofmarkdown-mode.png`. | Marketplace proof must include Markdown flavor selector evidence and stop presenting language-mode promotion as current behavior. | High |
 | GAP-E-013 | `Extension.MarkdownFlavor.RequiredCoverage`; `EXT-MF-VF-001` | `npm test` cannot run missing `extension/src/markdown-flavor.test.ts`. | Extension unit suite must include selector, enum/schema, auto-detection, persistence, propagation, refresh, and manual-language tests. | High |
-| GAP-E-014 | `Extension.MarkdownFlavor.Validation`; `EXT-MF-VA-001` to `EXT-MF-VA-004` | No screenshot/smoke record or host log validates selector behavior. | Validation evidence must show user-visible selector, correct settings scope, no `ofmarkdown` transition, and research-backed flavor display. | Medium |
+| GAP-E-014 | `Extension.MarkdownFlavor.Selector`; `Extension.MarkdownFlavor.OverridePersistence`; `Extension.MarkdownFlavor.ManualLanguageSafety`; `Extension.MarkdownLanguage.PreserveDefault`; `EXT-MF-VA-001` to `EXT-MF-VA-004` | No screenshot/smoke record or host log validates selector behavior. | Validation evidence must show user-visible selector, correct settings scope, no `ofmarkdown` transition, and research-backed flavor display. | Medium |
 
 ## Requirement-by-Requirement Status
 
