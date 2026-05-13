@@ -15,7 +15,7 @@ updated: 2026-05-13
 | [[TASK-318]] | Implement CommonMark parser semantics | Task | `green` |
 | [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | `green` |
 | [[TASK-320]] | Add CommonMark tests and validation evidence | Task | `green` |
-| [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | `open` |
+| [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | `green` |
 | [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | `open` |
 
 ## Ticket Details

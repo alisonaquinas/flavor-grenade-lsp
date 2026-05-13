@@ -46,6 +46,24 @@ Obsidian constructs.
 | Hover | Implemented through existing local Markdown metadata surfaces for core syntax; no host-specific Original syntax exists. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for local headings and Markdown link references through existing rename handlers; inactive extension syntax has no Original index entries. | existing rename and Markdown-link rename suites |
 
+## Phase 23 CommonMark Disposition
+
+Phase 23 marks the `commonmark` profile's LSP surfaces implemented for local
+CommonMark behavior. Existing shared Markdown handlers provide local link,
+heading, document-symbol, folding, hover, semantic-token, and rename behavior
+from the parsed CommonMark-compatible index. Phase 23 adds explicit CommonMark
+surface status, autolink indexing, FG102 portability diagnostics, and
+completion suppression for Obsidian-only contexts outside the Obsidian flavor.
+
+| Surface | Phase 23 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for CommonMark portability warnings. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for standard Markdown link/heading contexts; inactive Obsidian contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Navigation, document symbols, folding | Implemented through the parsed CommonMark index: headings, inline links, reference labels, and autolinks remain active; wiki links, embeds, tags, and callouts are absent. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing structural/navigation suites |
+| Semantic tokens | Implemented through existing Markdown token surfaces for CommonMark syntax; inactive extension tokens are absent from the CommonMark index. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
+| Hover | Implemented through existing local Markdown metadata surfaces for CommonMark syntax; no host-specific CommonMark syntax exists. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for local headings and Markdown link references through existing rename handlers; inactive extension syntax has no CommonMark index entries. | existing rename and Markdown-link rename suites |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

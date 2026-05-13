@@ -27,6 +27,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
 | MF-I-009 | `src/test/integration/markdown-flavor.test.ts` | Send malformed flavor propagation payloads and unsafe `.flavor-grenade.toml` fixtures. | Oversized maps, non-file URI keys, dangerous keys, stale resources, unsafe TOML paths, oversized TOML, and invalid values are rejected before effective flavor state changes. |
 | MF-I-010 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `original` and open a document with Original core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `original`, indexes headings but not wiki links, publishes FG101 portability diagnostics, and suppresses wiki-link completions. |
+| MF-I-011 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `commonmark` and open a document with CommonMark core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `commonmark`, indexes headings but not wiki links, publishes FG102 portability diagnostics, and suppresses wiki-link completions. |
 
 ## Spawned-Server IDs
 
@@ -71,6 +72,12 @@ payloads and unsafe project config evidence fail before state mutation.
 
 Integration evidence for Phase 22. It proves Original Markdown behavior crosses
 the JSON-RPC process boundary for parser dispatch, diagnostics, and completion
+candidate routing without requiring VS Code UI.
+
+### MF-I-011 - CommonMark Spawned-Server Behavior
+
+Integration evidence for Phase 23. It proves CommonMark behavior crosses the
+JSON-RPC process boundary for parser dispatch, diagnostics, and completion
 candidate routing without requiring VS Code UI.
 
 ## Exit Criteria

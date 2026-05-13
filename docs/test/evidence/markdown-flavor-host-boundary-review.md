@@ -67,6 +67,21 @@ Evidence:
 | Completion | Obsidian-only completion contexts return no candidates for Original Markdown. |
 | Navigation / rename | Inactive constructs have no Original index entries, so shared local handlers do not treat them as vault targets. |
 
+## Phase 23 CommonMark Review
+
+CommonMark has no host-specific syntax in the profile registry. Phase 23
+therefore treats GFM pipe tables and task lists plus Obsidian wiki links,
+embeds, tags, and callouts as inert or portability-warning syntax, not as
+local vault navigation or rename targets.
+
+Evidence:
+
+| Surface | Result |
+|---|---|
+| Diagnostics | FG102 portability warnings cover CommonMark-inert extension syntax. |
+| Completion | Obsidian-only completion contexts return no candidates for CommonMark. |
+| Navigation / rename | Inactive constructs have no CommonMark index entries, so shared local handlers do not treat them as vault targets. |
+
 ## Validation Result
 
 | Validation row | Result | Evidence |

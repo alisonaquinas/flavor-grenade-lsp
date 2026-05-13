@@ -2,7 +2,7 @@
 id: "CHORE-117"
 title: "Phase 23 trace and documentation sweep"
 type: chore
-status: open
+status: green
 priority: medium
 phase: 23
 parent: "FEAT-049"
@@ -46,3 +46,10 @@ Perform trace and documentation kickoff hygiene for CommonMark language-support 
 > Trace sweep started. Phase source docs, requirements links, and test evidence
 > paths are present; closeout evidence remains deferred to [[CHORE-118]].
 > Status: `open`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Trace and documentation sweep updated CommonMark evidence in the LSP
+> applicability matrix, research trace, host-boundary review, unit/integration
+> specs, test index, and test matrix. Closeout-only gate evidence remains
+> deferred to [[CHORE-118]].
+> Status: `green`.
