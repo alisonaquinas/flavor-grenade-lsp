@@ -25,7 +25,9 @@ language-mode story to the current Markdown flavor selector model.
 
 - Update activation for selector interaction.
 - Rewrite snippets, keybindings, and language configuration scoping.
-- Update README, troubleshooting, visual proof, and Marketplace tests.
+- Update README, troubleshooting, visual proof, and exact Marketplace tests
+  `extension/test/marketplace/readme-assets.test.ts` and
+  `extension/test/marketplace/vsix-assets.test.ts`.
 - Preserve generic Markdown isolation.
 
 ## Child Tasks
@@ -45,7 +47,9 @@ language-mode story to the current Markdown flavor selector model.
 - [ ] Contribution tests no longer require `editorLangId == ofmarkdown`.
 - [ ] Generic CommonMark Markdown is not affected by Obsidian-only affordances.
 - [ ] Marketplace proof shows the Markdown flavor selector.
-- [ ] Packaged asset verification passes.
+- [ ] Packaged asset verification passes through
+      `extension/test/marketplace/readme-assets.test.ts` and
+      `extension/test/marketplace/vsix-assets.test.ts`.
 
 ## Workflow Log
 

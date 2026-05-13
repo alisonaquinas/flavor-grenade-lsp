@@ -37,10 +37,10 @@ that preserves VS Code language mode and tracks effective flavor.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Refresh logic never changes language id for flavor. |
-| `extension/src/markdown-flavor.test.ts` | `.md` files manually set to `plaintext` or `mdx` do not receive flavor refresh or server reanalysis until their language id returns to `markdown`. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-003` | `extension/src/markdown-flavor.test.ts` | Refresh logic never changes language id for flavor. |
+| `EXT-MF-U-011`, `EXT-MF-U-012` | `extension/src/markdown-flavor.test.ts` | `.md` files manually set to `plaintext` or `mdx` do not receive flavor refresh or server reanalysis until their language id returns to `markdown`; `mdx` remains selectable only as a Markdown flavor when the document language id is `markdown`. |
 
 ## Definition of Done
 

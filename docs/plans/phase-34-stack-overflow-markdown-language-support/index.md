@@ -26,8 +26,9 @@ code fences, GFM-style tables, and comment-surface limits.
 `TASK-352` wires diagnostics, semantic tokens, folding, and guidance-oriented
 completion or quick fixes where useful.
 
-`TASK-353` adds unit, integration, BDD, and validation coverage for
-`stack-overflow`.
+`TASK-353` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]]
+plus integration, BDD, and validation coverage for `stack-overflow`.
 
 ## Deferred Follow-Up Notes
 

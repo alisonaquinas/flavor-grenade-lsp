@@ -26,5 +26,6 @@ labels, and document-production syntax.
 `TASK-334` wires diagnostics, completions, document symbols, folding, semantic
 tokens, and navigation.
 
-`TASK-335` adds unit, integration, BDD, and validation coverage for
-`multimarkdown`.
+`TASK-335` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]]
+plus integration, BDD, and validation coverage for `multimarkdown`.

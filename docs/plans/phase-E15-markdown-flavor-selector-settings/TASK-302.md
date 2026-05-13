@@ -17,8 +17,8 @@ aliases: ["TASK-302"]
 
 ## Description
 
-Write flavor overrides to project settings for folder-owned documents and user
-settings for standalone files.
+Write flavor overrides to workspace-folder or workspace settings for
+folder-owned documents and user settings for standalone files.
 
 ## Work Scope
 
@@ -35,12 +35,12 @@ settings for standalone files.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Workspace, standalone, and Auto reset targets. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-006`, `EXT-MF-U-007`, `EXT-MF-U-008` | `extension/src/markdown-flavor.test.ts` | Workspace, standalone, and Auto reset targets. |
 
 ## Definition of Done
 
-- [ ] Workspace files write project scope.
+- [ ] Workspace files write workspace-folder or workspace scope.
 - [ ] Standalone files write user scope.
 - [ ] Auto clears or resets the same active scope.

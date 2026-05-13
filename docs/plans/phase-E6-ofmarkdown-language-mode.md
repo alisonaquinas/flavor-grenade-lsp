@@ -25,6 +25,12 @@ Add a VS Code language mode named **OFMarkdown** (`ofmarkdown`) and dynamically 
 
 This phase is complete. PR #38 confirmed the CI gate for the implementation branch before merge.
 
+> [!NOTE]
+> Historical phase. Current Markdown flavor requirements supersede dynamic
+> `ofmarkdown` promotion with the E15 selector/settings model: `.md` documents
+> stay in VS Code's built-in `markdown` language mode, and
+> `flavorGrenade.markdownFlavor` carries effective flavor state.
+
 ---
 
 ## File Map

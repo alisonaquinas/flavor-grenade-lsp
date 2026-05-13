@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[research/
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for markdown-extra. |
+| [[test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]] | Profile and parser behavior for markdown-extra. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor markdown-extra. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

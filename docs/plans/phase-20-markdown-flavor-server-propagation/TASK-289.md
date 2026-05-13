@@ -42,8 +42,8 @@ detection using vault/config/context signals.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
-| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
+| [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
+| [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
 
 ## Definition of Done
 

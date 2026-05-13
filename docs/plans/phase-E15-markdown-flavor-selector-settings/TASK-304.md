@@ -17,13 +17,15 @@ aliases: ["TASK-304"]
 
 ## Description
 
-Send effective flavor changes to the server and trigger refresh for open
-Markdown documents.
+Send effective flavor changes to the server through
+`workspace/didChangeConfiguration` carrying `flavorGrenade.markdownFlavor` and
+the resolved effective flavor, then trigger refresh for open Markdown
+documents.
 
 ## Work Scope
 
-- Use initialization options, configuration changes, or a documented metadata
-  request.
+- Use `workspace/didChangeConfiguration` with `flavorGrenade.markdownFlavor`
+  and the resolved effective flavor, matching the Phase 20 server contract.
 - Refresh server analysis after selector changes.
 - Select every required explicit flavor id and verify the exact server payload
   and effective flavor, including standalone `original`.
@@ -42,15 +44,17 @@ Markdown documents.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Propagation call and refresh trigger behavior. |
-| `extension/src/markdown-flavor.test.ts` | Parameterized propagation payloads for every required explicit flavor id, plus `auto` resolution and standalone `original`. |
-| `extension/src/markdown-flavor.test.ts` | No propagation or reanalysis is sent for `.md` documents whose language id is `plaintext`, `mdx`, or another non-`markdown` value. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-009`, `EXT-MF-U-010` | `extension/src/markdown-flavor.test.ts` | Propagation call and refresh trigger behavior. |
+| `EXT-MF-U-009` | `extension/src/markdown-flavor.test.ts` | Parameterized `workspace/didChangeConfiguration` payloads for `flavorGrenade.markdownFlavor`, every required explicit flavor id, `auto` resolution, and standalone `original`. |
+| `EXT-MF-U-011` | `extension/src/markdown-flavor.test.ts` | No propagation or reanalysis is sent for `.md` documents whose language id is `plaintext`, `mdx`, or another non-`markdown` value. |
+| `EXT-MF-I-004` | `extension/src/commands.test.ts` | Rebuild-index completion after selector override recomputes effective flavor for open Markdown editors. |
 
 ## Definition of Done
 
-- [ ] Flavor changes notify the server.
+- [ ] Flavor changes notify the server through `workspace/didChangeConfiguration`
+      carrying `flavorGrenade.markdownFlavor` and the resolved effective flavor.
 - [ ] Every required explicit flavor id is covered by propagation tests.
 - [ ] Standalone `original` is propagated and reanalyzed correctly.
 - [ ] Open Markdown refresh path runs after selector changes.

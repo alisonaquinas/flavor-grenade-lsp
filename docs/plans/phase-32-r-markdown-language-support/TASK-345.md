@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the r-markdown flavor using [[research/r-ma
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for r-markdown. |
+| [[test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]] | Profile and parser behavior for r-markdown. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor r-markdown. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

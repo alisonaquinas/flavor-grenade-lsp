@@ -34,10 +34,10 @@ configuration schema.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Flavor constants and schema contain required ids. |
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` or shared contract fixture | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-001` | `extension/src/markdown-flavor.test.ts` | Flavor constants and schema contain required ids. |
+| `EXT-MF-U-013` | `src/parser/__tests__/markdown-flavor-profiles.test.ts` or shared contract fixture | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
 
 ## Definition of Done
 

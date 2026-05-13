@@ -26,7 +26,9 @@ separate selector and setting control effective Markdown flavor.
 - Add extension flavor constants and `flavorGrenade.markdownFlavor`.
 - Replace language promotion with a flavor controller.
 - Add selector UI, quick-pick choices, and override persistence.
-- Propagate effective flavor to the server using the Phase 20 contract.
+- Propagate effective flavor to the server using
+  `workspace/didChangeConfiguration` with `flavorGrenade.markdownFlavor` and
+  the resolved effective flavor, matching the Phase 20 contract.
 
 ## Child Tasks
 
@@ -46,8 +48,9 @@ separate selector and setting control effective Markdown flavor.
 - [ ] Vault Markdown remains `markdown`.
 - [ ] Selector contains every required flavor id and label.
 - [ ] Overrides persist to the correct settings target.
-- [ ] Server refresh receives effective flavor changes for every required
-      explicit flavor id, including standalone `original`.
+- [ ] Server refresh receives `workspace/didChangeConfiguration` changes for
+      `flavorGrenade.markdownFlavor` plus the resolved effective flavor for
+      every required explicit flavor id, including standalone `original`.
 - [ ] Server propagation and reanalysis are skipped for open documents whose
       language id is `plaintext`, `mdx`, or any non-`markdown` value.
 - [ ] Extension unit tests pass for selector, detection, persistence, and propagation.

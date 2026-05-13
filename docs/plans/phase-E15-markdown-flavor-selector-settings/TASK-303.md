@@ -42,10 +42,10 @@ membership inputs.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
-| `extension/src/markdown-flavor.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-004`, `EXT-MF-U-005` | `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
+| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
 
 ## Definition of Done
 

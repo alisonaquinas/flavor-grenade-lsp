@@ -190,7 +190,7 @@ helpers or injected VS Code facades.
 | `extension/test/contributions/language-configuration.test.ts` | Unit | Legacy tests for OFMarkdown language configuration scope; rewrite or retire because flavor must not rely on a custom language id | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
 | `extension/test/contributions/keybindings.test.ts` | Unit | Legacy tests for OFMarkdown-scoped keybindings; rewrite around selector/context-key preconditions | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
 | `extension/test/contributions/ofmarkdown-isolation.test.ts` | Unit | Legacy tests for generic Markdown isolation from OFMarkdown-only contributions; rewrite for flavor-scoped isolation across required flavors | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
-| `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
+| `extension/src/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests
 

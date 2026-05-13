@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the commonmark flavor using [[research/comm
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for commonmark. |
+| [[test/markdown-flavor-unit-spec#MF-U-011 - CommonMark Parser And Analysis|MF-U-011]] | Profile and parser behavior for commonmark. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor commonmark. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

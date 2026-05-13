@@ -47,7 +47,9 @@ server propagation calls.
 - Selector status item or equivalent command surface.
 - Workspace/user override target selection.
 - Auto-detection from markers, settings, and server membership input.
-- Client-to-server propagation using the Phase 20 effective-flavor contract.
+- Client-to-server propagation using `workspace/didChangeConfiguration` carrying
+  `flavorGrenade.markdownFlavor` and the resolved effective flavor, matching
+  the Phase 20 contract.
 - Unit tests in `extension/src/markdown-flavor.test.ts`.
 
 ### Out of Scope
@@ -62,7 +64,9 @@ server propagation calls.
 - Selector includes Auto Detect and every required explicit flavor.
 - Folder-backed overrides write workspace-folder or workspace scope.
 - Standalone-file overrides write user scope.
-- Effective flavor is sent to the server refresh path.
+- Effective flavor is sent to the server through
+  `workspace/didChangeConfiguration` with `flavorGrenade.markdownFlavor` and
+  the resolved effective flavor.
 - Propagation is skipped for documents whose VS Code language id is not
   `markdown`.
 

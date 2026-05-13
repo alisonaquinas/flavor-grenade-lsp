@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the glfm flavor using [[research/gitlab-fla
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for glfm. |
+| [[test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]] | Profile and parser behavior for glfm. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor glfm. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

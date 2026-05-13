@@ -36,7 +36,7 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[resea
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for pandoc. |
+| [[test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]] | Profile and parser behavior for pandoc. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor pandoc. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

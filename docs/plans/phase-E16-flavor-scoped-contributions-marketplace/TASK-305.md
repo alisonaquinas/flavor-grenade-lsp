@@ -35,9 +35,10 @@ the old `ofmarkdown` language event.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/activation-gate.test.ts` | Selector command activation and no `ofmarkdown` dependency. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-I-001`, `EXT-MF-I-002` | `extension/src/activation-gate.test.ts` | Vault-marker activation and generic Markdown idle startup without custom language id activation. |
+| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Selector command activation and no `ofmarkdown` dependency. |
 
 ## Definition of Done
 

@@ -23,10 +23,22 @@ diagnostics, and spawned-server integration tests.
 
 ## Scope
 
-- Accept, validate, and store `flavorGrenade.markdownFlavor`.
+- Accept, validate, and store `flavorGrenade.markdownFlavor` from
+  `workspace/didChangeConfiguration`.
 - Resolve explicit and `auto` modes.
 - Refresh open documents after flavor changes.
 - Gate initial Original, CommonMark, and Obsidian analysis behavior.
+
+## Evidence Trace
+
+- [[test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]]
+  covers server configuration validation.
+- [[test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]]
+  covers refresh triggers.
+- [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]]
+  covers auto resolution and fallback.
+- [[test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] covers
+  spawned-server temp workspace precedence.
 
 ## Child Tasks
 

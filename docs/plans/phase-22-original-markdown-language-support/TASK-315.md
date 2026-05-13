@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the original flavor using [[research/common
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for original. |
+| [[test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]] | Profile and parser behavior for original. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor original. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

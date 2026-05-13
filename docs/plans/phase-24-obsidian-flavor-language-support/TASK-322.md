@@ -36,7 +36,7 @@ Deliver diagnostics and LSP feature behavior for the obsidian flavor using [[ofm
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for obsidian. |
+| [[test/markdown-flavor-unit-spec#MF-U-012 - Obsidian Parser And Analysis|MF-U-012]] | Profile and parser behavior for obsidian. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor obsidian. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

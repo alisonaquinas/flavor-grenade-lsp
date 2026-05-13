@@ -26,4 +26,6 @@ heading anchor behavior where local support is practical.
 `TASK-325` wires diagnostics, completions, folding, semantic tokens, document
 symbols, document links, and navigation for GFM constructs.
 
-`TASK-326` adds unit, integration, BDD, and validation coverage for `gfm`.
+`TASK-326` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
+plus integration, BDD, and validation coverage for `gfm`.

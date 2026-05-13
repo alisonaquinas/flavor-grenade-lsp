@@ -36,7 +36,7 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for multimarkdown. |
+| [[test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]] | Profile and parser behavior for multimarkdown. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor multimarkdown. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

@@ -26,7 +26,9 @@ behavior, supported spoiler syntax, and portability boundaries.
 `TASK-349` wires diagnostics, semantic tokens, folding, and guidance-oriented
 completion or quick fixes where useful.
 
-`TASK-350` adds unit, integration, BDD, and validation coverage for `reddit`.
+`TASK-350` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]]
+plus integration, BDD, and validation coverage for `reddit`.
 
 ## Deferred Follow-Up Notes
 

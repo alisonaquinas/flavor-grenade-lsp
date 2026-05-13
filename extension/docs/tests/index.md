@@ -26,7 +26,7 @@ Detailed extension test cases live in:
 | Markdown language preservation | `.md` documents stay in VS Code's built-in `markdown` language mode after activation, auto-detection, and override changes. |
 | Flavor selector | The selector is visible for file-backed Markdown documents and lists `auto` plus every required researched flavor. |
 | Override persistence | Workspace files write flavor overrides to workspace-folder or workspace settings; standalone files write to user settings. |
-| Auto-detection | `.obsidian/` resolves to Obsidian, configured workspaces resolve from project settings, and generic Markdown resolves to CommonMark. |
+| Auto-detection | `.obsidian/` resolves to Obsidian, configured workspaces resolve from workspace-folder or workspace settings, and generic Markdown resolves to CommonMark. |
 | Server propagation | Effective flavor changes refresh server-facing analysis state for every required flavor id. |
 | Manual language safety | User-selected non-`markdown` language ids are preserved, including `mdx` language mode. |
 | Flavor-scoped contributions | Snippets, keybindings, commands, and optional visuals are gated by flavor/context keys rather than custom language ids. |
@@ -40,6 +40,7 @@ Detailed extension test cases live in:
 | `extension/src/test/suite/markdown-flavor.test.js` | Extension-host coverage for user-visible selector behavior, settings targets, and language preservation. |
 | `extension/test/contributions/*.test.ts` | Retarget existing OFMarkdown language-scope tests to flavor/context-key scoping. |
 | `extension/test/marketplace/readme-assets.test.ts` | Add Markdown flavor selector visual coverage alongside OFM feature proof. |
+| `extension/test/marketplace/vsix-assets.test.ts` | Prove Markdown flavor selector proof assets ship in packaged VSIX output. |
 
 ## Test Plans By Level
 
@@ -59,8 +60,8 @@ Detailed extension test cases live in:
 | Integration target | Coverage |
 |---|---|
 | Extension activation gate | Markdown wake, vault marker wake, command wake, flavor selector wake, and generic Markdown idle behavior. |
-| Server refresh wiring | Selector changes trigger the same server refresh path used by rebuild/index-ready changes. |
-| Marketplace/package proof | README assets and packaged VSIX contents include Markdown flavor selector evidence. |
+| Server refresh wiring | `extension/src/commands.test.ts` proves selector changes trigger the same server refresh path used by rebuild/index-ready changes. |
+| Marketplace/package proof | `extension/test/marketplace/readme-assets.test.ts` and `extension/test/marketplace/vsix-assets.test.ts` include Markdown flavor selector evidence. |
 
 ### E2E
 

@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[research/
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for stack-overflow. |
+| [[test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]] | Profile and parser behavior for stack-overflow. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor stack-overflow. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

@@ -35,9 +35,10 @@ promotion or old activation assumptions.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/docs/tests/markdown-flavor-validation-spec.md` | Docs align with user-visible selector behavior. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Selector command activation remains documented and covered. |
+| `EXT-MF-VA-001`, `EXT-MF-VA-003` | `extension/docs/tests/markdown-flavor-validation-spec.md` | Docs align with user-visible selector behavior and do not describe language promotion as current behavior. |
 
 ## Definition of Done
 

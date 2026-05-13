@@ -36,7 +36,7 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[research
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for mdx. |
+| [[test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]] | Profile and parser behavior for mdx. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor mdx. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

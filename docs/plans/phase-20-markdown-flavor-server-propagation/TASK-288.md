@@ -17,12 +17,14 @@ aliases: ["TASK-288"]
 
 ## Description
 
-Add a server configuration path that accepts `flavorGrenade.markdownFlavor`,
-validates required ids, and preserves state on invalid input.
+Add a server configuration path that accepts `flavorGrenade.markdownFlavor`
+from `workspace/didChangeConfiguration`, validates required ids, and preserves
+state on invalid input.
 
 ## Work Scope
 
-- Handle `workspace/didChangeConfiguration` or a documented equivalent.
+- Handle `workspace/didChangeConfiguration` carrying
+  `flavorGrenade.markdownFlavor`.
 - Store configured flavor state in a server service.
 - Reject unsupported values such as `asciidoc`.
 
@@ -36,7 +38,7 @@ validates required ids, and preserves state on invalid input.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Accepts required ids and rejects unknown ids. |
+| [[test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]] | Accepts required ids and rejects unknown ids through `workspace/didChangeConfiguration`. |
 
 ## Definition of Done
 

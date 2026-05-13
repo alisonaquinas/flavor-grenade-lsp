@@ -35,13 +35,16 @@ verify current Markdown flavor behavior.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/test/contributions/*.test.ts` | Contribution scoping. |
-| `extension/test/marketplace/*.test.ts` | Selector proof and packaged assets. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-C-001` through `EXT-MF-C-004` | `extension/test/contributions/*.test.ts` | Contribution scoping. |
+| `EXT-MF-I-005` | `extension/test/marketplace/readme-assets.test.ts` | README selector proof. |
+| `EXT-MF-I-006` | `extension/test/marketplace/vsix-assets.test.ts` | Packaged selector proof and referenced Marketplace assets. |
 
 ## Definition of Done
 
 - [ ] `npm test` covers rewritten contribution tests.
-- [ ] `npm run verify:marketplace-assets` covers selector proof.
+- [ ] `npm run verify:marketplace-assets` covers selector proof through
+      `extension/test/marketplace/readme-assets.test.ts` and package proof
+      through `extension/test/marketplace/vsix-assets.test.ts`.
 - [ ] Obsolete OFMarkdown-mode asset requirement is removed or reclassified.

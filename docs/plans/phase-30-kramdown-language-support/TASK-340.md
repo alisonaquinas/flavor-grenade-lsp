@@ -36,7 +36,7 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[res
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for kramdown. |
+| [[test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]] | Profile and parser behavior for kramdown. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor kramdown. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

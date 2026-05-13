@@ -26,5 +26,6 @@ code, and attribute blocks.
 `TASK-343` wires diagnostics, completions, document symbols, folding, semantic
 tokens, and navigation.
 
-`TASK-344` adds unit, integration, BDD, and validation coverage for
-`markdown-extra`.
+`TASK-344` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]]
+plus integration, BDD, and validation coverage for `markdown-extra`.

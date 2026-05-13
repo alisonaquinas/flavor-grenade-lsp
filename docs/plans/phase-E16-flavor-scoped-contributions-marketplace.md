@@ -42,7 +42,9 @@ behavior instead of historical language-mode promotion.
 - Contribution tests rewritten from `ofmarkdown` scope to flavor/context scope.
 - Snippet/keybinding/language-configuration migration or retirement.
 - README and troubleshooting updates.
-- Marketplace selector visual evidence and packaging tests.
+- Marketplace selector visual evidence and packaging tests in
+  `extension/test/marketplace/readme-assets.test.ts` and
+  `extension/test/marketplace/vsix-assets.test.ts`.
 
 ### Out of Scope
 
@@ -54,8 +56,11 @@ behavior instead of historical language-mode promotion.
 - No contribution test requires `editorLangId == ofmarkdown` as the primary
   flavor scoping mechanism.
 - Generic CommonMark Markdown does not receive Obsidian-only affordances.
-- Marketplace README shows Markdown flavor selector behavior.
-- Packaged VSIX includes every referenced Marketplace asset.
+- Marketplace README shows Markdown flavor selector behavior, covered by
+  `extension/test/marketplace/readme-assets.test.ts`.
+- Packaged VSIX includes every referenced Marketplace asset, covered by
+  `extension/test/marketplace/readme-assets.test.ts` and
+  `extension/test/marketplace/vsix-assets.test.ts`.
 
 ## Gate Verification
 

@@ -1,4 +1,7 @@
 @vscode @extension @parity @adr:ADR019
+# Reference mirror only. The executable cucumber source lives under
+# docs/bdd/features, especially vscode-extension-parity.feature and
+# ofmarkdown-language-mode.feature.
 Feature: VS Code extension parity
   The VS Code extension should provide Markdown-flavor-aware client behavior
   without moving language intelligence out of the server.
@@ -44,9 +47,9 @@ Feature: VS Code extension parity
   Scenario: Markdown flavor overrides persist at the active document scope
     Given a Markdown document belongs to an open workspace folder
     When the user selects "CommonMark" from the Markdown flavor selector
-    Then "flavorGrenade.markdownFlavor" is written to the workspace setting
+    Then "flavorGrenade.markdownFlavor" is written to the workspace-folder or workspace target
     When the user opens a standalone Markdown file and selects "Original Markdown"
-    Then "flavorGrenade.markdownFlavor" is written to the user setting
+    Then "flavorGrenade.markdownFlavor" is written to the user target
 
   @req:Extension.MarkdownFlavor.ServerPropagation
   Scenario: Markdown flavor changes refresh server analysis
@@ -56,11 +59,16 @@ Feature: VS Code extension parity
     And open Markdown diagnostics are refreshed
 
   @req:Extension.MarkdownFlavor.ManualLanguageSafety
-  Scenario: Manual non-Markdown language selections are preserved
-    Given a ".md" document has language id "plaintext"
+  Scenario Outline: Manual non-Markdown language selections are preserved
+    Given a ".md" document has language id "<languageId>"
     When Markdown flavor auto-detection runs
-    Then the document language id remains "plaintext"
+    Then the document language id remains "<languageId>"
     And no Markdown flavor override is applied to that document
+
+    Examples:
+      | languageId |
+      | plaintext  |
+      | mdx        |
 
   @req:Extension.CommandBridges.PayloadValidation @req:Extension.CommandBridges.GraphActions
   Scenario: Command bridge invokes native references UI

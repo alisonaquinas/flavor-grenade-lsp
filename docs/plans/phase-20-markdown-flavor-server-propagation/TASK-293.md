@@ -36,7 +36,7 @@ feature analysis without requiring a server restart.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Flavor changes mark documents for refresh. |
+| [[test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]] | Flavor changes mark documents for refresh. |
 
 ## Definition of Done
 

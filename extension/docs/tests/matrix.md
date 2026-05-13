@@ -26,7 +26,7 @@ Detailed cases for the rows below live in:
 | `Extension.MarkdownFlavor.ManualLanguageSafety` | Planned unit and host tests | ⏳ planned | Must preserve non-`markdown` language ids, including `mdx`. |
 | `Extension.MarkdownFlavor.Refresh` | Planned refresh-trigger tests | ⏳ planned | Replaces retired membership refresh behavior. |
 | `Extension.Contributions.FlavorScoped` | Existing contribution tests require rewrite | 🔴 failing | Replace `ofmarkdown` language scopes with flavor/context keys. |
-| `Extension.Marketplace.OFMProof` | E16/TASK-309 updates `extension/test/marketplace/readme-assets.test.ts` and `extension/test/marketplace/vsix-assets.test.ts` for selector proof | 🔴 failing | README proof must show Markdown flavor behavior; final verification keeps the selector-proof handoff explicit. |
+| `Extension.Marketplace.OFMProof` | E16/TASK-309 updates `extension/test/marketplace/readme-assets.test.ts` (`EXT-MF-I-005`) and `extension/test/marketplace/vsix-assets.test.ts` (`EXT-MF-I-006`) for selector proof | 🔴 failing | README proof must show Markdown flavor behavior; final verification keeps the selector-proof handoff explicit. |
 | `Extension.Tests.HostCoverage` | Existing host suite plus planned `markdown-flavor.test.js` | 🔴 failing | Host suite needs selector, persistence, and language-preservation scenarios. |
 
 ## Test-Level Matrix

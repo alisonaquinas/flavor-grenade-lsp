@@ -35,12 +35,16 @@ flavor selector behavior.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/test/marketplace/readme-assets.test.ts` | Selector visual is required and referenced. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-I-005` | `extension/test/marketplace/readme-assets.test.ts` | Selector visual is required and referenced. |
+| `EXT-MF-I-006` | `extension/test/marketplace/vsix-assets.test.ts` | Selector proof asset and referenced README assets are present in packaged VSIX output. |
 
 ## Definition of Done
 
 - [ ] README describes flavor selector, not language promotion.
-- [ ] Selector visual is referenced and exists.
-- [ ] Asset inventory remains package-safe.
+- [ ] Selector visual is referenced and exists, covered by
+      `extension/test/marketplace/readme-assets.test.ts`.
+- [ ] Asset inventory remains package-safe, covered by
+      `extension/test/marketplace/readme-assets.test.ts` and
+      `extension/test/marketplace/vsix-assets.test.ts`.

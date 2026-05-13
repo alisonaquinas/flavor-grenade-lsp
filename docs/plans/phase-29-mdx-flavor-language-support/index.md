@@ -29,6 +29,9 @@ without type-checking React components.
 `TASK-338` proves `mdx` flavor does not overwrite a user-selected VS Code `mdx`
 language mode.
 
+Unit coverage traces to
+[[test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]].
+
 ## Deferred Follow-Up Notes
 
 React or TypeScript symbol lookup for JSX components, imports, and expressions

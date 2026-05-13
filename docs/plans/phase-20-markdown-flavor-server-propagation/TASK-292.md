@@ -18,7 +18,8 @@ aliases: ["TASK-292"]
 ## Description
 
 Implement `src/test/integration/markdown-flavor.test.ts` for real LSP process
-flavor transitions.
+flavor transitions. The process-boundary protocol is
+`workspace/didChangeConfiguration` carrying `flavorGrenade.markdownFlavor`.
 
 ## Work Scope
 
@@ -26,6 +27,8 @@ flavor transitions.
 - Change configuration to Obsidian with an open document.
 - Iterate all required explicit flavor ids.
 - Test unsupported flavor rejection.
+- Test temp workspace precedence for `.flavor-grenade.toml`, workspace setting,
+  both present, invalid configured values, and fallback.
 
 ## Linked Requirements
 
@@ -37,10 +40,13 @@ flavor transitions.
 
 | Test file | Expected coverage |
 |---|---|
+| [[test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] | Spawned-server temp workspace precedence cases: TOML, workspace setting, both present, invalid values, and fallback. |
 | `src/test/integration/markdown-flavor.test.ts` | MF-I-001 through MF-I-004. |
 
 ## Definition of Done
 
 - [ ] Spawned integration tests cover supported ids.
 - [ ] Invalid id path is tested.
+- [ ] Temp workspace precedence covers TOML, workspace setting, both present,
+      invalid values, and fallback.
 - [ ] Tests run in local root test battery or documented integration gate.

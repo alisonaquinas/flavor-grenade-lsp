@@ -35,9 +35,9 @@ ADR020.
 
 ## Linked Tests
 
-| Test file | Expected coverage |
-|---|---|
-| `extension/src/markdown-flavor.test.ts` | Selector labels and visibility state. |
+| Spec IDs | Test file | Expected coverage |
+|---|---|---|
+| `EXT-MF-U-002` | `extension/src/markdown-flavor.test.ts` | Selector labels and visibility state. |
 
 ## Definition of Done
 

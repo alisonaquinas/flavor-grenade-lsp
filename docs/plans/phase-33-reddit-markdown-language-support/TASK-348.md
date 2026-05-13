@@ -36,7 +36,7 @@ Deliver parser/profile semantics for the reddit flavor using [[research/reddit-m
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec]] | Profile and parser behavior for reddit. |
+| [[test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]] | Profile and parser behavior for reddit. |
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor reddit. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 

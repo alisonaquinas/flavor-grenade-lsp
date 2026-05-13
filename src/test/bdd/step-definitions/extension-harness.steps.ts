@@ -8,7 +8,7 @@ type ExtensionState = {
   manualLanguageId?: string;
   configuredFlavor?: string;
   effectiveFlavor?: string;
-  settingScope?: 'project' | 'workspace' | 'user';
+  settingScope?: 'project' | 'workspace-folder' | 'workspace' | 'user';
   selectorLabel?: string;
   documentContent?: string;
   flavorEvidence?: string;
@@ -212,7 +212,7 @@ Given(
     expect(setting).toBe('flavorGrenade.markdownFlavor');
     const s = state(this);
     s.configuredFlavor = value;
-    s.settingScope = 'project';
+    s.settingScope = 'workspace-folder';
     refreshFlavorState(s);
   },
 );
@@ -241,7 +241,7 @@ When(
     const s = state(this);
     const id = flavorIdForLabel(label);
     s.configuredFlavor = id;
-    s.settingScope ??= s.workspaceMarkers?.size ? 'project' : 'user';
+    s.settingScope ??= s.workspaceMarkers?.size ? 'workspace-folder' : 'user';
     if (id === 'auto') {
       s.configuredFlavor = 'auto';
     }
@@ -363,6 +363,24 @@ Then(
   },
 );
 
+Then(
+  '{string} is written to the workspace-folder or workspace target as {string}',
+  function (this: FGWorld, setting: string, value: string) {
+    expect(setting).toBe('flavorGrenade.markdownFlavor');
+    expect(['workspace-folder', 'workspace']).toContain(state(this).settingScope);
+    expect(state(this).configuredFlavor).toBe(value);
+  },
+);
+
+Then(
+  '{string} is written to the user target as {string}',
+  function (this: FGWorld, setting: string, value: string) {
+    expect(setting).toBe('flavorGrenade.markdownFlavor');
+    expect(state(this).settingScope).toBe('user');
+    expect(state(this).configuredFlavor).toBe(value);
+  },
+);
+
 Then('{string} is written to the workspace setting', function (this: FGWorld, setting: string) {
   expect(setting).toBe('flavorGrenade.markdownFlavor');
   state(this).settingScope = 'workspace';
@@ -399,6 +417,15 @@ Then(
   'the project override is cleared or reset to {string}',
   function (this: FGWorld, value: string) {
     expect(value).toBe('auto');
+    expect(state(this).configuredFlavor).toBe('auto');
+  },
+);
+
+Then(
+  'the workspace-folder or workspace target override is cleared or reset to {string}',
+  function (this: FGWorld, value: string) {
+    expect(value).toBe('auto');
+    expect(['workspace-folder', 'workspace']).toContain(state(this).settingScope);
     expect(state(this).configuredFlavor).toBe('auto');
   },
 );

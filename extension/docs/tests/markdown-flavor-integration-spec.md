@@ -17,9 +17,12 @@ Integration tests cover extension wiring without requiring full user UI flows.
 | EXT-MF-I-003 | `extension/src/activation-gate.test.ts` | User invokes flavor selector command. | Extension wakes enough to show selector and resolve settings target. |
 | EXT-MF-I-004 | `extension/src/commands.test.ts` | Rebuild index completes after selector override. | Refresh path recomputes effective flavor for open Markdown editors. |
 | EXT-MF-I-005 | `extension/test/marketplace/readme-assets.test.ts` | Inspect README assets. | Markdown flavor selector proof is present alongside OFM feature proof. |
+| EXT-MF-I-006 | `extension/test/marketplace/vsix-assets.test.ts` | Inspect packaged VSIX output. | Markdown flavor selector proof assets referenced by the README are included in the package. |
 
 ## Exit Criteria
 
 - Extension startup gates no longer require `onLanguage:ofmarkdown`.
 - Selector command activation is covered.
-- Marketplace proof tests include Markdown flavor evidence.
+- Marketplace proof tests include Markdown flavor evidence in
+  `extension/test/marketplace/readme-assets.test.ts` and
+  `extension/test/marketplace/vsix-assets.test.ts`.

@@ -22,7 +22,9 @@ Marketplace migration.
 
 ## Work Scope
 
-- Update root and extension test matrices for contribution and Marketplace tests.
+- Update root and extension test matrices for contribution and Marketplace tests,
+  including `EXT-MF-I-005` for `extension/test/marketplace/readme-assets.test.ts`
+  and `EXT-MF-I-006` for `extension/test/marketplace/vsix-assets.test.ts`.
 - Confirm README, troubleshooting, and activation docs share the same story.
 - Record any remaining compatibility debt.
 

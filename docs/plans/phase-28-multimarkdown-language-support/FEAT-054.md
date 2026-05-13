@@ -24,7 +24,9 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 
 - Define parser/profile behavior for MultiMarkdown.
 - Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
-- Add unit, integration, BDD, verification, and validation evidence for this flavor.
+- Add unit evidence via
+  [[test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]],
+  plus integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 

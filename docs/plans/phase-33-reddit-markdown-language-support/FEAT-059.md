@@ -24,7 +24,9 @@ Implement first-class reddit language support for Reddit Markdown, using [[resea
 
 - Define parser/profile behavior for Reddit Markdown.
 - Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
-- Add unit, integration, BDD, verification, and validation evidence for this flavor.
+- Add unit evidence via
+  [[test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]],
+  plus integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
 

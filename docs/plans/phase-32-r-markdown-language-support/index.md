@@ -26,5 +26,6 @@ labels/options, and inline code markers where practical.
 `TASK-346` wires diagnostics, completions for chunk options, folding, semantic
 tokens, and document symbols without executing code.
 
-`TASK-347` adds unit, integration, BDD, and validation coverage for
-`r-markdown`.
+`TASK-347` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]]
+plus integration, BDD, and validation coverage for `r-markdown`.

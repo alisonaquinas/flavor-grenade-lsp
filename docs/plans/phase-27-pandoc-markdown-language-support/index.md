@@ -26,4 +26,6 @@ fenced divs, definition lists, labels, and cross-references.
 `TASK-331` wires diagnostics, completions, folding, semantic tokens, document
 symbols, and navigation without running Pandoc conversion.
 
-`TASK-332` adds unit, integration, BDD, and validation coverage for `pandoc`.
+`TASK-332` adds unit coverage via
+[[test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]]
+plus integration, BDD, and validation coverage for `pandoc`.
