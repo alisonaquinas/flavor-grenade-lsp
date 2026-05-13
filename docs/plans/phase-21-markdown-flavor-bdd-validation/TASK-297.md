@@ -2,7 +2,7 @@
 id: "TASK-297"
 title: "Add flavor verification gate checks"
 type: task
-status: open
+status: red
 priority: medium
 phase: 21
 parent: "FEAT-044"
@@ -73,3 +73,8 @@ are removed.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] RED - 2026-05-13
+> Added `src/test/ci-workflow.test.ts` guards for Phase 21 validation artifact
+> paths. The guard fails until `markdown-flavor-product-review.md` and
+> `markdown-flavor-validation-run.md` exist under `docs/test/evidence/`.

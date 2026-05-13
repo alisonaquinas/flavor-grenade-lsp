@@ -38,7 +38,7 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 | [[TASK-294]] | Rewrite BDD harness around effective flavor state | `open` |
 | [[TASK-295]] | Implement Markdown flavor selection BDD steps | `open` |
 | [[TASK-296]] | Implement dialect profile BDD steps | `open` |
-| [[TASK-297]] | Add flavor verification gate checks | `open` |
+| [[TASK-297]] | Add flavor verification gate checks | `red` |
 | [[TASK-298]] | Add flavor validation review evidence | `open` |
 | [[CHORE-107]] | Phase 21 BDD traceability sweep | `open` |
 | [[CHORE-108]] | Phase 21 verification and closeout sweep | `open` |
