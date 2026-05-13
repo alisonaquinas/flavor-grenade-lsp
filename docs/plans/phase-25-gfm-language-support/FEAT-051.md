@@ -2,7 +2,7 @@
 id: "FEAT-051"
 title: "GitHub Flavored Markdown Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 25
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-051"]
 
 # GitHub Flavored Markdown Language Support
 
-> [!INFO] FEAT-051 - Feature - Phase 25 - Status: in-progress
+> [!INFO] FEAT-051 - Feature - Phase 25 - Status: in-review
 
 ## Description
 
@@ -32,9 +32,9 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-324]] | Implement GFM parser semantics | Task | open |
-| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | open |
-| [[TASK-326]] | Add GFM tests and validation evidence | Task | open |
+| [[TASK-324]] | Implement GFM parser semantics | Task | done |
+| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | done |
+| [[TASK-326]] | Add GFM tests and validation evidence | Task | done |
 | [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | done |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | done |
 | [[CHORE-143]] | Document exported GFM parse result contract | Chore | done |
@@ -105,6 +105,10 @@ Primary RED test paths:
 > Status set to `in-progress`. Phase order corrected to stack after Phase 24 /
 > FEAT-050, matching the ledger route through Phase E15 and Phase 24. Added
 > concrete implementation and RED test paths for TASK-324 through TASK-326.
+
+> [!INFO] In review - 2026-05-13
+> PR #76 opened and CI run `25825419768` passed. Ledger set to in-review with
+> PR URL.
 
 ## Retrospective
 

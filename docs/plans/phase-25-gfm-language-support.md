@@ -1,7 +1,7 @@
 ---
 title: "Phase 25: GitHub Flavored Markdown Language Support"
 phase: 25
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, gfm, language-support]
 aliases: [Phase 25, GFM Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 25 |
 | Title | GitHub Flavored Markdown Language Support |
-| Status | in-progress |
+| Status | in-review |
 | Gate | GFM signature constructs are implemented and tested |
 | Depends on | Phase 24 |
 

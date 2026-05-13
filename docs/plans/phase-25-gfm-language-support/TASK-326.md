@@ -2,7 +2,7 @@
 id: "TASK-326"
 title: "Add GFM tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -87,3 +87,6 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gf
 > [!INFO] GREEN - 2026-05-13
 > Spawned-server integration now reports GFM table, task, strikethrough, and
 > autolink counts for `gfm` documents and keeps wiki links inert.
+
+> [!INFO] Done - 2026-05-13
+> PR #76 CI run `25825419768` passed.
