@@ -496,4 +496,48 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Footnote: note');
     expect(names).toContain('Abbreviation: HTML');
   });
+
+  it('adds R Markdown chunks and inline expressions as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('R Markdown', 1, 0)]);
+    const rIndex = doc.index as typeof doc.index & {
+      rMarkdownChunks: Array<{
+        engine: string;
+        label?: string;
+        range: HeadingEntry['range'];
+      }>;
+      rMarkdownInlineExpressions: Array<{
+        expression: string;
+        range: HeadingEntry['range'];
+      }>;
+    };
+    rIndex.rMarkdownChunks = [
+      {
+        engine: 'r',
+        label: 'setup',
+        range: { start: { line: 2, character: 0 }, end: { line: 4, character: 3 } },
+      },
+      {
+        engine: 'python',
+        label: 'plot',
+        range: { start: { line: 6, character: 0 }, end: { line: 8, character: 3 } },
+      },
+    ];
+    rIndex.rMarkdownInlineExpressions = [
+      {
+        expression: 'nrow(airquality)',
+        range: { start: { line: 10, character: 17 }, end: { line: 10, character: 35 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('R Markdown chunk: setup');
+    expect(names).toContain('R Markdown chunk: plot');
+    expect(names).toContain('R Markdown inline: nrow(airquality)');
+  });
 });

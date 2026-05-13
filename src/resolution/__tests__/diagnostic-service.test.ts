@@ -537,6 +537,33 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG502']);
     expect(params.diagnostics[0]['message']).toContain('Malformed Markdown Extra attribute');
   });
+
+  it('publishes R Markdown chunk diagnostics without executing code', () => {
+    vaultIndex.set(id('rmarkdown'), makeDoc('file:///vault/rmarkdown.Rmd'));
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/rmarkdown.Rmd', []),
+      text: ['# Report', '', '```{r', 'stop("do not run")', '```', '[[Nope]]'].join('\n'),
+      markdownFlavor: 'r-markdown' as const,
+      parseContext: { effectiveFlavor: 'r-markdown' as const },
+    };
+
+    service.publishDiagnostics(id('rmarkdown'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG601']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed R Markdown chunk header');
+  });
 });
 
 describe('block reference diagnostics', () => {

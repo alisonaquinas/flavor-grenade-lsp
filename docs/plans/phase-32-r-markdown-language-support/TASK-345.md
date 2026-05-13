@@ -2,7 +2,7 @@
 id: "TASK-345"
 title: "Implement R Markdown parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -73,3 +73,9 @@ Deliver parser/profile semantics for the r-markdown flavor using [[docs/research
 > markers, and malformed local chunk boundaries. Chunks will be indexed only
 > when effective flavor is `r-markdown`; no code execution or package/runtime
 > lookup is allowed.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added parser RED coverage for R Markdown YAML metadata, chunk engines,
+> chunk labels/options, inline R markers, malformed chunks, inactive Obsidian
+> syntax, and profile surface status. Expected failure: parser index lacks
+> R Markdown collections and profile surfaces are still unimplemented.

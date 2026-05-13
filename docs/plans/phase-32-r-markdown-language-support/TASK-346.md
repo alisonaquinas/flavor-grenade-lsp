@@ -2,7 +2,7 @@
 id: "TASK-346"
 title: "Add R Markdown diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -85,3 +85,9 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 > completions, chunk/inline symbols, chunk folding, semantic tokens, analysis
 > counts, and execution-boundary disposition. R, knitr, Pandoc, Shiny, cache,
 > package, and generated-output behavior are out of scope.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added LSP RED coverage for malformed-chunk diagnostics, R Markdown
+> completions, document symbols, folding ranges, semantic tokens, query counts,
+> and execution-boundary classification. Expected failures prove these
+> surfaces are not yet wired.

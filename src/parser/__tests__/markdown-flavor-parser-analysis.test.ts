@@ -592,3 +592,78 @@ describe('Markdown Extra parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('R Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats R Markdown chunks as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/report.Rmd',
+      [
+        '---',
+        'title: "Report"',
+        'output:',
+        '  html_document:',
+        '    toc: true',
+        'params:',
+        '  dataset: airquality',
+        '---',
+        '',
+        '# Results',
+        '',
+        'The dataset has `r nrow(airquality)` rows.',
+        '',
+        '```{r setup, include = FALSE, echo = TRUE}',
+        'knitr::opts_chunk$set(message = FALSE)',
+        '```',
+        '',
+        '```{python bad, eval = FALSE}',
+        'print("inert")',
+        '```',
+        '',
+        '```{r',
+        'broken',
+        '```',
+        '',
+        '[[Obsidian Link]]',
+        '![[plot.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'r-markdown' },
+    );
+    const rIndex = doc.index as typeof doc.index & {
+      rMarkdownMetadata: Array<{ key: string }>;
+      rMarkdownChunks: Array<{ engine: string; label?: string; options: Record<string, string> }>;
+      rMarkdownInlineExpressions: Array<{ expression: string }>;
+      rMarkdownMalformedChunks: unknown[];
+    };
+
+    expect(doc.markdownFlavor).toBe('r-markdown');
+    expect(rIndex.rMarkdownMetadata.map((entry) => entry.key)).toEqual([
+      'title',
+      'output',
+      'params',
+    ]);
+    expect(rIndex.rMarkdownChunks.map((entry) => entry.engine)).toEqual(['r', 'python']);
+    expect(rIndex.rMarkdownChunks.map((entry) => entry.label)).toEqual(['setup', 'bad']);
+    expect(rIndex.rMarkdownChunks[0]?.options).toEqual({
+      echo: 'TRUE',
+      include: 'FALSE',
+    });
+    expect(rIndex.rMarkdownInlineExpressions.map((entry) => entry.expression)).toEqual([
+      'nrow(airquality)',
+    ]);
+    expect(rIndex.rMarkdownMalformedChunks).toHaveLength(1);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks R Markdown LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('r-markdown');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

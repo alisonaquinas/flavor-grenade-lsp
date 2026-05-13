@@ -2,7 +2,7 @@
 id: "TASK-347"
 title: "Add R Markdown tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -80,3 +80,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 > inline R markers, inactive Obsidian behavior, spawned-server counts,
 > completions, symbols, folds, semantic tokens, malformed-chunk diagnostics,
 > and validation evidence for local-only execution boundaries.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Ran the focused R Markdown RED command across parser, diagnostics,
+> completions, symbols, folds, semantic tokens, and integration tests. Result:
+> 127 passing tests and 7 expected failures for missing R Markdown
+> implementation. `bun run lint --max-warnings 0` passed.

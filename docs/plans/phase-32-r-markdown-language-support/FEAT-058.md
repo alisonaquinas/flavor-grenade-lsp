@@ -65,9 +65,9 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-345]] | Implement R Markdown parser semantics | Task | open |
-| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | open |
-| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | open |
+| [[TASK-345]] | Implement R Markdown parser semantics | Task | red |
+| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | red |
+| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | red |
 | [[CHORE-135]] | Phase 32 trace and documentation sweep | Chore | open |
 | [[CHORE-136]] | Phase 32 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,9 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 > R, Python, shell, notebook, knitr, Pandoc, Shiny, package, cache, and
 > generated-output behavior remain deferred unless separate integration tickets
 > own them.
+
+> [!FAILURE] Step D RED - 2026-05-13
+> Focused R Markdown RED suite fails in the expected parser, diagnostics,
+> completion, document-symbol, semantic-token, and integration assertions.
+> Folding already passes once parser data is available. TASK-345 through
+> TASK-347 moved to `red` before implementation.

@@ -940,6 +940,82 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies R Markdown parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'report.Rmd');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "r-markdown"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        '---',
+        'title: "Report"',
+        'output: html_document',
+        'params:',
+        '  dataset: airquality',
+        '---',
+        '# Results',
+        'Rows: `r nrow(airquality)`',
+        '```{r setup, include = FALSE, echo = TRUE}',
+        'knitr::opts_chunk$set(message = FALSE)',
+        '```',
+        '```{python plot, eval = FALSE}',
+        'print("plot")',
+        '```',
+        '```{r',
+        'stop("do not run")',
+        '```',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).toContain('FG601');
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'r-markdown',
+      rMarkdownMetadata: 3,
+      rMarkdownChunks: 2,
+      rMarkdownInlineExpressions: 1,
+      rMarkdownMalformedChunks: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'r-markdown',
+      text: '```{r setup, include = FALSE}',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'execution-bound' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {
