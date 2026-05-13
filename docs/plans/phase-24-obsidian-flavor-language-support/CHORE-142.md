@@ -2,7 +2,7 @@
 id: "CHORE-142"
 title: "Clarify Phase 24 Obsidian parser test title"
 type: chore
-status: open
+status: done
 priority: low
 phase: 24
 parent: "FEAT-050"
@@ -24,11 +24,15 @@ observable assertion so future failures are easier to interpret.
 
 ## Definition of Done
 
-- [ ] Test title accurately describes active syntax and opaque-region coverage.
-- [ ] No behavior assertions are weakened.
-- [ ] Targeted parser test still passes.
+- [x] Test title accurately describes active syntax and opaque-region coverage.
+- [x] No behavior assertions are weakened.
+- [x] Targeted parser test still passes.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Opened during Step F code-quality sweep before changing the test title.
+
+> [!SUCCESS] Done - 2026-05-13
+> Parser test title now describes active Obsidian vault syntax plus
+> opaque-region suppression. The assertion body is unchanged.

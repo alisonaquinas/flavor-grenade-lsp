@@ -113,7 +113,7 @@ describe('CommonMark parser analysis', () => {
 describe('Obsidian parser analysis', () => {
   const parser = new OFMParser();
 
-  it('treats Obsidian vault syntax as active and host syntax as inert', () => {
+  it('treats Obsidian vault syntax as active while opaque regions stay inert', () => {
     const doc = parser.parse(
       'file:///vault/obsidian.md',
       [
