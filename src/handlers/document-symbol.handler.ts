@@ -62,6 +62,8 @@ export class DocumentSymbolHandler {
     const markdownExtraTables = doc.index.markdownExtraTables ?? [];
     const markdownExtraFootnotes = doc.index.markdownExtraFootnotes ?? [];
     const markdownExtraAbbreviations = doc.index.markdownExtraAbbreviations ?? [];
+    const rMarkdownChunks = doc.index.rMarkdownChunks ?? [];
+    const rMarkdownInlineExpressions = doc.index.rMarkdownInlineExpressions ?? [];
 
     if (
       headings.length === 0 &&
@@ -88,7 +90,9 @@ export class DocumentSymbolHandler {
       markdownExtraDefinitionLists.length === 0 &&
       markdownExtraTables.length === 0 &&
       markdownExtraFootnotes.length === 0 &&
-      markdownExtraAbbreviations.length === 0
+      markdownExtraAbbreviations.length === 0 &&
+      rMarkdownChunks.length === 0 &&
+      rMarkdownInlineExpressions.length === 0
     )
       return [];
 
@@ -384,6 +388,27 @@ export class DocumentSymbolHandler {
         selectionRange: abbreviation.labelRange,
       };
       this.addSymbolAtLine(symbol, abbreviation.range.start.line, headings, roots);
+    }
+
+    for (const chunk of rMarkdownChunks) {
+      const label = chunk.label ?? chunk.engine;
+      const symbol: DocumentSymbol = {
+        name: `R Markdown chunk: ${label}`,
+        kind: SYMBOL_KIND_STRING,
+        range: chunk.range,
+        selectionRange: chunk.labelRange ?? chunk.engineRange,
+      };
+      this.addSymbolAtLine(symbol, chunk.range.start.line, headings, roots);
+    }
+
+    for (const expression of rMarkdownInlineExpressions) {
+      const symbol: DocumentSymbol = {
+        name: `R Markdown inline: ${expression.expression}`,
+        kind: SYMBOL_KIND_STRING,
+        range: expression.range,
+        selectionRange: expression.expressionRange,
+      };
+      this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
     }
 
     return roots;

@@ -65,9 +65,9 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-345]] | Implement R Markdown parser semantics | Task | red |
-| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | red |
-| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | red |
+| [[TASK-345]] | Implement R Markdown parser semantics | Task | green |
+| [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | green |
+| [[TASK-347]] | Add R Markdown tests and validation evidence | Task | green |
 | [[CHORE-135]] | Phase 32 trace and documentation sweep | Chore | open |
 | [[CHORE-136]] | Phase 32 verification and closeout sweep | Chore | open |
 
@@ -112,3 +112,9 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 > completion, document-symbol, semantic-token, and integration assertions.
 > Folding already passes once parser data is available. TASK-345 through
 > TASK-347 moved to `red` before implementation.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> R Markdown parser, diagnostics, completions, symbols, folds, semantic tokens,
+> query counts, execution-boundary classification, and profile surface status
+> are implemented. Focused R Markdown tests, `bun run typecheck`, and
+> `bun run lint --max-warnings 0` pass locally.

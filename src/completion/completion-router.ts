@@ -115,6 +115,11 @@ export class CompletionRouter {
       if (markdownExtraResult !== null) return markdownExtraResult;
     }
 
+    if (doc.markdownFlavor === 'r-markdown') {
+      const rMarkdownResult = this.rMarkdownCompletions(text, params.position);
+      if (rMarkdownResult !== null) return rMarkdownResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -524,6 +529,33 @@ export class CompletionRouter {
 
     if (prefix === '{') {
       return this.singleCompletion(position, 1, 'Markdown Extra attribute', '{#id .class}');
+    }
+
+    return null;
+  }
+
+  private rMarkdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '```{') {
+      return this.singleCompletion(
+        position,
+        4,
+        'R Markdown chunk',
+        '```{r label, echo = TRUE}\n\n```',
+      );
+    }
+
+    if (/^[ \t]{0,3}(```+|~~~+)\{[A-Za-z][^}]*,\s*$/.test(prefix)) {
+      return this.singleCompletion(position, 0, 'R Markdown chunk option', 'include = FALSE');
+    }
+
+    if (prefix === '`r') {
+      return this.singleCompletion(position, 2, 'R Markdown inline expression', '`r expression`');
     }
 
     return null;

@@ -30,6 +30,7 @@ export class FoldingRangeHandler {
     this.addMdxFolds(doc, builder);
     this.addKramdownFolds(doc, builder);
     this.addMarkdownExtraFolds(doc, builder);
+    this.addRMarkdownFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -140,6 +141,12 @@ export class FoldingRangeHandler {
     }
     for (const block of doc.index.markdownExtraFencedCodeBlocks ?? []) {
       builder.add(block.range.start.line, block.range.end.line, 'region');
+    }
+  }
+
+  private addRMarkdownFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const chunk of doc.index.rMarkdownChunks ?? []) {
+      builder.add(chunk.range.start.line, chunk.range.end.line, 'region');
     }
   }
 

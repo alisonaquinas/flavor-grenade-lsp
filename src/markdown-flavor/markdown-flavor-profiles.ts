@@ -503,6 +503,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
       'runtime-chunk-evaluation',
     ],
     opaqueRegions: ['code-chunks', 'inline-r', 'math', 'code'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'R Markdown parser and non-executing LSP behavior are implemented in Phase 32.',
   }),
   reddit: profile({

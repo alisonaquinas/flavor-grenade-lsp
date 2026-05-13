@@ -2,7 +2,7 @@
 id: "TASK-346"
 title: "Add R Markdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -91,3 +91,8 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 > completions, document symbols, folding ranges, semantic tokens, query counts,
 > and execution-boundary classification. Expected failures prove these
 > surfaces are not yet wired.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Wired FG601 diagnostics, R Markdown completions, document symbols, folding,
+> semantic tokens, spawned-server query counts, and execution-boundary
+> evidence. Focused LSP tests now pass.

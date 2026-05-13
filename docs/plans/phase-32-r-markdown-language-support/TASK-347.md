@@ -2,7 +2,7 @@
 id: "TASK-347"
 title: "Add R Markdown tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -86,3 +86,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 > completions, symbols, folds, semantic tokens, and integration tests. Result:
 > 127 passing tests and 7 expected failures for missing R Markdown
 > implementation. `bun run lint --max-warnings 0` passed.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Re-ran the focused R Markdown command after implementation. Result: 134
+> passing tests, 0 failures, 390 assertions. `bun run typecheck` and
+> `bun run lint --max-warnings 0` also pass.

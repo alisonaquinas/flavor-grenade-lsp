@@ -518,6 +518,6 @@ describe('SemanticTokensHandler', () => {
     const result = handler.handle({ textDocument: { uri: DOC_URI } });
 
     expect(result).not.toBeNull();
-    expect(result!.data).toHaveLength(20);
+    expect(result!.data).toHaveLength(25);
   });
 });

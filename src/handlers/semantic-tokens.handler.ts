@@ -189,6 +189,24 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const chunk of doc.index.rMarkdownChunks ?? []) {
+      const engine = this.rangeToToken(chunk.engineRange, TOKEN_TYPE_KEYWORD, 0);
+      if (engine !== null) tokens.push(engine);
+      if (chunk.labelRange !== undefined) {
+        const label = this.rangeToToken(chunk.labelRange, TOKEN_TYPE_LABEL, 0);
+        if (label !== null) tokens.push(label);
+      }
+      for (const optionRange of chunk.optionRanges) {
+        const option = this.rangeToToken(optionRange, TOKEN_TYPE_PROPERTY, 0);
+        if (option !== null) tokens.push(option);
+      }
+    }
+
+    for (const expression of doc.index.rMarkdownInlineExpressions ?? []) {
+      const t = this.rangeToToken(expression.expressionRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

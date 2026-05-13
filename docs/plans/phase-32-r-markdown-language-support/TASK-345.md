@@ -2,7 +2,7 @@
 id: "TASK-345"
 title: "Implement R Markdown parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -79,3 +79,7 @@ Deliver parser/profile semantics for the r-markdown flavor using [[docs/research
 > chunk labels/options, inline R markers, malformed chunks, inactive Obsidian
 > syntax, and profile surface status. Expected failure: parser index lacks
 > R Markdown collections and profile surfaces are still unimplemented.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Implemented `RMarkdownParser`, parser index types, OFM flavor dispatch, and
+> implemented profile surface status. Focused R Markdown parser tests now pass.
