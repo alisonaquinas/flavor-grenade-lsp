@@ -210,7 +210,7 @@ DocId
 
 ### MarkdownFlavorCascade
 
-`MarkdownFlavorCascade` is executed by BC4 whenever a vault is detected, a project TOML file changes, or BC5 dispatches validated VS Code configuration. It returns an explicit `EffectiveMarkdownFlavor`.
+`MarkdownFlavorCascade` is executed by BC4 whenever a vault is detected, a project TOML file changes, or BC5 dispatches validated VS Code configuration. It returns an explicit `EffectiveMarkdownFlavor`. The normative precedence and resource-specific flow are defined in [[docs/design/markdown-flavor-auto-detection]].
 
 ```text
 1. VS Code explicit override

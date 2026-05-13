@@ -124,6 +124,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/requirements/index]] | Master Planguage functional requirements index |
 | [[docs/requirements/functional/ofmarkdown-parity]] | Server-side OFMarkdown parity functional requirements |
 | [[docs/requirements/functional/vscode-extension-parity]] | VS Code extension parity functional requirements |
+| [[docs/design/markdown-flavor-auto-detection]] | Effective Markdown flavor auto-detection algorithm |
 | [[docs/design/behavior-layer]] | Behavior layer design |
 | [[docs/design/domain-layer]] | Domain layer design |
 | [[docs/ddd/editor-client/domain-model]] | Editor Client bounded context (BC6) domain model |

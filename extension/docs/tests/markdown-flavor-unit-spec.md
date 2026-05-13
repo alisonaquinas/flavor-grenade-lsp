@@ -8,6 +8,9 @@ aliases: [Extension Markdown Flavor Unit Tests]
 
 Target file: `extension/src/markdown-flavor.test.ts`.
 
+Auto-detection resolver cases follow the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+
 ## Core Unit Cases
 
 | Spec ID | Unit target | Requirement tags | Assertions |
@@ -15,7 +18,7 @@ Target file: `extension/src/markdown-flavor.test.ts`.
 | EXT-MF-U-001 | Flavor constants | `Extension.MarkdownFlavor.RequiredCoverage` | Exported flavor list includes `auto` and every required explicit flavor id in stable display order. |
 | EXT-MF-U-002 | Selector labels | `Extension.MarkdownFlavor.Selector` | Quick-pick labels and status labels match requirements for all flavors. |
 | EXT-MF-U-003 | Language preservation | `Extension.MarkdownLanguage.PreserveDefault` | Refresh logic never calls `setTextDocumentLanguage` for flavor selection. |
-| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | `.obsidian/` resolves to `obsidian`; `.flavor-grenade.toml` and workspace settings can resolve `auto` to every required explicit flavor id; explicit config wins; generic Markdown resolves to `commonmark`; invalid configured values fall back without language promotion. |
+| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | The root auto-detection truth table is covered: workspace-folder/workspace/user scope, `.obsidian/`, `.flavor-grenade.toml`, project config, server membership, invalid values, and CommonMark fallback. |
 | EXT-MF-U-005 | Membership fallback | `Extension.MarkdownFlavor.AutoDetection` | Server membership response can resolve Obsidian/Flavor Grenade vault state after startup. |
 | EXT-MF-U-006 | Workspace override target | `Extension.MarkdownFlavor.OverridePersistence` | Folder-backed active document writes `flavorGrenade.markdownFlavor` to workspace-folder or workspace scope. |
 | EXT-MF-U-007 | Standalone override target | `Extension.MarkdownFlavor.OverridePersistence` | Standalone Markdown file writes override to user scope. |

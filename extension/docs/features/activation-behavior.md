@@ -25,6 +25,9 @@ built-in `markdown` language id and resolve to the `obsidian` Markdown flavor.
 Generic Markdown stays `markdown` and auto-detects conservatively; manually
 selected non-Markdown modes are preserved.
 
+Effective flavor precedence is defined by the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+
 ## Idle Startup
 
 If a workspace contains Markdown files but has no `.obsidian/` directory and no
@@ -74,5 +77,6 @@ parity requirements `Extension.Activation.VaultPrecision` and
 Related root docs:
 
 - `docs/plans/phase-E7-activation-precision.md`
+- `docs/design/markdown-flavor-auto-detection.md`
 - `docs/requirements/functional/vscode-extension-parity.md`
 - `docs/features/vscode-extension-parity.md`

@@ -164,6 +164,11 @@ explicit override would be stored.
 
 ## Detection Signals
 
+Flavor detection uses the unified algorithm in
+[[docs/design/markdown-flavor-auto-detection]]. Product docs summarize the
+signals here; the design spec is authoritative for precedence, invalid values,
+multi-root behavior, and resource-specific propagation.
+
 Flavor detection uses positive signals:
 
 1. `.obsidian/` ancestor: effective flavor `obsidian`.
@@ -220,6 +225,7 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 ## Related
 
 - [[docs/features/markdown-flavor-feature-sets]]
+- [[docs/design/markdown-flavor-auto-detection]]
 - [[docs/adr/ADR020-markdown-flavor-selection]]
 - [[docs/adr/ADR016-ofmarkdown-language-mode]]
 - [[docs/requirements/ofmarkdown-language-mode]]

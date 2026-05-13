@@ -146,7 +146,7 @@ aliases:
 **Goal:** 100% documented auto-detection correctness.
 **Stakeholders:** Vault authors, Markdown authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
 
 ---
 
@@ -196,7 +196,7 @@ aliases:
 **Goal:** 100% propagation for supported flavor transitions.
 **Stakeholders:** Markdown authors, extension maintainers, server maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/api-layer]], [[docs/adr/ADR020-markdown-flavor-selection]].
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/design/api-layer]], [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 

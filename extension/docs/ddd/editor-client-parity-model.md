@@ -36,3 +36,12 @@ server-generated data out of VS Code-specific code until the bridge boundary.
 - LanguageClient `clientOptions.documentSelector` is file-backed `markdown` only for current flavor behavior; `ofmarkdown` must not remain in the current selector.
 - Non-`markdown` editor language ids such as `mdx` are outside current selector behavior; the extension must not steal them for Markdown flavor analysis.
 - Restricted and virtual workspaces do not spawn the server.
+
+## Auto-Detection Contract
+
+MarkdownFlavorController follows the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md)
+for selector display, override scope, and server propagation. The extension
+owns UI and settings writes; it does not compute server-authoritative parser
+semantics beyond sending validated, resource-specific selector/effective flavor
+state.

@@ -388,7 +388,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% documented auto/effective-state correctness.
 **Stakeholders:** Vault authors, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 

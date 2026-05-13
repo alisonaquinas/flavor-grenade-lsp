@@ -30,6 +30,7 @@ without scanning the server docs.
 ## Root References
 
 - `docs/features/vscode-extension-parity.md`
+- `docs/design/markdown-flavor-auto-detection.md`
 - `docs/requirements/functional/vscode-extension-parity.md`
 - `docs/ddd/editor-client/domain-model.md`
 - `docs/adr/ADR019-vscode-command-bridges-and-client-ux.md`

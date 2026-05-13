@@ -193,6 +193,10 @@ failures; the request is an editor affordance, not a document correctness rule.
 The client must not use this response to change VS Code's language id away from
 `markdown`; it only informs flavor auto-detection.
 
+The full precedence algorithm for combining selector values, workspace
+settings, project TOML, vault markers, and membership results is specified in
+[[docs/design/markdown-flavor-auto-detection]].
+
 ---
 
 ## VS Code Command Bridge Payloads
@@ -247,6 +251,7 @@ types.
 - [[docs/architecture/data-flow]] — Lifecycle of didChange and completion flows
 - [[docs/design/behavior-layer]] — BDD scenarios for each LSP method
 - [[docs/design/domain-layer]] — Domain events underlying LSP notifications
+- [[docs/design/markdown-flavor-auto-detection]] — Effective flavor resolution and propagation
 - [[docs/concepts/connection-graph]] — RefGraph queries behind definition/references
 - [[docs/concepts/symbol-model]] — Symbol types returned by definition/references
 - [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector behavior

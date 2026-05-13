@@ -17,7 +17,8 @@ logic. Extension unit tests are specified in
 ## Scope
 
 `auto` is selector state. Unit tests for dialect profiles cover explicit
-flavors only.
+flavors only. Auto-detection precedence tests follow
+[[docs/design/markdown-flavor-auto-detection]].
 
 ## Test Cases
 
@@ -30,7 +31,7 @@ flavors only.
 | MF-U-005 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM and GLFM profiles inherit CommonMark baseline and declare their platform extensions separately. |
 | MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation` | `workspace/didChangeConfiguration` accepts every required flavor id and rejects unknown ids without mutating active flavor state. |
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
-| MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | `.flavor-grenade.toml` and workspace settings resolve `auto` to each required explicit flavor id; invalid configured values fall back without mutating active flavor state. |
+| MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | The auto-detection truth table from [[docs/design/markdown-flavor-auto-detection]] is covered: workspace-folder/workspace/user scope, project TOML, `.obsidian/`, `.flavor-grenade.toml`, server membership, invalid values, and CommonMark fallback. |
 | MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
 | MF-U-010 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Original Markdown analysis supports historical core constructs and treats fenced code, pipe tables, task lists, wiki links, and callouts as non-core. |
 | MF-U-011 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | CommonMark analysis supports standardized fenced code, heading, link, and list behavior while excluding GFM tables/tasks and Obsidian wiki links as core syntax. |
@@ -59,8 +60,9 @@ Unit evidence for diagnostic and feature refresh after flavor changes.
 
 ### MF-U-008 - Auto Flavor Resolution
 
-Unit evidence for `.flavor-grenade.toml`, workspace settings, precedence, and
-invalid-value fallback.
+Unit evidence for [[docs/design/markdown-flavor-auto-detection]], including
+`.flavor-grenade.toml`, workspace settings, precedence, standalone user
+settings, server membership, and invalid-value fallback.
 
 ### MF-U-010 - Original Markdown Parser And Analysis
 

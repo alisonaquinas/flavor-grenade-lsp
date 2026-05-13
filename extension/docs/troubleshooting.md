@@ -59,6 +59,8 @@ Actions:
   the note.
 - Check `flavorGrenade.markdownFlavor`; use `auto` unless you intentionally set
   a project or user override.
+- For precedence details, see the root
+  [Markdown flavor auto-detection algorithm](../../docs/design/markdown-flavor-auto-detection.md).
 - Run **Flavor Grenade: Rebuild Index** if the vault marker or file moved while
   VS Code was already open.
 - Run **Flavor Grenade: Restart Server**.

@@ -112,5 +112,6 @@ and to `Extension.MarkdownFlavor.RequiredCoverage` plus
 
 ## Related Functional Requirements
 
+- [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md)
 - [Root Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md)
 - [Extension functional requirements](../functional/vscode-extension-parity.md)

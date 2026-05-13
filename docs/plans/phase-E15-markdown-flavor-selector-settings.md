@@ -21,7 +21,8 @@ updated: 2026-05-13
 
 Replace the retired language-mode promotion design with a Markdown flavor
 selector, setting schema, auto-detection resolver, override persistence, and
-server propagation calls.
+server propagation calls. The auto-detection resolver follows
+[[docs/design/markdown-flavor-auto-detection]].
 
 ## Requirement Trace
 
@@ -31,6 +32,7 @@ server propagation calls.
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]] | Add visible flavor selector and quick-pick choices |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector/settings enum |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
+| [[docs/design/markdown-flavor-auto-detection]] | Implement the unified precedence and resource-specific detection flow |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Keep non-`markdown` manual language selections out of flavor scope |

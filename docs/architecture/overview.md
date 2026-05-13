@@ -19,7 +19,8 @@ Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
 > The current requirement is flavor-aware analysis through
 > `flavorGrenade.markdownFlavor`; unsupported syntax for a selected flavor must
 > be treated according to that flavor's documented profile, not silently assumed
-> to be Obsidian syntax.
+> to be Obsidian syntax. Effective flavor resolution is defined in
+> [[docs/design/markdown-flavor-auto-detection]].
 
 ---
 

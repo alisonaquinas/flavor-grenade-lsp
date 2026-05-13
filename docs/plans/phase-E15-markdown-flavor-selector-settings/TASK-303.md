@@ -18,7 +18,7 @@ aliases: ["TASK-303"]
 ## Description
 
 Implement extension-side `auto` resolution from marker, settings, and server
-membership inputs.
+membership inputs according to [[docs/design/markdown-flavor-auto-detection]].
 
 ## Work Scope
 

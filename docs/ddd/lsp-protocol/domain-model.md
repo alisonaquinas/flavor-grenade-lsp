@@ -352,7 +352,7 @@ type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
 **Validation behavior:**
 
 - Missing `settings`, missing `flavorGrenade`, or missing `markdownFlavor` is a no-op.
-- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit `EffectiveMarkdownFlavor`.
+- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
 - Unknown strings such as `asciidoc`, non-strings, arrays, and objects are invalid.
 - Because this method is an LSP notification, no error response is sent. BC5 logs the invalid payload and leaves server state unchanged.
 

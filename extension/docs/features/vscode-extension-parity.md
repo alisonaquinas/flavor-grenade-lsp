@@ -71,6 +71,9 @@ E8 and the `Extension.CommandBridges.NativeUI`,
 `Extension.CommandBridges.PayloadValidation`, and
 `Extension.CommandBridges.GraphActions` requirements.
 
+Markdown flavor Auto Detect behavior follows the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+
 ## Non-Goals
 
 - No automatic server binary download.

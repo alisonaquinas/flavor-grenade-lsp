@@ -8,6 +8,9 @@ aliases: [Extension Markdown Flavor E2E Tests]
 
 Target file: `extension/src/test/suite/markdown-flavor.test.js`.
 
+E2E fixtures validate user-visible results of the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+
 ## Test Cases
 
 | Spec ID | Fixture | Steps | Assertions |

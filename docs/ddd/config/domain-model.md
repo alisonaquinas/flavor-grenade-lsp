@@ -14,7 +14,7 @@ aliases:
 
 This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values and the shared Markdown flavor contract consumed by BC4, BC2, BC5, and BC6.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
 > Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownFlavor` state.
@@ -258,7 +258,7 @@ Built-in defaults
 
 ## MarkdownFlavorCascade
 
-`MarkdownFlavorCascade` is the named server-side resolution order for `EffectiveMarkdownFlavor`. It runs inside BC4, using validated Config values.
+`MarkdownFlavorCascade` is the named server-side resolution order for `EffectiveMarkdownFlavor`. It runs inside BC4, using validated Config values. The full resource-specific algorithm is specified in [[docs/design/markdown-flavor-auto-detection]]; this section records the config-domain view of the same cascade.
 
 ```text
 Priority 1 (highest) — VS Code explicit override

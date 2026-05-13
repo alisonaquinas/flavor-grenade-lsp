@@ -206,7 +206,8 @@ Obsidian hint when either:
 
 Without a vault/config signal, the selector remains `auto`. BC4 resolves that
 selector to the authoritative `EffectiveMarkdownFlavor`, commonly
-`commonmark` for generic Markdown.
+`commonmark` for generic Markdown. The full precedence algorithm is specified
+in [[docs/design/markdown-flavor-auto-detection]].
 
 **Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor`
 to any supported Markdown flavor id. Folder-backed documents write the override

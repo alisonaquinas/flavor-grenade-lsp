@@ -287,3 +287,4 @@ The following concepts are present in `flavor-grenade-lsp` but absent from marks
 - [[docs/concepts/path-model]] — Path & Identity context implementation
 - [[docs/design/api-layer]] — LSP protocol context surface
 - [[docs/design/behavior-layer]] — BDD scenarios validating domain invariants
+- [[docs/design/markdown-flavor-auto-detection]] — Effective Markdown flavor resolution across selector, config, vault, and membership signals
