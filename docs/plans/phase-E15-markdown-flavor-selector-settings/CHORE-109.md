@@ -31,3 +31,8 @@ lands.
 - [ ] Docs trace new extension unit tests.
 - [ ] Phase plan reflects final protocol choice.
 - [ ] No completed roadmap phases are modified.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

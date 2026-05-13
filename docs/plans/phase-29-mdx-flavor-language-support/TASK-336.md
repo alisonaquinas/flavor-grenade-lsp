@@ -40,9 +40,24 @@ Deliver parser/profile semantics for the mdx flavor using [[research/mdx-analysi
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor mdx. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
+## Planned Source/Test Paths
+
+| Kind | Planned path |
+|---|---|
+| Source | `src/parser/markdown-flavor-profiles.ts` |
+| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
+| Test | `src/test/integration/markdown-flavor.test.ts` |
+| Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
+
 ## Definition of Done
 
 - [ ] mdx behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
 - [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

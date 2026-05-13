@@ -24,6 +24,9 @@ product intent and research sources.
 
 - Add a product review checklist or validation note.
 - Trace every displayed flavor to research or `ofm-spec`.
+- Add a validation run artifact with date, reviewer or generating command,
+  commit SHA, commands, outputs, and pass/fail status for MF-VA-001 through
+  MF-VA-004.
 - Validate that BDD fixture constants match the intended product list only as
   temporary executable contracts.
 - Require follow-up validation against the actual extension schema, product
@@ -44,8 +47,17 @@ product intent and research sources.
 
 ## Definition of Done
 
-- [ ] Validation artifact exists.
+- [ ] Research trace, product review, and validation run artifacts exist under
+      `docs/test/evidence/`.
 - [ ] Every flavor has source evidence.
+- [ ] Evidence records date, reviewer or generating command, commit SHA,
+      commands run, linked output, and pass/fail status for MF-VA-001 through
+      MF-VA-004.
 - [ ] Validation distinguishes temporary harness fixtures from implemented
       product registry/server behavior.
 - [ ] Platform flavor safety is explicitly reviewed.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

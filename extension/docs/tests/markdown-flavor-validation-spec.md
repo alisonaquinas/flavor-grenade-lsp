@@ -28,6 +28,7 @@ reviewer or command that produced it, and links the verification output.
 | `extension/docs/tests/evidence/markdown-flavor-selector-smoke.md` | Screenshot path or manual smoke notes showing the selector next to Markdown language state and all required flavor labels. |
 | `extension/docs/tests/evidence/markdown-flavor-settings-scope.md` | Settings inspection for workspace-folder/workspace override, standalone user override, and Auto Detect reset. |
 | `extension/docs/tests/evidence/markdown-flavor-host-log.md` | `npm run test:host` log excerpt proving selector choices do not change `languageId` away from `markdown`. |
+| `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | `npm run verify:package-targets` log excerpt plus VSIX target list proving packaged server payload checks ran before release or validation signoff. |
 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Displayed flavor id and label table traced to `docs/research/` or `docs/ofm-spec/`. |
 
 ## Exit Criteria
@@ -35,5 +36,6 @@ reviewer or command that produced it, and links the verification output.
 - Product review validates selector behavior in VS Code.
 - Screenshots or smoke records show Markdown flavor behavior.
 - Review evidence confirms the extension does not retcon language mode state.
+- Package-target evidence confirms packaged VSIX payload checks were run.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.

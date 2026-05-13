@@ -62,8 +62,12 @@ scope instead of documentation-only requirements.
 
 ```bash
 bun test src/parser/__tests__/markdown-flavor-profiles.test.ts
+bun test src/
 bun run typecheck
+bun run lint
+bun run bdd
 bun run lint:docs
+bun run build
 ```
 
 ## Tickets

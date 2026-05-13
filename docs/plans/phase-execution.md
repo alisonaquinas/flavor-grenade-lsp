@@ -180,26 +180,26 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 
 ### Step J — Run Integration Tests
 
-1. Check whether `tests/integration/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/integration/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note "no integration tests in this phase" in the Step M retrospective; proceed to Step K
-   - **If test files exist:** run `bun test tests/integration/`
+   - **If test files exist:** run `bun test src/test/integration/`
 2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step K — Run Verification Tests
 
-1. Check whether `tests/verification/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/verification/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to Step L
-   - **If test files exist:** run `bun test tests/verification/`
+   - **If test files exist:** run `bun test src/test/verification/`
 2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step L — Run Validation Tests
 
-1. Check whether `tests/validation/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/validation/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to BDD check
-   - **If test files exist:** run `bun test tests/validation/`; fix all failures
-2. Run all BDD `@smoke` scenarios: `bun run bdd --tags "@smoke"`
+   - **If test files exist:** run `bun test src/test/validation/`; fix all failures
+2. Run the full BDD gate: `bun run bdd`
    - **If cucumber is not yet configured for this phase:** mark BDD check **N/A** and note in retrospective
 3. Fix any failing BDD scenarios; open `BUG` tickets per Rule 5
 4. Repeat until all pass
@@ -252,12 +252,13 @@ A phase is complete **only** when ALL of the following are true:
 
 - [ ] Steps A through **M** executed to completion (no step skipped)
 - [ ] All `TASK`, `CHORE`, and `BUG` tickets in the phase folder are in a terminal state
-- [ ] The phase gate command passes in CI on all three platforms (linux-x64, darwin-arm64, win-x64)
+- [ ] The PR CI gate from `.github/workflows/ci.yml` is green for the phase branch
+- [ ] Any release, binary, or platform package gates touched by the phase are green on their required target platforms; otherwise record "not applicable" in the retrospective
 - [ ] The execution ledger row shows `✅ complete` with a completion date
 - [ ] A PR linking the phase work is open or merged
 - [ ] `FEAT-NNN.md` contains a completed `## Retrospective` section
 
-The AI agent must NOT mark a phase `complete` without CI confirmation. The CI gate is authoritative. See [[plans/execution-ledger]] for gate commands.
+The AI agent must NOT mark a phase `complete` without CI confirmation. The PR CI gate is authoritative for normal root/server phases; release and platform package gates are authoritative only for phases that modify publishing, binary, extension, or platform packaging behavior. See [[plans/execution-ledger]] for gate commands.
 
 ---
 

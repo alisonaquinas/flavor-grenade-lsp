@@ -78,6 +78,7 @@ Detailed extension test cases live in:
 |---|---|
 | Local extension gate | `npm test`, `npm run compile`, and `npm run test:host` include Markdown flavor tests. |
 | Repository CI | Root CI lists extension unit/host checks, BDD, docs lint, typecheck, and package validation. |
+| Package target gate | `npm run verify:package-targets` proves each VSIX target contains the expected bundled server binary and no wrong-platform payload. |
 | Docs gate | `markdownlint-obsidian` runs for `docs/**/*.md` and `extension/docs/**/*.md`. |
 
 ### Validation

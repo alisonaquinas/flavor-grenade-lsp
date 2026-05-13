@@ -49,3 +49,8 @@ non-Obsidian dialect projections.
 - [ ] Obsidian analysis preserves current OFM intelligence.
 - [ ] Tests cover flavor change from CommonMark to Obsidian.
 - [ ] Non-Obsidian dialect work is not forced into OFM-only aggregates.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

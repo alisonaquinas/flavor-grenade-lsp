@@ -17,13 +17,13 @@ aliases: ["CHORE-139"]
 
 ## Description
 
-Perform the operational sweep for Stack Overflow Markdown language-support phase closure.
+Perform trace and documentation kickoff hygiene for Stack Overflow Markdown language-support work without claiming phase closure.
 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for stack-overflow.
-- Confirm [[research/stack-overflow-markdown-analysis]] remains the source trace for the phase.
-- Update the phase index and roadmap status when completion evidence exists.
+- Confirm [[research/stack-overflow-markdown]] remains the source trace for the phase.
+- Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements
 
@@ -33,6 +33,11 @@ Perform the operational sweep for Stack Overflow Markdown language-support phase
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for stack-overflow.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [ ] Documentation trace gaps are identified or resolved for stack-overflow.
+- [ ] Source/spec links needed by implementation tickets are present.
+- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-140]].
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

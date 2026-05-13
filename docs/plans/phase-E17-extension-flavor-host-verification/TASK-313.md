@@ -22,6 +22,10 @@ promotion.
 
 ## Work Scope
 
+- Before rewriting or removing completed `ofmarkdown` host tests, preserve
+  archival/supersession evidence by recording the old test file path, last
+  passing command or commit/CI run if available, and the replacement Markdown
+  flavor test/spec that supersedes each assertion in the E17 evidence log.
 - Replace `activation-language-mode.test.js` expectations with flavor selector
   behavior or move remaining startup checks elsewhere.
 - Keep manual non-Markdown preservation coverage.
@@ -42,5 +46,12 @@ promotion.
 ## Definition of Done
 
 - [ ] No host test waits for `document.languageId === "ofmarkdown"`.
+- [ ] Completed `ofmarkdown` host-test assertions have archival/supersession
+      evidence before rewrite or removal.
 - [ ] Remaining activation coverage still passes.
 - [ ] Manual language preservation remains tested.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

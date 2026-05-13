@@ -45,3 +45,8 @@ configuration schema.
 - [ ] Constants include all required ids.
 - [ ] A contract test guards client/server flavor enum drift.
 - [ ] `npm test` covers enum and label order.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

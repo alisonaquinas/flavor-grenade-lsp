@@ -17,13 +17,13 @@ aliases: ["CHORE-115"]
 
 ## Description
 
-Perform the operational sweep for Original Markdown language-support phase closure.
+Perform trace and documentation kickoff hygiene for Original Markdown language-support work without claiming phase closure.
 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for original.
 - Confirm [[research/commonmark-and-original-markdown]] remains the source trace for the phase.
-- Update the phase index and roadmap status when completion evidence exists.
+- Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements
 
@@ -33,6 +33,11 @@ Perform the operational sweep for Original Markdown language-support phase closu
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for original.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [ ] Documentation trace gaps are identified or resolved for original.
+- [ ] Source/spec links needed by implementation tickets are present.
+- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-116]].
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

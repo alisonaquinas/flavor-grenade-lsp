@@ -47,3 +47,8 @@ traces and structured syntax capability sections.
 - [ ] Every profile has a research source or `ofm-spec` source.
 - [ ] Registry excludes `auto`.
 - [ ] Parser code can consume capability flags without becoming owner of profile labels/order.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -40,9 +40,31 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[resea
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor pandoc. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
+## Planned Source/Test Paths
+
+| Kind | Planned path |
+|---|---|
+| Source | `src/resolution/diagnostic-service.ts` |
+| Source | `src/completion/completion-router.ts` |
+| Source | `src/handlers/document-link.handler.ts` |
+| Source | `src/handlers/folding-range.handler.ts` |
+| Source | `src/handlers/semantic-tokens.handler.ts` |
+| Source | `src/handlers/hover.handler.ts` |
+| Test | `src/test/integration/markdown-flavor.test.ts` |
+| Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
+| Test | `src/handlers/__tests__/document-link.handler.test.ts` |
+| Test | `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Test | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Test | `src/handlers/__tests__/hover.handler.test.ts` |
+
 ## Definition of Done
 
 - [ ] pandoc behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
 - [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

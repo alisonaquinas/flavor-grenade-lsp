@@ -46,3 +46,8 @@ extension; labels and profile metadata are not parser-owned UI state.
 - [ ] `auto` is represented separately from explicit profiles.
 - [ ] Labels/order are available without importing parser internals.
 - [ ] Unit test fails when a required id is removed.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

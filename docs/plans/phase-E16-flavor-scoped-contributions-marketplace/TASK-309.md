@@ -48,3 +48,8 @@ verify current Markdown flavor behavior.
       `extension/test/marketplace/readme-assets.test.ts` and package proof
       through `extension/test/marketplace/vsix-assets.test.ts`.
 - [ ] Obsolete OFMarkdown-mode asset requirement is removed or reclassified.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

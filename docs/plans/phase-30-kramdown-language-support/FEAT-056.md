@@ -7,7 +7,7 @@ priority: high
 phase: 30
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-043"]
+dependencies: ["FEAT-055"]
 tags: [tickets/feature, "phase/30", markdown-flavor, "kramdown"]
 aliases: ["FEAT-056"]
 ---
@@ -51,3 +51,8 @@ Implement first-class kramdown language support for kramdown, using [[research/k
 - [ ] kramdown satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] kramdown behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
+
+## Workflow Log
+
+> [!INFO] Drafted - 2026-05-13
+> Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.

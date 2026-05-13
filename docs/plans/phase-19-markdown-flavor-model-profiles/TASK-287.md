@@ -43,3 +43,8 @@ research note that justified it.
 - [ ] Every displayed flavor has a source trace.
 - [ ] Validation docs can be reviewed without reading code first.
 - [ ] Matrix links are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

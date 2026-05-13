@@ -7,7 +7,7 @@ priority: high
 phase: 21
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-043", "FEAT-045"]
+dependencies: ["FEAT-043"]
 tags: [tickets/feature, "phase/21", markdown-flavor, bdd]
 aliases: ["FEAT-044"]
 ---

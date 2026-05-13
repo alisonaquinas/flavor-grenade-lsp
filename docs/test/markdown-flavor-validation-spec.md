@@ -34,6 +34,13 @@ reviewer or command that produced it, and links the verification output.
 | `docs/test/evidence/markdown-flavor-product-review.md` | Signed review notes for `auto`, `mdx`, platform flavors, and manual non-Markdown language safety. |
 | `docs/test/evidence/markdown-flavor-validation-run.md` | Validation run date, reviewer, commit, commands, and links to BDD/test output. |
 
+Each artifact must include its generation or review date, reviewer name or
+generating command, repository commit SHA, source inputs reviewed, pass/fail
+status for each related MF-VA row, and links or paths to the command output that
+supports the result. The validation run artifact must include `bun run bdd`,
+`bun test src/test/ci-workflow.test.ts`, and the current Phase 21 gate command
+set from [[plans/phase-21-markdown-flavor-bdd-validation]].
+
 ## Exit Criteria
 
 - Product review can trace each displayed flavor to research or `ofm-spec/`.
@@ -41,3 +48,5 @@ reviewer or command that produced it, and links the verification output.
 - Platform flavors do not override user-selected non-Markdown language modes.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.
+- Phase 21 release readiness is limited to root/server PR evidence unless the
+  phase also changes release, binary, extension, or platform package workflows.

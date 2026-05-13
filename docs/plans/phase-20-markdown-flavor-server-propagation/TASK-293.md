@@ -43,3 +43,8 @@ feature analysis without requiring a server restart.
 - [ ] Open document diagnostics refresh after flavor change.
 - [ ] Refresh does not require process restart.
 - [ ] Tests cover unchanged flavor as a no-op.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -44,3 +44,8 @@ and host verification.
 - [ ] Root matrix reflects passing extension flavor evidence.
 - [ ] Extension matrix reflects local unit, host, verification, and validation evidence.
 - [ ] Obsolete rows are retired honestly.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -17,13 +17,13 @@ aliases: ["CHORE-117"]
 
 ## Description
 
-Perform the operational sweep for CommonMark language-support phase closure.
+Perform trace and documentation kickoff hygiene for CommonMark language-support work without claiming phase closure.
 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for commonmark.
 - Confirm [[research/commonmark-and-original-markdown]] remains the source trace for the phase.
-- Update the phase index and roadmap status when completion evidence exists.
+- Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements
 
@@ -33,6 +33,11 @@ Perform the operational sweep for CommonMark language-support phase closure.
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for commonmark.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [ ] Documentation trace gaps are identified or resolved for commonmark.
+- [ ] Source/spec links needed by implementation tickets are present.
+- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-118]].
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

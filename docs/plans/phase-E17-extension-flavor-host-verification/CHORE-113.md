@@ -30,3 +30,8 @@ Collect and link host verification evidence before E17 closeout.
 - [ ] Host evidence is linked.
 - [ ] Validation notes are current.
 - [ ] Environment caveats are documented.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

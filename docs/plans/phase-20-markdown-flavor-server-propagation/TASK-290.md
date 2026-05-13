@@ -47,3 +47,8 @@ downstream services can observe the selected dialect.
 - [ ] Vault-indexed documents keep flavor metadata consistent.
 - [ ] No second document cache is introduced.
 - [ ] BC2 consumes effective flavor only from parse context.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

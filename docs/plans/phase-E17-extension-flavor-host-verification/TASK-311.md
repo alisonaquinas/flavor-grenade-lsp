@@ -58,3 +58,8 @@ wired into verification.
 - [ ] CI verification detects missing root flavor BDD/spec wiring and missing
       extension host flavor wiring.
 - [ ] Extension verification spec rows are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

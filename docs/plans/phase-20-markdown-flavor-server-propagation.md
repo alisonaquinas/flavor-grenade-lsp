@@ -68,8 +68,12 @@ flavor context.
 ```bash
 bun test src/lsp/handlers/__tests__/configuration.handler.test.ts
 bun test src/test/integration/markdown-flavor.test.ts
+bun test src/
 bun run typecheck
+bun run lint
+bun run bdd
 bun run lint:docs
+bun run build
 ```
 
 ## Tickets

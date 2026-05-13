@@ -45,3 +45,8 @@ promotion or old activation assumptions.
 - [ ] User docs no longer instruct users to expect OFMarkdown language picker state.
 - [ ] Activation docs mention selector command behavior.
 - [ ] Docs lint passes.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

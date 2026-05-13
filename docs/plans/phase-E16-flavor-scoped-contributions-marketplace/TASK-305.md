@@ -24,7 +24,12 @@ current compatibility behavior.
 
 ## Work Scope
 
-- Add selector command activation.
+- Add selector command activation for exact command id
+  `flavorGrenade.selectMarkdownFlavor`.
+- Add the exact manifest command contribution:
+  `contributes.commands[] = { "command": "flavorGrenade.selectMarkdownFlavor",
+  "title": "Flavor Grenade: Select Markdown Flavor" }`.
+- Add exact activation event `onCommand:flavorGrenade.selectMarkdownFlavor`.
 - Remove current activation dependency on `onLanguage:ofmarkdown`.
 - Keep `LanguageClient` `clientOptions.documentSelector` scoped to file-backed
   `markdown` documents only; fail tests if `ofmarkdown` remains in the current
@@ -43,12 +48,20 @@ current compatibility behavior.
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-I-001`, `EXT-MF-I-002` | `extension/src/activation-gate.test.ts` | Vault-marker activation and generic Markdown idle startup without custom language id activation. |
-| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Selector command activation and no current `onLanguage:ofmarkdown` activation dependency. |
+| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Asserts `activationEvents` contains `onCommand:flavorGrenade.selectMarkdownFlavor`, excludes `onLanguage:ofmarkdown`, and selector command wake starts the extension. |
 | `EXT-MF-I-006` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and rejects `ofmarkdown`. |
 
 ## Definition of Done
 
-- [ ] Selector command can wake the extension.
+- [ ] `flavorGrenade.selectMarkdownFlavor` is contributed in
+      `extension/package.json`, has activation event
+      `onCommand:flavorGrenade.selectMarkdownFlavor`, and can wake the
+      extension.
 - [ ] Startup gate does not require `onLanguage:ofmarkdown`.
 - [ ] Current `documentSelector` contains no `ofmarkdown` entry.
 - [ ] Generic Markdown idle behavior remains covered.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

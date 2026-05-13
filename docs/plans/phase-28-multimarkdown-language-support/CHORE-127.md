@@ -17,13 +17,13 @@ aliases: ["CHORE-127"]
 
 ## Description
 
-Perform the operational sweep for MultiMarkdown language-support phase closure.
+Perform trace and documentation kickoff hygiene for MultiMarkdown language-support work without claiming phase closure.
 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for multimarkdown.
-- Confirm [[research/multimarkdown-analysis]] remains the source trace for the phase.
-- Update the phase index and roadmap status when completion evidence exists.
+- Confirm [[research/multimarkdown]] remains the source trace for the phase.
+- Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements
 
@@ -33,6 +33,11 @@ Perform the operational sweep for MultiMarkdown language-support phase closure.
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for multimarkdown.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [ ] Documentation trace gaps are identified or resolved for multimarkdown.
+- [ ] Source/spec links needed by implementation tickets are present.
+- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-128]].
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

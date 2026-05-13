@@ -47,6 +47,7 @@ Actions:
 
 Expected vault Markdown should stay in VS Code's `markdown` language mode while
 the Flavor Grenade Markdown flavor selector resolves to the correct flavor.
+No OFMarkdown promotion should occur in the default Markdown language mode path.
 Membership refresh runs after server `ready`, rebuild-index completion,
 workspace folder changes, visible editor changes, and file-open events.
 `Auto Detect` should resolve Obsidian vault notes to Obsidian and generic

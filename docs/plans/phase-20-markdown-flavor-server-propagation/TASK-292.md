@@ -53,3 +53,8 @@ flavor transitions. The process-boundary protocol is
       invalid values, and fallback.
 - [ ] Both-present case verifies VS Code setting wins over `.flavor-grenade.toml`.
 - [ ] Tests run in local root test battery or documented integration gate.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

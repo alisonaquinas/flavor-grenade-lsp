@@ -36,3 +36,8 @@ Perform the operational sweep for Stack Overflow Markdown language-support phase
 - [ ] Documentation trace is complete for stack-overflow.
 - [ ] Required verification evidence is attached or linked.
 - [ ] Phase closeout notes identify any deferred work explicitly.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

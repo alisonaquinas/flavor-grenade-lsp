@@ -57,3 +57,8 @@ are removed.
 - [ ] Local checks fail on missing flavor test wiring.
 - [ ] Phase E17/TASK-311 is linked as the extension host gate for `GAP-S-010`.
 - [ ] Verification spec rows are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

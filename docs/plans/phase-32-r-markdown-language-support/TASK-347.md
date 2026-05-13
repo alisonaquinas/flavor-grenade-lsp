@@ -40,9 +40,25 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 | [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor r-markdown. |
 | [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
+## Planned Source/Test Paths
+
+| Kind | Planned path |
+|---|---|
+| Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
+| Test | `src/test/integration/markdown-flavor.test.ts` |
+| Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
+| Test | `src/test/bdd/step-definitions/extension-harness.steps.ts` |
+| Evidence | `docs/test/evidence/markdown-flavor-research-trace.md` |
+| Evidence | `docs/test/evidence/markdown-flavor-validation-run.md` |
+
 ## Definition of Done
 
 - [ ] r-markdown behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
 - [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -44,3 +44,8 @@ assumptions with flavor/context-safe behavior.
 - [ ] Contribution tests no longer assert `editorLangId == ofmarkdown`.
 - [ ] Generic Markdown isolation is covered.
 - [ ] Obsidian affordances remain accessible when flavor context allows.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

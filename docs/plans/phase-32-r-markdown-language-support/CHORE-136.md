@@ -36,3 +36,8 @@ Perform the operational sweep for R Markdown language-support phase closure.
 - [ ] Documentation trace is complete for r-markdown.
 - [ ] Required verification evidence is attached or linked.
 - [ ] Phase closeout notes identify any deferred work explicitly.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

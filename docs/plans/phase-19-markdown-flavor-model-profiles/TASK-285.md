@@ -44,3 +44,8 @@ Original Markdown, CommonMark, and Obsidian.
 - [ ] Original Markdown profile has historical baseline constraints.
 - [ ] CommonMark profile has standardized core behavior.
 - [ ] Obsidian profile maps current OFM parser capabilities.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

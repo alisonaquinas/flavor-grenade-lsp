@@ -45,3 +45,8 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 - [ ] Every researched explicit flavor has signature behavior.
 - [ ] Platform-specific behavior is labeled as host-specific.
 - [ ] Test coverage fails on missing profile sources.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -17,16 +17,25 @@ aliases: ["CHORE-114"]
 
 ## Description
 
-Run the complete extension flavor verification battery and close the phase.
+Run the complete extension flavor verification battery, including Marketplace
+asset and package-target checks, and close the phase.
 
 ## Work Scope
 
-- Run `npm test`, `npm run test:host`, and `npm run compile`.
+- Run `npm run compile`, `npm test`, `npm run test:host`,
+  `npm run verify:marketplace-assets`, and `npm run verify:package-targets`.
 - Run root and extension docs lint.
 - Update feature ticket and phase workflow logs.
 
 ## Definition of Done
 
-- [ ] E17 verification commands pass.
+- [ ] E17 verification commands pass: `npm run compile`, `npm test`,
+      `npm run test:host`, `npm run verify:marketplace-assets`, and
+      `npm run verify:package-targets`.
 - [ ] Matrices and validation docs are current.
 - [ ] Phase is ready for review.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

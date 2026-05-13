@@ -49,3 +49,8 @@ than real parser/server behavior.
 - [ ] Research source examples execute for every flavor row.
 - [ ] Planned-contract wording is replaced once assertions read the product
       registry and server analysis output.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

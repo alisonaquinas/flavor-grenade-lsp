@@ -136,7 +136,7 @@ Implementation plan: [[plans/phase-12-code-actions]]
 
 ### Phase 13 — CI & Delivery
 
-Bundle the server with Bun (`bun build --compile`). Build cross-platform binaries for Linux x64, macOS ARM64, macOS x64, and Windows x64. CI gates: typecheck, lint, unit tests, integration tests (spawn server, exchange LSP messages over stdio, assert responses). Release pipeline tags a GitHub release and attaches binaries. Publish to npm as `@flavor-grenade/lsp-server` for editor plugin convenience.
+Bundle the server with Bun (`bun build --compile`). Build cross-platform binaries for Linux x64, macOS ARM64, macOS x64, and Windows x64. PR CI gates: typecheck, lint, unit tests, integration tests (spawn server, exchange LSP messages over stdio, assert responses), BDD, docs lint, and build. The npm publish job in `.github/workflows/ci.yml` publishes `@flavor-grenade/lsp-server` with provenance for editor plugin convenience; `.github/workflows/release.yml` is for binary or GitHub release artifacts when applicable.
 
 Implementation plan: [[plans/phase-13-ci-delivery]]
 
@@ -223,8 +223,10 @@ acceptance tests that track effective flavor separately from VS Code language
 mode. This phase implements the Markdown flavor BDD steps, adds verification
 checks that the flavor test layers stay wired into CI, and records validation
 evidence tying the displayed/profiled flavor set to research. This phase is a
-validation and release gate; server dialect phases may proceed once Phase 20
-propagation and Phase 19 model readiness are available.
+root/server PR release-readiness gate, not a platform package gate unless its
+implementation changes publishing, binary, extension, or platform packaging
+workflows. Server dialect phases may proceed once Phase 20 propagation and
+Phase 19 model readiness are available.
 
 Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-e2e-spec]], [[test/markdown-flavor-verification-spec]], [[test/markdown-flavor-validation-spec]]
 

@@ -44,3 +44,8 @@ ADR020.
 - [ ] Selector surface exists.
 - [ ] Quick-pick labels match requirements.
 - [ ] Selector does not use VS Code language picker for flavor.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

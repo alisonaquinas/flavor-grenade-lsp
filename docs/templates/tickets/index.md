@@ -45,10 +45,10 @@ Counters are independent per type. Do not reuse or retire numbers.
 
 1. Copy the appropriate template from this directory.
 2. Name the file `<TICKET-ID>.md` (e.g., `TASK-042.md`).
-3. Place it in `docs/tickets/` (the instance directory — not this templates directory).
+3. Place it in `docs/plans/phase-{{NN}}-{{slug}}/` (the phase ticket directory — not this templates directory).
 4. Replace every `{{PLACEHOLDER}}` with real values.
 5. Add wikilinks to all relevant requirements, BDD features, test files, ADRs, and phase plans.
-6. Leave the **Workflow Log** section initialised with a single `open` entry — the LLM agent writes subsequent entries.
+6. Leave the **Workflow Log** section initialised with a single entry for the ticket type's initial lifecycle state — the LLM agent writes subsequent entries.
 
 ---
 
@@ -96,7 +96,7 @@ Every template contains a `## Workflow Log` section at the bottom. This section 
 > Brief note: what work is starting and why.
 
 > [!WARNING] Agent — YYYY-MM-DD — `in-progress` → `blocked`
-> Blocked on [[tickets/TASK-NNN]] — reason.
+> Blocked on [[plans/phase-{{NN}}-{{slug}}/TASK-NNN]] or same-phase [[TASK-NNN]] — reason.
 
 > [!CHECK] Agent — YYYY-MM-DD — `in-review` → `done`
 > All acceptance criteria met. CI green. Evidence: <PR/commit reference>.
@@ -130,7 +130,7 @@ When filling in ticket link sections, use these canonical link targets:
 | ADR | `[[adr/ADR{{NNN}}-{{slug}}]]` | `[[adr/ADR006-block-ref-indexing]]` |
 | Phase plan | `[[plans/phase-{{NN}}-{{slug}}]]` | `[[plans/phase-05-wiki-links]]` |
 | Execution ledger | `[[plans/execution-ledger]]` | — |
-| Another ticket | `[[tickets/{{ID}}]]` | `[[tickets/TASK-042]]` |
+| Another ticket | `[[plans/phase-{{NN}}-{{slug}}/{{ID}}]]` or same-phase `[[{{ID}}]]` | `[[plans/phase-05-wiki-links/TASK-060]]` |
 
 ---
 

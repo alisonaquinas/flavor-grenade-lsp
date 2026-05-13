@@ -48,3 +48,8 @@ flavor selector behavior.
 - [ ] Asset inventory remains package-safe, covered by
       `extension/test/marketplace/readme-assets.test.ts` and
       `extension/test/marketplace/vsix-assets.test.ts`.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

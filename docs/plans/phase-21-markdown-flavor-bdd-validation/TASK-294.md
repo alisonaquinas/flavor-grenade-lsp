@@ -48,3 +48,8 @@ VS Code `languageId`.
 - [ ] Manual non-Markdown language scenarios assert no override write and no
       server propagation.
 - [ ] BDD tests fail honestly when flavor steps are missing.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

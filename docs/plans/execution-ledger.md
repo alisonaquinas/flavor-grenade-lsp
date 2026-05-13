@@ -99,7 +99,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
    ```bash
    # Example for Phase 3
    bun test src/parser/**
-   bun run bdd --tags "@smoke"
+   bun run bdd
    ```
 
 2. Update the row in this table:
@@ -117,7 +117,8 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 A phase is **not** complete if:
 
 - Gate passes locally but CI is red
-- Gate passes only on one platform (CI runs linux-x64, darwin-arm64, win-x64)
+- The PR CI gate in `.github/workflows/ci.yml` is red or pending
+- A touched release, binary, extension, or platform package gate is red or pending on any required target platform
 - BDD scenarios pass but unit tests are skipped
 
 ---

@@ -56,3 +56,8 @@ membership inputs.
       documented default without changing language id.
 - [ ] Generic Markdown does not auto-detect as Obsidian.
 - [ ] Membership fallback does not trigger language promotion.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

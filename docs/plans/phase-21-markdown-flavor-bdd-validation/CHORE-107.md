@@ -30,3 +30,8 @@ Keep root BDD traceability accurate during flavor acceptance work.
 - [ ] BDD feature, step, and matrix references align.
 - [ ] Stale `ofmarkdown` BDD assumptions are documented or removed.
 - [ ] Phase plan reflects final implemented scope.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -33,3 +33,8 @@ Marketplace migration.
 - [ ] Trace docs link implemented E16 test files.
 - [ ] No current user-facing doc presents language promotion as required behavior.
 - [ ] Residual compatibility debt is documented.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

@@ -54,3 +54,8 @@ using VS Code's language picker.
 - [ ] Manual-language and settings-scope evidence are included.
 - [ ] Evidence files use the artifact paths required by
       `extension/docs/tests/markdown-flavor-validation-spec.md`.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

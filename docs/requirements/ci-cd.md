@@ -124,7 +124,7 @@ aliases:
 **Scale:** Percentage of published package versions that carry a valid OIDC provenance attestation visible on npmjs.com.
 **Meter:**
 
-1. Publish a test release using the `release.yml` workflow.
+1. Publish a test package release using the npm publish job in `.github/workflows/ci.yml`.
 2. Navigate to the package's page on npmjs.com.
 3. Verify the provenance section shows the GitHub Actions workflow run URL and commit SHA.
 4. Verify the `sigstore` attestation bundle is present (`npm audit signatures`).
@@ -133,7 +133,7 @@ aliases:
 **Goal:** 100% of published versions carry provenance — `npm audit signatures` exits 0.
 **Stakeholders:** Package consumers, security auditors, supply-chain integrity reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/release.yml`, npm documentation §Provenance.
+**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job, npm documentation §Provenance. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
 
 ---
 
@@ -145,7 +145,7 @@ aliases:
 **Scale:** Percentage of published versions triggered by a push event other than a semver tag on `main` (e.g., manual `npm publish` or a workflow_dispatch trigger without tag validation).
 **Meter:**
 
-1. Attempt a publish by running the publish workflow with a non-tag trigger (e.g., `workflow_dispatch`).
+1. Attempt a publish by running the npm publish path in `.github/workflows/ci.yml` with a non-tag trigger (e.g., `workflow_dispatch`).
 2. Verify the workflow is configured to only run on `on: push: tags: ['v*.*.*']`.
 3. Verify that `main` branch protection prevents direct pushes without a release branch merge.
 4. Compute: (published versions triggered by semver tag push / total published versions) × 100.
@@ -153,7 +153,7 @@ aliases:
 **Goal:** 0% non-tag publishes — 100% of published versions have a corresponding `v*.*.*` git tag on `main`.
 **Stakeholders:** Release engineers, consumers, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/release.yml`.
+**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
 
 ---
 

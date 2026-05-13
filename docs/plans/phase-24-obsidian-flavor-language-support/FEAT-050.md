@@ -7,7 +7,7 @@ priority: high
 phase: 24
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-043"]
+dependencies: ["FEAT-049"]
 tags: [tickets/feature, "phase/24", markdown-flavor, "obsidian"]
 aliases: ["FEAT-050"]
 ---
@@ -49,3 +49,8 @@ Implement first-class obsidian language support for Obsidian, using [[ofm-spec/i
 - [ ] obsidian satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] obsidian behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
+
+## Workflow Log
+
+> [!INFO] Drafted - 2026-05-13
+> Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.

@@ -55,3 +55,8 @@ Implement BC4-owned effective flavor resolution for explicit settings and
       required explicit flavor id.
 - [ ] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
 - [ ] Existing vault detection inputs are reused where appropriate.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

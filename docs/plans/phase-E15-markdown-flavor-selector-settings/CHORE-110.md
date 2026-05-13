@@ -37,3 +37,8 @@ Run extension compile/unit/docs checks and prepare E15 for review.
       the Phase E17 validation ticket.
 - [ ] Residual extension gaps are documented for E16/E17.
 - [ ] Phase is ready for review.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

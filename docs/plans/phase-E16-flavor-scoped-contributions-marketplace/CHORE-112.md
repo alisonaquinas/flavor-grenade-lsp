@@ -17,11 +17,13 @@ aliases: ["CHORE-112"]
 
 ## Description
 
-Run extension unit, marketplace, compile, and docs verification for E16.
+Run extension unit, host, marketplace, package-target, compile, and docs
+verification for E16.
 
 ## Work Scope
 
-- Run `npm test`, `npm run verify:marketplace-assets`, and `npm run compile`.
+- Run `npm run compile`, `npm test`, `npm run test:host`,
+  `npm run verify:marketplace-assets`, and `npm run verify:package-targets`.
   `npm run verify:marketplace-assets` must cover
   `extension/test/marketplace/readme-assets.test.ts` (`EXT-MF-I-005`) and
   `extension/test/marketplace/vsix-assets.test.ts` (`EXT-MF-I-006`).
@@ -36,10 +38,17 @@ Run extension unit, marketplace, compile, and docs verification for E16.
 
 ## Definition of Done
 
-- [ ] E16 verification commands pass.
+- [ ] E16 verification commands pass: `npm run compile`, `npm test`,
+      `npm run test:host`, `npm run verify:marketplace-assets`, and
+      `npm run verify:package-targets`.
 - [ ] Marketplace evidence is current and covered by exact proof files
       `extension/test/marketplace/readme-assets.test.ts` and
       `extension/test/marketplace/vsix-assets.test.ts`.
 - [ ] E16 validation evidence paths are linked from the extension test index or
       Phase E17 validation ticket.
 - [ ] Phase is ready for review.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

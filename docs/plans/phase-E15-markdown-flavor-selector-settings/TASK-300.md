@@ -54,3 +54,8 @@ that preserves VS Code language mode and tracks effective flavor.
 - [ ] Selector refresh does not send server flavor updates for non-`markdown`
       language documents.
 - [ ] Obsolete promotion tests are marked for rewrite or removal.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

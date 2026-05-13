@@ -7,7 +7,7 @@ priority: high
 phase: 23
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["FEAT-043"]
+dependencies: ["FEAT-048"]
 tags: [tickets/feature, "phase/23", markdown-flavor, "commonmark"]
 aliases: ["FEAT-049"]
 ---
@@ -49,3 +49,8 @@ Implement first-class commonmark language support for CommonMark, using [[resear
 - [ ] commonmark satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] commonmark behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
+
+## Workflow Log
+
+> [!INFO] Drafted - 2026-05-13
+> Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.

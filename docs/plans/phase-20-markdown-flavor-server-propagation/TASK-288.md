@@ -50,3 +50,8 @@ invalid input.
 - [ ] Unknown ids leave previous flavor state intact.
 - [ ] BC5 does not compute or store `EffectiveMarkdownFlavor`.
 - [ ] Unit tests prove validation behavior.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

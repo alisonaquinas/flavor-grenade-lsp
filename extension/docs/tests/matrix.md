@@ -36,7 +36,7 @@ Detailed cases for the rows below live in:
 | Unit | `extension/src/markdown-flavor.test.ts`; updated contribution tests | 📋 planned | Pure extension logic covers selector, flavor ids, auto-detection, persistence, propagation calls, refresh triggers, and flavor-scoped contributions. |
 | Integration | `extension/src/activation-gate.test.ts`; `extension/test/marketplace/readme-assets.test.ts`; `extension/test/marketplace/vsix-assets.test.ts`; server refresh wiring tests | 🔴 needs update | Extension startup and package evidence align with Markdown flavor selection instead of custom language mode. |
 | E2E | `extension/src/test/suite/markdown-flavor.test.js` | 📋 planned | VS Code host proves user-visible selector, settings persistence, language preservation, and generic Markdown fallback. |
-| Verification | `npm test`; `npm run compile`; `npm run test:host`; `npm run verify:marketplace-assets`; CI workflow checks; `bun run lint:docs` for `extension/docs/**/*.md` | 🔴 needs update | Local and CI gates run the new flavor tests, protect marketplace selector proof through E16/TASK-309, and fail on stale `ofmarkdown` assumptions. |
+| Verification | `npm test`; `npm run compile`; `npm run test:host`; `npm run verify:marketplace-assets`; `npm run verify:package-targets`; CI workflow checks; `bun run lint:docs` for `extension/docs/**/*.md` | 🔴 needs update | Local and CI gates run the new flavor tests, protect marketplace selector proof through E16/TASK-309, verify VSIX target payloads, and fail on stale `ofmarkdown` assumptions. |
 | Validation | BDD scenarios plus research-source trace review | 🔴 needs step updates | Acceptance evidence proves required flavor ids and dialect profiles match the research corpus. |
 
 ## Legacy Tests To Retire Or Rewrite

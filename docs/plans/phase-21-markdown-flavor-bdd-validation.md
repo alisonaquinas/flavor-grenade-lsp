@@ -21,7 +21,7 @@ updated: 2026-05-13
 
 Replace stale `ofmarkdown` BDD assumptions with flavor-state acceptance tests,
 then wire the unit, integration, e2e, verification, and validation specs into
-traceable release gates. This phase validates the flavor model and selector; it
+traceable PR and release-readiness gates. This phase validates the flavor model and selector; it
 does not block server dialect implementation after Phase 20 propagation is
 ready.
 
@@ -47,7 +47,8 @@ ready.
 - Implement steps for `docs/bdd/features/ofmarkdown-language-mode.feature`.
 - Implement steps for `docs/bdd/features/markdown-flavor-dialects.feature`.
 - Add CI/file-presence verification for flavor test layers.
-- Add validation artifact for research-to-profile review.
+- Add dated validation artifacts for research-to-profile review, product review,
+  and validation run evidence.
 - Update test matrix and test index with implemented evidence.
 
 ### Out of Scope
@@ -61,6 +62,8 @@ ready.
   `ofmarkdown` simulations.
 - The default BDD gate includes both flavor feature files.
 - Validation can trace every displayed flavor to research or `ofm-spec`.
+- Validation evidence names the reviewer or command, commit, date, commands run,
+  and links to output for every artifact.
 - The matrix shows honest passing/failing status after implementation.
 
 ## Gate Verification
@@ -68,8 +71,17 @@ ready.
 ```bash
 bun run bdd
 bun test src/test/ci-workflow.test.ts
+bun test src/
+bun run typecheck
+bun run lint
 bun run lint:docs
+bun run build
 ```
+
+Phase 21 is a root/server PR release-readiness gate: it proves the flavor test
+layers and validation evidence are complete before release work consumes them.
+It is not a platform package gate unless the implementation changes publishing,
+binary, extension, or platform packaging workflows.
 
 ## Tickets
 

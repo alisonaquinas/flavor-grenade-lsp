@@ -17,13 +17,13 @@ aliases: ["CHORE-121"]
 
 ## Description
 
-Perform the operational sweep for GitHub Flavored Markdown language-support phase closure.
+Perform trace and documentation kickoff hygiene for GitHub Flavored Markdown language-support work without claiming phase closure.
 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for gfm.
-- Confirm [[research/github-flavored-markdown-analysis]] remains the source trace for the phase.
-- Update the phase index and roadmap status when completion evidence exists.
+- Confirm [[research/github-flavored-markdown]] remains the source trace for the phase.
+- Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements
 
@@ -33,6 +33,11 @@ Perform the operational sweep for GitHub Flavored Markdown language-support phas
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for gfm.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [ ] Documentation trace gaps are identified or resolved for gfm.
+- [ ] Source/spec links needed by implementation tickets are present.
+- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-122]].
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

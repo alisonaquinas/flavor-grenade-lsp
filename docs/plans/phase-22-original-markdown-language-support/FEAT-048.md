@@ -49,3 +49,8 @@ Implement first-class original language support for Original Markdown, using [[r
 - [ ] original satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] original behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
+
+## Workflow Log
+
+> [!INFO] Drafted - 2026-05-13
+> Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.

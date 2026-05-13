@@ -30,3 +30,8 @@ Run BDD, verification, docs lint, and closeout updates for Phase 21.
 - [ ] Phase gate commands pass.
 - [ ] Validation evidence is linked from matrices.
 - [ ] Phase is ready for review.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

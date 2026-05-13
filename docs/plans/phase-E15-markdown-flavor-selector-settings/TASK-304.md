@@ -60,3 +60,8 @@ documents.
 - [ ] Open Markdown refresh path runs after selector changes.
 - [ ] Non-`markdown` documents are excluded from refresh and propagation.
 - [ ] Server failure preserves user-visible flavor state.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.

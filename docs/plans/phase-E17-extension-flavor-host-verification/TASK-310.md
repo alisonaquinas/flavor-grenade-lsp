@@ -53,3 +53,8 @@ flavor behavior in the VS Code Extension Development Host.
       `ofmarkdown` language id.
 - [ ] `npm run test:host` includes the suite.
 - [ ] No scenario expects `ofmarkdown` language id.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Status set to `open`. Ticket created and ready for lifecycle transition.
