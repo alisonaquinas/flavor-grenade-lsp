@@ -69,7 +69,7 @@ requirements.
 **Meter:**
 
 1. Inspect the extension test suite.
-2. Verify at least one test exists for activation in `.obsidian/`, activation in `.flavor-grenade.toml`, generic Markdown isolation, Markdown flavor selection, command registration, status transition, and missing server path failure.
+2. Verify at least one test exists for activation in `.obsidian/`, activation in `.flavor-grenade.toml`, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
 3. Run the extension-host test command in CI or locally.
 4. Compute: (behavior groups with passing tests / required behavior groups) x 100.
 **Fail:** Any required behavior group lacks a passing test.
@@ -215,7 +215,7 @@ extension implementation capabilities.
 **Meter:**
 
 1. Open vault and non-vault Markdown documents.
-2. Simulate server ready, index rebuild, workspace folder add/remove, visible editor change, file open events, and selector changes.
+2. Simulate server ready, index rebuild, workspace folder add/remove, visible editor change, file open events, and selector changes across every required explicit flavor.
 3. Observe effective Markdown flavor after each trigger.
 4. Verify every `.md` document remains in `markdown`.
 5. Verify manual non-Markdown language selections are not treated as active Markdown flavor scope.

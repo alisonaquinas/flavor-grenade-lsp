@@ -86,7 +86,7 @@ activate(context: ExtensionContext)
   ├─ Register MarkdownFlavorController
   │    early check: ancestor .obsidian/ exists
   │    server check: flavorGrenade/documentMembership
-  │    selector: Auto Detect / Original Markdown / CommonMark / Obsidian
+  │    selector: Auto Detect plus supported Markdown flavor ids
   │    persistence: workspace-folder setting for folder documents, user setting for standalone files
   │    propagation: refresh server analysis with effective Markdown flavor
   │
@@ -195,7 +195,10 @@ The VS Code component that owns Markdown flavor state. It watches visible editor
 
 Without a vault/config signal, `auto` resolves to `commonmark`.
 
-**Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor` to `auto`, `original`, `commonmark`, or `obsidian`. Folder-backed documents write the override to the owning workspace folder or workspace setting. Standalone files write the override to the user setting.
+**Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor`
+to any supported Markdown flavor id. Folder-backed documents write the override
+to the owning workspace folder or workspace setting. Standalone files write the
+override to the user setting.
 
 **Safety rules:**
 
@@ -209,7 +212,21 @@ Without a vault/config signal, `auto` resolves to `commonmark`.
 The user-visible flavor state for a Markdown document.
 
 ```typescript
-type MarkdownFlavor = 'auto' | 'original' | 'commonmark' | 'obsidian';
+type MarkdownFlavor =
+  | 'auto'
+  | 'original'
+  | 'commonmark'
+  | 'obsidian'
+  | 'gfm'
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow';
 ```
 
 `MarkdownFlavorSelection` is not a VS Code language id. The normal language id remains `markdown`; flavor selection tells Flavor Grenade how to interpret the Markdown document.

@@ -70,7 +70,7 @@ Required coverage:
 - activation in `.flavor-grenade.toml` workspaces
 - generic Markdown remains `markdown`
 - vault Markdown remains `markdown` and auto-detects Obsidian flavor
-- users can override flavor to Original Markdown, CommonMark, or Obsidian
+- users can override flavor to any supported researched Markdown flavor
 - restart, rebuild-index, show-output, and bridge commands are registered
 - status bar transitions can be observed with a test server or mock client
 - missing custom server path produces a useful failure state

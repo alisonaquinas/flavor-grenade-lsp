@@ -26,7 +26,8 @@ The revised product requirement is different:
 - allow users to override the detected flavor;
 - persist folder-backed overrides as project settings;
 - persist standalone-file overrides as user settings;
-- initially support Original Markdown, CommonMark, and Obsidian.
+- support every Markdown flavor currently researched in `docs/research/`, plus
+  auto-detection.
 
 ## Decision
 
@@ -35,10 +36,24 @@ representation of Markdown flavor. The extension must preserve `markdown` as the
 VS Code language id for supported Markdown documents.
 
 The extension will expose Markdown flavor through a separate selector. The
-initial flavor enum is:
+required flavor enum is:
 
 ```typescript
-type MarkdownFlavor = 'auto' | 'original' | 'commonmark' | 'obsidian';
+type MarkdownFlavor =
+  | 'auto'
+  | 'original'
+  | 'commonmark'
+  | 'obsidian'
+  | 'gfm'
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow';
 ```
 
 The selector labels are:
@@ -47,6 +62,16 @@ The selector labels are:
 - Original Markdown
 - CommonMark
 - Obsidian
+- GitHub Flavored Markdown
+- GitLab Flavored Markdown
+- Pandoc Markdown
+- MultiMarkdown
+- MDX
+- kramdown
+- Markdown Extra
+- R Markdown
+- Reddit Markdown
+- Stack Overflow Markdown
 
 The default setting is `auto`. In `auto`, the extension and server infer the
 effective flavor from vault and workspace signals. `.obsidian/` resolves to
@@ -71,6 +96,11 @@ The effective flavor must be propagated to the language server so parser,
 diagnostic, completion, navigation, and semantic-token behavior can become
 flavor-aware over time.
 
+Each explicit flavor must also have a dialect profile traced to its research
+note. Platform-oriented flavors such as MDX, R Markdown, Reddit, and Stack
+Overflow are flavor profiles for Markdown documents; they do not authorize the
+extension to override a user-selected non-`markdown` VS Code language id.
+
 ## Consequences
 
 **Positive:**
@@ -80,6 +110,8 @@ flavor-aware over time.
 - Auto-detection remains low-friction for Obsidian vaults.
 - Override persistence follows user expectations: project when a folder exists, user when only a file exists.
 - The model can grow to additional flavors without adding more VS Code language ids.
+- The researched flavor corpus becomes testable product scope instead of
+  background research.
 
 **Negative:**
 
@@ -114,4 +146,14 @@ editor without hunting through settings.
 - [[requirements/user/vscode-language-mode]]
 - [[ddd/editor-client/domain-model]]
 - [[research/commonmark-and-original-markdown]]
+- [[github-flavored-markdown-analysis]]
+- [[gitlab-flavored-markdown-analysis]]
+- [[pandoc-markdown-deep-research-report]]
+- [[multimarkdown-analysis]]
+- [[mdx-analysis]]
+- [[kramdown-analysis]]
+- [[markdown-extra-analysis]]
+- [[r-markdown-analysis]]
+- [[reddit-markdown-analysis]]
+- [[stack-overflow-markdown-analysis]]
 - [[ofm-spec/index]]

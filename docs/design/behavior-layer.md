@@ -49,8 +49,8 @@ All `.feature` files live in `docs/bdd/features/`. They are executable specifica
 | `docs/bdd/features/embeds.feature` | Embed resolution, diagnostics, navigation, hover, and attachment behavior | `@ofm`, `@smoke` | 10 |
 | `docs/bdd/features/frontmatter.feature` | YAML frontmatter parsing and metadata behavior | `@ofm`, `@smoke` | 9 |
 | `docs/bdd/features/navigation.feature` | Definitions, references, CodeLens, highlights, and tag precision | `@lsp`, `@smoke` | 9 |
-| `docs/bdd/features/markdown-flavor-dialects.feature` | Original Markdown and CommonMark flavor-specific behavior | `@extension`, `@vscode`, `@markdown-flavor` | 4 |
-| `docs/bdd/features/ofmarkdown-language-mode.feature` | Markdown flavor selection, auto-detection, override persistence, and manual-mode safety | `@extension`, `@vscode`, `@markdown-flavor` | 6 |
+| `docs/bdd/features/markdown-flavor-dialects.feature` | Researched Markdown flavor-specific behavior and dialect profiles | `@extension`, `@vscode`, `@markdown-flavor` | 5 |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | Markdown flavor selection, auto-detection, override persistence, and manual-mode safety | `@extension`, `@vscode`, `@markdown-flavor` | 7 |
 | `docs/bdd/features/ofmarkdown-parity.feature` | Standard Markdown link parity, structural LSP, attachments, and file operations | `@lsp`, `@parity` | 10 |
 | `docs/bdd/features/rename.feature` | Prepare-rename and workspace-edit behavior | `@lsp`, `@smoke` | 8 |
 | `docs/bdd/features/tags.feature` | Tag indexing, hierarchy, references, completion, and YAML equivalence | `@ofm` | 9 |
@@ -61,7 +61,7 @@ All `.feature` files live in `docs/bdd/features/`. They are executable specifica
 | `docs/bdd/features/wiki-links.feature` | Wiki-link completion, definition, diagnostics, references, aliases, and style behavior | `@ofm`, `@smoke` | 10 |
 | `docs/bdd/features/workspace.feature` | Workspace scanning, lookup, ignore rules, file watching, and multi-root behavior | `@lsp` | 10 |
 
-Total: **153 scenarios** across 19 feature files. The default `bun run bdd` gate currently executes all checked-in scenarios.
+Total: **155 scenarios** across 19 feature files. The default `bun run bdd` gate currently executes all checked-in scenarios.
 
 ---
 

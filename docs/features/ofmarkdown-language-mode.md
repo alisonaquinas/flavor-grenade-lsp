@@ -32,7 +32,7 @@ The normal VS Code language picker continues to display **Markdown**. A separate
 Flavor Grenade selector displays the effective Markdown flavor as close to the
 language mode control as VS Code status item placement allows.
 
-Initial selector choices:
+Required selector choices:
 
 | Selector label | Flavor id | Meaning |
 |---|---|---|
@@ -40,10 +40,39 @@ Initial selector choices:
 | Original Markdown | `original` | Interpret source using the historical Gruber Markdown baseline where supported. |
 | CommonMark | `commonmark` | Interpret source using CommonMark semantics where supported. |
 | Obsidian | `obsidian` | Interpret source using Obsidian Flavored Markdown semantics. |
+| GitHub Flavored Markdown | `gfm` | Interpret source using GFM's CommonMark-based extensions, including tables, task lists, and strikethrough. |
+| GitLab Flavored Markdown | `glfm` | Interpret source using GLFM's CommonMark-based GitLab extensions. |
+| Pandoc Markdown | `pandoc` | Interpret source using Pandoc Markdown's extension-oriented academic and conversion features. |
+| MultiMarkdown | `multimarkdown` | Interpret source using MultiMarkdown's document-production extensions. |
+| MDX | `mdx` | Interpret Markdown-with-JSX content as an explicit flavor for Markdown documents without taking over VS Code's MDX language mode. |
+| kramdown | `kramdown` | Interpret source using kramdown's attribute and block extension model. |
+| Markdown Extra | `markdown-extra` | Interpret source using PHP Markdown Extra style extensions. |
+| R Markdown | `r-markdown` | Interpret source using R Markdown's YAML, prose, and executable chunk conventions as a Markdown flavor profile. |
+| Reddit Markdown | `reddit` | Interpret source using Reddit's platform Markdown behavior. |
+| Stack Overflow Markdown | `stack-overflow` | Interpret source using Stack Overflow's CommonMark-based technical-writing behavior. |
 
-Future releases may add GFM, GLFM, MDX, Pandoc Markdown, MultiMarkdown, R
-Markdown, kramdown, Markdown Extra, Reddit, or Stack Overflow flavors. They are
-out of scope for the first selector implementation.
+## Dialect Profile Baselines
+
+Each explicit flavor must carry a profile traced to research. The profile
+records which constructs are core, which are flavor extensions, and which
+platform behaviors should be treated as host-specific rather than portable
+Markdown.
+
+| Flavor id | Required profile baseline | Source |
+|---|---|---|
+| `original` | Gruber 2004 Markdown syntax and Markdown.pl-era ambiguities; no fenced code, tables, task lists, or wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
+| `commonmark` | Versioned CommonMark core semantics with fenced code blocks and standardized edge-case behavior; no GFM tables or Obsidian wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
+| `obsidian` | Obsidian-style wiki links, embeds, block anchors, tags, callouts, frontmatter, math, comments, and vault-local link semantics. | [[ofm-spec/index]] |
+| `gfm` | CommonMark plus GitHub tables, task lists, strikethrough, autolinks, and GitHub platform rendering boundaries. | [[github-flavored-markdown-analysis]] |
+| `glfm` | CommonMark/GFM base plus GitLab-specific references, media behavior, and heading/link conventions. | [[gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Extension-oriented Markdown with citations, math, metadata, attributes, labels, cross-references, and conversion-sensitive behavior. | [[pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | Document-production Markdown with metadata, tables, footnotes, citations, cross-references, and export-oriented behavior. | [[multimarkdown-analysis]] |
+| `mdx` | Markdown with JSX expressions/components and ESM-oriented constraints; treat `.mdx` language-mode ownership as external to Markdown flavor selection. | [[mdx-analysis]] |
+| `kramdown` | kramdown block/span attributes, definition lists, tables, math, footnotes, and parser option behavior. | [[kramdown-analysis]] |
+| `markdown-extra` | PHP Markdown Extra tables, definition lists, footnotes, abbreviations, fenced code, and attribute blocks. | [[markdown-extra-analysis]] |
+| `r-markdown` | YAML metadata, prose Markdown, and executable R code chunk conventions across knitr/rmarkdown-style pipelines. | [[r-markdown-analysis]] |
+| `reddit` | Reddit's platform Markdown rules, including host-specific rendering, escaping, and portability limits. | [[reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow's CommonMark-based technical-writing profile, code blocks, syntax highlighting conventions, and platform constraints. | [[stack-overflow-markdown-analysis]] |
 
 ## Selector UI
 
@@ -54,6 +83,16 @@ Markdown Flavor: Auto (Obsidian)
 Markdown Flavor: CommonMark
 Markdown Flavor: Original
 Markdown Flavor: Obsidian
+Markdown Flavor: GitHub Flavored Markdown
+Markdown Flavor: GitLab Flavored Markdown
+Markdown Flavor: Pandoc Markdown
+Markdown Flavor: MultiMarkdown
+Markdown Flavor: MDX
+Markdown Flavor: kramdown
+Markdown Flavor: Markdown Extra
+Markdown Flavor: R Markdown
+Markdown Flavor: Reddit Markdown
+Markdown Flavor: Stack Overflow Markdown
 ```
 
 Clicking the selector opens a quick-pick menu:
@@ -62,6 +101,16 @@ Clicking the selector opens a quick-pick menu:
 2. Original Markdown
 3. CommonMark
 4. Obsidian
+5. GitHub Flavored Markdown
+6. GitLab Flavored Markdown
+7. Pandoc Markdown
+8. MultiMarkdown
+9. MDX
+10. kramdown
+11. Markdown Extra
+12. R Markdown
+13. Reddit Markdown
+14. Stack Overflow Markdown
 
 Selecting an item changes Flavor Grenade's effective flavor state. It must not
 call `vscode.languages.setTextDocumentLanguage` and must not use the VS Code
@@ -77,10 +126,24 @@ The selector writes a single setting:
 }
 ```
 
-Allowed values for v1:
+Allowed values:
 
 ```typescript
-type MarkdownFlavor = 'auto' | 'original' | 'commonmark' | 'obsidian';
+type MarkdownFlavor =
+  | 'auto'
+  | 'original'
+  | 'commonmark'
+  | 'obsidian'
+  | 'gfm'
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow';
 ```
 
 Persistence rules:
@@ -143,7 +206,7 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 
 - `.md` files stay in VS Code's built-in `markdown` language mode.
 - A separate Markdown flavor selector is visible for Markdown documents.
-- Initial selector choices are Auto Detect, Original Markdown, CommonMark, and Obsidian.
+- Selector choices cover every required researched flavor: Original Markdown, CommonMark, Obsidian, GFM, GLFM, Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 - Auto detection still resolves Obsidian vault files as Obsidian.
 - Explicit overrides persist to project settings when a folder is open.
 - Explicit overrides persist to user settings for standalone-file context.

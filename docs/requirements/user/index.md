@@ -49,9 +49,10 @@ Each user requirement uses the following fields:
 | User.Config.CustomiseLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behaviour]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
 | User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behaviour]] | Config.Validation.Candidates, Completion.Candidates.Cap |
 | User.Extension.PreserveMarkdownLanguage | Keep `.md` files in VS Code's normal Markdown mode | [[vscode-language-mode]] | Extension.MarkdownLanguage.PreserveDefault |
-| User.Extension.SelectMarkdownFlavor | Choose Original, CommonMark, or Obsidian behavior | [[vscode-language-mode]] | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.InitialCoverage |
+| User.Extension.SelectMarkdownFlavor | Choose any supported researched Markdown flavor | [[vscode-language-mode]] | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage |
 | User.Extension.AutoDetectFlavor | Let VS Code infer the Markdown flavor from vault context | [[vscode-language-mode]] | Extension.MarkdownFlavor.AutoDetection |
 | User.Extension.OverrideMarkdownFlavor | Persist manual flavor choices at the right scope | [[vscode-language-mode]] | Extension.MarkdownFlavor.OverridePersistence |
+| User.Extension.TrustFlavorBehavior | Make selected flavors affect server analysis | [[vscode-language-mode]] | Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles |
 | User.Extension.PreserveManualMode | Preserve manual non-Markdown language choices | [[vscode-language-mode]] | Extension.MarkdownFlavor.ManualLanguageSafety |
 | User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.ParseCoverage, Parity.MarkdownLinks.TargetClassification, Parity.MarkdownLinks.ReferenceGraph, Parity.MarkdownLinks.Completion |
 | User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics, Parity.MarkdownLinks.SameDocumentAnchor |

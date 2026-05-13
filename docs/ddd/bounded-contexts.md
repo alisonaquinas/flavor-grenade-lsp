@@ -370,7 +370,7 @@ TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient
 | `BinaryResolver` | 2-tier resolution strategy: (1) user or machine `flavorGrenade.server.path`, with workspace values ignored, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
 | `StatusBarWidget` | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications |
 | `MarkdownFlavorController` | Client-side service that resolves auto-detected and user-selected Markdown flavor state while preserving VS Code's `markdown` language id |
-| `MarkdownFlavorSelection` | Selector value with `auto`, `original`, `commonmark`, and `obsidian` options |
+| `MarkdownFlavorSelection` | Selector value with `auto` plus every supported Markdown flavor id derived from the research corpus |
 | `DocumentMembership` | Server-authored answer describing whether a URI belongs to a detected vault or current vault index |
 | `PlatformVSIX` | Platform-specific `.vsix` package containing client JS bundle and one Bun-compiled server binary for a single target |
 

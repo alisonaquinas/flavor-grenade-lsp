@@ -1,9 +1,10 @@
 @extension @vscode @markdown-flavor @original-markdown @commonmark
+@gfm @glfm @pandoc @multimarkdown @mdx @kramdown @markdown-extra @r-markdown @reddit @stack-overflow
 @adr:ADR020
-Feature: Original and CommonMark Markdown flavor behavior
+Feature: Markdown flavor dialect behavior
 
-  Original Markdown and CommonMark are first-class Markdown flavors, not only
-  labels in the selector. The extension keeps documents in VS Code's built-in
+  Every researched Markdown flavor is first-class product scope, not only a
+  label in the selector. The extension keeps documents in VS Code's built-in
   Markdown language mode while the effective flavor controls which Markdown
   dialect behavior the server applies.
 
@@ -73,3 +74,24 @@ Feature: Original and CommonMark Markdown flavor behavior
     Then the Markdown flavor selector shows "Auto Detect (CommonMark)"
     And the server is refreshed with effective flavor "commonmark"
     And the document language id remains "markdown"
+
+  Scenario Outline: Researched flavors have source-backed dialect profiles
+    Given "flavorGrenade.markdownFlavor" is set to "<id>"
+    When Flavor Grenade analyzes the document
+    Then the effective Markdown flavor is "<id>"
+    And the dialect profile for "<id>" traces to "<source>"
+    And the dialect profile records "<signature>" as flavor-specific behavior
+    And the document language id remains "markdown"
+
+    Examples:
+      | id             | source                                      | signature                                    |
+      | gfm            | github-flavored-markdown-analysis          | tables, task lists, strikethrough            |
+      | glfm           | gitlab-flavored-markdown-analysis          | GitLab-specific CommonMark extensions        |
+      | pandoc         | pandoc-markdown-deep-research-report       | citations, math, metadata, extension toggles |
+      | multimarkdown  | multimarkdown-analysis                     | metadata, tables, cross-references           |
+      | mdx            | mdx-analysis                               | JSX expressions and components               |
+      | kramdown       | kramdown-analysis                          | block and span attributes                    |
+      | markdown-extra | markdown-extra-analysis                    | tables, definition lists, footnotes          |
+      | r-markdown     | r-markdown-analysis                        | YAML metadata and executable code chunks     |
+      | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
+      | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |

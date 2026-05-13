@@ -31,11 +31,11 @@ aliases:
 **Gist:** A Markdown author can see and choose the active Markdown flavor from a separate Flavor Grenade selector.
 **Ambition:** Flavor should be visible and editable without using the VS Code language picker.
 **Scale:** Percentage of Markdown contexts where the selector shows and changes the effective flavor.
-**Meter:** Extension tests open Markdown files, inspect the selector label, choose Auto Detect, Original Markdown, CommonMark, and Obsidian, then verify the effective flavor changes.
+**Meter:** Extension tests open Markdown files, inspect the selector label, choose Auto Detect and every supported explicit flavor, then verify the effective flavor changes.
 **Fail:** The user cannot choose flavor, or must change VS Code language mode to do it.
 **Goal:** Selector available for every file-backed Markdown document.
-**Need:** A user wants to say "treat this as CommonMark" or "treat this as Obsidian" directly.
-**Maps to:** Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.InitialCoverage
+**Need:** A user wants to say "treat this as CommonMark", "treat this as GFM", or "treat this as Obsidian" directly.
+**Maps to:** Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage
 
 ---
 
@@ -70,8 +70,8 @@ aliases:
 **Meter:** Tests change flavor and verify the server receives or derives the effective flavor before refreshing document intelligence.
 **Fail:** The selector changes but server analysis continues using stale flavor state.
 **Goal:** 100% propagation for supported flavor transitions.
-**Need:** A user expects CommonMark and Obsidian choices to change how Markdown is interpreted.
-**Maps to:** Extension.MarkdownFlavor.ServerPropagation
+**Need:** A user expects CommonMark, Obsidian, GFM, MDX, Pandoc, and other researched flavor choices to change how Markdown is interpreted.
+**Maps to:** Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles
 
 ---
 

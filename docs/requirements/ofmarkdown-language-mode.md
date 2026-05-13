@@ -25,7 +25,7 @@ aliases:
 1. Open a `.md` file in an Obsidian vault.
 2. Wait for extension activation and flavor detection.
 3. Verify the document `languageId` remains `markdown`.
-4. Select each supported flavor override: `original`, `commonmark`, and `obsidian`.
+4. Select each supported explicit flavor override from the required flavor set.
 5. Verify the document `languageId` remains `markdown` after each override.
 6. Repeat in a generic Markdown workspace and in single-file mode.
 7. Compute: (documents remaining `markdown` / total `.md` documents tested) x 100.
@@ -46,8 +46,8 @@ aliases:
 
 1. Open a Markdown file in a workspace folder.
 2. Verify a Flavor Grenade status item or equivalent selector is visible near the language mode area as VS Code allows.
-3. Verify the selector label includes the effective flavor: `Auto`, `Original`, `CommonMark`, or `Obsidian`.
-4. Open the selector and verify choices include `Auto Detect`, `Original Markdown`, `CommonMark`, and `Obsidian`.
+3. Verify the selector label includes `Auto Detect` or one supported effective flavor.
+4. Open the selector and verify choices include every required flavor listed in `Extension.MarkdownFlavor.RequiredCoverage`.
 5. Select each choice and verify the selector updates without changing the language id.
 6. Compute: (selector contexts passing / total Markdown contexts tested) x 100.
 **Fail:** The user must use the VS Code language picker to choose Markdown flavor, or the selector is absent for supported Markdown documents.
@@ -58,23 +58,61 @@ aliases:
 
 ---
 
-**Tag:** Extension.MarkdownFlavor.InitialCoverage
+**Tag:** Extension.MarkdownFlavor.RequiredCoverage
 **User Req:** User.Extension.SelectMarkdownFlavor
-**Gist:** The initial flavor set must include `original`, `commonmark`, and `obsidian`, plus an `auto` mode.
-**Ambition:** The first version should cover the major baseline choices without over-designing for every researched dialect. `auto` preserves low-friction behavior, while explicit values let users resolve incorrect detection.
+**Gist:** The selector, setting schema, and server-facing flavor model must include every Markdown flavor researched in `docs/research/`, plus an `auto` mode.
+**Ambition:** The research corpus is now product input. Users should be able to explicitly select any documented Markdown dialect without waiting for a new language id or a hidden setting.
 **Scale:** Number of supported flavor ids present in the selector, settings schema, and client/server initialization payload.
 **Meter:**
 
 1. Inspect the flavor enum used by the selector specification.
-2. Verify it contains exactly these initial ids: `auto`, `original`, `commonmark`, `obsidian`.
-3. Verify user-facing labels are `Auto Detect`, `Original Markdown`, `CommonMark`, and `Obsidian`.
-4. Verify unsupported future flavors are not exposed yet.
-5. Compute: (required flavor ids present / 4) x 100.
+2. Verify it contains exactly the required ids in the table below.
+3. Verify user-facing labels match the table below.
+4. Verify each id is accepted by `flavorGrenade.markdownFlavor`.
+5. Verify the effective flavor can be propagated to the server.
+6. Compute: (required flavor ids present / 14) x 100.
 **Fail:** Any required flavor is missing, or an unsupported flavor is exposed as selectable.
-**Goal:** 100% initial flavor coverage.
+**Goal:** 100% required flavor coverage.
 **Stakeholders:** Markdown authors, vault authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/commonmark-and-original-markdown]], [[ofm-spec/index]], [[adr/ADR020-markdown-flavor-selection]].
+**Source:** [[research/commonmark-and-original-markdown]], [[github-flavored-markdown-analysis]], [[gitlab-flavored-markdown-analysis]], [[pandoc-markdown-deep-research-report]], [[multimarkdown-analysis]], [[mdx-analysis]], [[kramdown-analysis]], [[markdown-extra-analysis]], [[r-markdown-analysis]], [[reddit-markdown-analysis]], [[stack-overflow-markdown-analysis]], [[ofm-spec/index]], [[adr/ADR020-markdown-flavor-selection]].
+
+| Flavor id | Selector label | Research source |
+|---|---|---|
+| `auto` | Auto Detect | Workspace/vault detection requirements |
+| `original` | Original Markdown | [[research/commonmark-and-original-markdown]] |
+| `commonmark` | CommonMark | [[research/commonmark-and-original-markdown]] |
+| `obsidian` | Obsidian | [[ofm-spec/index]] |
+| `gfm` | GitHub Flavored Markdown | [[github-flavored-markdown-analysis]] |
+| `glfm` | GitLab Flavored Markdown | [[gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Pandoc Markdown | [[pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | MultiMarkdown | [[multimarkdown-analysis]] |
+| `mdx` | MDX | [[mdx-analysis]] |
+| `kramdown` | kramdown | [[kramdown-analysis]] |
+| `markdown-extra` | Markdown Extra | [[markdown-extra-analysis]] |
+| `r-markdown` | R Markdown | [[r-markdown-analysis]] |
+| `reddit` | Reddit Markdown | [[reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow Markdown | [[stack-overflow-markdown-analysis]] |
+
+---
+
+**Tag:** Extension.MarkdownFlavor.DialectProfiles
+**User Req:** User.Extension.TrustFlavorBehavior
+**Gist:** Every supported explicit flavor must have a documented dialect profile derived from its research note.
+**Ambition:** A flavor must be more than a selector label. Each supported flavor needs a stable profile of core syntax, extensions, disabled constructs, and host-specific behavior so diagnostics and completions can become precise over time.
+**Scale:** Percentage of supported explicit flavors with a documented profile and source trace.
+**Meter:**
+
+1. Inspect the Markdown flavor profile registry or requirements table.
+2. For each explicit flavor id, verify a profile names its research source.
+3. Verify the profile distinguishes core Markdown, extension syntax, and host-specific behavior.
+4. Verify platform flavors such as MDX, R Markdown, Reddit, and Stack Overflow are described without taking over non-`markdown` VS Code language ids.
+5. Compute: (flavors with complete profiles / 13 explicit flavors) x 100.
+**Fail:** Any required flavor exists only as a UI label or undocumented enum value.
+**Goal:** 100% documented dialect profiles for required explicit flavors.
+**Stakeholders:** Markdown authors, extension maintainers, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** All Markdown flavor research notes in `docs/research/`.
 
 ---
 
@@ -88,7 +126,7 @@ aliases:
 1. Open a Markdown file under a `.obsidian/` vault.
 2. Verify `auto` resolves to `obsidian`.
 3. Open a Markdown file under a `.flavor-grenade.toml` workspace with no explicit flavor setting.
-4. Verify `auto` resolves according to project config if present, otherwise to `obsidian` only when Flavor Grenade vault semantics are enabled.
+4. Verify `auto` resolves according to project config if present, including any supported flavor id.
 5. Open a single generic `.md` file outside a workspace.
 6. Verify `auto` resolves to `commonmark` unless future evidence says otherwise.
 7. Compute: (correct auto resolutions / total contexts tested) x 100.
@@ -133,8 +171,8 @@ aliases:
 
 1. Start the extension with `auto` in an Obsidian vault.
 2. Verify server initialization or document metadata reports effective flavor `obsidian`.
-3. Override the folder to `commonmark`.
-4. Verify the server receives a configuration change or refresh signal and re-analyzes open documents as `commonmark`.
+3. Override the folder to each required explicit flavor id.
+4. Verify the server receives a configuration change or refresh signal and re-analyzes open documents with that flavor id.
 5. Override a single-file context to `original`.
 6. Verify the server receives or derives `original`.
 7. Compute: (correct server flavor states / total flavor-state transitions) x 100.
@@ -149,7 +187,7 @@ aliases:
 **Tag:** Extension.MarkdownFlavor.ManualLanguageSafety
 **User Req:** User.Extension.PreserveManualMode
 **Gist:** The flavor selector must not override documents whose current VS Code language id is not `markdown`.
-**Ambition:** A user who manually sets a `.md` file to `mdx`, `plaintext`, or another language is making a language-mode choice. Flavor Grenade should not interpret that as permission to apply Markdown flavor behavior.
+**Ambition:** A user who manually sets a `.md` file to `mdx`, `plaintext`, or another language is making a language-mode choice. Flavor Grenade should not interpret that as permission to apply Markdown flavor behavior, even though `mdx` is also a supported flavor id for Markdown documents.
 **Scale:** Percentage of non-`markdown` documents ignored by flavor auto-detection and override application.
 **Meter:**
 

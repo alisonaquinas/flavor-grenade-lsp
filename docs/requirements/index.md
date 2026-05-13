@@ -86,7 +86,8 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Workspace.MultiFolder.Isolation** | Cross-root link resolution must not be performed between distinct vault roots. | [[workspace]] |
 | **Extension.MarkdownLanguage.PreserveDefault** | The VS Code extension must keep `.md` files in the built-in `markdown` language mode. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.Selector** | The VS Code extension must expose Markdown flavor through a separate selector. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.InitialCoverage** | The initial selector must support Auto Detect, Original Markdown, CommonMark, and Obsidian. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.RequiredCoverage** | The selector, setting schema, and server-facing flavor model must include every researched Markdown flavor. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.DialectProfiles** | Every supported explicit flavor must have a documented dialect profile derived from research. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor from vault and workspace signals. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[requirements/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[requirements/ofmarkdown-language-mode]] |

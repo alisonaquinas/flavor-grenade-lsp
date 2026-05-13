@@ -6,10 +6,20 @@ aliases: [lsp-overview, fg-lsp-architecture]
 
 # flavor-grenade-lsp Architecture Overview
 
-`flavor-grenade-lsp` is a Language Server Protocol (LSP) server purpose-built for **Obsidian Flavored Markdown (OFM)**. It provides rich editor intelligence — completions, definitions, diagnostics, hover, rename, and more — for vaults authored in Obsidian's extended Markdown dialect. It is not a general-purpose Markdown LSP; every parse stage, symbol model, and resolution algorithm is designed around OFM semantics.
+`flavor-grenade-lsp` is a Language Server Protocol (LSP) server for Markdown
+flavor-aware vault intelligence. Its first architecture was purpose-built for
+**Obsidian Flavored Markdown (OFM)**, and the existing parser, symbol model, and
+resolution algorithms are still OFM-first. Current requirements extend that
+model with explicit Markdown flavor profiles for Original Markdown, CommonMark,
+Obsidian, GFM, GLFM, Pandoc Markdown, MultiMarkdown, MDX, kramdown, Markdown
+Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
 
-> [!note] Scope restriction
-> `flavor-grenade-lsp` handles **only** OFM. There is no CommonMark-only fallback mode. If a document element is not expressible in OFM terms, it is treated as opaque text. This is a deliberate design constraint, not an oversight.
+> [!note] Scope update
+> Historical architecture docs and parser modules may still use OFM-first names.
+> The current requirement is flavor-aware analysis through
+> `flavorGrenade.markdownFlavor`; unsupported syntax for a selected flavor must
+> be treated according to that flavor's documented profile, not silently assumed
+> to be Obsidian syntax.
 
 ---
 
@@ -21,7 +31,7 @@ aliases: [lsp-overview, fg-lsp-architecture]
 |-----------|----------|--------------------|
 | Language | F# | TypeScript |
 | Framework | None (plain F# modules) | NestJS — full DI container |
-| Markdown dialect | CommonMark + wiki-links | OFM only |
+| Markdown dialect | CommonMark + wiki-links | Flavor-aware, OFM-first implementation |
 | Embed support | No | Yes (`![[file]]`, `![[file#heading]]`) |
 | Block ref support | No | Yes (`[[doc#^blockid]]`, `^blockid` anchors) |
 | Tag resolution | No | Yes (`#tag`, `#tag/subtag`) |
@@ -129,16 +139,22 @@ Each logical subsystem is a NestJS module with explicit `imports`, `providers`, 
 
 Bounded context boundaries in the DDD sense are enforced by module export surfaces. A `DocumentModule` consumer sees only `OFMDoc`, `OFMIndex`, and `DocId` — never the parser's internal CST node types. See [[architecture/layers]] for the full module stack and [[ddd/bounded-contexts]] for the DDD analysis.
 
-### 4. OFM-Exclusive Parse Pipeline
+### 4. Flavor-Aware Parse Pipeline
 
-The parse pipeline never degrades to CommonMark-only semantics. Every stage is OFM-aware:
+The parse pipeline is currently OFM-first, but the requirements now call for
+flavor-aware behavior. Each stage must be able to consult the effective Markdown
+flavor before deciding whether a construct is core syntax, a flavor extension,
+host-specific behavior, or opaque text:
 
 - Ignore regions cover Obsidian comment syntax (`%%...%%`), Templater blocks, and math environments.
 - Wiki-link tokenization happens before CommonMark inline parsing so that bracket sequences are never mis-parsed as CommonMark link syntax.
 - Block anchors (`^id`) are parsed and promoted to first-class `BlockAnchorDef` symbols.
 - Callout syntax (`> [!type]`) is recognized at the blockquote parse stage.
 
-See [[concepts/document-model]] for the 8-stage pipeline and [[concepts/ofm-syntax]] for the full element taxonomy.
+See [[concepts/document-model]] for the 8-stage pipeline,
+[[concepts/ofm-syntax]] for the OFM element taxonomy, and
+[[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
+for required flavor profiles.
 
 ---
 

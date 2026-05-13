@@ -31,6 +31,30 @@ Feature: Markdown flavor selection
     And "flavorGrenade.markdownFlavor" is written to the project settings as "commonmark"
     And the server is refreshed with effective flavor "commonmark"
 
+  Scenario Outline: User can select any required researched flavor
+    Given a workspace folder containing ".flavor-grenade.toml"
+    And the user opens "notes/welcome.md"
+    When the user selects "<label>" from the Markdown flavor selector
+    Then the document language id remains "markdown"
+    And "flavorGrenade.markdownFlavor" is written to the project settings as "<id>"
+    And the server is refreshed with effective flavor "<id>"
+
+    Examples:
+      | label                    | id             |
+      | Original Markdown        | original       |
+      | CommonMark               | commonmark     |
+      | Obsidian                 | obsidian       |
+      | GitHub Flavored Markdown | gfm            |
+      | GitLab Flavored Markdown | glfm           |
+      | Pandoc Markdown          | pandoc         |
+      | MultiMarkdown            | multimarkdown  |
+      | MDX                      | mdx            |
+      | kramdown                 | kramdown       |
+      | Markdown Extra           | markdown-extra |
+      | R Markdown               | r-markdown     |
+      | Reddit Markdown          | reddit         |
+      | Stack Overflow Markdown  | stack-overflow |
+
   Scenario: User overrides flavor for a standalone file
     Given the user opens a standalone Markdown file with no workspace folder
     When the user selects "Original Markdown" from the Markdown flavor selector
