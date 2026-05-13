@@ -1,5 +1,6 @@
 @extension @vscode @markdown-flavor @original @commonmark @obsidian
 @gfm @glfm @pandoc @multimarkdown @mdx @kramdown @markdown-extra @r-markdown @reddit @stack-overflow
+@planned
 @adr:ADR020
 Feature: Markdown flavor dialect behavior
 

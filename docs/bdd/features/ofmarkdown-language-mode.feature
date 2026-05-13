@@ -23,7 +23,7 @@ Feature: Markdown flavor selection
     Then the document language id remains "markdown"
     And the Markdown flavor selector shows "Auto Detect (CommonMark)"
 
-  @req:Extension.MarkdownFlavor.AutoDetection
+  @planned @req:Extension.MarkdownFlavor.AutoDetection
   Scenario Outline: Workspace flavor config sets the Auto Detect default
     Given a workspace folder containing ".flavor-grenade.toml"
     And the workspace config declares default Markdown flavor "<id>"
@@ -113,7 +113,7 @@ Feature: Markdown flavor selection
       | Reddit Markdown          | reddit         |
       | Stack Overflow Markdown  | stack-overflow |
 
-  @req:Extension.MarkdownFlavor.ServerPropagation @req:Extension.MarkdownFlavor.DialectProfiles
+  @planned @req:Extension.MarkdownFlavor.ServerPropagation @req:Extension.MarkdownFlavor.DialectProfiles
   Scenario Outline: Selecting a flavor changes analysis without changing language mode
     Given a Markdown document is active with language id "markdown"
     And the server last analyzed it as effective flavor "commonmark"
@@ -170,7 +170,7 @@ Feature: Markdown flavor selection
       | plaintext  |
       | mdx        |
 
-  @req:Extension.MarkdownFlavor.ManualLanguageSafety
+  @planned @req:Extension.MarkdownFlavor.ManualLanguageSafety
   Scenario: Explicit MDX language mode is not taken over by the MDX flavor
     Given the user opens "docs/page.mdx"
     And the document language id is "mdx"

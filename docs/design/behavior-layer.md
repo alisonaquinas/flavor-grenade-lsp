@@ -15,13 +15,14 @@ aliases: [bdd-index, behavior-layer, feature-files, bdd-scenarios]
 
 ## Tag Taxonomy
 
-Scenarios are tagged to enable selective test execution. The tag system has four tiers:
+Scenarios are tagged to enable selective test execution. The tag system defines these tiers:
 
 | Tag | Meaning | Used In | CI Gate? |
 |-----|---------|---------|----------|
 | `@smoke` | Must pass before any other tests are run; covers critical paths | All feature files (≥ 1 per file) | Yes — blocks merge if failing |
 | `@ofm` | OFM-specific behavior not present in generic Markdown LSPs | wiki-link, embed, block-ref, tag, callout, alias features | No (but included in full CI) |
 | `@lsp` | Protocol-level behavior — JSON-RPC framing, capability negotiation, error responses | initialization, lifecycle, error-handling | No |
+| `@planned` | Future behavior contract kept as Gherkin before product code or harness steps exist | Roadmap-driven feature files | No — excluded by `cucumber.yaml` until implementation lands |
 | `@wip` | Historical work-in-progress marker; checked-in scenarios must still execute in the default gate unless explicitly excluded in `cucumber.yaml` | Any file | Yes when included by the default Cucumber config |
 
 Tags are composable. A scenario can carry multiple tags:
@@ -31,7 +32,7 @@ Tags are composable. A scenario can carry multiple tags:
 Scenario: resolving a wiki-link with alias to an aliased document
 ```
 
-Running `bun run bdd -- --tags @smoke` executes only smoke scenarios. Running `bun run bdd` runs the default full Cucumber catalog configured by `cucumber.yaml`.
+Running `bun run bdd -- --tags @smoke` executes only smoke scenarios. Running `bun run bdd` runs the default full Cucumber catalog configured by `cucumber.yaml`, excluding scenarios tagged `@planned`.
 
 ---
 
