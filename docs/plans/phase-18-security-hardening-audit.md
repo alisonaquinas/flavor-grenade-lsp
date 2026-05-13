@@ -1,7 +1,7 @@
 ---
 title: "Phase 18: Security Hardening Audit"
 phase: 18
-status: in-progress
+status: in-review
 tags: [plans, security, audit, hardening]
 aliases: [Phase 18, Security Hardening Audit]
 updated: 2026-05-08
@@ -13,7 +13,7 @@ updated: 2026-05-08
 |---|---|
 | Phase | 18 |
 | Title | Security Hardening Audit |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Security requirements with open audit findings have passing tests and CI checks |
 | Depends on | Phase 17 |
 

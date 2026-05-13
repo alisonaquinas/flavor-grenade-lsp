@@ -1,7 +1,7 @@
 ---
 title: Phase 18 Security Hardening Audit Tickets
 phase: 18
-status: in-progress
+status: in-review
 tags: [plans, tickets, security]
 aliases: [Phase 18 Tickets]
 updated: 2026-05-08

@@ -33,7 +33,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
 | 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
 | 17    | Structural LSP Capabilities | ✅ complete | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | 2026-05-07 |
-| 18    | Security Hardening Audit | 🔄 in-progress | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | — |
+| 18    | Security Hardening Audit | 🔎 in-review | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | [PR #68](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/68) |
 | 19    | Markdown Flavor Model And Profiles | ⏳ planned | Canonical flavor id contract and source-backed dialect profile registry | — | — |
 | 20    | Markdown Flavor Server Propagation | ⏳ planned | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | — | — |
 | 21    | Markdown Flavor BDD Verification And Validation | ⏳ planned | BDD, verification, and validation evidence execute against flavor state | — | — |
