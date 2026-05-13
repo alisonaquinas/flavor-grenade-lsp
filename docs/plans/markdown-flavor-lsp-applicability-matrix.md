@@ -84,6 +84,24 @@ language-mode promotion.
 | Hover | Implemented through existing vault target metadata and attachment hover surfaces; renderer-only semantics stay documented as host-boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md`, existing hover suites |
 | Rename | Implemented for safe vault-local notes, headings, blocks, Markdown links, embeds, and attachments through existing rename handlers. | existing rename and Markdown-link rename suites |
 
+## Phase 25 GFM Disposition
+
+Phase 25 marks the `gfm` profile's local LSP surfaces implemented for the
+published GFM syntax subset. GFM extends the CommonMark base with local indices
+for pipe tables, task-list items, strikethrough, and extended bare autolinks.
+GitHub platform objects remain host-bound: the server classifies them locally
+but does not perform live GitHub lookup, network access, process execution,
+dynamic imports, or out-of-root file reads.
+
+| Surface | Phase 25 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed pipe-table shape (`FG201`) and existing local Markdown-link diagnostics; Obsidian-only syntax stays inert. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for GFM table and task-list snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through parsed headings, Markdown links, autolinks, GFM table symbols, task symbols, and table folds. Host references remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for GFM task markers and strikethrough spans. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live GitHub metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; GitHub issue, pull request, commit, user, and label references are rejected by remaining non-local. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

@@ -35,7 +35,7 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 | [[TASK-324]] | Implement GFM parser semantics | Task | open |
 | [[TASK-325]] | Add GFM diagnostics and LSP features | Task | open |
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | open |
-| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | open |
+| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | done |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | open |
 | [[CHORE-143]] | Document exported GFM parse result contract | Chore | done |
 

@@ -15,7 +15,7 @@ updated: 2026-05-13
 | [[TASK-324]] | Implement GFM parser semantics | Task | `green` |
 | [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `green` |
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | `green` |
-| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `open` |
+| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `done` |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | `open` |
 | [[CHORE-143]] | Document exported GFM parse result contract | Chore | `done` |
 

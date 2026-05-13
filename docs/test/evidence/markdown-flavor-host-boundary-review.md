@@ -97,8 +97,22 @@ when resolving or explaining Obsidian references.
 | Completion | Obsidian-only completion contexts return candidates for the Obsidian flavor and remain suppressed for Original/CommonMark. |
 | Navigation / rename | Existing handlers operate on vault-local notes, headings, blocks, Markdown links, embeds, and attachments; renderer-only semantics are not treated as external platform lookups. |
 
+## Phase 25 GFM Review
+
+GFM declares GitHub issue, pull request, commit, user, and label references as
+host-specific syntax in the profile registry. Phase 25 implements local syntax
+for tables, task-list items, strikethrough, and extended autolinks, while live
+GitHub platform lookup remains deferred.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Pipe tables, task-list items, strikethrough, and extended bare autolinks are active only under effective flavor `gfm`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG201` covers malformed local GFM tables; GitHub host references do not become broken vault links. |
+| Completion | GFM table and task snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links, headings, and autolinks use existing local behavior; `#123` and related GitHub host objects remain `non-local-host` without network access or workspace edits. |
+
 ## Validation Result
 
 | Validation row | Result | Evidence |
 |---|---|---|
-| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence. |
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 25 records GFM GitHub references as host-bound. |
