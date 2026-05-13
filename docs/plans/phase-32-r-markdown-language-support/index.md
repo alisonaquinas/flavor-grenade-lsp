@@ -1,7 +1,7 @@
 ---
 title: Phase 32 R Markdown Language Support Tickets
 phase: 32
-status: in-progress
+status: in-review
 tags: [plans/phase-32, tickets/index, r-markdown]
 aliases: ["Phase 32 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-058]] | R Markdown Language Support | Feature | `in-progress` |
+| [[FEAT-058]] | R Markdown Language Support | Feature | `in-review` |
 | [[TASK-345]] | Implement R Markdown parser semantics | Task | `done` |
 | [[TASK-346]] | Add R Markdown diagnostics and LSP features | Task | `done` |
 | [[TASK-347]] | Add R Markdown tests and validation evidence | Task | `done` |

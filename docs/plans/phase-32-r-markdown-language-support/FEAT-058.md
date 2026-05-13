@@ -2,7 +2,7 @@
 id: "FEAT-058"
 title: "R Markdown Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 32
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-058"]
 
 # R Markdown Language Support
 
-> [!INFO] FEAT-058 - Feature - Phase 32 - Status: in-progress
+> [!INFO] FEAT-058 - Feature - Phase 32 - Status: in-review
 
 ## Implementation Plan
 
@@ -124,6 +124,11 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 > sweeps passed. Step K and validation-test Step L are N/A because no
 > `src/test/verification/` or `src/test/validation/` suites exist. No new
 > findings or tickets were opened during sweeps.
+
+> [!INFO] In review - 2026-05-13
+> PR #83 opened against `develop` and CI run `25833292674` passed all checks.
+> Child TASK and CHORE tickets moved to `done`; FEAT-058 remains `in-review`
+> until merge.
 
 ## Retrospective
 
