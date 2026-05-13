@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-049]] | CommonMark Language Support | Feature | `in-progress` |
-| [[TASK-318]] | Implement CommonMark parser semantics | Task | `open` |
-| [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | `open` |
-| [[TASK-320]] | Add CommonMark tests and validation evidence | Task | `open` |
+| [[TASK-318]] | Implement CommonMark parser semantics | Task | `red` |
+| [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | `red` |
+| [[TASK-320]] | Add CommonMark tests and validation evidence | Task | `red` |
 | [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | `open` |
 | [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | `open` |
 

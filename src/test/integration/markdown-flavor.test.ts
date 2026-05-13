@@ -302,6 +302,84 @@ describe('Markdown flavor spawned-server propagation', () => {
     await client.close();
   }, 15000);
 
+  it('applies CommonMark parser, diagnostics, and completion behavior', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'commonmark.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "commonmark"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        'Setext Title',
+        '---',
+        '',
+        '# ATX Title',
+        '',
+        '```js',
+        'x()',
+        '```',
+        '',
+        '[External](https://example.com/path)',
+        '<https://example.com>',
+        '',
+        '[[Note]]',
+        '| a | b |',
+        '|---|---|',
+        '- [x] task',
+        '> [!note]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual([
+      'FG102',
+      'FG102',
+      'FG102',
+      'FG102',
+    ]);
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'commonmark',
+      wikiLinks: 0,
+      headings: 2,
+    });
+
+    const completion = await client.request('textDocument/completion', {
+      textDocument: { uri: noteUri },
+      position: { line: 12, character: 2 },
+      context: { triggerCharacter: '[' },
+    });
+    expect(completion.result).toMatchObject({ items: [], isIncomplete: false });
+
+    await client.close();
+  }, 15000);
+
   it('classifies non-local boundaries through the spawned server', async () => {
     client = new LspClient();
     await client.request('initialize', { processId: null, rootUri: null, capabilities: {} });

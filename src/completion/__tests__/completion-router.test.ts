@@ -184,6 +184,21 @@ describe('CompletionRouter', () => {
       expect(result.items).toHaveLength(0);
       expect(result.isIncomplete).toBe(false);
     });
+
+    it('suppresses inactive Obsidian completions for CommonMark', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'commonmark' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
+    });
   });
 
   // ── routing to heading provider ───────────────────────────────────────────────

@@ -281,6 +281,54 @@ describe('DiagnosticService', () => {
       Array(5).fill(2),
     );
   });
+
+  it('publishes CommonMark portability diagnostics for GFM and Obsidian extensions', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/commonmark.md', []),
+      text: [
+        '```js',
+        'x()',
+        '```',
+        '',
+        '| a | b |',
+        '|---|---|',
+        '',
+        '- [x] task',
+        '',
+        '[[Note]]',
+        '> [!note]',
+      ].join('\n'),
+      markdownFlavor: 'commonmark' as const,
+      parseContext: { effectiveFlavor: 'commonmark' as const },
+    };
+
+    service.publishDiagnostics(id('commonmark'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual([
+      'FG102',
+      'FG102',
+      'FG102',
+      'FG102',
+    ]);
+    expect(params.diagnostics.map((diagnostic) => diagnostic['severity'])).toEqual(
+      Array(4).fill(2),
+    );
+    expect(params.diagnostics.map((diagnostic) => diagnostic['message'])).not.toContain(
+      'Fenced code blocks are not part of CommonMark.',
+    );
+  });
 });
 
 describe('block reference diagnostics', () => {

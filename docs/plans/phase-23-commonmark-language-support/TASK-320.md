@@ -2,7 +2,7 @@
 id: "TASK-320"
 title: "Add CommonMark tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -75,8 +75,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the co
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
-> [!INFO] Started - 2026-05-13
+> [!WARNING] Red - 2026-05-13
 > Test scope confirmed: add unit and spawned-server coverage for CommonMark parser
 > behavior, portability diagnostics, inactive Obsidian completions, and generic
 > Markdown `auto` fallback evidence.
-> Status: `open`.
+> Focused RED coverage added. The spawned-server fixture also showed that a local
+> Markdown link can produce `FG001` before index evidence; the fixture will keep
+> portability assertions separate from broken-link assertions.
+> Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `red`.

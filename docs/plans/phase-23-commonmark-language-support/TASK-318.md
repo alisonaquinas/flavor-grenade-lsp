@@ -2,7 +2,7 @@
 id: "TASK-318"
 title: "Implement CommonMark parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -65,8 +65,11 @@ Deliver parser/profile semantics for the commonmark flavor using [[docs/research
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
-> [!INFO] Started - 2026-05-13
+> [!WARNING] Red - 2026-05-13
 > Parser/profile scope confirmed: CommonMark owns fenced code, ATX/setext headings,
 > inline/reference Markdown links, autolinks, HTML blocks, lists, and blockquotes.
 > Obsidian wiki links, embeds, tags, and callouts remain inactive for this flavor.
-> Status: `open`.
+> Focused RED coverage fails because CommonMark autolinks are not indexed and
+> CommonMark profile surfaces remain planned.
+> Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `red`.

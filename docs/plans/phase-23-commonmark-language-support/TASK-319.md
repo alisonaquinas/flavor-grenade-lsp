@@ -2,7 +2,7 @@
 id: "TASK-319"
 title: "Add CommonMark diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -90,8 +90,11 @@ Deliver diagnostics and LSP feature behavior for the commonmark flavor using [[d
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
-> [!INFO] Started - 2026-05-13
+> [!WARNING] Red - 2026-05-13
 > LSP scope confirmed: diagnostics and completions must apply CommonMark-specific
 > portability rules while preserving local Markdown link navigation and keeping
 > Obsidian-only completion/navigation/rename surfaces inactive.
-> Status: `open`.
+> Focused RED coverage fails because CommonMark portability diagnostics do not
+> emit `FG102` and CommonMark still receives wiki-link completions.
+> Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `red`.
