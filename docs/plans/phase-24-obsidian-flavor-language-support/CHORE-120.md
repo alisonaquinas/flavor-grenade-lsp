@@ -2,7 +2,7 @@
 id: "CHORE-120"
 title: "Phase 24 verification and closeout sweep"
 type: chore
-status: green
+status: done
 priority: medium
 phase: 24
 parent: "FEAT-050"

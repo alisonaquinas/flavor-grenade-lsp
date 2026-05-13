@@ -2,7 +2,7 @@
 id: "FEAT-050"
 title: "Obsidian Flavor Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 24
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-050"]
 
 # Obsidian Flavor Language Support
 
-> [!INFO] FEAT-050 - Feature - Phase 24 - Status: in-progress
+> [!INFO] FEAT-050 - Feature - Phase 24 - Status: in-review
 
 ## Description
 
@@ -30,11 +30,11 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | green |
-| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | green |
-| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | green |
-| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | green |
-| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | green |
+| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | done |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | done |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | done |
+| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | done |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | done |
 | [[CHORE-142]] | Clarify Phase 24 Obsidian parser test title | Chore | done |
 
 ## Linked Requirements
@@ -55,11 +55,11 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 
 ## Definition of Done
 
-- [ ] obsidian has source-backed parser/profile behavior.
-- [ ] obsidian satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] obsidian behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] obsidian has source-backed parser/profile behavior.
+- [x] obsidian satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] obsidian behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -77,6 +77,10 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 > A-M lint, typecheck, audit, unit, integration, and BDD checks. Verification
 > and validation test directories are absent, so those steps are recorded as
 > N/A before the BDD gate.
+
+> [!SUCCESS] CI green - 2026-05-13
+> PR #75 CI run `25824356496` passed, including root tests, BDD, docs lint,
+> website checks, build, and extension checks. Phase 24 is ready for review.
 
 ## Retrospective
 

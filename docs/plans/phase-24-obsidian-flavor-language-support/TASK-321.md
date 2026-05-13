@@ -2,7 +2,7 @@
 id: "TASK-321"
 title: "Rebase existing OFM parser behavior onto the Obsidian flavor"
 type: task
-status: green
+status: done
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -68,11 +68,11 @@ Deliver parser/profile semantics for the obsidian flavor using [[docs/ofm-spec/i
 
 ## Definition of Done
 
-- [ ] obsidian behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for obsidian.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] obsidian behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for obsidian.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

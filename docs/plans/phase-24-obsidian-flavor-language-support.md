@@ -1,7 +1,7 @@
 ---
 title: "Phase 24: Obsidian Flavor Language Support"
 phase: 24
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, obsidian, language-support]
 aliases: [Phase 24, Obsidian Flavor Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 24 |
 | Title | Obsidian Flavor Language Support |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Existing OFM behavior is represented as the `obsidian` flavor without language-mode promotion |
 | Depends on | Phase 23, Phase E15 |
 

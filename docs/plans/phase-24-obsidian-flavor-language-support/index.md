@@ -1,7 +1,7 @@
 ---
 title: Phase 24 Obsidian Flavor Language Support Tickets
 phase: 24
-status: in-progress
+status: in-review
 tags: [plans/phase-24, tickets/index, obsidian]
 aliases: ["Phase 24 Tickets"]
 updated: 2026-05-13
@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-050]] | Obsidian Flavor Language Support | Feature | `in-progress` |
-| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | `green` |
-| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | `green` |
-| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | `green` |
-| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | `green` |
-| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | `green` |
+| [[FEAT-050]] | Obsidian Flavor Language Support | Feature | `in-review` |
+| [[TASK-321]] | Rebase existing OFM parser behavior onto the Obsidian flavor | Task | `done` |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | `done` |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | `done` |
+| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | `done` |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | `done` |
 | [[CHORE-142]] | Clarify Phase 24 Obsidian parser test title | Chore | `done` |
 
 ## Ticket Details
