@@ -219,6 +219,7 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 
 ## Related
 
+- [[docs/features/markdown-flavor-feature-sets]]
 - [[docs/adr/ADR020-markdown-flavor-selection]]
 - [[docs/adr/ADR016-ofmarkdown-language-mode]]
 - [[docs/requirements/ofmarkdown-language-mode]]
