@@ -53,6 +53,10 @@ export class DocumentSymbolHandler {
     const mdxEsmDeclarations = doc.index.mdxEsmDeclarations ?? [];
     const mdxJsxElements = doc.index.mdxJsxElements ?? [];
     const mdxExpressions = doc.index.mdxExpressions ?? [];
+    const kramdownAttributes = doc.index.kramdownAttributes ?? [];
+    const kramdownDefinitionLists = doc.index.kramdownDefinitionLists ?? [];
+    const kramdownTables = doc.index.kramdownTables ?? [];
+    const kramdownFootnotes = doc.index.kramdownFootnotes ?? [];
 
     if (
       headings.length === 0 &&
@@ -70,7 +74,11 @@ export class DocumentSymbolHandler {
       multimarkdownFootnotes.length === 0 &&
       mdxEsmDeclarations.length === 0 &&
       mdxJsxElements.length === 0 &&
-      mdxExpressions.length === 0
+      mdxExpressions.length === 0 &&
+      kramdownAttributes.length === 0 &&
+      kramdownDefinitionLists.length === 0 &&
+      kramdownTables.length === 0 &&
+      kramdownFootnotes.length === 0
     )
       return [];
 
@@ -262,6 +270,53 @@ export class DocumentSymbolHandler {
         selectionRange: expression.range,
       };
       this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
+    }
+
+    for (const attribute of kramdownAttributes) {
+      const label =
+        attribute.id !== undefined
+          ? attribute.id
+          : attribute.classes.length > 0
+            ? `.${attribute.classes[0]}`
+            : undefined;
+      if (label === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `kramdown attribute: ${label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.markerRange,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const list of kramdownDefinitionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Definition: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const table of kramdownTables) {
+      const symbol: DocumentSymbol = {
+        name: `kramdown table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const footnote of kramdownFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
     }
 
     return roots;

@@ -65,9 +65,9 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-339]] | Implement kramdown parser semantics | Task | red |
-| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | red |
-| [[TASK-341]] | Add kramdown tests and validation evidence | Task | red |
+| [[TASK-339]] | Implement kramdown parser semantics | Task | green |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | green |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | green |
 | [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | open |
 | [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | open |
 
@@ -111,3 +111,8 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 > Focused kramdown RED suite fails in the expected parser, diagnostics,
 > completion, document-symbol, folding, semantic-token, and integration
 > assertions. TASK-339 through TASK-341 moved to `red` before implementation.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> kramdown parser, diagnostics, completions, symbols, folds, semantic tokens,
+> query counts, and profile surface status are implemented. Focused kramdown
+> tests, `bun run typecheck`, and `bun run lint` pass locally.

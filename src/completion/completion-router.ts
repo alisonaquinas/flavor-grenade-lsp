@@ -105,6 +105,11 @@ export class CompletionRouter {
       if (mdxResult !== null) return mdxResult;
     }
 
+    if (doc.markdownFlavor === 'kramdown') {
+      const kramdownResult = this.kramdownCompletions(text, params.position);
+      if (kramdownResult !== null) return kramdownResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -465,6 +470,24 @@ export class CompletionRouter {
 
     if (prefix.endsWith('export ')) {
       return this.singleCompletion(position, 0, 'MDX named export', 'const name = ');
+    }
+
+    return null;
+  }
+
+  private kramdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '{:') {
+      return this.singleCompletion(position, 2, 'kramdown attribute', '{: #id .class}');
+    }
+
+    if (prefix.endsWith('[^')) {
+      return this.singleCompletion(position, 0, 'kramdown footnote', 'label]: ');
     }
 
     return null;

@@ -438,6 +438,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['renderer-generated-anchors'],
     opaqueRegions: ['code', 'math', 'attribute-blocks'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'kramdown parser and local LSP behavior are implemented in Phase 30.',
   }),
   'markdown-extra': profile({

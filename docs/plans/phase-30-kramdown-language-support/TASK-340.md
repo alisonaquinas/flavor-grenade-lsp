@@ -2,7 +2,7 @@
 id: "TASK-340"
 title: "Add kramdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -102,3 +102,8 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 > footnote completions, document symbols, folding ranges, semantic tokens, query
 > counts, and local boundary classification. Expected failures prove these
 > kramdown surfaces are not yet wired.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Wired FG501 diagnostics, kramdown completions, document symbols, folding,
+> semantic tokens, spawned-server query counts, and local boundary evidence.
+> Focused LSP tests now pass.

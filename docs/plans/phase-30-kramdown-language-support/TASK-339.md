@@ -2,7 +2,7 @@
 id: "TASK-339"
 title: "Implement kramdown parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -78,3 +78,7 @@ Deliver parser/profile semantics for the kramdown flavor using [[docs/research/k
 > footnotes, math blocks, inactive Obsidian syntax, and profile surface status.
 > Expected failure: parser index lacks kramdown collections and the kramdown
 > profile surfaces are still unimplemented.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Implemented `KramdownParser`, parser index types, OFM flavor dispatch, and
+> implemented profile surface status. Focused kramdown parser tests now pass.
