@@ -407,6 +407,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['react-symbols', 'typescript-imports', 'component-runtime-context'],
     opaqueRegions: ['jsx', 'esm', 'expressions', 'code'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'MDX parser and Markdown-mode-safe LSP behavior are implemented in Phase 29.',
   }),
   kramdown: profile({

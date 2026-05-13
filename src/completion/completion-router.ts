@@ -100,6 +100,11 @@ export class CompletionRouter {
       if (multimarkdownResult !== null) return multimarkdownResult;
     }
 
+    if (doc.markdownFlavor === 'mdx') {
+      const mdxResult = this.mdxCompletions(text, params.position);
+      if (mdxResult !== null) return mdxResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -441,6 +446,41 @@ export class CompletionRouter {
     }
 
     return null;
+  }
+
+  private mdxCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '<') {
+      return this.singleCompletion(position, 1, 'MDX component', '<Component />');
+    }
+
+    if (prefix === '{') {
+      return this.singleCompletion(position, 1, 'MDX expression', '{expression}');
+    }
+
+    if (prefix.endsWith('export ')) {
+      return this.singleCompletion(position, 0, 'MDX named export', 'const name = ');
+    }
+
+    return null;
+  }
+
+  private singleCompletion(
+    position: { line: number; character: number },
+    replaceLength: number,
+    label: string,
+    insertText: string,
+  ): { items: CompletionItem[]; isIncomplete: boolean } {
+    const range = this.replacementRange(position, replaceLength);
+    return {
+      items: [this.withTextEdit({ label, insertText }, range)],
+      isIncomplete: false,
+    };
   }
 
   private docIdForUri(uri: string): DocId | undefined {
