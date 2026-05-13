@@ -2,7 +2,7 @@
 id: "FEAT-043"
 title: "Markdown Flavor Server Propagation"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: 20
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-043"]
 
 # Markdown Flavor Server Propagation
 
-> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `ready`
+> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `in-progress`
 
 ## Goal
 
@@ -56,13 +56,13 @@ config, or boundary security gates.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-288]] | Add server configuration handling for markdown flavor | `open` |
-| [[TASK-289]] | Resolve effective flavor for explicit and auto modes | `open` |
-| [[TASK-290]] | Thread effective flavor through parser and caches | `open` |
-| [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `open` |
-| [[TASK-292]] | Add spawned-server flavor propagation tests | `open` |
-| [[TASK-293]] | Refresh open document diagnostics after flavor changes | `open` |
-| [[TASK-354]] | Add shared non-local boundary classification | `open` |
+| [[TASK-288]] | Add server configuration handling for markdown flavor | `red` |
+| [[TASK-289]] | Resolve effective flavor for explicit and auto modes | `red` |
+| [[TASK-290]] | Thread effective flavor through parser and caches | `red` |
+| [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `red` |
+| [[TASK-292]] | Add spawned-server flavor propagation tests | `red` |
+| [[TASK-293]] | Refresh open document diagnostics after flavor changes | `red` |
+| [[TASK-354]] | Add shared non-local boundary classification | `red` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
 
@@ -88,3 +88,6 @@ config, or boundary security gates.
 
 > [!INFO] Ready - 2026-05-13
 > Step A-C sweep confirmed Phase 19 PR #69 is open with green CI. Implementation will add `src/markdown-flavor/markdown-flavor-state.ts`, `src/markdown-flavor/non-local-boundary-classifier.ts`, `src/lsp/handlers/configuration.handler.ts`, `src/lsp/handlers/__tests__/configuration.handler.test.ts`, and `src/test/integration/markdown-flavor.test.ts`, with parser context updates in `src/parser/ofm-parser.ts`, `src/parser/types.ts`, `src/lsp/handlers/did-open.handler.ts`, `src/lsp/handlers/did-change.handler.ts`, and `src/lsp/lsp.module.ts`.
+
+> [!NOTE] RED - 2026-05-13
+> Added failing unit and spawned integration coverage for configuration validation, effective flavor resolution, parser context gating, refresh, and boundary classification before implementation exists.

@@ -2,7 +2,7 @@
 id: "TASK-293"
 title: "Refresh open document diagnostics after flavor changes"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -62,3 +62,6 @@ feature analysis without requiring a server restart.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing refresh assertions added before accepted configuration changes reparse open documents.

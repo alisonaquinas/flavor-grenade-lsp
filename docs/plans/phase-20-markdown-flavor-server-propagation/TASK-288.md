@@ -2,7 +2,7 @@
 id: "TASK-288"
 title: "Add server configuration handling for markdown flavor"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -75,3 +75,6 @@ invalid input.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing configuration handler assertions added before `src/lsp/handlers/configuration.handler.ts` exists.

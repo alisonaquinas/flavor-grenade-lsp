@@ -2,7 +2,7 @@
 id: "TASK-290"
 title: "Thread effective flavor through parser and caches"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -62,3 +62,6 @@ downstream services can observe the selected dialect.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing parser-context assertions added before `OFMDoc` carries effective flavor metadata.

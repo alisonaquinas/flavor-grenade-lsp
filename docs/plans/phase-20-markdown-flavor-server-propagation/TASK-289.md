@@ -2,7 +2,7 @@
 id: "TASK-289"
 title: "Resolve effective flavor for explicit and auto modes"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -70,3 +70,6 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing resolver assertions added before `src/markdown-flavor/markdown-flavor-state.ts` exists.

@@ -2,7 +2,7 @@
 id: "TASK-354"
 title: "Add shared non-local boundary classification"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -85,3 +85,6 @@ local vault/file targets.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing boundary classifier assertions added before shared classification exists.

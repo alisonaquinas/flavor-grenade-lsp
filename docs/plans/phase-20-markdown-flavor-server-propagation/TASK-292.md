@@ -2,7 +2,7 @@
 id: "TASK-292"
 title: "Add spawned-server flavor propagation tests"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -83,3 +83,6 @@ flavor transitions. The process-boundary protocol is
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing spawned-server propagation assertions added before debug query endpoints and configuration propagation exist.

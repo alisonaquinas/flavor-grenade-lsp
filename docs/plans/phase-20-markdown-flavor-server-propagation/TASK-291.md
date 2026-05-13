@@ -2,7 +2,7 @@
 id: "TASK-291"
 title: "Gate Obsidian-only analysis by dialect profile"
 type: task
-status: open
+status: red
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -63,3 +63,6 @@ non-Obsidian dialect projections.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing parser assertions prove CommonMark must suppress Obsidian-only tokens before gating exists.
