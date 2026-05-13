@@ -2,7 +2,7 @@
 id: "TASK-330"
 title: "Implement Pandoc Markdown parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 27
 parent: "FEAT-053"
@@ -70,3 +70,8 @@ Deliver parser/profile semantics for the pandoc flavor using [[docs/research/pan
 > blocks, citations, footnotes, attributes/labels, fenced Divs, and definition
 > lists while keeping Obsidian-only constructs inert outside the Obsidian
 > flavor.
+
+> [!INFO] RED - 2026-05-13
+> Added failing parser/profile coverage for Pandoc metadata, citations,
+> definition lists, footnotes, fenced Divs, attributes/labels, inactive
+> Obsidian syntax, and implemented Pandoc surface status.

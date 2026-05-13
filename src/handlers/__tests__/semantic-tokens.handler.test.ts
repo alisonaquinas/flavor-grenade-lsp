@@ -197,4 +197,40 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(10);
   });
+
+  it('encodes Pandoc citations, footnote labels, and attributes', () => {
+    const doc = makeDoc(DOC_URI, {
+      pandocCitations: [
+        {
+          raw: '@doe99',
+          key: 'doe99',
+          range: { start: { line: 0, character: 4 }, end: { line: 0, character: 10 } },
+          keyRange: { start: { line: 0, character: 5 }, end: { line: 0, character: 10 } },
+        },
+      ],
+      pandocFootnotes: [
+        {
+          raw: '[^n]: note',
+          label: 'n',
+          range: { start: { line: 1, character: 0 }, end: { line: 1, character: 10 } },
+          labelRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 3 } },
+        },
+      ],
+      pandocAttributes: [
+        {
+          raw: '{#id}',
+          id: 'id',
+          classes: [],
+          keyValues: {},
+          range: { start: { line: 2, character: 0 }, end: { line: 2, character: 5 } },
+        },
+      ],
+    });
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(15);
+  });
 });

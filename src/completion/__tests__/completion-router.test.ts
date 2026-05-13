@@ -264,6 +264,28 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('Pandoc flavor routing', () => {
+    it('offers Pandoc snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'pandoc' }));
+
+      const citationText = '[@';
+      router.setDocumentText(TEST_URI, citationText);
+      const citationResult = router.route(makeParams(TEST_URI, citationText, '@'));
+
+      const attributeText = '{';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, '{'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(citationResult.items.map((item) => item.label)).toContain('Pandoc citation');
+      expect(attributeResult.items.map((item) => item.label)).toContain('Pandoc attribute set');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

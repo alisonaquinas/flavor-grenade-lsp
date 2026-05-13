@@ -181,4 +181,43 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Description: Term');
     expect(names).toContain('GitLab table of contents');
   });
+
+  it('adds Pandoc metadata, labels, and footnotes as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Pandoc', 1, 0)]);
+    doc.index.pandocTitleBlocks = [
+      {
+        raw: '% Title\n% Author',
+        lines: 2,
+        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 8 } },
+      },
+    ];
+    doc.index.pandocAttributes = [
+      {
+        raw: '{#sec:intro}',
+        id: 'sec:intro',
+        classes: [],
+        keyValues: {},
+        range: { start: { line: 0, character: 9 }, end: { line: 0, character: 21 } },
+      },
+    ];
+    doc.index.pandocFootnotes = [
+      {
+        raw: '[^n]: note',
+        label: 'n',
+        range: { start: { line: 3, character: 0 }, end: { line: 3, character: 10 } },
+        labelRange: { start: { line: 3, character: 2 }, end: { line: 3, character: 3 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('Pandoc metadata');
+    expect(names).toContain('Pandoc label: sec:intro');
+    expect(names).toContain('Footnote: n');
+  });
 });

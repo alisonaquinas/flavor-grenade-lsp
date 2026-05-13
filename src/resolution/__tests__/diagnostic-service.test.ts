@@ -407,6 +407,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG202']);
     expect(params.diagnostics[0]['message']).toContain('Malformed GLFM description list');
   });
+
+  it('publishes Pandoc attribute diagnostics without resolving bibliography-bound citations', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/pandoc.md', []),
+      text: 'Title {#}\n\nSee [@doe99].',
+      markdownFlavor: 'pandoc' as const,
+      parseContext: { effectiveFlavor: 'pandoc' as const },
+    };
+
+    service.publishDiagnostics(id('pandoc'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG301']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed Pandoc attribute');
+  });
 });
 
 describe('block reference diagnostics', () => {

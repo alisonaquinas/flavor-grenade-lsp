@@ -287,3 +287,60 @@ describe('GitLab Flavored Markdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('Pandoc Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats Pandoc publishing syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/pandoc.md',
+      [
+        '% Pandoc Demo',
+        '% Ada Author',
+        '',
+        '# Methods {#sec:methods .unnumbered}',
+        '',
+        'See @doe99 and [@smith04, pp. 33-35].',
+        '',
+        'Term',
+        ': definition',
+        '',
+        '[^note]: footnote detail',
+        '',
+        '::: {.callout #tip}',
+        'Body',
+        ':::',
+        '',
+        '![Plot](plot.png){#fig:plot width=50%}',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'pandoc' },
+    );
+
+    expect(doc.markdownFlavor).toBe('pandoc');
+    expect(doc.index.pandocTitleBlocks.map((entry) => entry.lines)).toEqual([2]);
+    expect(doc.index.pandocCitations.map((entry) => entry.key)).toEqual(['doe99', 'smith04']);
+    expect(doc.index.pandocDefinitionLists.map((entry) => entry.term)).toEqual(['Term']);
+    expect(doc.index.pandocFootnotes.map((entry) => entry.label)).toEqual(['note']);
+    expect(doc.index.pandocFencedDivs.map((entry) => entry.attributes.id)).toEqual(['tip']);
+    expect(doc.index.pandocAttributes.map((entry) => entry.id)).toEqual([
+      'sec:methods',
+      'tip',
+      'fig:plot',
+    ]);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks Pandoc LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('pandoc');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});
