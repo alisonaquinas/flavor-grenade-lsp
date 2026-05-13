@@ -2,7 +2,7 @@
 id: "TASK-343"
 title: "Add Markdown Extra diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -97,3 +97,9 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 > folds, semantic tokens, analysis counts, and local-boundary disposition.
 > Renderer, conversion, syntax-highlighter, and generated-output behavior are
 > out of scope.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added LSP RED coverage for malformed-attribute diagnostics, Markdown Extra
+> completions, document symbols, folding ranges, semantic tokens, query counts,
+> and local boundary classification. Expected failures prove these surfaces are
+> not yet wired.

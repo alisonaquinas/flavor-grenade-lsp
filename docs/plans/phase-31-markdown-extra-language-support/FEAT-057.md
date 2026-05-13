@@ -65,9 +65,9 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | open |
-| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | open |
-| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | open |
+| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | red |
+| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | red |
+| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | red |
 | [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | open |
 | [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,8 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 > PHP Markdown Extra execution, HTML conversion, renderer output, syntax
 > highlighting, and generated-output inference remain deferred unless separate
 > integration tickets own them.
+
+> [!FAILURE] Step D RED - 2026-05-13
+> Focused Markdown Extra RED suite fails in the expected parser, diagnostics,
+> completion, document-symbol, folding, semantic-token, and integration
+> assertions. TASK-342 through TASK-344 moved to `red` before implementation.

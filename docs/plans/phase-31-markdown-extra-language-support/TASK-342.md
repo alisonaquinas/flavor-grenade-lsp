@@ -2,7 +2,7 @@
 id: "TASK-342"
 title: "Implement Markdown Extra parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -72,3 +72,9 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 > pipe tables, definition lists, footnotes, abbreviations, fenced code blocks,
 > attribute blocks, and malformed local Markdown Extra boundaries. Shared
 > constructs will be indexed only when effective flavor is `markdown-extra`.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added parser RED coverage for Markdown Extra tables, definition lists,
+> footnotes, abbreviations, fenced code blocks, attributes, inactive Obsidian
+> syntax, and profile surface status. Expected failure: parser index lacks
+> Markdown Extra collections and profile surfaces are still unimplemented.

@@ -2,7 +2,7 @@
 id: "TASK-344"
 title: "Add Markdown Extra tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -81,3 +81,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ma
 > spawned-server counts, completions, symbols, folds, semantic tokens,
 > malformed-boundary diagnostics, and validation evidence for local-only
 > Markdown Extra boundaries.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Ran the focused Markdown Extra RED command across parser, diagnostics,
+> completions, symbols, folds, semantic tokens, and integration tests. Result:
+> 118 passing tests and 8 expected failures for missing Markdown Extra
+> implementation. `bun run lint --max-warnings 0` passed.

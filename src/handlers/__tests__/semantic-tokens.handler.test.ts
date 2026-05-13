@@ -396,4 +396,78 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(10);
   });
+
+  it('encodes Markdown Extra attributes, footnote labels, and abbreviation labels', () => {
+    const doc = makeDoc(DOC_URI);
+    const extraIndex = doc.index as typeof doc.index & {
+      markdownExtraAttributes: Array<{
+        raw: string;
+        classes: string[];
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        markerRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      markdownExtraFootnotes: Array<{
+        raw: string;
+        label: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        labelRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      markdownExtraAbbreviations: Array<{
+        raw: string;
+        label: string;
+        value: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        labelRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    extraIndex.markdownExtraAttributes = [
+      {
+        raw: '{#custom .hero}',
+        classes: ['hero'],
+        range: { start: { line: 0, character: 10 }, end: { line: 0, character: 25 } },
+        markerRange: { start: { line: 0, character: 11 }, end: { line: 0, character: 18 } },
+      },
+    ];
+    extraIndex.markdownExtraFootnotes = [
+      {
+        raw: '[^note]: body',
+        label: 'note',
+        range: { start: { line: 1, character: 0 }, end: { line: 1, character: 13 } },
+        labelRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 6 } },
+      },
+    ];
+    extraIndex.markdownExtraAbbreviations = [
+      {
+        raw: '*[HTML]: Hyper Text Markup Language',
+        label: 'HTML',
+        value: 'Hyper Text Markup Language',
+        range: { start: { line: 2, character: 0 }, end: { line: 2, character: 34 } },
+        labelRange: { start: { line: 2, character: 2 }, end: { line: 2, character: 6 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(15);
+  });
 });

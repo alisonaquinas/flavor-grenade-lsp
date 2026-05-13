@@ -863,6 +863,83 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies Markdown Extra parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'markdown-extra.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "markdown-extra"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        '# Heading',
+        'Paragraph',
+        '{#custom .hero}',
+        'Term',
+        ': Definition',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        'Footnote[^note]',
+        '[^note]: footnote detail',
+        '*[HTML]: Hyper Text Markup Language',
+        '``` {.php}',
+        'echo "hi";',
+        '```',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'markdown-extra',
+      markdownExtraAttributes: 1,
+      markdownExtraDefinitionLists: 1,
+      markdownExtraTables: 1,
+      markdownExtraFootnotes: 1,
+      markdownExtraAbbreviations: 1,
+      markdownExtraFencedCodeBlocks: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'markdown-extra',
+      text: '*[HTML]: Hyper Text Markup Language',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'local' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

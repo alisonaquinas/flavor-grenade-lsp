@@ -524,3 +524,71 @@ describe('kramdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('Markdown Extra parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats Markdown Extra blocks as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/markdown-extra.md',
+      [
+        '# Heading',
+        '',
+        'Paragraph',
+        '{#custom .hero}',
+        '',
+        'Term',
+        ': Definition',
+        '',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '',
+        'Footnote[^note]',
+        '',
+        '[^note]: footnote detail',
+        '',
+        '*[HTML]: Hyper Text Markup Language',
+        '',
+        '``` {.php}',
+        'echo "hi";',
+        '```',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'markdown-extra' },
+    );
+    const extraIndex = doc.index as typeof doc.index & {
+      markdownExtraAttributes: Array<{ id?: string; classes: string[] }>;
+      markdownExtraDefinitionLists: Array<{ term: string }>;
+      markdownExtraTables: Array<{ headerCells: string[] }>;
+      markdownExtraFootnotes: Array<{ label: string }>;
+      markdownExtraAbbreviations: Array<{ label: string; value: string }>;
+      markdownExtraFencedCodeBlocks: Array<{ language?: string }>;
+    };
+
+    expect(doc.markdownFlavor).toBe('markdown-extra');
+    expect(extraIndex.markdownExtraAttributes.map((entry) => entry.id)).toEqual(['custom']);
+    expect(extraIndex.markdownExtraAttributes.map((entry) => entry.classes)).toEqual([['hero']]);
+    expect(extraIndex.markdownExtraDefinitionLists.map((entry) => entry.term)).toEqual(['Term']);
+    expect(extraIndex.markdownExtraTables.map((entry) => entry.headerCells)).toEqual([['A', 'B']]);
+    expect(extraIndex.markdownExtraFootnotes.map((entry) => entry.label)).toEqual(['note']);
+    expect(extraIndex.markdownExtraAbbreviations.map((entry) => entry.label)).toEqual(['HTML']);
+    expect(extraIndex.markdownExtraFencedCodeBlocks.map((entry) => entry.language)).toEqual([
+      'php',
+    ]);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks Markdown Extra LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('markdown-extra');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});
