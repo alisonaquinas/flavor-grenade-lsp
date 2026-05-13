@@ -1,7 +1,7 @@
 ---
 title: Phase 25 GitHub Flavored Markdown Language Support Tickets
 phase: 25
-status: planned
+status: in-progress
 tags: [plans/phase-25, tickets/index, gfm]
 aliases: ["Phase 25 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-051]] | GitHub Flavored Markdown Language Support | Feature | `draft` |
+| [[FEAT-051]] | GitHub Flavored Markdown Language Support | Feature | `in-progress` |
 | [[TASK-324]] | Implement GFM parser semantics | Task | `open` |
 | [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `open` |
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | `open` |

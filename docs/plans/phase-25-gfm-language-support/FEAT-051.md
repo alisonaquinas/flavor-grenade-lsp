@@ -2,7 +2,7 @@
 id: "FEAT-051"
 title: "GitHub Flavored Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 25
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-051"]
 
 # GitHub Flavored Markdown Language Support
 
-> [!INFO] FEAT-051 - Feature - Phase 25 - Status: draft
+> [!INFO] FEAT-051 - Feature - Phase 25 - Status: in-progress
 
 ## Description
 
@@ -37,6 +37,39 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | open |
 | [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | open |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | open |
+
+## Implementation Plan
+
+Phase 25 is stacked after Phase 24 because explicit Obsidian support and the
+extension selector/settings contract are now prerequisites for the GFM server
+surface. GFM work extends the CommonMark base with source-backed local syntax
+indices for tables, task items, strikethrough, and extended autolinks while
+leaving GitHub host objects non-local.
+
+Primary source paths:
+
+- `src/parser/gfm-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/hover.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/hover.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Linked Requirements
 
@@ -66,3 +99,8 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Phase order corrected to stack after Phase 24 /
+> FEAT-050, matching the ledger route through Phase E15 and Phase 24. Added
+> concrete implementation and RED test paths for TASK-324 through TASK-326.

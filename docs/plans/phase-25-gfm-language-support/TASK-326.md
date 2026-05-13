@@ -74,3 +74,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gf
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert active GFM syntax, inert Obsidian-only syntax,
+> GFM diagnostics/completions/LSP surfaces, spawned-server propagation, and
+> host-boundary classification before implementation changes are made.
