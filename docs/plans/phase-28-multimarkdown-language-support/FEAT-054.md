@@ -71,6 +71,7 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 | [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | green |
 | [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | open |
 | [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | open |
+| [[CHORE-145]] | Shorten MultiMarkdown table parser helper | Chore | done |
 
 ## Linked Requirements
 
@@ -111,3 +112,7 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 > TASK-333 through TASK-335 reached `green`. Targeted parser, diagnostics,
 > completion, document-symbol, folding-range, semantic-token, and spawned-server
 > integration tests pass for MultiMarkdown.
+
+> [!INFO] Step F finding - 2026-05-13
+> Opened and closed CHORE-145 for the code-quality function-length finding in
+> `MultimarkdownParser.parseTables`.

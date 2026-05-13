@@ -100,8 +100,7 @@ export class MultimarkdownParser {
         continue;
       const headerCells = MultimarkdownParser.splitTableRow(header.content);
       if (headerCells.length === 0) continue;
-      let endLine = index + 1;
-      while (endLine + 1 < lines.length && lines[endLine + 1].content.includes('|')) endLine++;
+      let endLine = MultimarkdownParser.findTableEndLine(lines, index);
       const caption = lines[endLine + 1];
       const captionMatch = caption ? /^\[.+\]\[([A-Za-z0-9_:.-]+)\]$/.exec(caption.content) : null;
       if (captionMatch !== null) endLine++;
@@ -123,6 +122,12 @@ export class MultimarkdownParser {
       index = endLine;
     }
     return tables;
+  }
+
+  private static findTableEndLine(lines: readonly LineEntry[], startLine: number): number {
+    let endLine = startLine + 1;
+    while (endLine + 1 < lines.length && lines[endLine + 1].content.includes('|')) endLine++;
+    return endLine;
   }
 
   private static parseFootnotes(

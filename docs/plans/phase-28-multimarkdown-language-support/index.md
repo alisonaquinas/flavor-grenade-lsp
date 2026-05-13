@@ -17,6 +17,7 @@ updated: 2026-05-13
 | [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | `green` |
 | [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | `open` |
 | [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | `open` |
+| [[CHORE-145]] | Shorten MultiMarkdown table parser helper | Chore | `done` |
 
 ## Ticket Details
 
