@@ -2,7 +2,7 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-12
+updated: 2026-05-13
 current-version: 0.3.0
 current-extension-version: 0.1.4
 ---
@@ -18,6 +18,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **planned** from the 2026-05-08 deep audit of `develop`.
 > Website phase W8 is **complete** as of 2026-05-12 after TASK-279 removed the remaining local Commonloom source and PR #65 CI passed.
+> Markdown flavor gap closure phases 19-34 and E15-E17 are **planned** from the 2026-05-13 gap analysis.
 
 ## Phase Table
 
@@ -42,6 +43,22 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 16 | Vault File Operation Refactors | complete | File/folder moves update wiki-links, embeds, Markdown links, reference definitions, and image links atomically | 2026-05-06 |
 | 17 | Structural LSP Capabilities | complete | Document links, folding ranges, and selection ranges expose OFMarkdown structure | 2026-05-07 |
 | 18 | Security Hardening Audit | in-progress | Resolve deep-audit findings for URI validation, parser resource bounds, vault confinement, and supply-chain pinning | — |
+| 19 | Markdown Flavor Model And Profiles | planned | Canonical flavor id contract and source-backed dialect profile registry | — |
+| 20 | Markdown Flavor Server Propagation | planned | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | — |
+| 21 | Markdown Flavor BDD Verification And Validation | planned | BDD, verification, and validation evidence execute against flavor state | — |
+| 22 | Original Markdown Language Support | planned | Historical Original Markdown parser and LSP behavior | — |
+| 23 | CommonMark Language Support | planned | CommonMark parser and LSP behavior with standardized edge cases | — |
+| 24 | Obsidian Flavor Language Support | planned | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | — |
+| 25 | GitHub Flavored Markdown Language Support | planned | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | — |
+| 26 | GitLab Flavored Markdown Language Support | planned | GLFM references, media conventions, and offline-testable GitLab syntax behavior | — |
+| 27 | Pandoc Markdown Language Support | planned | Pandoc metadata, citations, math, attributes, and cross-reference intelligence | — |
+| 28 | MultiMarkdown Language Support | planned | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | — |
+| 29 | MDX Flavor Language Support | planned | MDX flavor syntax support without taking over VS Code MDX language mode | — |
+| 30 | kramdown Language Support | planned | kramdown attributes, definition lists, tables, math, and footnotes | — |
+| 31 | Markdown Extra Language Support | planned | Markdown Extra tables, definition lists, footnotes, abbreviations, and attributes | — |
+| 32 | R Markdown Language Support | planned | R Markdown metadata and chunk syntax without code execution | — |
+| 33 | Reddit Markdown Language Support | planned | Reddit platform Markdown syntax awareness and portability diagnostics | — |
+| 34 | Stack Overflow Markdown Language Support | planned | Stack Overflow technical-writing Markdown and platform syntax awareness | — |
 
 ## Phase Details
 
@@ -174,6 +191,145 @@ Requirement links: [[requirements/security/vault-confinement#Security.Vault.URIS
 
 Implementation plan: [[plans/phase-18-security-hardening-audit]]
 
+### Phase 19 — Markdown Flavor Model And Profiles
+
+Close the model and profile gaps identified in
+[[gaps/markdown-flavor-gap-analysis]]. This phase adds the canonical Markdown
+flavor id contract, selector/server labels, and source-backed dialect profiles
+for every explicit researched flavor. `auto` is represented as detection state,
+not as a dialect profile.
+
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-unit-spec]]
+
+Implementation plan: [[plans/phase-19-markdown-flavor-model-profiles]]
+
+### Phase 20 — Markdown Flavor Server Propagation
+
+Make Markdown flavor real server analysis state. This phase accepts
+`flavorGrenade.markdownFlavor`, resolves `auto` to an effective flavor, threads
+the result through parser and cache paths, gates initial Obsidian-only behavior
+for Original Markdown and CommonMark, and adds spawned-server integration tests
+for supported and unsupported flavor ids.
+
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[test/markdown-flavor-integration-spec]]
+
+Implementation plan: [[plans/phase-20-markdown-flavor-server-propagation]]
+
+### Phase 21 — Markdown Flavor BDD Verification And Validation
+
+Replace stale BDD assumptions about `ofmarkdown` language assignment with
+acceptance tests that track effective flavor separately from VS Code language
+mode. This phase implements the Markdown flavor BDD steps, adds verification
+checks that the flavor test layers stay wired into CI, and records validation
+evidence tying the displayed/profiled flavor set to research.
+
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-e2e-spec]], [[test/markdown-flavor-verification-spec]], [[test/markdown-flavor-validation-spec]]
+
+Implementation plan: [[plans/phase-21-markdown-flavor-bdd-validation]]
+
+### Phase 22 — Original Markdown Language Support
+
+Implement actual language support for `original`: historical core constructs,
+LSP behavior for supported syntax, and explicit non-core treatment for fenced
+code, tables, task lists, wiki links, and callouts.
+
+Implementation plan: [[plans/phase-22-original-markdown-language-support]]
+
+### Phase 23 — CommonMark Language Support
+
+Implement actual language support for `commonmark`: fenced code, standardized
+heading/link/list behavior, document links, folding, semantic tokens,
+completion, diagnostics, and navigation while keeping GFM and Obsidian
+extensions gated.
+
+Implementation plan: [[plans/phase-23-commonmark-language-support]]
+
+### Phase 24 — Obsidian Flavor Language Support
+
+Reframe existing OFM intelligence as behavior for the `obsidian` flavor under
+the selector model. This phase preserves wiki links, embeds, tags, block
+anchors, callouts, vault-local resolution, and structural LSP behavior without
+requiring `ofmarkdown` language promotion.
+
+Implementation plan: [[plans/phase-24-obsidian-flavor-language-support]]
+
+### Phase 25 — GitHub Flavored Markdown Language Support
+
+Implement actual language support for `gfm`: pipe tables, task lists,
+strikethrough, autolinks, GitHub-style heading anchors where practical, and
+matching diagnostics, completions, folding, semantic tokens, and navigation.
+
+Implementation plan: [[plans/phase-25-gfm-language-support]]
+
+### Phase 26 — GitLab Flavored Markdown Language Support
+
+Implement actual language support for `glfm`: the CommonMark/GFM baseline plus
+GitLab-specific references, media behavior, and heading/link conventions that
+can be modeled without GitLab service access.
+
+Implementation plan: [[plans/phase-26-glfm-language-support]]
+
+### Phase 27 — Pandoc Markdown Language Support
+
+Implement practical local support for `pandoc`: metadata blocks, citations,
+footnotes, math, attributes, fenced divs, definition lists, labels, and
+cross-references without running Pandoc conversion.
+
+Implementation plan: [[plans/phase-27-pandoc-markdown-language-support]]
+
+### Phase 28 — MultiMarkdown Language Support
+
+Implement actual language support for `multimarkdown`: metadata, tables,
+footnotes, citations, labels, and document-production cross-references.
+
+Implementation plan: [[plans/phase-28-multimarkdown-language-support]]
+
+### Phase 29 — MDX Flavor Language Support
+
+Implement practical local support for `mdx` as a Markdown flavor: JSX
+expression/component regions, ESM awareness, and Markdown/JSX boundaries while
+preserving manually selected VS Code `mdx` language mode.
+
+Implementation plan: [[plans/phase-29-mdx-flavor-language-support]]
+
+### Phase 30 — kramdown Language Support
+
+Implement actual language support for `kramdown`: block/span attributes,
+definition lists, tables, math, footnotes, and IAL behavior.
+
+Implementation plan: [[plans/phase-30-kramdown-language-support]]
+
+### Phase 31 — Markdown Extra Language Support
+
+Implement actual language support for `markdown-extra`: tables, definition
+lists, footnotes, abbreviations, fenced code, and attribute blocks.
+
+Implementation plan: [[plans/phase-31-markdown-extra-language-support]]
+
+### Phase 32 — R Markdown Language Support
+
+Implement practical local support for `r-markdown`: YAML metadata, fenced chunk
+syntax, chunk labels/options, folding, document symbols, and diagnostics without
+executing code.
+
+Implementation plan: [[plans/phase-32-r-markdown-language-support]]
+
+### Phase 33 — Reddit Markdown Language Support
+
+Implement practical local support for `reddit`: Reddit-specific syntax
+awareness, escaping and line-break behavior, spoiler handling where applicable,
+and portability diagnostics without calling Reddit services.
+
+Implementation plan: [[plans/phase-33-reddit-markdown-language-support]]
+
+### Phase 34 — Stack Overflow Markdown Language Support
+
+Implement practical local support for `stack-overflow`: tag links, spoilers,
+syntax highlighting hints, code fence behavior, GFM-style tables, and
+question/answer versus comment-surface constraints.
+
+Implementation plan: [[plans/phase-34-stack-overflow-markdown-language-support]]
+
 ### Server Improvement Continuation
 
 | Phase | Primary Requirements |
@@ -183,6 +339,22 @@ Implementation plan: [[plans/phase-18-security-hardening-audit]]
 | 16 | [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[requirements/rename#Rename.StyleBinding.Consistency]] |
 | 17 | [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[requirements/semantic-tokens#ST-002]], [[requirements/security/input-validation#Security.Input.PositionValidation]] |
 | 18 | [[requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[requirements/security/supply-chain#Security.Supply.ExactPinning]] |
+| 19 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 20 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]] |
+| 21 | [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[test/markdown-flavor-validation-spec]] |
+| 22 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 23 | [[research/commonmark-and-original-markdown]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 24 | [[ofm-spec/index]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] |
+| 25 | [[github-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 26 | [[gitlab-flavored-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 27 | [[pandoc-markdown-deep-research-report]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 28 | [[multimarkdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 29 | [[mdx-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] |
+| 30 | [[kramdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 31 | [[markdown-extra-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 32 | [[r-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 33 | [[reddit-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
+| 34 | [[stack-overflow-markdown-analysis]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 
@@ -207,6 +379,9 @@ Packaging flavor-grenade-lsp as a VS Code Marketplace extension with bundled pla
 | E12 | OFMarkdown Editor Contributions | complete | Snippets, keybindings, language configuration, and scoped contribution checks | 2026-05-07 |
 | E13 | Workspace Environment Modes | complete | Restricted, virtual, WSL, SSH, Dev Container, and remote behavior verification | 2026-05-07 |
 | E14 | Membership Refresh And Compatibility Guardrails | complete | Robust language-mode refresh plus client/server and package-target validation | 2026-05-07 |
+| E15 | Markdown Flavor Selector And Settings | planned | Separate selector, settings schema, override persistence, auto detection, and server propagation | — |
+| E16 | Flavor-Scoped Contributions And Marketplace | planned | Editor contributions and Marketplace proof align with Markdown flavor selection | — |
+| E17 | Extension Flavor Host Verification | planned | Extension-host, CI, and validation evidence prove selector behavior | — |
 
 ### Extension Phase Details
 
@@ -346,6 +521,42 @@ Requirement links: [[requirements/functional/vscode-extension-parity#Extension.L
 
 Implementation plan: [[plans/phase-E14-membership-refresh-compatibility-guardrails]]
 
+#### Phase E15 — Markdown Flavor Selector And Settings
+
+Replace the retired language-mode promotion design with a separate Markdown
+flavor selector and setting. This phase keeps `.md` documents in VS Code's
+built-in `markdown` language mode, adds `flavorGrenade.markdownFlavor`, resolves
+Auto Detect from markers/settings/membership inputs, persists overrides to the
+correct project or user scope, and propagates effective flavor to the server.
+
+Requirement links: [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]]
+
+Implementation plan: [[plans/phase-E15-markdown-flavor-selector-settings]]
+
+#### Phase E16 — Flavor-Scoped Contributions And Marketplace
+
+Move extension contributions and Marketplace proof from the historical
+`ofmarkdown` language-mode story to the Markdown flavor selector model. This
+phase updates activation for selector interaction, rewrites snippets,
+keybindings, and language configuration around flavor/context scoping, and
+updates README, troubleshooting, visuals, and Marketplace asset verification.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]], [[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]]
+
+Implementation plan: [[plans/phase-E16-flavor-scoped-contributions-marketplace]]
+
+#### Phase E17 — Extension Flavor Host Verification
+
+Close the extension host, verification, and validation gaps. This phase adds a
+VS Code host suite for selector behavior, settings scope, Auto reset, generic
+CommonMark fallback, Obsidian auto-detection, and manual-language safety. It
+also retires stale language-mode host expectations and updates root plus
+extension traceability matrices.
+
+Requirement links: [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Refresh]], [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[extension/docs/tests/markdown-flavor-e2e-spec]], [[extension/docs/tests/markdown-flavor-verification-spec]], [[extension/docs/tests/markdown-flavor-validation-spec]]
+
+Implementation plan: [[plans/phase-E17-extension-flavor-host-verification]]
+
 ### Extension Phase Dependencies
 
 ```text
@@ -360,7 +571,7 @@ Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
                                      Phase E10 ─► Phase E11 ─► Phase E12
                                                                   │
                                                                   ▼
-                                                Phase E13 ───► Phase E14
+                                                Phase E13 ───► Phase E14 ──► Phase E15 ──► Phase E16 ──► Phase E17
 ```
 
 Phases are mostly sequential. E3 requires E2's `LanguageClient` to wire
@@ -371,6 +582,9 @@ startup gates can reason about `markdown` and `ofmarkdown`. E8 depends on E7's
 activation contract. E9 follows E8 so the host harness can lock command bridge
 behavior. E10-E14 then harden user-facing status, Marketplace proof, editor
 contributions, workspace environments, and compatibility guardrails.
+E15-E17 are new Markdown flavor gap-closure phases. E15 depends on the
+server-side flavor model from Phase 19; E17 depends on E16 and Phase 20 because
+host verification needs both selector UI and server propagation.
 
 ## Website Phases (`website/`)
 
@@ -498,7 +712,9 @@ These features are out of scope for the initial release. Recorded to avoid scope
 - [[adr/ADR017-standard-markdown-link-intelligence]]
 - [[adr/ADR018-vault-file-operation-refactoring]]
 - [[adr/ADR019-vscode-command-bridges-and-client-ux]]
+- [[adr/ADR020-markdown-flavor-selection]]
 - [[superpowers/specs/2026-04-21-vscode-extension-design]]
 - [[features/ofmarkdown-language-mode]]
+- [[gaps/markdown-flavor-gap-analysis]]
 - [[design/behavior-layer]]
 - [[research/vscode-extension-publishing]]

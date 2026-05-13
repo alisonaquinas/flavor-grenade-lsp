@@ -1,0 +1,45 @@
+---
+id: "TASK-299"
+title: "Add extension flavor constants and setting schema"
+type: task
+status: open
+priority: high
+phase: E15
+parent: "FEAT-045"
+created: "2026-05-13"
+updated: "2026-05-13"
+dependencies: ["FEAT-045", "TASK-283"]
+tags: [tickets/task, "phase/E15", markdown-flavor, vscode]
+aliases: ["TASK-299"]
+---
+
+# Add Extension Flavor Constants And Setting Schema
+
+## Description
+
+Add extension-side flavor constants and the `flavorGrenade.markdownFlavor`
+configuration schema.
+
+## Work Scope
+
+- Define required flavor ids, labels, and quick-pick order.
+- Add package configuration enum with default `auto`.
+- Unit-test schema and constants against ADR020.
+
+## Linked Requirements
+
+| Requirement | Gap |
+|---|---|
+| `Extension.MarkdownFlavor.RequiredCoverage` | `GAP-E-003` |
+
+## Linked Tests
+
+| Test file | Expected coverage |
+|---|---|
+| `extension/src/markdown-flavor.test.ts` | Flavor constants and schema contain required ids. |
+
+## Definition of Done
+
+- [ ] Package schema includes `flavorGrenade.markdownFlavor`.
+- [ ] Constants include all required ids.
+- [ ] `npm test` covers enum and label order.

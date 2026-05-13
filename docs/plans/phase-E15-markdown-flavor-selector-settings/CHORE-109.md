@@ -1,0 +1,33 @@
+---
+id: "CHORE-109"
+title: "Phase E15 extension trace and docs sweep"
+type: chore
+status: open
+priority: medium
+phase: E15
+parent: "FEAT-045"
+created: "2026-05-13"
+updated: "2026-05-13"
+dependencies: ["FEAT-045"]
+tags: [tickets/chore, "phase/E15", operations]
+aliases: ["CHORE-109"]
+---
+
+# Phase E15 Extension Trace And Docs Sweep
+
+## Description
+
+Keep extension docs and traceability synchronized while selector/settings work
+lands.
+
+## Work Scope
+
+- Update extension-local tests index and matrix.
+- Update root test docs if new files are introduced.
+- Record any protocol choice for server propagation.
+
+## Definition of Done
+
+- [ ] Docs trace new extension unit tests.
+- [ ] Phase plan reflects final protocol choice.
+- [ ] No completed roadmap phases are modified.
