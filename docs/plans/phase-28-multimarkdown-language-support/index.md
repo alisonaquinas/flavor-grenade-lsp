@@ -1,7 +1,7 @@
 ---
 title: Phase 28 MultiMarkdown Language Support Tickets
 phase: 28
-status: planned
+status: in-progress
 tags: [plans/phase-28, tickets/index, multimarkdown]
 aliases: ["Phase 28 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-054]] | MultiMarkdown Language Support | Feature | `draft` |
+| [[FEAT-054]] | MultiMarkdown Language Support | Feature | `in-progress` |
 | [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | `open` |
 | [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | `open` |
 | [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | `open` |

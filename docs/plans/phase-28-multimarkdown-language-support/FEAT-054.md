@@ -2,7 +2,7 @@
 id: "FEAT-054"
 title: "MultiMarkdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 28
 created: "2026-05-13"
@@ -14,7 +14,41 @@ aliases: ["FEAT-054"]
 
 # MultiMarkdown Language Support
 
-> [!INFO] FEAT-054 - Feature - Phase 28 - Status: draft
+> [!INFO] FEAT-054 - Feature - Phase 28 - Status: in-progress
+
+## Implementation Plan
+
+Phase 28 is stacked after Phase 27 because MultiMarkdown overlaps with Pandoc
+metadata, citation, footnote, and cross-reference surfaces while retaining its
+own document-production syntax. Implementation will model source-local syntax:
+metadata blocks, tables, footnotes, bibliography/citation references, labels,
+cross-references, and table/figure-style anchors. It will not run
+MultiMarkdown, Pandoc, BibTeX, transclusion, export writers, or generated
+output processors.
+
+Primary source paths:
+
+- `src/parser/multimarkdown-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/markdown-flavor/non-local-boundary-classifier.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +100,9 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Added concrete implementation and RED test paths
+> for TASK-333 through TASK-335. MultiMarkdown export, transclusion,
+> bibliography processor, and generated-output behavior remain deferred unless
+> a separate integration ticket owns those operations.
