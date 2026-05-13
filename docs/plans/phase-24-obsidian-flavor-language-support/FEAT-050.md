@@ -34,7 +34,7 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 | [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | green |
 | [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | green |
 | [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | green |
-| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | open |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | green |
 | [[CHORE-142]] | Clarify Phase 24 Obsidian parser test title | Chore | done |
 
 ## Linked Requirements
@@ -71,3 +71,44 @@ Implement first-class obsidian language support for Obsidian, using [[docs/ofm-s
 > Branch `feature/FEAT-050-phase-24-obsidian-flavor-language-support` was
 > fast-forwarded onto `feature/FEAT-045-phase-E15-markdown-flavor-selector-settings`
 > so the Obsidian phase uses the selector/settings contract from PR #74.
+
+> [!SUCCESS] Local gate - 2026-05-13
+> Phase 24 passed the exact gate commands from the phase plan plus the broader
+> A-M lint, typecheck, audit, unit, integration, and BDD checks. Verification
+> and validation test directories are absent, so those steps are recorded as
+> N/A before the BDD gate.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+Existing OFM parser and LSP behavior already matched the intended Obsidian
+flavor shape once E15 supplied selector-driven effective flavor state. The main
+implementation change was intentionally small: mark the Obsidian profile
+surfaces implemented and add regression evidence around the existing behavior.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-142 | Chore | Step F found a new parser test title that claimed host-syntax coverage while asserting active Obsidian syntax and opaque-region behavior. | +0.1 h |
+
+### Process observations
+
+Stacking Phase 24 after E15 was the right order. It avoided recreating a
+flavor-selection path and let Phase 24 focus on server/profile behavior instead
+of extension language-mode migration.
+
+### Carry-forward actions
+
+- [ ] In Phase 25, keep GFM host references non-local unless a separate
+      authenticated GitHub integration explicitly owns live lookup behavior.
+- [ ] Reuse the Phase 24 pattern for each remaining dialect: RED evidence for
+      parser/diagnostic/completion behavior, then profile surface status and
+      trace updates.
+
+### Rule / template amendments
+
+- [ ] none
