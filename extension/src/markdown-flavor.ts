@@ -133,47 +133,25 @@ export function resolveMarkdownFlavor(input: {
   projectFlavor?: unknown;
   selected: unknown;
 }): MarkdownFlavorResolution {
-  if (input.document.languageId !== MARKDOWN_LANGUAGE_ID) {
-    return { kind: 'inactive', reason: 'non-markdown-language' };
-  }
-  if (input.document.uri.scheme !== 'file') {
-    return { kind: 'inactive', reason: 'unsupported-scheme' };
+  const inactive = inactiveDocumentReason(input.document);
+  if (inactive) {
+    return inactive;
   }
 
   const selected = isMarkdownFlavorSelection(input.selected) ? input.selected : 'auto';
   if (isMarkdownFlavorId(selected)) {
-    return {
-      kind: 'active',
-      selected,
-      effective: selected,
-      source: 'explicit-selection',
-    };
+    return activeResolution(selected, selected, 'explicit-selection');
   }
 
   if (isMarkdownFlavorId(input.projectFlavor)) {
-    return {
-      kind: 'active',
-      selected: 'auto',
-      effective: input.projectFlavor,
-      source: 'project-toml',
-    };
+    return activeResolution('auto', input.projectFlavor, 'project-toml');
   }
 
   if (input.hasObsidianMarker === true) {
-    return {
-      kind: 'active',
-      selected: 'auto',
-      effective: 'obsidian',
-      source: 'obsidian-marker',
-    };
+    return activeResolution('auto', 'obsidian', 'obsidian-marker');
   }
 
-  return {
-    kind: 'active',
-    selected: 'auto',
-    effective: 'commonmark',
-    source: 'commonmark-fallback',
-  };
+  return activeResolution('auto', 'commonmark', 'commonmark-fallback');
 }
 
 export function selectionSettingValue(
@@ -204,28 +182,8 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     return undefined;
   }
 
-  const resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'] =
-    {};
-  let markdownFlavor: MarkdownFlavorSelection | undefined;
-
-  for (const state of input.states) {
-    if (state.resolution.kind !== 'active' || !isFlavorEligibleDocument(state.document)) {
-      continue;
-    }
-    const uri = state.document.uri.toString();
-    if (!isSafeResourceUri(uri)) {
-      continue;
-    }
-    markdownFlavor ??= state.resolution.selected;
-    resources[uri] = {
-      selected: state.resolution.selected,
-      effective: state.resolution.effective,
-      source: state.resolution.source,
-    };
-  }
-
-  const entries = Object.keys(resources);
-  if (!markdownFlavor || entries.length === 0 || entries.length > MAX_PROPAGATED_RESOURCES) {
+  const payload = collectPropagatedResources(input.states);
+  if (!payload || Object.keys(payload.resources).length > MAX_PROPAGATED_RESOURCES) {
     return undefined;
   }
 
@@ -234,10 +192,88 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     params: {
       settings: {
         flavorGrenade: {
-          markdownFlavor,
-          markdownFlavorResources: resources,
+          markdownFlavor: payload.markdownFlavor,
+          markdownFlavorResources: payload.resources,
         },
       },
+    },
+  };
+}
+
+function inactiveDocumentReason(document: TextDocumentLike): MarkdownFlavorResolution | undefined {
+  if (document.languageId !== MARKDOWN_LANGUAGE_ID) {
+    return { kind: 'inactive', reason: 'non-markdown-language' };
+  }
+  if (document.uri.scheme !== 'file') {
+    return { kind: 'inactive', reason: 'unsupported-scheme' };
+  }
+  return undefined;
+}
+
+function activeResolution(
+  selected: MarkdownFlavorSelection,
+  effective: MarkdownFlavorId,
+  source: FlavorResolutionSource,
+): MarkdownFlavorResolution {
+  return {
+    kind: 'active',
+    selected,
+    effective,
+    source,
+  };
+}
+
+function collectPropagatedResources(
+  states: readonly MarkdownFlavorStateForDocument[],
+):
+  | {
+      markdownFlavor: MarkdownFlavorSelection;
+      resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'];
+    }
+  | undefined {
+  const resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'] =
+    {};
+  let markdownFlavor: MarkdownFlavorSelection | undefined;
+
+  for (const state of states) {
+    const resource = propagatedResourceForState(state);
+    if (!resource) {
+      continue;
+    }
+    markdownFlavor ??= resource.selected;
+    resources[resource.uri] = resource.value;
+  }
+
+  return markdownFlavor && Object.keys(resources).length > 0
+    ? { markdownFlavor, resources }
+    : undefined;
+}
+
+function propagatedResourceForState(state: MarkdownFlavorStateForDocument):
+  | {
+      selected: MarkdownFlavorSelection;
+      uri: string;
+      value: {
+        selected: MarkdownFlavorSelection;
+        effective: MarkdownFlavorId;
+        source: FlavorResolutionSource;
+      };
+    }
+  | undefined {
+  if (state.resolution.kind !== 'active' || !isFlavorEligibleDocument(state.document)) {
+    return undefined;
+  }
+  const uri = state.document.uri.toString();
+  if (!isSafeResourceUri(uri)) {
+    return undefined;
+  }
+  return {
+    selected: state.resolution.selected,
+    uri,
+    value: {
+      selected: state.resolution.selected,
+      effective: state.resolution.effective,
+      source: state.resolution.source,
     },
   };
 }

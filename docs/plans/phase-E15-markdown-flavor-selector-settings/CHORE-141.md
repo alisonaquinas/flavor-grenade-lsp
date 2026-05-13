@@ -2,7 +2,7 @@
 id: "CHORE-141"
 title: "Refactor E15 markdown flavor helpers under function-size guideline"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E15
 parent: "FEAT-045"
@@ -30,11 +30,15 @@ function guideline.
 
 ## Definition of Done
 
-- [ ] New helper functions stay under the checklist guideline.
-- [ ] `npm test` passes from `extension/`.
-- [ ] `npm run compile` passes from `extension/`.
+- [x] New helper functions stay under the checklist guideline.
+- [x] `npm test` passes from `extension/`.
+- [x] `npm run compile` passes from `extension/`.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Opened during Step F before refactoring the oversized helper functions.
+
+> [!SUCCESS] Done - 2026-05-13
+> Split flavor resolution and propagation payload assembly into smaller pure
+> helpers. `npm test` and `npm run compile` pass from `extension/`.

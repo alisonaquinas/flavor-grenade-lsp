@@ -43,7 +43,7 @@ separate selector and setting control effective Markdown flavor.
 | [[TASK-304]] | Propagate effective flavor from extension to server | `open` |
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | `open` |
 | [[CHORE-110]] | Phase E15 verification and closeout sweep | `open` |
-| [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `open` |
+| [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `done` |
 
 ## Definition of Done
 
