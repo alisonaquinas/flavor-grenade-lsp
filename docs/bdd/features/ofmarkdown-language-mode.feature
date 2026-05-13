@@ -1,55 +1,54 @@
-@extension @vscode @language-mode
-@adr:ADR016
-Feature: OFMarkdown language mode assignment
+@extension @vscode @markdown-flavor
+@adr:ADR020
+Feature: Markdown flavor selection
 
-  The VS Code extension contributes an OFMarkdown language mode and applies it
-  only to Markdown documents that Flavor Grenade detects as vault or indexed
-  OFM documents. Generic Markdown files remain in VS Code's built-in Markdown
-  mode.
+  The VS Code extension keeps Markdown files in the built-in Markdown language
+  mode and exposes Markdown flavor through a separate selector.
 
   Background:
     Given a VS Code instance with the Flavor Grenade extension installed
 
-  Scenario: Obsidian vault markdown is promoted to OFMarkdown
+  Scenario: Obsidian vault markdown remains Markdown and auto-detects Obsidian
     Given a workspace folder containing a ".obsidian/" directory
     When the user opens a file "notes/welcome.md" in the workspace
     Then the extension activates via the "onLanguage:markdown" activation event
-    And the document language id eventually becomes "ofmarkdown"
-    And the language picker label is "OFMarkdown"
+    And the document language id remains "markdown"
+    And the Markdown flavor selector eventually shows "Auto Detect (Obsidian)"
 
-  Scenario: Indexed Flavor Grenade vault markdown is promoted to OFMarkdown
-    Given a workspace folder containing ".flavor-grenade.toml" and no ".obsidian/" directory
-    And the server index contains "notes/welcome.md"
-    When the user opens a file "notes/welcome.md" in the workspace
-    Then the extension asks the server for "flavorGrenade/documentMembership" for that URI
-    And the server reports the document is indexed
-    And the document language id eventually becomes "ofmarkdown"
-
-  Scenario: Generic markdown remains Markdown
+  Scenario: Generic markdown remains Markdown and auto-detects CommonMark
     Given a workspace folder with no ".obsidian/" directory
     And no ".flavor-grenade.toml" file
     And the server does not index "README.md"
     When the user opens "README.md"
     Then the document language id remains "markdown"
+    And the Markdown flavor selector shows "Auto Detect (CommonMark)"
+
+  Scenario: User overrides flavor for a workspace folder
+    Given a workspace folder containing ".flavor-grenade.toml"
+    And the user opens "notes/welcome.md"
+    When the user selects "CommonMark" from the Markdown flavor selector
+    Then the document language id remains "markdown"
+    And "flavorGrenade.markdownFlavor" is written to the project settings as "commonmark"
+    And the server is refreshed with effective flavor "commonmark"
+
+  Scenario: User overrides flavor for a standalone file
+    Given the user opens a standalone Markdown file with no workspace folder
+    When the user selects "Original Markdown" from the Markdown flavor selector
+    Then the document language id remains "markdown"
+    And "flavorGrenade.markdownFlavor" is written to user settings as "original"
+    And the server is refreshed with effective flavor "original"
+
+  Scenario: Auto Detect clears the override at the current scope
+    Given a workspace folder has "flavorGrenade.markdownFlavor" set to "commonmark"
+    And the user opens "notes/welcome.md"
+    When the user selects "Auto Detect" from the Markdown flavor selector
+    Then the project override is cleared or reset to "auto"
+    And the effective flavor is recomputed from workspace and vault signals
 
   Scenario: Manual language mode selection is preserved
     Given a workspace folder containing a ".obsidian/" directory
     And the user opens "notes/welcome.md"
     And the user manually changes the document language id to "plaintext"
-    When Flavor Grenade refreshes language mode detection
+    When Flavor Grenade refreshes Markdown flavor detection
     Then the document language id remains "plaintext"
-
-  Scenario: Language mode promotion does not restart the language client
-    Given a workspace folder containing a ".obsidian/" directory
-    And the LanguageClient is running
-    When the user opens "notes/welcome.md"
-    And the document language id changes from "markdown" to "ofmarkdown"
-    Then the LanguageClient remains running
-    And the extension calls "setTextDocumentLanguage" at most once for that URI
-
-  Scenario: OFMarkdown keeps Markdown editing behavior
-    Given a workspace folder containing a ".obsidian/" directory
-    When the user opens a Markdown note with headings, lists, links, frontmatter, and fenced code blocks
-    And the document language id becomes "ofmarkdown"
-    Then Markdown grammar highlighting is still available
-    And Flavor Grenade semantic tokens are still requested for the document
+    And no Markdown flavor override is applied to that document

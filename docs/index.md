@@ -103,7 +103,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[adr/ADR013-vault-root-confinement]] | Vault root confinement decision |
 | [[adr/ADR014-dependency-security-policy]] | Dependency security policy decision |
 | [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
-| [[adr/ADR016-ofmarkdown-language-mode]] | Dynamic OFMarkdown language mode decision |
+| [[adr/ADR020-markdown-flavor-selection]] | Markdown flavor selector decision |
 | [[concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
 | [[requirements/workspace]] | Workspace requirements (Planguage) |
@@ -118,7 +118,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[features/code-lens]] | "N references" code lens |
 | [[features/hover]] | Hover information |
 | [[features/semantic-tokens]] | Semantic token types table |
-| [[features/ofmarkdown-language-mode]] | VS Code OFMarkdown language mode |
+| [[features/ofmarkdown-language-mode]] | VS Code Markdown flavor selector |
 | [[features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
 | [[features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
 | [[requirements/index]] | Master Planguage functional requirements index |

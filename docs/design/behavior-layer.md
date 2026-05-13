@@ -49,7 +49,7 @@ All `.feature` files live in `docs/bdd/features/`. They are executable specifica
 | `docs/bdd/features/embeds.feature` | Embed resolution, diagnostics, navigation, hover, and attachment behavior | `@ofm`, `@smoke` | 10 |
 | `docs/bdd/features/frontmatter.feature` | YAML frontmatter parsing and metadata behavior | `@ofm`, `@smoke` | 9 |
 | `docs/bdd/features/navigation.feature` | Definitions, references, CodeLens, highlights, and tag precision | `@lsp`, `@smoke` | 9 |
-| `docs/bdd/features/ofmarkdown-language-mode.feature` | Dynamic OFMarkdown language assignment, markdown isolation, and manual-mode safety | `@extension`, `@vscode`, `@language-mode` | 6 |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | Markdown flavor selection, auto-detection, override persistence, and manual-mode safety | `@extension`, `@vscode`, `@markdown-flavor` | 6 |
 | `docs/bdd/features/ofmarkdown-parity.feature` | Standard Markdown link parity, structural LSP, attachments, and file operations | `@lsp`, `@parity` | 10 |
 | `docs/bdd/features/rename.feature` | Prepare-rename and workspace-edit behavior | `@lsp`, `@smoke` | 8 |
 | `docs/bdd/features/tags.feature` | Tag indexing, hierarchy, references, completion, and YAML equivalence | `@ofm` | 9 |
@@ -184,6 +184,6 @@ The traceability matrix is maintained in [[test/matrix]]. For each functional re
 - [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
 - [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
 - `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
-- `docs/bdd/features/ofmarkdown-language-mode.feature` — OFMarkdown language-mode acceptance scenarios
+- `docs/bdd/features/ofmarkdown-language-mode.feature` — Markdown flavor selector acceptance scenarios
 - [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
-- [[adr/ADR016-ofmarkdown-language-mode]] — Decision record for dynamic OFMarkdown assignment
+- [[adr/ADR020-markdown-flavor-selection]] — Decision record for Markdown flavor selection

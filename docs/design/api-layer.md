@@ -87,7 +87,7 @@ Key capability declarations:
 | `workspace/willRenameFiles` | `workspace.fileOperations.willRename` | — | Returns WorkspaceEdit for note, folder, and attachment moves before the editor applies the file operation |
 | `workspace/didRenameFiles` | `workspace.fileOperations.didRename` | — | Updates `DocId`, refreshes index, and reports diagnostics when a client did not request `willRenameFiles` |
 | `workspace/executeCommand` | — | — | Command: `flavorGrenade.rebuildIndex` |
-| `flavorGrenade/documentMembership` | custom request | — | VS Code extension asks whether a URI belongs to a vault/index and should be assigned `ofmarkdown` |
+| `flavorGrenade/documentMembership` | custom request | — | VS Code extension asks whether a URI belongs to a vault/index so `Auto Detect` can derive the effective Markdown flavor |
 
 ---
 
@@ -158,7 +158,10 @@ Editor extensions (e.g., the `flavor-grenade.nvim` companion plugin) use this no
 
 ## Custom Request: `flavorGrenade/documentMembership`
 
-The VS Code extension uses this request to decide whether an open Markdown document should be assigned the `ofmarkdown` language id. The request is client-specific but server-authoritative: BC6 owns VS Code language mode assignment, while BC4 owns vault/index membership.
+The VS Code extension uses this request to decide which Markdown flavor should
+apply when the selector is set to `Auto Detect`. The request is
+client-specific but server-authoritative for membership: BC6 owns the selector
+and setting persistence, while BC4 owns vault/index membership.
 
 ```typescript
 // Request: client → server
@@ -179,12 +182,16 @@ Result semantics:
 
 | Field | Meaning |
 |---|---|
-| `isOfMarkdown` | True when the document belongs to a multi-file vault or is present in the server index as an OFM document |
+| `isOfMarkdown` | True when the document belongs to a multi-file vault or is present in the server index as an OFM-capable document |
 | `indexed` | True when the document URI currently maps to an indexed `OFMDoc` |
 | `vaultRoot` | Absolute vault root path when the URI belongs to a detected vault |
 | `reason` | Stable explanation used by extension tests and debug logs |
 
-The server must return `isOfMarkdown: false` for unsupported URI schemes and non-indexed generic Markdown. It must not emit diagnostics for membership failures; the request is an editor affordance, not a document correctness rule.
+The server must return `isOfMarkdown: false` for unsupported URI schemes and
+non-indexed generic Markdown. It must not emit diagnostics for membership
+failures; the request is an editor affordance, not a document correctness rule.
+The client must not use this response to change VS Code's language id away from
+`markdown`; it only informs flavor auto-detection.
 
 ---
 
@@ -242,4 +249,4 @@ types.
 - [[design/domain-layer]] — Domain events underlying LSP notifications
 - [[concepts/connection-graph]] — RefGraph queries behind definition/references
 - [[concepts/symbol-model]] — Symbol types returned by definition/references
-- [[features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode behavior
+- [[features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector behavior

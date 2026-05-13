@@ -1,13 +1,16 @@
 ---
 adr: "016"
 title: Dynamic OFMarkdown language mode for VS Code vault documents
-status: accepted
+status: superseded
 date: 2026-05-03
 tags: [adr, ADR016, vscode, extension, language-mode]
 aliases: [ADR016, ofmarkdown language mode, dynamic language mode]
 ---
 
 # ADR 016 — Dynamic OFMarkdown language mode for VS Code vault documents
+
+> [!WARNING] Superseded
+> This decision is superseded by [[adr/ADR020-markdown-flavor-selection]]. Flavor Grenade now keeps `.md` files in VS Code's built-in `markdown` language mode and exposes Markdown flavor through a separate selector.
 
 ## Context
 

@@ -1,6 +1,6 @@
 @vscode @extension @parity @adr:ADR019
 Feature: VS Code extension parity
-  The VS Code extension should provide OFMarkdown-specific client behavior
+  The VS Code extension should provide Markdown-flavor-aware client behavior
   without moving language intelligence out of the server.
 
   @req:Extension.Activation.MarkerEvents
@@ -10,7 +10,7 @@ Feature: VS Code extension parity
     Then Flavor Grenade activates
     And the LanguageClient is prepared for vault membership detection
 
-  @req:Extension.Activation.MarkerEvents @req:Extension.LanguageMode.MembershipRefresh
+  @req:Extension.Activation.MarkerEvents @req:Extension.MarkdownFlavor.Refresh
   Scenario: Generic Markdown remains lightweight
     Given a workspace has Markdown files but no vault marker
     When the extension host starts

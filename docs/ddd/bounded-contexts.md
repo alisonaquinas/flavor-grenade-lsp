@@ -108,7 +108,7 @@ See also: [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protoco
 | BC5 LSP Protocol | BC6 Editor Client | Open Host Service | JSON-RPC over stdio — the published protocol. BC6 spawns the server binary and communicates exclusively through this channel. |
 | LSP 3.17 spec | BC6 Editor Client | Conformist | BC6 conforms to the LSP 3.17 client protocol via `vscode-languageclient@9.x`. No protocol deviations. |
 | BC5 LSP Protocol | BC6 Editor Client | Custom Notification | BC6 consumes the `flavorGrenade/status` server→client notification to drive the StatusBarWidget. |
-| BC5 LSP Protocol | BC6 Editor Client | Custom Request | BC6 queries `flavorGrenade/documentMembership` before assigning the VS Code `ofmarkdown` language mode to a Markdown document. |
+| BC5 LSP Protocol | BC6 Editor Client | Custom Request | BC6 queries `flavorGrenade/documentMembership` to derive the effective Markdown flavor when the selector is set to `Auto Detect`. |
 | BC6 Editor Client | BC5 LSP Protocol | Command | BC6 sends `workspace/executeCommand` for `flavorGrenade.rebuildIndex` via the standard LSP command mechanism. |
 | BC5 LSP Protocol | BC6 Editor Client | Command Payload | BC5 may return `flavorGrenade.*` command identifiers and JSON payloads; BC6 adapts them to native VS Code UI through command bridges. |
 
@@ -360,7 +360,7 @@ See [[ddd/lsp-protocol/domain-model]] for the full method-to-command mapping tab
 
 ### BC6 Language
 
-TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient`, `BinaryResolver`, `StatusBarWidget`, `LanguageModeController`, `OFMarkdownLanguageMode`, `DocumentMembership`, `PlatformVSIX`, `ExtensionActivation`, `ExtensionDeactivation`.
+TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient`, `BinaryResolver`, `StatusBarWidget`, `MarkdownFlavorController`, `MarkdownFlavorSelection`, `DocumentMembership`, `PlatformVSIX`, `ExtensionActivation`, `ExtensionDeactivation`.
 
 ### BC6 Owns
 
@@ -369,8 +369,8 @@ TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient
 | `ExtensionClient` | The VS Code extension entry point — resolves binary, manages LanguageClient lifecycle, wires status bar and commands |
 | `BinaryResolver` | 2-tier resolution strategy: (1) user or machine `flavorGrenade.server.path`, with workspace values ignored, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
 | `StatusBarWidget` | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications |
-| `LanguageModeController` | Client-side service that decides when a Markdown document should be promoted to VS Code language id `ofmarkdown` |
-| `OFMarkdownLanguageMode` | VS Code language contribution for Obsidian Flavored Markdown documents detected by Flavor Grenade |
+| `MarkdownFlavorController` | Client-side service that resolves auto-detected and user-selected Markdown flavor state while preserving VS Code's `markdown` language id |
+| `MarkdownFlavorSelection` | Selector value with `auto`, `original`, `commonmark`, and `obsidian` options |
 | `DocumentMembership` | Server-authored answer describing whether a URI belongs to a detected vault or current vault index |
 | `PlatformVSIX` | Platform-specific `.vsix` package containing client JS bundle and one Bun-compiled server binary for a single target |
 
@@ -382,7 +382,7 @@ BC2 (Document Lifecycle), BC3 (Reference Resolution), BC4 (Vault & Workspace) in
 
 - **Conformist** to LSP 3.17 (same specification as BC5, but from the client side).
 - **Consumes** `flavorGrenade/status` custom notification to drive `StatusBarWidget` state transitions (initializing → indexing → ready → error).
-- **Requests** `flavorGrenade/documentMembership` to confirm vault/index membership before assigning `ofmarkdown`.
+- **Requests** `flavorGrenade/documentMembership` to derive the effective Markdown flavor for `Auto Detect`.
 - **Sends** `workspace/executeCommand` for `flavorGrenade.rebuildIndex` when the user invokes the Rebuild Index palette command.
 - **Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the server binary as a child process and communicates via stdin/stdout.
 
@@ -402,8 +402,9 @@ function resolveServerPath(context: ExtensionContext): string
 1. Binary must exist at the resolved path before `LanguageClient` starts — activation fails with a user-visible error if the binary is missing.
 2. `StatusBarWidget` must reflect current server state — no stale display after restart or error recovery.
 3. Client disposal handles server shutdown via `context.subscriptions` — no orphaned server processes after extension deactivation or VS Code exit.
-4. The client must not globally claim `.md`; only positive vault/index membership may promote a `markdown` document to `ofmarkdown`.
-5. Manual language selections are authoritative. The client never rewrites documents whose current language id is neither `markdown` nor `ofmarkdown`.
+4. The client must keep `.md` documents in VS Code's built-in `markdown` language mode.
+5. Manual non-Markdown language selections are authoritative and disable the Markdown flavor selector for that editor.
+6. Flavor overrides persist to workspace/project settings when a folder is open and to user settings for standalone-file contexts.
 
 ---
 
@@ -416,7 +417,7 @@ function resolveServerPath(context: ExtensionContext): string
 | BC3 Reference Resolution | `ReferenceModule` | `RefGraphService`, `OracleAdapterService` |
 | BC4 Vault & Workspace | `VaultModule` | `WorkspaceService`, `VaultDetectorService`, `FileWatcherService` |
 | BC5 LSP Protocol | `LspModule` | `LspServer`, `CapabilityNegotiator`, `JsonRpcHandler` |
-| BC6 Editor Client | N/A (separate `extension/` package) | `activate`, `deactivate`, `resolveServerPath`, `StatusBarWidget`, `LanguageModeController` |
+| BC6 Editor Client | N/A (separate `extension/` package) | `activate`, `deactivate`, `resolveServerPath`, `StatusBarWidget`, `MarkdownFlavorController` |
 | Config | `ConfigModule` | `FlavorConfigService`, `ConfigCascadeService` |
 
 > [!NOTE]

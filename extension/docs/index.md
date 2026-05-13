@@ -1,6 +1,6 @@
 ---
 title: Flavor Grenade VS Code Extension Docs
-tags: [extension/docs, vscode, ofmarkdown]
+tags: [extension/docs, vscode, markdown-flavor]
 aliases: [Extension Docs, VS Code Extension Docs]
 ---
 
@@ -15,7 +15,7 @@ without scanning the server docs.
 
 | Document | Purpose |
 |---|---|
-| [features/activation-behavior.md](features/activation-behavior.md) | User-facing activation, idle startup, language wake, and command wake behavior |
+| [features/activation-behavior.md](features/activation-behavior.md) | User-facing activation, idle startup, Markdown wake, and command wake behavior |
 | [features/command-bridge-contracts.md](features/command-bridge-contracts.md) | Maintainer-facing command bridge payload contracts and safe failure behavior |
 | [features/vscode-extension-parity.md](features/vscode-extension-parity.md) | User-facing VS Code extension parity feature spec |
 | [features/workspace-environments.md](features/workspace-environments.md) | Workspace trust, virtual workspace, local, and remote environment behavior |

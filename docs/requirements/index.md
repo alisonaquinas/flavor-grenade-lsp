@@ -84,12 +84,13 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Workspace.VaultDetection.Fallback** | Directories containing `.flavor-grenade.toml` must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
 | **Workspace.FileExtension.Filter** | Only files with configured extensions enter the index; others are silently ignored. | [[workspace]] |
 | **Workspace.MultiFolder.Isolation** | Cross-root link resolution must not be performed between distinct vault roots. | [[workspace]] |
-| **Extension.LanguageMode.Contribution** | The VS Code extension must contribute `ofmarkdown` without globally claiming `.md` files. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.LanguageMode.DynamicAssignment** | Qualifying vault/index Markdown documents must be promoted to `ofmarkdown`. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.LanguageMode.NonVaultIsolation** | Generic Markdown outside a vault/index must remain `markdown`. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.LanguageMode.UserOverrideSafety** | The extension must not override manual non-Markdown language mode selections. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.LanguageMode.LoopSafety** | Language-mode assignment must not create reopen or restart loops. | [[requirements/ofmarkdown-language-mode]] |
-| **Extension.LanguageMode.MarkdownParity** | OFMarkdown mode must preserve baseline Markdown editing behavior. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownLanguage.PreserveDefault** | The VS Code extension must keep `.md` files in the built-in `markdown` language mode. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.Selector** | The VS Code extension must expose Markdown flavor through a separate selector. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.InitialCoverage** | The initial selector must support Auto Detect, Original Markdown, CommonMark, and Obsidian. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor from vault and workspace signals. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.ManualLanguageSafety** | The selector must not override manual non-Markdown language mode selections. | [[requirements/ofmarkdown-language-mode]] |
 | **Parity.MarkdownLinks.LocalResolution** | Local standard Markdown links must resolve through the same vault rules as wiki-links. | [[requirements/functional/ofmarkdown-parity]] |
 | **Parity.MarkdownLinks.SameDocumentAnchor** | Same-document Markdown anchors must support definition, diagnostics, references, and heading rename behavior. | [[requirements/functional/ofmarkdown-parity]] |
 | **Parity.HeadingAmbiguity.Diagnostics** | Duplicate or ambiguous heading anchors must produce diagnostics with related candidate locations. | [[requirements/functional/ofmarkdown-parity]] |
@@ -126,9 +127,9 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.CommandBridges.PayloadValidation** | Command bridges must validate JSON-serializable payloads before calling VS Code APIs. | [[requirements/functional/vscode-extension-parity]] |
 | **Extension.CommandBridges.GraphActions** | The extension must bridge references, links, embeds, graph actions, vault reveal, and diagnostic copy actions. | [[requirements/functional/vscode-extension-parity]] |
 | **Extension.Status.QuickActions** | Status UI must expose restart, rebuild index, show output, copy diagnostics, and reveal vault root actions. | [[requirements/functional/vscode-extension-parity]] |
-| **Extension.LanguageMode.MembershipRefresh** | Language-mode membership must refresh after server and workspace events. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.MarkdownFlavor.Refresh** | Markdown flavor state must refresh after server, workspace, file, and selector events. | [[requirements/functional/vscode-extension-parity]] |
 | **Extension.Workspace.EnvironmentModes** | Restricted, virtual, remote, WSL, SSH, and Dev Container workspaces must have explicit behavior. | [[requirements/functional/vscode-extension-parity]] |
-| **Extension.Contributions.OFMarkdownScoped** | OFMarkdown snippets, keybindings, language configuration, and theme examples must be scoped. | [[requirements/functional/vscode-extension-parity]] |
+| **Extension.Contributions.FlavorScoped** | Flavor-specific snippets, keybindings, commands, and theme examples must be scoped. | [[requirements/functional/vscode-extension-parity]] |
 | **Extension.Marketplace.AssetPackaging** | Marketplace screenshots and README assets must be referenced and included in VSIX output. | [[requirements/functional/vscode-extension-parity]] |
 | **Config.Precedence.Layering** | Project config overrides user config overrides built-in defaults. | [[configuration]] |
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |

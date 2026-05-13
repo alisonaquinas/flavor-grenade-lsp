@@ -20,9 +20,10 @@ marker:
 | `.obsidian/` | Extension activates and starts vault membership detection. |
 | `.flavor-grenade.toml` | Extension activates and starts vault membership detection. |
 
-Once the server confirms vault membership, matching Markdown documents can be
-promoted from `markdown` to `ofmarkdown`. Generic Markdown and manually selected
-non-Markdown modes are preserved.
+Once the server confirms vault membership, matching Markdown documents keep the
+built-in `markdown` language id and resolve to the `obsidian` Markdown flavor.
+Generic Markdown stays `markdown` and auto-detects conservatively; manually
+selected non-Markdown modes are preserved.
 
 ## Idle Startup
 
@@ -36,13 +37,14 @@ VS Code's normal Markdown behavior.
 
 ## Language Wake
 
-Opening `markdown` or `ofmarkdown` files can wake the extension so it can run
+Opening `markdown` files can wake the extension so it can run
 the same startup checks used for vault-marker activation. Language wake is not a
 shortcut around those checks:
 
-- `ofmarkdown` documents can participate in Flavor Grenade behavior.
-- `markdown` documents remain generic unless vault membership detection says
-  they belong to a vault.
+- `markdown` documents can participate in Flavor Grenade behavior when their
+  effective flavor is detected or selected.
+- `markdown` documents remain generic unless vault membership detection or an
+  explicit selector override says otherwise.
 - No vault marker means no automatic vault indexing.
 
 ## Command Wake

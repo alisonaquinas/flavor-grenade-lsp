@@ -12,12 +12,12 @@ aliases: [Extension Parity Plan]
 |---|---|
 | E7 Activation precision | Add vault marker activation and generic Markdown idle behavior for `Extension.Activation.MarkerEvents` |
 | E8 Command bridges | Add native references, follow-link, embed, backlink, outlink, reveal, and diagnostic commands for `Extension.CommandBridges.GraphActions` |
-| E9 Extension tests | Complete: extension-host tests cover `Extension.Tests.HostCoverage`, `Extension.LanguageMode.MembershipRefresh`, command bridges, and status/failure surfaces |
+| E9 Extension tests | Complete: extension-host tests cover `Extension.Tests.HostCoverage`, `Extension.MarkdownFlavor.Refresh`, command bridges, and status/failure surfaces |
 | E10 Status UX | Complete: rich tooltip, disabled states, error states, quick actions, troubleshooting docs, and diagnostic collection cover `Extension.Status.Diagnostics` and `Extension.Status.QuickActions` |
 | E11 Marketplace proof | Complete: README visuals and packaged asset checks cover `Extension.Marketplace.OFMProof` and `Extension.Marketplace.AssetPackaging` |
-| E12 OFMarkdown contributions | Complete: snippets, scoped keybindings, language configuration refinements, and generic Markdown isolation cover `Extension.Contributions.OFMarkdownScoped` |
+| E12 Markdown flavor contributions | Complete: snippets, scoped keybindings, selector-aware contribution refinements, and generic Markdown isolation cover `Extension.Contributions.FlavorScoped` |
 | E13 Workspace environments | Complete: restricted, virtual, remote, WSL, SSH, and Dev Container behavior is classified and smoke-tested for `Extension.Workspace.EnvironmentModes` |
-| E14 Membership and compatibility | Complete: membership refresh, guarded downgrade, status version warnings, and package target validation are implemented with local and PR CI gates passing |
+| E14 Flavor refresh and compatibility | Complete: flavor refresh, guarded language preservation, status version warnings, and package target validation are implemented with local and PR CI gates passing |
 
 ## Gate
 

@@ -11,7 +11,10 @@ Semantic tokens provide editor-level syntax highlighting for OFM constructs that
 > [!NOTE]
 > Semantic tokens supplement — they do not replace — TextMate grammar-based highlighting. Editors apply semantic token highlighting on top of grammar highlighting. Token types defined here are meaningful only to editors that support LSP semantic tokens (VS Code, Neovim with nvim-lspconfig ≥ 0.1.7, Helix, Zed).
 
-In VS Code, the Flavor Grenade extension requests semantic tokens for both ordinary Markdown documents and documents promoted to the `ofmarkdown` language id. The `ofmarkdown` mode changes editor classification; it must not fork semantic-token behavior from the server.
+In VS Code, the Flavor Grenade extension requests semantic tokens for
+file-backed `markdown` documents. Markdown flavor selection can change which
+tokens are relevant, but it must not change the VS Code language id or fork
+semantic-token behavior from the server.
 
 ## Token Type Registration
 

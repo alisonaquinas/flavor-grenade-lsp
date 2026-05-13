@@ -85,18 +85,27 @@ Detection precedence:
 
 If neither is found by traversing up to the filesystem root, the document is placed in a single-file `VaultFolder`.
 
-## VS Code OFMarkdown Language Mode
+## VS Code Markdown Flavor Selection
 
-The VS Code extension contributes a client-side language id, `ofmarkdown`, for documents that Flavor Grenade recognizes as Obsidian Flavored Markdown. This is not a separate parser mode in the server. The server remains OFM-only; `ofmarkdown` is an editor identity used by VS Code settings, snippets, keybindings, grammar contributions, and semantic token targeting.
+The VS Code extension keeps `.md` documents in VS Code's built-in `markdown`
+language mode. Flavor Grenade does not contribute or assign an alternate
+Markdown language id for the primary editing experience.
 
-Assignment is dynamic:
+Flavor behavior is selected by a client-side Markdown flavor control next to
+the language mode affordance:
 
-1. `.md` files open as VS Code's built-in `markdown`.
-2. The extension checks for an ancestor `.obsidian/` directory as a fast positive signal.
-3. After the server starts, the extension asks `flavorGrenade/documentMembership` whether the URI belongs to a vault/index.
-4. Qualifying `markdown` documents are promoted to `ofmarkdown` using VS Code's language assignment API.
+1. `.md` files open and remain `markdown`.
+2. The extension derives an effective flavor from `Auto Detect`, using
+   `.obsidian/`, `.flavor-grenade.toml`, and server membership signals.
+3. Users may override the flavor to `original`, `commonmark`, or `obsidian`.
+4. Overrides persist to a workspace/project setting when a folder is open, and
+   to a user setting for standalone-file contexts.
+5. The effective flavor is propagated to the server so diagnostics,
+   completions, and other features can honor the selected dialect.
 
-The extension's LanguageClient listens to both `markdown` and `ofmarkdown` documents so LSP features continue across the close/open event VS Code emits during language reassignment.
+The LanguageClient listens to `markdown` documents only. Manual non-Markdown
+language selections remain authoritative and disable the Markdown flavor
+selector for that editor. See [[adr/ADR020-markdown-flavor-selection]].
 
 ---
 
@@ -159,5 +168,5 @@ src/main.ts
 - [[concepts/document-model]] — OFMDoc structure and parse pipeline
 - [[concepts/connection-graph]] — RefGraph and Oracle patterns
 - [[concepts/workspace-model]] — VaultFolder and Workspace composition
-- [[features/ofmarkdown-language-mode]] — VS Code language mode assignment
-- [[adr/ADR016-ofmarkdown-language-mode]] — Dynamic OFMarkdown language mode decision
+- [[features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
+- [[adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision

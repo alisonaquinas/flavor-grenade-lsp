@@ -15,7 +15,7 @@ This model extends the root Editor Client bounded context for VS Code parity.
 | ExtensionClient | Owns activation and LanguageClient lifecycle |
 | BinaryResolver | Resolves custom, development, or bundled server command |
 | StatusBarWidget | Displays server and vault state |
-| LanguageModeController | Assigns `ofmarkdown` based on membership signals |
+| MarkdownFlavorController | Resolves auto-detected and user-selected Markdown flavor state while preserving VS Code's `markdown` language mode |
 | CommandBridgeRegistry | Registers VS Code commands that consume server payloads |
 | MarketplaceEvidence | README screenshots and packaged visual assets |
 | ExtensionHostTestHarness | Tests activation, commands, status, and failure states |
@@ -31,5 +31,5 @@ server-generated data out of VS Code-specific code until the bridge boundary.
 - The extension does not import server-side TypeScript modules.
 - Command bridge payloads are JSON-serializable.
 - The server never imports VS Code APIs.
-- Language-mode assignment does not restart the LanguageClient.
+- Markdown flavor changes do not restart the LanguageClient.
 - Restricted and virtual workspaces do not spawn the server.

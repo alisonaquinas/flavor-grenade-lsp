@@ -13,21 +13,21 @@ aliases:
 **Tag:** User.Extension.StartOnlyForVaults
 **Goal:** Start automatically for vaults without invading generic Markdown
 **Need:** A VS Code user wants Flavor Grenade to activate when they open an Obsidian or Flavor Grenade vault, while ordinary README files and generic Markdown workspaces remain lightweight.
-**Maps to:** Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.LanguageMode.MembershipRefresh
+**Maps to:** Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.MarkdownFlavor.Refresh
 
 ---
 
 **Tag:** User.Extension.UseNativeVSCodeActions
 **Goal:** Use native VS Code actions for vault navigation
 **Need:** A VS Code user wants references, backlinks, outlinks, and embed navigation to open in familiar VS Code pickers and panels.
-**Maps to:** Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.OFMarkdownScoped
+**Maps to:** Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.FlavorScoped
 
 ---
 
 **Tag:** User.Extension.TrustExtensionBehavior
 **Goal:** Trust extension behavior across updates
-**Need:** A VS Code user wants activation, commands, status, and language-mode behavior to be tested so extension updates do not break basic editing workflows.
-**Maps to:** Extension.Tests.HostCoverage, Extension.LanguageMode.MembershipRefresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.TargetBinaryValidation
+**Need:** A VS Code user wants activation, commands, status, and Markdown flavor behavior to be tested so extension updates do not break basic editing workflows.
+**Maps to:** Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.TargetBinaryValidation
 
 ---
 
