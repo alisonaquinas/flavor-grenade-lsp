@@ -15,6 +15,7 @@ import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
 import { classifyMarkdownTarget } from './markdown-target-classifier.js';
 import { GfmParser } from '../parser/gfm-parser.js';
 import { GlfmParser } from '../parser/glfm-parser.js';
+import { PandocParser } from '../parser/pandoc-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -89,6 +90,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'glfm') {
       diagnostics.push(...this.diagnoseGlfmDescriptionLists(doc));
+    }
+
+    if (doc.markdownFlavor === 'pandoc') {
+      diagnostics.push(...this.diagnosePandocAttributes(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -264,6 +269,19 @@ export class DiagnosticService {
       code: 'FG202',
       source: 'flavor-grenade',
       message: `Malformed GLFM description list: definition for '${entry.term}' must contain text.`,
+    }));
+  }
+
+  private diagnosePandocAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.pandocMalformedAttributes ??
+      PandocParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG301',
+      source: 'flavor-grenade',
+      message: 'Malformed Pandoc attribute: expected id, class, or key=value entries.',
     }));
   }
 

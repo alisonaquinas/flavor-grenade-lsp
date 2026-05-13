@@ -43,6 +43,9 @@ export class DocumentSymbolHandler {
     const gfmTasks = doc.index.gfmTaskListItems ?? [];
     const glfmDescriptionLists = doc.index.glfmDescriptionLists ?? [];
     const glfmTocTags = doc.index.glfmTocTags ?? [];
+    const pandocTitleBlocks = doc.index.pandocTitleBlocks ?? [];
+    const pandocAttributes = doc.index.pandocAttributes ?? [];
+    const pandocFootnotes = doc.index.pandocFootnotes ?? [];
 
     if (
       headings.length === 0 &&
@@ -50,7 +53,10 @@ export class DocumentSymbolHandler {
       gfmTables.length === 0 &&
       gfmTasks.length === 0 &&
       glfmDescriptionLists.length === 0 &&
-      glfmTocTags.length === 0
+      glfmTocTags.length === 0 &&
+      pandocTitleBlocks.length === 0 &&
+      pandocAttributes.length === 0 &&
+      pandocFootnotes.length === 0
     )
       return [];
 
@@ -141,6 +147,36 @@ export class DocumentSymbolHandler {
         selectionRange: toc.range,
       };
       this.addSymbolAtLine(symbol, toc.range.start.line, headings, roots);
+    }
+
+    for (const block of pandocTitleBlocks) {
+      roots.unshift({
+        name: 'Pandoc metadata',
+        kind: SYMBOL_KIND_STRING,
+        range: block.range,
+        selectionRange: block.range,
+      });
+    }
+
+    for (const attribute of pandocAttributes) {
+      if (attribute.id === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `Pandoc label: ${attribute.id}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.range,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const footnote of pandocFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
     }
 
     return roots;

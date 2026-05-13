@@ -66,9 +66,9 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | open |
-| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | open |
-| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | open |
+| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | green |
+| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | green |
+| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | green |
 | [[CHORE-125]] | Phase 27 trace and documentation sweep | Chore | open |
 | [[CHORE-126]] | Phase 27 verification and closeout sweep | Chore | open |
 

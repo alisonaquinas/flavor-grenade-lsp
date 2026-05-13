@@ -29,7 +29,10 @@ export function classifyMarkdownBoundaryReference(
   ) {
     return { disposition: 'non-local-host', reason: 'GitLab platform reference' };
   }
-  if (flavor === 'pandoc' && /\[@[-A-Za-z0-9_:]+\]/.test(text)) {
+  if (
+    flavor === 'pandoc' &&
+    /(?:\[@[-A-Za-z0-9_:]+\]|(?<![A-Za-z0-9_])-?@[A-Za-z0-9][A-Za-z0-9_:.-]*)/.test(text)
+  ) {
     return {
       disposition: 'bibliography-bound',
       reason: 'citation key requires bibliography context',

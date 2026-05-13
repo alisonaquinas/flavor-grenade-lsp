@@ -2,7 +2,7 @@
 id: "TASK-331"
 title: "Add Pandoc Markdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 27
 parent: "FEAT-053"
@@ -99,3 +99,9 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[docs/
 > [!INFO] RED - 2026-05-13
 > Added failing diagnostics, completion, folding, document-symbol,
 > semantic-token, and boundary coverage for Pandoc LSP surfaces.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Wired Pandoc diagnostics, completions, document symbols, folding, semantic
+> tokens, query analysis counts, and bibliography-bound citation
+> classification. Targeted Phase 27 parser/LSP/integration tests passed
+> locally.

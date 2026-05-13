@@ -265,6 +265,64 @@ export interface GlfmHostReferenceEntry {
   range: Range;
 }
 
+/** Parsed Pandoc attribute contents. */
+export interface PandocAttributeSet {
+  id?: string;
+  classes: string[];
+  keyValues: Record<string, string>;
+}
+
+/** A Pandoc title block made of leading `%` metadata lines. */
+export interface PandocTitleBlockEntry {
+  raw: string;
+  lines: number;
+  range: Range;
+}
+
+/** A Pandoc citation key occurrence. */
+export interface PandocCitationEntry {
+  raw: string;
+  key: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A Pandoc footnote definition. */
+export interface PandocFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A Pandoc attribute block attached to source syntax. */
+export interface PandocAttributeEntry extends PandocAttributeSet {
+  raw: string;
+  range: Range;
+}
+
+/** A malformed Pandoc attribute block. */
+export interface PandocMalformedAttributeEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Pandoc fenced Div block. */
+export interface PandocFencedDivEntry {
+  raw: string;
+  attributes: PandocAttributeSet;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A Pandoc definition list block. */
+export interface PandocDefinitionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -290,6 +348,13 @@ export interface OFMIndex {
   glfmFootnotes?: GlfmFootnoteEntry[];
   glfmTocTags?: GlfmTocTagEntry[];
   glfmHostReferences?: GlfmHostReferenceEntry[];
+  pandocTitleBlocks?: PandocTitleBlockEntry[];
+  pandocCitations?: PandocCitationEntry[];
+  pandocFootnotes?: PandocFootnoteEntry[];
+  pandocAttributes?: PandocAttributeEntry[];
+  pandocMalformedAttributes?: PandocMalformedAttributeEntry[];
+  pandocFencedDivs?: PandocFencedDivEntry[];
+  pandocDefinitionLists?: PandocDefinitionListEntry[];
 }
 
 /**

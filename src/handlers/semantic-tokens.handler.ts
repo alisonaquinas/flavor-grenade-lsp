@@ -114,6 +114,21 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const citation of doc.index.pandocCitations ?? []) {
+      const t = this.rangeToToken(citation.keyRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.pandocFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const attribute of doc.index.pandocAttributes ?? []) {
+      const t = this.rangeToToken(attribute.range, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

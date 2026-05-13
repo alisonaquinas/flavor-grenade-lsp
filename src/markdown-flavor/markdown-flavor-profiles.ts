@@ -348,6 +348,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
       'output-format-cross-references',
     ],
     opaqueRegions: ['code', 'math', 'raw-attribute-blocks'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'Pandoc Markdown parser and local LSP behavior are implemented in Phase 27.',
   }),
   multimarkdown: profile({

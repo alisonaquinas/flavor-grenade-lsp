@@ -79,6 +79,18 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 
 ---
 
+## Near-Term Roadmap
+
+Evaluated 2026-05-13. The most coherent order from the current stack point is:
+
+1. Finish the server flavor chain in dependency order: Phase 27 → Phase 28 → Phase 29 → Phase 30 → Phase 31 → Phase 32 → Phase 33 → Phase 34.
+2. Defer Phase E16 and Phase E17 until after Phase 34 unless a reviewer explicitly asks for extension flavor UX sooner.
+3. Keep website phases closed; no W-phase work is on the critical path for flavor support.
+
+Reason: Phases 27-34 share the same parser/profile/LSP surface pattern, and keeping them contiguous reduces profile drift. Phase E16/E17 depend on the flavor selector baseline from E15, which is already in review, but their marketplace and host-verification work is cleaner once all server flavor surfaces are stable.
+
+---
+
 ## Status Key
 
 | Symbol | Meaning |

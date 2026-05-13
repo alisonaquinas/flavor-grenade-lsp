@@ -90,6 +90,11 @@ export class CompletionRouter {
       if (glfmResult !== null) return glfmResult;
     }
 
+    if (doc.markdownFlavor === 'pandoc') {
+      const pandocResult = this.pandocCompletions(text, params.position);
+      if (pandocResult !== null) return pandocResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -322,6 +327,48 @@ export class CompletionRouter {
             {
               label: 'GLFM table of contents',
               insertText: '[[_TOC_]]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private pandocCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix.endsWith('[@')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc citation',
+              insertText: 'key]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix === '{') {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc attribute set',
+              insertText: '{#id .class}',
             },
             range,
           ),

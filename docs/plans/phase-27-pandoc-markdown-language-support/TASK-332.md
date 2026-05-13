@@ -2,7 +2,7 @@
 id: "TASK-332"
 title: "Add Pandoc Markdown tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 27
 parent: "FEAT-053"
@@ -85,3 +85,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the pa
 > Added failing spawned-server integration coverage for Pandoc syntax counts,
 > diagnostics, inactive Obsidian behavior, and bibliography-bound citation
 > classification.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Targeted Phase 27 evidence passed locally across parser analysis,
+> diagnostics, completions, folding, document symbols, semantic tokens, and
+> spawned-server markdown-flavor integration.
