@@ -2,7 +2,7 @@
 id: "TASK-283"
 title: "Define canonical Markdown flavor contract"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -72,3 +72,6 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 > [!INFO] In Review - 2026-05-13
 > Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.
+
+> [!CHECK] Done - 2026-05-13
+> PR #69 CI run `25815957887` passed.

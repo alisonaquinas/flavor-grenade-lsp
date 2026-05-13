@@ -2,7 +2,7 @@
 id: "TASK-284"
 title: "Add source-backed dialect profile registry"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -89,3 +89,6 @@ traces and structured syntax capability sections.
 
 > [!INFO] In Review - 2026-05-13
 > Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.
+
+> [!CHECK] Done - 2026-05-13
+> PR #69 CI run `25815957887` passed.

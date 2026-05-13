@@ -32,13 +32,13 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-283]] | Define canonical Markdown flavor contract | `in-review` |
-| [[TASK-284]] | Add source-backed dialect profile registry | `in-review` |
-| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `in-review` |
-| [[TASK-286]] | Cover remaining researched flavor profiles | `in-review` |
-| [[TASK-287]] | Document research-to-profile validation trace | `in-review` |
-| [[CHORE-103]] | Phase 19 execution setup and trace sweep | `in-review` |
-| [[CHORE-104]] | Phase 19 verification and closeout sweep | `in-review` |
+| [[TASK-283]] | Define canonical Markdown flavor contract | `done` |
+| [[TASK-284]] | Add source-backed dialect profile registry | `done` |
+| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `done` |
+| [[TASK-286]] | Cover remaining researched flavor profiles | `done` |
+| [[TASK-287]] | Document research-to-profile validation trace | `done` |
+| [[CHORE-103]] | Phase 19 execution setup and trace sweep | `done` |
+| [[CHORE-104]] | Phase 19 verification and closeout sweep | `done` |
 
 ## Definition of Done
 
@@ -63,6 +63,9 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 > [!INFO] In Review - 2026-05-13
 > Local Step E-L gates passed: `bun run lint --max-warnings 0`, `bun run typecheck`, `bun audit`, `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts`, `bun test src/`, `bun test src/test/integration/`, `bun run bdd`, `bun run lint:docs`, `bun run format:check`, and `bun run build`. Verification and validation test directories are N/A because they do not exist.
+
+> [!INFO] PR CI Green - 2026-05-13
+> PR #69 CI run `25815957887` passed all jobs; child task and chore tickets moved to `done`. Feature remains `in-review` until merge/review completion.
 
 ## Retrospective
 
