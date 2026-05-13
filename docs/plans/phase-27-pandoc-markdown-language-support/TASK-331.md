@@ -2,7 +2,7 @@
 id: "TASK-331"
 title: "Add Pandoc Markdown diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 27
 parent: "FEAT-053"
@@ -76,14 +76,14 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[docs/
 
 ## Definition of Done
 
-- [ ] pandoc behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for pandoc.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for pandoc.
-- [ ] Rename coverage is implemented for safe local pandoc symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] pandoc behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for pandoc.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for pandoc.
+- [x] Rename coverage is implemented for safe local pandoc symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -105,3 +105,7 @@ Deliver diagnostics and LSP feature behavior for the pandoc flavor using [[docs/
 > tokens, query analysis counts, and bibliography-bound citation
 > classification. Targeted Phase 27 parser/LSP/integration tests passed
 > locally.
+
+> [!DONE] Done - 2026-05-13
+> Exact Phase 27 local gate passed. LSP surface evidence and matrix
+> dispositions are updated.

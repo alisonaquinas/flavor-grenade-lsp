@@ -137,3 +137,24 @@ lookup remains deferred.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 26 records GLFM GitLab references as host-bound. |
+
+## Phase 27 Pandoc Review
+
+Pandoc declares bibliography, conversion, renderer, filter, template, and
+writer behavior as non-local unless a later integration ticket owns configured
+local context. Phase 27 implements local source syntax for title blocks,
+citations, footnotes, attribute sets, fenced Divs, and definition lists while
+leaving conversion/citeproc behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Title blocks, citations, footnotes, attributes, fenced Divs, and definition lists are active only under effective flavor `pandoc`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG301` covers malformed local Pandoc attributes; citation references do not become broken vault links. |
+| Completion | Pandoc citation and attribute snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links, headings, labels, footnotes, fenced Divs, and definition lists use local behavior where represented; `[@key]` and `@key` remain `bibliography-bound` without process execution, network access, or workspace edits. |
+
+## Phase 27 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 27 records Pandoc citations as bibliography-bound. |

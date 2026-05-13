@@ -2,7 +2,7 @@
 id: "TASK-332"
 title: "Add Pandoc Markdown tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 27
 parent: "FEAT-053"
@@ -63,12 +63,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the pa
 
 ## Definition of Done
 
-- [ ] pandoc behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for pandoc, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] pandoc behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for pandoc, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -90,3 +90,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the pa
 > Targeted Phase 27 evidence passed locally across parser analysis,
 > diagnostics, completions, folding, document symbols, semantic tokens, and
 > spawned-server markdown-flavor integration.
+
+> [!DONE] Done - 2026-05-13
+> Exact Phase 27 local gate passed. Unit, integration, BDD, validation, and
+> trace evidence are updated.

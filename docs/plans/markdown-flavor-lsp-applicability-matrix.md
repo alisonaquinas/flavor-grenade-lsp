@@ -119,6 +119,23 @@ GitLab object lookup remains deferred.
 | Hover | Existing local Markdown hover surfaces remain available; live GitLab metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; GitLab issue, merge request, epic, user, and project references remain non-local without integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 27 Pandoc Disposition
+
+Phase 27 marks the `pandoc` profile's local LSP surfaces implemented for the
+source-backed Pandoc Markdown subset. Pandoc adds local indices for title
+blocks, citations, footnotes, attribute sets, fenced Divs, and definition
+lists. Pandoc conversion, citeproc processing, filters, templates, output
+writers, and unconfigured bibliography databases remain deferred.
+
+| Surface | Phase 27 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed Pandoc attribute sets (`FG301`); citations are classified as bibliography-bound rather than broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for Pandoc citation and attribute snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, title-block symbols, attribute-label symbols, footnote symbols, fenced-Div folds, and definition-list folds. Bibliography and conversion targets remain non-local unless configured local context exists. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for Pandoc citations, footnote labels, and attribute sets. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; Pandoc conversion and bibliography metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; citation, bibliography, conversion, writer, template, and filter targets remain non-local without configured local context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

@@ -134,7 +134,12 @@ semantic tokens, and inactive Obsidian syntax.
 
 ### MF-U-015 - Pandoc Markdown Parser And Analysis
 
-Unit evidence for Phase 27.
+Unit evidence for Phase 27. Coverage proves Pandoc title blocks, citations,
+footnotes, attribute sets, malformed attribute diagnostics, fenced Divs,
+definition lists, implemented surface status, Pandoc completion snippets,
+metadata/label/footnote document symbols, fenced-Div and definition-list
+folding, citation/footnote/attribute semantic tokens, bibliography-bound
+citation classification, and inactive Obsidian syntax.
 
 ### MF-U-016 - MultiMarkdown Parser And Analysis
 

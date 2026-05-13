@@ -2,7 +2,7 @@
 id: "FEAT-053"
 title: "Pandoc Markdown Language Support"
 type: feature
-status: in-progress
+status: done
 priority: high
 phase: 27
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-053"]
 
 # Pandoc Markdown Language Support
 
-> [!INFO] FEAT-053 - Feature - Phase 27 - Status: in-progress
+> [!INFO] FEAT-053 - Feature - Phase 27 - Status: done
 
 ## Implementation Plan
 
@@ -66,11 +66,11 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | green |
-| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | green |
-| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | green |
-| [[CHORE-125]] | Phase 27 trace and documentation sweep | Chore | open |
-| [[CHORE-126]] | Phase 27 verification and closeout sweep | Chore | open |
+| [[TASK-330]] | Implement Pandoc Markdown parser semantics | Task | done |
+| [[TASK-331]] | Add Pandoc diagnostics and LSP features | Task | done |
+| [[TASK-332]] | Add Pandoc tests and validation evidence | Task | done |
+| [[CHORE-125]] | Phase 27 trace and documentation sweep | Chore | done |
+| [[CHORE-126]] | Phase 27 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -90,11 +90,11 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 
 ## Definition of Done
 
-- [ ] pandoc has source-backed parser/profile behavior.
-- [ ] pandoc satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] pandoc behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] pandoc has source-backed parser/profile behavior.
+- [x] pandoc satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] pandoc behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -106,3 +106,41 @@ Implement first-class pandoc language support for Pandoc Markdown, using [[docs/
 > for TASK-330 through TASK-332. Pandoc conversion, citeproc, filters,
 > templates, output writer behavior, and unconfigured bibliography databases
 > remain deferred/non-local.
+
+> [!INFO] Local gate passed - 2026-05-13
+> Status set to `done` after A-M local execution. Exact phase gate passed:
+> `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts; bun test src/test/integration/markdown-flavor.test.ts; bun run bdd; bun test src/test/ci-workflow.test.ts; bun run lint:docs; bun run typecheck; bun run lint; bun run build`.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+Pandoc fit the same local-surface pattern used by GFM and GLFM. The RED
+coverage exposed missing parser indices, snippets, symbols, folds, tokens,
+diagnostics, and spawned-server counts; the GREEN implementation stayed scoped
+to source-local Markdown syntax and did not require Pandoc execution.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| none | — | Steps E-G found no lint, quality, or security findings requiring new tickets. | 0 h |
+
+### Process observations
+
+The A-M checklist worked cleanly for this flavor. Verification and validation
+directories remain absent, so those steps were recorded as N/A while BDD,
+integration, unit, docs evidence, and the exact local gate carried the proof.
+
+### Carry-forward actions
+
+- [ ] Continue Phase 28 directly after Phase 27 because MultiMarkdown shares
+  metadata, footnote, citation, and cross-reference concerns with Pandoc.
+- [ ] Keep conversion/export behavior deferred unless a dedicated ticket owns
+  configured local context.
+
+### Rule / template amendments
+
+- [ ] none

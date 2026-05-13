@@ -31,6 +31,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-012 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `obsidian` and open a document with wiki links, embeds, tags, callouts, and block references. | Open-document analysis reports effective flavor `obsidian`, indexes wiki links, and does not publish Original/CommonMark portability diagnostics for active Obsidian syntax. |
 | MF-I-013 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `gfm` and open a document with a pipe table, task-list item, strikethrough, extended bare autolink, and Obsidian wiki link. | Open-document analysis reports effective flavor `gfm`, indexes GFM table/task/strikethrough/autolink counts, keeps wiki links inert, and does not publish CommonMark portability warnings for active GFM syntax. |
 | MF-I-014 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `glfm` and open a document with inherited GFM table syntax, GLFM inapplicable task marker, description list, footnote, TOC tag, GitLab host references, and Obsidian wiki link. | Open-document analysis reports effective flavor `glfm`, indexes GLFM local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active GLFM syntax, and classifies GitLab host references as non-local. |
+| MF-I-015 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `pandoc` and open a document with title-block metadata, heading attributes, citations, definition lists, footnotes, fenced Divs, and an Obsidian wiki link. | Open-document analysis reports effective flavor `pandoc`, indexes Pandoc local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active Pandoc syntax, and classifies citation references as bibliography-bound. |
 
 ## Spawned-Server IDs
 
@@ -101,6 +102,14 @@ Integration evidence for Phase 26. It proves GLFM behavior crosses the JSON-RPC
 process boundary for parser dispatch, local syntax counts, diagnostics,
 inactive Obsidian syntax, and GitLab host-boundary classification without
 requiring GitLab service access or VS Code UI.
+
+### MF-I-015 - Pandoc Spawned-Server Behavior
+
+Integration evidence for Phase 27. It proves Pandoc behavior crosses the
+JSON-RPC process boundary for parser dispatch, local syntax counts,
+diagnostics, inactive Obsidian syntax, and bibliography-bound citation
+classification without requiring Pandoc, citeproc, bibliography services, or VS
+Code UI.
 
 ## Exit Criteria
 
