@@ -65,8 +65,8 @@ config, or boundary security gates.
 | [[TASK-354]] | Add shared non-local boundary classification | `done` |
 | [[BUG-043]] | Refresh stale LSP unit harnesses for flavor propagation | `done` |
 | [[BUG-044]] | Restore OFM BDD vault flavor after CommonMark fallback | `done` |
-| [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
-| [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
+| [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `done` |
+| [[CHORE-106]] | Phase 20 verification and closeout sweep | `done` |
 
 ## Definition of Done
 
@@ -99,3 +99,38 @@ config, or boundary security gates.
 > project TOML evidence, parser context propagation, Obsidian-only token gates,
 > open-document refresh, and shared boundary classification. Focused unit and
 > spawned-server integration gates pass locally.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The shared Phase 19 profile contract was reusable without duplicating flavor ids.
+Server propagation stayed concentrated in `MarkdownFlavorState`, document
+lifecycle parsing, and the configuration handler.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| [[BUG-043]] | Bug | Manual LSP unit harnesses lagged behind the new constructor and per-document detection API. | +0.2 h |
+| [[BUG-044]] | Bug | Existing OFM BDD fixtures used empty `.flavor-grenade.toml` markers, while Phase 20 correctly makes empty project TOML fall through to CommonMark. | +0.4 h |
+
+### Process observations
+
+Ticketing findings before fixes kept the broad gate failures traceable. The
+phase scope also clarified that `.flavor-grenade.toml` is a flavor signal only
+when it contains a valid explicit flavor.
+
+### Carry-forward actions
+
+- [ ] Phase 21 should add product validation evidence for selector language
+      safety and host-boundary review.
+- [ ] Phase 22-34 should replace the shared boundary smoke tests with
+      per-dialect false-local-resolution fixtures.
+
+### Rule / template amendments
+
+- [ ] Keep legacy OFM BDD fixtures explicit about Obsidian flavor when testing
+      Obsidian-only syntax.

@@ -2,7 +2,7 @@
 id: "CHORE-105"
 title: "Phase 20 implementation trace and matrix sweep"
 type: chore
-status: in-progress
+status: done
 priority: medium
 phase: 20
 parent: "FEAT-043"
@@ -27,9 +27,9 @@ Keep implementation traceability current as server flavor propagation lands.
 
 ## Definition of Done
 
-- [ ] Traceability docs match implemented files.
-- [ ] Phase dependencies are accurate.
-- [ ] No unrelated refactors are included.
+- [x] Traceability docs match implemented files.
+- [x] Phase dependencies are accurate.
+- [x] No unrelated refactors are included.
 
 ## Workflow Log
 
@@ -38,3 +38,7 @@ Keep implementation traceability current as server flavor propagation lands.
 
 > [!INFO] Started - 2026-05-13
 > Phase 20 setup and implementation trace sweep started after Phase 19 PR #69 CI passed.
+
+> [!SUCCESS] Done - 2026-05-13
+> Updated Phase 20 tickets, test index, matrix, and host-boundary evidence for
+> server propagation, project TOML, refresh, and boundary-classification work.
