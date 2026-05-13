@@ -17,6 +17,7 @@ updated: 2026-05-13
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | `green` |
 | [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `open` |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | `open` |
+| [[CHORE-143]] | Document exported GFM parse result contract | Chore | `open` |
 
 ## Ticket Details
 
