@@ -46,8 +46,10 @@ Deliver parser/profile semantics for the kramdown flavor using [[docs/research/k
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/kramdown-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
@@ -64,3 +66,9 @@ Deliver parser/profile semantics for the kramdown flavor using [[docs/research/k
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `KramdownParser.parse(text, opaqueRegions)` for
+> attribute lists, explicit IDs, definition lists, pipe tables, footnotes, math
+> blocks, and malformed local kramdown boundaries. kramdown-specific attribute
+> regions will be indexed without enabling Obsidian-only parsing.

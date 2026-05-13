@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -89,3 +90,9 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose kramdown malformed-attribute diagnostics, attribute and
+> footnote completions, document symbols, folds, semantic tokens, analysis
+> counts, and local-boundary disposition. Ruby/Jekyll conversion, syntax
+> highlighting, rendering, and sanitizer behavior are out of scope.

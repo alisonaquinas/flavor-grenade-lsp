@@ -74,3 +74,10 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert kramdown attribute lists, explicit IDs, definition
+> lists, pipe tables, footnotes, math blocks, inactive Obsidian behavior,
+> spawned-server counts, completions, symbols, folds, semantic tokens,
+> malformed-attribute diagnostics, and validation evidence for local-only
+> kramdown boundaries.
