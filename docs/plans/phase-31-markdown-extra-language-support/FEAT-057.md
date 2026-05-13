@@ -14,7 +14,7 @@ aliases: ["FEAT-057"]
 
 # Markdown Extra Language Support
 
-> [!INFO] FEAT-057 - Feature - Phase 31 - Status: draft
+> [!INFO] FEAT-057 - Feature - Phase 31 - Status: in-progress
 
 ## Implementation Plan
 
@@ -65,11 +65,11 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | green |
-| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | green |
-| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | green |
-| [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | open |
-| [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | open |
+| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | done |
+| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | done |
+| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | done |
+| [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | done |
+| [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -89,11 +89,11 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 
 ## Definition of Done
 
-- [ ] markdown-extra has source-backed parser/profile behavior.
-- [ ] markdown-extra satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] markdown-extra behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] markdown-extra has source-backed parser/profile behavior.
+- [x] markdown-extra satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] markdown-extra behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -116,3 +116,46 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 > Markdown Extra parser, diagnostics, completions, symbols, folds, semantic
 > tokens, query counts, and profile surface status are implemented. Focused
 > Markdown Extra tests, `bun run typecheck`, and `bun run lint` pass locally.
+
+> [!SUCCESS] Steps E-L local gate - 2026-05-13
+> Lint/typecheck, code-quality, security, full unit, integration, and BDD
+> sweeps passed. Step K and validation-test Step L are N/A because no
+> `src/test/verification/` or `src/test/validation/` suites exist. No new
+> findings or tickets were opened during sweeps.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The RED -> GREEN bundle stayed aligned with Phase 30: parser/profile behavior,
+diagnostics, completion, document symbols, folding, semantic tokens,
+spawned-server counts, inactive Obsidian syntax, and local boundary evidence
+all moved together. Reusing the kramdown parser's shared local constructs kept
+the Markdown Extra implementation small and source-only.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| None | N/A | Steps E, F, G, I, J, K, and L found no new defects or sweep findings. | +0 h |
+
+The implementation intentionally stayed away from PHP Markdown Extra execution,
+HTML conversion, generated renderer output, and syntax highlighter behavior.
+Those remain non-local unless a future integration ticket owns them.
+
+### Process observations
+
+The A-M checklist fit this phase. Step K and the validation-directory portion
+of Step L remain N/A because this repository has no `src/test/verification/` or
+`src/test/validation/` suites; BDD is the active validation gate.
+
+### Carry-forward actions
+
+- [ ] Use the same RED surface bundle for Phase 32, with extra care that
+      R Markdown chunk execution and package/runtime metadata stay inert.
+
+### Rule / template amendments
+
+- [ ] none

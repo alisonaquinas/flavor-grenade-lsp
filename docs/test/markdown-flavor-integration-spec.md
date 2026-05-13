@@ -138,6 +138,15 @@ list, table, footnote, and math counts, diagnostics, inactive Obsidian syntax,
 and local boundary classification without requiring Ruby, Jekyll, converters,
 syntax highlighters, sanitizers, or renderer execution.
 
+### MF-I-019 - Markdown Extra Spawned-Server Behavior
+
+Integration evidence for Phase 31. It proves Markdown Extra behavior crosses
+the JSON-RPC process boundary for parser dispatch, local table, definition
+list, footnote, abbreviation, fenced-code, and attribute counts, diagnostics,
+inactive Obsidian syntax, and local boundary classification without requiring
+PHP Markdown Extra execution, HTML conversion, syntax highlighters, generated
+metadata, or renderer execution.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.

@@ -2,7 +2,7 @@
 id: "TASK-344"
 title: "Add Markdown Extra tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -63,12 +63,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ma
 
 ## Definition of Done
 
-- [ ] markdown-extra behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for markdown-extra, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] markdown-extra behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for markdown-extra, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -92,3 +92,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ma
 > Re-ran the focused Markdown Extra command after implementation. Result: 126
 > passing tests, 0 failures, 363 assertions. `bun run typecheck` and
 > `bun run lint` also pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Unit, integration, BDD, evidence, matrix, and applicability trace are updated
+> for Markdown Extra Phase 31 closeout.
