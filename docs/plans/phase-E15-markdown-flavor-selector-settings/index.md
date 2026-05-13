@@ -21,3 +21,4 @@ updated: 2026-05-13
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | Chore | `green` |
 | [[CHORE-110]] | Phase E15 verification and closeout sweep | Chore | `green` |
 | [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | Chore | `done` |
+| [[BUG-047]] | Update stale host test after E15 language preservation | Bug | `triaged` |

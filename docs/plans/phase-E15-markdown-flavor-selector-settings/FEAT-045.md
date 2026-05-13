@@ -44,6 +44,7 @@ separate selector and setting control effective Markdown flavor.
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | `green` |
 | [[CHORE-110]] | Phase E15 verification and closeout sweep | `green` |
 | [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `done` |
+| [[BUG-047]] | Update stale host test after E15 language preservation | `triaged` |
 
 ## Definition of Done
 
@@ -80,6 +81,10 @@ separate selector and setting control effective Markdown flavor.
 > root docs lint, root lint/typecheck, `bun audit`, `bun test src/`,
 > `bun test src/test/integration/`, and `bun run bdd`. No
 > `src/test/verification` or `src/test/validation` directories exist.
+
+> [!WARNING] CI finding - 2026-05-13
+> BUG-047 opened from PR #74 CI run `25823078553`: the extension host suite
+> still waited for retired `ofmarkdown` promotion.
 
 ## Retrospective
 
