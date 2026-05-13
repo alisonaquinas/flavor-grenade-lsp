@@ -2,8 +2,11 @@ import { cp, mkdtemp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runTests } from '@vscode/test-electron';
-import { waitForVsCodeUpdateProcessesToExit } from './vscode-update-wait.mjs';
+import { downloadAndUnzipVSCode, runTests } from '@vscode/test-electron';
+import {
+  disableWindowsVersionedUpdateCheck,
+  getProductJsonPathFromExecutablePath,
+} from './vscode-update-wait.mjs';
 
 const extensionRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = resolve(extensionRoot, '..');
@@ -14,6 +17,14 @@ const allFixtures = ['obsidian-vault', 'flavor-config-vault', 'generic-markdown'
 const selectedFixture =
   process.env.FLAVOR_GRENADE_HOST_FIXTURE ?? process.argv[2] ?? 'all';
 const fixtures = selectedFixture === 'all' ? allFixtures : [selectedFixture];
+const vscodeExecutablePath = await downloadAndUnzipVSCode({
+  extensionDevelopmentPath: extensionRoot,
+});
+const productJsonPath = await getProductJsonPathFromExecutablePath(vscodeExecutablePath);
+
+// The downloaded archive is isolated from the user's installed VS Code, but on
+// Windows it still checks the global installer mutex by product name.
+await disableWindowsVersionedUpdateCheck(productJsonPath);
 
 for (const fixture of fixtures) {
   const fixtureSourcePath = resolve(fixturesRoot, fixture);
@@ -26,9 +37,9 @@ for (const fixture of fixtures) {
   const extensionsDir = await mkdtemp(join(tmpdir(), `fg-vscode-${fixture}-extensions-`));
 
   await cp(fixtureSourcePath, workspacePath, { recursive: true });
-  await waitForVsCodeUpdateProcessesToExit();
 
   await runTests({
+    vscodeExecutablePath,
     extensionDevelopmentPath: extensionRoot,
     extensionTestsPath,
     launchArgs: [

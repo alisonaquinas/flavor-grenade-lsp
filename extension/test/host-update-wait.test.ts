@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
@@ -53,5 +53,18 @@ describe('VS Code update wait helper', () => {
     };
     assert.equal(product.win32MutexName, 'vscode');
     assert.equal(product.win32VersionedUpdate, false);
+  });
+
+  it('finds product.json in versioned Windows archive folders', async () => {
+    const { getProductJsonPathFromExecutablePath } = await import(updateWaitModuleUrl.href);
+    const tempDir = await mkdtemp(join(tmpdir(), 'fg-vscode-archive-'));
+    const productJsonPath = join(tempDir, '0958016b2a', 'resources', 'app', 'product.json');
+    await mkdir(join(tempDir, '0958016b2a', 'resources', 'app'), { recursive: true });
+    await writeFile(productJsonPath, '{}');
+
+    assert.equal(
+      await getProductJsonPathFromExecutablePath(join(tempDir, 'Code.exe'), 'win32'),
+      productJsonPath,
+    );
   });
 });

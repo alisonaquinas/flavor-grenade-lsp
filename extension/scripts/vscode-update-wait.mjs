@@ -1,4 +1,6 @@
 import { execFile } from 'node:child_process';
+import { access, readdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
@@ -39,6 +41,61 @@ export async function listWindowsProcesses() {
     windowsHide: true,
   });
   return parseWindowsTaskListCsv(stdout);
+}
+
+export async function getProductJsonPathFromExecutablePath(
+  vscodeExecutablePath,
+  platform = process.platform,
+) {
+  if (platform !== 'win32') {
+    return null;
+  }
+
+  const archiveRoot = dirname(vscodeExecutablePath);
+  const rootProductJsonPath = join(archiveRoot, 'resources', 'app', 'product.json');
+
+  if (await pathExists(rootProductJsonPath)) {
+    return rootProductJsonPath;
+  }
+
+  for (const entry of await readdir(archiveRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+
+    const nestedProductJsonPath = join(
+      archiveRoot,
+      entry.name,
+      'resources',
+      'app',
+      'product.json',
+    );
+
+    if (await pathExists(nestedProductJsonPath)) {
+      return nestedProductJsonPath;
+    }
+  }
+
+  return rootProductJsonPath;
+}
+
+export async function disableWindowsVersionedUpdateCheck(
+  productJsonPath,
+  platform = process.platform,
+) {
+  if (platform !== 'win32' || !productJsonPath) {
+    return false;
+  }
+
+  const product = JSON.parse(await readFile(productJsonPath, 'utf8'));
+
+  if (product.win32VersionedUpdate === false) {
+    return false;
+  }
+
+  product.win32VersionedUpdate = false;
+  await writeFile(productJsonPath, `${JSON.stringify(product, null, '\t')}\n`);
+  return true;
 }
 
 export async function waitForVsCodeUpdateProcessesToExit({
@@ -131,4 +188,13 @@ function sleepMs(milliseconds) {
   return new Promise((resolve) => {
     setTimeout(resolve, milliseconds);
   });
+}
+
+async function pathExists(path) {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
 }

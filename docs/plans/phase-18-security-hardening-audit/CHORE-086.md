@@ -131,3 +131,8 @@ Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 > `npm run test:host` failed before tests executed because the VS Code
 > `vscode-updating` mutex was held. Opened [[BUG-042]] before retrying or
 > changing the verification path. Status remains `in-review`.
+
+> [!SUCCESS] Host verification restored - 2026-05-13
+> BUG-042 restored local extension-host verification without touching the
+> user's VS Code updater processes. `npm run test:host` passed across all three
+> host fixtures. Status remains `in-review`.
