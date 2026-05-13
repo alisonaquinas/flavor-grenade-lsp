@@ -1,0 +1,37 @@
+---
+title: Extension Markdown Flavor Unit Test Specification
+tags: [extension/docs, tests, unit, markdown-flavor]
+aliases: [Extension Markdown Flavor Unit Tests]
+---
+
+# Extension Markdown Flavor Unit Test Specification
+
+Target file: `extension/src/markdown-flavor.test.ts`.
+
+## Core Unit Cases
+
+| Spec ID | Unit target | Requirement tags | Assertions |
+|---|---|---|---|
+| EXT-MF-U-001 | Flavor constants | `Extension.MarkdownFlavor.RequiredCoverage` | Exported flavor list includes `auto` and every required explicit flavor id in stable display order. |
+| EXT-MF-U-002 | Selector labels | `Extension.MarkdownFlavor.Selector` | Quick-pick labels and status labels match requirements for all flavors. |
+| EXT-MF-U-003 | Language preservation | `Extension.MarkdownLanguage.PreserveDefault` | Refresh logic never calls `setTextDocumentLanguage` for flavor selection. |
+| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | `.obsidian/` resolves to `obsidian`; explicit config wins; generic Markdown resolves to `commonmark`. |
+| EXT-MF-U-005 | Membership fallback | `Extension.MarkdownFlavor.AutoDetection` | Server membership response can resolve Obsidian/Flavor Grenade vault state after startup. |
+| EXT-MF-U-006 | Workspace override target | `Extension.MarkdownFlavor.OverridePersistence` | Folder-backed active document writes `flavorGrenade.markdownFlavor` to workspace-folder or workspace scope. |
+| EXT-MF-U-007 | Standalone override target | `Extension.MarkdownFlavor.OverridePersistence` | Standalone Markdown file writes override to user scope. |
+| EXT-MF-U-008 | Auto clearing | `Extension.MarkdownFlavor.OverridePersistence` | Selecting `Auto Detect` clears or resets the override at the active scope. |
+| EXT-MF-U-009 | Server propagation | `Extension.MarkdownFlavor.ServerPropagation` | Changing flavor sends configuration or metadata refresh with the effective flavor id. |
+| EXT-MF-U-010 | Refresh triggers | `Extension.MarkdownFlavor.Refresh` | Server ready, index rebuild, workspace folder changes, visible editor changes, file-open events, and selector changes recompute effective flavor. |
+| EXT-MF-U-011 | Manual language safety | `Extension.MarkdownFlavor.ManualLanguageSafety` | Documents with `plaintext`, `mdx`, or any non-`markdown` language id are ignored by flavor application. |
+| EXT-MF-U-012 | MDX distinction | `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.RequiredCoverage` | `mdx` can be selected as a flavor only when the document language id remains `markdown`; a VS Code `mdx` language document is not modified. |
+
+## Contribution Unit Cases
+
+Target files: `extension/test/contributions/*.test.ts`.
+
+| Spec ID | Target | Assertions |
+|---|---|---|
+| EXT-MF-C-001 | Snippets | Flavor-specific snippets are gated by context keys or commands, not by an `ofmarkdown` language contribution. |
+| EXT-MF-C-002 | Keybindings | Flavor-specific keybindings require explicit flavor/context preconditions and do not affect generic Markdown unintentionally. |
+| EXT-MF-C-003 | Language configuration | Any language configuration changes apply to built-in Markdown safely or are removed; no custom Markdown language id is required. |
+| EXT-MF-C-004 | Isolation | Generic Markdown with `auto` resolving to CommonMark does not receive Obsidian-only affordances. |

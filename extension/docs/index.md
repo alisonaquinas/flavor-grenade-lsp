@@ -22,6 +22,8 @@ without scanning the server docs.
 | [requirements/functional/vscode-extension-parity.md](requirements/functional/vscode-extension-parity.md) | Extension-specific functional requirements |
 | [ddd/editor-client-parity-model.md](ddd/editor-client-parity-model.md) | Extension client domain model additions |
 | [bdd/vscode-extension-parity.feature](bdd/vscode-extension-parity.feature) | Extension parity acceptance scenarios |
+| [tests/index.md](tests/index.md) | Extension-local Markdown flavor test plan |
+| [tests/matrix.md](tests/matrix.md) | Extension-local requirements-to-tests matrix |
 | [plans/vscode-extension-parity.md](plans/vscode-extension-parity.md) | Extension implementation plan |
 
 ## Root References
