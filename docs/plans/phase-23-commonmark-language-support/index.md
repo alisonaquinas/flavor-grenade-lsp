@@ -17,6 +17,7 @@ updated: 2026-05-13
 | [[TASK-320]] | Add CommonMark tests and validation evidence | Task | `green` |
 | [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | `green` |
 | [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | `open` |
+| [[BUG-046]] | Stabilize file watcher completion BDD scenario | Bug | `done` |
 
 ## Ticket Details
 
