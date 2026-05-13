@@ -2,7 +2,7 @@
 id: "FEAT-042"
 title: "Markdown Flavor Model And Profiles"
 type: feature
-status: ready
+status: in-progress
 priority: high
 phase: 19
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-042"]
 
 # Markdown Flavor Model And Profiles
 
-> [!INFO] `FEAT-042` - Feature - Phase 19 - Status: `ready`
+> [!INFO] `FEAT-042` - Feature - Phase 19 - Status: `in-progress`
 
 ## Goal
 
@@ -32,11 +32,11 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-283]] | Define canonical Markdown flavor contract | `open` |
-| [[TASK-284]] | Add source-backed dialect profile registry | `open` |
-| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `open` |
-| [[TASK-286]] | Cover remaining researched flavor profiles | `open` |
-| [[TASK-287]] | Document research-to-profile validation trace | `open` |
+| [[TASK-283]] | Define canonical Markdown flavor contract | `red` |
+| [[TASK-284]] | Add source-backed dialect profile registry | `red` |
+| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | `red` |
+| [[TASK-286]] | Cover remaining researched flavor profiles | `red` |
+| [[TASK-287]] | Document research-to-profile validation trace | `red` |
 | [[CHORE-103]] | Phase 19 execution setup and trace sweep | `open` |
 | [[CHORE-104]] | Phase 19 verification and closeout sweep | `open` |
 
@@ -54,3 +54,6 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 > [!INFO] Ready - 2026-05-13
 > Step A-C sweep confirmed Phase 18 is complete, Phase 19 is next in the execution ledger, and implementation will add `src/markdown-flavor/markdown-flavor-contract.ts`, `src/markdown-flavor/markdown-flavor-profiles.ts`, `src/markdown-flavor/index.ts`, `src/parser/__tests__/markdown-flavor-profiles.test.ts`, and `docs/test/evidence/markdown-flavor-research-trace.md`.
+
+> [!NOTE] RED - 2026-05-13
+> Added failing profile registry contract coverage in `src/parser/__tests__/markdown-flavor-profiles.test.ts` before implementation.

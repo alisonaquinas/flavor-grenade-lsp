@@ -2,7 +2,7 @@
 id: "TASK-283"
 title: "Define canonical Markdown flavor contract"
 type: task
-status: open
+status: red
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -38,7 +38,7 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Required id list and labels match ADR020. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for ADR020 id list, labels, selector order, and explicit-only type guard. |
 
 ## Implementation Notes
 
@@ -63,3 +63,6 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing assertions added before `src/markdown-flavor/markdown-flavor-contract.ts` exists.

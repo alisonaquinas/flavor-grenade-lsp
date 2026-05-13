@@ -2,7 +2,7 @@
 id: "TASK-284"
 title: "Add source-backed dialect profile registry"
 type: task
-status: open
+status: red
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -49,7 +49,7 @@ traces and structured syntax capability sections.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Every explicit flavor has exactly one complete profile. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for explicit profile registry shape, source traces, LSP surfaces, parser capabilities, and security metadata. |
 
 ## Implementation Notes
 
@@ -80,3 +80,6 @@ traces and structured syntax capability sections.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing assertions added before `src/markdown-flavor/markdown-flavor-profiles.ts` exists.

@@ -2,7 +2,7 @@
 id: "TASK-286"
 title: "Cover remaining researched flavor profiles"
 type: task
-status: open
+status: red
 priority: medium
 phase: 19
 parent: "FEAT-042"
@@ -38,7 +38,7 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Remaining researched flavor source and signature assertions. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | 🔴 Failing coverage for all remaining researched flavor signatures and host/conversion boundaries. |
 
 ## Implementation Notes
 
@@ -60,3 +60,6 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 
 > [!INFO] Planned - 2026-05-13
 > Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing assertions added for GFM, GLFM, Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and Stack Overflow before profile data exists.

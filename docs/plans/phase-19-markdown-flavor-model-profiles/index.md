@@ -11,11 +11,11 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-042]] | Markdown Flavor Model And Profiles | Feature | `ready` |
-| [[TASK-283]] | Define canonical Markdown flavor contract | Task | `open` |
-| [[TASK-284]] | Add source-backed dialect profile registry | Task | `open` |
-| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | Task | `open` |
-| [[TASK-286]] | Cover remaining researched flavor profiles | Task | `open` |
-| [[TASK-287]] | Document research-to-profile validation trace | Task | `open` |
+| [[FEAT-042]] | Markdown Flavor Model And Profiles | Feature | `in-progress` |
+| [[TASK-283]] | Define canonical Markdown flavor contract | Task | `red` |
+| [[TASK-284]] | Add source-backed dialect profile registry | Task | `red` |
+| [[TASK-285]] | Cover Original, CommonMark, and Obsidian profiles | Task | `red` |
+| [[TASK-286]] | Cover remaining researched flavor profiles | Task | `red` |
+| [[TASK-287]] | Document research-to-profile validation trace | Task | `red` |
 | [[CHORE-103]] | Phase 19 execution setup and trace sweep | Chore | `in-progress` |
 | [[CHORE-104]] | Phase 19 verification and closeout sweep | Chore | `open` |
