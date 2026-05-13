@@ -2,7 +2,7 @@
 id: "FEAT-049"
 title: "CommonMark Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 23
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-049"]
 
 # CommonMark Language Support
 
-> [!INFO] FEAT-049 - Feature - Phase 23 - Status: in-progress
+> [!INFO] FEAT-049 - Feature - Phase 23 - Status: in-review
 
 ## Description
 
@@ -30,11 +30,11 @@ Implement first-class commonmark language support for CommonMark, using [[docs/r
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-318]] | Implement CommonMark parser semantics | Task | open |
-| [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | open |
-| [[TASK-320]] | Add CommonMark tests and validation evidence | Task | open |
-| [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | open |
-| [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | open |
+| [[TASK-318]] | Implement CommonMark parser semantics | Task | done |
+| [[TASK-319]] | Add CommonMark diagnostics and LSP features | Task | done |
+| [[TASK-320]] | Add CommonMark tests and validation evidence | Task | done |
+| [[CHORE-117]] | Phase 23 trace and documentation sweep | Chore | done |
+| [[CHORE-118]] | Phase 23 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -54,11 +54,11 @@ Implement first-class commonmark language support for CommonMark, using [[docs/r
 
 ## Definition of Done
 
-- [ ] commonmark has source-backed parser/profile behavior.
-- [ ] commonmark satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] commonmark behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] commonmark has source-backed parser/profile behavior.
+- [x] commonmark satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] commonmark behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -76,6 +76,11 @@ Implement first-class commonmark language support for CommonMark, using [[docs/r
 > gating, spawned-server coverage, trace evidence, and the full documented gate
 > are ready for PR review. BUG-046 was opened and fixed during Step L before
 > rerunning BDD.
+
+> [!SUCCESS] CI green - 2026-05-13
+> PR #73 is open at https://github.com/alisonaquinas/flavor-grenade-lsp/pull/73.
+> CI run `25821416971` passed for the Phase 23 branch. Implementation tickets
+> are done; the feature remains `in-review` pending stacked merge order.
 
 ## Retrospective
 

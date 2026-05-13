@@ -38,7 +38,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 20    | Markdown Flavor Server Propagation | 🔎 in-review | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | 2026-05-13 | [PR #70](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/70) |
 | 21    | Markdown Flavor BDD Verification And Validation | 🔎 in-review | BDD, verification, and validation evidence execute against flavor state | 2026-05-13 | [PR #71](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/71) |
 | 22    | Original Markdown Language Support | 🔎 in-review | Historical Original Markdown parser and LSP behavior | 2026-05-13 | [PR #72](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/72) |
-| 23    | CommonMark Language Support | 🔄 in-progress | CommonMark parser and LSP behavior with standardized edge cases | 2026-05-13 | — |
+| 23    | CommonMark Language Support | 🔎 in-review | CommonMark parser and LSP behavior with standardized edge cases | 2026-05-13 | [PR #73](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/73) |
 | 24    | Obsidian Flavor Language Support | ⏳ planned | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | — | — |
 | 25    | GitHub Flavored Markdown Language Support | ⏳ planned | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | — | — |
 | 26    | GitLab Flavored Markdown Language Support | ⏳ planned | GLFM references, media conventions, and offline-testable GitLab syntax behavior | — | — |

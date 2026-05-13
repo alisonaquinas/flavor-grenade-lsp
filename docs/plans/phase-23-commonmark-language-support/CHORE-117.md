@@ -2,7 +2,7 @@
 id: "CHORE-117"
 title: "Phase 23 trace and documentation sweep"
 type: chore
-status: green
+status: done
 priority: medium
 phase: 23
 parent: "FEAT-049"
@@ -33,9 +33,9 @@ Perform trace and documentation kickoff hygiene for CommonMark language-support 
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for commonmark.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-118]].
+- [x] Documentation trace gaps are identified or resolved for commonmark.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-118]].
 
 ## Workflow Log
 
@@ -53,3 +53,7 @@ Perform trace and documentation kickoff hygiene for CommonMark language-support 
 > specs, test index, and test matrix. Closeout-only gate evidence remains
 > deferred to [[CHORE-118]].
 > Status: `green`.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #73 CI run `25821416971` passed with the trace updates included. Status:
+> `done`.

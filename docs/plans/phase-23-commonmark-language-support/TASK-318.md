@@ -2,7 +2,7 @@
 id: "TASK-318"
 title: "Implement CommonMark parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -54,11 +54,11 @@ Deliver parser/profile semantics for the commonmark flavor using [[docs/research
 
 ## Definition of Done
 
-- [ ] commonmark behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for commonmark.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] commonmark behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for commonmark.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -87,3 +87,7 @@ Deliver parser/profile semantics for the commonmark flavor using [[docs/research
 > as shortcut reference labels.
 > Command passed: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
 > Status: `green`.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #73 CI run `25821416971` passed. Parser/profile semantics are complete for
+> Phase 23 and ticket status is `done`.

@@ -2,7 +2,7 @@
 id: "CHORE-118"
 title: "Phase 23 verification and closeout sweep"
 type: chore
-status: green
+status: done
 priority: medium
 phase: 23
 parent: "FEAT-049"
@@ -38,10 +38,10 @@ Perform the operational sweep for CommonMark language-support phase closure.
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for commonmark.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [x] Documentation trace is complete for commonmark.
+- [x] Required verification evidence is attached or linked.
+- [x] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
+- [x] Phase closeout notes identify any deferred work explicitly.
 
 ## Workflow Log
 
@@ -59,3 +59,7 @@ Perform the operational sweep for CommonMark language-support phase closure.
 > directories exist under `src/test/`. BUG-046 was opened and fixed during Step
 > L before BDD was rerun successfully.
 > Status: `green`.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #73 CI run `25821416971` passed. The execution ledger now marks Phase 23
+> `in-review` with the PR URL; closeout status is `done`.
