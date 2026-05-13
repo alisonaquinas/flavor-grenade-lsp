@@ -56,7 +56,7 @@ describe('DidOpenHandler', () => {
       delete: jest.fn(),
     } as unknown as ParseCache;
     vaultDetector = {
-      detect: jest.fn().mockReturnValue({ mode: 'obsidian', vaultRoot: '/vault' }),
+      detectFresh: jest.fn().mockReturnValue({ mode: 'obsidian', vaultRoot: '/vault' }),
     } as unknown as VaultDetector;
     diagnosticService = {
       publishDiagnostics: jest.fn(),
@@ -72,7 +72,12 @@ describe('DidOpenHandler', () => {
   it('calls ofmParser.parse(uri, text, version)', async () => {
     const handler = new DidOpenHandler(store, ofmParser, parseCache, vaultDetector, null);
     await handler.handle(makeParams());
-    expect(ofmParser.parse).toHaveBeenCalledWith(TEST_URI, TEST_TEXT, TEST_VERSION);
+    expect(ofmParser.parse).toHaveBeenCalledWith(
+      TEST_URI,
+      TEST_TEXT,
+      TEST_VERSION,
+      expect.objectContaining({ effectiveFlavor: 'obsidian' }),
+    );
   });
 
   it('calls parseCache.set(uri, parsedDoc)', async () => {
@@ -101,7 +106,7 @@ describe('DidOpenHandler', () => {
 
   it('passes empty docId when vaultRoot is null (single-file mode)', async () => {
     vaultDetector = {
-      detect: jest.fn().mockReturnValue({ mode: 'single-file', vaultRoot: null }),
+      detectFresh: jest.fn().mockReturnValue({ mode: 'single-file', vaultRoot: null }),
     } as unknown as VaultDetector;
     const handler = new DidOpenHandler(
       store,

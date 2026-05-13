@@ -63,6 +63,7 @@ config, or boundary security gates.
 | [[TASK-292]] | Add spawned-server flavor propagation tests | `done` |
 | [[TASK-293]] | Refresh open document diagnostics after flavor changes | `done` |
 | [[TASK-354]] | Add shared non-local boundary classification | `done` |
+| [[BUG-043]] | Refresh stale LSP unit harnesses for flavor propagation | `done` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
 
