@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runTests } from '@vscode/test-electron';
+import { waitForVsCodeUpdateProcessesToExit } from './vscode-update-wait.mjs';
 
 const extensionRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = resolve(extensionRoot, '..');
@@ -25,6 +26,7 @@ for (const fixture of fixtures) {
   const extensionsDir = await mkdtemp(join(tmpdir(), `fg-vscode-${fixture}-extensions-`));
 
   await cp(fixtureSourcePath, workspacePath, { recursive: true });
+  await waitForVsCodeUpdateProcessesToExit();
 
   await runTests({
     extensionDevelopmentPath: extensionRoot,

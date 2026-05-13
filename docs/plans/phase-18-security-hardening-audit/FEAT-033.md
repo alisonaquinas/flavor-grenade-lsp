@@ -115,7 +115,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 | [[docs/plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | verified |
 | [[docs/plans/phase-18-security-hardening-audit/BUG-040]] | Extension CI package-target check lacks bundled server binary | verified |
 | [[docs/plans/phase-18-security-hardening-audit/BUG-041]] | BDD file watcher scenario fails on Linux CI precondition | verified |
-| [[docs/plans/phase-18-security-hardening-audit/BUG-042]] | Extension host test blocked by VS Code update mutex | open |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-042]] | Extension host test blocked by VS Code update mutex | in-review |
 | [[docs/plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
 | [[docs/plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
 | [[docs/plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | done |
