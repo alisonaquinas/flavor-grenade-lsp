@@ -53,26 +53,16 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 |---|---|
 | Source | `src/resolution/diagnostic-service.ts` |
 | Source | `src/completion/completion-router.ts` |
-| Source | `src/handlers/definition.handler.ts` |
-| Source | `src/handlers/references.handler.ts` |
 | Source | `src/handlers/document-symbol.handler.ts` |
-| Source | `src/rename/prepare-rename.handler.ts` |
-| Source | `src/rename/rename.handler.ts` |
-| Source | `src/handlers/document-link.handler.ts` |
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
-| Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
-| Test | `src/handlers/__tests__/definition.handler.test.ts` |
-| Test | `src/handlers/__tests__/references.handler.test.ts` |
+| Test | `src/completion/__tests__/completion-router.test.ts` |
 | Test | `src/handlers/__tests__/document-symbol.handler.test.ts` |
-| Test | `src/rename/__tests__/prepare-rename.handler.test.ts` |
-| Test | `src/rename/__tests__/rename.handler.test.ts` |
-| Test | `src/handlers/__tests__/document-link.handler.test.ts` |
 | Test | `src/handlers/__tests__/folding-range.handler.test.ts` |
 | Test | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
-| Test | `src/handlers/__tests__/hover.handler.test.ts` |
 
 ## Definition of Done
 
@@ -89,3 +79,9 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose R Markdown malformed-chunk diagnostics, chunk option
+> completions, chunk/inline symbols, chunk folding, semantic tokens, analysis
+> counts, and execution-boundary disposition. R, knitr, Pandoc, Shiny, cache,
+> package, and generated-output behavior are out of scope.

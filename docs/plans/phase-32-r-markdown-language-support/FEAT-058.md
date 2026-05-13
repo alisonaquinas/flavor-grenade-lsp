@@ -2,7 +2,7 @@
 id: "FEAT-058"
 title: "R Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 32
 created: "2026-05-13"
@@ -14,7 +14,40 @@ aliases: ["FEAT-058"]
 
 # R Markdown Language Support
 
-> [!INFO] FEAT-058 - Feature - Phase 32 - Status: draft
+> [!INFO] FEAT-058 - Feature - Phase 32 - Status: in-progress
+
+## Implementation Plan
+
+Phase 32 is stacked after Phase 31 because the ledger's near-term roadmap keeps
+the server flavor chain contiguous. Implementation will model source-local
+R Markdown syntax: YAML/frontmatter metadata, fenced chunk headers, chunk
+labels/options, inline R markers, malformed local chunk boundaries, inactive
+Obsidian syntax, and execution-bound references. It will not run R, Python,
+shell, notebooks, knitr, Pandoc, Shiny, package resolution, cache evaluation,
+or generated output.
+
+Primary source paths:
+
+- `src/parser/r-markdown-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +99,10 @@ Implement first-class r-markdown language support for R Markdown, using [[docs/r
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Confirmed Phase 31 PR #82 CI is green and added
+> concrete implementation and RED test paths for TASK-345 through TASK-347.
+> R, Python, shell, notebook, knitr, Pandoc, Shiny, package, cache, and
+> generated-output behavior remain deferred unless separate integration tickets
+> own them.

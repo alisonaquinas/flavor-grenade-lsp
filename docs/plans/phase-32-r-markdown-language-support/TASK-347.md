@@ -74,3 +74,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert R Markdown YAML metadata, chunk labels/options,
+> inline R markers, inactive Obsidian behavior, spawned-server counts,
+> completions, symbols, folds, semantic tokens, malformed-chunk diagnostics,
+> and validation evidence for local-only execution boundaries.

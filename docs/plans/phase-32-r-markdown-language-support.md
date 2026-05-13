@@ -1,7 +1,7 @@
 ---
 title: "Phase 32: R Markdown Language Support"
 phase: 32
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, r-markdown, language-support]
 aliases: [Phase 32, R Markdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 32 |
 | Title | R Markdown Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | R Markdown metadata and chunk syntax are implemented without execution |
 | Depends on | Phase 23 |
 
