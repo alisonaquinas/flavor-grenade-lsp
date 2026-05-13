@@ -95,6 +95,8 @@ flavor-grenade-lsp/
 
 ## Branch Convention
 
+These git-flow naming rules override any app-level default branch prefix.
+
 - `main` — releases
 - `develop` — integration
 - `feature/*` — work branches; open PRs against `develop`
