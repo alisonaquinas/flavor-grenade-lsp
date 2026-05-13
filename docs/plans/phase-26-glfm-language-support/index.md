@@ -1,7 +1,7 @@
 ---
 title: Phase 26 GitLab Flavored Markdown Language Support Tickets
 phase: 26
-status: done
+status: in-review
 tags: [plans/phase-26, tickets/index, glfm]
 aliases: ["Phase 26 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-052]] | GitLab Flavored Markdown Language Support | Feature | `done` |
+| [[FEAT-052]] | GitLab Flavored Markdown Language Support | Feature | `in-review` |
 | [[TASK-327]] | Implement GLFM parser semantics | Task | `done` |
 | [[TASK-328]] | Add GLFM diagnostics and LSP features | Task | `done` |
 | [[TASK-329]] | Add GLFM tests and validation evidence | Task | `done` |

@@ -2,7 +2,7 @@
 id: "FEAT-052"
 title: "GitLab Flavored Markdown Language Support"
 type: feature
-status: done
+status: in-review
 priority: high
 phase: 26
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-052"]
 
 # GitLab Flavored Markdown Language Support
 
-> [!INFO] FEAT-052 - Feature - Phase 26 - Status: done
+> [!INFO] FEAT-052 - Feature - Phase 26 - Status: in-review
 
 ## Description
 
@@ -109,6 +109,10 @@ Primary RED test paths:
 > [!INFO] Local gate passed - 2026-05-13
 > Status set to `done` after A-M local execution. Exact phase gate passed:
 > `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts; bun test src/test/integration/markdown-flavor.test.ts; bun run bdd; bun test src/test/ci-workflow.test.ts; bun run lint:docs; bun run typecheck; bun run lint; bun run build`.
+
+> [!INFO] In review - 2026-05-13
+> PR #77 opened and CI run `25826542905` passed. Ledger set to in-review with
+> PR URL.
 
 ## Retrospective
 

@@ -41,7 +41,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 23    | CommonMark Language Support | 🔎 in-review | CommonMark parser and LSP behavior with standardized edge cases | 2026-05-13 | [PR #73](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/73) |
 | 24    | Obsidian Flavor Language Support | 🔎 in-review | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | 2026-05-13 | [PR #75](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/75), stacked on [PR #74](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/74) |
 | 25    | GitHub Flavored Markdown Language Support | 🔎 in-review | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | 2026-05-13 | [PR #76](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/76) |
-| 26    | GitLab Flavored Markdown Language Support | 🚧 in-progress | GLFM references, media conventions, and offline-testable GitLab syntax behavior | — | — |
+| 26    | GitLab Flavored Markdown Language Support | 🔎 in-review | GLFM references, media conventions, and offline-testable GitLab syntax behavior | 2026-05-13 | [PR #77](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/77) |
 | 27    | Pandoc Markdown Language Support | ⏳ planned | Pandoc metadata, citations, math, attributes, and cross-reference intelligence | — | — |
 | 28    | MultiMarkdown Language Support | ⏳ planned | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | — | — |
 | 29    | MDX Flavor Language Support | ⏳ planned | MDX flavor syntax support without taking over VS Code MDX language mode | — | — |
