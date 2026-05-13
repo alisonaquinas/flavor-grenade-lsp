@@ -2,7 +2,7 @@
 id: "TASK-283"
 title: "Define canonical Markdown flavor contract"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -69,3 +69,6 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 > [!NOTE] GREEN - 2026-05-13
 > Implemented the shared flavor contract in `src/markdown-flavor/markdown-flavor-contract.ts`; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.

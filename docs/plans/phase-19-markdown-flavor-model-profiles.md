@@ -1,7 +1,7 @@
 ---
 title: "Phase 19: Markdown Flavor Model And Profiles"
 phase: 19
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, profiles, server]
 aliases: [Phase 19, Markdown Flavor Profiles]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 19 |
 | Title | Markdown Flavor Model And Profiles |
-| Status | in-progress |
+| Status | in-review |
 | Gate | A canonical server-side flavor model and source-backed profile registry exist with unit coverage |
 | Depends on | Phase 18 |
 

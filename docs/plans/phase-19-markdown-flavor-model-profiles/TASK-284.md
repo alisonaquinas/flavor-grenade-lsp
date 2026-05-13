@@ -2,7 +2,7 @@
 id: "TASK-284"
 title: "Add source-backed dialect profile registry"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -86,3 +86,6 @@ traces and structured syntax capability sections.
 
 > [!NOTE] GREEN - 2026-05-13
 > Implemented the explicit profile registry in `src/markdown-flavor/markdown-flavor-profiles.ts`; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.

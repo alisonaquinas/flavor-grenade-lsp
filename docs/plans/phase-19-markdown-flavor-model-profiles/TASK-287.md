@@ -2,7 +2,7 @@
 id: "TASK-287"
 title: "Document research-to-profile validation trace"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: 19
 parent: "FEAT-042"
@@ -64,3 +64,6 @@ research note that justified it.
 
 > [!NOTE] GREEN - 2026-05-13
 > Added `docs/test/evidence/markdown-flavor-research-trace.md` and traceability updates; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.

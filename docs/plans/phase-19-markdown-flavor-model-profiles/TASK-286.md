@@ -2,7 +2,7 @@
 id: "TASK-286"
 title: "Cover remaining researched flavor profiles"
 type: task
-status: green
+status: in-review
 priority: medium
 phase: 19
 parent: "FEAT-042"
@@ -66,3 +66,6 @@ Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 
 > [!NOTE] GREEN - 2026-05-13
 > Added all remaining researched profile signatures and host/conversion boundaries; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.

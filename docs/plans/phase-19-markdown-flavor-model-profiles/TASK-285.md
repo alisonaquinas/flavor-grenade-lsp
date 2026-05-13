@@ -2,7 +2,7 @@
 id: "TASK-285"
 title: "Cover Original, CommonMark, and Obsidian profiles"
 type: task
-status: green
+status: in-review
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -66,3 +66,6 @@ Original Markdown, CommonMark, and Obsidian.
 
 > [!NOTE] GREEN - 2026-05-13
 > Added Original, CommonMark, and Obsidian profile signatures; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.
