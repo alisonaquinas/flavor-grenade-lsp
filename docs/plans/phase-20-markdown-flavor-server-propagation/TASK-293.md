@@ -41,6 +41,13 @@ feature analysis without requiring a server restart.
 | [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]] | Flavor changes mark documents for refresh. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]] | Spawned-server handler refresh reaches all flavor-sensitive LSP surfaces. |
 
+## Implementation Notes
+
+- Configuration handler reparses open documents after accepted flavor changes.
+- `DocumentStore` exposes open document iteration.
+- Unchanged or rejected configuration payloads do not refresh documents.
+- Diagnostics are republished through existing `DiagnosticService` only after accepted mutation.
+
 ## Definition of Done
 
 - [ ] Open document diagnostics and all flavor-sensitive LSP surfaces refresh
@@ -52,3 +59,6 @@ feature analysis without requiring a server restart.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

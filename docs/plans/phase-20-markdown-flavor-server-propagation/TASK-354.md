@@ -55,6 +55,13 @@ local vault/file targets.
 | [[docs/test/markdown-flavor-unit-spec]] | Boundary fixture rows classify non-local examples without local diagnostics, navigation, or rename edits. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] | Spawned-server analysis preserves boundary disposition after effective flavor refresh. |
 
+## Implementation Notes
+
+- Create `src/markdown-flavor/non-local-boundary-classifier.ts`.
+- Export `classifyMarkdownBoundaryReference(flavor, text)` and disposition types.
+- Keep classifier string-only and deterministic: no network, process, dynamic import, or filesystem reads.
+- Integration coverage will call a debug request to prove classifications survive the spawned server boundary.
+
 ## Definition of Done
 
 - [ ] Shared classifier is reusable by diagnostics, navigation, hover, semantic
@@ -75,3 +82,6 @@ local vault/file targets.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

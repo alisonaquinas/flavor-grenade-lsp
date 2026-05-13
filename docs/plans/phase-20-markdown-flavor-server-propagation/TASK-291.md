@@ -43,6 +43,12 @@ non-Obsidian dialect projections.
 |---|---|
 | `src/test/integration/markdown-flavor.test.ts` | CommonMark excludes Obsidian wiki-link behavior until flavor changes to Obsidian. |
 
+## Implementation Notes
+
+- Gate OFM-only token parsers inside `src/parser/ofm-parser.ts` using Phase 19 profile capabilities.
+- Keep default parser behavior compatible for direct unit tests by resolving absent context as `obsidian`.
+- Verify CommonMark suppresses wiki links, embeds, tags, block anchors, and callouts when the server provides a CommonMark parse context.
+
 ## Definition of Done
 
 - [ ] CommonMark analysis does not enable Obsidian-only syntax as core.
@@ -54,3 +60,6 @@ non-Obsidian dialect projections.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

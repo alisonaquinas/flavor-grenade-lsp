@@ -51,6 +51,14 @@ invalid input.
 | [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]] | Accepts required ids and rejects unknown ids through `workspace/didChangeConfiguration`. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Rejects malformed propagation payloads and unsafe TOML evidence before state mutation. |
 
+## Implementation Notes
+
+- Create `src/lsp/handlers/configuration.handler.ts`.
+- Create `src/lsp/handlers/__tests__/configuration.handler.test.ts` RED first.
+- Use `src/markdown-flavor/markdown-flavor-state.ts` to own selector/effective state; BC5 validates and delegates only.
+- Register `workspace/didChangeConfiguration` in `src/lsp/lsp.module.ts`.
+- Reject unsupported selectors, `auto` as an effective value, non-file resource keys, oversized maps, stale resource keys, and dangerous keys before mutation.
+
 ## Definition of Done
 
 - [ ] All required ids are accepted.
@@ -64,3 +72,6 @@ invalid input.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

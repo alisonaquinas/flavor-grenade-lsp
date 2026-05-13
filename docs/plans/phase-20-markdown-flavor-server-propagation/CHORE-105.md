@@ -2,7 +2,7 @@
 id: "CHORE-105"
 title: "Phase 20 implementation trace and matrix sweep"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 20
 parent: "FEAT-043"
@@ -35,3 +35,6 @@ Keep implementation traceability current as server flavor propagation lands.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Started - 2026-05-13
+> Phase 20 setup and implementation trace sweep started after Phase 19 PR #69 CI passed.

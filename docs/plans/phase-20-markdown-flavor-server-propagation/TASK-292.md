@@ -56,6 +56,12 @@ flavor transitions. The process-boundary protocol is
 | [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Malformed propagation payloads and unsafe TOML fixtures fail before state mutation. |
 | `src/test/integration/markdown-flavor.test.ts` | MF-I-001 through MF-I-009. |
 
+## Implementation Notes
+
+- Create `src/test/integration/markdown-flavor.test.ts`.
+- Reuse the spawned stdio LSP client pattern from existing integration tests.
+- Cover open document flavor metadata, CommonMark-to-Obsidian change, all explicit ids, invalid id preservation, resource-specific isolation, and boundary classification over JSON-RPC.
+
 ## Definition of Done
 
 - [ ] Spawned integration tests cover supported ids.
@@ -74,3 +80,6 @@ flavor transitions. The process-boundary protocol is
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

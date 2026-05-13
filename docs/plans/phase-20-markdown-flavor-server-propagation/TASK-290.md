@@ -41,6 +41,13 @@ downstream services can observe the selected dialect.
 |---|---|
 | `src/test/integration/markdown-flavor.test.ts` | Open document analysis records effective flavor. |
 
+## Implementation Notes
+
+- Add optional `ParseContext` to `OFMParser.parse(...)`.
+- Add `markdownFlavor` and `parseContext` metadata to `OFMDoc`.
+- Update didOpen/didChange parse paths to resolve effective flavor through `MarkdownFlavorState`.
+- Preserve `ParseCache` and `VaultIndex` as the only parsed document stores.
+
 ## Definition of Done
 
 - [ ] Open documents have observable effective flavor.
@@ -52,3 +59,6 @@ downstream services can observe the selected dialect.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

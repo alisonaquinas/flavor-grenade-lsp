@@ -47,6 +47,13 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 | [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
 | [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
 
+## Implementation Notes
+
+- Implement `resolveEffectiveFlavor(input)` in `src/markdown-flavor/markdown-flavor-state.ts`.
+- Use `MarkdownFlavorSelection` and `MarkdownFlavorId` from the Phase 19 contract.
+- Return `inactive` for non-Markdown language ids or non-file schemes.
+- Resolve explicit selector first, then project TOML/resource evidence, Obsidian marker/membership, then CommonMark fallback.
+
 ## Definition of Done
 
 - [ ] Resolver outputs an explicit effective flavor.
@@ -60,3 +67,6 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.

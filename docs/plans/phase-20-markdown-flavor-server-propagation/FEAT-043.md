@@ -2,7 +2,7 @@
 id: "FEAT-043"
 title: "Markdown Flavor Server Propagation"
 type: feature
-status: draft
+status: ready
 priority: high
 phase: 20
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-043"]
 
 # Markdown Flavor Server Propagation
 
-> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `draft`
+> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `ready`
 
 ## Goal
 
@@ -85,3 +85,6 @@ config, or boundary security gates.
 
 > [!INFO] Opened - 2026-05-13
 > Created from server propagation gaps.
+
+> [!INFO] Ready - 2026-05-13
+> Step A-C sweep confirmed Phase 19 PR #69 is open with green CI. Implementation will add `src/markdown-flavor/markdown-flavor-state.ts`, `src/markdown-flavor/non-local-boundary-classifier.ts`, `src/lsp/handlers/configuration.handler.ts`, `src/lsp/handlers/__tests__/configuration.handler.test.ts`, and `src/test/integration/markdown-flavor.test.ts`, with parser context updates in `src/parser/ofm-parser.ts`, `src/parser/types.ts`, `src/lsp/handlers/did-open.handler.ts`, `src/lsp/handlers/did-change.handler.ts`, and `src/lsp/lsp.module.ts`.
