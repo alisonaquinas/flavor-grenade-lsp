@@ -2,7 +2,7 @@
 id: "FEAT-057"
 title: "Markdown Extra Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 31
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-057"]
 
 # Markdown Extra Language Support
 
-> [!INFO] FEAT-057 - Feature - Phase 31 - Status: in-progress
+> [!INFO] FEAT-057 - Feature - Phase 31 - Status: in-review
 
 ## Implementation Plan
 
@@ -122,6 +122,11 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 > sweeps passed. Step K and validation-test Step L are N/A because no
 > `src/test/verification/` or `src/test/validation/` suites exist. No new
 > findings or tickets were opened during sweeps.
+
+> [!INFO] In review - 2026-05-13
+> PR #82 opened against `develop` and CI run `25832296962` passed all checks.
+> Child TASK and CHORE tickets moved to `done`; FEAT-057 remains `in-review`
+> until merge.
 
 ## Retrospective
 

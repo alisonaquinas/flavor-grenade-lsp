@@ -1,7 +1,7 @@
 ---
 title: "Phase 31: Markdown Extra Language Support"
 phase: 31
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, markdown-extra, language-support]
 aliases: [Phase 31, Markdown Extra Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 31 |
 | Title | Markdown Extra Language Support |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Markdown Extra constructs are implemented and tested |
 | Depends on | Phase 23 |
 

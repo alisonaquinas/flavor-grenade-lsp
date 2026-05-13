@@ -1,7 +1,7 @@
 ---
 title: Phase 31 Markdown Extra Language Support Tickets
 phase: 31
-status: in-progress
+status: in-review
 tags: [plans/phase-31, tickets/index, markdown-extra]
 aliases: ["Phase 31 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-057]] | Markdown Extra Language Support | Feature | `in-progress` |
+| [[FEAT-057]] | Markdown Extra Language Support | Feature | `in-review` |
 | [[TASK-342]] | Implement Markdown Extra parser semantics | Task | `done` |
 | [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | `done` |
 | [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | `done` |
