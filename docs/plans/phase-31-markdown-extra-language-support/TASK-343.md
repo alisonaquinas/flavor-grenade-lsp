@@ -2,7 +2,7 @@
 id: "TASK-343"
 title: "Add Markdown Extra diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -103,3 +103,8 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 > completions, document symbols, folding ranges, semantic tokens, query counts,
 > and local boundary classification. Expected failures prove these surfaces are
 > not yet wired.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Wired FG502 diagnostics, Markdown Extra completions, document symbols,
+> folding, semantic tokens, spawned-server query counts, and local boundary
+> evidence. Focused LSP tests now pass.

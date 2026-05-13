@@ -2,7 +2,7 @@
 id: "TASK-344"
 title: "Add Markdown Extra tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -87,3 +87,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ma
 > completions, symbols, folds, semantic tokens, and integration tests. Result:
 > 118 passing tests and 8 expected failures for missing Markdown Extra
 > implementation. `bun run lint --max-warnings 0` passed.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Re-ran the focused Markdown Extra command after implementation. Result: 126
+> passing tests, 0 failures, 363 assertions. `bun run typecheck` and
+> `bun run lint` also pass.

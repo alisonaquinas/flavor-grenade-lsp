@@ -19,6 +19,7 @@ import { PandocParser } from '../parser/pandoc-parser.js';
 import { MultimarkdownParser } from '../parser/multimarkdown-parser.js';
 import { MdxParser } from '../parser/mdx-parser.js';
 import { KramdownParser } from '../parser/kramdown-parser.js';
+import { MarkdownExtraParser } from '../parser/markdown-extra-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -109,6 +110,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'kramdown') {
       diagnostics.push(...this.diagnoseKramdownAttributes(doc));
+    }
+
+    if (doc.markdownFlavor === 'markdown-extra') {
+      diagnostics.push(...this.diagnoseMarkdownExtraAttributes(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -337,6 +342,20 @@ export class DiagnosticService {
       source: 'flavor-grenade',
       message:
         'Malformed kramdown attribute: expected a closing } with id, class, or key=value entries.',
+    }));
+  }
+
+  private diagnoseMarkdownExtraAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.markdownExtraMalformedAttributes ??
+      MarkdownExtraParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG502',
+      source: 'flavor-grenade',
+      message:
+        'Malformed Markdown Extra attribute: expected a closing } with id, class, or key=value entries.',
     }));
   }
 

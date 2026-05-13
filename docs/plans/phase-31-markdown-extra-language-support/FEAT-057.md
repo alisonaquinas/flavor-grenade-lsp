@@ -65,9 +65,9 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | red |
-| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | red |
-| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | red |
+| [[TASK-342]] | Implement Markdown Extra parser semantics | Task | green |
+| [[TASK-343]] | Add Markdown Extra diagnostics and LSP features | Task | green |
+| [[TASK-344]] | Add Markdown Extra tests and validation evidence | Task | green |
 | [[CHORE-133]] | Phase 31 trace and documentation sweep | Chore | open |
 | [[CHORE-134]] | Phase 31 verification and closeout sweep | Chore | open |
 
@@ -111,3 +111,8 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 > Focused Markdown Extra RED suite fails in the expected parser, diagnostics,
 > completion, document-symbol, folding, semantic-token, and integration
 > assertions. TASK-342 through TASK-344 moved to `red` before implementation.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Markdown Extra parser, diagnostics, completions, symbols, folds, semantic
+> tokens, query counts, and profile surface status are implemented. Focused
+> Markdown Extra tests, `bun run typecheck`, and `bun run lint` pass locally.

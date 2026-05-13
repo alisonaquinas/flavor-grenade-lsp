@@ -57,6 +57,11 @@ export class DocumentSymbolHandler {
     const kramdownDefinitionLists = doc.index.kramdownDefinitionLists ?? [];
     const kramdownTables = doc.index.kramdownTables ?? [];
     const kramdownFootnotes = doc.index.kramdownFootnotes ?? [];
+    const markdownExtraAttributes = doc.index.markdownExtraAttributes ?? [];
+    const markdownExtraDefinitionLists = doc.index.markdownExtraDefinitionLists ?? [];
+    const markdownExtraTables = doc.index.markdownExtraTables ?? [];
+    const markdownExtraFootnotes = doc.index.markdownExtraFootnotes ?? [];
+    const markdownExtraAbbreviations = doc.index.markdownExtraAbbreviations ?? [];
 
     if (
       headings.length === 0 &&
@@ -78,7 +83,12 @@ export class DocumentSymbolHandler {
       kramdownAttributes.length === 0 &&
       kramdownDefinitionLists.length === 0 &&
       kramdownTables.length === 0 &&
-      kramdownFootnotes.length === 0
+      kramdownFootnotes.length === 0 &&
+      markdownExtraAttributes.length === 0 &&
+      markdownExtraDefinitionLists.length === 0 &&
+      markdownExtraTables.length === 0 &&
+      markdownExtraFootnotes.length === 0 &&
+      markdownExtraAbbreviations.length === 0
     )
       return [];
 
@@ -317,6 +327,63 @@ export class DocumentSymbolHandler {
         selectionRange: footnote.labelRange,
       };
       this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const attribute of markdownExtraAttributes) {
+      const label =
+        attribute.id !== undefined
+          ? attribute.id
+          : attribute.classes.length > 0
+            ? `.${attribute.classes[0]}`
+            : undefined;
+      if (label === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `Markdown Extra attribute: ${label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.markerRange,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const list of markdownExtraDefinitionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Definition: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const table of markdownExtraTables) {
+      const symbol: DocumentSymbol = {
+        name: `Markdown Extra table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const footnote of markdownExtraFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const abbreviation of markdownExtraAbbreviations) {
+      const symbol: DocumentSymbol = {
+        name: `Abbreviation: ${abbreviation.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: abbreviation.range,
+        selectionRange: abbreviation.labelRange,
+      };
+      this.addSymbolAtLine(symbol, abbreviation.range.start.line, headings, roots);
     }
 
     return roots;

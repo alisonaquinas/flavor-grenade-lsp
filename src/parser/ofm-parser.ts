@@ -14,6 +14,7 @@ import { PandocParser } from './pandoc-parser.js';
 import { MultimarkdownParser } from './multimarkdown-parser.js';
 import { MdxParser } from './mdx-parser.js';
 import { KramdownParser } from './kramdown-parser.js';
+import { MarkdownExtraParser } from './markdown-extra-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -67,6 +68,7 @@ export class OFMParser {
     const enableMultimarkdownSyntax = parseContext.effectiveFlavor === 'multimarkdown';
     const enableMdxSyntax = parseContext.effectiveFlavor === 'mdx';
     const enableKramdownSyntax = parseContext.effectiveFlavor === 'kramdown';
+    const enableMarkdownExtraSyntax = parseContext.effectiveFlavor === 'markdown-extra';
 
     // Stage 2: opaque regions
     const baseOpaqueRegions = mark(text, bodyOffset);
@@ -83,6 +85,9 @@ export class OFMParser {
       ? MultimarkdownParser.parse(text, opaqueRegions)
       : undefined;
     const kramdown = enableKramdownSyntax ? KramdownParser.parse(text, opaqueRegions) : undefined;
+    const markdownExtra = enableMarkdownExtraSyntax
+      ? MarkdownExtraParser.parse(text, opaqueRegions)
+      : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -142,6 +147,15 @@ export class OFMParser {
         kramdownTables: kramdown.tables,
         kramdownFootnotes: kramdown.footnotes,
         kramdownMathBlocks: kramdown.mathBlocks,
+      }),
+      ...(markdownExtra !== undefined && {
+        markdownExtraAttributes: markdownExtra.attributes,
+        markdownExtraMalformedAttributes: markdownExtra.malformedAttributes,
+        markdownExtraDefinitionLists: markdownExtra.definitionLists,
+        markdownExtraTables: markdownExtra.tables,
+        markdownExtraFootnotes: markdownExtra.footnotes,
+        markdownExtraAbbreviations: markdownExtra.abbreviations,
+        markdownExtraFencedCodeBlocks: markdownExtra.fencedCodeBlocks,
       }),
     };
 
@@ -207,6 +221,13 @@ export class OFMParser {
       kramdownTables: [],
       kramdownFootnotes: [],
       kramdownMathBlocks: [],
+      markdownExtraAttributes: [],
+      markdownExtraMalformedAttributes: [],
+      markdownExtraDefinitionLists: [],
+      markdownExtraTables: [],
+      markdownExtraFootnotes: [],
+      markdownExtraAbbreviations: [],
+      markdownExtraFencedCodeBlocks: [],
     };
   }
 

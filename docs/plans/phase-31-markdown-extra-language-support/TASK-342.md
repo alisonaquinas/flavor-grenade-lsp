@@ -2,7 +2,7 @@
 id: "TASK-342"
 title: "Implement Markdown Extra parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -78,3 +78,8 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 > footnotes, abbreviations, fenced code blocks, attributes, inactive Obsidian
 > syntax, and profile surface status. Expected failure: parser index lacks
 > Markdown Extra collections and profile surfaces are still unimplemented.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Implemented `MarkdownExtraParser`, parser index types, OFM flavor dispatch,
+> and implemented profile surface status. Focused Markdown Extra parser tests
+> now pass.

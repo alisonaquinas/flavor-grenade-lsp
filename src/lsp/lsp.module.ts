@@ -367,6 +367,12 @@ export class LspModule implements OnModuleInit {
         kramdownTables: doc.index.kramdownTables?.length ?? 0,
         kramdownFootnotes: doc.index.kramdownFootnotes?.length ?? 0,
         kramdownMathBlocks: doc.index.kramdownMathBlocks?.length ?? 0,
+        markdownExtraAttributes: doc.index.markdownExtraAttributes?.length ?? 0,
+        markdownExtraDefinitionLists: doc.index.markdownExtraDefinitionLists?.length ?? 0,
+        markdownExtraTables: doc.index.markdownExtraTables?.length ?? 0,
+        markdownExtraFootnotes: doc.index.markdownExtraFootnotes?.length ?? 0,
+        markdownExtraAbbreviations: doc.index.markdownExtraAbbreviations?.length ?? 0,
+        markdownExtraFencedCodeBlocks: doc.index.markdownExtraFencedCodeBlocks?.length ?? 0,
       };
     });
 
