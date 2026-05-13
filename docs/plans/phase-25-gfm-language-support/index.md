@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-051]] | GitHub Flavored Markdown Language Support | Feature | `in-progress` |
-| [[TASK-324]] | Implement GFM parser semantics | Task | `open` |
-| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `open` |
-| [[TASK-326]] | Add GFM tests and validation evidence | Task | `open` |
+| [[TASK-324]] | Implement GFM parser semantics | Task | `red` |
+| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `red` |
+| [[TASK-326]] | Add GFM tests and validation evidence | Task | `red` |
 | [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `open` |
 | [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | `open` |
 

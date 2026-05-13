@@ -142,4 +142,32 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data[4]).toBe(0);
   });
+
+  it('encodes GFM task markers and strikethrough spans', () => {
+    const doc = makeDoc(DOC_URI, {
+      gfmTaskListItems: [
+        {
+          raw: '- [x] done',
+          checked: true,
+          text: 'done',
+          range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } },
+          markerRange: { start: { line: 0, character: 2 }, end: { line: 0, character: 5 } },
+        },
+      ],
+      gfmStrikethroughs: [
+        {
+          raw: '~~old~~',
+          text: 'old',
+          range: { start: { line: 1, character: 0 }, end: { line: 1, character: 7 } },
+          textRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 5 } },
+        },
+      ],
+    });
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(10);
+  });
 });

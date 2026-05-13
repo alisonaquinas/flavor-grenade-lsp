@@ -128,4 +128,32 @@ describe('DocumentSymbolHandler', () => {
     const result = handler.handle({ textDocument: { uri: DOC_URI } });
     expect(result).toHaveLength(0);
   });
+
+  it('adds GFM tables and task items as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Tasks', 1, 0)]);
+    doc.index.gfmTables = [
+      {
+        raw: '| A | B |\n| --- | --- |',
+        headerCells: ['A', 'B'],
+        rowCount: 0,
+        range: { start: { line: 2, character: 0 }, end: { line: 3, character: 13 } },
+      },
+    ];
+    doc.index.gfmTaskListItems = [
+      {
+        raw: '- [x] done',
+        checked: true,
+        text: 'done',
+        range: { start: { line: 5, character: 0 }, end: { line: 5, character: 10 } },
+        markerRange: { start: { line: 5, character: 2 }, end: { line: 5, character: 5 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result[0].children?.map((child) => child.name) ?? [];
+
+    expect(names).toContain('GFM table: A, B');
+    expect(names).toContain('Task: done');
+  });
 });

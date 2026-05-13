@@ -449,6 +449,65 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies GFM parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'gfm.md');
+    fs.writeFileSync(path.join(vault, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+    fs.writeFileSync(
+      notePath,
+      [
+        '# GFM',
+        '| A | B |',
+        '| --- | --- |',
+        '| 1 | 2 |',
+        '- [x] done',
+        '~~old~~',
+        'Visit www.example.com.',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'gfm',
+      gfmTables: 1,
+      gfmTaskListItems: 1,
+      gfmStrikethroughs: 1,
+      gfmAutolinks: 1,
+      wikiLinks: 0,
+    });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

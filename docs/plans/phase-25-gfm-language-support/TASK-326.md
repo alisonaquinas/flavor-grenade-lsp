@@ -2,7 +2,7 @@
 id: "TASK-326"
 title: "Add GFM tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -79,3 +79,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gf
 > RED coverage will assert active GFM syntax, inert Obsidian-only syntax,
 > GFM diagnostics/completions/LSP surfaces, spawned-server propagation, and
 > host-boundary classification before implementation changes are made.
+
+> [!INFO] RED - 2026-05-13
+> Added failing spawned-server integration coverage for GFM syntax counts,
+> diagnostics, and Obsidian-inert behavior.

@@ -164,3 +164,62 @@ describe('Obsidian parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('GitHub Flavored Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats GFM signature syntax as active and Obsidian-only syntax as inert', () => {
+    const doc = parser.parse(
+      'file:///vault/gfm.md',
+      [
+        '# GFM Demo',
+        '',
+        '| Task | Owner |',
+        '| --- | --- |',
+        '| Ship | Docs |',
+        '',
+        '- [x] done',
+        '- [ ] todo',
+        '',
+        '~~old text~~',
+        'Visit www.example.com/docs.',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+        '> [!note]',
+        '',
+        '```md',
+        '| hidden | table |',
+        '| --- | --- |',
+        '~~hidden~~',
+        '```',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'gfm' },
+    );
+
+    expect(doc.markdownFlavor).toBe('gfm');
+    expect(doc.index.gfmTables).toHaveLength(1);
+    expect(doc.index.gfmTables[0]).toMatchObject({ headerCells: ['Task', 'Owner'] });
+    expect(doc.index.gfmTaskListItems.map((item) => item.checked)).toEqual([true, false]);
+    expect(doc.index.gfmStrikethroughs.map((entry) => entry.text)).toEqual(['old text']);
+    expect(doc.index.gfmAutolinks.map((entry) => entry.target)).toEqual([
+      'http://www.example.com/docs',
+    ]);
+    expect(doc.index.markdownLinks.map((entry) => entry.target)).toContain(
+      'http://www.example.com/docs',
+    );
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+    expect(doc.index.callouts).toHaveLength(0);
+  });
+
+  it('marks GFM LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('gfm');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

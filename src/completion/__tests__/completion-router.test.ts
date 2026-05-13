@@ -220,6 +220,28 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('GFM flavor routing', () => {
+    it('offers table and task-list snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'gfm' }));
+
+      const tableText = '|';
+      router.setDocumentText(TEST_URI, tableText);
+      const tableResult = router.route(makeParams(TEST_URI, tableText, '|'));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tableResult.items.map((item) => item.label)).toContain('GFM table');
+      expect(taskResult.items.map((item) => item.label)).toContain('GFM task item');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

@@ -2,7 +2,7 @@
 id: "TASK-325"
 title: "Add GFM diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -92,3 +92,7 @@ Deliver diagnostics and LSP feature behavior for the gfm flavor using [[docs/res
 > GFM hover text, semantic tokens, and existing local Markdown link/heading
 > navigation. GitHub issue, PR, commit, user, and label references remain
 > host-bound and non-renameable.
+
+> [!INFO] RED - 2026-05-13
+> Added failing diagnostics, completion, folding, document-symbol, and
+> semantic-token coverage for GFM LSP surfaces.

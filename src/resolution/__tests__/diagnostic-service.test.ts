@@ -355,6 +355,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain('FG101');
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain('FG102');
   });
+
+  it('publishes GFM table diagnostics while keeping Obsidian syntax inert', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/gfm.md', []),
+      text: ['| a | b |', '| --- |', '[[Note]]'].join('\n'),
+      markdownFlavor: 'gfm' as const,
+      parseContext: { effectiveFlavor: 'gfm' as const },
+    };
+
+    service.publishDiagnostics(id('gfm'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG201']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed GFM table');
+  });
 });
 
 describe('block reference diagnostics', () => {
