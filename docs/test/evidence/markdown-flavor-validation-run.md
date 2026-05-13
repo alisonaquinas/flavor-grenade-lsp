@@ -26,7 +26,7 @@ updated: 2026-05-13
 |---|---|---|
 | `bun run bdd` | Pass | 178 scenarios and 1074 steps passed after BUG-046 fixed the watcher fixture's flavor selection. |
 | `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts` | Pass | 6 tests passed. |
-| `bun test src/test/integration/markdown-flavor.test.ts` | Pass | 5 spawned-server flavor tests passed, including Original and CommonMark parser/diagnostic/completion behavior. |
+| `bun test src/test/integration/markdown-flavor.test.ts` | Pass | Spawned-server flavor tests passed, including Original/CommonMark parser/diagnostic/completion behavior and Obsidian parser/diagnostic behavior. |
 | `bun test src/test/ci-workflow.test.ts` | Pass | 6 tests passed; guard protects flavor feature files, root flavor specs, extension flavor specs, and validation artifacts. |
 | `bun test src/` | Pass | 703 tests passed. |
 | `bun test src/test/integration/` | Pass | 19 integration tests passed. |
@@ -45,7 +45,7 @@ updated: 2026-05-13
 | MF-VA-002 | Pass | BDD examples and ADR020 flavor ids align. |
 | MF-VA-003 | Pass | Dialect feature examples include source and signature rows. |
 | MF-VA-004 | Pass | Product review records MDX language-mode safety. |
-| MF-VA-005 | Pass | Host-boundary review records non-local dispositions, deferred dialect work, Phase 22 Original Markdown inert-extension behavior, and Phase 23 CommonMark inert-extension behavior. |
+| MF-VA-005 | Pass | Host-boundary review records non-local dispositions, deferred dialect work, Phase 22 Original Markdown inert-extension behavior, Phase 23 CommonMark inert-extension behavior, and Phase 24 Obsidian vault-local behavior. |
 
 ## Verification Rows
 
@@ -57,7 +57,7 @@ updated: 2026-05-13
 | MF-VF-004 | Pass | `bun run lint:docs` passed during local closeout. |
 | MF-VF-005 | Pass | CI workflow test protects exact flavor gate files. |
 | MF-VF-006 | Pass | CI workflow test protects Phase 21 validation artifact paths. |
-| MF-VF-007 | Pass | Host-boundary review artifact exists and records deferred non-local behavior rules plus Phase 22 Original Markdown and Phase 23 CommonMark no-host-syntax dispositions. |
+| MF-VF-007 | Pass | Host-boundary review artifact exists and records deferred non-local behavior rules plus Phase 22 Original Markdown, Phase 23 CommonMark, and Phase 24 Obsidian dispositions. |
 
 ## Notes
 

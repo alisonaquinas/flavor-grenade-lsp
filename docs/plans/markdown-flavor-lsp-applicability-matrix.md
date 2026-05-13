@@ -64,6 +64,26 @@ completion suppression for Obsidian-only contexts outside the Obsidian flavor.
 | Hover | Implemented through existing local Markdown metadata surfaces for CommonMark syntax; no host-specific CommonMark syntax exists. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for local headings and Markdown link references through existing rename handlers; inactive extension syntax has no CommonMark index entries. | existing rename and Markdown-link rename suites |
 
+## Phase 24 Obsidian Disposition
+
+Phase 24 marks the `obsidian` profile's LSP surfaces implemented for existing
+Obsidian Flavored Markdown behavior under explicit flavor state. Existing OFM
+handlers continue to provide vault-local diagnostics, completions, navigation,
+document links, document symbols, folding, semantic tokens, hover, and safe
+rename behavior from the parsed Obsidian index. Phase 24 adds explicit
+Obsidian profile status plus parser, diagnostic, completion, and spawned-server
+regression evidence proving this behavior no longer depends on `ofmarkdown`
+language-mode promotion.
+
+| Surface | Phase 24 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for vault-local wiki links, embeds, block references, tags, callouts, and attachment rules; active Obsidian syntax does not emit Original/CommonMark portability warnings. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for vault links, embeds, headings, blocks, tags, callouts, and aliases when `doc.markdownFlavor` is `obsidian`. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through the parsed Obsidian index: wiki links, embeds, tags, block anchors, callouts, headings, Markdown links, and attachments remain active. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing structural/navigation suites |
+| Semantic tokens | Implemented through existing OFM token surfaces for active Obsidian constructs and opaque-region suppression. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing semantic-token suite |
+| Hover | Implemented through existing vault target metadata and attachment hover surfaces; renderer-only semantics stay documented as host-boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md`, existing hover suites |
+| Rename | Implemented for safe vault-local notes, headings, blocks, Markdown links, embeds, and attachments through existing rename handlers. | existing rename and Markdown-link rename suites |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

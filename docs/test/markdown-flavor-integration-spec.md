@@ -28,6 +28,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-009 | `src/test/integration/markdown-flavor.test.ts` | Send malformed flavor propagation payloads and unsafe `.flavor-grenade.toml` fixtures. | Oversized maps, non-file URI keys, dangerous keys, stale resources, unsafe TOML paths, oversized TOML, and invalid values are rejected before effective flavor state changes. |
 | MF-I-010 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `original` and open a document with Original core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `original`, indexes headings but not wiki links, publishes FG101 portability diagnostics, and suppresses wiki-link completions. |
 | MF-I-011 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `commonmark` and open a document with CommonMark core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `commonmark`, indexes headings but not wiki links, publishes FG102 portability diagnostics, and suppresses wiki-link completions. |
+| MF-I-012 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `obsidian` and open a document with wiki links, embeds, tags, callouts, and block references. | Open-document analysis reports effective flavor `obsidian`, indexes wiki links, and does not publish Original/CommonMark portability diagnostics for active Obsidian syntax. |
 
 ## Spawned-Server IDs
 
@@ -79,6 +80,12 @@ candidate routing without requiring VS Code UI.
 Integration evidence for Phase 23. It proves CommonMark behavior crosses the
 JSON-RPC process boundary for parser dispatch, diagnostics, and completion
 candidate routing without requiring VS Code UI.
+
+### MF-I-012 - Obsidian Spawned-Server Behavior
+
+Integration evidence for Phase 24. It proves Obsidian behavior crosses the
+JSON-RPC process boundary for parser dispatch and diagnostic behavior without
+requiring VS Code UI or `ofmarkdown` language-mode promotion.
 
 ## Exit Criteria
 

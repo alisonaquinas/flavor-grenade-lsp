@@ -82,6 +82,21 @@ Evidence:
 | Completion | Obsidian-only completion contexts return no candidates for CommonMark. |
 | Navigation / rename | Inactive constructs have no CommonMark index entries, so shared local handlers do not treat them as vault targets. |
 
+## Phase 24 Obsidian Review
+
+Obsidian declares vault-local syntax and renderer semantics in the profile
+registry. Phase 24 implements local vault behavior for parsed Obsidian
+constructs while keeping renderer-only semantics local and inert: no network
+access, process execution, dynamic import, or out-of-root file read is allowed
+when resolving or explaining Obsidian references.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Wiki links, embeds, tags, block anchors, callouts, frontmatter, and Obsidian opaque regions are active only under effective flavor `obsidian`. |
+| Diagnostics | Active Obsidian syntax does not emit Original/CommonMark portability warnings; vault diagnostics remain local to the vault index and attachment metadata. |
+| Completion | Obsidian-only completion contexts return candidates for the Obsidian flavor and remain suppressed for Original/CommonMark. |
+| Navigation / rename | Existing handlers operate on vault-local notes, headings, blocks, Markdown links, embeds, and attachments; renderer-only semantics are not treated as external platform lookups. |
+
 ## Validation Result
 
 | Validation row | Result | Evidence |
