@@ -2,7 +2,7 @@
 id: "TASK-347"
 title: "Add R Markdown tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -63,12 +63,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 
 ## Definition of Done
 
-- [ ] r-markdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for r-markdown, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] r-markdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for r-markdown, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -91,3 +91,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 > Re-ran the focused R Markdown command after implementation. Result: 134
 > passing tests, 0 failures, 390 assertions. `bun run typecheck` and
 > `bun run lint --max-warnings 0` also pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Unit, integration, BDD, evidence, matrix, and applicability trace are updated
+> for R Markdown Phase 32 closeout.

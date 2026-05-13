@@ -147,6 +147,15 @@ inactive Obsidian syntax, and local boundary classification without requiring
 PHP Markdown Extra execution, HTML conversion, syntax highlighters, generated
 metadata, or renderer execution.
 
+### MF-I-020 - R Markdown Spawned-Server Behavior
+
+Integration evidence for Phase 32. It proves R Markdown behavior crosses the
+JSON-RPC process boundary for parser dispatch, local YAML metadata, chunk,
+chunk-option, inline-expression, and malformed-chunk counts, diagnostics,
+inactive Obsidian syntax, and execution-bound classification without requiring
+R, Python, shell, notebook, knitr, Pandoc, Shiny, package, cache, runtime, or
+generated-output execution.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.

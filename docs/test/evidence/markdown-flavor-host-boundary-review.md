@@ -245,3 +245,25 @@ renderer and conversion behavior inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 31 records Markdown Extra renderer and conversion output as non-local. |
+
+## Phase 32 R Markdown Review
+
+R Markdown declares R/Python/shell execution, notebooks, knitr evaluation,
+Pandoc rendering, Shiny runtime, package-aware symbols, caches, and generated
+output as non-local unless a later integration ticket owns configured local
+context. Phase 32 implements local source syntax for YAML metadata, chunk
+headers, chunk labels/options, inline R markers, and malformed chunk headers
+while leaving runtime behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | YAML metadata, chunk headers, chunk labels/options, and inline R markers are active only under effective flavor `r-markdown`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG601` covers malformed local R Markdown chunk headers; chunks are never executed while diagnostics run. |
+| Completion | R Markdown chunk, chunk-option, and inline-expression snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; runtime symbols, package references, generated figures, caches, notebooks, and output artifacts remain execution-bound or conversion-bound without process execution, dynamic import, network access, or workspace edits. |
+
+## Phase 32 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 32 records R Markdown chunks and runtime output as execution-bound. |

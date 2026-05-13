@@ -2,7 +2,7 @@
 id: "TASK-345"
 title: "Implement R Markdown parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -56,11 +56,11 @@ Deliver parser/profile semantics for the r-markdown flavor using [[docs/research
 
 ## Definition of Done
 
-- [ ] r-markdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for r-markdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] r-markdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for r-markdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -83,3 +83,7 @@ Deliver parser/profile semantics for the r-markdown flavor using [[docs/research
 > [!SUCCESS] GREEN validation - 2026-05-13
 > Implemented `RMarkdownParser`, parser index types, OFM flavor dispatch, and
 > implemented profile surface status. Focused R Markdown parser tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Parser semantics, inactive syntax coverage, trace rows, and non-executing
+> R Markdown disposition are complete for Phase 32.

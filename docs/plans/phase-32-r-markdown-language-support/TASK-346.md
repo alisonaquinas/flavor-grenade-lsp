@@ -2,7 +2,7 @@
 id: "TASK-346"
 title: "Add R Markdown diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -66,14 +66,14 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 
 ## Definition of Done
 
-- [ ] r-markdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for r-markdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for r-markdown.
-- [ ] Rename coverage is implemented for safe local r-markdown symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] r-markdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for r-markdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for r-markdown.
+- [x] Rename coverage is implemented for safe local r-markdown symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -96,3 +96,7 @@ Deliver diagnostics and LSP feature behavior for the r-markdown flavor using [[d
 > Wired FG601 diagnostics, R Markdown completions, document symbols, folding,
 > semantic tokens, spawned-server query counts, and execution-boundary
 > evidence. Focused LSP tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Diagnostics, completion, symbols, folding, semantic tokens, query counts,
+> rename disposition, and execution-boundary evidence are complete for Phase 32.

@@ -2,7 +2,7 @@
 id: "CHORE-135"
 title: "Phase 32 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 32
 parent: "FEAT-058"
@@ -33,11 +33,16 @@ Perform trace and documentation kickoff hygiene for R Markdown language-support 
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for r-markdown.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-136]].
+- [x] Documentation trace gaps are identified or resolved for r-markdown.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-136]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Updated R Markdown trace links across the applicability matrix, test index,
+> test matrix, integration spec, research trace, validation run, and
+> host-boundary review. No trace gaps required a new ticket.
