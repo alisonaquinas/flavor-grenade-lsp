@@ -2,7 +2,7 @@
 id: "CHORE-118"
 title: "Phase 23 verification and closeout sweep"
 type: chore
-status: open
+status: green
 priority: medium
 phase: 23
 parent: "FEAT-049"
@@ -51,3 +51,11 @@ Perform the operational sweep for CommonMark language-support phase closure.
 > [!INFO] Pending - 2026-05-13
 > Closeout sweep is blocked on implementation, evidence updates, and the local gate.
 > Status: `open`.
+
+> [!SUCCESS] Local gate - 2026-05-13
+> Phase 23 gate passed locally: profile test, spawned flavor integration, BDD,
+> CI workflow guard, docs lint, typecheck, lint, audit, full `bun test src/`,
+> full integration suite, and build. No verification or validation test
+> directories exist under `src/test/`. BUG-046 was opened and fixed during Step
+> L before BDD was rerun successfully.
+> Status: `green`.

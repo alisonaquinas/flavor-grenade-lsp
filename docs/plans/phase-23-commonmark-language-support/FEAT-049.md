@@ -70,3 +70,41 @@ Implement first-class commonmark language support for CommonMark, using [[docs/r
 > Scope confirmed against [[docs/plans/phase-execution]], [[docs/plans/execution-ledger]], and this phase plan.
 > Implementation will keep CommonMark syntax active while GFM and Obsidian extensions remain inert or portability-diagnosed.
 > Status: `in-progress`.
+
+> [!SUCCESS] Local gate - 2026-05-13
+> CommonMark parser semantics, FG102 diagnostics, non-Obsidian completion
+> gating, spawned-server coverage, trace evidence, and the full documented gate
+> are ready for PR review. BUG-046 was opened and fixed during Step L before
+> rerunning BDD.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+CommonMark reused the Phase 22 flavor dispatch structure cleanly. The RED
+tests isolated the expected surface gaps: profile status, autolinks, FG102
+portability diagnostics, and inactive Obsidian completion suppression.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| BUG-046 | Bug | Existing watcher BDD asserted wiki-link completions from a workspace that now correctly defaulted to CommonMark. | +0.5 h |
+
+### Process observations
+
+The A-M sweep caught a cross-feature fixture assumption that the focused Phase
+23 gate did not. The missing `docs/requirements/operational/phase-execution.md`
+path in the user prompt did not block execution because the repo's actual
+procedure lives at `docs/plans/phase-execution.md`.
+
+### Carry-forward actions
+
+- [ ] In Phase 24, make Obsidian-specific BDD fixtures explicitly select
+      `obsidian` when asserting wiki links, embeds, tags, or callouts.
+
+### Rule / template amendments
+
+- [ ] none
