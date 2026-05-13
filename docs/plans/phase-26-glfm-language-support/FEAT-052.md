@@ -2,7 +2,7 @@
 id: "FEAT-052"
 title: "GitLab Flavored Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 26
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-052"]
 
 # GitLab Flavored Markdown Language Support
 
-> [!INFO] FEAT-052 - Feature - Phase 26 - Status: draft
+> [!INFO] FEAT-052 - Feature - Phase 26 - Status: in-progress
 
 ## Description
 
@@ -37,6 +37,39 @@ Implement first-class glfm language support for GitLab Flavored Markdown, using 
 | [[TASK-329]] | Add GLFM tests and validation evidence | Task | open |
 | [[CHORE-123]] | Phase 26 trace and documentation sweep | Chore | open |
 | [[CHORE-124]] | Phase 26 verification and closeout sweep | Chore | open |
+
+## Implementation Plan
+
+Phase 26 is stacked after Phase 25 because GLFM inherits the CommonMark/GFM
+baseline and then adds local GitLab syntax awareness. Implementation will reuse
+the Phase 25 GFM parser for tables, ordinary task items, strikethrough, and
+extended autolinks, then add GLFM-local entries for inapplicable task markers,
+description lists, footnotes, TOC tags, and GitLab host references.
+
+Primary source paths:
+
+- `src/parser/gfm-parser.ts`
+- `src/parser/glfm-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/markdown-flavor/non-local-boundary-classifier.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Linked Requirements
 
@@ -66,3 +99,8 @@ Implement first-class glfm language support for GitLab Flavored Markdown, using 
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Added concrete implementation and RED test paths
+> for TASK-327 through TASK-329. GLFM host lookup remains deferred unless a
+> separate integration ticket owns live GitLab service access.

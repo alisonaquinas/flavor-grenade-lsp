@@ -46,8 +46,11 @@ Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitla
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
+| Source | `src/parser/gfm-parser.ts` |
+| Source | `src/parser/glfm-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
@@ -64,3 +67,8 @@ Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitla
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will reuse GFM entries for the baseline and add
+> `GlfmParser.parse(text, opaqueRegions)` for inapplicable task markers,
+> description lists, footnotes, TOC tags, and GitLab host-reference shapes.

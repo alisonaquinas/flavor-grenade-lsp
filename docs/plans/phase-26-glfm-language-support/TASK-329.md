@@ -74,3 +74,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gl
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert inherited GFM baseline behavior, GLFM-specific local
+> syntax, inactive Obsidian syntax, spawned-server propagation, and GitLab
+> host-boundary classification before implementation changes are made.

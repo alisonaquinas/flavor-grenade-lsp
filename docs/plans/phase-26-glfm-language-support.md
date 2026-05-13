@@ -1,7 +1,7 @@
 ---
 title: "Phase 26: GitLab Flavored Markdown Language Support"
 phase: 26
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, glfm, language-support]
 aliases: [Phase 26, GLFM Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 26 |
 | Title | GitLab Flavored Markdown Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | GLFM signature constructs are implemented and tested |
 | Depends on | Phase 25 |
 
