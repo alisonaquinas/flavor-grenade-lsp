@@ -9,9 +9,11 @@ aliases:
 # Embedding Content User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors embed other files — notes, images, and other assets — and the feedback they receive when embeds are broken. Implementation details are in [[requirements/embed-resolution]].
+> These user requirements cover how vault authors embed other files — notes, images, and other assets — and the feedback they receive when embeds are broken. Implementation details are in [[docs/requirements/embed-resolution]].
 
 ---
+
+## User.Embed.DetectBrokenEmbed
 
 **Tag:** User.Embed.DetectBrokenEmbed
 **Gist:** Vault author sees a diagnostic warning immediately when an `![[embed]]` target does not exist or has been moved.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Embed.Resolution.MarkdownTarget, Embed.Resolution.ImageTarget, Embed.HeadingEmbed.Resolution, Embed.BlockEmbed.Resolution
 
 ---
+
+## User.Embed.PreviewLinkedContent
 
 **Tag:** User.Embed.PreviewLinkedContent
 **Gist:** Vault author sees a hover preview of the embedded content without leaving the current document.

@@ -27,7 +27,7 @@ Create the four Marketplace-required assets in the `extension/` directory: a use
 
 ## Implementation Notes
 
-- Write `extension/README.md` with the exact content specified in the phase plan [[plans/phase-E4-packaging-local-test]]. It must include: extension title, features list (completions, diagnostics, go-to-definition, rename, code actions, code lens, semantic tokens), configuration table (5 settings), getting started section, commands section (3 commands), requirements, and links.
+- Write `extension/README.md` with the exact content specified in the phase plan [[docs/plans/phase-E4-packaging-local-test]]. It must include: extension title, features list (completions, diagnostics, go-to-definition, rename, code actions, code lens, semantic tokens), configuration table (5 settings), getting started section, commands section (3 commands), requirements, and links.
 
 - Write `extension/CHANGELOG.md` with the 0.1.0 unreleased entry listing initial release features: LanguageClient wrapper, status bar, commands, and configuration.
 
@@ -37,17 +37,17 @@ Create the four Marketplace-required assets in the `extension/` directory: a use
 
 - The `extension/package.json` must already have `"icon": "images/icon.png"` set (from Phase E1). Verify this is present.
 
-- See also: [[plans/phase-E4-packaging-local-test]] for exact file contents
+- See also: [[docs/plans/phase-E4-packaging-local-test]] for exact file contents
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Marketplace asset preparation; no functional requirement — packaging infrastructure only | [[requirements/index]] |
+| — | Marketplace asset preparation; no functional requirement — packaging infrastructure only | [[docs/requirements/index]] |
 
 ---
 
@@ -123,13 +123,13 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-The exact README and CHANGELOG content is specified in the phase plan [[plans/phase-E4-packaging-local-test]]. Copy the content verbatim from the plan to ensure consistency. The icon is a development placeholder and will be replaced with a designed icon before Marketplace publishing.
+The exact README and CHANGELOG content is specified in the phase plan [[docs/plans/phase-E4-packaging-local-test]]. Copy the content verbatim from the plan to ensure consistency. The icon is a development placeholder and will be replaced with a designed icon before Marketplace publishing.
 
 ---
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -145,13 +145,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-018]].

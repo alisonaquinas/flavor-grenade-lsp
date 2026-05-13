@@ -40,8 +40,8 @@ client-owned payloads into native VS Code commands or APIs.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.GraphActions` | Required graph and diagnostic bridge commands are present | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Graph action payloads fail safely when invalid | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Required graph and diagnostic bridge commands are present | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Graph action payloads fail safely when invalid | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Invalid graph command payloads fail safely
 - [x] `cd extension && npm run check-types` passes
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated for new coverage
 
 ---
 
@@ -112,12 +112,12 @@ for Phase E8.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -48,12 +48,12 @@ review.
 
 | Requirement | Source |
 |---|---|
-| Visual polish review requirements | [[../../../website/docs/requirements/design/index]] |
-| Product identity assets | [[../../../website/docs/requirements/functional/product-identity-assets]] |
-| Theme modes | [[../../../website/docs/requirements/functional/theme-modes]] |
-| Attribution links | [[../../../website/docs/requirements/functional/attribution]] |
-| Homepage UX | [[../../../website/docs/requirements/user/homepage]] |
-| Accessibility and usability | [[../../../website/docs/requirements/user/accessibility-and-usability]] |
+| Visual polish review requirements | [[website/docs/requirements/design/index]] |
+| Product identity assets | [[website/docs/requirements/functional/product-identity-assets]] |
+| Theme modes | [[website/docs/requirements/functional/theme-modes]] |
+| Attribution links | [[website/docs/requirements/functional/attribution]] |
+| Homepage UX | [[website/docs/requirements/user/homepage]] |
+| Accessibility and usability | [[website/docs/requirements/user/accessibility-and-usability]] |
 
 ## Acceptance Criteria
 
@@ -93,7 +93,7 @@ review.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

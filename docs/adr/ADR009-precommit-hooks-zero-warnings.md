@@ -9,7 +9,7 @@ date: 2026-04-16
 
 ## Context
 
-Linting warnings that are permitted to accumulate become permanent technical debt. Once a codebase contains hundreds of suppressed warnings, enforcing any new lint rule produces noise rather than signal, and developers learn to ignore the output entirely. The project requires "aggressive strict linting, warnings treated as errors" (see [[requirements/code-quality]]).
+Linting warnings that are permitted to accumulate become permanent technical debt. Once a codebase contains hundreds of suppressed warnings, enforcing any new lint rule produces noise rather than signal, and developers learn to ignore the output entirely. The project requires "aggressive strict linting, warnings treated as errors" (see [[docs/requirements/code-quality]]).
 
 Two enforcement points were evaluated:
 
@@ -38,11 +38,11 @@ The pre-commit hook runs the following checks, **all of which must pass for the 
 
 If any step fails, lefthook prints the failing step's output and exits non-zero. The commit is aborted. The developer fixes the issue and re-runs `git commit`.
 
-Configuration is committed to the repository as `lefthook.yml` at the repository root. Developers run `lefthook install` once after cloning the repository. This registers the hooks in `.git/hooks/`. The `lefthook install` step is documented in the project README and is included in the Phase 1 scaffold checklist (see [[plans/phase-01-scaffold]]).
+Configuration is committed to the repository as `lefthook.yml` at the repository root. Developers run `lefthook install` once after cloning the repository. This registers the hooks in `.git/hooks/`. The `lefthook install` step is documented in the project README and is included in the Phase 1 scaffold checklist (see [[docs/plans/phase-01-scaffold]]).
 
 `--no-verify` bypass: developers may use `git commit --no-verify` only in explicitly documented emergency scenarios (e.g., a time-sensitive hotfix where CI will be the gate). Its use must be noted in the PR description. `--no-verify` is never permitted in CI-driven commits.
 
-CI mirrors the exact same four checks. The CI job is the authoritative gate for merges to `main` and `develop` (see [[adr/ADR007-git-flow-branching]]). The pre-commit hook is a developer ergonomics layer, not a replacement for CI.
+CI mirrors the exact same four checks. The CI job is the authoritative gate for merges to `main` and `develop` (see [[docs/adr/ADR007-git-flow-branching]]). The pre-commit hook is a developer ergonomics layer, not a replacement for CI.
 
 ## Consequences
 
@@ -65,7 +65,7 @@ CI mirrors the exact same four checks. The CI job is the authoritative gate for 
 
 ## Related
 
-- [[adr/ADR002-ofm-only-scope]]
-- [[requirements/code-quality]]
-- [[requirements/ci-cd]]
-- [[plans/phase-01-scaffold]]
+- [[docs/adr/ADR002-ofm-only-scope]]
+- [[docs/requirements/code-quality]]
+- [[docs/requirements/ci-cd]]
+- [[docs/plans/phase-01-scaffold]]

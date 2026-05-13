@@ -38,7 +38,7 @@ candidate lists.
 - Prefer configured attachment-folder hints once [[TASK-168]] lands, but do not
   block base completion on config polish.
 - Preserve existing Markdown document completions for document link contexts.
-- See also: [[plans/phase-15-attachment-intelligence]]
+- See also: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -46,8 +46,8 @@ candidate lists.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete indexed attachment paths | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment references support completion | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete indexed attachment paths | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment references support completion | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -67,7 +67,7 @@ candidate lists.
 | `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> Update [[test/matrix]] and [[test/index]].
+> Update [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -75,7 +75,7 @@ candidate lists.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are attachment references |
+| [[docs/adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are attachment references |
 
 ---
 
@@ -108,8 +108,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenario passes locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [ ] [[docs/test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-022]] child task row updated to `in-review`.
 
 ---
@@ -124,7 +124,7 @@ preference behavior, not introduce the provider from scratch.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -133,7 +133,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

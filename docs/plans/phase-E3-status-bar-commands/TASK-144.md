@@ -31,7 +31,7 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
 
 - Exports `createStatusBar(client: LanguageClient): StatusBarItem`
 
-- Defines `FlavorGrenadeStatus` interface matching the `flavorGrenade/status` notification params from [[design/api-layer]]:
+- Defines `FlavorGrenadeStatus` interface matching the `flavorGrenade/status` notification params from [[docs/design/api-layer]]:
 
   ```typescript
   interface FlavorGrenadeStatus {
@@ -64,17 +64,17 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
 
 - Typecheck verification: `cd extension && npx tsc --noEmit`
 
-- See also: [[design/api-layer]] — "Custom Notification: flavorGrenade/status"
+- See also: [[docs/design/api-layer]] — "Custom Notification: flavorGrenade/status"
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension UX layer; status bar reflects server state for vault authors | [[requirements/index]] |
+| — | Extension UX layer; status bar reflects server state for vault authors | [[docs/requirements/index]] |
 
 ---
 
@@ -104,7 +104,7 @@ Create `extension/src/status-bar.ts` containing a `createStatusBar` function tha
 
 | ADR | Decision |
 |---|---|
-| — | No ADR directly constrains this task; the `flavorGrenade/status` notification shape is defined in [[design/api-layer]] |
+| — | No ADR directly constrains this task; the `flavorGrenade/status` notification shape is defined in [[docs/design/api-layer]] |
 
 ---
 
@@ -132,7 +132,7 @@ All of the following must be true before this task is marked `done`:
 
 - [ ] `extension/src/status-bar.ts` exists and exports `createStatusBar`
 
-- [ ] `FlavorGrenadeStatus` interface matches the shape defined in [[design/api-layer]]
+- [ ] `FlavorGrenadeStatus` interface matches the shape defined in [[docs/design/api-layer]]
 
 - [ ] Status bar item uses `StatusBarAlignment.Left` with priority `-1`
 
@@ -158,7 +158,7 @@ The `$(loading~spin)` codicon syntax uses VS Code's built-in animated spinner. T
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -174,13 +174,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].

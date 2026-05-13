@@ -143,10 +143,10 @@ Use Vite with React for the website shell and documentation controls.
 
 ## More Information
 
-- [[../architecture/index]]
-- [[../requirements/technical/index]]
-- [[../requirements/technical/ci-cd]]
-- [[../requirements/design/index]]
+- [[website/docs/architecture/index]]
+- [[website/docs/requirements/technical/index]]
+- [[website/docs/requirements/technical/ci-cd]]
+- [[website/docs/requirements/design/index]]
 - Vite static deploy guidance for GitHub Pages documents `base` behavior for
   root-domain and repository-subpath deployments.
 - Svelte TypeScript guidance documents `<script lang="ts">` and Vite

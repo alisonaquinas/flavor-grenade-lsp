@@ -10,9 +10,11 @@ aliases:
 # Navigation Requirements
 
 > [!NOTE] Scope
-> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[requirements/rename]].
+> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[docs/requirements/diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[docs/requirements/rename]].
 
 ---
+
+## Navigation.Definition.AllLinkTypes
 
 **Tag:** Navigation.Definition.AllLinkTypes
 **User Req:** User.Navigate.JumpToNote, User.Blocks.ReferenceSpecificText
@@ -33,9 +35,11 @@ aliases:
 **Goal:** 100% of link types supported; 100% of valid occurrences return correct Location.
 **Stakeholders:** Vault authors navigating their knowledge graph, editor users expecting Ctrl+Click behaviour.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#definition-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/tags#inline-tag-syntax]], LSP specification §3.14 textDocument/definition.
+**Source:** [[docs/design/api-layer]], [[docs/ofm-spec/wiki-links]], [[docs/ofm-spec/embeds]], [[docs/ofm-spec/tags]], LSP specification §3.14 textDocument/definition.
 
 ---
+
+## Navigation.References.Completeness
 
 **Tag:** Navigation.References.Completeness
 **User Req:** User.Navigate.FindAllReferences
@@ -53,9 +57,11 @@ aliases:
 **Goal:** 100% of actual references returned.
 **Stakeholders:** Vault authors before rename or delete operations, knowledge base curators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#references-handler]], [[design/domain-layer#vault-index]], LSP specification §3.15 textDocument/references.
+**Source:** [[docs/design/api-layer]], [[docs/design/domain-layer]], LSP specification §3.15 textDocument/references.
 
 ---
+
+## Navigation.CodeLens.Count
 
 **Tag:** Navigation.CodeLens.Count
 **User Req:** User.Navigate.SeeReferenceCount
@@ -75,4 +81,4 @@ aliases:
 **Goal:** 100% of headings display correct reference counts.
 **Stakeholders:** Vault authors assessing content connectivity, PKM practitioners, Zettelkasten users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#codelens-handler]], [[design/domain-layer#heading-index]], [[ofm-spec/wiki-links#heading-links]], LSP specification §3.16 textDocument/codeLens.
+**Source:** [[docs/design/api-layer]], [[docs/design/domain-layer]], [[docs/ofm-spec/wiki-links]], LSP specification §3.16 textDocument/codeLens.

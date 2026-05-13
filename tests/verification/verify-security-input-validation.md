@@ -8,7 +8,7 @@ aliases: [Verify Input Validation]
 
 ## Purpose
 
-This document defines verification test cases for the JSON-RPC input validation security requirements of `flavor-grenade-lsp`. Each test case validates that the server correctly rejects malformed, oversized, or adversarially crafted inputs before they reach the VaultIndex or any application logic. The requirements are defined in [[requirements/security/input-validation]] and the threat analysis in [[research/security-threat-model]]. All three test cases require constructing adversarial inputs and sending them to a live server, making them Agent-driven. The goal is to verify that the server's validation boundary holds against every input class identified in the threat model.
+This document defines verification test cases for the JSON-RPC input validation security requirements of `flavor-grenade-lsp`. Each test case validates that the server correctly rejects malformed, oversized, or adversarially crafted inputs before they reach the VaultIndex or any application logic. The requirements are defined in [[docs/requirements/security/input-validation]] and the threat analysis in [[docs/research/security-threat-model]]. All three test cases require constructing adversarial inputs and sending them to a live server, making them Agent-driven. The goal is to verify that the server's validation boundary holds against every input class identified in the threat model.
 
 ## Requirements Covered
 

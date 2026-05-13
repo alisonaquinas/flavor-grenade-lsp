@@ -9,9 +9,11 @@ aliases:
 # Navigation User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors move between notes, discover connections, and understand the structure of their knowledge graph. Implementation details are in [[requirements/navigation]], [[wiki-link-resolution]], and [[requirements/block-references]].
+> These user requirements cover how vault authors move between notes, discover connections, and understand the structure of their knowledge graph. Implementation details are in [[docs/requirements/navigation]], [[docs/requirements/wiki-link-resolution]], and [[docs/requirements/block-references]].
 
 ---
+
+## User.Navigate.JumpToNote
 
 **Tag:** User.Navigate.JumpToNote
 **Gist:** Vault author navigates to the definition of a wiki-link target with one LSP action.
@@ -25,6 +27,8 @@ aliases:
 
 ---
 
+## User.Navigate.FindAllReferences
+
 **Tag:** User.Navigate.FindAllReferences
 **Gist:** Vault author retrieves a complete list of every cross-vault reference to a note or heading in a single action.
 **Ambition:** The references list is exhaustive — it misses no occurrence anywhere in the vault — and is returned fast enough that authors routinely use it before every rename rather than performing a manual text search.
@@ -36,6 +40,8 @@ aliases:
 **Maps to:** Navigation.References.Completeness
 
 ---
+
+## User.Navigate.SeeReferenceCount
 
 **Tag:** User.Navigate.SeeReferenceCount
 **Gist:** Vault author sees an inline reference count displayed above each heading, updated automatically as the vault changes.

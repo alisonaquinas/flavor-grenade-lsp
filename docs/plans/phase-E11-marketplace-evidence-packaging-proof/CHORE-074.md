@@ -34,7 +34,7 @@ after Marketplace proof work lands so the evidence path is complete.
 E11 spans root docs and extension docs. Traceability must show that the README
 proof and package verification satisfy the functional requirements.
 
-- Motivated by: [[plans/phase-E11-marketplace-evidence-packaging-proof]]
+- Motivated by: [[docs/plans/phase-E11-marketplace-evidence-packaging-proof]]
 
 ---
 
@@ -42,8 +42,8 @@ proof and package verification satisfy the functional requirements.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.OFMProof` | README visual proof is traceable | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Marketplace.AssetPackaging` | Packaged asset proof is traceable | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.OFMProof` | README visual proof is traceable | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Packaged asset proof is traceable | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -69,7 +69,7 @@ proof and package verification satisfy the functional requirements.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Documentation should match VSIX packaging policy |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Documentation should match VSIX packaging policy |
 
 ---
 
@@ -89,9 +89,9 @@ proof and package verification satisfy the functional requirements.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] E11 rows in [[test/matrix]] point to current evidence
-- [x] [[test/index]] lists any new E11 verification files
-- [x] Phase links remain consistent with [[plans/phase-E11-marketplace-evidence-packaging-proof]]
+- [x] E11 rows in [[docs/test/matrix]] point to current evidence
+- [x] [[docs/test/index]] lists any new E11 verification files
+- [x] Phase links remain consistent with [[docs/plans/phase-E11-marketplace-evidence-packaging-proof]]
 - [x] Extension plan still names E11 as Marketplace proof
 - [x] No behaviour-affecting changes in `src/`
 - [x] Markdown links and wikilinks are coherent
@@ -109,7 +109,7 @@ implementation. The current ticket-generation task did not perform that work.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -136,6 +136,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > evidence traceable.
 
 > [!SUCCESS] Done - 2026-05-07
-> Updated [[test/matrix]], [[test/index]], E11 tickets, and the extension parity
+> Updated [[docs/test/matrix]], [[docs/test/index]], E11 tickets, and the extension parity
 > plan so Marketplace README proof and packaged asset proof trace to
 > `Extension.Marketplace.OFMProof` and `Extension.Marketplace.AssetPackaging`.

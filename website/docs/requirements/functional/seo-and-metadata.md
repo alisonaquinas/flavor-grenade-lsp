@@ -30,7 +30,7 @@ Stakeholders: Search visitors, maintainers, people sharing links.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/seo-discovery]], [[requirements/technical/index]]
+Source: [[website/docs/requirements/user/seo-discovery]], [[website/docs/requirements/technical/index]]
 
 Open questions:
 
@@ -73,7 +73,7 @@ Stakeholders: Search visitors, maintainers.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/seo-discovery]], [[requirements/technical/index]]
+Source: [[website/docs/requirements/user/seo-discovery]], [[website/docs/requirements/technical/index]]
 
 Open questions:
 
@@ -110,7 +110,7 @@ Stakeholders: Search visitors, maintainers.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/seo-discovery]], [[requirements/technical/index]]
+Source: [[website/docs/requirements/user/seo-discovery]], [[website/docs/requirements/technical/index]]
 
 Open questions:
 

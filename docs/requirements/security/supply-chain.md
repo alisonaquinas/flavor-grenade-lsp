@@ -11,9 +11,11 @@ aliases:
 # Supply Chain Security Requirements
 
 > [!NOTE] Scope
-> These are **operational security requirements** governing how dependencies are managed, audited, and published. They respond directly to the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), and NestJS CVEs documented in [[research/security-threat-model#Threat-Category-3]]. Decisions are codified in [[adr/ADR014-dependency-security-policy]] and [[adr/ADR008-oidc-publishing]].
+> These are **operational security requirements** governing how dependencies are managed, audited, and published. They respond directly to the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), and NestJS CVEs documented in [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR014-dependency-security-policy]] and [[docs/adr/ADR008-oidc-publishing]].
 
 ---
+
+## Security.Supply.ExactPinning
 
 **Tag:** Security.Supply.ExactPinning
 **Gist:** Runtime and development dependencies should use exact version strings where possible; range specifiers (`^`, `~`, `>=`, `*`) remain tracked supply-chain debt until CI range linting is added.
@@ -29,9 +31,11 @@ aliases:
 **Goal:** 0% range specifiers — all entries use exact version strings, enforced by `bunfig.toml` `exact = true` for new Bun adds plus a future CI range lint check.
 **Stakeholders:** Supply chain security, dependency auditors, CI integrity.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#1-exact-version-pinning]], Shai-Hulud 2.0 analysis.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], Shai-Hulud 2.0 analysis.
 
 ---
+
+## Security.Supply.FrozenLockfile
 
 **Tag:** Security.Supply.FrozenLockfile
 **Gist:** All CI `bun install` invocations must use `--frozen-lockfile`; any discrepancy between `package.json` and `bun.lockb` must fail the build rather than update the lockfile.
@@ -47,9 +51,11 @@ aliases:
 **Goal:** 100% of CI `bun install` calls use `--frozen-lockfile`.
 **Stakeholders:** Supply chain security, CI integrity.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#2-frozen-lockfile-in-all-ci-runs]], `.github/workflows/ci.yml`.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], `.github/workflows/ci.yml`.
 
 ---
+
+## Security.Supply.IgnoreScripts
 
 **Tag:** Security.Supply.IgnoreScripts
 **Gist:** All CI `bun install` invocations must include the `--ignore-scripts` CLI flag to prevent postinstall script execution; the `.npmrc` directive alone is insufficient due to Bun's known bypass.
@@ -65,9 +71,11 @@ aliases:
 **Goal:** 100% of CI installs use `--ignore-scripts`; zero postinstall scripts execute in CI.
 **Stakeholders:** Supply chain security, CI integrity.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#3-ignore-scripts-in-ci-installs]], bunsecurity.dev Bun security disclosure.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], bunsecurity.dev Bun security disclosure.
 
 ---
+
+## Security.Supply.AdvisoryMonitoring
 
 **Tag:** Security.Supply.AdvisoryMonitoring
 **Gist:** Direct dependencies must be reviewed against published security advisories before each upgrade; findings must be documented in `docs/security/dependency-audit-log.md` with reviewer sign-off.
@@ -82,9 +90,11 @@ aliases:
 **Goal:** 100% of direct dependency upgrades have documented advisory reviews.
 **Stakeholders:** Security auditors, release managers, supply chain reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#4-security-advisory-monitoring]], CVE-2024-29409.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], CVE-2024-29409.
 
 ---
+
+## Security.Supply.NoDevtoolsIntegration
 
 **Tag:** Security.Supply.NoDevtoolsIntegration
 **Gist:** `@nestjs/devtools-integration` must never be added as a dependency; package audit and future lint rules enforce this prohibition.
@@ -100,4 +110,4 @@ aliases:
 **Goal:** The package is absent from manifests, lockfiles, and source; a future lint guard catches accidental imports at lint time.
 **Stakeholders:** Security auditors, NestJS dependency reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-3]], [[adr/ADR014-dependency-security-policy#7-no-nestjsdevtools-integration]], CVE-2025-54782.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], CVE-2025-54782.

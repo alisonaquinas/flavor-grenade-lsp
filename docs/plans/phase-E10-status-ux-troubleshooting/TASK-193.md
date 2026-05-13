@@ -31,7 +31,7 @@ document count, and last error from the status item.
   extension boundary
 - Avoid exposing secrets, full command-line arguments, or user tokens
 - Include unavailable fields explicitly when the server has not started
-- See also: [[ddd/editor-client/domain-model]]
+- See also: [[docs/ddd/editor-client/domain-model]]
 
 ---
 
@@ -39,8 +39,8 @@ document count, and last error from the status item.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Status.Diagnostics` | Status tooltip exposes server, vault, version, and error details | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.QuickActions` | Tooltip detail supports applicable recovery actions | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Status tooltip exposes server, vault, version, and error details | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.QuickActions` | Tooltip detail supports applicable recovery actions | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -61,7 +61,7 @@ document count, and last error from the status item.
 | `extension/src/test/suite/status-tooltip.test.ts` | Integration | `Extension.Status.Diagnostics` | failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> See [[test/matrix]] and [[test/index]].
+> See [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -69,7 +69,7 @@ document count, and last error from the status item.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | The extension owns VS Code status UI behavior |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | The extension owns VS Code status UI behavior |
 
 ---
 
@@ -103,8 +103,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-028]] child task row updated to `in-review`
 
 ---
@@ -119,14 +119,14 @@ fields for diagnostic copy output.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -135,7 +135,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

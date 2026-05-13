@@ -43,7 +43,7 @@ the same vault-aware rules without producing noise for external URLs.
 
 - Attachment metadata and image hover support beyond local target recognition.
 - Markdown image definition, diagnostics, hover, and attachment completion beyond
-  image reference indexing; these belong to [[plans/phase-15-attachment-intelligence]].
+  image reference indexing; these belong to [[docs/plans/phase-15-attachment-intelligence]].
 - File and folder move refactors.
 - `textDocument/documentLink`, folding ranges, and selection ranges.
 - CLI check/export tooling.
@@ -54,11 +54,11 @@ the same vault-aware rules without producing noise for external URLs.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Author.UseStandardMarkdownLinks` | Use standard Markdown links with vault-aware behavior | [[requirements/functional/ofmarkdown-parity]] |
-| `User.Diagnose.SpotAmbiguousHeadingAnchors` | Catch duplicate heading anchors before navigation is ambiguous | [[requirements/functional/ofmarkdown-parity]] |
-| `User.Navigate.JumpToNote` | Jump from a link to its target | [[requirements/user/navigating-notes]] |
-| `User.Navigate.FindAllReferences` | See every reference to a note or heading | [[requirements/user/navigating-notes]] |
-| `User.Rename.RenameHeadingEverywhere` | Rename a heading and update all heading links | [[requirements/user/renaming-safely]] |
+| `User.Author.UseStandardMarkdownLinks` | Use standard Markdown links with vault-aware behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `User.Diagnose.SpotAmbiguousHeadingAnchors` | Catch duplicate heading anchors before navigation is ambiguous | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `User.Navigate.JumpToNote` | Jump from a link to its target | [[docs/requirements/user/navigating-notes]] |
+| `User.Navigate.FindAllReferences` | See every reference to a note or heading | [[docs/requirements/user/navigating-notes]] |
+| `User.Rename.RenameHeadingEverywhere` | Rename a heading and update all heading links | [[docs/requirements/user/renaming-safely]] |
 
 ---
 
@@ -66,18 +66,18 @@ the same vault-aware rules without producing noise for external URLs.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Local standard Markdown links resolve through vault rules | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.ParseCoverage` | Supported Markdown link forms become typed parser/index data | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.TargetClassification` | Targets are classified before resolution and diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.ReferenceGraph` | Markdown links, images, labels, and definitions join RefGraph | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading completion candidates | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document Markdown anchors support definition, diagnostics, references, and rename | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Duplicate or ambiguous heading anchors produce diagnostics with related locations | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.RenameAnchors` | Markdown heading anchors update during heading rename | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition supports Markdown local links | [[requirements/navigation]] |
-| `Navigation.References.Completeness` | References include Markdown local links | [[requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Heading rename updates Markdown heading anchors | [[requirements/rename]] |
+| `Parity.MarkdownLinks.LocalResolution` | Local standard Markdown links resolve through vault rules | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.ParseCoverage` | Supported Markdown link forms become typed parser/index data | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | Targets are classified before resolution and diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.ReferenceGraph` | Markdown links, images, labels, and definitions join RefGraph | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading completion candidates | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document Markdown anchors support definition, diagnostics, references, and rename | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Duplicate or ambiguous heading anchors produce diagnostics with related locations | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.RenameAnchors` | Markdown heading anchors update during heading rename | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Definition supports Markdown local links | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | References include Markdown local links | [[docs/requirements/navigation]] |
+| `Rename.Refactoring.Completeness` | Heading rename updates Markdown heading anchors | [[docs/requirements/rename]] |
 
 ---
 
@@ -91,8 +91,8 @@ the same vault-aware rules without producing noise for external URLs.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-14-markdown-link-intelligence]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-14-markdown-link-intelligence]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -111,8 +111,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Existing wiki-link, embed, block-reference, tag, completion, diagnostics,
   navigation, and rename scenarios remain green.
 - [ ] External URLs never produce FG001 or vault broken-link diagnostics.
-- [ ] Parser behavior respects [[ofm-spec/markdown-links]] and opaque regions
-  from [[ofm-spec/index]].
+- [ ] Parser behavior respects [[docs/ofm-spec/markdown-links]] and opaque regions
+  from [[docs/ofm-spec/index]].
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 
@@ -153,7 +153,7 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- Phase 13 (see [[plans/execution-ledger]]) - CI and delivery gate must be
+- Phase 13 (see [[docs/plans/execution-ledger]]) - CI and delivery gate must be
   available before Phase 14 is validated.
 
 **Unblocks:**
@@ -174,7 +174,7 @@ wiki-links so existing OFM behavior is unchanged.
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -190,14 +190,14 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order.
 > Do not edit previous entries. Update the `status` frontmatter field to match
 > the current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type
+> See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type
 > conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `draft`. Child tasks and chores defined for Phase 14.
 
 > [!INFO] Started - 2026-05-06
-> Steps A-C began. Phase prerequisites are complete in [[plans/execution-ledger]];
+> Steps A-C began. Phase prerequisites are complete in [[docs/plans/execution-ledger]];
 > child task scope is present, implementation surfaces were audited, and linked
 > test paths were normalized to the repository `.test.ts` convention. Status:
 > `in-progress`.

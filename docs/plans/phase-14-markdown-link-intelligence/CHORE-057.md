@@ -34,9 +34,9 @@ phase moves into final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Vault.PathConfinement` | File operations must remain confined to the vault root | [[requirements/security/vault-confinement]] |
-| `Security.Input.PositionValidation` | LSP-facing input should not crash request handling | [[requirements/security/input-validation]] |
-| `Security.Disclosure.LogSanitization` | Responses and errors must not leak host details | [[requirements/security/information-disclosure]] |
+| `Security.Vault.PathConfinement` | File operations must remain confined to the vault root | [[docs/requirements/security/vault-confinement]] |
+| `Security.Input.PositionValidation` | LSP-facing input should not crash request handling | [[docs/requirements/security/input-validation]] |
+| `Security.Disclosure.LogSanitization` | Responses and errors must not leak host details | [[docs/requirements/security/information-disclosure]] |
 
 ---
 
@@ -45,7 +45,7 @@ phase moves into final verification.
 **Files modified:**
 
 - Phase 14 source files only if review finds security cleanup.
-- This ticket file and [[plans/phase-14-markdown-link-intelligence/index]] for
+- This ticket file and [[docs/plans/phase-14-markdown-link-intelligence/index]] for
   status evidence.
 
 **Files created:**
@@ -72,7 +72,7 @@ phase moves into final verification.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -83,7 +83,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-06
 > Chore created after identifying the Phase 14 ticket set lacked the Step G
-> sweep required by [[plans/phase-execution]]. Status: `open`.
+> sweep required by [[docs/plans/phase-execution]]. Status: `open`.
 
 > [!INFO] Started - 2026-05-06
 > Step G security sweep started after code quality findings were ticketed.

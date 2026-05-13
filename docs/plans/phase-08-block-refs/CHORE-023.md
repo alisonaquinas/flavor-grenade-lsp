@@ -30,7 +30,7 @@ Review and improve the internal code quality of the Phase 8 block reference subs
 
 The `targetDocId: null` sentinel and the FG005/FG001 discrimination are subtle correctness invariants introduced in Phase 8. A dedicated quality sweep reduces the risk of silent logic errors reaching Phase 9.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ The `targetDocId: null` sentinel and the FG005/FG001 discrimination are subtle c
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate at phase boundary | [[requirements/code-quality]] |
+| — | Code quality gate at phase boundary | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -65,7 +65,7 @@ The `targetDocId: null` sentinel and the FG005/FG001 discrimination are subtle c
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR006-block-ref-indexing]] | Block anchor ID format and null-target semantics |
+| [[docs/adr/ADR006-block-ref-indexing]] | Block anchor ID format and null-target semantics |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
 - [ ] `CrossBlockRef` null-target path reviewed and documented inline
 - [ ] FG005 vs FG001 discrimination logic reviewed and confirmed correct
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -107,7 +107,7 @@ Focus areas:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -118,7 +118,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep focusing on CrossBlockRef null-target handling and FG005/FG001 discrimination.

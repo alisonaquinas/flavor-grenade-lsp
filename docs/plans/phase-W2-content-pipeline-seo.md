@@ -26,10 +26,10 @@ future public content into static SEO-ready pages.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/functional/public-pages]] | Define required public routes |
-| [[../website/docs/requirements/functional/seo-and-metadata]] | Generate required SEO metadata |
-| [[../website/docs/architecture/content-pipeline]] | Implement typed route, metadata, and validation flow |
-| [[../website/docs/requirements/technical/source-layout-and-documentation]] | Keep internal Markdown and generated docs traceable |
+| [requirements/functional/public-pages](../../website/docs/requirements/functional/public-pages.md) | Define required public routes |
+| [requirements/functional/seo-and-metadata](../../website/docs/requirements/functional/seo-and-metadata.md) | Generate required SEO metadata |
+| [architecture/content-pipeline](../../website/docs/architecture/content-pipeline.md) | Implement typed route, metadata, and validation flow |
+| [requirements/technical/source-layout-and-documentation](../../website/docs/requirements/technical/source-layout-and-documentation.md) | Keep internal Markdown and generated docs traceable |
 
 ## Scope
 
@@ -75,16 +75,16 @@ npm run build
 
 ## Tickets
 
-- [[plans/phase-W2-content-pipeline-seo/FEAT-035]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-217]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-218]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-219]]
-- [[plans/phase-W2-content-pipeline-seo/CHORE-088]]
+- [[docs/plans/phase-W2-content-pipeline-seo/FEAT-035]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-217]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-218]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-219]]
+- [[docs/plans/phase-W2-content-pipeline-seo/CHORE-088]]
 
 ## Related
 
-- [[../website/docs/architecture/content-pipeline]]
-- [[../website/docs/requirements/functional/seo-and-metadata]]
+- [architecture/content-pipeline](../../website/docs/architecture/content-pipeline.md)
+- [requirements/functional/seo-and-metadata](../../website/docs/requirements/functional/seo-and-metadata.md)
 
 ## Workflow Log
 

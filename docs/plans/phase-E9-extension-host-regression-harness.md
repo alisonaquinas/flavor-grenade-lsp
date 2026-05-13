@@ -27,9 +27,9 @@ hard to validate with plain Node tests.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add automated tests for required extension-host behavior groups |
-| [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] | Exercise language-mode promotion and preservation paths |
-| [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]] | Cover bridge command valid and invalid payloads in the host |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add automated tests for required extension-host behavior groups |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] | Exercise language-mode promotion and preservation paths |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]] | Cover bridge command valid and invalid payloads in the host |
 
 ## Scope
 
@@ -73,6 +73,6 @@ until a dedicated VS Code host job is added.
 
 ## Related
 
-- [[test/matrix]]
-- [[features/ofmarkdown-language-mode]]
-- [[features/vscode-extension-parity]]
+- [[docs/test/matrix]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/features/vscode-extension-parity]]

@@ -30,7 +30,7 @@ Phase 18 exists to close security audit findings. A final sweep prevents a
 ticket from being marked complete without evidence across local commands, CI,
 and security requirement docs.
 
-- Motivated by: [[plans/phase-execution]] Step G and [[requirements/security/index]]
+- Motivated by: [[docs/plans/phase-execution]] Step G and [[docs/requirements/security/index]]
 
 ---
 
@@ -38,9 +38,9 @@ and security requirement docs.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[requirements/security/supply-chain]] |
-| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[requirements/security/input-validation]] |
-| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[requirements/security/information-disclosure]] |
+| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/security/supply-chain]] |
+| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[docs/requirements/security/input-validation]] |
+| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[docs/requirements/security/information-disclosure]] |
 
 ---
 
@@ -67,7 +67,7 @@ and security requirement docs.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR014-dependency-security-policy]] | Advisory monitoring and exact pinning evidence must be current |
+| [[docs/adr/ADR014-dependency-security-policy]] | Advisory monitoring and exact pinning evidence must be current |
 
 ---
 
@@ -75,11 +75,11 @@ and security requirement docs.
 
 **Blocked by:**
 
-- [[plans/phase-18-security-hardening-audit/BUG-016]] through [[plans/phase-18-security-hardening-audit/BUG-025]] — findings must be fixed first.
+- [[docs/plans/phase-18-security-hardening-audit/BUG-016]] through [[docs/plans/phase-18-security-hardening-audit/BUG-025]] — findings must be fixed first.
 
 **Unblocks:**
 
-- [[plans/phase-18-security-hardening-audit/FEAT-033]] — final phase review.
+- [[docs/plans/phase-18-security-hardening-audit/FEAT-033]] — final phase review.
 
 ---
 
@@ -104,7 +104,7 @@ or extension dependency scans.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 

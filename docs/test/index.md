@@ -18,7 +18,10 @@ introduced.
 > This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
-> For the full requirements × tests × work-performed traceability matrix, see [[test/matrix]].
+> For the full requirements × tests × work-performed traceability matrix, see [[docs/test/matrix]].
+> Detailed Markdown flavor test cases live in [[docs/test/markdown-flavor-unit-spec]],
+> [[docs/test/markdown-flavor-integration-spec]], [[docs/test/markdown-flavor-e2e-spec]],
+> [[docs/test/markdown-flavor-verification-spec]], and [[docs/test/markdown-flavor-validation-spec]].
 
 ---
 
@@ -41,8 +44,8 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | Test File | Type | Description | Requirements Tags | Phase |
 |---|---|---|---|---|
 | `tests/unit/lsp/lsp.module.spec.ts` | Unit | NestJS module graph smoke test — verifies `LspModule` compiles and can be resolved from the application context | `Workspace.VaultDetection.Primary` | Phase 1 |
-| `src/vault/__tests__/document-membership.test.ts` | Unit | Tests server-side `flavorGrenade/documentMembership` results for Obsidian vaults, Flavor Grenade config vaults, indexed docs, single-file mode, and unsupported URI schemes | `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation` | Phase E6 |
-| `src/vault/__tests__/vault.module.test.ts` | Unit | Verifies `VaultModule` registers `flavorGrenade/documentMembership` with the JSON-RPC dispatcher | `Extension.LanguageMode.DynamicAssignment` | Phase E6 |
+| `src/vault/__tests__/document-membership.test.ts` | Unit | Tests server-side `flavorGrenade/documentMembership` results used as Markdown flavor auto-detection input for Obsidian vaults, Flavor Grenade config vaults, indexed docs, single-file mode, and unsupported URI schemes | `Extension.MarkdownFlavor.AutoDetection` | Phase E6 |
+| `src/vault/__tests__/vault.module.test.ts` | Unit | Verifies `VaultModule` registers `flavorGrenade/documentMembership` with the JSON-RPC dispatcher for client flavor auto-detection | `Extension.MarkdownFlavor.AutoDetection` | Phase E6 |
 | `src/vault/__tests__/vault-scanner.test.ts` | Unit | Tests configured document-extension filtering, attachment metadata, and scan file-count limits for vault scans | `Workspace.FileExtension.Filter`, `Security.Parser.VaultFileLimit` | Phase 18 |
 | `src/parser/__tests__/frontmatter-parser.test.ts` | Unit | Tests frontmatter parsing, malformed YAML handling, and security limits for frontmatter size and YAML aliases | `Security.Parser.YAMLLimits` | Phase 18 |
 | `src/parser/__tests__/parser-safety.test.ts` | Unit | Tests parser size-budget fallback and adversarial unmatched-delimiter runtime behavior | `Security.Parser.ParseTimeout`, `Security.Parser.ReDoS` | Phase 18 |
@@ -130,7 +133,7 @@ BDD feature specs live under `docs/bdd/features/`. Step definitions and source-o
 |---|---|---|---|---|---|
 | `src/test/bdd/step-definitions/common.steps.ts` | Shared across `docs/bdd/features/*.feature` | Provides shared vault setup, document open/change, diagnostics, completion, and assertion steps | `CICD.Workflow.BDDGate` | Phase 18 | ✅ implemented |
 | `src/test/bdd/step-definitions/code-actions.steps.ts` | `docs/bdd/features/code-actions.feature` | Tests code-action availability and deterministic execution/edit expectations | `CICD.Workflow.BDDGate`, `CA-001`, `CA-002`, `CA-003` | Phase 18 | ✅ implemented |
-| `src/test/bdd/step-definitions/extension-harness.steps.ts` | `docs/bdd/features/vscode-extension.feature`, `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/vscode-extension-parity.feature` | Provides deterministic extension acceptance state for activation, status, command, binary, crash, and language-mode scenarios | `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | Phase 18 | ✅ implemented |
+| `src/test/bdd/step-definitions/extension-harness.steps.ts` | `docs/bdd/features/vscode-extension.feature`, `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/bdd/features/vscode-extension-parity.feature` | Provides deterministic extension acceptance state for activation, status, command, binary, crash, and Markdown flavor scenarios | `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage`, `Extension.MarkdownFlavor.RequiredCoverage`, `Extension.MarkdownFlavor.DialectProfiles` | Phase 18 | 🔴 needs update |
 | `src/test/bdd/step-definitions/navigation.steps.ts` | `docs/bdd/features/navigation.feature` | Tests definition, reference, CodeLens, document highlight, and tag reference precision scenarios | `CICD.Workflow.BDDGate`, `Navigation.Definition.AllLinkTypes`, `Navigation.References.Completeness`, `Navigation.CodeLens.Count` | Phase 18 | ✅ implemented |
 | `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | `docs/bdd/features/ofmarkdown-parity.feature` | Tests the structural LSP parity scenario for document links, folding ranges, and selection ranges | `Parity.StructuralLSP.Coverage`, `Parity.StructuralLSP.DocumentLinks`, `Parity.StructuralLSP.FoldingRanges`, `Parity.StructuralLSP.SelectionRanges` | Phase 17 | ✅ implemented |
 | `src/test/bdd/step-definitions/tags.steps.ts` | `docs/bdd/features/tags.feature` | Tests tag indexing, hierarchy, completion, YAML equivalence, and nested-reference behavior | `CICD.Workflow.BDDGate`, `Tag.Index.Completeness`, `Tag.Hierarchy.Awareness`, `Tag.YAML.Equivalence` | Phase 18 | ✅ implemented |
@@ -151,6 +154,16 @@ Extension Development Host through `@vscode/test-electron`.
 > launches VS Code and runs all host fixtures: `.obsidian/`,
 > `.flavor-grenade.toml`, and generic Markdown.
 
+### Markdown Flavor Test Plan By Level
+
+| Level | Planned coverage | Primary files | Status |
+|---|---|---|---|
+| Unit | Pure flavor enum/schema, selector state, auto-detection resolver, settings target choice, refresh triggers, dialect profile registry, contribution scoping, server configuration handling, and per-LSP-surface fixture expectations. | `extension/src/markdown-flavor.test.ts`, `extension/src/client-options.test.ts`, `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/lsp/handlers/__tests__/configuration.handler.test.ts`, `extension/test/contributions/*.test.ts` | 📋 planned |
+| Integration | Spawned-server or multi-module tests that prove effective flavor reaches parser, diagnostics, completion, navigation, hover, semantic tokens, rename, host-boundary classification, and open-document refresh. | `src/test/integration/markdown-flavor.test.ts`, `src/test/integration/transport.test.ts`, `src/test/integration/navigation.test.ts` | 📋 planned |
+| E2E | Root BDD scenarios prove acceptance state; VS Code Extension Development Host scenarios prove visible selector behavior, quick-pick choices, workspace/user persistence, language preservation, and server refresh from real extension wiring. | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `extension/src/test/suite/markdown-flavor.test.js`, `extension/src/test/suite/index.js` | 📋 planned |
+| Verification | Automated gates that prove the test battery, `FlavorLSP.*` matrix rows, validation artifacts, and docs stay wired into CI and local checks. | `.github/workflows/ci.yml`, `src/test/ci-workflow.test.ts`, `cucumber.yaml`, `extension/package.json` scripts | 🔴 needs update |
+| Validation | Acceptance-level evidence that the researched flavor list, dialect profiles, and non-local host-boundary dispositions match product requirements and source research. | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/research/*.md`, `docs/test/evidence/markdown-flavor-*.md`, `extension/docs/tests/evidence/markdown-flavor-*.md` | 🔴 needs step updates |
+
 ### Extension Unit Tests
 
 Extension unit tests exercise extension-side logic only, usually through pure
@@ -158,11 +171,14 @@ helpers or injected VS Code facades.
 
 | Test File | Type | Description | Requirements Tags | Phase | Status |
 |---|---|---|---|---|---|
-| `extension/src/language-mode.test.ts` | Unit | Tests OFMarkdown contribution metadata, Markdown grammar/configuration parity, promotion rules, `.obsidian` fast-path detection, manual mode preservation, server membership requests, refresh coverage, guarded downgrade, and in-flight assignment guard | `Extension.LanguageMode.Contribution`, `Extension.LanguageMode.DynamicAssignment`, `Extension.LanguageMode.NonVaultIsolation`, `Extension.LanguageMode.UserOverrideSafety`, `Extension.LanguageMode.LoopSafety`, `Extension.LanguageMode.MarkdownParity`, `Extension.LanguageMode.MembershipRefresh` | Phase E6, Phase E14 | ✅ implemented |
-| `extension/src/activation-gate.test.ts` | Unit | Tests activation manifest events, vault-marker detection, generic Markdown idle startup, OFMarkdown language wake, and explicit command wake decisions | `Extension.Activation.Markdown`, `Extension.Activation.VaultPrecision`, `Extension.Activation.MarkerEvents` | Phase E7 | ✅ implemented |
+| `extension/src/language-mode.test.ts` | Unit | Legacy tests for the retired `ofmarkdown` language-mode controller; replace with Markdown flavor selector tests | `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Refresh` | Phase E6, Phase E14 | 🔴 obsolete |
+| `extension/src/markdown-flavor.test.ts` | Unit | Planned tests for Markdown flavor selector choices, required flavor ids, auto-detection, override persistence, server propagation, refresh triggers, and manual-language safety | `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Selector`, `Extension.MarkdownFlavor.RequiredCoverage`, `Extension.MarkdownFlavor.AutoDetection`, `Extension.MarkdownFlavor.OverridePersistence`, `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.Refresh` | Markdown flavor requirements | 📋 planned |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Unit | Planned tests for source-backed dialect profiles for every required explicit Markdown flavor | `Extension.MarkdownFlavor.DialectProfiles` | Markdown flavor requirements | 📋 planned |
+| `src/lsp/handlers/__tests__/configuration.handler.test.ts` | Unit | Planned tests that effective Markdown flavor settings propagate to server analysis and refresh open documents | `Extension.MarkdownFlavor.ServerPropagation` | Markdown flavor requirements | 📋 planned |
+| `extension/src/activation-gate.test.ts` | Unit | Tests activation manifest events, vault-marker detection, generic Markdown idle startup, Markdown wake, flavor selector command wake, and explicit command wake decisions | `Extension.Activation.MarkerEvents`, `Extension.Activation.VaultPrecision` | Phase E7 | 🔴 needs update |
 | `extension/src/command-bridges.test.ts` | Unit | Tests command bridge manifest events, native reference and link bridge calls, payload validation, graph action bridges, vault reveal, and diagnostic copy behavior | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.CommandBridges.GraphActions` | Phase E8 | ✅ implemented |
 | `extension/src/server-command.test.ts` | Unit | Tests 2-tier binary resolution: user setting override, bundled path, Windows `.exe` suffix | `Extension.Binary.Resolution`, `Extension.Binary.PlatformSuffix` | Phase E2 | ✅ implemented |
-| `extension/src/status-bar.test.ts` | Unit | Tests status text, rich tooltip detail, disabled/crashed/misconfigured states, quick actions, and sanitized diagnostic text | `Extension.StatusBar.StateTransition`, `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
+| `extension/src/status-bar.test.ts` | Unit | Tests status text, rich tooltip detail, disabled/crashed/misconfigured states, quick actions, and sanitized diagnostic text | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/src/status-actions.test.ts` | Unit | Tests status quick-pick action item creation for restart, rebuild, output, diagnostic copy, and vault reveal actions | `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/src/troubleshooting.test.ts` | Unit | Tests the troubleshooting document URL and required recovery topics | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` | Phase E10 | ✅ implemented |
 | `extension/src/workspace-environment.test.ts` | Unit | Tests Restricted Mode, virtual workspace, local, and remote workspace environment classification | `Extension.Workspace.EnvironmentModes`, `Extension.Status.Diagnostics` | Phase E13 | ✅ implemented |
@@ -170,11 +186,11 @@ helpers or injected VS Code facades.
 | `extension/test/marketplace/readme-assets.test.ts` | Unit | Tests Marketplace README references every required OFMarkdown visual with supported local image formats | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
 | `extension/test/marketplace/vsix-assets.test.ts` | Unit | Tests the Marketplace asset verification script and packaged output include every required README visual | `Extension.Marketplace.AssetPackaging` | Phase E11 | ✅ implemented |
 | `extension/test/package-targets/server-binary.test.ts` | Unit | Tests package-target server binary mapping, wrong/missing/duplicate binary rejection, and real VSIX archive inspection | `Extension.Packaging.TargetBinaryValidation` | Phase E14 | ✅ implemented |
-| `extension/test/contributions/snippets.test.ts` | Unit | Tests OFMarkdown-only snippet contribution scope and required snippet prefixes | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
-| `extension/test/contributions/language-configuration.test.ts` | Unit | Tests OFMarkdown language configuration scope, auto-pairs, surrounding pairs, and word pattern tuning | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
-| `extension/test/contributions/keybindings.test.ts` | Unit | Tests OFMarkdown-scoped keybindings target payload-free commands and include language guards | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
-| `extension/test/contributions/ofmarkdown-isolation.test.ts` | Unit | Tests generic Markdown does not receive OFMarkdown-only snippets, keybindings, or language configuration | `Extension.Contributions.OFMarkdownScoped` | Phase E12 | ✅ implemented |
-| `extension/src/__tests__/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
+| `extension/test/contributions/snippets.test.ts` | Unit | Legacy tests for OFMarkdown-only snippet contribution scope; rewrite around Markdown flavor/context keys | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
+| `extension/test/contributions/language-configuration.test.ts` | Unit | Legacy tests for OFMarkdown language configuration scope; rewrite or retire because flavor must not rely on a custom language id | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
+| `extension/test/contributions/keybindings.test.ts` | Unit | Legacy tests for OFMarkdown-scoped keybindings; rewrite around selector/context-key preconditions | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
+| `extension/test/contributions/ofmarkdown-isolation.test.ts` | Unit | Legacy tests for generic Markdown isolation from OFMarkdown-only contributions; rewrite for flavor-scoped isolation across required flavors | `Extension.Contributions.FlavorScoped` | Phase E12 | 🔴 needs update |
+| `extension/src/commands.test.ts` | Unit | Tests command registration and that each command calls the correct LanguageClient method | `Extension.Commands.Registration` | Phase E3 | 📋 planned |
 
 ### Extension Integration Tests
 
@@ -184,7 +200,8 @@ Extension integration tests require the VS Code Extension Development Host launc
 |---|---|---|---|---|---|
 | `extension/src/test/suite/index.js` | Host runner | Runs all extension-host suites inside isolated temp copies of the fixture workspaces | `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
 | `extension/src/test/suite/extension-host.test.js` | Integration | Verifies the development host loads Flavor Grenade and registers lifecycle plus bridge commands | `Extension.Tests.HostCoverage`, `Extension.Commands.Registration` | Phase E9 | ✅ implemented |
-| `extension/src/test/suite/activation-language-mode.test.js` | Integration | Tests vault startup, `.flavor-grenade.toml` startup, generic Markdown idle behavior, OFMarkdown promotion, and manual non-Markdown preservation | `Extension.Activation.VaultPrecision`, `Extension.LanguageMode.MembershipRefresh`, `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
+| `extension/src/test/suite/activation-language-mode.test.js` | Integration | Legacy host tests for vault startup, `.flavor-grenade.toml` startup, generic Markdown idle behavior, OFMarkdown promotion, and manual non-Markdown preservation; replace with Markdown flavor host coverage | `Extension.Activation.VaultPrecision`, `Extension.MarkdownFlavor.Refresh`, `Extension.Tests.HostCoverage` | Phase E9 | 🔴 obsolete |
+| `extension/src/test/suite/markdown-flavor.test.js` | Integration | Planned host tests for selector UI, required flavor choices, workspace/user override persistence, generic CommonMark fallback, Obsidian auto-detection, and manual-language safety | `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Selector`, `Extension.MarkdownFlavor.RequiredCoverage`, `Extension.MarkdownFlavor.OverridePersistence`, `Extension.MarkdownFlavor.Refresh`, `Extension.Tests.HostCoverage` | Markdown flavor requirements | 📋 planned |
 | `extension/src/test/suite/command-bridges.test.js` | Integration | Tests native bridge commands with valid payloads and invalid payload rejection in the VS Code host | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.Tests.HostCoverage` | Phase E9 | ✅ implemented |
 | `extension/src/test/suite/status-failure.test.js` | Integration | Tests troubleshooting command/settings visibility, development-host status presentation transitions, quick actions, and diagnostic copy text | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions`, `Extension.Tests.HostCoverage` | Phase E10 | ✅ implemented |
 | `extension/docs/features/workspace-environments.md` | Manual | Documents local Windows, macOS, Linux, WSL, SSH, Dev Container, Restricted Mode, and virtual workspace smoke checks | `Extension.Workspace.EnvironmentModes`, `Extension.Status.Diagnostics` | Phase E13 | ✅ implemented |
@@ -199,7 +216,8 @@ VS Code API execution remains covered by the extension host suite above.
 | Feature File | Step File | Description | Phase | Status |
 |---|---|---|---|---|
 | `docs/bdd/features/vscode-extension.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 13 acceptance scenarios covering activation, status bar, commands, binary resolution, crash recovery, and lifecycle behavior | Phase 18 | ✅ implemented |
-| `docs/bdd/features/ofmarkdown-language-mode.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 6 acceptance scenarios covering dynamic OFMarkdown assignment and Markdown/manual mode preservation | Phase 18 | ✅ implemented |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 7 acceptance scenarios covering Markdown language preservation, flavor selection, override persistence, auto-detection, and manual-language safety | Markdown flavor requirements | 🔴 needs step updates |
+| `docs/bdd/features/markdown-flavor-dialects.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 5 acceptance scenarios covering Original Markdown, CommonMark, and source-backed profiles for every researched Markdown flavor | Markdown flavor requirements | 🔴 needs step updates |
 | `docs/bdd/features/vscode-extension-parity.feature` | `src/test/bdd/step-definitions/extension-harness.steps.ts` | 6 acceptance scenarios covering extension parity, activation precision, membership refresh, and package behavior | Phase 18 | ✅ implemented |
 
 ---
@@ -219,19 +237,19 @@ Test fixture vaults live under `tests/fixtures/vaults/`. Each subdirectory is a 
 When you add a new test file:
 
 1. Add the file to this index in the appropriate section.
-2. Add a row to [[test/matrix]] mapping the new test to its Planguage requirement tags.
+2. Add a row to [[docs/test/matrix]] mapping the new test to its Planguage requirement tags.
 3. Commit both the test file and the updated index/matrix in the same commit.
 4. Run `scripts/update-test-index.sh` if available to auto-populate (Phase 3+).
 
 > [!WARNING]
-> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[requirements/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
+> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[docs/requirements/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
 
 ---
 
 ## Related Documents
 
-- [[test/matrix]] — Planguage requirements × test files × status traceability matrix
-- [[requirements/index]] — Master Planguage tag index (source of truth for tag names)
-- [[requirements/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
-- [[requirements/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
-- [[plans/phase-01-scaffold]] — Phase 1 task list where first tests are introduced
+- [[docs/test/matrix]] — Planguage requirements × test files × status traceability matrix
+- [[docs/requirements/index]] — Master Planguage tag index (source of truth for tag names)
+- [[docs/requirements/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
+- [[docs/requirements/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
+- [[docs/plans/phase-01-scaffold]] — Phase 1 task list where first tests are introduced

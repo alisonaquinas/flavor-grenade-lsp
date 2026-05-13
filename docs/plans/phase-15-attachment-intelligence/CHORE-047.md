@@ -45,7 +45,7 @@ shared vault, completion, diagnostics, navigation, hover, and config modules.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings for Phase 15 changes | [[requirements/code-quality]] |
+| — | Zero lint warnings for Phase 15 changes | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -97,8 +97,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0.
 - [ ] `bun test` passes with no regressions introduced.
 - [ ] No behaviour-affecting changes in `src/`; convert to TASK if needed.
-- [ ] [[test/matrix]] updated if any test files were added or removed.
-- [ ] [[test/index]] updated if any test files were added or removed.
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed.
+- [ ] [[docs/test/index]] updated if any test files were added or removed.
 - [ ] Phase 15 files have no markdownlint issues introduced by ticket updates.
 
 ---
@@ -113,7 +113,7 @@ included in one cleanup pass.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -128,7 +128,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

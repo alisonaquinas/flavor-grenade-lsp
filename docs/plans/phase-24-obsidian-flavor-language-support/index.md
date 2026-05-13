@@ -1,0 +1,30 @@
+---
+title: Phase 24 Obsidian Flavor Language Support Tickets
+phase: 24
+status: planned
+tags: [plans/phase-24, tickets/index, obsidian]
+aliases: ["Phase 24 Tickets"]
+updated: 2026-05-13
+---
+
+# Phase 24 Obsidian Flavor Language Support Tickets
+
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[FEAT-050]] | Obsidian Flavor Language Support | Feature | `draft` |
+| [[TASK-321]] | Map existing OFM parser behavior to Obsidian flavor | Task | `open` |
+| [[TASK-322]] | Gate Obsidian diagnostics and LSP features by flavor | Task | `open` |
+| [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | `open` |
+| [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | `open` |
+| [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | `open` |
+
+## Ticket Details
+
+`TASK-321` ensures wiki links, embeds, tags, block anchors, callouts,
+frontmatter, math, comments, and vault semantics belong to `obsidian`.
+
+`TASK-322` gates diagnostics, completion, navigation, rename, semantic tokens,
+folding, selection ranges, and document links by effective flavor.
+
+`TASK-323` proves Obsidian features work without `ofmarkdown` language-mode
+promotion.

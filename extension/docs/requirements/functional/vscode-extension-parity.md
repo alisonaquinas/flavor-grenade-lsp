@@ -12,15 +12,18 @@ aliases:
 # VS Code Extension Parity Requirements
 
 Scope: These requirements govern the VS Code client roadmap derived from
-[[research/marksman-vscode-feature-parity-ofmarkdown]]. Server-side language
-intelligence remains governed by the OFMarkdown feature requirements.
+[Marksman VSCode feature parity research](../../../../docs/research/marksman-vscode-feature-parity-ofmarkdown.md). Server-side language
+intelligence remains governed by the Markdown flavor and OFMarkdown feature
+requirements.
 
 ---
+
+## Extension.Activation.VaultPrecision
 
 **Tag:** Extension.Activation.VaultPrecision
 **User Req:** User.Extension.StartOnlyForVaults
 **Gist:** The extension must activate automatically for Obsidian and Flavor Grenade vaults while avoiding unnecessary work in generic Markdown workspaces.
-**Ambition:** Users should get immediate OFMarkdown support in vaults, but opening a random README should not make the extension feel invasive.
+**Ambition:** Users should get immediate Obsidian flavor support in vaults, but opening a random README should not make the extension feel invasive.
 **Scale:** Percentage of activation test workspaces where the extension enters the expected active or idle state.
 **Meter:**
 
@@ -29,15 +32,17 @@ intelligence remains governed by the OFMarkdown feature requirements.
 3. Open a workspace containing `.flavor-grenade.toml`.
 4. Verify the extension activates and starts membership detection.
 5. Open a generic Markdown workspace with neither marker.
-6. Verify the extension remains idle until a command, `ofmarkdown` document, or vault signal requires it.
+6. Verify the extension remains idle until a command, Markdown flavor selector interaction, or vault signal requires it.
 7. Compute: (correct activation outcomes / total workspaces tested) x 100.
 **Fail:** Any vault workspace fails to activate, or generic Markdown startup performs vault indexing without a positive signal.
 **Goal:** 100% correct activation outcomes.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md).
 
 ---
+
+## Extension.CommandBridges.NativeUI
 
 **Tag:** Extension.CommandBridges.NativeUI
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -56,28 +61,32 @@ intelligence remains governed by the OFMarkdown feature requirements.
 **Goal:** 100% bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]].
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
+## Extension.Tests.HostCoverage
+
 **Tag:** Extension.Tests.HostCoverage
 **User Req:** User.Extension.TrustExtensionBehavior
-**Gist:** Extension-host tests must cover activation, commands, status, and language-mode behavior.
+**Gist:** Extension-host tests must cover activation, commands, status, and Markdown flavor behavior.
 **Ambition:** Client integration is fragile because it depends on VS Code APIs, extension-host lifecycle, and child-process state. Automated tests should catch regressions before publishing.
 **Scale:** Percentage of required extension-host behavior groups with at least one automated test.
 **Meter:**
 
 1. Inspect the extension test suite.
-2. Verify at least one test exists for activation in `.obsidian/`, activation in `.flavor-grenade.toml`, generic Markdown isolation, OFMarkdown promotion, command registration, status transition, and missing server path failure.
+2. Verify at least one test exists for activation in `.obsidian/`, activation in `.flavor-grenade.toml`, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
 3. Run the extension-host test command in CI or locally.
 4. Compute: (behavior groups with passing tests / required behavior groups) x 100.
 **Fail:** Any required behavior group lacks a passing test.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md).
 
 ---
+
+## Extension.Marketplace.OFMProof
 
 **Tag:** Extension.Marketplace.OFMProof
 **User Req:** User.Extension.EvaluateBeforeInstall
@@ -87,16 +96,18 @@ intelligence remains governed by the OFMarkdown feature requirements.
 **Meter:**
 
 1. Inspect `extension/README.md` and packaged Marketplace assets.
-2. Verify visuals exist for OFMarkdown mode, wiki-link completion, heading/block completion, embeds, tags, callouts, code lens, and status.
+2. Verify visuals exist for the Markdown flavor selector, wiki-link completion, heading/block completion, embeds, tags, callouts, code lens, and status.
 3. Verify assets are PNG/JPEG/GIF as permitted by Marketplace rules and are included in the VSIX.
 4. Compute: (present required visuals / total required visuals) x 100.
 **Fail:** Fewer than 75% of required visuals present, or any referenced asset missing from the VSIX.
 **Goal:** 100% required visuals present.
 **Stakeholders:** Prospective users, publisher, maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [VS Code extension publishing research](../../../../docs/research/vscode-extension-publishing.md).
 
 ---
+
+## Extension.Status.Diagnostics
 
 **Tag:** Extension.Status.Diagnostics
 **User Req:** User.Extension.UnderstandServerState
@@ -114,7 +125,7 @@ intelligence remains governed by the OFMarkdown feature requirements.
 **Goal:** 100% status coverage for known states.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md).
 
 ---
 
@@ -125,25 +136,56 @@ extension implementation capabilities.
 
 ---
 
+## Retired Historical Tags
+
+The following tags remain as historical anchors for completed pre-ADR020 phase
+records. They are not active gates for new work.
+
+### Extension.LanguageMode.MembershipRefresh
+
+**Tag:** Extension.LanguageMode.MembershipRefresh
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.MarkdownFlavor.Refresh.
+**Note:** Historical E9/E14 plans used this tag for `ofmarkdown` promotion and
+membership refresh behavior. Current work keeps `.md` documents in VS Code's
+`markdown` language id and refreshes Markdown flavor state instead.
+
+### Extension.Contributions.OFMarkdownScoped
+
+**Tag:** Extension.Contributions.OFMarkdownScoped
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.Contributions.FlavorScoped.
+**Note:** Historical E12 plans used this tag for `ofmarkdown` contribution
+scoping. Current work scopes contribution behavior through Markdown
+flavor/context state without requiring a custom Markdown language id.
+
+---
+
+## Extension.Activation.MarkerEvents
+
 **Tag:** Extension.Activation.MarkerEvents
 **User Req:** User.Extension.StartOnlyForVaults
-**Gist:** The extension manifest and activation controller must react to `.obsidian/`, `.flavor-grenade.toml`, `markdown`, `ofmarkdown`, and explicit command activation signals.
+**Gist:** The extension manifest and activation controller must react to `.obsidian/`, `.flavor-grenade.toml`, `markdown`, flavor selector commands, and explicit command activation signals.
 **Ambition:** Vault users should get automatic startup, while generic Markdown users should not pay for vault work without a positive signal.
 **Scale:** Percentage of activation-signal fixtures that produce the expected active or idle state.
 **Meter:**
 
-1. Run extension-host fixtures for `.obsidian/`, `.flavor-grenade.toml`, generic Markdown, `ofmarkdown`, and explicit command activation.
+1. Run extension-host fixtures for `.obsidian/`, `.flavor-grenade.toml`, generic Markdown, flavor selector command activation, and explicit command activation.
 2. Observe whether the extension activates.
 3. Observe whether vault membership detection starts.
-4. Verify generic Markdown remains idle until a command or vault signal exists.
-5. Compute: (correct activation outcomes / total activation fixtures) x 100.
-**Fail:** Any vault signal fails to activate the extension, or generic Markdown startup performs vault indexing work.
+4. Inspect `LanguageClient` `clientOptions.documentSelector`.
+5. Verify the selector includes file-backed `markdown` only for current flavor behavior and contains no `ofmarkdown` entry.
+6. Verify generic Markdown remains idle until a command or vault signal exists.
+7. Compute: (correct activation outcomes / total activation fixtures) x 100.
+**Fail:** Any vault signal fails to activate the extension, generic Markdown startup performs vault indexing work, current activation depends on `onLanguage:ofmarkdown`, or the current document selector contains `ofmarkdown`.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], `docs/plans/phase-E7-activation-precision.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
 
 ---
+
+## Extension.CommandBridges.PayloadValidation
 
 **Tag:** Extension.CommandBridges.PayloadValidation
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -162,9 +204,11 @@ extension implementation capabilities.
 **Goal:** 100% payload validation correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
+
+## Extension.CommandBridges.GraphActions
 
 **Tag:** Extension.CommandBridges.GraphActions
 **User Req:** User.Extension.UseNativeVSCodeActions
@@ -182,9 +226,11 @@ extension implementation capabilities.
 **Goal:** 100% required bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md), [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md).
 
 ---
+
+## Extension.Status.QuickActions
 
 **Tag:** Extension.Status.QuickActions
 **User Req:** User.Extension.UnderstandServerState
@@ -202,29 +248,151 @@ extension implementation capabilities.
 **Goal:** 100% known-state status coverage.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [editor client domain model](../../../../docs/ddd/editor-client/domain-model.md), `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
 
-**Tag:** Extension.LanguageMode.MembershipRefresh
+## Extension.MarkdownFlavor.Refresh
+
+**Tag:** Extension.MarkdownFlavor.Refresh
 **User Req:** User.Extension.TrustExtensionBehavior
-**Gist:** Language-mode membership must refresh after server readiness, index rebuild, workspace folder changes, visible editor changes, and file open events.
-**Ambition:** Documents should enter and leave `ofmarkdown` mode as vault membership changes without requiring window reloads.
-**Scale:** Percentage of membership refresh triggers that produce correct `markdown` or `ofmarkdown` assignment.
+**Gist:** Markdown flavor state must refresh after server readiness, index rebuild, workspace folder changes, visible editor changes, file open events, and selector changes.
+**Ambition:** Documents should receive the correct effective flavor as vault membership or user overrides change without requiring window reloads.
+**Scale:** Percentage of flavor refresh triggers that produce the correct effective flavor while preserving `languageId = markdown`.
 **Meter:**
 
 1. Open vault and non-vault Markdown documents.
-2. Simulate server ready, index rebuild, workspace folder add/remove, visible editor change, and file open events.
-3. Observe language mode assignments after each trigger.
-4. Verify manual non-Markdown language selections are not overwritten.
-5. Compute: (correct membership assignments / total trigger cases) x 100.
-**Fail:** Any qualifying vault Markdown document remains generic after refresh, or any non-vault/manual document is incorrectly promoted.
-**Goal:** 100% membership refresh correctness.
+2. Simulate server ready, index rebuild, workspace folder add/remove, visible editor change, file open events, and selector changes across every required explicit flavor.
+3. Observe effective Markdown flavor after each trigger.
+4. Verify every `.md` document remains in `markdown`.
+5. Verify `clientOptions.documentSelector` remains scoped to file-backed `markdown` only for current behavior.
+6. Verify manual non-Markdown language selections are not treated as active Markdown flavor scope.
+7. Compute: (correct flavor states / total trigger cases) x 100.
+**Fail:** Any qualifying vault Markdown document remains generic after refresh, any selected override is ignored, any `.md` document is promoted to `ofmarkdown`, or the current document selector contains `ofmarkdown`.
+**Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/ofmarkdown-language-mode]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
+
+## Extension.MarkdownFlavor.Selector
+
+**Tag:** Extension.MarkdownFlavor.Selector
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The extension must expose a Markdown flavor selector separate from VS Code's built-in language picker while leaving the active document in VS Code's built-in `markdown` language mode.
+**Ambition:** Users should be able to inspect and change the effective flavor from Flavor Grenade UI without losing normal Markdown editor integrations.
+**Scale:** Percentage of supported Markdown editor contexts where the selector is available, reports the effective flavor, and changes flavor without changing `languageId`.
+**Meter:**
+
+1. Open file-backed Markdown documents in workspace-folder, workspace-only, vault, generic Markdown, and standalone-file contexts.
+2. Verify a Flavor Grenade Markdown flavor selector is visible or command-accessible without opening the VS Code language picker.
+3. Select `Auto Detect` and each explicit flavor.
+4. Verify the selector state changes and the active document remains `languageId = markdown`.
+5. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
+6. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
+**Fail:** The user must use the VS Code language picker for flavor selection, the selector is unavailable for supported Markdown contexts, or selecting a flavor changes the document away from `markdown`.
+**Goal:** 100% selector availability for supported file-backed Markdown contexts.
+**Stakeholders:** VS Code users, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.MarkdownFlavor.RequiredCoverage
+
+**Tag:** Extension.MarkdownFlavor.RequiredCoverage
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The extension must expose `Auto Detect` and every planned Markdown flavor as selector choices while leaving the active document in VS Code's built-in `markdown` language mode.
+**Ambition:** Users should be able to choose the same flavor set documented for server behavior from the VS Code client without using the VS Code language picker or losing normal Markdown editor integrations.
+**Scale:** Percentage of required selector choices present with the correct id, label, and language-mode behavior.
+**Meter:**
+
+1. Open a file-backed `.md` document whose `languageId` is `markdown`.
+2. Open the Flavor Grenade Markdown flavor selector.
+3. Verify the selector exposes exactly the required choices in the table below.
+4. Select each explicit flavor and verify `flavorGrenade.markdownFlavor` accepts the corresponding id.
+5. Verify the active document remains `languageId = markdown` after each selection.
+6. Verify `Auto Detect` is available as the reversible non-explicit choice.
+7. Compute: (required selector choices present and valid / 14) x 100.
+**Fail:** Any required flavor is missing, an unsupported flavor is exposed, the VS Code language picker is used for flavor selection, or selecting a flavor changes the document away from `markdown`.
+**Goal:** 100% required selector coverage.
+**Stakeholders:** VS Code users, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+| Setting id | Selector label | Feature set |
+|---|---|---|
+| `auto` | Auto Detect | [Markdown flavor selection](../../../../docs/features/ofmarkdown-language-mode.md) |
+| `original` | Original Markdown | [Original Markdown flavor](../../../../docs/features/original-markdown-flavor.md) |
+| `commonmark` | CommonMark | [CommonMark flavor](../../../../docs/features/commonmark-flavor.md) |
+| `obsidian` | Obsidian | [Obsidian flavor](../../../../docs/features/obsidian-markdown-flavor.md) |
+| `gfm` | GitHub Flavored Markdown | [GitHub Flavored Markdown flavor](../../../../docs/features/github-flavored-markdown-flavor.md) |
+| `glfm` | GitLab Flavored Markdown | [GitLab Flavored Markdown flavor](../../../../docs/features/gitlab-flavored-markdown-flavor.md) |
+| `pandoc` | Pandoc Markdown | [Pandoc Markdown flavor](../../../../docs/features/pandoc-markdown-flavor.md) |
+| `multimarkdown` | MultiMarkdown | [MultiMarkdown flavor](../../../../docs/features/multimarkdown-flavor.md) |
+| `mdx` | MDX | [MDX flavor](../../../../docs/features/mdx-flavor.md) |
+| `kramdown` | kramdown | [kramdown flavor](../../../../docs/features/kramdown-flavor.md) |
+| `markdown-extra` | Markdown Extra | [Markdown Extra flavor](../../../../docs/features/markdown-extra-flavor.md) |
+| `r-markdown` | R Markdown | [R Markdown flavor](../../../../docs/features/r-markdown-flavor.md) |
+| `reddit` | Reddit Markdown | [Reddit Markdown flavor](../../../../docs/features/reddit-markdown-flavor.md) |
+| `stack-overflow` | Stack Overflow Markdown | [Stack Overflow Markdown flavor](../../../../docs/features/stack-overflow-markdown-flavor.md) |
+
+---
+
+## Extension.MarkdownFlavor.OverridePersistence
+
+**Tag:** Extension.MarkdownFlavor.OverridePersistence
+**User Req:** User.Extension.OverrideMarkdownFlavor
+**Gist:** Markdown flavor overrides made from the extension UI must persist to folder settings when a workspace folder owns the active Markdown file and to user settings when the context is only a standalone file.
+**Ambition:** The same selector should behave predictably in project and single-file contexts. Project choices belong with the folder; standalone-file choices cannot be written to a project and should follow the user.
+**Scale:** Percentage of selector write and clear operations that target the correct VS Code configuration scope.
+**Meter:**
+
+1. Open a Markdown file inside a workspace folder.
+2. Select each explicit flavor from the selector.
+3. Verify `flavorGrenade.markdownFlavor` is written to the owning workspace folder or workspace setting, not only to user settings.
+4. Select `Auto Detect`.
+5. Verify the override is cleared or reset at the same folder/workspace scope.
+6. Open a standalone Markdown file with no owning workspace folder.
+7. Select an explicit flavor and verify `flavorGrenade.markdownFlavor` is written to user settings.
+8. Select `Auto Detect` and verify the user-scope override is cleared or reset.
+9. Compute: (correct configuration-scope operations / total write and clear operations) x 100.
+**Fail:** A folder-backed override is written only to user settings, a standalone-file override attempts to write a project setting, `Auto Detect` clears a different scope from the explicit override scope, or the setting accepts a value outside the required flavor set.
+**Goal:** 100% correct override persistence scope.
+**Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.MarkdownFlavor.AutoDetection
+
+**Tag:** Extension.MarkdownFlavor.AutoDetection
+**User Req:** User.Extension.AutoDetectFlavor
+**Gist:** In `auto` mode, the extension UI must display and propagate the effective Markdown flavor inferred from vault, project, workspace, and standalone-file context while allowing explicit user overrides to take precedence.
+**Ambition:** Auto detection should preserve zero-config Obsidian vault behavior and conservative generic Markdown behavior, while still making the effective flavor visible enough for users to trust and override.
+**Scale:** Percentage of documented editor contexts where the selector, configuration state, and server-facing flavor state agree.
+**Meter:**
+
+1. Open a Markdown document under a `.obsidian/` folder with `flavorGrenade.markdownFlavor` set to `auto`.
+2. Verify the selector reports `Auto Detect` with effective flavor `obsidian`.
+3. Open a Markdown document in a Flavor Grenade workspace with explicit project flavor config or workspace setting.
+4. Verify `auto` resolves to that configured supported flavor id.
+5. Open a standalone generic `.md` file with no vault or config signal.
+6. Verify `auto` resolves to `commonmark`.
+7. Override the active context to each explicit required flavor and verify the override takes precedence over auto detection until cleared.
+8. Manually change a `.md` document to a non-`markdown` language id and verify flavor state is inactive for that document.
+9. Compute: (correct effective-state outcomes / total documented contexts) x 100.
+**Fail:** Generic Markdown is auto-detected as Obsidian without a positive signal, Obsidian vault notes fail to resolve to Obsidian in `auto`, explicit overrides are ignored, or non-`markdown` documents receive active flavor behavior.
+**Goal:** 100% documented auto/effective-state correctness.
+**Stakeholders:** Vault authors, Markdown authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.Workspace.EnvironmentModes
 
 **Tag:** Extension.Workspace.EnvironmentModes
 **User Req:** User.Extension.UnderstandServerState
@@ -243,29 +411,33 @@ extension implementation capabilities.
 **Goal:** 100% explicit behavior for listed environment modes.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/functional/vscode-extension-parity]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [extension parity functional requirements](vscode-extension-parity.md), `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
 
-**Tag:** Extension.Contributions.OFMarkdownScoped
+## Extension.Contributions.FlavorScoped
+
+**Tag:** Extension.Contributions.FlavorScoped
 **User Req:** User.Extension.UseNativeVSCodeActions
-**Gist:** Snippets, keybindings, language configuration, and optional theme examples must be scoped to `ofmarkdown` where they would affect generic Markdown.
-**Ambition:** OFMarkdown users should get richer editor affordances without surprising users editing ordinary Markdown.
+**Gist:** Snippets, keybindings, commands, and optional theme examples must be scoped by Markdown flavor/context where they would affect generic Markdown.
+**Ambition:** Obsidian-flavor users should get richer editor affordances without surprising users editing ordinary Markdown.
 **Scale:** Percentage of extension contributions scoped to the intended language or command context.
 **Meter:**
 
 1. Inspect `package.json` contributions for snippets, keybindings, language configuration, and theme examples.
-2. Verify OFMarkdown-only contributions use `ofmarkdown` language scopes or command preconditions.
-3. Open generic Markdown and OFMarkdown documents.
+2. Verify flavor-specific contributions use context keys, command preconditions, or selector state rather than an `ofmarkdown` language scope.
+3. Open generic Markdown, CommonMark-selected, and Obsidian-selected documents.
 4. Verify contributions appear only in intended contexts.
-5. Compute: (correctly scoped contributions / total OFMarkdown contributions) x 100.
-**Fail:** Any OFMarkdown-only contribution changes generic Markdown behavior without explicit intent.
+5. Compute: (correctly scoped contributions / total flavor-specific contributions) x 100.
+**Fail:** Any flavor-specific contribution changes generic Markdown behavior without explicit intent.
 **Goal:** 100% contribution scoping correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[features/ofmarkdown-language-mode]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [ADR020](../../../../docs/adr/ADR020-markdown-flavor-selection.md), [ADR019](../../../../docs/adr/ADR019-vscode-command-bridges-and-client-ux.md).
 
 ---
+
+## Extension.Marketplace.AssetPackaging
 
 **Tag:** Extension.Marketplace.AssetPackaging
 **User Req:** User.Extension.EvaluateBeforeInstall
@@ -284,9 +456,11 @@ extension implementation capabilities.
 **Goal:** 100% required asset packaging correctness.
 **Stakeholders:** Prospective users, publisher, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/functional/vscode-extension-parity]], [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [extension parity functional requirements](vscode-extension-parity.md), [VS Code extension parity](../../features/vscode-extension-parity.md), [VS Code extension publishing research](../../../../docs/research/vscode-extension-publishing.md).
 
 ---
+
+## Extension.Packaging.TargetBinaryValidation
 
 **Tag:** Extension.Packaging.TargetBinaryValidation
 **User Req:** User.Extension.InstallCompatiblePackage
@@ -307,4 +481,4 @@ extension implementation capabilities.
 **Goal:** 100% packaged target validation.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR015-platform-specific-vsix]], [[features/vscode-extension-parity]], `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.
+**Source:** [ADR015](../../../../docs/adr/ADR015-platform-specific-vsix.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.

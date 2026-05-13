@@ -45,7 +45,7 @@ Editors can use standard LSP document links, folding ranges, and selection range
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Navigate.UseEditorStructure` | Use editor-native structure features for OFMarkdown documents | [[requirements/user/ofmarkdown-parity]] |
+| `User.Navigate.UseEditorStructure` | Use editor-native structure features for OFMarkdown documents | [[docs/requirements/user/ofmarkdown-parity]] |
 
 ---
 
@@ -53,15 +53,15 @@ Editors can use standard LSP document links, folding ranges, and selection range
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.Coverage` | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised only when handlers exist | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Reuse resolution targets for local links where unambiguous | [[requirements/navigation]] |
-| `ST-002` | Respect opaque regions when deriving structural ranges | [[requirements/semantic-tokens]] |
-| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[requirements/security/input-validation]] |
-| `Diagnostic.Ambiguous.RelatedInfo` | Leave ambiguous links unresolved and rely on diagnostics/related information | [[requirements/diagnostics]] |
+| `Parity.StructuralLSP.Coverage` | Document links, folding ranges, and selection ranges must reflect OFMarkdown structure | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.CapabilityRegistration` | Structural providers are advertised only when handlers exist | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Reuse resolution targets for local links where unambiguous | [[docs/requirements/navigation]] |
+| `ST-002` | Respect opaque regions when deriving structural ranges | [[docs/requirements/semantic-tokens]] |
+| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/security/input-validation]] |
+| `Diagnostic.Ambiguous.RelatedInfo` | Leave ambiguous links unresolved and rely on diagnostics/related information | [[docs/requirements/diagnostics]] |
 
 ---
 
@@ -78,8 +78,8 @@ Editors can use standard LSP document links, folding ranges, and selection range
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-17-structural-lsp-capabilities]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-17-structural-lsp-capabilities]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `textDocument/selectionRange` expands through token, construct, paragraph, section, and document
 - [ ] Folding and selection ranges never cross fenced code, math, comment, or Templater opaque region boundaries
 - [ ] Existing navigation and semantic token tests remain green
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -138,7 +138,7 @@ Implementation sequence: [[TASK-175]] first, then [[TASK-176]], [[TASK-177]], an
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -159,7 +159,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

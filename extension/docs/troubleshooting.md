@@ -43,24 +43,29 @@ Actions:
 - Include copied diagnostics when reporting persistent mismatches; the warning
   includes extension and server versions without exposing raw paths.
 
-## No OFMarkdown Promotion
+## Wrong Markdown Flavor
 
-Expected vault Markdown should switch from `markdown` to `ofmarkdown`.
+Expected vault Markdown should stay in VS Code's `markdown` language mode while
+the Flavor Grenade Markdown flavor selector resolves to the correct flavor.
+No OFMarkdown promotion should occur in the default Markdown language mode path.
 Membership refresh runs after server `ready`, rebuild-index completion,
 workspace folder changes, visible editor changes, and file-open events.
-Existing `ofmarkdown` documents return to `markdown` only when no local vault
-marker applies and the server explicitly reports that the document is outside
-the indexed vault.
+`Auto Detect` should resolve Obsidian vault notes to Obsidian and generic
+standalone Markdown to CommonMark.
 
 Actions:
 
 - Confirm the workspace has `.obsidian/` or `.flavor-grenade.toml` at or above
   the note.
+- Check `flavorGrenade.markdownFlavor`; use `auto` unless you intentionally set
+  a project or user override.
+- For precedence details, see the root
+  [Markdown flavor auto-detection algorithm](../../docs/design/markdown-flavor-auto-detection.md).
 - Run **Flavor Grenade: Rebuild Index** if the vault marker or file moved while
   VS Code was already open.
 - Run **Flavor Grenade: Restart Server**.
 - Use **Flavor Grenade: Copy Diagnostic Info** and include whether the note is
-  inside the expected vault root.
+  inside the expected vault root and which flavor the selector shows.
 
 ## No Completions
 
@@ -68,7 +73,7 @@ Actions:
 
 - Wait for the status to leave `FG: Indexing`.
 - Run **Flavor Grenade: Rebuild Index**.
-- Confirm the current file is Markdown or OFMarkdown and belongs to a vault.
+- Confirm the current file is Markdown and belongs to a vault.
 - Open **Flavor Grenade: Show Output** if completions remain empty.
 
 ## Stale Index

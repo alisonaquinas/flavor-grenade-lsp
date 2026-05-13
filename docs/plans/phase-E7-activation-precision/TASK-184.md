@@ -30,7 +30,7 @@ The docs must match the implemented marker, language, and command behavior.
 - Document `.obsidian/` and `.flavor-grenade.toml` activation
 - Document generic Markdown idle behavior
 - Document command wake behavior and startup checks
-- See also: [[plans/phase-E7-activation-precision]]
+- See also: [[docs/plans/phase-E7-activation-precision]]
 
 ---
 
@@ -38,8 +38,8 @@ The docs must match the implemented marker, language, and command behavior.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Activation.VaultPrecision` | Users can predict active and idle startup states | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Activation.MarkerEvents` | Docs list marker, language, and command signals | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.VaultPrecision` | Users can predict active and idle startup states | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.MarkerEvents` | Docs list marker, language, and command signals | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Command wake behavior is documented without promising indexing
 - [x] Docs link back to Phase E7 and extension parity requirements
 - [x] Markdown lint passes for changed docs
-- [x] [[test/matrix]] and [[test/index]] updated if needed
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated if needed
 
 ---
 
@@ -111,12 +111,12 @@ runtime behavior.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

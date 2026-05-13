@@ -6,7 +6,7 @@ aliases: [data-flow, lsp-flows, request-lifecycle]
 
 # Architecture Data Flow
 
-This document traces the runtime data flow through `flavor-grenade-lsp` for two of the most important operations: handling a document change notification and serving a completion request. These two flows exercise most of the system and together illustrate how the module layers in [[architecture/layers]] interact at runtime.
+This document traces the runtime data flow through `flavor-grenade-lsp` for two of the most important operations: handling a document change notification and serving a completion request. These two flows exercise most of the system and together illustrate how the module layers in [[docs/architecture/layers]] interact at runtime.
 
 ---
 
@@ -185,9 +185,9 @@ The completion flow reads from `VaultIndex` but does not write to it. The change
 
 ## Cross-References
 
-- [[architecture/overview]] — Design principles that motivated these flow designs
-- [[architecture/layers]] — Module ownership of each step in these flows
-- [[concepts/connection-graph]] — RefGraph.update and Oracle internals
-- [[concepts/document-model]] — OFMDoc, OFMIndex, parse pipeline
-- [[concepts/workspace-model]] — VaultFolder.withDoc and SymbolDiff
-- [[design/api-layer]] — Full LSP method catalog
+- [[docs/architecture/overview]] — Design principles that motivated these flow designs
+- [[docs/architecture/layers]] — Module ownership of each step in these flows
+- [[docs/concepts/connection-graph]] — RefGraph.update and Oracle internals
+- [[docs/concepts/document-model]] — OFMDoc, OFMIndex, parse pipeline
+- [[docs/concepts/workspace-model]] — VaultFolder.withDoc and SymbolDiff
+- [[docs/design/api-layer]] — Full LSP method catalog

@@ -471,7 +471,7 @@ Do not use em dashes in public-facing website copy.
 
 ## SEO And Metadata Requirements
 
-Every page must support the SEO requirements in [[../user/seo-discovery]].
+Every page must support the SEO requirements in [[website/docs/requirements/user/seo-discovery]].
 
 Design must make SEO content visible and useful rather than hiding it in
 metadata only:

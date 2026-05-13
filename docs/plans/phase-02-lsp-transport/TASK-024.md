@@ -28,7 +28,7 @@ Implement the `textDocument/didOpen` notification handler and the `DocumentStore
 - `DocumentStore` must expose `open`, `update`, `close`, and `get` methods
 - Use `vscode-languageserver-textdocument` for the `TextDocument` type
 - No OFM parsing — store raw text only; leave a `// Phase 3: trigger OFMParser` comment
-- See also: [[adr/ADR001-stdio-transport]]
+- See also: [[docs/adr/ADR001-stdio-transport]]
 
 ```typescript
 // src/lsp/document-store.ts
@@ -46,7 +46,7 @@ export class DocumentStore {
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Document lifecycle management | [[plans/phase-02-lsp-transport]] |
+| — | Document lifecycle management | [[docs/plans/phase-02-lsp-transport]] |
 
 ---
 
@@ -64,7 +64,7 @@ export class DocumentStore {
 |---|---|---|---|
 | `tests/unit/lsp/document-store.spec.ts` | Unit | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -72,7 +72,7 @@ export class DocumentStore {
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Use stdio with Content-Length framing for LSP transport |
+| [[docs/adr/ADR001-stdio-transport]] | Use stdio with Content-Length framing for LSP transport |
 
 ---
 
@@ -104,8 +104,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
@@ -118,18 +118,18 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-003]].

@@ -11,7 +11,7 @@ date: 2026-04-17
 
 The OFM parser (introduced in Phase 3) reads every `.md` file in the vault and applies regular expressions and recursive descent logic to extract wiki-links, tags, block anchors, frontmatter YAML, callouts, embeds, and comments. Because vault content is partially trusted — it may originate from shared vaults, cloned repositories, or Obsidian Publish mirrors — the parser is exposed to adversarially crafted input.
 
-Research documented in [[research/security-threat-model]] identifies three concrete parser-level threats:
+Research documented in [[docs/research/security-threat-model]] identifies three concrete parser-level threats:
 
 1. **ReDoS** — crafted input that triggers catastrophic backtracking in a regex engine, locking the Node.js/Bun event loop for seconds or indefinitely. Multiple Markdown parsing libraries have ReDoS CVEs (markdown-it CVE-2022-21670, CodeMirror CVE-2025-6493, marked pre-4.0.10, markdown-to-jsx GHSL-2020-300).
 2. **Deeply nested YAML** — YAML anchors and aliases can produce exponentially large object graphs ("billion laughs" pattern), exhausting heap memory during frontmatter parsing.
@@ -94,7 +94,7 @@ During initial vault indexing, the VaultIndex must enforce a configurable maximu
 
 ## Related
 
-- [[adr/ADR013-vault-root-confinement]] — complements this ADR with path safety rules
-- [[research/security-threat-model#Threat-Category-1]] — threat evidence
-- [[requirements/security/parser-safety]] — Planguage requirements derived from this ADR
-- [[plans/phase-03-ofm-parser]] — implementation phase
+- [[docs/adr/ADR013-vault-root-confinement]] — complements this ADR with path safety rules
+- [[docs/research/security-threat-model]] — threat evidence
+- [[docs/requirements/security/parser-safety]] — Planguage requirements derived from this ADR
+- [[docs/plans/phase-03-ofm-parser]] — implementation phase

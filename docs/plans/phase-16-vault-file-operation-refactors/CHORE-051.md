@@ -26,8 +26,8 @@ aliases: ["CHORE-051"]
 ## Description
 
 Audit the Phase 16 test inventory and traceability matrix after the regression
-suite lands. Every new or changed test must be represented in [[test/index]],
-and every linked Phase 16 requirement must have an accurate [[test/matrix]] row.
+suite lands. Every new or changed test must be represented in [[docs/test/index]],
+and every linked Phase 16 requirement must have an accurate [[docs/test/matrix]] row.
 
 ---
 
@@ -37,7 +37,7 @@ Phase 16 adds cross-cutting behavior for LSP file operations, path confinement,
 reference rewriting, and index refresh. Traceability needs a final pass after
 the implementation settles.
 
-- Motivated by: [[test/matrix]]
+- Motivated by: [[docs/test/matrix]]
 
 ---
 
@@ -45,8 +45,8 @@ the implementation settles.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | File operation regression evidence is represented in the matrix | [[requirements/functional/ofmarkdown-parity]] |
-| `Security.Vault.RenameConfinement` | Rename confinement evidence is represented in the matrix | [[requirements/security/vault-confinement]] |
+| `Parity.FileOperations.AtomicRefactor` | File operation regression evidence is represented in the matrix | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Security.Vault.RenameConfinement` | Rename confinement evidence is represented in the matrix | [[docs/requirements/security/vault-confinement]] |
 
 ---
 
@@ -91,8 +91,8 @@ the implementation settles.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] [[test/matrix]] contains Phase 16 requirement evidence rows
-- [x] [[test/index]] contains every Phase 16 test file
+- [x] [[docs/test/matrix]] contains Phase 16 requirement evidence rows
+- [x] [[docs/test/index]] contains every Phase 16 test file
 - [x] `bun run lint --max-warnings 0` passes
 - [x] `tsc --noEmit` exits 0
 - [x] `bun test` passes
@@ -110,7 +110,7 @@ ticket creation task does not grant that implementation scope.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -130,6 +130,6 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > Chore created. Status: `open`. Motivation: post-Phase-16 test traceability.
 
 > [!SUCCESS] Done - 2026-05-06
-> Added Phase 16 unit and integration evidence to [[test/index]]. Also updated
-> the [[test/matrix]] page with file-operation capability, planner, rewriter, validator,
+> Added Phase 16 unit and integration evidence to [[docs/test/index]]. Also updated
+> the [[docs/test/matrix]] page with file-operation capability, planner, rewriter, validator,
 > refresh, regression, and security-confinement coverage. Status: `done`.

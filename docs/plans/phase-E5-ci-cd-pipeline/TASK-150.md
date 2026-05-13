@@ -41,7 +41,7 @@ Update `docs/roadmap.md` to mark all completed extension phases (E1 through E5) 
 
 - No code changes — documentation only
 
-- See also: [[plans/phase-E5-ci-cd-pipeline]], [[plans/execution-ledger]]
+- See also: [[docs/plans/phase-E5-ci-cd-pipeline]], [[docs/plans/execution-ledger]]
 
 ---
 
@@ -49,7 +49,7 @@ Update `docs/roadmap.md` to mark all completed extension phases (E1 through E5) 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Accurate project tracking documentation reflecting completed extension phases | [[requirements/index]] |
+| — | Accurate project tracking documentation reflecting completed extension phases | [[docs/requirements/index]] |
 
 ---
 
@@ -69,7 +69,7 @@ Update `docs/roadmap.md` to mark all completed extension phases (E1 through E5) 
 
 > N/A for traditional TDD red/green cycle. This task modifies documentation files only; there are no tests to write. The RED state represents the roadmap and ledger not yet reflecting extension phase completion; GREEN represents the documentation being accurate.
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -115,9 +115,9 @@ All of the following must be true before this task is marked `done`:
 
 - [ ] `bun test` passes (no regressions)
 
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
 
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/index]] row(s) added for new test files
 
 - [ ] Parent feature [[FEAT-019]] child task row updated to `in-review`
 
@@ -131,18 +131,18 @@ This task should be executed last in Phase E5, after the workflow file is create
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-019]].

@@ -35,7 +35,7 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 
   1. **`flavorGrenade.restartServer`** — Calls `client.restart()` to stop and restart the LanguageClient (and the underlying server process). This is an async operation.
 
-  2. **`flavorGrenade.rebuildIndex`** — Sends `workspace/executeCommand` to the server with `{ command: 'flavorGrenade.rebuildIndex', arguments: [] }` via `client.sendRequest(...)`. The server handles this command on the `workspace/executeCommand` request path (already implemented — see [[design/api-layer]], "Workspace Commands").
+  2. **`flavorGrenade.rebuildIndex`** — Sends `workspace/executeCommand` to the server with `{ command: 'flavorGrenade.rebuildIndex', arguments: [] }` via `client.sendRequest(...)`. The server handles this command on the `workspace/executeCommand` request path (already implemented — see [[docs/design/api-layer]], "Workspace Commands").
 
   3. **`flavorGrenade.showOutput`** — Calls `client.outputChannel.show()` to reveal the Flavor Grenade output channel in the VS Code panel.
 
@@ -45,17 +45,17 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 
 - Typecheck verification: `cd extension && npx tsc --noEmit`
 
-- See also: [[design/api-layer]] — "Workspace Commands" section for `flavorGrenade.rebuildIndex` server-side registration
+- See also: [[docs/design/api-layer]] — "Workspace Commands" section for `flavorGrenade.rebuildIndex` server-side registration
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension UX layer; Command Palette commands give vault authors direct control over the server | [[requirements/index]] |
+| — | Extension UX layer; Command Palette commands give vault authors direct control over the server | [[docs/requirements/index]] |
 
 ---
 
@@ -85,7 +85,7 @@ Create `extension/src/commands.ts` containing a `registerCommands` function that
 
 | ADR | Decision |
 |---|---|
-| — | No ADR directly constrains this task; the `flavorGrenade.rebuildIndex` workspace command is defined in [[design/api-layer]] |
+| — | No ADR directly constrains this task; the `flavorGrenade.rebuildIndex` workspace command is defined in [[docs/design/api-layer]] |
 
 ---
 
@@ -139,7 +139,7 @@ The three command IDs (`flavorGrenade.restartServer`, `flavorGrenade.rebuildInde
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -155,13 +155,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-017]].

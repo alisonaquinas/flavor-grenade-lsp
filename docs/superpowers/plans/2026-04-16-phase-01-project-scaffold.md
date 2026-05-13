@@ -649,8 +649,8 @@ flavor-grenade-lsp/
 
 ## References
 
-- [[adr/ADR001-stdio-transport]] — why no HTTP platform
-- [[architecture/layers]] — NestJS module dependency order
-- [[ddd/lsp-protocol/domain-model]] — what LspModule will host in Phase 2
-- [[plans/phase-02-lsp-transport]] — next phase plan
-- [[requirements/configuration]] — config schema driving `.flavor-grenade.toml`
+- [[docs/adr/ADR001-stdio-transport]] — why no HTTP platform
+- [[docs/architecture/layers]] — NestJS module dependency order
+- [[docs/ddd/lsp-protocol/domain-model]] — what LspModule will host in Phase 2
+- [[docs/plans/phase-02-lsp-transport]] — next phase plan
+- [[docs/requirements/configuration]] — config schema driving `.flavor-grenade.toml`

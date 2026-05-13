@@ -44,7 +44,7 @@ contains every required visual asset.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.EvaluateBeforeInstall` | Understand OFMarkdown value before installing the extension | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.EvaluateBeforeInstall` | Understand OFMarkdown value before installing the extension | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -52,8 +52,8 @@ contains every required visual asset.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.OFMProof` | README shows required OFMarkdown screenshots or GIFs | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Marketplace.AssetPackaging` | Referenced Marketplace assets are included in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.OFMProof` | README shows required OFMarkdown screenshots or GIFs | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced Marketplace assets are included in packaged VSIX output | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -67,8 +67,8 @@ contains every required visual asset.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E11-marketplace-evidence-packaging-proof]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E11-marketplace-evidence-packaging-proof]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -79,9 +79,9 @@ All of the following must be true before this ticket is marked `done`.
 - [x] `extension/README.md` references all required OFMarkdown visual categories
 - [x] Visual assets use Marketplace-supported PNG, JPEG, or GIF formats
 - [x] Packaged VSIX inspection confirms each referenced required asset ships
-- [x] `Extension.Marketplace.OFMProof` has passing evidence in [[test/matrix]]
-- [x] `Extension.Marketplace.AssetPackaging` has passing evidence in [[test/matrix]]
-- [x] [[test/index]] updated with every new verification file introduced
+- [x] `Extension.Marketplace.OFMProof` has passing evidence in [[docs/test/matrix]]
+- [x] `Extension.Marketplace.AssetPackaging` has passing evidence in [[docs/test/matrix]]
+- [x] [[docs/test/index]] updated with every new verification file introduced
 - [x] `cd extension && npm run build:extension` exits 0
 - [x] `cd extension && npx vsce package --no-dependencies` exits 0
 
@@ -116,16 +116,16 @@ All of the following must be true before this ticket is marked `done`.
 
 ## Notes
 
-Required visual categories come from [[features/vscode-extension-parity]] and
-[[research/marksman-vscode-feature-parity-ofmarkdown]]. The package check should
-use the extension plan gate in [[plans/phase-E11-marketplace-evidence-packaging-proof]].
+Required visual categories come from [[docs/features/vscode-extension-parity]] and
+[[docs/research/marksman-vscode-feature-parity-ofmarkdown]]. The package check should
+use the extension plan gate in [[docs/plans/phase-E11-marketplace-evidence-packaging-proof]].
 
 ---
 
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)

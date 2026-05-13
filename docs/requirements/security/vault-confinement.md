@@ -11,9 +11,11 @@ aliases:
 # Vault Root Confinement Requirements
 
 > [!NOTE] Scope
-> These are **functional security requirements** governing how the server resolves file paths derived from vault content and LSP parameters. They prevent path traversal attacks that could expose files outside the vault root (information disclosure) or overwrite arbitrary files on the user's system (via the rename write path). Evidence is drawn from [[research/security-threat-model#Threat-Category-1]] and [[research/security-threat-model#Threat-Category-4]]. The canonical decision is [[adr/ADR013-vault-root-confinement]].
+> These are **functional security requirements** governing how the server resolves file paths derived from vault content and LSP parameters. They prevent path traversal attacks that could expose files outside the vault root (information disclosure) or overwrite arbitrary files on the user's system (via the rename write path). Evidence is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. The canonical decision is [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
+
+## Security.Vault.PathConfinement
 
 **Tag:** Security.Vault.PathConfinement
 **Gist:** Every file path derived from vault content or LSP parameters must be canonicalized and verified against the vault root before any I/O operation; paths that resolve outside the vault root must produce a null result and never reach the file system.
@@ -36,9 +38,11 @@ aliases:
 **Goal:** 100% of traversal patterns are confined — zero file system accesses outside the vault root.
 **Stakeholders:** Vault authors, file system security, users of shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.2]], [[adr/ADR013-vault-root-confinement]], CVE-2024-22415, OWASP Path Traversal.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]], CVE-2024-22415, OWASP Path Traversal.
 
 ---
+
+## Security.Vault.SymlinkConfinement
 
 **Tag:** Security.Vault.SymlinkConfinement
 **Gist:** Symlinks within the vault that resolve to targets outside the vault root must be treated as non-existent files, producing FG001 or FG004; the real symlink target path must be checked, not the symlink's own path.
@@ -57,9 +61,11 @@ aliases:
 **Goal:** 100% of out-of-vault symlinks treated as non-existent — zero symlink-based traversals succeed.
 **Stakeholders:** File system security, vault authors on multi-user systems.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.2]], [[adr/ADR013-vault-root-confinement#4-symlink-policy]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
+
+## Security.Vault.URISchemeAllowlist
 
 **Tag:** Security.Vault.URISchemeAllowlist
 **Gist:** The server must only process `file://` URIs; any LSP request referencing a URI with a non-`file://` scheme must be rejected with a JSON-RPC InvalidParams error (-32602) before reaching any resolver.
@@ -76,9 +82,11 @@ aliases:
 **Goal:** 100% of non-`file://` URIs rejected at the transport boundary.
 **Stakeholders:** Security auditors, future TCP-transport mode users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-6]], [[adr/ADR013-vault-root-confinement#3-uri-scheme-allowlist]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
+
+## Security.Vault.RenameConfinement
 
 **Tag:** Security.Vault.RenameConfinement
 **Gist:** Every file URI produced by the rename edit builder must pass vault-root confinement before being included in the `workspace/applyEdit` request; any edit targeting a path outside the vault root must cause the rename to be rejected entirely.
@@ -95,4 +103,24 @@ aliases:
 **Goal:** 0 out-of-vault rename writes — any escaping URI cancels the entire rename operation.
 **Stakeholders:** File system security, vault authors, users on multi-user systems.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-4.3]], [[adr/ADR013-vault-root-confinement#2-application-points]], [[plans/phase-11-rename]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]], [[docs/plans/phase-11-rename]].
+
+---
+
+## Security.Vault.ProjectConfigConfinement
+
+**Tag:** Security.Vault.ProjectConfigConfinement
+**Gist:** Project config discovery for `.flavor-grenade.toml` must canonicalize and realpath the candidate path under the owning workspace or vault root before reading; config files outside that root must be ignored.
+**Ambition:** Flavor auto-detection introduces a project-level configuration file. If discovery follows symlinks or traversal outside the workspace/vault root, a document can influence analysis with configuration from an arbitrary filesystem location. Config confinement must match link and rename confinement principles.
+**Scale:** Percentage of config discovery attempts that reject out-of-root, symlink-escaped, absolute, encoded traversal, and unsupported-scheme candidates before file I/O.
+**Meter:**
+
+1. Create workspaces with valid config, symlinked config to outside root, traversal-like paths, and unsupported URI schemes.
+2. Trigger flavor detection.
+3. Verify only the valid in-root realpath is read.
+4. Verify unsafe candidates are treated as absent configuration and do not log content.
+**Fail:** Any config file outside the workspace/vault root is read or merged.
+**Goal:** 100% project config confinement.
+**Stakeholders:** Workspace owners, security reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/adr/ADR013-vault-root-confinement]], [[docs/research/security-threat-model]].

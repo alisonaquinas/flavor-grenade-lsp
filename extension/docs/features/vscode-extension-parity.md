@@ -7,31 +7,31 @@ aliases: [Extension Feature Parity]
 # VS Code Extension Parity Feature
 
 The VS Code extension parity feature makes Flavor Grenade feel native in VS
-Code while keeping OFMarkdown intelligence in the language server.
+Code while keeping Markdown flavor intelligence in the language server.
 
 ## Feature Surface
 
 | Area | Requirement |
 |---|---|
 | Activation | Activate for `.obsidian/` and `.flavor-grenade.toml`; avoid expensive startup for generic Markdown |
-| Language mode | Promote vault Markdown to `ofmarkdown`; preserve generic Markdown and manual modes |
+| Markdown flavor | Keep `.md` files in `markdown`; expose Auto Detect and every supported researched Markdown flavor in a separate selector |
 | Commands | Register restart, rebuild, output, show references, follow link, open embed, backlinks, outlinks, reveal vault, copy diagnostics |
 | Status | Show starting, indexing, ready, disabled, and error states with useful tooltips and quick actions |
-| Tests | Cover activation, language mode, commands, status, and server path failures in extension-host tests |
-| Marketplace | Show current OFMarkdown screenshots in README and packaged assets |
-| Contributions | Add snippets and language-scoped affordances for `ofmarkdown` |
+| Tests | Cover activation, Markdown flavor selection, commands, status, and server path failures in extension-host tests |
+| Marketplace | Show current Markdown flavor and OFM feature screenshots in README and packaged assets |
+| Contributions | Add snippets and command affordances gated by flavor/context rather than a custom language id |
 
 ## Functional Requirement Trace
 
 | Area | Functional requirements |
 |---|---|
 | Activation | `Extension.Activation.VaultPrecision`, `Extension.Activation.MarkerEvents` |
-| Language mode | `Extension.LanguageMode.MembershipRefresh` |
+| Markdown flavor | `Extension.MarkdownFlavor.Refresh` |
 | Commands | `Extension.CommandBridges.NativeUI`, `Extension.CommandBridges.PayloadValidation`, `Extension.CommandBridges.GraphActions` |
 | Status | `Extension.Status.Diagnostics`, `Extension.Status.QuickActions` |
 | Tests | `Extension.Tests.HostCoverage`, `Extension.Workspace.EnvironmentModes` |
 | Marketplace | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` |
-| Contributions | `Extension.Contributions.OFMarkdownScoped` |
+| Contributions | `Extension.Contributions.FlavorScoped` |
 | Packaging | `Extension.Packaging.TargetBinaryValidation` |
 
 ## Command Bridge Contract
@@ -70,6 +70,9 @@ Detailed payload contracts live in
 E8 and the `Extension.CommandBridges.NativeUI`,
 `Extension.CommandBridges.PayloadValidation`, and
 `Extension.CommandBridges.GraphActions` requirements.
+
+Markdown flavor Auto Detect behavior follows the root
+[Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
 
 ## Non-Goals
 

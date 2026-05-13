@@ -12,14 +12,14 @@ This smoke test validates the minimum viable tag indexing round-trip: that inlin
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-017 — inline tag is indexed in the vault tag registry
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `Inline tag is indexed correctly in the vault tag registry`
+**BDD Reference:** [[docs/ofm-spec/tags]] — `Inline tag is indexed correctly in the vault tag registry`
 **Phase gate:** Phase 2
 
 **Setup:**
@@ -88,7 +88,7 @@ And each completion item has kind 12 (Value)
 ### TC-SMOKE-018 — tag inside fenced code block is NOT indexed
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `Tag inside fenced code block is NOT indexed`
+**BDD Reference:** [[docs/ofm-spec/tags]] — `Tag inside fenced code block is NOT indexed`
 **Phase gate:** Phase 2
 
 **Setup:**

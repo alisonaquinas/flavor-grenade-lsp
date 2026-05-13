@@ -41,9 +41,9 @@ the handler must reject the whole refactor instead of returning a partial edit.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicValidation` | WorkspaceEdit output is deterministic, non-overlapping, and all-or-nothing | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicRefactor` | Return all reference edits atomically or return no edit | [[requirements/functional/ofmarkdown-parity]] |
-| `Security.Vault.RenameConfinement` | Cancel unsafe rename and move edits before returning them | [[requirements/security/vault-confinement]] |
+| `Parity.FileOperations.AtomicValidation` | WorkspaceEdit output is deterministic, non-overlapping, and all-or-nothing | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Return all reference edits atomically or return no edit | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Security.Vault.RenameConfinement` | Cancel unsafe rename and move edits before returning them | [[docs/requirements/security/vault-confinement]] |
 
 ---
 
@@ -115,7 +115,7 @@ layer.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -123,7 +123,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -55,7 +55,7 @@ Expected behavior:
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

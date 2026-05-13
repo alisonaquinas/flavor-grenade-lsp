@@ -30,7 +30,7 @@ disabled, what status appears, and what evidence closes the phase gate.
 - Keep smoke-test steps in extension-facing docs and link them from phase docs.
 - Include Restricted Mode and virtual workspace expected results.
 - Capture when manual evidence is acceptable because CI cannot create the host.
-- See also: [[plans/phase-E13-workspace-environment-modes]]
+- See also: [[docs/plans/phase-E13-workspace-environment-modes]]
 
 ---
 
@@ -38,8 +38,8 @@ disabled, what status appears, and what evidence closes the phase gate.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Workspace.EnvironmentModes` | Environment modes have documented tested or manually verified behavior | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.Diagnostics` | Troubleshooting language matches disabled and unsupported statuses | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Workspace.EnvironmentModes` | Environment modes have documented tested or manually verified behavior | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Troubleshooting language matches disabled and unsupported statuses | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -57,7 +57,7 @@ disabled, what status appears, and what evidence closes the phase gate.
 |---|---|---|---|
 | `extension/docs/features/workspace-environments.md` | Manual | `Extension.Workspace.EnvironmentModes` | ✅ passing |
 
-After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -99,8 +99,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Manual evidence format is documented for phase closeout.
 - [x] `bun run lint --max-warnings 0` passes.
 - [x] `tsc --noEmit` exits 0.
-- [x] [[test/matrix]] row(s) updated to `✅ passing`.
-- [x] [[test/index]] row(s) added for new manual verification entries.
+- [x] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[docs/test/index]] row(s) added for new manual verification entries.
 - [x] Parent feature [[FEAT-031]] child task row updated to `in-review`.
 
 ---
@@ -115,20 +115,20 @@ generation pass only creates the assigned Phase E13 ticket files.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
 `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-031]].

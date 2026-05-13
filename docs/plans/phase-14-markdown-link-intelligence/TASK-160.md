@@ -52,10 +52,10 @@ information for every candidate heading.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Missing same-document anchors produce diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Duplicate heading anchors produce related information | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.TargetClassification` | External URL targets are suppressed before vault diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.LocalResolution` | External URLs produce no vault diagnostics | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Missing same-document anchors produce diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Duplicate heading anchors produce related information | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | External URL targets are suppressed before vault diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | External URLs produce no vault diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -116,7 +116,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass locally.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -131,7 +131,7 @@ that bypass parsed link ranges.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -140,7 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

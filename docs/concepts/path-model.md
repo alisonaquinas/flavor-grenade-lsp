@@ -233,8 +233,8 @@ Algorithm VaultDetector.detect(docAbsPath):
 
 ## Cross-References
 
-- [[concepts/document-model]] — DocId usage in OFMDoc
-- [[concepts/symbol-model]] — How DocId appears in Scope and ScopedSym
-- [[concepts/workspace-model]] — VaultRoot and VaultDetector
-- [[concepts/connection-graph]] — How Slug is used for approximate ref resolution
-- [[architecture/layers]] — PathModule as the foundation layer
+- [[docs/concepts/document-model]] — DocId usage in OFMDoc
+- [[docs/concepts/symbol-model]] — How DocId appears in Scope and ScopedSym
+- [[docs/concepts/workspace-model]] — VaultRoot and VaultDetector
+- [[docs/concepts/connection-graph]] — How Slug is used for approximate ref resolution
+- [[docs/architecture/layers]] — PathModule as the foundation layer

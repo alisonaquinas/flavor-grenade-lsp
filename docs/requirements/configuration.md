@@ -14,8 +14,10 @@ aliases:
 
 ---
 
+## Config.Precedence.Layering
+
 **Tag:** Config.Precedence.Layering
-**User Req:** User.Config.CustomiseLinkStyle
+**User Req:** User.Config.CustomizeLinkStyle
 **Gist:** Project-level `.flavor-grenade.toml` values override user-level config values, which in turn override built-in defaults; each layer must affect only the keys it explicitly defines, leaving all other keys at their inherited value.
 **Ambition:** A three-tier configuration stack is standard practice for developer tools (editors, linters, LSPs) and provides the correct layering for both personal and team usage: team-wide project settings in the project file, personal preferences in the user file, and safe defaults for unconfigured scenarios. The critical property is that each tier is additive, not total: a project file that sets only `wiki.style` must not reset `completion.candidates` to an unexpected value. Violating this contract creates configuration surprises that are extremely difficult to debug because the symptom (unexpected LSP behaviour) appears far removed from the cause (a missing key in a config file resetting to default).
 **Scale:** Percentage of test cases in which a key defined at a higher-priority tier takes the expected value when the same key is also defined at a lower-priority tier, and in which a key defined only at a lower-priority tier retains its lower-tier value. Scope: at least 5 distinct configuration keys across at least 3 test scenarios per key.
@@ -34,9 +36,11 @@ aliases:
 **Goal:** 100% of keys resolve to the correct effective value in all precedence permutations.
 **Stakeholders:** Vault authors, team leads setting project conventions, editor integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], plans/roadmap.
+**Source:** [[docs/architecture/overview]], [[docs/design/api-layer]], plans/roadmap.
 
 ---
+
+## Config.Validation.Candidates
 
 **Tag:** Config.Validation.Candidates
 **User Req:** User.Config.TuneCompletions
@@ -55,9 +59,11 @@ aliases:
 **Goal:** 100% of invalid values handled with default substitution, no crash, and debug log.
 **Stakeholders:** Vault authors, editor integrators, DevOps engineers deploying the server.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/completions#Completion.Candidates.Cap]], [[design/api-layer#config-loader]], [[architecture/overview#configuration-layer]].
+**Source:** [[docs/requirements/completions#Completion.Candidates.Cap]], [[docs/design/api-layer]], [[docs/architecture/overview]].
 
 ---
+
+## Config.Fault.Isolation
 
 **Tag:** Config.Fault.Isolation
 **Gist:** A malformed TOML syntax error in any configuration file (project, user, or built-in override) must cause only that file to be dropped from the configuration merge, without crashing the server or preventing it from serving requests; the server must log the parse error at debug level and continue with the remaining valid configuration layers.
@@ -76,9 +82,11 @@ aliases:
 **Goal:** 100% of malformed-file startups isolated correctly.
 **Stakeholders:** All server operators, vault authors, DevOps engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], `Config.Precedence.Layering`.
+**Source:** [[docs/architecture/overview]], [[docs/design/api-layer]], `Config.Precedence.Layering`.
 
 ---
+
+## Config.TextSync.Default
 
 **Tag:** Config.TextSync.Default
 **Gist:** When `core.text_sync` is not defined in any configuration layer, the server must use `"full"` as the effective value for the LSP text document synchronisation mode.
@@ -96,4 +104,4 @@ aliases:
 **Goal:** 100% of unconfigured startups default to Full text synchronisation.
 **Stakeholders:** LSP client developers, editor plugin authors, server operators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#initialize-handler]], [[architecture/overview#configuration-layer]], LSP specification §3.15 TextDocumentSyncKind.
+**Source:** [[docs/design/api-layer]], [[docs/architecture/overview]], LSP specification §3.15 TextDocumentSyncKind.

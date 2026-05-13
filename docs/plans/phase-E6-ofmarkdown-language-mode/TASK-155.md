@@ -39,8 +39,8 @@ Update user-facing extension docs so OFMarkdown language mode is discoverable an
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/ofmarkdown-language-mode]] |
 
 ---
 

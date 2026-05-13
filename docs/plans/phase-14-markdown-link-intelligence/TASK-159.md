@@ -51,10 +51,10 @@ centralized heading anchor normalization.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Markdown local links resolve through vault rules | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.TargetClassification` | Oracle receives pre-classified local and non-local target kinds | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors resolve to headings | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Ambiguous heading matches are reported to diagnostics | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Markdown local links resolve through vault rules | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | Oracle receives pre-classified local and non-local target kinds | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors resolve to headings | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Ambiguous heading matches are reported to diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -117,7 +117,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass or are ready for diagnostics/navigation work.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -132,7 +132,7 @@ so diagnostics and rename cannot drift.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -141,7 +141,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

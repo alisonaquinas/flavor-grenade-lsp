@@ -41,7 +41,7 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Rename requirements | [[requirements/rename]] |
+| — | Rename requirements | [[docs/requirements/rename]] |
 
 ---
 
@@ -66,8 +66,8 @@ Create `src/test/integration/rename.test.ts` using a fixture vault containing: a
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR005-wiki-style-binding]] | Wiki-link style binding constraints that integration tests must exercise |
-| [[adr/ADR013-vault-root-confinement]] | File rename URIs must remain within vault root |
+| [[docs/adr/ADR005-wiki-style-binding]] | Wiki-link style binding constraints that integration tests must exercise |
+| [[docs/adr/ADR013-vault-root-confinement]] | File rename URIs must remain within vault root |
 
 ---
 
@@ -99,8 +99,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-012]] child task row updated to `in-review`
 - [ ] `bun test tests/integration/rename.test.ts` passes with no failures
 
@@ -114,7 +114,7 @@ Use exact `WorkspaceEdit` assertions — not partial matchers. The fixture vault
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -130,13 +130,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-012]].

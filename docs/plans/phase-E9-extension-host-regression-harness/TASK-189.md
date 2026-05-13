@@ -33,7 +33,7 @@ on a user's local vault.
 - Add fixtures for `.obsidian/`, `.flavor-grenade.toml`, and generic Markdown
   workspaces
 - Keep test setup deterministic and free of user-machine paths
-- See also: [[plans/phase-E9-extension-host-regression-harness]]
+- See also: [[docs/plans/phase-E9-extension-host-regression-harness]]
 
 ---
 
@@ -41,7 +41,7 @@ on a user's local vault.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Tests.HostCoverage` | Host tests must cover required client behavior groups | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Host tests must cover required client behavior groups | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -63,7 +63,7 @@ on a user's local vault.
 | `extension/test-fixtures/workspaces/generic-markdown/` | Fixture | `Extension.Tests.HostCoverage` | passing |
 
 > After implementation, update the rows above and the corresponding rows in
-> See [[test/matrix]] and [[test/index]].
+> See [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -71,7 +71,7 @@ on a user's local vault.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Keep VS Code integration in the extension client |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Keep VS Code integration in the extension client |
 
 ---
 
@@ -106,8 +106,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Host tests avoid user-specific paths and network access
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
-- [ ] [[test/matrix]] row(s) updated to `passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-027]] child task row updated to `in-review`
 
 ---
@@ -122,14 +122,14 @@ This task creates the test surface only. Behavior-specific assertions belong in
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -138,7 +138,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

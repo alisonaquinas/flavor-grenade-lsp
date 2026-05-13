@@ -30,7 +30,7 @@ should enter active vault behavior only after a positive vault signal exists.
 - Treat `.obsidian/` and `.flavor-grenade.toml` as positive vault signals
 - Keep generic Markdown startup in an idle state
 - Ensure command wake paths still run the same startup checks
-- See also: [[features/vscode-extension-parity]]
+- See also: [[docs/features/vscode-extension-parity]]
 
 ---
 
@@ -38,8 +38,8 @@ should enter active vault behavior only after a positive vault signal exists.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Activation.VaultPrecision` | Generic Markdown startup must not perform vault indexing | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Activation.MarkerEvents` | Controller maps activation signals to active or idle states | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.VaultPrecision` | Generic Markdown startup must not perform vault indexing | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.MarkerEvents` | Controller maps activation signals to active or idle states | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Command wake paths reuse the startup gate
 - [x] `cd extension && npm run check-types` passes
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated for new coverage
 
 ---
 
@@ -110,12 +110,12 @@ except where the existing startup path already handles those states.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

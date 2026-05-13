@@ -8,7 +8,7 @@ aliases: [Verify Wiki-Link Resolution]
 
 ## Purpose
 
-This file defines scripted and agent-driven verification test cases for the five Planguage requirements in the wiki-link resolution domain. Each test case maps directly to one Planguage tag defined in [[requirements/wiki-link-resolution]] and validates the server's behaviour against the Fail and Goal thresholds stated there. The tests cover style-mode binding for completion and rename edits, alias-based link resolution, single-file mode cross-file suppression, FG001 suppression on non-markdown inline URLs, and ignore-glob enforcement in completion and definition responses.
+This file defines scripted and agent-driven verification test cases for the five Planguage requirements in the wiki-link resolution domain. Each test case maps directly to one Planguage tag defined in [[docs/requirements/wiki-link-resolution]] and validates the server's behaviour against the Fail and Goal thresholds stated there. The tests cover style-mode binding for completion and rename edits, alias-based link resolution, single-file mode cross-file suppression, FG001 suppression on non-markdown inline URLs, and ignore-glob enforcement in completion and definition responses.
 
 ## Requirements Covered
 
@@ -54,7 +54,7 @@ And (conforming items / total items) × 100 equals 100
 4. Agent spawns LSP server: `bun run start 2>/dev/null &`
 5. Agent sends `initialize` (with vault `rootUri`) + `initialized` JSON-RPC.
 6. Agent sends `textDocument/didOpen` for a new document; sends `textDocument/completion` at a `[[` position; collects all `CompletionItem.insertText` values.
-7. Agent validates each `insertText` value against the `file-stem` format rule from [[design/domain-layer]]; counts conforming vs. total.
+7. Agent validates each `insertText` value against the `file-stem` format rule from [[docs/design/domain-layer]]; counts conforming vs. total.
 8. Agent sends `workspace/executeCommand` (or equivalent) to trigger a rename on one document; collects all `newText` values from the returned `WorkspaceEdit`; validates conformance.
 9. Agent shuts down; restarts with `wiki.style = "title-slug"`; repeats steps 6–8.
 10. Agent shuts down; restarts with `wiki.style = "file-path-stem"`; repeats steps 6–8.
@@ -72,7 +72,7 @@ And (conforming items / total items) × 100 equals 100
 **Planguage Tag:** `Link.Wiki.AliasResolution`
 **Gist:** YAML `aliases:` frontmatter values must be treated as valid link targets equivalent to the document's primary name.
 **Type:** Both
-**BDD Reference:** [[bdd/features/wiki-links]] — `Alias-based wiki-link resolves correctly`
+**BDD Reference:** [[docs/ofm-spec/wiki-links]] — `Alias-based wiki-link resolves correctly`
 **Phase:** Phase 1
 
 **Setup:**
@@ -122,7 +122,7 @@ And (alias links resolving correctly / total alias links tested) × 100 equals 1
 **Planguage Tag:** `Link.Resolution.ModeScope`
 **Gist:** Single-file mode must suppress all cross-file link resolution and must not return cross-file results in any LSP response.
 **Type:** Both
-**BDD Reference:** [[bdd/features/wiki-links]] — `Single-file mode suppresses FG001`
+**BDD Reference:** [[docs/ofm-spec/wiki-links]] — `Single-file mode suppresses FG001`
 **Phase:** Phase 1
 
 **Setup:**

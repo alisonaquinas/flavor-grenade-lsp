@@ -44,7 +44,7 @@ A focused sweep prevents incidental warnings from hiding release risks.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase E14 must introduce no lint warnings | [[requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase E14 must introduce no lint warnings | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -96,10 +96,10 @@ All of the following must be true before this ticket is marked `done`:
 - [x] `tsc --noEmit` exits 0.
 - [x] `bun test` passes with no regressions introduced.
 - [x] No behaviour-affecting changes in `src/`.
-- [x] [[test/matrix]] updated if any test files were added or removed.
-- [x] [[test/index]] updated if any test files were added or removed.
+- [x] [[docs/test/matrix]] updated if any test files were added or removed.
+- [x] [[docs/test/index]] updated if any test files were added or removed.
 - [x] Extension gate commands from
-  [[plans/phase-E14-membership-refresh-compatibility-guardrails]] are recorded.
+  [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]] are recorded.
 
 ---
 
@@ -112,7 +112,7 @@ Run after all Phase E14 TASK tickets are in `done` or `in-review`.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -124,7 +124,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: post-Phase-E14 lint and type sweep.

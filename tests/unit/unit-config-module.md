@@ -6,7 +6,7 @@ aliases: [Unit Tests Config, ConfigModule Tests]
 
 > [!INFO] ConfigModule reads .flavor-grenade.toml and merges with defaults. Tests use in-memory TOML strings (no real disk I/O) via a mock TomlReader interface injected into TomlLoader.
 
-See [[architecture/layers]] for where ConfigModule sits in the dependency graph and [[adr/ADR010-tests-directory-structure]] for the spec file layout convention.
+See [[docs/architecture/layers]] for where ConfigModule sits in the dependency graph and [[docs/adr/ADR010-tests-directory-structure]] for the spec file layout convention.
 
 ---
 

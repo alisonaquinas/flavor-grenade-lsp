@@ -37,7 +37,7 @@ Add the canonical `scripts` block to `package.json`. The scripts defined here ar
 - `"lint:fix": "eslint src/ --fix"` — ESLint auto-fix
 - `"format": "prettier --write src/"` — Prettier format
 - `"gate:1": "bun run build && bun test"` — Phase 1 CI gate (both must pass)
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -45,7 +45,7 @@ Add the canonical `scripts` block to `package.json`. The scripts defined here ar
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Script configuration; `gate:1` is the Phase 1 acceptance gate | [[requirements/index]] |
+| — | Script configuration; `gate:1` is the Phase 1 acceptance gate | [[docs/requirements/index]] |
 
 ---
 
@@ -69,7 +69,7 @@ Add the canonical `scripts` block to `package.json`. The scripts defined here ar
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | `gate:1` command must pass before Phase 2 begins; it is the Phase 1 completion signal |
+| [[docs/adr/ADR001-stdio-transport]] | `gate:1` command must pass before Phase 2 begins; it is the Phase 1 completion signal |
 
 ---
 
@@ -111,13 +111,13 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-Script names are canonical for this project. Do not rename them — the `gate:1` naming convention is followed in all subsequent phases (`gate:2`, `gate:3`, etc.) and is referenced in [[plans/execution-ledger]].
+Script names are canonical for this project. Do not rename them — the `gate:1` naming convention is followed in all subsequent phases (`gate:2`, `gate:3`, etc.) and is referenced in [[docs/plans/execution-ledger]].
 
 ---
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

@@ -60,6 +60,6 @@ marketing page.
 ## Follow-On Pages
 
 - [[quickstart]]
-- [[how-to]]
-- [[concepts]]
+- [[website/docs/requirements/user/how-to]]
+- [[website/docs/requirements/user/concepts]]
 - [[faq]]

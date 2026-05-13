@@ -40,7 +40,7 @@ Stakeholders: VS Code users, first-time visitors, project maintainer.
 
 Owner: Website implementation.
 
-Source: [[project-brief]], [[requirements/user/quickstart]]
+Source: [[project-brief]], [[website/docs/requirements/user/quickstart]]
 
 Open questions:
 
@@ -87,7 +87,7 @@ Stakeholders: VS Code users, support maintainers.
 
 Owner: Website content.
 
-Source: [[requirements/user/quickstart]], Visual Studio Marketplace listing.
+Source: [[website/docs/requirements/user/quickstart]], Visual Studio Marketplace listing.
 
 Open questions:
 
@@ -125,7 +125,7 @@ Stakeholders: VS Code users, editor integrators, support maintainers.
 
 Owner: Website content.
 
-Source: [[project-brief]], [[requirements/user/advanced-usage]]
+Source: [[project-brief]], [[website/docs/requirements/user/advanced-usage]]
 
 Open questions:
 

@@ -8,7 +8,7 @@ aliases: [Verify Vault Confinement]
 
 ## Purpose
 
-This document defines verification test cases for the vault root confinement security requirements of `flavor-grenade-lsp`. Each test case validates that the server correctly prevents path traversal attacks — via raw `../` sequences, percent-encoded variants, absolute paths, and symlinks — from reaching files outside the configured vault root. The requirements are defined in [[requirements/security/vault-confinement]] and the threat analysis in [[research/security-threat-model]]. All four test cases are predominantly Agent-driven because they require constructing adversarial LSP requests and observing actual server behaviour against a live process.
+This document defines verification test cases for the vault root confinement security requirements of `flavor-grenade-lsp`. Each test case validates that the server correctly prevents path traversal attacks — via raw `../` sequences, percent-encoded variants, absolute paths, and symlinks — from reaching files outside the configured vault root. The requirements are defined in [[docs/requirements/security/vault-confinement]] and the threat analysis in [[docs/research/security-threat-model]]. All four test cases are predominantly Agent-driven because they require constructing adversarial LSP requests and observing actual server behaviour against a live process.
 
 ## Requirements Covered
 

@@ -21,7 +21,7 @@ aliases: ["CHORE-100"]
 
 Audit Phase W8 against the operational phase execution rules before final
 closeout. This chore exists so Rules 1-5 and Steps A-L in
-[[plans/phase-execution]] are checked explicitly instead of being implied by
+[[docs/plans/phase-execution]] are checked explicitly instead of being implied by
 implementation ticket status.
 
 ## Motivation
@@ -30,15 +30,15 @@ The W8 plan changed after Commonloom was published independently. The ticket
 set must now prove the phase execution rules still hold with the external
 package boundary and without local Commonloom source maintenance.
 
-- Motivated by: [[plans/phase-execution]]
+- Motivated by: [[docs/plans/phase-execution]]
 
 ## Linked Requirements
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Process.TestIndex.Matrix` | Test evidence stays traceable when phase scope changes. | [[requirements/development-process]] |
-| `Quality.Lint.ZeroWarnings` | Lint and typecheck sweeps remain explicit phase gates. | [[requirements/code-quality]] |
-| `CICD.Workflow.PRGate` | Phase closeout depends on green PR CI before merge. | [[requirements/ci-cd]] |
+| `Process.TestIndex.Matrix` | Test evidence stays traceable when phase scope changes. | [[docs/requirements/development-process]] |
+| `Quality.Lint.ZeroWarnings` | Lint and typecheck sweeps remain explicit phase gates. | [[docs/requirements/code-quality]] |
+| `CICD.Workflow.PRGate` | Phase closeout depends on green PR CI before merge. | [[docs/requirements/ci-cd]] |
 
 ## Scope of Change
 
@@ -76,7 +76,7 @@ package boundary and without local Commonloom source maintenance.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 ## Workflow Log
 
@@ -89,7 +89,7 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 > `done`. Status: `in-progress`.
 
 > [!SUCCESS] Audit complete · 2026-05-11
-> Rule 1: W8 depends on W7, and W7 is complete in [[plans/execution-ledger]].
+> Rule 1: W8 depends on W7, and W7 is complete in [[docs/plans/execution-ledger]].
 > Rule 2: no unresolved task ownership conflicts remain; all W8 implementation
 > tasks are `done`. Rule 3: ticket states are valid lifecycle states. Rule 4:
 > W8 remains non-complete while CHORE-099, CHORE-100, CHORE-101, FEAT-041, and

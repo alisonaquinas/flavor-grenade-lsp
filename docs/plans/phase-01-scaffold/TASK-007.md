@@ -31,7 +31,7 @@ Create `tsconfig.json` at the project root with the compiler options required fo
 - Key flags: `"strict": true`, `"experimentalDecorators": true`, `"emitDecoratorMetadata": true`, `"moduleResolution": "bundler"`, `"outDir": "dist"`, `"rootDir": "src"`
 - `"skipLibCheck": true` is required to avoid errors in third-party type definitions
 - The `exclude` array must contain `"src/test/**/*"` to keep test support files out of the compiled output
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -39,7 +39,7 @@ Create `tsconfig.json` at the project root with the compiler options required fo
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Compiler configuration; quality enforcement requirements addressed in later phases | [[requirements/index]] |
+| — | Compiler configuration; quality enforcement requirements addressed in later phases | [[docs/requirements/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Create `tsconfig.json` at the project root with the compiler options required fo
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | TypeScript strict mode and decorator metadata required for NestJS module system used by LSP server |
+| [[docs/adr/ADR001-stdio-transport]] | TypeScript strict mode and decorator metadata required for NestJS module system used by LSP server |
 
 ---
 
@@ -107,7 +107,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

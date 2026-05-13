@@ -24,7 +24,7 @@ This validation plan confirms that vault authors can tune the server's behaviour
 **User Req Tag:** `User.Config.CustomiseLinkStyle`
 **Goal:** Configure how links are written (stem, title, path)
 **Type:** Both
-**Mapped FRs:** `Config.Precedence.Layering`, `Link.Wiki.StyleBinding` — see [[tests/verification/verify-config]], [[tests/verification/verify-wiki-link-resolution]]
+**Mapped FRs:** `Config.Precedence.Layering`, `Link.Wiki.StyleBinding` — see \[\[tests/verification/verify-config]], [[tests/verification/verify-wiki-link-resolution]]
 **Verification coverage:** TC-VER-CFG-001, TC-VER-WIKI-001
 
 **Scenario (user perspective):**
@@ -101,7 +101,7 @@ Feature: Server falls back gracefully when link style is misconfigured
 **User Req Tag:** `User.Config.TuneCompletions`
 **Goal:** Control how many completion candidates are offered
 **Type:** Both
-**Mapped FRs:** `Config.Validation.Candidates`, `Completion.Candidates.Cap` — see [[tests/verification/verify-config]], [[tests/verification/verify-completions]]
+**Mapped FRs:** `Config.Validation.Candidates`, `Completion.Candidates.Cap` — see \[\[tests/verification/verify-config]], [[tests/verification/verify-completions]]
 **Verification coverage:** TC-VER-CFG-002, TC-VER-COMP-001
 
 **Scenario (user perspective):**

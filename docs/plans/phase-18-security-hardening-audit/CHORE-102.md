@@ -46,9 +46,9 @@ BUG-038.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | The default BDD gate is part of PR verification. | [[requirements/ci-cd]] |
-| `Quality.SourceLayout.DocsBoundary` | Docs may contain specs, but raw implementation notes belong with source/test harnesses. | [[requirements/code-quality]] |
-| `Process.TestIndex.Matrix` | Test index and matrix must reflect added BDD harness coverage. | [[requirements/development-process]] |
+| `CICD.Workflow.PRGate` | The default BDD gate is part of PR verification. | [[docs/requirements/ci-cd]] |
+| `Quality.SourceLayout.DocsBoundary` | Docs may contain specs, but raw implementation notes belong with source/test harnesses. | [[docs/requirements/code-quality]] |
+| `Process.TestIndex.Matrix` | Test index and matrix must reflect added BDD harness coverage. | [[docs/requirements/development-process]] |
 
 ## Acceptance Criteria
 
@@ -60,7 +60,7 @@ BUG-038.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 ## Workflow Log
 

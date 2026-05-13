@@ -10,9 +10,11 @@ aliases:
 # Tag Indexing Requirements
 
 > [!NOTE] Scope
-> These requirements govern the completeness, hierarchical correctness, frontmatter equivalence, and Unicode coverage of the tag index maintained by VaultIndex. They apply to inline `#tag` syntax and `tags:` YAML frontmatter values. Code blocks, math blocks, and HTML comments are explicitly excluded from tag indexing scope. Tag-based completion behaviour is also covered in [[requirements/completions]]. Tag go-to-definition and references are covered in [[requirements/navigation]].
+> These requirements govern the completeness, hierarchical correctness, frontmatter equivalence, and Unicode coverage of the tag index maintained by VaultIndex. They apply to inline `#tag` syntax and `tags:` YAML frontmatter values. Code blocks, math blocks, and HTML comments are explicitly excluded from tag indexing scope. Tag-based completion behaviour is also covered in [[docs/requirements/completions]]. Tag go-to-definition and references are covered in [[docs/requirements/navigation]].
 
 ---
+
+## Tag.Index.Completeness
 
 **Tag:** Tag.Index.Completeness
 **User Req:** User.Tags.CompleteTag
@@ -33,9 +35,11 @@ aliases:
 **Goal:** 100% of body-text `#tag` tokens indexed.
 **Stakeholders:** Vault authors relying on tag-based navigation, teams using Dataview or tag maps.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#inline-tag-syntax]], [[design/domain-layer#tag-index]], [[ofm-spec/index]].
+**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], [[docs/ofm-spec/index]].
 
 ---
+
+## Tag.Hierarchy.Awareness
 
 **Tag:** Tag.Hierarchy.Awareness
 **User Req:** User.Tags.FindTaggedNotes, User.Tags.UseHierarchicalTags
@@ -53,9 +57,11 @@ aliases:
 **Goal:** 100% of parent-tag queries return the complete descendant set.
 **Stakeholders:** Vault authors using hierarchical tags, PKM practitioners, teams with tag taxonomies.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#tag-hierarchy]], [[design/domain-layer#tag-index]], [[requirements/navigation]].
+**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], [[docs/requirements/navigation]].
 
 ---
+
+## Tag.YAML.Equivalence
 
 **Tag:** Tag.YAML.Equivalence
 **User Req:** User.Tags.FindTaggedNotes
@@ -75,9 +81,11 @@ aliases:
 **Goal:** 100% of YAML tag values appear in the index equivalent to inline tags.
 **Stakeholders:** Vault authors mixing frontmatter tags and inline tags, Dataview users, plugin developers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#yaml-frontmatter-tags]], [[design/domain-layer#tag-index]], `docs/bdd/features/tags.feature`.
+**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], `docs/bdd/features/tags.feature`.
 
 ---
+
+## Tag.Completion.Unicode
 
 **Tag:** Tag.Completion.Unicode
 **User Req:** User.Tags.CompleteTag
@@ -95,4 +103,4 @@ aliases:
 **Goal:** 100% of Unicode tag test cases handled correctly.
 **Stakeholders:** Non-English vault authors, multilingual knowledge workers, emoji-tagging users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/tags#inline-tag-syntax]], [[design/domain-layer#tag-parser]], `docs/bdd/features/tags.feature`.
+**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], `docs/bdd/features/tags.feature`.

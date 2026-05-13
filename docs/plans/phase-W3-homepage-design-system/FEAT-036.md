@@ -42,10 +42,10 @@ dark mode, and system theme mode.
 
 | Requirement | Source |
 |---|---|
-| Design requirements | [[../../../website/docs/requirements/design/index]] |
-| Homepage user requirements | [[../../../website/docs/requirements/user/homepage]] |
-| Theme modes | [[../../../website/docs/requirements/functional/theme-modes]] |
-| Attribution | [[../../../website/docs/requirements/functional/attribution]] |
+| Design requirements | [[website/docs/requirements/design/index]] |
+| Homepage user requirements | [[website/docs/requirements/user/homepage]] |
+| Theme modes | [[website/docs/requirements/functional/theme-modes]] |
+| Attribution | [[website/docs/requirements/functional/attribution]] |
 
 ## Acceptance Criteria
 
@@ -68,7 +68,7 @@ dark mode, and system theme mode.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

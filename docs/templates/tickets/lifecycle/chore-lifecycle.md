@@ -80,7 +80,7 @@ All changes are complete. Lint, typecheck, and tests pass. Awaiting CI confirmat
 | | |
 |---|---|
 | **Entry criteria** | `bun run lint --max-warnings 0` exits 0; `tsc --noEmit` exits 0; `bun test` exits 0; no new lint suppressions added |
-| **Agent obligations** | Verify every **Acceptance Criteria** checkbox; confirm no behaviour-affecting changes reached `src/` (if they did, convert to Task); update [[test/matrix]] and [[test/index]] if test files changed; append `[!INFO]` log entry |
+| **Agent obligations** | Verify every **Acceptance Criteria** checkbox; confirm no behaviour-affecting changes reached `src/` (if they did, convert to Task); update [[docs/test/matrix]] and [[docs/test/index]] if test files changed; append `[!INFO]` log entry |
 | **Exit condition (forward)** | CI green; no regressions; transition to `done` |
 | **Exit condition (back)** | CI reveals regression or issue; transition back to `in-progress` |
 
@@ -145,7 +145,7 @@ Chore abandoned. The work is no longer needed (e.g., the motivating requirement 
 2. **No new lint suppressions.** A chore must not introduce `// eslint-disable` or `@ts-ignore` annotations to make lint pass. If a suppression is needed, it indicates a real issue that should be a `TASK-NNN` or `BUG-NNN`.
 3. **Scope must be declared upfront.** The **Scope of Change** file list is a commitment. Undeclared changes that sneak in make the chore hard to review and revert.
 4. **Tests must not regress.** If `bun test` exits non-zero at any point during a chore, the agent must stop and fix the regression before continuing — even if the regression appears pre-existing.
-5. **Matrix and index must stay current.** If the chore adds, removes, or renames test files, [[test/matrix]] and [[test/index]] must be updated in the same commit as the file change.
+5. **Matrix and index must stay current.** If the chore adds, removes, or renames test files, [[docs/test/matrix]] and [[docs/test/index]] must be updated in the same commit as the file change.
 
 ---
 
@@ -157,8 +157,8 @@ Chore abandoned. The work is no longer needed (e.g., the motivating requirement 
 
 ## Related
 
-- [[templates/tickets/chore]] — Chore ticket template
-- [[requirements/code-quality]] — Quality requirements this type of work supports
-- [[requirements/ci-cd]] — CI/CD requirements
-- [[requirements/development-process]] — Process requirements
-- [[test/matrix]] — Must stay current through chore work
+- [[docs/templates/tickets/chore]] — Chore ticket template
+- [[docs/requirements/code-quality]] — Quality requirements this type of work supports
+- [[docs/requirements/ci-cd]] — CI/CD requirements
+- [[docs/requirements/development-process]] — Process requirements
+- [[docs/test/matrix]] — Must stay current through chore work

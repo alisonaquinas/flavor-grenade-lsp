@@ -9,9 +9,11 @@ aliases:
 # Vault Setup User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors expect the server to discover and work with their vault without manual configuration. Implementation details are in [[requirements/workspace]].
+> These user requirements cover how vault authors expect the server to discover and work with their vault without manual configuration. Implementation details are in [[docs/requirements/workspace]].
 
 ---
+
+## User.Vault.AutoDetectVault
 
 **Tag:** User.Vault.AutoDetectVault
 **Gist:** The server automatically identifies the vault root on startup without any manual path configuration from the author.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Workspace.VaultDetection.Primary, Workspace.VaultDetection.Fallback
 
 ---
+
+## User.Vault.WorkAcrossEntireVault
 
 **Tag:** User.Vault.WorkAcrossEntireVault
 **Gist:** All LSP features operate across every note in the vault, with the index kept current as files are created, edited, or deleted.

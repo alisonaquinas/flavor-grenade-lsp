@@ -57,17 +57,17 @@ Create `extension/.vscode/launch.json` with an `extensionHost` debug configurati
 
 - The server binary itself is gitignored — only `launch.json` is committed
 
-- See also: [[plans/phase-E2-languageclient-core]] task 3 for the reference configuration
+- See also: [[docs/plans/phase-E2-languageclient-core]] task 3 for the reference configuration
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension infrastructure; launch configuration and smoke test verify the client-server integration path, not a specific functional requirement | [[requirements/index]] |
+| — | Extension infrastructure; launch configuration and smoke test verify the client-server integration path, not a specific functional requirement | [[docs/requirements/index]] |
 
 ---
 
@@ -97,8 +97,8 @@ Create `extension/.vscode/launch.json` with an `extensionHost` debug configurati
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Server binary communicates over stdio — the Extension Development Host must spawn it as a child process, not connect to a socket |
-| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIXs bundle native binaries — local smoke test requires building the binary for the host platform manually |
+| [[docs/adr/ADR001-stdio-transport]] | Server binary communicates over stdio — the Extension Development Host must spawn it as a child process, not connect to a socket |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Platform-specific VSIXs bundle native binaries — local smoke test requires building the binary for the host platform manually |
 
 ---
 
@@ -152,7 +152,7 @@ The `launch.json` is the only file committed in this task — the compiled serve
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -168,13 +168,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].

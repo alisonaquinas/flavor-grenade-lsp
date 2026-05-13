@@ -43,7 +43,7 @@ hide real regressions.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase E7 must introduce no lint warnings | [[requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase E7 must introduce no lint warnings | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -107,7 +107,7 @@ Run after Phase E7 task tickets are in `done` or `in-review`.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

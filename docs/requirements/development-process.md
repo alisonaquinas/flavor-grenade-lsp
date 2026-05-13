@@ -14,6 +14,8 @@ aliases:
 
 ---
 
+## Process.Branching.MainReleasesOnly
+
 **Tag:** Process.Branching.MainReleasesOnly
 **Gist:** The `main` branch receives only tagged release merges from `release/*` or `hotfix/*` branches; direct pushes to `main` are prohibited.
 **Ambition:** `main` represents the production-released state of the package. Every commit on `main` must correspond to a published npm version with a semver tag. Allowing direct pushes, squash merges from arbitrary branches, or merge commits from `feature/*` branches breaks this invariant: `main` would contain commits not associated with a release, the git tag history would be inconsistent, and OIDC provenance would link publishes to non-release commits. git-flow discipline enforces a clean separation between integration work (on `develop`) and released work (on `main`).
@@ -28,9 +30,11 @@ aliases:
 **Goal:** 0% non-release commits on `main` — every commit on `main` is a release merge.
 **Stakeholders:** Release engineers, package consumers, OIDC provenance reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
+**Source:** [[docs/adr/ADR007-git-flow-branching]], [[docs/requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
 
 ---
+
+## Process.Testing.DirectoryStructure
 
 **Tag:** Process.Testing.DirectoryStructure
 **Gist:** Tests follow the repository's current split layout: focused unit tests may live beside the source module, shared integration and BDD harness code lives under `src/test/`, website tests live under `website/tests/`, extension tests live under `extension/`, and Gherkin feature specs live under `docs/bdd/features/`.
@@ -43,13 +47,15 @@ aliases:
 3. Verify website tests are under `website/tests/`.
 4. Verify extension tests are under `extension/src/` or `extension/test/` according to the extension package runner.
 5. Verify Gherkin feature specs are under `docs/bdd/features/`, while BDD step definitions and source-owned step maps are under `src/test/bdd/`.
-**Fail:** Any new test or harness file placed outside its owned tree without updating this requirement and [[test/index]]; any raw BDD step implementation material restored under `docs/bdd/steps/`.
+**Fail:** Any new test or harness file placed outside its owned tree without updating this requirement and [[docs/test/index]]; any raw BDD step implementation material restored under `docs/bdd/steps/`.
 **Goal:** 100% of test files live in the package-appropriate test tree, with `docs/bdd/features/` reserved for Gherkin feature specs.
 **Stakeholders:** All contributors, CI pipeline, build tooling.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR010-tests-directory-structure]], `bunfig.toml`, `cucumber.yaml`, [[test/index]], [[plans/phase-18-security-hardening-audit/TASK-280]], [[plans/phase-18-security-hardening-audit/TASK-281]].
+**Source:** [[docs/adr/ADR010-tests-directory-structure]], `bunfig.toml`, `cucumber.yaml`, [[docs/test/index]], [[docs/plans/phase-18-security-hardening-audit/TASK-280]], [[docs/plans/phase-18-security-hardening-audit/TASK-281]].
 
 ---
+
+## Process.TestIndex.Matrix
 
 **Tag:** Process.TestIndex.Matrix
 **Gist:** `docs/test/matrix.md` is maintained as a live matrix relating test files to Planguage requirement tags and to the phase and commit in which they were written; it must be updated whenever a new test file is added.
@@ -65,9 +71,11 @@ aliases:
 **Goal:** 100% of test files have matrix entries — `docs/test/matrix.md` is always current.
 **Stakeholders:** Phase reviewers, requirements auditors, CI maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[test/matrix]], [[test/index]], [[requirements/index]], `scripts/update-test-index.sh`.
+**Source:** [[docs/test/matrix]], [[docs/test/index]], [[docs/requirements/index]], `scripts/update-test-index.sh`.
 
 ---
+
+## Process.Scripts.Automation
 
 **Tag:** Process.Scripts.Automation
 **Gist:** Repetitive scriptable actions — version bumping, running all linters, generating docs, updating the test matrix — are automated in `scripts/` shell scripts that act on the repository only and are not linked into `src/`.
@@ -86,6 +94,8 @@ aliases:
 
 ---
 
+## Process.BinaryFiles.LFS
+
 **Tag:** Process.BinaryFiles.LFS
 **Gist:** All binary files — images, PDFs, archives, compiled artifacts — must be tracked via Git LFS; binary blobs must not be committed directly to the repository object store.
 **Ambition:** Binary files committed directly to a git repository inflate the pack size permanently: even if the binary is later deleted, its history remains in the object store. For a project that may include test fixture images, documentation screenshots, or release tarballs, this creates an ever-growing repository clone cost. Git LFS stores the binary content on the LFS server and replaces it in the repository with a small text pointer, keeping the git object store lean. The `.gitattributes` LFS filter rules ensure this is enforced at commit time.
@@ -100,4 +110,4 @@ aliases:
 **Goal:** 0% untracked binaries — all binary files use LFS pointers in the git object store.
 **Stakeholders:** All contributors, clone-performance-sensitive CI environments.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** `.gitattributes`, `git lfs` documentation, [[plans/phase-01-scaffold#Task-1]].
+**Source:** `.gitattributes`, `git lfs` documentation, [[docs/plans/phase-01-scaffold]].

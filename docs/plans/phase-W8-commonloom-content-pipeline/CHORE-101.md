@@ -25,20 +25,20 @@ actions from the Commonloom package-boundary change.
 
 ## Motivation
 
-[[plans/phase-execution]] requires every phase to finish with a retrospective
+[[docs/plans/phase-execution]] requires every phase to finish with a retrospective
 covering what went as planned, deviations, process observations,
 carry-forward actions, and rule or template amendments. W8 needs that closeout
 because its reusable core moved from local source to an independently published
 package while the phase was in review.
 
-- Motivated by: [[plans/phase-execution]]
+- Motivated by: [[docs/plans/phase-execution]]
 
 ## Linked Requirements
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Process.Scripts.Automation` | Repeated phase procedures should be documented or automated. | [[requirements/development-process]] |
-| `CICD.Workflow.PRGate` | Final closeout cites green CI evidence before completion. | [[requirements/ci-cd]] |
+| `Process.Scripts.Automation` | Repeated phase procedures should be documented or automated. | [[docs/requirements/development-process]] |
+| `CICD.Workflow.PRGate` | Final closeout cites green CI evidence before completion. | [[docs/requirements/ci-cd]] |
 
 ## Scope of Change
 
@@ -74,7 +74,7 @@ package while the phase was in review.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 ## Workflow Log
 

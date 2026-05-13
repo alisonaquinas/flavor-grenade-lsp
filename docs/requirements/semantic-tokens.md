@@ -10,9 +10,11 @@ aliases:
 # Semantic Token Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/semanticTokens/full` and `textDocument/semanticTokens/range` behaviour: token type coverage for OFM constructs, correct scoping (no tokens inside fenced code or math blocks), and LSP delta-encoding compliance. The full token type legend and editor integration examples are specified in [[features/semantic-tokens]]. The token encoding format follows LSP 3.17 §3.16.6.
+> These requirements govern `textDocument/semanticTokens/full` and `textDocument/semanticTokens/range` behaviour: token type coverage for OFM constructs, correct scoping (no tokens inside fenced code or math blocks), and LSP delta-encoding compliance. The full token type legend and editor integration examples are specified in [[docs/features/semantic-tokens]]. The token encoding format follows LSP 3.17 §3.16.6.
 
 ---
+
+## ST-001
 
 **Tag:** ST-001
 **Gist:** The server must emit semantic token ranges for all five primary OFM construct categories — wiki-links, embed links, block anchors, inline tags, and callout markers — so that LSP-capable editors can apply syntax highlighting to OFM-specific constructs beyond what base Markdown TextMate grammars provide.
@@ -35,6 +37,8 @@ aliases:
 **Goal:** 100% (all 5 construct categories covered; all token positions correct).
 
 ---
+
+## ST-002
 
 **Tag:** ST-002
 **Gist:** Semantic tokens must not be emitted for OFM constructs that appear inside fenced code blocks or display math blocks (`$$...$$`); such spans must be completely absent from the `textDocument/semanticTokens/full` response.

@@ -43,8 +43,8 @@ from status states back to requirements and tests.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Status.Diagnostics` | Status diagnostic test rows must be traceable | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.QuickActions` | Quick-action and diagnostic-copy tests must be traceable | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Status diagnostic test rows must be traceable | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.QuickActions` | Quick-action and diagnostic-copy tests must be traceable | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -93,8 +93,8 @@ from status states back to requirements and tests.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] [[test/matrix]] includes Phase E10 rows for status diagnostics and quick actions
-- [x] [[test/index]] includes every new Phase E10 unit or host test file
+- [x] [[docs/test/matrix]] includes Phase E10 rows for status diagnostics and quick actions
+- [x] [[docs/test/index]] includes every new Phase E10 unit or host test file
 - [x] Test statuses match the actual verification command result
 - [x] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [x] `tsc --noEmit` exits 0
@@ -113,7 +113,7 @@ This chore should not invent new tests. It records the files produced by
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -129,12 +129,12 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E10 status test traceability.
 
 > [!SUCCESS] Done - 2026-05-07
-> Updated [[test/matrix]] and [[test/index]] for Phase E10 status diagnostics,
+> Updated [[docs/test/matrix]] and [[docs/test/index]] for Phase E10 status diagnostics,
 > quick actions, troubleshooting coverage, and the expanded host status suite.

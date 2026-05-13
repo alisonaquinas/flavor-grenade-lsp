@@ -1,21 +1,6 @@
 ---
 id: "TASK-099"
-title: "Implement intra-document heading completion after [[#"
-type: task
-status: done
-priority: "high"
-phase: "9"
-parent: "FEAT-010"
-created: "2026-04-17"
-updated: "2026-04-17"
-dependencies: ["TASK-094"]
-tags: [tickets/task, "phase/9"]
-aliases: ["TASK-099"]
----
-
-# Implement intra-document heading completion after `[[#`
-
-> [!INFO] `TASK-099` · Task · Phase 9 · Parent: [[FEAT-010]] · Status: `open`
+title: "Implement intra-document heading completion after []() · Status: `open`
 
 ## Description
 
@@ -30,7 +15,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 - Enumerate `currentDoc.ofmIndex.headings`, filter by `headingPrefix`
 - Same `CompletionItem` shape as cross-doc heading completion (TASK-094)
 - Intra-doc heading insertText should not include a stem: result is `[[#Heading Text]]`
-- See also: [[plans/phase-09-completions]]
+- See also: [[docs/plans/phase-09-completions]]
 
 ---
 
@@ -38,7 +23,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Intra-document heading completion after `[[#` | [[requirements/completions]] |
+| — | Intra-document heading completion after `[[#` | [[docs/requirements/completions]] |
 
 ---
 
@@ -56,7 +41,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 |---|---|---|---|
 | `tests/unit/completion/heading-completion-provider.spec.ts` | Unit | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -64,7 +49,7 @@ Extend the heading completion provider to handle the intra-document case: when `
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR005-wiki-style-binding]] | linkStyle configuration and completion insert text formatting |
+| [[docs/adr/ADR005-wiki-style-binding]] | linkStyle configuration and completion insert text formatting |
 
 ---
 
@@ -95,8 +80,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-010]] child task row updated to `in-review`
 
 ---
@@ -107,18 +92,18 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-010]].

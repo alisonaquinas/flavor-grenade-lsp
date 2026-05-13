@@ -21,7 +21,7 @@ aliases: ["TASK-006"]
 
 ## Description
 
-Install the test framework dependencies required for both BDD acceptance tests and unit tests. The packages `@cucumber/cucumber` (for Gherkin BDD scenarios), `jest` and `@jest/globals` (for unit test assertions compatible with Bun's test runner), and `ts-node` (for TypeScript execution of Cucumber step definitions) are added as dev dependencies. These packages underpin the TDD workflow described in the task lifecycle and the BDD acceptance gate described in [[requirements/index]].
+Install the test framework dependencies required for both BDD acceptance tests and unit tests. The packages `@cucumber/cucumber` (for Gherkin BDD scenarios), `jest` and `@jest/globals` (for unit test assertions compatible with Bun's test runner), and `ts-node` (for TypeScript execution of Cucumber step definitions) are added as dev dependencies. These packages underpin the TDD workflow described in the task lifecycle and the BDD acceptance gate described in [[docs/requirements/index]].
 
 ---
 
@@ -31,7 +31,7 @@ Install the test framework dependencies required for both BDD acceptance tests a
 - `@cucumber/cucumber` is used by the `bdd` script (`cucumber-js`) defined in TASK-014
 - `bun test` is the primary test runner; `@jest/globals` provides compatible `expect` / `describe` / `it` API
 - `ts-node` is needed to execute TypeScript Cucumber step definitions without a pre-compile step
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -39,7 +39,7 @@ Install the test framework dependencies required for both BDD acceptance tests a
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Test framework installation; quality requirements addressed in later phases | [[requirements/index]] |
+| — | Test framework installation; quality requirements addressed in later phases | [[docs/requirements/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Install the test framework dependencies required for both BDD acceptance tests a
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | TDD lifecycle applies to all LSP handler tasks; test framework must be installed before any handler task begins |
+| [[docs/adr/ADR001-stdio-transport]] | TDD lifecycle applies to all LSP handler tasks; test framework must be installed before any handler task begins |
 
 ---
 
@@ -104,7 +104,7 @@ Bun has a built-in test runner (`bun test`) that is compatible with Jest's `desc
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

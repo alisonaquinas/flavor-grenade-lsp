@@ -32,7 +32,7 @@ vault. The refresh path must preserve user-selected non-Markdown languages.
 - Treat marker absence alone as insufficient when the server still indexes the
   document.
 - Do not modify documents whose language is neither `markdown` nor `ofmarkdown`.
-- See also: [[features/ofmarkdown-language-mode]]
+- See also: [[docs/features/ofmarkdown-language-mode]]
 
 ---
 
@@ -40,7 +40,7 @@ vault. The refresh path must preserve user-selected non-Markdown languages.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.LanguageMode.MembershipRefresh` | Reversion happens only when both membership checks say outside vault | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.LanguageMode.MembershipRefresh` | Reversion happens only when both membership checks say outside vault | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -59,7 +59,7 @@ vault. The refresh path must preserve user-selected non-Markdown languages.
 |---|---|---|---|
 | `extension/src/language-mode.test.ts` | Unit | `Extension.LanguageMode.MembershipRefresh` | ✅ passing |
 
-After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -102,8 +102,8 @@ All of the following must be true before this task is marked `done`:
 - [x] `bun run lint --max-warnings 0` passes.
 - [x] `tsc --noEmit` exits 0.
 - [ ] All linked BDD scenarios pass locally.
-- [x] [[test/matrix]] row(s) updated to `✅ passing`.
-- [x] [[test/index]] row(s) added for new test files.
+- [x] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [x] [[docs/test/index]] row(s) added for new test files.
 - [x] Parent feature [[FEAT-032]] child task row updated to `in-review`.
 
 ---
@@ -118,20 +118,20 @@ state during refresh.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
 `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `open`. Parent: [[FEAT-032]].
@@ -146,7 +146,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > existing `ofmarkdown` mode.
 
 > [!INFO] In Review - 2026-05-07
-> Full local gate evidence recorded in [[plans/phase-E14-membership-refresh-compatibility-guardrails]];
+> Full local gate evidence recorded in [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]];
 > awaiting PR CI before final `done`.
 
 > [!SUCCESS] Done - 2026-05-07

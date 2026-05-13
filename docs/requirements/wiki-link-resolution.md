@@ -10,12 +10,14 @@ aliases:
 # Wiki-Link Resolution Requirements
 
 > [!NOTE] Scope
-> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[requirements/diagnostics]].
+> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[docs/requirements/diagnostics]].
 
 ---
 
+## Link.Wiki.StyleBinding
+
 **Tag:** Link.Wiki.StyleBinding
-**User Req:** User.Navigate.JumpToNote, User.Author.CompleteWikiLink, User.Author.FollowLinkStyle, User.Config.CustomiseLinkStyle
+**User Req:** User.Navigate.JumpToNote, User.Author.CompleteWikiLink, User.Author.FollowLinkStyle, User.Config.CustomizeLinkStyle
 **Gist:** Completion items and rename edits must conform to the wiki link style that is active in the current configuration.
 **Ambition:** Obsidian vaults commit to one of three link-text conventions (file-stem, title-slug, file-path-stem). LSP edits that violate that convention corrupt the vault's internal consistency and break Obsidian's own link resolution. Enforcing style at the LSP layer prevents silent divergence between what the server proposes and what Obsidian accepts.
 **Scale:** Percentage of completion items and rename `WorkspaceEdit` text edits in a given test session whose link text conforms to the active `wiki.style` setting. Scope: all wiki-link positions across all documents in the test vault.
@@ -25,15 +27,17 @@ aliases:
 2. Set `wiki.style` to each of the three values (`file-stem`, `title-slug`, `file-path-stem`) in turn.
 3. For each style, trigger completion at a `[[` position and collect all returned `CompletionItem.insertText` values.
 4. For each style, perform a rename on a document title and collect all `newText` values from the returned `WorkspaceEdit`.
-5. Validate each collected string against the expected format for the active style using the style-normalisation function defined in [[design/domain-layer]].
+5. Validate each collected string against the expected format for the active style using the style-normalisation function defined in [[docs/design/domain-layer]].
 6. Compute: (conforming items / total items) × 100.
 **Fail:** Any single non-conforming item (i.e., < 100%).
 **Goal:** 100% of items conform to the active style.
 **Stakeholders:** Obsidian vault authors, plugin developers integrating flavor-grenade-lsp, LSP client maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/wiki-links]], [[design/api-layer#completion-handler]], [[design/domain-layer#wiki-style]].
+**Source:** [[docs/ofm-spec/wiki-links]], [[docs/design/api-layer]], [[docs/design/domain-layer]].
 
 ---
+
+## Link.Wiki.AliasResolution
 
 **Tag:** Link.Wiki.AliasResolution
 **User Req:** User.Navigate.JumpToNote
@@ -52,9 +56,11 @@ aliases:
 **Goal:** 100% of alias links resolve correctly.
 **Stakeholders:** Obsidian vault authors, Zettelkasten practitioners, anyone using the aliases frontmatter property.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/frontmatter#aliases]], [[design/domain-layer#alias-index]], `docs/bdd/features/wiki-links.feature`.
+**Source:** [[docs/ofm-spec/frontmatter]], [[docs/design/domain-layer]], `docs/bdd/features/wiki-links.feature`.
 
 ---
+
+## Link.Resolution.ModeScope
 
 **Tag:** Link.Resolution.ModeScope
 **User Req:** User.Diagnose.SpotBrokenLinks
@@ -73,9 +79,11 @@ aliases:
 **Goal:** 0% of responses contain cross-file results.
 **Stakeholders:** Text editor users opening individual markdown files, LSP client developers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]], [[ofm-spec/index]].
+**Source:** [[docs/design/api-layer]], [[docs/architecture/overview]], [[docs/ofm-spec/index]].
 
 ---
+
+## Link.Inline.URLSkip
 
 **Tag:** Link.Inline.URLSkip
 **User Req:** User.Diagnose.SpotBrokenLinks
@@ -94,9 +102,11 @@ aliases:
 **Goal:** 0% of non-markdown inline links produce FG001.
 **Stakeholders:** Vault authors who mix external links with wiki-links, technical writers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/wiki-links#inline-links]], [[design/api-layer#diagnostic-handler]], [[requirements/diagnostics]].
+**Source:** [[docs/ofm-spec/wiki-links]], [[docs/design/api-layer]], [[docs/requirements/diagnostics]].
 
 ---
+
+## Link.Resolution.IgnoreGlob
 
 **Tag:** Link.Resolution.IgnoreGlob
 **User Req:** User.Author.CompleteWikiLink
@@ -115,4 +125,4 @@ aliases:
 **Goal:** 0 ignored-file entries in any completion or definition response.
 **Stakeholders:** Vault authors with template folders, teams using generated documentation, developers with build-output directories inside the vault.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/domain-layer#vault-index]], [[configuration]], [[architecture/overview#indexer]].
+**Source:** [[docs/design/domain-layer]], [[configuration]], [[docs/architecture/overview]].

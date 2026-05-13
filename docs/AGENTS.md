@@ -70,9 +70,9 @@ Each implementation phase has a ticket folder at `docs/plans/phase-<NN>-<slug>/`
 
 Ticket IDs are **globally sequential** across all phases. Never reuse a ticket ID. The ID counter per type starts at 001 and increases across the full project lifetime.
 
-**Rule 5 (sweep and test steps E–L):** Every issue discovered during lint, quality, security sweeps, or any test step must be captured in a ticket *before* any fix is applied. Silent fixes without tickets are a process violation. See [[plans/phase-execution]] Rule 5 for the full table of ticket types per step.
+**Rule 5 (sweep and test steps E–L):** Every issue discovered during lint, quality, security sweeps, or any test step must be captured in a ticket *before* any fix is applied. Silent fixes without tickets are a process violation. See [[docs/plans/phase-execution]] Rule 5 for the full table of ticket types per step.
 
-The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–M lifecycle checklist — is documented in [[plans/phase-execution]].
+The complete **phase execution procedure** — sequential phase rule, parallel ticket rule, and the full A–M lifecycle checklist — is documented in [[docs/plans/phase-execution]].
 
 ---
 
@@ -185,12 +185,12 @@ When multiple agents are working on this repository simultaneously:
 
 ## Related
 
-- [[index]]
+- [[docs/index]]
 - [[roadmap]]
-- [[ofm-spec/index]]
-- [[ddd/bounded-contexts]]
-- [[ddd/ubiquitous-language]]
-- [[architecture/overview]]
-- [[plans/phase-execution]]
-- [[templates/tickets/index]]
-- [[plans/execution-ledger]]
+- [[docs/ofm-spec/index]]
+- [[docs/ddd/bounded-contexts]]
+- [[docs/ddd/ubiquitous-language]]
+- [[docs/architecture/overview]]
+- [[docs/plans/phase-execution]]
+- [[docs/templates/tickets/index]]
+- [[docs/plans/execution-ledger]]

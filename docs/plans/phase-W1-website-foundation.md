@@ -27,10 +27,10 @@ strict TypeScript, SCSS, source code under `website/src`, and tests under
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/technical/index]] | Establish Vite, Svelte, TypeScript, SCSS, and GitHub Pages compatible output |
-| [[../website/docs/requirements/technical/source-layout-and-documentation]] | Enforce `website/src`, `website/tests`, and documentation maturity expectations |
-| [[../website/docs/architecture/static-site-runtime]] | Implement the initial runtime source layout |
-| [[../website/docs/adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]] | Apply the accepted website stack decision |
+| [requirements/technical/index](../../website/docs/requirements/technical/index.md) | Establish Vite, Svelte, TypeScript, SCSS, and GitHub Pages compatible output |
+| [requirements/technical/source-layout-and-documentation](../../website/docs/requirements/technical/source-layout-and-documentation.md) | Enforce `website/src`, `website/tests`, and documentation maturity expectations |
+| [architecture/static-site-runtime](../../website/docs/architecture/static-site-runtime.md) | Implement the initial runtime source layout |
+| [adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website](../../website/docs/adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website.md) | Apply the accepted website stack decision |
 
 ## Scope
 
@@ -83,16 +83,16 @@ bun run lint:docs
 
 ## Tickets
 
-- [[plans/phase-W1-website-foundation/FEAT-034]]
-- [[plans/phase-W1-website-foundation/TASK-214]]
-- [[plans/phase-W1-website-foundation/TASK-215]]
-- [[plans/phase-W1-website-foundation/TASK-216]]
-- [[plans/phase-W1-website-foundation/CHORE-087]]
+- [[docs/plans/phase-W1-website-foundation/FEAT-034]]
+- [[docs/plans/phase-W1-website-foundation/TASK-214]]
+- [[docs/plans/phase-W1-website-foundation/TASK-215]]
+- [[docs/plans/phase-W1-website-foundation/TASK-216]]
+- [[docs/plans/phase-W1-website-foundation/CHORE-087]]
 
 ## Related
 
-- [[../website/docs/requirements/technical/index]]
-- [[../website/docs/architecture/index]]
+- [requirements/technical/index](../../website/docs/requirements/technical/index.md)
+- [architecture/index](../../website/docs/architecture/index.md)
 
 ## Workflow Log
 

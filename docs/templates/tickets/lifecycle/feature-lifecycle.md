@@ -55,7 +55,7 @@ The feature exists as a ticket but specification is incomplete. Requirements are
 **Required before `ready`:**
 
 - Every `{{PLACEHOLDER}}` in the frontmatter and body is replaced with real values
-- All linked Planguage requirement tags resolve to rows in [[requirements/index]]
+- All linked Planguage requirement tags resolve to rows in [[docs/requirements/index]]
 - All linked BDD feature files exist in `docs/bdd/features/`
 - All child `TASK-NNN` tickets are created and in `open` state
 - Dependencies section is complete (or explicitly marked "none")
@@ -70,7 +70,7 @@ The feature is fully specified and all child tasks exist. No implementation has 
 | | |
 |---|---|
 | **Entry criteria** | All `draft` obligations met (see above) |
-| **Agent obligations** | Verify the phase plan ([[plans/execution-ledger]]) allows this phase to start; confirm no unresolved `blocked-by` dependencies |
+| **Agent obligations** | Verify the phase plan ([[docs/plans/execution-ledger]]) allows this phase to start; confirm no unresolved `blocked-by` dependencies |
 | **Exit condition** | First child task transitions to `red` (or `in-progress` for non-TDD work) |
 
 ---
@@ -107,7 +107,7 @@ All child tasks are `done`. The feature is awaiting CI gate confirmation and hum
 | | |
 |---|---|
 | **Entry criteria** | Every child task is in `done` or `cancelled` state (at least one `done`); CI is running or has run against the branch |
-| **Agent obligations** | Verify every acceptance criteria checkbox; confirm [[test/matrix]] and [[test/index]] are updated; confirm phase gate command passes; append `[!INFO]` log entry |
+| **Agent obligations** | Verify every acceptance criteria checkbox; confirm [[docs/test/matrix]] and [[docs/test/index]] are updated; confirm phase gate command passes; append `[!INFO]` log entry |
 | **Exit condition (forward)** | CI gate passes and human approves; transition to `done` |
 | **Exit condition (back)** | Review reveals a gap; create new `TASK-NNN` tickets; transition back to `in-progress` |
 
@@ -120,7 +120,7 @@ The feature is complete. CI gate passes, all acceptance criteria are met, and th
 | | |
 |---|---|
 | **Entry criteria** | All acceptance criteria checked; CI green on merge target; human approval recorded |
-| **Agent obligations** | Update [[plans/execution-ledger]] phase status to `✅ complete`; append `[!CHECK]` Workflow Log entry with CI evidence; update frontmatter `updated` date |
+| **Agent obligations** | Update [[docs/plans/execution-ledger]] phase status to `✅ complete`; append `[!CHECK]` Workflow Log entry with CI evidence; update frontmatter `updated` date |
 | **Exit condition** | Terminal state |
 
 ---
@@ -159,7 +159,7 @@ The feature was abandoned. Cancellation is a deliberate decision, not a default.
 1. **No implementation before `ready`.** A feature in `draft` must not have any child tasks in `red` or beyond. The spec must be complete first.
 2. **Child task count.** A feature with zero child tasks cannot leave `draft`. At least one `TASK-NNN` must exist.
 3. **CI is authoritative.** A feature cannot be marked `done` on a local-only CI pass. The gate must be confirmed in the remote CI run.
-4. **Execution ledger.** Marking `done` requires updating [[plans/execution-ledger]]. The agent must do this before appending the `[!CHECK]` log entry.
+4. **Execution ledger.** Marking `done` requires updating [[docs/plans/execution-ledger]]. The agent must do this before appending the `[!CHECK]` log entry.
 5. **Cancelled child tasks.** If child tasks are cancelled, the feature may still proceed to `done` if at least one task is `done` and all acceptance criteria are met. Cancelled tasks must be noted in the feature's Workflow Log.
 
 ---
@@ -172,8 +172,8 @@ The feature was abandoned. Cancellation is a deliberate decision, not a default.
 
 ## Related
 
-- [[templates/tickets/feature]] — Feature ticket template
-- [[templates/tickets/task]] — Task ticket template (child items)
-- [[templates/tickets/lifecycle/task-lifecycle]] — Task lifecycle
-- [[plans/execution-ledger]] — Phase gate tracker
-- [[requirements/index]] — Planguage requirement tags
+- [[docs/templates/tickets/feature]] — Feature ticket template
+- [[docs/templates/tickets/task]] — Task ticket template (child items)
+- [[docs/templates/tickets/lifecycle/task-lifecycle]] — Task lifecycle
+- [[docs/plans/execution-ledger]] — Phase gate tracker
+- [[docs/requirements/index]] — Planguage requirement tags

@@ -12,14 +12,14 @@ This smoke test validates the minimum viable LSP transport layer: that the serve
 
 ## Phase Gate
 
-Phase 1 — see [[plans/execution-ledger]]
+Phase 1 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-001 — initialize handshake returns capabilities object
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/workspace]] — `Vault detected via .obsidian/ directory`
+**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .obsidian/ directory`
 **Phase gate:** Phase 1
 
 **Setup:**
@@ -64,7 +64,7 @@ And "capabilities" is a JSON object (may be empty but must be present)
 ### TC-SMOKE-002 — initialize in directory with no vault marker activates single-file mode
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/vault-detection]] — `Neither marker found — single-file mode with cross-file features suppressed`
+**BDD Reference:** \[\[bdd/features/vault-detection]] — `Neither marker found — single-file mode with cross-file features suppressed`
 **Phase gate:** Phase 1
 
 **Setup:**

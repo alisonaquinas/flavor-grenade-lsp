@@ -6,7 +6,7 @@ aliases: [Unit Tests Diagnostics, DiagnosticService Tests]
 
 > [!INFO] DiagnosticService is tested with a mock Oracle. No real RefGraph is constructed. Debounce tests use Bun's fake timer API (or a manual stub) to control elapsed time without real delays.
 
-Related: [[requirements/diagnostics]] | [[architecture/layers]] | [[adr/ADR010-tests-directory-structure]]
+Related: [[docs/requirements/diagnostics]] | [[docs/architecture/layers]] | [[docs/adr/ADR010-tests-directory-structure]]
 
 ---
 

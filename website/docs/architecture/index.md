@@ -59,11 +59,11 @@ flowchart LR
 ## Architecture Views
 
 - [[static-site-runtime]] describes the browser runtime and source layout.
-- [[content-pipeline]] describes Markdown, route, metadata, and SEO flow.
+- [[website/docs/architecture/content-pipeline]] describes Markdown, route, metadata, and SEO flow.
 - [[ci-cd-and-deployment]] describes checks, release gates, and Pages deploy.
-- [[../adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]]
+- [[website/docs/adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]]
   records the core technology decision.
-- [[../adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+- [[website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
   records the W8 content authoring decision.
 
 ## Dependency Direction

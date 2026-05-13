@@ -41,9 +41,9 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 
 | Requirement | Source |
 |---|---|
-| Public page model | [[../../../website/docs/requirements/functional/public-pages]] |
-| SEO and metadata | [[../../../website/docs/requirements/functional/seo-and-metadata]] |
-| Content pipeline architecture | [[../../../website/docs/architecture/content-pipeline]] |
+| Public page model | [[website/docs/requirements/functional/public-pages]] |
+| SEO and metadata | [[website/docs/requirements/functional/seo-and-metadata]] |
+| Content pipeline architecture | [[website/docs/architecture/content-pipeline]] |
 
 ## Acceptance Criteria
 
@@ -64,7 +64,7 @@ canonical URLs, sitemap, robots, and SEO validation before visual polish begins.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

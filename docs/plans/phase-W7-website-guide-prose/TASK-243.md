@@ -90,7 +90,7 @@ Expected edits:
 | Before | After |
 | --- | --- |
 | `[[Project Plan#Open questions]]` | `[[Roadmap#Open questions]]` |
-| `[[Project Plan|planning note]]` | `[[Roadmap|planning note]]` |
+| `[[Project Plan\|planning note]]` | `[[Roadmap\|planning note]]` |
 
 The alias text after `|` stays the same. Readers still see `planning note`, but
 the link target changes to `Roadmap`.

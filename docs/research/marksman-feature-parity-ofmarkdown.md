@@ -408,9 +408,9 @@ Grenade should be the stronger Obsidian vault intelligence layer.
 | Marksman features documentation | https://raw.githubusercontent.com/artempyanykh/marksman/main/docs/features.md |
 | Marksman configuration documentation | https://raw.githubusercontent.com/artempyanykh/marksman/main/docs/configuration.md |
 | Marksman VS Code Marketplace listing | https://marketplace.visualstudio.com/items?itemName=arr.marksman |
-| Flavor Grenade project overview | [[index]] |
-| Flavor Grenade completions | [[features/completions]] |
-| Flavor Grenade diagnostics | [[features/diagnostics]] |
-| Flavor Grenade navigation | [[features/navigation]] |
-| Flavor Grenade rename | [[features/rename]] |
-| Flavor Grenade workspace model | [[concepts/workspace-model]] |
+| Flavor Grenade project overview | [[docs/index]] |
+| Flavor Grenade completions | [[docs/features/completions]] |
+| Flavor Grenade diagnostics | [[docs/features/diagnostics]] |
+| Flavor Grenade navigation | [[docs/features/navigation]] |
+| Flavor Grenade rename | [[docs/features/rename]] |
+| Flavor Grenade workspace model | [[docs/concepts/workspace-model]] |

@@ -1531,11 +1531,11 @@ flavor-grenade-lsp/
 
 ## References
 
-- [[adr/ADR001-stdio-transport]] — why no HTTP platform
-- [[adr/ADR007-git-flow-branching]] — branch strategy
-- [[adr/ADR008-oidc-publishing]] — OIDC publishing plan
-- [[adr/ADR009-precommit-hooks-zero-warnings]] — why `--max-warnings 0`
-- [[architecture/layers]] — NestJS module dependency order
-- [[ddd/lsp-protocol/domain-model]] — what LspModule will host in Phase 2
-- [[plans/execution-ledger]] — phase status tracker
-- [[plans/phase-02-lsp-transport]] — next phase plan
+- [[docs/adr/ADR001-stdio-transport]] — why no HTTP platform
+- [[docs/adr/ADR007-git-flow-branching]] — branch strategy
+- [[docs/adr/ADR008-oidc-publishing]] — OIDC publishing plan
+- [[docs/adr/ADR009-precommit-hooks-zero-warnings]] — why `--max-warnings 0`
+- [[docs/architecture/layers]] — NestJS module dependency order
+- [[docs/ddd/lsp-protocol/domain-model]] — what LspModule will host in Phase 2
+- [[docs/plans/execution-ledger]] — phase status tracker
+- [[docs/plans/phase-02-lsp-transport]] — next phase plan

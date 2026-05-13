@@ -48,7 +48,7 @@ messages, while supported environments run the bundled server next to the files.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.UnderstandServerState` | Understand when the server is disabled, unsupported, or ready in the current workspace | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.UnderstandServerState` | Understand when the server is disabled, unsupported, or ready in the current workspace | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -56,8 +56,8 @@ messages, while supported environments run the bundled server next to the files.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Workspace.EnvironmentModes` | Restricted, virtual, remote, WSL, SSH, and Dev Container workspaces have explicit server-start behavior and documentation | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.Diagnostics` | Disabled and unsupported environment states are visible through status UI | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Workspace.EnvironmentModes` | Restricted, virtual, remote, WSL, SSH, and Dev Container workspaces have explicit server-start behavior and documentation | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Disabled and unsupported environment states are visible through status UI | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -72,8 +72,8 @@ messages, while supported environments run the bundled server next to the files.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E13-workspace-environment-modes]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E13-workspace-environment-modes]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -87,9 +87,9 @@ All of the following must be true before this ticket is marked `done`:
 - [x] WSL, SSH, and Dev Container smoke-test procedures are documented.
 - [x] Remote extension hosts resolve the matching platform server binary.
 - [x] Status and troubleshooting docs agree on environment behavior.
-- [x] [[test/matrix]] updated with every new test file introduced.
-- [x] [[test/index]] updated with every new test file introduced.
-- [x] Phase gate command passes locally; awaiting CI (see [[plans/execution-ledger]]).
+- [x] [[docs/test/matrix]] updated with every new test file introduced.
+- [x] [[docs/test/index]] updated with every new test file introduced.
+- [x] Phase gate command passes locally; awaiting CI (see [[docs/plans/execution-ledger]]).
 - [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
 - [x] `tsc --noEmit` exits 0.
 
@@ -113,7 +113,7 @@ All of the following must be true before this ticket is marked `done`:
 
 **Blocked by:**
 
-- Phase E12 (see [[plans/execution-ledger]]) - OFMarkdown contribution work
+- Phase E12 (see [[docs/plans/execution-ledger]]) - OFMarkdown contribution work
   should be complete before environment behavior is finalized.
 
 **Unblocks:**
@@ -125,8 +125,8 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Notes
 
-This phase follows [[features/vscode-extension-parity]] and
-[[research/marksman-vscode-feature-parity-ofmarkdown]] for the thin-client
+This phase follows [[docs/features/vscode-extension-parity]] and
+[[docs/research/marksman-vscode-feature-parity-ofmarkdown]] for the thin-client
 extension boundary. Manual remote checks are expected where CI cannot create
 the VS Code host mode.
 
@@ -135,7 +135,7 @@ the VS Code host mode.
 ## Lifecycle
 
 Full state machine, entry and exit criteria, and agent obligations for each
-state: [[templates/tickets/lifecycle/feature-lifecycle]]
+state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -156,7 +156,7 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

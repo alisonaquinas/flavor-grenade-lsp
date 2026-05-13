@@ -1,0 +1,87 @@
+---
+id: "FEAT-043"
+title: "Markdown Flavor Server Propagation"
+type: feature
+status: draft
+priority: high
+phase: 20
+created: "2026-05-13"
+updated: "2026-05-13"
+dependencies: ["FEAT-042"]
+tags: [tickets/feature, "phase/20", markdown-flavor]
+aliases: ["FEAT-043"]
+---
+
+# Markdown Flavor Server Propagation
+
+> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `draft`
+
+## Goal
+
+Thread server-owned `EffectiveMarkdownFlavor` through configuration, parsing,
+diagnostics, and spawned-server integration tests without weakening input,
+config, or boundary security gates.
+
+## Scope
+
+- Accept and validate `flavorGrenade.markdownFlavor` from
+  `workspace/didChangeConfiguration` in BC5, then dispatch to BC4/Config.
+- Resolve explicit and `auto` modes in BC4 using `MarkdownFlavorCascade`.
+- Validate resource-specific flavor payloads before Config/BC4 mutation.
+- Confine and validate `.flavor-grenade.toml` project evidence before flavor
+  state uses it.
+- Refresh open documents after flavor changes.
+- Gate initial Original, CommonMark, and Obsidian analysis behavior.
+
+## Evidence Trace
+
+- [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]]
+  covers server configuration validation.
+- [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]]
+  covers refresh triggers.
+- [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]]
+  covers auto resolution and fallback.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] covers
+  spawned-server temp workspace precedence.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]] covers
+  handler refresh after effective-flavor changes.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]] covers
+  resource-specific flavor propagation.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] covers
+  host/conversion boundary behavior across the spawned server boundary.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] covers
+  malformed flavor payload and unsafe project-config rejection.
+
+## Child Tasks
+
+| Ticket | Title | Status |
+|---|---|---|
+| [[TASK-288]] | Add server configuration handling for markdown flavor | `open` |
+| [[TASK-289]] | Resolve effective flavor for explicit and auto modes | `open` |
+| [[TASK-290]] | Thread effective flavor through parser and caches | `open` |
+| [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `open` |
+| [[TASK-292]] | Add spawned-server flavor propagation tests | `open` |
+| [[TASK-293]] | Refresh open document diagnostics after flavor changes | `open` |
+| [[TASK-354]] | Add shared non-local boundary classification | `open` |
+| [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
+| [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
+
+## Definition of Done
+
+- [ ] Supported flavor ids apply without server restart.
+- [ ] Unsupported ids are rejected without state corruption.
+- [ ] BC4 owns effective flavor state; BC5 only validates protocol payloads.
+- [ ] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
+      oversized maps, and stale resource keys are rejected before state changes.
+- [ ] Project TOML evidence is confined, size-limited, schema-validated, and
+      redacted in logs.
+- [ ] Open document diagnostics refresh after flavor changes.
+- [ ] Integration tests cover supported and unsupported flavor transitions,
+      handler refresh, resource-specific state, and host/conversion boundary
+      classification.
+- [ ] Closeout cannot advance until [[TASK-354]] has acceptance evidence.
+
+## Workflow Log
+
+> [!INFO] Opened - 2026-05-13
+> Created from server propagation gaps.

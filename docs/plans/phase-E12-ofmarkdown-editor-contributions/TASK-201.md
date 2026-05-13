@@ -28,7 +28,7 @@ wiki-links, aliases frontmatter, tags frontmatter, and block anchors.
 
 - Add snippets through the extension contribution manifest.
 - Keep snippet bodies OFMarkdown-specific and avoid generic Markdown triggers.
-- See also: [[plans/phase-E12-ofmarkdown-editor-contributions]]
+- See also: [[docs/plans/phase-E12-ofmarkdown-editor-contributions]]
 
 ---
 
@@ -36,7 +36,7 @@ wiki-links, aliases frontmatter, tags frontmatter, and block anchors.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | OFMarkdown snippets are scoped to `ofmarkdown` | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | OFMarkdown snippets are scoped to `ofmarkdown` | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -60,7 +60,7 @@ wiki-links, aliases frontmatter, tags frontmatter, and block anchors.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown has a separate VS Code language id for scoped contributions |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown has a separate VS Code language id for scoped contributions |
 
 ---
 
@@ -90,8 +90,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Snippets do not appear for generic `markdown`
 - [x] Linked verification test starts RED before implementation
 - [x] `cd extension && npm test` passes after implementation
-- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
@@ -106,7 +106,7 @@ server completion behavior.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -124,7 +124,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

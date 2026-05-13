@@ -56,21 +56,21 @@ Establish the `extension/` directory at the repository root with a complete VS C
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | No user-visible behaviour delivered in this phase; extension scaffold only | [[requirements/user/index]] |
+| — | No user-visible behaviour delivered in this phase; extension scaffold only | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure scaffold; functional requirements addressed in later extension phases | [[requirements/index]] |
+| — | Infrastructure scaffold; functional requirements addressed in later extension phases | [[docs/requirements/index]] |
 
 ---
 
@@ -86,11 +86,11 @@ Establish the `extension/` directory at the repository root with a complete VS C
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E1-extension-scaffold]]
+- Phase plan: [[docs/plans/phase-E1-extension-scaffold]]
 
-- ADR: [[adr/ADR015-platform-specific-vsix]]
+- ADR: [[docs/adr/ADR015-platform-specific-vsix]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -116,7 +116,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 - [ ] No new linter warnings introduced
 
-- [ ] [[plans/execution-ledger]] row for Phase E1 updated to `done`
+- [ ] [[docs/plans/execution-ledger]] row for Phase E1 updated to `done`
 
 ---
 
@@ -155,7 +155,7 @@ Tasks in this phase are sequential: TASK-137 (package.json + npm install) must c
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -176,7 +176,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. Phase E1 Extension Scaffold feature defined; all child tasks (TASK-137 through TASK-140) created. Ready for execution once Publishing Research phase is confirmed complete.

@@ -30,7 +30,7 @@ editing surface beyond basic links.
 - Prefer one compact visual per required category unless a combined image is
   clearer.
 - Verify every image remains readable at Marketplace README widths.
-- See also: [[features/vscode-extension-parity]]
+- See also: [[docs/features/vscode-extension-parity]]
 
 ---
 
@@ -38,7 +38,7 @@ editing surface beyond basic links.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.OFMProof` | README shows required OFMarkdown diagnostics, hover, tag, and callout visuals | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.OFMProof` | README shows required OFMarkdown diagnostics, hover, tag, and callout visuals | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -62,7 +62,7 @@ editing surface beyond basic links.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Client UX should expose server-provided OFMarkdown affordances through VS Code |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Client UX should expose server-provided OFMarkdown affordances through VS Code |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Callout completion visual is referenced
 - [x] Linked verification test covers these required categories
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Marketplace.OFMProof`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-029]] child task row updated to `done`
 
 ---
@@ -109,7 +109,7 @@ Do not let a generic Markdown screenshot satisfy these OFMarkdown categories.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -127,7 +127,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

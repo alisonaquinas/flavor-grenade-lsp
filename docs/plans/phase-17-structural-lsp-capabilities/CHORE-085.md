@@ -34,7 +34,7 @@ phase PR is opened.
 Phase execution Step G requires a security sweep for all new code before unit,
 integration, and validation gates are treated as final.
 
-- Motivated by: [[plans/phase-execution]]
+- Motivated by: [[docs/plans/phase-execution]]
 
 ---
 
@@ -42,9 +42,9 @@ integration, and validation gates are treated as final.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Input.PositionValidation` | LSP positions and ranges are validated before use | [[requirements/security/input-validation]] |
-| `Security.Vault.PathConfinement` | Structural links do not create vault-escape paths | [[requirements/security/vault-confinement]] |
-| `ST-002` | Opaque regions prevent parsing through unsafe text spans | [[requirements/semantic-tokens]] |
+| `Security.Input.PositionValidation` | LSP positions and ranges are validated before use | [[docs/requirements/security/input-validation]] |
+| `Security.Vault.PathConfinement` | Structural links do not create vault-escape paths | [[docs/requirements/security/vault-confinement]] |
+| `ST-002` | Opaque regions prevent parsing through unsafe text spans | [[docs/requirements/semantic-tokens]] |
 
 ---
 

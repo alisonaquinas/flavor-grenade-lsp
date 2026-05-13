@@ -36,7 +36,7 @@ document `DocId` values.
 - Return file URIs for attachment targets with stable ranges.
 - Preserve existing definition behavior for Markdown links, wiki-links, embeds,
   headings, blocks, and tags.
-- See also: [[plans/phase-15-attachment-intelligence]]
+- See also: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -44,9 +44,9 @@ document `DocId` values.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.NavigationHover` | Existing attachment references support definition to attachment file URIs | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment refs support definition | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition returns target locations | [[requirements/navigation]] |
+| `Parity.Attachments.NavigationHover` | Existing attachment references support definition to attachment file URIs | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment refs support definition | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Definition returns target locations | [[docs/requirements/navigation]] |
 
 ---
 
@@ -65,7 +65,7 @@ document `DocId` values.
 | `src/handlers/__tests__/attachment-navigation.test.ts` | Unit | `Navigation.Definition.AllLinkTypes` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> Update [[test/matrix]] and [[test/index]].
+> Update [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -73,7 +73,7 @@ document `DocId` values.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR017-standard-markdown-link-intelligence]] | Markdown image link targets participate in navigation |
+| [[docs/adr/ADR017-standard-markdown-link-intelligence]] | Markdown image link targets participate in navigation |
 
 ---
 
@@ -106,8 +106,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenario passes locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [ ] [[docs/test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-022]] child task row updated to `in-review`.
 
 ---
@@ -122,7 +122,7 @@ zero-length range available for the file URI.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -140,7 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

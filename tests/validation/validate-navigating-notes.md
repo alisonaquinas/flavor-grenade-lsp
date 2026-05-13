@@ -25,7 +25,7 @@ This validation plan confirms that vault authors can move through their knowledg
 **User Req Tag:** `User.Navigate.JumpToNote`
 **Goal:** Navigate to a linked note
 **Type:** Both
-**Mapped FRs:** `Navigation.Definition.AllLinkTypes`, `Link.Wiki.StyleBinding`, `Link.Wiki.AliasResolution` — see [[tests/verification/verify-navigation]], [[tests/verification/verify-wiki-links]]
+**Mapped FRs:** `Navigation.Definition.AllLinkTypes`, `Link.Wiki.StyleBinding`, `Link.Wiki.AliasResolution` — see [[tests/verification/verify-navigation]], \[\[tests/verification/verify-wiki-links]]
 **Verification coverage:** TC-VER-NAV-001, TC-VER-WIKI-001, TC-VER-WIKI-002
 
 **Scenario (user perspective):**

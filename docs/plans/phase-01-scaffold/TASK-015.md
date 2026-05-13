@@ -32,7 +32,7 @@ Create the canonical `src/` directory tree that all subsequent phases will popul
 - `src/lsp/` will contain `lsp.module.ts` after TASK-010; no `.gitkeep` needed there
 - `src/main.ts` will occupy `src/` after TASK-009
 - Do not create any `.ts` source files in this task — directory scaffolding only
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -40,7 +40,7 @@ Create the canonical `src/` directory tree that all subsequent phases will popul
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Directory structure; module boundaries defined in architecture layer | [[requirements/index]] |
+| — | Directory structure; module boundaries defined in architecture layer | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Create the canonical `src/` directory tree that all subsequent phases will popul
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | `src/lsp/` is the boundary for the LSP handler layer; `src/parser/` and `src/vault/` are separate bounded contexts per [[architecture/overview]] |
+| [[docs/adr/ADR001-stdio-transport]] | `src/lsp/` is the boundary for the LSP handler layer; `src/parser/` and `src/vault/` are separate bounded contexts per [[docs/architecture/overview]] |
 
 ---
 
@@ -112,7 +112,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

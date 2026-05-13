@@ -6,10 +6,21 @@ aliases: [lsp-overview, fg-lsp-architecture]
 
 # flavor-grenade-lsp Architecture Overview
 
-`flavor-grenade-lsp` is a Language Server Protocol (LSP) server purpose-built for **Obsidian Flavored Markdown (OFM)**. It provides rich editor intelligence — completions, definitions, diagnostics, hover, rename, and more — for vaults authored in Obsidian's extended Markdown dialect. It is not a general-purpose Markdown LSP; every parse stage, symbol model, and resolution algorithm is designed around OFM semantics.
+`flavor-grenade-lsp` is a Language Server Protocol (LSP) server for Markdown
+flavor-aware vault intelligence. Its first architecture was purpose-built for
+**Obsidian Flavored Markdown (OFM)**, and the existing parser, symbol model, and
+resolution algorithms are still OFM-first. Current requirements extend that
+model with explicit Markdown flavor profiles for Original Markdown, CommonMark,
+Obsidian, GFM, GLFM, Pandoc Markdown, MultiMarkdown, MDX, kramdown, Markdown
+Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
 
-> [!note] Scope restriction
-> `flavor-grenade-lsp` handles **only** OFM. There is no CommonMark-only fallback mode. If a document element is not expressible in OFM terms, it is treated as opaque text. This is a deliberate design constraint, not an oversight.
+> [!note] Scope update
+> Historical architecture docs and parser modules may still use OFM-first names.
+> The current requirement is flavor-aware analysis through
+> `flavorGrenade.markdownFlavor`; unsupported syntax for a selected flavor must
+> be treated according to that flavor's documented profile, not silently assumed
+> to be Obsidian syntax. Effective flavor resolution is defined in
+> [[docs/design/markdown-flavor-auto-detection]].
 
 ---
 
@@ -21,7 +32,7 @@ aliases: [lsp-overview, fg-lsp-architecture]
 |-----------|----------|--------------------|
 | Language | F# | TypeScript |
 | Framework | None (plain F# modules) | NestJS — full DI container |
-| Markdown dialect | CommonMark + wiki-links | OFM only |
+| Markdown dialect | CommonMark + wiki-links | Flavor-aware, OFM-first implementation |
 | Embed support | No | Yes (`![[file]]`, `![[file#heading]]`) |
 | Block ref support | No | Yes (`[[doc#^blockid]]`, `^blockid` anchors) |
 | Tag resolution | No | Yes (`#tag`, `#tag/subtag`) |
@@ -68,7 +79,7 @@ In single-file mode:
 - The document is treated as its own isolated vault.
 - Cross-document wiki-links cannot resolve and produce `BrokenLink` diagnostics.
 - Intra-document features (heading navigation, block anchors, completions within the file) remain fully functional.
-- If a vault root is subsequently detected (e.g., the user opens a second file inside a vault), the single-file `VaultFolder` is evicted and replaced by a multi-file folder. See [[concepts/workspace-model]] for the eviction policy.
+- If a vault root is subsequently detected (e.g., the user opens a second file inside a vault), the single-file `VaultFolder` is evicted and replaced by a multi-file folder. See [[docs/concepts/workspace-model]] for the eviction policy.
 
 This mode ensures the server is useful even when launched from a standalone `.md` file outside any vault structure.
 
@@ -85,18 +96,27 @@ Detection precedence:
 
 If neither is found by traversing up to the filesystem root, the document is placed in a single-file `VaultFolder`.
 
-## VS Code OFMarkdown Language Mode
+## VS Code Markdown Flavor Selection
 
-The VS Code extension contributes a client-side language id, `ofmarkdown`, for documents that Flavor Grenade recognizes as Obsidian Flavored Markdown. This is not a separate parser mode in the server. The server remains OFM-only; `ofmarkdown` is an editor identity used by VS Code settings, snippets, keybindings, grammar contributions, and semantic token targeting.
+The VS Code extension keeps `.md` documents in VS Code's built-in `markdown`
+language mode. Flavor Grenade does not contribute or assign an alternate
+Markdown language id for the primary editing experience.
 
-Assignment is dynamic:
+Flavor behavior is selected by a client-side Markdown flavor control next to
+the language mode affordance:
 
-1. `.md` files open as VS Code's built-in `markdown`.
-2. The extension checks for an ancestor `.obsidian/` directory as a fast positive signal.
-3. After the server starts, the extension asks `flavorGrenade/documentMembership` whether the URI belongs to a vault/index.
-4. Qualifying `markdown` documents are promoted to `ofmarkdown` using VS Code's language assignment API.
+1. `.md` files open and remain `markdown`.
+2. The extension derives an effective flavor from `Auto Detect`, using
+   `.obsidian/`, `.flavor-grenade.toml`, and server membership signals.
+3. Users may override the flavor to `original`, `commonmark`, or `obsidian`.
+4. Overrides persist to a workspace/project setting when a folder is open, and
+   to a user setting for standalone-file contexts.
+5. The effective flavor is propagated to the server so diagnostics,
+   completions, and other features can honor the selected dialect.
 
-The extension's LanguageClient listens to both `markdown` and `ofmarkdown` documents so LSP features continue across the close/open event VS Code emits during language reassignment.
+The LanguageClient listens to `markdown` documents only. Manual non-Markdown
+language selections remain authoritative and disable the Markdown flavor
+selector for that editor. See [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 
@@ -112,24 +132,30 @@ This makes the document state trivially threadsafe and allows the previous state
 
 `RefGraph.update(oracle, symDiff)` receives only the **changed symbols** from the last document version, not the full vault symbol set. It surgically adds, removes, or reroutes edges in the bipartite ref-to-def graph. Full rebuilds (`RefGraph.mk`) are reserved for vault initialization and file deletion events.
 
-This keeps diagnostic republishing latency sub-10ms for typical vaults (< 5000 notes). See [[architecture/data-flow]] for the full change pipeline.
+This keeps diagnostic republishing latency sub-10ms for typical vaults (< 5000 notes). See [[docs/architecture/data-flow]] for the full change pipeline.
 
 ### 3. NestJS Dependency Injection
 
 Each logical subsystem is a NestJS module with explicit `imports`, `providers`, and `exports`. The DI container enforces the dependency graph at startup — a `FeatureModule` that incorrectly imports from a higher-layer module will fail to compile. This replaces the informal module boundary conventions of a plain TypeScript project with a machine-checked constraint.
 
-Bounded context boundaries in the DDD sense are enforced by module export surfaces. A `DocumentModule` consumer sees only `OFMDoc`, `OFMIndex`, and `DocId` — never the parser's internal CST node types. See [[architecture/layers]] for the full module stack and [[ddd/bounded-contexts]] for the DDD analysis.
+Bounded context boundaries in the DDD sense are enforced by module export surfaces. A `DocumentModule` consumer sees only `OFMDoc`, `OFMIndex`, and `DocId` — never the parser's internal CST node types. See [[docs/architecture/layers]] for the full module stack and [[docs/ddd/bounded-contexts]] for the DDD analysis.
 
-### 4. OFM-Exclusive Parse Pipeline
+### 4. Flavor-Aware Parse Pipeline
 
-The parse pipeline never degrades to CommonMark-only semantics. Every stage is OFM-aware:
+The parse pipeline is currently OFM-first, but the requirements now call for
+flavor-aware behavior. Each stage must be able to consult the effective Markdown
+flavor before deciding whether a construct is core syntax, a flavor extension,
+host-specific behavior, or opaque text:
 
 - Ignore regions cover Obsidian comment syntax (`%%...%%`), Templater blocks, and math environments.
 - Wiki-link tokenization happens before CommonMark inline parsing so that bracket sequences are never mis-parsed as CommonMark link syntax.
 - Block anchors (`^id`) are parsed and promoted to first-class `BlockAnchorDef` symbols.
 - Callout syntax (`> [!type]`) is recognized at the blockquote parse stage.
 
-See [[concepts/document-model]] for the 8-stage pipeline and [[concepts/ofm-syntax]] for the full element taxonomy.
+See [[docs/concepts/document-model]] for the 8-stage pipeline,
+[[docs/concepts/ofm-syntax]] for the OFM element taxonomy, and
+[[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
+for required flavor profiles.
 
 ---
 
@@ -153,11 +179,11 @@ src/main.ts
 
 ## Cross-References
 
-- [[architecture/layers]] — NestJS module dependency order and responsibility table
-- [[architecture/data-flow]] — Step-by-step lifecycle of document change and completion flows
-- [[ddd/bounded-contexts]] — Full DDD analysis of the five bounded contexts
-- [[concepts/document-model]] — OFMDoc structure and parse pipeline
-- [[concepts/connection-graph]] — RefGraph and Oracle patterns
-- [[concepts/workspace-model]] — VaultFolder and Workspace composition
-- [[features/ofmarkdown-language-mode]] — VS Code language mode assignment
-- [[adr/ADR016-ofmarkdown-language-mode]] — Dynamic OFMarkdown language mode decision
+- [[docs/architecture/layers]] — NestJS module dependency order and responsibility table
+- [[docs/architecture/data-flow]] — Step-by-step lifecycle of document change and completion flows
+- [[docs/ddd/bounded-contexts]] — Full DDD analysis of the five bounded contexts
+- [[docs/concepts/document-model]] — OFMDoc structure and parse pipeline
+- [[docs/concepts/connection-graph]] — RefGraph and Oracle patterns
+- [[docs/concepts/workspace-model]] — VaultFolder and Workspace composition
+- [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision

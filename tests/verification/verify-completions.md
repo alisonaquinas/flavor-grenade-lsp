@@ -11,7 +11,7 @@ aliases: [Verify Completions]
 This document defines the scripted and agent-driven verification test cases for the Completion
 Requirements of flavor-grenade-lsp. Each test case is derived directly from the Planguage
 `Meter` field of its corresponding requirement and references the BDD scenarios in
-[[bdd/features/completions]] where coverage exists. These tests are the authoritative verification
+\[\[bdd/features/completions]] where coverage exists. These tests are the authoritative verification
 record for the `textDocument/completion` capability.
 
 ## Requirements Covered
@@ -32,7 +32,7 @@ record for the `textDocument/completion` capability.
 **Planguage Tag:** `Completion.Candidates.Cap`
 **Gist:** The completion candidate list must be capped at the integer value configured by `completion.candidates`, and `CompletionList.isIncomplete` must be set to `true` whenever the cap is reached.
 **Type:** Both
-**BDD Reference:** [[bdd/features/completions]] — `Candidate list is capped and isIncomplete true when exceeds limit`
+**BDD Reference:** \[\[bdd/features/completions]] — `Candidate list is capped and isIncomplete true when exceeds limit`
 **Phase:** Phase 1
 
 **Setup:**
@@ -86,7 +86,7 @@ And CompletionList.isIncomplete is false
 **Planguage Tag:** `Completion.Trigger.Coverage`
 **Gist:** Each of the three LSP trigger characters (`[`, `#`, `(`) must return a non-empty candidate list when the cursor is at an appropriate syntactic context.
 **Type:** Both
-**BDD Reference:** [[bdd/features/completions]] — `Wiki-link completion returns document candidates after [[ trigger`, `Tag completion returns candidates after # trigger character`; `(` position: **BDD gap**
+**BDD Reference:** \[\[bdd/features/completions]] — `Wiki-link completion returns document candidates after [[ trigger`, `Tag completion returns candidates after # trigger character`; `(` position: **BDD gap**
 **Phase:** Phase 1
 
 **Setup:**
@@ -151,7 +151,7 @@ Then CompletionList.items.length >= 1
 **Planguage Tag:** `Completion.CalloutType.Coverage`
 **Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 13 primary standard Obsidian callout type names as candidates.
 **Type:** Both
-**BDD Reference:** [[bdd/features/completions]] — `Callout completion returns all 13 types after "> [!" trigger`
+**BDD Reference:** \[\[bdd/features/completions]] — `Callout completion returns all 13 types after "> [!" trigger`
 **Phase:** Phase 1
 
 **Setup:**
@@ -211,7 +211,7 @@ And (primary standard callout types present / 13) × 100 = 100
 **Planguage Tag:** `Completion.WikiStyle.Binding`
 **Gist:** Completion items for wiki-links must use the link text format prescribed by the active `wiki.style` configuration, and must not mix formats from different style modes in the same response.
 **Type:** Both
-**BDD Reference:** [[bdd/features/completions]] — `Completion respects file-stem style configuration`, `Completion respects title-slug style when configured`; `file-path-stem` run: **BDD gap**
+**BDD Reference:** \[\[bdd/features/completions]] — `Completion respects file-stem style configuration`, `Completion respects title-slug style when configured`; `file-path-stem` run: **BDD gap**
 **Phase:** Phase 1
 
 **Setup:**

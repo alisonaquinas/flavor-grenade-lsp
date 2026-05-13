@@ -30,7 +30,7 @@ Audit all Phase 4 vault module source files for security vulnerabilities, with p
 
 Phase 4 is the first phase to perform real filesystem access. ADR013 establishes that all filesystem operations must be confined to the detected vault root. A dedicated security sweep verifies these invariants hold before Phase 5 builds on top of them.
 
-- Motivated by: [[adr/ADR013-vault-root-confinement]]
+- Motivated by: [[docs/adr/ADR013-vault-root-confinement]]
 
 ---
 
@@ -38,7 +38,7 @@ Phase 4 is the first phase to perform real filesystem access. ADR013 establishes
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault root confinement security requirement | [[requirements/index]] |
+| — | Vault root confinement security requirement | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Phase 4 is the first phase to perform real filesystem access. ADR013 establishes
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | All filesystem access must be confined to the detected vault root; path traversal must be impossible; watcher events for out-of-root paths must be silently ignored |
+| [[docs/adr/ADR013-vault-root-confinement]] | All filesystem access must be confined to the detected vault root; path traversal must be impossible; watcher events for out-of-root paths must be silently ignored |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `VaultScanner` cannot read files outside `vaultRoot` (path traversal via `../` or absolute path injection is blocked)
 - [ ] `IgnoreFilter` cannot be bypassed to allow access outside vault root
 - [ ] `FileWatcher` silently ignores all events for paths outside `vaultRoot` in all four event handlers
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -122,7 +122,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 security sweep covering path traversal in VaultScanner (ADR013), IgnoreFilter boundary enforcement, and FileWatcher out-of-root event discard.

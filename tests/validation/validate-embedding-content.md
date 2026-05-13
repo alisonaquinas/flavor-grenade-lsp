@@ -24,7 +24,7 @@ This validation plan confirms that vault authors receive immediate, accurate fee
 **User Req Tag:** `User.Embed.DetectBrokenEmbed`
 **Goal:** Be told immediately when an embedded file is missing
 **Type:** Both
-**Mapped FRs:** `Embed.Resolution.MarkdownTarget`, `Embed.Resolution.ImageTarget`, `Embed.HeadingEmbed.Resolution`, `Embed.BlockEmbed.Resolution` — see [[tests/verification/verify-embeds]]
+**Mapped FRs:** `Embed.Resolution.MarkdownTarget`, `Embed.Resolution.ImageTarget`, `Embed.HeadingEmbed.Resolution`, `Embed.BlockEmbed.Resolution` — see \[\[tests/verification/verify-embeds]]
 **Verification coverage:** TC-VER-EMBD-001, TC-VER-EMBD-002, TC-VER-EMBD-003, TC-VER-EMBD-004
 
 **Scenario (user perspective):**
@@ -108,7 +108,7 @@ Feature: Broken embed detection
 **User Req Tag:** `User.Embed.PreviewLinkedContent`
 **Goal:** Hover over an embed to preview the target
 **Type:** Both
-**Mapped FRs:** `Embed.Resolution.MarkdownTarget`, `Embed.HeadingEmbed.Resolution` — see [[tests/verification/verify-embeds]]
+**Mapped FRs:** `Embed.Resolution.MarkdownTarget`, `Embed.HeadingEmbed.Resolution` — see \[\[tests/verification/verify-embeds]]
 **Verification coverage:** TC-VER-EMBD-001, TC-VER-EMBD-003
 
 **Scenario (user perspective):**

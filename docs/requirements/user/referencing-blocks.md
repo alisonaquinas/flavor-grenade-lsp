@@ -9,9 +9,11 @@ aliases:
 # Referencing Blocks User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors create and use block-level references to link to specific paragraphs or items within a note. Implementation details are in [[requirements/block-references]].
+> These user requirements cover how vault authors create and use block-level references to link to specific paragraphs or items within a note. Implementation details are in [[docs/requirements/block-references]].
 
 ---
+
+## User.Blocks.ReferenceSpecificText
 
 **Tag:** User.Blocks.ReferenceSpecificText
 **Gist:** Vault author creates a block reference, navigates directly to the target block, and is warned when the referenced block no longer exists.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Block.Anchor.Indexing, Block.CrossRef.Diagnostic, Navigation.Definition.AllLinkTypes
 
 ---
+
+## User.Blocks.CompleteBlockRef
 
 **Tag:** User.Blocks.CompleteBlockRef
 **Gist:** Vault author receives a list of all known block anchors in the target note upon typing `[[note#^`.

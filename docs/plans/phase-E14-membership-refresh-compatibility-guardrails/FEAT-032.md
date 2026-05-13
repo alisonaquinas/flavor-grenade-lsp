@@ -49,8 +49,8 @@ builds also warn when the client, bundled server, or package target do not match
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.TrustExtensionBehavior` | Trust that language mode follows vault membership during long-running sessions | [[requirements/user/vscode-extension-parity]] |
-| `User.Extension.InstallCompatiblePackage` | Install packages whose bundled server and target metadata are correct | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.TrustExtensionBehavior` | Trust that language mode follows vault membership during long-running sessions | [[docs/requirements/user/vscode-extension-parity]] |
+| `User.Extension.InstallCompatiblePackage` | Install packages whose bundled server and target metadata are correct | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -58,9 +58,9 @@ builds also warn when the client, bundled server, or package target do not match
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.LanguageMode.MembershipRefresh` | Membership refreshes after server, index, workspace, editor, and file-open events | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Workspace.EnvironmentModes` | Remote and local membership behavior stays consistent | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Packaging.TargetBinaryValidation` | Packaged VSIX output contains exactly one matching server binary | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.LanguageMode.MembershipRefresh` | Membership refreshes after server, index, workspace, editor, and file-open events | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Workspace.EnvironmentModes` | Remote and local membership behavior stays consistent | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Packaging.TargetBinaryValidation` | Packaged VSIX output contains exactly one matching server binary | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -75,8 +75,8 @@ builds also warn when the client, bundled server, or package target do not match
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E14-membership-refresh-compatibility-guardrails]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -93,9 +93,9 @@ All of the following must be true before this ticket is marked `done`:
   vault.
 - [x] Version and target mismatches are visible before publish or at startup.
 - [x] Packaged VSIX smoke checks catch missing or wrong server binaries.
-- [x] [[test/matrix]] updated with every new test file introduced.
-- [x] [[test/index]] updated with every new test file introduced.
-- [x] Phase gate command passes in CI (see [[plans/execution-ledger]]).
+- [x] [[docs/test/matrix]] updated with every new test file introduced.
+- [x] [[docs/test/index]] updated with every new test file introduced.
+- [x] Phase gate command passes in CI (see [[docs/plans/execution-ledger]]).
 - [x] No new linter warnings introduced (`bun run lint --max-warnings 0`).
 - [x] `tsc --noEmit` exits 0.
 
@@ -132,14 +132,14 @@ All of the following must be true before this ticket is marked `done`:
 
 The packaging requirement text currently emphasizes Marketplace assets. This
 phase applies the same packaging-proof responsibility to the bundled server
-binary and target metadata described in [[plans/phase-E14-membership-refresh-compatibility-guardrails]].
+binary and target metadata described in [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]].
 
 ---
 
 ## Lifecycle
 
 Full state machine, entry and exit criteria, and agent obligations for each
-state: [[templates/tickets/lifecycle/feature-lifecycle]]
+state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -160,7 +160,7 @@ state: [[templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

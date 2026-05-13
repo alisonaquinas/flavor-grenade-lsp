@@ -31,7 +31,7 @@ Create `.prettierrc.json` at the project root to define the canonical code forma
 - Content: `{ "semi": true, "singleQuote": true, "trailingComma": "all", "printWidth": 100, "tabWidth": 2 }`
 - Prettier is invoked via `bun run format` (defined in TASK-014) which runs `prettier --write src/`
 - The `eslint-config-prettier` package (installed in TASK-005) disables conflicting ESLint rules
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -39,7 +39,7 @@ Create `.prettierrc.json` at the project root to define the canonical code forma
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Formatting configuration; code quality requirements addressed by CHORE-002 | [[requirements/index]] |
+| — | Formatting configuration; code quality requirements addressed by CHORE-002 | [[docs/requirements/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Create `.prettierrc.json` at the project root to define the canonical code forma
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Consistent formatting required across all source files; Prettier is the single formatting authority |
+| [[docs/adr/ADR001-stdio-transport]] | Consistent formatting required across all source files; Prettier is the single formatting authority |
 
 ---
 
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

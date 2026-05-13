@@ -57,7 +57,7 @@ Vault authors gain an LSP server that understands the full vocabulary of Obsidia
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | See phase plan for gate criteria | [[plans/phase-03-ofm-parser]] |
+| — | See phase plan for gate criteria | [[docs/plans/phase-03-ofm-parser]] |
 
 ---
 
@@ -74,8 +74,8 @@ Vault authors gain an LSP server that understands the full vocabulary of Obsidia
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-03-ofm-parser]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-03-ofm-parser]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -86,8 +86,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `bun test src/parser/` passes with all tests green
 - [ ] BDD `@smoke` scenarios for wiki-links, tags, callouts, and frontmatter pass in CI
 - [ ] All scenarios in linked BDD feature files pass in CI
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] Phase gate command `bun run gate:3` passes in CI
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
@@ -133,13 +133,13 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Notes
 
-ADR reference: [[adr/ADR012-parser-safety-policy]] constrains all parser implementations to avoid ReDoS patterns, use bounded input processing, and perform no file I/O.
+ADR reference: [[docs/adr/ADR012-parser-safety-policy]] constrains all parser implementations to avoid ReDoS patterns, use bounded input processing, and perform no file I/O.
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -160,7 +160,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

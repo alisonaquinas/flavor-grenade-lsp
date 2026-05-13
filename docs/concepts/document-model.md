@@ -54,7 +54,7 @@ type DocId = {
 
 `DocId` is used as the key in `VaultFolder`'s document map, as the scope identifier in `ScopedSym`, and as the lookup key in `RefGraph.refDeps`.
 
-See [[concepts/path-model]] for the full type hierarchy (`VaultPath`, `Slug`, `AbsPath`, `WikiEncoded`).
+See [[docs/concepts/path-model]] for the full type hierarchy (`VaultPath`, `Slug`, `AbsPath`, `WikiEncoded`).
 
 ---
 
@@ -216,9 +216,9 @@ OFMDoc { id, version, text, structure, index }
 
 ## Cross-References
 
-- [[concepts/path-model]] — DocId, VaultPath, Slug type definitions
-- [[concepts/symbol-model]] — Sym/Def/Ref hierarchy built from OFMIndex
-- [[concepts/connection-graph]] — How OFMIndex feeds RefGraph.update
-- [[concepts/ofm-syntax]] — Full OFM element taxonomy reference
-- [[architecture/data-flow]] — OFMDoc in the didChange flow
-- [[architecture/layers]] — DocumentModule and ParserModule placement
+- [[docs/concepts/path-model]] — DocId, VaultPath, Slug type definitions
+- [[docs/concepts/symbol-model]] — Sym/Def/Ref hierarchy built from OFMIndex
+- [[docs/concepts/connection-graph]] — How OFMIndex feeds RefGraph.update
+- [[docs/concepts/ofm-syntax]] — Full OFM element taxonomy reference
+- [[docs/architecture/data-flow]] — OFMDoc in the didChange flow
+- [[docs/architecture/layers]] — DocumentModule and ParserModule placement

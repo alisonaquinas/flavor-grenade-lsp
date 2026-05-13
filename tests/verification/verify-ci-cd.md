@@ -8,7 +8,7 @@ aliases: [Verify CI/CD]
 
 ## Purpose
 
-This document defines scripted verification test cases for the CI/CD requirements of `flavor-grenade-lsp`. Each test case validates that the GitHub Actions pipeline, markdown linting policies, OIDC publishing configuration, and pre-commit gate behave according to the Planguage requirements in [[requirements/ci-cd]]. These are process-level and static checks; they do not exercise the LSP protocol. All test cases are of type Scripted and use Bash blocks to produce verifiable, reproducible evidence.
+This document defines scripted verification test cases for the CI/CD requirements of `flavor-grenade-lsp`. Each test case validates that the GitHub Actions pipeline, markdown linting policies, OIDC publishing configuration, and pre-commit gate behave according to the Planguage requirements in [[docs/requirements/ci-cd]]. These are process-level and static checks; they do not exercise the LSP protocol. All test cases are of type Scripted and use Bash blocks to produce verifiable, reproducible evidence.
 
 ## Requirements Covered
 

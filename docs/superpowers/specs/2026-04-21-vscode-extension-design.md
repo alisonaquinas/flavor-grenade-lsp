@@ -442,7 +442,7 @@ Tag push (ext-v0.1.0)
 - Automatic binary download fallback
 - release-please integration for extension releases
 - macOS code signing
-- VS Code command wrappers for `flavorGrenade.insertBlockAnchor` and `flavorGrenade.openLinkedNote` — these server-side commands (documented in [[design/api-layer]]) require cursor-context integration that duplicates existing go-to-definition behavior. Deferred to v1.1 after evaluating whether direct LSP features cover the use case.
+- VS Code command wrappers for `flavorGrenade.insertBlockAnchor` and `flavorGrenade.openLinkedNote` — these server-side commands (documented in [[docs/design/api-layer]]) require cursor-context integration that duplicates existing go-to-definition behavior. Deferred to v1.1 after evaluating whether direct LSP features cover the use case.
 - Updating `editors/vscode/settings.json` — the existing reference file documents server-only settings. Extension-specific settings (`server.path`, `trace.server`) will be documented in the extension's own README and `contributes.configuration`.
 
 ---
@@ -452,7 +452,7 @@ Tag push (ext-v0.1.0)
 - [[ADR001-stdio-transport]] — Transport decision
 - [[ADR015-platform-specific-vsix]] — Distribution strategy decision
 - [[ADR016-ofmarkdown-language-mode]] — Dynamic OFMarkdown language mode decision
-- [[architecture/overview]] — Server architecture
-- [[design/api-layer]] — LSP method catalog and capability matrix
-- [[features/ofmarkdown-language-mode]] — OFMarkdown language mode feature spec
-- [[research/vscode-extension-publishing]] — Publishing research report
+- [[docs/architecture/overview]] — Server architecture
+- [[docs/design/api-layer]] — LSP method catalog and capability matrix
+- [[docs/features/ofmarkdown-language-mode]] — OFMarkdown language mode feature spec
+- [[docs/research/vscode-extension-publishing]] — Publishing research report

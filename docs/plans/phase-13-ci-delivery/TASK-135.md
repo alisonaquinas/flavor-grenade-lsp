@@ -32,7 +32,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
   - "Require linear history"
   - "Require branches to be up to date before merging"
 - This is a manual human task; no code changes are required
-- See also: [[requirements/ci-cd]]
+- See also: [[docs/requirements/ci-cd]]
 
 ---
 
@@ -40,7 +40,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Branch protection enforcing CI and review gate for main | [[requirements/ci-cd]] |
+| — | Branch protection enforcing CI and review gate for main | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -64,7 +64,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR008-oidc-publishing]] | Branch protection is a prerequisite for safe automated publishing |
+| [[docs/adr/ADR008-oidc-publishing]] | Branch protection is a prerequisite for safe automated publishing |
 
 ---
 
@@ -107,18 +107,18 @@ This task requires human access to the GitHub repository settings. An LLM agent 
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-014]]. Note: this is a manual human task; LLM agents cannot complete it autonomously.

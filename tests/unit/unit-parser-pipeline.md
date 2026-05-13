@@ -8,7 +8,7 @@ aliases: [Unit Tests OFM Parser, OFMParser Tests]
 
 ## Overview
 
-This document specifies the RED-phase unit tests for `OFMParser` and the 8-stage OFM parse pipeline. All test cases are written before any implementation exists. See [[concepts/document-model]], [[architecture/layers]], and [[adr/ADR010-tests-directory-structure]] for structural context.
+This document specifies the RED-phase unit tests for `OFMParser` and the 8-stage OFM parse pipeline. All test cases are written before any implementation exists. See [[docs/concepts/document-model]], [[docs/architecture/layers]], and [[docs/adr/ADR010-tests-directory-structure]] for structural context.
 
 Spec file: `tests/unit/parser/ofm-parser.spec.ts`
 Source mirror: `src/parser/ofm-parser.ts`

@@ -27,12 +27,12 @@ Karpathy-style LLM wiki for core concepts.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/user/quickstart]] | Publish install and first-success guidance |
-| [[../website/docs/requirements/user/how-to]] | Publish task-focused how-to pages |
-| [[../website/docs/requirements/user/advanced-usage]] | Publish advanced workflows and boundaries |
-| [[../website/docs/requirements/user/faq]] | Publish high-intent answers |
-| [[../website/docs/requirements/functional/llm-wiki-standards]] | Keep concept pages short, linked, and precise |
-| [[../website/docs/requirements/functional/vscode-extension]] | Make VS Code extension install path first-class |
+| [requirements/user/quickstart](../../website/docs/requirements/user/quickstart.md) | Publish install and first-success guidance |
+| [requirements/user/how-to](../../website/docs/requirements/user/how-to.md) | Publish task-focused how-to pages |
+| [requirements/user/advanced-usage](../../website/docs/requirements/user/advanced-usage.md) | Publish advanced workflows and boundaries |
+| [requirements/user/faq](../../website/docs/requirements/user/faq.md) | Publish high-intent answers |
+| [requirements/functional/llm-wiki-standards](../../website/docs/requirements/functional/llm-wiki-standards.md) | Keep concept pages short, linked, and precise |
+| [requirements/functional/vscode-extension](../../website/docs/requirements/functional/vscode-extension.md) | Make VS Code extension install path first-class |
 
 ## Scope
 
@@ -84,13 +84,13 @@ bun run lint:docs
 
 ## Tickets
 
-- [[plans/phase-W4-docs-llm-wiki/FEAT-037]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-223]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-224]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-225]]
-- [[plans/phase-W4-docs-llm-wiki/CHORE-090]]
+- [[docs/plans/phase-W4-docs-llm-wiki/FEAT-037]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-223]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-224]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-225]]
+- [[docs/plans/phase-W4-docs-llm-wiki/CHORE-090]]
 
 ## Related
 
-- [[../website/docs/project-brief]]
-- [[../website/docs/requirements/functional/llm-wiki-standards]]
+- [project-brief](../../website/docs/project-brief.md)
+- [requirements/functional/llm-wiki-standards](../../website/docs/requirements/functional/llm-wiki-standards.md)

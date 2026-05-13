@@ -10,9 +10,11 @@ aliases:
 # Workspace and Vault Detection Requirements
 
 > [!NOTE] Scope
-> These requirements govern how the server discovers vault roots, filters the file set that enters the index, and enforces isolation between distinct vault roots in a multi-root workspace. Configuration of detection behaviour (extensions, ignore patterns) is governed by [[configuration]]. The VaultIndex implementation details are in [[design/domain-layer#vault-index]]. Multi-root workspace LSP protocol handling is in [[design/api-layer#workspace-handler]].
+> These requirements govern how the server discovers vault roots, filters the file set that enters the index, and enforces isolation between distinct vault roots in a multi-root workspace. Configuration of detection behaviour (extensions, ignore patterns) is governed by [[configuration]]. The VaultIndex implementation details are in [[docs/design/domain-layer]]. Multi-root workspace LSP protocol handling is in [[docs/design/api-layer]].
 
 ---
+
+## Workspace.VaultDetection.Primary
 
 **Tag:** Workspace.VaultDetection.Primary
 **User Req:** User.Vault.AutoDetectVault
@@ -31,9 +33,11 @@ aliases:
 **Goal:** 100% of `.obsidian/`-containing directories detected.
 **Stakeholders:** All vault authors, editor plugin integrators, Obsidian users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/domain-layer#vault-detection]], [[architecture/overview#indexer]], Obsidian documentation on vault structure.
+**Source:** [[docs/design/domain-layer]], [[docs/architecture/overview]], Obsidian documentation on vault structure.
 
 ---
+
+## Workspace.VaultDetection.Fallback
 
 **Tag:** Workspace.VaultDetection.Fallback
 **User Req:** User.Vault.AutoDetectVault
@@ -52,9 +56,11 @@ aliases:
 **Goal:** 100% of `.flavor-grenade.toml`-only directories detected.
 **Stakeholders:** Non-Obsidian OFM users, developers, technical writing teams, CI pipeline operators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[configuration]], [[design/domain-layer#vault-detection]], [[architecture/overview#indexer]].
+**Source:** [[configuration]], [[docs/design/domain-layer]], [[docs/architecture/overview]].
 
 ---
+
+## Workspace.FileExtension.Filter
 
 **Tag:** Workspace.FileExtension.Filter
 **User Req:** User.Vault.WorkAcrossEntireVault
@@ -74,9 +80,11 @@ aliases:
 **Goal:** 100% of non-configured-extension files silently ignored.
 **Stakeholders:** Vault authors with mixed-content directories, attachment-heavy vaults, teams with generated content.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[configuration]], [[design/domain-layer#vault-index]], [[architecture/overview#indexer]].
+**Source:** [[configuration]], [[docs/design/domain-layer]], [[docs/architecture/overview]].
 
 ---
+
+## Workspace.MultiFolder.Isolation
 
 **Tag:** Workspace.MultiFolder.Isolation
 **User Req:** User.Vault.WorkAcrossEntireVault
@@ -95,4 +103,4 @@ aliases:
 **Goal:** 0 cross-root resolution results; 100% of operations isolated to their originating vault root.
 **Stakeholders:** Developers with multi-project workspaces, teams with separate vault hierarchies in a single editor window.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/domain-layer#vault-index]], [[architecture/overview#multi-root]], [[design/api-layer#workspace-handler]], LSP specification §3.6 workspaceFolders.
+**Source:** [[docs/design/domain-layer]], [[docs/architecture/overview]], [[docs/design/api-layer]], LSP specification §3.6 workspaceFolders.

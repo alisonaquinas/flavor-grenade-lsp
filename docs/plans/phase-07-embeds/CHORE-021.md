@@ -30,7 +30,7 @@ Audit all Phase 7 source files for security issues and resolve them without alte
 
 Phase 7 resolves user-controlled strings (embed target paths from document content) to filesystem locations. Without proper confinement checks, a crafted embed target like `![[../../etc/passwd]]` could leak information. Hover content that includes resolved paths must similarly be sanitised before being sent to the LSP client.
 
-- Motivated by: [[requirements/security/index]], [[adr/ADR013-vault-root-confinement]], path traversal prevention
+- Motivated by: [[docs/requirements/security/index]], [[docs/adr/ADR013-vault-root-confinement]], path traversal prevention
 
 ---
 
@@ -38,9 +38,9 @@ Phase 7 resolves user-controlled strings (embed target paths from document conte
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Asset path confinement to vault root (ADR013) | [[requirements/security/index]] |
-| — | No user-controlled embed target strings in raw filesystem reads without validation | [[requirements/security/index]] |
-| — | Hover content must not leak server paths | [[requirements/security/index]] |
+| — | Asset path confinement to vault root (ADR013) | [[docs/requirements/security/index]] |
+| — | No user-controlled embed target strings in raw filesystem reads without validation | [[docs/requirements/security/index]] |
+| — | Hover content must not leak server paths | [[docs/requirements/security/index]] |
 
 ---
 
@@ -66,7 +66,7 @@ Phase 7 resolves user-controlled strings (embed target paths from document conte
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | All asset and embed resolution paths must be confined to vault root |
+| [[docs/adr/ADR013-vault-root-confinement]] | All asset and embed resolution paths must be confined to vault root |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Confirmed: all resolved asset paths are within vault root (path traversal prevented)
 - [ ] Confirmed: no user-controlled embed target strings reach raw `fs.*` calls without validation
 - [ ] Confirmed: hover content does not leak server-local filesystem paths
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -106,7 +106,7 @@ Focus: asset path confinement to vault root (ADR013), no user-controlled embed t
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -117,7 +117,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep for Phase 7 — asset path confinement to vault root, no user-controlled embed strings in raw filesystem reads, hover content must not leak server paths.

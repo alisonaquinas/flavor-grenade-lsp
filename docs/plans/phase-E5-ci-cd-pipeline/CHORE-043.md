@@ -32,17 +32,17 @@ Register the publisher identity `alisonaquinas` on the VS Code Marketplace (if n
 
 The `extension-release.yml` workflow's publish job references `${{ secrets.VSCE_PAT }}` to authenticate with the VS Code Marketplace. Without this secret configured, the gated publish step will fail silently or error on the first `ext-v*` tag push. Completing this chore before the first release ensures the pipeline works end-to-end.
 
-- Motivated by: [[plans/phase-E5-ci-cd-pipeline]] publish job requirement
+- Motivated by: [[docs/plans/phase-E5-ci-cd-pipeline]] publish job requirement
 
 ---
 
 ## Linked Requirements
 
-> Quality, process, CI/CD, or security requirements this chore addresses. Source: [[requirements/index]].
+> Quality, process, CI/CD, or security requirements this chore addresses. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | CI/CD publish job requires authenticated Marketplace access via PAT | [[requirements/ci-cd]] |
+| — | CI/CD publish job requires authenticated Marketplace access via PAT | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -70,7 +70,7 @@ The `extension-release.yml` workflow's publish job references `${{ secrets.VSCE_
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension ships platform-specific VSIXs; the publish step requires Marketplace authentication |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension ships platform-specific VSIXs; the publish step requires Marketplace authentication |
 
 ---
 
@@ -158,7 +158,7 @@ The PAT should be rotated before its expiry date. Consider adding a reminder or 
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -169,7 +169,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Chore created. Status: `open`. Motivation: CI publish job requires VSCE_PAT repository secret scoped to Marketplace Manage; must be configured before first extension release.

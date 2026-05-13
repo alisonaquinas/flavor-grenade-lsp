@@ -70,7 +70,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Violated Requirement
 
-> The Planguage requirement this defect violates. Source: [[requirements/index]].
+> The Planguage requirement this defect violates. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
@@ -124,7 +124,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Proposed Fix
 
-> Optional. If the root cause is known, describe the fix approach. Reference the ubiquitous language and module boundaries from [[architecture/overview]].
+> Optional. If the root cause is known, describe the fix approach. Reference the ubiquitous language and module boundaries from [[docs/architecture/overview]].
 
 {{PROPOSED-FIX}}
 
@@ -138,9 +138,9 @@ aliases: ["{{TICKET-ID}}"]
 
 - [ ] BDD scenario added or updated in `[[bdd/features/{{FEATURE-NAME}}]]`
 
-- [ ] [[test/matrix]] row updated to `✅ passing` after fix
+- [ ] [[docs/test/matrix]] row updated to `✅ passing` after fix
 
-- [ ] [[test/index]] updated if a new test file is added
+- [ ] [[docs/test/index]] updated if a new test file is added
 
 ---
 
@@ -152,7 +152,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Lifecycle
 
-Full state machine, triage rules, regression guard obligations, and terminal states: [[templates/tickets/lifecycle/bug-lifecycle]]
+Full state machine, triage rules, regression guard obligations, and terminal states: [[docs/templates/tickets/lifecycle/bug-lifecycle]]
 
 **State path:** `open` → `triaged` → `in-progress` → `in-review` → `verified` → `done`
 **Terminal alternatives:** `wont-fix`, `duplicate`
@@ -176,7 +176,7 @@ Full state machine, triage rules, regression guard obligations, and terminal sta
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/bug-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/bug-lifecycle]] for callout-type conventions and full transition rules.
 
 <!-- TEMPLATE USAGE: Replace the entry below with a real date when creating the ticket. -->
 

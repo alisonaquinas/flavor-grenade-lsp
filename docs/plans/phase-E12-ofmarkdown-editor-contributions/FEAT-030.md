@@ -44,7 +44,7 @@ generic Markdown behavior.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.UseNativeVSCodeActions` | Use VS Code editor affordances without surprising generic Markdown users | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.UseNativeVSCodeActions` | Use VS Code editor affordances without surprising generic Markdown users | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -52,7 +52,7 @@ generic Markdown behavior.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | Snippets, keybindings, language configuration, and examples are scoped to `ofmarkdown` where needed | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | Snippets, keybindings, language configuration, and examples are scoped to `ofmarkdown` where needed | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -67,8 +67,8 @@ generic Markdown behavior.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E12-ofmarkdown-editor-contributions]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E12-ofmarkdown-editor-contributions]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -80,8 +80,8 @@ All of the following must be true before this ticket is marked `done`.
 - [x] OFMarkdown keybindings are guarded by `editorLangId == ofmarkdown`
 - [x] Language configuration changes are scoped to the OFMarkdown language id
 - [x] Generic Markdown behavior is unchanged unless intentionally shared
-- [x] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[test/matrix]]
-- [x] [[test/index]] updated with every new verification file introduced
+- [x] `Extension.Contributions.OFMarkdownScoped` has passing evidence in [[docs/test/matrix]]
+- [x] [[docs/test/index]] updated with every new verification file introduced
 - [x] `cd extension && npm run check-types` exits 0
 - [x] `cd extension && npm test` exits 0
 - [x] `cd extension && npm run build:extension` exits 0
@@ -127,7 +127,7 @@ explicitly documented.
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)

@@ -43,13 +43,13 @@ repeatable local gates.
 
 | Requirement | Gist | Source |
 |---|---|---|
-| `Website.Technical.Stack` | Use Vite, Svelte, TypeScript, SCSS, and GitHub Pages | [[../../../website/docs/requirements/technical/index]] |
-| `Website.Technical.SourceLayout` | Keep source in `website/src` and tests in `website/tests` | [[../../../website/docs/requirements/technical/source-layout-and-documentation]] |
+| `Website.Technical.Stack` | Use Vite, Svelte, TypeScript, SCSS, and GitHub Pages | [[website/docs/requirements/technical/index]] |
+| `Website.Technical.SourceLayout` | Keep source in `website/src` and tests in `website/tests` | [[website/docs/requirements/technical/source-layout-and-documentation]] |
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-W1-website-foundation]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-W1-website-foundation]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ## Acceptance Criteria
 
@@ -71,7 +71,7 @@ repeatable local gates.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 

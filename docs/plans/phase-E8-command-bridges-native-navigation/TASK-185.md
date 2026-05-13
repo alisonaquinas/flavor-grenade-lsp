@@ -30,7 +30,7 @@ valid link payloads should invoke native VS Code location navigation.
 - Register `flavorGrenade.showReferences`
 - Register `flavorGrenade.followLink`
 - Use VS Code command APIs from the client extension only
-- See also: [[plans/phase-E8-command-bridges-native-navigation]]
+- See also: [[docs/plans/phase-E8-command-bridges-native-navigation]]
 
 ---
 
@@ -38,8 +38,8 @@ valid link payloads should invoke native VS Code location navigation.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.NativeUI` | Bridge server locations to native VS Code reference and navigation UI | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Required `flavorGrenade.*` commands are registered | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.NativeUI` | Bridge server locations to native VS Code reference and navigation UI | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Required `flavorGrenade.*` commands are registered | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Valid payloads call the expected native VS Code commands or APIs
 - [x] `cd extension && npm run check-types` passes
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated for new coverage
 
 ---
 
@@ -110,12 +110,12 @@ surfaces and happy-path navigation.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

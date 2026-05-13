@@ -43,20 +43,20 @@ undefined or pending steps.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | The repository test gate must be reliable and executable. | [[requirements/ci-cd]] |
-| `Quality.TDD.StrictRedGreen` | Failing verification evidence precedes implementation. | [[requirements/code-quality]] |
+| `CICD.Workflow.PRGate` | The repository test gate must be reliable and executable. | [[docs/requirements/ci-cd]] |
+| `Quality.TDD.StrictRedGreen` | Failing verification evidence precedes implementation. | [[docs/requirements/code-quality]] |
 
 ## Linked BDD Scenarios
 
 | Feature File | Scenario Title |
 |---|---|
-| [[../../bdd/features/completions.feature]] | Candidate list is capped and isIncomplete true when exceeds limit |
-| [[../../bdd/features/ofmarkdown-language-mode.feature]] | Obsidian vault markdown is promoted to OFMarkdown |
-| [[../../bdd/features/ofmarkdown-parity.feature]] | Local Markdown inline links resolve like wiki-links |
-| [[../../bdd/features/tags.feature]] | Nested tag hierarchy is preserved |
-| [[../../bdd/features/vault-detection.feature]] | .obsidian/ found - vault mode active with full features |
-| [[../../bdd/features/vscode-extension.feature]] | Extension activation on markdown file open |
-| [[../../bdd/features/workspace.feature]] | File watcher detects new file creation and updates index |
+| [completions.feature](../../bdd/features/completions.feature) | Candidate list is capped and isIncomplete true when exceeds limit |
+| [ofmarkdown-language-mode.feature](../../bdd/features/ofmarkdown-language-mode.feature) | Obsidian vault markdown is promoted to OFMarkdown |
+| [ofmarkdown-parity.feature](../../bdd/features/ofmarkdown-parity.feature) | Local Markdown inline links resolve like wiki-links |
+| [tags.feature](../../bdd/features/tags.feature) | Nested tag hierarchy is preserved |
+| [vault-detection.feature](../../bdd/features/vault-detection.feature) | .obsidian/ found - vault mode active with full features |
+| [vscode-extension.feature](../../bdd/features/vscode-extension.feature) | Extension activation on markdown file open |
+| [workspace.feature](../../bdd/features/workspace.feature) | File watcher detects new file creation and updates index |
 
 ## Linked Tests
 
@@ -89,7 +89,7 @@ undefined or pending steps.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

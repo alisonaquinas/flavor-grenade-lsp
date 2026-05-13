@@ -43,7 +43,7 @@ Create `src/vault/vault-detector.ts`. The `VaultDetector` walks up the directory
 
 - Detection algorithm: (1) start at `rootUri` from `initialize`; (2) check `.obsidian/` → `obsidian` mode; (3) check `.flavor-grenade.toml` → `flavor-grenade` mode; (4) both present → obsidian wins, log the decision; (5) walk up to filesystem root; (6) no marker → `single-file`
 - Cache result after first call; subsequent calls return the cached result
-- See also: [[adr/ADR003-vault-detection]]
+- See also: [[docs/adr/ADR003-vault-detection]]
 
 ---
 
@@ -51,7 +51,7 @@ Create `src/vault/vault-detector.ts`. The `VaultDetector` walks up the directory
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault detection requirements | [[requirements/index]] |
+| — | Vault detection requirements | [[docs/requirements/index]] |
 
 ---
 
@@ -78,7 +78,7 @@ Create `src/vault/vault-detector.ts`. The `VaultDetector` walks up the directory
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR003-vault-detection]] | Vault detection algorithm, marker precedence, and walk-up behaviour |
+| [[docs/adr/ADR003-vault-detection]] | Vault detection algorithm, marker precedence, and walk-up behaviour |
 
 ---
 
@@ -110,8 +110,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
@@ -124,7 +124,7 @@ Fixture directories for unit tests live at `src/test/fixtures/vault-detection/`.
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -140,13 +140,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-005]].

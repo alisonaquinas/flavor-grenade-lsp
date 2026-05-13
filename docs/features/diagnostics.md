@@ -9,7 +9,7 @@ aliases: [diagnostic rules, linting, FG codes]
 Diagnostics are published via `textDocument/publishDiagnostics` notifications. They are recomputed after a debounce idle period — not on every keystroke — to avoid flooding the editor with intermediate states while the user is still typing.
 
 > [!NOTE]
-> Diagnostic codes are prefixed `FG` (flavor-grenade). They are distinct from OFM rule codes (which are prefixed `OFM-`) defined in [[ofm-spec/index]]. An OFM rule code identifies a language rule; an FG code identifies a diagnostic emitted when that rule is violated.
+> Diagnostic codes are prefixed `FG` (flavor-grenade). They are distinct from OFM rule codes (which are prefixed `OFM-`) defined in [[docs/ofm-spec/index]]. An OFM rule code identifies a language rule; an FG code identifies a diagnostic emitted when that rule is violated.
 
 ## Diagnostic Table
 
@@ -39,7 +39,7 @@ Diagnostics are published via `textDocument/publishDiagnostics` notifications. T
 
 **Related information:** Not applicable (zero candidates means there is nothing to point to).
 
-**Fix:** The `fg.createMissingFile` code action is offered when FG001 is active (see [[features/code-actions]]).
+**Fix:** The `fg.createMissingFile` code action is offered when FG001 is active (see [[docs/features/code-actions]]).
 
 ---
 
@@ -149,8 +149,8 @@ This prevents the editor from flickering diagnostics between keystrokes in the m
 - [[ADR002-ofm-only-scope]]
 - [[ADR003-vault-detection]]
 - [[ADR006-block-ref-indexing]]
-- [[features/code-actions]]
-- [[features/navigation]]
-- [[ofm-spec/index]]
-- [[requirements/wiki-link-resolution]]
-- [[requirements/block-references]]
+- [[docs/features/code-actions]]
+- [[docs/features/navigation]]
+- [[docs/ofm-spec/index]]
+- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/block-references]]

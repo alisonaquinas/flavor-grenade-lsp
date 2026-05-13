@@ -46,9 +46,9 @@ subset.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | Every PR must pass all required CI checks before merge. | [[requirements/ci-cd]] |
-| `CICD.Workflow.BDDGate` | The default BDD gate must execute in CI. | [[requirements/ci-cd]] |
-| `Extension.Tests.HostCoverage` | Extension-host behavior must be covered by executable tests. | [[requirements/functional/vscode-extension-parity]] |
+| `CICD.Workflow.PRGate` | Every PR must pass all required CI checks before merge. | [[docs/requirements/ci-cd]] |
+| `CICD.Workflow.BDDGate` | The default BDD gate must execute in CI. | [[docs/requirements/ci-cd]] |
+| `Extension.Tests.HostCoverage` | Extension-host behavior must be covered by executable tests. | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ## Linked Tests
 
@@ -70,7 +70,7 @@ subset.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

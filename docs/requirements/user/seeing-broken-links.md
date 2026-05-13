@@ -9,9 +9,11 @@ aliases:
 # Seeing Broken Links User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors learn about broken, ambiguous, or missing references in their vault. Implementation details are in [[requirements/diagnostics]], [[wiki-link-resolution]], and [[requirements/embed-resolution]].
+> These user requirements cover how vault authors learn about broken, ambiguous, or missing references in their vault. Implementation details are in [[docs/requirements/diagnostics]], [[docs/requirements/wiki-link-resolution]], and [[docs/requirements/embed-resolution]].
 
 ---
+
+## User.Diagnose.SpotBrokenLinks
 
 **Tag:** User.Diagnose.SpotBrokenLinks
 **Gist:** Vault author sees a clearly marked error diagnostic for every `[[wiki-link]]` that points to a note not present in the vault.
@@ -25,6 +27,8 @@ aliases:
 
 ---
 
+## User.Diagnose.SpotAmbiguousLinks
+
 **Tag:** User.Diagnose.SpotAmbiguousLinks
 **Gist:** Vault author receives an FG002 warning diagnostic for every link whose short name matches more than one note in the vault.
 **Ambition:** Ambiguity warnings are precise and actionable — every multi-match link is flagged and the diagnostic's `relatedInformation` identifies each candidate, giving the author enough context to resolve the ambiguity immediately.
@@ -36,6 +40,8 @@ aliases:
 **Maps to:** Diagnostic.Ambiguous.RelatedInfo
 
 ---
+
+## User.Diagnose.SpotBrokenEmbeds
 
 **Tag:** User.Diagnose.SpotBrokenEmbeds
 **Gist:** Vault author sees a distinct embed-broken diagnostic for every `![[embed]]` whose target cannot be found in the vault.

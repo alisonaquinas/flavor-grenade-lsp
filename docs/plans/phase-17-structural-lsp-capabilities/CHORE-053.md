@@ -38,7 +38,7 @@ Keeping lint clean after each feature phase prevents warning accumulation around
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase 17 must introduce no lint warnings | [[requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase 17 must introduce no lint warnings | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -90,8 +90,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behavior-affecting changes beyond lint fixes
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -103,7 +103,7 @@ Run after all Phase 17 TASK tickets are in `done` or `in-review`.
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behavior-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behavior-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -114,7 +114,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant: [[templ
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-17 lint sweep for structural LSP capabilities.

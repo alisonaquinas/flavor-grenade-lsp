@@ -43,8 +43,8 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `UR-SEC-001` | Vault content cannot cause path escape or unsafe host access | [[requirements/user/index]] |
-| `UR-SEC-002` | Large or malformed vault content degrades safely | [[requirements/user/index]] |
+| `UR-SEC-001` | Vault content cannot cause path escape or unsafe host access | [[docs/requirements/user/index]] |
+| `UR-SEC-002` | Large or malformed vault content degrades safely | [[docs/requirements/user/index]] |
 
 ---
 
@@ -52,15 +52,15 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Vault.URISchemeAllowlist` | Reject non-file URIs | [[requirements/security/vault-confinement]] |
-| `Security.Parser.YAMLLimits` | Bound frontmatter YAML parsing | [[requirements/security/parser-safety]] |
-| `Security.Parser.ParseTimeout` | Bound parser runtime | [[requirements/security/parser-safety]] |
-| `Security.Parser.ReDoS` | Prevent catastrophic parser regex behavior | [[requirements/security/parser-safety]] |
-| `Security.Parser.VaultFileLimit` | Bound initial vault indexing | [[requirements/security/parser-safety]] |
-| `Security.Vault.SymlinkConfinement` | Treat out-of-vault symlink targets as missing | [[requirements/security/vault-confinement]] |
-| `Security.Input.PrototypePollution` | Reject dangerous JSON-RPC object keys | [[requirements/security/input-validation]] |
-| `Security.Supply.ExactPinning` | Pin dependency versions exactly | [[requirements/security/supply-chain]] |
-| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[requirements/security/supply-chain]] |
+| `Security.Vault.URISchemeAllowlist` | Reject non-file URIs | [[docs/requirements/security/vault-confinement]] |
+| `Security.Parser.YAMLLimits` | Bound frontmatter YAML parsing | [[docs/requirements/security/parser-safety]] |
+| `Security.Parser.ParseTimeout` | Bound parser runtime | [[docs/requirements/security/parser-safety]] |
+| `Security.Parser.ReDoS` | Prevent catastrophic parser regex behavior | [[docs/requirements/security/parser-safety]] |
+| `Security.Parser.VaultFileLimit` | Bound initial vault indexing | [[docs/requirements/security/parser-safety]] |
+| `Security.Vault.SymlinkConfinement` | Treat out-of-vault symlink targets as missing | [[docs/requirements/security/vault-confinement]] |
+| `Security.Input.PrototypePollution` | Reject dangerous JSON-RPC object keys | [[docs/requirements/security/input-validation]] |
+| `Security.Supply.ExactPinning` | Pin dependency versions exactly | [[docs/requirements/security/supply-chain]] |
+| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/security/supply-chain]] |
 
 ---
 
@@ -75,8 +75,8 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-18-security-hardening-audit]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-18-security-hardening-audit]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -87,7 +87,7 @@ crafted input, or silently drifting to unreviewed dependency versions.
 - [x] `bun run typecheck` passes.
 - [x] `bun test` passes.
 - [x] `bun run lint:docs` passes.
-- [x] [[test/matrix]] and [[test/index]] record passing security evidence.
+- [x] [[docs/test/matrix]] and [[docs/test/index]] record passing security evidence.
 - [ ] Phase PR has clean CI.
 
 ---
@@ -96,30 +96,30 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[plans/phase-18-security-hardening-audit/BUG-016]] | Reject non-file LSP URIs before path handling | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-017]] | Enforce frontmatter YAML size and alias limits | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-018]] | Bound parser runtime and ReDoS exposure | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-019]] | Enforce vault scan file-count limits | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-025]] | Block command-start server spawn in unsupported extension environments | in-review |
-| [[plans/phase-18-security-hardening-audit/BUG-033]] | Restore full BDD suite execution | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-034]] | Code action BDD command execution is unimplemented | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-035]] | Tag reference BDD includes nested tag occurrence | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-036]] | OFMarkdown parity BDD step coverage is incomplete | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-040]] | Extension CI package-target check lacks bundled server binary | verified |
-| [[plans/phase-18-security-hardening-audit/BUG-041]] | BDD file watcher scenario fails on Linux CI precondition | verified |
-| [[plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
-| [[plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
-| [[plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | done |
-| [[plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
-| [[plans/phase-18-security-hardening-audit/CHORE-102]] | Backfill BDD gate requirements and specs | done |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-016]] | Reject non-file LSP URIs before path handling | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-017]] | Enforce frontmatter YAML size and alias limits | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-018]] | Bound parser runtime and ReDoS exposure | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-019]] | Enforce vault scan file-count limits | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-020]] | Prove and enforce symlink realpath confinement | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-021]] | Reject prototype-polluting JSON-RPC payloads | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-022]] | Pin dependency specifiers and add range lint | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-023]] | Keep adversarial parser safety test inside budget | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-024]] | Restore spawned LSP integration test responses | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-025]] | Block command-start server spawn in unsupported extension environments | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-033]] | Restore full BDD suite execution | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-034]] | Code action BDD command execution is unimplemented | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-035]] | Tag reference BDD includes nested tag occurrence | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-036]] | OFMarkdown parity BDD step coverage is incomplete | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-037]] | VS Code extension BDD harness has ambiguous and missing steps | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-038]] | Vault detection BDD scope assertion is too strict | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-039]] | Workspace BDD file watcher update misses 500ms index window | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-040]] | Extension CI package-target check lacks bundled server binary | verified |
+| [[docs/plans/phase-18-security-hardening-audit/BUG-041]] | BDD file watcher scenario fails on Linux CI precondition | verified |
+| [[docs/plans/phase-18-security-hardening-audit/TASK-280]] | Implement BDD harness coverage for default gate | done |
+| [[docs/plans/phase-18-security-hardening-audit/TASK-281]] | Move BDD step source notes out of docs | done |
+| [[docs/plans/phase-18-security-hardening-audit/TASK-282]] | Add full local test battery to CI | done |
+| [[docs/plans/phase-18-security-hardening-audit/CHORE-086]] | Security audit verification sweep | in-review |
+| [[docs/plans/phase-18-security-hardening-audit/CHORE-102]] | Backfill BDD gate requirements and specs | done |
 
 ---
 
@@ -135,7 +135,7 @@ Audit evidence collected on 2026-05-08:
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 
@@ -147,7 +147,7 @@ Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
 > Ticket created from deep security audit. Status: `ready`; child findings are listed.
 
 > [!INFO] Started — 2026-05-08
-> Phase 18 execution began according to [[plans/phase-execution]]. Status: `in-progress`.
+> Phase 18 execution began according to [[docs/plans/phase-execution]]. Status: `in-progress`.
 
 > [!SUCCESS] Local review ready — 2026-05-08
 > Phase 18 implementation and local verification completed. BUG-023 and BUG-024 were opened during CHORE-086 and moved to `in-review` after fixes. Status: `in-review`; final `done` remains blocked on PR CI and merge.

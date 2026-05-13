@@ -41,7 +41,7 @@ Contribution scope mistakes can affect every Markdown document in VS Code.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | OFMarkdown contributions are scoped to the intended language or command context | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | OFMarkdown contributions are scoped to the intended language or command context | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -65,7 +65,7 @@ Contribution scope mistakes can affect every Markdown document in VS Code.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown-specific editor behavior must be scoped to `ofmarkdown` |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown-specific editor behavior must be scoped to `ofmarkdown` |
 
 ---
 
@@ -92,8 +92,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Language configuration is tied to the OFMarkdown language contribution
 - [x] No generic Markdown contribution changes are accidental
 - [x] No behaviour-affecting changes in `src/`
-- [x] [[test/matrix]] updated if verification files were added or removed
-- [x] [[test/index]] updated if verification files were added or removed
+- [x] [[docs/test/matrix]] updated if verification files were added or removed
+- [x] [[docs/test/index]] updated if verification files were added or removed
 
 ---
 
@@ -107,7 +107,7 @@ task tickets, not here.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

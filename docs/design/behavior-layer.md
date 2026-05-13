@@ -15,13 +15,14 @@ aliases: [bdd-index, behavior-layer, feature-files, bdd-scenarios]
 
 ## Tag Taxonomy
 
-Scenarios are tagged to enable selective test execution. The tag system has four tiers:
+Scenarios are tagged to enable selective test execution. The tag system defines these tiers:
 
 | Tag | Meaning | Used In | CI Gate? |
 |-----|---------|---------|----------|
 | `@smoke` | Must pass before any other tests are run; covers critical paths | All feature files (≥ 1 per file) | Yes — blocks merge if failing |
 | `@ofm` | OFM-specific behavior not present in generic Markdown LSPs | wiki-link, embed, block-ref, tag, callout, alias features | No (but included in full CI) |
 | `@lsp` | Protocol-level behavior — JSON-RPC framing, capability negotiation, error responses | initialization, lifecycle, error-handling | No |
+| `@planned` | Future behavior contract kept as Gherkin before product code or harness steps exist | Roadmap-driven feature files | No — excluded by `cucumber.yaml` until implementation lands |
 | `@wip` | Historical work-in-progress marker; checked-in scenarios must still execute in the default gate unless explicitly excluded in `cucumber.yaml` | Any file | Yes when included by the default Cucumber config |
 
 Tags are composable. A scenario can carry multiple tags:
@@ -31,7 +32,7 @@ Tags are composable. A scenario can carry multiple tags:
 Scenario: resolving a wiki-link with alias to an aliased document
 ```
 
-Running `bun run bdd -- --tags @smoke` executes only smoke scenarios. Running `bun run bdd` runs the default full Cucumber catalog configured by `cucumber.yaml`.
+Running `bun run bdd -- --tags @smoke` executes only smoke scenarios. Running `bun run bdd` runs the default full Cucumber catalog configured by `cucumber.yaml`, excluding scenarios tagged `@planned`.
 
 ---
 
@@ -49,7 +50,8 @@ All `.feature` files live in `docs/bdd/features/`. They are executable specifica
 | `docs/bdd/features/embeds.feature` | Embed resolution, diagnostics, navigation, hover, and attachment behavior | `@ofm`, `@smoke` | 10 |
 | `docs/bdd/features/frontmatter.feature` | YAML frontmatter parsing and metadata behavior | `@ofm`, `@smoke` | 9 |
 | `docs/bdd/features/navigation.feature` | Definitions, references, CodeLens, highlights, and tag precision | `@lsp`, `@smoke` | 9 |
-| `docs/bdd/features/ofmarkdown-language-mode.feature` | Dynamic OFMarkdown language assignment, markdown isolation, and manual-mode safety | `@extension`, `@vscode`, `@language-mode` | 6 |
+| `docs/bdd/features/markdown-flavor-dialects.feature` | Researched Markdown flavor-specific behavior and dialect profiles | `@extension`, `@vscode`, `@markdown-flavor` | 5 |
+| `docs/bdd/features/ofmarkdown-language-mode.feature` | Markdown flavor selection, auto-detection, override persistence, and manual-mode safety | `@extension`, `@vscode`, `@markdown-flavor` | 7 |
 | `docs/bdd/features/ofmarkdown-parity.feature` | Standard Markdown link parity, structural LSP, attachments, and file operations | `@lsp`, `@parity` | 10 |
 | `docs/bdd/features/rename.feature` | Prepare-rename and workspace-edit behavior | `@lsp`, `@smoke` | 8 |
 | `docs/bdd/features/tags.feature` | Tag indexing, hierarchy, references, completion, and YAML equivalence | `@ofm` | 9 |
@@ -60,7 +62,7 @@ All `.feature` files live in `docs/bdd/features/`. They are executable specifica
 | `docs/bdd/features/wiki-links.feature` | Wiki-link completion, definition, diagnostics, references, aliases, and style behavior | `@ofm`, `@smoke` | 10 |
 | `docs/bdd/features/workspace.feature` | Workspace scanning, lookup, ignore rules, file watching, and multi-root behavior | `@lsp` | 10 |
 
-Total: **149 scenarios** across 18 feature files. The default `bun run bdd` gate currently executes all checked-in scenarios.
+Total: **155 scenarios** across 19 feature files. The default `bun run bdd` gate currently executes all checked-in scenarios.
 
 ---
 
@@ -172,18 +174,18 @@ Feature: Diagnostic publication for broken wiki-links and OFM refs
 
 The BDD feature files are the primary traceability artifact linking implementation to requirements. Each `@requirements` tag (used informally in feature file comments) cites the requirement document from `docs/requirements/` that the scenario validates.
 
-The traceability matrix is maintained in [[test/matrix]]. For each functional requirement, it lists the tests or BDD step files that verify it and their current pass/fail status.
+The traceability matrix is maintained in [[docs/test/matrix]]. For each functional requirement, it lists the tests or BDD step files that verify it and their current pass/fail status.
 
 ---
 
 ## Cross-References
 
-- [[design/api-layer]] — LSP methods tested by each feature file
-- [[design/domain-layer]] — Domain concepts expressed in scenario language
-- [[concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
-- [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
-- [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
+- [[docs/design/api-layer]] — LSP methods tested by each feature file
+- [[docs/design/domain-layer]] — Domain concepts expressed in scenario language
+- [[docs/concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
+- [[docs/concepts/symbol-model]] — Sym types asserted in definition and references scenarios
+- [[docs/architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
 - `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
-- `docs/bdd/features/ofmarkdown-language-mode.feature` — OFMarkdown language-mode acceptance scenarios
-- [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
-- [[adr/ADR016-ofmarkdown-language-mode]] — Decision record for dynamic OFMarkdown assignment
+- `docs/bdd/features/ofmarkdown-language-mode.feature` — Markdown flavor selector acceptance scenarios
+- [[docs/adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Decision record for Markdown flavor selection

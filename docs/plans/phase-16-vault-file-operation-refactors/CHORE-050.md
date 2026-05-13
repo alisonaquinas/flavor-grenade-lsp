@@ -46,7 +46,7 @@ handling.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings for implementation and tests | [[requirements/code-quality]] |
+| — | Zero lint warnings for implementation and tests | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -106,7 +106,7 @@ This chore is limited to cleanup after Phase 16 implementation work.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`

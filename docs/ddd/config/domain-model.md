@@ -12,12 +12,12 @@ aliases:
 
 # Config Domain Model — flavor-grenade-lsp
 
-This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values to BC4 and BC5.
+This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values and the shared Markdown flavor contract consumed by BC4, BC2, BC5, and BC6.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/lsp-protocol/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
-> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its only job is to merge TOML files in the correct priority order and expose a typed, immutable `FlavorConfig` value.
+> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownFlavor` state.
 
 ---
 
@@ -42,6 +42,11 @@ text_sync = "full"
 # "toml-only"  — only .flavor-grenade.toml
 # "both"       — either signal
 vault_detection = "obsidian"
+
+# Markdown flavor selector for this project.
+# "auto" means BC4 resolves the effective flavor through MarkdownFlavorCascade.
+# Explicit values must be supported MarkdownFlavorId values.
+markdown.flavor = "auto"
 
 [completion]
 # Maximum number of completion candidates returned per request
@@ -84,6 +89,7 @@ interface FlavorConfig {
     markdownFileExtensions: string[]    // default: ["md"]
     textSync:               'full' | 'incremental'
     vaultDetection:         'obsidian' | 'toml-only' | 'both'
+    markdownFlavor:         MarkdownFlavorSelection
   }
   completion: {
     candidates:    number               // must be > 0
@@ -103,7 +109,103 @@ interface FlavorConfig {
     embed:    { enabled: boolean }
   }
 }
+
+type MarkdownFlavorId =
+  | 'original'
+  | 'commonmark'
+  | 'gfm'
+  | 'obsidian'
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow'
+
+type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
+
+interface MarkdownFlavorProfile {
+  id: MarkdownFlavorId
+  label: string
+  displayOrder: number
+  syntaxSurfaces: MarkdownSyntaxSurface[]
+  hostBoundaries: HostSpecificBoundary[]
+  unsupportedConstructs: string[]
+  sourceTrace: string[]
+}
+
+interface MarkdownSyntaxSurface {
+  id: string
+  category:
+    | 'commonmark-core'
+    | 'table'
+    | 'task-list'
+    | 'metadata'
+    | 'reference'
+    | 'attribute'
+    | 'math'
+    | 'diagram'
+    | 'code-execution'
+    | 'component'
+    | 'host-reference'
+    | 'platform-rendering'
+  localAnalysis:
+    | 'parse-only'
+    | 'semantic-token'
+    | 'diagnostic'
+    | 'completion'
+    | 'navigation'
+}
+
+interface HostSpecificBoundary {
+  surface: string
+  host: 'github' | 'gitlab' | 'reddit' | 'stack-overflow' | 'pandoc' | 'r-markdown' | 'mdx' | 'other'
+  boundary: 'classify-only' | 'renderer-dependent' | 'execution-forbidden' | 'requires-integration'
+}
 ```
+
+---
+
+## Shared Markdown Flavor Contract
+
+`MarkdownFlavorId`, labels, display order, and `MarkdownFlavorProfile` metadata are shared Config contract, not parser-owned UI state.
+
+Consumers:
+
+- BC4 uses `MarkdownFlavorSelection` and `MarkdownFlavorProfile` metadata to resolve and store `EffectiveMarkdownFlavor`.
+- BC2 consumes only the explicit `EffectiveMarkdownFlavor` and relevant profile capability flags in `ParseContext`.
+- BC5 validates LSP configuration payloads against the supported selector set before dispatching to BC4/Config.
+- BC6 displays labels/order from the same contract and sends selector values; it does not define new ids.
+
+Rules:
+
+- `auto` is allowed only as a `MarkdownFlavorSelection`.
+- `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
+- Unknown ids are invalid in both TOML and LSP configuration payloads.
+- Profile metadata is deterministic and source-backed so tests can compare ids, labels, order, and trace coverage.
+- Feature pages in `docs/features/*-flavor.md` are the product-facing source for profile behavior. The Config contract converts those pages into machine-readable ids, syntax surfaces, unsupported constructs, and host boundaries.
+- Host references are not local vault references by default. GitHub/GitLab/Reddit/Stack Overflow object refs, Pandoc conversion behavior, R Markdown execution, and MDX language-mode ownership remain bounded unless a future integration explicitly crosses that boundary.
+
+### Supported Profile Corpus
+
+| Flavor id | Feature page | Primary syntax surfaces | Boundary notes |
+|-----------|--------------|-------------------------|----------------|
+| `original` | [[docs/features/original-markdown-flavor]] | Original headings, lists, blockquotes, inline/reference links, images, raw HTML | Modern syntax is unsupported unless another profile is active. |
+| `commonmark` | [[docs/features/commonmark-flavor]] | CommonMark block/inline structure, fenced code, reference labels, headings | Default fallback when no vault/config signal exists. |
+| `gfm` | [[docs/features/github-flavored-markdown-flavor]] | Tables, task lists, strikethrough, autolinks, GitHub alerts | GitHub issue refs, mentions, emoji, highlighting, and sanitization are host behavior. |
+| `glfm` | [[docs/features/gitlab-flavored-markdown-flavor]] | GFM-compatible core, `[~]` tasks, footnotes, description lists, math/diagram fences, TOC/include tags | GitLab object refs require project/group context. |
+| `obsidian` | [[docs/features/obsidian-markdown-flavor]] | Wiki-links, embeds, block anchors, tags, callouts, frontmatter, opaque regions | `.obsidian/` marker resolves `auto` to this profile. |
+| `pandoc` | [[docs/features/pandoc-markdown-flavor]] | Metadata, citations, footnotes, math, attributes, tables, cross-references | Conversion depends on Pandoc CLI extensions, filters, templates, citeproc, and output format. |
+| `multimarkdown` | [[docs/features/multimarkdown-flavor]] | Metadata, tables, footnotes, citations, labels/cross-references, math | Export/rendering parity is outside local analysis. |
+| `mdx` | [[docs/features/mdx-flavor]] | Markdown plus JSX, expressions, ESM declarations, component identifiers | Dedicated `mdx` language mode remains owned by MDX tooling; Flavor Grenade handles Markdown-mode docs only. |
+| `kramdown` | [[docs/features/kramdown-flavor]] | Attribute lists, definition lists, tables, footnotes, math, explicit header IDs | Attribute IDs become addressable only under this profile. |
+| `markdown-extra` | [[docs/features/markdown-extra-flavor]] | Tables, definition lists, footnotes, abbreviations, fenced code, attribute blocks | Abbreviations and attributes are profile-gated. |
+| `r-markdown` | [[docs/features/r-markdown-flavor]] | YAML metadata, chunks, inline R, chunk labels, citations, cross-references | R code is never executed by the LSP. |
+| `reddit` | [[docs/features/reddit-markdown-flavor]] | Reddit prose Markdown, spoilers, superscript, tables, platform links | Subreddit/user/comment references are classified, not live-resolved. |
+| `stack-overflow` | [[docs/features/stack-overflow-markdown-flavor]] | CommonMark base, code authoring, tables, spoilers, post/comment profiles, platform links | Stack Exchange question/user/tag refs require host context. |
 
 ---
 
@@ -154,6 +256,54 @@ Built-in defaults
 
 ---
 
+## MarkdownFlavorCascade
+
+`MarkdownFlavorCascade` is the named server-side resolution order for `EffectiveMarkdownFlavor`. It runs inside BC4, using validated Config values. The full resource-specific algorithm is specified in [[docs/design/markdown-flavor-auto-detection]]; this section records the config-domain view of the same cascade.
+
+```text
+Priority 1 (highest) — VS Code explicit override
+  Source: workspace/didChangeConfiguration settings.flavorGrenade.markdownFlavor
+  Scope: document-specific selector when BC6 writes one, otherwise active folder/user scope
+  Values: 'auto' or supported MarkdownFlavorId
+
+Priority 2 — VS Code workspace-folder/workspace setting
+  Source: workspace/didChangeConfiguration settings.flavorGrenade.markdownFlavor
+  Scope: workspace-folder value wins over workspace value; workspace wins over user/default
+  Values: 'auto' or supported MarkdownFlavorId
+
+Priority 3 — Project TOML
+  Source: {VaultRoot}/.flavor-grenade.toml [core].markdown.flavor
+  Values: 'auto' or supported MarkdownFlavorId
+
+Priority 4 — Vault marker
+  Source: VaultDetector result
+  Rule: .obsidian/ marker resolves to 'obsidian'
+
+Priority 5 (lowest) — CommonMark fallback
+  Rule: generic Markdown resolves to 'commonmark'
+```
+
+Tie-breakers:
+
+- Explicit VS Code override beats every auto-detection and project source.
+- If a VS Code workspace-folder/workspace setting and `.flavor-grenade.toml` both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
+- If both VS Code workspace-folder and workspace values exist, workspace-folder wins for documents under that folder.
+- A value of `auto` does not itself become effective state; it delegates to the next lower source.
+- Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownFlavor`; resolution continues to the next valid lower-priority source.
+- `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
+
+Example:
+
+```text
+VS Code explicit override = auto
+VS Code workspace-folder setting = gfm
+.flavor-grenade.toml core.markdown.flavor = obsidian
+.obsidian/ exists
+=> EffectiveMarkdownFlavor = gfm
+```
+
+---
+
 ## Validation Rules
 
 | Key | Validation | Failure behaviour |
@@ -161,12 +311,14 @@ Built-in defaults
 | `completion.candidates` | Must be a positive integer (`> 0`) | Log warning at `warn` level; use built-in default (`50`) |
 | `core.text_sync` | Must be `"full"` or `"incremental"` | Log warning; use `"full"` |
 | `core.vault_detection` | Must be `"obsidian"`, `"toml-only"`, or `"both"` | Log warning; use `"obsidian"` |
+| `core.markdown.flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Log warning; treat this layer as absent for flavor cascade |
+| `flavorGrenade.markdownFlavor` from VS Code/LSP | Must be `"auto"` or a supported `MarkdownFlavorId` | Reject payload for flavor mutation; keep previous server state |
 | `completion.wiki.style` | Must be one of the three enum values | Log warning; use `"file-stem"` |
 | `code_action.toc.include` | Each element must be an integer 1–6 | Remove out-of-range values; log warning if list becomes empty → use `[1,2,3,4,5,6]` |
 | Any TOML parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
 
 > [!NOTE]
-> Validation failures never crash the server. Invalid configuration is silently replaced by the built-in default for that key, and a diagnostic log entry is emitted. This ensures that a malformed user config does not prevent the server from serving documents.
+> Validation failures never crash the server. Invalid scalar config is replaced by the built-in default for that key, and a diagnostic log entry is emitted. Invalid flavor cascade inputs are treated as absent for that layer so the next valid lower-priority layer can decide. This ensures that malformed config does not prevent the server from serving documents.
 
 ---
 
@@ -203,9 +355,10 @@ ConfigModule
   └── FlavorConfigService    — thin wrapper; exposes getConfig(root?) for consumers
 
 Consumers:
-  VaultModule   ← FlavorConfig injected into VaultFolder at detection time
-  LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode)
+  VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownFlavor
+  LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode); validates didChangeConfiguration payloads
   ReferenceModule ← (indirectly via VaultFolder config)
+  DocumentModule ← (indirectly via BC4 ParseContext)
 ```
 
 **Config reload flow:**
@@ -215,7 +368,24 @@ Consumers:
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed
 4. VaultFolder.withConfig(folder, newConfig) → new VaultFolder stored in Workspace
-5. LspServer optionally sends flavorGrenade/status notification to client
+5. BC4 re-runs MarkdownFlavorCascade for affected docs
+6. If any EffectiveMarkdownFlavor changed, BC4 schedules reparse/diagnostic refresh
+7. LspServer optionally sends flavorGrenade/status notification to client
+```
+
+**VS Code/LSP flavor update flow:**
+
+```text
+1. BC5 receives workspace/didChangeConfiguration
+2. BC5 extracts settings.flavorGrenade.markdownFlavor
+3. BC5 validates value against MarkdownFlavorSelection
+4. Valid value:
+   ConfigModule records the VS Code layer for the relevant workspace/folder scope
+   BC4 Workspace.withMarkdownFlavorSelection(...) mutates Workspace/VaultFolder state
+   BC4 recomputes EffectiveMarkdownFlavor and reparses affected docs if changed
+5. Invalid value:
+   BC5 logs warning; workspace/didChangeConfiguration is a notification, so no error response is sent
+   ConfigModule and BC4 keep previous state
 ```
 
 > [!TIP]
@@ -232,6 +402,7 @@ The following table documents every built-in default value. These are the values
 | `core.markdown.file_extensions` | `["md"]` |
 | `core.text_sync` | `"full"` |
 | `core.vault_detection` | `"obsidian"` |
+| `core.markdown.flavor` | `"auto"` |
 | `completion.candidates` | `50` |
 | `completion.wiki.style` | `"file-stem"` |
 | `completion.callout.enabled` | `true` |

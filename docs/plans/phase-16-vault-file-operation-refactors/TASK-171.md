@@ -43,12 +43,12 @@ links.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.ReferenceRewrite` | Resolved moved-target references are rewritten without changing syntax family | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.SkippedAmbiguousReporting` | Ambiguous moved-target references are reported without speculative edits | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicRefactor` | Update every local reference form for moved targets | [[requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Preserve completeness for existing wiki-link and heading references | [[requirements/rename]] |
-| `Rename.StyleBinding.Consistency` | Preserve configured link style when wiki-link text is rewritten | [[requirements/rename]] |
-| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[requirements/wiki-link-resolution]] |
+| `Parity.FileOperations.ReferenceRewrite` | Resolved moved-target references are rewritten without changing syntax family | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.SkippedAmbiguousReporting` | Ambiguous moved-target references are reported without speculative edits | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Update every local reference form for moved targets | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Rename.Refactoring.Completeness` | Preserve completeness for existing wiki-link and heading references | [[docs/requirements/rename]] |
+| `Rename.StyleBinding.Consistency` | Preserve configured link style when wiki-link text is rewritten | [[docs/requirements/rename]] |
+| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/wiki-link-resolution]] |
 
 ---
 
@@ -124,7 +124,7 @@ reference was not safe to edit.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -132,7 +132,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

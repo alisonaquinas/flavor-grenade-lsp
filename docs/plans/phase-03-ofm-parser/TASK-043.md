@@ -35,7 +35,7 @@ Consolidate and complete the unit test suite for all Phase 3 parser sub-componen
   - `src/parser/__tests__/opaque-region-marker.test.ts`
   - `src/parser/__tests__/ofm-parser.integration.test.ts`
 - Integration test uses fixture directory: `src/test/fixtures/sample-vault/`
-- See also: [[adr/ADR012-parser-safety-policy]]
+- See also: [[docs/adr/ADR012-parser-safety-policy]]
 
 ---
 
@@ -43,7 +43,7 @@ Consolidate and complete the unit test suite for all Phase 3 parser sub-componen
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Phase 3 gate: `bun test src/parser/` must pass | [[plans/phase-03-ofm-parser]] |
+| — | Phase 3 gate: `bun test src/parser/` must pass | [[docs/plans/phase-03-ofm-parser]] |
 
 ---
 
@@ -71,7 +71,7 @@ Consolidate and complete the unit test suite for all Phase 3 parser sub-componen
 | `src/parser/__tests__/opaque-region-marker.test.ts` | Unit | — | 🔴 failing |
 | `src/parser/__tests__/ofm-parser.integration.test.ts` | Integration | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -79,7 +79,7 @@ Consolidate and complete the unit test suite for all Phase 3 parser sub-componen
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR012-parser-safety-policy]] | Parser safety policy constrains what must be tested |
+| [[docs/adr/ADR012-parser-safety-policy]] | Parser safety policy constrains what must be tested |
 
 ---
 
@@ -110,8 +110,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `ofm-parser.integration.test.ts` passes with sample vault fixture
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
-- [ ] [[test/matrix]] rows updated to `✅ passing` for all parser test files
-- [ ] [[test/index]] rows confirmed for all parser test files
+- [ ] [[docs/test/matrix]] rows updated to `✅ passing` for all parser test files
+- [ ] [[docs/test/index]] rows confirmed for all parser test files
 - [ ] Parent feature [[FEAT-004]] child task row updated to `in-review`
 
 ---
@@ -124,18 +124,18 @@ The sample vault fixture should include at least one document of each type: fron
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-004]].

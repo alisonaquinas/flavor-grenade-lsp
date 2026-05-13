@@ -32,7 +32,7 @@ LSP ranges never parse through or expand across `<% ... %>` spans.
 - Update folding and selection behavior to treat `templater` like other opaque
   regions.
 - Add focused parser and structural handler tests before implementation.
-- See also: [[ofm-spec/templater]] and [[requirements/semantic-tokens]].
+- See also: [[docs/ofm-spec/templater]] and [[docs/requirements/semantic-tokens]].
 
 ---
 
@@ -40,9 +40,9 @@ LSP ranges never parse through or expand across `<% ... %>` spans.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.FoldingRanges` | Folding ranges must not cross Templater regions | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.SelectionRanges` | Selection ranges must not cross Templater regions | [[requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque regions are respected when deriving ranges | [[requirements/semantic-tokens]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding ranges must not cross Templater regions | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.SelectionRanges` | Selection ranges must not cross Templater regions | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `ST-002` | Opaque regions are respected when deriving ranges | [[docs/requirements/semantic-tokens]] |
 
 ---
 
@@ -102,8 +102,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] Selection ranges inside Templater regions do not expand outside them
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 
 ---
 
@@ -118,7 +118,7 @@ math, and comment opaque regions.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`

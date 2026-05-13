@@ -11,9 +11,11 @@ aliases:
 # Parser Safety Requirements
 
 > [!NOTE] Scope
-> These are **technical security requirements** governing the OFM parser introduced in Phase 3. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[research/security-threat-model#Threat-Category-1]] and [[research/security-threat-model#Threat-Category-5]]. Decisions are codified in [[adr/ADR012-parser-safety-policy]].
+> These are **technical security requirements** governing the OFM parser introduced in Phase 3 and every later Markdown flavor parser/profile added by Phase 19-34 work. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR012-parser-safety-policy]].
 
 ---
+
+## Security.Parser.ReDoS
 
 **Tag:** Security.Parser.ReDoS
 **Gist:** All regular expressions in the OFM parser must be audited for catastrophic backtracking; any pattern with super-linear worst-case behaviour against crafted input is prohibited from merging into `src/parser/`.
@@ -28,9 +30,11 @@ aliases:
 **Goal:** 0 super-linear patterns — all parser regexes pass `safe-regex` or are documented as safe by manual analysis.
 **Stakeholders:** Vault authors using shared or third-party vaults, server reliability, editor responsiveness.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.1]], [[adr/ADR012-parser-safety-policy]], CVE-2022-21670, CVE-2025-6493.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], CVE-2022-21670, CVE-2025-6493.
 
 ---
+
+## Security.Parser.ParseTimeout
 
 **Tag:** Security.Parser.ParseTimeout
 **Gist:** Processing of any single vault file must complete within 200 ms; files exceeding the timeout must be skipped with an empty parse result, a warning log entry, and no crash or index corruption.
@@ -47,9 +51,11 @@ aliases:
 **Goal:** 100% of pathological files abort within 200 ms; server remains responsive; subsequent files index normally.
 **Stakeholders:** Editor users on shared or third-party vaults, server reliability engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.1]], [[adr/ADR012-parser-safety-policy#2-per-file-parse-timeout]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]].
 
 ---
+
+## Security.Parser.YAMLLimits
 
 **Tag:** Security.Parser.YAMLLimits
 **Gist:** Frontmatter YAML must be parsed with an alias expansion cap of 50, a maximum size of 64 KB, and in `js-yaml` safe mode; any parse failure must be caught, logged without content, and treated as malformed frontmatter.
@@ -65,9 +71,11 @@ aliases:
 **Goal:** 100% compliance — all limits enforced, all exceptions caught, zero content in logs.
 **Stakeholders:** Vault authors, server reliability, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.3]], [[adr/ADR012-parser-safety-policy#3-yaml-frontmatter-depth-and-alias-limits]], js-yaml documentation.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], js-yaml documentation.
 
 ---
+
+## Security.Parser.EmbedDepth
 
 **Tag:** Security.Parser.EmbedDepth
 **Gist:** Embed resolution must detect cycles using a visited-URI set and enforce a maximum depth of 10; circular embeds produce FG005 and depth-exceeded embeds stop resolution without error propagation.
@@ -84,9 +92,11 @@ aliases:
 **Goal:** 100% of cycles detected without crash; 100% of depth-exceeded chains stop cleanly; 0% false positives on non-circular chains.
 **Stakeholders:** Vault authors using transclusion-heavy vaults, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-5.2]], [[adr/ADR012-parser-safety-policy#4-embed-cycle-detection-and-depth-limit]], [[requirements/diagnostics]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], [[docs/requirements/diagnostics]].
 
 ---
+
+## Security.Parser.VaultFileLimit
 
 **Tag:** Security.Parser.VaultFileLimit
 **Gist:** Initial vault indexing must stop at a configurable maximum file count (built-in default: 50,000); when the limit is reached, the server must notify the client via `window/showMessage` and continue operating with a partial index.
@@ -104,4 +114,25 @@ aliases:
 **Goal:** 100% of oversized vaults trigger the limit correctly; client is always notified; server remains responsive.
 **Stakeholders:** Users with accidentally large vault roots, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-5.1]], [[adr/ADR012-parser-safety-policy#5-file-count-limit]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]].
+
+---
+
+## Security.Parser.FlavorProfileResourceSafety
+
+**Tag:** Security.Parser.FlavorProfileResourceSafety
+**Gist:** Every Markdown flavor parser, tokenizer, and profile projection must inherit parser safety limits: ReDoS review, per-file parse timeout, bounded fixture size, safe opaque-region handling, and no unbounded recursion.
+**Ambition:** Phase 22-34 dialect work introduces new syntax scanners for tables, citations, attributes, JSX/ESM, R chunks, platform references, and other constructs. These scanners are exposed to user-controlled Markdown just like the original OFM parser. A flavor-specific regex or recursive parser can therefore reintroduce denial-of-service behavior even if the baseline OFM parser remains safe.
+**Scale:** Percentage of new flavor parser/profile changes that include resource-safety evidence before merge.
+**Meter:**
+
+1. For each flavor parser or tokenizer change, run safe-regex or equivalent worst-case analysis against added regex patterns.
+2. Run pathological fixtures for long delimiters, nested constructs, unterminated syntax, and large table/list/chunk/citation bodies.
+3. Verify parsing respects the same per-file timeout and memory-budget behavior as the OFM parser.
+4. Verify opaque regions prevent nested Markdown parsing in code, math, JSX/ESM, R chunk, and execution-bound regions where the profile defines them.
+5. Compute: (flavor parser changes with complete safety evidence / total flavor parser changes) x 100.
+**Fail:** Any new flavor parser/tokenizer merges without safety evidence, or any pathological fixture causes unbounded CPU, memory, or recursion.
+**Goal:** 100% of flavor parser changes carry resource-safety evidence.
+**Stakeholders:** Markdown authors, server reliability, security reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/plans/phase-19-markdown-flavor-model-profiles]].

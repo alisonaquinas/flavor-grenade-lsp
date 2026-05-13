@@ -25,7 +25,7 @@ aliases: ["CHORE-048"]
 
 ## Description
 
-Audit Phase 15 tests against [[test/matrix]] and [[test/index]]. Every new or
+Audit Phase 15 tests against [[docs/test/matrix]] and [[docs/test/index]]. Every new or
 updated unit, integration, and BDD test covering attachment indexing,
 completion, diagnostics, navigation, hover, and config must have trace rows with
 accurate requirement tags and passing status.
@@ -37,7 +37,7 @@ accurate requirement tags and passing status.
 Attachment intelligence spans multiple LSP surfaces, so traceability can drift
 unless the matrix is reconciled after the implementation tasks finish.
 
-- Motivated by: [[test/matrix]]
+- Motivated by: [[docs/test/matrix]]
 
 ---
 
@@ -45,11 +45,11 @@ unless the matrix is reconciled after the implementation tasks finish.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Attachment behavior has test evidence | [[requirements/functional/ofmarkdown-parity]] |
-| `Embed.Resolution.ImageTarget` | Image attachment resolution has test evidence | [[requirements/embed-resolution]] |
-| `Diagnostic.Severity.Embed` | Broken attachment diagnostics have severity evidence | [[requirements/diagnostics]] |
-| `Navigation.Definition.AllLinkTypes` | Attachment definition has test evidence | [[requirements/navigation]] |
-| `HV-002` | Attachment hover has test evidence | [[requirements/hover]] |
+| `Parity.Attachments.Intelligence` | Attachment behavior has test evidence | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Embed.Resolution.ImageTarget` | Image attachment resolution has test evidence | [[docs/requirements/embed-resolution]] |
+| `Diagnostic.Severity.Embed` | Broken attachment diagnostics have severity evidence | [[docs/requirements/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Attachment definition has test evidence | [[docs/requirements/navigation]] |
+| `HV-002` | Attachment hover has test evidence | [[docs/requirements/hover]] |
 
 ---
 
@@ -94,8 +94,8 @@ unless the matrix is reconciled after the implementation tasks finish.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] includes Phase 15 rows for all linked requirements.
-- [ ] [[test/index]] includes every new Phase 15 test file.
+- [ ] [[docs/test/matrix]] includes Phase 15 rows for all linked requirements.
+- [ ] [[docs/test/index]] includes every new Phase 15 test file.
 - [ ] Test rows use current pass/fail status after local verification.
 - [ ] `bun test` passes with no regressions introduced.
 - [ ] `bun run bdd` passes relevant attachment scenarios or documents a
@@ -116,7 +116,7 @@ locations, but this chore records the actual files that landed.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -131,15 +131,15 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06
 > Chore created. Status: `open`. Motivation: post-Phase-15 test trace sweep.
 
 > [!SUCCESS] Done - 2026-05-06
-> Added Phase 15 attachment rows to [[test/matrix]] and new test inventory rows
-> to [[test/index]]. `bun test`, `bun run lint -- --max-warnings 0`, and
+> Added Phase 15 attachment rows to [[docs/test/matrix]] and new test inventory rows
+> to [[docs/test/index]]. `bun test`, `bun run lint -- --max-warnings 0`, and
 > `bun run typecheck` pass. `bun run bdd` remains blocked by existing pending
 > and undefined scenarios plus a non-Phase-15 block-anchor fixture mismatch.
 > Status: `done`.
