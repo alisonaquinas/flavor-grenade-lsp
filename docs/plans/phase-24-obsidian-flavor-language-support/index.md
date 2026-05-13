@@ -17,6 +17,7 @@ updated: 2026-05-13
 | [[TASK-323]] | Add Obsidian flavor regression and selector-mode coverage | Task | `green` |
 | [[CHORE-119]] | Phase 24 trace and documentation sweep | Chore | `green` |
 | [[CHORE-120]] | Phase 24 verification and closeout sweep | Chore | `open` |
+| [[CHORE-142]] | Clarify Phase 24 Obsidian parser test title | Chore | `open` |
 
 ## Ticket Details
 
