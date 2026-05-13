@@ -1,4 +1,5 @@
 import type { Range } from 'vscode-languageserver-types';
+import type { MarkdownFlavorId } from '../markdown-flavor/markdown-flavor-contract.js';
 
 /**
  * A region of document text that should be treated as opaque (not parsed for
@@ -225,4 +226,12 @@ export interface OFMDoc {
   opaqueRegions: OpaqueRegion[];
   /** Token index for this document. */
   index: OFMIndex;
+  /** Effective Markdown flavor used for this parse. */
+  markdownFlavor: MarkdownFlavorId;
+  /** Parse context metadata consumed by flavor-aware analysis. */
+  parseContext: ParseContext;
+}
+
+export interface ParseContext {
+  effectiveFlavor: MarkdownFlavorId;
 }

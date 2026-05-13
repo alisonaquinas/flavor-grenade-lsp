@@ -1,9 +1,12 @@
 import { describe, expect, it, jest } from '@jest/globals';
+import * as fs from 'fs';
+import * as path from 'path';
 import { OFMParser } from '../../../parser/ofm-parser.js';
 import { ParseCache } from '../../../parser/parser.module.js';
 import { MARKDOWN_FLAVOR_IDS } from '../../../markdown-flavor/index.js';
 import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
 import { classifyMarkdownBoundaryReference } from '../../../markdown-flavor/non-local-boundary-classifier.js';
+import { ProjectMarkdownFlavorConfig } from '../../../markdown-flavor/project-markdown-flavor-config.js';
 import { DocumentStore } from '../../services/document-store.js';
 import { ConfigurationHandler } from '../configuration.handler.js';
 
@@ -107,6 +110,33 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     ).toEqual({ kind: 'inactive', reason: 'non-markdown-language' });
   });
 
+  it('uses confined project TOML flavor evidence and ignores unsafe project config', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(path.join(root, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+
+      expect(config.resolveFlavor(root)).toBe('gfm');
+
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        'core.markdown.flavor = "asciidoc"\n',
+      );
+      expect(config.resolveFlavor(root)).toBeUndefined();
+
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        '[__proto__]\ncore.markdown.flavor = "obsidian"\n',
+      );
+      expect(config.resolveFlavor(root)).toBeUndefined();
+
+      fs.writeFileSync(path.join(root, '.flavor-grenade.toml'), 'x'.repeat(8193));
+      expect(config.resolveFlavor(root)).toBeUndefined();
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
   it('reparses open Markdown documents after accepted flavor changes only', async () => {
     const harness = createHarness();
     harness.store.open('file:///vault/open.md', 'markdown', 1, '[[Target]]\n# Heading');
@@ -185,7 +215,7 @@ function createHarness(): {
   const publishDiagnostics = jest.fn();
   const diagnosticService = { publishDiagnostics };
   const vaultDetector = {
-    detect: (_path: string): { mode: 'obsidian'; vaultRoot: string } => ({
+    detectFresh: (_path: string): { mode: 'obsidian'; vaultRoot: string } => ({
       mode: 'obsidian',
       vaultRoot: '/vault',
     }),
@@ -205,4 +235,10 @@ function createHarness(): {
       diagnosticService,
     ),
   };
+}
+
+function createTempRoot(): string {
+  const base = path.join(process.cwd(), 'tmp');
+  fs.mkdirSync(base, { recursive: true });
+  return fs.mkdtempSync(path.join(base, 'phase-20-unit-'));
 }

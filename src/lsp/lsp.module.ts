@@ -8,6 +8,12 @@ import { LifecycleState } from './services/lifecycle-state.js';
 import { CapabilityRegistry } from './services/capability-registry.js';
 import { StatusNotifier } from './services/status-notifier.js';
 import { ServerSettingsModule } from './services/server-settings.module.js';
+import {
+  MarkdownFlavorState,
+  ProjectMarkdownFlavorConfig,
+  classifyMarkdownBoundaryReference,
+  isMarkdownFlavorId,
+} from '../markdown-flavor/index.js';
 import { InitializeHandler } from './handlers/initialize.handler.js';
 import { InitializedHandler } from './handlers/initialized.handler.js';
 import { ShutdownHandler } from './handlers/shutdown.handler.js';
@@ -15,9 +21,10 @@ import { ExitHandler } from './handlers/exit.handler.js';
 import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
+import { ConfigurationHandler } from './handlers/configuration.handler.js';
 import { FileOperationsHandler } from './handlers/file-operations.handler.js';
 import { FileOperationRefreshService } from './handlers/file-operation-refresh.service.js';
-import { ParserModule } from '../parser/parser.module.js';
+import { ParserModule, ParseCache } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
 import { CompletionModule } from '../completion/completion.module.js';
@@ -79,6 +86,9 @@ import { assertFileUri } from './file-uri.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
+    ConfigurationHandler,
+    MarkdownFlavorState,
+    ProjectMarkdownFlavorConfig,
     FileOperationsHandler,
     FileOperationRefreshService,
     WorkspaceSymbolHandler,
@@ -101,6 +111,7 @@ export class LspModule implements OnModuleInit {
     private readonly didOpen: DidOpenHandler,
     private readonly didChange: DidChangeHandler,
     private readonly didClose: DidCloseHandler,
+    private readonly configuration: ConfigurationHandler,
     private readonly fileOperations: FileOperationsHandler,
     private readonly capabilityRegistry: CapabilityRegistry,
     private readonly definition: DefinitionHandler,
@@ -122,6 +133,7 @@ export class LspModule implements OnModuleInit {
     private readonly prepareRename: PrepareRenameHandler,
     private readonly rename: RenameHandler,
     private readonly vaultIndex: VaultIndex,
+    private readonly parseCache: ParseCache,
   ) {}
 
   /**
@@ -198,6 +210,9 @@ export class LspModule implements OnModuleInit {
         this.prepareRename.removeDocumentText(uri);
       }
     });
+    this.dispatcher.onNotification('workspace/didChangeConfiguration', (p) =>
+      this.configuration.handle(p),
+    );
     this.dispatcher.onRequest('workspace/willRenameFiles', (p) =>
       this.fileOperations.handleWillRenameFiles(p),
     );
@@ -308,6 +323,30 @@ export class LspModule implements OnModuleInit {
     );
 
     this.dispatcher.onRequest('workspace/executeCommand', (p) => this.handleExecuteCommand(p));
+
+    this.dispatcher.onRequest('flavorGrenade/queryOpenDoc', async (params: unknown) => {
+      const uri = (params as { uri?: string } | null)?.uri;
+      if (!uri) return null;
+      const doc = this.parseCache.get(uri);
+      if (!doc) return null;
+      return {
+        markdownFlavor: doc.markdownFlavor,
+        wikiLinks: doc.index.wikiLinks.length,
+        embeds: doc.index.embeds.length,
+        tags: doc.index.tags.length,
+        callouts: doc.index.callouts.length,
+        blockAnchors: doc.index.blockAnchors.length,
+        headings: doc.index.headings.length,
+      };
+    });
+
+    this.dispatcher.onRequest('flavorGrenade/classifyBoundary', async (params: unknown) => {
+      const p = params as { flavor?: unknown; text?: unknown } | null;
+      if (!isMarkdownFlavorId(p?.flavor) || typeof p?.text !== 'string') {
+        return { disposition: 'unsupported', reason: 'invalid boundary classification request' };
+      }
+      return classifyMarkdownBoundaryReference(p.flavor, p.text);
+    });
 
     // Custom method for the VS Code extension — bypasses vscode-languageclient's
     // built-in interception of standard LSP methods like workspace/executeCommand.

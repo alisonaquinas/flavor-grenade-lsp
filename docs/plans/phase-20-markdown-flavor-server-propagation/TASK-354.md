@@ -2,7 +2,7 @@
 id: "TASK-354"
 title: "Add shared non-local boundary classification"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -64,17 +64,17 @@ local vault/file targets.
 
 ## Definition of Done
 
-- [ ] Shared classifier is reusable by diagnostics, navigation, hover, semantic
+- [x] Shared classifier is reusable by diagnostics, navigation, hover, semantic
       tokens, and rename.
-- [ ] Host/conversion fixtures never become broken vault diagnostics, local
+- [x] Host/conversion fixtures never become broken vault diagnostics, local
       definition targets, or speculative rename edits.
-- [ ] Host/conversion fixtures perform no network requests, process execution,
+- [x] Host/conversion fixtures perform no network requests, process execution,
       dynamic imports, or out-of-root file reads.
-- [ ] Per-flavor tickets can cite the shared classifier instead of duplicating
+- [x] Per-flavor tickets can cite the shared classifier instead of duplicating
       classification rules.
-- [ ] Spawned-server integration evidence covers at least one boundary example
+- [x] Spawned-server integration evidence covers at least one boundary example
       after effective-flavor propagation.
-- [ ] [[docs/plans/markdown-flavor-lsp-applicability-matrix]],
+- [x] [[docs/plans/markdown-flavor-lsp-applicability-matrix]],
       [[docs/test/index]], [[docs/test/matrix]], and validation evidence are
       updated when boundary categories change.
 
@@ -88,3 +88,8 @@ local vault/file targets.
 
 > [!NOTE] RED - 2026-05-13
 > Failing boundary classifier assertions added before shared classification exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added deterministic boundary classification for host, conversion,
+> bibliography, renderer, and execution-bound examples plus spawned-server
+> evidence and review notes.

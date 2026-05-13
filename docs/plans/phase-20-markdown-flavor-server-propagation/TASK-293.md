@@ -2,7 +2,7 @@
 id: "TASK-293"
 title: "Refresh open document diagnostics after flavor changes"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -50,10 +50,10 @@ feature analysis without requiring a server restart.
 
 ## Definition of Done
 
-- [ ] Open document diagnostics and all flavor-sensitive LSP surfaces refresh
+- [x] Open document diagnostics and all flavor-sensitive LSP surfaces refresh
       after flavor change.
-- [ ] Refresh does not require process restart.
-- [ ] Tests cover unchanged flavor as a no-op.
+- [x] Refresh does not require process restart.
+- [x] Tests cover unchanged flavor as a no-op.
 
 ## Workflow Log
 
@@ -65,3 +65,7 @@ feature analysis without requiring a server restart.
 
 > [!NOTE] RED - 2026-05-13
 > Failing refresh assertions added before accepted configuration changes reparse open documents.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Accepted configuration changes now reparse open Markdown documents, update
+> `ParseCache`, and republish diagnostics without restarting the server.

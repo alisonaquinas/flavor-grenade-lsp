@@ -2,7 +2,7 @@
 id: "TASK-288"
 title: "Add server configuration handling for markdown flavor"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -61,12 +61,12 @@ invalid input.
 
 ## Definition of Done
 
-- [ ] All required ids are accepted.
-- [ ] Unknown ids leave previous flavor state intact.
-- [ ] Malformed, oversized, polluted, stale, unknown-resource, and non-file URI
+- [x] All required ids are accepted.
+- [x] Unknown ids leave previous flavor state intact.
+- [x] Malformed, oversized, polluted, stale, unknown-resource, and non-file URI
       payloads leave previous flavor state intact.
-- [ ] BC5 does not compute or store `EffectiveMarkdownFlavor`.
-- [ ] Unit tests prove validation behavior.
+- [x] BC5 does not compute or store `EffectiveMarkdownFlavor`.
+- [x] Unit tests prove validation behavior.
 
 ## Workflow Log
 
@@ -78,3 +78,7 @@ invalid input.
 
 > [!NOTE] RED - 2026-05-13
 > Failing configuration handler assertions added before `src/lsp/handlers/configuration.handler.ts` exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> `ConfigurationHandler` validates server flavor payloads and delegates accepted
+> state to `MarkdownFlavorState`. Focused unit coverage passes.

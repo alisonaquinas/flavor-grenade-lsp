@@ -2,7 +2,7 @@
 id: "TASK-289"
 title: "Resolve effective flavor for explicit and auto modes"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -56,12 +56,12 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 ## Definition of Done
 
-- [ ] Resolver outputs an explicit effective flavor.
-- [ ] Auto detection does not infer Obsidian for generic Markdown.
-- [ ] `.flavor-grenade.toml` and workspace setting resolution cover every
+- [x] Resolver outputs an explicit effective flavor.
+- [x] Auto detection does not infer Obsidian for generic Markdown.
+- [x] `.flavor-grenade.toml` and workspace setting resolution cover every
       required explicit flavor id.
-- [ ] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
-- [ ] Existing vault detection inputs are reused where appropriate.
+- [x] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
+- [x] Existing vault detection inputs are reused where appropriate.
 
 ## Workflow Log
 
@@ -73,3 +73,7 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 > [!NOTE] RED - 2026-05-13
 > Failing resolver assertions added before `src/markdown-flavor/markdown-flavor-state.ts` exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> `MarkdownFlavorState` resolves explicit selections, resource propagation,
+> project TOML, Obsidian markers, and CommonMark fallback.

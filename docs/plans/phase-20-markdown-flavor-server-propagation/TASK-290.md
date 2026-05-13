@@ -2,7 +2,7 @@
 id: "TASK-290"
 title: "Thread effective flavor through parser and caches"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -50,10 +50,10 @@ downstream services can observe the selected dialect.
 
 ## Definition of Done
 
-- [ ] Open documents have observable effective flavor.
-- [ ] Vault-indexed documents keep flavor metadata consistent.
-- [ ] No second document cache is introduced.
-- [ ] BC2 consumes effective flavor only from parse context.
+- [x] Open documents have observable effective flavor.
+- [x] Vault-indexed documents keep flavor metadata consistent.
+- [x] No second document cache is introduced.
+- [x] BC2 consumes effective flavor only from parse context.
 
 ## Workflow Log
 
@@ -65,3 +65,7 @@ downstream services can observe the selected dialect.
 
 > [!NOTE] RED - 2026-05-13
 > Failing parser-context assertions added before `OFMDoc` carries effective flavor metadata.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> `OFMParser.parse` accepts `ParseContext`, records `markdownFlavor`, and stores
+> flavor-bearing parse results in `ParseCache`.

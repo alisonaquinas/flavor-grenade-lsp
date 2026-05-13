@@ -6,6 +6,8 @@ import { VaultDetector } from '../../vault/vault-detector.js';
 import { SingleFileModeGuard } from '../../vault/single-file-mode.js';
 import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
+import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
+import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
 
 /** Parameters sent with a `textDocument/didOpen` notification. */
 interface DidOpenTextDocumentParams {
@@ -32,6 +34,8 @@ export class DidOpenHandler {
     private readonly parseCache: ParseCache,
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
+    @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
+    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
   ) {}
 
   /**
@@ -47,7 +51,9 @@ export class DidOpenHandler {
       textDocument.version,
       textDocument.text,
     );
-    const doc = this.ofmParser.parse(textDocument.uri, textDocument.text, textDocument.version);
+    const doc = this.ofmParser.parse(textDocument.uri, textDocument.text, textDocument.version, {
+      effectiveFlavor: this.resolveFlavor(textDocument.uri, textDocument.languageId),
+    });
     this.parseCache.set(textDocument.uri, doc);
 
     if (this.diagnosticService !== null) {
@@ -57,12 +63,30 @@ export class DidOpenHandler {
 
   private publishDiags(uri: string, doc: ReturnType<OFMParser['parse']>): void {
     const fsPath = SingleFileModeGuard.uriToPath(uri);
-    const detection = this.vaultDetector.detect(fsPath);
+    const detection = this.vaultDetector.detectFresh(fsPath);
     if (detection.vaultRoot === null) {
       this.diagnosticService!.publishDiagnostics('' as ReturnType<typeof toDocId>, doc, fsPath);
       return;
     }
     const docId = toDocId(detection.vaultRoot, fsPath);
     this.diagnosticService!.publishDiagnostics(docId, doc, detection.vaultRoot);
+  }
+
+  private resolveFlavor(
+    uri: string,
+    languageId: string,
+  ): ReturnType<OFMParser['parse']>['markdownFlavor'] {
+    if (this.flavorState === null) {
+      return 'obsidian';
+    }
+    const fsPath = SingleFileModeGuard.uriToPath(uri);
+    const detection = this.vaultDetector.detectFresh(fsPath);
+    const result = this.flavorState.resolveForDocument({
+      uri,
+      languageId,
+      hasObsidianMarker: detection.mode === 'obsidian',
+      projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+    });
+    return result.kind === 'active' ? result.effective : 'commonmark';
   }
 }

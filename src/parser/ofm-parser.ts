@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { OFMDoc, OFMIndex, HeadingEntry } from './types.js';
+import type { OFMDoc, OFMIndex, HeadingEntry, ParseContext } from './types.js';
 import { FrontmatterParser } from './frontmatter-parser.js';
 import { mark } from './opaque-region-marker.js';
 import { WikiLinkParser } from './wiki-link-parser.js';
@@ -30,7 +30,8 @@ export class OFMParser {
    * @param text    - Full document text.
    * @param version - Incremental version counter from the LSP client.
    */
-  parse(uri: string, text: string, version: number): OFMDoc {
+  parse(uri: string, text: string, version: number, context?: ParseContext): OFMDoc {
+    const parseContext = context ?? { effectiveFlavor: 'obsidian' as const };
     if (text.length > MAX_PARSE_CHARACTERS) {
       return {
         uri,
@@ -40,6 +41,8 @@ export class OFMParser {
         frontmatterEndOffset: 0,
         opaqueRegions: [],
         index: OFMParser.emptyIndex(),
+        markdownFlavor: parseContext.effectiveFlavor,
+        parseContext,
       };
     }
 
@@ -55,12 +58,13 @@ export class OFMParser {
 
     // Stage 3–7: token parsers
     const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
+    const enableObsidianSyntax = parseContext.effectiveFlavor === 'obsidian';
     const index: OFMIndex = {
-      wikiLinks: WikiLinkParser.parse(text, opaqueRegions),
-      embeds: EmbedParser.parse(text, opaqueRegions),
-      blockAnchors: BlockAnchorParser.parse(text, opaqueRegions),
-      tags: TagParser.parse(text, opaqueRegions),
-      callouts: CalloutParser.parse(text),
+      wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
+      embeds: enableObsidianSyntax ? EmbedParser.parse(text, opaqueRegions) : [],
+      blockAnchors: enableObsidianSyntax ? BlockAnchorParser.parse(text, opaqueRegions) : [],
+      tags: enableObsidianSyntax ? TagParser.parse(text, opaqueRegions) : [],
+      callouts: enableObsidianSyntax ? CalloutParser.parse(text) : [],
       headings: OFMParser.scanHeadings(text, opaqueRegions),
       markdownLinks: markdownLinks.markdownLinks,
       markdownImages: markdownLinks.markdownImages,
@@ -77,6 +81,8 @@ export class OFMParser {
       frontmatterEndOffset: bodyOffset,
       opaqueRegions,
       index,
+      markdownFlavor: parseContext.effectiveFlavor,
+      parseContext,
     };
   }
 

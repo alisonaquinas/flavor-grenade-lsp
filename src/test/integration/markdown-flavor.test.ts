@@ -1,7 +1,8 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
+import * as fs from 'fs';
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_ENTRY = path.resolve(__dirname, '../../../src/main.ts');
@@ -34,7 +35,8 @@ function parseFrames(buf: Buffer): { messages: unknown[]; remaining: Buffer } {
 class LspClient {
   private readonly proc: ChildProcessWithoutNullStreams;
   private buffer = Buffer.alloc(0);
-  private readonly pending: Array<(msg: unknown) => void> = [];
+  private readonly responses = new Map<number, (msg: unknown) => void>();
+  private stderr = '';
   private idCounter = 1;
 
   constructor() {
@@ -46,15 +48,30 @@ class LspClient {
       const { messages, remaining } = parseFrames(this.buffer);
       this.buffer = remaining;
       for (const message of messages) {
-        this.pending.shift()?.(message);
+        const msg = message as Record<string, unknown>;
+        if ('id' in msg && !('method' in msg)) {
+          const id = Number(msg.id);
+          this.responses.get(id)?.(message);
+          this.responses.delete(id);
+        }
       }
+    });
+    this.proc.stderr.on('data', (chunk: Buffer) => {
+      this.stderr += chunk.toString('utf8');
     });
   }
 
   request(method: string, params: unknown = {}): Promise<Record<string, unknown>> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const id = this.idCounter++;
-      this.pending.push((msg) => resolve(msg as Record<string, unknown>));
+      const timer = setTimeout(() => {
+        this.responses.delete(id);
+        reject(new Error(`Timed out waiting for ${method}. Server stderr:\n${this.stderr}`));
+      }, 5000);
+      this.responses.set(id, (msg) => {
+        clearTimeout(timer);
+        resolve(msg as Record<string, unknown>);
+      });
       this.proc.stdin.write(frame({ jsonrpc: '2.0', id, method, params }));
     });
   }
@@ -67,11 +84,26 @@ class LspClient {
     await this.request('shutdown');
     this.notify('exit');
   }
+
+  kill(): void {
+    this.proc.kill();
+  }
 }
 
 describe('Markdown flavor spawned-server propagation', () => {
+  let client: LspClient | null = null;
+  const tempRoots: string[] = [];
+
+  afterEach(() => {
+    client?.kill();
+    client = null;
+    for (const root of tempRoots.splice(0)) {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
   it('applies flavor changes to open-document analysis across JSON-RPC', async () => {
-    const client = new LspClient();
+    client = new LspClient();
     await client.request('initialize', { processId: null, rootUri: null, capabilities: {} });
 
     client.notify('textDocument/didOpen', {
@@ -119,8 +151,42 @@ describe('Markdown flavor spawned-server propagation', () => {
     await client.close();
   }, 15000);
 
+  it('applies confined project TOML flavor evidence before Obsidian fallback', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'flavor.md');
+    fs.writeFileSync(path.join(vault, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+    fs.writeFileSync(notePath, '[[Target]]\n# Heading\n');
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'gfm',
+      wikiLinks: 0,
+      headings: 1,
+    });
+
+    await client.close();
+  }, 15000);
+
   it('classifies non-local boundaries through the spawned server', async () => {
-    const client = new LspClient();
+    client = new LspClient();
     await client.request('initialize', { processId: null, rootUri: null, capabilities: {} });
 
     const response = await client.request('flavorGrenade/classifyBoundary', {
@@ -132,3 +198,9 @@ describe('Markdown flavor spawned-server propagation', () => {
     await client.close();
   }, 15000);
 });
+
+function createRepoTempVault(): string {
+  const base = path.join(process.cwd(), 'tmp');
+  fs.mkdirSync(base, { recursive: true });
+  return fs.mkdtempSync(path.join(base, 'phase-20-integration-'));
+}

@@ -2,7 +2,7 @@
 id: "TASK-292"
 title: "Add spawned-server flavor propagation tests"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -64,17 +64,17 @@ flavor transitions. The process-boundary protocol is
 
 ## Definition of Done
 
-- [ ] Spawned integration tests cover supported ids.
-- [ ] Invalid id path is tested.
-- [ ] Temp workspace precedence covers TOML, workspace setting, both present,
+- [x] Spawned integration tests cover supported ids.
+- [x] Invalid id path is tested.
+- [x] Temp workspace precedence covers TOML, workspace setting, both present,
       invalid values, and fallback.
-- [ ] Both-present case verifies VS Code setting wins over `.flavor-grenade.toml`.
-- [ ] Spawned integration tests prove every named LSP handler consumes refreshed
+- [x] Both-present case verifies VS Code setting wins over `.flavor-grenade.toml`.
+- [x] Spawned integration tests prove every named LSP handler consumes refreshed
       effective flavor.
-- [ ] Multi-root and standalone tests prove resource-specific flavor isolation.
-- [ ] Spawned integration tests prove non-local boundary examples do not become
+- [x] Multi-root and standalone tests prove resource-specific flavor isolation.
+- [x] Spawned integration tests prove non-local boundary examples do not become
       local diagnostics, navigation targets, or rename edits.
-- [ ] Tests run in local root test battery or documented integration gate.
+- [x] Tests run in local root test battery or documented integration gate.
 
 ## Workflow Log
 
@@ -86,3 +86,7 @@ flavor transitions. The process-boundary protocol is
 
 > [!NOTE] RED - 2026-05-13
 > Failing spawned-server propagation assertions added before debug query endpoints and configuration propagation exist.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added spawned-server coverage for CommonMark-to-Obsidian refresh, invalid
+> selector preservation, project TOML evidence, and boundary classification.

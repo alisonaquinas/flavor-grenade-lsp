@@ -2,7 +2,7 @@
 id: "TASK-291"
 title: "Gate Obsidian-only analysis by dialect profile"
 type: task
-status: red
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -51,10 +51,10 @@ non-Obsidian dialect projections.
 
 ## Definition of Done
 
-- [ ] CommonMark analysis does not enable Obsidian-only syntax as core.
-- [ ] Obsidian analysis preserves current OFM intelligence.
-- [ ] Tests cover flavor change from CommonMark to Obsidian.
-- [ ] Non-Obsidian dialect work is not forced into OFM-only aggregates.
+- [x] CommonMark analysis does not enable Obsidian-only syntax as core.
+- [x] Obsidian analysis preserves current OFM intelligence.
+- [x] Tests cover flavor change from CommonMark to Obsidian.
+- [x] Non-Obsidian dialect work is not forced into OFM-only aggregates.
 
 ## Workflow Log
 
@@ -66,3 +66,7 @@ non-Obsidian dialect projections.
 
 > [!NOTE] RED - 2026-05-13
 > Failing parser assertions prove CommonMark must suppress Obsidian-only tokens before gating exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Wiki links, embeds, tags, callouts, and block anchors now parse only when the
+> effective flavor is `obsidian`; CommonMark/GFM examples suppress those tokens.

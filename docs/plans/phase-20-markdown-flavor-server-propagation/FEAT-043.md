@@ -56,30 +56,30 @@ config, or boundary security gates.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-288]] | Add server configuration handling for markdown flavor | `red` |
-| [[TASK-289]] | Resolve effective flavor for explicit and auto modes | `red` |
-| [[TASK-290]] | Thread effective flavor through parser and caches | `red` |
-| [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `red` |
-| [[TASK-292]] | Add spawned-server flavor propagation tests | `red` |
-| [[TASK-293]] | Refresh open document diagnostics after flavor changes | `red` |
-| [[TASK-354]] | Add shared non-local boundary classification | `red` |
+| [[TASK-288]] | Add server configuration handling for markdown flavor | `done` |
+| [[TASK-289]] | Resolve effective flavor for explicit and auto modes | `done` |
+| [[TASK-290]] | Thread effective flavor through parser and caches | `done` |
+| [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `done` |
+| [[TASK-292]] | Add spawned-server flavor propagation tests | `done` |
+| [[TASK-293]] | Refresh open document diagnostics after flavor changes | `done` |
+| [[TASK-354]] | Add shared non-local boundary classification | `done` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
 
 ## Definition of Done
 
-- [ ] Supported flavor ids apply without server restart.
-- [ ] Unsupported ids are rejected without state corruption.
-- [ ] BC4 owns effective flavor state; BC5 only validates protocol payloads.
-- [ ] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
+- [x] Supported flavor ids apply without server restart.
+- [x] Unsupported ids are rejected without state corruption.
+- [x] BC4 owns effective flavor state; BC5 only validates protocol payloads.
+- [x] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
       oversized maps, and stale resource keys are rejected before state changes.
-- [ ] Project TOML evidence is confined, size-limited, schema-validated, and
+- [x] Project TOML evidence is confined, size-limited, schema-validated, and
       redacted in logs.
-- [ ] Open document diagnostics refresh after flavor changes.
-- [ ] Integration tests cover supported and unsupported flavor transitions,
+- [x] Open document diagnostics refresh after flavor changes.
+- [x] Integration tests cover supported and unsupported flavor transitions,
       handler refresh, resource-specific state, and host/conversion boundary
       classification.
-- [ ] Closeout cannot advance until [[TASK-354]] has acceptance evidence.
+- [x] Closeout cannot advance until [[TASK-354]] has acceptance evidence.
 
 ## Workflow Log
 
@@ -91,3 +91,9 @@ config, or boundary security gates.
 
 > [!NOTE] RED - 2026-05-13
 > Added failing unit and spawned integration coverage for configuration validation, effective flavor resolution, parser context gating, refresh, and boundary classification before implementation exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Implemented server-owned Markdown flavor state, configuration validation,
+> project TOML evidence, parser context propagation, Obsidian-only token gates,
+> open-document refresh, and shared boundary classification. Focused unit and
+> spawned-server integration gates pass locally.

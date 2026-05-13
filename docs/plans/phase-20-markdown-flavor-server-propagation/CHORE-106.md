@@ -2,7 +2,7 @@
 id: "CHORE-106"
 title: "Phase 20 verification and closeout sweep"
 type: chore
-status: open
+status: in-progress
 priority: medium
 phase: 20
 parent: "FEAT-043"
@@ -43,3 +43,8 @@ Run the full phase verification pass and prepare Phase 20 for review.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Finding - 2026-05-13
+> `bun run format:check` reported Prettier drift in six Phase 20 touched source
+> files. Fix by running the repository formatter on the touched source set, then
+> rerun the format gate.
