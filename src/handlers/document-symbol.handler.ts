@@ -6,6 +6,8 @@ import type { HeadingEntry } from '../parser/types.js';
 
 const SYMBOL_KIND_MODULE = 2; // SymbolKind.Module (used for headings)
 const SYMBOL_KIND_KEY = 20; // SymbolKind.Key (used for block anchors)
+const SYMBOL_KIND_ARRAY = 18; // SymbolKind.Array (used for table regions)
+const SYMBOL_KIND_BOOLEAN = 17; // SymbolKind.Boolean (used for task items)
 
 interface DocumentSymbol {
   name: string;
@@ -36,8 +38,16 @@ export class DocumentSymbolHandler {
 
     const headings = doc.index.headings;
     const anchors = doc.index.blockAnchors;
+    const gfmTables = doc.index.gfmTables ?? [];
+    const gfmTasks = doc.index.gfmTaskListItems ?? [];
 
-    if (headings.length === 0 && anchors.length === 0) return [];
+    if (
+      headings.length === 0 &&
+      anchors.length === 0 &&
+      gfmTables.length === 0 &&
+      gfmTasks.length === 0
+    )
+      return [];
 
     // Build heading symbols with nesting
     const roots: DocumentSymbol[] = [];
@@ -88,7 +98,42 @@ export class DocumentSymbolHandler {
       }
     }
 
+    for (const table of gfmTables) {
+      const symbol: DocumentSymbol = {
+        name: `GFM table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const task of gfmTasks) {
+      const symbol: DocumentSymbol = {
+        name: `Task: ${task.text}`,
+        kind: SYMBOL_KIND_BOOLEAN,
+        range: task.range,
+        selectionRange: task.markerRange,
+      };
+      this.addSymbolAtLine(symbol, task.range.start.line, headings, roots);
+    }
+
     return roots;
+  }
+
+  private addSymbolAtLine(
+    symbol: DocumentSymbol,
+    line: number,
+    headings: HeadingEntry[],
+    roots: DocumentSymbol[],
+  ): void {
+    const parentSym = this.findParentSection(headings, line, roots, []);
+    if (parentSym === null) {
+      roots.push(symbol);
+      return;
+    }
+    if (parentSym.children === undefined) parentSym.children = [];
+    parentSym.children.push(symbol);
   }
 
   /**

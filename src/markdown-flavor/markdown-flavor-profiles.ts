@@ -270,6 +270,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
       'github-labels',
     ],
     opaqueRegions: commonmarkOpaqueRegions,
+    surfaceStatus: 'implemented',
     surfaceSummary: 'GFM parser and local LSP behavior are implemented in Phase 25.',
   }),
   glfm: profile({

@@ -180,6 +180,47 @@ export interface LinkLabelDef {
   titleRange?: Range;
 }
 
+/** A GFM pipe table block. */
+export interface GfmTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  range: Range;
+}
+
+/** A pipe-table-looking block rejected by GFM table shape rules. */
+export interface GfmMalformedTableEntry {
+  raw: string;
+  headerCells: string[];
+  delimiterCells: string[];
+  range: Range;
+}
+
+/** A GFM task list item marker and text. */
+export interface GfmTaskListItemEntry {
+  raw: string;
+  checked: boolean;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GFM strikethrough span. */
+export interface GfmStrikethroughEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A GFM extended bare autolink. */
+export interface GfmAutolinkEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -194,6 +235,11 @@ export interface OFMIndex {
   markdownImages: MarkdownImageRef[];
   linkLabelRefs: LinkLabelRef[];
   linkLabelDefs: LinkLabelDef[];
+  gfmTables?: GfmTableEntry[];
+  gfmMalformedTables?: GfmMalformedTableEntry[];
+  gfmTaskListItems?: GfmTaskListItemEntry[];
+  gfmStrikethroughs?: GfmStrikethroughEntry[];
+  gfmAutolinks?: GfmAutolinkEntry[];
 }
 
 /**

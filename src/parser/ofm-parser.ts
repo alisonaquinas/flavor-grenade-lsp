@@ -8,6 +8,7 @@ import { BlockAnchorParser } from './block-anchor-parser.js';
 import { TagParser } from './tag-parser.js';
 import { CalloutParser } from './callout-parser.js';
 import { MarkdownLinkParser } from './markdown-link-parser.js';
+import { GfmParser } from './gfm-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -59,6 +60,9 @@ export class OFMParser {
     // Stage 3–7: token parsers
     const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const enableObsidianSyntax = parseContext.effectiveFlavor === 'obsidian';
+    const enableGfmSyntax = parseContext.effectiveFlavor === 'gfm';
+    const gfm = enableGfmSyntax ? GfmParser.parse(text, opaqueRegions) : undefined;
+    const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
       embeds: enableObsidianSyntax ? EmbedParser.parse(text, opaqueRegions) : [],
@@ -66,10 +70,17 @@ export class OFMParser {
       tags: enableObsidianSyntax ? TagParser.parse(text, opaqueRegions) : [],
       callouts: enableObsidianSyntax ? CalloutParser.parse(text) : [],
       headings: OFMParser.scanHeadings(text, opaqueRegions, bodyOffset),
-      markdownLinks: markdownLinks.markdownLinks,
+      markdownLinks: [...markdownLinks.markdownLinks, ...gfmAutolinks],
       markdownImages: markdownLinks.markdownImages,
       linkLabelRefs: markdownLinks.linkLabelRefs,
       linkLabelDefs: markdownLinks.linkLabelDefs,
+      ...(gfm !== undefined && {
+        gfmTables: gfm.tables,
+        gfmMalformedTables: gfm.malformedTables,
+        gfmTaskListItems: gfm.taskListItems,
+        gfmStrikethroughs: gfm.strikethroughs,
+        gfmAutolinks: gfm.autolinks,
+      }),
     };
 
     return {
@@ -98,6 +109,11 @@ export class OFMParser {
       markdownImages: [],
       linkLabelRefs: [],
       linkLabelDefs: [],
+      gfmTables: [],
+      gfmMalformedTables: [],
+      gfmTaskListItems: [],
+      gfmStrikethroughs: [],
+      gfmAutolinks: [],
     };
   }
 

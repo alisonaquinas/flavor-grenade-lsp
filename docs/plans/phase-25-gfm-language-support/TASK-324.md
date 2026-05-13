@@ -2,7 +2,7 @@
 id: "TASK-324"
 title: "Implement GFM parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -77,3 +77,7 @@ Deliver parser/profile semantics for the gfm flavor using [[docs/research/github
 > Added failing parser/profile coverage for active GFM tables, task lists,
 > strikethrough, extended autolinks, inert Obsidian syntax, and implemented
 > GFM surface status.
+
+> [!INFO] GREEN - 2026-05-13
+> Added `GfmParser`, flavor-gated parser indexing, GFM extended-autolink
+> Markdown-link projection, and implemented GFM profile surface status.

@@ -13,6 +13,7 @@ import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
 import { classifyMarkdownTarget } from './markdown-target-classifier.js';
+import { GfmParser } from '../parser/gfm-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -79,6 +80,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'commonmark') {
       diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'commonmark'));
+    }
+
+    if (doc.markdownFlavor === 'gfm') {
+      diagnostics.push(...this.diagnoseGfmTables(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -230,6 +235,18 @@ export class DiagnosticService {
 
   private flavorDiagnosticLabel(flavor: 'original' | 'commonmark'): string {
     return flavor === 'original' ? 'Original Markdown' : 'CommonMark';
+  }
+
+  private diagnoseGfmTables(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.gfmMalformedTables ?? GfmParser.parse(doc.text, doc.opaqueRegions).malformedTables;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG201',
+      source: 'flavor-grenade',
+      message: `Malformed GFM table: header has ${entry.headerCells.length} cells but delimiter has ${entry.delimiterCells.length}.`,
+    }));
   }
 
   private isPipeTableSeparator(line: string): boolean {

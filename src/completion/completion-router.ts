@@ -85,6 +85,11 @@ export class CompletionRouter {
       return { items: [], isIncomplete: false };
     }
 
+    if (doc.markdownFlavor === 'gfm') {
+      const gfmResult = this.gfmCompletions(text, params.position);
+      if (gfmResult !== null) return gfmResult;
+    }
+
     // 5. Dispatch to provider
     let result: { items: CompletionItem[]; isIncomplete: boolean };
     let replaceLength = 0;
@@ -237,6 +242,48 @@ export class CompletionRouter {
       'tag',
       'callout',
     ].includes(context.kind);
+  }
+
+  private gfmCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^\s*\|$/.test(prefix)) {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM table',
+              insertText: '| Header | Header |\n| --- | --- |\n| Cell | Cell |',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (/^[ \t]{0,3}[-*+][ \t]$/.test(prefix)) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM task item',
+              insertText: '[ ] ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
   }
 
   private docIdForUri(uri: string): DocId | undefined {

@@ -2,7 +2,7 @@
 id: "TASK-326"
 title: "Add GFM tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -83,3 +83,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gf
 > [!INFO] RED - 2026-05-13
 > Added failing spawned-server integration coverage for GFM syntax counts,
 > diagnostics, and Obsidian-inert behavior.
+
+> [!INFO] GREEN - 2026-05-13
+> Spawned-server integration now reports GFM table, task, strikethrough, and
+> autolink counts for `gfm` documents and keeps wiki links inert.

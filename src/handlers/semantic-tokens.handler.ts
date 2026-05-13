@@ -94,6 +94,16 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const task of doc.index.gfmTaskListItems ?? []) {
+      const t = this.rangeToToken(task.markerRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const strike of doc.index.gfmStrikethroughs ?? []) {
+      const t = this.rangeToToken(strike.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

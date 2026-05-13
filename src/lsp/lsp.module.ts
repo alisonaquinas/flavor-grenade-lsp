@@ -337,6 +337,10 @@ export class LspModule implements OnModuleInit {
         callouts: doc.index.callouts.length,
         blockAnchors: doc.index.blockAnchors.length,
         headings: doc.index.headings.length,
+        gfmTables: doc.index.gfmTables?.length ?? 0,
+        gfmTaskListItems: doc.index.gfmTaskListItems?.length ?? 0,
+        gfmStrikethroughs: doc.index.gfmStrikethroughs?.length ?? 0,
+        gfmAutolinks: doc.index.gfmAutolinks?.length ?? 0,
       };
     });
 

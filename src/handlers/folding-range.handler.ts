@@ -23,6 +23,7 @@ export class FoldingRangeHandler {
     const builder = new FoldingRangeBuilder(this.lineCount(doc.text));
     this.addFrontmatterFold(doc, builder);
     this.addHeadingFolds(doc, builder);
+    this.addGfmTableFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -62,6 +63,12 @@ export class FoldingRangeHandler {
         endLine = line;
       }
       builder.add(startLine, endLine, 'region');
+    }
+  }
+
+  private addGfmTableFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.gfmTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
     }
   }
 

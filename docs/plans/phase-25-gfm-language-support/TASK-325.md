@@ -2,7 +2,7 @@
 id: "TASK-325"
 title: "Add GFM diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 25
 parent: "FEAT-051"
@@ -96,3 +96,8 @@ Deliver diagnostics and LSP feature behavior for the gfm flavor using [[docs/res
 > [!INFO] RED - 2026-05-13
 > Added failing diagnostics, completion, folding, document-symbol, and
 > semantic-token coverage for GFM LSP surfaces.
+
+> [!INFO] GREEN - 2026-05-13
+> Added malformed-table diagnostics, table/task completion snippets, table
+> folding, table/task document symbols, and GFM task/strikethrough semantic
+> tokens while keeping Obsidian-only completions inactive.
