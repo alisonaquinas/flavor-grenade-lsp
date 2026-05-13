@@ -36,7 +36,7 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 | [[TASK-325]] | Add GFM diagnostics and LSP features | Task | open |
 | [[TASK-326]] | Add GFM tests and validation evidence | Task | open |
 | [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | done |
-| [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | open |
+| [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | done |
 | [[CHORE-143]] | Document exported GFM parse result contract | Chore | done |
 
 ## Implementation Plan
@@ -90,11 +90,11 @@ Primary RED test paths:
 
 ## Definition of Done
 
-- [ ] gfm has source-backed parser/profile behavior.
-- [ ] gfm satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] gfm behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] gfm has source-backed parser/profile behavior.
+- [x] gfm satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] gfm behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -105,3 +105,35 @@ Primary RED test paths:
 > Status set to `in-progress`. Phase order corrected to stack after Phase 24 /
 > FEAT-050, matching the ledger route through Phase E15 and Phase 24. Added
 > concrete implementation and RED test paths for TASK-324 through TASK-326.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The GFM phase could build on the Phase 23 CommonMark base and Phase 24 explicit
+flavor dispatch. The RED tests exposed the intended missing surfaces, and the
+GREEN change stayed local: parser indices, diagnostics, completions, symbols,
+folding, semantic tokens, and spawned-server counts.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-143 | Chore | Step F found the exported `GfmParseResult` contract needed JSDoc before closeout. | +0.1 h |
+
+### Process observations
+
+The A-M checklist worked cleanly for a flavor phase. The only mild friction is
+that local GFM surfaces are broader than the exact gate's two targeted tests,
+so the full unit/integration sweep remains important before closeout.
+
+### Carry-forward actions
+
+- [ ] For Phase 26, add the dialect parser result JSDoc during Step C instead of waiting for Step F.
+- [ ] Keep host-platform lookup explicitly deferred unless an integration ticket owns authenticated service access.
+
+### Rule / template amendments
+
+- [ ] none
