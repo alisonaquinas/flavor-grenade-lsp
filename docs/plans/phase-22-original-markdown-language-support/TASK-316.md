@@ -2,7 +2,7 @@
 id: "TASK-316"
 title: "Add Original Markdown diagnostics and LSP features"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 22
 parent: "FEAT-048"

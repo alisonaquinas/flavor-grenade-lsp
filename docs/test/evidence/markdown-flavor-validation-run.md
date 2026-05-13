@@ -16,7 +16,7 @@ updated: 2026-05-13
 |---|---|
 | Run date | 2026-05-13 |
 | Runner / command | Codex local Phase 22 gate execution |
-| Commit under test | `8d90a253` |
+| Commit under test | `55f593c` |
 | Source inputs | `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/test/integration/markdown-flavor.test.ts`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/markdown-flavor-unit-spec.md`, `docs/test/markdown-flavor-integration-spec.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md`, `docs/test/evidence/markdown-flavor-research-trace.md` |
 | Output policy | Summaries only; no vault note content, TOML contents, environment variables, API-like tokens, local user paths, or raw server output included |
 

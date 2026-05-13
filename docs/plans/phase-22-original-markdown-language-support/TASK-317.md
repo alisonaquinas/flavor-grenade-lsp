@@ -2,7 +2,7 @@
 id: "TASK-317"
 title: "Add Original Markdown tests and validation evidence"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 22
 parent: "FEAT-048"

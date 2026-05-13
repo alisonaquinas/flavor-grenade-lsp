@@ -2,7 +2,7 @@
 id: "CHORE-115"
 title: "Phase 22 trace and documentation sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 22
 parent: "FEAT-048"

@@ -2,7 +2,7 @@
 id: "TASK-315"
 title: "Implement Original Markdown parser semantics"
 type: task
-status: in-review
+status: done
 priority: high
 phase: 22
 parent: "FEAT-048"

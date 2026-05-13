@@ -30,12 +30,12 @@ Implement first-class original language support for Original Markdown, using [[d
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-315]] | Implement Original Markdown parser semantics | Task | in-review |
-| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | in-review |
-| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | in-review |
+| [[TASK-315]] | Implement Original Markdown parser semantics | Task | done |
+| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | done |
+| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | done |
 | [[BUG-045]] | Ignore frontmatter when scanning Original setext headings | Bug | done |
-| [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | in-review |
-| [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | in-review |
+| [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | done |
+| [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -85,6 +85,10 @@ Implement first-class original language support for Original Markdown, using [[d
 > Original Markdown parser semantics, FG101 diagnostics, completion gating,
 > spawned-server coverage, and trace evidence are ready for PR review. BUG-045
 > was opened and fixed during Step I before rerunning the full unit suite.
+
+> [!SUCCESS] CI - 2026-05-13
+> PR #72 CI run `25820116841` passed. Phase 22 remains `in-review` pending
+> merge order; implementation tickets are marked `done`.
 
 ## Retrospective
 

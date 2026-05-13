@@ -2,7 +2,7 @@
 id: "CHORE-116"
 title: "Phase 22 verification and closeout sweep"
 type: chore
-status: in-review
+status: done
 priority: medium
 phase: 22
 parent: "FEAT-048"
@@ -53,3 +53,8 @@ Perform the operational sweep for Original Markdown language-support phase closu
 > CI workflow guard, docs lint, typecheck, lint, audit, format check, full
 > `bun test src/`, full integration suite, and build. No verification or
 > validation test directories exist under `src/test/`.
+
+> [!SUCCESS] CI - 2026-05-13
+> PR #72 CI run `25820116841` passed all jobs. GitHub reported no required
+> checks for the branch, so workflow run status was used as the authoritative
+> gate signal.

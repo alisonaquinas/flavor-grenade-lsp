@@ -12,12 +12,12 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-048]] | Original Markdown Language Support | Feature | `in-progress` |
-| [[TASK-315]] | Implement Original Markdown parser semantics | Task | `in-review` |
-| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | `in-review` |
-| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | `in-review` |
+| [[TASK-315]] | Implement Original Markdown parser semantics | Task | `done` |
+| [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | `done` |
+| [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | `done` |
 | [[BUG-045]] | Ignore frontmatter when scanning Original setext headings | Bug | `done` |
-| [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | `in-review` |
-| [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | `in-review` |
+| [[CHORE-115]] | Phase 22 trace and documentation sweep | Chore | `done` |
+| [[CHORE-116]] | Phase 22 verification and closeout sweep | Chore | `done` |
 
 ## Ticket Details
 
