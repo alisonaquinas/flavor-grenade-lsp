@@ -170,4 +170,31 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(10);
   });
+
+  it('encodes GLFM inapplicable task markers and footnote labels', () => {
+    const doc = makeDoc(DOC_URI, {
+      glfmInapplicableTaskListItems: [
+        {
+          raw: '- [~] n/a',
+          text: 'n/a',
+          range: { start: { line: 0, character: 0 }, end: { line: 0, character: 9 } },
+          markerRange: { start: { line: 0, character: 2 }, end: { line: 0, character: 5 } },
+        },
+      ],
+      glfmFootnotes: [
+        {
+          raw: '[^a]: note',
+          label: 'a',
+          range: { start: { line: 1, character: 0 }, end: { line: 1, character: 10 } },
+          labelRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 3 } },
+        },
+      ],
+    });
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(10);
+  });
 });

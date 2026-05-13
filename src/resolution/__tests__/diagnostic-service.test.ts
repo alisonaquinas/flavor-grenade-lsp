@@ -381,6 +381,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG201']);
     expect(params.diagnostics[0]['message']).toContain('Malformed GFM table');
   });
+
+  it('publishes GLFM description-list diagnostics without resolving GitLab host refs', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/glfm.md', []),
+      text: ['Term', ':', 'See #123 and !456'].join('\n'),
+      markdownFlavor: 'glfm' as const,
+      parseContext: { effectiveFlavor: 'glfm' as const },
+    };
+
+    service.publishDiagnostics(id('glfm'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG202']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed GLFM description list');
+  });
 });
 
 describe('block reference diagnostics', () => {

@@ -242,6 +242,28 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('GLFM flavor routing', () => {
+    it('offers GLFM snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'glfm' }));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const tocText = '[';
+      router.setDocumentText(TEST_URI, tocText);
+      const tocResult = router.route(makeParams(TEST_URI, tocText, '['));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(taskResult.items.map((item) => item.label)).toContain('GLFM inapplicable task item');
+      expect(tocResult.items.map((item) => item.label)).toContain('GLFM table of contents');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

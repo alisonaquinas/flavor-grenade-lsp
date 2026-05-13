@@ -508,6 +508,76 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies GLFM parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'glfm.md');
+    fs.writeFileSync(path.join(vault, '.flavor-grenade.toml'), 'core.markdown.flavor = "glfm"\n');
+    fs.writeFileSync(
+      notePath,
+      [
+        '# GLFM',
+        '| A | B |',
+        '| --- | --- |',
+        '| 1 | 2 |',
+        '- [~] n/a',
+        'Term',
+        ': definition',
+        '[^a]: footnote',
+        '[TOC]',
+        'See #123 and !456',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'glfm',
+      gfmTables: 1,
+      glfmInapplicableTaskListItems: 1,
+      glfmDescriptionLists: 1,
+      glfmFootnotes: 1,
+      glfmTocTags: 1,
+      glfmHostReferences: 2,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'glfm',
+      text: '!456',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'non-local-host' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

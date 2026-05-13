@@ -92,4 +92,18 @@ describe('FoldingRangeHandler', () => {
 
     expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
   });
+
+  it('folds GLFM description lists when the GLFM flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/glfm.md',
+      ['# Doc', '', 'Term', ': one', ': two', '', 'After'].join('\n'),
+      1,
+      { effectiveFlavor: 'glfm' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+  });
 });

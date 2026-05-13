@@ -2,7 +2,7 @@
 id: "TASK-329"
 title: "Add GLFM tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -79,3 +79,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gl
 > RED coverage will assert inherited GFM baseline behavior, GLFM-specific local
 > syntax, inactive Obsidian syntax, spawned-server propagation, and GitLab
 > host-boundary classification before implementation changes are made.
+
+> [!INFO] RED - 2026-05-13
+> Added failing spawned-server integration coverage for GLFM syntax counts,
+> diagnostics, inactive Obsidian behavior, and GitLab host-boundary
+> classification.

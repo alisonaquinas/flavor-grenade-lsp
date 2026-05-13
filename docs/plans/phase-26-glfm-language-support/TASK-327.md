@@ -2,7 +2,7 @@
 id: "TASK-327"
 title: "Implement GLFM parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -72,3 +72,8 @@ Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitla
 > Parser work will reuse GFM entries for the baseline and add
 > `GlfmParser.parse(text, opaqueRegions)` for inapplicable task markers,
 > description lists, footnotes, TOC tags, and GitLab host-reference shapes.
+
+> [!INFO] RED - 2026-05-13
+> Added failing parser/profile coverage for inherited GFM syntax, GLFM local
+> syntax, host-reference shapes, inactive Obsidian syntax, and implemented
+> GLFM surface status.

@@ -223,3 +223,67 @@ describe('GitHub Flavored Markdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('GitLab Flavored Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats GLFM syntax as active while inheriting GFM and keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/glfm.md',
+      [
+        '# GLFM Demo',
+        '',
+        '| Task | Owner |',
+        '| --- | --- |',
+        '| Ship | Docs |',
+        '',
+        '- [~] not applicable',
+        '',
+        'Term',
+        ': definition',
+        '',
+        'See footnote.[^note]',
+        '',
+        '[^note]: detail',
+        '',
+        '[[_TOC_]]',
+        '',
+        'See #123, !456, &789, @user, and group/project#42.',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+        '> [!note]',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'glfm' },
+    );
+
+    expect(doc.markdownFlavor).toBe('glfm');
+    expect(doc.index.gfmTables).toHaveLength(1);
+    expect(doc.index.glfmInapplicableTaskListItems.map((item) => item.text)).toEqual([
+      'not applicable',
+    ]);
+    expect(doc.index.glfmDescriptionLists.map((entry) => entry.term)).toEqual(['Term']);
+    expect(doc.index.glfmFootnotes.map((entry) => entry.label)).toEqual(['note']);
+    expect(doc.index.glfmTocTags.map((entry) => entry.raw)).toEqual(['[[_TOC_]]']);
+    expect(doc.index.glfmHostReferences.map((entry) => entry.raw)).toEqual([
+      '#123',
+      '!456',
+      '&789',
+      '@user',
+      'group/project#42',
+    ]);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+    expect(doc.index.callouts).toHaveLength(0);
+  });
+
+  it('marks GLFM LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('glfm');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

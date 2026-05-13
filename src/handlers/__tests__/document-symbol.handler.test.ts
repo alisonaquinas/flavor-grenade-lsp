@@ -156,4 +156,29 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('GFM table: A, B');
     expect(names).toContain('Task: done');
   });
+
+  it('adds GLFM description lists and TOC tags as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('GLFM', 1, 0)]);
+    doc.index.glfmDescriptionLists = [
+      {
+        raw: 'Term\n: definition',
+        term: 'Term',
+        definitionCount: 1,
+        range: { start: { line: 2, character: 0 }, end: { line: 3, character: 12 } },
+      },
+    ];
+    doc.index.glfmTocTags = [
+      {
+        raw: '[[_TOC_]]',
+        range: { start: { line: 5, character: 0 }, end: { line: 5, character: 9 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result[0].children?.map((child) => child.name) ?? [];
+
+    expect(names).toContain('Description: Term');
+    expect(names).toContain('GitLab table of contents');
+  });
 });
