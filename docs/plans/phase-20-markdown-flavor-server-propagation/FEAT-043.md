@@ -64,6 +64,7 @@ config, or boundary security gates.
 | [[TASK-293]] | Refresh open document diagnostics after flavor changes | `done` |
 | [[TASK-354]] | Add shared non-local boundary classification | `done` |
 | [[BUG-043]] | Refresh stale LSP unit harnesses for flavor propagation | `done` |
+| [[BUG-044]] | Restore OFM BDD vault flavor after CommonMark fallback | `done` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
 

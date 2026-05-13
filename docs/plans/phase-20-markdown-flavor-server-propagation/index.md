@@ -20,5 +20,6 @@ updated: 2026-05-13
 | [[TASK-293]] | Refresh open document diagnostics after flavor changes | Task | `done` |
 | [[TASK-354]] | Add shared non-local boundary classification | Task | `done` |
 | [[BUG-043]] | Refresh stale LSP unit harnesses for flavor propagation | Bug | `done` |
+| [[BUG-044]] | Restore OFM BDD vault flavor after CommonMark fallback | Bug | `done` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | Chore | `in-progress` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | Chore | `open` |
