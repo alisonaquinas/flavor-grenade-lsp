@@ -17,15 +17,17 @@ aliases: ["TASK-284"]
 
 ## Description
 
-Create a registry for explicit Markdown flavor profiles with source traces and
-structured syntax capability sections.
+Create a shared registry for explicit Markdown flavor profiles with source
+traces and structured syntax capability sections.
 
 ## Work Scope
 
 - Define profile fields for core syntax, extension syntax, host behavior,
-  unsupported constructs, and research source.
+  unsupported constructs, labels/order, and research source.
 - Add a profile for every explicit flavor id.
 - Keep profile data deterministic and testable.
+- Expose profile capability flags so BC2 parse context can gate dialect
+  projections without owning labels or UI metadata.
 
 ## Linked Requirements
 
@@ -44,3 +46,4 @@ structured syntax capability sections.
 - [ ] All explicit flavors have profile entries.
 - [ ] Every profile has a research source or `ofm-spec` source.
 - [ ] Registry excludes `auto`.
+- [ ] Parser code can consume capability flags without becoming owner of profile labels/order.

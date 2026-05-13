@@ -25,6 +25,8 @@ VS Code `languageId`.
 - Remove simulated vault-to-`ofmarkdown` assignment.
 - Add state for selector label, configured flavor, effective flavor, and
   settings target.
+- Record simulated settings writes and `workspace/didChangeConfiguration`
+  payloads so server propagation assertions are observable.
 - Preserve manual non-Markdown language behavior.
 
 ## Linked Requirements
@@ -43,4 +45,6 @@ VS Code `languageId`.
 
 - [ ] Harness state has `effectiveFlavor`.
 - [ ] Existing language-mode assertions no longer expect `ofmarkdown`.
+- [ ] Manual non-Markdown language scenarios assert no override write and no
+      server propagation.
 - [ ] BDD tests fail honestly when flavor steps are missing.

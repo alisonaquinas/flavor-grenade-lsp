@@ -18,14 +18,18 @@ aliases: ["TASK-291"]
 ## Description
 
 Use profile capabilities so Original Markdown and CommonMark do not treat
-Obsidian-only constructs as core Markdown behavior.
+Obsidian-only constructs as core Markdown behavior, while preserving room for
+non-Obsidian dialect projections.
 
 ## Work Scope
 
 - Gate wiki links, embeds, block anchors, tags, and callouts for non-Obsidian
   profiles where behavior would be misleading.
 - Preserve current OFM behavior for effective flavor `obsidian`.
-- Keep future dialect expansion possible.
+- Keep future dialect expansion possible through `MarkdownDoc` /
+  `MarkdownIndex` instead of forcing all syntax into OFM-only aggregates.
+- Keep syntax-only dialect constructs in BC2; emit BC3 refs/defs only for
+  constructs with navigation/reference semantics.
 
 ## Linked Requirements
 
@@ -44,3 +48,4 @@ Obsidian-only constructs as core Markdown behavior.
 - [ ] CommonMark analysis does not enable Obsidian-only syntax as core.
 - [ ] Obsidian analysis preserves current OFM intelligence.
 - [ ] Tests cover flavor change from CommonMark to Obsidian.
+- [ ] Non-Obsidian dialect work is not forced into OFM-only aggregates.

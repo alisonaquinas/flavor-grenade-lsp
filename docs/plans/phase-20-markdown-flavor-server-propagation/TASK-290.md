@@ -17,14 +17,17 @@ aliases: ["TASK-290"]
 
 ## Description
 
-Carry effective flavor into parse or analysis context so downstream services can
-observe the selected dialect.
+Carry BC4-owned `EffectiveMarkdownFlavor` into BC2 parse or analysis context so
+downstream services can observe the selected dialect.
 
 ## Work Scope
 
-- Add flavor metadata to parsed document or companion analysis state.
+- Add `ParseContext` / flavor metadata to `MarkdownDoc` or companion analysis
+  state.
 - Update didOpen, didChange, vault scanner, and file watcher parse paths.
 - Preserve existing `VaultIndex` single source of truth invariant.
+- Generalize implementation terms toward `MarkdownDoc` / `MarkdownIndex` while
+  preserving current `OFMDoc` / `OFMIndex` compatibility for Obsidian behavior.
 
 ## Linked Requirements
 
@@ -43,3 +46,4 @@ observe the selected dialect.
 - [ ] Open documents have observable effective flavor.
 - [ ] Vault-indexed documents keep flavor metadata consistent.
 - [ ] No second document cache is introduced.
+- [ ] BC2 consumes effective flavor only from parse context.

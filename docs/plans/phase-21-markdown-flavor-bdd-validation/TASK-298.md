@@ -24,6 +24,10 @@ product intent and research sources.
 
 - Add a product review checklist or validation note.
 - Trace every displayed flavor to research or `ofm-spec`.
+- Validate that BDD fixture constants match the intended product list only as
+  temporary executable contracts.
+- Require follow-up validation against the actual extension schema, product
+  registry, and server configuration behavior after Phase 19/E15.
 - Confirm `mdx` as a flavor does not authorize language-mode changes.
 
 ## Linked Requirements
@@ -42,4 +46,6 @@ product intent and research sources.
 
 - [ ] Validation artifact exists.
 - [ ] Every flavor has source evidence.
+- [ ] Validation distinguishes temporary harness fixtures from implemented
+      product registry/server behavior.
 - [ ] Platform flavor safety is explicitly reviewed.

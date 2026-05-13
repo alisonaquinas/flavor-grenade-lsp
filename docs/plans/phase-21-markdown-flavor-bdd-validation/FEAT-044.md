@@ -25,6 +25,9 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 
 - Rewrite BDD extension harness state.
 - Implement flavor selection and dialect profile steps.
+- Treat hard-coded harness flavor lists as planned executable contracts only.
+- Require replacement with the product registry, extension setting schema, and
+  server configuration analysis after Phase 19/E15 deliver those surfaces.
 - Add CI/file-presence verification for flavor test layers.
 - Add validation evidence tying profile claims to research.
 
@@ -44,6 +47,10 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 
 - [ ] `bun run bdd` executes flavor scenarios.
 - [ ] BDD state separates `languageId` from `effectiveFlavor`.
+- [ ] BDD propagation assertions inspect recorded
+      `workspace/didChangeConfiguration` payloads, not only local recomputation.
+- [ ] Temporary harness constants are traced to follow-up work that replaces
+      them with the product registry, extension schema, and server analysis.
 - [ ] Validation traces every displayed flavor to research or `ofm-spec`.
 - [ ] Test matrix and test index reflect implemented evidence.
 

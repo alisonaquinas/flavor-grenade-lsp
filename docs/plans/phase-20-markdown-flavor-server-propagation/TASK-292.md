@@ -29,6 +29,8 @@ flavor transitions. The process-boundary protocol is
 - Test unsupported flavor rejection.
 - Test temp workspace precedence for `.flavor-grenade.toml`, workspace setting,
   both present, invalid configured values, and fallback.
+- Assert VS Code workspace-folder/workspace setting beats project TOML when both
+  provide valid flavor selectors.
 
 ## Linked Requirements
 
@@ -49,4 +51,5 @@ flavor transitions. The process-boundary protocol is
 - [ ] Invalid id path is tested.
 - [ ] Temp workspace precedence covers TOML, workspace setting, both present,
       invalid values, and fallback.
+- [ ] Both-present case verifies VS Code setting wins over `.flavor-grenade.toml`.
 - [ ] Tests run in local root test battery or documented integration gate.

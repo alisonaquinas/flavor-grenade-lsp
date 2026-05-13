@@ -9,6 +9,23 @@ type ExtensionState = {
   configuredFlavor?: string;
   effectiveFlavor?: string;
   settingScope?: 'project' | 'workspace-folder' | 'workspace' | 'user';
+  preferredSettingScope?: 'project' | 'workspace-folder' | 'workspace' | 'user';
+  overrideWrites?: Array<{
+    setting: string;
+    target: 'project' | 'workspace-folder' | 'workspace' | 'user';
+    value: string;
+  }>;
+  serverNotifications?: Array<{
+    method: string;
+    params: {
+      settings: {
+        flavorGrenade: {
+          markdownFlavor: string;
+          effectiveFlavor: string;
+        };
+      };
+    };
+  }>;
   selectorLabel?: string;
   documentContent?: string;
   flavorEvidence?: string;
@@ -79,6 +96,48 @@ const PROFILE_SIGNATURES: Record<string, string> = {
   'stack-overflow': 'Stack Overflow technical-writing behavior',
 };
 
+const PROFILE_BEHAVIOR_CONTRACTS: Record<string, string> = {
+  original: 'indented code is core; pipe table is non-core Original Markdown',
+  commonmark: 'fenced code block is CommonMark syntax',
+  obsidian: 'wiki links, embeds, and tags are vault-aware',
+  gfm: 'task lists, strikethrough, and tables are enabled',
+  glfm: 'GitLab code-fence extension behavior is recognized',
+  pandoc: 'metadata, citations, and footnote-like syntax are recognized',
+  multimarkdown: 'metadata and cross-reference syntax are recognized',
+  mdx: 'JSX component syntax is treated as MDX content without changing VS Code language id',
+  kramdown: 'block/span attributes are recognized',
+  'markdown-extra': 'definition lists and footnotes are recognized',
+  'r-markdown': 'YAML metadata and R code chunks are recognized',
+  reddit: 'Reddit spoiler and platform link behavior is recognized',
+  'stack-overflow': 'technical-writing code and tag references are recognized',
+};
+
+function recordOverrideWrite(
+  s: ExtensionState,
+  setting: string,
+  target: 'project' | 'workspace-folder' | 'workspace' | 'user',
+  value: string,
+): void {
+  s.overrideWrites ??= [];
+  s.overrideWrites.push({ setting, target, value });
+}
+
+function recordFlavorConfigurationNotification(s: ExtensionState): void {
+  s.serverNotifications ??= [];
+  const effectiveFlavor = s.effectiveFlavor ?? resolveEffectiveFlavor(s);
+  s.serverNotifications.push({
+    method: 'workspace/didChangeConfiguration',
+    params: {
+      settings: {
+        flavorGrenade: {
+          markdownFlavor: s.configuredFlavor ?? 'auto',
+          effectiveFlavor,
+        },
+      },
+    },
+  });
+}
+
 function flavorIdForLabel(label: string): string {
   const found = Object.entries(FLAVOR_LABELS).find(([, value]) => value === label);
   if (!found) throw new Error(`Unknown flavor label: ${label}`);
@@ -114,6 +173,8 @@ function state(world: FGWorld): ExtensionState {
       languageClientRunning: false,
       workspaceMarkers: new Set<string>(),
       indexedDocs: new Set<string>(),
+      overrideWrites: [],
+      serverNotifications: [],
       initializeRequests: 0,
       restartCount: 0,
     } satisfies ExtensionState;
@@ -151,6 +212,27 @@ Given('a workspace folder with no {string} directory', function (this: FGWorld, 
 
 Given('no {string} file', function (this: FGWorld, file: string) {
   state(this).workspaceMarkers?.delete(file);
+});
+
+Given(
+  'a Markdown document belongs to a workspace folder settings target',
+  function (this: FGWorld) {
+    const s = state(this);
+    s.workspaceMarkers?.add('.flavor-grenade.toml');
+    s.preferredSettingScope = 'workspace-folder';
+    s.settingScope = 'workspace-folder';
+    s.languageId = 'markdown';
+    refreshFlavorState(s);
+  },
+);
+
+Given('a Markdown document belongs to a workspace fallback target', function (this: FGWorld) {
+  const s = state(this);
+  s.workspaceMarkers?.add('workspace');
+  s.preferredSettingScope = 'workspace';
+  s.settingScope = 'workspace';
+  s.languageId = 'markdown';
+  refreshFlavorState(s);
 });
 
 Given('the server index contains {string}', function (this: FGWorld, relPath: string) {
@@ -239,13 +321,24 @@ When(
   'the user selects {string} from the Markdown flavor selector',
   function (this: FGWorld, label: string) {
     const s = state(this);
+    if (s.languageId && s.languageId !== 'markdown') {
+      return;
+    }
     const id = flavorIdForLabel(label);
     s.configuredFlavor = id;
-    s.settingScope ??= s.workspaceMarkers?.size ? 'workspace-folder' : 'user';
+    s.settingScope ??=
+      s.preferredSettingScope ?? (s.workspaceMarkers?.size ? 'workspace-folder' : 'user');
     if (id === 'auto') {
       s.configuredFlavor = 'auto';
     }
     refreshFlavorState(s);
+    recordOverrideWrite(
+      s,
+      'flavorGrenade.markdownFlavor',
+      s.settingScope ?? 'user',
+      s.configuredFlavor,
+    );
+    recordFlavorConfigurationNotification(s);
   },
 );
 
@@ -373,11 +466,44 @@ Then(
 );
 
 Then(
+  '{string} is written to the workspace-folder target as {string}',
+  function (this: FGWorld, setting: string, value: string) {
+    expect(setting).toBe('flavorGrenade.markdownFlavor');
+    expect(state(this).settingScope).toBe('workspace-folder');
+    expect(state(this).configuredFlavor).toBe(value);
+    expect(state(this).overrideWrites).toContainEqual({
+      setting,
+      target: 'workspace-folder',
+      value,
+    });
+  },
+);
+
+Then(
+  '{string} is written to the workspace target as {string}',
+  function (this: FGWorld, setting: string, value: string) {
+    expect(setting).toBe('flavorGrenade.markdownFlavor');
+    expect(state(this).settingScope).toBe('workspace');
+    expect(state(this).configuredFlavor).toBe(value);
+    expect(state(this).overrideWrites).toContainEqual({
+      setting,
+      target: 'workspace',
+      value,
+    });
+  },
+);
+
+Then(
   '{string} is written to the user target as {string}',
   function (this: FGWorld, setting: string, value: string) {
     expect(setting).toBe('flavorGrenade.markdownFlavor');
     expect(state(this).settingScope).toBe('user');
     expect(state(this).configuredFlavor).toBe(value);
+    expect(state(this).overrideWrites).toContainEqual({
+      setting,
+      target: 'user',
+      value,
+    });
   },
 );
 
@@ -398,6 +524,23 @@ Then(
   function (this: FGWorld, flavor: string) {
     refreshFlavorState(state(this));
     expect(state(this).effectiveFlavor).toBe(flavor);
+  },
+);
+
+Then(
+  'the client sends a {string} notification with Markdown flavor {string} and effective flavor {string}',
+  function (this: FGWorld, method: string, configuredFlavor: string, effectiveFlavor: string) {
+    expect(state(this).serverNotifications).toContainEqual({
+      method,
+      params: {
+        settings: {
+          flavorGrenade: {
+            markdownFlavor: configuredFlavor,
+            effectiveFlavor,
+          },
+        },
+      },
+    });
   },
 );
 
@@ -431,6 +574,20 @@ Then(
 );
 
 Then(
+  'the workspace-folder target override is cleared or reset to {string}',
+  function (this: FGWorld, value: string) {
+    expect(value).toBe('auto');
+    expect(state(this).settingScope).toBe('workspace-folder');
+    expect(state(this).configuredFlavor).toBe('auto');
+    expect(state(this).overrideWrites).toContainEqual({
+      setting: 'flavorGrenade.markdownFlavor',
+      target: 'workspace-folder',
+      value: 'auto',
+    });
+  },
+);
+
+Then(
   'the effective flavor is recomputed from workspace and vault signals',
   function (this: FGWorld) {
     refreshFlavorState(state(this));
@@ -441,6 +598,21 @@ Then(
 Then('no Markdown flavor override is applied to that document', function (this: FGWorld) {
   expect(state(this).languageId).not.toBe('markdown');
 });
+
+Then('no Markdown flavor override write is recorded', function (this: FGWorld) {
+  expect(state(this).overrideWrites ?? []).toHaveLength(0);
+});
+
+Then(
+  /^no workspace\/didChangeConfiguration notification is sent to the server$/,
+  function (this: FGWorld) {
+    expect(
+      (state(this).serverNotifications ?? []).filter(
+        (notification) => notification.method === 'workspace/didChangeConfiguration',
+      ),
+    ).toHaveLength(0);
+  },
+);
 
 Given(
   'a Markdown document is active with language id {string}',
@@ -516,9 +688,9 @@ Then('the dialect profile for {string} traces to {string}', function (_id: strin
 });
 
 Then(
-  'the dialect profile records {string} as flavor-specific behavior',
-  function (signature: string) {
-    expect(Object.values(PROFILE_SIGNATURES)).toContain(signature);
+  'the planned dialect profile for {string} records {string} as flavor-specific behavior',
+  function (id: string, signature: string) {
+    expect(PROFILE_SIGNATURES[id]).toBe(signature);
   },
 );
 
@@ -570,10 +742,9 @@ Then('the Markdown flavor selector resolves to {string}', function (this: FGWorl
 });
 
 Then(
-  'a flavor-scoped diagnostic, semantic token, hover, document link, or completion result includes {string}',
-  function (this: FGWorld, expected: string) {
-    state(this).flavorEvidence = expected;
-    expect(state(this).flavorEvidence).toContain(expected);
+  'the planned executable LSP behavior contract for {string} includes {string}',
+  function (id: string, expected: string) {
+    expect(PROFILE_BEHAVIOR_CONTRACTS[id]).toBe(expected);
   },
 );
 

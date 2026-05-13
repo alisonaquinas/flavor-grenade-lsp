@@ -61,6 +61,10 @@ server propagation calls.
 ## Acceptance
 
 - Opening vault Markdown leaves `document.languageId === "markdown"`.
+- `LanguageClient` starts with `clientOptions.documentSelector` scoped to
+  file-backed `markdown` documents only.
+- Selector tests fail if the current `documentSelector` still contains
+  `ofmarkdown`.
 - Selector includes Auto Detect and every required explicit flavor.
 - Folder-backed overrides write workspace-folder or workspace scope.
 - Standalone-file overrides write user scope.

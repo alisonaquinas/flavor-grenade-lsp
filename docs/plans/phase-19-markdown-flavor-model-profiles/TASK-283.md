@@ -17,13 +17,15 @@ aliases: ["TASK-283"]
 
 ## Description
 
-Create the server-side flavor id contract, required display order, and labels
-from ADR020.
+Create the shared flavor id contract, required display order, and labels from
+ADR020. This contract is consumed by server parser/config code and the
+extension; labels and profile metadata are not parser-owned UI state.
 
 ## Work Scope
 
-- Add a typed flavor id model for `auto` plus every explicit flavor.
-- Export labels and display order for reuse by server tests and client contracts.
+- Add a typed selector model for `auto` plus every explicit flavor id.
+- Keep `MarkdownFlavorId` explicit-only; keep `auto` as `MarkdownFlavorSelection`.
+- Export labels and display order from a shared flavor/config contract for reuse by server tests and client contracts.
 - Ensure no unresearched flavor id is accepted.
 
 ## Linked Requirements
@@ -42,4 +44,5 @@ from ADR020.
 
 - [ ] Flavor ids match ADR020 exactly.
 - [ ] `auto` is represented separately from explicit profiles.
+- [ ] Labels/order are available without importing parser internals.
 - [ ] Unit test fails when a required id is removed.

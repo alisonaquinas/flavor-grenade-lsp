@@ -19,15 +19,16 @@ updated: 2026-05-13
 
 ## Objective
 
-Remove the primary dependency on `ofmarkdown` language-scope contributions and
-update user-facing proof so the Marketplace presents current Markdown flavor
-behavior instead of historical language-mode promotion.
+Remove current activation and contribution dependencies on `ofmarkdown`
+language-scope behavior and update user-facing proof so the Marketplace
+presents current Markdown flavor behavior instead of historical language-mode
+promotion.
 
 ## Requirement Trace
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Add selector activation and remove primary `ofmarkdown` dependency |
+| [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Add selector activation and remove current `onLanguage:ofmarkdown` activation dependency |
 | [[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]] | Scope snippets, keybindings, and commands by flavor/context |
 | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Show Markdown flavor selector proof |
 | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Keep referenced assets packaged |
@@ -55,6 +56,10 @@ behavior instead of historical language-mode promotion.
 
 - No contribution test requires `editorLangId == ofmarkdown` as the primary
   flavor scoping mechanism.
+- Current activation does not depend on `onLanguage:ofmarkdown`; any legacy
+  mention is non-authoritative historical context only.
+- `LanguageClient` `clientOptions.documentSelector` is file-backed `markdown`
+  only, and tests fail if `ofmarkdown` remains in the current selector.
 - Generic CommonMark Markdown does not receive Obsidian-only affordances.
 - Marketplace README shows Markdown flavor selector behavior, covered by
   `extension/test/marketplace/readme-assets.test.ts`.

@@ -26,6 +26,8 @@ are removed.
 - Verify Cucumber config includes exact feature files
   `docs/bdd/features/ofmarkdown-language-mode.feature` and
   `docs/bdd/features/markdown-flavor-dialects.feature`.
+- Verify executable feature tags do not imply skipped/non-executed work unless
+  Cucumber is actually configured to skip them.
 - Add file-presence checks for root flavor specs:
   `docs/test/markdown-flavor-unit-spec.md`,
   `docs/test/markdown-flavor-integration-spec.md`,
@@ -51,6 +53,7 @@ are removed.
 ## Definition of Done
 
 - [ ] CI verification checks include exact flavor feature files.
+- [ ] No executed feature keeps a misleading `@wip` tag.
 - [ ] Local checks fail on missing flavor test wiring.
 - [ ] Phase E17/TASK-311 is linked as the extension host gate for `GAP-S-010`.
 - [ ] Verification spec rows are updated.

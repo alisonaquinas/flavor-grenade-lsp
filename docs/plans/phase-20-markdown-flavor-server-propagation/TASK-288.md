@@ -18,14 +18,18 @@ aliases: ["TASK-288"]
 ## Description
 
 Add a server configuration path that accepts `flavorGrenade.markdownFlavor`
-from `workspace/didChangeConfiguration`, validates required ids, and preserves
-state on invalid input.
+from `workspace/didChangeConfiguration`, validates required ids in BC5, and
+dispatches valid selector mutations to Config/BC4 while preserving state on
+invalid input.
 
 ## Work Scope
 
 - Handle `workspace/didChangeConfiguration` carrying
   `flavorGrenade.markdownFlavor`.
-- Store configured flavor state in a server service.
+- Validate payload shape: `settings.flavorGrenade.markdownFlavor`.
+- Store configured selector state through Config/BC4, not in BC5.
+- Mutation target is `Workspace.withMarkdownFlavorSelection` /
+  `VaultFolder.withMarkdownFlavorSelection`.
 - Reject unsupported values such as `asciidoc`.
 
 ## Linked Requirements
@@ -44,4 +48,5 @@ state on invalid input.
 
 - [ ] All required ids are accepted.
 - [ ] Unknown ids leave previous flavor state intact.
+- [ ] BC5 does not compute or store `EffectiveMarkdownFlavor`.
 - [ ] Unit tests prove validation behavior.

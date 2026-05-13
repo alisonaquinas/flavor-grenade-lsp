@@ -1,4 +1,4 @@
-@extension @lsp @wip
+@extension @lsp
 @adr:ADR001 @adr:ADR015
 Feature: VS Code extension lifecycle and integration
 

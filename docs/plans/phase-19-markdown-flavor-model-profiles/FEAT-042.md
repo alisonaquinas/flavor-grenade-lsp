@@ -18,15 +18,15 @@ aliases: ["FEAT-042"]
 
 ## Goal
 
-Make Markdown flavors executable server product state by adding the canonical
-flavor contract and source-backed profile registry.
+Make Markdown flavors executable shared server/client product state by adding the canonical flavor contract and source-backed profile registry.
 
 ## Scope
 
-- Define required flavor ids, labels, and order.
+- Define required flavor ids, labels, and order as a shared Config/flavor contract, not parser-owned UI state.
 - Add dialect profiles for every explicit researched flavor.
 - Unit-test coverage, source traces, and profile shape.
 - Keep `auto` as detection state, not as a dialect profile.
+- Ensure BC2 consumes profile capabilities through `ParseContext`; BC4 owns effective flavor resolution.
 
 ## Child Tasks
 

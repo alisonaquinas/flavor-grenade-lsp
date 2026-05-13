@@ -23,6 +23,8 @@ that preserves VS Code language mode and tracks effective flavor.
 ## Work Scope
 
 - Remove flavor-state calls to `setTextDocumentLanguage`.
+- Keep `LanguageClient` `clientOptions.documentSelector` scoped to file-backed
+  `markdown` documents only.
 - Preserve non-`markdown` documents.
 - Track current effective flavor per active Markdown context.
 - Suppress flavor refresh and metadata propagation for open documents whose
@@ -41,10 +43,13 @@ that preserves VS Code language mode and tracks effective flavor.
 |---|---|---|
 | `EXT-MF-U-003` | `extension/src/markdown-flavor.test.ts` | Refresh logic never changes language id for flavor. |
 | `EXT-MF-U-011`, `EXT-MF-U-012` | `extension/src/markdown-flavor.test.ts` | `.md` files manually set to `plaintext` or `mdx` do not receive flavor refresh or server reanalysis until their language id returns to `markdown`; `mdx` remains selectable only as a Markdown flavor when the document language id is `markdown`. |
+| `EXT-MF-U-014` | `extension/src/markdown-flavor.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and fails when `ofmarkdown` is present. |
 
 ## Definition of Done
 
 - [ ] Vault `.md` documents remain `markdown`.
+- [ ] Client document selector contains `markdown` only for current Markdown
+      flavor behavior.
 - [ ] `plaintext` and `mdx` language documents are ignored by flavor application.
 - [ ] Selector refresh does not send server flavor updates for non-`markdown`
       language documents.

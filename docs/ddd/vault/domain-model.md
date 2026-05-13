@@ -13,12 +13,12 @@ aliases:
 
 # BC4 — Vault & Workspace Domain Model
 
-This document is the authoritative domain model for **Bounded Context 4: Vault & Workspace**. BC4 is a Supporting subdomain that owns the top-level state of the server: which vaults are known, which documents are loaded, and how those documents are indexed for reference resolution.
+This document is the authoritative domain model for **Bounded Context 4: Vault & Workspace**. BC4 is a Supporting subdomain that owns the top-level state of the server: which vaults are known, which documents are loaded, how those documents are indexed for reference resolution, and which effective Markdown flavor applies to each document.
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/config/domain-model]].
 
 > [!NOTE]
-> BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4.
+> BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4. BC4 owns `EffectiveMarkdownFlavor` state and supplies it to BC2 as `ParseContext`.
 
 ---
 
@@ -31,9 +31,12 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycl
 ```text
 VaultFolder
 ├── root:       VaultRoot               — identity; immutable after construction
-├── docs:       Map<DocId, OFMDoc>       — all indexed documents
+├── docs:       Map<DocId, MarkdownDoc>  — all indexed documents (current code: OFMDoc)
 ├── refGraph:   RefGraph                 — current reference graph for this vault
 ├── config:     FlavorConfig             — merged config for this vault
+├── flavor:     EffectiveMarkdownFlavor  — resolved default for this vault
+├── selections: Map<DocId, MarkdownFlavorSelection>
+│                                      — optional document-specific selectors
 ├── lookup:     FolderLookup             — stem/title/alias → DocId[] index
 └── gitIgnore:  GitIgnore                — parsed .gitignore rules (may be empty)
 ```
@@ -46,11 +49,12 @@ VaultFolder
                     │                                         │
   VaultDetected ──► │  root: VaultRoot  (identity, immutable) │
                     │                                         │
-  DocumentAdded ──► │  docs: Map<DocId, OFMDoc>               │
+  DocumentAdded ──► │  docs: Map<DocId, MarkdownDoc>          │
  DocumentRemoved    │                                         │
  DocumentChanged    │  refGraph: RefGraph ◄── rebuilt/updated  │
                     │                         after each cmd  │
                     │  config: FlavorConfig                   │
+                    │  flavor: EffectiveMarkdownFlavor        │
                     │                                         │
                     │  lookup: FolderLookup                   │
                     │  gitIgnore: GitIgnore                   │
@@ -64,9 +68,11 @@ VaultFolder
 | I1 | `root` never changes after `VaultFolder` is constructed. A new vault root is a new `VaultFolder`. |
 | I2 | Every `DocId` key in `docs` has its `path` relative to `root`. |
 | I3 | `refGraph` is always consistent with the current `docs` contents. It is never partially updated — the full or incremental `RefGraph` command completes before the new `VaultFolder` is stored. |
-| I4 | `lookup` mirrors `docs` exactly: every `OFMDoc` in `docs` has entries in `lookup`; removed docs have no entries. |
+| I4 | `lookup` mirrors `docs` exactly: every `MarkdownDoc` in `docs` has entries in `lookup`; removed docs have no entries. |
 | I5 | Documents whose `VaultPath` matches a `gitIgnore` rule are never added to `docs`. |
 | I6 | If a document is open in the editor (`doc.version !== null`), the version in `docs` reflects the editor state, not disk state. |
+| I7 | `flavor` and all document-specific effective flavors are explicit `MarkdownFlavorId` values, never `auto`. |
+| I8 | When `MarkdownFlavorSelection` or config changes alter a document's `EffectiveMarkdownFlavor`, that document is re-parsed before `lookup` and `refGraph` are considered current. |
 
 ### Commands
 
@@ -75,9 +81,11 @@ All commands are pure functions returning a new `VaultFolder`. They do not perfo
 | Command | Signature | Description |
 |---------|-----------|-------------|
 | `VaultFolder.mk` | `(root: VaultRoot, config: FlavorConfig) → VaultFolder` | Construct an empty vault folder. No docs, empty ref graph. |
-| `VaultFolder.withDoc` | `(folder: VaultFolder, doc: OFMDoc, oracle: Oracle) → VaultFolder` | Add or replace a document. Updates `lookup` and triggers `RefGraph.update`. Emits `DocumentAdded` or `DocumentChanged`. |
+| `VaultFolder.withDoc` | `(folder: VaultFolder, doc: MarkdownDoc, oracle: Oracle) → VaultFolder` | Add or replace a document. Updates `lookup` and triggers `RefGraph.update`. Emits `DocumentAdded` or `DocumentChanged`. |
 | `VaultFolder.withoutDoc` | `(folder: VaultFolder, id: DocId, oracle: Oracle) → VaultFolder` | Remove a document. Updates `lookup` and triggers `RefGraph.update`. Emits `DocumentRemoved`. |
-| `VaultFolder.withConfig` | `(folder: VaultFolder, config: FlavorConfig) → VaultFolder` | Replace the merged config. Does not re-parse documents. |
+| `VaultFolder.withConfig` | `(folder: VaultFolder, config: FlavorConfig) → VaultFolder` | Replace the merged config, recompute default effective flavor, and mark changed docs for reparse. |
+| `VaultFolder.withMarkdownFlavorSelection` | `(folder: VaultFolder, selection: MarkdownFlavorSelection, scope?: DocId) → VaultFolder` | Store a validated selector from VS Code/TOML scope, recompute affected `EffectiveMarkdownFlavor` values, and mark changed docs for reparse. |
+| `VaultFolder.effectiveFlavorFor` | `(folder: VaultFolder, id: DocId) → EffectiveMarkdownFlavor` | Resolve explicit effective flavor for one document from document selector, folder config, marker, and fallback. |
 | `VaultFolder.openDoc` | `(folder: VaultFolder, id: DocId, version: number) → VaultFolder` | Mark a document as editor-open. Sets `doc.version`. |
 | `VaultFolder.closeDoc` | `(folder: VaultFolder, id: DocId) → VaultFolder` | Revert editor-open document to disk version (`doc.version = null`). |
 
@@ -92,7 +100,11 @@ All commands are pure functions returning a new `VaultFolder`. They do not perfo
 ```text
 Workspace
 ├── folders:    Map<VaultRoot, VaultFolder>  — all known vaults
-├── singleFile: Map<string, OFMDoc>          — URI → OFMDoc (SingleFileMode docs)
+├── singleFile: Map<string, MarkdownDoc>     — URI → MarkdownDoc (SingleFileMode docs)
+├── singleFileFlavor: Map<string, EffectiveMarkdownFlavor>
+│                                                — URI → effective flavor
+├── vscodeFlavorSelection: MarkdownFlavorSelection
+│                                                — current validated VS Code layer
 └── userConfig: FlavorConfig                 — user-level config (cascade layer 2)
 ```
 
@@ -132,6 +144,8 @@ VaultFolder          SingleFile
 | I3 | When a `VaultFolder` is added whose `root` encloses a URI in `singleFile`, the single-file entry is evicted (removed from `singleFile`) and the document is added to the new `VaultFolder` via `VaultFolder.withDoc`. |
 | I4 | `VaultFolder` roots are disjoint — no vault root is a subdirectory of another vault root. If a nested vault is detected, the outer vault takes precedence. |
 | I5 | `userConfig` is loaded once at startup and refreshed on `flavorGrenade/reloadConfig` notification. |
+| I6 | Workspace owns the VS Code configuration layer used by `MarkdownFlavorCascade`; BC5 validates and dispatches changes but does not store them. |
+| I7 | SingleFileMode also has an `EffectiveMarkdownFlavor`; generic Markdown falls back to `commonmark` unless a higher-priority selector applies. |
 
 ### Workspace Commands
 
@@ -139,9 +153,11 @@ VaultFolder          SingleFile
 |---------|-----------|-------------|
 | `Workspace.withFolder` | `(ws: Workspace, folder: VaultFolder) → Workspace` | Add or replace a `VaultFolder`. Triggers SingleFileMode eviction if applicable. Emits `VaultDetected`. |
 | `Workspace.withoutFolder` | `(ws: Workspace, root: VaultRoot) → Workspace` | Remove a `VaultFolder` (e.g., vault directory deleted). |
-| `Workspace.withSingleFile` | `(ws: Workspace, doc: OFMDoc) → Workspace` | Track a document in `SingleFileMode`. No-op if a vault already encloses the URI. |
+| `Workspace.withSingleFile` | `(ws: Workspace, doc: MarkdownDoc) → Workspace` | Track a document in `SingleFileMode`. No-op if a vault already encloses the URI. |
 | `Workspace.withoutSingleFile` | `(ws: Workspace, uri: string) → Workspace` | Remove a single-file entry (e.g., document closed). |
-| `Workspace.updateDoc` | `(ws: Workspace, id: DocId, doc: OFMDoc) → Workspace` | Route a document update to the correct `VaultFolder` (or single-file slot). |
+| `Workspace.updateDoc` | `(ws: Workspace, id: DocId, doc: MarkdownDoc) → Workspace` | Route a document update to the correct `VaultFolder` (or single-file slot). |
+| `Workspace.withMarkdownFlavorSelection` | `(ws: Workspace, selection: MarkdownFlavorSelection, scope?: VaultRoot \| string) → Workspace` | Store validated VS Code selector state, recompute effective flavor for affected vault or single-file docs, and schedule reparse/diagnostic refresh for changes. |
+| `Workspace.parseContextFor` | `(ws: Workspace, id: DocId, source: 'disk' \| 'lsp') → ParseContext` | Build the BC2 parse context from server-owned effective flavor state. |
 
 ---
 
@@ -188,6 +204,28 @@ DocId
 ---
 
 ## Domain Services
+
+### MarkdownFlavorCascade
+
+`MarkdownFlavorCascade` is executed by BC4 whenever a vault is detected, a project TOML file changes, or BC5 dispatches validated VS Code configuration. It returns an explicit `EffectiveMarkdownFlavor`.
+
+```text
+1. VS Code explicit override
+2. VS Code workspace-folder/workspace setting
+3. Project TOML core.markdown.flavor
+4. Vault marker (.obsidian/ → obsidian)
+5. CommonMark fallback
+```
+
+BC4 tie-breakers:
+
+- Document-scoped selector beats folder/workspace selector.
+- VS Code workspace-folder/workspace setting beats `.flavor-grenade.toml` when both exist.
+- Workspace-folder beats workspace for docs under that folder.
+- `auto` delegates to the next lower source.
+- Invalid values are never stored by BC4; BC5/Config reject them before mutation.
+
+`EffectiveMarkdownFlavor` belongs to `VaultFolder`/`Workspace`, not BC2 or BC5. BC2 receives it only through `ParseContext`.
 
 ### VaultDetector
 
@@ -266,8 +304,9 @@ BC5 LspServer
      │  textDocument/didChange
      │  textDocument/didClose
      ▼
-BC4 WorkspaceService  ──── calls ────►  BC2 OFMDocFactory
-     │                                  (construct / update OFMDoc)
+BC4 WorkspaceService  ──── calls ────►  BC2 MarkdownDocFactory
+     │                                  (construct / update MarkdownDoc
+     │                                   current code: OFMDocFactory)
      │
      │  VaultFolder.withDoc(doc, oracle)
      ▼

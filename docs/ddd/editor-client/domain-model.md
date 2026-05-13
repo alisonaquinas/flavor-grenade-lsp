@@ -129,6 +129,11 @@ function resolveServerPath(context: ExtensionContext): string
 
 A VS Code `StatusBarItem` that reflects the server's current indexing state. Driven entirely by `flavorGrenade/status` notifications from the server.
 
+`StatusBarWidget` does not own Markdown flavor selector state. If the flavor
+selector shares status bar real estate, it still remains a separate UI surface
+backed by `MarkdownFlavorController`; server/vault lifecycle state and
+Markdown flavor state use separate state machines.
+
 **State transitions:**
 
 | Server State | Status Bar Display | Icon |
@@ -188,6 +193,11 @@ The VS Code component that owns Markdown flavor state. It watches visible editor
 
 **Language invariant:** file-backed Markdown documents remain in VS Code's built-in `markdown` language mode. The controller must not call `setTextDocumentLanguage` for Flavor Grenade flavor selection.
 
+**Selector invariant:** `MarkdownFlavorController` owns selector display state,
+effective flavor state, and refresh decisions. It may expose that state through
+a command, status bar item, or another VS Code UI surface, but the
+`StatusBarWidget` remains limited to server and vault status.
+
 **Auto-detection rule:** a file-backed `markdown` document has effective flavor `obsidian` when either:
 
 1. A `.obsidian/` directory is found in one of its ancestor directories.
@@ -205,7 +215,9 @@ override to the user setting.
 - Never apply Markdown flavor behavior to a document whose language id is not `markdown`.
 - Do not use VS Code language mode as flavor state.
 - Do not restart the LanguageClient solely because the selector changed.
-- Propagate effective flavor changes through configuration or another documented server refresh path.
+- Propagate selector changes through `workspace/didChangeConfiguration` with
+  `flavorGrenade.markdownFlavor`; the server resolves the authoritative
+  `EffectiveMarkdownFlavor`.
 
 ### MarkdownFlavorSelection
 
@@ -325,6 +337,8 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
 
 5. **Markdown flavor selection is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings.
+
+6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.
 
 ---
 

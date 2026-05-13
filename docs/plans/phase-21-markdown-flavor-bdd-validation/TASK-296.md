@@ -18,13 +18,17 @@ aliases: ["TASK-296"]
 ## Description
 
 Implement BDD steps that assert Original Markdown, CommonMark, and researched
-profile source/signature behavior.
+profile source/signature behavior. Until the product flavor registry exists,
+these steps assert planned executable contracts from harness fixtures rather
+than real parser/server behavior.
 
 ## Work Scope
 
 - Add effective flavor analysis steps.
 - Add source trace assertions for every researched profile.
 - Add signature behavior assertions using the profile registry.
+- Replace harness profile/source/signature constants with the real product
+  registry after Phase 19/E15 expose it.
 
 ## Linked Requirements
 
@@ -43,3 +47,5 @@ profile source/signature behavior.
 - [ ] Original Markdown scenarios execute.
 - [ ] CommonMark scenarios execute.
 - [ ] Research source examples execute for every flavor row.
+- [ ] Planned-contract wording is replaced once assertions read the product
+      registry and server analysis output.

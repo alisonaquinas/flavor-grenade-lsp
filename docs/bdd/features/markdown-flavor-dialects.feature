@@ -4,9 +4,9 @@
 Feature: Markdown flavor dialect behavior
 
   Every researched Markdown flavor is first-class product scope, not only a
-  label in the selector. The extension keeps documents in VS Code's built-in
-  Markdown language mode while the effective flavor controls which Markdown
-  dialect behavior the server applies.
+  label in the selector. Until the product registry and server flavor engine
+  land, these executable scenarios define the planned registry and LSP
+  behavior contracts that the harness must later replace with product data.
 
   Background:
     Given a VS Code instance with the Flavor Grenade extension installed
@@ -75,12 +75,12 @@ Feature: Markdown flavor dialect behavior
     And the server is refreshed with effective flavor "commonmark"
     And the document language id remains "markdown"
 
-  Scenario Outline: Researched flavors have source-backed dialect profiles
+  Scenario Outline: Planned researched flavors have source-backed dialect profile contracts
     Given "flavorGrenade.markdownFlavor" is set to "<id>"
     When Flavor Grenade analyzes the document
     Then the effective Markdown flavor is "<id>"
     And the dialect profile for "<id>" traces to "<source>"
-    And the dialect profile records "<signature>" as flavor-specific behavior
+    And the planned dialect profile for "<id>" records "<signature>" as flavor-specific behavior
     And the document language id remains "markdown"
 
     Examples:
@@ -99,7 +99,7 @@ Feature: Markdown flavor dialect behavior
       | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
       | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |
 
-  Scenario Outline: Flavor signatures produce observable LSP behavior
+  Scenario Outline: Planned flavor signatures define observable LSP behavior
     Given "flavorGrenade.markdownFlavor" is set to "<id>"
     And the document contains:
       """
@@ -107,7 +107,7 @@ Feature: Markdown flavor dialect behavior
       """
     When Flavor Grenade analyzes the document
     Then the effective Markdown flavor is "<id>"
-    And a flavor-scoped diagnostic, semantic token, hover, document link, or completion result includes "<expected>"
+    And the planned executable LSP behavior contract for "<id>" includes "<expected>"
     And the document language id remains "markdown"
 
     Examples:

@@ -18,12 +18,17 @@ aliases: ["TASK-305"]
 ## Description
 
 Align activation events and startup gates with the selector model instead of
-the old `ofmarkdown` language event.
+the old `ofmarkdown` language event. Any documented `ofmarkdown` activation
+path is non-authoritative historical context unless explicitly marked as
+current compatibility behavior.
 
 ## Work Scope
 
 - Add selector command activation.
-- Remove primary dependency on `onLanguage:ofmarkdown`.
+- Remove current activation dependency on `onLanguage:ofmarkdown`.
+- Keep `LanguageClient` `clientOptions.documentSelector` scoped to file-backed
+  `markdown` documents only; fail tests if `ofmarkdown` remains in the current
+  selector.
 - Keep generic Markdown idle without positive signal.
 - Preserve explicit command wake behavior.
 
@@ -38,10 +43,12 @@ the old `ofmarkdown` language event.
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-I-001`, `EXT-MF-I-002` | `extension/src/activation-gate.test.ts` | Vault-marker activation and generic Markdown idle startup without custom language id activation. |
-| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Selector command activation and no `ofmarkdown` dependency. |
+| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Selector command activation and no current `onLanguage:ofmarkdown` activation dependency. |
+| `EXT-MF-I-006` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and rejects `ofmarkdown`. |
 
 ## Definition of Done
 
 - [ ] Selector command can wake the extension.
-- [ ] Startup gate does not require `ofmarkdown`.
+- [ ] Startup gate does not require `onLanguage:ofmarkdown`.
+- [ ] Current `documentSelector` contains no `ofmarkdown` entry.
 - [ ] Generic Markdown idle behavior remains covered.

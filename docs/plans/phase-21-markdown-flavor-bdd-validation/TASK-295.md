@@ -23,9 +23,14 @@ in `ofmarkdown-language-mode.feature`.
 ## Work Scope
 
 - Add steps for selector display and required choices.
-- Add project and user settings-scope assertions.
+- Add exact workspace-folder, workspace fallback, and user settings-target
+  assertions.
+- Add exact `workspace/didChangeConfiguration` propagation assertions with
+  `flavorGrenade.markdownFlavor` and effective flavor.
 - Add Auto Detect reset behavior.
 - Add manual language preservation behavior.
+- Replace hard-coded harness selector constants with the extension contribution
+  schema once Phase 19/E15 implement the product setting surface.
 
 ## Linked Requirements
 
@@ -44,4 +49,8 @@ in `ofmarkdown-language-mode.feature`.
 
 - [ ] All scenarios in `ofmarkdown-language-mode.feature` execute.
 - [ ] Required flavor examples map labels to ids.
+- [ ] Settings-target scenarios distinguish workspace-folder, workspace, and
+      user writes.
+- [ ] Server propagation checks assert the recorded client notification
+      payload.
 - [ ] Manual language safety scenario passes.

@@ -18,14 +18,14 @@ aliases: ["FEAT-043"]
 
 ## Goal
 
-Thread effective Markdown flavor through server configuration, parsing,
+Thread server-owned `EffectiveMarkdownFlavor` through configuration, parsing,
 diagnostics, and spawned-server integration tests.
 
 ## Scope
 
-- Accept, validate, and store `flavorGrenade.markdownFlavor` from
-  `workspace/didChangeConfiguration`.
-- Resolve explicit and `auto` modes.
+- Accept and validate `flavorGrenade.markdownFlavor` from
+  `workspace/didChangeConfiguration` in BC5, then dispatch to BC4/Config.
+- Resolve explicit and `auto` modes in BC4 using `MarkdownFlavorCascade`.
 - Refresh open documents after flavor changes.
 - Gate initial Original, CommonMark, and Obsidian analysis behavior.
 
@@ -57,6 +57,7 @@ diagnostics, and spawned-server integration tests.
 
 - [ ] Supported flavor ids apply without server restart.
 - [ ] Unsupported ids are rejected without state corruption.
+- [ ] BC4 owns effective flavor state; BC5 only validates protocol payloads.
 - [ ] Open document diagnostics refresh after flavor changes.
 - [ ] Integration tests cover supported and unsupported flavor transitions.
 

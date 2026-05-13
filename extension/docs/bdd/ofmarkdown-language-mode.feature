@@ -1,5 +1,7 @@
 @extension @vscode @markdown-flavor
 @adr:ADR020
+# Reference mirror only. Executable cucumber source:
+# docs/bdd/features/ofmarkdown-language-mode.feature.
 Feature: Markdown flavor selection
 
   The VS Code extension keeps Markdown files in the built-in Markdown language
@@ -45,31 +47,21 @@ Feature: Markdown flavor selection
       | reddit         | Reddit Markdown          |
       | stack-overflow | Stack Overflow Markdown  |
 
-  Scenario: User overrides flavor for a workspace folder target
+  Scenario: User overrides flavor for a workspace folder
     Given a workspace folder containing ".flavor-grenade.toml"
     And the user opens "notes/welcome.md"
     When the user selects "CommonMark" from the Markdown flavor selector
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace-folder target as "commonmark"
+    And "flavorGrenade.markdownFlavor" is written to the workspace-folder or workspace target as "commonmark"
     And the server is refreshed with effective flavor "commonmark"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "commonmark" and effective flavor "commonmark"
-
-  Scenario: User overrides flavor for a workspace fallback target
-    Given a Markdown document belongs to a workspace fallback target
-    When the user selects "Obsidian" from the Markdown flavor selector
-    Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace target as "obsidian"
-    And the server is refreshed with effective flavor "obsidian"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "obsidian" and effective flavor "obsidian"
 
   Scenario Outline: User can select any required researched flavor
     Given a workspace folder containing ".flavor-grenade.toml"
     And the user opens "notes/welcome.md"
     When the user selects "<label>" from the Markdown flavor selector
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace-folder target as "<id>"
+    And "flavorGrenade.markdownFlavor" is written to the workspace-folder or workspace target as "<id>"
     And the server is refreshed with effective flavor "<id>"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "<id>" and effective flavor "<id>"
 
     Examples:
       | label                    | id             |
@@ -93,25 +85,21 @@ Feature: Markdown flavor selection
     Then the document language id remains "markdown"
     And "flavorGrenade.markdownFlavor" is written to the user target as "original"
     And the server is refreshed with effective flavor "original"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "original" and effective flavor "original"
 
   Scenario: Auto Detect clears the override at the current scope
     Given a workspace folder has "flavorGrenade.markdownFlavor" set to "commonmark"
     And the user opens "notes/welcome.md"
     When the user selects "Auto Detect" from the Markdown flavor selector
-    Then the workspace-folder target override is cleared or reset to "auto"
+    Then the workspace-folder or workspace target override is cleared or reset to "auto"
     And the effective flavor is recomputed from workspace and vault signals
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "auto" and effective flavor "commonmark"
 
   Scenario Outline: Manual language mode selection is preserved
     Given a workspace folder containing a ".obsidian/" directory
     And the user opens "notes/welcome.md"
     And the user manually changes the document language id to "<languageId>"
-    When the user selects "Obsidian" from the Markdown flavor selector
+    When Flavor Grenade refreshes Markdown flavor detection
     Then the document language id remains "<languageId>"
     And no Markdown flavor override is applied to that document
-    And no Markdown flavor override write is recorded
-    And no workspace/didChangeConfiguration notification is sent to the server
 
     Examples:
       | languageId |

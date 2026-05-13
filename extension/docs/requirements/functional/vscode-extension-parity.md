@@ -136,6 +136,31 @@ extension implementation capabilities.
 
 ---
 
+## Retired Historical Tags
+
+The following tags remain as historical anchors for completed pre-ADR020 phase
+records. They are not active gates for new work.
+
+### Extension.LanguageMode.MembershipRefresh
+
+**Tag:** Extension.LanguageMode.MembershipRefresh
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.MarkdownFlavor.Refresh.
+**Note:** Historical E9/E14 plans used this tag for `ofmarkdown` promotion and
+membership refresh behavior. Current work keeps `.md` documents in VS Code's
+`markdown` language id and refreshes Markdown flavor state instead.
+
+### Extension.Contributions.OFMarkdownScoped
+
+**Tag:** Extension.Contributions.OFMarkdownScoped
+**Status:** Retired by ADR020.
+**Current Requirement:** Extension.Contributions.FlavorScoped.
+**Note:** Historical E12 plans used this tag for `ofmarkdown` contribution
+scoping. Current work scopes contribution behavior through Markdown
+flavor/context state without requiring a custom Markdown language id.
+
+---
+
 ## Extension.Activation.MarkerEvents
 
 **Tag:** Extension.Activation.MarkerEvents
@@ -148,9 +173,11 @@ extension implementation capabilities.
 1. Run extension-host fixtures for `.obsidian/`, `.flavor-grenade.toml`, generic Markdown, flavor selector command activation, and explicit command activation.
 2. Observe whether the extension activates.
 3. Observe whether vault membership detection starts.
-4. Verify generic Markdown remains idle until a command or vault signal exists.
-5. Compute: (correct activation outcomes / total activation fixtures) x 100.
-**Fail:** Any vault signal fails to activate the extension, or generic Markdown startup performs vault indexing work.
+4. Inspect `LanguageClient` `clientOptions.documentSelector`.
+5. Verify the selector includes file-backed `markdown` only for current flavor behavior and contains no `ofmarkdown` entry.
+6. Verify generic Markdown remains idle until a command or vault signal exists.
+7. Compute: (correct activation outcomes / total activation fixtures) x 100.
+**Fail:** Any vault signal fails to activate the extension, generic Markdown startup performs vault indexing work, current activation depends on `onLanguage:ofmarkdown`, or the current document selector contains `ofmarkdown`.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
@@ -238,9 +265,10 @@ extension implementation capabilities.
 2. Simulate server ready, index rebuild, workspace folder add/remove, visible editor change, file open events, and selector changes across every required explicit flavor.
 3. Observe effective Markdown flavor after each trigger.
 4. Verify every `.md` document remains in `markdown`.
-5. Verify manual non-Markdown language selections are not treated as active Markdown flavor scope.
-6. Compute: (correct flavor states / total trigger cases) x 100.
-**Fail:** Any qualifying vault Markdown document remains generic after refresh, any selected override is ignored, or any `.md` document is promoted to `ofmarkdown`.
+5. Verify `clientOptions.documentSelector` remains scoped to file-backed `markdown` only for current behavior.
+6. Verify manual non-Markdown language selections are not treated as active Markdown flavor scope.
+7. Compute: (correct flavor states / total trigger cases) x 100.
+**Fail:** Any qualifying vault Markdown document remains generic after refresh, any selected override is ignored, any `.md` document is promoted to `ofmarkdown`, or the current document selector contains `ofmarkdown`.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.

@@ -13,7 +13,7 @@ aliases:
 
 # BC3 — Reference Resolution Domain Model
 
-This document is the authoritative domain model for **Bounded Context 3: Reference Resolution**. BC3 is the **Core subdomain** — it is the primary differentiating capability of `flavor-grenade-lsp`. Everything that makes the server useful for an Obsidian vault (go-to-definition, backlinks, broken-link diagnostics, rename) lives here.
+This document is the authoritative domain model for **Bounded Context 3: Reference Resolution**. BC3 is the **Core subdomain** — it is the primary differentiating capability of `flavor-grenade-lsp`. Everything that makes the server useful for Markdown workspaces with navigable references (go-to-definition, backlinks, broken-link diagnostics, rename) lives here.
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycle/domain-model]], [[ddd/vault/domain-model]].
 
@@ -28,8 +28,8 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/document-lifecycl
 |-----------|-------|
 | Type | Core subdomain (★) |
 | Integration | Customer-Supplier (BC4 owns RefGraph, supplies Oracle) |
-| Differentiator | First-class EmbedRef, BlockRef; alias Def; Oracle pattern |
-| Comparable to | marksman's `Codebase` / `Doc` model, with OFM extensions |
+| Differentiator | First-class EmbedRef, BlockRef, Markdown local refs, dialect-gated refs/defs; alias Def; Oracle pattern |
+| Comparable to | marksman's `Codebase` / `Doc` model, with Markdown flavor extensions |
 
 ---
 
@@ -93,8 +93,8 @@ Full rebuild from scratch. Called when the vault is first indexed or when a full
 RefGraph.mk(oracle: Oracle, symMap: SymbolMap): RefGraph
 
 SymbolMap
-  └── Map<DocId, { refs: RawRef[]; defs: RawDef[] }>
-      (built from OFMIndex of each OFMDoc in the vault)
+      └── Map<DocId, { refs: RawRef[]; defs: RawDef[] }>
+      (built from MarkdownIndex / current OFMIndex of each MarkdownDoc in the vault)
 ```
 
 **Algorithm:**
@@ -103,7 +103,7 @@ SymbolMap
 1. For each (docId, { refs, defs }) in symMap:
    a. Normalize RawDef[] → Def[] (attach DocId, compute range)
    b. Add alias Defs from frontmatter
-   c. Normalize RawRef[] → typed Ref[] (WikiRef | EmbedRef | BlockRef | TagRef)
+   c. Normalize RawRef[] → typed Ref[] (WikiRef | EmbedRef | BlockRef | TagRef | MarkdownLinkRef | LinkLabelRef | dialect-gated refs)
    d. For each CrossSection ref: emit synthetic CrossDoc ref
 
 2. Build FolderLookup index from all Defs
@@ -205,12 +205,38 @@ interface Oracle {
 | `MarkdownLinkRef` | local path resolved relative to source doc | document-title or heading Def |
 | `MarkdownImageRef` | local attachment path resolved relative to source doc | attachment Def |
 | `LinkLabelRef` | source document only | matching `LinkLabelDef` |
+| `CitationRef` | source doc or dialect-declared bibliography scope | matching `CitationDef` / `LabelDef` |
+| `CrossReferenceRef` | source doc, target doc, or dialect-declared global label scope | matching `LabelDef`, `HeaderDef`, `FootnoteDef`, or dialect-specific Def |
+| `FootnoteRef` | source document only by default | matching `FootnoteDef` |
 | `IntraRef` (`#heading`) | `[sourceDocId]` | heading Defs in source doc matching fragment |
 | `IntraRef` (`#^anchor`) | `[sourceDocId]` | block anchor Defs in source doc |
 | `TagRef` | all docs containing the tag | tag Def |
 
 > [!NOTE]
 > The Oracle implementation in BC4 uses `FolderLookup` for `resolveToScope`. Matching is exact by default, but the `completion.wiki.style` config key affects how stems are normalised before comparison. The Oracle's matching logic lives in BC4, not BC3.
+
+---
+
+## Scope Rules for Dialect Constructs
+
+BC3 owns only constructs that behave like references or definitions. Syntax-only constructs remain BC2 local.
+
+Examples:
+
+- A footnote marker becomes `FootnoteRef` / `FootnoteDef` because editor navigation can jump between use and definition.
+- A citation becomes `CitationRef` only when the active dialect profile defines a key space or bibliography source.
+- A label or attribute becomes `LabelDef` / `AttributeDef` only when another construct can target it.
+- A decorative attribute, inline role, raw directive, or host-rendering option with no navigation target stays in `MarkdownIndex` and never enters `RefGraph`.
+
+Default scopes:
+
+| Construct | Default scope | Cross-document allowed when |
+|-----------|---------------|-----------------------------|
+| Link labels | Source document | Never, unless a future dialect explicitly overrides |
+| Footnotes | Source document | Dialect profile declares cross-document footnotes |
+| Citations | Dialect-declared bibliography scope, otherwise source document | Dialect profile declares workspace/global bibliography lookup |
+| Labels / cross-references | Source document | Dialect profile declares global label or document-target syntax |
+| Attributes | Source document | Attribute is promoted to addressable `LabelDef` or `AttributeDef` |
 
 ---
 
@@ -246,7 +272,7 @@ interface EmbedRef {
 **OFM extension notes:**
 
 - Embeds can target full documents (`![[doc]]`), headings (`![[doc#heading]]`), blocks (`![[doc#^anchor]]`), or images (non-Markdown — skipped by ref resolution).
-- Image embeds (target ends in `.png`, `.jpg`, etc.) produce no `Ref` in the graph — they are captured in `OFMIndex` but excluded from `RefGraph`.
+- Image embeds (target ends in `.png`, `.jpg`, etc.) produce no document `Ref` in the graph — they are captured in `MarkdownIndex` / Obsidian projection and may become attachment refs.
 
 ### BlockRef
 
@@ -339,6 +365,73 @@ interface LinkLabelDef extends Def {
 `LinkLabelDef` is then resolved as a `MarkdownLinkRef`, so broken definition
 targets still produce vault diagnostics.
 
+### CitationRef
+
+Dialect-gated reference type for citation syntaxes.
+
+```typescript
+interface CitationRef {
+  kind: 'citation'
+  key: string
+  range: Range
+  id: RefId
+}
+```
+
+`CitationRef` is emitted only when the active `MarkdownFlavorProfile` declares citation navigation semantics. Otherwise citation-like text remains BC2 syntax.
+
+### CrossReferenceRef
+
+Dialect-gated reference type for label/cross-reference syntaxes.
+
+```typescript
+interface CrossReferenceRef {
+  kind: 'cross-reference'
+  target: string
+  role: 'label' | 'figure' | 'table' | 'equation' | 'heading' | 'unknown'
+  range: Range
+  id: RefId
+}
+```
+
+`CrossReferenceRef` resolves to `LabelDef`, `HeaderDef`, `FootnoteDef`, or a dialect-specific `Def` according to the active flavor profile.
+
+### FootnoteRef and FootnoteDef
+
+```typescript
+interface FootnoteRef {
+  kind: 'footnote-ref'
+  label: string
+  range: Range
+  id: RefId
+}
+
+interface FootnoteDef extends Def {
+  kind: 'footnote'
+  label: string
+}
+```
+
+Footnotes resolve in the source document by default.
+
+### LabelDef and AttributeDef
+
+```typescript
+interface LabelDef extends Def {
+  kind: 'label'
+  label: string
+  source: 'heading-attribute' | 'latex-label' | 'dialect'
+}
+
+interface AttributeDef extends Def {
+  kind: 'attribute'
+  name: string
+  value: string | null
+}
+```
+
+Attributes are promoted to `AttributeDef` only when they are addressable. Otherwise BC2 keeps them as syntax nodes.
+
 ### IntraRef
 
 A specialisation of `WikiRef` / `EmbedRef` where the target is the same document (no document stem, only a fragment).
@@ -359,7 +452,7 @@ type CrossRef = WikiRef & { target: string }  // target is non-empty
 
 ```typescript
 interface Def {
-  kind:    'title' | 'heading' | 'block-anchor' | 'alias'
+  kind:    'title' | 'heading' | 'block-anchor' | 'alias' | 'link-label' | 'footnote' | 'label' | 'attribute'
   text:    string    // the def's canonical text
   doc:     DocId     // which document this def lives in
   range:   Range     // source range of the def in the document
@@ -370,7 +463,7 @@ interface Def {
 **Multiple Defs per document:**
 
 ```text
-OFMDoc "foo.md"
+MarkdownDoc "foo.md" (current code may expose `OFMDoc`)
   ├─ Def { kind: 'title',   text: 'Foo',         range: ... }
   ├─ Def { kind: 'alias',   text: 'Foo Note',    range: frontmatter.range }
   ├─ Def { kind: 'heading', text: 'Introduction', level: 2, range: ... }
