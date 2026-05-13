@@ -15,7 +15,7 @@ updated: 2026-04-17
 > This document surveys security threats applicable to `flavor-grenade-lsp` — a long-running, stdio-transport LSP server that reads from user vaults, parses Obsidian Flavored Markdown, and performs file writes via LSP rename operations. It draws on CVEs, security research, and attack patterns relevant to LSP servers, NestJS, Bun, JSON-RPC transports, and Markdown parsers as of April 2026.
 
 > [!WARNING] Not an audit
-> This is a research document, not a security audit. Issues identified here are candidates for mitigation; they have not been verified against the current implementation. See [[requirements/ci-cd]] and [[adr/ADR009-precommit-hooks-zero-warnings]] for enforcement mechanisms.
+> This is a research document, not a security audit. Issues identified here are candidates for mitigation; they have not been verified against the current implementation. See [[docs/requirements/ci-cd]] and [[docs/adr/ADR009-precommit-hooks-zero-warnings]] for enforcement mechanisms.
 
 ---
 
@@ -329,7 +329,7 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 
 - The current `.flavor-grenade.toml` schema contains no command-execution fields; maintain this invariant
 - If hook or formatter execution is added in a future phase, require explicit user confirmation (LSP `window/showMessageRequest`) before executing any binary named in vault-provided configuration
-- Document this as a non-goal in [[adr/ADR002-ofm-only-scope]]: vault configuration files must never cause process spawning
+- Document this as a non-goal in [[docs/adr/ADR002-ofm-only-scope]]: vault configuration files must never cause process spawning
 
 ---
 
@@ -360,13 +360,13 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 
 | Mitigation | Status | Reference |
 |---|---|---|
-| stdio-only transport (no network socket) | ✅ Architecture decision | [[adr/ADR001-stdio-transport]] |
-| Exact dependency pinning (`exact = true` in bunfig.toml) | ✅ Phase 1 | [[plans/phase-01-scaffold]] |
+| stdio-only transport (no network socket) | ✅ Architecture decision | [[docs/adr/ADR001-stdio-transport]] |
+| Exact dependency pinning (`exact = true` in bunfig.toml) | ✅ Phase 1 | [[docs/plans/phase-01-scaffold]] |
 | `--frozen-lockfile` in CI | ✅ Phase 1 | `.github/workflows/ci.yml` |
-| OIDC provenance publishing | ✅ Phase 13 planned | [[adr/ADR008-oidc-publishing]] |
-| TypeScript strict mode (eliminates whole class of type errors) | ✅ Phase 1 | [[requirements/code-quality#Quality.Types.StrictMode]] |
-| No `@nestjs/devtools-integration` dependency | ✅ By design | [[plans/phase-01-scaffold]] |
-| No `@nestjs/platform-express` (no HTTP server) | ✅ By design | [[adr/ADR001-stdio-transport]] |
+| OIDC provenance publishing | ✅ Phase 13 planned | [[docs/adr/ADR008-oidc-publishing]] |
+| TypeScript strict mode (eliminates whole class of type errors) | ✅ Phase 1 | [[docs/requirements/code-quality#Quality.Types.StrictMode]] |
+| No `@nestjs/devtools-integration` dependency | ✅ By design | [[docs/plans/phase-01-scaffold]] |
+| No `@nestjs/platform-express` (no HTTP server) | ✅ By design | [[docs/adr/ADR001-stdio-transport]] |
 
 ---
 

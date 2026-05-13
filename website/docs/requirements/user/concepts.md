@@ -47,6 +47,6 @@ docs at a high standard.
 
 ## Follow-On Pages
 
-- [[how-to]]
-- [[advanced-usage]]
+- [[website/docs/requirements/user/how-to]]
+- [[website/docs/requirements/user/advanced-usage]]
 - [[faq]]

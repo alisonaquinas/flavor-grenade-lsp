@@ -83,11 +83,11 @@ bun run lint:docs
 
 ## Tickets
 
-- [[plans/phase-W1-website-foundation/FEAT-034]]
-- [[plans/phase-W1-website-foundation/TASK-214]]
-- [[plans/phase-W1-website-foundation/TASK-215]]
-- [[plans/phase-W1-website-foundation/TASK-216]]
-- [[plans/phase-W1-website-foundation/CHORE-087]]
+- [[docs/plans/phase-W1-website-foundation/FEAT-034]]
+- [[docs/plans/phase-W1-website-foundation/TASK-214]]
+- [[docs/plans/phase-W1-website-foundation/TASK-215]]
+- [[docs/plans/phase-W1-website-foundation/TASK-216]]
+- [[docs/plans/phase-W1-website-foundation/CHORE-087]]
 
 ## Related
 

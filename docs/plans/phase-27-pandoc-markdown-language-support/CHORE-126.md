@@ -22,7 +22,7 @@ Perform the operational sweep for Pandoc Markdown language-support phase closure
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for pandoc.
-- Confirm [[research/pandoc-markdown-deep-research-report]] remains the source trace for the phase.
+- Confirm [[docs/research/pandoc-markdown-deep-research-report]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

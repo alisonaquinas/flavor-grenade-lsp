@@ -37,7 +37,7 @@ from document definition/navigation because attachment behavior belongs to Phase
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Process.TestIndex.Matrix` | Phase evidence must be coherent and traceable | [[requirements/development-process]] |
+| `Process.TestIndex.Matrix` | Phase evidence must be coherent and traceable | [[docs/requirements/development-process]] |
 
 ---
 

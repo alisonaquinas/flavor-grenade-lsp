@@ -12,14 +12,14 @@ This smoke test validates the minimum viable block reference round-trip: that `t
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
-### TC-SMOKE-019 — go-to-definition on [[doc#^anchor]] navigates to the anchor line
+### TC-SMOKE-019 — go-to-definition on \[\[doc#^anchor]] navigates to the anchor line
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Block anchor is indexed and go-to-definition navigates to it`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Block anchor is indexed and go-to-definition navigates to it`
 **Phase gate:** Phase 2
 
 **Setup:**
@@ -83,7 +83,7 @@ And the target range covers the line containing "^para-one" (line 1)
 ### TC-SMOKE-020 — broken block reference produces FG005 with Error severity
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Broken block reference reports FG005`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Broken block reference reports FG005`
 **Phase gate:** Phase 2
 
 **Setup:**

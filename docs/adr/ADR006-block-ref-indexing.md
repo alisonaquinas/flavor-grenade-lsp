@@ -19,17 +19,17 @@ Two approaches were evaluated for flavor-grenade-lsp:
 
 **Approach 2 — First-class indexing.** Block anchors (`^blockid`) are indexed as `BlockAnchorDef` entries in `OFMIndex`. Block reference links (`[[doc#^id]]`) are represented as `CrossBlock` refs in `RefGraph`. This enables the full suite of LSP features for block references: diagnostics (FG005, broken block ref), go-to-definition (jump to the anchored block), find-references (find all `[[doc#^id]]` uses), and completion (offer known `^id` values after typing `[[doc#^`).
 
-The parser must correctly identify `^blockid` as a **line-end anchor**: the `^` must appear at line start or after whitespace at the end of a block-level element's last line. A `^` in the middle of a line, or a `^` that is part of a math expression, is not a block anchor. This distinction is encoded in rule OFM-BLOCK-003, defined in [[ofm-spec/block-references]].
+The parser must correctly identify `^blockid` as a **line-end anchor**: the `^` must appear at line start or after whitespace at the end of a block-level element's last line. A `^` in the middle of a line, or a `^` that is part of a math expression, is not a block anchor. This distinction is encoded in rule OFM-BLOCK-003, defined in [[docs/ofm-spec/block-references]].
 
 ## Decision
 
 Index `^blockid` anchors as **`BlockAnchorDef`** in `OFMIndex`. Treat `[[doc#^id]]` as a **`CrossBlock`** ref in `RefGraph`. Implement the following LSP features for block references:
 
-1. **FG005 diagnostic** — raised when `[[doc#^id]]` cannot be resolved because `^id` does not exist in the resolved document (see [[features/diagnostics]]).
-2. **Go-to-definition** — `[[doc#^id]]` navigates to the line containing `^id` in the target document (see [[features/navigation]]).
-3. **Find-references** — given the cursor on a `^blockid` anchor, returns all `[[doc#^id]]` uses across the vault (see [[features/navigation]]).
-4. **Completion** — after `[[doc#^`, offers all known `^id` values from the resolved document (see [[features/completions]]).
-5. **Code lens** — "N references" above each `^blockid` anchor (see [[features/code-lens]]).
+1. **FG005 diagnostic** — raised when `[[doc#^id]]` cannot be resolved because `^id` does not exist in the resolved document (see [[docs/features/diagnostics]]).
+2. **Go-to-definition** — `[[doc#^id]]` navigates to the line containing `^id` in the target document (see [[docs/features/navigation]]).
+3. **Find-references** — given the cursor on a `^blockid` anchor, returns all `[[doc#^id]]` uses across the vault (see [[docs/features/navigation]]).
+4. **Completion** — after `[[doc#^`, offers all known `^id` values from the resolved document (see [[docs/features/completions]]).
+5. **Code lens** — "N references" above each `^blockid` anchor (see [[docs/features/code-lens]]).
 
 ## Consequences
 
@@ -50,10 +50,10 @@ Index `^blockid` anchors as **`BlockAnchorDef`** in `OFMIndex`. Treat `[[doc#^id
 
 ## Related
 
-- [[ofm-spec/block-references]]
-- [[requirements/block-references]]
-- [[plans/phase-08-block-refs]]
-- [[concepts/symbol-model]]
-- [[features/completions]]
-- [[features/navigation]]
-- [[features/diagnostics]]
+- [[docs/ofm-spec/block-references]]
+- [[docs/requirements/block-references]]
+- [[docs/plans/phase-08-block-refs]]
+- [[docs/concepts/symbol-model]]
+- [[docs/features/completions]]
+- [[docs/features/navigation]]
+- [[docs/features/diagnostics]]

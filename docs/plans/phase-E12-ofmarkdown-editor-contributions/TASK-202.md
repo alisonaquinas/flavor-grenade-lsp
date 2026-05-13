@@ -29,7 +29,7 @@ Markdown configuration.
 
 - Scope language configuration through the OFMarkdown language contribution.
 - Include wiki-link and tag-friendly word pattern behavior where appropriate.
-- See also: [[features/ofmarkdown-language-mode]]
+- See also: [[docs/features/ofmarkdown-language-mode]]
 
 ---
 
@@ -37,7 +37,7 @@ Markdown configuration.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | Language configuration changes are scoped to `ofmarkdown` | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | Language configuration changes are scoped to `ofmarkdown` | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -61,7 +61,7 @@ Markdown configuration.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown-specific editor behavior belongs under the OFMarkdown language id |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | OFMarkdown-specific editor behavior belongs under the OFMarkdown language id |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Folding markers and word patterns are tuned for OFMarkdown constructs
 - [x] Generic Markdown language configuration is unchanged
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
@@ -107,7 +107,7 @@ editor contribution configuration only.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -125,7 +125,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

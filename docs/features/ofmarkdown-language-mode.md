@@ -64,19 +64,19 @@ Markdown.
 
 | Flavor id | Required profile baseline | Source |
 |---|---|---|
-| `original` | Gruber 2004 Markdown syntax and Markdown.pl-era ambiguities; no fenced code, tables, task lists, or wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
-| `commonmark` | Versioned CommonMark core semantics with fenced code blocks and standardized edge-case behavior; no GFM tables or Obsidian wiki links as core syntax. | [[research/commonmark-and-original-markdown]] |
-| `obsidian` | Obsidian-style wiki links, embeds, block anchors, tags, callouts, frontmatter, math, comments, and vault-local link semantics. | [[ofm-spec/index]] |
-| `gfm` | CommonMark plus GitHub tables, task lists, strikethrough, autolinks, and GitHub platform rendering boundaries. | [[research/github-flavored-markdown-analysis]] |
-| `glfm` | CommonMark/GFM base plus GitLab-specific references, media behavior, and heading/link conventions. | [[research/gitlab-flavored-markdown-analysis]] |
-| `pandoc` | Extension-oriented Markdown with citations, math, metadata, attributes, labels, cross-references, and conversion-sensitive behavior. | [[research/pandoc-markdown-deep-research-report]] |
-| `multimarkdown` | Document-production Markdown with metadata, tables, footnotes, citations, cross-references, and export-oriented behavior. | [[research/multimarkdown-analysis]] |
-| `mdx` | Markdown with JSX expressions/components and ESM-oriented constraints; treat `.mdx` language-mode ownership as external to Markdown flavor selection. | [[research/mdx-analysis]] |
-| `kramdown` | kramdown block/span attributes, definition lists, tables, math, footnotes, and parser option behavior. | [[research/kramdown-analysis]] |
-| `markdown-extra` | PHP Markdown Extra tables, definition lists, footnotes, abbreviations, fenced code, and attribute blocks. | [[research/markdown-extra-analysis]] |
-| `r-markdown` | YAML metadata, prose Markdown, and executable R code chunk conventions across knitr/rmarkdown-style pipelines. | [[research/r-markdown-analysis]] |
-| `reddit` | Reddit's platform Markdown rules, including host-specific rendering, escaping, and portability limits. | [[research/reddit-markdown-analysis]] |
-| `stack-overflow` | Stack Overflow's CommonMark-based technical-writing profile, code blocks, syntax highlighting conventions, and platform constraints. | [[research/stack-overflow-markdown-analysis]] |
+| `original` | Gruber 2004 Markdown syntax and Markdown.pl-era ambiguities; no fenced code, tables, task lists, or wiki links as core syntax. | [[docs/research/commonmark-and-original-markdown]] |
+| `commonmark` | Versioned CommonMark core semantics with fenced code blocks and standardized edge-case behavior; no GFM tables or Obsidian wiki links as core syntax. | [[docs/research/commonmark-and-original-markdown]] |
+| `obsidian` | Obsidian-style wiki links, embeds, block anchors, tags, callouts, frontmatter, math, comments, and vault-local link semantics. | [[docs/ofm-spec/index]] |
+| `gfm` | CommonMark plus GitHub tables, task lists, strikethrough, autolinks, and GitHub platform rendering boundaries. | [[docs/research/github-flavored-markdown-analysis]] |
+| `glfm` | CommonMark/GFM base plus GitLab-specific references, media behavior, and heading/link conventions. | [[docs/research/gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Extension-oriented Markdown with citations, math, metadata, attributes, labels, cross-references, and conversion-sensitive behavior. | [[docs/research/pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | Document-production Markdown with metadata, tables, footnotes, citations, cross-references, and export-oriented behavior. | [[docs/research/multimarkdown-analysis]] |
+| `mdx` | Markdown with JSX expressions/components and ESM-oriented constraints; treat `.mdx` language-mode ownership as external to Markdown flavor selection. | [[docs/research/mdx-analysis]] |
+| `kramdown` | kramdown block/span attributes, definition lists, tables, math, footnotes, and parser option behavior. | [[docs/research/kramdown-analysis]] |
+| `markdown-extra` | PHP Markdown Extra tables, definition lists, footnotes, abbreviations, fenced code, and attribute blocks. | [[docs/research/markdown-extra-analysis]] |
+| `r-markdown` | YAML metadata, prose Markdown, and executable R code chunk conventions across knitr/rmarkdown-style pipelines. | [[docs/research/r-markdown-analysis]] |
+| `reddit` | Reddit's platform Markdown rules, including host-specific rendering, escaping, and portability limits. | [[docs/research/reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow's CommonMark-based technical-writing profile, code blocks, syntax highlighting conventions, and platform constraints. | [[docs/research/stack-overflow-markdown-analysis]] |
 
 ## Selector UI
 
@@ -219,9 +219,9 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 
 ## Related
 
-- [[adr/ADR020-markdown-flavor-selection]]
-- [[adr/ADR016-ofmarkdown-language-mode]]
-- [[requirements/ofmarkdown-language-mode]]
+- [[docs/adr/ADR020-markdown-flavor-selection]]
+- [[docs/adr/ADR016-ofmarkdown-language-mode]]
+- [[docs/requirements/ofmarkdown-language-mode]]
 - `docs/bdd/features/ofmarkdown-language-mode.feature`
-- [[ddd/editor-client/domain-model]]
-- [[features/semantic-tokens]]
+- [[docs/ddd/editor-client/domain-model]]
+- [[docs/features/semantic-tokens]]

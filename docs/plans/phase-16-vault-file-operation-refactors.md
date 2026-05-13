@@ -26,18 +26,18 @@ and attachments before the editor applies file or folder moves.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Atomic file/folder move WorkspaceEdit across all local reference forms |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]] | Advertise and handle file-operation rename requests for supporting clients |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]] | Plan old/new file and folder mappings only inside one vault root |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]] | Rewrite moved-target references while preserving syntax family and link details |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]] | Report ambiguous references that cannot be safely rewritten |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]] | Validate deterministic, non-overlapping, all-or-nothing WorkspaceEdit output |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]] | Refresh affected index and diagnostics state after `didRenameFiles` |
-| [[requirements/rename#Rename.Refactoring.Completeness]] | Preserve rename completeness for existing wiki-link and heading references |
-| [[requirements/rename#Rename.StyleBinding.Consistency]] | Preserve configured link style where wiki-link text is rewritten |
-| [[requirements/security/vault-confinement#Security.Vault.PathConfinement]] | Canonicalize and vault-root-check all old and new paths |
-| [[requirements/security/vault-confinement#Security.Vault.RenameConfinement]] | Cancel rename/move edits that escape the vault root |
-| [[requirements/wiki-link-resolution#Link.Wiki.StyleBinding]] | Keep wiki-link output consistent with active style |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Atomic file/folder move WorkspaceEdit across all local reference forms |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]] | Advertise and handle file-operation rename requests for supporting clients |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]] | Plan old/new file and folder mappings only inside one vault root |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]] | Rewrite moved-target references while preserving syntax family and link details |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]] | Report ambiguous references that cannot be safely rewritten |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]] | Validate deterministic, non-overlapping, all-or-nothing WorkspaceEdit output |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]] | Refresh affected index and diagnostics state after `didRenameFiles` |
+| [[docs/requirements/rename#Rename.Refactoring.Completeness]] | Preserve rename completeness for existing wiki-link and heading references |
+| [[docs/requirements/rename#Rename.StyleBinding.Consistency]] | Preserve configured link style where wiki-link text is rewritten |
+| [[docs/requirements/security/vault-confinement#Security.Vault.PathConfinement]] | Canonicalize and vault-root-check all old and new paths |
+| [[docs/requirements/security/vault-confinement#Security.Vault.RenameConfinement]] | Cancel rename/move edits that escape the vault root |
+| [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]] | Keep wiki-link output consistent with active style |
 
 ## Scope
 
@@ -92,6 +92,6 @@ and attachments before the editor applies file or folder moves.
 ## Related
 
 - [[ADR018-vault-file-operation-refactoring]]
-- [[requirements/functional/ofmarkdown-parity]]
-- [[requirements/security/vault-confinement]]
-- [[features/rename]]
+- [[docs/requirements/functional/ofmarkdown-parity]]
+- [[docs/requirements/security/vault-confinement]]
+- [[docs/features/rename]]

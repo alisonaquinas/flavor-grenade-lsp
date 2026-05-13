@@ -57,8 +57,8 @@ come from Markdown/frontmatter plus manifests.
 
 ## Linked Requirements
 
-- [[../../../website/docs/architecture/content-pipeline]]
-- [[../../../website/docs/requirements/technical/source-layout-and-documentation]]
+- [[website/docs/architecture/content-pipeline]]
+- [[website/docs/requirements/technical/source-layout-and-documentation]]
 
 ## Linked Tests
 
@@ -83,7 +83,7 @@ N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

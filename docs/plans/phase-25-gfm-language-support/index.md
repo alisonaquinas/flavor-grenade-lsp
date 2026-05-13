@@ -27,5 +27,5 @@ heading anchor behavior where local support is practical.
 symbols, document links, and navigation for GFM constructs.
 
 `TASK-326` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
 plus integration, BDD, and validation coverage for `gfm`.

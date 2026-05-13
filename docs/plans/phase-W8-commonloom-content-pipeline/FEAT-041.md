@@ -62,7 +62,7 @@ deterministic TypeScript content modules for the Svelte website.
 
 ## Child Tasks
 
-See [[index]] for the complete ticket list.
+See [[docs/plans/phase-W8-commonloom-content-pipeline/index]] for the complete ticket list.
 
 ## Remaining Closeout Tickets
 

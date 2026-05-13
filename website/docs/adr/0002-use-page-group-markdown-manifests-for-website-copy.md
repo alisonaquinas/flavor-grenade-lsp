@@ -375,10 +375,10 @@ ESLint and Prettier may exclude generated files if the exclusion is explicit.
 
 ## More Information
 
-- [[../architecture/content-pipeline]]
-- [[../requirements/technical/source-layout-and-documentation]]
-- [[../requirements/functional/public-pages]]
-- [[../requirements/functional/navigation-and-routing]]
+- [[website/docs/architecture/content-pipeline]]
+- [[website/docs/requirements/technical/source-layout-and-documentation]]
+- [[website/docs/requirements/functional/public-pages]]
+- [[website/docs/requirements/functional/navigation-and-routing]]
 - [[0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]]
 - Vite documentation supports JSON imports and asset URL imports. W8 still
   chooses generated TypeScript for renderer input so public content remains

@@ -180,7 +180,7 @@ This membership view is intentionally narrower than parsing capability. The
 server can still parse a standalone OFM file in single-file mode, but VS Code
 must keep the document language id as `markdown` and express dialect behavior
 through the Markdown flavor selector per
-[[adr/ADR020-markdown-flavor-selection]].
+[[docs/adr/ADR020-markdown-flavor-selection]].
 
 ### Config Merging
 
@@ -224,10 +224,10 @@ For editor-open documents (version ≥ 0), `FileWatcher` ignores `change` events
 
 ## Cross-References
 
-- [[concepts/document-model]] — OFMDoc structure and lifecycle
-- [[concepts/connection-graph]] — RefGraph owned by VaultFolder
-- [[concepts/path-model]] — VaultRoot, DocId, Slug types
-- [[concepts/symbol-model]] — ScopedSym values flowing through withDoc
-- [[architecture/data-flow]] — VaultFolder.withDoc in the didChange pipeline
-- [[architecture/layers]] — VaultModule in the layer stack
-- [[features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode
+- [[docs/concepts/document-model]] — OFMDoc structure and lifecycle
+- [[docs/concepts/connection-graph]] — RefGraph owned by VaultFolder
+- [[docs/concepts/path-model]] — VaultRoot, DocId, Slug types
+- [[docs/concepts/symbol-model]] — ScopedSym values flowing through withDoc
+- [[docs/architecture/data-flow]] — VaultFolder.withDoc in the didChange pipeline
+- [[docs/architecture/layers]] — VaultModule in the layer stack
+- [[docs/features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode

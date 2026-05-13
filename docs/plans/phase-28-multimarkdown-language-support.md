@@ -26,21 +26,21 @@ Implement actual language support for the `multimarkdown` flavor.
 Support metadata, tables, footnotes, citations, cross-references, labels,
 supported attributes, diagnostics, completions, document symbols, folding,
 semantic tokens, and navigation for document-production constructs according to
-[[plans/markdown-flavor-lsp-applicability-matrix]].
+[[docs/plans/markdown-flavor-lsp-applicability-matrix]].
 
 ## Requirement Trace
 
 | Source | Phase responsibility |
 |---|---|
-| [[research/multimarkdown-analysis]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
-| [[gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
-| [[test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
-| [[test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
-| [[test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
-| [[test/markdown-flavor-verification-spec]] | Cover CI and command verification |
-| [[test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
+| [[docs/research/multimarkdown-analysis]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
+| [[docs/gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
+| [[docs/test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
+| [[docs/test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
+| [[docs/test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
+| [[docs/test/markdown-flavor-verification-spec]] | Cover CI and command verification |
+| [[docs/test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
 
 ## Acceptance
 
@@ -50,10 +50,10 @@ semantic tokens, and navigation for document-production constructs according to
 
 ## Related
 
-- [[adr/ADR020-markdown-flavor-selection]]
-- [[features/ofmarkdown-language-mode]]
-- [[gaps/markdown-flavor-gap-analysis]]
+- [[docs/adr/ADR020-markdown-flavor-selection]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/gaps/markdown-flavor-gap-analysis]]
 
 ## Tickets
 
-Ticket index: [[plans/phase-28-multimarkdown-language-support/index]]
+Ticket index: [[docs/plans/phase-28-multimarkdown-language-support/index]]

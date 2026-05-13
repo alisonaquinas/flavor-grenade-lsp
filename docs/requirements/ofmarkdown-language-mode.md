@@ -37,7 +37,7 @@ aliases:
 **Goal:** 100% of `.md` documents remain in `markdown`.
 **Stakeholders:** Vault authors, VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR020-markdown-flavor-selection]], [[features/ofmarkdown-language-mode]].
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
 
 ---
 
@@ -60,7 +60,7 @@ aliases:
 **Goal:** 100% selector availability for file-backed Markdown documents.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/ofmarkdown-language-mode]], [[adr/ADR020-markdown-flavor-selection]].
+**Source:** [[docs/features/ofmarkdown-language-mode]], [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 
@@ -83,24 +83,24 @@ aliases:
 **Goal:** 100% required flavor coverage.
 **Stakeholders:** Markdown authors, vault authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/commonmark-and-original-markdown]], [[research/github-flavored-markdown-analysis]], [[research/gitlab-flavored-markdown-analysis]], [[research/pandoc-markdown-deep-research-report]], [[research/multimarkdown-analysis]], [[research/mdx-analysis]], [[research/kramdown-analysis]], [[research/markdown-extra-analysis]], [[research/r-markdown-analysis]], [[research/reddit-markdown-analysis]], [[research/stack-overflow-markdown-analysis]], [[ofm-spec/index]], [[adr/ADR020-markdown-flavor-selection]].
+**Source:** [[docs/research/commonmark-and-original-markdown]], [[docs/research/github-flavored-markdown-analysis]], [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/research/pandoc-markdown-deep-research-report]], [[docs/research/multimarkdown-analysis]], [[docs/research/mdx-analysis]], [[docs/research/kramdown-analysis]], [[docs/research/markdown-extra-analysis]], [[docs/research/r-markdown-analysis]], [[docs/research/reddit-markdown-analysis]], [[docs/research/stack-overflow-markdown-analysis]], [[docs/ofm-spec/index]], [[docs/adr/ADR020-markdown-flavor-selection]].
 
 | Flavor id | Selector label | Research source |
 |---|---|---|
 | `auto` | Auto Detect | Workspace/vault detection requirements |
-| `original` | Original Markdown | [[research/commonmark-and-original-markdown]] |
-| `commonmark` | CommonMark | [[research/commonmark-and-original-markdown]] |
-| `obsidian` | Obsidian | [[ofm-spec/index]] |
-| `gfm` | GitHub Flavored Markdown | [[research/github-flavored-markdown-analysis]] |
-| `glfm` | GitLab Flavored Markdown | [[research/gitlab-flavored-markdown-analysis]] |
-| `pandoc` | Pandoc Markdown | [[research/pandoc-markdown-deep-research-report]] |
-| `multimarkdown` | MultiMarkdown | [[research/multimarkdown-analysis]] |
-| `mdx` | MDX | [[research/mdx-analysis]] |
-| `kramdown` | kramdown | [[research/kramdown-analysis]] |
-| `markdown-extra` | Markdown Extra | [[research/markdown-extra-analysis]] |
-| `r-markdown` | R Markdown | [[research/r-markdown-analysis]] |
-| `reddit` | Reddit Markdown | [[research/reddit-markdown-analysis]] |
-| `stack-overflow` | Stack Overflow Markdown | [[research/stack-overflow-markdown-analysis]] |
+| `original` | Original Markdown | [[docs/research/commonmark-and-original-markdown]] |
+| `commonmark` | CommonMark | [[docs/research/commonmark-and-original-markdown]] |
+| `obsidian` | Obsidian | [[docs/ofm-spec/index]] |
+| `gfm` | GitHub Flavored Markdown | [[docs/research/github-flavored-markdown-analysis]] |
+| `glfm` | GitLab Flavored Markdown | [[docs/research/gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Pandoc Markdown | [[docs/research/pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | MultiMarkdown | [[docs/research/multimarkdown-analysis]] |
+| `mdx` | MDX | [[docs/research/mdx-analysis]] |
+| `kramdown` | kramdown | [[docs/research/kramdown-analysis]] |
+| `markdown-extra` | Markdown Extra | [[docs/research/markdown-extra-analysis]] |
+| `r-markdown` | R Markdown | [[docs/research/r-markdown-analysis]] |
+| `reddit` | Reddit Markdown | [[docs/research/reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow Markdown | [[docs/research/stack-overflow-markdown-analysis]] |
 
 ---
 
@@ -146,7 +146,7 @@ aliases:
 **Goal:** 100% documented auto-detection correctness.
 **Stakeholders:** Vault authors, Markdown authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/workspace]], [[adr/ADR020-markdown-flavor-selection]], [[features/ofmarkdown-language-mode]].
+**Source:** [[docs/requirements/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
 
 ---
 
@@ -172,7 +172,7 @@ aliases:
 **Goal:** 100% correct persistence scope.
 **Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR020-markdown-flavor-selection]], VS Code configuration target behavior.
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], VS Code configuration target behavior.
 
 ---
 
@@ -196,7 +196,7 @@ aliases:
 **Goal:** 100% propagation for supported flavor transitions.
 **Stakeholders:** Markdown authors, extension maintainers, server maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer]], [[adr/ADR020-markdown-flavor-selection]].
+**Source:** [[docs/design/api-layer]], [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 
@@ -219,4 +219,4 @@ aliases:
 **Goal:** 100% manual language selections preserved.
 **Stakeholders:** Advanced VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR020-markdown-flavor-selection]], VS Code API documentation for language ids.
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], VS Code API documentation for language ids.

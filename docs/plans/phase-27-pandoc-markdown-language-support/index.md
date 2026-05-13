@@ -27,5 +27,5 @@ fenced divs, definition lists, labels, and cross-references.
 symbols, and navigation without running Pandoc conversion.
 
 `TASK-332` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]]
 plus integration, BDD, and validation coverage for `pandoc`.

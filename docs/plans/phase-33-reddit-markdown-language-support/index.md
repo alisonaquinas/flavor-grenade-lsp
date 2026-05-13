@@ -27,7 +27,7 @@ behavior, supported spoiler syntax, and portability boundaries.
 completion or quick fixes where useful.
 
 `TASK-350` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]]
 plus integration, BDD, and validation coverage for `reddit`.
 
 ## Deferred Follow-Up Notes

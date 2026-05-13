@@ -18,10 +18,10 @@ introduced.
 > This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
-> For the full requirements × tests × work-performed traceability matrix, see [[test/matrix]].
-> Detailed Markdown flavor test cases live in [[markdown-flavor-unit-spec]],
-> [[markdown-flavor-integration-spec]], [[markdown-flavor-e2e-spec]],
-> [[markdown-flavor-verification-spec]], and [[markdown-flavor-validation-spec]].
+> For the full requirements × tests × work-performed traceability matrix, see [[docs/test/matrix]].
+> Detailed Markdown flavor test cases live in [[docs/test/markdown-flavor-unit-spec]],
+> [[docs/test/markdown-flavor-integration-spec]], [[docs/test/markdown-flavor-e2e-spec]],
+> [[docs/test/markdown-flavor-verification-spec]], and [[docs/test/markdown-flavor-validation-spec]].
 
 ---
 
@@ -237,19 +237,19 @@ Test fixture vaults live under `tests/fixtures/vaults/`. Each subdirectory is a 
 When you add a new test file:
 
 1. Add the file to this index in the appropriate section.
-2. Add a row to [[test/matrix]] mapping the new test to its Planguage requirement tags.
+2. Add a row to [[docs/test/matrix]] mapping the new test to its Planguage requirement tags.
 3. Commit both the test file and the updated index/matrix in the same commit.
 4. Run `scripts/update-test-index.sh` if available to auto-populate (Phase 3+).
 
 > [!WARNING]
-> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[requirements/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
+> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[docs/requirements/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
 
 ---
 
 ## Related Documents
 
-- [[test/matrix]] — Planguage requirements × test files × status traceability matrix
-- [[requirements/index]] — Master Planguage tag index (source of truth for tag names)
-- [[requirements/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
-- [[requirements/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
-- [[plans/phase-01-scaffold]] — Phase 1 task list where first tests are introduced
+- [[docs/test/matrix]] — Planguage requirements × test files × status traceability matrix
+- [[docs/requirements/index]] — Master Planguage tag index (source of truth for tag names)
+- [[docs/requirements/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
+- [[docs/requirements/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
+- [[docs/plans/phase-01-scaffold]] — Phase 1 task list where first tests are introduced

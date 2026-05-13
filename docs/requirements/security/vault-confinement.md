@@ -11,7 +11,7 @@ aliases:
 # Vault Root Confinement Requirements
 
 > [!NOTE] Scope
-> These are **functional security requirements** governing how the server resolves file paths derived from vault content and LSP parameters. They prevent path traversal attacks that could expose files outside the vault root (information disclosure) or overwrite arbitrary files on the user's system (via the rename write path). Evidence is drawn from [[research/security-threat-model#Threat-Category-1]] and [[research/security-threat-model#Threat-Category-4]]. The canonical decision is [[adr/ADR013-vault-root-confinement]].
+> These are **functional security requirements** governing how the server resolves file paths derived from vault content and LSP parameters. They prevent path traversal attacks that could expose files outside the vault root (information disclosure) or overwrite arbitrary files on the user's system (via the rename write path). Evidence is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. The canonical decision is [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
 
@@ -38,7 +38,7 @@ aliases:
 **Goal:** 100% of traversal patterns are confined — zero file system accesses outside the vault root.
 **Stakeholders:** Vault authors, file system security, users of shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.2]], [[adr/ADR013-vault-root-confinement]], CVE-2024-22415, OWASP Path Traversal.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]], CVE-2024-22415, OWASP Path Traversal.
 
 ---
 
@@ -61,7 +61,7 @@ aliases:
 **Goal:** 100% of out-of-vault symlinks treated as non-existent — zero symlink-based traversals succeed.
 **Stakeholders:** File system security, vault authors on multi-user systems.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.2]], [[adr/ADR013-vault-root-confinement#4-symlink-policy]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
 
@@ -82,7 +82,7 @@ aliases:
 **Goal:** 100% of non-`file://` URIs rejected at the transport boundary.
 **Stakeholders:** Security auditors, future TCP-transport mode users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-6]], [[adr/ADR013-vault-root-confinement#3-uri-scheme-allowlist]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]].
 
 ---
 
@@ -103,4 +103,4 @@ aliases:
 **Goal:** 0 out-of-vault rename writes — any escaping URI cancels the entire rename operation.
 **Stakeholders:** File system security, vault authors, users on multi-user systems.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-4.3]], [[adr/ADR013-vault-root-confinement#2-application-points]], [[plans/phase-11-rename]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR013-vault-root-confinement]], [[docs/plans/phase-11-rename]].

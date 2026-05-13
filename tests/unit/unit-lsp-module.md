@@ -6,7 +6,7 @@ aliases: [Unit Tests LSP, RequestRouter Tests, CapabilityNegotiator Tests]
 
 > [!INFO] LspServer is NOT unit-tested at the stdio level. RequestRouter and CapabilityNegotiator are tested in isolation with mock handlers. No real stdin/stdout is touched in unit tests — that is the integration smoke layer's job.
 
-See [[architecture/layers]] for the module boundary rules that prohibit direct stdio access in unit tests. See [[architecture/overview]] for the full LspModule provider graph. See [[adr/ADR010-tests-directory-structure]] for the spec file layout convention.
+See [[docs/architecture/layers]] for the module boundary rules that prohibit direct stdio access in unit tests. See [[docs/architecture/overview]] for the full LspModule provider graph. See [[docs/adr/ADR010-tests-directory-structure]] for the spec file layout convention.
 
 ---
 

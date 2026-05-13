@@ -11,7 +11,7 @@ aliases:
 # Parser Safety Requirements
 
 > [!NOTE] Scope
-> These are **technical security requirements** governing the OFM parser introduced in Phase 3. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[research/security-threat-model#Threat-Category-1]] and [[research/security-threat-model#Threat-Category-5]]. Decisions are codified in [[adr/ADR012-parser-safety-policy]].
+> These are **technical security requirements** governing the OFM parser introduced in Phase 3. They bound resource consumption, prohibit unsafe regex patterns, and constrain recursive resolution to prevent adversarially crafted vault content from causing denial of service or memory exhaustion. Evidence for each requirement is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR012-parser-safety-policy]].
 
 ---
 
@@ -30,7 +30,7 @@ aliases:
 **Goal:** 0 super-linear patterns — all parser regexes pass `safe-regex` or are documented as safe by manual analysis.
 **Stakeholders:** Vault authors using shared or third-party vaults, server reliability, editor responsiveness.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.1]], [[adr/ADR012-parser-safety-policy]], CVE-2022-21670, CVE-2025-6493.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], CVE-2022-21670, CVE-2025-6493.
 
 ---
 
@@ -51,7 +51,7 @@ aliases:
 **Goal:** 100% of pathological files abort within 200 ms; server remains responsive; subsequent files index normally.
 **Stakeholders:** Editor users on shared or third-party vaults, server reliability engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.1]], [[adr/ADR012-parser-safety-policy#2-per-file-parse-timeout]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]].
 
 ---
 
@@ -71,7 +71,7 @@ aliases:
 **Goal:** 100% compliance — all limits enforced, all exceptions caught, zero content in logs.
 **Stakeholders:** Vault authors, server reliability, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-1.3]], [[adr/ADR012-parser-safety-policy#3-yaml-frontmatter-depth-and-alias-limits]], js-yaml documentation.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], js-yaml documentation.
 
 ---
 
@@ -92,7 +92,7 @@ aliases:
 **Goal:** 100% of cycles detected without crash; 100% of depth-exceeded chains stop cleanly; 0% false positives on non-circular chains.
 **Stakeholders:** Vault authors using transclusion-heavy vaults, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-5.2]], [[adr/ADR012-parser-safety-policy#4-embed-cycle-detection-and-depth-limit]], [[requirements/diagnostics]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], [[docs/requirements/diagnostics]].
 
 ---
 
@@ -114,4 +114,4 @@ aliases:
 **Goal:** 100% of oversized vaults trigger the limit correctly; client is always notified; server remains responsive.
 **Stakeholders:** Users with accidentally large vault roots, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-5.1]], [[adr/ADR012-parser-safety-policy#5-file-count-limit]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]].

@@ -27,7 +27,7 @@ does not drift into `website/docs`.
 
 | Requirement | Source |
 |---|---|
-| Website source and test layout | [[../../../website/docs/requirements/technical/source-layout-and-documentation]] |
+| Website source and test layout | [[website/docs/requirements/technical/source-layout-and-documentation]] |
 
 ## Implementation Details
 
@@ -63,7 +63,7 @@ The guard must ignore:
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

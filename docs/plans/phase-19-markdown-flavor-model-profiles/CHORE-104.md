@@ -22,7 +22,7 @@ Close Phase 19 with docs, traceability, and verification evidence.
 ## Work Scope
 
 - Run phase verification commands.
-- Update [[test/index]] and [[test/matrix]].
+- Update [[docs/test/index]] and [[docs/test/matrix]].
 - Add workflow log closeout notes and retrospective items.
 
 ## Definition of Done

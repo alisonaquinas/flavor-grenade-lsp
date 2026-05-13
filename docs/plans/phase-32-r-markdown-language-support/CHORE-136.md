@@ -22,7 +22,7 @@ Perform the operational sweep for R Markdown language-support phase closure.
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for r-markdown.
-- Confirm [[research/r-markdown-analysis]] remains the source trace for the phase.
+- Confirm [[docs/research/r-markdown-analysis]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

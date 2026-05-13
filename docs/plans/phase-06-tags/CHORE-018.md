@@ -30,7 +30,7 @@ Audit all Phase 6 source files for security issues and resolve them without alte
 
 Phase 6 processes user-controlled strings (tag values from document content and YAML frontmatter) and constructs `WorkspaceEdit` payloads. User tag strings must never be passed to filesystem APIs, and frontmatter YAML must be validated before indexing.
 
-- Motivated by: [[requirements/security/index]], no-filesystem-from-tag-strings invariant
+- Motivated by: [[docs/requirements/security/index]], no-filesystem-from-tag-strings invariant
 
 ---
 
@@ -38,8 +38,8 @@ Phase 6 processes user-controlled strings (tag values from document content and 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | No user tag strings in filesystem operations | [[requirements/security/index]] |
-| — | Frontmatter YAML input validation before indexing | [[requirements/security/index]] |
+| — | No user tag strings in filesystem operations | [[docs/requirements/security/index]] |
+| — | Frontmatter YAML input validation before indexing | [[docs/requirements/security/index]] |
 
 ---
 
@@ -65,7 +65,7 @@ Phase 6 processes user-controlled strings (tag values from document content and 
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR002-ofm-only-scope]] | Tag strings are metadata only, never filesystem operands |
+| [[docs/adr/ADR002-ofm-only-scope]] | Tag strings are metadata only, never filesystem operands |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
 - [ ] Confirmed: no user tag strings reach any `fs.*` or path-construction API
 - [ ] Confirmed: frontmatter YAML tags are validated/sanitised before indexing
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -104,7 +104,7 @@ Focus: no user tag strings used in filesystem operations, frontmatter YAML input
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -115,7 +115,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep for Phase 6 — no user tag strings in filesystem operations, frontmatter YAML input validation.

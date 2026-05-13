@@ -30,7 +30,7 @@ without type-checking React components.
 language mode.
 
 Unit coverage traces to
-[[test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]].
+[[docs/test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]].
 
 ## Deferred Follow-Up Notes
 

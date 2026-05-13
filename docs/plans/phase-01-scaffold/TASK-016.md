@@ -32,7 +32,7 @@ Create `.gitignore` at the project root to exclude build artefacts, runtime-gene
 - Verify that `.flavor-grenade.toml` is NOT in `.gitignore` — it must be tracked
 - Verify that `bunfig.toml` is NOT in `.gitignore` — it must be tracked
 - Verify that `eslint.config.js` and `.prettierrc.json` are NOT in `.gitignore`
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -40,7 +40,7 @@ Create `.gitignore` at the project root to exclude build artefacts, runtime-gene
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Repository hygiene; no functional requirement tag yet assigned | [[requirements/index]] |
+| — | Repository hygiene; no functional requirement tag yet assigned | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Create `.gitignore` at the project root to exclude build artefacts, runtime-gene
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Build output (`dist/`) excluded from git; only source files are version-controlled |
+| [[docs/adr/ADR001-stdio-transport]] | Build output (`dist/`) excluded from git; only source files are version-controlled |
 
 ---
 
@@ -107,7 +107,7 @@ The `.env` entry (without a trailing slash) ignores `.env` files at any depth. I
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

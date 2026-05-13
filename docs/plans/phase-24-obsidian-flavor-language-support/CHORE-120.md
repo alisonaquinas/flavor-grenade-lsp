@@ -22,7 +22,7 @@ Perform the operational sweep for Obsidian language-support phase closure.
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for obsidian.
-- Confirm [[ofm-spec/index]] remains the source trace for the phase.
+- Confirm [[docs/ofm-spec/index]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

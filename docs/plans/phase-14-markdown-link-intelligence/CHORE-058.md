@@ -36,8 +36,8 @@ quality findings.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[requirements/code-quality]] |
-| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be split | [[requirements/code-quality]] |
+| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[docs/requirements/code-quality]] |
+| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be split | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -49,7 +49,7 @@ quality findings.
 - `src/resolution/markdown-target-classifier.ts`
 - `src/resolution/oracle.ts`
 - `src/resolution/ref-graph.ts`
-- This ticket file and [[plans/phase-14-markdown-link-intelligence/index]]
+- This ticket file and [[docs/plans/phase-14-markdown-link-intelligence/index]]
 
 **Files created:**
 
@@ -75,7 +75,7 @@ quality findings.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

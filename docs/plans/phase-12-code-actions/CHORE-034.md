@@ -28,7 +28,7 @@ Run the full linter across all files introduced or modified in Phase 12 (`src/ha
 
 ## Motivation
 
-Keeping lint clean after each feature phase prevents warning accumulation and maintains code quality standards defined in [[requirements/code-quality]].
+Keeping lint clean after each feature phase prevents warning accumulation and maintains code quality standards defined in [[docs/requirements/code-quality]].
 
 - Motivated by: `Quality.Lint.ZeroWarnings`
 
@@ -38,7 +38,7 @@ Keeping lint clean after each feature phase prevents warning accumulation and ma
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings across the codebase | [[requirements/code-quality]] |
+| — | Zero lint warnings across the codebase | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -69,7 +69,7 @@ Keeping lint clean after each feature phase prevents warning accumulation and ma
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR002-ofm-only-scope]] | No behaviour-affecting changes permitted |
+| [[docs/adr/ADR002-ofm-only-scope]] | No behaviour-affecting changes permitted |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -106,7 +106,7 @@ Run after all Phase 12 TASK tickets are in `done` state.
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -117,7 +117,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: post-Phase-12 lint sweep to reach zero warnings.

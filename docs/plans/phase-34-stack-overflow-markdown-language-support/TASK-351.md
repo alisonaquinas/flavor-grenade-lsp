@@ -17,7 +17,7 @@ aliases: ["TASK-351"]
 
 ## Description
 
-Deliver parser/profile semantics for the stack-overflow flavor using [[research/stack-overflow-markdown-analysis]] and ADR020 as the controlling specification.
+Deliver parser/profile semantics for the stack-overflow flavor using [[docs/research/stack-overflow-markdown-analysis]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[research/
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]] | Profile and parser behavior for stack-overflow. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor stack-overflow. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]] | Profile and parser behavior for stack-overflow. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor stack-overflow. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -54,8 +54,8 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[research/
 
 - [ ] stack-overflow behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

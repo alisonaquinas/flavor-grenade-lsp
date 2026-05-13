@@ -10,7 +10,7 @@ aliases:
 # Semantic Token Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/semanticTokens/full` and `textDocument/semanticTokens/range` behaviour: token type coverage for OFM constructs, correct scoping (no tokens inside fenced code or math blocks), and LSP delta-encoding compliance. The full token type legend and editor integration examples are specified in [[features/semantic-tokens]]. The token encoding format follows LSP 3.17 §3.16.6.
+> These requirements govern `textDocument/semanticTokens/full` and `textDocument/semanticTokens/range` behaviour: token type coverage for OFM constructs, correct scoping (no tokens inside fenced code or math blocks), and LSP delta-encoding compliance. The full token type legend and editor integration examples are specified in [[docs/features/semantic-tokens]]. The token encoding format follows LSP 3.17 §3.16.6.
 
 ---
 

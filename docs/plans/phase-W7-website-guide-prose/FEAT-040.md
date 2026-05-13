@@ -57,11 +57,11 @@ and asset evidence.
 
 ## Child Tasks
 
-See [[index]] for the complete ticket list.
+See [[docs/plans/phase-W7-website-guide-prose/index]] for the complete ticket list.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

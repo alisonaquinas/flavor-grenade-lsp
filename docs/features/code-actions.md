@@ -138,8 +138,8 @@ Using `quickfix` kind for `fg.createMissingFile` causes editors to show it in th
 
 ## Related
 
-- [[features/diagnostics]]
-- [[features/completions]]
+- [[docs/features/diagnostics]]
+- [[docs/features/completions]]
 - [[ADR002-ofm-only-scope]]
 - [[ADR003-vault-detection]]
-- [[ofm-spec/index]]
+- [[docs/ofm-spec/index]]

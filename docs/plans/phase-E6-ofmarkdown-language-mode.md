@@ -89,8 +89,8 @@ Manual smoke test:
 
 ## References
 
-- [[adr/ADR016-ofmarkdown-language-mode]]
-- [[features/ofmarkdown-language-mode]]
-- [[requirements/ofmarkdown-language-mode]]
+- [[docs/adr/ADR016-ofmarkdown-language-mode]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/requirements/ofmarkdown-language-mode]]
 - `docs/bdd/features/ofmarkdown-language-mode.feature`
-- [[superpowers/specs/2026-04-21-vscode-extension-design]]
+- [[docs/superpowers/specs/2026-04-21-vscode-extension-design]]

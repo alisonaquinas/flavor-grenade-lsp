@@ -11,7 +11,7 @@ aliases:
 # VS Code Extension Parity Requirements
 
 Scope: These requirements govern the VS Code client roadmap derived from
-[[research/marksman-vscode-feature-parity-ofmarkdown]]. Server-side language
+[[docs/research/marksman-vscode-feature-parity-ofmarkdown]]. Server-side language
 intelligence remains governed by the Markdown flavor and OFMarkdown feature
 requirements.
 
@@ -37,7 +37,7 @@ requirements.
 **Goal:** 100% correct activation outcomes.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [[docs/features/vscode-extension-parity]], [[ADR019-vscode-command-bridges-and-client-ux]].
 
 ---
 
@@ -60,7 +60,7 @@ requirements.
 **Goal:** 100% bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]].
+**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[docs/features/vscode-extension-parity]].
 
 ---
 
@@ -81,7 +81,7 @@ requirements.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/ofmarkdown-language-mode]].
 
 ---
 
@@ -102,7 +102,7 @@ requirements.
 **Goal:** 100% required visuals present.
 **Stakeholders:** Prospective users, publisher, maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/research/vscode-extension-publishing]].
 
 ---
 
@@ -124,7 +124,7 @@ requirements.
 **Goal:** 100% status coverage for known states.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/ddd/editor-client/domain-model]].
 
 ---
 
@@ -178,7 +178,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/ofmarkdown-language-mode]], [[plans/phase-E7-activation-precision]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/ofmarkdown-language-mode]], [[docs/plans/phase-E7-activation-precision]].
 
 ---
 
@@ -201,7 +201,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% payload validation correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[docs/features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
 
 ---
 
@@ -223,7 +223,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% required bridge command coverage.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]].
+**Source:** [[ADR019-vscode-command-bridges-and-client-ux]], [[docs/features/vscode-extension-parity]], [[docs/ddd/editor-client/domain-model]].
 
 ---
 
@@ -245,7 +245,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% known-state status coverage.
 **Stakeholders:** VS Code users, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[ddd/editor-client/domain-model]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/ddd/editor-client/domain-model]], `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
 
@@ -268,7 +268,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/ofmarkdown-language-mode]], [[features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [[docs/requirements/ofmarkdown-language-mode]], [[docs/features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
 
 ---
 
@@ -291,7 +291,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% explicit behavior for listed environment modes.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[requirements/functional/vscode-extension-parity]], `extension/docs/plans/vscode-extension-parity.md`.
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/functional/vscode-extension-parity]], `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
 
@@ -313,7 +313,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% contribution scoping correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/vscode-extension-parity]], [[features/ofmarkdown-language-mode]], [[adr/ADR020-markdown-flavor-selection]], [[ADR019-vscode-command-bridges-and-client-ux]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/features/ofmarkdown-language-mode]], [[docs/adr/ADR020-markdown-flavor-selection]], [[ADR019-vscode-command-bridges-and-client-ux]].
 
 ---
 
@@ -336,7 +336,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% required asset packaging correctness.
 **Stakeholders:** Prospective users, publisher, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/functional/vscode-extension-parity]], [[features/vscode-extension-parity]], [[research/vscode-extension-publishing]].
+**Source:** [[docs/requirements/functional/vscode-extension-parity]], [[docs/features/vscode-extension-parity]], [[docs/research/vscode-extension-publishing]].
 
 ---
 
@@ -361,4 +361,4 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% packaged target validation.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR015-platform-specific-vsix]], [[features/vscode-extension-parity]], [[plans/phase-E14-membership-refresh-compatibility-guardrails]].
+**Source:** [[ADR015-platform-specific-vsix]], [[docs/features/vscode-extension-parity]], [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]].

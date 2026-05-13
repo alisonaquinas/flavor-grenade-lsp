@@ -35,7 +35,7 @@ existing precedence for opaque regions, embeds, and wiki-links.
   completion, attachment, and rename work.
 - Match reference labels case-insensitively while keeping definitions
   document-local.
-- Respect [[ofm-spec/markdown-links]] rule codes `OFM-MDLINK-001` through
+- Respect [[docs/ofm-spec/markdown-links]] rule codes `OFM-MDLINK-001` through
   `OFM-MDLINK-005`.
 
 ## Implementation Details
@@ -61,9 +61,9 @@ existing precedence for opaque regions, embeds, and wiki-links.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.ParseCoverage` | Parser emits typed symbols and ranges for all supported Markdown link forms | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.LocalResolution` | Parse local inline links, reference links, link definitions, and image links | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Parse same-document fragment links for later anchor behavior | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.ParseCoverage` | Parser emits typed symbols and ranges for all supported Markdown link forms | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Parse local inline links, reference links, link definitions, and image links | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Parse same-document fragment links for later anchor behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -126,7 +126,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass or are ready for downstream resolver work.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -141,7 +141,7 @@ navigation, or rename behavior here except as needed to expose parser data.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -150,7 +150,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -159,7 +159,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order.
 > Do not edit previous entries. Update the `status` frontmatter field to match
 > the current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-06

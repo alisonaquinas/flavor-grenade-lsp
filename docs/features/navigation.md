@@ -9,7 +9,7 @@ aliases: [go-to-def, find references, navigation features]
 Navigation encompasses two complementary LSP capabilities: **go-to-definition** (`textDocument/definition`) and **find-references** (`textDocument/references`). Together they allow users to traverse the link graph of a vault without leaving their editor.
 
 > [!NOTE]
-> All navigation features in vault mode operate on the full OFMIndex built during Phase 4 ([[plans/phase-04-vault-index]]). In single-file mode, only intra-document navigation (e.g., to a heading in the same file) is available.
+> All navigation features in vault mode operate on the full OFMIndex built during Phase 4 ([[docs/plans/phase-04-vault-index]]). In single-file mode, only intra-document navigation (e.g., to a heading in the same file) is available.
 
 ## Go-to-Definition
 
@@ -68,17 +68,17 @@ In single-file mode, find-references only returns occurrences within the current
 
 ## Code Lens
 
-Code lens is specified separately in [[features/code-lens]]. It is closely related to find-references — clicking a code lens item triggers a `textDocument/references` request at the code lens position.
+Code lens is specified separately in [[docs/features/code-lens]]. It is closely related to find-references — clicking a code lens item triggers a `textDocument/references` request at the code lens position.
 
 ## Related Information on Diagnostics
 
-Find-references is also the mechanism used to populate `relatedInformation` on FG002 (AmbiguousWikiLink) diagnostics — the diagnostic carries `Location` entries for each of the ambiguous candidates, enabling "jump to all candidates" from the diagnostic popup. See [[features/diagnostics]].
+Find-references is also the mechanism used to populate `relatedInformation` on FG002 (AmbiguousWikiLink) diagnostics — the diagnostic carries `Location` entries for each of the ambiguous candidates, enabling "jump to all candidates" from the diagnostic popup. See [[docs/features/diagnostics]].
 
 ## Performance Characteristics
 
 Find-references is a graph traversal over `RefGraph`. For vaults with up to 10,000 documents, a full traversal should complete in under 100 ms. For larger vaults, the implementation must cache the reverse-ref index (mapping from `DocId` to all `Ref` entries that point at it) and invalidate it incrementally on file change events.
 
-Workspace symbol search ([[features/symbols]]) shares the same index and has similar performance characteristics.
+Workspace symbol search ([[docs/features/symbols]]) shares the same index and has similar performance characteristics.
 
 ## Configuration Keys
 
@@ -87,10 +87,10 @@ There are no user-facing configuration keys specific to navigation. Navigation i
 ## Related
 
 - [[ADR006-block-ref-indexing]]
-- [[features/code-lens]]
-- [[features/diagnostics]]
-- [[features/symbols]]
-- [[features/rename]]
-- [[concepts/symbol-model]]
-- [[requirements/wiki-link-resolution]]
-- [[requirements/block-references]]
+- [[docs/features/code-lens]]
+- [[docs/features/diagnostics]]
+- [[docs/features/symbols]]
+- [[docs/features/rename]]
+- [[docs/concepts/symbol-model]]
+- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/block-references]]

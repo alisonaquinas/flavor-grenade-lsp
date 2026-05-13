@@ -28,8 +28,8 @@ generic Markdown file is opened.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]] | Correct active or idle state for vault and non-vault workspaces |
-| [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Manifest and controller support for `.obsidian/`, `.flavor-grenade.toml`, `markdown`, `ofmarkdown`, and command activation |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]] | Correct active or idle state for vault and non-vault workspaces |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Manifest and controller support for `.obsidian/`, `.flavor-grenade.toml`, `markdown`, `ofmarkdown`, and command activation |
 
 ## Scope
 
@@ -68,6 +68,6 @@ npm run build:extension
 
 ## Related
 
-- [[research/marksman-vscode-feature-parity-ofmarkdown]]
-- [[features/vscode-extension-parity]]
+- [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]
+- [[docs/features/vscode-extension-parity]]
 - [[ADR019-vscode-command-bridges-and-client-ux]]

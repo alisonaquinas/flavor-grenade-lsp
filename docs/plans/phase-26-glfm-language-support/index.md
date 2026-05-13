@@ -27,7 +27,7 @@ behavior, and heading/link conventions that can be modeled locally.
 navigation while separating host-only GitLab behavior.
 
 `TASK-329` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]]
 plus integration, BDD, and validation coverage for `glfm`.
 
 ## Deferred Follow-Up Notes

@@ -81,11 +81,11 @@ npm run build
 
 ## Tickets
 
-- [[plans/phase-W3-homepage-design-system/FEAT-036]]
-- [[plans/phase-W3-homepage-design-system/TASK-220]]
-- [[plans/phase-W3-homepage-design-system/TASK-221]]
-- [[plans/phase-W3-homepage-design-system/TASK-222]]
-- [[plans/phase-W3-homepage-design-system/CHORE-089]]
+- [[docs/plans/phase-W3-homepage-design-system/FEAT-036]]
+- [[docs/plans/phase-W3-homepage-design-system/TASK-220]]
+- [[docs/plans/phase-W3-homepage-design-system/TASK-221]]
+- [[docs/plans/phase-W3-homepage-design-system/TASK-222]]
+- [[docs/plans/phase-W3-homepage-design-system/CHORE-089]]
 
 ## Related
 

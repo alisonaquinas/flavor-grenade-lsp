@@ -22,7 +22,7 @@ Perform the operational sweep for MDX language-support phase closure.
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for mdx.
-- Confirm [[research/mdx-analysis]] remains the source trace for the phase.
+- Confirm [[docs/research/mdx-analysis]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

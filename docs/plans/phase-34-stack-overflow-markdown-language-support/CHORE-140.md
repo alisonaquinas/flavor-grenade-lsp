@@ -22,7 +22,7 @@ Perform the operational sweep for Stack Overflow Markdown language-support phase
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for stack-overflow.
-- Confirm [[research/stack-overflow-markdown-analysis]] remains the source trace for the phase.
+- Confirm [[docs/research/stack-overflow-markdown-analysis]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

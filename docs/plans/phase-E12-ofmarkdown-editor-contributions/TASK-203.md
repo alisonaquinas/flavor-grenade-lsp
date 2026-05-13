@@ -37,7 +37,7 @@ them so they apply only when `editorLangId == ofmarkdown`.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | Keybindings are scoped with OFMarkdown command contexts | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | Keybindings are scoped with OFMarkdown command contexts | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -61,7 +61,7 @@ them so they apply only when `editorLangId == ofmarkdown`.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Client commands bridge server affordances into native VS Code UI |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Client commands bridge server affordances into native VS Code UI |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Every OFMarkdown-only keybinding has `editorLangId == ofmarkdown`
 - [x] Generic Markdown does not receive OFMarkdown-only keybindings
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Contributions.OFMarkdownScoped`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-030]] child task row updated to `in-review`
 
 ---
@@ -107,7 +107,7 @@ document it and leave it out.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -125,7 +125,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

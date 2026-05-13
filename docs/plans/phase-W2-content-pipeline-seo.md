@@ -75,11 +75,11 @@ npm run build
 
 ## Tickets
 
-- [[plans/phase-W2-content-pipeline-seo/FEAT-035]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-217]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-218]]
-- [[plans/phase-W2-content-pipeline-seo/TASK-219]]
-- [[plans/phase-W2-content-pipeline-seo/CHORE-088]]
+- [[docs/plans/phase-W2-content-pipeline-seo/FEAT-035]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-217]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-218]]
+- [[docs/plans/phase-W2-content-pipeline-seo/TASK-219]]
+- [[docs/plans/phase-W2-content-pipeline-seo/CHORE-088]]
 
 ## Related
 

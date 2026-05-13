@@ -51,8 +51,8 @@ Each file covers one capability area. Phase gate indicates the earliest phase at
 
 - [[tests/verification/index]] — FR-level verification plans (TC-VER-*)
 - [[tests/validation/index]] — User-level validation plans (TC-VAL-*)
-- [[test/matrix]] — Pass/fail tracking for all test files
-- [[test/index]] — Master list of all test files in the suite
+- [[docs/test/matrix]] — Pass/fail tracking for all test files
+- [[docs/test/index]] — Master list of all test files in the suite
 
 ---
 

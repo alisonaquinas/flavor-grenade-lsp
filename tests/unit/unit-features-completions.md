@@ -6,7 +6,7 @@ aliases: [Unit Tests Completions, CompletionService Tests]
 
 > [!INFO] CompletionService tests use mock FolderLookup and mock OFMIndex values. Trigger-character routing is tested by calling the service with different cursor positions and surrounding text contexts.
 
-Related: [[requirements/completions]] | [[architecture/layers]] | [[adr/ADR010-tests-directory-structure]]
+Related: [[docs/requirements/completions]] | [[docs/architecture/layers]] | [[docs/adr/ADR010-tests-directory-structure]]
 
 ---
 

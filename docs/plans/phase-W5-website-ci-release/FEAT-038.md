@@ -40,9 +40,9 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Requirement | Source |
 |---|---|
-| CI/CD requirements | [[../../../website/docs/requirements/technical/ci-cd]] |
-| Deployment architecture | [[../../../website/docs/architecture/ci-cd-and-deployment]] |
-| Source layout and documentation | [[../../../website/docs/requirements/technical/source-layout-and-documentation]] |
+| CI/CD requirements | [[website/docs/requirements/technical/ci-cd]] |
+| Deployment architecture | [[website/docs/architecture/ci-cd-and-deployment]] |
+| Source layout and documentation | [[website/docs/requirements/technical/source-layout-and-documentation]] |
 
 ## Acceptance Criteria
 
@@ -65,7 +65,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

@@ -50,9 +50,9 @@ attachments to the parsed document index.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Embed.ManageAttachments` | Manage attachments with editor help | [[requirements/user/ofmarkdown-parity]] |
-| `User.Embed.DetectBrokenEmbed` | See missing embeds immediately | [[requirements/user/embedding-content]] |
-| `User.Embed.PreviewLinkedContent` | Preview embed targets on hover | [[requirements/user/embedding-content]] |
+| `User.Embed.ManageAttachments` | Manage attachments with editor help | [[docs/requirements/user/ofmarkdown-parity]] |
+| `User.Embed.DetectBrokenEmbed` | See missing embeds immediately | [[docs/requirements/user/embedding-content]] |
+| `User.Embed.PreviewLinkedContent` | Preview embed targets on hover | [[docs/requirements/user/embedding-content]] |
 
 ---
 
@@ -60,17 +60,17 @@ attachments to the parsed document index.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Core attachment intelligence | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete attachment paths | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Diagnostics` | Missing attachments diagnose and existing attachments stay clean | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.NavigationHover` | Attachment references support definition and metadata hover | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.ConfigHints` | Configured attachment folder hints affect attachment behavior | [[requirements/functional/ofmarkdown-parity]] |
-| `Embed.Resolution.ImageTarget` | Image embeds resolve as attachment targets | [[requirements/embed-resolution]] |
-| `Embed.Resolution.MarkdownTarget` | Distinct target classes | [[requirements/embed-resolution]] |
-| `Diagnostic.Severity.Embed` | Broken embeds use LSP warning severity | [[requirements/diagnostics]] |
-| `Navigation.Definition.AllLinkTypes` | Definition works for supported link forms | [[requirements/navigation]] |
-| `HV-002` | Embed hover includes resolved path and detected file type | [[requirements/hover]] |
+| `Parity.Attachments.Intelligence` | Core attachment intelligence | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Completion` | Embed and Markdown image contexts complete attachment paths | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Diagnostics` | Missing attachments diagnose and existing attachments stay clean | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.NavigationHover` | Attachment references support definition and metadata hover | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.ConfigHints` | Configured attachment folder hints affect attachment behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Embed.Resolution.ImageTarget` | Image embeds resolve as attachment targets | [[docs/requirements/embed-resolution]] |
+| `Embed.Resolution.MarkdownTarget` | Distinct target classes | [[docs/requirements/embed-resolution]] |
+| `Diagnostic.Severity.Embed` | Broken embeds use LSP warning severity | [[docs/requirements/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Definition works for supported link forms | [[docs/requirements/navigation]] |
+| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/hover]] |
 
 ---
 
@@ -84,8 +84,8 @@ attachments to the parsed document index.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-15-attachment-intelligence]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-15-attachment-intelligence]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -98,8 +98,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Existing attachment references produce no missing-reference diagnostic.
 - [ ] Missing attachment references produce diagnostics with FG004 warning severity.
 - [ ] Attachment indexing does not add parsed OFMDoc entries for non-Markdown files.
-- [ ] [[test/matrix]] updated with every new test file introduced.
-- [ ] [[test/index]] updated with every new test file introduced.
+- [ ] [[docs/test/matrix]] updated with every new test file introduced.
+- [ ] [[docs/test/index]] updated with every new test file introduced.
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`).
 - [ ] `tsc --noEmit` exits 0.
 
@@ -146,7 +146,7 @@ polish comes last so it can adapt to the final index and provider contracts.
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -162,7 +162,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

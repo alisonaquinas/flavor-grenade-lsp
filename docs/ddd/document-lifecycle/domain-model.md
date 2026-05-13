@@ -17,7 +17,7 @@ This document is the authoritative domain model for **Bounded Context 2: Documen
 
 BC2 is the workhorse that all other BCs depend on. BC3 reads `MarkdownIndex` projections to extract refs and defs. BC4 stores `MarkdownDoc` collections and owns the `EffectiveMarkdownFlavor` supplied to parsing. BC5 dispatches LSP notifications to BC4; it does not choose parser behavior.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/reference-resolution/domain-model]], [[ddd/vault/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/reference-resolution/domain-model]], [[docs/ddd/vault/domain-model]].
 
 > [!NOTE]
 > BC2 contains no reference resolution logic. It parses and indexes. Whether a wikilink resolves to a real document is BC3's concern, not BC2's.

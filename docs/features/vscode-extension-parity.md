@@ -17,14 +17,14 @@ does not own Markdown parsing intelligence.
 
 | Feature area | Functional requirements |
 |---|---|
-| Activation precision | [[requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
-| Command bridges | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
-| Extension-host tests | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
-| Marketplace evidence | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
-| Status and quick actions | [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
-| Markdown flavor selector and editor contributions | [[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]], [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] |
-| Workspace environments | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
-| Packaging guardrails | [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] |
+| Activation precision | [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.VaultPrecision]], [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| Command bridges | [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]], [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]], [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| Extension-host tests | [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| Marketplace evidence | [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]], [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| Status and quick actions | [[docs/requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[docs/requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
+| Markdown flavor selector and editor contributions | [[docs/requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] |
+| Workspace environments | [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| Packaging guardrails | [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] |
 
 ## P1 - Activation Precision
 
@@ -154,9 +154,9 @@ CommonMark unless project/user settings override the flavor.
 
 ## Related
 
-- [[research/marksman-vscode-feature-parity-ofmarkdown]]
+- [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]
 - [[ADR019-vscode-command-bridges-and-client-ux]]
-- [[requirements/functional/vscode-extension-parity]]
-- [[features/ofmarkdown-language-mode]]
-- [[ddd/editor-client/domain-model]]
+- [[docs/requirements/functional/vscode-extension-parity]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/ddd/editor-client/domain-model]]
 - `extension/docs/index.md`

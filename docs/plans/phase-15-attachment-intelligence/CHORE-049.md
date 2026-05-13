@@ -37,7 +37,7 @@ implementation sequence.
 Attachment intelligence crosses docs, requirements, BDD, and configuration. A
 trace sweep keeps implementation evidence discoverable for the next phase.
 
-- Motivated by: [[plans/phase-15-attachment-intelligence]]
+- Motivated by: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -45,8 +45,8 @@ trace sweep keeps implementation evidence discoverable for the next phase.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Intelligence` | Attachment docs trace to evidence | [[requirements/functional/ofmarkdown-parity]] |
-| `HV-002` | Hover documentation traces to attachment metadata behavior | [[requirements/hover]] |
+| `Parity.Attachments.Intelligence` | Attachment docs trace to evidence | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `HV-002` | Hover documentation traces to attachment metadata behavior | [[docs/requirements/hover]] |
 
 ---
 
@@ -77,7 +77,7 @@ trace sweep keeps implementation evidence discoverable for the next phase.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links remain attachment references |
+| [[docs/adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links remain attachment references |
 
 ---
 
@@ -101,7 +101,7 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Phase 15 tickets link the implemented requirements and BDD scenarios.
 - [ ] Phase 15 plan acceptance still matches the implemented behavior.
 - [ ] Configuration docs mention any new attachment-folder key or discovery rule.
-- [ ] [[test/matrix]] and [[test/index]] links are not stale.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] links are not stale.
 - [ ] Markdown links added by this chore resolve in the docs vault.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
@@ -119,7 +119,7 @@ features here.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -134,7 +134,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

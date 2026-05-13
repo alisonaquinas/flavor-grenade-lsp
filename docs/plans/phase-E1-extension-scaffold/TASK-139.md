@@ -29,7 +29,7 @@ Create `extension/src/extension.ts` with stub `activate` and `deactivate` export
 
 - Create `extension/src/` directory
 
-- Write `extension/src/extension.ts` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]:
+- Write `extension/src/extension.ts` with the exact content from the phase plan [[docs/plans/phase-E1-extension-scaffold]]:
 
   - `import type { ExtensionContext } from 'vscode';`
 
@@ -45,17 +45,17 @@ Create `extension/src/extension.ts` with stub `activate` and `deactivate` export
 
 - Verify: `extension/dist/extension.js` exists after build
 
-- See also: [[plans/phase-E1-extension-scaffold]]
+- See also: [[docs/plans/phase-E1-extension-scaffold]]
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure scaffold; stub entry point has no functional behaviour | [[requirements/index]] |
+| — | Infrastructure scaffold; stub entry point has no functional behaviour | [[docs/requirements/index]] |
 
 ---
 
@@ -85,7 +85,7 @@ Create `extension/src/extension.ts` with stub `activate` and `deactivate` export
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension entry point must export `activate`/`deactivate`; esbuild bundles to single `dist/extension.js` with `vscode` as external |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension entry point must export `activate`/`deactivate`; esbuild bundles to single `dist/extension.js` with `vscode` as external |
 
 ---
 
@@ -133,7 +133,7 @@ The `activate` function body is intentionally empty — LanguageClient setup wil
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -149,13 +149,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. However, this is an infrastructure task — the RED/GREEN cycle is satisfied by verifying `tsc --noEmit` and `npm run build:extension` both exit 0 and `dist/extension.js` is produced. See [[templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
+> [!WARNING] `red` before `green` is non-negotiable. However, this is an infrastructure task — the RED/GREEN cycle is satisfied by verifying `tsc --noEmit` and `npm run build:extension` both exit 0 and `dist/extension.js` is produced. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].

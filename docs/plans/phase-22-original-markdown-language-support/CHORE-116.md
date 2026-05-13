@@ -22,7 +22,7 @@ Perform the operational sweep for Original Markdown language-support phase closu
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for original.
-- Confirm [[research/commonmark-and-original-markdown]] remains the source trace for the phase.
+- Confirm [[docs/research/commonmark-and-original-markdown]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

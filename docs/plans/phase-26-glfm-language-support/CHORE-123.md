@@ -22,7 +22,7 @@ Perform trace and documentation kickoff hygiene for GitLab Flavored Markdown lan
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for glfm.
-- Confirm [[research/gitlab-flavored-markdown]] remains the source trace for the phase.
+- Confirm [[docs/research/gitlab-flavored-markdown-analysis]] remains the source trace for the phase.
 - Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements

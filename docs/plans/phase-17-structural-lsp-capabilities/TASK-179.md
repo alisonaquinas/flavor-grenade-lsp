@@ -30,7 +30,7 @@ Add the Phase 17 integration and BDD trace coverage that proves document links, 
 - Include opaque-region cases where folding and selection ranges must not cross boundaries
 - Add BDD scenarios or step coverage only where the existing feature files do not already express the Phase 17 behavior
 - Use `src/test/integration/structural-lsp.test.ts` for spawned-server structural request coverage
-- See also: [[test/matrix]], [[test/index]]
+- See also: [[docs/test/matrix]], [[docs/test/index]]
 
 ---
 
@@ -38,12 +38,12 @@ Add the Phase 17 integration and BDD trace coverage that proves document links, 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.Coverage` | Representative structural LSP constructs must be covered by tests | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.DocumentLinks` | Document-link behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.FoldingRanges` | Folding-range behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.StructuralLSP.SelectionRanges` | Selection-range behavior is covered by unit and integration tests | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Document link targets match existing resolution behavior | [[requirements/navigation]] |
-| `ST-002` | Opaque region boundaries are test-covered | [[requirements/semantic-tokens]] |
+| `Parity.StructuralLSP.Coverage` | Representative structural LSP constructs must be covered by tests | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.DocumentLinks` | Document-link behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.FoldingRanges` | Folding-range behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.StructuralLSP.SelectionRanges` | Selection-range behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Document link targets match existing resolution behavior | [[docs/requirements/navigation]] |
+| `ST-002` | Opaque region boundaries are test-covered | [[docs/requirements/semantic-tokens]] |
 
 ---
 
@@ -65,7 +65,7 @@ Add the Phase 17 integration and BDD trace coverage that proves document links, 
 | `src/test/integration/structural-lsp.test.ts` | Integration | `Parity.StructuralLSP.Coverage` | 🟢 passing |
 | `src/test/bdd/step-definitions/ofmarkdown-parity.steps.ts` | BDD | `Parity.StructuralLSP.Coverage` | 🟢 passing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -109,8 +109,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-024]] child task row updated to `in-review`
 
 ---
@@ -127,18 +127,18 @@ manufacturing a failing test.
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-06
 > Ticket created. Status: `open`. Parent: [[FEAT-024]].

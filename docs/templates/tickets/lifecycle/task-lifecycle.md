@@ -6,7 +6,7 @@ aliases: [Task Lifecycle, TASK Lifecycle]
 
 # Task Ticket Lifecycle
 
-A **Task** ticket (`TASK-NNN`) is an atomic implementation unit. Its lifecycle is modelled on the strict Red → Green → Refactor TDD discipline mandated by [[requirements/code-quality]] (`Quality.TDD.StrictRedGreen`). Every implementation commit must be preceded by a failing test; no code without a red test first.
+A **Task** ticket (`TASK-NNN`) is an atomic implementation unit. Its lifecycle is modelled on the strict Red → Green → Refactor TDD discipline mandated by [[docs/requirements/code-quality]] (`Quality.TDD.StrictRedGreen`). Every implementation commit must be preceded by a failing test; no code without a red test first.
 
 ---
 
@@ -126,7 +126,7 @@ All code is written, tests pass, lint and typecheck pass. The task is awaiting C
 | | |
 |---|---|
 | **Entry criteria** | `bun test` exits 0; `bun run lint --max-warnings 0` exits 0; `tsc --noEmit` exits 0; all linked BDD scenarios pass locally |
-| **Agent obligations** | Verify every item in **Definition of Done**; update [[test/matrix]] rows to `✅ passing`; update [[test/index]] if new test files were added; update parent feature's child task table to `in-review` |
+| **Agent obligations** | Verify every item in **Definition of Done**; update [[docs/test/matrix]] rows to `✅ passing`; update [[docs/test/index]] if new test files were added; update parent feature's child task table to `in-review` |
 | **Exit condition (forward)** | CI green; all acceptance criteria confirmed; transition to `done` |
 | **Exit condition (back)** | Review reveals uncovered case; new failing test must be written; transition back to `red` |
 
@@ -209,12 +209,12 @@ Task abandoned with documented reason. A cancelled task does not count toward th
 
 ## Related
 
-- [[templates/tickets/task]] — Task ticket template
+- [[docs/templates/tickets/task]] — Task ticket template
 
-- [[templates/tickets/lifecycle/feature-lifecycle]] — Parent feature lifecycle
+- [[docs/templates/tickets/lifecycle/feature-lifecycle]] — Parent feature lifecycle
 
-- [[requirements/code-quality]] — `Quality.TDD.StrictRedGreen` requirement
+- [[docs/requirements/code-quality]] — `Quality.TDD.StrictRedGreen` requirement
 
-- [[test/matrix]] — Requirements × tests traceability matrix
+- [[docs/test/matrix]] — Requirements × tests traceability matrix
 
-- [[test/index]] — Test file inventory
+- [[docs/test/index]] — Test file inventory

@@ -20,7 +20,7 @@ implementation must stay independent from the LSP server runtime.
 
 ## Related Technical Specifications
 
-- [[ci-cd]]: CI, release, distribution, and publishing workflow requirements.
+- [[website/docs/requirements/technical/ci-cd]]: CI, release, distribution, and publishing workflow requirements.
 - [[source-layout-and-documentation]]: website source layout, test layout,
   internal documentation, changelog, and docstring standards.
 

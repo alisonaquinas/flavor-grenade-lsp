@@ -17,7 +17,7 @@ aliases: ["TASK-327"]
 
 ## Description
 
-Deliver parser/profile semantics for the glfm flavor using [[research/gitlab-flavored-markdown-analysis]] and ADR020 as the controlling specification.
+Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitlab-flavored-markdown-analysis]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver parser/profile semantics for the glfm flavor using [[research/gitlab-fla
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]] | Profile and parser behavior for glfm. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor glfm. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]] | Profile and parser behavior for glfm. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor glfm. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -54,8 +54,8 @@ Deliver parser/profile semantics for the glfm flavor using [[research/gitlab-fla
 
 - [ ] glfm behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

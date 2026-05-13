@@ -31,11 +31,11 @@ dimensions when the metadata is available without blocking editor response.
 - Support hover on local `![alt](attachment.ext)` targets.
 - Extend `src/handlers/hover.handler.ts` to use `entityAtPosition()` so
   Markdown image entities can share attachment hover rendering with embeds.
-- Use type labels aligned with [[requirements/hover]] `HV-002`: Image, Audio,
+- Use type labels aligned with [[docs/requirements/hover]] `HV-002`: Image, Audio,
   Video, PDF, or File.
 - Do not render previews or perform heavyweight binary parsing.
 - Preserve existing Markdown embed and wiki-link hover behavior.
-- See also: [[plans/phase-15-attachment-intelligence]]
+- See also: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -43,9 +43,9 @@ dimensions when the metadata is available without blocking editor response.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.NavigationHover` | Existing attachment references support lightweight metadata hover | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment refs support hover metadata | [[requirements/functional/ofmarkdown-parity]] |
-| `HV-002` | Embed hover includes resolved path and detected file type | [[requirements/hover]] |
+| `Parity.Attachments.NavigationHover` | Existing attachment references support lightweight metadata hover | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment refs support hover metadata | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/hover]] |
 
 ---
 
@@ -64,7 +64,7 @@ dimensions when the metadata is available without blocking editor response.
 | `src/handlers/__tests__/attachment-hover.test.ts` | Unit | `HV-002` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> Update [[test/matrix]] and [[test/index]].
+> Update [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -72,7 +72,7 @@ dimensions when the metadata is available without blocking editor response.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are attachment references |
+| [[docs/adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are attachment references |
 
 ---
 
@@ -106,8 +106,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenario passes locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [ ] [[docs/test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-022]] child task row updated to `in-review`.
 
 ---
@@ -122,7 +122,7 @@ Return path and type whenever size or dimensions cannot be read cheaply.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -140,7 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

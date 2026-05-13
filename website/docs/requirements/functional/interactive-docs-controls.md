@@ -31,7 +31,7 @@ Stakeholders: Quickstart users, keyboard users, screen-reader users.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/quickstart]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/quickstart]], [[website/docs/requirements/design/index]]
 
 Open questions:
 
@@ -69,7 +69,7 @@ Stakeholders: First-time users, keyboard users.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], [[requirements/user/quickstart]]
+Source: [[website/docs/requirements/design/index]], [[website/docs/requirements/user/quickstart]]
 
 Open questions:
 
@@ -112,7 +112,7 @@ Stakeholders: Prospective users, docs readers, LLM maintainers, keyboard users.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/homepage]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/homepage]], [[website/docs/requirements/design/index]]
 
 Open questions:
 

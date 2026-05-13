@@ -45,5 +45,5 @@ target both broad product queries and narrow long-tail workflow queries.
 
 - [[homepage]]
 - [[quickstart]]
-- [[how-to]]
+- [[website/docs/requirements/user/how-to]]
 - [[faq]]

@@ -1,7 +1,9 @@
 ---
 title: Extension Tests Matrix
 tags: [extension/docs, tests, matrix, markdown-flavor]
-aliases: [Extension Test Matrix, VS Code Extension Tests Matrix]
+aliases:
+  - Extension Test Matrix
+  - VS Code Extension Tests Matrix
 ---
 
 # Extension Tests Matrix

@@ -55,7 +55,7 @@ fragment, alias, and title text.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Safe vault reorganization without broken local references | [[requirements/functional/ofmarkdown-parity]] |
+| — | Safe vault reorganization without broken local references | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -63,18 +63,18 @@ fragment, alias, and title text.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | Return one atomic WorkspaceEdit for local file and folder moves | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle file-operation rename requests | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.MovePlannerConfinement` | Plan only vault-confined file and folder mappings | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.ReferenceRewrite` | Rewrite moved-target references while preserving syntax family | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.SkippedAmbiguousReporting` | Report ambiguous references without speculative edits | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicValidation` | Validate deterministic all-or-nothing WorkspaceEdit output | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.IndexRefresh` | Refresh index and diagnostics after `didRenameFiles` | [[requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Preserve rename completeness for wiki-link and heading references | [[requirements/rename]] |
-| `Rename.StyleBinding.Consistency` | Preserve configured link style when rewriting wiki-links | [[requirements/rename]] |
-| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[requirements/security/vault-confinement]] |
-| `Security.Vault.RenameConfinement` | Refuse rename or move edits that escape the vault root | [[requirements/security/vault-confinement]] |
-| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[requirements/wiki-link-resolution]] |
+| `Parity.FileOperations.AtomicRefactor` | Return one atomic WorkspaceEdit for local file and folder moves | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle file-operation rename requests | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.MovePlannerConfinement` | Plan only vault-confined file and folder mappings | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.ReferenceRewrite` | Rewrite moved-target references while preserving syntax family | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.SkippedAmbiguousReporting` | Report ambiguous references without speculative edits | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicValidation` | Validate deterministic all-or-nothing WorkspaceEdit output | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.IndexRefresh` | Refresh index and diagnostics after `didRenameFiles` | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Rename.Refactoring.Completeness` | Preserve rename completeness for wiki-link and heading references | [[docs/requirements/rename]] |
+| `Rename.StyleBinding.Consistency` | Preserve configured link style when rewriting wiki-links | [[docs/requirements/rename]] |
+| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[docs/requirements/security/vault-confinement]] |
+| `Security.Vault.RenameConfinement` | Refuse rename or move edits that escape the vault root | [[docs/requirements/security/vault-confinement]] |
+| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/wiki-link-resolution]] |
 
 ---
 
@@ -88,8 +88,8 @@ fragment, alias, and title text.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-16-vault-file-operation-refactors]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-16-vault-file-operation-refactors]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -104,8 +104,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Ambiguous references that cannot be safely rewritten are reported without
       producing misleading edits
 - [ ] Existing heading and file rename behavior remains green
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -154,7 +154,7 @@ full regression suite.
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -170,7 +170,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

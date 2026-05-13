@@ -31,13 +31,13 @@ diagnostics, and spawned-server integration tests.
 
 ## Evidence Trace
 
-- [[test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]]
+- [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]]
   covers server configuration validation.
-- [[test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]]
+- [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]]
   covers refresh triggers.
-- [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]]
+- [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]]
   covers auto resolution and fallback.
-- [[test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] covers
+- [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] covers
   spawned-server temp workspace precedence.
 
 ## Child Tasks

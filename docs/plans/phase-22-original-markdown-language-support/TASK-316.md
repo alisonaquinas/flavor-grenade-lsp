@@ -17,7 +17,7 @@ aliases: ["TASK-316"]
 
 ## Description
 
-Deliver diagnostics and LSP feature behavior for the original flavor using [[research/commonmark-and-original-markdown]] and ADR020 as the controlling specification.
+Deliver diagnostics and LSP feature behavior for the original flavor using [[docs/research/commonmark-and-original-markdown]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[res
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]] | Profile and parser behavior for original. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor original. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]] | Profile and parser behavior for original. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor original. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -61,8 +61,8 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[res
 
 - [ ] original behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

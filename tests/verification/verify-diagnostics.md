@@ -8,7 +8,7 @@ aliases: [Verify Diagnostics]
 
 ## Purpose
 
-This file defines scripted and agent-driven verification test cases for the six Planguage requirements in the diagnostics domain. Each test case maps directly to one Planguage tag defined in [[requirements/diagnostics]] and validates the cross-cutting properties of the server's diagnostic system against the Fail and Goal thresholds stated there. The tests cover FG001/FG002/FG003 severity assignment, FG004 severity assignment, FG-code uniqueness and correctness, debounce latency under a 1000-document vault load, `relatedInformation` population for FG002 ambiguity diagnostics, and suppression of all cross-file diagnostic codes in single-file mode.
+This file defines scripted and agent-driven verification test cases for the six Planguage requirements in the diagnostics domain. Each test case maps directly to one Planguage tag defined in [[docs/requirements/diagnostics]] and validates the cross-cutting properties of the server's diagnostic system against the Fail and Goal thresholds stated there. The tests cover FG001/FG002/FG003 severity assignment, FG004 severity assignment, FG-code uniqueness and correctness, debounce latency under a 1000-document vault load, `relatedInformation` population for FG002 ambiguity diagnostics, and suppression of all cross-file diagnostic codes in single-file mode.
 
 ## Requirements Covered
 
@@ -28,7 +28,7 @@ This file defines scripted and agent-driven verification test cases for the six 
 **Planguage Tag:** `Diagnostic.Severity.WikiLink`
 **Gist:** Diagnostics with codes FG001 (BrokenWikiLink), FG002 (AmbiguousWikiLink), and FG003 (MalformedWikiLink) must be published with LSP `DiagnosticSeverity.Error` (value 1).
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity` and `Ambiguous wiki-link produces FG002 with relatedInformation`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity` and `Ambiguous wiki-link produces FG002 with relatedInformation`
 **Phase:** Phase 1
 
 **Setup:**
@@ -89,7 +89,7 @@ And (FG001/FG002/FG003 diagnostics with severity=1 / total FG001/FG002/FG003 dia
 **Planguage Tag:** `Diagnostic.Severity.Embed`
 **Gist:** Diagnostics with code FG004 (BrokenEmbed) must be published with LSP `DiagnosticSeverity.Warning` (value 2).
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Broken embed produces FG004 with Warning severity`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Broken embed produces FG004 with Warning severity`
 **Phase:** Phase 1
 
 **Setup:**
@@ -138,7 +138,7 @@ And (FG004 diagnostics with severity=2 / total FG004 diagnostics) × 100 equals 
 **Planguage Tag:** `Diagnostic.Code.Assignment`
 **Gist:** Each diagnostic type emitted by the server must carry its assigned FG-prefixed numeric code string in the `code` field, and no two distinct diagnostic types may share the same code.
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity`, `Ambiguous wiki-link produces FG002 with relatedInformation`, `Broken embed produces FG004 with Warning severity`, `Broken block reference produces FG005 with Error severity`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity`, `Ambiguous wiki-link produces FG002 with relatedInformation`, `Broken embed produces FG004 with Warning severity`, `Broken block reference produces FG005 with Error severity`
 **Phase:** Phase 1
 
 **Setup:**
@@ -241,7 +241,7 @@ Construct a vault with exactly 1000 documents, each containing at least 3 wiki-l
 **Planguage Tag:** `Diagnostic.Ambiguous.RelatedInfo`
 **Gist:** FG002 (AmbiguousWikiLink) diagnostics must populate the `relatedInformation` array with one entry for each document location that matches the ambiguous link target, allowing the author to inspect all candidate definitions.
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Ambiguous wiki-link produces FG002 with relatedInformation`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Ambiguous wiki-link produces FG002 with relatedInformation`
 **Phase:** Phase 1
 
 **Setup:**
@@ -315,7 +315,7 @@ And (FG002 diagnostics with correct relatedInformation count / total FG002 diagn
 **Planguage Tag:** `Diagnostic.SingleFile.Suppression`
 **Gist:** All cross-file diagnostics — FG001 (BrokenWikiLink), FG002 (AmbiguousWikiLink), FG004 (BrokenEmbed), and FG005 (BrokenBlockRef) — must be suppressed and must not appear in any `textDocument/publishDiagnostics` notification when the server is operating in single-file mode.
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `All cross-file diagnostics suppressed in single-file mode`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `All cross-file diagnostics suppressed in single-file mode`
 **Phase:** Phase 1
 
 **Setup:**

@@ -30,7 +30,7 @@ Audit all Phase 8 code for security concerns with focus on two areas: block anch
 
 Block anchor IDs are user-supplied strings extracted from vault documents. Without strict validation, a malformed or malicious anchor ID could be injected into path-building operations. OFM-BLOCK-001/002 define the permitted character set; this sweep verifies enforcement.
 
-- Motivated by: `Security.InputValidation.BlockAnchorId` (see [[requirements/security/index]])
+- Motivated by: `Security.InputValidation.BlockAnchorId` (see [[docs/requirements/security/index]])
 
 ---
 
@@ -38,7 +38,7 @@ Block anchor IDs are user-supplied strings extracted from vault documents. Witho
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Block anchor ID input validation (OFM-BLOCK-001/002) | [[requirements/security/index]] |
+| — | Block anchor ID input validation (OFM-BLOCK-001/002) | [[docs/requirements/security/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Block anchor IDs are user-supplied strings extracted from vault documents. Witho
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR006-block-ref-indexing]] | Permitted block anchor ID character set |
+| [[docs/adr/ADR006-block-ref-indexing]] | Permitted block anchor ID character set |
 
 ---
 
@@ -90,8 +90,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
 - [ ] Block anchor ID validation regex confirmed to allow only `[a-zA-Z0-9-]` per OFM-BLOCK-001/002
 - [ ] Confirmed: no `anchorId` string is ever concatenated into a file path or passed to any filesystem API
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -104,7 +104,7 @@ OFM-BLOCK-002: the `^` prefix is stripped before storing the ID; the stored `id`
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -115,7 +115,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep focusing on block anchor ID regex validation and no filesystem use of anchor IDs.

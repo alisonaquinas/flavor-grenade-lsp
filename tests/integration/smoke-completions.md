@@ -12,14 +12,14 @@ This smoke test validates the minimum viable completion trigger: that the server
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
-### TC-SMOKE-011 — wiki-link completion returns document candidates after [[ trigger
+### TC-SMOKE-011 — wiki-link completion returns document candidates after \[\[ trigger
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/completions]] — `Wiki-link completion returns document candidates after [[ trigger`
+**BDD Reference:** [completions.feature](../../docs/bdd/features/completions.feature) — `Wiki-link completion returns document candidates after [[ trigger`
 **Phase gate:** Phase 2
 
 **Setup:**

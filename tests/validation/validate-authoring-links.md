@@ -26,7 +26,7 @@ This validation plan confirms that vault authors receive useful, accurate sugges
 **User Req Tag:** `User.Author.CompleteWikiLink`
 **Goal:** Get suggestions when starting a `[[link`
 **Type:** Both
-**Mapped FRs:** `Completion.Trigger.Coverage`, `Completion.WikiStyle.Binding`, `Completion.Candidates.Cap`, `Link.Resolution.IgnoreGlob` — see [[tests/verification/verify-completions]], [[tests/verification/verify-wiki-links]]
+**Mapped FRs:** `Completion.Trigger.Coverage`, `Completion.WikiStyle.Binding`, `Completion.Candidates.Cap`, `Link.Resolution.IgnoreGlob` — see [[tests/verification/verify-completions]], \[\[tests/verification/verify-wiki-links]]
 **Verification coverage:** TC-VER-COMP-002, TC-VER-COMP-004, TC-VER-COMP-001, TC-VER-WIKI-005
 
 **Scenario (user perspective):**
@@ -161,7 +161,7 @@ Feature: Callout type completion
 **User Req Tag:** `User.Author.FollowLinkStyle`
 **Goal:** Have the server respect the vault's link style convention
 **Type:** Both
-**Mapped FRs:** `Link.Wiki.StyleBinding`, `Completion.WikiStyle.Binding`, `Rename.StyleBinding.Consistency` — see [[tests/verification/verify-wiki-links]], [[tests/verification/verify-completions]], [[tests/verification/verify-rename]]
+**Mapped FRs:** `Link.Wiki.StyleBinding`, `Completion.WikiStyle.Binding`, `Rename.StyleBinding.Consistency` — see \[\[tests/verification/verify-wiki-links]], [[tests/verification/verify-completions]], [[tests/verification/verify-rename]]
 **Verification coverage:** TC-VER-WIKI-001, TC-VER-COMP-004, TC-VER-REN-003
 
 **Scenario (user perspective):**

@@ -38,7 +38,7 @@ CI configuration errors and inconsistent artifact naming can silently break rele
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Post-phase code quality review of CI configuration and editor examples | [[requirements/code-quality]] |
+| — | Post-phase code quality review of CI configuration and editor examples | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -66,7 +66,7 @@ CI configuration errors and inconsistent artifact naming can silently break rele
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR008-oidc-publishing]] | Publishing workflow correctness is a code quality concern |
+| [[docs/adr/ADR008-oidc-publishing]] | Publishing workflow correctness is a code quality concern |
 
 ---
 
@@ -90,8 +90,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 - [ ] Binary artifact naming follows `flavor-grenade-lsp-<target>[.exe]` convention consistently
 - [ ] All editor config example settings keys verified against implemented config schema
 
@@ -105,7 +105,7 @@ Run after CHORE-037 (Lint Sweep) is complete. If discrepancies between editor ex
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -116,7 +116,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: post-Phase-13 code quality sweep focusing on workflow YAML correctness, binary naming consistency, and editor config schema accuracy.

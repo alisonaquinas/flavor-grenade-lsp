@@ -30,7 +30,7 @@ server provides intelligence while the extension adapts safe payloads.
 - List every required `flavorGrenade.*` bridge command
 - Describe JSON-serializable payload expectations
 - Document safe failure behavior for invalid payloads
-- See also: [[plans/phase-E8-command-bridges-native-navigation]]
+- See also: [[docs/plans/phase-E8-command-bridges-native-navigation]]
 
 ---
 
@@ -38,9 +38,9 @@ server provides intelligence while the extension adapts safe payloads.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.NativeUI` | Docs identify native VS Code UI surfaces | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Docs describe validation and safe failure behavior | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Docs list required graph action commands | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.NativeUI` | Docs identify native VS Code UI surfaces | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Docs describe validation and safe failure behavior | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Docs list required graph action commands | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -98,7 +98,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Docs state that VS Code APIs stay in the client extension
 - [x] Docs link back to Phase E8 and extension parity requirements
 - [x] Markdown lint passes for changed docs
-- [x] [[test/matrix]] and [[test/index]] updated if needed
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated if needed
 
 ---
 
@@ -112,12 +112,12 @@ This task is documentation-only. Behavior changes belong to [[TASK-185]],
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

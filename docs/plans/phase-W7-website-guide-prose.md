@@ -48,7 +48,7 @@ article groups.
 - Preserve mobile readability and avoid hiding essential article links behind
   hover-only behavior.
 - Use the route inventory in
-  [[plans/phase-W7-website-guide-prose/TASK-266]] as the canonical source for
+  [[docs/plans/phase-W7-website-guide-prose/TASK-266]] as the canonical source for
   sitemap, dropdown, hub, and route metadata coverage.
 
 ### Out of Scope
@@ -117,36 +117,36 @@ markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./website/doc
 
 ## Tickets
 
-- [[plans/phase-W7-website-guide-prose/FEAT-040]]
-- [[plans/phase-W7-website-guide-prose/TASK-239]]
-- [[plans/phase-W7-website-guide-prose/TASK-240]]
-- [[plans/phase-W7-website-guide-prose/TASK-241]]
-- [[plans/phase-W7-website-guide-prose/TASK-242]]
-- [[plans/phase-W7-website-guide-prose/TASK-243]]
-- [[plans/phase-W7-website-guide-prose/TASK-244]]
-- [[plans/phase-W7-website-guide-prose/TASK-245]]
-- [[plans/phase-W7-website-guide-prose/TASK-246]]
-- [[plans/phase-W7-website-guide-prose/TASK-247]]
-- [[plans/phase-W7-website-guide-prose/TASK-248]]
-- [[plans/phase-W7-website-guide-prose/TASK-249]]
-- [[plans/phase-W7-website-guide-prose/TASK-250]]
-- [[plans/phase-W7-website-guide-prose/TASK-251]]
-- [[plans/phase-W7-website-guide-prose/TASK-252]]
-- [[plans/phase-W7-website-guide-prose/TASK-253]]
-- [[plans/phase-W7-website-guide-prose/TASK-254]]
-- [[plans/phase-W7-website-guide-prose/TASK-255]]
-- [[plans/phase-W7-website-guide-prose/TASK-256]]
-- [[plans/phase-W7-website-guide-prose/TASK-257]]
-- [[plans/phase-W7-website-guide-prose/TASK-258]]
-- [[plans/phase-W7-website-guide-prose/TASK-259]]
-- [[plans/phase-W7-website-guide-prose/TASK-260]]
-- [[plans/phase-W7-website-guide-prose/TASK-261]]
-- [[plans/phase-W7-website-guide-prose/TASK-262]]
-- [[plans/phase-W7-website-guide-prose/TASK-263]]
-- [[plans/phase-W7-website-guide-prose/TASK-264]]
-- [[plans/phase-W7-website-guide-prose/TASK-265]]
-- [[plans/phase-W7-website-guide-prose/TASK-266]]
-- [[plans/phase-W7-website-guide-prose/CHORE-094]]
+- [[docs/plans/phase-W7-website-guide-prose/FEAT-040]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-239]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-240]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-241]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-242]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-243]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-244]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-245]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-246]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-247]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-248]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-249]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-250]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-251]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-252]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-253]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-254]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-255]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-256]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-257]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-258]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-259]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-260]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-261]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-262]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-263]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-264]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-265]]
+- [[docs/plans/phase-W7-website-guide-prose/TASK-266]]
+- [[docs/plans/phase-W7-website-guide-prose/CHORE-094]]
 
 ## Related
 

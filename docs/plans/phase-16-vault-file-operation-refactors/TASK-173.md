@@ -41,9 +41,9 @@ pre-apply reference rewriting.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.IndexRefresh` | `didRenameFiles` refreshes affected index entries and diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicRefactor` | Keep server state consistent after file operations | [[requirements/functional/ofmarkdown-parity]] |
-| `Security.Vault.PathConfinement` | Refresh only paths that remain inside the vault root | [[requirements/security/vault-confinement]] |
+| `Parity.FileOperations.IndexRefresh` | `didRenameFiles` refreshes affected index entries and diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | Keep server state consistent after file operations | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Security.Vault.PathConfinement` | Refresh only paths that remain inside the vault root | [[docs/requirements/security/vault-confinement]] |
 
 ---
 
@@ -113,7 +113,7 @@ not introduce a second document cache for rename refresh state.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

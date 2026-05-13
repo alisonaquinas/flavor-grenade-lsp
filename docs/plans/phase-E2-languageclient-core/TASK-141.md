@@ -41,17 +41,17 @@ Create `extension/src/server-path.ts` with a `resolveServerPath(context: Extensi
 
 - Typecheck after creation: `cd extension && npx tsc --noEmit`
 
-- See also: [[plans/phase-E2-languageclient-core]] task 1 for the reference implementation
+- See also: [[docs/plans/phase-E2-languageclient-core]] task 1 for the reference implementation
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension infrastructure; binary resolution is a client-side concern not covered by server functional requirements | [[requirements/index]] |
+| — | Extension infrastructure; binary resolution is a client-side concern not covered by server functional requirements | [[docs/requirements/index]] |
 
 ---
 
@@ -81,8 +81,8 @@ Create `extension/src/server-path.ts` with a `resolveServerPath(context: Extensi
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | LSP uses stdio transport — the resolved path must point to an executable binary, not a module |
-| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIXs bundle the native binary — no PATH fallback or download needed |
+| [[docs/adr/ADR001-stdio-transport]] | LSP uses stdio transport — the resolved path must point to an executable binary, not a module |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Platform-specific VSIXs bundle the native binary — no PATH fallback or download needed |
 
 ---
 
@@ -128,13 +128,13 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-The reference implementation is provided in [[plans/phase-E2-languageclient-core]] task 1. The function is intentionally simple and synchronous — it reads one config value and builds one path. The deliberate omission of PATH scanning, environment variables, and download-on-demand keeps the resolution predictable and debuggable. If the bundled binary is missing (corrupt VSIX, manual deletion), the LanguageClient will fail to spawn and report the error in the output channel — no silent fallback.
+The reference implementation is provided in [[docs/plans/phase-E2-languageclient-core]] task 1. The function is intentionally simple and synchronous — it reads one config value and builds one path. The deliberate omission of PATH scanning, environment variables, and download-on-demand keeps the resolution predictable and debuggable. If the bundled binary is missing (corrupt VSIX, manual deletion), the LanguageClient will fail to spawn and report the error in the output channel — no silent fallback.
 
 ---
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -150,13 +150,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].

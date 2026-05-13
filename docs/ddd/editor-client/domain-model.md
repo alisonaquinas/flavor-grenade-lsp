@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selection. All Obsidian Flavored Markdown intelligence lives in the server (BC2–BC5).
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/lsp-protocol/domain-model]], [[design/api-layer]], [[superpowers/specs/2026-04-21-vscode-extension-design]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol/domain-model]], [[docs/design/api-layer]], [[docs/superpowers/specs/2026-04-21-vscode-extension-design]].
 
 > [!NOTE]
 > BC6 is a **Conformist** to the LSP 3.17 specification (client side). It communicates with BC5 exclusively via JSON-RPC over stdio. It does not import any server-side types, aggregates, or domain events. The `flavorGrenade/status` custom notification and `flavorGrenade.rebuildIndex` command are the only non-standard protocol extensions consumed or sent.
@@ -368,8 +368,8 @@ The platform-specific VSIX model guarantees that the binary is always present �
 
 - [[bounded-contexts]] — Context map and integration styles
 - [[ubiquitous-language]] — Editor Client Terms section
-- [[ddd/lsp-protocol/domain-model]] — BC5 server-side counterpart
-- [[design/api-layer]] — Server capabilities and `flavorGrenade/status` notification
-- [[features/ofmarkdown-language-mode]] — Markdown flavor selection behavior
-- [[adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
-- [[superpowers/specs/2026-04-21-vscode-extension-design]] — Full extension design spec
+- [[docs/ddd/lsp-protocol/domain-model]] — BC5 server-side counterpart
+- [[docs/design/api-layer]] — Server capabilities and `flavorGrenade/status` notification
+- [[docs/features/ofmarkdown-language-mode]] — Markdown flavor selection behavior
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
+- [[docs/superpowers/specs/2026-04-21-vscode-extension-design]] — Full extension design spec

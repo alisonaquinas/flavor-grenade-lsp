@@ -6,7 +6,7 @@ aliases: [Unit Tests Resolution, RefGraph Tests, Oracle Tests]
 
 > [!INFO] RefGraph is immutable — every test that calls update() checks that the original graph is unmodified. SymbolExtractor tests use synthetic OFMIndex values constructed directly, with no parser needed.
 
-See [[concepts/connection-graph]] and [[design/domain-layer]] for the data model behind `ScopedSym`, `Scope`, and `RefGraph`. See [[architecture/layers]] for the module boundary rules. See [[adr/ADR010-tests-directory-structure]] for the spec file layout convention.
+See [[docs/concepts/connection-graph]] and [[docs/design/domain-layer]] for the data model behind `ScopedSym`, `Scope`, and `RefGraph`. See [[docs/architecture/layers]] for the module boundary rules. See [[docs/adr/ADR010-tests-directory-structure]] for the spec file layout convention.
 
 ---
 

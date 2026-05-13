@@ -34,7 +34,7 @@ Stakeholders: All readers, keyboard users, screen-reader users.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/accessibility-and-usability]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/accessibility-and-usability]], [[website/docs/requirements/design/index]]
 
 Visual interaction requirements:
 
@@ -82,7 +82,7 @@ Stakeholders: First-time visitors, returning readers.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/accessibility-and-usability]]
+Source: [[website/docs/requirements/user/accessibility-and-usability]]
 
 Open questions:
 
@@ -123,7 +123,7 @@ Stakeholders: Returning readers.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/accessibility-and-usability]]
+Source: [[website/docs/requirements/user/accessibility-and-usability]]
 
 Open questions:
 

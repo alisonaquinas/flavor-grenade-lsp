@@ -26,7 +26,7 @@ aliases: ["CHORE-045"]
 ## Description
 
 Audit every Phase 14 parser, classifier, RefGraph, Oracle, diagnostics,
-navigation, and rename test. Ensure [[test/matrix]] and [[test/index]] include
+navigation, and rename test. Ensure [[docs/test/matrix]] and [[docs/test/index]] include
 the new tests and show passing evidence for every linked Phase 14 requirement.
 
 ---
@@ -36,7 +36,7 @@ the new tests and show passing evidence for every linked Phase 14 requirement.
 Phase 14 spans several Planguage tags and BDD scenarios. The test matrix must
 make the evidence trail obvious before the feature leaves review.
 
-- Motivated by: [[test/matrix]]
+- Motivated by: [[docs/test/matrix]]
 
 ---
 
@@ -44,12 +44,12 @@ make the evidence trail obvious before the feature leaves review.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Test evidence covers local Markdown link resolution | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Test evidence covers same-document anchor behavior | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Test evidence covers ambiguous heading diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Test evidence covers Markdown link definition | [[requirements/navigation]] |
-| `Navigation.References.Completeness` | Test evidence covers Markdown references | [[requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Test evidence covers Markdown heading rename edits | [[requirements/rename]] |
+| `Parity.MarkdownLinks.LocalResolution` | Test evidence covers local Markdown link resolution | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Test evidence covers same-document anchor behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Test evidence covers ambiguous heading diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Test evidence covers Markdown link definition | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | Test evidence covers Markdown references | [[docs/requirements/navigation]] |
+| `Rename.Refactoring.Completeness` | Test evidence covers Markdown heading rename edits | [[docs/requirements/rename]] |
 
 ---
 
@@ -101,8 +101,8 @@ make the evidence trail obvious before the feature leaves review.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] has passing Phase 14 rows for every linked requirement.
-- [ ] [[test/index]] lists every test file introduced or updated by Phase 14.
+- [ ] [[docs/test/matrix]] has passing Phase 14 rows for every linked requirement.
+- [ ] [[docs/test/index]] lists every test file introduced or updated by Phase 14.
 - [ ] Linked BDD scenarios in `docs/bdd/features/ofmarkdown-parity.feature` are
   represented in matrix evidence.
 - [ ] `bun run lint --max-warnings 0` passes.
@@ -122,7 +122,7 @@ here; route missing coverage back to the owning task.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -147,7 +147,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 > checks reached review. Status: `in-progress`.
 
 > [!INFO] Review Ready - 2026-05-06
-> Updated [[test/index]] and [[test/matrix]] with Phase 14 parser, classifier,
+> Updated [[docs/test/index]] and [[docs/test/matrix]] with Phase 14 parser, classifier,
 > RefGraph, Oracle, diagnostics, navigation, rename, completion, and security
 > evidence. `bun run lint:docs`, `bun run lint -- --max-warnings 0`,
 > `bun run typecheck`, and `bun test` pass. Status: `in-review`.

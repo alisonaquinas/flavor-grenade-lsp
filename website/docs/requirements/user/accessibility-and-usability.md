@@ -117,4 +117,4 @@ Acceptance criteria:
 
 - [[homepage]]
 - [[quickstart]]
-- [[how-to]]
+- [[website/docs/requirements/user/how-to]]

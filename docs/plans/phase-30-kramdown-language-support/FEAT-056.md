@@ -18,14 +18,14 @@ aliases: ["FEAT-056"]
 
 ## Description
 
-Implement first-class kramdown language support for kramdown, using [[research/kramdown-analysis]] as the source of truth for supported syntax and portability boundaries.
+Implement first-class kramdown language support for kramdown, using [[docs/research/kramdown-analysis]] as the source of truth for supported syntax and portability boundaries.
 
 ## Scope
 
 - Define parser/profile behavior for kramdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[docs/plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit evidence via
-  [[test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]],
+  [[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]],
   plus integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
@@ -42,13 +42,13 @@ Implement first-class kramdown language support for kramdown, using [[research/k
 
 | Requirement | Source |
 |---|---|
-| Extension.MarkdownFlavor.DialectProfiles | [[requirements/ofmarkdown-language-mode]] |
-| Extension.MarkdownFlavor.ServerPropagation | [[requirements/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.DialectProfiles | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.ServerPropagation | [[docs/requirements/ofmarkdown-language-mode]] |
 
 ## Definition of Done
 
 - [ ] kramdown has source-backed parser/profile behavior.
-- [ ] kramdown satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [ ] kramdown satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] kramdown behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
 

@@ -8,7 +8,7 @@ aliases: [Verify Parser Safety]
 
 ## Purpose
 
-This document defines verification test cases for the parser safety security requirements of `flavor-grenade-lsp`. Each test case validates that the OFM parser is hardened against resource exhaustion and denial-of-service attacks through adversarially crafted vault content. The requirements are defined in [[requirements/security/parser-safety]] and the threat analysis in [[research/security-threat-model]]. Security tests are predominantly Agent-driven; adversarial inputs must be constructed and sent to a running server instance to observe actual server behaviour. Scripted steps provide supporting static analysis.
+This document defines verification test cases for the parser safety security requirements of `flavor-grenade-lsp`. Each test case validates that the OFM parser is hardened against resource exhaustion and denial-of-service attacks through adversarially crafted vault content. The requirements are defined in [[docs/requirements/security/parser-safety]] and the threat analysis in [[docs/research/security-threat-model]]. Security tests are predominantly Agent-driven; adversarial inputs must be constructed and sent to a running server instance to observe actual server behaviour. Scripted steps provide supporting static analysis.
 
 ## Requirements Covered
 

@@ -52,7 +52,7 @@ Stakeholders: All website visitors, keyboard users.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], [[requirements/user/index]]
+Source: [[website/docs/requirements/design/index]], [[website/docs/requirements/user/index]]
 
 Open questions:
 
@@ -103,8 +103,8 @@ Stakeholders: Documentation readers, keyboard users, returning users.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], [[requirements/user/how-to]],
-[[requirements/user/concepts]], [[requirements/user/advanced-usage]]
+Source: [[website/docs/requirements/design/index]], [[website/docs/requirements/user/how-to]],
+[[website/docs/requirements/user/concepts]], [[website/docs/requirements/user/advanced-usage]]
 
 Open questions:
 
@@ -140,7 +140,7 @@ Stakeholders: Search visitors, documentation readers, LLM agents.
 
 Owner: Website implementation.
 
-Source: [[requirements/technical/index]], [[requirements/user/seo-discovery]]
+Source: [[website/docs/requirements/technical/index]], [[website/docs/requirements/user/seo-discovery]]
 
 Open questions:
 

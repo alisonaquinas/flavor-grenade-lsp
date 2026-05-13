@@ -28,7 +28,7 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 - Inspect the packaged VSIX contents after `npx vsce package --no-dependencies`.
 - Cross-check required README asset references against the archive contents.
-- See also: [[research/vscode-extension-publishing]]
+- See also: [[docs/research/vscode-extension-publishing]]
 
 ---
 
@@ -36,7 +36,7 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.AssetPackaging` | Referenced README assets are present in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced README assets are present in packaged VSIX output | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -60,7 +60,7 @@ extension README is present in the VSIX and uses a Marketplace-supported format.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension releases ship as platform-specific VSIX packages |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension releases ship as platform-specific VSIX packages |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Unsupported image formats fail the verification
 - [x] `cd extension && npm run build:extension` passes
 - [x] `cd extension && npx vsce package --no-dependencies` passes
-- [x] [[test/matrix]] row updated for `Extension.Marketplace.AssetPackaging`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Marketplace.AssetPackaging`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-029]] child task row updated to `done`
 
 ---
@@ -109,7 +109,7 @@ README paths before publishing.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -127,7 +127,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

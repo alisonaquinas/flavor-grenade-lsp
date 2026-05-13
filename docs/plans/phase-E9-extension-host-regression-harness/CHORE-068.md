@@ -44,7 +44,7 @@ must name the real command, fixture layout, and trace targets.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Tests.HostCoverage` | Host test command, fixtures, and coverage must be documented | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Host test command, fixtures, and coverage must be documented | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -70,7 +70,7 @@ must name the real command, fixture layout, and trace targets.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Client behavior docs must stay aligned with bridge tests |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Client behavior docs must stay aligned with bridge tests |
 
 ---
 
@@ -110,7 +110,7 @@ other phase ticket folders.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -126,7 +126,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

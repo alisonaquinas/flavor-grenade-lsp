@@ -43,7 +43,7 @@ not inventoried together before package inspection.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.OFMProof` | Required OFMarkdown visuals are present and referenced | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.OFMProof` | Required OFMarkdown visuals are present and referenced | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -67,7 +67,7 @@ not inventoried together before package inspection.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Assets must be compatible with platform VSIX packaging |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Assets must be compatible with platform VSIX packaging |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Every referenced asset path resolves under `extension/`
 - [x] Every asset uses PNG, JPEG, or GIF
 - [x] No behaviour-affecting changes in `src/`
-- [x] [[test/matrix]] updated if verification files were added or removed
-- [x] [[test/index]] updated if verification files were added or removed
+- [x] [[docs/test/matrix]] updated if verification files were added or removed
+- [x] [[docs/test/index]] updated if verification files were added or removed
 - [x] Notes identify any intentionally combined visuals
 
 ---
@@ -109,7 +109,7 @@ category to an explicit README reference.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

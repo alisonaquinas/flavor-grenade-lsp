@@ -6,7 +6,7 @@ aliases: [Unit Tests Path, PathModule Tests]
 
 > [!INFO] PathModule is the foundation layer — pure functions, no I/O. All tests are synchronous. RED tests should fail at the type/assertion level before any implementation exists.
 
-See [[architecture/layers]] for the module dependency hierarchy and [[adr/ADR010-tests-directory-structure]] for the spec file layout convention.
+See [[docs/architecture/layers]] for the module dependency hierarchy and [[docs/adr/ADR010-tests-directory-structure]] for the spec file layout convention.
 
 ---
 

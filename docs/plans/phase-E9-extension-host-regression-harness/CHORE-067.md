@@ -43,9 +43,9 @@ Traceability keeps host coverage auditable when extension behavior changes.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Tests.HostCoverage` | Host coverage rows must be represented in trace docs | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.LanguageMode.MembershipRefresh` | Membership refresh host tests must be traceable | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Command payload host tests must be traceable | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Host coverage rows must be represented in trace docs | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.LanguageMode.MembershipRefresh` | Membership refresh host tests must be traceable | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Command payload host tests must be traceable | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -93,8 +93,8 @@ Traceability keeps host coverage auditable when extension behavior changes.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] [[test/matrix]] includes Phase E9 rows for all linked requirements
-- [x] [[test/index]] includes every new Phase E9 host test file
+- [x] [[docs/test/matrix]] includes Phase E9 rows for all linked requirements
+- [x] [[docs/test/index]] includes every new Phase E9 host test file
 - [x] Test statuses match the actual host-test command result
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [ ] `tsc --noEmit` exits 0
@@ -112,7 +112,7 @@ This chore is documentation-only unless a trace mismatch exposes a missing test.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -128,12 +128,12 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07
 > Chore created. Status: `open`. Motivation: Phase E9 host-test traceability.
 
 > [!SUCCESS] Done - 2026-05-07
-> Updated [[test/matrix]] and [[test/index]] with the Phase E9 host runner,
+> Updated [[docs/test/matrix]] and [[docs/test/index]] with the Phase E9 host runner,
 > host suites, fixtures, status presenter test, and passing command evidence.

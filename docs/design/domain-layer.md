@@ -32,7 +32,7 @@ This is a **navigation and refactoring domain** over a structured document graph
 
 **Entities**: `Ref`, `Def`, `Scope`, `ScopedSym`, `RefGraph`, `Oracle`, `SymbolDiff`
 
-**Key invariants**: See [[concepts/connection-graph]] for the full invariant list.
+**Key invariants**: See [[docs/concepts/connection-graph]] for the full invariant list.
 
 ### Supporting Subdomain: Document Lifecycle
 
@@ -278,12 +278,12 @@ The following concepts are present in `flavor-grenade-lsp` but absent from marks
 
 ## Cross-References
 
-- [[architecture/overview]] — Design principles derived from this DDD analysis
-- [[architecture/layers]] — NestJS module mapping to bounded contexts
-- [[concepts/connection-graph]] — Core subdomain implementation details
-- [[concepts/symbol-model]] — Full Sym/Def/Ref type hierarchy
-- [[concepts/document-model]] — Document context implementation
-- [[concepts/workspace-model]] — Vault context implementation
-- [[concepts/path-model]] — Path & Identity context implementation
-- [[design/api-layer]] — LSP protocol context surface
-- [[design/behavior-layer]] — BDD scenarios validating domain invariants
+- [[docs/architecture/overview]] — Design principles derived from this DDD analysis
+- [[docs/architecture/layers]] — NestJS module mapping to bounded contexts
+- [[docs/concepts/connection-graph]] — Core subdomain implementation details
+- [[docs/concepts/symbol-model]] — Full Sym/Def/Ref type hierarchy
+- [[docs/concepts/document-model]] — Document context implementation
+- [[docs/concepts/workspace-model]] — Vault context implementation
+- [[docs/concepts/path-model]] — Path & Identity context implementation
+- [[docs/design/api-layer]] — LSP protocol context surface
+- [[docs/design/behavior-layer]] — BDD scenarios validating domain invariants

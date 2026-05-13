@@ -9,7 +9,7 @@ aliases:
 # Referencing Blocks User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors create and use block-level references to link to specific paragraphs or items within a note. Implementation details are in [[requirements/block-references]].
+> These user requirements cover how vault authors create and use block-level references to link to specific paragraphs or items within a note. Implementation details are in [[docs/requirements/block-references]].
 
 ---
 

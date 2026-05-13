@@ -35,7 +35,7 @@ severity.
   `doc.index.markdownImages`.
 - Preserve existing document embed diagnostics for Markdown targets.
 - Keep external or remote URLs out of vault attachment diagnostics.
-- See also: [[plans/phase-15-attachment-intelligence]]
+- See also: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -43,10 +43,10 @@ severity.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain clean | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment refs support diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Diagnostic.Severity.Embed` | Broken embed diagnostics use warning severity | [[requirements/diagnostics]] |
-| `Embed.Resolution.ImageTarget` | Broken image embeds use embed diagnostics | [[requirements/embed-resolution]] |
+| `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain clean | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment refs support diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Diagnostic.Severity.Embed` | Broken embed diagnostics use warning severity | [[docs/requirements/diagnostics]] |
+| `Embed.Resolution.ImageTarget` | Broken image embeds use embed diagnostics | [[docs/requirements/embed-resolution]] |
 
 ---
 
@@ -65,7 +65,7 @@ severity.
 | `src/resolution/__tests__/attachment-diagnostics.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> Update [[test/matrix]] and [[test/index]].
+> Update [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -73,7 +73,7 @@ severity.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are local attachment references |
+| [[docs/adr/ADR017-standard-markdown-link-intelligence]] | Markdown image links are local attachment references |
 
 ---
 
@@ -108,8 +108,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenario passes locally or remains covered with added cases.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [ ] [[docs/test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-022]] child task row updated to `in-review`.
 
 ---
@@ -124,7 +124,7 @@ semantics cannot represent attachment failures.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -133,7 +133,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

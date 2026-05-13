@@ -74,8 +74,8 @@ surface, especially for references and custom vault actions.
 
 ## Cross-References
 
-- [[research/marksman-vscode-feature-parity-ofmarkdown]]
-- [[features/vscode-extension-parity]]
-- [[requirements/functional/vscode-extension-parity]]
-- [[ddd/editor-client/domain-model]]
+- [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]
+- [[docs/features/vscode-extension-parity]]
+- [[docs/requirements/functional/vscode-extension-parity]]
+- [[docs/ddd/editor-client/domain-model]]
 - `extension/docs/index.md`

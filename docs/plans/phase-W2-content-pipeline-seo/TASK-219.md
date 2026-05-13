@@ -58,7 +58,7 @@ Tests should verify static files match the generated output and that
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

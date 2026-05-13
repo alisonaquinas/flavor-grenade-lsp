@@ -62,21 +62,21 @@ The Flavor Grenade extension is packaged into a distributable VSIX file that con
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Vault author can install the extension from a VSIX and use all LSP features in VS Code | [[requirements/user/index]] |
+| — | Vault author can install the extension from a VSIX and use all LSP features in VS Code | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Packaging and distribution; functional requirements addressed by earlier phases | [[requirements/index]] |
+| — | Packaging and distribution; functional requirements addressed by earlier phases | [[docs/requirements/index]] |
 
 ---
 
@@ -92,9 +92,9 @@ The Flavor Grenade extension is packaged into a distributable VSIX file that con
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E4-packaging-local-test]]
+- Phase plan: [[docs/plans/phase-E4-packaging-local-test]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -160,7 +160,7 @@ The VSIX internal path prefix `extension/` is added by `vsce` and is distinct fr
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -181,7 +181,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. Phase E4 VSIX Packaging and Local Verification feature defined; child tasks (TASK-147, TASK-148) and chore (CHORE-042) created. Blocked by FEAT-017 until Phase E3 is complete.

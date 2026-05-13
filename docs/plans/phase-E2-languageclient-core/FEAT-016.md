@@ -64,21 +64,21 @@ When a vault author opens a Markdown file in VS Code with the Flavor Grenade ext
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Extension activation is invisible infrastructure; user-visible features (completions, diagnostics) depend on this but are delivered by the server | [[requirements/user/index]] |
+| — | Extension activation is invisible infrastructure; user-visible features (completions, diagnostics) depend on this but are delivered by the server | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension infrastructure; functional requirements are fulfilled by the LSP server, not the client wrapper | [[requirements/index]] |
+| — | Extension infrastructure; functional requirements are fulfilled by the LSP server, not the client wrapper | [[docs/requirements/index]] |
 
 ---
 
@@ -94,9 +94,9 @@ When a vault author opens a Markdown file in VS Code with the Flavor Grenade ext
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E2-languageclient-core]]
+- Phase plan: [[docs/plans/phase-E2-languageclient-core]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -150,7 +150,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ## Notes
 
-- ADR references: [[adr/ADR001-stdio-transport]] (stdio as the sole transport), [[adr/ADR015-platform-specific-vsix]] (platform-specific VSIXs guarantee the bundled binary is present).
+- ADR references: [[docs/adr/ADR001-stdio-transport]] (stdio as the sole transport), [[docs/adr/ADR015-platform-specific-vsix]] (platform-specific VSIXs guarantee the bundled binary is present).
 
 - The 2-tier resolution deliberately omits PATH fallback and environment variable discovery. Platform-specific VSIXs bundle the correct binary, and the user setting provides the escape hatch for local development.
 
@@ -162,7 +162,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -183,7 +183,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. LanguageClient Core Activation feature defined; all child tasks (TASK-141 through TASK-143) created. Blocked by FEAT-015 until Phase E1 Extension Scaffold is complete.

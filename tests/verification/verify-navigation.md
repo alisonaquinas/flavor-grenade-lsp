@@ -11,7 +11,7 @@ aliases: [Verify Navigation]
 This document defines the scripted and agent-driven verification test cases for the Navigation
 Requirements of flavor-grenade-lsp. Each test case is derived directly from the Planguage
 `Meter` field of its corresponding requirement and references the BDD scenarios in
-[[bdd/features/navigation]] where coverage exists. These tests are the authoritative verification
+\[\[bdd/features/navigation]] where coverage exists. These tests are the authoritative verification
 record for the `textDocument/definition`, `textDocument/references`, and `textDocument/codeLens`
 capabilities across all OFM link types.
 
@@ -32,7 +32,7 @@ capabilities across all OFM link types.
 **Planguage Tag:** `Navigation.Definition.AllLinkTypes`
 **Gist:** The `textDocument/definition` handler must return a valid `Location` response for cursor positions on wiki-links, embed links, block references, and tag occurrences.
 **Type:** Both
-**BDD Reference:** [[bdd/features/navigation]] — `Go-to-definition on [[doc]] navigates to target document` (wiki-link sub-case), `Go-to-definition on [[doc#heading]] navigates to the heading line` (embed/heading sub-case), `Go-to-definition on [[doc#^blockid]] navigates to the block anchor line` (block-ref sub-case); tag sub-case: **BDD gap**
+**BDD Reference:** \[\[bdd/features/navigation]] — `Go-to-definition on [[doc]] navigates to target document` (wiki-link sub-case), `Go-to-definition on [[doc#heading]] navigates to the heading line` (embed/heading sub-case), `Go-to-definition on [[doc#^blockid]] navigates to the block anchor line` (block-ref sub-case); tag sub-case: **BDD gap**
 **Phase:** Phase 1
 
 **Setup:**
@@ -175,7 +175,7 @@ Then the response is a non-null Location
 **Planguage Tag:** `Navigation.References.Completeness`
 **Gist:** The `textDocument/references` handler must return every reference in the vault folder that resolves to the target document, heading, block anchor, or tag — with no omissions.
 **Type:** Both
-**BDD Reference:** [[bdd/features/navigation]] — `Find-references on a heading returns all wiki-links targeting that heading`, `Find-references with includeDeclaration=true includes the definition site`
+**BDD Reference:** \[\[bdd/features/navigation]] — `Find-references on a heading returns all wiki-links targeting that heading`, `Find-references with includeDeclaration=true includes the definition site`
 **Phase:** Phase 1
 
 **Setup:**
@@ -228,7 +228,7 @@ And no reference found by independent scan is absent from the LSP response
 **Planguage Tag:** `Navigation.CodeLens.Count`
 **Gist:** Each heading in an indexed document must display a `textDocument/codeLens` entry showing the exact count of vault-wide references that resolve to that heading, and the count must be updated when the vault index changes.
 **Type:** Both
-**BDD Reference:** [[bdd/features/navigation]] — `Code lens on a heading with references shows correct count`, `Code lens on an orphaned heading shows 0 references`
+**BDD Reference:** \[\[bdd/features/navigation]] — `Code lens on a heading with references shows correct count`, `Code lens on an orphaned heading shows 0 references`
 **Phase:** Phase 1
 
 **Setup:**

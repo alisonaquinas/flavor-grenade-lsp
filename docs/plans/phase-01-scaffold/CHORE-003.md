@@ -32,7 +32,7 @@ Review all new code and dependencies introduced in Phase 1 for three categories 
 
 Security issues are cheapest to fix at the scaffolding phase before business logic accumulates. Path traversal is the primary attack surface for an LSP server operating on a user's vault (file system). Supply chain vulnerabilities in newly added packages must be triaged before they are relied upon in production logic.
 
-- Motivated by: [[adr/ADR013-vault-root-confinement]], [[adr/ADR014-dependency-security-policy]]
+- Motivated by: [[docs/adr/ADR013-vault-root-confinement]], [[docs/adr/ADR014-dependency-security-policy]]
 
 ---
 
@@ -40,7 +40,7 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Security requirements to be authored in Phase 0 requirements layer; this sweep applies them to Phase 1 output | [[requirements/index]] |
+| — | Security requirements to be authored in Phase 0 requirements layer; this sweep applies them to Phase 1 output | [[docs/requirements/index]] |
 
 ---
 
@@ -67,8 +67,8 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | All file path construction from LSP-received workspace URIs must be sanitised; no `../` traversal permitted |
-| [[adr/ADR014-dependency-security-policy]] | All new packages must pass `bun audit` with no high/critical CVEs; exceptions require a documented SPIKE ticket |
+| [[docs/adr/ADR013-vault-root-confinement]] | All file path construction from LSP-received workspace URIs must be sanitised; no `../` traversal permitted |
+| [[docs/adr/ADR014-dependency-security-policy]] | All new packages must pass `bun audit` with no high/critical CVEs; exceptions require a documented SPIKE ticket |
 
 ---
 
@@ -89,15 +89,15 @@ Security issues are cheapest to fix at the scaffolding phase before business log
 All of the following must be true before this ticket is marked `done`:
 
 - [ ] `bun audit` run and output reviewed; no unaddressed high/critical CVEs
-- [ ] All Phase 1 `src/` files reviewed for path traversal risks per [[adr/ADR013-vault-root-confinement]]
+- [ ] All Phase 1 `src/` files reviewed for path traversal risks per [[docs/adr/ADR013-vault-root-confinement]]
 - [ ] All Phase 1 `src/` files reviewed for LSP input validation patterns
 - [ ] All high/critical findings have corresponding BUG tickets opened with `priority: high` or `priority: critical`
 - [ ] `bun run lint --max-warnings 0` still passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -109,7 +109,7 @@ At Phase 1, no LSP data is received — the server does not yet listen on stdio.
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -118,10 +118,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[adr/ADR013-vault-root-confinement]], [[adr/ADR014-dependency-security-policy]]. Blocked until CHORE-002 (Code Quality Sweep) is done.
+> Chore created. Status: `open`. Motivation: [[docs/adr/ADR013-vault-root-confinement]], [[docs/adr/ADR014-dependency-security-policy]]. Blocked until CHORE-002 (Code Quality Sweep) is done.
 
 > [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

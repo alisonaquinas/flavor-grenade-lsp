@@ -121,7 +121,7 @@ The server caches the full token array per document version. If the document has
 
 - [[ADR002-ofm-only-scope]]
 - [[ADR006-block-ref-indexing]]
-- [[features/completions]]
-- [[features/hover]]
-- [[features/ofmarkdown-language-mode]]
-- [[ofm-spec/index]]
+- [[docs/features/completions]]
+- [[docs/features/hover]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/ofm-spec/index]]

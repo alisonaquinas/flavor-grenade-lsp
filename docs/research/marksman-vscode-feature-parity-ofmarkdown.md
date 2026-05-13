@@ -362,7 +362,7 @@ not.
 | Marksman VSCode extension source | https://raw.githubusercontent.com/artempyanykh/marksman-vscode/main/src/extension.ts |
 | Marksman VSCode README | https://raw.githubusercontent.com/artempyanykh/marksman-vscode/main/README.md |
 | Marksman VS Code Marketplace listing | https://marketplace.visualstudio.com/items?itemName=arr.marksman |
-| Flavor Grenade extension design | [[superpowers/specs/2026-04-21-vscode-extension-design]] |
-| Flavor Grenade editor client model | [[ddd/editor-client/domain-model]] |
-| Flavor Grenade OFMarkdown language mode | [[features/ofmarkdown-language-mode]] |
+| Flavor Grenade extension design | [[docs/superpowers/specs/2026-04-21-vscode-extension-design]] |
+| Flavor Grenade editor client model | [[docs/ddd/editor-client/domain-model]] |
+| Flavor Grenade OFMarkdown language mode | [[docs/features/ofmarkdown-language-mode]] |
 | Flavor Grenade extension README | `extension/README.md` |

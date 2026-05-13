@@ -34,8 +34,8 @@ phase moves into final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[requirements/code-quality]] |
-| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be reviewed | [[requirements/code-quality]] |
+| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[docs/requirements/code-quality]] |
+| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be reviewed | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -44,7 +44,7 @@ phase moves into final verification.
 **Files modified:**
 
 - Phase 14 source files only if review finds chore-level cleanup.
-- This ticket file and [[plans/phase-14-markdown-link-intelligence/index]] for
+- This ticket file and [[docs/plans/phase-14-markdown-link-intelligence/index]] for
   status evidence.
 
 **Files created:**
@@ -71,7 +71,7 @@ phase moves into final verification.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -82,7 +82,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant:
 
 > [!INFO] Opened - 2026-05-06
 > Chore created after identifying the Phase 14 ticket set lacked the Step F
-> sweep required by [[plans/phase-execution]]. Status: `open`.
+> sweep required by [[docs/plans/phase-execution]]. Status: `open`.
 
 > [!INFO] Started - 2026-05-06
 > Step F code quality sweep started. Status: `in-progress`.

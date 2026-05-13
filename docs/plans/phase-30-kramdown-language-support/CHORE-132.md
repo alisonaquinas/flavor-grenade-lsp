@@ -22,7 +22,7 @@ Perform the operational sweep for kramdown language-support phase closure.
 ## Work Scope
 
 - Review lint, test-command evidence, validation artifacts, and phase closeout notes for kramdown.
-- Confirm [[research/kramdown-analysis]] remains the source trace for the phase.
+- Confirm [[docs/research/kramdown-analysis]] remains the source trace for the phase.
 - Update the phase index and roadmap status when completion evidence exists.
 
 ## Linked Requirements

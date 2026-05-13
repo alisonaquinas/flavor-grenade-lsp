@@ -34,7 +34,7 @@ CI and deployment evidence before Phase W5 is marked complete.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 ## Workflow Log
 

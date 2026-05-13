@@ -48,9 +48,9 @@ are caught before publishing.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.TrustExtensionBehavior` | Trust extension behavior across updates | [[requirements/user/vscode-extension-parity]] |
-| `User.Extension.StartOnlyForVaults` | Start automatically for vaults without invading generic Markdown | [[requirements/user/vscode-extension-parity]] |
-| `User.Extension.UseNativeVSCodeActions` | Use native VS Code actions for vault navigation | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.TrustExtensionBehavior` | Trust extension behavior across updates | [[docs/requirements/user/vscode-extension-parity]] |
+| `User.Extension.StartOnlyForVaults` | Start automatically for vaults without invading generic Markdown | [[docs/requirements/user/vscode-extension-parity]] |
+| `User.Extension.UseNativeVSCodeActions` | Use native VS Code actions for vault navigation | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -58,9 +58,9 @@ are caught before publishing.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Tests.HostCoverage` | Extension-host tests cover required client behavior groups | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.LanguageMode.MembershipRefresh` | Membership refresh keeps `markdown` and `ofmarkdown` assignments correct | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Command bridges validate JSON-serializable payloads before VS Code API calls | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Extension-host tests cover required client behavior groups | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.LanguageMode.MembershipRefresh` | Membership refresh keeps `markdown` and `ofmarkdown` assignments correct | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Command bridges validate JSON-serializable payloads before VS Code API calls | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -76,8 +76,8 @@ are caught before publishing.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E9-extension-host-regression-harness]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E9-extension-host-regression-harness]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Command bridge tests cover valid and invalid payloads without uncaught extension-host exceptions
 - [ ] Status and missing server path tests prove useful failure states
 - [ ] Host tests run from `extension/` or the blocker is documented in the phase notes
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -117,7 +117,7 @@ All of the following must be true before this ticket is marked `done`:
 **Blocked by:**
 
 - [[FEAT-026]] - Phase E8 command bridges must exist before bridge host coverage
-- Phase E8 (see [[plans/execution-ledger]]) - Native command bridge behavior is the main test target
+- Phase E8 (see [[docs/plans/execution-ledger]]) - Native command bridge behavior is the main test target
 
 **Unblocks:**
 
@@ -137,7 +137,7 @@ with [[CHORE-067]] and [[CHORE-068]].
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -153,7 +153,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

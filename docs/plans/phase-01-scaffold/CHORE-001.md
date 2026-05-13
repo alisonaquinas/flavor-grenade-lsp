@@ -32,7 +32,7 @@ Run `bun run lint --max-warnings 0` across all `src/` files after all Phase 1 TA
 
 The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger ESLint warnings on initial creation due to decorators, unused imports, or return-type inference gaps. This chore cleans those up before Phase 2 begins, so that the zero-warnings invariant is established as a baseline from the very first source commit.
 
-- Motivated by: [[requirements/code-quality]] `Quality.Lint.ZeroWarnings`
+- Motivated by: [[docs/requirements/code-quality]] `Quality.Lint.ZeroWarnings`
 
 ---
 
@@ -40,7 +40,7 @@ The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | ESLint must exit 0 with `--max-warnings 0` on all `src/` files | [[requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | ESLint must exit 0 with `--max-warnings 0` on all `src/` files | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -68,7 +68,7 @@ The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger 
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | No `any` types may be introduced; all ESLint errors must be fixed, not suppressed |
+| [[docs/adr/ADR001-stdio-transport]] | No `any` types may be introduced; all ESLint errors must be fixed, not suppressed |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -106,7 +106,7 @@ If a lint issue in Phase 1 skeleton code cannot be fixed without changing the ar
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -115,10 +115,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[requirements/code-quality]] `Quality.Lint.ZeroWarnings`. Blocked until TASK-002 through TASK-016 are all done.
+> Chore created. Status: `open`. Motivation: [[docs/requirements/code-quality]] `Quality.Lint.ZeroWarnings`. Blocked until TASK-002 through TASK-016 are all done.
 
 > [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

@@ -21,7 +21,7 @@ Keep implementation traceability current as server flavor propagation lands.
 
 ## Work Scope
 
-- Update [[test/index]] and [[test/matrix]] for new server tests.
+- Update [[docs/test/index]] and [[docs/test/matrix]] for new server tests.
 - Confirm phase tasks preserve `VaultIndex` and DocId invariants.
 - Record any scope changes in the phase plan.
 

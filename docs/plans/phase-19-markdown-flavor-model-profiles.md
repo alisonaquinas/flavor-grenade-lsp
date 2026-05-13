@@ -27,9 +27,9 @@ scope instead of documentation-only requirements.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
-| [[test/markdown-flavor-unit-spec]] | Implement profile registry unit test coverage |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
+| [[docs/test/markdown-flavor-unit-spec]] | Implement profile registry unit test coverage |
 | [GAP-S-001](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor enum/model gap |
 | [GAP-S-002](../gaps/markdown-flavor-gap-analysis.md) | Close missing dialect profile registry gap |
 
@@ -72,10 +72,10 @@ bun run build
 
 ## Tickets
 
-Ticket index: [[plans/phase-19-markdown-flavor-model-profiles/index]]
+Ticket index: [[docs/plans/phase-19-markdown-flavor-model-profiles/index]]
 
 ## Related
 
-- [[adr/ADR020-markdown-flavor-selection]]
-- [[features/ofmarkdown-language-mode]]
-- [[gaps/markdown-flavor-gap-analysis]]
+- [[docs/adr/ADR020-markdown-flavor-selection]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/gaps/markdown-flavor-gap-analysis]]

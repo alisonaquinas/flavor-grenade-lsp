@@ -12,14 +12,14 @@ This smoke test validates the minimum viable rename round-trip: that `textDocume
 
 ## Phase Gate
 
-Phase 3 — see [[plans/execution-ledger]]
+Phase 3 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-015 — rename heading updates source file and all referencing links
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/rename]] — `Rename heading updates all [[doc#heading]] references`
+**BDD Reference:** \[\[bdd/features/rename]] — `Rename heading updates all [[doc#heading]] references`
 **Phase gate:** Phase 3
 
 **Setup:**
@@ -82,7 +82,7 @@ And the WorkspaceEdit updates "[[source#Old Heading]]" to "[[source#New Heading]
 ### TC-SMOKE-016 — prepareRename rejects cursor on body prose text
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/rename]] — `prepareRename rejects cursor positioned on body text`
+**BDD Reference:** \[\[bdd/features/rename]] — `prepareRename rejects cursor positioned on body text`
 **Phase gate:** Phase 3
 
 **Setup:**

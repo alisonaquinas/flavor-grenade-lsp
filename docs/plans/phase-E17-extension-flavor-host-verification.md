@@ -27,9 +27,9 @@ safety evidence.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add host coverage for flavor selector behavior |
-| [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add host coverage for flavor selector behavior |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
 | [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md) | Implement extension host e2e test cases |
 | [extension markdown flavor verification spec](../../extension/docs/tests/markdown-flavor-verification-spec.md) | Wire extension commands and CI gates |
 | [extension markdown flavor validation spec](../../extension/docs/tests/markdown-flavor-validation-spec.md) | Add user-visible validation evidence |
@@ -72,7 +72,7 @@ npm run compile
 
 ## Tickets
 
-Ticket index: [[plans/phase-E17-extension-flavor-host-verification/index]]
+Ticket index: [[docs/plans/phase-E17-extension-flavor-host-verification/index]]
 
 ## Related
 

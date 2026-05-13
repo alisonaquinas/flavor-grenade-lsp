@@ -10,7 +10,7 @@ aliases:
 # Hover Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/hover` behaviour: wiki-link hover content (title, first-paragraph preview, and stats), and embed hover content (resolved path and file type). Tag hover, frontmatter key hover, and the `hover.enabled` configuration switch are specified in [[features/hover]]. Positions that return null are enumerated in [[features/hover#No Hover Positions]]. The `hover.preview_chars` configuration key is specified in [[configuration]].
+> These requirements govern `textDocument/hover` behaviour: wiki-link hover content (title, first-paragraph preview, and stats), and embed hover content (resolved path and file type). Tag hover, frontmatter key hover, and the `hover.enabled` configuration switch are specified in [[docs/features/hover]]. Positions that return null are enumerated in [[docs/features/hover#No Hover Positions]]. The `hover.preview_chars` configuration key is specified in [[configuration]].
 
 ---
 

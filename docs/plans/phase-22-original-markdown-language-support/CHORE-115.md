@@ -22,7 +22,7 @@ Perform trace and documentation kickoff hygiene for Original Markdown language-s
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for original.
-- Confirm [[research/commonmark-and-original-markdown]] remains the source trace for the phase.
+- Confirm [[docs/research/commonmark-and-original-markdown]] remains the source trace for the phase.
 - Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements

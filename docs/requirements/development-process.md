@@ -30,7 +30,7 @@ aliases:
 **Goal:** 0% non-release commits on `main` — every commit on `main` is a release merge.
 **Stakeholders:** Release engineers, package consumers, OIDC provenance reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
+**Source:** [[docs/adr/ADR007-git-flow-branching]], [[docs/requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
 
 ---
 
@@ -47,11 +47,11 @@ aliases:
 3. Verify website tests are under `website/tests/`.
 4. Verify extension tests are under `extension/src/` or `extension/test/` according to the extension package runner.
 5. Verify Gherkin feature specs are under `docs/bdd/features/`, while BDD step definitions and source-owned step maps are under `src/test/bdd/`.
-**Fail:** Any new test or harness file placed outside its owned tree without updating this requirement and [[test/index]]; any raw BDD step implementation material restored under `docs/bdd/steps/`.
+**Fail:** Any new test or harness file placed outside its owned tree without updating this requirement and [[docs/test/index]]; any raw BDD step implementation material restored under `docs/bdd/steps/`.
 **Goal:** 100% of test files live in the package-appropriate test tree, with `docs/bdd/features/` reserved for Gherkin feature specs.
 **Stakeholders:** All contributors, CI pipeline, build tooling.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR010-tests-directory-structure]], `bunfig.toml`, `cucumber.yaml`, [[test/index]], [[plans/phase-18-security-hardening-audit/TASK-280]], [[plans/phase-18-security-hardening-audit/TASK-281]].
+**Source:** [[docs/adr/ADR010-tests-directory-structure]], `bunfig.toml`, `cucumber.yaml`, [[docs/test/index]], [[docs/plans/phase-18-security-hardening-audit/TASK-280]], [[docs/plans/phase-18-security-hardening-audit/TASK-281]].
 
 ---
 
@@ -71,7 +71,7 @@ aliases:
 **Goal:** 100% of test files have matrix entries — `docs/test/matrix.md` is always current.
 **Stakeholders:** Phase reviewers, requirements auditors, CI maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[test/matrix]], [[test/index]], [[requirements/index]], `scripts/update-test-index.sh`.
+**Source:** [[docs/test/matrix]], [[docs/test/index]], [[docs/requirements/index]], `scripts/update-test-index.sh`.
 
 ---
 
@@ -110,4 +110,4 @@ aliases:
 **Goal:** 0% untracked binaries — all binary files use LFS pointers in the git object store.
 **Stakeholders:** All contributors, clone-performance-sensitive CI environments.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** `.gitattributes`, `git lfs` documentation, [[plans/phase-01-scaffold#Task-1]].
+**Source:** `.gitattributes`, `git lfs` documentation, [[docs/plans/phase-01-scaffold]].

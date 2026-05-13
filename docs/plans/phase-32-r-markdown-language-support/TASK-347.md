@@ -17,7 +17,7 @@ aliases: ["TASK-347"]
 
 ## Description
 
-Deliver unit, integration, BDD, verification, and validation evidence for the r-markdown flavor using [[research/r-markdown-analysis]] and ADR020 as the controlling specification.
+Deliver unit, integration, BDD, verification, and validation evidence for the r-markdown flavor using [[docs/research/r-markdown-analysis]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]] | Profile and parser behavior for r-markdown. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor r-markdown. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]] | Profile and parser behavior for r-markdown. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor r-markdown. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -55,8 +55,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the r-
 
 - [ ] r-markdown behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

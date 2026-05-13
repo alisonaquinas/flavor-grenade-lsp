@@ -42,7 +42,7 @@ more damaging than a missing internal note.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Activation.VaultPrecision` | Documentation must match active and idle startup behavior | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.VaultPrecision` | Documentation must match active and idle startup behavior | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -105,7 +105,7 @@ in the Phase E7 task tickets.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

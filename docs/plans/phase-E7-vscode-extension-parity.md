@@ -17,18 +17,18 @@ merged independently.
 
 | Phase | Plan | Primary requirement focus |
 |---|---|---|
-| E7 | [[phase-E7-activation-precision]] | [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
-| E8 | [[phase-E8-command-bridges-native-navigation]] | [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
-| E9 | [[phase-E9-extension-host-regression-harness]] | [[requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
-| E10 | [[phase-E10-status-ux-troubleshooting]] | [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
-| E11 | [[phase-E11-marketplace-evidence-packaging-proof]] | [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
-| E12 | [[phase-E12-ofmarkdown-editor-contributions]] | [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
-| E13 | [[phase-E13-workspace-environment-modes]] | [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
-| E14 | [[phase-E14-membership-refresh-compatibility-guardrails]] | [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
+| E7 | [[phase-E7-activation-precision]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] |
+| E8 | [[phase-E8-command-bridges-native-navigation]] | [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] |
+| E9 | [[phase-E9-extension-host-regression-harness]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] |
+| E10 | [[phase-E10-status-ux-troubleshooting]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
+| E11 | [[phase-E11-marketplace-evidence-packaging-proof]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] |
+| E12 | [[phase-E12-ofmarkdown-editor-contributions]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] |
+| E13 | [[phase-E13-workspace-environment-modes]] | [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
+| E14 | [[phase-E14-membership-refresh-compatibility-guardrails]] | [[docs/requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] |
 
 ## Source
 
-The split is derived from [[research/marksman-vscode-feature-parity-ofmarkdown]]
+The split is derived from [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]
 and the current Marksman VSCode public extension surface:
 
 - project-scoped activation
@@ -41,5 +41,5 @@ and the current Marksman VSCode public extension surface:
 ## Related
 
 - [[roadmap]]
-- [[features/vscode-extension-parity]]
-- [[requirements/functional/vscode-extension-parity]]
+- [[docs/features/vscode-extension-parity]]
+- [[docs/requirements/functional/vscode-extension-parity]]

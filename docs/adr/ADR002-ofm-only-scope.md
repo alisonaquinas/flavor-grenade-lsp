@@ -10,7 +10,7 @@ date: 2026-04-16
 > [!warning] Superseded
 > This ADR records the original OFM-only architecture decision. It is
 > superseded for new requirements by [[ADR020-markdown-flavor-selection]] and
-> [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]],
+> [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]],
 > which require explicit support for the researched Markdown flavor set.
 
 ## Context
@@ -70,7 +70,7 @@ The `ofm-spec/` directory is the normative specification for every language cons
 
 ## Related
 
-- [[ofm-spec/index]]
+- [[docs/ofm-spec/index]]
 - [[ADR003-vault-detection]]
-- [[architecture/overview]]
+- [[docs/architecture/overview]]
 - `ddd/ofm-parser`

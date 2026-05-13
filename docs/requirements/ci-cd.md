@@ -10,7 +10,7 @@ aliases:
 # CI/CD Requirements
 
 > [!NOTE] Scope
-> These requirements govern GitHub Actions workflows, markdown linting policies, OIDC publishing, pre-commit gates, and branching strategy enforcement. They apply to the `.github/workflows/` pipeline and the `lefthook.yml` pre-commit configuration. Implementation obligations are carried by [[plans/phase-13-ci-delivery]] for full CI build-out, and by [[plans/phase-01-scaffold]] for the pre-commit gate bootstrapped in Phase 1.
+> These requirements govern GitHub Actions workflows, markdown linting policies, OIDC publishing, pre-commit gates, and branching strategy enforcement. They apply to the `.github/workflows/` pipeline and the `lefthook.yml` pre-commit configuration. Implementation obligations are carried by [[docs/plans/phase-13-ci-delivery]] for full CI build-out, and by [[docs/plans/phase-01-scaffold]] for the pre-commit gate bootstrapped in Phase 1.
 
 ---
 
@@ -30,7 +30,7 @@ aliases:
 **Goal:** 0% of merges bypass the gate — 100% of merged PRs have all required checks green.
 **Stakeholders:** All contributors, CI pipeline maintainers, release engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], `.github/workflows/ci.yml`, GitHub Actions documentation §Branch Protection.
+**Source:** [[docs/adr/ADR007-git-flow-branching]], `.github/workflows/ci.yml`, GitHub Actions documentation §Branch Protection.
 
 ---
 
@@ -51,7 +51,7 @@ aliases:
 **Goal:** `bun run bdd` exits 0 with all checked-in scenarios and steps passing.
 **Stakeholders:** Phase reviewers, contributors, CI maintainers, requirements auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** `.github/workflows/ci.yml`, `cucumber.yaml`, [[design/behavior-layer]], [[test/index]], [[plans/phase-18-security-hardening-audit/TASK-280]], [[plans/phase-18-security-hardening-audit/TASK-282]], [[plans/phase-18-security-hardening-audit/BUG-033]].
+**Source:** `.github/workflows/ci.yml`, `cucumber.yaml`, [[docs/design/behavior-layer]], [[docs/test/index]], [[docs/plans/phase-18-security-hardening-audit/TASK-280]], [[docs/plans/phase-18-security-hardening-audit/TASK-282]], [[docs/plans/phase-18-security-hardening-audit/BUG-033]].
 
 ---
 
@@ -71,7 +71,7 @@ aliases:
 **Goal:** 0% silent failures — every `docs/` Markdown violation fails CI.
 **Stakeholders:** Documentation maintainers, contributors, Obsidian vault users of this project.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** `.github/workflows/ci.yml`, [[requirements/development-process]], markdownlint-obsidian documentation.
+**Source:** `.github/workflows/ci.yml`, [[docs/requirements/development-process]], markdownlint-obsidian documentation.
 
 ---
 
@@ -112,7 +112,7 @@ aliases:
 **Goal:** 100% of Marketplace extension publishes are gated on a successful packaged Windows server launch.
 **Stakeholders:** Windows users, release engineers, Marketplace consumers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR015-platform-specific-vsix]], `.github/workflows/extension-release.yml`, extension `0.1.3` hotfix investigation.
+**Source:** [[docs/adr/ADR015-platform-specific-vsix]], `.github/workflows/extension-release.yml`, extension `0.1.3` hotfix investigation.
 
 ---
 
@@ -133,7 +133,7 @@ aliases:
 **Goal:** 100% of published versions carry provenance — `npm audit signatures` exits 0.
 **Stakeholders:** Package consumers, security auditors, supply-chain integrity reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job, npm documentation §Provenance. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
+**Source:** [[docs/adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job, npm documentation §Provenance. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
 
 ---
 
@@ -153,7 +153,7 @@ aliases:
 **Goal:** 0% non-tag publishes — 100% of published versions have a corresponding `v*.*.*` git tag on `main`.
 **Stakeholders:** Release engineers, consumers, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR007-git-flow-branching]], [[adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
+**Source:** [[docs/adr/ADR007-git-flow-branching]], [[docs/adr/ADR008-oidc-publishing]], `.github/workflows/ci.yml` npm publish job. `.github/workflows/release.yml` is reserved for binary or GitHub release artifacts when applicable.
 
 ---
 
@@ -173,4 +173,4 @@ aliases:
 **Goal:** 0% bypasses on `develop` and `main` — pre-commit hook runs successfully on every commit.
 **Stakeholders:** All contributors, CI pipeline.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR009-precommit-hooks-zero-warnings]], `lefthook.yml`, [[requirements/code-quality#Quality.Lint.ZeroWarnings]].
+**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], `lefthook.yml`, [[docs/requirements/code-quality#Quality.Lint.ZeroWarnings]].

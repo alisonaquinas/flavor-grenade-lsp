@@ -41,11 +41,11 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 | Requirement | Source |
 |---|---|
-| Quickstart | [[../../../website/docs/requirements/user/quickstart]] |
-| How-to | [[../../../website/docs/requirements/user/how-to]] |
-| Advanced usage | [[../../../website/docs/requirements/user/advanced-usage]] |
-| FAQ | [[../../../website/docs/requirements/user/faq]] |
-| LLM wiki standards | [[../../../website/docs/requirements/functional/llm-wiki-standards]] |
+| Quickstart | [[website/docs/requirements/user/quickstart]] |
+| How-to | [[website/docs/requirements/user/how-to]] |
+| Advanced usage | [[website/docs/requirements/user/advanced-usage]] |
+| FAQ | [[website/docs/requirements/user/faq]] |
+| LLM wiki standards | [[website/docs/requirements/functional/llm-wiki-standards]] |
 
 ## Acceptance Criteria
 
@@ -67,7 +67,7 @@ public quickstart, how-to, advanced usage, FAQ, and LLM-wiki concept pages.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 ## Workflow Log
 

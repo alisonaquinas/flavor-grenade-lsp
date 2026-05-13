@@ -49,8 +49,8 @@ without searching raw logs first.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.UnderstandServerState` | Understand server state at a glance | [[requirements/user/vscode-extension-parity]] |
-| `User.Extension.TrustExtensionBehavior` | Trust extension behavior across updates | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.UnderstandServerState` | Understand server state at a glance | [[docs/requirements/user/vscode-extension-parity]] |
+| `User.Extension.TrustExtensionBehavior` | Trust extension behavior across updates | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -58,9 +58,9 @@ without searching raw logs first.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Status.Diagnostics` | Status bar exposes actionable server, vault, and error state | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Diagnostic copy and vault reveal are registered extension actions | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Status bar exposes actionable server, vault, and error state | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.QuickActions` | Status UI exposes recovery and support actions when applicable | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Diagnostic copy and vault reveal are registered extension actions | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -75,8 +75,8 @@ without searching raw logs first.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E10-status-ux-troubleshooting]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E10-status-ux-troubleshooting]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -89,8 +89,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Diagnostic copy output excludes secrets and includes actionable platform data
 - [x] Status quick actions include restart, rebuild index, output, diagnostics, and vault reveal
 - [x] Troubleshooting docs cover missing binary, crash loop, no OFMarkdown promotion, no completions, and stale index
-- [x] [[test/matrix]] updated with every new test file introduced
-- [x] [[test/index]] updated with every new test file introduced
+- [x] [[docs/test/matrix]] updated with every new test file introduced
+- [x] [[docs/test/index]] updated with every new test file introduced
 - [x] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [x] `tsc --noEmit` exits 0
 
@@ -115,7 +115,7 @@ All of the following must be true before this ticket is marked `done`:
 **Blocked by:**
 
 - [[FEAT-027]] - Phase E9 host harness should cover status states before UX changes
-- Phase E9 (see [[plans/execution-ledger]]) - Status tests provide the regression surface
+- Phase E9 (see [[docs/plans/execution-ledger]]) - Status tests provide the regression surface
 
 **Unblocks:**
 
@@ -135,7 +135,7 @@ flows. Run [[CHORE-069]], [[CHORE-070]], and [[CHORE-071]] after behavior settle
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -151,7 +151,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

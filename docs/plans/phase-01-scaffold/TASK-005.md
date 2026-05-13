@@ -30,7 +30,7 @@ Install the development-time tooling required for type checking, linting, and co
 - Command: `bun add --dev typescript eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier`
 - After installation, verify `tsc --version` is accessible via `bunx tsc --version`
 - These packages are consumed by the scripts configured in TASK-014 (`build`, `lint`, `format`)
-- See also: [[adr/ADR001-stdio-transport]], [[architecture/overview]]
+- See also: [[docs/adr/ADR001-stdio-transport]], [[docs/architecture/overview]]
 
 ---
 
@@ -38,7 +38,7 @@ Install the development-time tooling required for type checking, linting, and co
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Dev tooling install; quality requirements addressed by CHORE-001 and CHORE-002 | [[requirements/index]] |
+| — | Dev tooling install; quality requirements addressed by CHORE-001 and CHORE-002 | [[docs/requirements/index]] |
 
 ---
 
@@ -62,7 +62,7 @@ Install the development-time tooling required for type checking, linting, and co
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | TypeScript strict mode required; tooling must enforce `noImplicitAny` and `strict` |
+| [[docs/adr/ADR001-stdio-transport]] | TypeScript strict mode required; tooling must enforce `noImplicitAny` and `strict` |
 
 ---
 
@@ -106,7 +106,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

@@ -28,10 +28,10 @@ without committing generated files.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted external Commonloom, typed-manifest, generated-TypeScript decision |
-| [[../../website/docs/architecture/content-pipeline]] | Match the source, manifest, media, compiler, adapter, and generated output boundaries |
-| [[../../website/docs/requirements/technical/source-layout-and-documentation]] | Add the documented content directories, generated output policy, and authoring affordances |
-| [[../../website/docs/research/w8-content-pipeline-technology-research]] | Use the researched unified/remark/rehype/zod approach and avoid MDsveX/MDSX as the primary pipeline |
+| [[website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]] | Implement the accepted external Commonloom, typed-manifest, generated-TypeScript decision |
+| [[website/docs/architecture/content-pipeline]] | Match the source, manifest, media, compiler, adapter, and generated output boundaries |
+| [[website/docs/requirements/technical/source-layout-and-documentation]] | Add the documented content directories, generated output policy, and authoring affordances |
+| [[website/docs/research/w8-content-pipeline-technology-research]] | Use the researched unified/remark/rehype/zod approach and avoid MDsveX/MDSX as the primary pipeline |
 
 ## Scope
 
@@ -128,33 +128,33 @@ bun run lint:docs
 
 ## Tickets
 
-- [[plans/phase-W8-commonloom-content-pipeline/FEAT-041]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-267]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-268]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-269]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-270]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-271]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-272]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-273]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-274]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-275]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-276]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-277]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-278]]
-- [[plans/phase-W8-commonloom-content-pipeline/TASK-279]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-100]]
-- [[plans/phase-W8-commonloom-content-pipeline/CHORE-101]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/FEAT-041]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-267]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-268]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-269]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-270]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-271]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-272]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-273]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-274]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-275]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-276]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-277]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-278]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/TASK-279]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-096]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-097]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-098]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-095]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-099]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-100]]
+- [[docs/plans/phase-W8-commonloom-content-pipeline/CHORE-101]]
 
 ## Related
 
-- [[../../website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
-- [[../../website/docs/architecture/content-pipeline]]
-- [[../../website/docs/research/w8-content-pipeline-technology-research]]
+- [[website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+- [[website/docs/architecture/content-pipeline]]
+- [[website/docs/research/w8-content-pipeline-technology-research]]
 - [[phase-W7-website-guide-prose]]
 
 ## Workflow Log

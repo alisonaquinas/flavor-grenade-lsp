@@ -28,11 +28,11 @@ flavor context.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
-| [[requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
-| [[test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
-| [[test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
+| [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
+| [[docs/test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |
 | [GAP-S-007](../gaps/markdown-flavor-gap-analysis.md) | Close flavor-blind parser/diagnostics gap |
 
@@ -78,9 +78,9 @@ bun run build
 
 ## Tickets
 
-Ticket index: [[plans/phase-20-markdown-flavor-server-propagation/index]]
+Ticket index: [[docs/plans/phase-20-markdown-flavor-server-propagation/index]]
 
 ## Related
 
-- [[plans/phase-19-markdown-flavor-model-profiles]]
-- [[gaps/markdown-flavor-gap-analysis]]
+- [[docs/plans/phase-19-markdown-flavor-model-profiles]]
+- [[docs/gaps/markdown-flavor-gap-analysis]]

@@ -17,7 +17,7 @@ aliases: ["TASK-349"]
 
 ## Description
 
-Deliver diagnostics and LSP feature behavior for the reddit flavor using [[research/reddit-markdown-analysis]] and ADR020 as the controlling specification.
+Deliver diagnostics and LSP feature behavior for the reddit flavor using [[docs/research/reddit-markdown-analysis]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[resea
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]] | Profile and parser behavior for reddit. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor reddit. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]] | Profile and parser behavior for reddit. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor reddit. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -61,8 +61,8 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[resea
 
 - [ ] reddit behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

@@ -36,7 +36,7 @@ feature analysis without requiring a server restart.
 
 | Test file | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]] | Flavor changes mark documents for refresh. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]] | Flavor changes mark documents for refresh. |
 
 ## Definition of Done
 

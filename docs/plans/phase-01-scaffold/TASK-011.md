@@ -32,7 +32,7 @@ Create `.flavor-grenade.toml` at the project root. This file serves a dual purpo
 - Section `[lsp]` — `completion.candidates = 50` and `linkStyle = "file-stem"` define default completion behaviour
 - Section `[diagnostics]` — `suppress = []` means no diagnostics suppressed by default
 - This file will be read by the vault discovery logic in Phase 4; the schema must not change without a corresponding ADR
-- See also: [[adr/ADR001-stdio-transport]], [[architecture/overview]]
+- See also: [[docs/adr/ADR001-stdio-transport]], [[docs/architecture/overview]]
 
 ---
 
@@ -40,7 +40,7 @@ Create `.flavor-grenade.toml` at the project root. This file serves a dual purpo
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Configuration marker; workspace detection requirements addressed in Phase 4 | [[requirements/index]] |
+| — | Configuration marker; workspace detection requirements addressed in Phase 4 | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Create `.flavor-grenade.toml` at the project root. This file serves a dual purpo
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | `.flavor-grenade.toml` is the workspace detection marker; its presence in a directory root identifies an LSP-managed vault |
+| [[docs/adr/ADR001-stdio-transport]] | `.flavor-grenade.toml` is the workspace detection marker; its presence in a directory root identifies an LSP-managed vault |
 
 ---
 
@@ -107,7 +107,7 @@ The dot prefix (`.flavor-grenade.toml`) follows the convention of hidden configu
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

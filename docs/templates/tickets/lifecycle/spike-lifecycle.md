@@ -187,7 +187,7 @@ Spike abandoned. The question is no longer relevant, or the investigation is sup
 
 ## Related
 
-- [[templates/tickets/spike]] — Spike ticket template
-- [[templates/tickets/lifecycle/feature-lifecycle]] — Features that spawn spikes
+- [[docs/templates/tickets/spike]] — Spike ticket template
+- [[docs/templates/tickets/lifecycle/feature-lifecycle]] — Features that spawn spikes
 - [[AGENTS]] — ADR status policy (all ADRs must reach `accepted`)
-- [[requirements/index]] — Requirements whose implementation depends on spike outcomes
+- [[docs/requirements/index]] — Requirements whose implementation depends on spike outcomes

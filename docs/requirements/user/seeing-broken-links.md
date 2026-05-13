@@ -9,7 +9,7 @@ aliases:
 # Seeing Broken Links User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors learn about broken, ambiguous, or missing references in their vault. Implementation details are in [[requirements/diagnostics]], [[wiki-link-resolution]], and [[requirements/embed-resolution]].
+> These user requirements cover how vault authors learn about broken, ambiguous, or missing references in their vault. Implementation details are in [[docs/requirements/diagnostics]], [[docs/requirements/wiki-link-resolution]], and [[docs/requirements/embed-resolution]].
 
 ---
 

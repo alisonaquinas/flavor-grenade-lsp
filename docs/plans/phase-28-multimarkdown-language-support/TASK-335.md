@@ -17,7 +17,7 @@ aliases: ["TASK-335"]
 
 ## Description
 
-Deliver unit, integration, BDD, verification, and validation evidence for the multimarkdown flavor using [[research/multimarkdown-analysis]] and ADR020 as the controlling specification.
+Deliver unit, integration, BDD, verification, and validation evidence for the multimarkdown flavor using [[docs/research/multimarkdown-analysis]] and ADR020 as the controlling specification.
 
 ## Work Scope
 
@@ -36,9 +36,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the mu
 
 | Test spec | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]] | Profile and parser behavior for multimarkdown. |
-| [[test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor multimarkdown. |
-| [[test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]] | Profile and parser behavior for multimarkdown. |
+| [[docs/test/markdown-flavor-integration-spec]] | Server analysis observes effective flavor multimarkdown. |
+| [[docs/test/markdown-flavor-e2e-spec]] | BDD scenario proves user-visible flavor behavior. |
 
 ## Planned Source/Test Paths
 
@@ -55,8 +55,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the mu
 
 - [ ] multimarkdown behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Required LSP surfaces match [[plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[test/matrix]] and [[test/index]] are updated.
+- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 

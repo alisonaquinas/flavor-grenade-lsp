@@ -47,7 +47,7 @@ Stakeholders: Search visitors, users sharing links, project maintainer.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], `DESIGN.md`
+Source: [[website/docs/requirements/design/index]], `DESIGN.md`
 
 Open questions:
 
@@ -93,7 +93,7 @@ Stakeholders: Website visitors, project maintainer, search visitors.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], browser review feedback from 2026-05-09.
+Source: [[website/docs/requirements/design/index]], browser review feedback from 2026-05-09.
 
 Open questions:
 
@@ -132,7 +132,7 @@ Stakeholders: Screen-reader users, no-image users, search visitors.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/accessibility-and-usability]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/accessibility-and-usability]], [[website/docs/requirements/design/index]]
 
 Open questions:
 

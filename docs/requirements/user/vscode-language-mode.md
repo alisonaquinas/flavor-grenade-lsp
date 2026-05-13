@@ -11,7 +11,7 @@ aliases:
 # VS Code Markdown Flavor User Requirements
 
 > [!NOTE] Scope
-> These user requirements describe what VS Code users need from Markdown flavor selection. Functional requirements are in [[requirements/ofmarkdown-language-mode]]. The built-in VS Code language mode remains `markdown`.
+> These user requirements describe what VS Code users need from Markdown flavor selection. Functional requirements are in [[docs/requirements/ofmarkdown-language-mode]]. The built-in VS Code language mode remains `markdown`.
 
 ---
 

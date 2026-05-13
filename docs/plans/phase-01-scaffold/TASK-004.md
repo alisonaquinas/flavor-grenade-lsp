@@ -30,7 +30,7 @@ Install the Language Server Protocol type definition packages required by all su
 - Command: `bun add vscode-languageserver-protocol vscode-languageserver-types`
 - Command: `bun add --dev @types/node`
 - These packages are consumed by LSP handler modules in Phase 2 and beyond; installing them now ensures TypeScript can resolve imports immediately
-- See also: [[adr/ADR001-stdio-transport]], [[architecture/overview]]
+- See also: [[docs/adr/ADR001-stdio-transport]], [[docs/architecture/overview]]
 
 ---
 
@@ -38,7 +38,7 @@ Install the Language Server Protocol type definition packages required by all su
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Type installation; functional requirements targeted by LSP capability phases | [[requirements/index]] |
+| — | Type installation; functional requirements targeted by LSP capability phases | [[docs/requirements/index]] |
 
 ---
 
@@ -62,7 +62,7 @@ Install the Language Server Protocol type definition packages required by all su
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | LSP transport uses stdio; `vscode-languageserver-protocol` provides the JSON-RPC message type definitions |
+| [[docs/adr/ADR001-stdio-transport]] | LSP transport uses stdio; `vscode-languageserver-protocol` provides the JSON-RPC message type definitions |
 
 ---
 
@@ -104,7 +104,7 @@ Both `vscode-languageserver-protocol` and `vscode-languageserver-types` are prod
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

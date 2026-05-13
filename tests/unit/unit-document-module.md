@@ -6,7 +6,7 @@ aliases: [Unit Tests Document, DocumentModule Tests]
 
 > [!INFO] OFMDoc is immutable. Every test that modifies a doc verifies that the OLD doc is unchanged and the NEW doc is a fresh value. Tests use in-memory text strings — no LSP client needed.
 
-See [[concepts/document-model]] for the full field contract and [[adr/ADR004-text-sync-strategy]] for the two sync mode definitions.
+See [[docs/concepts/document-model]] for the full field contract and [[docs/adr/ADR004-text-sync-strategy]] for the two sync mode definitions.
 
 ---
 
@@ -152,7 +152,7 @@ it('replaceAll produces new OFMDoc with new text, new index, and incremented ver
 - Returned doc version equals the supplied version argument
 - A new `OFMIndex` is computed from the new text
 
-**REFACTOR notes:** See [[adr/ADR004-text-sync-strategy]] §replaceAll for the dispatch rule.
+**REFACTOR notes:** See [[docs/adr/ADR004-text-sync-strategy]] §replaceAll for the dispatch rule.
 
 ---
 
@@ -228,7 +228,7 @@ it('single-range insert at position 0 prepends the new text', () => {
 - A zero-length range at offset 0 performs an insert without deleting any characters
 - The heading is present in the recomputed index
 
-**REFACTOR notes:** See [[adr/ADR004-text-sync-strategy]] §rangeReplace for LSP range-to-offset conversion.
+**REFACTOR notes:** See [[docs/adr/ADR004-text-sync-strategy]] §rangeReplace for LSP range-to-offset conversion.
 
 ---
 
@@ -336,7 +336,7 @@ it('shouldPublishDiagnostics() is false when version is null (disk-loaded)', () 
 
 - `shouldPublishDiagnostics()` returns `false` whenever `this.version === null`
 
-**REFACTOR notes:** See [[concepts/document-model]] §Diagnostic gating.
+**REFACTOR notes:** See [[docs/concepts/document-model]] §Diagnostic gating.
 
 ---
 

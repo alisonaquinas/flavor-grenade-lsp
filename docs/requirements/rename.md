@@ -10,7 +10,7 @@ aliases:
 # Rename Refactoring Requirements
 
 > [!NOTE] Scope
-> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[requirements/completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
+> These requirements govern the `textDocument/rename` and `textDocument/prepareRename` LSP methods. They cover completeness of the workspace edit produced by rename, rejection of invalid rename positions, and style-binding consistency between rename targets and active wiki-link style configuration. Completion style binding is specified in [[docs/requirements/completions#Completion.WikiStyle.Binding]]. The wiki-style configuration contract is defined in [[configuration]].
 
 ---
 
@@ -35,7 +35,7 @@ aliases:
 **Goal:** 100% of references updated in a single `WorkspaceEdit`.
 **Stakeholders:** Vault authors performing refactoring, knowledge base curators, teams managing shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#rename-handler]], [[design/domain-layer#vault-index]], LSP specification §3.16 textDocument/rename, [[requirements/navigation#Navigation.References.Completeness]].
+**Source:** [[docs/design/api-layer]], [[docs/design/domain-layer]], LSP specification §3.16 textDocument/rename, [[docs/requirements/navigation#Navigation.References.Completeness]].
 
 ---
 
@@ -61,7 +61,7 @@ aliases:
 **Goal:** 100% of non-renameable positions correctly rejected.
 **Stakeholders:** LSP client developers, editor users, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#rename-handler]], LSP specification §3.16 textDocument/prepareRename, [[ofm-spec/wiki-links]].
+**Source:** [[docs/design/api-layer]], LSP specification §3.16 textDocument/prepareRename, [[docs/ofm-spec/wiki-links]].
 
 ---
 
@@ -70,7 +70,7 @@ aliases:
 **Tag:** Rename.StyleBinding.Consistency
 **User Req:** User.Rename.RenameNoteEverywhere, User.Author.FollowLinkStyle
 **Gist:** The rename `WorkspaceEdit` must only update references that are bound to the active `wiki.style` configuration; links bound to a different style must not be rewritten, and the new reference text must conform to the active style.
-**Ambition:** A vault may contain links created under different style configurations — for example, historical file-stem links that predate a switch to title-slug mode. Rewriting all links regardless of style would corrupt the historical links by applying the wrong text transformation, potentially making them ambiguous or broken under their original interpretation. Style-binding consistency ensures that rename operates precisely within its declared scope: if `wiki.style` is `title-slug`, only title-slug-formatted links are updated, and the updated links use the new title in slug format. This is the rename-specific formulation of the general style-binding contract established in [[wiki-link-resolution#Link.Wiki.StyleBinding]].
+**Ambition:** A vault may contain links created under different style configurations — for example, historical file-stem links that predate a switch to title-slug mode. Rewriting all links regardless of style would corrupt the historical links by applying the wrong text transformation, potentially making them ambiguous or broken under their original interpretation. Style-binding consistency ensures that rename operates precisely within its declared scope: if `wiki.style` is `title-slug`, only title-slug-formatted links are updated, and the updated links use the new title in slug format. This is the rename-specific formulation of the general style-binding contract established in [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]].
 **Scale:** Percentage of rename `WorkspaceEdit` text changes that: (a) update only references whose existing text format matches the active `wiki.style`; and (b) write the new reference text in the format prescribed by the active `wiki.style`. Out-of-style links present in the vault must not appear in the WorkspaceEdit at all.
 **Meter:**
 
@@ -87,4 +87,4 @@ aliases:
 **Goal:** 100% of edit entries are style-consistent.
 **Stakeholders:** Vault authors with mixed-style link histories, teams migrating link style conventions.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[design/api-layer#rename-handler]], [[design/domain-layer#wiki-style]].
+**Source:** [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[docs/design/api-layer]], [[docs/design/domain-layer]].

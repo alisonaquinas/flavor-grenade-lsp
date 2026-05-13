@@ -360,9 +360,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 ## Markdown Flavor Test-Level Matrix
 
-Detailed cases for these rows are specified in [[markdown-flavor-unit-spec]],
-[[markdown-flavor-integration-spec]], [[markdown-flavor-e2e-spec]],
-[[markdown-flavor-verification-spec]], and [[markdown-flavor-validation-spec]].
+Detailed cases for these rows are specified in [[docs/test/markdown-flavor-unit-spec]],
+[[docs/test/markdown-flavor-integration-spec]], [[docs/test/markdown-flavor-e2e-spec]],
+[[docs/test/markdown-flavor-verification-spec]], and [[docs/test/markdown-flavor-validation-spec]].
 
 | Test Level | Requirement Coverage | Planned Evidence | Status | Notes |
 |---|---|---|---|---|
@@ -423,9 +423,9 @@ Detailed cases for these rows are specified in [[markdown-flavor-unit-spec]],
 
 ## Related Documents
 
-- [[test/index]] — Test file inventory (flat list by type)
-- [[requirements/index]] — Master Planguage tag index
-- [[requirements/code-quality]] — Code quality Planguage requirements
-- [[requirements/ci-cd]] — CI/CD Planguage requirements
-- [[requirements/development-process]] — Development process Planguage requirements
-- [[plans/execution-ledger]] — Phase completion status
+- [[docs/test/index]] — Test file inventory (flat list by type)
+- [[docs/requirements/index]] — Master Planguage tag index
+- [[docs/requirements/code-quality]] — Code quality Planguage requirements
+- [[docs/requirements/ci-cd]] — CI/CD Planguage requirements
+- [[docs/requirements/development-process]] — Development process Planguage requirements
+- [[docs/plans/execution-ledger]] — Phase completion status

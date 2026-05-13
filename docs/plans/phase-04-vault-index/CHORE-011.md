@@ -30,7 +30,7 @@ Review and improve the internal code quality of all Phase 4 vault module source 
 
 Phase 4 introduces async-heavy code (`VaultScanner`, `FileWatcher`) and a non-trivial data structure (`FolderLookup` trie). A dedicated quality sweep after all tasks are done reduces the risk of subtle async bugs and trie edge-case failures slipping through to Phase 5 work.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Phase 4 introduces async-heavy code (`VaultScanner`, `FileWatcher`) and a non-tr
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate | [[requirements/code-quality]] |
+| — | Code quality gate | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -64,7 +64,7 @@ Phase 4 introduces async-heavy code (`VaultScanner`, `FileWatcher`) and a non-tr
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | No refactoring may weaken path-safety checks in scanner or watcher |
+| [[docs/adr/ADR013-vault-root-confinement]] | No refactoring may weaken path-safety checks in scanner or watcher |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `VaultScanner` has no unhandled Promise rejections in normal operation
 - [ ] `FileWatcher` handles all four events (`onCreate`, `onModify`, `onDelete`, `onRename`) without unhandled-rejection risk
 - [ ] `FolderLookup` trie handles empty vault, single-document vault, and Unicode stems without error
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -122,7 +122,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 code quality sweep focusing on VaultScanner async correctness, FileWatcher event handler coverage, and FolderLookup trie correctness.

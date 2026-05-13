@@ -27,5 +27,5 @@ labels, and document-production syntax.
 tokens, and navigation.
 
 `TASK-335` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]]
 plus integration, BDD, and validation coverage for `multimarkdown`.

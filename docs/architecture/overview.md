@@ -78,7 +78,7 @@ In single-file mode:
 - The document is treated as its own isolated vault.
 - Cross-document wiki-links cannot resolve and produce `BrokenLink` diagnostics.
 - Intra-document features (heading navigation, block anchors, completions within the file) remain fully functional.
-- If a vault root is subsequently detected (e.g., the user opens a second file inside a vault), the single-file `VaultFolder` is evicted and replaced by a multi-file folder. See [[concepts/workspace-model]] for the eviction policy.
+- If a vault root is subsequently detected (e.g., the user opens a second file inside a vault), the single-file `VaultFolder` is evicted and replaced by a multi-file folder. See [[docs/concepts/workspace-model]] for the eviction policy.
 
 This mode ensures the server is useful even when launched from a standalone `.md` file outside any vault structure.
 
@@ -115,7 +115,7 @@ the language mode affordance:
 
 The LanguageClient listens to `markdown` documents only. Manual non-Markdown
 language selections remain authoritative and disable the Markdown flavor
-selector for that editor. See [[adr/ADR020-markdown-flavor-selection]].
+selector for that editor. See [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 
@@ -131,13 +131,13 @@ This makes the document state trivially threadsafe and allows the previous state
 
 `RefGraph.update(oracle, symDiff)` receives only the **changed symbols** from the last document version, not the full vault symbol set. It surgically adds, removes, or reroutes edges in the bipartite ref-to-def graph. Full rebuilds (`RefGraph.mk`) are reserved for vault initialization and file deletion events.
 
-This keeps diagnostic republishing latency sub-10ms for typical vaults (< 5000 notes). See [[architecture/data-flow]] for the full change pipeline.
+This keeps diagnostic republishing latency sub-10ms for typical vaults (< 5000 notes). See [[docs/architecture/data-flow]] for the full change pipeline.
 
 ### 3. NestJS Dependency Injection
 
 Each logical subsystem is a NestJS module with explicit `imports`, `providers`, and `exports`. The DI container enforces the dependency graph at startup — a `FeatureModule` that incorrectly imports from a higher-layer module will fail to compile. This replaces the informal module boundary conventions of a plain TypeScript project with a machine-checked constraint.
 
-Bounded context boundaries in the DDD sense are enforced by module export surfaces. A `DocumentModule` consumer sees only `OFMDoc`, `OFMIndex`, and `DocId` — never the parser's internal CST node types. See [[architecture/layers]] for the full module stack and [[ddd/bounded-contexts]] for the DDD analysis.
+Bounded context boundaries in the DDD sense are enforced by module export surfaces. A `DocumentModule` consumer sees only `OFMDoc`, `OFMIndex`, and `DocId` — never the parser's internal CST node types. See [[docs/architecture/layers]] for the full module stack and [[docs/ddd/bounded-contexts]] for the DDD analysis.
 
 ### 4. Flavor-Aware Parse Pipeline
 
@@ -151,9 +151,9 @@ host-specific behavior, or opaque text:
 - Block anchors (`^id`) are parsed and promoted to first-class `BlockAnchorDef` symbols.
 - Callout syntax (`> [!type]`) is recognized at the blockquote parse stage.
 
-See [[concepts/document-model]] for the 8-stage pipeline,
-[[concepts/ofm-syntax]] for the OFM element taxonomy, and
-[[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
+See [[docs/concepts/document-model]] for the 8-stage pipeline,
+[[docs/concepts/ofm-syntax]] for the OFM element taxonomy, and
+[[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
 for required flavor profiles.
 
 ---
@@ -178,11 +178,11 @@ src/main.ts
 
 ## Cross-References
 
-- [[architecture/layers]] — NestJS module dependency order and responsibility table
-- [[architecture/data-flow]] — Step-by-step lifecycle of document change and completion flows
-- [[ddd/bounded-contexts]] — Full DDD analysis of the five bounded contexts
-- [[concepts/document-model]] — OFMDoc structure and parse pipeline
-- [[concepts/connection-graph]] — RefGraph and Oracle patterns
-- [[concepts/workspace-model]] — VaultFolder and Workspace composition
-- [[features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
-- [[adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
+- [[docs/architecture/layers]] — NestJS module dependency order and responsibility table
+- [[docs/architecture/data-flow]] — Step-by-step lifecycle of document change and completion flows
+- [[docs/ddd/bounded-contexts]] — Full DDD analysis of the five bounded contexts
+- [[docs/concepts/document-model]] — OFMDoc structure and parse pipeline
+- [[docs/concepts/connection-graph]] — RefGraph and Oracle patterns
+- [[docs/concepts/workspace-model]] — VaultFolder and Workspace composition
+- [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision

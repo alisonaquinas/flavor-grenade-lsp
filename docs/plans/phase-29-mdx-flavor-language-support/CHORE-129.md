@@ -22,7 +22,7 @@ Perform trace and documentation kickoff hygiene for MDX language-support work wi
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for mdx.
-- Confirm [[research/mdx]] remains the source trace for the phase.
+- Confirm [[docs/research/mdx-analysis]] remains the source trace for the phase.
 - Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements

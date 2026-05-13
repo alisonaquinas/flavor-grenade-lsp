@@ -27,7 +27,7 @@ plain `markdown` selector.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] | Scope snippets, keybindings, language configuration, and optional theme examples |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Contributions.OFMarkdownScoped]] | Scope snippets, keybindings, language configuration, and optional theme examples |
 
 ## Scope
 
@@ -67,6 +67,6 @@ unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 
-- [[features/ofmarkdown-language-mode]]
-- [[features/vscode-extension-parity]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/features/vscode-extension-parity]]
 - [[ADR016-ofmarkdown-language-mode]]

@@ -29,12 +29,12 @@ ready.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Assert language preservation in BDD |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Assert every required selector/profile id |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Assert profile source and signature behavior |
-| [[test/markdown-flavor-e2e-spec]] | Implement root BDD e2e scenarios |
-| [[test/markdown-flavor-verification-spec]] | Verify CI and traceability gates |
-| [[test/markdown-flavor-validation-spec]] | Add product validation evidence |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Assert language preservation in BDD |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Assert every required selector/profile id |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Assert profile source and signature behavior |
+| [[docs/test/markdown-flavor-e2e-spec]] | Implement root BDD e2e scenarios |
+| [[docs/test/markdown-flavor-verification-spec]] | Verify CI and traceability gates |
+| [[docs/test/markdown-flavor-validation-spec]] | Add product validation evidence |
 | [GAP-S-009](../gaps/markdown-flavor-gap-analysis.md) | Close stale BDD step gap |
 | [GAP-S-011](../gaps/markdown-flavor-gap-analysis.md) | Close validation trace gap |
 
@@ -85,11 +85,11 @@ binary, extension, or platform packaging workflows.
 
 ## Tickets
 
-Ticket index: [[plans/phase-21-markdown-flavor-bdd-validation/index]]
+Ticket index: [[docs/plans/phase-21-markdown-flavor-bdd-validation/index]]
 
 ## Related
 
-- [[test/markdown-flavor-e2e-spec]]
-- [[test/markdown-flavor-verification-spec]]
-- [[test/markdown-flavor-validation-spec]]
-- [[gaps/markdown-flavor-gap-analysis]]
+- [[docs/test/markdown-flavor-e2e-spec]]
+- [[docs/test/markdown-flavor-verification-spec]]
+- [[docs/test/markdown-flavor-validation-spec]]
+- [[docs/gaps/markdown-flavor-gap-analysis]]

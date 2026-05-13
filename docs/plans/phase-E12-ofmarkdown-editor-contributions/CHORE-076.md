@@ -34,7 +34,7 @@ configuration, and keybinding contributions after their final shape is known.
 Users and maintainers need a compact reference for OFMarkdown-only editor
 affordances and their scope boundaries.
 
-- Motivated by: [[plans/phase-E12-ofmarkdown-editor-contributions]]
+- Motivated by: [[docs/plans/phase-E12-ofmarkdown-editor-contributions]]
 
 ---
 
@@ -42,7 +42,7 @@ affordances and their scope boundaries.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | Contribution behavior and scope are documented | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | Contribution behavior and scope are documented | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -67,7 +67,7 @@ affordances and their scope boundaries.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | Documentation must describe `ofmarkdown` scoping accurately |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | Documentation must describe `ofmarkdown` scoping accurately |
 
 ---
 
@@ -94,8 +94,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Documentation does not imply generic Markdown behavior changed
 - [x] Extension parity plan still lists E12 accurately
 - [x] No behaviour-affecting changes in `src/`
-- [x] [[test/matrix]] updated if verification files were added or removed
-- [x] [[test/index]] updated if verification files were added or removed
+- [x] [[docs/test/matrix]] updated if verification files were added or removed
+- [x] [[docs/test/index]] updated if verification files were added or removed
 
 ---
 
@@ -109,7 +109,7 @@ story from E11.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

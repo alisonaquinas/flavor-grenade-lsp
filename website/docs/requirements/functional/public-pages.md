@@ -102,7 +102,7 @@ Stakeholders: Obsidian users, VS Code users, LLM agents, project maintainer.
 
 Owner: Website implementation.
 
-Source: [[project-brief]], [[requirements/user/index]]
+Source: [[project-brief]], [[website/docs/requirements/user/index]]
 
 Open questions:
 
@@ -153,7 +153,7 @@ Stakeholders: First-time visitors, search visitors, project maintainer.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/homepage]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/homepage]], [[website/docs/requirements/design/index]]
 
 Open questions:
 

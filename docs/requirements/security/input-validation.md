@@ -11,7 +11,7 @@ aliases:
 # JSON-RPC Input Validation Requirements
 
 > [!NOTE] Scope
-> These are **technical security requirements** governing validation of all data received from the LSP client over the JSON-RPC stdio transport. Although the LSP client is trusted, these requirements defend against buggy clients, future transport modes (TCP/pipe), and prototype pollution attacks that exploit JavaScript's object model. Evidence is drawn from [[research/security-threat-model#Threat-Category-2]].
+> These are **technical security requirements** governing validation of all data received from the LSP client over the JSON-RPC stdio transport. Although the LSP client is trusted, these requirements defend against buggy clients, future transport modes (TCP/pipe), and prototype pollution attacks that exploit JavaScript's object model. Evidence is drawn from [[docs/research/security-threat-model]].
 
 ---
 
@@ -32,7 +32,7 @@ aliases:
 **Goal:** 100% of invalid positions rejected at the handler boundary — zero reach the VaultIndex.
 **Stakeholders:** Correctness of LSP responses, future TCP-transport security.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.1]], LSP Specification §3.17 Position.
+**Source:** [[docs/research/security-threat-model]], LSP Specification §3.17 Position.
 
 ---
 
@@ -52,7 +52,7 @@ aliases:
 **Goal:** 100% of oversized messages rejected at the frame-size checks; zero oversized bodies parsed.
 **Stakeholders:** Server reliability, memory safety.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.2]], LSP Specification §3.17 Base Protocol.
+**Source:** [[docs/research/security-threat-model]], LSP Specification §3.17 Base Protocol.
 
 ---
 
@@ -73,4 +73,4 @@ aliases:
 **Goal:** 0 prototype pollution instances — `Object.prototype` is never mutated by incoming LSP messages.
 **Stakeholders:** Application security, NestJS DI integrity, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.3]], CVE-2024-29409, SNYK-JS-NESTJSCOMMON-9538801.
+**Source:** [[docs/research/security-threat-model]], CVE-2024-29409, SNYK-JS-NESTJSCOMMON-9538801.

@@ -44,7 +44,7 @@ Make Markdown flavors executable shared server/client product state by adding th
 
 - [ ] All explicit ADR020 flavors have profiles.
 - [ ] Unit tests fail when a flavor id, label, source, or profile section is missing.
-- [ ] [[test/matrix]] and [[test/index]] are updated with implemented evidence.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated with implemented evidence.
 - [ ] Phase verification commands pass locally.
 
 ## Workflow Log

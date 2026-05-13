@@ -27,8 +27,8 @@ misconfigured without opening logs first.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]] | Represent lifecycle, disabled, error, and crash states |
-| [[requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] | Provide restart, rebuild, output, diagnostic copy, and vault reveal actions |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]] | Represent lifecycle, disabled, error, and crash states |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] | Provide restart, rebuild, output, diagnostic copy, and vault reveal actions |
 
 ## Scope
 
@@ -77,6 +77,6 @@ Markdown lint before the phase was marked complete.
 
 ## Related
 
-- [[features/vscode-extension-parity]]
-- [[ddd/editor-client/domain-model]]
-- [[research/marksman-vscode-feature-parity-ofmarkdown]]
+- [[docs/features/vscode-extension-parity]]
+- [[docs/ddd/editor-client/domain-model]]
+- [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]

@@ -32,5 +32,5 @@ integrations, vault behavior, performance, and safety boundaries.
 
 ## Follow-On Pages
 
-- [[concepts]]
+- [[website/docs/requirements/user/concepts]]
 - [[faq]]

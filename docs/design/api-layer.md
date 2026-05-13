@@ -243,10 +243,10 @@ types.
 
 ## Cross-References
 
-- [[architecture/overview]] — Transport and server entry point
-- [[architecture/data-flow]] — Lifecycle of didChange and completion flows
-- [[design/behavior-layer]] — BDD scenarios for each LSP method
-- [[design/domain-layer]] — Domain events underlying LSP notifications
-- [[concepts/connection-graph]] — RefGraph queries behind definition/references
-- [[concepts/symbol-model]] — Symbol types returned by definition/references
-- [[features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector behavior
+- [[docs/architecture/overview]] — Transport and server entry point
+- [[docs/architecture/data-flow]] — Lifecycle of didChange and completion flows
+- [[docs/design/behavior-layer]] — BDD scenarios for each LSP method
+- [[docs/design/domain-layer]] — Domain events underlying LSP notifications
+- [[docs/concepts/connection-graph]] — RefGraph queries behind definition/references
+- [[docs/concepts/symbol-model]] — Symbol types returned by definition/references
+- [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector behavior

@@ -25,7 +25,7 @@ These test cases confirm that vault authors can use tags effectively across thei
 **User Req Tag:** `User.Tags.CompleteTag`
 **Goal:** Get tag suggestions while typing `#tag`
 **Type:** Both
-**Mapped FRs:** `Tag.Index.Completeness` — see [[tests/verification/verify-tags]], `Tag.Completion.Unicode` — see [[tests/verification/verify-tags]], `Completion.Trigger.Coverage` — see [[tests/verification/verify-completions]]
+**Mapped FRs:** `Tag.Index.Completeness` — see \[\[tests/verification/verify-tags]], `Tag.Completion.Unicode` — see \[\[tests/verification/verify-tags]], `Completion.Trigger.Coverage` — see [[tests/verification/verify-completions]]
 **Verification coverage:** TC-VER-TAG-001, TC-VER-TAG-004, TC-VER-COMP-002
 
 **Scenario (user perspective):**
@@ -67,7 +67,7 @@ Feature: Tag completion while typing
 **User Req Tag:** `User.Tags.FindTaggedNotes`
 **Goal:** Find all notes sharing a tag across the vault
 **Type:** Both
-**Mapped FRs:** `Tag.Hierarchy.Awareness` — see [[tests/verification/verify-tags]], `Tag.YAML.Equivalence` — see [[tests/verification/verify-tags]]
+**Mapped FRs:** `Tag.Hierarchy.Awareness` — see \[\[tests/verification/verify-tags]], `Tag.YAML.Equivalence` — see \[\[tests/verification/verify-tags]]
 **Verification coverage:** TC-VER-TAG-002, TC-VER-TAG-003
 
 **Scenario (user perspective):**
@@ -108,7 +108,7 @@ Feature: Finding tagged notes regardless of tag syntax
 **User Req Tag:** `User.Tags.UseHierarchicalTags`
 **Goal:** Use `#parent/child` tags and query by parent
 **Type:** Both
-**Mapped FRs:** `Tag.Hierarchy.Awareness` — see [[tests/verification/verify-tags]]
+**Mapped FRs:** `Tag.Hierarchy.Awareness` — see \[\[tests/verification/verify-tags]]
 **Verification coverage:** TC-VER-TAG-002
 
 **Scenario (user perspective):**

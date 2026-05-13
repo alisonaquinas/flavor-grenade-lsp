@@ -120,19 +120,19 @@ or missing icon affordances.
 
 ## Tickets
 
-- [[plans/phase-W6-website-review-polish/FEAT-039]]
-- [[plans/phase-W6-website-review-polish/TASK-229]]
-- [[plans/phase-W6-website-review-polish/TASK-230]]
-- [[plans/phase-W6-website-review-polish/TASK-231]]
-- [[plans/phase-W6-website-review-polish/TASK-232]]
-- [[plans/phase-W6-website-review-polish/TASK-233]]
-- [[plans/phase-W6-website-review-polish/TASK-234]]
-- [[plans/phase-W6-website-review-polish/TASK-235]]
-- [[plans/phase-W6-website-review-polish/TASK-236]]
-- [[plans/phase-W6-website-review-polish/TASK-237]]
-- [[plans/phase-W6-website-review-polish/TASK-238]]
-- [[plans/phase-W6-website-review-polish/CHORE-092]]
-- [[plans/phase-W6-website-review-polish/CHORE-093]]
+- [[docs/plans/phase-W6-website-review-polish/FEAT-039]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-229]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-230]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-231]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-232]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-233]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-234]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-235]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-236]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-237]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-238]]
+- [[docs/plans/phase-W6-website-review-polish/CHORE-092]]
+- [[docs/plans/phase-W6-website-review-polish/CHORE-093]]
 
 ## Related
 

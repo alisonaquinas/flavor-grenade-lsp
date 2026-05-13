@@ -30,7 +30,7 @@ Review all Phase 3 parser implementation files for security issues as defined by
 
 The OFM parsers operate on untrusted content from vault files opened by the LSP client. A maliciously crafted document could trigger catastrophic backtracking in a vulnerable regex, causing the language server to hang and blocking the editor. Additionally, any file I/O in a parser could expose the server to path traversal attacks or unexpected side effects. ADR012 mandates both constraints explicitly.
 
-- Motivated by: [[adr/ADR012-parser-safety-policy]] (no ReDoS patterns, bounded input, no file I/O in parsers)
+- Motivated by: [[docs/adr/ADR012-parser-safety-policy]] (no ReDoS patterns, bounded input, no file I/O in parsers)
 
 ---
 
@@ -38,7 +38,7 @@ The OFM parsers operate on untrusted content from vault files opened by the LSP 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Parser safety: no ReDoS, no file I/O | [[requirements/security/index]] |
+| — | Parser safety: no ReDoS, no file I/O | [[docs/requirements/security/index]] |
 
 ---
 
@@ -66,7 +66,7 @@ The OFM parsers operate on untrusted content from vault files opened by the LSP 
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR012-parser-safety-policy]] | No ReDoS patterns; bounded input; no file I/O in any parser sub-component |
+| [[docs/adr/ADR012-parser-safety-policy]] | No ReDoS patterns; bounded input; no file I/O in any parser sub-component |
 
 ---
 
@@ -94,8 +94,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/`
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -107,7 +107,7 @@ For `js-yaml`, use `yaml.load` with an explicit schema that does not execute Jav
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -118,7 +118,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: parser safety per ADR012 (no ReDoS patterns, bounded input), no file I/O in parsers.

@@ -18,14 +18,14 @@ aliases: ["FEAT-051"]
 
 ## Description
 
-Implement first-class gfm language support for GitHub Flavored Markdown, using [[research/github-flavored-markdown-analysis]] as the source of truth for supported syntax and portability boundaries.
+Implement first-class gfm language support for GitHub Flavored Markdown, using [[docs/research/github-flavored-markdown-analysis]] as the source of truth for supported syntax and portability boundaries.
 
 ## Scope
 
 - Define parser/profile behavior for GitHub Flavored Markdown.
-- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[plans/markdown-flavor-lsp-applicability-matrix]].
+- Wire flavor-aware diagnostics, completion, document links, folding, semantic tokens, navigation, and hover behavior according to [[docs/plans/markdown-flavor-lsp-applicability-matrix]].
 - Add unit evidence via
-  [[test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]],
+  [[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]],
   plus integration, BDD, verification, and validation evidence for this flavor.
 
 ## Child Tickets
@@ -42,13 +42,13 @@ Implement first-class gfm language support for GitHub Flavored Markdown, using [
 
 | Requirement | Source |
 |---|---|
-| Extension.MarkdownFlavor.DialectProfiles | [[requirements/ofmarkdown-language-mode]] |
-| Extension.MarkdownFlavor.ServerPropagation | [[requirements/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.DialectProfiles | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.ServerPropagation | [[docs/requirements/ofmarkdown-language-mode]] |
 
 ## Definition of Done
 
 - [ ] gfm has source-backed parser/profile behavior.
-- [ ] gfm satisfies every required surface in [[plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [ ] gfm satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
 - [ ] gfm behavior is covered at every required test level.
 - [ ] Trace links from requirements, tests, and validation evidence are updated.
 

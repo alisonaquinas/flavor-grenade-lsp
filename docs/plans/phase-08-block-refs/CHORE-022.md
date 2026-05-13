@@ -30,7 +30,7 @@ Run the full lint suite over all code introduced or modified in Phase 8 and reso
 
 Lint warnings accumulate quickly during feature development. Sweeping at phase boundary keeps the codebase maintainable and prevents warning debt from carrying forward.
 
-- Motivated by: `Quality.Lint.NoWarnings` (see [[requirements/code-quality]])
+- Motivated by: `Quality.Lint.NoWarnings` (see [[docs/requirements/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Lint warnings accumulate quickly during feature development. Sweeping at phase b
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings at phase boundary | [[requirements/code-quality]] |
+| — | Zero lint warnings at phase boundary | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -86,8 +86,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -108,7 +108,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: lint sweep at Phase 8 boundary.

@@ -6,7 +6,7 @@ aliases: [Unit Tests Vault, VaultModule Tests]
 
 > [!INFO] VaultDetector tests use a mock filesystem interface (not real disk I/O) so directory trees can be constructed in-memory. FolderLookup tests populate a lookup table directly with slug → path pairs.
 
-See [[concepts/workspace-model]], [[architecture/layers]], and [[adr/ADR003-vault-detection]] for the design contracts exercised here.
+See [[docs/concepts/workspace-model]], [[docs/architecture/layers]], and [[docs/adr/ADR003-vault-detection]] for the design contracts exercised here.
 
 ---
 
@@ -43,7 +43,7 @@ it('detect() returns the directory that contains .obsidian/ as the vault root', 
 - `detect` walks the ancestor chain upward from the given path
 - Returns the first ancestor directory containing `.obsidian/`
 
-**REFACTOR notes:** See [[adr/ADR003-vault-detection]] §primary-marker for the `.obsidian/` precedence rule.
+**REFACTOR notes:** See [[docs/adr/ADR003-vault-detection]] §primary-marker for the `.obsidian/` precedence rule.
 
 ---
 
@@ -145,7 +145,7 @@ it('detect() prefers .obsidian/ over .flavor-grenade.toml when both are present'
 - When a directory contains both `.obsidian/` and `.flavor-grenade.toml`, the detection logic treats `.obsidian/` as the authoritative marker
 - The same root is returned whether determined by primary or secondary marker, but callers can distinguish via any exposed `detectionMarker` metadata field
 
-**REFACTOR notes:** See [[adr/ADR003-vault-detection]] §precedence for the ordering rule.
+**REFACTOR notes:** See [[docs/adr/ADR003-vault-detection]] §precedence for the ordering rule.
 
 ---
 
@@ -238,7 +238,7 @@ it('VaultFolder.mk(null) creates a folder in SingleFile mode', () => {
 
 - `VaultFolder.mk` with a `null` vault root returns an instance whose `mode` property is the `'SingleFile'` discriminant
 
-**REFACTOR notes:** See [[concepts/workspace-model]] §VaultFolder for the mode union type.
+**REFACTOR notes:** See [[docs/concepts/workspace-model]] §VaultFolder for the mode union type.
 
 ---
 
@@ -365,7 +365,7 @@ it('[[daily]] resolves against notes/daily.md via suffix matching', () => {
 - `resolve` matches entries whose vault-relative path ends with (or contains) the slug segment
 - The file does not need to be at the vault root
 
-**REFACTOR notes:** See [[concepts/workspace-model]] §FolderLookup for the unanchored suffix-tree design.
+**REFACTOR notes:** See [[docs/concepts/workspace-model]] §FolderLookup for the unanchored suffix-tree design.
 
 ---
 
@@ -512,4 +512,4 @@ it('VaultFolderEnclosed: SingleFile folders inside a new MultiFile root are evic
 - Their documents are moved into the new `MultiFile` folder's doc collection
 - The `VaultFolderEnclosed` event (or equivalent internal signal) is fired / observable
 
-**REFACTOR notes:** See [[concepts/workspace-model]] §VaultFolderEnclosed for the eviction invariant and [[architecture/layers]] for where `Workspace` sits in the layer stack.
+**REFACTOR notes:** See [[docs/concepts/workspace-model]] §VaultFolderEnclosed for the eviction invariant and [[docs/architecture/layers]] for where `Workspace` sits in the layer stack.

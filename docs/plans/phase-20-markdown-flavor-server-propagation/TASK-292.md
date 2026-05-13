@@ -42,7 +42,7 @@ flavor transitions. The process-boundary protocol is
 
 | Test file | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] | Spawned-server temp workspace precedence cases: TOML, workspace setting, both present, invalid values, and fallback. |
+| [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] | Spawned-server temp workspace precedence cases: TOML, workspace setting, both present, invalid values, and fallback. |
 | `src/test/integration/markdown-flavor.test.ts` | MF-I-001 through MF-I-004. |
 
 ## Definition of Done

@@ -66,8 +66,8 @@ it satisfies `OFM-MDLINK-004`.
 
 ## Related
 
-- [[ofm-spec/index]]
+- [[docs/ofm-spec/index]]
 - [[wiki-links]]
 - [[embeds]]
 - [[ADR017-standard-markdown-link-intelligence]]
-- [[features/ofmarkdown-parity-roadmap]]
+- [[docs/features/ofmarkdown-parity-roadmap]]

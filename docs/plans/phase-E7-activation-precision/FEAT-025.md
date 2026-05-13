@@ -47,7 +47,7 @@ extension when the user intends to use it.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.StartOnlyForVaults` | Start automatically for vaults without invading generic Markdown workspaces | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.StartOnlyForVaults` | Start automatically for vaults without invading generic Markdown workspaces | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -55,8 +55,8 @@ extension when the user intends to use it.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Activation.VaultPrecision` | Vault workspaces activate while generic Markdown remains idle | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Activation.MarkerEvents` | Manifest and controller honor marker, language, and command signals | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.VaultPrecision` | Vault workspaces activate while generic Markdown remains idle | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.MarkerEvents` | Manifest and controller honor marker, language, and command signals | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -70,8 +70,8 @@ extension when the user intends to use it.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E7-activation-precision]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E7-activation-precision]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -86,7 +86,7 @@ All of the following must be true before this ticket is marked `done`:
 - [x] `onLanguage:markdown` and `onLanguage:ofmarkdown` remain supported
 - [x] Extension docs describe active, idle, and command-wake behavior
 - [x] Phase gate commands pass under `extension/`
-- [x] [[test/matrix]] and [[test/index]] reflect new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] reflect new coverage
 
 ---
 
@@ -119,7 +119,7 @@ All of the following must be true before this ticket is marked `done`:
 ## Notes
 
 This feature follows the activation precision slice in
-[[research/marksman-vscode-feature-parity-ofmarkdown]] and
+[[docs/research/marksman-vscode-feature-parity-ofmarkdown]] and
 `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
@@ -127,7 +127,7 @@ This feature follows the activation precision slice in
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)

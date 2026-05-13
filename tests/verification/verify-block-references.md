@@ -11,7 +11,7 @@ aliases: [Verify Block References]
 This document defines the scripted and agent-driven verification test cases for the Block Reference
 Requirements of flavor-grenade-lsp. Each test case is derived directly from the Planguage `Meter`
 field of its corresponding requirement and references the BDD scenarios in
-[[bdd/features/block-references]] where coverage exists. These tests are the authoritative
+\[\[bdd/features/block-references]] where coverage exists. These tests are the authoritative
 verification record for block anchor indexing, cross-reference diagnostics, completion at the
 `[[doc#^` trigger position, and the end-of-line anchor classification rule.
 
@@ -33,7 +33,7 @@ verification record for block anchor indexing, cross-reference diagnostics, comp
 **Planguage Tag:** `Block.Anchor.Indexing`
 **Gist:** All `^blockid` anchors present in a document's body text must be discovered during indexing and registered in `OFMIndex.blockAnchors` for that document.
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Block anchor is indexed and go-to-definition navigates to it`, `Block anchor with alphanumeric ID only is valid`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Block anchor is indexed and go-to-definition navigates to it`, `Block anchor with alphanumeric ID only is valid`
 **Phase:** Phase 1
 
 **Setup:**
@@ -88,7 +88,7 @@ And (indexed anchors / expected anchors) × 100 = 100
 **Planguage Tag:** `Block.CrossRef.Diagnostic`
 **Gist:** A `[[doc#^nonexistent]]` wiki-link referencing a block anchor that does not exist in `OFMIndex.blockAnchors` for the target document must produce one FG005 (BrokenBlockRef) diagnostic; this diagnostic must be suppressed when the server is in single-file mode.
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Broken block reference reports FG005`, `Block anchor mid-sentence is NOT treated as a block anchor`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Broken block reference reports FG005`, `Block anchor mid-sentence is NOT treated as a block anchor`
 **Phase:** Phase 1
 
 **Setup:**
@@ -157,7 +157,7 @@ Then zero FG005 diagnostics are emitted for any link in "notes/checker.md"
 **Planguage Tag:** `Block.Completion.Offer`
 **Gist:** When the cursor is positioned after `[[doc#^` in a wiki-link, the completion response must offer all `^blockid` values registered in `OFMIndex.blockAnchors` for the resolved target document.
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Completion offers block anchor values after [[doc#^ trigger`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Completion offers block anchor values after [[doc#^ trigger`
 **Phase:** Phase 1
 
 **Setup:**
@@ -222,7 +222,7 @@ And (anchor IDs in completion list / total anchors in OFMIndex for doc-b) × 100
 **Planguage Tag:** `Block.Anchor.Lineend`
 **Gist:** Only `^id` patterns that appear at the end of a line of body text are treated as block anchor definitions; `^id` patterns occurring mid-sentence or inside code blocks must not be indexed as block anchors.
 **Type:** Both
-**BDD Reference:** [[bdd/features/block-references]] — `Block anchor must be at end of line to be valid`, `Block anchor mid-sentence is NOT treated as a block anchor`
+**BDD Reference:** \[\[bdd/features/block-references]] — `Block anchor must be at end of line to be valid`, `Block anchor mid-sentence is NOT treated as a block anchor`
 **Phase:** Phase 1
 
 **Setup:**

@@ -27,8 +27,8 @@ installation, and packaging checks should prove those assets ship.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Add required OFMarkdown screenshots or GIFs to the README |
-| [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Verify referenced assets are included in packaged VSIX output |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Add required OFMarkdown screenshots or GIFs to the README |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Verify referenced assets are included in packaged VSIX output |
 
 ## Scope
 
@@ -66,6 +66,6 @@ unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 
-- [[research/vscode-extension-publishing]]
-- [[features/vscode-extension-parity]]
-- [[research/marksman-vscode-feature-parity-ofmarkdown]]
+- [[docs/research/vscode-extension-publishing]]
+- [[docs/features/vscode-extension-parity]]
+- [[docs/research/marksman-vscode-feature-parity-ofmarkdown]]

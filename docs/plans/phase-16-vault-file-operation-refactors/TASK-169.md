@@ -39,8 +39,8 @@ succeeds, and return no edit when there is nothing local to update.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle LSP file-operation rename capability | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicRefactor` | File operation requests produce one pre-apply WorkspaceEdit | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.CapabilityRegistration` | Advertise and handle LSP file-operation rename capability | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicRefactor` | File operation requests produce one pre-apply WorkspaceEdit | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -110,7 +110,7 @@ validation belong to later Phase 16 tasks.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -119,7 +119,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

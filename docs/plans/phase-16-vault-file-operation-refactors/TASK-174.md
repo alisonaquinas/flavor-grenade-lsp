@@ -40,11 +40,11 @@ title text.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.AtomicRefactor` | Regression suite proves atomic move refactors | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.ReferenceRewrite` | Regression suite verifies syntax-preserving moved-target rewrites | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.FileOperations.AtomicValidation` | Regression suite verifies no partial edit escapes validation | [[requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Existing rename coverage remains green | [[requirements/rename]] |
-| `Security.Vault.RenameConfinement` | Escaping moves are refused | [[requirements/security/vault-confinement]] |
+| `Parity.FileOperations.AtomicRefactor` | Regression suite proves atomic move refactors | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.ReferenceRewrite` | Regression suite verifies syntax-preserving moved-target rewrites | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.AtomicValidation` | Regression suite verifies no partial edit escapes validation | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Rename.Refactoring.Completeness` | Existing rename coverage remains green | [[docs/requirements/rename]] |
+| `Security.Vault.RenameConfinement` | Escaping moves are refused | [[docs/requirements/security/vault-confinement]] |
 
 ---
 
@@ -102,8 +102,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] Implementation written to make test(s) pass (GREEN commit follows)
 - [ ] File and folder move scenarios pass in `docs/bdd/features/ofmarkdown-parity.feature`
 - [ ] Existing heading and file rename behavior remains green
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] Parent feature [[FEAT-023]] child task row updated to `in-review`
@@ -120,7 +120,7 @@ complete implementation sequence, not to introduce new production architecture.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -128,7 +128,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

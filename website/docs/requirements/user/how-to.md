@@ -43,6 +43,6 @@ link to deeper concepts only after the task is clear.
 
 ## Follow-On Pages
 
-- [[concepts]]
-- [[advanced-usage]]
+- [[website/docs/requirements/user/concepts]]
+- [[website/docs/requirements/user/advanced-usage]]
 - [[faq]]

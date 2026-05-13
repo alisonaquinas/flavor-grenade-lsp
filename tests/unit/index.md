@@ -8,7 +8,7 @@ aliases: [Unit Test Index, TDD Unit Plans]
 
 > [!INFO] Unit test plans are TDD planning documents. Each entry (`TC-UNIT-MODULE-NNN`) specifies the **RED failing test** to write before implementation, and the **GREEN condition** that implementation must satisfy. No `src/` code exists yet — these plans drive Phase 1+ implementation in strict RED → GREEN → REFACTOR order.
 
-Plans are organized by NestJS module layer (bottom → top). See [[architecture/layers]] for the full dependency order. See [[adr/ADR010-tests-directory-structure]] for the `tests/unit/` mirroring convention.
+Plans are organized by NestJS module layer (bottom → top). See [[docs/architecture/layers]] for the full dependency order. See [[docs/adr/ADR010-tests-directory-structure]] for the `tests/unit/` mirroring convention.
 
 ---
 
@@ -72,7 +72,7 @@ Foundation Layer  unit-path-module           TC-UNIT-PATH  (18 cases)
 
 ## TDD Discipline
 
-> [!WARNING] RED before GREEN is non-negotiable. Per [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`: the failing test commit must precede the implementation commit in git history with no exceptions. See [[templates/tickets/lifecycle/task-lifecycle]] for the state machine.
+> [!WARNING] RED before GREEN is non-negotiable. Per [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`: the failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for the state machine.
 
 **Phase sequence for each TC-UNIT entry:**
 
@@ -119,5 +119,5 @@ tsc --noEmit && bun test tests/unit/
 - [[tests/integration/index]] — E2E smoke plans (TC-SMOKE-*)
 - [[tests/verification/index]] — FR-level verification plans (TC-VER-*)
 - [[tests/validation/index]] — User-level validation plans (TC-VAL-*)
-- [[test/matrix]] — Pass/fail tracking for all test files
-- [[test/index]] — Master list of all test files in the suite
+- [[docs/test/matrix]] — Pass/fail tracking for all test files
+- [[docs/test/index]] — Master list of all test files in the suite

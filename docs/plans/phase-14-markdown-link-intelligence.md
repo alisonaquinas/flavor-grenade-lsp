@@ -27,19 +27,19 @@ embed, block-reference, or tag behavior.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Resolve local inline links, reference links, link definitions, and image links through vault rules |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]] | Parse inline, image, reference-use, collapsed, shortcut, and definition forms into typed index data |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]] | Classify targets before resolution so local paths, fragments, attachments, URLs, and schemes are distinct |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]] | Add Markdown link, image, label-use, and label-definition entries to the reference graph |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.Completion]] | Complete document and heading targets in Markdown link URL contexts |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Support `[text](#heading)` definition, diagnostics, references, and heading rename updates |
-| [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Diagnose duplicate or ambiguous heading anchors for wiki and Markdown heading links |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]] | Navigate and find references across Markdown link and label forms |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]] | Update Markdown same-document and file-plus-fragment anchors during heading rename |
-| [[requirements/completions#Completion.Trigger.Coverage]] | Extend completion coverage for Markdown link URL contexts without regressing existing triggers |
-| [[requirements/navigation#Navigation.Definition.AllLinkTypes]] | Extend definition behavior to Markdown local links and same-document anchors |
-| [[requirements/navigation#Navigation.References.Completeness]] | Include Markdown local links in reference queries |
-| [[requirements/rename#Rename.Refactoring.Completeness]] | Include Markdown heading anchors in heading rename edits |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Resolve local inline links, reference links, link definitions, and image links through vault rules |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]] | Parse inline, image, reference-use, collapsed, shortcut, and definition forms into typed index data |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]] | Classify targets before resolution so local paths, fragments, attachments, URLs, and schemes are distinct |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]] | Add Markdown link, image, label-use, and label-definition entries to the reference graph |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.Completion]] | Complete document and heading targets in Markdown link URL contexts |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Support `[text](#heading)` definition, diagnostics, references, and heading rename updates |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Diagnose duplicate or ambiguous heading anchors for wiki and Markdown heading links |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]] | Navigate and find references across Markdown link and label forms |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]] | Update Markdown same-document and file-plus-fragment anchors during heading rename |
+| [[docs/requirements/completions#Completion.Trigger.Coverage]] | Extend completion coverage for Markdown link URL contexts without regressing existing triggers |
+| [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]] | Extend definition behavior to Markdown local links and same-document anchors |
+| [[docs/requirements/navigation#Navigation.References.Completeness]] | Include Markdown local links in reference queries |
+| [[docs/requirements/rename#Rename.Refactoring.Completeness]] | Include Markdown heading anchors in heading rename edits |
 
 ## Scope
 
@@ -84,21 +84,21 @@ embed, block-reference, or tag behavior.
   navigation, and rename scenarios remain green.
 - Markdown link URL contexts return document and heading completion candidates.
 - External URLs never produce FG001 or vault broken-link diagnostics.
-- All new parser behavior respects [[ofm-spec/markdown-links]] and opaque
-  regions from [[ofm-spec/index]].
+- All new parser behavior respects [[docs/ofm-spec/markdown-links]] and opaque
+  regions from [[docs/ofm-spec/index]].
 
 ## Risks
 
 | Risk | Mitigation |
 |---|---|
-| Markdown link parsing conflicts with wiki-links and embeds | Preserve OFM parse precedence from [[ofm-spec/index]] |
+| Markdown link parsing conflicts with wiki-links and embeds | Preserve OFM parse precedence from [[docs/ofm-spec/index]] |
 | External URLs become false-positive broken links | Classify schemes before RefGraph construction |
-| Reference-style labels create document-global leakage | Keep `LinkLabelDef` document-local per [[ofm-spec/markdown-links]] |
+| Reference-style labels create document-global leakage | Keep `LinkLabelDef` document-local per [[docs/ofm-spec/markdown-links]] |
 | Heading anchor normalization differs by syntax | Centralize heading-anchor normalization before diagnostics and rename |
 
 ## Related
 
 - [[ADR017-standard-markdown-link-intelligence]]
-- [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/functional/ofmarkdown-parity]]
-- [[ofm-spec/markdown-links]]
+- [[docs/features/ofmarkdown-parity-roadmap]]
+- [[docs/requirements/functional/ofmarkdown-parity]]
+- [[docs/ofm-spec/markdown-links]]

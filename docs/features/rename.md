@@ -105,7 +105,7 @@ The following rename scenarios are explicitly not supported in v1:
 
 - [[ADR005-wiki-style-binding]]
 - [[ADR006-block-ref-indexing]]
-- [[features/navigation]]
-- [[features/diagnostics]]
-- [[concepts/symbol-model]]
-- [[requirements/wiki-link-resolution]]
+- [[docs/features/navigation]]
+- [[docs/features/diagnostics]]
+- [[docs/concepts/symbol-model]]
+- [[docs/requirements/wiki-link-resolution]]

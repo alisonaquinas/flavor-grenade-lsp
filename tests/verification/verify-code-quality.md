@@ -8,7 +8,7 @@ aliases: [Verify Code Quality]
 
 ## Purpose
 
-This document covers scripted and agent-driven test cases that verify the eight Planguage requirements governing source code quality in `flavor-grenade-lsp`. Unlike workspace or configuration tests, code quality requirements are verified entirely through static analysis and tooling — ESLint, `tsc`, git log inspection — rather than through LSP protocol interactions. All test cases apply to every TypeScript file under `src/` and must pass as a gate before any implementation commit is merged. Source requirements are in [[requirements/code-quality]]; enforcement tooling is defined in [[adr/ADR009-precommit-hooks-zero-warnings]].
+This document covers scripted and agent-driven test cases that verify the eight Planguage requirements governing source code quality in `flavor-grenade-lsp`. Unlike workspace or configuration tests, code quality requirements are verified entirely through static analysis and tooling — ESLint, `tsc`, git log inspection — rather than through LSP protocol interactions. All test cases apply to every TypeScript file under `src/` and must pass as a gate before any implementation commit is merged. Source requirements are in [[docs/requirements/code-quality]]; enforcement tooling is defined in [[docs/adr/ADR009-precommit-hooks-zero-warnings]].
 
 ## Requirements Covered
 
@@ -33,7 +33,7 @@ This document covers scripted and agent-driven test cases that verify the eight 
 **BDD Reference:** **BDD gap** — single-responsibility is a design-review concern not expressible as an LSP scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present and buildable. A design-review checklist derived from [[ddd/bounded-contexts]] that maps each bounded context to the expected single responsibility of each injectable class.
+**Setup:** All TypeScript implementation files under `src/` present and buildable. A design-review checklist derived from [[docs/ddd/bounded-contexts]] that maps each bounded context to the expected single responsibility of each injectable class.
 
 **Scripted steps:**
 
@@ -56,7 +56,7 @@ grep -n "^\s*public " src/**/*.ts
 **Agent-driven steps:**
 
 1. Enumerate all files in `src/` matching `*.ts` that contain `@Injectable()` or `@Module()`.
-2. For each class, list its `public` methods and group them by the domain concept they serve (referencing [[ddd/bounded-contexts]] and [[ddd/ubiquitous-language]] for concept names).
+2. For each class, list its `public` methods and group them by the domain concept they serve (referencing [[docs/ddd/bounded-contexts]] and [[docs/ddd/ubiquitous-language]] for concept names).
 3. Flag any class whose public methods span two or more distinct domain concepts as a violation.
 4. Produce a report: class name, file path, method groups found, verdict (pass/violation).
 5. Confirm violation count is zero.
@@ -74,7 +74,7 @@ grep -n "^\s*public " src/**/*.ts
 **BDD Reference:** **BDD gap** — dependency inversion is a static-analysis concern not expressible as an LSP scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present and the module directory structure established per [[architecture/layers]].
+**Setup:** All TypeScript implementation files under `src/` present and the module directory structure established per [[docs/architecture/layers]].
 
 **Scripted steps:**
 
@@ -117,7 +117,7 @@ bun run lint --rule "import/no-restricted-paths" --max-warnings 0
 **BDD Reference:** **BDD gap** — one-class-per-file is a structural lint rule, not an LSP protocol scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with the `no-extraneous-class` rule and any custom rule enforcing single-export-per-file per [[adr/ADR011-one-class-per-file-namespaces]].
+**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with the `no-extraneous-class` rule and any custom rule enforcing single-export-per-file per [[docs/adr/ADR011-one-class-per-file-namespaces]].
 
 **Scripted steps:**
 
@@ -156,7 +156,7 @@ bun run lint --max-warnings 0
 **BDD Reference:** **BDD gap** — module-boundary enforcement is a static-analysis concern not expressible as an LSP scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `import/no-internal-modules` rule per [[adr/ADR011-one-class-per-file-namespaces]].
+**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `import/no-internal-modules` rule per [[docs/adr/ADR011-one-class-per-file-namespaces]].
 
 **Scripted steps:**
 
@@ -193,7 +193,7 @@ bun run lint --max-warnings 0
 **BDD Reference:** **BDD gap** — docstring coverage is a lint metric not expressible as an LSP scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `jsdoc/require-jsdoc` for `FunctionDeclaration`, `MethodDefinition`, and `ClassDeclaration` per [[requirements/code-quality]].
+**Setup:** All TypeScript implementation files under `src/` present. ESLint configured with `jsdoc/require-jsdoc` for `FunctionDeclaration`, `MethodDefinition`, and `ClassDeclaration` per [[docs/requirements/code-quality]].
 
 **Scripted steps:**
 
@@ -229,7 +229,7 @@ bun run lint --format json 2>/dev/null | \
 **BDD Reference:** **BDD gap** — zero-warnings enforcement is a CI gate not expressible as an LSP scenario.
 **Phase:** All phases
 
-**Setup:** All TypeScript implementation files under `src/` present. `bun run lint` configured to invoke ESLint with `--max-warnings 0` per [[adr/ADR009-precommit-hooks-zero-warnings]].
+**Setup:** All TypeScript implementation files under `src/` present. `bun run lint` configured to invoke ESLint with `--max-warnings 0` per [[docs/adr/ADR009-precommit-hooks-zero-warnings]].
 
 **Scripted steps:**
 

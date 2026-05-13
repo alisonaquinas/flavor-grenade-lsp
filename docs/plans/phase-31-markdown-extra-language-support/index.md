@@ -27,5 +27,5 @@ code, and attribute blocks.
 tokens, and navigation.
 
 `TASK-344` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]]
 plus integration, BDD, and validation coverage for `markdown-extra`.

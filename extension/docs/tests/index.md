@@ -95,4 +95,4 @@ Existing extension tests still exercise the retired `ofmarkdown` language-mode
 controller. They should be treated as legacy coverage until replaced or
 rewritten for `MarkdownFlavorController`.
 
-See [[matrix]] for the extension-local traceability matrix.
+See [Extension Test Matrix](matrix.md) for the extension-local traceability matrix.

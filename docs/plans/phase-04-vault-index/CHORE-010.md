@@ -30,7 +30,7 @@ Run `bun run lint --max-warnings 0` across all new Phase 4 source files (`src/va
 
 Phase 4 introduces multiple new source files. The lint sweep consolidates all linting fixes into a single atomic commit after all TASK tickets are complete, rather than scattering lint fixes across implementation commits.
 
-- Motivated by: `Quality.Lint.ZeroWarnings` (see [[requirements/code-quality]])
+- Motivated by: `Quality.Lint.ZeroWarnings` (see [[docs/requirements/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Phase 4 introduces multiple new source files. The lint sweep consolidates all li
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Lint zero-warning gate | [[requirements/code-quality]] |
+| — | Lint zero-warning gate | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -62,7 +62,7 @@ Phase 4 introduces multiple new source files. The lint sweep consolidates all li
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | Lint rules must not suppress path-safety checks |
+| [[docs/adr/ADR013-vault-root-confinement]] | Lint rules must not suppress path-safety checks |
 
 ---
 
@@ -86,8 +86,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -97,7 +97,7 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -117,7 +117,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 4 lint sweep to reach zero-warning gate.

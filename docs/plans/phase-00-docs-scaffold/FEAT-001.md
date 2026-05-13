@@ -45,21 +45,21 @@ Complete the `docs/` tree so that all quality gates in `docs/AGENTS.md` are sati
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Requirements layer not yet authored (Phase 0 task) | [[requirements/user/index]] |
+| — | Requirements layer not yet authored (Phase 0 task) | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Requirements layer not yet authored (Phase 0 task) | [[requirements/index]] |
+| — | Requirements layer not yet authored (Phase 0 task) | [[docs/requirements/index]] |
 
 ---
 
@@ -75,8 +75,8 @@ Complete the `docs/` tree so that all quality gates in `docs/AGENTS.md` are sati
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-00-docs-scaffold/index]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-00-docs-scaffold/index]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -127,7 +127,7 @@ This feature has no TypeScript deliverables. It is complete when every checklist
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -148,7 +148,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-16
 > Ticket created. Status: `in-progress`. Documentation scaffold phase initiated; TASK-001 created as child task.

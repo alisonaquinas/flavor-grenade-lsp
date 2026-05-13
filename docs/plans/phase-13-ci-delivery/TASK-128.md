@@ -42,7 +42,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
   ```
 
 - `continue-on-error: true` is intentional and should be removed once all BDD scenarios pass
-- See also: [[requirements/ci-cd]]
+- See also: [[docs/requirements/ci-cd]]
 
 ---
 
@@ -50,7 +50,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Full BDD suite run informally in CI without blocking merges | [[requirements/ci-cd]] |
+| — | Full BDD suite run informally in CI without blocking merges | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -68,7 +68,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 |---|---|---|---|
 | `.github/workflows/ci.yml` | CI config | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -76,7 +76,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR008-oidc-publishing]] | CI follows token management conventions |
+| [[docs/adr/ADR008-oidc-publishing]] | CI follows token management conventions |
 
 ---
 
@@ -107,8 +107,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bdd-full` job appears in GitHub Actions UI and runs without workflow parse errors
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-014]] child task row updated to `in-review`
 
 ---
@@ -121,18 +121,18 @@ The `continue-on-error: true` flag is a temporary measure. Once all BDD scenario
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-014]].

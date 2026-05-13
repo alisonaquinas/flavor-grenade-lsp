@@ -22,7 +22,7 @@ Perform trace and documentation kickoff hygiene for Pandoc Markdown language-sup
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for pandoc.
-- Confirm [[research/pandoc-markdown]] remains the source trace for the phase.
+- Confirm [[docs/research/pandoc-markdown-deep-research-report]] remains the source trace for the phase.
 - Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements

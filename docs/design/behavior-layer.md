@@ -173,18 +173,18 @@ Feature: Diagnostic publication for broken wiki-links and OFM refs
 
 The BDD feature files are the primary traceability artifact linking implementation to requirements. Each `@requirements` tag (used informally in feature file comments) cites the requirement document from `docs/requirements/` that the scenario validates.
 
-The traceability matrix is maintained in [[test/matrix]]. For each functional requirement, it lists the tests or BDD step files that verify it and their current pass/fail status.
+The traceability matrix is maintained in [[docs/test/matrix]]. For each functional requirement, it lists the tests or BDD step files that verify it and their current pass/fail status.
 
 ---
 
 ## Cross-References
 
-- [[design/api-layer]] — LSP methods tested by each feature file
-- [[design/domain-layer]] — Domain concepts expressed in scenario language
-- [[concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
-- [[concepts/symbol-model]] — Sym types asserted in definition and references scenarios
-- [[architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
+- [[docs/design/api-layer]] — LSP methods tested by each feature file
+- [[docs/design/domain-layer]] — Domain concepts expressed in scenario language
+- [[docs/concepts/connection-graph]] — RefGraph behavior validated in diagnostics and definition scenarios
+- [[docs/concepts/symbol-model]] — Sym types asserted in definition and references scenarios
+- [[docs/architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
 - `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
 - `docs/bdd/features/ofmarkdown-language-mode.feature` — Markdown flavor selector acceptance scenarios
-- [[adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
-- [[adr/ADR020-markdown-flavor-selection]] — Decision record for Markdown flavor selection
+- [[docs/adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Decision record for Markdown flavor selection

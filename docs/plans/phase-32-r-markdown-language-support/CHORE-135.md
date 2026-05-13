@@ -22,7 +22,7 @@ Perform trace and documentation kickoff hygiene for R Markdown language-support 
 ## Work Scope
 
 - Review trace links, requirements references, BDD references, and plan index consistency for r-markdown.
-- Confirm [[research/r-markdown]] remains the source trace for the phase.
+- Confirm [[docs/research/r-markdown-analysis]] remains the source trace for the phase.
 - Prepare phase index and roadmap update notes for the verification closeout ticket.
 
 ## Linked Requirements

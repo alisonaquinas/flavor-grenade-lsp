@@ -11,7 +11,7 @@ aliases: [Verify Rename]
 This document defines the scripted and agent-driven verification test cases for the Rename
 Refactoring Requirements of flavor-grenade-lsp. Each test case is derived directly from the
 Planguage `Meter` field of its corresponding requirement and references the BDD scenarios in
-[[bdd/features/rename]] where coverage exists. These tests are the authoritative verification
+\[\[bdd/features/rename]] where coverage exists. These tests are the authoritative verification
 record for the `textDocument/rename` and `textDocument/prepareRename` capabilities.
 
 ## Requirements Covered
@@ -31,7 +31,7 @@ record for the `textDocument/rename` and `textDocument/prepareRename` capabiliti
 **Planguage Tag:** `Rename.Refactoring.Completeness`
 **Gist:** A `textDocument/rename` request on a renameable element (document title or heading) must produce a `WorkspaceEdit` that updates every cross-document reference to that element in a single atomic edit, with no reference left unupdated.
 **Type:** Both
-**BDD Reference:** [[bdd/features/rename]] — `Rename heading updates all [[doc#heading]] references`, `Rename file updates all [[filename]] and [[filename|alias]] references`
+**BDD Reference:** \[\[bdd/features/rename]] — `Rename heading updates all [[doc#heading]] references`, `Rename file updates all [[filename]] and [[filename|alias]] references`
 **Phase:** Phase 2
 
 **Setup:**
@@ -89,7 +89,7 @@ And (references updated in WorkspaceEdit / total references found by independent
 **Planguage Tag:** `Rename.Prepare.Rejection`
 **Gist:** `textDocument/prepareRename` must return `null` (or a `ResponseError`) when the cursor is positioned on any non-renameable location: body text prose, fenced code blocks, math blocks, or inline URLs in standard Markdown links.
 **Type:** Both
-**BDD Reference:** [[bdd/features/rename]] — `prepareRename rejects cursor positioned on body text`, `prepareRename rejects cursor positioned on math block content`; fenced code block and inline-URL sub-cases: **BDD gap**
+**BDD Reference:** \[\[bdd/features/rename]] — `prepareRename rejects cursor positioned on body text`, `prepareRename rejects cursor positioned on math block content`; fenced code block and inline-URL sub-cases: **BDD gap**
 **Phase:** Phase 2
 
 **Setup:**
@@ -170,7 +170,7 @@ And (invalid positions returning null/error / 8 invalid positions) × 100 = 100
 **Planguage Tag:** `Rename.StyleBinding.Consistency`
 **Gist:** The rename `WorkspaceEdit` must only update references that are bound to the active `wiki.style` configuration; links bound to a different style must not be rewritten, and the new reference text must conform to the active style.
 **Type:** Both
-**BDD Reference:** [[bdd/features/rename]] — `Rename in file-stem style updates only file-stem links`; `title-slug` inverse run: **BDD gap**
+**BDD Reference:** \[\[bdd/features/rename]] — `Rename in file-stem style updates only file-stem links`; `title-slug` inverse run: **BDD gap**
 **Phase:** Phase 2
 
 **Setup:**

@@ -64,12 +64,12 @@ When a VS Code user opens an Obsidian vault note, the editor recognizes it as **
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.UserOverrideSafety | Preserve manual non-Markdown selections | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.UserOverrideSafety | Preserve manual non-Markdown selections | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[docs/requirements/ofmarkdown-language-mode]] |
 
 ---
 
@@ -84,11 +84,11 @@ When a VS Code user opens an Obsidian vault note, the editor recognizes it as **
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E6-ofmarkdown-language-mode]]
+- Phase plan: [[docs/plans/phase-E6-ofmarkdown-language-mode]]
 
-- ADR: [[adr/ADR016-ofmarkdown-language-mode]]
+- ADR: [[docs/adr/ADR016-ofmarkdown-language-mode]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -146,7 +146,7 @@ This feature is intentionally client-first. The server reports membership; the e
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)

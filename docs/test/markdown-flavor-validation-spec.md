@@ -39,7 +39,7 @@ generating command, repository commit SHA, source inputs reviewed, pass/fail
 status for each related MF-VA row, and links or paths to the command output that
 supports the result. The validation run artifact must include `bun run bdd`,
 `bun test src/test/ci-workflow.test.ts`, and the current Phase 21 gate command
-set from [[plans/phase-21-markdown-flavor-bdd-validation]].
+set from [[docs/plans/phase-21-markdown-flavor-bdd-validation]].
 
 ## Exit Criteria
 

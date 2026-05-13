@@ -31,7 +31,7 @@ do next.
 - Keep disabled states from spawning the server in unsupported environments
 - Distinguish temporary server errors from crash-loop exhaustion
 - Reuse the tooltip data model from [[TASK-193]]
-- See also: [[features/vscode-extension-parity]]
+- See also: [[docs/features/vscode-extension-parity]]
 
 ---
 
@@ -39,8 +39,8 @@ do next.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Status.Diagnostics` | Status bar represents lifecycle, disabled, error, and crash states | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Workspace.EnvironmentModes` | Restricted and virtual workspaces have explicit server-start behavior | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Status bar represents lifecycle, disabled, error, and crash states | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Workspace.EnvironmentModes` | Restricted and virtual workspaces have explicit server-start behavior | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -62,7 +62,7 @@ do next.
 | `extension/src/test/suite/status-disabled-states.test.ts` | Integration | `Extension.Status.Diagnostics` | failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> See [[test/matrix]] and [[test/index]].
+> See [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -70,7 +70,7 @@ do next.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Server binary resolution failures must be visible to users |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Server binary resolution failures must be visible to users |
 
 ---
 
@@ -105,8 +105,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-028]] child task row updated to `in-review`
 
 ---
@@ -121,14 +121,14 @@ user-visible behavior to support actions.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -137,7 +137,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

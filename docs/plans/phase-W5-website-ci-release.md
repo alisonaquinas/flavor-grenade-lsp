@@ -82,11 +82,11 @@ closeout because it was cancelled by human instruction.
 
 ## Tickets
 
-- [[plans/phase-W5-website-ci-release/FEAT-038]]
-- [[plans/phase-W5-website-ci-release/TASK-226]]
-- [[plans/phase-W5-website-ci-release/TASK-227]]
-- [[plans/phase-W5-website-ci-release/TASK-228]]
-- [[plans/phase-W5-website-ci-release/CHORE-091]]
+- [[docs/plans/phase-W5-website-ci-release/FEAT-038]]
+- [[docs/plans/phase-W5-website-ci-release/TASK-226]]
+- [[docs/plans/phase-W5-website-ci-release/TASK-227]]
+- [[docs/plans/phase-W5-website-ci-release/TASK-228]]
+- [[docs/plans/phase-W5-website-ci-release/CHORE-091]]
 
 ## Related
 

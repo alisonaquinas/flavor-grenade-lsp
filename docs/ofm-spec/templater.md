@@ -86,7 +86,7 @@ Templater expressions are evaluated by the Obsidian plugin at note creation time
 
 Templater regions are scanned after [[comments]] and [[math]] but before any OFM element detection. A note may contain both Templater commands and valid OFM — the Templater scanner marks its regions opaque so that subsequent passes do not misinterpret template syntax as OFM.
 
-See [[index]] for the full parse precedence order.
+See [[docs/ofm-spec/index]] for the full parse precedence order.
 
 ---
 

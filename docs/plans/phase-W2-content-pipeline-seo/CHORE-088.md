@@ -32,7 +32,7 @@ update architecture docs if the pipeline shape changes.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 ## Workflow Log
 

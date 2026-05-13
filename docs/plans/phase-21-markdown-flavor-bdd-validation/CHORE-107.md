@@ -22,7 +22,7 @@ Keep root BDD traceability accurate during flavor acceptance work.
 ## Work Scope
 
 - Update BDD step maps if maintained.
-- Update [[test/index]] and [[test/matrix]] with implemented flavor scenarios.
+- Update [[docs/test/index]] and [[docs/test/matrix]] with implemented flavor scenarios.
 - Remove stale notes that say flavor BDD steps are missing once complete.
 
 ## Definition of Done

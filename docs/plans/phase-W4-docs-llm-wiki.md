@@ -84,11 +84,11 @@ bun run lint:docs
 
 ## Tickets
 
-- [[plans/phase-W4-docs-llm-wiki/FEAT-037]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-223]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-224]]
-- [[plans/phase-W4-docs-llm-wiki/TASK-225]]
-- [[plans/phase-W4-docs-llm-wiki/CHORE-090]]
+- [[docs/plans/phase-W4-docs-llm-wiki/FEAT-037]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-223]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-224]]
+- [[docs/plans/phase-W4-docs-llm-wiki/TASK-225]]
+- [[docs/plans/phase-W4-docs-llm-wiki/CHORE-090]]
 
 ## Related
 

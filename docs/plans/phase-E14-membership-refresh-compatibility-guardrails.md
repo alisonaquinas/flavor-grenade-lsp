@@ -27,9 +27,9 @@ VSIXs should clearly match the bundled server target and version.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] | Refresh membership after server and workspace events |
-| [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Keep remote and local membership behavior consistent |
-| [[requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] | Validate packaged target contents |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.LanguageMode.MembershipRefresh]] | Refresh membership after server and workspace events |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Keep remote and local membership behavior consistent |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] | Validate packaged target contents |
 
 ## Scope
 
@@ -98,6 +98,6 @@ PR evidence, 2026-05-07:
 
 ## Related
 
-- [[features/ofmarkdown-language-mode]]
-- [[features/vscode-extension-parity]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/features/vscode-extension-parity]]
 - [[ADR015-platform-specific-vsix]]

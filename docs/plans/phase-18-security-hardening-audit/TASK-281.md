@@ -45,7 +45,7 @@ references live with the BDD harness.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.SourceLayout.DocsBoundary` | Documentation folders must not contain raw executable source or test assets. | [[requirements/code-quality]] |
+| `Quality.SourceLayout.DocsBoundary` | Documentation folders must not contain raw executable source or test assets. | [[docs/requirements/code-quality]] |
 
 ## Linked Tests
 
@@ -63,7 +63,7 @@ references live with the BDD harness.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 

@@ -27,5 +27,5 @@ footnotes, and IAL behavior.
 tokens, and navigation.
 
 `TASK-341` adds unit coverage via
-[[test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]]
+[[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]]
 plus integration, BDD, and validation coverage for `kramdown`.

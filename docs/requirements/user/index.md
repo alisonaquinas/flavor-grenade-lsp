@@ -54,29 +54,29 @@ Each user requirement uses the following fields:
 | User.Extension.OverrideMarkdownFlavor | Persist manual flavor choices at the right scope | [[vscode-language-mode]] | Extension.MarkdownFlavor.OverridePersistence |
 | User.Extension.TrustFlavorBehavior | Make selected flavors affect server analysis | [[vscode-language-mode]] | Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles |
 | User.Extension.PreserveManualMode | Preserve manual non-Markdown language choices | [[vscode-language-mode]] | Extension.MarkdownFlavor.ManualLanguageSafety |
-| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.ParseCoverage, Parity.MarkdownLinks.TargetClassification, Parity.MarkdownLinks.ReferenceGraph, Parity.MarkdownLinks.Completion |
-| User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics, Parity.MarkdownLinks.SameDocumentAnchor |
-| User.Rename.MoveNotesSafely | Move notes without breaking links | [[requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor, Parity.FileOperations.CapabilityRegistration, Parity.FileOperations.MovePlannerConfinement, Parity.FileOperations.ReferenceRewrite, Parity.FileOperations.SkippedAmbiguousReporting, Parity.FileOperations.AtomicValidation, Parity.FileOperations.IndexRefresh |
-| User.Embed.ManageAttachments | Manage attachments with editor help | [[requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence, Parity.Attachments.IndexCoverage, Parity.Attachments.Completion, Parity.Attachments.Diagnostics, Parity.Attachments.NavigationHover, Parity.Attachments.ConfigHints |
-| User.Navigate.UseEditorStructure | Use editor structure tools in OFMarkdown | [[requirements/user/ofmarkdown-parity]] | Parity.StructuralLSP.Coverage, Parity.StructuralLSP.CapabilityRegistration, Parity.StructuralLSP.DocumentLinks, Parity.StructuralLSP.FoldingRanges, Parity.StructuralLSP.SelectionRanges |
-| User.Extension.StartOnlyForVaults | Start automatically for vaults without invading generic Markdown | [[requirements/user/vscode-extension-parity]] | Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.MarkdownFlavor.Refresh |
-| User.Extension.UseNativeVSCodeActions | Use native VS Code actions for vault navigation | [[requirements/user/vscode-extension-parity]] | Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.FlavorScoped |
-| User.Extension.TrustExtensionBehavior | Trust extension behavior across updates | [[requirements/user/vscode-extension-parity]] | Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes |
-| User.Extension.EvaluateBeforeInstall | Understand the extension before installing | [[requirements/user/vscode-extension-parity]] | Extension.Marketplace.OFMProof, Extension.Marketplace.AssetPackaging |
-| User.Extension.UnderstandServerState | Understand server state at a glance | [[requirements/user/vscode-extension-parity]] | Extension.Status.Diagnostics, Extension.Status.QuickActions, Extension.Workspace.EnvironmentModes |
+| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[docs/requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.ParseCoverage, Parity.MarkdownLinks.TargetClassification, Parity.MarkdownLinks.ReferenceGraph, Parity.MarkdownLinks.Completion |
+| User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[docs/requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics, Parity.MarkdownLinks.SameDocumentAnchor |
+| User.Rename.MoveNotesSafely | Move notes without breaking links | [[docs/requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor, Parity.FileOperations.CapabilityRegistration, Parity.FileOperations.MovePlannerConfinement, Parity.FileOperations.ReferenceRewrite, Parity.FileOperations.SkippedAmbiguousReporting, Parity.FileOperations.AtomicValidation, Parity.FileOperations.IndexRefresh |
+| User.Embed.ManageAttachments | Manage attachments with editor help | [[docs/requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence, Parity.Attachments.IndexCoverage, Parity.Attachments.Completion, Parity.Attachments.Diagnostics, Parity.Attachments.NavigationHover, Parity.Attachments.ConfigHints |
+| User.Navigate.UseEditorStructure | Use editor structure tools in OFMarkdown | [[docs/requirements/user/ofmarkdown-parity]] | Parity.StructuralLSP.Coverage, Parity.StructuralLSP.CapabilityRegistration, Parity.StructuralLSP.DocumentLinks, Parity.StructuralLSP.FoldingRanges, Parity.StructuralLSP.SelectionRanges |
+| User.Extension.StartOnlyForVaults | Start automatically for vaults without invading generic Markdown | [[docs/requirements/user/vscode-extension-parity]] | Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.MarkdownFlavor.Refresh |
+| User.Extension.UseNativeVSCodeActions | Use native VS Code actions for vault navigation | [[docs/requirements/user/vscode-extension-parity]] | Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.FlavorScoped |
+| User.Extension.TrustExtensionBehavior | Trust extension behavior across updates | [[docs/requirements/user/vscode-extension-parity]] | Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes |
+| User.Extension.EvaluateBeforeInstall | Understand the extension before installing | [[docs/requirements/user/vscode-extension-parity]] | Extension.Marketplace.OFMProof, Extension.Marketplace.AssetPackaging |
+| User.Extension.UnderstandServerState | Understand server state at a glance | [[docs/requirements/user/vscode-extension-parity]] | Extension.Status.Diagnostics, Extension.Status.QuickActions, Extension.Workspace.EnvironmentModes |
 
 ## Related Documents
 
-- [[requirements/index]] — functional requirements index (Planguage layer)
-- [[requirements/user/navigating-notes]] — navigation user requirements
-- [[requirements/user/authoring-links]] — authoring and completion user requirements
-- [[requirements/user/embedding-content]] — embed user requirements
-- [[requirements/user/writing-with-tags]] — tag user requirements
-- [[requirements/user/referencing-blocks]] — block reference user requirements
-- [[requirements/user/seeing-broken-links]] — diagnostic user requirements
-- [[requirements/user/renaming-safely]] — rename user requirements
-- [[requirements/user/vault-setup]] — vault detection user requirements
-- [[requirements/user/configuring-behavior]] — configuration user requirements
-- [[requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
-- [[requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
-- [[requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements
+- [[docs/requirements/index]] — functional requirements index (Planguage layer)
+- [[docs/requirements/user/navigating-notes]] — navigation user requirements
+- [[docs/requirements/user/authoring-links]] — authoring and completion user requirements
+- [[docs/requirements/user/embedding-content]] — embed user requirements
+- [[docs/requirements/user/writing-with-tags]] — tag user requirements
+- [[docs/requirements/user/referencing-blocks]] — block reference user requirements
+- [[docs/requirements/user/seeing-broken-links]] — diagnostic user requirements
+- [[docs/requirements/user/renaming-safely]] — rename user requirements
+- [[docs/requirements/user/vault-setup]] — vault detection user requirements
+- [[docs/requirements/user/configuring-behavior]] — configuration user requirements
+- [[docs/requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
+- [[docs/requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
+- [[docs/requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements

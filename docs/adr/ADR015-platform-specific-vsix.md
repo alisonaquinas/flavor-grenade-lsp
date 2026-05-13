@@ -54,7 +54,7 @@ Extension release binaries are built with `--compile --minify`. They must not us
 **Negative:**
 
 - 7x build matrix. CI must produce 7 VSIXs per release. All build on Linux, but the publish gate also requires at least one Windows runner for binary smoke testing.
-- Large VSIX size. Each VSIX is large due to the embedded Bun runtime. The Marketplace enforces a per-VSIX size cap (historically ~100 MB; the exact current limit is not prominently documented — see [[research/vscode-extension-publishing]] for details). Must monitor binary sizes, especially after removing `--bytecode` from extension release builds.
+- Large VSIX size. Each VSIX is large due to the embedded Bun runtime. The Marketplace enforces a per-VSIX size cap (historically ~100 MB; the exact current limit is not prominently documented — see [[docs/research/vscode-extension-publishing]] for details). Must monitor binary sizes, especially after removing `--bytecode` from extension release builds.
 - No `web` target. The extension cannot run in vscode.dev or other browser-based VS Code hosts. The server requires filesystem access for vault indexing (see [[ADR003-vault-detection]]), making browser support architecturally infeasible regardless of distribution strategy.
 - Independent release coordination. Extension and server releases are decoupled. The extension must be re-published when the server binary changes. Manual `ext-v*` tags manage this for now; migration to release-please is deferred until the extension stabilizes.
 

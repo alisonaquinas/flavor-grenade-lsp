@@ -9,9 +9,9 @@ and technical requirements into testable website behavior.
 ## Sources
 
 - [[project-brief]]
-- [[requirements/user/index]]
-- [[requirements/design/index]]
-- [[requirements/technical/index]]
+- [[website/docs/requirements/user/index]]
+- [[website/docs/requirements/design/index]]
+- [[website/docs/requirements/technical/index]]
 - `PRODUCT.md`
 - `DESIGN.md`
 

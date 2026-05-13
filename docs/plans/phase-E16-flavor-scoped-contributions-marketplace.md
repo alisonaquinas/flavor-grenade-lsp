@@ -28,10 +28,10 @@ promotion.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Add selector activation and remove current `onLanguage:ofmarkdown` activation dependency |
-| [[requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]] | Scope snippets, keybindings, and commands by flavor/context |
-| [[requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Show Markdown flavor selector proof |
-| [[requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Keep referenced assets packaged |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Activation.MarkerEvents]] | Add selector activation and remove current `onLanguage:ofmarkdown` activation dependency |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]] | Scope snippets, keybindings, and commands by flavor/context |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.OFMProof]] | Show Markdown flavor selector proof |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Marketplace.AssetPackaging]] | Keep referenced assets packaged |
 | [GAP-E-010](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close stale contribution scoping gap |
 | [GAP-E-012](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close Marketplace language-mode proof gap |
 
@@ -78,9 +78,9 @@ npm run compile
 
 ## Tickets
 
-Ticket index: [[plans/phase-E16-flavor-scoped-contributions-marketplace/index]]
+Ticket index: [[docs/plans/phase-E16-flavor-scoped-contributions-marketplace/index]]
 
 ## Related
 
-- [[plans/phase-E15-markdown-flavor-selector-settings]]
+- [[docs/plans/phase-E15-markdown-flavor-selector-settings]]
 - [extension Markdown flavor gap analysis](../../extension/docs/gaps/markdown-flavor-gap-analysis.md)

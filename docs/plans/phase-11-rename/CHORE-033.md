@@ -38,7 +38,7 @@ Path traversal in rename operations is a well-known attack vector against LSP se
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Security requirements | [[requirements/security/index]] |
+| — | Security requirements | [[docs/requirements/security/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Path traversal in rename operations is a well-known attack vector against LSP se
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | All file URIs in RenameFile operations must remain within vault root |
+| [[docs/adr/ADR013-vault-root-confinement]] | All file URIs in RenameFile operations must remain within vault root |
 
 ---
 
@@ -87,8 +87,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 - [ ] Confirmed: new file URIs in RenameFile operations validated against vault root
 - [ ] Confirmed: path traversal sequences in newName are rejected or normalised
 - [ ] Confirmed: opaque region rejection covers fenced code, inline code, math, and HTML comments
@@ -103,7 +103,7 @@ If any security issue requires changing the LSP response behaviour (e.g. returni
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -123,7 +123,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 11 security sweep — new file URIs in RenameFile must remain within vault root (ADR013), rename must not silently create files outside vault boundary, opaque region rejection preventing rename inside code blocks.

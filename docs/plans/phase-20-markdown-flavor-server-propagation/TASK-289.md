@@ -44,8 +44,8 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 | Test file | Expected coverage |
 |---|---|
-| [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
-| [[test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
 
 ## Definition of Done
 

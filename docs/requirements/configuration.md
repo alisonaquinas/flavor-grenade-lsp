@@ -36,7 +36,7 @@ aliases:
 **Goal:** 100% of keys resolve to the correct effective value in all precedence permutations.
 **Stakeholders:** Vault authors, team leads setting project conventions, editor integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], plans/roadmap.
+**Source:** [[docs/architecture/overview]], [[docs/design/api-layer]], plans/roadmap.
 
 ---
 
@@ -59,7 +59,7 @@ aliases:
 **Goal:** 100% of invalid values handled with default substitution, no crash, and debug log.
 **Stakeholders:** Vault authors, editor integrators, DevOps engineers deploying the server.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/completions#Completion.Candidates.Cap]], [[design/api-layer#config-loader]], [[architecture/overview#configuration-layer]].
+**Source:** [[docs/requirements/completions#Completion.Candidates.Cap]], [[docs/design/api-layer]], [[docs/architecture/overview]].
 
 ---
 
@@ -82,7 +82,7 @@ aliases:
 **Goal:** 100% of malformed-file startups isolated correctly.
 **Stakeholders:** All server operators, vault authors, DevOps engineers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#configuration-layer]], [[design/api-layer#config-loader]], `Config.Precedence.Layering`.
+**Source:** [[docs/architecture/overview]], [[docs/design/api-layer]], `Config.Precedence.Layering`.
 
 ---
 
@@ -104,4 +104,4 @@ aliases:
 **Goal:** 100% of unconfigured startups default to Full text synchronisation.
 **Stakeholders:** LSP client developers, editor plugin authors, server operators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#initialize-handler]], [[architecture/overview#configuration-layer]], LSP specification §3.15 TextDocumentSyncKind.
+**Source:** [[docs/design/api-layer]], [[docs/architecture/overview]], LSP specification §3.15 TextDocumentSyncKind.

@@ -10,7 +10,7 @@ aliases:
 # Code Action Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/codeAction` and `workspace/executeCommand` behaviour for the three OFM-specific code actions shipped in v1: `fg.createMissingFile` (create a missing wiki-link target), `fg.toc` (generate a table of contents from headings), and `fg.tagToYaml` (move inline tags to frontmatter). Diagnostic trigger conditions for FG001 are specified in [[wiki-link-resolution]]. Configuration keys are specified in [[configuration]].
+> These requirements govern `textDocument/codeAction` and `workspace/executeCommand` behaviour for the three OFM-specific code actions shipped in v1: `fg.createMissingFile` (create a missing wiki-link target), `fg.toc` (generate a table of contents from headings), and `fg.tagToYaml` (move inline tags to frontmatter). Diagnostic trigger conditions for FG001 are specified in [[docs/requirements/wiki-link-resolution]]. Configuration keys are specified in [[configuration]].
 
 ---
 

@@ -45,8 +45,8 @@ WorkspaceEdits that rewrite references for paths outside the configured vault.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check every old and new path | [[requirements/security/vault-confinement]] |
-| `Security.Vault.RenameConfinement` | Cancel rename and move edits that escape the vault root | [[requirements/security/vault-confinement]] |
+| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check every old and new path | [[docs/requirements/security/vault-confinement]] |
+| `Security.Vault.RenameConfinement` | Cancel rename and move edits that escape the vault root | [[docs/requirements/security/vault-confinement]] |
 
 ---
 
@@ -111,7 +111,7 @@ fixes tied to the Phase 16 path confinement requirements.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`

@@ -33,21 +33,21 @@ selection ranges.
 
 | Source | Phase responsibility |
 |---|---|
-| [[ofm-spec/index]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Preserve vault-aware wiki and Markdown link resolution in Obsidian flavor |
-| [[requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Preserve same-document heading anchor behavior for Obsidian notes |
-| [[requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Preserve ambiguous heading diagnostics under Obsidian normalization |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Preserve Obsidian embed and Markdown image attachment intelligence |
-| [[requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Preserve vault file-operation refactors for Obsidian references |
-| [[requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Preserve document links, folding, and selection ranges for Obsidian structures |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
-| [[requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
-| [[gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
-| [[test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
-| [[test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
-| [[test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
-| [[test/markdown-flavor-verification-spec]] | Cover CI and command verification |
-| [[test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
+| [[docs/ofm-spec/index]] | Define flavor-specific syntax, platform boundaries, and portability behavior |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]] | Preserve vault-aware wiki and Markdown link resolution in Obsidian flavor |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]] | Preserve same-document heading anchor behavior for Obsidian notes |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Preserve ambiguous heading diagnostics under Obsidian normalization |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Preserve Obsidian embed and Markdown image attachment intelligence |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Preserve vault file-operation refactors for Obsidian references |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Preserve document links, folding, and selection ranges for Obsidian structures |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
+| [[docs/gaps/markdown-flavor-gap-analysis]] | Close server-side language-support gaps |
+| [[docs/test/markdown-flavor-unit-spec]] | Cover profile and parser behavior |
+| [[docs/test/markdown-flavor-integration-spec]] | Cover spawned-server flavor behavior |
+| [[docs/test/markdown-flavor-e2e-spec]] | Cover BDD user-visible behavior |
+| [[docs/test/markdown-flavor-verification-spec]] | Cover CI and command verification |
+| [[docs/test/markdown-flavor-validation-spec]] | Cover research-to-profile validation |
 
 ## Acceptance
 
@@ -58,10 +58,10 @@ selection ranges.
 
 ## Related
 
-- [[adr/ADR020-markdown-flavor-selection]]
-- [[features/ofmarkdown-language-mode]]
-- [[gaps/markdown-flavor-gap-analysis]]
+- [[docs/adr/ADR020-markdown-flavor-selection]]
+- [[docs/features/ofmarkdown-language-mode]]
+- [[docs/gaps/markdown-flavor-gap-analysis]]
 
 ## Tickets
 
-Ticket index: [[plans/phase-24-obsidian-flavor-language-support/index]]
+Ticket index: [[docs/plans/phase-24-obsidian-flavor-language-support/index]]

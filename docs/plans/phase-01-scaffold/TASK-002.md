@@ -30,17 +30,17 @@ Run `bun init -y` in the project root to create the initial `package.json`. Afte
 - Command: `bun init -y`
 - After running, open `package.json` and verify or set `"type": "module"` and `"name": "flavor-grenade-lsp"`
 - DoD is: `bun --version` passes (Bun ≥ 1.1 installed) and `package.json` exists with the required fields
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure initialisation; no functional requirement tag yet assigned | [[requirements/index]] |
+| — | Infrastructure initialisation; no functional requirement tag yet assigned | [[docs/requirements/index]] |
 
 ---
 
@@ -70,7 +70,7 @@ Run `bun init -y` in the project root to create the initial `package.json`. Afte
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | LSP server uses stdio transport — Bun project must support ESM modules |
+| [[docs/adr/ADR001-stdio-transport]] | LSP server uses stdio transport — Bun project must support ESM modules |
 
 ---
 
@@ -115,7 +115,7 @@ This is a pure infrastructure initialisation step. No TypeScript files are creat
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -124,7 +124,7 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-002]].

@@ -27,8 +27,8 @@ unsupported modes.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Document and verify restricted, virtual, remote, WSL, SSH, and Dev Container behavior |
-| [[requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]] | Surface disabled and unsupported modes through status UI |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Document and verify restricted, virtual, remote, WSL, SSH, and Dev Container behavior |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]] | Surface disabled and unsupported modes through status UI |
 
 ## Scope
 
@@ -68,6 +68,6 @@ unit tests, Markdown lint, and build on 2026-05-07.
 
 ## Related
 
-- [[research/vscode-extension-publishing]]
-- [[features/vscode-extension-parity]]
+- [[docs/research/vscode-extension-publishing]]
+- [[docs/features/vscode-extension-parity]]
 - [[ADR015-platform-specific-vsix]]

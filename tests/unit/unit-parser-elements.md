@@ -8,7 +8,7 @@ aliases: [Unit Tests Parser Elements, Element Parser Tests]
 
 ## Overview
 
-This document specifies the RED-phase unit tests for the individual element parsers in `ParserModule`. Each parser is tested in isolation; ignore-region enforcement is a cross-cutting concern verified within each relevant describe block. See [[concepts/document-model]], [[architecture/layers]], and [[adr/ADR010-tests-directory-structure]].
+This document specifies the RED-phase unit tests for the individual element parsers in `ParserModule`. Each parser is tested in isolation; ignore-region enforcement is a cross-cutting concern verified within each relevant describe block. See [[docs/concepts/document-model]], [[docs/architecture/layers]], and [[docs/adr/ADR010-tests-directory-structure]].
 
 ---
 

@@ -29,7 +29,7 @@ vault.
 
 - Capture or add assets for OFMarkdown mode promotion and status indexing.
 - Reference the visuals from `extension/README.md` with package-relative paths.
-- See also: [[features/vscode-extension-parity]]
+- See also: [[docs/features/vscode-extension-parity]]
 
 ---
 
@@ -37,7 +37,7 @@ vault.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.OFMProof` | Required OFMarkdown visuals are present in the README | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.OFMProof` | Required OFMarkdown visuals are present in the README | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -61,7 +61,7 @@ vault.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | `ofmarkdown` is the extension language identity shown in Marketplace proof |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | `ofmarkdown` is the extension language identity shown in Marketplace proof |
 
 ---
 
@@ -92,8 +92,8 @@ All of the following must be true before this task is marked `done`:
 - [x] Assets use Marketplace-supported formats
 - [x] Linked verification test starts RED before implementation
 - [x] `cd extension && npm test` passes after implementation
-- [x] [[test/matrix]] row updated for `Extension.Marketplace.OFMProof`
-- [x] [[test/index]] updated if a new test file is added
+- [x] [[docs/test/matrix]] row updated for `Extension.Marketplace.OFMProof`
+- [x] [[docs/test/index]] updated if a new test file is added
 - [x] Parent feature [[FEAT-029]] child task row updated to `done`
 
 ---
@@ -108,7 +108,7 @@ readable assets that survive Marketplace rendering.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state),
@@ -126,7 +126,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

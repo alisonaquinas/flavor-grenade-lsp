@@ -39,10 +39,10 @@ escapes the vault root, and preserve extension-free DocId semantics for notes.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.FileOperations.MovePlannerConfinement` | Canonicalize old/new paths and reject moves escaping the vault | [[requirements/functional/ofmarkdown-parity]] |
-| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[requirements/security/vault-confinement]] |
-| `Security.Vault.RenameConfinement` | Refuse operations that escape the vault root | [[requirements/security/vault-confinement]] |
-| `Parity.FileOperations.AtomicRefactor` | Build one complete move graph before edits are returned | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.FileOperations.MovePlannerConfinement` | Canonicalize old/new paths and reject moves escaping the vault | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[docs/requirements/security/vault-confinement]] |
+| `Security.Vault.RenameConfinement` | Refuse operations that escape the vault root | [[docs/requirements/security/vault-confinement]] |
+| `Parity.FileOperations.AtomicRefactor` | Build one complete move graph before edits are returned | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -112,7 +112,7 @@ instead of re-checking raw client paths.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ →
 `in-review` → `done`
@@ -120,7 +120,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
