@@ -74,3 +74,10 @@ Deliver unit, integration, BDD, verification, and validation evidence for the ma
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert Markdown Extra tables, definition lists, footnotes,
+> abbreviations, fenced code blocks, attributes, inactive Obsidian behavior,
+> spawned-server counts, completions, symbols, folds, semantic tokens,
+> malformed-boundary diagnostics, and validation evidence for local-only
+> Markdown Extra boundaries.

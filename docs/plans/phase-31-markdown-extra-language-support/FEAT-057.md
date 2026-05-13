@@ -2,7 +2,7 @@
 id: "FEAT-057"
 title: "Markdown Extra Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 31
 created: "2026-05-13"
@@ -15,6 +15,39 @@ aliases: ["FEAT-057"]
 # Markdown Extra Language Support
 
 > [!INFO] FEAT-057 - Feature - Phase 31 - Status: draft
+
+## Implementation Plan
+
+Phase 31 is stacked after Phase 30 because the ledger's near-term roadmap keeps
+the server flavor chain contiguous. Implementation will model source-local
+Markdown Extra syntax: pipe tables, definition lists, footnotes,
+abbreviations, fenced code blocks, fenced/block attributes, malformed local
+attribute or abbreviation boundaries, and inactive Obsidian syntax. It will not
+run PHP Markdown Extra, convert HTML, call renderers, load syntax highlighters,
+or infer generated output.
+
+Primary source paths:
+
+- `src/parser/markdown-extra-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +99,10 @@ Implement first-class markdown-extra language support for Markdown Extra, using 
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Confirmed Phase 30 PR #81 CI is green and added
+> concrete implementation and RED test paths for TASK-342 through TASK-344.
+> PHP Markdown Extra execution, HTML conversion, renderer output, syntax
+> highlighting, and generated-output inference remain deferred unless separate
+> integration tickets own them.

@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -89,3 +90,10 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose Markdown Extra malformed-boundary diagnostics, table,
+> definition-list, footnote, abbreviation, and attribute completions/symbols,
+> folds, semantic tokens, analysis counts, and local-boundary disposition.
+> Renderer, conversion, syntax-highlighter, and generated-output behavior are
+> out of scope.

@@ -46,8 +46,10 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/markdown-extra-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
@@ -64,3 +66,9 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `MarkdownExtraParser.parse(text, opaqueRegions)` for
+> pipe tables, definition lists, footnotes, abbreviations, fenced code blocks,
+> attribute blocks, and malformed local Markdown Extra boundaries. Shared
+> constructs will be indexed only when effective flavor is `markdown-extra`.
