@@ -35,14 +35,14 @@ separate selector and setting control effective Markdown flavor.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-299]] | Add extension flavor constants and setting schema | `open` |
-| [[TASK-300]] | Replace language promotion with Markdown flavor controller | `open` |
-| [[TASK-301]] | Add Markdown flavor selector UI and quick pick | `open` |
-| [[TASK-302]] | Persist flavor overrides at the correct settings scope | `open` |
-| [[TASK-303]] | Resolve Auto Detect from workspace and membership signals | `open` |
-| [[TASK-304]] | Propagate effective flavor from extension to server | `open` |
-| [[CHORE-109]] | Phase E15 extension trace and docs sweep | `open` |
-| [[CHORE-110]] | Phase E15 verification and closeout sweep | `open` |
+| [[TASK-299]] | Add extension flavor constants and setting schema | `green` |
+| [[TASK-300]] | Replace language promotion with Markdown flavor controller | `green` |
+| [[TASK-301]] | Add Markdown flavor selector UI and quick pick | `green` |
+| [[TASK-302]] | Persist flavor overrides at the correct settings scope | `green` |
+| [[TASK-303]] | Resolve Auto Detect from workspace and membership signals | `green` |
+| [[TASK-304]] | Propagate effective flavor from extension to server | `green` |
+| [[CHORE-109]] | Phase E15 extension trace and docs sweep | `green` |
+| [[CHORE-110]] | Phase E15 verification and closeout sweep | `green` |
 | [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `done` |
 
 ## Definition of Done
@@ -74,3 +74,47 @@ separate selector and setting control effective Markdown flavor.
 > [!WARNING] Step F finding - 2026-05-13
 > CHORE-141 opened before refactoring new `extension/src/markdown-flavor.ts`
 > helpers that exceeded the checklist's function-size guideline.
+
+> [!SUCCESS] Local gate - 2026-05-13
+> E15 selector/settings implementation passed `npm test`, `npm run compile`,
+> root docs lint, root lint/typecheck, `bun audit`, `bun test src/`,
+> `bun test src/test/integration/`, and `bun run bdd`. No
+> `src/test/verification` or `src/test/validation` directories exist.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+The selector/settings surface fit cleanly into pure extension unit tests:
+constants, package schema, quick-pick rows, settings target choice, auto
+resolution, language preservation, and configuration payloads are all covered
+without requiring Extension Development Host proof in E15.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-141 | Chore | Step F found two new helper functions above the checklist size guideline after the green implementation. | +0.2 h |
+
+### Process observations
+
+Phase E15 intentionally leaves some historical `ofmarkdown` contribution and
+host expectations in place because the phase plan assigns those to E16 and E17.
+The useful boundary was: remove `ofmarkdown` from the LanguageClient document
+selector now, but do not rewrite snippets, grammar contribution proof, or host
+screenshots in this phase.
+
+### Carry-forward actions
+
+- [ ] In Phase 24, reuse the E15 selector/settings contract and do not create
+      another flavor-selection path.
+- [ ] In Phase E16, remove or retarget retired `ofmarkdown` contribution
+      activation and Marketplace proof.
+- [ ] In Phase E17, add host proof for visible selector behavior and
+      server-unavailable replay.
+
+### Rule / template amendments
+
+- [ ] none

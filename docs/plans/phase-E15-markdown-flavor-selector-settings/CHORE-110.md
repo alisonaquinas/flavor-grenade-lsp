@@ -2,7 +2,7 @@
 id: "CHORE-110"
 title: "Phase E15 verification and closeout sweep"
 type: chore
-status: open
+status: green
 priority: medium
 phase: E15
 parent: "FEAT-045"
@@ -36,15 +36,21 @@ Run extension compile/unit/docs checks and prepare E15 for review.
 
 ## Definition of Done
 
-- [ ] E15 gate commands pass.
-- [ ] E15 validation evidence paths are linked from the extension test index or
+- [x] E15 gate commands pass.
+- [x] E15 validation evidence paths are linked from the extension test index or
       the Phase E17 validation ticket.
-- [ ] Residual extension gaps are documented for E16/E17.
-- [ ] Any stale `ofmarkdown` tests encountered are classified with the owning
+- [x] Residual extension gaps are documented for E16/E17.
+- [x] Any stale `ofmarkdown` tests encountered are classified with the owning
       phase and replacement evidence path.
-- [ ] Phase is ready for review.
+- [x] Phase is ready for review.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Green - 2026-05-13
+> E15 local gate passed: `bun run lint:docs`, `npm run compile`, and
+> `npm test`. Broader A-M evidence also passed root lint/typecheck, audit, unit,
+> integration, and BDD. Host proof remains assigned to Phase E17.
+> Status: `green`.
