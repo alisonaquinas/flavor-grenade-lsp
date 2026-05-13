@@ -56,11 +56,11 @@ Deliver parser/profile semantics for the multimarkdown flavor using [[docs/resea
 
 ## Definition of Done
 
-- [ ] multimarkdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for multimarkdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] multimarkdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for multimarkdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -83,3 +83,7 @@ Deliver parser/profile semantics for the multimarkdown flavor using [[docs/resea
 > parser analysis now passes for MultiMarkdown metadata, tables, footnotes,
 > citations, labels, cross-references, abbreviations, inactive Obsidian syntax,
 > and surface status.
+
+> [!INFO] Closeout evidence - 2026-05-13
+> Parser evidence, applicability matrix, test index, and matrix trace rows are
+> updated for MultiMarkdown.

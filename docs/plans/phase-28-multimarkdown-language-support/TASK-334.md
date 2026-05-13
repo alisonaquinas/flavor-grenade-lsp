@@ -72,14 +72,14 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 
 ## Definition of Done
 
-- [ ] multimarkdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for multimarkdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for multimarkdown.
-- [ ] Rename coverage is implemented for safe local multimarkdown symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] multimarkdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for multimarkdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for multimarkdown.
+- [x] Rename coverage is implemented for safe local multimarkdown symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -100,3 +100,7 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 > Wired MultiMarkdown diagnostics, completions, document symbols, folding
 > ranges, semantic tokens, and spawned-server analysis counts. Targeted LSP
 > surface tests now pass.
+
+> [!INFO] Closeout evidence - 2026-05-13
+> MultiMarkdown LSP surface dispositions are recorded in the applicability
+> matrix, host-boundary review, test index, and matrix trace rows.

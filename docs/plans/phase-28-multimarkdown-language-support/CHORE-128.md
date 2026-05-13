@@ -2,7 +2,7 @@
 id: "CHORE-128"
 title: "Phase 28 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 28
 parent: "FEAT-054"
@@ -38,12 +38,18 @@ Perform the operational sweep for MultiMarkdown language-support phase closure.
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for multimarkdown.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [x] Documentation trace is complete for multimarkdown.
+- [x] Required verification evidence is attached or linked.
+- [x] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
+- [x] Phase closeout notes identify any deferred work explicitly.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Status set to `done`. Exact Phase 28 local gate passed:
+> `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts; bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts; bun test src/test/integration/markdown-flavor.test.ts; bun run bdd; bun test src/test/ci-workflow.test.ts; bun run lint:docs; bun run typecheck; bun run lint; bun run build`.
+> Verification and validation test directories have no `.test.ts` or `.spec.ts`
+> files, so those sub-steps are N/A; BDD passed.

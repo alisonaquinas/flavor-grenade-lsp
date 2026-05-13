@@ -83,6 +83,19 @@ Evidence is recorded in `src/parser/pandoc-parser.ts`,
 `src/test/integration/markdown-flavor.test.ts`, and
 `docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
 
+Phase 28 replaces the `multimarkdown` planned surface entries with implemented
+local MultiMarkdown behavior for source-backed syntax that does not require
+conversion or generated output. Evidence is recorded in
+`src/parser/multimarkdown-parser.ts`,
+`src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`,
+`src/resolution/__tests__/diagnostic-service.test.ts`,
+`src/completion/__tests__/completion-router.test.ts`,
+`src/handlers/__tests__/document-symbol.handler.test.ts`,
+`src/handlers/__tests__/folding-range.handler.test.ts`,
+`src/handlers/__tests__/semantic-tokens.handler.test.ts`,
+`src/test/integration/markdown-flavor.test.ts`, and
+`docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
+
 | Flavor id | Label | Feature page | Primary source | Implementation ticket |
 |---|---|---|---|---|
 | `original` | Original Markdown | docs/features/original-markdown-flavor.md | docs/research/commonmark-and-original-markdown.md | TASK-315 |

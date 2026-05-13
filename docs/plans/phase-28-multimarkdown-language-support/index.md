@@ -15,8 +15,8 @@ updated: 2026-05-13
 | [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | `green` |
 | [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | `green` |
 | [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | `green` |
-| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | `open` |
-| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | `open` |
+| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | `done` |
+| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | `done` |
 | [[CHORE-145]] | Shorten MultiMarkdown table parser helper | Chore | `done` |
 
 ## Ticket Details

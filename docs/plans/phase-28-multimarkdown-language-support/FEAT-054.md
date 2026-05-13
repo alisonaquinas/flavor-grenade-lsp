@@ -69,8 +69,8 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 | [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | green |
 | [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | green |
 | [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | green |
-| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | open |
-| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | open |
+| [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | done |
+| [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | done |
 | [[CHORE-145]] | Shorten MultiMarkdown table parser helper | Chore | done |
 
 ## Linked Requirements
@@ -91,11 +91,11 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 
 ## Definition of Done
 
-- [ ] multimarkdown has source-backed parser/profile behavior.
-- [ ] multimarkdown satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] multimarkdown behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] multimarkdown has source-backed parser/profile behavior.
+- [x] multimarkdown satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] multimarkdown behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -116,3 +116,41 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 > [!INFO] Step F finding - 2026-05-13
 > Opened and closed CHORE-145 for the code-quality function-length finding in
 > `MultimarkdownParser.parseTables`.
+
+> [!INFO] Step E-L local gate - 2026-05-13
+> Lint, typecheck, code-quality, security, unit, integration, validation, and
+> BDD steps passed locally. Verification and validation directories had no
+> `.test.ts` or `.spec.ts` files, so those sub-steps were N/A.
+
+## Retrospective
+
+> Written after Step L passes. Date: 2026-05-13.
+
+### What went as planned
+
+MultiMarkdown fit the same local-surface implementation pattern as Pandoc:
+parse source syntax, keep Obsidian-only constructs inert, expose local LSP
+summaries, and classify export behavior as non-local.
+
+### Deviations and surprises
+
+| Ticket | Type | Root cause | Time impact |
+|---|---|---|---|
+| CHORE-145 | Chore | Step F found `parseTables` at 41 lines, one line over the quality limit. | +0.1 h |
+
+### Process observations
+
+The A-M checklist caught a small structural issue before PR creation. The
+separate validation and verification directory checks were N/A for this phase,
+but BDD still supplied acceptance-level coverage.
+
+### Carry-forward actions
+
+- [ ] Continue Phase 29 directly after Phase 28 because MDX is the next server
+  flavor in the dependency graph.
+- [ ] Keep generated-output and processor-backed MultiMarkdown behavior
+  deferred unless a later integration ticket owns local configuration.
+
+### Rule / template amendments
+
+- [ ] none
