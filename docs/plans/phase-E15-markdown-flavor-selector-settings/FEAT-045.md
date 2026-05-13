@@ -43,6 +43,7 @@ separate selector and setting control effective Markdown flavor.
 | [[TASK-304]] | Propagate effective flavor from extension to server | `open` |
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | `open` |
 | [[CHORE-110]] | Phase E15 verification and closeout sweep | `open` |
+| [[CHORE-141]] | Refactor E15 markdown flavor helpers under function-size guideline | `open` |
 
 ## Definition of Done
 
@@ -69,3 +70,7 @@ separate selector and setting control effective Markdown flavor.
 > selector/settings contract. Execution order updated in
 > [[docs/plans/execution-ledger]] so Obsidian flavor language support resumes
 > after E15 is CI-green.
+
+> [!WARNING] Step F finding - 2026-05-13
+> CHORE-141 opened before refactoring new `extension/src/markdown-flavor.ts`
+> helpers that exceeded the checklist's function-size guideline.
