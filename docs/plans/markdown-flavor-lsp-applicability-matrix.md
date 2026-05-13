@@ -48,6 +48,7 @@ renderer, conversion, bibliography, or execution-context lookup behavior.
 
 | Flavor | Deferred lookup | Follow-up disposition |
 |---|---|---|
+| `gfm` | Live GitHub issue, pull request, commit, user, label, alert rendering, and repository metadata lookup. | Out of scope for Phase 25; local GFM syntax, reference-shape classification, and unsafe rename rejection remain required. |
 | `glfm` | Live GitLab issue, merge request, commit, user, and project metadata lookup. | Out of scope for Phase 26; local GLFM syntax and reference shape support remains required. |
 | `pandoc` | Renderer/conversion extension behavior, bibliography databases not configured in the workspace, and output-format-specific cross-reference behavior. | Out of scope for Phase 27; local citation/reference shape and configured local bibliography behavior remains required. |
 | `multimarkdown` | Export-only cross-reference, metadata, and generated-output behavior. | Out of scope for Phase 28; local cross-reference and metadata syntax support remains required. |

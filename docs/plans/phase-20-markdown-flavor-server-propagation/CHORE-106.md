@@ -26,6 +26,7 @@ Run the full phase verification pass and prepare Phase 20 for review.
 - Update [[docs/test/index]], [[docs/test/matrix]], and validation evidence for
   any effective-flavor, refresh, or boundary-classification surface changed in
   this phase.
+- Confirm [[TASK-354]] has acceptance evidence before closeout advances.
 - Capture residual risks for later dialect expansion.
 
 ## Definition of Done
@@ -33,6 +34,8 @@ Run the full phase verification pass and prepare Phase 20 for review.
 - [ ] Phase verification commands pass.
 - [ ] Test matrix/index and validation evidence include current propagation,
       refresh, rename-safety context, and host/conversion boundary status.
+- [ ] [[TASK-354]] boundary-classification evidence is linked from the feature
+      ticket and matrix.
 - [ ] Residual risks are documented.
 - [ ] Phase is ready for review.
 

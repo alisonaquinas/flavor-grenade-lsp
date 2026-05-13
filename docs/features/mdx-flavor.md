@@ -35,8 +35,11 @@ MDX-aware analysis.
 | Diagnostics | Report malformed MDX containers and broken local Markdown links; do not run Markdown parsing inside opaque JSX/ESM regions. |
 | Completion | Offer local Markdown links, headings, JSX component names when available, and MDX snippets. |
 | Navigation | Resolve local Markdown links and local component identifiers when supported by project context. |
+| Document symbols | Expose Markdown headings, local MDX component declarations where available, JSX block boundaries, ESM declarations, and code fences. |
+| Folding | Fold Markdown headings, JSX blocks, ESM declarations, fenced code, and Markdown block ranges. |
 | Hover | Show Markdown target metadata and lightweight JSX/MDX classification. |
 | Semantic tokens | Mark JSX tags, props, expressions, and ESM regions distinctly. |
+| Rename | Rename local Markdown symbols and explicitly local MDX constructs only; reject React/TypeScript imports, JSX component references, and expression targets without integration context. |
 
 ## Acceptance
 

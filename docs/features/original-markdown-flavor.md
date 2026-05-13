@@ -37,7 +37,10 @@ not active original Markdown constructs.
 | Diagnostics | Report broken local Markdown links and unsupported active flavor constructs when the user opts into portability diagnostics. |
 | Completion | Offer Markdown link destinations and headings; do not offer table, task-list, callout, tag, or wiki-link completions. |
 | Navigation | Support definition/references for local Markdown links and headings. |
+| Document symbols | Expose headings, lists, blockquotes, indented code blocks, and link definitions supported by original Markdown. |
+| Folding | Fold headings, lists, blockquotes, and indented code blocks that are valid original Markdown structures. |
 | Hover | Explain original-supported syntax and mark modern extensions as outside the flavor. |
+| Semantic tokens | Mark original Markdown headings, emphasis, links, images, code, HTML, and block structure. |
 | Rename | Update Markdown links and heading references only for supported local link forms. |
 
 ## Acceptance

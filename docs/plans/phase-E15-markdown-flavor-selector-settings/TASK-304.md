@@ -39,7 +39,8 @@ open Markdown documents.
   changes.
 - Recompute and propagate affected open-document state after selector changes,
   workspace-folder changes, visible editor changes, file opens, server
-  readiness or membership changes, marker changes, and settings changes.
+  readiness or membership changes, `.obsidian/` marker changes,
+  `.flavor-grenade.toml` appear/disappear/change events, and settings changes.
 - Exclude open documents whose current VS Code language id is not `markdown`
   from flavor propagation and refresh.
 - Handle server unavailable state without losing selector state.
@@ -59,6 +60,8 @@ open Markdown documents.
 | `EXT-MF-U-009` | `extension/src/markdown-flavor.test.ts` | Parameterized `workspace/didChangeConfiguration` payloads for `flavorGrenade.markdownFlavor`, resource key, selected value, source, every required explicit flavor id, `auto` resolution, and standalone `original`. |
 | `EXT-MF-U-011` | `extension/src/markdown-flavor.test.ts` | No propagation or reanalysis is sent for `.md` documents whose language id is `plaintext`, `mdx`, or another non-`markdown` value. |
 | `EXT-MF-I-004` | `extension/src/commands.test.ts` | Rebuild-index completion and other refresh triggers recompute effective flavor for open Markdown editors without leaking one resource's flavor to another. |
+| `EXT-MF-I-008` | `extension/src/markdown-flavor.test.ts` or `extension/src/commands.test.ts` | Client stub records exact resource-specific outbound payload shape for every required explicit flavor. |
+| `EXT-MF-I-009` | `extension/src/commands.test.ts` | Server-unavailable, restarting, or not-ready states preserve selector state and replay or recompute effective flavor after readiness. |
 
 ## Definition of Done
 
@@ -70,8 +73,10 @@ open Markdown documents.
 - [ ] Every required explicit flavor id is covered by propagation tests.
 - [ ] Standalone `original` is propagated and reanalyzed correctly.
 - [ ] Open Markdown refresh path runs after selector, workspace-folder, visible
-      editor, file-open, server-readiness, membership, marker, and settings
-      changes.
+      editor, file-open, server-readiness, membership, marker,
+      `.flavor-grenade.toml` appear/disappear/change, and settings changes.
+- [ ] Integration coverage proves outbound payload shape and server-unavailable
+      replay/recompute behavior.
 - [ ] Non-`markdown` documents are excluded from refresh and propagation.
 - [ ] Server failure preserves user-visible flavor state.
 

@@ -50,7 +50,7 @@ local vault/file targets.
 | Test spec | Expected coverage |
 |---|---|
 | [[docs/test/markdown-flavor-unit-spec]] | Boundary fixture rows classify non-local examples without local diagnostics, navigation, or rename edits. |
-| [[docs/test/markdown-flavor-integration-spec]] | Spawned-server analysis preserves boundary disposition after effective flavor refresh. |
+| [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] | Spawned-server analysis preserves boundary disposition after effective flavor refresh. |
 
 ## Definition of Done
 
@@ -60,6 +60,8 @@ local vault/file targets.
       definition targets, or speculative rename edits.
 - [ ] Per-flavor tickets can cite the shared classifier instead of duplicating
       classification rules.
+- [ ] Spawned-server integration evidence covers at least one boundary example
+      after effective-flavor propagation.
 - [ ] [[docs/plans/markdown-flavor-lsp-applicability-matrix]],
       [[docs/test/index]], [[docs/test/matrix]], and validation evidence are
       updated when boundary categories change.

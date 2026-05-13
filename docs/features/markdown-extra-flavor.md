@@ -29,8 +29,11 @@ portable-but-extended web publishing.
 | Diagnostics | Report malformed tables, duplicate attributes/IDs, broken local links, and dangling footnotes. |
 | Completion | Offer footnote labels, abbreviation labels, attribute names, local links, and headings. |
 | Navigation | Resolve local links, headings, footnotes, abbreviations, and explicit IDs. |
+| Document symbols | Expose headings, tables, definition lists, footnotes, abbreviations, attributes, and fenced code. |
+| Folding | Fold headings, lists, blockquotes, fenced code, tables, definition lists, and footnote definitions. |
 | Hover | Show abbreviation expansions, footnote destinations, and attribute metadata. |
 | Semantic tokens | Mark tables, definitions, footnotes, abbreviations, and attributes. |
+| Rename | Rename local headings, labels, footnotes, abbreviations, explicit IDs, and reference links when safe; reject kramdown/Pandoc-only constructs unless explicitly profiled. |
 
 ## Acceptance
 

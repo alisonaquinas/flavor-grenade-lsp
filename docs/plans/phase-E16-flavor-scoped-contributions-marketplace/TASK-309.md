@@ -22,7 +22,9 @@ verify current Markdown flavor behavior.
 
 ## Work Scope
 
-- Update contribution tests for flavor/context scoping.
+- Update contribution tests for flavor/context scoping, including snippets,
+  keybindings, language configuration, isolation, command preconditions, and
+  optional theme/example dispositions.
 - Update README and VSIX asset tests for selector proof.
 - Keep package-target and existing asset packaging checks passing.
 - Keep `EXT-MF-I-006` reserved only for VSIX asset proof. Activation and client
@@ -39,7 +41,7 @@ verify current Markdown flavor behavior.
 
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
-| `EXT-MF-C-001` through `EXT-MF-C-004` | `extension/test/contributions/*.test.ts` | Contribution scoping. |
+| `EXT-MF-C-001` through `EXT-MF-C-006` | `extension/test/contributions/*.test.ts` | Contribution scoping, command preconditions, and optional theme/example dispositions. |
 | `EXT-MF-I-005` | `extension/test/marketplace/readme-assets.test.ts` | README selector proof. |
 | `EXT-MF-I-006` | `extension/test/marketplace/vsix-assets.test.ts` | Packaged selector proof and referenced Marketplace assets. |
 | `EXT-MF-I-007` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | Activation/client-selector guard proof is distinct from VSIX asset proof. |
@@ -47,6 +49,9 @@ verify current Markdown flavor behavior.
 ## Definition of Done
 
 - [ ] `npm test` covers rewritten contribution tests.
+- [ ] Contribution tests cover `EXT-MF-C-001` through `EXT-MF-C-006`, or
+      optional theme/example contributions are explicitly marked not
+      applicable with validation evidence.
 - [ ] `npm run verify:marketplace-assets` covers selector proof through
       `extension/test/marketplace/readme-assets.test.ts` and package proof
       through `extension/test/marketplace/vsix-assets.test.ts`.

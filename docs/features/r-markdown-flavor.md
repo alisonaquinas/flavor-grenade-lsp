@@ -34,8 +34,11 @@ labels, options, navigation, diagnostics, hover, and completion only.
 | Diagnostics | Report duplicate chunk labels, malformed chunk headers, invalid option syntax, and broken local links. |
 | Completion | Offer chunk labels, option keys, output formats, citation keys, headings, and local links. |
 | Navigation | Resolve chunk labels, local links, headings, citations, and cross-references. |
+| Document symbols | Expose headings, YAML metadata, chunk labels, code chunks, citations, and cross-reference anchors. |
 | Hover | Show chunk engine/options, metadata, and reference targets. |
 | Folding | Fold chunks, YAML metadata, headings, and fenced blocks. |
+| Semantic tokens | Mark YAML metadata, chunk fences, chunk labels/options, inline R boundaries, citations, and Markdown tokens. |
+| Rename | Rename local Markdown symbols and chunk labels where syntax-preserving edits are safe; reject R symbols, execution-bound targets, and generated-output references. |
 
 ## Acceptance
 

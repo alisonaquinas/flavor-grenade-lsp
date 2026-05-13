@@ -53,6 +53,9 @@ server propagation calls. The auto-detection resolver follows
   evidence. The extension does not own a second authoritative
   `.flavor-grenade.toml` parser; BC4/server-side workspace evidence owns TOML
   parsing and reports project flavor evidence through the Phase 20 contract.
+- Refresh detection when `.flavor-grenade.toml` appears, disappears, or changes
+  by consuming updated server/project-config evidence rather than parsing TOML
+  independently.
 - Client-to-server propagation using `workspace/didChangeConfiguration` carrying
   `flavorGrenade.markdownFlavor` plus resource-specific selected/effective
   flavor state, matching the Phase 20 contract.
@@ -95,6 +98,7 @@ server propagation calls. The auto-detection resolver follows
 ## Gate Verification
 
 ```bash
+bun run lint:docs
 cd extension
 npm run compile
 npm test

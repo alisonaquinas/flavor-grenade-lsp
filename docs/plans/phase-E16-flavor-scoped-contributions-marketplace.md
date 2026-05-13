@@ -40,6 +40,10 @@ promotion.
 ### In Scope
 
 - Activation updates for selector command and built-in Markdown behavior.
+- `activationEvents` keeps the current lightweight `onLanguage:markdown` wake
+  path, removes current `onLanguage:ofmarkdown`, and proves generic Markdown
+  wake does startup checks without vault indexing until a positive vault,
+  project-config, selector, or command signal exists.
 - Selector command regression coverage in restricted and virtual contexts, so
   selector activation does not spawn the server where the environment model
   forbids it.
@@ -61,6 +65,10 @@ promotion.
   flavor scoping mechanism.
 - Current activation does not depend on `onLanguage:ofmarkdown`; any legacy
   mention is non-authoritative historical context only.
+- Current activation keeps `onLanguage:markdown` as the built-in language wake
+  signal, but generic Markdown language wake remains lightweight and does not
+  spawn indexing without `.obsidian/`, `.flavor-grenade.toml`, explicit selector
+  override, or command intent.
 - `LanguageClient` `clientOptions.documentSelector` is file-backed `markdown`
   only, and tests fail if `ofmarkdown` remains in the current selector.
 - Selector command activation respects restricted and virtual workspace safety:
@@ -76,6 +84,7 @@ promotion.
 ## Gate Verification
 
 ```bash
+bun run lint:docs
 cd extension
 npm test
 npm run verify:marketplace-assets

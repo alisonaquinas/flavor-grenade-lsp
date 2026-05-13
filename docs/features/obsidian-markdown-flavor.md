@@ -33,7 +33,10 @@ Code's built-in `markdown` language mode.
 | Diagnostics | Publish FG001-FG007 for broken wiki-links, embeds, block refs, ambiguous targets, NBSP, and malformed frontmatter. |
 | Completion | Offer wiki-link, heading, block-ref, tag, attachment, callout, and Markdown-link completions. |
 | Navigation | Support definitions and references for wiki-links, Markdown links, tags, headings, blocks, and attachments. |
+| Document symbols | Expose headings, blocks, tags where surfaced as symbols, callouts, embeds, and Markdown structural blocks. |
+| Folding | Fold headings, lists, callouts, code, math, comments, embeds where applicable, and Markdown block ranges. |
 | Hover | Show target metadata for notes, embeds, tags, and attachments. |
+| Semantic tokens | Mark wiki-links, embeds, tags, callouts, block refs, frontmatter, math, comments, and Markdown tokens. |
 | Rename | Update note, heading, block, and local Markdown references safely across the vault. |
 
 ## Acceptance

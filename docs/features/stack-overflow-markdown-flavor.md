@@ -36,8 +36,11 @@ objects locally.
 | Diagnostics | Report malformed code fences, tables, spoilers, broken local links, and post/comment portability warnings. |
 | Completion | Offer fenced-code languages, local links, table helpers, and Stack Overflow reference snippets. |
 | Navigation | Resolve local Markdown links and headings; platform references remain non-local. |
+| Document symbols | Expose headings, code blocks, tables, spoilers, local references, and post/comment profile sections. |
+| Folding | Fold headings, lists, blockquotes, code blocks, spoilers, and tables. |
 | Hover | Explain technical-writing syntax, language hints, and post/comment differences. |
 | Semantic tokens | Mark code fences, table structure, spoilers, links, and host references. |
+| Rename | Rename local Markdown headings and links only; reject Stack Exchange tags, questions, answers, users, and comment targets without platform context. |
 
 ## Acceptance
 

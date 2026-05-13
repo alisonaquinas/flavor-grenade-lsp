@@ -75,10 +75,13 @@ safety evidence.
 ## Gate Verification
 
 ```bash
+bun run lint:docs
 cd extension
+npm run compile
 npm test
 npm run test:host
-npm run compile
+npm run verify:marketplace-assets
+npm run verify:package-targets
 ```
 
 ## Tickets

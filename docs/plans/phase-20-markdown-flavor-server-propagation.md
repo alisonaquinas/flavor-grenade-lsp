@@ -73,6 +73,9 @@ flavor context.
 - Obsidian vault Markdown resolves to Obsidian in `auto`.
 - Original/CommonMark analysis does not treat Obsidian wiki links as core
   syntax.
+- Spawned-server integration evidence proves handler refresh, resource-specific
+  effective flavor state, and host/conversion boundary classification across
+  the process boundary.
 
 ## Gate Verification
 

@@ -37,7 +37,10 @@ format.
 | Diagnostics | Report malformed citations, duplicate labels, broken local Markdown links, and invalid attribute syntax when profile-supported. |
 | Completion | Offer citation keys, labels, attributes, code languages, and local link targets. |
 | Navigation | Resolve local links, headings, labels, footnotes, and citation keys when bibliographic context is configured. |
+| Document symbols | Expose headings, metadata blocks, labels, footnotes, citations where local context exists, tables, math blocks, and fenced code. |
+| Folding | Fold headings, metadata blocks, lists, blockquotes, code fences, math blocks, tables, and footnote definitions. |
 | Hover | Show citation/label/attribute metadata and note conversion-dependent features. |
+| Semantic tokens | Mark metadata, citations, footnotes, math, attributes, tables, labels, and Markdown tokens. |
 | Rename | Rename labels, footnotes, and local Markdown targets within safe local scope. |
 
 ## Acceptance

@@ -33,7 +33,10 @@ R Markdown chunks are not CommonMark features.
 | Diagnostics | Report malformed CommonMark constructs only when the parser can prove an error; report broken local Markdown links. |
 | Completion | Offer local Markdown link targets, reference labels, headings, and fenced-code info strings when supported. |
 | Navigation | Resolve local links, same-document anchors, and reference-style labels. |
+| Document symbols | Expose headings, thematic sections, fenced code, reference definitions, and structural CommonMark blocks. |
+| Folding | Fold headings, lists, blockquotes, fenced code, HTML blocks, and other CommonMark block ranges. |
 | Hover | Show normalized target and heading information for CommonMark links. |
+| Semantic tokens | Mark CommonMark block and inline tokens, including fences, links, images, emphasis, and HTML. |
 | Rename | Update local Markdown links and heading anchors without using Obsidian wiki-link rules. |
 
 ## Acceptance

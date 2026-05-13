@@ -34,6 +34,9 @@ using VS Code's language picker.
 - Record package-target validation evidence at
   `extension/docs/tests/evidence/markdown-flavor-package-targets.md`, proving
   `npm run verify:package-targets` covered flavor-era VSIX output.
+- Record stale `ofmarkdown` scan evidence at
+  `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md`, or
+  link to [[TASK-313]] as the artifact owner when the scan is produced there.
 - Split validation evidence so extension work proves selector/schema/profile
   compatibility while server dialect phases prove parser/profile semantics.
 
@@ -52,7 +55,7 @@ using VS Code's language picker.
 
 | Test file | Expected coverage |
 |---|---|
-| `extension/docs/tests/markdown-flavor-validation-spec.md` | EXT-MF-VA-001 through EXT-MF-VA-005, where EXT-MF-VA-005 is package-target/VSIX evidence. |
+| `extension/docs/tests/markdown-flavor-validation-spec.md` | EXT-MF-VA-001 through EXT-MF-VA-006, where EXT-MF-VA-005 is package-target/VSIX evidence and EXT-MF-VA-006 is stale `ofmarkdown` scan evidence. |
 
 ## Definition of Done
 
@@ -61,6 +64,9 @@ using VS Code's language picker.
 - [ ] Manual-language and settings-scope evidence are included.
 - [ ] Package-target evidence is included at
       `extension/docs/tests/evidence/markdown-flavor-package-targets.md`.
+- [ ] Stale `ofmarkdown` scan evidence is included at
+      `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md`
+      or linked through [[TASK-313]].
 - [ ] Research/profile evidence states the extension verifies contract
       compatibility only; server phases own dialect semantic proof.
 - [ ] Evidence files use the artifact paths required by

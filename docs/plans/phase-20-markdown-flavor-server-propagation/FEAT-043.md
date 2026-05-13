@@ -39,6 +39,12 @@ diagnostics, and spawned-server integration tests.
   covers auto resolution and fallback.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]] covers
   spawned-server temp workspace precedence.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]] covers
+  handler refresh after effective-flavor changes.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]] covers
+  resource-specific flavor propagation.
+- [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] covers
+  host/conversion boundary behavior across the spawned server boundary.
 
 ## Child Tasks
 
@@ -50,6 +56,7 @@ diagnostics, and spawned-server integration tests.
 | [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | `open` |
 | [[TASK-292]] | Add spawned-server flavor propagation tests | `open` |
 | [[TASK-293]] | Refresh open document diagnostics after flavor changes | `open` |
+| [[TASK-354]] | Add shared non-local boundary classification | `open` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | `open` |
 
@@ -59,7 +66,10 @@ diagnostics, and spawned-server integration tests.
 - [ ] Unsupported ids are rejected without state corruption.
 - [ ] BC4 owns effective flavor state; BC5 only validates protocol payloads.
 - [ ] Open document diagnostics refresh after flavor changes.
-- [ ] Integration tests cover supported and unsupported flavor transitions.
+- [ ] Integration tests cover supported and unsupported flavor transitions,
+      handler refresh, resource-specific state, and host/conversion boundary
+      classification.
+- [ ] Closeout cannot advance until [[TASK-354]] has acceptance evidence.
 
 ## Workflow Log
 

@@ -28,6 +28,8 @@ membership/project-config inputs according to
   explicit flavor when BC4/server-side workspace evidence reports that flavor.
   The extension may observe marker presence, but it must not become a second
   authoritative TOML parser unless a shared parser/contract is introduced.
+- `.flavor-grenade.toml` appear, disappear, and content-change events trigger
+  recomputation from the updated server/project-config evidence.
 - Workspace setting resolution covers every explicit flavor id.
 - Precedence follows [[docs/design/markdown-flavor-auto-detection]]: folder or
   workspace selector setting, standalone user setting, project TOML evidence,
@@ -49,13 +51,15 @@ membership/project-config inputs according to
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-U-004`, `EXT-MF-U-005` | `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
-| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized project-config evidence and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
+| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized project-config evidence and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values and `.flavor-grenade.toml` appear/disappear/change events fall back or refresh without language promotion. |
 
 ## Definition of Done
 
 - [ ] Auto detection resolves expected effective flavor.
 - [ ] Server/project-config evidence from `.flavor-grenade.toml` and workspace
       settings can resolve `auto` to each required explicit flavor id.
+- [ ] `.flavor-grenade.toml` appear/disappear/change events refresh effective
+      flavor from server/project-config evidence.
 - [ ] Extension/server ownership for `.flavor-grenade.toml` is recorded:
       extension consumes marker and project-config evidence; BC4/server owns
       authoritative TOML parsing unless replaced by a shared parser.

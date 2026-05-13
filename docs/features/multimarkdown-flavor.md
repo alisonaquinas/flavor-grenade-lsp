@@ -35,7 +35,10 @@ rendering parity.
 | Diagnostics | Report duplicate or missing labels, malformed metadata, malformed tables, and broken local links. |
 | Completion | Offer metadata keys, labels, citation keys, footnotes, and local link targets. |
 | Navigation | Resolve labels, footnotes, citations, headings, and local Markdown links. |
+| Document symbols | Expose headings, metadata, labels, footnotes, citations, tables, math blocks, and cross-reference anchors. |
+| Folding | Fold headings, metadata blocks, lists, blockquotes, code fences, tables, footnotes, and math blocks. |
 | Hover | Show metadata, citation, footnote, and label summaries. |
+| Semantic tokens | Mark metadata, tables, footnotes, citations, cross references, math, and Markdown tokens. |
 | Rename | Safely rename local labels and document links. |
 
 ## Acceptance

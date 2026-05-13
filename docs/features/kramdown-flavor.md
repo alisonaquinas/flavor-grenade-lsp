@@ -29,7 +29,10 @@ especially attributes and structured document-production syntax.
 | Diagnostics | Report malformed attribute lists, duplicate IDs, broken local links, and malformed footnotes. |
 | Completion | Offer attribute keys, classes/IDs from the document, footnote labels, headings, and local links. |
 | Navigation | Resolve local Markdown links, explicit IDs, headings, and footnotes. |
+| Document symbols | Expose headings, explicit IDs, attribute blocks, definition lists, tables, footnotes, math blocks, and reference definitions. |
+| Folding | Fold headings, lists, blockquotes, fenced code, tables, definition lists, attribute blocks, footnotes, and math blocks. |
 | Hover | Explain attribute targets and generated/explicit anchors. |
+| Semantic tokens | Mark attributes, explicit IDs, definition lists, tables, footnotes, math, and Markdown tokens. |
 | Rename | Rename explicit IDs and update matching local references when safe. |
 
 ## Acceptance

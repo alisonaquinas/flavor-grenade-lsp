@@ -59,6 +59,25 @@ document symbols, semantic tokens, and completion for chunk options.
 - No R, Python, shell, or notebook code is executed.
 - Integration and BDD coverage prove R Markdown behavior.
 
+## Gate Verification
+
+```bash
+bun test src/parser/__tests__/markdown-flavor-profiles.test.ts
+bun test src/test/integration/markdown-flavor.test.ts
+bun run bdd
+bun test src/test/ci-workflow.test.ts
+bun run lint:docs
+bun run typecheck
+bun run lint
+bun run build
+```
+
+Validation evidence must link the targeted unit/integration output,
+`docs/test/evidence/markdown-flavor-validation-run.md`,
+`docs/test/evidence/markdown-flavor-research-trace.md`, and
+`docs/test/evidence/markdown-flavor-host-boundary-review.md` when boundary
+dispositions are introduced, changed, deferred, or rejected.
+
 ## Related
 
 - [[docs/adr/ADR020-markdown-flavor-selection]]

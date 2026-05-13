@@ -31,6 +31,10 @@ promotion.
 - Run a current-test stale `ofmarkdown` expectation scan across host tests,
   host fixtures, package activation waits, and host evidence files. Historical
   filenames may remain only when classified as historical containers.
+- Write scan results to
+  `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` for
+  `EXT-MF-VA-006`, or link the evidence file from [[TASK-312]] if validation
+  ownership remains there.
 - Keep manual non-Markdown preservation coverage.
 - Ensure host runner has no stale `ofmarkdown` promotion waits.
 
@@ -45,12 +49,15 @@ promotion.
 | Test file | Expected coverage |
 |---|---|
 | `extension/src/test/suite/activation-language-mode.test.js` | Retired or rewritten without promotion expectations. |
+| `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | EXT-MF-VA-006 and EXT-MF-VF-009 stale expectation evidence. |
 
 ## Definition of Done
 
 - [ ] No host test waits for `document.languageId === "ofmarkdown"`.
 - [ ] Stale host-scan results classify every remaining current `ofmarkdown`
       expectation as removed, rewritten, historical, or follow-up bug.
+- [ ] `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md`
+      is created or linked from the E17 validation evidence.
 - [ ] Completed `ofmarkdown` host-test assertions have archival/supersession
       evidence before rewrite or removal.
 - [ ] Remaining activation coverage still passes.

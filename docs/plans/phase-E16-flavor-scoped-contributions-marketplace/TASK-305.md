@@ -31,6 +31,11 @@ current compatibility behavior.
   "title": "Flavor Grenade: Select Markdown Flavor" }`.
 - Add exact activation event `onCommand:flavorGrenade.selectMarkdownFlavor`.
 - Remove current activation dependency on `onLanguage:ofmarkdown`.
+- Preserve `onLanguage:markdown` as the lightweight language wake path for the
+  built-in Markdown language.
+- Prove generic Markdown language wake performs startup checks only and does not
+  spawn indexing without `.obsidian/`, `.flavor-grenade.toml`, explicit selector
+  override, or command intent.
 - Keep `LanguageClient` `clientOptions.documentSelector` scoped to file-backed
   `markdown` documents only; fail tests if `ofmarkdown` remains in the current
   selector.
@@ -52,7 +57,7 @@ current compatibility behavior.
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-I-001`, `EXT-MF-I-002` | `extension/src/activation-gate.test.ts` | Vault-marker activation and generic Markdown idle startup without custom language id activation. |
-| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Asserts `activationEvents` contains `onCommand:flavorGrenade.selectMarkdownFlavor`, excludes `onLanguage:ofmarkdown`, and selector command wake starts the extension. |
+| `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Asserts `activationEvents` contains `onLanguage:markdown` and `onCommand:flavorGrenade.selectMarkdownFlavor`, excludes `onLanguage:ofmarkdown`, and selector command wake starts the extension. |
 | `EXT-MF-I-007` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and rejects `ofmarkdown`; restricted/virtual selector command paths do not spawn the server. |
 
 ## Definition of Done
@@ -62,6 +67,9 @@ current compatibility behavior.
       `onCommand:flavorGrenade.selectMarkdownFlavor`, and can wake the
       extension.
 - [ ] Startup gate does not require `onLanguage:ofmarkdown`.
+- [ ] Manifest retains `onLanguage:markdown` and tests prove generic Markdown
+      wake remains lightweight until positive vault/project-config, selector,
+      or command intent exists.
 - [ ] Current `documentSelector` contains no `ofmarkdown` entry.
 - [ ] Restricted and virtual selector command paths preserve disabled/no-server
       behavior.

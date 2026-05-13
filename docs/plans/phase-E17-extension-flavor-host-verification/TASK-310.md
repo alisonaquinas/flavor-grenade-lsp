@@ -49,13 +49,16 @@ flavor behavior in the VS Code Extension Development Host.
 
 | Test file | Expected coverage |
 |---|---|
-| `extension/src/test/suite/markdown-flavor.test.js` | EXT-MF-E-001 through EXT-MF-E-006. |
+| `extension/src/test/suite/markdown-flavor.test.js` | EXT-MF-E-001 through EXT-MF-E-010. |
 | `extension/src/test/suite/markdown-flavor.test.js` | Selector enumeration and selection coverage for all required flavor ids while preserving `languageId === "markdown"`. |
 | `extension/src/test/suite/markdown-flavor.test.js` or verification evidence | Selector/environment-mode matrix for restricted, virtual, WSL, SSH, Dev Container, standalone, workspace-only, and unsupported contexts. |
 
 ## Definition of Done
 
 - [ ] Host suite covers all extension e2e flavor scenarios.
+- [ ] Host suite explicitly covers EXT-MF-E-007 through EXT-MF-E-010 for
+      workspace fallback persistence, invalid/precedence behavior, selector
+      availability across unsupported contexts, and host propagation fixtures.
 - [ ] Host or verification evidence covers selector availability/inactive state
       across supported, unsupported, restricted, virtual, and remote contexts.
 - [ ] Host suite selects every required explicit flavor and never observes an

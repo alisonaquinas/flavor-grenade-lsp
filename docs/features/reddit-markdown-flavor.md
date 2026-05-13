@@ -35,8 +35,11 @@ classify syntax and portability issues, not claim live Reddit resolution.
 | Diagnostics | Report portability issues, malformed tables/spoilers, and broken local Markdown links. |
 | Completion | Offer Markdown link targets, spoiler snippets, table helpers, and common Reddit reference prefixes. |
 | Navigation | Resolve only local Markdown links and headings; Reddit host references are non-local. |
+| Document symbols | Expose headings where supported, lists, blockquotes, tables, spoilers, code blocks, and local reference definitions. |
+| Folding | Fold headings where supported, lists, blockquotes, code blocks, spoiler blocks, and tables. |
 | Hover | Explain Reddit-specific syntax and old/new renderer portability warnings. |
 | Semantic tokens | Mark spoilers, host references, tables, links, and code spans. |
+| Rename | Rename local Markdown headings and links only; reject Reddit users, subreddits, posts, comments, and moderation targets without platform context. |
 
 ## Acceptance
 

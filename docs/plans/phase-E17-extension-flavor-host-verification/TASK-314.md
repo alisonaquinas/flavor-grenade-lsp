@@ -27,9 +27,10 @@ and host verification.
 - Update `docs/test/index.md` and `extension/docs/tests/index.md` for new files.
 - Mark obsolete language-mode tests accurately.
 - Add matrix rows for `EXT-MF-I-007` activation/client-selector guard,
-  `EXT-MF-VA-005` package-target validation evidence, selector/environment-mode
-  regression evidence, stale `ofmarkdown` scan evidence, and
-  `DialectProfiles` selector/schema/profile compatibility.
+  `EXT-MF-E-007` through `EXT-MF-E-010`, `EXT-MF-VA-005` package-target
+  validation evidence, `EXT-MF-VA-006` stale `ofmarkdown` scan evidence,
+  selector/environment-mode regression evidence, and `DialectProfiles`
+  selector/schema/profile compatibility.
 
 ## Linked Requirements
 
@@ -49,8 +50,9 @@ and host verification.
 
 - [ ] Root matrix reflects passing extension flavor evidence.
 - [ ] Extension matrix reflects local unit, host, verification, and validation evidence.
-- [ ] Matrices include `EXT-MF-I-007` and `EXT-MF-VA-005` without reusing
-      `EXT-MF-I-006` for activation.
+- [ ] Matrices include `EXT-MF-I-007`, `EXT-MF-E-007` through `EXT-MF-E-010`,
+      `EXT-MF-VA-005`, and `EXT-MF-VA-006` without reusing `EXT-MF-I-006` for
+      activation.
 - [ ] Stale `ofmarkdown` scan and package-target evidence owners are visible.
 - [ ] Obsolete rows are retired honestly.
 

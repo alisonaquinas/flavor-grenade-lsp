@@ -36,8 +36,11 @@ objects without repository context.
 | Diagnostics | Report malformed tables and broken local Markdown links; do not emit Obsidian wiki-link diagnostics. |
 | Completion | Offer table snippets, task-list markers, local link targets, headings, and fenced-code language hints. |
 | Navigation | Resolve local Markdown links and headings; GitHub object references remain host-specific. |
+| Document symbols | Expose headings, table regions, task-list sections, code fences, and local reference definitions. |
+| Folding | Fold headings, lists, blockquotes, fenced code, and GFM table blocks. |
 | Hover | Explain GFM tables, task markers, strikethrough, autolinks, and host-specific references. |
 | Semantic tokens | Mark tables, task markers, strikethrough, and autolinks distinctly. |
+| Rename | Rename only local headings, reference labels, and Markdown link targets; reject GitHub issues, commits, users, labels, and other host objects without integration context. |
 
 ## Acceptance
 

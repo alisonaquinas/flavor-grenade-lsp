@@ -36,8 +36,11 @@ the object exists without a GitLab integration.
 | Diagnostics | Report malformed GLFM syntax and broken local Markdown links; classify host references as unresolved only when syntax is invalid. |
 | Completion | Offer GLFM task markers, table helpers, diagram fence languages, TOC/include snippets, and local links. |
 | Navigation | Resolve local Markdown links and headings; host references are non-local. |
+| Document symbols | Expose headings, tables, task lists, footnotes, description lists, diagram fences, TOC/include markers, and local reference definitions. |
+| Folding | Fold headings, lists, blockquotes, fenced code, tables, description lists, and diagram/math blocks. |
 | Hover | Explain GLFM-only constructs and whether they need GitLab rendering context. |
 | Semantic tokens | Mark GitLab references, TOC tags, includes, task markers, and diagram fences. |
+| Rename | Rename local Markdown headings, labels, and references only; reject GitLab issues, merge requests, epics, commits, users, labels, and project references without integration context. |
 
 ## Acceptance
 
