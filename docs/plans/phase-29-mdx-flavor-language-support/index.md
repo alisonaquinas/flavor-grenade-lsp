@@ -1,7 +1,7 @@
 ---
 title: Phase 29 MDX Flavor Language Support Tickets
 phase: 29
-status: planned
+status: in-progress
 tags: [plans/phase-29, tickets/index, mdx]
 aliases: ["Phase 29 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-055]] | MDX Flavor Language Support | Feature | `draft` |
+| [[FEAT-055]] | MDX Flavor Language Support | Feature | `in-progress` |
 | [[TASK-336]] | Implement MDX flavor parser semantics | Task | `open` |
 | [[TASK-337]] | Add MDX diagnostics and LSP features | Task | `open` |
 | [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | `open` |

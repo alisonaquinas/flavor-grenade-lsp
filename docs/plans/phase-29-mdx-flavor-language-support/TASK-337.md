@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -89,3 +90,9 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose MDX diagnostics, completion snippets, document symbols,
+> folds, semantic tokens, analysis counts, and renderer-bound classification.
+> React/TypeScript symbol lookup, import resolution, MDX compilation, and
+> JavaScript evaluation are out of scope.

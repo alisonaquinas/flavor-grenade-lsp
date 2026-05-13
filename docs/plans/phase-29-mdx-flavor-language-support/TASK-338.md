@@ -74,3 +74,9 @@ Deliver unit, integration, BDD, verification, and validation evidence for the md
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert MDX local syntax, inactive Obsidian behavior,
+> spawned-server propagation, completion/symbol/fold/token surfaces, malformed
+> JSX/ESM diagnostics, renderer-bound classification, and preservation of the
+> separate VS Code `mdx` language-mode safety contract.
