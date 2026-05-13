@@ -2,7 +2,7 @@
 id: "FEAT-043"
 title: "Markdown Flavor Server Propagation"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 20
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-043"]
 
 # Markdown Flavor Server Propagation
 
-> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `in-progress`
+> [!INFO] `FEAT-043` - Feature - Phase 20 - Status: `in-review`
 
 ## Goal
 

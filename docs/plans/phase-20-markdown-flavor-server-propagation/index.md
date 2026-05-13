@@ -1,7 +1,7 @@
 ---
 title: Phase 20 Markdown Flavor Server Propagation Tickets
 phase: 20
-status: in-progress
+status: in-review
 tags: [plans/phase-20, tickets/index, markdown-flavor]
 aliases: ["Phase 20 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-043]] | Markdown Flavor Server Propagation | Feature | `in-progress` |
+| [[FEAT-043]] | Markdown Flavor Server Propagation | Feature | `in-review` |
 | [[TASK-288]] | Add server configuration handling for markdown flavor | Task | `done` |
 | [[TASK-289]] | Resolve effective flavor for explicit and auto modes | Task | `done` |
 | [[TASK-290]] | Thread effective flavor through parser and caches | Task | `done` |

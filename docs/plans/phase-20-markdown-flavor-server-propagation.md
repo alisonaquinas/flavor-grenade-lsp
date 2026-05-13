@@ -1,7 +1,7 @@
 ---
 title: "Phase 20: Markdown Flavor Server Propagation"
 phase: 20
-status: in-progress
+status: in-review
 tags: [plans, markdown-flavor, server, lsp]
 aliases: [Phase 20, Markdown Flavor Server Propagation]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 20 |
 | Title | Markdown Flavor Server Propagation |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Effective flavor reaches server analysis and refreshes open documents |
 | Depends on | Phase 19 |
 
