@@ -323,6 +323,72 @@ export interface PandocDefinitionListEntry {
   range: Range;
 }
 
+/** A leading MultiMarkdown metadata key/value row. */
+export interface MultimarkdownMetadataEntry {
+  raw: string;
+  key: string;
+  value: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A malformed leading MultiMarkdown metadata row. */
+export interface MultimarkdownMalformedMetadataEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A MultiMarkdown table block with optional caption label. */
+export interface MultimarkdownTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  label?: string;
+  range: Range;
+  labelRange?: Range;
+}
+
+/** A MultiMarkdown footnote definition. */
+export interface MultimarkdownFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A MultiMarkdown bibliography entry or citation key definition. */
+export interface MultimarkdownCitationEntry {
+  raw: string;
+  key: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A MultiMarkdown cross-reference occurrence. */
+export interface MultimarkdownCrossReferenceEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A MultiMarkdown label attached to a heading, table, figure, or block. */
+export interface MultimarkdownLabelEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A MultiMarkdown abbreviation or glossary-style definition. */
+export interface MultimarkdownAbbreviationEntry {
+  raw: string;
+  label: string;
+  value: string;
+  range: Range;
+  labelRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -355,6 +421,14 @@ export interface OFMIndex {
   pandocMalformedAttributes?: PandocMalformedAttributeEntry[];
   pandocFencedDivs?: PandocFencedDivEntry[];
   pandocDefinitionLists?: PandocDefinitionListEntry[];
+  multimarkdownMetadata?: MultimarkdownMetadataEntry[];
+  multimarkdownMalformedMetadata?: MultimarkdownMalformedMetadataEntry[];
+  multimarkdownTables?: MultimarkdownTableEntry[];
+  multimarkdownFootnotes?: MultimarkdownFootnoteEntry[];
+  multimarkdownCitations?: MultimarkdownCitationEntry[];
+  multimarkdownCrossReferences?: MultimarkdownCrossReferenceEntry[];
+  multimarkdownLabels?: MultimarkdownLabelEntry[];
+  multimarkdownAbbreviations?: MultimarkdownAbbreviationEntry[];
 }
 
 /**

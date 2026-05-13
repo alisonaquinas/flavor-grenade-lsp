@@ -66,9 +66,9 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | open |
-| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | open |
-| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | open |
+| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | green |
+| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | green |
+| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | green |
 | [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | open |
 | [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,8 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 > for TASK-333 through TASK-335. MultiMarkdown export, transclusion,
 > bibliography processor, and generated-output behavior remain deferred unless
 > a separate integration ticket owns those operations.
+
+> [!INFO] Step D GREEN - 2026-05-13
+> TASK-333 through TASK-335 reached `green`. Targeted parser, diagnostics,
+> completion, document-symbol, folding-range, semantic-token, and spawned-server
+> integration tests pass for MultiMarkdown.

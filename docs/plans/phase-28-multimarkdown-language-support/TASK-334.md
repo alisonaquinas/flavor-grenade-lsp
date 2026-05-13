@@ -2,7 +2,7 @@
 id: "TASK-334"
 title: "Add MultiMarkdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -95,3 +95,8 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 > [!INFO] RED - 2026-05-13
 > Added failing diagnostics, completion, folding, document-symbol,
 > semantic-token, and boundary coverage for MultiMarkdown LSP surfaces.
+
+> [!INFO] GREEN - 2026-05-13
+> Wired MultiMarkdown diagnostics, completions, document symbols, folding
+> ranges, semantic tokens, and spawned-server analysis counts. Targeted LSP
+> surface tests now pass.

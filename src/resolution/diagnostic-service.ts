@@ -16,6 +16,7 @@ import { classifyMarkdownTarget } from './markdown-target-classifier.js';
 import { GfmParser } from '../parser/gfm-parser.js';
 import { GlfmParser } from '../parser/glfm-parser.js';
 import { PandocParser } from '../parser/pandoc-parser.js';
+import { MultimarkdownParser } from '../parser/multimarkdown-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -94,6 +95,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'pandoc') {
       diagnostics.push(...this.diagnosePandocAttributes(doc));
+    }
+
+    if (doc.markdownFlavor === 'multimarkdown') {
+      diagnostics.push(...this.diagnoseMultimarkdownMetadata(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -282,6 +287,19 @@ export class DiagnosticService {
       code: 'FG301',
       source: 'flavor-grenade',
       message: 'Malformed Pandoc attribute: expected id, class, or key=value entries.',
+    }));
+  }
+
+  private diagnoseMultimarkdownMetadata(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.multimarkdownMalformedMetadata ??
+      MultimarkdownParser.parse(doc.text, doc.opaqueRegions).malformedMetadata;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG302',
+      source: 'flavor-grenade',
+      message: 'Malformed MultiMarkdown metadata: expected a leading Key: value row.',
     }));
   }
 

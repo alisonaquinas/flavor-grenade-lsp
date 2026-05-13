@@ -46,6 +46,10 @@ export class DocumentSymbolHandler {
     const pandocTitleBlocks = doc.index.pandocTitleBlocks ?? [];
     const pandocAttributes = doc.index.pandocAttributes ?? [];
     const pandocFootnotes = doc.index.pandocFootnotes ?? [];
+    const multimarkdownMetadata = doc.index.multimarkdownMetadata ?? [];
+    const multimarkdownLabels = doc.index.multimarkdownLabels ?? [];
+    const multimarkdownCitations = doc.index.multimarkdownCitations ?? [];
+    const multimarkdownFootnotes = doc.index.multimarkdownFootnotes ?? [];
 
     if (
       headings.length === 0 &&
@@ -56,7 +60,11 @@ export class DocumentSymbolHandler {
       glfmTocTags.length === 0 &&
       pandocTitleBlocks.length === 0 &&
       pandocAttributes.length === 0 &&
-      pandocFootnotes.length === 0
+      pandocFootnotes.length === 0 &&
+      multimarkdownMetadata.length === 0 &&
+      multimarkdownLabels.length === 0 &&
+      multimarkdownCitations.length === 0 &&
+      multimarkdownFootnotes.length === 0
     )
       return [];
 
@@ -170,6 +178,47 @@ export class DocumentSymbolHandler {
     }
 
     for (const footnote of pandocFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    if (multimarkdownMetadata.length > 0) {
+      const first = multimarkdownMetadata[0];
+      const last = multimarkdownMetadata[multimarkdownMetadata.length - 1];
+      roots.unshift({
+        name: 'MultiMarkdown metadata',
+        kind: SYMBOL_KIND_STRING,
+        range: { start: first.range.start, end: last.range.end },
+        selectionRange: first.keyRange,
+      });
+    }
+
+    for (const label of multimarkdownLabels) {
+      const symbol: DocumentSymbol = {
+        name: `MultiMarkdown label: ${label.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: label.range,
+        selectionRange: label.labelRange,
+      };
+      this.addSymbolAtLine(symbol, label.range.start.line, headings, roots);
+    }
+
+    for (const citation of multimarkdownCitations) {
+      const symbol: DocumentSymbol = {
+        name: `Citation: ${citation.key}`,
+        kind: SYMBOL_KIND_KEY,
+        range: citation.range,
+        selectionRange: citation.keyRange,
+      };
+      this.addSymbolAtLine(symbol, citation.range.start.line, headings, roots);
+    }
+
+    for (const footnote of multimarkdownFootnotes) {
       const symbol: DocumentSymbol = {
         name: `Footnote: ${footnote.label}`,
         kind: SYMBOL_KIND_KEY,

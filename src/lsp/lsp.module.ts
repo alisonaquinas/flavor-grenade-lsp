@@ -352,6 +352,13 @@ export class LspModule implements OnModuleInit {
         pandocAttributes: doc.index.pandocAttributes?.length ?? 0,
         pandocFencedDivs: doc.index.pandocFencedDivs?.length ?? 0,
         pandocDefinitionLists: doc.index.pandocDefinitionLists?.length ?? 0,
+        multimarkdownMetadata: doc.index.multimarkdownMetadata?.length ?? 0,
+        multimarkdownTables: doc.index.multimarkdownTables?.length ?? 0,
+        multimarkdownFootnotes: doc.index.multimarkdownFootnotes?.length ?? 0,
+        multimarkdownCitations: doc.index.multimarkdownCitations?.length ?? 0,
+        multimarkdownCrossReferences: doc.index.multimarkdownCrossReferences?.length ?? 0,
+        multimarkdownLabels: doc.index.multimarkdownLabels?.length ?? 0,
+        multimarkdownAbbreviations: doc.index.multimarkdownAbbreviations?.length ?? 0,
       };
     });
 

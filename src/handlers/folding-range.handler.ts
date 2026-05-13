@@ -26,6 +26,7 @@ export class FoldingRangeHandler {
     this.addGfmTableFolds(doc, builder);
     this.addGlfmDescriptionListFolds(doc, builder);
     this.addPandocFolds(doc, builder);
+    this.addMultimarkdownFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -89,6 +90,20 @@ export class FoldingRangeHandler {
     }
     for (const block of doc.index.pandocTitleBlocks ?? []) {
       builder.add(block.range.start.line, block.range.end.line, 'region');
+    }
+  }
+
+  private addMultimarkdownFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    const metadata = doc.index.multimarkdownMetadata ?? [];
+    if (metadata.length > 1) {
+      builder.add(
+        metadata[0].range.start.line,
+        metadata[metadata.length - 1].range.end.line,
+        'region',
+      );
+    }
+    for (const table of doc.index.multimarkdownTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
     }
   }
 

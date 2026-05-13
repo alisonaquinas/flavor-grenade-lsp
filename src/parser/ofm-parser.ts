@@ -11,6 +11,7 @@ import { MarkdownLinkParser } from './markdown-link-parser.js';
 import { GfmParser } from './gfm-parser.js';
 import { GlfmParser } from './glfm-parser.js';
 import { PandocParser } from './pandoc-parser.js';
+import { MultimarkdownParser } from './multimarkdown-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -66,9 +67,13 @@ export class OFMParser {
       parseContext.effectiveFlavor === 'gfm' || parseContext.effectiveFlavor === 'glfm';
     const enableGlfmSyntax = parseContext.effectiveFlavor === 'glfm';
     const enablePandocSyntax = parseContext.effectiveFlavor === 'pandoc';
+    const enableMultimarkdownSyntax = parseContext.effectiveFlavor === 'multimarkdown';
     const gfm = enableGfmSyntax ? GfmParser.parse(text, opaqueRegions) : undefined;
     const glfm = enableGlfmSyntax ? GlfmParser.parse(text, opaqueRegions) : undefined;
     const pandoc = enablePandocSyntax ? PandocParser.parse(text, opaqueRegions) : undefined;
+    const multimarkdown = enableMultimarkdownSyntax
+      ? MultimarkdownParser.parse(text, opaqueRegions)
+      : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -104,6 +109,16 @@ export class OFMParser {
         pandocMalformedAttributes: pandoc.malformedAttributes,
         pandocFencedDivs: pandoc.fencedDivs,
         pandocDefinitionLists: pandoc.definitionLists,
+      }),
+      ...(multimarkdown !== undefined && {
+        multimarkdownMetadata: multimarkdown.metadata,
+        multimarkdownMalformedMetadata: multimarkdown.malformedMetadata,
+        multimarkdownTables: multimarkdown.tables,
+        multimarkdownFootnotes: multimarkdown.footnotes,
+        multimarkdownCitations: multimarkdown.citations,
+        multimarkdownCrossReferences: multimarkdown.crossReferences,
+        multimarkdownLabels: multimarkdown.labels,
+        multimarkdownAbbreviations: multimarkdown.abbreviations,
       }),
     };
 
@@ -151,6 +166,14 @@ export class OFMParser {
       pandocMalformedAttributes: [],
       pandocFencedDivs: [],
       pandocDefinitionLists: [],
+      multimarkdownMetadata: [],
+      multimarkdownMalformedMetadata: [],
+      multimarkdownTables: [],
+      multimarkdownFootnotes: [],
+      multimarkdownCitations: [],
+      multimarkdownCrossReferences: [],
+      multimarkdownLabels: [],
+      multimarkdownAbbreviations: [],
     };
   }
 

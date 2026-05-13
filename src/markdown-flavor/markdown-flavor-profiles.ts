@@ -379,6 +379,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['export-only-cross-references', 'generated-output'],
     opaqueRegions: ['code', 'math'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'MultiMarkdown parser and local LSP behavior are implemented in Phase 28.',
   }),
   mdx: profile({
