@@ -8,6 +8,7 @@ const SYMBOL_KIND_MODULE = 2; // SymbolKind.Module (used for headings)
 const SYMBOL_KIND_KEY = 20; // SymbolKind.Key (used for block anchors)
 const SYMBOL_KIND_ARRAY = 18; // SymbolKind.Array (used for table regions)
 const SYMBOL_KIND_BOOLEAN = 17; // SymbolKind.Boolean (used for task items)
+const SYMBOL_KIND_STRING = 15; // SymbolKind.String (used for inline flavor markers)
 
 interface DocumentSymbol {
   name: string;
@@ -40,12 +41,16 @@ export class DocumentSymbolHandler {
     const anchors = doc.index.blockAnchors;
     const gfmTables = doc.index.gfmTables ?? [];
     const gfmTasks = doc.index.gfmTaskListItems ?? [];
+    const glfmDescriptionLists = doc.index.glfmDescriptionLists ?? [];
+    const glfmTocTags = doc.index.glfmTocTags ?? [];
 
     if (
       headings.length === 0 &&
       anchors.length === 0 &&
       gfmTables.length === 0 &&
-      gfmTasks.length === 0
+      gfmTasks.length === 0 &&
+      glfmDescriptionLists.length === 0 &&
+      glfmTocTags.length === 0
     )
       return [];
 
@@ -116,6 +121,26 @@ export class DocumentSymbolHandler {
         selectionRange: task.markerRange,
       };
       this.addSymbolAtLine(symbol, task.range.start.line, headings, roots);
+    }
+
+    for (const list of glfmDescriptionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Description: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const toc of glfmTocTags) {
+      const symbol: DocumentSymbol = {
+        name: 'GitLab table of contents',
+        kind: SYMBOL_KIND_STRING,
+        range: toc.range,
+        selectionRange: toc.range,
+      };
+      this.addSymbolAtLine(symbol, toc.range.start.line, headings, roots);
     }
 
     return roots;

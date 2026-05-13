@@ -221,6 +221,50 @@ export interface GfmAutolinkEntry {
   targetRange: Range;
 }
 
+/** A GLFM inapplicable task list item marker and text. */
+export interface GlfmInapplicableTaskListItemEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GLFM description list block. */
+export interface GlfmDescriptionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A description-list-looking block rejected by GLFM shape rules. */
+export interface GlfmMalformedDescriptionListEntry {
+  raw: string;
+  term: string;
+  range: Range;
+}
+
+/** A GLFM footnote definition. */
+export interface GlfmFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A GLFM table-of-contents tag. */
+export interface GlfmTocTagEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A GLFM host-scoped reference that must not become a local vault target. */
+export interface GlfmHostReferenceEntry {
+  raw: string;
+  kind: 'issue' | 'merge-request' | 'epic' | 'user' | 'cross-project';
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -240,6 +284,12 @@ export interface OFMIndex {
   gfmTaskListItems?: GfmTaskListItemEntry[];
   gfmStrikethroughs?: GfmStrikethroughEntry[];
   gfmAutolinks?: GfmAutolinkEntry[];
+  glfmInapplicableTaskListItems?: GlfmInapplicableTaskListItemEntry[];
+  glfmDescriptionLists?: GlfmDescriptionListEntry[];
+  glfmMalformedDescriptionLists?: GlfmMalformedDescriptionListEntry[];
+  glfmFootnotes?: GlfmFootnoteEntry[];
+  glfmTocTags?: GlfmTocTagEntry[];
+  glfmHostReferences?: GlfmHostReferenceEntry[];
 }
 
 /**

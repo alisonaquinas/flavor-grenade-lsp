@@ -341,6 +341,11 @@ export class LspModule implements OnModuleInit {
         gfmTaskListItems: doc.index.gfmTaskListItems?.length ?? 0,
         gfmStrikethroughs: doc.index.gfmStrikethroughs?.length ?? 0,
         gfmAutolinks: doc.index.gfmAutolinks?.length ?? 0,
+        glfmInapplicableTaskListItems: doc.index.glfmInapplicableTaskListItems?.length ?? 0,
+        glfmDescriptionLists: doc.index.glfmDescriptionLists?.length ?? 0,
+        glfmFootnotes: doc.index.glfmFootnotes?.length ?? 0,
+        glfmTocTags: doc.index.glfmTocTags?.length ?? 0,
+        glfmHostReferences: doc.index.glfmHostReferences?.length ?? 0,
       };
     });
 

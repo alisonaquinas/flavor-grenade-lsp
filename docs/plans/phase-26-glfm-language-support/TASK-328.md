@@ -2,7 +2,7 @@
 id: "TASK-328"
 title: "Add GLFM diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -95,3 +95,8 @@ Deliver diagnostics and LSP feature behavior for the glfm flavor using [[docs/re
 > [!INFO] RED - 2026-05-13
 > Added failing diagnostics, completion, folding, document-symbol,
 > semantic-token, and boundary coverage for GLFM LSP surfaces.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented FG202 description-list diagnostics, GLFM completion snippets,
+> document symbols, folds, semantic tokens, and GitLab host-boundary
+> classification. Targeted LSP coverage now passes.

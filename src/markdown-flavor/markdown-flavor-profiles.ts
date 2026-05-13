@@ -311,6 +311,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
       'gitlab-labels',
     ],
     opaqueRegions: ['code', 'math', 'diagrams'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'GLFM parser and local LSP behavior are implemented in Phase 26.',
   }),
   pandoc: profile({

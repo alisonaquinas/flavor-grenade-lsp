@@ -9,6 +9,7 @@ import { TagParser } from './tag-parser.js';
 import { CalloutParser } from './callout-parser.js';
 import { MarkdownLinkParser } from './markdown-link-parser.js';
 import { GfmParser } from './gfm-parser.js';
+import { GlfmParser } from './glfm-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -60,8 +61,11 @@ export class OFMParser {
     // Stage 3–7: token parsers
     const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const enableObsidianSyntax = parseContext.effectiveFlavor === 'obsidian';
-    const enableGfmSyntax = parseContext.effectiveFlavor === 'gfm';
+    const enableGfmSyntax =
+      parseContext.effectiveFlavor === 'gfm' || parseContext.effectiveFlavor === 'glfm';
+    const enableGlfmSyntax = parseContext.effectiveFlavor === 'glfm';
     const gfm = enableGfmSyntax ? GfmParser.parse(text, opaqueRegions) : undefined;
+    const glfm = enableGlfmSyntax ? GlfmParser.parse(text, opaqueRegions) : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -80,6 +84,14 @@ export class OFMParser {
         gfmTaskListItems: gfm.taskListItems,
         gfmStrikethroughs: gfm.strikethroughs,
         gfmAutolinks: gfm.autolinks,
+      }),
+      ...(glfm !== undefined && {
+        glfmInapplicableTaskListItems: glfm.inapplicableTaskListItems,
+        glfmDescriptionLists: glfm.descriptionLists,
+        glfmMalformedDescriptionLists: glfm.malformedDescriptionLists,
+        glfmFootnotes: glfm.footnotes,
+        glfmTocTags: glfm.tocTags,
+        glfmHostReferences: glfm.hostReferences,
       }),
     };
 
@@ -114,6 +126,12 @@ export class OFMParser {
       gfmTaskListItems: [],
       gfmStrikethroughs: [],
       gfmAutolinks: [],
+      glfmInapplicableTaskListItems: [],
+      glfmDescriptionLists: [],
+      glfmMalformedDescriptionLists: [],
+      glfmFootnotes: [],
+      glfmTocTags: [],
+      glfmHostReferences: [],
     };
   }
 

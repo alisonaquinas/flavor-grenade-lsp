@@ -2,7 +2,7 @@
 id: "TASK-327"
 title: "Implement GLFM parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -77,3 +77,8 @@ Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitla
 > Added failing parser/profile coverage for inherited GFM syntax, GLFM local
 > syntax, host-reference shapes, inactive Obsidian syntax, and implemented
 > GLFM surface status.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented `GlfmParser` dispatch, GLFM profile surface status, inherited GFM
+> parsing, GLFM syntax indices, and inactive Obsidian behavior. Targeted parser
+> coverage now passes.

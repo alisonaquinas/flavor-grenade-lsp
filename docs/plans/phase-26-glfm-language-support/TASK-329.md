@@ -2,7 +2,7 @@
 id: "TASK-329"
 title: "Add GLFM tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -84,3 +84,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gl
 > Added failing spawned-server integration coverage for GLFM syntax counts,
 > diagnostics, inactive Obsidian behavior, and GitLab host-boundary
 > classification.
+
+> [!INFO] GREEN - 2026-05-13
+> Spawned-server GLFM integration now passes with parser counts, diagnostics,
+> inactive Obsidian behavior, and GitLab host-boundary classification.

@@ -21,6 +21,14 @@ export function classifyMarkdownBoundaryReference(
   if ((flavor === 'gfm' || flavor === 'glfm') && /^#\d+\b/.test(text)) {
     return { disposition: 'non-local-host', reason: 'platform issue or merge-request reference' };
   }
+  if (
+    flavor === 'glfm' &&
+    /^(?:!\d+\b|&\d+\b|@[A-Za-z0-9][A-Za-z0-9._-]*\b|[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)+#\d+\b)/.test(
+      text,
+    )
+  ) {
+    return { disposition: 'non-local-host', reason: 'GitLab platform reference' };
+  }
   if (flavor === 'pandoc' && /\[@[-A-Za-z0-9_:]+\]/.test(text)) {
     return {
       disposition: 'bibliography-bound',

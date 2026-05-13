@@ -14,6 +14,7 @@ import { fromDocId } from '../vault/doc-id.js';
 import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
 import { classifyMarkdownTarget } from './markdown-target-classifier.js';
 import { GfmParser } from '../parser/gfm-parser.js';
+import { GlfmParser } from '../parser/glfm-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -82,8 +83,12 @@ export class DiagnosticService {
       diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'commonmark'));
     }
 
-    if (doc.markdownFlavor === 'gfm') {
+    if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       diagnostics.push(...this.diagnoseGfmTables(doc));
+    }
+
+    if (doc.markdownFlavor === 'glfm') {
+      diagnostics.push(...this.diagnoseGlfmDescriptionLists(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -246,6 +251,19 @@ export class DiagnosticService {
       code: 'FG201',
       source: 'flavor-grenade',
       message: `Malformed GFM table: header has ${entry.headerCells.length} cells but delimiter has ${entry.delimiterCells.length}.`,
+    }));
+  }
+
+  private diagnoseGlfmDescriptionLists(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.glfmMalformedDescriptionLists ??
+      GlfmParser.parse(doc.text, doc.opaqueRegions).malformedDescriptionLists;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG202',
+      source: 'flavor-grenade',
+      message: `Malformed GLFM description list: definition for '${entry.term}' must contain text.`,
     }));
   }
 
