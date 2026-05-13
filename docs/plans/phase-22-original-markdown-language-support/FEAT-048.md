@@ -2,7 +2,7 @@
 id: "FEAT-048"
 title: "Original Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 22
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-048"]
 
 # Original Markdown Language Support
 
-> [!INFO] FEAT-048 - Feature - Phase 22 - Status: draft
+> [!INFO] FEAT-048 - Feature - Phase 22 - Status: in-progress
 
 ## Description
 
@@ -64,3 +64,13 @@ Implement first-class original language support for Original Markdown, using [[d
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C - 2026-05-13
+> Phase 21 PR #71 is open with green CI. Step A confirmed Phase 22 tickets and
+> the source trace in `docs/research/commonmark-and-original-markdown.md`; Step
+> B found no missing ticket cross-references; Step C scopes implementation to
+> `src/parser/ofm-parser.ts`, `src/markdown-flavor/markdown-flavor-profiles.ts`,
+> `src/resolution/diagnostic-service.ts`, `src/completion/completion-router.ts`,
+> `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing
+> diagnostics/completion tests, `src/test/integration/markdown-flavor.test.ts`,
+> and validation evidence under `docs/test/evidence/`.

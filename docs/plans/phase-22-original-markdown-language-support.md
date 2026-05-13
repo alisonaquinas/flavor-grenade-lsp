@@ -1,7 +1,7 @@
 ---
 title: "Phase 22: Original Markdown Language Support"
 phase: 22
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, original-markdown, language-support]
 aliases: [Phase 22, Original Markdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 22 |
 | Title | Original Markdown Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | Historical Original Markdown behavior is implemented and tested |
 | Depends on | Phase 19, Phase 20 |
 

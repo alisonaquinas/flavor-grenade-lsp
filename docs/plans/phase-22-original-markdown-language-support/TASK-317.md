@@ -70,6 +70,17 @@ Deliver unit, integration, BDD, verification, and validation evidence for the or
 - [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
+## Implementation Notes
+
+- Update `src/test/integration/markdown-flavor.test.ts` for spawned-server
+  Original Markdown diagnostics and parser behavior.
+- Update BDD/evidence only for changed Original behavior; Phase 21 already
+  owns root validation artifacts.
+- Update `docs/test/index.md`, `docs/test/matrix.md`,
+  `docs/test/markdown-flavor-unit-spec.md`,
+  `docs/test/markdown-flavor-integration-spec.md`, and
+  `docs/test/evidence/markdown-flavor-validation-run.md` during closeout.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13

@@ -1,7 +1,7 @@
 ---
 title: Phase 22 Original Markdown Language Support Tickets
 phase: 22
-status: planned
+status: in-progress
 tags: [plans/phase-22, tickets/index, original-markdown]
 aliases: ["Phase 22 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-048]] | Original Markdown Language Support | Feature | `draft` |
+| [[FEAT-048]] | Original Markdown Language Support | Feature | `in-progress` |
 | [[TASK-315]] | Implement Original Markdown parser semantics | Task | `open` |
 | [[TASK-316]] | Add Original Markdown diagnostics and LSP features | Task | `open` |
 | [[TASK-317]] | Add Original Markdown tests and validation evidence | Task | `open` |

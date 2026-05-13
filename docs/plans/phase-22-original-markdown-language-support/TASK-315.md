@@ -60,6 +60,15 @@ Deliver parser/profile semantics for the original flavor using [[docs/research/c
 - [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
+## Implementation Notes
+
+- Parser entry point: `OFMParser.parse(uri, text, version, { effectiveFlavor: 'original' })`.
+- Add Original Markdown setext heading recognition while preserving ATX headings,
+  indented code opacity, inline/reference links, and image parsing.
+- Keep fenced code, pipe tables, task lists, wiki links, embeds, tags, callouts,
+  frontmatter, math, JSX, and R chunks out of active Original syntax.
+- RED tests: `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13

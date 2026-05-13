@@ -85,6 +85,21 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[doc
 - [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
 - [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
+## Implementation Notes
+
+- Diagnostics entry point: `DiagnosticService.publishDiagnostics` should emit
+  portability warnings for inactive Original Markdown constructs without
+  resolving them as vault links.
+- Completion entry point: `CompletionRouter.route` should suppress inactive
+  Obsidian completions (`[[`, `![[`, `#tag`, `> [!`) when
+  `doc.markdownFlavor === 'original'`, while retaining standard Markdown link
+  completions.
+- Navigation/document links/document symbols/folding/semantic tokens/rename:
+  rely on the parsed Original index. Wiki/embeds/tags/callouts remain absent;
+  headings and standard Markdown links remain active.
+- RED tests: `src/resolution/__tests__/diagnostic-service.test.ts` and
+  `src/completion/__tests__/completion-router.test.ts`.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
