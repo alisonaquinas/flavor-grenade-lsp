@@ -2,7 +2,7 @@
 id: "TASK-335"
 title: "Add MultiMarkdown tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -94,3 +94,6 @@ Deliver unit, integration, BDD, verification, and validation evidence for the mu
 > [!INFO] Closeout evidence - 2026-05-13
 > Validation evidence, integration spec, host-boundary review, test index, and
 > matrix rows now include Phase 28 MultiMarkdown evidence.
+
+> [!INFO] Done - 2026-05-13
+> Status set to `done` after PR #79 CI passed.

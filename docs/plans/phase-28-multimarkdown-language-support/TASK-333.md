@@ -2,7 +2,7 @@
 id: "TASK-333"
 title: "Implement MultiMarkdown parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -87,3 +87,6 @@ Deliver parser/profile semantics for the multimarkdown flavor using [[docs/resea
 > [!INFO] Closeout evidence - 2026-05-13
 > Parser evidence, applicability matrix, test index, and matrix trace rows are
 > updated for MultiMarkdown.
+
+> [!INFO] Done - 2026-05-13
+> Status set to `done` after PR #79 CI passed.

@@ -2,7 +2,7 @@
 id: "TASK-334"
 title: "Add MultiMarkdown diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -104,3 +104,6 @@ Deliver diagnostics and LSP feature behavior for the multimarkdown flavor using 
 > [!INFO] Closeout evidence - 2026-05-13
 > MultiMarkdown LSP surface dispositions are recorded in the applicability
 > matrix, host-boundary review, test index, and matrix trace rows.
+
+> [!INFO] Done - 2026-05-13
+> Status set to `done` after PR #79 CI passed.

@@ -2,7 +2,7 @@
 id: "FEAT-054"
 title: "MultiMarkdown Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 28
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-054"]
 
 # MultiMarkdown Language Support
 
-> [!INFO] FEAT-054 - Feature - Phase 28 - Status: in-progress
+> [!INFO] FEAT-054 - Feature - Phase 28 - Status: in-review
 
 ## Implementation Plan
 
@@ -66,9 +66,9 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | green |
-| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | green |
-| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | green |
+| [[TASK-333]] | Implement MultiMarkdown parser semantics | Task | done |
+| [[TASK-334]] | Add MultiMarkdown diagnostics and LSP features | Task | done |
+| [[TASK-335]] | Add MultiMarkdown tests and validation evidence | Task | done |
 | [[CHORE-127]] | Phase 28 trace and documentation sweep | Chore | done |
 | [[CHORE-128]] | Phase 28 verification and closeout sweep | Chore | done |
 | [[CHORE-145]] | Shorten MultiMarkdown table parser helper | Chore | done |
@@ -121,6 +121,10 @@ Implement first-class multimarkdown language support for MultiMarkdown, using [[
 > Lint, typecheck, code-quality, security, unit, integration, validation, and
 > BDD steps passed locally. Verification and validation directories had no
 > `.test.ts` or `.spec.ts` files, so those sub-steps were N/A.
+
+> [!INFO] PR in review - 2026-05-13
+> Status set to `in-review`. PR #79 opened at
+> https://github.com/alisonaquinas/flavor-grenade-lsp/pull/79 and CI passed.
 
 ## Retrospective
 
