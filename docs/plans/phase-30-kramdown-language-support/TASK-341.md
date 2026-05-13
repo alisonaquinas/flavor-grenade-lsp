@@ -2,7 +2,7 @@
 id: "TASK-341"
 title: "Add kramdown tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -81,3 +81,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 > spawned-server counts, completions, symbols, folds, semantic tokens,
 > malformed-attribute diagnostics, and validation evidence for local-only
 > kramdown boundaries.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Ran the focused kramdown RED command across parser, diagnostics,
+> completions, symbols, folds, semantic tokens, and integration tests. Result:
+> 110 passing tests and 8 expected failures for missing kramdown implementation.

@@ -455,3 +455,72 @@ describe('MDX parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('kramdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats kramdown attributes and block syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/kramdown.md',
+      [
+        '# Heading {#custom .hero}',
+        '',
+        'Paragraph',
+        '{:.lead}',
+        '',
+        'Term',
+        ': Definition',
+        '',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '',
+        'Footnote[^note]',
+        '',
+        '[^note]: footnote detail',
+        '',
+        '$$',
+        'x^2',
+        '$$',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'kramdown' },
+    );
+    const kramdownIndex = doc.index as typeof doc.index & {
+      kramdownAttributes: Array<{ id?: string; classes: string[] }>;
+      kramdownDefinitionLists: Array<{ term: string }>;
+      kramdownTables: Array<{ headerCells: string[] }>;
+      kramdownFootnotes: Array<{ label: string }>;
+      kramdownMathBlocks: unknown[];
+    };
+
+    expect(doc.markdownFlavor).toBe('kramdown');
+    expect(kramdownIndex.kramdownAttributes.map((entry) => entry.id)).toEqual([
+      'custom',
+      undefined,
+    ]);
+    expect(kramdownIndex.kramdownAttributes.map((entry) => entry.classes)).toEqual([
+      ['hero'],
+      ['lead'],
+    ]);
+    expect(kramdownIndex.kramdownDefinitionLists.map((entry) => entry.term)).toEqual(['Term']);
+    expect(kramdownIndex.kramdownTables.map((entry) => entry.headerCells)).toEqual([['A', 'B']]);
+    expect(kramdownIndex.kramdownFootnotes.map((entry) => entry.label)).toEqual(['note']);
+    expect(kramdownIndex.kramdownMathBlocks).toHaveLength(1);
+    expect(doc.index.headings.map((entry) => entry.text)).toEqual(['Heading {#custom .hero}']);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks kramdown LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('kramdown');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

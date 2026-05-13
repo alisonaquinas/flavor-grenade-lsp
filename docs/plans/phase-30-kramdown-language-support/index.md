@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-056]] | kramdown Language Support | Feature | `in-progress` |
-| [[TASK-339]] | Implement kramdown parser semantics | Task | `open` |
-| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | `open` |
-| [[TASK-341]] | Add kramdown tests and validation evidence | Task | `open` |
+| [[TASK-339]] | Implement kramdown parser semantics | Task | `red` |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | `red` |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | `red` |
 | [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | `open` |
 | [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | `open` |
 

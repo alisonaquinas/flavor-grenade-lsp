@@ -2,7 +2,7 @@
 id: "TASK-339"
 title: "Implement kramdown parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -72,3 +72,9 @@ Deliver parser/profile semantics for the kramdown flavor using [[docs/research/k
 > attribute lists, explicit IDs, definition lists, pipe tables, footnotes, math
 > blocks, and malformed local kramdown boundaries. kramdown-specific attribute
 > regions will be indexed without enabling Obsidian-only parsing.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added parser RED coverage for kramdown attributes, definition lists, tables,
+> footnotes, math blocks, inactive Obsidian syntax, and profile surface status.
+> Expected failure: parser index lacks kramdown collections and the kramdown
+> profile surfaces are still unimplemented.

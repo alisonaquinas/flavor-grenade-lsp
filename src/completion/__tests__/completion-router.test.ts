@@ -342,6 +342,28 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('kramdown flavor routing', () => {
+    it('offers kramdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'kramdown' }));
+
+      const attributeText = '{:';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, ':'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(attributeResult.items.map((item) => item.label)).toContain('kramdown attribute');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('kramdown footnote');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

@@ -2,7 +2,7 @@
 id: "TASK-340"
 title: "Add kramdown diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -96,3 +96,9 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 > footnote completions, document symbols, folds, semantic tokens, analysis
 > counts, and local-boundary disposition. Ruby/Jekyll conversion, syntax
 > highlighting, rendering, and sanitizer behavior are out of scope.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added LSP RED coverage for malformed-attribute diagnostics, attribute and
+> footnote completions, document symbols, folding ranges, semantic tokens, query
+> counts, and local boundary classification. Expected failures prove these
+> kramdown surfaces are not yet wired.

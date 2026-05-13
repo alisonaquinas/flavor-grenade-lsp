@@ -344,4 +344,56 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(15);
   });
+
+  it('encodes kramdown attributes and footnote labels', () => {
+    const doc = makeDoc(DOC_URI);
+    const kramdownIndex = doc.index as typeof doc.index & {
+      kramdownAttributes: Array<{
+        raw: string;
+        classes: string[];
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        markerRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      kramdownFootnotes: Array<{
+        raw: string;
+        label: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        labelRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    kramdownIndex.kramdownAttributes = [
+      {
+        raw: '{#custom .hero}',
+        classes: ['hero'],
+        range: { start: { line: 0, character: 10 }, end: { line: 0, character: 25 } },
+        markerRange: { start: { line: 0, character: 11 }, end: { line: 0, character: 18 } },
+      },
+    ];
+    kramdownIndex.kramdownFootnotes = [
+      {
+        raw: '[^note]: body',
+        label: 'note',
+        range: { start: { line: 1, character: 0 }, end: { line: 1, character: 13 } },
+        labelRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 6 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(10);
+  });
 });

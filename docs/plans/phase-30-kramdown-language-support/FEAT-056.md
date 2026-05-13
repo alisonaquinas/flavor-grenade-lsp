@@ -65,9 +65,9 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-339]] | Implement kramdown parser semantics | Task | open |
-| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | open |
-| [[TASK-341]] | Add kramdown tests and validation evidence | Task | open |
+| [[TASK-339]] | Implement kramdown parser semantics | Task | red |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | red |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | red |
 | [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | open |
 | [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,8 @@ Implement first-class kramdown language support for kramdown, using [[docs/resea
 > kramdown/Jekyll execution, conversion, rendering, sanitization, syntax
 > highlighting, and Ruby ecosystem integration remain deferred unless separate
 > integration tickets own them.
+
+> [!FAILURE] Step D RED - 2026-05-13
+> Focused kramdown RED suite fails in the expected parser, diagnostics,
+> completion, document-symbol, folding, semantic-token, and integration
+> assertions. TASK-339 through TASK-341 moved to `red` before implementation.

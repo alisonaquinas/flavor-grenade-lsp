@@ -788,6 +788,81 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies kramdown parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'kramdown.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "kramdown"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        '# Heading {#custom .hero}',
+        'Paragraph',
+        '{:.lead}',
+        'Term',
+        ': Definition',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        'Footnote[^note]',
+        '[^note]: footnote detail',
+        '$$',
+        'x^2',
+        '$$',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'kramdown',
+      kramdownAttributes: 2,
+      kramdownDefinitionLists: 1,
+      kramdownTables: 1,
+      kramdownFootnotes: 1,
+      kramdownMathBlocks: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'kramdown',
+      text: '{: .lead}',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'local' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {
