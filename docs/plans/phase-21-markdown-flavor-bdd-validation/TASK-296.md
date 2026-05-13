@@ -50,6 +50,16 @@ than real parser/server behavior.
 - [ ] Planned-contract wording is replaced once assertions read the product
       registry and server analysis output.
 
+## Implementation Notes
+
+- Primary files: `docs/bdd/features/markdown-flavor-dialects.feature`,
+  `src/test/bdd/step-definitions/extension-harness.steps.ts`, and
+  `src/markdown-flavor/markdown-flavor-profile.ts` through its public barrel.
+- Temporary constants in the harness must mirror the Phase 19 profile registry:
+  flavor labels, research/source slugs, and signature behavior strings.
+- Per-surface expectations remain planned executable contracts until Phases
+  22-34 replace them with parser/LSP behavior fixtures.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13

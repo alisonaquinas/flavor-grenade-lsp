@@ -2,7 +2,7 @@
 id: "FEAT-044"
 title: "Markdown Flavor BDD Verification And Validation"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 21
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-044"]
 
 # Markdown Flavor BDD Verification And Validation
 
-> [!INFO] `FEAT-044` - Feature - Phase 21 - Status: `draft`
+> [!INFO] `FEAT-044` - Feature - Phase 21 - Status: `in-progress`
 
 ## Goal
 
@@ -58,3 +58,13 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 
 > [!INFO] Opened - 2026-05-13
 > Created from BDD and validation gaps.
+
+> [!INFO] Step A-C - 2026-05-13
+> Phase 20 PR #70 is open with green CI. Step A confirmed the Phase 21 plan
+> and ticket index; Step B confirmed the linked BDD feature files, root flavor
+> test specs, and existing BDD harness are present; Step C scoped work to
+> `src/test/bdd/step-definitions/extension-harness.steps.ts`,
+> `src/test/ci-workflow.test.ts`, `docs/test/index.md`,
+> `docs/test/matrix.md`, `docs/test/markdown-flavor-verification-spec.md`,
+> `docs/test/markdown-flavor-validation-spec.md`, and Phase 21 validation
+> artifacts under `docs/test/evidence/`.

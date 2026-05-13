@@ -55,6 +55,17 @@ in `ofmarkdown-language-mode.feature`.
       payload.
 - [ ] Manual language safety scenario passes.
 
+## Implementation Notes
+
+- Primary files: `docs/bdd/features/ofmarkdown-language-mode.feature` and
+  `src/test/bdd/step-definitions/extension-harness.steps.ts`.
+- Step contracts: selector labels map to ADR020 flavor ids, overrides write
+  `flavorGrenade.markdownFlavor`, and propagation assertions inspect recorded
+  `workspace/didChangeConfiguration` payloads with configured and effective
+  flavor.
+- Settings targets: workspace-folder, workspace fallback, and user targets stay
+  distinct in the harness state.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13

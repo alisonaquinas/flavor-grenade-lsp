@@ -49,6 +49,16 @@ VS Code `languageId`.
       server propagation.
 - [ ] BDD tests fail honestly when flavor steps are missing.
 
+## Implementation Notes
+
+- Primary file: `src/test/bdd/step-definitions/extension-harness.steps.ts`.
+- State shape: keep `languageId`, `configuredFlavor`, `effectiveFlavor`,
+  settings-target writes, and `workspace/didChangeConfiguration` payloads as
+  separate `ExtensionState` fields.
+- RED check: run `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature`.
+- GREEN check: the same BDD command passes with `.md` documents remaining in
+  `markdown`.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13

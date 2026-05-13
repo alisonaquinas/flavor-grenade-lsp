@@ -1,7 +1,7 @@
 ---
 title: "Phase 21: Markdown Flavor BDD Verification And Validation"
 phase: 21
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, bdd, validation]
 aliases: [Phase 21, Markdown Flavor BDD Validation]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 21 |
 | Title | Markdown Flavor BDD Verification And Validation |
-| Status | planned |
+| Status | in-progress |
 | Gate | BDD, verification, and validation evidence execute against flavor state before release |
 | Depends on | Phase 20, Phase E15 selector contract/spec |
 

@@ -57,6 +57,20 @@ product intent and research sources.
       product registry/server behavior.
 - [ ] Platform flavor safety is explicitly reviewed.
 
+## Implementation Notes
+
+- Primary files:
+  `docs/test/evidence/markdown-flavor-product-review.md`,
+  `docs/test/evidence/markdown-flavor-validation-run.md`,
+  `docs/test/evidence/markdown-flavor-research-trace.md`, and
+  `docs/test/evidence/markdown-flavor-host-boundary-review.md`.
+- Artifacts must use repository-relative paths and must not include local user
+  paths, note content, TOML contents, environment variables, API-like tokens, or
+  raw server output containing document content.
+- Product review must distinguish `auto` as a detection state from explicit
+  dialect profiles and confirm `mdx` flavor does not authorize VS Code language
+  mode changes.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
