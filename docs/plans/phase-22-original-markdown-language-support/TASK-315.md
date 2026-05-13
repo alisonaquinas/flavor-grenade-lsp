@@ -2,7 +2,7 @@
 id: "TASK-315"
 title: "Implement Original Markdown parser semantics"
 type: task
-status: in-progress
+status: in-review
 priority: high
 phase: 22
 parent: "FEAT-048"
@@ -54,11 +54,11 @@ Deliver parser/profile semantics for the original flavor using [[docs/research/c
 
 ## Definition of Done
 
-- [ ] original behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for original.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] original behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for original.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Implementation Notes
 
@@ -78,3 +78,8 @@ Deliver parser/profile semantics for the original flavor using [[docs/research/c
 > Added `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` for
 > Original Markdown setext headings, historical core syntax, inactive Obsidian
 > constructs, and profile surface status before implementation is complete.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Implemented Original Markdown parser/profile behavior and reran focused
+> parser/profile coverage plus the Phase 22 local gate. BUG-045 fixed the
+> Step I frontmatter/setext regression before review.

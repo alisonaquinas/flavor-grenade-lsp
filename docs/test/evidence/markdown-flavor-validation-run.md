@@ -15,19 +15,21 @@ updated: 2026-05-13
 | Field | Value |
 |---|---|
 | Run date | 2026-05-13 |
-| Runner / command | Codex local Phase 21 gate execution |
-| Commit under test | `b23f739d` |
-| Source inputs | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `src/test/ci-workflow.test.ts`, `docs/test/markdown-flavor-verification-spec.md`, `docs/test/markdown-flavor-validation-spec.md`, `docs/test/evidence/markdown-flavor-product-review.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md`, `docs/test/evidence/markdown-flavor-research-trace.md` |
+| Runner / command | Codex local Phase 22 gate execution |
+| Commit under test | `8d90a253` |
+| Source inputs | `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/test/integration/markdown-flavor.test.ts`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/markdown-flavor-unit-spec.md`, `docs/test/markdown-flavor-integration-spec.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md`, `docs/test/evidence/markdown-flavor-research-trace.md` |
 | Output policy | Summaries only; no vault note content, TOML contents, environment variables, API-like tokens, local user paths, or raw server output included |
 
 ## Command Evidence
 
 | Command | Result | Summary |
 |---|---|---|
-| `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature` | Pass | 178 scenarios and 1074 steps passed. |
-| `bun test src/test/ci-workflow.test.ts` | Pass after artifact creation | Guard protects flavor feature files, root flavor specs, extension flavor specs, and Phase 21 validation artifacts. |
-| `bun test src/` | Pass | 693 tests passed. |
-| `bun test src/test/integration/` | Pass | 17 integration tests passed. |
+| `bun run bdd` | Pass | 178 scenarios and 1074 steps passed. |
+| `bun test src/parser/__tests__/markdown-flavor-profiles.test.ts` | Pass | 6 tests passed. |
+| `bun test src/test/integration/markdown-flavor.test.ts` | Pass | 4 spawned-server flavor tests passed, including Original Markdown parser/diagnostic/completion behavior. |
+| `bun test src/test/ci-workflow.test.ts` | Pass | 6 tests passed; guard protects flavor feature files, root flavor specs, extension flavor specs, and validation artifacts. |
+| `bun test src/` | Pass after BUG-045 | 698 tests passed after setext heading scanning was confined to the Markdown body. |
+| `bun test src/test/integration/` | Pass | 18 integration tests passed. |
 | `bun run typecheck` | Pass | `tsc --noEmit` completed successfully. |
 | `bun run lint --max-warnings 0` | Pass | ESLint completed with zero warnings. |
 | `bun audit` | Pass | No vulnerabilities found. |
@@ -43,7 +45,7 @@ updated: 2026-05-13
 | MF-VA-002 | Pass | BDD examples and ADR020 flavor ids align. |
 | MF-VA-003 | Pass | Dialect feature examples include source and signature rows. |
 | MF-VA-004 | Pass | Product review records MDX language-mode safety. |
-| MF-VA-005 | Pass | Host-boundary review records non-local dispositions and deferred dialect work. |
+| MF-VA-005 | Pass | Host-boundary review records non-local dispositions, deferred dialect work, and Phase 22 Original Markdown inert-extension behavior. |
 
 ## Verification Rows
 
@@ -55,10 +57,12 @@ updated: 2026-05-13
 | MF-VF-004 | Pass | `bun run lint:docs` passed during local closeout. |
 | MF-VF-005 | Pass | CI workflow test protects exact flavor gate files. |
 | MF-VF-006 | Pass | CI workflow test protects Phase 21 validation artifact paths. |
-| MF-VF-007 | Pass | Host-boundary review artifact exists and records deferred non-local behavior rules. |
+| MF-VF-007 | Pass | Host-boundary review artifact exists and records deferred non-local behavior rules plus the Phase 22 Original Markdown no-host-syntax disposition. |
 
 ## Notes
 
-This run is root/server release-readiness evidence only. It does not replace
-Phase E17 Extension Development Host proof for visible selector UX, VS Code
-settings persistence, package targets, or Marketplace screenshots.
+This run is root/server Phase 22 evidence only. It does not replace Phase E17
+Extension Development Host proof for visible selector UX, VS Code settings
+persistence, package targets, or Marketplace screenshots. BUG-045 was opened
+and fixed during Step I after full unit testing found frontmatter delimiters
+could be scanned as setext headings.

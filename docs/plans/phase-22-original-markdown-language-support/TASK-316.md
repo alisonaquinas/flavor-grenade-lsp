@@ -2,7 +2,7 @@
 id: "TASK-316"
 title: "Add Original Markdown diagnostics and LSP features"
 type: task
-status: in-progress
+status: in-review
 priority: high
 phase: 22
 parent: "FEAT-048"
@@ -76,14 +76,14 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[doc
 
 ## Definition of Done
 
-- [ ] original behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for original.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for original.
-- [ ] Rename coverage is implemented for safe local original symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] original behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for original.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for original.
+- [x] Rename coverage is implemented for safe local original symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Implementation Notes
 
@@ -109,3 +109,9 @@ Deliver diagnostics and LSP feature behavior for the original flavor using [[doc
 > Added failing diagnostic and completion coverage for Original Markdown
 > portability warnings and inactive Obsidian completion routing before the LSP
 > behavior is implemented.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added FG101 Original Markdown portability diagnostics, completion suppression
+> for inactive Obsidian syntax, spawned-server coverage, and applicability
+> matrix evidence. Existing shared handlers cover local Markdown navigation,
+> symbols, folding, hover, semantic tokens, and rename from the parsed index.
