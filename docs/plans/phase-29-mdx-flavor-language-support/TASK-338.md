@@ -2,7 +2,7 @@
 id: "TASK-338"
 title: "Add MDX tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -63,12 +63,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the md
 
 ## Definition of Done
 
-- [ ] mdx behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for mdx, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] mdx behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for mdx, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -85,3 +85,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the md
 > Added failing spawned-server integration coverage for MDX syntax counts,
 > diagnostics, inactive Obsidian behavior, and renderer-bound component
 > classification.
+
+> [!INFO] GREEN - 2026-05-13
+> Spawned-server MDX integration now reports ESM, JSX, and expression counts,
+> keeps Obsidian wiki links inert, avoids CommonMark portability warnings for
+> active MDX syntax, and classifies component references as renderer-bound.

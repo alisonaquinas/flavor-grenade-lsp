@@ -179,3 +179,25 @@ conversion and generated-output behavior inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 28 records MultiMarkdown export cross-references as conversion-bound. |
+
+## Phase 29 MDX Review
+
+MDX declares React symbols, TypeScript imports, component runtime context,
+compilation, and renderer behavior as non-local unless a later integration
+ticket owns configured local context. Phase 29 implements local source syntax
+for ESM declarations, JSX elements, expression islands, and malformed
+Markdown/MDX boundaries while leaving renderer and language-service behavior
+inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | ESM declarations, JSX elements, and expression regions are active only under effective flavor `mdx`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG401` covers malformed local MDX boundaries; JSX component references do not become broken vault links. |
+| Completion | MDX component, expression, and named-export snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; React/TypeScript imports, JSX components, expressions, and runtime symbols remain `renderer-bound` or integration-bound without process execution, dynamic import, network access, or workspace edits. |
+
+## Phase 29 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 29 records MDX component references as renderer-bound. |

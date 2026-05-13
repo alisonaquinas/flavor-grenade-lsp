@@ -2,7 +2,7 @@
 id: "TASK-336"
 title: "Implement MDX flavor parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -56,11 +56,11 @@ Deliver parser/profile semantics for the mdx flavor using [[docs/research/mdx-an
 
 ## Definition of Done
 
-- [ ] mdx behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for mdx.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] mdx behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for mdx.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -77,3 +77,8 @@ Deliver parser/profile semantics for the mdx flavor using [[docs/research/mdx-an
 > Added failing parser/profile coverage for MDX ESM declarations, JSX elements,
 > expression regions, MDX opaque boundaries, inactive Obsidian syntax, and
 > implemented MDX surface status.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented `MdxParser.parse(text, opaqueRegions)`, MDX index types, opaque
+> MDX regions, OFM parser dispatch, and implemented profile surface status.
+> Focused parser/profile coverage passed locally.

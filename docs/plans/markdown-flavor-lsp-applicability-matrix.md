@@ -153,6 +153,24 @@ transclusion, and generated-output behavior remain deferred.
 | Hover | Existing local Markdown hover surfaces remain available; MultiMarkdown conversion and generated-output metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; export cross-references, bibliography processing, and generated-output targets remain non-local without configured local context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 29 MDX Disposition
+
+Phase 29 marks the `mdx` profile's local LSP surfaces implemented for
+Markdown-language documents that opt into MDX flavor behavior. MDX adds local
+indices for ESM declarations, JSX elements, expression islands, malformed local
+boundaries, and opaque MDX regions. MDX compilation, React/TypeScript symbol
+lookup, import resolution, bundler behavior, and VS Code `mdx` language-mode
+ownership remain deferred.
+
+| Surface | Phase 29 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed MDX boundaries (`FG401`); renderer-bound component references do not become broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for MDX component, expression, and named-export snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, MDX ESM declaration symbols, JSX component symbols, expression symbols, JSX folds, and expression folds. React and TypeScript targets remain renderer/integration-bound unless configured local context exists. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for MDX ESM declarations, JSX elements, and expression islands. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; MDX component/runtime metadata hover is deferred as renderer-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; React/TypeScript imports, JSX components, and expression targets remain non-local without integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

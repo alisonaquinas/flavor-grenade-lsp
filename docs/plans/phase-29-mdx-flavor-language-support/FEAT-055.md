@@ -66,9 +66,9 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-336]] | Implement MDX flavor parser semantics | Task | open |
-| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | open |
-| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | open |
+| [[TASK-336]] | Implement MDX flavor parser semantics | Task | green |
+| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | green |
+| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | green |
 | [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | open |
 | [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | open |
 
@@ -107,3 +107,9 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 > MDX compilation, JavaScript evaluation, import resolution, React/TypeScript
 > symbol lookup, bundler behavior, and ownership of VS Code `mdx` language-mode
 > documents remain deferred unless separate integration tickets own them.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented local MDX parser semantics, diagnostics, completions,
+> document symbols, folding, semantic tokens, spawned-server counts, and
+> renderer-bound classification. Focused Phase 29 test set, typecheck, lint,
+> and build passed locally before trace documentation updates.
