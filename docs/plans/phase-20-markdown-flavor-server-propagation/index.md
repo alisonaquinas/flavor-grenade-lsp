@@ -18,5 +18,6 @@ updated: 2026-05-13
 | [[TASK-291]] | Gate Obsidian-only analysis by dialect profile | Task | `open` |
 | [[TASK-292]] | Add spawned-server flavor propagation tests | Task | `open` |
 | [[TASK-293]] | Refresh open document diagnostics after flavor changes | Task | `open` |
+| [[TASK-354]] | Add shared non-local boundary classification | Task | `open` |
 | [[CHORE-105]] | Phase 20 implementation trace and matrix sweep | Chore | `open` |
 | [[CHORE-106]] | Phase 20 verification and closeout sweep | Chore | `open` |

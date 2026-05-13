@@ -25,6 +25,10 @@ asset and package-target checks, and close the phase.
 - Run `npm run compile`, `npm test`, `npm run test:host`,
   `npm run verify:marketplace-assets`, and `npm run verify:package-targets`.
 - Run root and extension docs lint.
+- Confirm `extension/docs/tests/evidence/markdown-flavor-package-targets.md`
+  exists or record the exact validation blocker.
+- Confirm the stale `ofmarkdown` scan ownership is closed: E16 ledger for
+  activation/contribution/Marketplace and E17 ledger for host proof.
 - Update feature ticket and phase workflow logs.
 
 ## Definition of Done
@@ -33,6 +37,9 @@ asset and package-target checks, and close the phase.
       `npm run test:host`, `npm run verify:marketplace-assets`, and
       `npm run verify:package-targets`.
 - [ ] Matrices and validation docs are current.
+- [ ] Package-target evidence is linked from validation docs/matrices.
+- [ ] Stale `ofmarkdown` scan ownership is closed or has explicit unresolved
+      blockers.
 - [ ] Phase is ready for review.
 
 ## Workflow Log

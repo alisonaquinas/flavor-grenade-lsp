@@ -22,14 +22,19 @@ Collect and link host verification evidence before E17 closeout.
 ## Work Scope
 
 - Confirm host fixtures cover all required contexts.
+- Confirm selector/environment-mode evidence covers restricted, virtual, WSL,
+  SSH, Dev Container, standalone, workspace-only, generic Markdown, vault, and
+  unsupported/untitled contexts, or records why a mode is manual-only.
 - Link validation evidence from extension docs.
 - Record any environment-specific host-test caveats.
+- Link stale `ofmarkdown` host-scan evidence and archival/supersession notes.
 
 ## Definition of Done
 
 - [ ] Host evidence is linked.
 - [ ] Validation notes are current.
 - [ ] Environment caveats are documented.
+- [ ] Stale host-scan evidence is linked.
 
 ## Workflow Log
 

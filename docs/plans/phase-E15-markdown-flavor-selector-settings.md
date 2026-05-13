@@ -31,6 +31,7 @@ server propagation calls. The auto-detection resolver follows
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Stop changing `.md` language ids for flavor |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]] | Add visible flavor selector and quick-pick choices |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector/settings enum |
+| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Keep selector/schema/profile ids compatible with the shared dialect profile contract |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
 | [[docs/design/markdown-flavor-auto-detection]] | Implement the unified precedence and resource-specific detection flow |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
@@ -48,10 +49,13 @@ server propagation calls. The auto-detection resolver follows
 - Markdown flavor controller replacing language promotion behavior.
 - Selector status item or equivalent command surface.
 - Workspace/user override target selection.
-- Auto-detection from markers, settings, and server membership input.
+- Auto-detection from markers, settings, and server membership/project-config
+  evidence. The extension does not own a second authoritative
+  `.flavor-grenade.toml` parser; BC4/server-side workspace evidence owns TOML
+  parsing and reports project flavor evidence through the Phase 20 contract.
 - Client-to-server propagation using `workspace/didChangeConfiguration` carrying
-  `flavorGrenade.markdownFlavor` and the resolved effective flavor, matching
-  the Phase 20 contract.
+  `flavorGrenade.markdownFlavor` plus resource-specific selected/effective
+  flavor state, matching the Phase 20 contract.
 - Unit tests in `extension/src/markdown-flavor.test.ts`.
 
 ### Out of Scope
@@ -72,9 +76,21 @@ server propagation calls. The auto-detection resolver follows
 - Standalone-file overrides write user scope.
 - Effective flavor is sent to the server through
   `workspace/didChangeConfiguration` with `flavorGrenade.markdownFlavor` and
-  the resolved effective flavor.
+  the resolved effective flavor keyed by document URI or workspace folder, so
+  multi-root and standalone documents cannot leak flavor state into one another.
 - Propagation is skipped for documents whose VS Code language id is not
   `markdown`.
+
+## Gate Ordering Notes
+
+- E15 owns stale `ofmarkdown` failures in selector/controller/unit coverage:
+  language promotion calls, current `LanguageClient` document selector, metadata
+  propagation, and manual-language suppression.
+- E16 owns stale activation/contribution/Marketplace unit checks tied to
+  `onLanguage:ofmarkdown`, contribution scoping, README, and VSIX asset proof.
+- E17 owns stale Extension Development Host proof: host waits for
+  `document.languageId === "ofmarkdown"`, legacy host fixture expectations, and
+  user-visible validation evidence.
 
 ## Gate Verification
 

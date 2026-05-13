@@ -31,6 +31,15 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 |---|---|
 | Extension.MarkdownFlavor.DialectProfiles | GAP-S-002 |
 | Extension.MarkdownFlavor.ServerPropagation | GAP-S-003 |
+| FlavorLSP.Profile.SignatureCoverage | AUD-X-003 |
+| FlavorLSP.Parser.ProfileDispatch | AUD-T-002 |
+| FlavorLSP.Diagnostics.ProfileRules | AUD-T-002 |
+| FlavorLSP.Completion.ProfileCandidates | AUD-T-002 |
+| FlavorLSP.Navigation.ProfileResolution | AUD-T-002 |
+| FlavorLSP.Hover.ProfileMetadata | AUD-T-011 |
+| FlavorLSP.SemanticTokens.ProfileTokens | AUD-T-002 |
+| FlavorLSP.Rename.ProfileSafety | AUD-T-002 |
+| FlavorLSP.HostBoundary.NonLocalReferences | AUD-T-003 |
 
 ## Linked Tests
 
@@ -50,11 +59,14 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 | Test | `src/test/bdd/step-definitions/extension-harness.steps.ts` |
 | Evidence | `docs/test/evidence/markdown-flavor-research-trace.md` |
 | Evidence | `docs/test/evidence/markdown-flavor-validation-run.md` |
+| Evidence | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 
 ## Definition of Done
 
 - [ ] kramdown behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
+- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for kramdown, including Obsidian-only syntax where applicable.
+- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
 - [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 

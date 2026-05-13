@@ -8,7 +8,7 @@ phase: 20
 parent: "FEAT-043"
 created: "2026-05-13"
 updated: "2026-05-13"
-dependencies: ["TASK-288", "TASK-289", "TASK-290", "TASK-291", "TASK-292", "TASK-293"]
+dependencies: ["TASK-288", "TASK-289", "TASK-290", "TASK-291", "TASK-292", "TASK-293", "TASK-354"]
 tags: [tickets/chore, "phase/20", verification]
 aliases: ["CHORE-106"]
 ---
@@ -23,11 +23,16 @@ Run the full phase verification pass and prepare Phase 20 for review.
 
 - Run unit, integration, typecheck, and docs lint gates.
 - Update feature ticket status and workflow log.
+- Update [[docs/test/index]], [[docs/test/matrix]], and validation evidence for
+  any effective-flavor, refresh, or boundary-classification surface changed in
+  this phase.
 - Capture residual risks for later dialect expansion.
 
 ## Definition of Done
 
 - [ ] Phase verification commands pass.
+- [ ] Test matrix/index and validation evidence include current propagation,
+      refresh, rename-safety context, and host/conversion boundary status.
 - [ ] Residual risks are documented.
 - [ ] Phase is ready for review.
 

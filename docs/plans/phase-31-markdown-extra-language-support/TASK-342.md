@@ -31,6 +31,8 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 |---|---|
 | Extension.MarkdownFlavor.DialectProfiles | GAP-S-002 |
 | Extension.MarkdownFlavor.ServerPropagation | GAP-S-003 |
+| FlavorLSP.Profile.SignatureCoverage | AUD-S-005 |
+| FlavorLSP.Parser.ProfileDispatch | AUD-S-001 |
 
 ## Linked Tests
 
@@ -54,6 +56,7 @@ Deliver parser/profile semantics for the markdown-extra flavor using [[docs/rese
 
 - [ ] markdown-extra behavior is implemented behind the flavor model.
 - [ ] Tests cover positive and portability/unsupported syntax cases.
+- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for markdown-extra.
 - [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
 - [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 

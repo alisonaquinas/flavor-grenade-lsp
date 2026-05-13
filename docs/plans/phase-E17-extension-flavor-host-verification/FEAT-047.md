@@ -27,6 +27,9 @@ wire the new test layers into verification and validation evidence.
 - Retire obsolete language-mode host expectations.
 - Wire local and CI extension flavor gates.
 - Add validation evidence and traceability updates.
+- Add selector/environment-mode regression evidence and package-target
+  validation evidence.
+- Run stale current-test `ofmarkdown` expectation scans for host proof.
 
 ## Child Tasks
 
@@ -45,6 +48,9 @@ wire the new test layers into verification and validation evidence.
 - [ ] `npm run test:host` covers selector, persistence, auto, manual language, and reset flows.
 - [ ] CI/local gates fail when flavor host coverage is removed.
 - [ ] Validation evidence shows no `.md` transition to `ofmarkdown`.
+- [ ] Restricted/virtual/remote selector behavior is verified or documented with
+      explicit no-server behavior where unsupported.
+- [ ] Package-target evidence is linked from validation closeout.
 - [ ] Root and extension matrices show implemented evidence.
 
 ## Workflow Log

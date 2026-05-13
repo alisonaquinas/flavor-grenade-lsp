@@ -23,11 +23,16 @@ Close Phase 19 with docs, traceability, and verification evidence.
 
 - Run phase verification commands.
 - Update [[docs/test/index]] and [[docs/test/matrix]].
+- Record validation evidence for the minimum profile schema and note any
+  `planned` surfaces with their owning Phase 22-34 ticket.
 - Add workflow log closeout notes and retrospective items.
 
 ## Definition of Done
 
 - [ ] Unit, typecheck, and docs lint commands pass.
+- [ ] Profile registry tests, [[docs/test/index]], [[docs/test/matrix]], and
+      validation evidence reflect every profile surface introduced or changed
+      in this phase.
 - [ ] Feature ticket child rows are updated.
 - [ ] Phase is ready for review.
 

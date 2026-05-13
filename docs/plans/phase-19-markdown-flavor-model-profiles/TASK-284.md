@@ -24,6 +24,11 @@ traces and structured syntax capability sections.
 
 - Define profile fields for core syntax, extension syntax, host behavior,
   unsupported constructs, labels/order, and research source.
+- Define the minimum profile schema for active, inert, host-specific,
+  opaque-region, diagnostic, completion, navigation, hover, semantic-token,
+  folding, document-symbol, and rename surfaces.
+- Allow `planned` surface values only when they link the owning Phase 22-34
+  implementation ticket.
 - Add a profile for every explicit flavor id.
 - Keep profile data deterministic and testable.
 - Expose profile capability flags so BC2 parse context can gate dialect
@@ -34,6 +39,7 @@ traces and structured syntax capability sections.
 | Requirement | Gap |
 |---|---|
 | `Extension.MarkdownFlavor.DialectProfiles` | `GAP-S-002` |
+| `FlavorLSP.Profile.SignatureCoverage` | `AUD-S-005` |
 
 ## Linked Tests
 
@@ -45,6 +51,10 @@ traces and structured syntax capability sections.
 
 - [ ] All explicit flavors have profile entries.
 - [ ] Every profile has a research source or `ofm-spec` source.
+- [ ] Every profile includes the minimum server surface schema, including
+      rename and host/conversion boundary disposition.
+- [ ] `planned` surface values link to the later phase ticket that must replace
+      them with implemented/deferred/not-applicable evidence.
 - [ ] Registry excludes `auto`.
 - [ ] Parser code can consume capability flags without becoming owner of profile labels/order.
 

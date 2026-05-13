@@ -31,6 +31,14 @@ flavor context.
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
 | [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]] | Provide effective flavor context to parser and analysis services |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Diagnostics.ProfileRules]] | Refresh diagnostics from the effective profile after flavor changes |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Completion.ProfileCandidates]] | Refresh completion context from the effective profile after flavor changes |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Navigation.ProfileResolution]] | Refresh navigation context from the effective profile after flavor changes |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Hover.ProfileMetadata]] | Provide effective profile metadata to hover services |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.SemanticTokens.ProfileTokens]] | Refresh semantic-token context from the effective profile after flavor changes |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Rename.ProfileSafety]] | Provide effective profile context to rename safety checks |
+| [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]] | Add shared non-local host/conversion boundary classification |
 | [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[docs/test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |
@@ -46,6 +54,9 @@ flavor context.
 - Flavor-bearing parse or analysis context.
 - Initial profile gates for Original Markdown, CommonMark, and Obsidian.
 - Refresh of diagnostics and feature caches for open documents.
+- Shared boundary classification for host-specific, renderer/conversion-bound,
+  bibliography-bound, MDX/JSX, and execution-bound references before
+  diagnostics, navigation, or rename treat a target as local.
 - Spawned LSP integration tests for supported and unsupported flavor ids.
 
 ### Out of Scope

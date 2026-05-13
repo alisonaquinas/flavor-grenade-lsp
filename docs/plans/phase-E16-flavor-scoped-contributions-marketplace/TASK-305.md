@@ -35,13 +35,17 @@ current compatibility behavior.
   `markdown` documents only; fail tests if `ofmarkdown` remains in the current
   selector.
 - Keep generic Markdown idle without positive signal.
+- Add restricted and virtual workspace regression coverage for the selector
+  command: the command may open safe UI/status, but it must not spawn the server
+  or propagate flavor state in unsupported environments.
 - Preserve explicit command wake behavior.
 
 ## Linked Requirements
 
 | Requirement | Gap |
 |---|---|
-| `Extension.Activation.MarkerEvents` | `GAP-E-009` |
+| `Extension.Activation.MarkerEvents` | `GAP-E-009`, `AUD-ET-001`, `AUD-ET-002` |
+| `Extension.Workspace.EnvironmentModes` | `AUD-E-005`, `AUD-ET-012` |
 
 ## Linked Tests
 
@@ -49,7 +53,7 @@ current compatibility behavior.
 |---|---|---|
 | `EXT-MF-I-001`, `EXT-MF-I-002` | `extension/src/activation-gate.test.ts` | Vault-marker activation and generic Markdown idle startup without custom language id activation. |
 | `EXT-MF-I-003` | `extension/src/activation-gate.test.ts` | Asserts `activationEvents` contains `onCommand:flavorGrenade.selectMarkdownFlavor`, excludes `onLanguage:ofmarkdown`, and selector command wake starts the extension. |
-| `EXT-MF-I-006` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and rejects `ofmarkdown`. |
+| `EXT-MF-I-007` | `extension/src/activation-gate.test.ts` or `extension/src/client-options.test.ts` | `clientOptions.documentSelector` contains file-backed `markdown` only and rejects `ofmarkdown`; restricted/virtual selector command paths do not spawn the server. |
 
 ## Definition of Done
 
@@ -59,6 +63,8 @@ current compatibility behavior.
       extension.
 - [ ] Startup gate does not require `onLanguage:ofmarkdown`.
 - [ ] Current `documentSelector` contains no `ofmarkdown` entry.
+- [ ] Restricted and virtual selector command paths preserve disabled/no-server
+      behavior.
 - [ ] Generic Markdown idle behavior remains covered.
 
 ## Workflow Log

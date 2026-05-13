@@ -25,11 +25,17 @@ lands.
 - Update extension-local tests index and matrix.
 - Update root test docs if new files are introduced.
 - Record any protocol choice for server propagation.
+- Record the final resource-aware server propagation payload shape and link it
+  to Phase 20.
+- Record the `.flavor-grenade.toml` ownership decision: extension consumes
+  marker/project-config evidence; BC4/server owns authoritative TOML parsing
+  unless a shared parser/contract is introduced.
 
 ## Definition of Done
 
 - [ ] Docs trace new extension unit tests.
 - [ ] Phase plan reflects final protocol choice.
+- [ ] Selector/schema/profile compatibility trace is linked from E15 docs.
 - [ ] No completed roadmap phases are modified.
 
 ## Workflow Log

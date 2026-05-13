@@ -28,6 +28,7 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-011 | Manual language safety | `Extension.MarkdownFlavor.ManualLanguageSafety` | Documents with `plaintext`, `mdx`, or any non-`markdown` language id are ignored by flavor application and do not receive server propagation/reanalysis until their language id returns to `markdown`. |
 | EXT-MF-U-012 | MDX distinction | `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.RequiredCoverage` | `mdx` can be selected as a flavor only when the document language id remains `markdown`; a VS Code `mdx` language document is not modified. |
 | EXT-MF-U-013 | Flavor contract parity | `Extension.MarkdownFlavor.RequiredCoverage` | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
+| EXT-MF-U-014 | Document selector and activation manifest guard | `Extension.Activation.MarkerEvents`, `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Refresh` | `package.json` activation events and `LanguageClient.clientOptions.documentSelector` include file-backed `markdown` coverage and reject stale `ofmarkdown` selectors or `onLanguage:ofmarkdown` activation. |
 
 ## Contribution Unit Cases
 
@@ -39,3 +40,5 @@ Target files: `extension/test/contributions/*.test.ts`.
 | EXT-MF-C-002 | Keybindings | Flavor-specific keybindings require explicit flavor/context preconditions and do not affect generic Markdown unintentionally. |
 | EXT-MF-C-003 | Language configuration | Any language configuration changes apply to built-in Markdown safely or are removed; no custom Markdown language id is required. |
 | EXT-MF-C-004 | Isolation | Generic Markdown with `auto` resolving to CommonMark does not receive Obsidian-only affordances. |
+| EXT-MF-C-005 | Commands | Flavor-specific commands require selector/context preconditions and do not become active solely because a document has VS Code language id `markdown`. |
+| EXT-MF-C-006 | Optional theme/example contributions | Optional theme examples or visual proof contributions are flavor-scoped or explicitly marked not applicable; no custom `ofmarkdown` language contribution is introduced. |

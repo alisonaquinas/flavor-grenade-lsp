@@ -31,6 +31,11 @@ using VS Code's language picker.
   document changes to `ofmarkdown`.
 - Record research-backed flavor review at
   `extension/docs/tests/evidence/markdown-flavor-research-review.md`.
+- Record package-target validation evidence at
+  `extension/docs/tests/evidence/markdown-flavor-package-targets.md`, proving
+  `npm run verify:package-targets` covered flavor-era VSIX output.
+- Split validation evidence so extension work proves selector/schema/profile
+  compatibility while server dialect phases prove parser/profile semantics.
 
 ## Linked Requirements
 
@@ -40,18 +45,24 @@ using VS Code's language picker.
 | `Extension.MarkdownFlavor.OverridePersistence` | `GAP-E-014` |
 | `Extension.MarkdownFlavor.ManualLanguageSafety` | `GAP-E-014` |
 | `Extension.MarkdownLanguage.PreserveDefault` | `GAP-E-014` |
+| `Extension.Packaging.TargetBinaryValidation` | `AUD-E-006`, `AUD-ET-008`, `AUD-X-008` |
+| `Extension.MarkdownFlavor.DialectProfiles` | `AUD-E-002`, `AUD-ET-010` |
 
 ## Linked Tests
 
 | Test file | Expected coverage |
 |---|---|
-| `extension/docs/tests/markdown-flavor-validation-spec.md` | EXT-MF-VA-001 through EXT-MF-VA-004. |
+| `extension/docs/tests/markdown-flavor-validation-spec.md` | EXT-MF-VA-001 through EXT-MF-VA-005, where EXT-MF-VA-005 is package-target/VSIX evidence. |
 
 ## Definition of Done
 
 - [ ] Validation evidence exists.
 - [ ] Evidence is linked from extension docs.
 - [ ] Manual-language and settings-scope evidence are included.
+- [ ] Package-target evidence is included at
+      `extension/docs/tests/evidence/markdown-flavor-package-targets.md`.
+- [ ] Research/profile evidence states the extension verifies contract
+      compatibility only; server phases own dialect semantic proof.
 - [ ] Evidence files use the artifact paths required by
       `extension/docs/tests/markdown-flavor-validation-spec.md`.
 

@@ -29,6 +29,8 @@ safety evidence.
 |---|---|
 | [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]] | Add host coverage for flavor selector behavior |
 | [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Verify selector/environment-mode regressions in restricted, virtual, and remote contexts |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] | Own package-target evidence closeout for extension flavor validation |
 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
 | [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md) | Implement extension host e2e test cases |
 | [extension markdown flavor verification spec](../../extension/docs/tests/markdown-flavor-verification-spec.md) | Wire extension commands and CI gates |
@@ -46,6 +48,13 @@ safety evidence.
 - Add CI checks that run extension flavor tests.
 - Add validation evidence for selector visibility, settings scope, and no
   custom language id transition.
+- Add host or verification coverage for restricted, virtual, WSL, SSH, and Dev
+  Container selector behavior. Unsupported environments must not spawn the
+  server; supported remote modes must keep selector state and package-target
+  evidence aligned.
+- Add package-target validation evidence for flavor-era VSIX output.
+- Run a stale `ofmarkdown` expectation scan for current host tests and host
+  evidence; historical docs may keep historical mentions when classified.
 - Update extension-local test matrix and root test matrix.
 
 ### Out of Scope
@@ -56,9 +65,11 @@ safety evidence.
 ## Acceptance
 
 - `npm run test:host` proves Obsidian, generic, config, standalone, manual
-  language, and Auto reset flows.
+  language, Auto reset, and environment-mode flows.
 - Host logs show no `.md` document changes to `ofmarkdown`.
 - CI and local commands fail if flavor host tests are removed.
+- Package-target evidence proves flavor-era VSIX output is covered by
+  `npm run verify:package-targets`.
 - Extension validation docs show current user-visible behavior.
 
 ## Gate Verification

@@ -27,6 +27,8 @@ wired into verification.
 - Ensure `npm run test:host` runs
   `extension/src/test/suite/markdown-flavor.test.js`.
 - Keep package and marketplace verification commands active.
+- Enforce the host-test gate rule: CI must run host tests, or a CI detector must
+  fail when required host evidence/blocker metadata is missing.
 - Keep marketplace selector proof explicitly cross-linked to
   `docs/plans/phase-E16-flavor-scoped-contributions-marketplace/TASK-309.md`,
   where `extension/test/marketplace/readme-assets.test.ts` and
@@ -53,6 +55,8 @@ wired into verification.
 
 - [ ] Local extension commands include flavor tests.
 - [ ] CI verification detects missing host flavor suite.
+- [ ] CI verification either runs host tests or fails without documented host
+      flavor evidence and blocker metadata.
 - [ ] CI verification detects missing marketplace selector-proof handoff.
 - [ ] CI verification detects missing extension docs lint coverage.
 - [ ] CI verification detects missing root flavor BDD/spec wiring and missing

@@ -28,6 +28,10 @@ Run extension compile/unit/docs checks and prepare E15 for review.
   workspace-folder/workspace/user target behavior.
 - Link any remaining user-visible validation evidence to Phase E17 when it
   requires an Extension Development Host screenshot or log.
+- Classify stale `ofmarkdown` test failures found during E15 verification:
+  E15 blocker for controller/client-selector/unit propagation failures, E16
+  handoff for activation/contribution/Marketplace tests, and E17 handoff for
+  Extension Development Host proof.
 - Update feature ticket status and workflow log.
 
 ## Definition of Done
@@ -36,6 +40,8 @@ Run extension compile/unit/docs checks and prepare E15 for review.
 - [ ] E15 validation evidence paths are linked from the extension test index or
       the Phase E17 validation ticket.
 - [ ] Residual extension gaps are documented for E16/E17.
+- [ ] Any stale `ofmarkdown` tests encountered are classified with the owning
+      phase and replacement evidence path.
 - [ ] Phase is ready for review.
 
 ## Workflow Log

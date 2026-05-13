@@ -21,6 +21,7 @@ research corpus.
 | MF-VA-002 | `docs/adr/ADR020-markdown-flavor-selection.md` | ADR flavor enum matches requirements, BDD examples, and extension test plans. |
 | MF-VA-003 | `docs/bdd/features/markdown-flavor-dialects.feature` | Profile examples cite the correct research source slug and at least one signature behavior per flavor. |
 | MF-VA-004 | `docs/test/evidence/markdown-flavor-product-review.md` | Reviewer confirms `mdx` as a flavor does not authorize changing the VS Code language id away from `markdown`. |
+| MF-VA-005 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Reviewer confirms platform, conversion, renderer, and execution-bound references have non-local fixture coverage or an explicit deferred lookup disposition. |
 
 ## Planned Evidence Artifacts
 
@@ -33,6 +34,7 @@ reviewer or command that produced it, and links the verification output.
 | `docs/test/evidence/markdown-flavor-research-trace.md` | Table mapping every displayed flavor id to its research source or `ofm-spec/` source. |
 | `docs/test/evidence/markdown-flavor-product-review.md` | Signed review notes for `auto`, `mdx`, platform flavors, and manual non-Markdown language safety. |
 | `docs/test/evidence/markdown-flavor-validation-run.md` | Validation run date, reviewer, commit, commands, and links to BDD/test output. |
+| `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Table mapping host/conversion fixtures to GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow boundary expectations; each row states no local diagnostics/navigation/rename or links an explicit deferral. |
 
 Each artifact must include its generation or review date, reviewer name or
 generating command, repository commit SHA, source inputs reviewed, pass/fail
@@ -46,6 +48,9 @@ set from [[docs/plans/phase-21-markdown-flavor-bdd-validation]].
 - Product review can trace each displayed flavor to research or `ofm-spec/`.
 - `auto` remains documented as detection state, not a dialect profile.
 - Platform flavors do not override user-selected non-Markdown language modes.
+- Host-specific and conversion-specific references cannot be counted as local
+  LSP support unless fixture evidence proves the server has verified local
+  context.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.
 - Phase 21 release readiness is limited to root/server PR evidence unless the

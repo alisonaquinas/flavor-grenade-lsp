@@ -25,6 +25,9 @@ assumptions with flavor/context-safe behavior.
 - Decide which contributions become commands, context-key gated affordances, or
   safe built-in Markdown behavior.
 - Rewrite contribution tests around flavor context.
+- Cover command `when`/precondition scoping and optional theme/example
+  contribution scoping. If a contribution type is absent, mark it explicitly as
+  not applicable in the trace docs.
 - Preserve generic CommonMark isolation.
 
 ## Linked Requirements
@@ -37,11 +40,13 @@ assumptions with flavor/context-safe behavior.
 
 | Test file | Expected coverage |
 |---|---|
-| `extension/test/contributions/*.test.ts` | Flavor/context scoping and generic isolation. |
+| `extension/test/contributions/*.test.ts` | Flavor/context scoping, command preconditions, optional theme/example disposition, and generic isolation. |
 
 ## Definition of Done
 
 - [ ] Contribution tests no longer assert `editorLangId == ofmarkdown`.
+- [ ] Command and optional theme/example contribution scoping is tested or
+      explicitly marked not applicable.
 - [ ] Generic Markdown isolation is covered.
 - [ ] Obsidian affordances remain accessible when flavor context allows.
 

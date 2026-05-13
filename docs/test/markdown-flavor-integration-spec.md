@@ -22,6 +22,9 @@ and affects analysis without requiring VS Code UI.
 | MF-I-003 | `src/test/integration/markdown-flavor.test.ts` | Iterate every required explicit flavor id through configuration updates. | Server accepts each id and publishes or exposes a refresh state without process restart. |
 | MF-I-004 | `src/test/integration/markdown-flavor.test.ts` | Use unsupported flavor id `asciidoc`. | Server reports configuration validation failure and keeps previous effective flavor. |
 | MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with `.flavor-grenade.toml`, workspace setting, both present, standalone file context, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: folder/workspace override, standalone user override, project config, Obsidian marker, membership evidence, then CommonMark fallback. |
+| MF-I-006 | `src/test/integration/markdown-flavor.test.ts` | Change effective flavor with an open fixture containing diagnostics, completion, navigation, hover, semantic-token, and rename trigger points. | Each handler consumes the refreshed effective flavor and returns flavor-specific results without requiring server restart. |
+| MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
+| MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, or broken-vault diagnostics. |
 
 ## Spawned-Server IDs
 
@@ -30,10 +33,38 @@ and affects analysis without requiring VS Code UI.
 Spawned-server temp workspace evidence for [[docs/design/markdown-flavor-auto-detection]], `.flavor-grenade.toml`, workspace
 setting, both present, invalid configured values, and fallback precedence.
 
+### MF-I-006 - Handler Refresh Coverage
+
+Spawned-server evidence that flavor changes reach the real LSP handlers for:
+
+- diagnostics publication and pull/refresh paths;
+- completion candidate routing;
+- definition, references, document links, document symbols, and folding;
+- hover;
+- semantic tokens;
+- `textDocument/prepareRename` and `textDocument/rename`.
+
+### MF-I-007 - Resource-Specific Propagation
+
+Integration evidence for the resource-specific propagation requirement in
+[[docs/design/markdown-flavor-auto-detection]]. It must cover a multi-root or
+multi-document workspace where at least one document resolves to `obsidian` and
+one resolves to `commonmark` or another explicit flavor.
+
+### MF-I-008 - Host Boundary Integration
+
+Integration evidence for `FlavorLSP.HostBoundary.NonLocalReferences`. It must
+prove non-local references do not produce vault edits or vault diagnostics
+across a real server process boundary.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.
 - Every required flavor id can be applied without restart.
 - `.flavor-grenade.toml`, workspace setting, precedence, and invalid-value
   fallback are proven across the process boundary.
+- Diagnostics, completion, navigation, hover, semantic tokens, and rename all
+  consume refreshed effective flavor state.
+- Host-boundary references stay non-local across diagnostics, navigation,
+  hover, and rename surfaces.
 - Invalid flavor ids fail without corrupting active document state.

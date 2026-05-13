@@ -28,6 +28,8 @@ verification for E16.
   `extension/test/marketplace/readme-assets.test.ts` (`EXT-MF-I-005`) and
   `extension/test/marketplace/vsix-assets.test.ts` (`EXT-MF-I-006`).
 - Run docs lint.
+- Run or record the stale `ofmarkdown` scan for E16-owned docs/tests:
+  activation, contribution, README, troubleshooting, and Marketplace assets.
 - Record Marketplace selector proof evidence in
   `extension/docs/tests/evidence/markdown-flavor-selector-smoke.md` or the
   packaged asset evidence referenced from the extension validation spec, with
@@ -46,6 +48,8 @@ verification for E16.
       `extension/test/marketplace/vsix-assets.test.ts`.
 - [ ] E16 validation evidence paths are linked from the extension test index or
       Phase E17 validation ticket.
+- [ ] Stale `ofmarkdown` scan results are attached to the E16 closeout notes or
+      handed off to E17 for host-only cleanup.
 - [ ] Phase is ready for review.
 
 ## Workflow Log

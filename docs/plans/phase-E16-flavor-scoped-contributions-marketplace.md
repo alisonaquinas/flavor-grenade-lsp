@@ -40,6 +40,9 @@ promotion.
 ### In Scope
 
 - Activation updates for selector command and built-in Markdown behavior.
+- Selector command regression coverage in restricted and virtual contexts, so
+  selector activation does not spawn the server where the environment model
+  forbids it.
 - Contribution tests rewritten from `ofmarkdown` scope to flavor/context scope.
 - Snippet/keybinding/language-configuration migration or retirement.
 - README and troubleshooting updates.
@@ -60,6 +63,9 @@ promotion.
   mention is non-authoritative historical context only.
 - `LanguageClient` `clientOptions.documentSelector` is file-backed `markdown`
   only, and tests fail if `ofmarkdown` remains in the current selector.
+- Selector command activation respects restricted and virtual workspace safety:
+  command UI may report disabled/error state, but unsupported contexts must not
+  spawn the server or send flavor propagation.
 - Generic CommonMark Markdown does not receive Obsidian-only affordances.
 - Marketplace README shows Markdown flavor selector behavior, covered by
   `extension/test/marketplace/readme-assets.test.ts`.

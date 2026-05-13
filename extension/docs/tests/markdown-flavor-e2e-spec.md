@@ -21,6 +21,10 @@ E2E fixtures validate user-visible results of the root
 | EXT-MF-E-004 | Standalone file fixture | Open a file outside any workspace and select `Original Markdown`. | Setting is written to user scope. |
 | EXT-MF-E-005 | Manual language fixture | Change active `.md` document to `plaintext` or `mdx`. | Flavor selector becomes inactive or non-applying; language id remains user-selected. |
 | EXT-MF-E-006 | Auto reset fixture | Start with workspace override `gfm`, then select `Auto Detect`. | Override is cleared/reset and effective flavor recomputes from context. |
+| EXT-MF-E-007 | Workspace fallback fixture | Open a folder-backed Markdown file where workspace-folder settings are unavailable or absent, select `Pandoc Markdown`, then reload. | Setting is written to workspace fallback scope, persists across reload, and `Auto Detect` clears that same scope. |
+| EXT-MF-E-008 | Invalid and precedence fixture | Open a workspace with invalid setting value, valid `.flavor-grenade.toml`, `.obsidian/`, and then an explicit selector override. | Invalid values are ignored; explicit selector outranks workspace/project/marker evidence; selector display and server refresh show the final effective flavor. |
+| EXT-MF-E-009 | Selector availability fixture | Open file-backed workspace-folder, workspace-only, Obsidian vault, generic Markdown, standalone, untitled, virtual, and non-`markdown` documents. | Selector is available for supported file-backed `markdown` contexts and inactive/hidden for unsupported, virtual, untitled, or non-`markdown` contexts. |
+| EXT-MF-E-010 | Host propagation fixture | Select representative `obsidian`, `gfm`, `mdx`, and `r-markdown` flavors while host logs record server notifications. | Effective flavor propagation is observed end-to-end without changing VS Code `languageId` away from `markdown`. |
 
 ## Exit Criteria
 
@@ -28,4 +32,10 @@ E2E fixtures validate user-visible results of the root
 - E2E tests enumerate every required selector id and label and select each
   explicit flavor while `languageId` remains `markdown`.
 - Workspace and standalone persistence both pass.
+- Workspace-folder, workspace fallback, standalone user, and same-scope Auto
+  Detect clearing all pass.
+- Invalid setting fallback and precedence are proven in at least one real host
+  fixture.
+- Selector availability is explicit for supported file-backed Markdown contexts
+  and unsupported/virtual/non-Markdown contexts.
 - No E2E flow changes a `.md` document to a custom Markdown language id.

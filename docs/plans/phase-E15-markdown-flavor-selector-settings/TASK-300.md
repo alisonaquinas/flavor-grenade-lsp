@@ -29,6 +29,9 @@ that preserves VS Code language mode and tracks effective flavor.
 - Track current effective flavor per active Markdown context.
 - Suppress flavor refresh and metadata propagation for open documents whose
   current VS Code language id is not `markdown`.
+- Treat stale `ofmarkdown` promotion tests in controller/client-selector unit
+  coverage as E15 blockers. Stale contribution, Marketplace, and host tests are
+  handed to E16/E17 unless they directly fail this controller contract.
 
 ## Linked Requirements
 
@@ -53,7 +56,9 @@ that preserves VS Code language mode and tracks effective flavor.
 - [ ] `plaintext` and `mdx` language documents are ignored by flavor application.
 - [ ] Selector refresh does not send server flavor updates for non-`markdown`
       language documents.
-- [ ] Obsolete promotion tests are marked for rewrite or removal.
+- [ ] Obsolete promotion unit tests owned by E15 are rewritten or removed;
+      contribution/Marketplace stale tests are linked to E16 and host stale
+      tests are linked to E17.
 
 ## Workflow Log
 

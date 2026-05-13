@@ -18,16 +18,20 @@ aliases: ["TASK-303"]
 ## Description
 
 Implement extension-side `auto` resolution from marker, settings, and server
-membership inputs according to [[docs/design/markdown-flavor-auto-detection]].
+membership/project-config inputs according to
+[[docs/design/markdown-flavor-auto-detection]].
 
 ## Work Scope
 
 - `.obsidian/` resolves to Obsidian.
-- `.flavor-grenade.toml` can resolve `auto` to each supported explicit flavor
-  when the project config names that flavor.
+- `.flavor-grenade.toml` project flavor can resolve `auto` to each supported
+  explicit flavor when BC4/server-side workspace evidence reports that flavor.
+  The extension may observe marker presence, but it must not become a second
+  authoritative TOML parser unless a shared parser/contract is introduced.
 - Workspace setting resolution covers every explicit flavor id.
-- Precedence is explicit: manual override, workspace setting/project config,
-  vault marker, then generic fallback.
+- Precedence follows [[docs/design/markdown-flavor-auto-detection]]: folder or
+  workspace selector setting, standalone user setting, project TOML evidence,
+  Obsidian marker/server membership, then CommonMark fallback.
 - Invalid configured flavors are rejected or ignored with fallback behavior.
 - Generic Markdown resolves to CommonMark.
 - Explicit settings win over detection.
@@ -38,20 +42,23 @@ membership inputs according to [[docs/design/markdown-flavor-auto-detection]].
 
 | Requirement | Gap |
 |---|---|
-| `Extension.MarkdownFlavor.AutoDetection` | `GAP-E-004` |
+| `Extension.MarkdownFlavor.AutoDetection` | `GAP-E-004`, `AUD-E-003`, `AUD-ET-005` |
 
 ## Linked Tests
 
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-U-004`, `EXT-MF-U-005` | `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
-| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
+| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized project-config evidence and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values fall back without language promotion. |
 
 ## Definition of Done
 
 - [ ] Auto detection resolves expected effective flavor.
-- [ ] `.flavor-grenade.toml` and workspace settings can resolve `auto` to each
-      required explicit flavor id.
+- [ ] Server/project-config evidence from `.flavor-grenade.toml` and workspace
+      settings can resolve `auto` to each required explicit flavor id.
+- [ ] Extension/server ownership for `.flavor-grenade.toml` is recorded:
+      extension consumes marker and project-config evidence; BC4/server owns
+      authoritative TOML parsing unless replaced by a shared parser.
 - [ ] Invalid configured flavor values preserve prior state or fall back to the
       documented default without changing language id.
 - [ ] Generic Markdown does not auto-detect as Obsidian.

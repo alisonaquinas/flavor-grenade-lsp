@@ -28,6 +28,9 @@ promotion.
   flavor test/spec that supersedes each assertion in the E17 evidence log.
 - Replace `activation-language-mode.test.js` expectations with flavor selector
   behavior or move remaining startup checks elsewhere.
+- Run a current-test stale `ofmarkdown` expectation scan across host tests,
+  host fixtures, package activation waits, and host evidence files. Historical
+  filenames may remain only when classified as historical containers.
 - Keep manual non-Markdown preservation coverage.
 - Ensure host runner has no stale `ofmarkdown` promotion waits.
 
@@ -46,6 +49,8 @@ promotion.
 ## Definition of Done
 
 - [ ] No host test waits for `document.languageId === "ofmarkdown"`.
+- [ ] Stale host-scan results classify every remaining current `ofmarkdown`
+      expectation as removed, rewritten, historical, or follow-up bug.
 - [ ] Completed `ofmarkdown` host-test assertions have archival/supersession
       evidence before rewrite or removal.
 - [ ] Remaining activation coverage still passes.

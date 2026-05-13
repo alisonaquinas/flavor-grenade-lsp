@@ -358,6 +358,27 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 
 ---
 
+## Server Markdown Flavor LSP Requirements
+
+These rows are first-class server-side coverage for
+[[docs/requirements/functional/markdown-flavor-lsp]]. They are separate from
+extension selector rows: extension tests prove the selected/effective flavor
+reaches the server; these rows prove each LSP surface consumes that flavor.
+
+| Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
+|---|---|---|---|---|---|
+| `FlavorLSP.Profile.SignatureCoverage` | Every explicit flavor has a profile declaring active, inert, and host-specific syntax surfaces | planned `src/parser/__tests__/markdown-flavor-profiles.test.ts`; `docs/test/markdown-flavor-unit-spec.md`; `docs/test/evidence/markdown-flavor-research-trace.md` | 🔴 failing | Phase 19 and Phases 22-34 | Phase 19 creates the shared registry; every Phase 22-34 closeout must update this row when profile surfaces change. |
+| `FlavorLSP.Parser.ProfileDispatch` | Parser dispatches through the effective flavor before emitting symbols, opaque regions, links, and extension tokens | planned `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`; planned `src/test/integration/markdown-flavor.test.ts`; `docs/bdd/features/markdown-flavor-dialects.feature` | 🔴 failing | Phase 20 and Phases 22-34 | Phase 20 proves propagation; Phases 22-34 add per-flavor parser fixtures and active/inert expectations. |
+| `FlavorLSP.Diagnostics.ProfileRules` | Diagnostics use flavor-specific grammar, portability, and boundary rules | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md`; `docs/bdd/features/markdown-flavor-dialects.feature` | 🔴 failing | Phases 22-34 | Requires exact diagnostic codes/categories per flavor before a dialect phase can close. |
+| `FlavorLSP.Completion.ProfileCandidates` | Completion offers only valid or explicitly helpful candidates for the effective flavor | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md` | 🔴 failing | Phases 22-34 | Requires positive and negative candidate classes for links, labels, tables, callouts, tags, citations, chunks, JSX, and host prefixes where applicable. |
+| `FlavorLSP.Navigation.ProfileResolution` | Definition, references, document links, symbols, and folding resolve only local structures defined by the effective flavor | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md` | 🔴 failing | Phases 22-34 | Host/platform references must be classified but not resolved as vault files without verified integration context. |
+| `FlavorLSP.Hover.ProfileMetadata` | Hover describes supported syntax, local metadata, and host/conversion boundaries without overclaiming | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md` | 🔴 failing | Phases 22-34 | Requires boundary text classes for host, renderer, conversion, and execution-bound constructs. |
+| `FlavorLSP.SemanticTokens.ProfileTokens` | Semantic tokens mark only active flavor constructs and respect opaque regions | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md` | 🔴 failing | Phases 22-34 | Requires token type/modifier expectations and inactive-syntax negative checks per flavor. |
+| `FlavorLSP.Rename.ProfileSafety` | Rename updates only flavor-supported local symbols and rejects unsafe targets | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/markdown-flavor-unit-spec.md` | 🔴 failing | Phases 22-34 | Requires `prepareRename` and `rename` success/rejection cases for local, inactive, host, conversion, and execution-bound targets. |
+| `FlavorLSP.HostBoundary.NonLocalReferences` | Host and conversion references stay separate from local vault/file/heading/label/citation targets | planned `src/test/integration/markdown-flavor.test.ts`; `docs/test/evidence/markdown-flavor-host-boundary-review.md`; `docs/plans/markdown-flavor-lsp-applicability-matrix.md` | 🔴 failing | Phase 21 and Phases 26-34 | Each platform/conversion flavor phase must add boundary fixtures and a deferred lookup disposition. |
+
+---
+
 ## Markdown Flavor Test-Level Matrix
 
 Detailed cases for these rows are specified in [[docs/test/markdown-flavor-unit-spec]],
@@ -371,7 +392,19 @@ Detailed cases for these rows are specified in [[docs/test/markdown-flavor-unit-
 | Integration | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.DialectProfiles` | `src/test/integration/markdown-flavor.test.ts` | 📋 planned | Proves flavor config reaches spawned server analysis and refreshes diagnostics/features. |
 | E2E | `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Selector`, `Extension.MarkdownFlavor.OverridePersistence`, `Extension.MarkdownFlavor.Refresh`, `Extension.Tests.HostCoverage` | `extension/src/test/suite/markdown-flavor.test.js` | 📋 planned | Runs through VS Code host UI/settings surfaces with real workspace and standalone-file contexts. |
 | Verification | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | `.github/workflows/ci.yml`, `src/test/ci-workflow.test.ts`, `cucumber.yaml`, `extension/package.json` | 🔴 needs update | CI must include root tests, BDD, extension unit, extension host, docs lint, and package checks after flavor test files exist. |
-| Validation | `Extension.MarkdownFlavor.RequiredCoverage`, `Extension.MarkdownFlavor.DialectProfiles` | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, research-source review | 🔴 needs step updates | Confirms the supported flavor list and profile claims match `docs/research/` and ADR020. |
+| Validation | `Extension.MarkdownFlavor.RequiredCoverage`, `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Profile.SignatureCoverage`, `FlavorLSP.HostBoundary.NonLocalReferences` | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/evidence/markdown-flavor-research-trace.md`, `docs/test/evidence/markdown-flavor-product-review.md`, `docs/test/evidence/markdown-flavor-validation-run.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md` | 🔴 needs step updates | Confirms the supported flavor list, server profile claims, and non-local boundary dispositions match `docs/research/`, feature pages, and ADR020. |
+
+## Validation Artifact Matrix
+
+These are planned evidence paths. They intentionally remain failing until the
+files exist and cite the commands, reviewer, commit, and source inputs.
+
+| Artifact | Requirement Coverage | Owner Phase | Status | Notes |
+|---|---|---|---|---|
+| `docs/test/evidence/markdown-flavor-research-trace.md` | `Extension.MarkdownFlavor.RequiredCoverage`, `FlavorLSP.Profile.SignatureCoverage` | Phase 21, then Phases 22-34 updates | 🔴 failing | Must map every displayed and server-supported flavor id to research/source pages. |
+| `docs/test/evidence/markdown-flavor-product-review.md` | `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.ManualLanguageSafety` | Phase 21 | 🔴 failing | Must confirm `auto` is selector state and `mdx` flavor does not imply VS Code `mdx` language mode. |
+| `docs/test/evidence/markdown-flavor-validation-run.md` | `CICD.Workflow.BDDGate`, `Process.TestIndex.Matrix` | Phase 21 | 🔴 failing | Must link `bun run bdd`, CI workflow guard tests, and current Phase 21 gate output. |
+| `docs/test/evidence/markdown-flavor-host-boundary-review.md` | `FlavorLSP.HostBoundary.NonLocalReferences`, `Security.Vault.PathConfinement` | Phase 21 scaffold; Phases 26, 27, 28, 29, 32, 33, 34 updates | 🔴 failing | Must record per-platform/conversion false-local-resolution checks and deferred lookup dispositions. |
 
 ---
 

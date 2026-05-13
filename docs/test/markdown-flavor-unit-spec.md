@@ -47,6 +47,35 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-021 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Reddit Markdown analysis supports Reddit-specific syntax awareness, escaping and line-break behavior, spoilers, and portability diagnostics without calling Reddit services. |
 | MF-U-022 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Stack Overflow Markdown analysis supports tag links, spoilers, syntax highlighting hints, code fence behavior, GFM-style tables, and post-surface constraints. |
 
+## Per-LSP-Surface Fixture Expectations
+
+Each Phase 22-34 dialect fixture must declare active, inert, and host-specific
+syntax expectations for the LSP surfaces below. A phase may mark a surface
+deferred only by linking the applicable row in
+[[docs/plans/markdown-flavor-lsp-applicability-matrix]] and recording the
+deferred lookup or product limitation in validation evidence.
+
+| Surface Spec ID | Requirement tags | Required fixture expectations |
+|---|---|---|
+| MF-DIAG-001 | `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.HostBoundary.NonLocalReferences` | Exact diagnostic codes or categories for supported malformed constructs; negative checks that inactive syntax does not emit active-flavor diagnostics; host references do not become broken local link diagnostics. |
+| MF-COMP-001 | `FlavorLSP.Completion.ProfileCandidates` | Completion item label/kind classes for active constructs; absence or portability-only treatment for inactive syntax; host-prefix snippets only for platform flavors that define them. |
+| MF-NAV-001 | `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.HostBoundary.NonLocalReferences` | Definition, references, document links, document symbols, and folding ranges for local constructs; host references classified as non-local and not resolved as vault targets. |
+| MF-HOVER-001 | `FlavorLSP.Hover.ProfileMetadata` | Hover text classifies local target metadata, syntax support, renderer/conversion/execution boundaries, and host-boundary status without claiming external platform validation. |
+| MF-ST-001 | `FlavorLSP.SemanticTokens.ProfileTokens` | Token type/modifier expectations for active constructs; opaque-region and inactive-syntax negative token checks. |
+| MF-REN-001 | `FlavorLSP.Rename.ProfileSafety`, `FlavorLSP.HostBoundary.NonLocalReferences` | `prepareRename` and `rename` success cases for profile-supported local symbols; rejection cases for inactive, host-specific, conversion-bound, renderer-bound, and execution-bound targets. |
+| MF-HOST-001 | `FlavorLSP.HostBoundary.NonLocalReferences`, `Security.Vault.PathConfinement` | Per-platform/conversion fixtures prove host references, conversion directives, JSX/ESM, and executable chunks are never treated as local vault edits, local definitions, or broken vault diagnostics without configured integration context. |
+
+Minimum fixture families:
+
+| Flavor family | Required examples |
+|---|---|
+| Core flavors | Original and CommonMark fixtures must prove Obsidian, GFM, platform, conversion, MDX, and R Markdown constructs are inert or portability-only. |
+| Obsidian | Wiki links, embeds, tags, block references, callouts, vault-local attachments, and Obsidian opaque regions. |
+| GFM/GLFM | Tables, task lists, strikethrough/autolinks, heading anchors, alerts or platform references, and host issue/MR/user/label references as non-local. |
+| Pandoc/MultiMarkdown/kramdown/Markdown Extra | Citations, footnotes, labels/attributes, abbreviations, definition lists, math, fenced divs, and conversion/export-bound references. |
+| MDX/R Markdown | JSX/ESM or chunk regions as opaque/execution-bound where applicable; local Markdown structures still behave by profile. |
+| Reddit/Stack Overflow | Spoilers, user/subreddit/tag/question/reference forms, code-fence hints, and platform references as non-local. |
+
 ## Exact Spec ID Anchors
 
 ### MF-U-006 - Server Flavor Configuration Validation
