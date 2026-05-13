@@ -2,7 +2,7 @@
 id: "TASK-337"
 title: "Add MDX diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -106,3 +106,7 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 > completions, document symbols, folding ranges, semantic tokens, query counts,
 > and renderer-bound classification evidence. Focused LSP coverage passed
 > locally.
+
+> [!INFO] Done - 2026-05-13
+> PR #80 CI run `25830191328` passed. MDX diagnostics and local LSP surfaces are
+> complete for Phase 29; React/TypeScript integration remains deferred.

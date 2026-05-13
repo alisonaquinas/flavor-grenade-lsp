@@ -2,7 +2,7 @@
 id: "TASK-338"
 title: "Add MDX tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -90,3 +90,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the md
 > Spawned-server MDX integration now reports ESM, JSX, and expression counts,
 > keeps Obsidian wiki links inert, avoids CommonMark portability warnings for
 > active MDX syntax, and classifies component references as renderer-bound.
+
+> [!INFO] Done - 2026-05-13
+> PR #80 CI run `25830191328` passed. Validation evidence, matrix/index rows,
+> and host-boundary review now include Phase 29 MDX.

@@ -2,7 +2,7 @@
 id: "FEAT-055"
 title: "MDX Flavor Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 29
 created: "2026-05-13"
@@ -66,9 +66,9 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-336]] | Implement MDX flavor parser semantics | Task | green |
-| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | green |
-| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | green |
+| [[TASK-336]] | Implement MDX flavor parser semantics | Task | done |
+| [[TASK-337]] | Add MDX diagnostics and LSP features | Task | done |
+| [[TASK-338]] | Add MDX tests, host safety, and validation evidence | Task | done |
 | [[CHORE-129]] | Phase 29 trace and documentation sweep | Chore | done |
 | [[CHORE-130]] | Phase 29 verification and closeout sweep | Chore | done |
 
@@ -113,6 +113,10 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 > document symbols, folding, semantic tokens, spawned-server counts, and
 > renderer-bound classification. Focused Phase 29 test set, typecheck, lint,
 > and build passed locally before trace documentation updates.
+
+> [!INFO] In review - 2026-05-13
+> PR #80 opened against `develop` and CI run `25830191328` passed all checks.
+> Child TASK tickets moved to `done`; FEAT-055 remains `in-review` until merge.
 
 ## Retrospective
 

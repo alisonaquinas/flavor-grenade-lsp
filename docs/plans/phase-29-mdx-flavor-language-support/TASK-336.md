@@ -2,7 +2,7 @@
 id: "TASK-336"
 title: "Implement MDX flavor parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -82,3 +82,7 @@ Deliver parser/profile semantics for the mdx flavor using [[docs/research/mdx-an
 > Implemented `MdxParser.parse(text, opaqueRegions)`, MDX index types, opaque
 > MDX regions, OFM parser dispatch, and implemented profile surface status.
 > Focused parser/profile coverage passed locally.
+
+> [!INFO] Done - 2026-05-13
+> PR #80 CI run `25830191328` passed. Parser/profile work is complete for the
+> Phase 29 local MDX scope.
