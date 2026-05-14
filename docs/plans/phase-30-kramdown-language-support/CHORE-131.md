@@ -2,7 +2,7 @@
 id: "CHORE-131"
 title: "Phase 30 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 30
 parent: "FEAT-056"
@@ -33,11 +33,16 @@ Perform trace and documentation kickoff hygiene for kramdown language-support wo
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for kramdown.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-132]].
+- [x] Documentation trace gaps are identified or resolved for kramdown.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-132]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Updated kramdown trace links across the applicability matrix, test index,
+> test matrix, integration spec, research trace, validation run, and
+> host-boundary review. No trace gaps required a new ticket.

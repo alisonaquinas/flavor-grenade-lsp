@@ -2,7 +2,7 @@
 id: "TASK-341"
 title: "Add kramdown tests and validation evidence"
 type: task
-status: open
+status: done
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -74,3 +74,23 @@ Deliver unit, integration, BDD, verification, and validation evidence for the kr
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert kramdown attribute lists, explicit IDs, definition
+> lists, pipe tables, footnotes, math blocks, inactive Obsidian behavior,
+> spawned-server counts, completions, symbols, folds, semantic tokens,
+> malformed-attribute diagnostics, and validation evidence for local-only
+> kramdown boundaries.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Ran the focused kramdown RED command across parser, diagnostics,
+> completions, symbols, folds, semantic tokens, and integration tests. Result:
+> 110 passing tests and 8 expected failures for missing kramdown implementation.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Re-ran the focused kramdown command after implementation. Result: 118 passing
+> tests, 0 failures, 331 assertions. `bun run typecheck` and `bun run lint`
+> also pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #81 CI run `25831274609` passed all checks. Ticket moved to `done`.

@@ -201,3 +201,25 @@ inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 29 records MDX component references as renderer-bound. |
+
+## Phase 30 kramdown Review
+
+kramdown declares renderer-generated anchors, Ruby/Jekyll conversion behavior,
+syntax highlighting, sanitization, and output HTML metadata as non-local unless
+a later integration ticket owns configured local context. Phase 30 implements
+local source syntax for attribute lists, definition lists, pipe tables,
+footnotes, and math blocks while leaving renderer and conversion behavior
+inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Attribute lists, definition lists, tables, footnotes, and math blocks are active only under effective flavor `kramdown`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG501` covers malformed local kramdown attributes; renderer-generated anchors and output references do not become broken vault links. |
+| Completion | kramdown attribute and footnote snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; renderer-generated anchors, Jekyll conversion output, syntax highlighter metadata, and sanitizer output remain renderer-bound or conversion-bound without process execution, dynamic import, network access, or workspace edits. |
+
+## Phase 30 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 30 records kramdown renderer and conversion output as non-local. |

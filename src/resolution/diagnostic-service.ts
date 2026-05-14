@@ -18,6 +18,7 @@ import { GlfmParser } from '../parser/glfm-parser.js';
 import { PandocParser } from '../parser/pandoc-parser.js';
 import { MultimarkdownParser } from '../parser/multimarkdown-parser.js';
 import { MdxParser } from '../parser/mdx-parser.js';
+import { KramdownParser } from '../parser/kramdown-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -104,6 +105,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'mdx') {
       diagnostics.push(...this.diagnoseMdxBoundaries(doc));
+    }
+
+    if (doc.markdownFlavor === 'kramdown') {
+      diagnostics.push(...this.diagnoseKramdownAttributes(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -318,6 +323,20 @@ export class DiagnosticService {
       code: 'FG401',
       source: 'flavor-grenade',
       message: 'Malformed MDX boundary: expected closed JSX tag or balanced expression.',
+    }));
+  }
+
+  private diagnoseKramdownAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.kramdownMalformedAttributes ??
+      KramdownParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG501',
+      source: 'flavor-grenade',
+      message:
+        'Malformed kramdown attribute: expected a closing } with id, class, or key=value entries.',
     }));
   }
 

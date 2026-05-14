@@ -1,7 +1,7 @@
 ---
 title: Phase 30 kramdown Language Support Tickets
 phase: 30
-status: planned
+status: in-progress
 tags: [plans/phase-30, tickets/index, kramdown]
 aliases: ["Phase 30 Tickets"]
 updated: 2026-05-13
@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-056]] | kramdown Language Support | Feature | `draft` |
-| [[TASK-339]] | Implement kramdown parser semantics | Task | `open` |
-| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | `open` |
-| [[TASK-341]] | Add kramdown tests and validation evidence | Task | `open` |
-| [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | `open` |
-| [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | `open` |
+| [[FEAT-056]] | kramdown Language Support | Feature | `in-review` |
+| [[TASK-339]] | Implement kramdown parser semantics | Task | `done` |
+| [[TASK-340]] | Add kramdown diagnostics and LSP features | Task | `done` |
+| [[TASK-341]] | Add kramdown tests and validation evidence | Task | `done` |
+| [[CHORE-131]] | Phase 30 trace and documentation sweep | Chore | `done` |
+| [[CHORE-132]] | Phase 30 verification and closeout sweep | Chore | `done` |
 
 ## Ticket Details
 

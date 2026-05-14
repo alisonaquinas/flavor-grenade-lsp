@@ -2,7 +2,7 @@
 id: "TASK-340"
 title: "Add kramdown diagnostics and LSP features"
 type: task
-status: open
+status: done
 priority: high
 phase: 30
 parent: "FEAT-056"
@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -89,3 +90,23 @@ Deliver diagnostics and LSP feature behavior for the kramdown flavor using [[doc
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose kramdown malformed-attribute diagnostics, attribute and
+> footnote completions, document symbols, folds, semantic tokens, analysis
+> counts, and local-boundary disposition. Ruby/Jekyll conversion, syntax
+> highlighting, rendering, and sanitizer behavior are out of scope.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added LSP RED coverage for malformed-attribute diagnostics, attribute and
+> footnote completions, document symbols, folding ranges, semantic tokens, query
+> counts, and local boundary classification. Expected failures prove these
+> kramdown surfaces are not yet wired.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Wired FG501 diagnostics, kramdown completions, document symbols, folding,
+> semantic tokens, spawned-server query counts, and local boundary evidence.
+> Focused LSP tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #81 CI run `25831274609` passed all checks. Ticket moved to `done`.

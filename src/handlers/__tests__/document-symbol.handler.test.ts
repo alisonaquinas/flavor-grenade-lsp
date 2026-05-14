@@ -331,4 +331,78 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('MDX component: Chart');
     expect(names).toContain('MDX expression');
   });
+
+  it('adds kramdown attributes, definition lists, tables, and footnotes as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('kramdown', 1, 0)]);
+    const kramdownIndex = doc.index as typeof doc.index & {
+      kramdownAttributes: Array<{
+        raw: string;
+        id?: string;
+        classes: string[];
+        range: HeadingEntry['range'];
+        markerRange: HeadingEntry['range'];
+      }>;
+      kramdownDefinitionLists: Array<{
+        raw: string;
+        term: string;
+        range: HeadingEntry['range'];
+      }>;
+      kramdownTables: Array<{
+        raw: string;
+        headerCells: string[];
+        rowCount: number;
+        range: HeadingEntry['range'];
+      }>;
+      kramdownFootnotes: Array<{
+        raw: string;
+        label: string;
+        range: HeadingEntry['range'];
+        labelRange: HeadingEntry['range'];
+      }>;
+    };
+    kramdownIndex.kramdownAttributes = [
+      {
+        raw: '{#custom .hero}',
+        id: 'custom',
+        classes: ['hero'],
+        range: { start: { line: 0, character: 12 }, end: { line: 0, character: 27 } },
+        markerRange: { start: { line: 0, character: 13 }, end: { line: 0, character: 20 } },
+      },
+    ];
+    kramdownIndex.kramdownDefinitionLists = [
+      {
+        raw: 'Term\n: Definition',
+        term: 'Term',
+        range: { start: { line: 2, character: 0 }, end: { line: 3, character: 12 } },
+      },
+    ];
+    kramdownIndex.kramdownTables = [
+      {
+        raw: '| A | B |\n|---|---|',
+        headerCells: ['A', 'B'],
+        rowCount: 1,
+        range: { start: { line: 5, character: 0 }, end: { line: 7, character: 9 } },
+      },
+    ];
+    kramdownIndex.kramdownFootnotes = [
+      {
+        raw: '[^note]: body',
+        label: 'note',
+        range: { start: { line: 9, character: 0 }, end: { line: 9, character: 13 } },
+        labelRange: { start: { line: 9, character: 2 }, end: { line: 9, character: 6 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('kramdown attribute: custom');
+    expect(names).toContain('Definition: Term');
+    expect(names).toContain('kramdown table: A, B');
+    expect(names).toContain('Footnote: note');
+  });
 });

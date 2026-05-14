@@ -34,6 +34,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-015 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `pandoc` and open a document with title-block metadata, heading attributes, citations, definition lists, footnotes, fenced Divs, and an Obsidian wiki link. | Open-document analysis reports effective flavor `pandoc`, indexes Pandoc local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active Pandoc syntax, and classifies citation references as bibliography-bound. |
 | MF-I-016 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `multimarkdown` and open a document with metadata, table labels, footnotes, citations, labels, abbreviations, cross-references, and an Obsidian wiki link. | Open-document analysis reports effective flavor `multimarkdown`, indexes MultiMarkdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active MultiMarkdown syntax, and classifies export cross-references as conversion-bound. |
 | MF-I-017 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `mdx` and open a document with ESM declarations, JSX elements, expressions, and an Obsidian wiki link. | Open-document analysis reports effective flavor `mdx`, indexes MDX local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active MDX syntax, and classifies JSX component references as renderer-bound. |
+| MF-I-018 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `kramdown` and open a document with attributes, definition lists, tables, footnotes, math blocks, and an Obsidian wiki link. | Open-document analysis reports effective flavor `kramdown`, indexes kramdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active kramdown syntax, and classifies local attribute boundaries without renderer execution. |
 
 ## Spawned-Server IDs
 
@@ -128,6 +129,14 @@ process boundary for parser dispatch, local ESM/JSX/expression counts,
 diagnostics, inactive Obsidian syntax, and renderer-bound component
 classification without requiring MDX compilation, React/TypeScript symbol
 lookup, bundlers, dynamic imports, or VS Code `mdx` language-mode ownership.
+
+### MF-I-018 - kramdown Spawned-Server Behavior
+
+Integration evidence for Phase 30. It proves kramdown behavior crosses the
+JSON-RPC process boundary for parser dispatch, local attribute, definition
+list, table, footnote, and math counts, diagnostics, inactive Obsidian syntax,
+and local boundary classification without requiring Ruby, Jekyll, converters,
+syntax highlighters, sanitizers, or renderer execution.
 
 ## Exit Criteria
 

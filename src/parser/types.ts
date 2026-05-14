@@ -420,6 +420,52 @@ export interface MdxMalformedBoundaryEntry {
   range: Range;
 }
 
+/** Parsed kramdown attribute list contents. */
+export interface KramdownAttributeEntry {
+  raw: string;
+  id?: string;
+  classes: string[];
+  keyValues: Record<string, string>;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A malformed kramdown attribute list. */
+export interface KramdownMalformedAttributeEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A kramdown definition list block. */
+export interface KramdownDefinitionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A kramdown pipe table block. */
+export interface KramdownTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  range: Range;
+}
+
+/** A kramdown footnote definition. */
+export interface KramdownFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A kramdown math block delimited by $$ lines. */
+export interface KramdownMathBlockEntry {
+  raw: string;
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -464,6 +510,12 @@ export interface OFMIndex {
   mdxJsxElements?: MdxJsxElementEntry[];
   mdxExpressions?: MdxExpressionEntry[];
   mdxMalformedBoundaries?: MdxMalformedBoundaryEntry[];
+  kramdownAttributes?: KramdownAttributeEntry[];
+  kramdownMalformedAttributes?: KramdownMalformedAttributeEntry[];
+  kramdownDefinitionLists?: KramdownDefinitionListEntry[];
+  kramdownTables?: KramdownTableEntry[];
+  kramdownFootnotes?: KramdownFootnoteEntry[];
+  kramdownMathBlocks?: KramdownMathBlockEntry[];
 }
 
 /**

@@ -13,6 +13,7 @@ import { GlfmParser } from './glfm-parser.js';
 import { PandocParser } from './pandoc-parser.js';
 import { MultimarkdownParser } from './multimarkdown-parser.js';
 import { MdxParser } from './mdx-parser.js';
+import { KramdownParser } from './kramdown-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -65,6 +66,7 @@ export class OFMParser {
     const enablePandocSyntax = parseContext.effectiveFlavor === 'pandoc';
     const enableMultimarkdownSyntax = parseContext.effectiveFlavor === 'multimarkdown';
     const enableMdxSyntax = parseContext.effectiveFlavor === 'mdx';
+    const enableKramdownSyntax = parseContext.effectiveFlavor === 'kramdown';
 
     // Stage 2: opaque regions
     const baseOpaqueRegions = mark(text, bodyOffset);
@@ -80,6 +82,7 @@ export class OFMParser {
     const multimarkdown = enableMultimarkdownSyntax
       ? MultimarkdownParser.parse(text, opaqueRegions)
       : undefined;
+    const kramdown = enableKramdownSyntax ? KramdownParser.parse(text, opaqueRegions) : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -131,6 +134,14 @@ export class OFMParser {
         mdxJsxElements: mdx.jsxElements,
         mdxExpressions: mdx.expressions,
         mdxMalformedBoundaries: mdx.malformedBoundaries,
+      }),
+      ...(kramdown !== undefined && {
+        kramdownAttributes: kramdown.attributes,
+        kramdownMalformedAttributes: kramdown.malformedAttributes,
+        kramdownDefinitionLists: kramdown.definitionLists,
+        kramdownTables: kramdown.tables,
+        kramdownFootnotes: kramdown.footnotes,
+        kramdownMathBlocks: kramdown.mathBlocks,
       }),
     };
 
@@ -190,6 +201,12 @@ export class OFMParser {
       mdxJsxElements: [],
       mdxExpressions: [],
       mdxMalformedBoundaries: [],
+      kramdownAttributes: [],
+      kramdownMalformedAttributes: [],
+      kramdownDefinitionLists: [],
+      kramdownTables: [],
+      kramdownFootnotes: [],
+      kramdownMathBlocks: [],
     };
   }
 

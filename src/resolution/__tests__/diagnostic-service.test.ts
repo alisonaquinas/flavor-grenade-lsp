@@ -485,6 +485,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG401']);
     expect(params.diagnostics[0]['message']).toContain('Malformed MDX boundary');
   });
+
+  it('publishes kramdown attribute diagnostics without resolving renderer output', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/kramdown.md', []),
+      text: ['# Heading {#custom}', '', 'Paragraph', '{:.lead', '[[Nope]]'].join('\n'),
+      markdownFlavor: 'kramdown' as const,
+      parseContext: { effectiveFlavor: 'kramdown' as const },
+    };
+
+    service.publishDiagnostics(id('kramdown'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG501']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed kramdown attribute');
+  });
 });
 
 describe('block reference diagnostics', () => {
