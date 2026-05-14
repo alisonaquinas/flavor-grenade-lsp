@@ -74,3 +74,10 @@ Deliver unit, integration, BDD, verification, and validation evidence for the st
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert Stack Overflow tag references, spoilers, language
+> directives, fence hints, tables, portability diagnostics for comment-only
+> limitations or unsupported directives, inactive Obsidian behavior,
+> completions, symbols, folds, semantic tokens, spawned-server counts, and
+> validation evidence for local-only Stack Exchange host boundaries.

@@ -2,7 +2,7 @@
 id: "FEAT-060"
 title: "Stack Overflow Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 34
 created: "2026-05-13"
@@ -14,7 +14,40 @@ aliases: ["FEAT-060"]
 
 # Stack Overflow Markdown Language Support
 
-> [!INFO] FEAT-060 - Feature - Phase 34 - Status: draft
+> [!INFO] FEAT-060 - Feature - Phase 34 - Status: in-progress
+
+## Implementation Plan
+
+Phase 34 is stacked after Phase 33 because the ledger's near-term roadmap keeps
+the server flavor chain contiguous. Implementation will model source-local
+Stack Overflow Markdown syntax: Stack Exchange tag references, spoiler
+blockquotes, language-highlighting directives, fence language hints, GFM-style
+pipe tables, and comment-surface portability limits. It will not call Stack
+Exchange APIs, resolve tags/questions/answers/users/comments, inspect site
+metadata, or claim rendered post/comment HTML behavior.
+
+Primary source paths:
+
+- `src/parser/stack-overflow-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +99,10 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Confirmed Phase 33 PR #84 CI is green and added
+> concrete implementation and RED test paths for TASK-351 through TASK-353.
+> Live Stack Exchange tag, question, answer, user, comment, site metadata, and
+> rendered post/comment HTML behavior remain deferred unless separate
+> integration tickets own them.

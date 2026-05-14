@@ -53,15 +53,10 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 |---|---|
 | Source | `src/resolution/diagnostic-service.ts` |
 | Source | `src/completion/completion-router.ts` |
-| Source | `src/handlers/definition.handler.ts` |
-| Source | `src/handlers/references.handler.ts` |
 | Source | `src/handlers/document-symbol.handler.ts` |
-| Source | `src/rename/prepare-rename.handler.ts` |
-| Source | `src/rename/rename.handler.ts` |
-| Source | `src/handlers/document-link.handler.ts` |
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
-| Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -89,3 +84,9 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose Stack Overflow portability diagnostics, tag and language
+> completions, table and host-reference symbols, table folds, semantic tokens,
+> analysis counts, and non-local host-reference disposition. Live Stack
+> Exchange lookup and rendered HTML behavior are out of scope.
