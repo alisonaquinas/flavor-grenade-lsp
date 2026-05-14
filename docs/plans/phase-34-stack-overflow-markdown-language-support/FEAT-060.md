@@ -2,7 +2,7 @@
 id: "FEAT-060"
 title: "Stack Overflow Markdown Language Support"
 type: feature
-status: done
+status: in-review
 priority: high
 phase: 34
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-060"]
 
 # Stack Overflow Markdown Language Support
 
-> [!SUCCESS] FEAT-060 - Feature - Phase 34 - Status: done
+> [!INFO] FEAT-060 - Feature - Phase 34 - Status: in-review
 
 ## Implementation Plan
 
@@ -135,3 +135,8 @@ source-local parser counts, diagnostics, completions, symbols, folds, semantic
 tokens, spawned-server evidence, and validation trace. Extension selector and
 host proof work can now proceed through the deferred E16/E17 roadmap after the
 server flavor PR stack is reviewed.
+
+> [!INFO] PR opened - 2026-05-13
+> Status set to `in-review`. PR #85 is open at
+> https://github.com/alisonaquinas/flavor-grenade-lsp/pull/85 and CI run
+> `25835048454` passed all required checks.
