@@ -2,7 +2,7 @@
 id: "TASK-348"
 title: "Implement Reddit Markdown parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -56,11 +56,11 @@ Deliver parser/profile semantics for the reddit flavor using [[docs/research/red
 
 ## Definition of Done
 
-- [ ] reddit behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for reddit.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] reddit behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for reddit.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -88,3 +88,6 @@ Deliver parser/profile semantics for the reddit flavor using [[docs/research/red
 > Status set to `green`. Added `src/parser/reddit-parser.ts`, Reddit index
 > fields, `OFMParser` dispatch, empty-index entries, and profile
 > `implemented` status. Focused parser analysis passed.
+
+> [!SUCCESS] Done - 2026-05-13
+> Status set to `done`. Phase 33 local gate passed and trace docs were updated.

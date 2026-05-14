@@ -2,7 +2,7 @@
 id: "TASK-349"
 title: "Add Reddit Markdown diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -71,14 +71,14 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[docs/
 
 ## Definition of Done
 
-- [ ] reddit behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for reddit.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for reddit.
-- [ ] Rename coverage is implemented for safe local reddit symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] reddit behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for reddit.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for reddit.
+- [x] Rename coverage is implemented for safe local reddit symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -101,3 +101,6 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[docs/
 > Status set to `green`. Added Reddit portability diagnostics, spoiler and
 > superscript completions, document symbols, table folding, semantic tokens,
 > and `queryOpenDoc` counts. Focused LSP tests passed.
+
+> [!SUCCESS] Done - 2026-05-13
+> Status set to `done`. Phase 33 local gate passed and trace docs were updated.

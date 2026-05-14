@@ -150,6 +150,20 @@ generated-output execution. Evidence is recorded in
 `src/test/integration/markdown-flavor.test.ts`, and
 `docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
 
+Phase 33 replaces the `reddit` planned surface entries with implemented local
+Reddit Markdown behavior for source-backed syntax that does not require Reddit
+API calls, live user/subreddit/post/comment lookup, moderation state, or Rich
+Text editor rendering. Evidence is recorded in
+`src/parser/reddit-parser.ts`,
+`src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`,
+`src/resolution/__tests__/diagnostic-service.test.ts`,
+`src/completion/__tests__/completion-router.test.ts`,
+`src/handlers/__tests__/document-symbol.handler.test.ts`,
+`src/handlers/__tests__/folding-range.handler.test.ts`,
+`src/handlers/__tests__/semantic-tokens.handler.test.ts`,
+`src/test/integration/markdown-flavor.test.ts`, and
+`docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
+
 | Flavor id | Label | Feature page | Primary source | Implementation ticket |
 |---|---|---|---|---|
 | `original` | Original Markdown | docs/features/original-markdown-flavor.md | docs/research/commonmark-and-original-markdown.md | TASK-315 |
