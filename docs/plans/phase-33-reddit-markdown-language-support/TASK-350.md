@@ -74,3 +74,10 @@ Deliver unit, integration, BDD, verification, and validation evidence for the re
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert Reddit spoilers, superscript, strikethrough,
+> tables, portability diagnostics for `1)` ordered-list markers and unsafe
+> URL schemes, inactive Obsidian behavior, completions, symbols, folds,
+> semantic tokens, spawned-server counts, and validation evidence for local-only
+> Reddit host boundaries.

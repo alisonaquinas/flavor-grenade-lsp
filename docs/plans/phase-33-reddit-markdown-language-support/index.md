@@ -1,7 +1,7 @@
 ---
 title: Phase 33 Reddit Markdown Language Support Tickets
 phase: 33
-status: planned
+status: in-progress
 tags: [plans/phase-33, tickets/index, reddit]
 aliases: ["Phase 33 Tickets"]
 updated: 2026-05-13
@@ -11,7 +11,7 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-059]] | Reddit Markdown Language Support | Feature | `draft` |
+| [[FEAT-059]] | Reddit Markdown Language Support | Feature | `in-progress` |
 | [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | `open` |
 | [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | `open` |
 | [[TASK-350]] | Add Reddit tests and validation evidence | Task | `open` |

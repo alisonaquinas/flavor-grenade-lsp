@@ -2,7 +2,7 @@
 id: "FEAT-059"
 title: "Reddit Markdown Language Support"
 type: feature
-status: draft
+status: in-progress
 priority: high
 phase: 33
 created: "2026-05-13"
@@ -14,7 +14,40 @@ aliases: ["FEAT-059"]
 
 # Reddit Markdown Language Support
 
-> [!INFO] FEAT-059 - Feature - Phase 33 - Status: draft
+> [!INFO] FEAT-059 - Feature - Phase 33 - Status: in-progress
+
+## Implementation Plan
+
+Phase 33 is stacked after Phase 32 because the ledger's near-term roadmap keeps
+the server flavor chain contiguous. Implementation will model source-local
+Reddit Markdown syntax: spoilers, superscript, strikethrough, pipe tables,
+old-Reddit portability diagnostics for `1)` ordered-list markers, URL-scheme
+diagnostics, and host-reference shapes for `r/` and `u/` references. It will
+not call Reddit APIs, resolve users/subreddits/posts/comments, inspect
+moderation state, or claim Rich Text editor rendering.
+
+Primary source paths:
+
+- `src/parser/reddit-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -66,3 +99,10 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Confirmed Phase 32 PR #83 CI is green and added
+> concrete implementation and RED test paths for TASK-348 through TASK-350.
+> Live Reddit user, subreddit, post, comment, moderation, and Rich Text editor
+> rendering behavior remain deferred unless separate integration tickets own
+> them.

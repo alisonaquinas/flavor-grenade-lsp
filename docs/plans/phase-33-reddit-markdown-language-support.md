@@ -1,7 +1,7 @@
 ---
 title: "Phase 33: Reddit Markdown Language Support"
 phase: 33
-status: planned
+status: in-progress
 tags: [plans, markdown-flavor, reddit, language-support]
 aliases: [Phase 33, Reddit Markdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 33 |
 | Title | Reddit Markdown Language Support |
-| Status | planned |
+| Status | in-progress |
 | Gate | Reddit Markdown host-specific syntax awareness is implemented and tested |
 | Depends on | Phase 23 |
 
