@@ -731,3 +731,72 @@ describe('Reddit Markdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('Stack Overflow Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats Stack Overflow syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/stack-overflow.md',
+      [
+        '# Stack Overflow',
+        '',
+        '``` lang-js',
+        'console.log(1);',
+        '```',
+        '',
+        'See [tag:markdown] and [meta-tag:discussion].',
+        '',
+        '>! hidden answer text',
+        '',
+        '<!-- language-all: lang-html -->',
+        '<!-- language: javascript -->',
+        '',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'stack-overflow' },
+    );
+    const stackIndex = doc.index as typeof doc.index & {
+      stackOverflowTagReferences: Array<{ kind: string; target: string }>;
+      stackOverflowSpoilers: Array<{ text: string }>;
+      stackOverflowLanguageDirectives: Array<{ language: string }>;
+      stackOverflowFencedCodeBlocks: Array<{ language: string }>;
+      stackOverflowTables: Array<{ headerCells: string[] }>;
+      stackOverflowMalformedLanguageDirectives: unknown[];
+    };
+
+    expect(doc.markdownFlavor).toBe('stack-overflow');
+    expect(stackIndex.stackOverflowTagReferences).toEqual([
+      expect.objectContaining({ kind: 'tag', target: 'markdown' }),
+      expect.objectContaining({ kind: 'meta-tag', target: 'discussion' }),
+    ]);
+    expect(stackIndex.stackOverflowSpoilers.map((entry) => entry.text)).toEqual([
+      'hidden answer text',
+    ]);
+    expect(stackIndex.stackOverflowLanguageDirectives.map((entry) => entry.language)).toEqual([
+      'lang-html',
+    ]);
+    expect(stackIndex.stackOverflowFencedCodeBlocks.map((entry) => entry.language)).toEqual([
+      'lang-js',
+    ]);
+    expect(stackIndex.stackOverflowTables.map((entry) => entry.headerCells)).toEqual([['A', 'B']]);
+    expect(stackIndex.stackOverflowMalformedLanguageDirectives).toHaveLength(1);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks Stack Overflow LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('stack-overflow');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

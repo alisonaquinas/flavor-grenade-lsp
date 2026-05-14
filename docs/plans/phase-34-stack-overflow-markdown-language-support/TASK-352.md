@@ -2,7 +2,7 @@
 id: "TASK-352"
 title: "Add Stack Overflow Markdown diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -90,3 +90,8 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 > completions, table and host-reference symbols, table folds, semantic tokens,
 > analysis counts, and non-local host-reference disposition. Live Stack
 > Exchange lookup and rendered HTML behavior are out of scope.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Focused RED failed for Stack Overflow completion labels,
+> document symbols, folding, semantic token data, diagnostic `FG801`, and
+> spawned-server query counts. `bun run lint --max-warnings 0` passed.

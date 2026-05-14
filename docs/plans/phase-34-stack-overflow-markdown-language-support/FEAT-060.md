@@ -65,9 +65,9 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | open |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | open |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | open |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | red |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | red |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | red |
 | [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | open |
 | [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,9 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 > Live Stack Exchange tag, question, answer, user, comment, site metadata, and
 > rendered post/comment HTML behavior remain deferred unless separate
 > integration tickets own them.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Added failing coverage for Stack Overflow parser analysis, diagnostics,
+> completions, document symbols, folding, semantic tokens, and spawned-server
+> counts. Focused RED command failed with 8 expected failures and `bun run lint
+> --max-warnings 0` passed.

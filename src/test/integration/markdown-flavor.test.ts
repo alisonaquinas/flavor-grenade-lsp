@@ -1087,6 +1087,78 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies Stack Overflow Markdown parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'stackoverflow.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "stack-overflow"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        '# Stack Overflow',
+        '``` lang-js',
+        'console.log(1);',
+        '```',
+        'See [tag:markdown] and [meta-tag:discussion].',
+        '>! hidden answer text',
+        '<!-- language-all: lang-html -->',
+        '<!-- language: javascript -->',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG801']);
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'stack-overflow',
+      stackOverflowTagReferences: 2,
+      stackOverflowSpoilers: 1,
+      stackOverflowLanguageDirectives: 1,
+      stackOverflowFencedCodeBlocks: 1,
+      stackOverflowTables: 1,
+      stackOverflowMalformedLanguageDirectives: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'stack-overflow',
+      text: '[tag:markdown]',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'non-local-host' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

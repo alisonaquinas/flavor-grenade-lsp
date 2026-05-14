@@ -2,7 +2,7 @@
 id: "TASK-353"
 title: "Add Stack Overflow Markdown tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -81,3 +81,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the st
 > limitations or unsupported directives, inactive Obsidian behavior,
 > completions, symbols, folds, semantic tokens, spawned-server counts, and
 > validation evidence for local-only Stack Exchange host boundaries.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Added RED coverage in parser, diagnostic, completion,
+> document-symbol, folding, semantic-token, and spawned-server integration
+> tests. Focused command produced 142 passing tests and 8 expected failures.

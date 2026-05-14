@@ -449,6 +449,30 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('Stack Overflow flavor routing', () => {
+    it('offers Stack Overflow snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'stack-overflow' }));
+
+      const tagText = '[tag:';
+      router.setDocumentText(TEST_URI, tagText);
+      const tagResult = router.route(makeParams(TEST_URI, tagText, ':'));
+
+      const languageText = '<!-- language';
+      router.setDocumentText(TEST_URI, languageText);
+      const languageResult = router.route(makeParams(TEST_URI, languageText, 'e'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tagResult.items.map((item) => item.label)).toContain('Stack Overflow tag reference');
+      expect(languageResult.items.map((item) => item.label)).toContain(
+        'Stack Overflow language directive',
+      );
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

@@ -568,4 +568,60 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(20);
   });
+
+  it('encodes Stack Overflow tag, language, and spoiler tokens', () => {
+    const doc = makeDoc(DOC_URI);
+    const stackIndex = doc.index as typeof doc.index & {
+      stackOverflowTagReferences: Array<{
+        targetRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      stackOverflowLanguageDirectives: Array<{
+        languageRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      stackOverflowFencedCodeBlocks: Array<{
+        languageRange?: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      stackOverflowSpoilers: Array<{
+        textRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    stackIndex.stackOverflowTagReferences = [
+      {
+        targetRange: { start: { line: 0, character: 5 }, end: { line: 0, character: 13 } },
+      },
+    ];
+    stackIndex.stackOverflowLanguageDirectives = [
+      {
+        languageRange: { start: { line: 1, character: 19 }, end: { line: 1, character: 26 } },
+      },
+    ];
+    stackIndex.stackOverflowFencedCodeBlocks = [
+      {
+        languageRange: { start: { line: 2, character: 4 }, end: { line: 2, character: 11 } },
+      },
+    ];
+    stackIndex.stackOverflowSpoilers = [
+      {
+        textRange: { start: { line: 4, character: 3 }, end: { line: 4, character: 14 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(20);
+  });
 });

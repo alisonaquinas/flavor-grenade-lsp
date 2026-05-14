@@ -272,4 +272,20 @@ describe('FoldingRangeHandler', () => {
 
     expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
   });
+
+  it('folds Stack Overflow table blocks when active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/stack-overflow.md',
+      ['# Stack Overflow', '', '| A | B |', '|---|---|', '| 1 | 2 |', '', '[tag:markdown]'].join(
+        '\n',
+      ),
+      1,
+      { effectiveFlavor: 'stack-overflow' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+  });
 });
