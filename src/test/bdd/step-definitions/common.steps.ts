@@ -13,6 +13,8 @@ import { fileURLToPath } from 'node:url';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
+const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+
 function severityToNumber(severity: string): number {
   switch (severity.toLowerCase()) {
     case 'error':
@@ -61,7 +63,7 @@ Given('a vault containing:', async function (this: FGWorld, dataTable: DataTable
   if (!this.singleFileMode) {
     const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
     if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
+      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
     }
   }
 });
@@ -73,7 +75,7 @@ Given(
     if (!this.singleFileMode) {
       const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
       if (!fs.existsSync(markerPath)) {
-        fs.writeFileSync(markerPath, '', 'utf8');
+        fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
       }
     }
   },
@@ -84,7 +86,7 @@ Given('the file {string} contains:', function (this: FGWorld, relPath: string, d
   if (!this.singleFileMode) {
     const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
     if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
+      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
     }
   }
 });

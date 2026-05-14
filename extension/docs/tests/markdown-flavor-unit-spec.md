@@ -28,7 +28,7 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-011 | Manual language safety | `Extension.MarkdownFlavor.ManualLanguageSafety` | Documents with `plaintext`, `mdx`, or any non-`markdown` language id are ignored by flavor application and do not receive server propagation/reanalysis until their language id returns to `markdown`. |
 | EXT-MF-U-012 | MDX distinction | `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.RequiredCoverage` | `mdx` can be selected as a flavor only when the document language id remains `markdown`; a VS Code `mdx` language document is not modified. |
 | EXT-MF-U-013 | Flavor contract parity | `Extension.MarkdownFlavor.RequiredCoverage` | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
-| EXT-MF-U-014 | Document selector and activation manifest guard | `Extension.Activation.MarkerEvents`, `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Refresh` | `package.json` activation events and `LanguageClient.clientOptions.documentSelector` include file-backed `markdown` coverage and reject stale `ofmarkdown` selectors or `onLanguage:ofmarkdown` activation. |
+| EXT-MF-U-014 | Document selector and activation manifest guard | `Extension.Activation.MarkerEvents`, `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Refresh` | E15 asserts file-backed `markdown` `LanguageClient` selection and selector command activation. E16 owns retired contribution activation cleanup for `onLanguage:ofmarkdown`. |
 
 ## Contribution Unit Cases
 

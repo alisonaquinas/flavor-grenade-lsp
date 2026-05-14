@@ -2,7 +2,7 @@
 id: "CHORE-121"
 title: "Phase 25 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 25
 parent: "FEAT-051"
@@ -33,11 +33,21 @@ Perform trace and documentation kickoff hygiene for GitHub Flavored Markdown lan
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for gfm.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-122]].
+- [x] Documentation trace gaps are identified or resolved for gfm.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-122]].
+
+## Completion Notes
+
+- Updated the applicability matrix with Phase 25 GFM surface dispositions.
+- Updated unit and integration flavor specs with GFM parser/LSP evidence.
+- Updated validation, research-trace, host-boundary, and matrix evidence.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Trace and documentation evidence updated after local unit, integration, audit,
+> lint, typecheck, and BDD checks passed.

@@ -2,7 +2,7 @@
 id: "TASK-302"
 title: "Persist flavor overrides at the correct settings scope"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -54,13 +54,23 @@ folder-owned documents and user settings for standalone files.
 
 ## Definition of Done
 
-- [ ] Workspace files write workspace-folder or workspace scope.
-- [ ] Standalone files write user scope.
-- [ ] Multi-root writes use the active document resource URI.
-- [ ] Auto clears the same active scope by writing `undefined` and does not
+- [x] Workspace files write workspace-folder or workspace scope.
+- [x] Standalone files write user scope.
+- [x] Multi-root writes use the active document resource URI.
+- [x] Auto clears the same active scope by writing `undefined` and does not
       replace it with a literal `auto` override.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for workspace-folder/workspace/global override target
+> selection and Auto Detect clearing through `undefined`.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Selector persistence chooses workspace-folder, workspace, or global targets
+> from the active Markdown resource and clears Auto Detect with `undefined`.
+> Status: `green`.

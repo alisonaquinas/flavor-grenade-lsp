@@ -2,7 +2,7 @@
 id: "CHORE-119"
 title: "Phase 24 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 24
 parent: "FEAT-050"
@@ -33,11 +33,22 @@ Perform trace and documentation kickoff hygiene for Obsidian language-support wo
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for obsidian.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-120]].
+- [x] Documentation trace gaps are identified or resolved for obsidian.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-120]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step A-C sweep - 2026-05-13
+> Phase ticket dependencies, exact implementation details, and source/test
+> paths were aligned with the Phase E15 selector/settings contract before RED
+> coverage.
+
+> [!SUCCESS] Green - 2026-05-13
+> Obsidian trace rows were added to the applicability matrix, unit/integration
+> specs, test index, test matrix, research trace, validation run, and host
+> boundary review. Phase-closeout evidence remains assigned to CHORE-120.
+> Status: `green`.

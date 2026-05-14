@@ -2,7 +2,7 @@
 id: "TASK-297"
 title: "Add flavor verification gate checks"
 type: task
-status: open
+status: done
 priority: medium
 phase: 21
 parent: "FEAT-044"
@@ -58,7 +58,27 @@ are removed.
 - [ ] Phase E17/TASK-311 is linked as the extension host gate for `GAP-S-010`.
 - [ ] Verification spec rows are updated.
 
+## Implementation Notes
+
+- Primary files: `src/test/ci-workflow.test.ts`,
+  `docs/test/markdown-flavor-verification-spec.md`, `docs/test/index.md`, and
+  `docs/test/matrix.md`.
+- Guard exact feature paths, root flavor specs, extension flavor specs, and
+  Phase 21 validation artifacts under `docs/test/evidence/`.
+- RED check: add a guard that fails while
+  `docs/test/evidence/markdown-flavor-product-review.md` and
+  `docs/test/evidence/markdown-flavor-validation-run.md` are missing.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] RED - 2026-05-13
+> Added `src/test/ci-workflow.test.ts` guards for Phase 21 validation artifact
+> paths. The guard fails until `markdown-flavor-product-review.md` and
+> `markdown-flavor-validation-run.md` exist under `docs/test/evidence/`.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added the missing artifact paths and reran
+> `bun test src/test/ci-workflow.test.ts`; all 6 tests passed.

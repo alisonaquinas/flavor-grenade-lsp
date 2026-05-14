@@ -1,4 +1,5 @@
 import type { Range } from 'vscode-languageserver-types';
+import type { MarkdownFlavorId } from '../markdown-flavor/markdown-flavor-contract.js';
 
 /**
  * A region of document text that should be treated as opaque (not parsed for
@@ -179,6 +180,149 @@ export interface LinkLabelDef {
   titleRange?: Range;
 }
 
+/** A GFM pipe table block. */
+export interface GfmTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  range: Range;
+}
+
+/** A pipe-table-looking block rejected by GFM table shape rules. */
+export interface GfmMalformedTableEntry {
+  raw: string;
+  headerCells: string[];
+  delimiterCells: string[];
+  range: Range;
+}
+
+/** A GFM task list item marker and text. */
+export interface GfmTaskListItemEntry {
+  raw: string;
+  checked: boolean;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GFM strikethrough span. */
+export interface GfmStrikethroughEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A GFM extended bare autolink. */
+export interface GfmAutolinkEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A GLFM inapplicable task list item marker and text. */
+export interface GlfmInapplicableTaskListItemEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GLFM description list block. */
+export interface GlfmDescriptionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A description-list-looking block rejected by GLFM shape rules. */
+export interface GlfmMalformedDescriptionListEntry {
+  raw: string;
+  term: string;
+  range: Range;
+}
+
+/** A GLFM footnote definition. */
+export interface GlfmFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A GLFM table-of-contents tag. */
+export interface GlfmTocTagEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A GLFM host-scoped reference that must not become a local vault target. */
+export interface GlfmHostReferenceEntry {
+  raw: string;
+  kind: 'issue' | 'merge-request' | 'epic' | 'user' | 'cross-project';
+  range: Range;
+}
+
+/** Parsed Pandoc attribute contents. */
+export interface PandocAttributeSet {
+  id?: string;
+  classes: string[];
+  keyValues: Record<string, string>;
+}
+
+/** A Pandoc title block made of leading `%` metadata lines. */
+export interface PandocTitleBlockEntry {
+  raw: string;
+  lines: number;
+  range: Range;
+}
+
+/** A Pandoc citation key occurrence. */
+export interface PandocCitationEntry {
+  raw: string;
+  key: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A Pandoc footnote definition. */
+export interface PandocFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A Pandoc attribute block attached to source syntax. */
+export interface PandocAttributeEntry extends PandocAttributeSet {
+  raw: string;
+  range: Range;
+}
+
+/** A malformed Pandoc attribute block. */
+export interface PandocMalformedAttributeEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Pandoc fenced Div block. */
+export interface PandocFencedDivEntry {
+  raw: string;
+  attributes: PandocAttributeSet;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A Pandoc definition list block. */
+export interface PandocDefinitionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -193,6 +337,24 @@ export interface OFMIndex {
   markdownImages: MarkdownImageRef[];
   linkLabelRefs: LinkLabelRef[];
   linkLabelDefs: LinkLabelDef[];
+  gfmTables?: GfmTableEntry[];
+  gfmMalformedTables?: GfmMalformedTableEntry[];
+  gfmTaskListItems?: GfmTaskListItemEntry[];
+  gfmStrikethroughs?: GfmStrikethroughEntry[];
+  gfmAutolinks?: GfmAutolinkEntry[];
+  glfmInapplicableTaskListItems?: GlfmInapplicableTaskListItemEntry[];
+  glfmDescriptionLists?: GlfmDescriptionListEntry[];
+  glfmMalformedDescriptionLists?: GlfmMalformedDescriptionListEntry[];
+  glfmFootnotes?: GlfmFootnoteEntry[];
+  glfmTocTags?: GlfmTocTagEntry[];
+  glfmHostReferences?: GlfmHostReferenceEntry[];
+  pandocTitleBlocks?: PandocTitleBlockEntry[];
+  pandocCitations?: PandocCitationEntry[];
+  pandocFootnotes?: PandocFootnoteEntry[];
+  pandocAttributes?: PandocAttributeEntry[];
+  pandocMalformedAttributes?: PandocMalformedAttributeEntry[];
+  pandocFencedDivs?: PandocFencedDivEntry[];
+  pandocDefinitionLists?: PandocDefinitionListEntry[];
 }
 
 /**
@@ -225,4 +387,12 @@ export interface OFMDoc {
   opaqueRegions: OpaqueRegion[];
   /** Token index for this document. */
   index: OFMIndex;
+  /** Effective Markdown flavor used for this parse. */
+  markdownFlavor: MarkdownFlavorId;
+  /** Parse context metadata consumed by flavor-aware analysis. */
+  parseContext: ParseContext;
+}
+
+export interface ParseContext {
+  effectiveFlavor: MarkdownFlavorId;
 }

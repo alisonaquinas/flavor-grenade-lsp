@@ -2,7 +2,7 @@
 id: "CHORE-115"
 title: "Phase 22 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 22
 parent: "FEAT-048"
@@ -33,11 +33,16 @@ Perform trace and documentation kickoff hygiene for Original Markdown language-s
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for original.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-116]].
+- [x] Documentation trace gaps are identified or resolved for original.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-116]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Sweep - 2026-05-13
+> Updated Original Markdown trace rows in `docs/test/index.md`,
+> `docs/test/matrix.md`, unit/integration specs, research trace evidence, host
+> boundary evidence, and the LSP applicability matrix. Ready for PR review.

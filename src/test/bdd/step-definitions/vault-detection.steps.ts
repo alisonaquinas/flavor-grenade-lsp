@@ -525,7 +525,7 @@ Given('a running LSP server with an indexed vault', async function (this: FGWorl
   // Ensure vault marker
   const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
   if (!fs.existsSync(markerPath)) {
-    fs.writeFileSync(markerPath, '', 'utf8');
+    fs.writeFileSync(markerPath, 'core.markdown.flavor = "obsidian"\n', 'utf8');
   }
   if (!this.proc) {
     await this.startServer(this.vaultUri());

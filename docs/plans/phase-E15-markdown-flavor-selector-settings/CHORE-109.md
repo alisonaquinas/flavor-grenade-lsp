@@ -2,7 +2,7 @@
 id: "CHORE-109"
 title: "Phase E15 extension trace and docs sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: E15
 parent: "FEAT-045"
@@ -33,12 +33,18 @@ lands.
 
 ## Definition of Done
 
-- [ ] Docs trace new extension unit tests.
-- [ ] Phase plan reflects final protocol choice.
-- [ ] Selector/schema/profile compatibility trace is linked from E15 docs.
-- [ ] No completed roadmap phases are modified.
+- [x] Docs trace new extension unit tests.
+- [x] Phase plan reflects final protocol choice.
+- [x] Selector/schema/profile compatibility trace is linked from E15 docs.
+- [x] No completed roadmap phases are modified.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Green - 2026-05-13
+> Extension test index, matrix, unit spec, integration spec, and settings-scope
+> evidence now trace E15 selector/schema/profile compatibility and
+> `workspace/didChangeConfiguration` payload shape.
+> Status: `green`.

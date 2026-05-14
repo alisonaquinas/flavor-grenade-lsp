@@ -2,7 +2,7 @@
 id: "TASK-322"
 title: "Gate Obsidian diagnostics and LSP features by flavor"
 type: task
-status: open
+status: done
 priority: high
 phase: 24
 parent: "FEAT-050"
@@ -74,18 +74,48 @@ Deliver diagnostics and LSP feature behavior for the obsidian flavor using [[doc
 | Test | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
 | Test | `src/handlers/__tests__/hover.handler.test.ts` |
 
+## Implementation Details
+
+- Use the existing `OFMDoc.markdownFlavor` and `parseContext.effectiveFlavor`
+  fields as the LSP-surface dispatch API.
+- Add RED coverage in `src/resolution/__tests__/diagnostic-service.test.ts`
+  proving Obsidian vault diagnostics remain active for Obsidian and portability
+  diagnostics are not emitted for active Obsidian wiki/callout syntax.
+- Add RED coverage in `src/completion/__tests__/completion-router.test.ts`
+  proving Obsidian wiki-link, embed, tag, block, and callout completions remain
+  available only when `doc.markdownFlavor === "obsidian"`.
+- Use `src/test/integration/markdown-flavor.test.ts` for spawned-server proof
+  that the `obsidian` effective flavor activates parser, diagnostics, and
+  completion behavior without depending on `ofmarkdown`.
+- ADR020 constraint: `.md` documents remain VS Code `markdown`; Phase 24 only
+  consumes effective flavor state.
+
 ## Definition of Done
 
-- [ ] obsidian behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for obsidian.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for obsidian.
-- [ ] Rename coverage is implemented for safe local obsidian symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] obsidian behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for obsidian.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for obsidian.
+- [x] Rename coverage is implemented for safe local obsidian symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for Obsidian diagnostics, completions, and spawned-server
+> behavior in `src/resolution/__tests__/diagnostic-service.test.ts`,
+> `src/completion/__tests__/completion-router.test.ts`, and
+> `src/test/integration/markdown-flavor.test.ts`. These tests depend on the
+> profile registry moving Obsidian surfaces from planned to implemented.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Obsidian diagnostics avoid Original/CommonMark portability warnings for active
+> Obsidian syntax, Obsidian-only completions remain active for the Obsidian
+> flavor, and spawned-server analysis observes effective flavor `obsidian`.
+> Status: `green`.

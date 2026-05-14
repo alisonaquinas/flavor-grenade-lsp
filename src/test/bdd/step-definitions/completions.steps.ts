@@ -7,6 +7,8 @@ import type { LspCompletionList, LspCompletionItemWithInsert } from '../lsp-type
 
 // ── completions.feature step definitions ──────────────────────────────────
 
+const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+
 // ── Background: vault with 10 documents and 5 tags ────────────────────────
 
 /**
@@ -72,7 +74,7 @@ Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTabl
   // Ensure vault marker
   const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
   if (!fs.existsSync(markerPath)) {
-    fs.writeFileSync(markerPath, '', 'utf8');
+    fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
   }
 });
 

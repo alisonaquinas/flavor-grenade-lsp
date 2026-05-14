@@ -2,7 +2,7 @@
 id: "TASK-294"
 title: "Rewrite BDD harness around effective flavor state"
 type: task
-status: open
+status: done
 priority: high
 phase: 21
 parent: "FEAT-044"
@@ -49,7 +49,23 @@ VS Code `languageId`.
       server propagation.
 - [ ] BDD tests fail honestly when flavor steps are missing.
 
+## Implementation Notes
+
+- Primary file: `src/test/bdd/step-definitions/extension-harness.steps.ts`.
+- State shape: keep `languageId`, `configuredFlavor`, `effectiveFlavor`,
+  settings-target writes, and `workspace/didChangeConfiguration` payloads as
+  separate `ExtensionState` fields.
+- RED check: run `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature`.
+- GREEN check: the same BDD command passes with `.md` documents remaining in
+  `markdown`.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> `bun run bdd -- docs/bdd/features/ofmarkdown-language-mode.feature docs/bdd/features/markdown-flavor-dialects.feature`
+> passed with 178 scenarios and 1074 steps. Existing harness state tracks
+> `languageId`, `configuredFlavor`, `effectiveFlavor`, settings writes, and
+> server notifications separately.

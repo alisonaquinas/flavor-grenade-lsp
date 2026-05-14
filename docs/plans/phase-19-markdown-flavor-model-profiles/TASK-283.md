@@ -2,7 +2,7 @@
 id: "TASK-283"
 title: "Define canonical Markdown flavor contract"
 type: task
-status: open
+status: done
 priority: high
 phase: 19
 parent: "FEAT-042"
@@ -38,16 +38,40 @@ extension; labels and profile metadata are not parser-owned UI state.
 
 | Test file | Expected coverage |
 |---|---|
-| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | Required id list and labels match ADR020. |
+| `src/parser/__tests__/markdown-flavor-profiles.test.ts` | ✅ Passing coverage for ADR020 id list, labels, selector order, and explicit-only type guard. |
+
+## Implementation Notes
+
+- Create `src/markdown-flavor/markdown-flavor-contract.ts`.
+- Export `MARKDOWN_FLAVOR_IDS`, `MARKDOWN_FLAVOR_SELECTIONS`, `MarkdownFlavorId`, `MarkdownFlavorSelection`, `MARKDOWN_FLAVOR_LABELS`, and `isMarkdownFlavorId(value: unknown): value is MarkdownFlavorId`.
+- Keep `MarkdownFlavorId` explicit-only and `MarkdownFlavorSelection` as `auto | MarkdownFlavorId`.
+- Re-export the contract from `src/markdown-flavor/index.ts`.
+- Write the RED assertions in `src/parser/__tests__/markdown-flavor-profiles.test.ts` before implementation.
+- ADR020 requires exact id order, exact labels, and no profile entry for `auto`.
 
 ## Definition of Done
 
-- [ ] Flavor ids match ADR020 exactly.
-- [ ] `auto` is represented separately from explicit profiles.
-- [ ] Labels/order are available without importing parser internals.
-- [ ] Unit test fails when a required id is removed.
+- [x] Flavor ids match ADR020 exactly.
+- [x] `auto` is represented separately from explicit profiles.
+- [x] Labels/order are available without importing parser internals.
+- [x] Unit test fails when a required id is removed.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing assertions added before `src/markdown-flavor/markdown-flavor-contract.ts` exists.
+
+> [!NOTE] GREEN - 2026-05-13
+> Implemented the shared flavor contract in `src/markdown-flavor/markdown-flavor-contract.ts`; focused profile test passes.
+
+> [!INFO] In Review - 2026-05-13
+> Lint, typecheck, unit, integration, BDD, docs lint, format, and build gates passed locally; awaiting PR CI.
+
+> [!CHECK] Done - 2026-05-13
+> PR #69 CI run `25815957887` passed.

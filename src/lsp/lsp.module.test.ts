@@ -11,7 +11,9 @@ import type { ExitHandler } from './handlers/exit.handler.js';
 import type { DidOpenHandler } from './handlers/did-open.handler.js';
 import type { DidChangeHandler } from './handlers/did-change.handler.js';
 import type { DidCloseHandler } from './handlers/did-close.handler.js';
+import type { ConfigurationHandler } from './handlers/configuration.handler.js';
 import type { FileOperationsHandler } from './handlers/file-operations.handler.js';
+import type { ParseCache } from '../parser/parser.module.js';
 import type { CompletionRouter } from '../completion/completion-router.js';
 import type { DefinitionHandler } from '../handlers/definition.handler.js';
 import type { ReferencesHandler } from '../handlers/references.handler.js';
@@ -67,6 +69,7 @@ describe('LspModule', () => {
       { handle: jest.fn() } as unknown as DidOpenHandler,
       { handle: jest.fn() } as unknown as DidChangeHandler,
       { handle: jest.fn() } as unknown as DidCloseHandler,
+      { handle: jest.fn() } as unknown as ConfigurationHandler,
       {
         handleWillRenameFiles: jest.fn().mockResolvedValue(null),
         handleDidRenameFiles: jest.fn().mockResolvedValue(undefined),
@@ -95,6 +98,7 @@ describe('LspModule', () => {
       } as unknown as PrepareRenameHandler,
       { handle: jest.fn() } as unknown as RenameHandler,
       { size: jest.fn().mockReturnValue(0) } as unknown as VaultIndex,
+      { get: jest.fn() } as unknown as ParseCache,
     );
 
     module.onModuleInit();

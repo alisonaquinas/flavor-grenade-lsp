@@ -2,7 +2,7 @@
 id: "TASK-289"
 title: "Resolve effective flavor for explicit and auto modes"
 type: task
-status: open
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -47,16 +47,33 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 | [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
 | [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
 
+## Implementation Notes
+
+- Implement `resolveEffectiveFlavor(input)` in `src/markdown-flavor/markdown-flavor-state.ts`.
+- Use `MarkdownFlavorSelection` and `MarkdownFlavorId` from the Phase 19 contract.
+- Return `inactive` for non-Markdown language ids or non-file schemes.
+- Resolve explicit selector first, then project TOML/resource evidence, Obsidian marker/membership, then CommonMark fallback.
+
 ## Definition of Done
 
-- [ ] Resolver outputs an explicit effective flavor.
-- [ ] Auto detection does not infer Obsidian for generic Markdown.
-- [ ] `.flavor-grenade.toml` and workspace setting resolution cover every
+- [x] Resolver outputs an explicit effective flavor.
+- [x] Auto detection does not infer Obsidian for generic Markdown.
+- [x] `.flavor-grenade.toml` and workspace setting resolution cover every
       required explicit flavor id.
-- [ ] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
-- [ ] Existing vault detection inputs are reused where appropriate.
+- [x] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
+- [x] Existing vault detection inputs are reused where appropriate.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing resolver assertions added before `src/markdown-flavor/markdown-flavor-state.ts` exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> `MarkdownFlavorState` resolves explicit selections, resource propagation,
+> project TOML, Obsidian markers, and CommonMark fallback.

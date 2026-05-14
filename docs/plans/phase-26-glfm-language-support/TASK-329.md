@@ -2,7 +2,7 @@
 id: "TASK-329"
 title: "Add GLFM tests and validation evidence"
 type: task
-status: open
+status: done
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -63,14 +63,28 @@ Deliver unit, integration, BDD, verification, and validation evidence for the gl
 
 ## Definition of Done
 
-- [ ] glfm behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for glfm, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] glfm behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for glfm, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert inherited GFM baseline behavior, GLFM-specific local
+> syntax, inactive Obsidian syntax, spawned-server propagation, and GitLab
+> host-boundary classification before implementation changes are made.
+
+> [!INFO] RED - 2026-05-13
+> Added failing spawned-server integration coverage for GLFM syntax counts,
+> diagnostics, inactive Obsidian behavior, and GitLab host-boundary
+> classification.
+
+> [!INFO] GREEN - 2026-05-13
+> Spawned-server GLFM integration now passes with parser counts, diagnostics,
+> inactive Obsidian behavior, and GitLab host-boundary classification.

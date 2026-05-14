@@ -7,6 +7,8 @@ import path from 'node:path';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
+const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+
 function findPosition(content: string, target: string): { line: number; character: number } {
   const idx = content.indexOf(target);
   if (idx === -1) return { line: 0, character: 0 };
@@ -119,7 +121,7 @@ Given(
     // Ensure vault marker
     const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
     if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
+      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
     }
 
     if (!this.proc) {

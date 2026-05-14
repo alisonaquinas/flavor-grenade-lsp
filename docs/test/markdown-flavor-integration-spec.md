@@ -26,6 +26,12 @@ and affects analysis without requiring VS Code UI.
 | MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
 | MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
 | MF-I-009 | `src/test/integration/markdown-flavor.test.ts` | Send malformed flavor propagation payloads and unsafe `.flavor-grenade.toml` fixtures. | Oversized maps, non-file URI keys, dangerous keys, stale resources, unsafe TOML paths, oversized TOML, and invalid values are rejected before effective flavor state changes. |
+| MF-I-010 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `original` and open a document with Original core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `original`, indexes headings but not wiki links, publishes FG101 portability diagnostics, and suppresses wiki-link completions. |
+| MF-I-011 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `commonmark` and open a document with CommonMark core headings plus unsupported extension syntax. | Open-document analysis reports effective flavor `commonmark`, indexes headings but not wiki links, publishes FG102 portability diagnostics, and suppresses wiki-link completions. |
+| MF-I-012 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `obsidian` and open a document with wiki links, embeds, tags, callouts, and block references. | Open-document analysis reports effective flavor `obsidian`, indexes wiki links, and does not publish Original/CommonMark portability diagnostics for active Obsidian syntax. |
+| MF-I-013 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `gfm` and open a document with a pipe table, task-list item, strikethrough, extended bare autolink, and Obsidian wiki link. | Open-document analysis reports effective flavor `gfm`, indexes GFM table/task/strikethrough/autolink counts, keeps wiki links inert, and does not publish CommonMark portability warnings for active GFM syntax. |
+| MF-I-014 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `glfm` and open a document with inherited GFM table syntax, GLFM inapplicable task marker, description list, footnote, TOC tag, GitLab host references, and Obsidian wiki link. | Open-document analysis reports effective flavor `glfm`, indexes GLFM local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active GLFM syntax, and classifies GitLab host references as non-local. |
+| MF-I-015 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `pandoc` and open a document with title-block metadata, heading attributes, citations, definition lists, footnotes, fenced Divs, and an Obsidian wiki link. | Open-document analysis reports effective flavor `pandoc`, indexes Pandoc local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active Pandoc syntax, and classifies citation references as bibliography-bound. |
 
 ## Spawned-Server IDs
 
@@ -65,6 +71,45 @@ Integration evidence for `Security.Input.FlavorPropagationPayload`,
 `Security.Input.ProjectConfigTOMLSafety`, and
 `Security.Vault.ProjectConfigConfinement`. It must prove malformed propagation
 payloads and unsafe project config evidence fail before state mutation.
+
+### MF-I-010 - Original Markdown Spawned-Server Behavior
+
+Integration evidence for Phase 22. It proves Original Markdown behavior crosses
+the JSON-RPC process boundary for parser dispatch, diagnostics, and completion
+candidate routing without requiring VS Code UI.
+
+### MF-I-011 - CommonMark Spawned-Server Behavior
+
+Integration evidence for Phase 23. It proves CommonMark behavior crosses the
+JSON-RPC process boundary for parser dispatch, diagnostics, and completion
+candidate routing without requiring VS Code UI.
+
+### MF-I-012 - Obsidian Spawned-Server Behavior
+
+Integration evidence for Phase 24. It proves Obsidian behavior crosses the
+JSON-RPC process boundary for parser dispatch and diagnostic behavior without
+requiring VS Code UI or `ofmarkdown` language-mode promotion.
+
+### MF-I-013 - GFM Spawned-Server Behavior
+
+Integration evidence for Phase 25. It proves GFM behavior crosses the JSON-RPC
+process boundary for parser dispatch, local syntax counts, diagnostics, and
+inactive Obsidian syntax without requiring VS Code UI.
+
+### MF-I-014 - GLFM Spawned-Server Behavior
+
+Integration evidence for Phase 26. It proves GLFM behavior crosses the JSON-RPC
+process boundary for parser dispatch, local syntax counts, diagnostics,
+inactive Obsidian syntax, and GitLab host-boundary classification without
+requiring GitLab service access or VS Code UI.
+
+### MF-I-015 - Pandoc Spawned-Server Behavior
+
+Integration evidence for Phase 27. It proves Pandoc behavior crosses the
+JSON-RPC process boundary for parser dispatch, local syntax counts,
+diagnostics, inactive Obsidian syntax, and bibliography-bound citation
+classification without requiring Pandoc, citeproc, bibliography services, or VS
+Code UI.
 
 ## Exit Criteria
 

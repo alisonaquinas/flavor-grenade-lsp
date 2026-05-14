@@ -2,7 +2,7 @@
 id: "TASK-298"
 title: "Add flavor validation review evidence"
 type: task
-status: open
+status: done
 priority: medium
 phase: 21
 parent: "FEAT-044"
@@ -57,7 +57,26 @@ product intent and research sources.
       product registry/server behavior.
 - [ ] Platform flavor safety is explicitly reviewed.
 
+## Implementation Notes
+
+- Primary files:
+  `docs/test/evidence/markdown-flavor-product-review.md`,
+  `docs/test/evidence/markdown-flavor-validation-run.md`,
+  `docs/test/evidence/markdown-flavor-research-trace.md`, and
+  `docs/test/evidence/markdown-flavor-host-boundary-review.md`.
+- Artifacts must use repository-relative paths and must not include local user
+  paths, note content, TOML contents, environment variables, API-like tokens, or
+  raw server output containing document content.
+- Product review must distinguish `auto` as a detection state from explicit
+  dialect profiles and confirm `mdx` flavor does not authorize VS Code language
+  mode changes.
+
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Added sanitized product-review and validation-run artifacts, then updated the
+> research trace and host-boundary review with Phase 21 review metadata and
+> validation-row results.

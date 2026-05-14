@@ -2,7 +2,7 @@
 id: "TASK-293"
 title: "Refresh open document diagnostics after flavor changes"
 type: task
-status: open
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -41,14 +41,31 @@ feature analysis without requiring a server restart.
 | [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]] | Flavor changes mark documents for refresh. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]] | Spawned-server handler refresh reaches all flavor-sensitive LSP surfaces. |
 
+## Implementation Notes
+
+- Configuration handler reparses open documents after accepted flavor changes.
+- `DocumentStore` exposes open document iteration.
+- Unchanged or rejected configuration payloads do not refresh documents.
+- Diagnostics are republished through existing `DiagnosticService` only after accepted mutation.
+
 ## Definition of Done
 
-- [ ] Open document diagnostics and all flavor-sensitive LSP surfaces refresh
+- [x] Open document diagnostics and all flavor-sensitive LSP surfaces refresh
       after flavor change.
-- [ ] Refresh does not require process restart.
-- [ ] Tests cover unchanged flavor as a no-op.
+- [x] Refresh does not require process restart.
+- [x] Tests cover unchanged flavor as a no-op.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing refresh assertions added before accepted configuration changes reparse open documents.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Accepted configuration changes now reparse open Markdown documents, update
+> `ParseCache`, and republish diagnostics without restarting the server.

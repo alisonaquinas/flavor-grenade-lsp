@@ -29,6 +29,7 @@ function makeDoc(
     blockAnchors = [] as string[],
     callouts = [] as string[],
     frontmatter = null as Record<string, unknown> | null,
+    markdownFlavor = 'obsidian' as OFMDoc['markdownFlavor'],
   } = {},
 ): OFMDoc {
   return {
@@ -56,7 +57,13 @@ function makeDoc(
         text: h.text,
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } },
       })),
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     },
+    markdownFlavor,
+    parseContext: { effectiveFlavor: markdownFlavor },
   };
 }
 
@@ -161,6 +168,121 @@ describe('CompletionRouter', () => {
         range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
         newText: 'alpha',
       });
+    });
+
+    it('suppresses inactive Obsidian completions for Original Markdown', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'original' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
+    });
+
+    it('suppresses inactive Obsidian completions for CommonMark', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'commonmark' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
+    });
+  });
+
+  describe('Obsidian flavor routing', () => {
+    it('keeps Obsidian-only completions active for the Obsidian flavor', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const wikiText = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'obsidian' }));
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      const calloutText = '> [!';
+      router.setDocumentText(TEST_URI, calloutText);
+      const calloutResult = router.route(makeParams(TEST_URI, calloutText, '!'));
+
+      expect(wikiResult.items.some((item) => item.label === 'alpha')).toBe(true);
+      expect(calloutResult.items.some((item) => item.label === 'NOTE')).toBe(true);
+    });
+  });
+
+  describe('GFM flavor routing', () => {
+    it('offers table and task-list snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'gfm' }));
+
+      const tableText = '|';
+      router.setDocumentText(TEST_URI, tableText);
+      const tableResult = router.route(makeParams(TEST_URI, tableText, '|'));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tableResult.items.map((item) => item.label)).toContain('GFM table');
+      expect(taskResult.items.map((item) => item.label)).toContain('GFM task item');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('GLFM flavor routing', () => {
+    it('offers GLFM snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'glfm' }));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const tocText = '[';
+      router.setDocumentText(TEST_URI, tocText);
+      const tocResult = router.route(makeParams(TEST_URI, tocText, '['));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(taskResult.items.map((item) => item.label)).toContain('GLFM inapplicable task item');
+      expect(tocResult.items.map((item) => item.label)).toContain('GLFM table of contents');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('Pandoc flavor routing', () => {
+    it('offers Pandoc snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'pandoc' }));
+
+      const citationText = '[@';
+      router.setDocumentText(TEST_URI, citationText);
+      const citationResult = router.route(makeParams(TEST_URI, citationText, '@'));
+
+      const attributeText = '{';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, '{'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(citationResult.items.map((item) => item.label)).toContain('Pandoc citation');
+      expect(attributeResult.items.map((item) => item.label)).toContain('Pandoc attribute set');
+      expect(wikiResult.items).toHaveLength(0);
     });
   });
 

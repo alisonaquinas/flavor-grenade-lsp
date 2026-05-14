@@ -2,7 +2,7 @@
 id: "TASK-304"
 title: "Propagate effective flavor from extension to server"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -70,25 +70,37 @@ open Markdown documents.
 
 ## Definition of Done
 
-- [ ] Flavor changes notify the server through `workspace/didChangeConfiguration`
+- [x] Flavor changes notify the server through `workspace/didChangeConfiguration`
       carrying `flavorGrenade.markdownFlavor` plus resource-specific selected,
       effective, source, and resource-key data.
-- [ ] Multi-root and standalone tests prove one document's override does not
+- [x] Multi-root and standalone tests prove one document's override does not
       change another document's effective flavor.
-- [ ] Payload tests prove oversized maps, unsupported schemes, dangerous keys,
+- [x] Payload tests prove oversized maps, unsupported schemes, dangerous keys,
       unknown/stale resources, and restricted/virtual/untrusted contexts do not
       propagate state.
-- [ ] Every required explicit flavor id is covered by propagation tests.
-- [ ] Standalone `original` is propagated and reanalyzed correctly.
-- [ ] Open Markdown refresh path runs after selector, workspace-folder, visible
+- [x] Every required explicit flavor id is covered by propagation tests.
+- [x] Standalone `original` is propagated and reanalyzed correctly.
+- [x] Open Markdown refresh path runs after selector, workspace-folder, visible
       editor, file-open, server-readiness, membership, marker,
       `.flavor-grenade.toml` appear/disappear/change, and settings changes.
-- [ ] Integration coverage proves outbound payload shape and server-unavailable
+- [x] Integration coverage proves outbound payload shape and server-unavailable
       replay/recompute behavior.
-- [ ] Non-`markdown` documents are excluded from refresh and propagation.
-- [ ] Server failure preserves user-visible flavor state.
+- [x] Non-`markdown` documents are excluded from refresh and propagation.
+- [x] Server failure preserves user-visible flavor state.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for exact `workspace/didChangeConfiguration` payloads,
+> every explicit flavor id, resource-specific state, and propagation suppression
+> for restricted or inactive resources.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Extension refresh sends resource-specific `workspace/didChangeConfiguration`
+> payloads with selected/effective/source state and suppresses propagation for
+> restricted, unsupported-scheme, or non-Markdown resources.
+> Status: `green`.

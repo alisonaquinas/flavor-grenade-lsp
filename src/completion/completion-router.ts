@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import type { CompletionItem } from 'vscode-languageserver-types';
 import { ContextAnalyzer } from './context-analyzer.js';
+import type { CompletionContext } from './context-analyzer.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
 import { HeadingCompletionProvider } from './heading-completion-provider.js';
 import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-provider.js';
@@ -80,6 +81,24 @@ export class CompletionRouter {
 
     // 4. Detect context
     const context = this.contextAnalyzer.analyze(text, offset);
+    if (doc.markdownFlavor !== 'obsidian' && this.isObsidianInactiveContext(context)) {
+      return { items: [], isIncomplete: false };
+    }
+
+    if (doc.markdownFlavor === 'glfm') {
+      const glfmResult = this.glfmCompletions(text, params.position);
+      if (glfmResult !== null) return glfmResult;
+    }
+
+    if (doc.markdownFlavor === 'pandoc') {
+      const pandocResult = this.pandocCompletions(text, params.position);
+      if (pandocResult !== null) return pandocResult;
+    }
+
+    if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
+      const gfmResult = this.gfmCompletions(text, params.position);
+      if (gfmResult !== null) return gfmResult;
+    }
 
     // 5. Dispatch to provider
     let result: { items: CompletionItem[]; isIncomplete: boolean };
@@ -222,6 +241,143 @@ export class CompletionRouter {
       insertText: newText,
       textEdit: { range, newText },
     };
+  }
+
+  private isObsidianInactiveContext(context: CompletionContext): boolean {
+    return [
+      'wiki-link',
+      'wiki-link-heading',
+      'wiki-link-block',
+      'embed',
+      'tag',
+      'callout',
+    ].includes(context.kind);
+  }
+
+  private gfmCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^\s*\|$/.test(prefix)) {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM table',
+              insertText: '| Header | Header |\n| --- | --- |\n| Cell | Cell |',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (/^[ \t]{0,3}[-*+][ \t]$/.test(prefix)) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM task item',
+              insertText: '[ ] ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private glfmCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^[ \t]{0,3}[-*+][ \t]$/.test(prefix)) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GLFM inapplicable task item',
+              insertText: '[~] ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix === '[') {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GLFM table of contents',
+              insertText: '[[_TOC_]]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private pandocCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix.endsWith('[@')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc citation',
+              insertText: 'key]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix === '{') {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc attribute set',
+              insertText: '{#id .class}',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
   }
 
   private docIdForUri(uri: string): DocId | undefined {

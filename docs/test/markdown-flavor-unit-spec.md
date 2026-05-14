@@ -33,11 +33,11 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
 | MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | The auto-detection truth table from [[docs/design/markdown-flavor-auto-detection]] is covered: workspace-folder/workspace/user scope, project TOML, `.obsidian/`, `.flavor-grenade.toml`, server membership, invalid values, and CommonMark fallback. |
 | MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
-| MF-U-010 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Original Markdown analysis supports historical core constructs and treats fenced code, pipe tables, task lists, wiki links, and callouts as non-core. |
-| MF-U-011 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | CommonMark analysis supports standardized fenced code, heading, link, and list behavior while excluding GFM tables/tasks and Obsidian wiki links as core syntax. |
-| MF-U-012 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `Extension.MarkdownFlavor.ServerPropagation` | Obsidian analysis preserves wiki links, embeds, tags, block anchors, callouts, vault-local resolution, and structural LSP behavior only for effective flavor `obsidian`. |
-| MF-U-013 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM analysis supports pipe tables, task lists, strikethrough, autolinks, and GitHub-style heading anchors where modeled locally. |
-| MF-U-014 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GLFM analysis extends the CommonMark/GFM baseline with GitLab references, media behavior, and heading/link conventions that require no GitLab service access. |
+| MF-U-010 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | Original Markdown analysis supports historical core constructs, marks Phase 22 LSP surfaces implemented, emits FG101 portability diagnostics for unsupported extensions, and suppresses inactive Obsidian completions. |
+| MF-U-011 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | CommonMark analysis supports fenced code, setext/ATX headings, inline/reference links, autolinks, and implemented surface status while excluding GFM tables/tasks and Obsidian wiki links/callouts as core syntax; FG102 portability warnings and inactive Obsidian completion suppression are covered. |
+| MF-U-012 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `Extension.MarkdownFlavor.ServerPropagation`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | Obsidian analysis preserves wiki links, embeds, tags, block anchors, callouts, vault-local resolution, implemented profile surface status, active-syntax diagnostics, and Obsidian-only completions only for effective flavor `obsidian`. |
+| MF-U-013 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts`, `src/handlers/__tests__/semantic-tokens.handler.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.SemanticTokens.ProfileTokens`, `FlavorLSP.HostBoundary.NonLocalReferences` | GFM analysis supports pipe tables, task lists, strikethrough, extended autolinks, implemented profile surface status, malformed table diagnostics, table/task completions, table/task symbols, table folds, task/strikethrough semantic tokens, and inactive Obsidian syntax. |
+| MF-U-014 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts`, `src/handlers/__tests__/semantic-tokens.handler.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.SemanticTokens.ProfileTokens`, `FlavorLSP.HostBoundary.NonLocalReferences` | GLFM analysis extends the CommonMark/GFM baseline with inapplicable task markers, description lists, footnotes, TOC tags, host reference boundaries, implemented profile surface status, FG202 diagnostics, GLFM snippets, description-list/TOC symbols, description-list folds, task/footnote semantic tokens, and inactive Obsidian syntax. |
 | MF-U-015 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Pandoc analysis supports metadata blocks, citations, footnotes, math, attributes, fenced divs, definition lists, labels, and cross-references without invoking Pandoc. |
 | MF-U-016 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | MultiMarkdown analysis supports metadata, tables, footnotes, citations, labels, and document-production cross-references. |
 | MF-U-017 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `Extension.MarkdownFlavor.ManualLanguageSafety` | MDX analysis recognizes JSX expression/component regions, ESM regions, and Markdown/JSX boundaries without relying on VS Code language-mode promotion. |
@@ -97,27 +97,49 @@ settings, server membership, and invalid-value fallback.
 
 ### MF-U-010 - Original Markdown Parser And Analysis
 
-Unit evidence for Phase 22.
+Unit evidence for Phase 22. Coverage proves Original Markdown setext and ATX
+headings, indented code opacity, inline Markdown links, inactive wiki/callout
+syntax, FG101 portability diagnostics, and completion suppression for inactive
+Obsidian contexts.
 
 ### MF-U-011 - CommonMark Parser And Analysis
 
-Unit evidence for Phase 23.
+Unit evidence for Phase 23. Coverage proves CommonMark setext and ATX
+headings, fenced code opacity, inline/reference Markdown links, autolinks,
+inactive wiki/callout/task/table syntax, FG102 portability diagnostics, and
+completion suppression for inactive Obsidian contexts.
 
 ### MF-U-012 - Obsidian Parser And Analysis
 
-Unit evidence for Phase 24.
+Unit evidence for Phase 24. Coverage proves Obsidian wiki links, embeds,
+tags, block anchors, callouts, frontmatter, math/comment/Templater opaque
+regions, implemented surface status, active-syntax diagnostic behavior, and
+Obsidian-only completion routing under effective flavor `obsidian`.
 
 ### MF-U-013 - GFM Parser And Analysis
 
-Unit evidence for Phase 25.
+Unit evidence for Phase 25. Coverage proves GFM pipe tables, task-list items,
+strikethrough, extended bare autolinks, implemented surface status, malformed
+table diagnostics, table/task completions, table/task document symbols, table
+folding, task/strikethrough semantic tokens, and inactive Obsidian syntax.
 
 ### MF-U-014 - GLFM Parser And Analysis
 
-Unit evidence for Phase 26.
+Unit evidence for Phase 26. Coverage proves inherited GFM syntax, GLFM
+inapplicable task markers, description lists, footnotes, TOC tags, GitLab
+host-reference recognition, implemented surface status, malformed
+description-list diagnostics, GLFM completion snippets, description-list and
+TOC document symbols, description-list folding, inapplicable-task/footnote
+semantic tokens, and inactive Obsidian syntax.
 
 ### MF-U-015 - Pandoc Markdown Parser And Analysis
 
-Unit evidence for Phase 27.
+Unit evidence for Phase 27. Coverage proves Pandoc title blocks, citations,
+footnotes, attribute sets, malformed attribute diagnostics, fenced Divs,
+definition lists, implemented surface status, Pandoc completion snippets,
+metadata/label/footnote document symbols, fenced-Div and definition-list
+folding, citation/footnote/attribute semantic tokens, bibliography-bound
+citation classification, and inactive Obsidian syntax.
 
 ### MF-U-016 - MultiMarkdown Parser And Analysis
 

@@ -2,7 +2,7 @@
 id: "TASK-319"
 title: "Add CommonMark diagnostics and LSP features"
 type: task
-status: open
+status: done
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -76,16 +76,37 @@ Deliver diagnostics and LSP feature behavior for the commonmark flavor using [[d
 
 ## Definition of Done
 
-- [ ] commonmark behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for commonmark.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for commonmark.
-- [ ] Rename coverage is implemented for safe local commonmark symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] commonmark behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for commonmark.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for commonmark.
+- [x] Rename coverage is implemented for safe local commonmark symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> LSP scope confirmed: diagnostics and completions must apply CommonMark-specific
+> portability rules while preserving local Markdown link navigation and keeping
+> Obsidian-only completion/navigation/rename surfaces inactive.
+> Focused RED coverage fails because CommonMark portability diagnostics do not
+> emit `FG102` and CommonMark still receives wiki-link completions.
+> Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> CommonMark LSP behavior is implemented for the Phase 23 surface: `FG102`
+> portability diagnostics cover GFM tables/tasks and Obsidian wiki/callout
+> syntax, while Obsidian-only completion contexts are suppressed outside the
+> Obsidian flavor.
+> Command passed: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `green`.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #73 CI run `25821416971` passed. Diagnostics, completion gating, and
+> recorded LSP surface dispositions are complete for Phase 23.

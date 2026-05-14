@@ -2,7 +2,7 @@
 id: "CHORE-106"
 title: "Phase 20 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 20
 parent: "FEAT-043"
@@ -31,15 +31,25 @@ Run the full phase verification pass and prepare Phase 20 for review.
 
 ## Definition of Done
 
-- [ ] Phase verification commands pass.
-- [ ] Test matrix/index and validation evidence include current propagation,
+- [x] Phase verification commands pass.
+- [x] Test matrix/index and validation evidence include current propagation,
       refresh, rename-safety context, and host/conversion boundary status.
-- [ ] [[TASK-354]] boundary-classification evidence is linked from the feature
+- [x] [[TASK-354]] boundary-classification evidence is linked from the feature
       ticket and matrix.
-- [ ] Residual risks are documented.
-- [ ] Phase is ready for review.
+- [x] Residual risks are documented.
+- [x] Phase is ready for review.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Finding - 2026-05-13
+> `bun run format:check` reported Prettier drift in six Phase 20 touched source
+> files. Fix by running the repository formatter on the touched source set, then
+> rerun the format gate.
+
+> [!SUCCESS] Done - 2026-05-13
+> Phase 20 local gates passed: focused unit, focused spawned integration, root
+> tests, integration tests, typecheck, lint, audit, BDD, docs lint, format check,
+> and build.

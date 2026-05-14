@@ -2,7 +2,7 @@
 id: "TASK-303"
 title: "Resolve Auto Detect from workspace and membership signals"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -55,20 +55,32 @@ membership/project-config inputs according to
 
 ## Definition of Done
 
-- [ ] Auto detection resolves expected effective flavor.
-- [ ] Server/project-config evidence from `.flavor-grenade.toml` and workspace
+- [x] Auto detection resolves expected effective flavor.
+- [x] Server/project-config evidence from `.flavor-grenade.toml` and workspace
       settings can resolve `auto` to each required explicit flavor id.
-- [ ] `.flavor-grenade.toml` appear/disappear/change events refresh effective
+- [x] `.flavor-grenade.toml` appear/disappear/change events refresh effective
       flavor from server/project-config evidence.
-- [ ] Extension/server ownership for `.flavor-grenade.toml` is recorded:
+- [x] Extension/server ownership for `.flavor-grenade.toml` is recorded:
       extension consumes marker and project-config evidence; BC4/server owns
       authoritative TOML parsing unless replaced by a shared parser.
-- [ ] Invalid configured flavor values preserve prior state or fall back to the
+- [x] Invalid configured flavor values preserve prior state or fall back to the
       documented default without changing language id.
-- [ ] Generic Markdown does not auto-detect as Obsidian.
-- [ ] Membership fallback does not trigger language promotion.
+- [x] Generic Markdown does not auto-detect as Obsidian.
+- [x] Membership fallback does not trigger language promotion.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for Auto Detect precedence: project flavor evidence,
+> Obsidian marker evidence, then CommonMark fallback, while non-Markdown
+> language ids remain inactive.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Auto Detect resolution covers explicit settings, project evidence, Obsidian
+> marker/membership evidence, CommonMark fallback, and inactive non-Markdown
+> documents without language promotion.
+> Status: `green`.

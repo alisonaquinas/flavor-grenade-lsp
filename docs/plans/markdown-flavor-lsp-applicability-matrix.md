@@ -28,6 +28,114 @@ verification evidence.
 | `reddit` | Required for platform-supported Markdown and unsupported portability warnings. | Required for Reddit-specific text constructs when local syntax is known. | Required for definitions/references/document links for local headings, Markdown links, and recognized Reddit user/subreddit link shapes; document symbols/folding required for supported headings, lists, block quotes, and code blocks; live Reddit lookup is deferred. | Required for Reddit Markdown tokens. | Required for Reddit syntax explanation. | Required for local Markdown symbols; reject live Reddit user, subreddit, post, comment, and moderation targets without integration context. |
 | `stack-overflow` | Required for technical-writing Markdown, code-heavy constructs, and portability warnings. | Required for Stack Overflow-style code, link, and tag-reference constructs. | Required for definitions/references/document links for headings, links, and tag-reference shapes; document symbols/folding required for headings, lists, block quotes, and code blocks; live Stack Exchange lookup is deferred. | Required for Stack Overflow Markdown tokens. | Required for Stack Overflow syntax explanation. | Required for local Markdown symbols; reject live Stack Exchange tag, question, answer, user, and comment targets without integration context. |
 
+## Phase 22 Original Markdown Disposition
+
+Phase 22 marks the `original` profile's LSP surfaces implemented for local
+Markdown behavior. Existing shared Markdown handlers provide local link,
+heading, document-symbol, folding, hover, semantic-token, and rename behavior
+from the parsed index. Phase 22 adds explicit parser dispatch, FG101
+portability diagnostics, and completion suppression for Original-inert
+Obsidian constructs.
+
+| Surface | Phase 22 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for Original portability warnings. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for standard Markdown link/heading contexts; inactive Obsidian contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Navigation, document symbols, folding | Implemented through the parsed Original index: headings and Markdown links remain active; wiki links, embeds, tags, and callouts are absent. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing structural/navigation suites |
+| Semantic tokens | Implemented through existing Markdown token surfaces for core syntax; inactive extension tokens are absent from the Original index. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
+| Hover | Implemented through existing local Markdown metadata surfaces for core syntax; no host-specific Original syntax exists. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for local headings and Markdown link references through existing rename handlers; inactive extension syntax has no Original index entries. | existing rename and Markdown-link rename suites |
+
+## Phase 23 CommonMark Disposition
+
+Phase 23 marks the `commonmark` profile's LSP surfaces implemented for local
+CommonMark behavior. Existing shared Markdown handlers provide local link,
+heading, document-symbol, folding, hover, semantic-token, and rename behavior
+from the parsed CommonMark-compatible index. Phase 23 adds explicit CommonMark
+surface status, autolink indexing, FG102 portability diagnostics, and
+completion suppression for Obsidian-only contexts outside the Obsidian flavor.
+
+| Surface | Phase 23 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for CommonMark portability warnings. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for standard Markdown link/heading contexts; inactive Obsidian contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Navigation, document symbols, folding | Implemented through the parsed CommonMark index: headings, inline links, reference labels, and autolinks remain active; wiki links, embeds, tags, and callouts are absent. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing structural/navigation suites |
+| Semantic tokens | Implemented through existing Markdown token surfaces for CommonMark syntax; inactive extension tokens are absent from the CommonMark index. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
+| Hover | Implemented through existing local Markdown metadata surfaces for CommonMark syntax; no host-specific CommonMark syntax exists. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for local headings and Markdown link references through existing rename handlers; inactive extension syntax has no CommonMark index entries. | existing rename and Markdown-link rename suites |
+
+## Phase 24 Obsidian Disposition
+
+Phase 24 marks the `obsidian` profile's LSP surfaces implemented for existing
+Obsidian Flavored Markdown behavior under explicit flavor state. Existing OFM
+handlers continue to provide vault-local diagnostics, completions, navigation,
+document links, document symbols, folding, semantic tokens, hover, and safe
+rename behavior from the parsed Obsidian index. Phase 24 adds explicit
+Obsidian profile status plus parser, diagnostic, completion, and spawned-server
+regression evidence proving this behavior no longer depends on `ofmarkdown`
+language-mode promotion.
+
+| Surface | Phase 24 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for vault-local wiki links, embeds, block references, tags, callouts, and attachment rules; active Obsidian syntax does not emit Original/CommonMark portability warnings. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for vault links, embeds, headings, blocks, tags, callouts, and aliases when `doc.markdownFlavor` is `obsidian`. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through the parsed Obsidian index: wiki links, embeds, tags, block anchors, callouts, headings, Markdown links, and attachments remain active. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing structural/navigation suites |
+| Semantic tokens | Implemented through existing OFM token surfaces for active Obsidian constructs and opaque-region suppression. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, existing semantic-token suite |
+| Hover | Implemented through existing vault target metadata and attachment hover surfaces; renderer-only semantics stay documented as host-boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md`, existing hover suites |
+| Rename | Implemented for safe vault-local notes, headings, blocks, Markdown links, embeds, and attachments through existing rename handlers. | existing rename and Markdown-link rename suites |
+
+## Phase 25 GFM Disposition
+
+Phase 25 marks the `gfm` profile's local LSP surfaces implemented for the
+published GFM syntax subset. GFM extends the CommonMark base with local indices
+for pipe tables, task-list items, strikethrough, and extended bare autolinks.
+GitHub platform objects remain host-bound: the server classifies them locally
+but does not perform live GitHub lookup, network access, process execution,
+dynamic imports, or out-of-root file reads.
+
+| Surface | Phase 25 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed pipe-table shape (`FG201`) and existing local Markdown-link diagnostics; Obsidian-only syntax stays inert. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for GFM table and task-list snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through parsed headings, Markdown links, autolinks, GFM table symbols, task symbols, and table folds. Host references remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for GFM task markers and strikethrough spans. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live GitHub metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; GitHub issue, pull request, commit, user, and label references are rejected by remaining non-local. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
+## Phase 26 GLFM Disposition
+
+Phase 26 marks the `glfm` profile's local LSP surfaces implemented for the
+offline-testable GitLab syntax subset. GLFM inherits the GFM base and adds
+local indices for inapplicable task markers, description lists, footnote
+definitions, table-of-contents tags, and GitLab host-reference shapes. Live
+GitLab object lookup remains deferred.
+
+| Surface | Phase 26 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed GLFM description lists (`FG202`); inherited malformed GFM tables still use `FG201`; GitLab host objects do not become vault diagnostics. | `src/resolution/__tests__/diagnostic-service.test.ts` |
+| Completion | Implemented for GLFM inapplicable task-item and table-of-contents snippets plus inherited GFM table/task snippets; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, inherited GFM tables, GLFM description-list symbols/folds, and TOC symbols. GitLab host references remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for GLFM inapplicable task markers and footnote labels plus inherited GFM token behavior. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live GitLab metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; GitLab issue, merge request, epic, user, and project references remain non-local without integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
+## Phase 27 Pandoc Disposition
+
+Phase 27 marks the `pandoc` profile's local LSP surfaces implemented for the
+source-backed Pandoc Markdown subset. Pandoc adds local indices for title
+blocks, citations, footnotes, attribute sets, fenced Divs, and definition
+lists. Pandoc conversion, citeproc processing, filters, templates, output
+writers, and unconfigured bibliography databases remain deferred.
+
+| Surface | Phase 27 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed Pandoc attribute sets (`FG301`); citations are classified as bibliography-bound rather than broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for Pandoc citation and attribute snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, title-block symbols, attribute-label symbols, footnote symbols, fenced-Div folds, and definition-list folds. Bibliography and conversion targets remain non-local unless configured local context exists. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for Pandoc citations, footnote labels, and attribute sets. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; Pandoc conversion and bibliography metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; citation, bibliography, conversion, writer, template, and filter targets remain non-local without configured local context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

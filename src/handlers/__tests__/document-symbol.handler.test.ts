@@ -128,4 +128,96 @@ describe('DocumentSymbolHandler', () => {
     const result = handler.handle({ textDocument: { uri: DOC_URI } });
     expect(result).toHaveLength(0);
   });
+
+  it('adds GFM tables and task items as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Tasks', 1, 0)]);
+    doc.index.gfmTables = [
+      {
+        raw: '| A | B |\n| --- | --- |',
+        headerCells: ['A', 'B'],
+        rowCount: 0,
+        range: { start: { line: 2, character: 0 }, end: { line: 3, character: 13 } },
+      },
+    ];
+    doc.index.gfmTaskListItems = [
+      {
+        raw: '- [x] done',
+        checked: true,
+        text: 'done',
+        range: { start: { line: 5, character: 0 }, end: { line: 5, character: 10 } },
+        markerRange: { start: { line: 5, character: 2 }, end: { line: 5, character: 5 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result[0].children?.map((child) => child.name) ?? [];
+
+    expect(names).toContain('GFM table: A, B');
+    expect(names).toContain('Task: done');
+  });
+
+  it('adds GLFM description lists and TOC tags as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('GLFM', 1, 0)]);
+    doc.index.glfmDescriptionLists = [
+      {
+        raw: 'Term\n: definition',
+        term: 'Term',
+        definitionCount: 1,
+        range: { start: { line: 2, character: 0 }, end: { line: 3, character: 12 } },
+      },
+    ];
+    doc.index.glfmTocTags = [
+      {
+        raw: '[[_TOC_]]',
+        range: { start: { line: 5, character: 0 }, end: { line: 5, character: 9 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result[0].children?.map((child) => child.name) ?? [];
+
+    expect(names).toContain('Description: Term');
+    expect(names).toContain('GitLab table of contents');
+  });
+
+  it('adds Pandoc metadata, labels, and footnotes as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Pandoc', 1, 0)]);
+    doc.index.pandocTitleBlocks = [
+      {
+        raw: '% Title\n% Author',
+        lines: 2,
+        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 8 } },
+      },
+    ];
+    doc.index.pandocAttributes = [
+      {
+        raw: '{#sec:intro}',
+        id: 'sec:intro',
+        classes: [],
+        keyValues: {},
+        range: { start: { line: 0, character: 9 }, end: { line: 0, character: 21 } },
+      },
+    ];
+    doc.index.pandocFootnotes = [
+      {
+        raw: '[^n]: note',
+        label: 'n',
+        range: { start: { line: 3, character: 0 }, end: { line: 3, character: 10 } },
+        labelRange: { start: { line: 3, character: 2 }, end: { line: 3, character: 3 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('Pandoc metadata');
+    expect(names).toContain('Pandoc label: sec:intro');
+    expect(names).toContain('Footnote: n');
+  });
 });

@@ -2,7 +2,7 @@
 id: "CHORE-125"
 title: "Phase 27 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 27
 parent: "FEAT-053"
@@ -33,11 +33,15 @@ Perform trace and documentation kickoff hygiene for Pandoc Markdown language-sup
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for pandoc.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-126]].
+- [x] Documentation trace gaps are identified or resolved for pandoc.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-126]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!DONE] Done - 2026-05-13
+> Updated Pandoc roadmap/order notes, source trace, test index, and matrix
+> evidence. Closeout verification remained owned by CHORE-126.

@@ -78,4 +78,47 @@ describe('FoldingRangeHandler', () => {
 
     expect(ranges).toContainEqual({ startLine: 1, endLine: 3, kind: 'region' });
   });
+
+  it('folds GFM table blocks when the GFM flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/gfm.md',
+      ['# Doc', '', '| A | B |', '| --- | --- |', '| 1 | 2 |', '', 'After'].join('\n'),
+      1,
+      { effectiveFlavor: 'gfm' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+  });
+
+  it('folds GLFM description lists when the GLFM flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/glfm.md',
+      ['# Doc', '', 'Term', ': one', ': two', '', 'After'].join('\n'),
+      1,
+      { effectiveFlavor: 'glfm' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+  });
+
+  it('folds Pandoc fenced Divs and definition lists when the Pandoc flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/pandoc.md',
+      ['# Pandoc', '', 'Term', ': one', ': two', '', '::: {.note}', 'body', ':::'].join('\n'),
+      1,
+      { effectiveFlavor: 'pandoc' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
+  });
 });

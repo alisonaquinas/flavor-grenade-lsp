@@ -23,6 +23,9 @@ export class FoldingRangeHandler {
     const builder = new FoldingRangeBuilder(this.lineCount(doc.text));
     this.addFrontmatterFold(doc, builder);
     this.addHeadingFolds(doc, builder);
+    this.addGfmTableFolds(doc, builder);
+    this.addGlfmDescriptionListFolds(doc, builder);
+    this.addPandocFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -62,6 +65,30 @@ export class FoldingRangeHandler {
         endLine = line;
       }
       builder.add(startLine, endLine, 'region');
+    }
+  }
+
+  private addGfmTableFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.gfmTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addGlfmDescriptionListFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.glfmDescriptionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+  }
+
+  private addPandocFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.pandocDefinitionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+    for (const div of doc.index.pandocFencedDivs ?? []) {
+      builder.add(div.range.start.line, div.range.end.line, 'region');
+    }
+    for (const block of doc.index.pandocTitleBlocks ?? []) {
+      builder.add(block.range.start.line, block.range.end.line, 'region');
     }
   }
 

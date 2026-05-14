@@ -54,7 +54,7 @@ describe('DidChangeHandler', () => {
       delete: jest.fn(),
     } as unknown as ParseCache;
     vaultDetector = {
-      detect: jest.fn().mockReturnValue({ mode: 'obsidian', vaultRoot: '/vault' }),
+      detectFresh: jest.fn().mockReturnValue({ mode: 'obsidian', vaultRoot: '/vault' }),
     } as unknown as VaultDetector;
     diagnosticService = {
       publishDiagnostics: jest.fn(),
@@ -77,7 +77,12 @@ describe('DidChangeHandler', () => {
   it('calls ofmParser.parse with updated text (from store.get().getText())', async () => {
     const handler = new DidChangeHandler(store, ofmParser, parseCache, vaultDetector, null);
     await handler.handle(makeParams());
-    expect(ofmParser.parse).toHaveBeenCalledWith(TEST_URI, UPDATED_TEXT, TEST_VERSION);
+    expect(ofmParser.parse).toHaveBeenCalledWith(
+      TEST_URI,
+      UPDATED_TEXT,
+      TEST_VERSION,
+      expect.objectContaining({ effectiveFlavor: 'obsidian' }),
+    );
   });
 
   it('calls parseCache.set with re-parsed doc', async () => {

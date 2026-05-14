@@ -2,7 +2,7 @@
 id: "TASK-291"
 title: "Gate Obsidian-only analysis by dialect profile"
 type: task
-status: open
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -43,14 +43,30 @@ non-Obsidian dialect projections.
 |---|---|
 | `src/test/integration/markdown-flavor.test.ts` | CommonMark excludes Obsidian wiki-link behavior until flavor changes to Obsidian. |
 
+## Implementation Notes
+
+- Gate OFM-only token parsers inside `src/parser/ofm-parser.ts` using Phase 19 profile capabilities.
+- Keep default parser behavior compatible for direct unit tests by resolving absent context as `obsidian`.
+- Verify CommonMark suppresses wiki links, embeds, tags, block anchors, and callouts when the server provides a CommonMark parse context.
+
 ## Definition of Done
 
-- [ ] CommonMark analysis does not enable Obsidian-only syntax as core.
-- [ ] Obsidian analysis preserves current OFM intelligence.
-- [ ] Tests cover flavor change from CommonMark to Obsidian.
-- [ ] Non-Obsidian dialect work is not forced into OFM-only aggregates.
+- [x] CommonMark analysis does not enable Obsidian-only syntax as core.
+- [x] Obsidian analysis preserves current OFM intelligence.
+- [x] Tests cover flavor change from CommonMark to Obsidian.
+- [x] Non-Obsidian dialect work is not forced into OFM-only aggregates.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing parser assertions prove CommonMark must suppress Obsidian-only tokens before gating exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Wiki links, embeds, tags, callouts, and block anchors now parse only when the
+> effective flavor is `obsidian`; CommonMark/GFM examples suppress those tokens.

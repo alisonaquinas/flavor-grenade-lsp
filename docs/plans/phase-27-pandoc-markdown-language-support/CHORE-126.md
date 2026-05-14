@@ -2,7 +2,7 @@
 id: "CHORE-126"
 title: "Phase 27 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 27
 parent: "FEAT-053"
@@ -38,12 +38,17 @@ Perform the operational sweep for Pandoc Markdown language-support phase closure
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for pandoc.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [x] Documentation trace is complete for pandoc.
+- [x] Required verification evidence is attached or linked.
+- [x] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
+- [x] Phase closeout notes identify any deferred work explicitly.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!DONE] Done - 2026-05-13
+> Recorded local gate, unit/integration/BDD/audit evidence, verification and
+> validation N/A disposition, and Pandoc deferred conversion/citeproc lookup
+> notes. Steps E-G found no new tickets.

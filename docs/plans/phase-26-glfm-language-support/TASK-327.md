@@ -2,7 +2,7 @@
 id: "TASK-327"
 title: "Implement GLFM parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -46,21 +46,39 @@ Deliver parser/profile semantics for the glfm flavor using [[docs/research/gitla
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
+| Source | `src/parser/gfm-parser.ts` |
+| Source | `src/parser/glfm-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
 ## Definition of Done
 
-- [ ] glfm behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for glfm.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] glfm behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for glfm.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will reuse GFM entries for the baseline and add
+> `GlfmParser.parse(text, opaqueRegions)` for inapplicable task markers,
+> description lists, footnotes, TOC tags, and GitLab host-reference shapes.
+
+> [!INFO] RED - 2026-05-13
+> Added failing parser/profile coverage for inherited GFM syntax, GLFM local
+> syntax, host-reference shapes, inactive Obsidian syntax, and implemented
+> GLFM surface status.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented `GlfmParser` dispatch, GLFM profile surface status, inherited GFM
+> parsing, GLFM syntax indices, and inactive Obsidian behavior. Targeted parser
+> coverage now passes.

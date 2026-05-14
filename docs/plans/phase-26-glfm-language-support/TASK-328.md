@@ -2,7 +2,7 @@
 id: "TASK-328"
 title: "Add GLFM diagnostics and LSP features"
 type: task
-status: open
+status: done
 priority: high
 phase: 26
 parent: "FEAT-052"
@@ -53,15 +53,11 @@ Deliver diagnostics and LSP feature behavior for the glfm flavor using [[docs/re
 |---|---|
 | Source | `src/resolution/diagnostic-service.ts` |
 | Source | `src/completion/completion-router.ts` |
-| Source | `src/handlers/definition.handler.ts` |
-| Source | `src/handlers/references.handler.ts` |
 | Source | `src/handlers/document-symbol.handler.ts` |
-| Source | `src/rename/prepare-rename.handler.ts` |
-| Source | `src/rename/rename.handler.ts` |
-| Source | `src/handlers/document-link.handler.ts` |
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/markdown-flavor/non-local-boundary-classifier.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -76,16 +72,31 @@ Deliver diagnostics and LSP feature behavior for the glfm flavor using [[docs/re
 
 ## Definition of Done
 
-- [ ] glfm behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for glfm.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for glfm.
-- [ ] Rename coverage is implemented for safe local glfm symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] glfm behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for glfm.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for glfm.
+- [x] Rename coverage is implemented for safe local glfm symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose GLFM diagnostics, completion snippets, document symbols,
+> folds, semantic tokens, and host-boundary classification for local syntax.
+> GitLab issues, merge requests, epics, commits, users, labels, and includes
+> stay non-local unless a future integration provides GitLab context.
+
+> [!INFO] RED - 2026-05-13
+> Added failing diagnostics, completion, folding, document-symbol,
+> semantic-token, and boundary coverage for GLFM LSP surfaces.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented FG202 description-list diagnostics, GLFM completion snippets,
+> document symbols, folds, semantic tokens, and GitLab host-boundary
+> classification. Targeted LSP coverage now passes.

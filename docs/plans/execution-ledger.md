@@ -33,16 +33,16 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 15    | Attachment Intelligence  | ✅ complete | Attachment refs complete, diagnose, navigate, and hover with vault metadata | 2026-05-06 | 2026-05-06 |
 | 16    | Vault File Operation Refactors | ✅ complete | File/folder moves rewrite local reference forms atomically | 2026-05-06 | 2026-05-06 |
 | 17    | Structural LSP Capabilities | ✅ complete | Document links, folding ranges, and selection ranges reflect OFMarkdown structure | 2026-05-07 | 2026-05-07 |
-| 18    | Security Hardening Audit | 🔄 in-progress | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | — |
-| 19    | Markdown Flavor Model And Profiles | ⏳ planned | Canonical flavor id contract and source-backed dialect profile registry | — | — |
-| 20    | Markdown Flavor Server Propagation | ⏳ planned | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | — | — |
-| 21    | Markdown Flavor BDD Verification And Validation | ⏳ planned | BDD, verification, and validation evidence execute against flavor state | — | — |
-| 22    | Original Markdown Language Support | ⏳ planned | Historical Original Markdown parser and LSP behavior | — | — |
-| 23    | CommonMark Language Support | ⏳ planned | CommonMark parser and LSP behavior with standardized edge cases | — | — |
-| 24    | Obsidian Flavor Language Support | ⏳ planned | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | — | — |
-| 25    | GitHub Flavored Markdown Language Support | ⏳ planned | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | — | — |
-| 26    | GitLab Flavored Markdown Language Support | ⏳ planned | GLFM references, media conventions, and offline-testable GitLab syntax behavior | — | — |
-| 27    | Pandoc Markdown Language Support | ⏳ planned | Pandoc metadata, citations, math, attributes, and cross-reference intelligence | — | — |
+| 18    | Security Hardening Audit | 🔎 in-review | Security audit findings have passing tests, exact pinning, and CI checks | 2026-05-08 | [PR #68](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/68) |
+| 19    | Markdown Flavor Model And Profiles | 🔎 in-review | Canonical flavor id contract and source-backed dialect profile registry | 2026-05-13 | [PR #69](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/69) |
+| 20    | Markdown Flavor Server Propagation | 🔎 in-review | Effective flavor reaches server configuration, parsing, diagnostics, and integration tests | 2026-05-13 | [PR #70](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/70) |
+| 21    | Markdown Flavor BDD Verification And Validation | 🔎 in-review | BDD, verification, and validation evidence execute against flavor state | 2026-05-13 | [PR #71](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/71) |
+| 22    | Original Markdown Language Support | 🔎 in-review | Historical Original Markdown parser and LSP behavior | 2026-05-13 | [PR #72](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/72) |
+| 23    | CommonMark Language Support | 🔎 in-review | CommonMark parser and LSP behavior with standardized edge cases | 2026-05-13 | [PR #73](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/73) |
+| 24    | Obsidian Flavor Language Support | 🔎 in-review | Existing OFM intelligence works as `obsidian` flavor without language-mode promotion | 2026-05-13 | [PR #75](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/75), stacked on [PR #74](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/74) |
+| 25    | GitHub Flavored Markdown Language Support | 🔎 in-review | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | 2026-05-13 | [PR #76](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/76) |
+| 26    | GitLab Flavored Markdown Language Support | 🔎 in-review | GLFM references, media conventions, and offline-testable GitLab syntax behavior | 2026-05-13 | [PR #77](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/77) |
+| 27    | Pandoc Markdown Language Support | 🔎 in-review | Pandoc metadata, citations, math, attributes, and cross-reference intelligence | 2026-05-13 | [PR #78](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/78) |
 | 28    | MultiMarkdown Language Support | ⏳ planned | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | — | — |
 | 29    | MDX Flavor Language Support | ⏳ planned | MDX flavor syntax support without taking over VS Code MDX language mode | — | — |
 | 30    | kramdown Language Support | ⏳ planned | kramdown attributes, definition lists, tables, math, and footnotes | — | — |
@@ -65,7 +65,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | E12   | OFMarkdown Editor Contributions | ✅ complete | Snippets, keybindings, and language configuration are scoped to `ofmarkdown` | 2026-05-07 | 2026-05-07 |
 | E13   | Workspace Environment Modes | ✅ complete | Restricted, virtual, remote, WSL, SSH, and Dev Container behavior is explicit | 2026-05-07 | 2026-05-07 |
 | E14   | Membership Refresh And Compatibility Guardrails | ✅ complete | Language-mode refresh and packaged client/server compatibility checks pass | 2026-05-07 | PR #46 CI green |
-| E15   | Markdown Flavor Selector And Settings | ⏳ planned | Separate selector, settings schema, override persistence, auto detection, and server propagation | — | — |
+| E15   | Markdown Flavor Selector And Settings | 🔎 in-review | Separate selector, settings schema, override persistence, auto detection, and server propagation | 2026-05-13 | [PR #74](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/74) |
 | E16   | Flavor-Scoped Contributions And Marketplace | ⏳ planned | Editor contributions and Marketplace proof align with Markdown flavor selection | — | — |
 | E17   | Extension Flavor Host Verification | ⏳ planned | Extension-host, CI, and validation evidence prove selector behavior | — | — |
 | W1    | Website Foundation And Toolchain | ✅ complete | Website dev, typecheck, lint, test, and build scripts pass from `website/` | 2026-05-09 | PR #51 CI green |
@@ -76,6 +76,18 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W6    | Website Review Polish | ✅ complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | PR #58 CI green |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
 | W8    | Commonloom Content Pipeline | ✅ complete | TASK-279 removed `website/src/content/pipeline/commonloom`; full local W8 gate and PR #65 CI run `25705556117` passed. Prior PR #64 merged at `9569e37` with green CI. | 2026-05-10 | 2026-05-12 |
+
+---
+
+## Near-Term Roadmap
+
+Evaluated 2026-05-13. The most coherent order from the current stack point is:
+
+1. Finish the server flavor chain in dependency order: Phase 27 → Phase 28 → Phase 29 → Phase 30 → Phase 31 → Phase 32 → Phase 33 → Phase 34.
+2. Defer Phase E16 and Phase E17 until after Phase 34 unless a reviewer explicitly asks for extension flavor UX sooner.
+3. Keep website phases closed; no W-phase work is on the critical path for flavor support.
+
+Reason: Phases 27-34 share the same parser/profile/LSP surface pattern, and keeping them contiguous reduces profile drift. Phase E16/E17 depend on the flavor selector baseline from E15, which is already in review, but their marketplace and host-verification work is cleaner once all server flavor surfaces are stable.
 
 ---
 
@@ -172,7 +184,7 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
                                                                  Phase 14 ──► Phase 15 ──► Phase 16 ──► Phase 17 ──► Phase 18
                                                                                                       │
                                                                                                       ▼
-                                                                 Phase 19 ──► Phase 20 ──► Phase 21 ──► Phase 22 ──► Phase 23 ──► Phase 24 ──► Phase 25 ──► Phase 26
+                                                                 Phase 19 ──► Phase 20 ──► Phase 21 ──► Phase 22 ──► Phase 23 ──► Phase E15 ──► Phase 24 ──► Phase 25 ──► Phase 26
                                                                                                       │
                                                                                                       ▼
                                              Phase 27 ──► Phase 28 ──► Phase 29 ──► Phase 30 ──► Phase 31 ──► Phase 32 ──► Phase 33 ──► Phase 34
@@ -199,17 +211,23 @@ Phase R ──► Phase E1 ──► Phase E2 ──► Phase E3
 Server cross-links:
 Phase 19 ──► Phase E15
 Phase 20 ──► Phase E15
+Phase E15 ─► Phase 24
+Phase E15 ─► Phase 29
 Phase 20 ──► Phase E17
 ```
 
 Extension phases mostly track separately from the server phases, but the
 Markdown flavor extension phases have explicit server dependencies: Phase E15
-requires the Phase 19 flavor model and Phase 20 server propagation contract, and
-Phase E17 requires Phase 20 so host tests can verify client-to-server refresh
-behavior. Phase R (Publishing Research) is the entry point. Phase E7-E14 are the
-Marksman VSCode feature-parity continuation phases for OFMarkdown-specific
-client behavior. Phase E15-E17 supersede the historical `ofmarkdown` promotion
-target with the ADR020 Markdown flavor selector model.
+requires the Phase 19 flavor model and Phase 20 server propagation contract.
+Phase 24 requires Phase E15 because Obsidian flavor support must be exercised
+through the selector/settings contract rather than the retired `ofmarkdown`
+language-mode promotion path. Phase 29 also requires Phase E15 because MDX is a
+selector flavor while the VS Code language id remains unchanged. Phase E17
+requires Phase 20 so host tests can verify client-to-server refresh behavior.
+Phase R (Publishing Research) is the entry point. Phase E7-E14 are the Marksman
+VSCode feature-parity continuation phases for OFMarkdown-specific client
+behavior. Phase E15-E17 supersede the historical `ofmarkdown` promotion target
+with the ADR020 Markdown flavor selector model.
 
 ```text
 Website Phases:

@@ -2,7 +2,7 @@
 id: "TASK-354"
 title: "Add shared non-local boundary classification"
 type: task
-status: open
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -55,19 +55,26 @@ local vault/file targets.
 | [[docs/test/markdown-flavor-unit-spec]] | Boundary fixture rows classify non-local examples without local diagnostics, navigation, or rename edits. |
 | [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] | Spawned-server analysis preserves boundary disposition after effective flavor refresh. |
 
+## Implementation Notes
+
+- Create `src/markdown-flavor/non-local-boundary-classifier.ts`.
+- Export `classifyMarkdownBoundaryReference(flavor, text)` and disposition types.
+- Keep classifier string-only and deterministic: no network, process, dynamic import, or filesystem reads.
+- Integration coverage will call a debug request to prove classifications survive the spawned server boundary.
+
 ## Definition of Done
 
-- [ ] Shared classifier is reusable by diagnostics, navigation, hover, semantic
+- [x] Shared classifier is reusable by diagnostics, navigation, hover, semantic
       tokens, and rename.
-- [ ] Host/conversion fixtures never become broken vault diagnostics, local
+- [x] Host/conversion fixtures never become broken vault diagnostics, local
       definition targets, or speculative rename edits.
-- [ ] Host/conversion fixtures perform no network requests, process execution,
+- [x] Host/conversion fixtures perform no network requests, process execution,
       dynamic imports, or out-of-root file reads.
-- [ ] Per-flavor tickets can cite the shared classifier instead of duplicating
+- [x] Per-flavor tickets can cite the shared classifier instead of duplicating
       classification rules.
-- [ ] Spawned-server integration evidence covers at least one boundary example
+- [x] Spawned-server integration evidence covers at least one boundary example
       after effective-flavor propagation.
-- [ ] [[docs/plans/markdown-flavor-lsp-applicability-matrix]],
+- [x] [[docs/plans/markdown-flavor-lsp-applicability-matrix]],
       [[docs/test/index]], [[docs/test/matrix]], and validation evidence are
       updated when boundary categories change.
 
@@ -75,3 +82,14 @@ local vault/file targets.
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing boundary classifier assertions added before shared classification exists.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> Added deterministic boundary classification for host, conversion,
+> bibliography, renderer, and execution-bound examples plus spawned-server
+> evidence and review notes.

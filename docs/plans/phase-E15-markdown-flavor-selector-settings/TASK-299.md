@@ -2,7 +2,7 @@
 id: "TASK-299"
 title: "Add extension flavor constants and setting schema"
 type: task
-status: open
+status: done
 priority: high
 phase: E15
 parent: "FEAT-045"
@@ -46,14 +46,27 @@ configuration schema.
 
 ## Definition of Done
 
-- [ ] Package schema includes `flavorGrenade.markdownFlavor`.
-- [ ] Constants include all required ids.
-- [ ] A contract test guards client/server flavor enum drift.
-- [ ] Contract coverage distinguishes extension selector/profile compatibility
+- [x] Package schema includes `flavorGrenade.markdownFlavor`.
+- [x] Constants include all required ids.
+- [x] A contract test guards client/server flavor enum drift.
+- [x] Contract coverage distinguishes extension selector/profile compatibility
       from server-side dialect semantics.
-- [ ] `npm test` covers enum and label order.
+- [x] `npm test` covers enum and label order.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> RED coverage added for `extension/src/markdown-flavor.test.ts`: selector
+> constants, `flavorGrenade.markdownFlavor` package schema, command activation,
+> quick-pick labels, and client/server flavor enum compatibility. Expected to
+> fail until the extension constants/schema exist.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> Extension flavor constants, package schema, selector command activation, and
+> quick-pick labels are implemented. `npm test` and `npm run compile` pass from
+> `extension/`.
+> Status: `green`.

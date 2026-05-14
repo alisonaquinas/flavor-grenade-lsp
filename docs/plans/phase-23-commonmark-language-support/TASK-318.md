@@ -2,7 +2,7 @@
 id: "TASK-318"
 title: "Implement CommonMark parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 23
 parent: "FEAT-049"
@@ -54,13 +54,40 @@ Deliver parser/profile semantics for the commonmark flavor using [[docs/research
 
 ## Definition of Done
 
-- [ ] commonmark behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for commonmark.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] commonmark behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for commonmark.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!WARNING] Red - 2026-05-13
+> Parser/profile scope confirmed: CommonMark owns fenced code, ATX/setext headings,
+> inline/reference Markdown links, autolinks, HTML blocks, lists, and blockquotes.
+> Obsidian wiki links, embeds, tags, and callouts remain inactive for this flavor.
+> Focused RED coverage fails because CommonMark autolinks are not indexed and
+> CommonMark profile surfaces remain planned.
+> Command: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `red`.
+
+> [!WARNING] Finding - 2026-05-13
+> The first GREEN run showed task-list markers (`[x]`) and callout markers
+> (`[!note]`) being indexed as shortcut reference labels. This creates false
+> positives for inactive extension syntax in CommonMark parser analysis.
+> Status: `red`.
+
+> [!SUCCESS] Green - 2026-05-13
+> CommonMark parser/profile behavior is implemented: setext/ATX headings, fenced
+> code opacity, inline/reference links, autolinks, and inactive Obsidian/GFM
+> constructs are covered. Task-list and callout bracket markers no longer index
+> as shortcut reference labels.
+> Command passed: `bun test src/parser/__tests__/markdown-flavor-parser-analysis.test.ts src/resolution/__tests__/diagnostic-service.test.ts src/completion/__tests__/completion-router.test.ts src/test/integration/markdown-flavor.test.ts`.
+> Status: `green`.
+
+> [!SUCCESS] Done - 2026-05-13
+> PR #73 CI run `25821416971` passed. Parser/profile semantics are complete for
+> Phase 23 and ticket status is `done`.

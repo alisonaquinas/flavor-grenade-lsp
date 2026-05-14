@@ -2,7 +2,7 @@
 id: "TASK-290"
 title: "Thread effective flavor through parser and caches"
 type: task
-status: open
+status: done
 priority: high
 phase: 20
 parent: "FEAT-043"
@@ -41,14 +41,31 @@ downstream services can observe the selected dialect.
 |---|---|
 | `src/test/integration/markdown-flavor.test.ts` | Open document analysis records effective flavor. |
 
+## Implementation Notes
+
+- Add optional `ParseContext` to `OFMParser.parse(...)`.
+- Add `markdownFlavor` and `parseContext` metadata to `OFMDoc`.
+- Update didOpen/didChange parse paths to resolve effective flavor through `MarkdownFlavorState`.
+- Preserve `ParseCache` and `VaultIndex` as the only parsed document stores.
+
 ## Definition of Done
 
-- [ ] Open documents have observable effective flavor.
-- [ ] Vault-indexed documents keep flavor metadata consistent.
-- [ ] No second document cache is introduced.
-- [ ] BC2 consumes effective flavor only from parse context.
+- [x] Open documents have observable effective flavor.
+- [x] Vault-indexed documents keep flavor metadata consistent.
+- [x] No second document cache is introduced.
+- [x] BC2 consumes effective flavor only from parse context.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Planned - 2026-05-13
+> Step C implementation shape recorded before coding.
+
+> [!NOTE] RED - 2026-05-13
+> Failing parser-context assertions added before `OFMDoc` carries effective flavor metadata.
+
+> [!SUCCESS] GREEN - 2026-05-13
+> `OFMParser.parse` accepts `ParseContext`, records `markdownFlavor`, and stores
+> flavor-bearing parse results in `ParseCache`.
