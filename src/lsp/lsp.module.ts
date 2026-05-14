@@ -384,6 +384,13 @@ export class LspModule implements OnModuleInit {
         redditHostReferences: doc.index.redditHostReferences?.length ?? 0,
         redditOldRedditIncompatibleLists: doc.index.redditOldRedditIncompatibleLists?.length ?? 0,
         redditUnsafeLinks: doc.index.redditUnsafeLinks?.length ?? 0,
+        stackOverflowTagReferences: doc.index.stackOverflowTagReferences?.length ?? 0,
+        stackOverflowSpoilers: doc.index.stackOverflowSpoilers?.length ?? 0,
+        stackOverflowLanguageDirectives: doc.index.stackOverflowLanguageDirectives?.length ?? 0,
+        stackOverflowFencedCodeBlocks: doc.index.stackOverflowFencedCodeBlocks?.length ?? 0,
+        stackOverflowTables: doc.index.stackOverflowTables?.length ?? 0,
+        stackOverflowMalformedLanguageDirectives:
+          doc.index.stackOverflowMalformedLanguageDirectives?.length ?? 0,
       };
     });
 

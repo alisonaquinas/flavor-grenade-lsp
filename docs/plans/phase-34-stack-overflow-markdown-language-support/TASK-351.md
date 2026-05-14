@@ -2,7 +2,7 @@
 id: "TASK-351"
 title: "Implement Stack Overflow Markdown parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -46,21 +46,44 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[docs/rese
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/stack-overflow-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
 ## Definition of Done
 
-- [ ] stack-overflow behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for stack-overflow.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] stack-overflow behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for stack-overflow.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `StackOverflowParser.parse(text, opaqueRegions)` for
+> Stack Exchange tag references, spoiler blockquotes, syntax-highlighting
+> directives, fence language hints, GFM-style tables, and comment-surface
+> portability markers. Constructs will be indexed only when effective flavor is
+> `stack-overflow`; no Stack Exchange API lookup is allowed.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Focused RED failed because Stack Overflow parser/index
+> fields and profile surfaces are not implemented yet.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added `StackOverflowParser` dispatch behind the
+> `stack-overflow` flavor, indexing tag references, spoilers, language
+> directives, fence language hints, and GFM-style tables without Stack Exchange
+> API lookup.
+
+> [!SUCCESS] Step L closeout - 2026-05-13
+> Status set to `done`. Parser behavior is traced through unit tests,
+> spawned-server counts, applicability evidence, and validation artifacts.

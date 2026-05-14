@@ -32,6 +32,7 @@ export class FoldingRangeHandler {
     this.addMarkdownExtraFolds(doc, builder);
     this.addRMarkdownFolds(doc, builder);
     this.addRedditFolds(doc, builder);
+    this.addStackOverflowFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -153,6 +154,12 @@ export class FoldingRangeHandler {
 
   private addRedditFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
     for (const table of doc.index.redditTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addStackOverflowFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.stackOverflowTables ?? []) {
       builder.add(table.range.start.line, table.range.end.line, 'region');
     }
   }

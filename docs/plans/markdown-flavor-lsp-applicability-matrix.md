@@ -240,6 +240,24 @@ editor behavior remain out of scope.
 | Hover | Existing local Markdown hover surfaces remain available; live Reddit metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; live Reddit users, subreddits, posts, comments, and moderation targets remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 34 Stack Overflow Markdown Disposition
+
+Phase 34 marks the `stack-overflow` profile's local LSP surfaces implemented
+for source-backed Stack Overflow Markdown syntax. Stack Overflow adds local
+indices for Stack Exchange tag references, spoilers, language directives,
+fence language hints, and GFM-style pipe tables. Live Stack Exchange tag,
+question, answer, user, comment, site metadata, and rendered post/comment HTML
+behavior remain out of scope.
+
+| Surface | Phase 34 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed Stack Overflow language directives (`FG801`); tag references do not become broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for Stack Overflow tag-reference and language-directive snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, Stack Overflow table symbols, tag-reference symbols, and table folds. Live Stack Exchange lookup remains non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for Stack Overflow tag targets, language directive values, fence language hints, and spoiler text. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live Stack Exchange metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; live Stack Exchange tags, questions, answers, users, comments, and site metadata remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

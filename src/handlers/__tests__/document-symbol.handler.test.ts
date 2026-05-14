@@ -591,4 +591,58 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Subreddit: ObsidianMD');
     expect(names).toContain('Reddit user: example');
   });
+
+  it('adds Stack Overflow tables and tag references as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Stack Overflow', 1, 0)]);
+    const stackIndex = doc.index as typeof doc.index & {
+      stackOverflowTables: Array<{
+        raw: string;
+        headerCells: string[];
+        rowCount: number;
+        range: HeadingEntry['range'];
+      }>;
+      stackOverflowTagReferences: Array<{
+        raw: string;
+        kind: 'tag' | 'meta-tag';
+        target: string;
+        range: HeadingEntry['range'];
+        targetRange: HeadingEntry['range'];
+      }>;
+    };
+    stackIndex.stackOverflowTables = [
+      {
+        raw: '| A | B |\n|---|---|',
+        headerCells: ['A', 'B'],
+        rowCount: 1,
+        range: { start: { line: 2, character: 0 }, end: { line: 4, character: 9 } },
+      },
+    ];
+    stackIndex.stackOverflowTagReferences = [
+      {
+        raw: '[tag:markdown]',
+        kind: 'tag',
+        target: 'markdown',
+        range: { start: { line: 6, character: 4 }, end: { line: 6, character: 18 } },
+        targetRange: { start: { line: 6, character: 9 }, end: { line: 6, character: 17 } },
+      },
+      {
+        raw: '[meta-tag:discussion]',
+        kind: 'meta-tag',
+        target: 'discussion',
+        range: { start: { line: 6, character: 23 }, end: { line: 6, character: 44 } },
+        targetRange: { start: { line: 6, character: 33 }, end: { line: 6, character: 43 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('Stack Overflow table: A, B');
+    expect(names).toContain('Stack Overflow tag: markdown');
+    expect(names).toContain('Stack Overflow meta tag: discussion');
+  });
 });

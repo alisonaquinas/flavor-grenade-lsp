@@ -66,6 +66,8 @@ export class DocumentSymbolHandler {
     const rMarkdownInlineExpressions = doc.index.rMarkdownInlineExpressions ?? [];
     const redditTables = doc.index.redditTables ?? [];
     const redditHostReferences = doc.index.redditHostReferences ?? [];
+    const stackOverflowTables = doc.index.stackOverflowTables ?? [];
+    const stackOverflowTagReferences = doc.index.stackOverflowTagReferences ?? [];
 
     if (
       headings.length === 0 &&
@@ -96,7 +98,9 @@ export class DocumentSymbolHandler {
       rMarkdownChunks.length === 0 &&
       rMarkdownInlineExpressions.length === 0 &&
       redditTables.length === 0 &&
-      redditHostReferences.length === 0
+      redditHostReferences.length === 0 &&
+      stackOverflowTables.length === 0 &&
+      stackOverflowTagReferences.length === 0
     )
       return [];
 
@@ -427,6 +431,28 @@ export class DocumentSymbolHandler {
 
     for (const reference of redditHostReferences) {
       const label = reference.kind === 'subreddit' ? 'Subreddit' : 'Reddit user';
+      const symbol: DocumentSymbol = {
+        name: `${label}: ${reference.target}`,
+        kind: SYMBOL_KIND_STRING,
+        range: reference.range,
+        selectionRange: reference.targetRange,
+      };
+      this.addSymbolAtLine(symbol, reference.range.start.line, headings, roots);
+    }
+
+    for (const table of stackOverflowTables) {
+      const symbol: DocumentSymbol = {
+        name: `Stack Overflow table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const reference of stackOverflowTagReferences) {
+      const label =
+        reference.kind === 'meta-tag' ? 'Stack Overflow meta tag' : 'Stack Overflow tag';
       const symbol: DocumentSymbol = {
         name: `${label}: ${reference.target}`,
         kind: SYMBOL_KIND_STRING,

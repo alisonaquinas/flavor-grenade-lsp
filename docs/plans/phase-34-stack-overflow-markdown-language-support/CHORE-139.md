@@ -2,7 +2,7 @@
 id: "CHORE-139"
 title: "Phase 34 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 34
 parent: "FEAT-060"
@@ -33,11 +33,16 @@ Perform trace and documentation kickoff hygiene for Stack Overflow Markdown lang
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for stack-overflow.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-140]].
+- [x] Documentation trace gaps are identified or resolved for stack-overflow.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-140]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Step L closeout - 2026-05-13
+> Status set to `done`. Updated Stack Overflow trace entries in the LSP
+> applicability matrix, research trace, host-boundary review, validation run,
+> integration spec, test index, and test matrix.

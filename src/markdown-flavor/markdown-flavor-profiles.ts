@@ -571,6 +571,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['stack-exchange-tags', 'questions', 'answers', 'users', 'comments'],
     opaqueRegions: ['code', 'spoilers'],
+    surfaceStatus: 'implemented',
     surfaceSummary:
       'Stack Overflow Markdown parser and local technical-writing LSP behavior are implemented in Phase 34.',
   }),

@@ -222,6 +222,26 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const reference of doc.index.stackOverflowTagReferences ?? []) {
+      const t = this.rangeToToken(reference.targetRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const directive of doc.index.stackOverflowLanguageDirectives ?? []) {
+      const t = this.rangeToToken(directive.languageRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const block of doc.index.stackOverflowFencedCodeBlocks ?? []) {
+      const t = this.rangeToToken(block.languageRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const spoiler of doc.index.stackOverflowSpoilers ?? []) {
+      const t = this.rangeToToken(spoiler.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

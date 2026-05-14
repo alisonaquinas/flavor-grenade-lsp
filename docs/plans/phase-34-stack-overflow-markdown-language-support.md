@@ -1,7 +1,7 @@
 ---
 title: "Phase 34: Stack Overflow Markdown Language Support"
 phase: 34
-status: planned
+status: in-review
 tags: [plans, markdown-flavor, stack-overflow, language-support]
 aliases: [Phase 34, Stack Overflow Markdown Support]
 updated: 2026-05-13
@@ -13,7 +13,7 @@ updated: 2026-05-13
 |---|---|
 | Phase | 34 |
 | Title | Stack Overflow Markdown Language Support |
-| Status | planned |
+| Status | in-review |
 | Gate | Stack Overflow technical-writing Markdown behavior is implemented and tested |
 | Depends on | Phase 23 |
 

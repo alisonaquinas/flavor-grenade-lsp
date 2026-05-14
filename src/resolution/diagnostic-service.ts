@@ -22,6 +22,7 @@ import { KramdownParser } from '../parser/kramdown-parser.js';
 import { MarkdownExtraParser } from '../parser/markdown-extra-parser.js';
 import { RMarkdownParser } from '../parser/r-markdown-parser.js';
 import { RedditParser } from '../parser/reddit-parser.js';
+import { StackOverflowParser } from '../parser/stack-overflow-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -124,6 +125,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'reddit') {
       diagnostics.push(...this.diagnoseRedditPortability(doc));
+    }
+
+    if (doc.markdownFlavor === 'stack-overflow') {
+      diagnostics.push(...this.diagnoseStackOverflowPortability(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -414,6 +419,21 @@ export class DiagnosticService {
     );
 
     return diagnostics;
+  }
+
+  private diagnoseStackOverflowPortability(doc: OFMDoc): Diagnostic[] {
+    const parsed = StackOverflowParser.parse(doc.text, doc.opaqueRegions);
+    const malformed =
+      doc.index.stackOverflowMalformedLanguageDirectives ?? parsed.malformedLanguageDirectives;
+    return malformed.map(
+      (entry): Diagnostic => ({
+        range: entry.languageRange,
+        severity: 2,
+        code: 'FG801',
+        source: 'flavor-grenade',
+        message: 'Malformed Stack Overflow language directive: expected a lang-* value.',
+      }),
+    );
   }
 
   private isPipeTableSeparator(line: string): boolean {

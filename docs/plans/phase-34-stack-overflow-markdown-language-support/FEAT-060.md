@@ -2,7 +2,7 @@
 id: "FEAT-060"
 title: "Stack Overflow Markdown Language Support"
 type: feature
-status: draft
+status: in-review
 priority: high
 phase: 34
 created: "2026-05-13"
@@ -14,7 +14,40 @@ aliases: ["FEAT-060"]
 
 # Stack Overflow Markdown Language Support
 
-> [!INFO] FEAT-060 - Feature - Phase 34 - Status: draft
+> [!INFO] FEAT-060 - Feature - Phase 34 - Status: in-review
+
+## Implementation Plan
+
+Phase 34 is stacked after Phase 33 because the ledger's near-term roadmap keeps
+the server flavor chain contiguous. Implementation will model source-local
+Stack Overflow Markdown syntax: Stack Exchange tag references, spoiler
+blockquotes, language-highlighting directives, fence language hints, GFM-style
+pipe tables, and comment-surface portability limits. It will not call Stack
+Exchange APIs, resolve tags/questions/answers/users/comments, inspect site
+metadata, or claim rendered post/comment HTML behavior.
+
+Primary source paths:
+
+- `src/parser/stack-overflow-parser.ts`
+- `src/parser/ofm-parser.ts`
+- `src/parser/types.ts`
+- `src/resolution/diagnostic-service.ts`
+- `src/completion/completion-router.ts`
+- `src/handlers/document-symbol.handler.ts`
+- `src/handlers/folding-range.handler.ts`
+- `src/handlers/semantic-tokens.handler.ts`
+- `src/markdown-flavor/markdown-flavor-profiles.ts`
+- `src/lsp/lsp.module.ts`
+
+Primary RED test paths:
+
+- `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`
+- `src/resolution/__tests__/diagnostic-service.test.ts`
+- `src/completion/__tests__/completion-router.test.ts`
+- `src/handlers/__tests__/document-symbol.handler.test.ts`
+- `src/handlers/__tests__/folding-range.handler.test.ts`
+- `src/handlers/__tests__/semantic-tokens.handler.test.ts`
+- `src/test/integration/markdown-flavor.test.ts`
 
 ## Description
 
@@ -32,11 +65,11 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | open |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | open |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | open |
-| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | open |
-| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | open |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | done |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | done |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | done |
+| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | done |
+| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -56,13 +89,54 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 ## Definition of Done
 
-- [ ] stack-overflow has source-backed parser/profile behavior.
-- [ ] stack-overflow satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] stack-overflow behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] stack-overflow has source-backed parser/profile behavior.
+- [x] stack-overflow satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] stack-overflow behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
 > [!INFO] Drafted - 2026-05-13
 > Status set to `draft`. Feature ticket created in draft state for phase lifecycle tracking.
+
+> [!INFO] Step A-C kickoff - 2026-05-13
+> Status set to `in-progress`. Confirmed Phase 33 PR #84 CI is green and added
+> concrete implementation and RED test paths for TASK-351 through TASK-353.
+> Live Stack Exchange tag, question, answer, user, comment, site metadata, and
+> rendered post/comment HTML behavior remain deferred unless separate
+> integration tickets own them.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Added failing coverage for Stack Overflow parser analysis, diagnostics,
+> completions, document symbols, folding, semantic tokens, and spawned-server
+> counts. Focused RED command failed with 8 expected failures and `bun run lint
+> --max-warnings 0` passed.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Stack Overflow parser, diagnostics, completions, symbols, folds, semantic
+> tokens, query counts, host-boundary classification, and profile surface status
+> are implemented. Focused Stack Overflow tests, `bun run typecheck`, and `bun
+> run lint --max-warnings 0` pass.
+
+> [!SUCCESS] Steps E-L local gate - 2026-05-13
+> Lint, typecheck, helper-size, dependency-audit, security-scan, full unit,
+> integration, BDD, docs-lint, CI-workflow, and build gates passed locally.
+> `bun test src/` passed with 788 tests, `bun test src/test/integration/`
+> passed with 30 tests, and `bun run bdd` passed with 178 scenarios.
+
+## Retrospective
+
+Phase 34 closed the contiguous server Markdown flavor chain by adding local
+Stack Overflow Markdown support without expanding the server into live Stack
+Exchange integration. The phase kept Stack Exchange tag/question/answer/user,
+comment, site metadata, and rendered HTML behavior host-bound while providing
+source-local parser counts, diagnostics, completions, symbols, folds, semantic
+tokens, spawned-server evidence, and validation trace. Extension selector and
+host proof work can now proceed through the deferred E16/E17 roadmap after the
+server flavor PR stack is reviewed.
+
+> [!INFO] PR opened - 2026-05-13
+> Status set to `in-review`. PR #85 is open at
+> https://github.com/alisonaquinas/flavor-grenade-lsp/pull/85 and CI run
+> `25835048454` passed all required checks.

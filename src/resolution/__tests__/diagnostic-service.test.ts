@@ -592,6 +592,38 @@ describe('DiagnosticService', () => {
     };
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG701', 'FG702']);
   });
+
+  it('publishes Stack Overflow portability diagnostics without resolving host references', () => {
+    vaultIndex.set(id('stackoverflow'), makeDoc('file:///vault/stackoverflow.md'));
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/stackoverflow.md', []),
+      text: [
+        '# Stack Overflow',
+        '<!-- language: javascript -->',
+        '[tag:markdown]',
+        '[meta-tag:discussion]',
+      ].join('\n'),
+      markdownFlavor: 'stack-overflow' as const,
+      parseContext: { effectiveFlavor: 'stack-overflow' as const },
+    };
+
+    service.publishDiagnostics(id('stackoverflow'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG801']);
+    expect(params.diagnostics[0]['message']).toContain('Stack Overflow language directive');
+  });
 });
 
 describe('block reference diagnostics', () => {
