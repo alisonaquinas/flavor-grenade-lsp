@@ -17,6 +17,7 @@ import { KramdownParser } from './kramdown-parser.js';
 import { MarkdownExtraParser } from './markdown-extra-parser.js';
 import { RMarkdownParser } from './r-markdown-parser.js';
 import { RedditParser } from './reddit-parser.js';
+import { StackOverflowParser } from './stack-overflow-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -73,6 +74,7 @@ export class OFMParser {
     const enableMarkdownExtraSyntax = parseContext.effectiveFlavor === 'markdown-extra';
     const enableRMarkdownSyntax = parseContext.effectiveFlavor === 'r-markdown';
     const enableRedditSyntax = parseContext.effectiveFlavor === 'reddit';
+    const enableStackOverflowSyntax = parseContext.effectiveFlavor === 'stack-overflow';
 
     // Stage 2: opaque regions
     const baseOpaqueRegions = mark(text, bodyOffset);
@@ -94,6 +96,9 @@ export class OFMParser {
       : undefined;
     const rMarkdown = enableRMarkdownSyntax ? RMarkdownParser.parse(text) : undefined;
     const reddit = enableRedditSyntax ? RedditParser.parse(text, opaqueRegions) : undefined;
+    const stackOverflow = enableStackOverflowSyntax
+      ? StackOverflowParser.parse(text, opaqueRegions)
+      : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -178,6 +183,14 @@ export class OFMParser {
         redditOldRedditIncompatibleLists: reddit.oldRedditIncompatibleLists,
         redditUnsafeLinks: reddit.unsafeLinks,
       }),
+      ...(stackOverflow !== undefined && {
+        stackOverflowTagReferences: stackOverflow.tagReferences,
+        stackOverflowSpoilers: stackOverflow.spoilers,
+        stackOverflowLanguageDirectives: stackOverflow.languageDirectives,
+        stackOverflowFencedCodeBlocks: stackOverflow.fencedCodeBlocks,
+        stackOverflowTables: stackOverflow.tables,
+        stackOverflowMalformedLanguageDirectives: stackOverflow.malformedLanguageDirectives,
+      }),
     };
 
     return {
@@ -260,6 +273,12 @@ export class OFMParser {
       redditHostReferences: [],
       redditOldRedditIncompatibleLists: [],
       redditUnsafeLinks: [],
+      stackOverflowTagReferences: [],
+      stackOverflowSpoilers: [],
+      stackOverflowLanguageDirectives: [],
+      stackOverflowFencedCodeBlocks: [],
+      stackOverflowTables: [],
+      stackOverflowMalformedLanguageDirectives: [],
     };
   }
 

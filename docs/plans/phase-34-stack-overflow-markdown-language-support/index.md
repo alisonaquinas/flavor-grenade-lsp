@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-060]] | Stack Overflow Markdown Language Support | Feature | `in-progress` |
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | `red` |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | `red` |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | `red` |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | `green` |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | `green` |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | `green` |
 | [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | `open` |
 | [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | `open` |
 

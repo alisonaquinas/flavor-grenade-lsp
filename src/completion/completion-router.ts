@@ -125,6 +125,11 @@ export class CompletionRouter {
       if (redditResult !== null) return redditResult;
     }
 
+    if (doc.markdownFlavor === 'stack-overflow') {
+      const stackOverflowResult = this.stackOverflowCompletions(text, params.position);
+      if (stackOverflowResult !== null) return stackOverflowResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -579,6 +584,29 @@ export class CompletionRouter {
 
     if (prefix === '^(') {
       return this.singleCompletion(position, 2, 'Reddit superscript', '^(text)');
+    }
+
+    return null;
+  }
+
+  private stackOverflowCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '[tag:') {
+      return this.singleCompletion(position, 5, 'Stack Overflow tag reference', '[tag:markdown]');
+    }
+
+    if (prefix === '<!-- language') {
+      return this.singleCompletion(
+        position,
+        13,
+        'Stack Overflow language directive',
+        '<!-- language: lang-js -->',
+      );
     }
 
     return null;

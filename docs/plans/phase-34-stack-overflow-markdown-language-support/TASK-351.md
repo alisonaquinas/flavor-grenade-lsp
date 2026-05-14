@@ -2,7 +2,7 @@
 id: "TASK-351"
 title: "Implement Stack Overflow Markdown parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -77,3 +77,9 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[docs/rese
 > [!FAIL] Step D RED - 2026-05-13
 > Status set to `red`. Focused RED failed because Stack Overflow parser/index
 > fields and profile surfaces are not implemented yet.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added `StackOverflowParser` dispatch behind the
+> `stack-overflow` flavor, indexing tag references, spoilers, language
+> directives, fence language hints, and GFM-style tables without Stack Exchange
+> API lookup.

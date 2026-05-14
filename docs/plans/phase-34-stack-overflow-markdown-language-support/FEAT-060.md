@@ -65,9 +65,9 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | red |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | red |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | red |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | green |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | green |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | green |
 | [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | open |
 | [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | open |
 
@@ -112,3 +112,9 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 > completions, document symbols, folding, semantic tokens, and spawned-server
 > counts. Focused RED command failed with 8 expected failures and `bun run lint
 > --max-warnings 0` passed.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Stack Overflow parser, diagnostics, completions, symbols, folds, semantic
+> tokens, query counts, host-boundary classification, and profile surface status
+> are implemented. Focused Stack Overflow tests, `bun run typecheck`, and `bun
+> run lint --max-warnings 0` pass.

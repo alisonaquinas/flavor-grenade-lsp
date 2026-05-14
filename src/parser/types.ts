@@ -567,6 +567,49 @@ export interface RedditUnsafeLinkEntry {
   targetRange: Range;
 }
 
+/** A Stack Exchange tag or meta-tag reference. */
+export interface StackOverflowTagReferenceEntry {
+  raw: string;
+  kind: 'tag' | 'meta-tag';
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A Stack Overflow spoiler blockquote line. */
+export interface StackOverflowSpoilerEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A Stack Overflow syntax-highlighting HTML comment directive. */
+export interface StackOverflowLanguageDirectiveEntry {
+  raw: string;
+  scope: 'all' | 'next-block';
+  language: string;
+  range: Range;
+  languageRange: Range;
+}
+
+/** A Stack Overflow fenced code opener with a language hint. */
+export interface StackOverflowFencedCodeBlockEntry {
+  raw: string;
+  language: string;
+  range: Range;
+  languageRange: Range;
+}
+
+export type StackOverflowTableEntry = GfmTableEntry;
+
+/** A Stack Overflow language directive with a non-portable language value. */
+export interface StackOverflowMalformedLanguageDirectiveEntry {
+  raw: string;
+  range: Range;
+  languageRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -635,6 +678,12 @@ export interface OFMIndex {
   redditHostReferences?: RedditHostReferenceEntry[];
   redditOldRedditIncompatibleLists?: RedditOldRedditIncompatibleListEntry[];
   redditUnsafeLinks?: RedditUnsafeLinkEntry[];
+  stackOverflowTagReferences?: StackOverflowTagReferenceEntry[];
+  stackOverflowSpoilers?: StackOverflowSpoilerEntry[];
+  stackOverflowLanguageDirectives?: StackOverflowLanguageDirectiveEntry[];
+  stackOverflowFencedCodeBlocks?: StackOverflowFencedCodeBlockEntry[];
+  stackOverflowTables?: StackOverflowTableEntry[];
+  stackOverflowMalformedLanguageDirectives?: StackOverflowMalformedLanguageDirectiveEntry[];
 }
 
 /**

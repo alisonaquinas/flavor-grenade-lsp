@@ -2,7 +2,7 @@
 id: "TASK-352"
 title: "Add Stack Overflow Markdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -95,3 +95,8 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 > Status set to `red`. Focused RED failed for Stack Overflow completion labels,
 > document symbols, folding, semantic token data, diagnostic `FG801`, and
 > spawned-server query counts. `bun run lint --max-warnings 0` passed.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added Stack Overflow diagnostic `FG801`, tag and
+> language completions, tag/table symbols, table folds, semantic token coverage,
+> spawned-server query counts, and local-only host-boundary behavior.
