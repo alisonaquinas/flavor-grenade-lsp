@@ -539,6 +539,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
       'moderation-targets',
     ],
     opaqueRegions: ['code', 'spoilers'],
+    surfaceStatus: 'implemented',
     surfaceSummary:
       'Reddit Markdown parser and local portability LSP behavior are implemented in Phase 33.',
   }),

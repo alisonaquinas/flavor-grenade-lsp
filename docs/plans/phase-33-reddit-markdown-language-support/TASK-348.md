@@ -2,7 +2,7 @@
 id: "TASK-348"
 title: "Implement Reddit Markdown parser semantics"
 type: task
-status: red
+status: green
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -83,3 +83,8 @@ Deliver parser/profile semantics for the reddit flavor using [[docs/research/red
 > src/handlers/__tests__/semantic-tokens.handler.test.ts
 > src/test/integration/markdown-flavor.test.ts` failed as expected because
 > Reddit parser/index fields and profile surfaces are not implemented yet.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added `src/parser/reddit-parser.ts`, Reddit index
+> fields, `OFMParser` dispatch, empty-index entries, and profile
+> `implemented` status. Focused parser analysis passed.

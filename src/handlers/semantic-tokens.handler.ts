@@ -207,6 +207,21 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const spoiler of doc.index.redditSpoilers ?? []) {
+      const t = this.rangeToToken(spoiler.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const superscript of doc.index.redditSuperscripts ?? []) {
+      const t = this.rangeToToken(superscript.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const reference of doc.index.redditHostReferences ?? []) {
+      const t = this.rangeToToken(reference.targetRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

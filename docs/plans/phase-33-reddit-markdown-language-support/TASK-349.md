@@ -2,7 +2,7 @@
 id: "TASK-349"
 title: "Add Reddit Markdown diagnostics and LSP features"
 type: task
-status: red
+status: green
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -96,3 +96,8 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[docs/
 > spoiler`, document symbols, folding, semantic token data, diagnostics
 > `FG701` and `FG702`, and spawned-server query counts. `bun run lint
 > --max-warnings 0` passed.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added Reddit portability diagnostics, spoiler and
+> superscript completions, document symbols, table folding, semantic tokens,
+> and `queryOpenDoc` counts. Focused LSP tests passed.

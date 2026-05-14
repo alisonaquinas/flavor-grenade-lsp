@@ -2,7 +2,7 @@
 id: "TASK-350"
 title: "Add Reddit Markdown tests and validation evidence"
 type: task
-status: red
+status: green
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -86,3 +86,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the re
 > Status set to `red`. Added RED coverage in parser, diagnostic, completion,
 > document-symbol, folding, semantic-token, and spawned-server integration
 > tests. Focused command produced 134 passing tests and 8 expected failures.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Focused command now passes with 142 tests and 415
+> expectations. `bun run typecheck` and `bun run lint --max-warnings 0` pass.

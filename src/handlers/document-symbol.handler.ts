@@ -64,6 +64,8 @@ export class DocumentSymbolHandler {
     const markdownExtraAbbreviations = doc.index.markdownExtraAbbreviations ?? [];
     const rMarkdownChunks = doc.index.rMarkdownChunks ?? [];
     const rMarkdownInlineExpressions = doc.index.rMarkdownInlineExpressions ?? [];
+    const redditTables = doc.index.redditTables ?? [];
+    const redditHostReferences = doc.index.redditHostReferences ?? [];
 
     if (
       headings.length === 0 &&
@@ -92,7 +94,9 @@ export class DocumentSymbolHandler {
       markdownExtraFootnotes.length === 0 &&
       markdownExtraAbbreviations.length === 0 &&
       rMarkdownChunks.length === 0 &&
-      rMarkdownInlineExpressions.length === 0
+      rMarkdownInlineExpressions.length === 0 &&
+      redditTables.length === 0 &&
+      redditHostReferences.length === 0
     )
       return [];
 
@@ -409,6 +413,27 @@ export class DocumentSymbolHandler {
         selectionRange: expression.expressionRange,
       };
       this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
+    }
+
+    for (const table of redditTables) {
+      const symbol: DocumentSymbol = {
+        name: `Reddit table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const reference of redditHostReferences) {
+      const label = reference.kind === 'subreddit' ? 'Subreddit' : 'Reddit user';
+      const symbol: DocumentSymbol = {
+        name: `${label}: ${reference.target}`,
+        kind: SYMBOL_KIND_STRING,
+        range: reference.range,
+        selectionRange: reference.targetRange,
+      };
+      this.addSymbolAtLine(symbol, reference.range.start.line, headings, roots);
     }
 
     return roots;

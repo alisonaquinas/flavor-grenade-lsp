@@ -65,9 +65,9 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | red |
-| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | red |
-| [[TASK-350]] | Add Reddit tests and validation evidence | Task | red |
+| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | green |
+| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | green |
+| [[TASK-350]] | Add Reddit tests and validation evidence | Task | green |
 | [[CHORE-137]] | Phase 33 trace and documentation sweep | Chore | open |
 | [[CHORE-138]] | Phase 33 verification and closeout sweep | Chore | open |
 
@@ -112,3 +112,9 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 > document symbols, folding, semantic tokens, and spawned-server counts. Focused
 > RED command failed with 8 expected failures and `bun run lint --max-warnings
 > 0` passed.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Implemented `RedditParser`, profile dispatch, `FG701` and `FG702`
+> diagnostics, Reddit completions, symbols, folding, semantic tokens, and query
+> counts. Focused suite passed with 142 tests, `bun run typecheck` passed, and
+> `bun run lint --max-warnings 0` passed.

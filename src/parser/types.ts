@@ -525,6 +525,48 @@ export interface RMarkdownMalformedChunkEntry {
   range: Range;
 }
 
+/** A Reddit spoiler span delimited by >! and !<. */
+export interface RedditSpoilerEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A Reddit superscript span written as ^word or ^(words). */
+export interface RedditSuperscriptEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+export type RedditStrikethroughEntry = GfmStrikethroughEntry;
+export type RedditTableEntry = GfmTableEntry;
+
+/** A Reddit host reference that must stay non-local. */
+export interface RedditHostReferenceEntry {
+  raw: string;
+  kind: 'subreddit' | 'user';
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** An ordered-list marker accepted by new Reddit but not old Reddit. */
+export interface RedditOldRedditIncompatibleListEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Reddit Markdown link with a locally unsafe URL scheme. */
+export interface RedditUnsafeLinkEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -586,6 +628,13 @@ export interface OFMIndex {
   rMarkdownChunks?: RMarkdownChunkEntry[];
   rMarkdownInlineExpressions?: RMarkdownInlineExpressionEntry[];
   rMarkdownMalformedChunks?: RMarkdownMalformedChunkEntry[];
+  redditSpoilers?: RedditSpoilerEntry[];
+  redditSuperscripts?: RedditSuperscriptEntry[];
+  redditStrikethroughs?: RedditStrikethroughEntry[];
+  redditTables?: RedditTableEntry[];
+  redditHostReferences?: RedditHostReferenceEntry[];
+  redditOldRedditIncompatibleLists?: RedditOldRedditIncompatibleListEntry[];
+  redditUnsafeLinks?: RedditUnsafeLinkEntry[];
 }
 
 /**
