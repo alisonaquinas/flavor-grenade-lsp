@@ -1,7 +1,7 @@
 ---
 title: Phase 34 Stack Overflow Markdown Language Support Tickets
 phase: 34
-status: in-progress
+status: done
 tags: [plans/phase-34, tickets/index, stack-overflow]
 aliases: ["Phase 34 Tickets"]
 updated: 2026-05-13
@@ -11,12 +11,12 @@ updated: 2026-05-13
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-060]] | Stack Overflow Markdown Language Support | Feature | `in-progress` |
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | `green` |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | `green` |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | `green` |
-| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | `open` |
-| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | `open` |
+| [[FEAT-060]] | Stack Overflow Markdown Language Support | Feature | `done` |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | `done` |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | `done` |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | `done` |
+| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | `done` |
+| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | `done` |
 
 ## Ticket Details
 

@@ -289,3 +289,25 @@ live Reddit behavior inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 33 records Reddit `r/` and `u/` host references as non-local. |
+
+## Phase 34 Stack Overflow Markdown Review
+
+Stack Overflow Markdown declares live Stack Exchange tags, questions, answers,
+users, comments, site metadata, and rendered post/comment HTML behavior as
+non-local unless a later integration ticket owns authenticated Stack Exchange
+context. Phase 34 implements local source syntax for Stack Exchange tag
+references, spoilers, language directives, fence language hints, and
+GFM-style tables while leaving live Stack Exchange behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Tag references, spoilers, language directives, fence language hints, and tables are active only under effective flavor `stack-overflow`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG801` covers malformed local language directives; Stack Exchange tag references are never resolved as local vault targets. |
+| Completion | Stack Overflow tag-reference and language-directive snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; live Stack Exchange tags, questions, answers, users, comments, site metadata, and rendered HTML state remain host-bound without network access, dynamic import, out-of-root file reads, or workspace edits. |
+
+## Phase 34 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 34 records Stack Overflow `[tag:markdown]` references as non-local. |

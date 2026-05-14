@@ -2,7 +2,7 @@
 id: "TASK-353"
 title: "Add Stack Overflow Markdown tests and validation evidence"
 type: task
-status: green
+status: done
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -63,12 +63,12 @@ Deliver unit, integration, BDD, verification, and validation evidence for the st
 
 ## Definition of Done
 
-- [ ] stack-overflow behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for stack-overflow, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] stack-overflow behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for stack-overflow, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -91,3 +91,7 @@ Deliver unit, integration, BDD, verification, and validation evidence for the st
 > Status set to `green`. Focused Stack Overflow parser, diagnostic, completion,
 > document-symbol, folding, semantic-token, and spawned-server integration
 > tests now pass with 150 passing tests and 440 assertions.
+
+> [!SUCCESS] Step L closeout - 2026-05-13
+> Status set to `done`. Phase 34 unit, integration, BDD, matrix, index, and
+> validation evidence now include Stack Overflow Markdown coverage.

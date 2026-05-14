@@ -2,7 +2,7 @@
 id: "FEAT-060"
 title: "Stack Overflow Markdown Language Support"
 type: feature
-status: in-progress
+status: done
 priority: high
 phase: 34
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-060"]
 
 # Stack Overflow Markdown Language Support
 
-> [!INFO] FEAT-060 - Feature - Phase 34 - Status: in-progress
+> [!SUCCESS] FEAT-060 - Feature - Phase 34 - Status: done
 
 ## Implementation Plan
 
@@ -65,11 +65,11 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | green |
-| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | green |
-| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | green |
-| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | open |
-| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | open |
+| [[TASK-351]] | Implement Stack Overflow Markdown parser semantics | Task | done |
+| [[TASK-352]] | Add Stack Overflow diagnostics and LSP features | Task | done |
+| [[TASK-353]] | Add Stack Overflow tests and validation evidence | Task | done |
+| [[CHORE-139]] | Phase 34 trace and documentation sweep | Chore | done |
+| [[CHORE-140]] | Phase 34 verification and closeout sweep | Chore | done |
 
 ## Linked Requirements
 
@@ -89,11 +89,11 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 
 ## Definition of Done
 
-- [ ] stack-overflow has source-backed parser/profile behavior.
-- [ ] stack-overflow satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
-- [ ] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
-- [ ] stack-overflow behavior is covered at every required test level.
-- [ ] Trace links from requirements, tests, and validation evidence are updated.
+- [x] stack-overflow has source-backed parser/profile behavior.
+- [x] stack-overflow satisfies every required surface in [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or records a deferred/not-applicable reason.
+- [x] Navigation sub-surfaces, rename disposition, host/conversion boundaries, and negative cross-flavor fixtures are explicitly covered.
+- [x] stack-overflow behavior is covered at every required test level.
+- [x] Trace links from requirements, tests, and validation evidence are updated.
 
 ## Workflow Log
 
@@ -118,3 +118,20 @@ Implement first-class stack-overflow language support for Stack Overflow Markdow
 > tokens, query counts, host-boundary classification, and profile surface status
 > are implemented. Focused Stack Overflow tests, `bun run typecheck`, and `bun
 > run lint --max-warnings 0` pass.
+
+> [!SUCCESS] Steps E-L local gate - 2026-05-13
+> Lint, typecheck, helper-size, dependency-audit, security-scan, full unit,
+> integration, BDD, docs-lint, CI-workflow, and build gates passed locally.
+> `bun test src/` passed with 788 tests, `bun test src/test/integration/`
+> passed with 30 tests, and `bun run bdd` passed with 178 scenarios.
+
+## Retrospective
+
+Phase 34 closed the contiguous server Markdown flavor chain by adding local
+Stack Overflow Markdown support without expanding the server into live Stack
+Exchange integration. The phase kept Stack Exchange tag/question/answer/user,
+comment, site metadata, and rendered HTML behavior host-bound while providing
+source-local parser counts, diagnostics, completions, symbols, folds, semantic
+tokens, spawned-server evidence, and validation trace. Extension selector and
+host proof work can now proceed through the deferred E16/E17 roadmap after the
+server flavor PR stack is reviewed.

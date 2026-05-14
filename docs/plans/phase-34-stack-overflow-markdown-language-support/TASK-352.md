@@ -2,7 +2,7 @@
 id: "TASK-352"
 title: "Add Stack Overflow Markdown diagnostics and LSP features"
 type: task
-status: green
+status: done
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -71,14 +71,14 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 
 ## Definition of Done
 
-- [ ] stack-overflow behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for stack-overflow.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for stack-overflow.
-- [ ] Rename coverage is implemented for safe local stack-overflow symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] stack-overflow behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for stack-overflow.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for stack-overflow.
+- [x] Rename coverage is implemented for safe local stack-overflow symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -100,3 +100,7 @@ Deliver diagnostics and LSP feature behavior for the stack-overflow flavor using
 > Status set to `green`. Added Stack Overflow diagnostic `FG801`, tag and
 > language completions, tag/table symbols, table folds, semantic token coverage,
 > spawned-server query counts, and local-only host-boundary behavior.
+
+> [!SUCCESS] Step L closeout - 2026-05-13
+> Status set to `done`. LSP surfaces and host-boundary dispositions are traced
+> through tests, the applicability matrix, and validation evidence.

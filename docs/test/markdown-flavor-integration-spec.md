@@ -35,6 +35,10 @@ and affects analysis without requiring VS Code UI.
 | MF-I-016 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `multimarkdown` and open a document with metadata, table labels, footnotes, citations, labels, abbreviations, cross-references, and an Obsidian wiki link. | Open-document analysis reports effective flavor `multimarkdown`, indexes MultiMarkdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active MultiMarkdown syntax, and classifies export cross-references as conversion-bound. |
 | MF-I-017 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `mdx` and open a document with ESM declarations, JSX elements, expressions, and an Obsidian wiki link. | Open-document analysis reports effective flavor `mdx`, indexes MDX local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active MDX syntax, and classifies JSX component references as renderer-bound. |
 | MF-I-018 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `kramdown` and open a document with attributes, definition lists, tables, footnotes, math blocks, and an Obsidian wiki link. | Open-document analysis reports effective flavor `kramdown`, indexes kramdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active kramdown syntax, and classifies local attribute boundaries without renderer execution. |
+| MF-I-019 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `markdown-extra` and open a document with tables, definition lists, footnotes, abbreviations, fenced code, attributes, and an Obsidian wiki link. | Open-document analysis reports effective flavor `markdown-extra`, indexes Markdown Extra local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active Markdown Extra syntax, and classifies local boundaries without renderer execution. |
+| MF-I-020 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `r-markdown` and open a document with YAML metadata, R chunks, chunk options, inline R, malformed chunk syntax, and an Obsidian wiki link. | Open-document analysis reports effective flavor `r-markdown`, indexes R Markdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active R Markdown syntax, and classifies execution-bound chunks without running code. |
+| MF-I-021 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `reddit` and open a document with spoilers, superscript, strikethrough, tables, Reddit host references, old-Reddit ordered-list syntax, unsafe links, and an Obsidian wiki link. | Open-document analysis reports effective flavor `reddit`, indexes Reddit local syntax counts, keeps wiki links inert, reports Reddit portability diagnostics, and classifies Reddit host references without service access. |
+| MF-I-022 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `stack-overflow` and open a document with Stack Exchange tag references, spoilers, language directives, fence language hints, tables, malformed directives, and an Obsidian wiki link. | Open-document analysis reports effective flavor `stack-overflow`, indexes Stack Overflow local syntax counts, keeps wiki links inert, reports Stack Overflow portability diagnostics, and classifies Stack Exchange tag references without service access. |
 
 ## Spawned-Server IDs
 
@@ -164,6 +168,15 @@ strikethrough, table, host-reference, old-Reddit list, and unsafe-link counts,
 diagnostics, inactive Obsidian syntax, and non-local host classification without
 requiring Reddit API calls, live user/subreddit/post/comment lookup, moderation
 state, or Rich Text editor rendering.
+
+### MF-I-022 - Stack Overflow Markdown Spawned-Server Behavior
+
+Integration evidence for Phase 34. It proves Stack Overflow Markdown behavior
+crosses the JSON-RPC process boundary for parser dispatch, local tag-reference,
+spoiler, language-directive, fence-hint, table, and malformed-directive counts,
+diagnostics, inactive Obsidian syntax, and non-local host classification without
+requiring Stack Exchange API calls, live tag/question/answer/user/comment
+lookup, site metadata, or rendered post/comment HTML behavior.
 
 ## Exit Criteria
 

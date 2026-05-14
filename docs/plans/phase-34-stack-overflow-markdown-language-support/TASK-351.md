@@ -2,7 +2,7 @@
 id: "TASK-351"
 title: "Implement Stack Overflow Markdown parser semantics"
 type: task
-status: green
+status: done
 priority: high
 phase: 34
 parent: "FEAT-060"
@@ -56,11 +56,11 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[docs/rese
 
 ## Definition of Done
 
-- [ ] stack-overflow behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for stack-overflow.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] stack-overflow behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for stack-overflow.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
@@ -83,3 +83,7 @@ Deliver parser/profile semantics for the stack-overflow flavor using [[docs/rese
 > `stack-overflow` flavor, indexing tag references, spoilers, language
 > directives, fence language hints, and GFM-style tables without Stack Exchange
 > API lookup.
+
+> [!SUCCESS] Step L closeout - 2026-05-13
+> Status set to `done`. Parser behavior is traced through unit tests,
+> spawned-server counts, applicability evidence, and validation artifacts.
