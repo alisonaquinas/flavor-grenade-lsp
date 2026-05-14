@@ -648,6 +648,82 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies MultiMarkdown parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'multimarkdown.md');
+    fs.writeFileSync(
+      path.join(vault, '.flavor-grenade.toml'),
+      'core.markdown.flavor = "multimarkdown"\n',
+    );
+    fs.writeFileSync(
+      notePath,
+      [
+        'Title: MultiMarkdown',
+        'Author: Ada',
+        '# Intro [sec:intro]',
+        '| A | B |',
+        '| - | - |',
+        '| 1 | 2 |',
+        '[Caption][tbl:one]',
+        'See [Intro][].',
+        'Cite [](#doe2020).',
+        '[^a]: footnote',
+        '[#doe2020]: Citation detail',
+        '*[HTML]: Hyper Text',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'multimarkdown',
+      multimarkdownMetadata: 2,
+      multimarkdownTables: 1,
+      multimarkdownFootnotes: 1,
+      multimarkdownCitations: 1,
+      multimarkdownCrossReferences: 1,
+      multimarkdownLabels: 2,
+      multimarkdownAbbreviations: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'multimarkdown',
+      text: '[Intro][]',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'conversion-bound' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

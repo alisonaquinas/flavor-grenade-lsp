@@ -136,6 +136,23 @@ writers, and unconfigured bibliography databases remain deferred.
 | Hover | Existing local Markdown hover surfaces remain available; Pandoc conversion and bibliography metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; citation, bibliography, conversion, writer, template, and filter targets remain non-local without configured local context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 28 MultiMarkdown Disposition
+
+Phase 28 marks the `multimarkdown` profile's local LSP surfaces implemented for
+the source-backed MultiMarkdown subset. MultiMarkdown adds local indices for
+metadata, tables, footnotes, citations, cross-references, labels, and
+abbreviations. MultiMarkdown conversion, export writers, BibTeX processing,
+transclusion, and generated-output behavior remain deferred.
+
+| Surface | Phase 28 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed MultiMarkdown metadata (`FG302`); export cross-references are classified as conversion-bound rather than broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for MultiMarkdown metadata, citation, and footnote snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, metadata symbols, label symbols, citation symbols, footnote symbols, metadata folds, and table folds. Export and generated-output targets remain non-local unless configured local context exists. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for MultiMarkdown metadata keys, labels, citations, and footnotes. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; MultiMarkdown conversion and generated-output metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; export cross-references, bibliography processing, and generated-output targets remain non-local without configured local context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

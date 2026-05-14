@@ -12,7 +12,7 @@ const TOKEN_TYPE_STRING = 0; // wiki-links, embeds
 const TOKEN_TYPE_KEYWORD = 1; // tags
 const TOKEN_TYPE_LABEL = 2; // block anchors
 const TOKEN_TYPE_ENUM_MEMBER = 3; // callout types
-const _TOKEN_TYPE_PROPERTY = 4; // frontmatter keys (reserved for future use)
+const TOKEN_TYPE_PROPERTY = 4; // metadata keys
 
 /**
  * Token modifier bitmask indices:
@@ -126,6 +126,26 @@ export class SemanticTokensHandler {
 
     for (const attribute of doc.index.pandocAttributes ?? []) {
       const t = this.rangeToToken(attribute.range, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const metadata of doc.index.multimarkdownMetadata ?? []) {
+      const t = this.rangeToToken(metadata.keyRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const label of doc.index.multimarkdownLabels ?? []) {
+      const t = this.rangeToToken(label.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const citation of doc.index.multimarkdownCitations ?? []) {
+      const t = this.rangeToToken(citation.keyRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.multimarkdownFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
       if (t !== null) tokens.push(t);
     }
 

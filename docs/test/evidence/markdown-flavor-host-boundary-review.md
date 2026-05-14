@@ -158,3 +158,24 @@ leaving conversion/citeproc behavior inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 27 records Pandoc citations as bibliography-bound. |
+
+## Phase 28 MultiMarkdown Review
+
+MultiMarkdown declares conversion, export, bibliography, and generated-output
+behavior as non-local unless a later integration ticket owns configured local
+context. Phase 28 implements local source syntax for metadata, table labels,
+footnotes, citations, labels, cross-references, and abbreviations while leaving
+conversion and generated-output behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Metadata, tables, footnotes, citations, labels, cross-references, and abbreviations are active only under effective flavor `multimarkdown`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG302` covers malformed local MultiMarkdown metadata; export cross-references do not become broken vault links. |
+| Completion | MultiMarkdown metadata, citation, and footnote snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links, headings, labels, footnotes, citations, and table metadata use local behavior where represented; `[Target][]` export references remain `conversion-bound` without process execution, network access, or workspace edits. |
+
+## Phase 28 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 28 records MultiMarkdown export cross-references as conversion-bound. |

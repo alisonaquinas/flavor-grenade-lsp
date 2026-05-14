@@ -286,6 +286,35 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('MultiMarkdown flavor routing', () => {
+    it('offers MultiMarkdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'multimarkdown' }));
+
+      const metadataText = 'Tit';
+      router.setDocumentText(TEST_URI, metadataText);
+      const metadataResult = router.route(makeParams(TEST_URI, metadataText, 't'));
+
+      const citationText = '[](#';
+      router.setDocumentText(TEST_URI, citationText);
+      const citationResult = router.route(makeParams(TEST_URI, citationText, '#'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(metadataResult.items.map((item) => item.label)).toContain(
+        'MultiMarkdown metadata key',
+      );
+      expect(citationResult.items.map((item) => item.label)).toContain('MultiMarkdown citation');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('MultiMarkdown footnote');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

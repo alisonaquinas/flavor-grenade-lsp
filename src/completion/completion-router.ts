@@ -95,6 +95,11 @@ export class CompletionRouter {
       if (pandocResult !== null) return pandocResult;
     }
 
+    if (doc.markdownFlavor === 'multimarkdown') {
+      const multimarkdownResult = this.multimarkdownCompletions(text, params.position);
+      if (multimarkdownResult !== null) return multimarkdownResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -369,6 +374,64 @@ export class CompletionRouter {
             {
               label: 'Pandoc attribute set',
               insertText: '{#id .class}',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private multimarkdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^[A-Za-z][A-Za-z0-9 _-]{0,20}$/.test(prefix)) {
+      const range = this.replacementRange(position, prefix.length);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown metadata key',
+              insertText: 'Title: ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix.endsWith('[](#')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown citation',
+              insertText: 'key)',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix.endsWith('[^')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown footnote',
+              insertText: 'label]: ',
             },
             range,
           ),

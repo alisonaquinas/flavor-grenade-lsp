@@ -344,3 +344,62 @@ describe('Pandoc Markdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('MultiMarkdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats MultiMarkdown document-production syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/multimarkdown.md',
+      [
+        'Title: MultiMarkdown Demo',
+        'Author: Ada Author',
+        '',
+        '# Intro [sec:intro]',
+        '',
+        '| Feature | Status |',
+        '| ------- | ------ |',
+        '| Tables | Active |',
+        '[Table caption][tbl:features]',
+        '',
+        'See [Intro][] and [](#fig:plot).',
+        'Cite [](#doe2020).',
+        '',
+        '[^note]: footnote detail',
+        '[#doe2020]: Citation detail',
+        '*[HTML]: Hyper Text Markup Language',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'multimarkdown' },
+    );
+
+    expect(doc.markdownFlavor).toBe('multimarkdown');
+    expect(doc.index.multimarkdownMetadata.map((entry) => entry.key)).toEqual(['Title', 'Author']);
+    expect(doc.index.multimarkdownTables.map((entry) => entry.label)).toEqual(['tbl:features']);
+    expect(doc.index.multimarkdownFootnotes.map((entry) => entry.label)).toEqual(['note']);
+    expect(doc.index.multimarkdownCitations.map((entry) => entry.key)).toEqual(['doe2020']);
+    expect(doc.index.multimarkdownCrossReferences.map((entry) => entry.target)).toEqual([
+      'Intro',
+      'fig:plot',
+    ]);
+    expect(doc.index.multimarkdownLabels.map((entry) => entry.label)).toEqual([
+      'sec:intro',
+      'tbl:features',
+    ]);
+    expect(doc.index.multimarkdownAbbreviations.map((entry) => entry.label)).toEqual(['HTML']);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks MultiMarkdown LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('multimarkdown');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

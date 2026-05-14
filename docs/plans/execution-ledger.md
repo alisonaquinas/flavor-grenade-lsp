@@ -43,7 +43,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 25    | GitHub Flavored Markdown Language Support | 🔎 in-review | GFM tables, tasks, strikethrough, autolinks, and local LSP behavior | 2026-05-13 | [PR #76](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/76) |
 | 26    | GitLab Flavored Markdown Language Support | 🔎 in-review | GLFM references, media conventions, and offline-testable GitLab syntax behavior | 2026-05-13 | [PR #77](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/77) |
 | 27    | Pandoc Markdown Language Support | 🔎 in-review | Pandoc metadata, citations, math, attributes, and cross-reference intelligence | 2026-05-13 | [PR #78](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/78) |
-| 28    | MultiMarkdown Language Support | ⏳ planned | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | — | — |
+| 28    | MultiMarkdown Language Support | 🔎 in-review | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | 2026-05-13 | [PR #79](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/79) |
 | 29    | MDX Flavor Language Support | ⏳ planned | MDX flavor syntax support without taking over VS Code MDX language mode | — | — |
 | 30    | kramdown Language Support | ⏳ planned | kramdown attributes, definition lists, tables, math, and footnotes | — | — |
 | 31    | Markdown Extra Language Support | ⏳ planned | Markdown Extra tables, definition lists, footnotes, abbreviations, and attributes | — | — |

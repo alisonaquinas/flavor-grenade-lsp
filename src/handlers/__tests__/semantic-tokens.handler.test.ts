@@ -233,4 +233,48 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(15);
   });
+
+  it('encodes MultiMarkdown metadata, labels, citations, and footnotes', () => {
+    const doc = makeDoc(DOC_URI, {
+      multimarkdownMetadata: [
+        {
+          raw: 'Title: Demo',
+          key: 'Title',
+          value: 'Demo',
+          range: { start: { line: 0, character: 0 }, end: { line: 0, character: 11 } },
+          keyRange: { start: { line: 0, character: 0 }, end: { line: 0, character: 5 } },
+        },
+      ],
+      multimarkdownLabels: [
+        {
+          raw: '[sec:intro]',
+          label: 'sec:intro',
+          range: { start: { line: 1, character: 8 }, end: { line: 1, character: 19 } },
+          labelRange: { start: { line: 1, character: 9 }, end: { line: 1, character: 18 } },
+        },
+      ],
+      multimarkdownCitations: [
+        {
+          raw: '[#doe2020]: Citation',
+          key: 'doe2020',
+          range: { start: { line: 2, character: 0 }, end: { line: 2, character: 21 } },
+          keyRange: { start: { line: 2, character: 2 }, end: { line: 2, character: 9 } },
+        },
+      ],
+      multimarkdownFootnotes: [
+        {
+          raw: '[^n]: note',
+          label: 'n',
+          range: { start: { line: 3, character: 0 }, end: { line: 3, character: 10 } },
+          labelRange: { start: { line: 3, character: 2 }, end: { line: 3, character: 3 } },
+        },
+      ],
+    });
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(20);
+  });
 });

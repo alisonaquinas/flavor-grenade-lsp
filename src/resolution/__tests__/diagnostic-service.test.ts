@@ -433,6 +433,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG301']);
     expect(params.diagnostics[0]['message']).toContain('Malformed Pandoc attribute');
   });
+
+  it('publishes MultiMarkdown metadata diagnostics without resolving export-bound references', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/multimarkdown.md', []),
+      text: ['Title', '', 'See [Intro][].'].join('\n'),
+      markdownFlavor: 'multimarkdown' as const,
+      parseContext: { effectiveFlavor: 'multimarkdown' as const },
+    };
+
+    service.publishDiagnostics(id('multimarkdown'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG302']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed MultiMarkdown metadata');
+  });
 });
 
 describe('block reference diagnostics', () => {

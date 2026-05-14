@@ -2,7 +2,7 @@
 id: "TASK-333"
 title: "Implement MultiMarkdown parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 28
 parent: "FEAT-054"
@@ -46,21 +46,47 @@ Deliver parser/profile semantics for the multimarkdown flavor using [[docs/resea
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/multimarkdown-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
 ## Definition of Done
 
-- [ ] multimarkdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for multimarkdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] multimarkdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for multimarkdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `MultiMarkdownParser.parse(text, opaqueRegions)` for
+> metadata blocks, table labels, footnotes, citations, cross-reference links,
+> and glossary/abbreviation-style labels while keeping Obsidian-only constructs
+> inert outside the Obsidian flavor.
+
+> [!INFO] RED - 2026-05-13
+> Added failing parser/profile coverage for MultiMarkdown metadata, tables,
+> footnotes, citations, labels, cross-references, abbreviations, inactive
+> Obsidian syntax, and implemented MultiMarkdown surface status.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented `MultimarkdownParser` and parser/profile dispatch. Targeted
+> parser analysis now passes for MultiMarkdown metadata, tables, footnotes,
+> citations, labels, cross-references, abbreviations, inactive Obsidian syntax,
+> and surface status.
+
+> [!INFO] Closeout evidence - 2026-05-13
+> Parser evidence, applicability matrix, test index, and matrix trace rows are
+> updated for MultiMarkdown.
+
+> [!INFO] Done - 2026-05-13
+> Status set to `done` after PR #79 CI passed.
