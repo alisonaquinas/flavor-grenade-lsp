@@ -48,7 +48,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 30    | kramdown Language Support | 🔎 in-review | kramdown attributes, definition lists, tables, math, and footnotes | 2026-05-13 | [PR #81](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/81) |
 | 31    | Markdown Extra Language Support | 🔎 in-review | Markdown Extra tables, definition lists, footnotes, abbreviations, and attributes | 2026-05-13 | [PR #82](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/82) |
 | 32    | R Markdown Language Support | 🔎 in-review | R Markdown metadata and chunk syntax without code execution | 2026-05-13 | [PR #83](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/83) |
-| 33    | Reddit Markdown Language Support | 🔄 in-progress | Reddit platform Markdown syntax awareness and portability diagnostics | 2026-05-13 | — |
+| 33    | Reddit Markdown Language Support | 🔎 in-review | Reddit platform Markdown syntax awareness and portability diagnostics | 2026-05-13 | [PR #84](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/84) |
 | 34    | Stack Overflow Markdown Language Support | ⏳ planned | Stack Overflow technical-writing Markdown and platform syntax awareness | — | — |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |

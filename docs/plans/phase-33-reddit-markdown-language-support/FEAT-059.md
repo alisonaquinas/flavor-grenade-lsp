@@ -2,7 +2,7 @@
 id: "FEAT-059"
 title: "Reddit Markdown Language Support"
 type: feature
-status: in-progress
+status: in-review
 priority: high
 phase: 33
 created: "2026-05-13"
@@ -14,7 +14,7 @@ aliases: ["FEAT-059"]
 
 # Reddit Markdown Language Support
 
-> [!INFO] FEAT-059 - Feature - Phase 33 - Status: in-progress
+> [!INFO] FEAT-059 - Feature - Phase 33 - Status: in-review
 
 ## Implementation Plan
 
@@ -124,6 +124,11 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 > sweeps passed. Step K and validation-test Step L are N/A because no
 > `src/test/verification/` or `src/test/validation/` suites exist. No new
 > findings or tickets were opened during sweeps.
+
+> [!INFO] In review - 2026-05-13
+> PR #84 opened against `develop` and CI run `25834268541` passed all checks.
+> Child TASK and CHORE tickets moved to `done`; FEAT-059 remains `in-review`
+> until merge.
 
 ## Retrospective
 
