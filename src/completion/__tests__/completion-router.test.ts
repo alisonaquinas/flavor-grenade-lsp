@@ -398,6 +398,35 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('R Markdown flavor routing', () => {
+    it('offers R Markdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'r-markdown' }));
+
+      const chunkText = '```{';
+      router.setDocumentText(TEST_URI, chunkText);
+      const chunkResult = router.route(makeParams(TEST_URI, chunkText, '{'));
+
+      const optionText = '```{r setup, ';
+      router.setDocumentText(TEST_URI, optionText);
+      const optionResult = router.route(makeParams(TEST_URI, optionText, ' '));
+
+      const inlineText = '`r';
+      router.setDocumentText(TEST_URI, inlineText);
+      const inlineResult = router.route(makeParams(TEST_URI, inlineText, 'r'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(chunkResult.items.map((item) => item.label)).toContain('R Markdown chunk');
+      expect(optionResult.items.map((item) => item.label)).toContain('R Markdown chunk option');
+      expect(inlineResult.items.map((item) => item.label)).toContain(
+        'R Markdown inline expression',
+      );
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

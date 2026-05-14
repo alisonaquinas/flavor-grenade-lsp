@@ -373,6 +373,10 @@ export class LspModule implements OnModuleInit {
         markdownExtraFootnotes: doc.index.markdownExtraFootnotes?.length ?? 0,
         markdownExtraAbbreviations: doc.index.markdownExtraAbbreviations?.length ?? 0,
         markdownExtraFencedCodeBlocks: doc.index.markdownExtraFencedCodeBlocks?.length ?? 0,
+        rMarkdownMetadata: doc.index.rMarkdownMetadata?.length ?? 0,
+        rMarkdownChunks: doc.index.rMarkdownChunks?.length ?? 0,
+        rMarkdownInlineExpressions: doc.index.rMarkdownInlineExpressions?.length ?? 0,
+        rMarkdownMalformedChunks: doc.index.rMarkdownMalformedChunks?.length ?? 0,
       };
     });
 

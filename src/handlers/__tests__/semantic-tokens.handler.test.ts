@@ -470,4 +470,54 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(15);
   });
+
+  it('encodes R Markdown chunk labels, options, and inline expressions', () => {
+    const doc = makeDoc(DOC_URI);
+    const rIndex = doc.index as typeof doc.index & {
+      rMarkdownChunks: Array<{
+        engineRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        labelRange?: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        optionRanges: Array<{
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        }>;
+      }>;
+      rMarkdownInlineExpressions: Array<{
+        expressionRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    rIndex.rMarkdownChunks = [
+      {
+        engineRange: { start: { line: 0, character: 4 }, end: { line: 0, character: 5 } },
+        labelRange: { start: { line: 0, character: 6 }, end: { line: 0, character: 11 } },
+        optionRanges: [
+          { start: { line: 0, character: 13 }, end: { line: 0, character: 28 } },
+          { start: { line: 0, character: 30 }, end: { line: 0, character: 41 } },
+        ],
+      },
+    ];
+    rIndex.rMarkdownInlineExpressions = [
+      {
+        expressionRange: {
+          start: { line: 2, character: 8 },
+          end: { line: 2, character: 23 },
+        },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(25);
+  });
 });

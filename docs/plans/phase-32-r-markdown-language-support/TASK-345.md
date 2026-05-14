@@ -2,7 +2,7 @@
 id: "TASK-345"
 title: "Implement R Markdown parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 32
 parent: "FEAT-058"
@@ -46,21 +46,44 @@ Deliver parser/profile semantics for the r-markdown flavor using [[docs/research
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/r-markdown-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
 ## Definition of Done
 
-- [ ] r-markdown behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for r-markdown.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] r-markdown behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for r-markdown.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `RMarkdownParser.parse(text, opaqueRegions)` for YAML
+> metadata references, fenced chunk headers, chunk labels/options, inline R
+> markers, and malformed local chunk boundaries. Chunks will be indexed only
+> when effective flavor is `r-markdown`; no code execution or package/runtime
+> lookup is allowed.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added parser RED coverage for R Markdown YAML metadata, chunk engines,
+> chunk labels/options, inline R markers, malformed chunks, inactive Obsidian
+> syntax, and profile surface status. Expected failure: parser index lacks
+> R Markdown collections and profile surfaces are still unimplemented.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Implemented `RMarkdownParser`, parser index types, OFM flavor dispatch, and
+> implemented profile surface status. Focused R Markdown parser tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Parser semantics, inactive syntax coverage, trace rows, and non-executing
+> R Markdown disposition are complete for Phase 32.

@@ -489,6 +489,42 @@ export interface MarkdownExtraFencedCodeBlockEntry {
   markerRange: Range;
 }
 
+/** A top-level R Markdown YAML metadata key/value row. */
+export interface RMarkdownMetadataEntry {
+  raw: string;
+  key: string;
+  value?: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A fenced R Markdown executable chunk header and source block. */
+export interface RMarkdownChunkEntry {
+  raw: string;
+  engine: string;
+  label?: string;
+  options: Record<string, string>;
+  range: Range;
+  headerRange: Range;
+  engineRange: Range;
+  labelRange?: Range;
+  optionRanges: Range[];
+}
+
+/** An inline R Markdown expression marker. */
+export interface RMarkdownInlineExpressionEntry {
+  raw: string;
+  expression: string;
+  range: Range;
+  expressionRange: Range;
+}
+
+/** A malformed R Markdown chunk opening line. */
+export interface RMarkdownMalformedChunkEntry {
+  raw: string;
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -546,6 +582,10 @@ export interface OFMIndex {
   markdownExtraFootnotes?: MarkdownExtraFootnoteEntry[];
   markdownExtraAbbreviations?: MarkdownExtraAbbreviationEntry[];
   markdownExtraFencedCodeBlocks?: MarkdownExtraFencedCodeBlockEntry[];
+  rMarkdownMetadata?: RMarkdownMetadataEntry[];
+  rMarkdownChunks?: RMarkdownChunkEntry[];
+  rMarkdownInlineExpressions?: RMarkdownInlineExpressionEntry[];
+  rMarkdownMalformedChunks?: RMarkdownMalformedChunkEntry[];
 }
 
 /**

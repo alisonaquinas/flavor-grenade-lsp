@@ -15,6 +15,7 @@ import { MultimarkdownParser } from './multimarkdown-parser.js';
 import { MdxParser } from './mdx-parser.js';
 import { KramdownParser } from './kramdown-parser.js';
 import { MarkdownExtraParser } from './markdown-extra-parser.js';
+import { RMarkdownParser } from './r-markdown-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -69,6 +70,7 @@ export class OFMParser {
     const enableMdxSyntax = parseContext.effectiveFlavor === 'mdx';
     const enableKramdownSyntax = parseContext.effectiveFlavor === 'kramdown';
     const enableMarkdownExtraSyntax = parseContext.effectiveFlavor === 'markdown-extra';
+    const enableRMarkdownSyntax = parseContext.effectiveFlavor === 'r-markdown';
 
     // Stage 2: opaque regions
     const baseOpaqueRegions = mark(text, bodyOffset);
@@ -88,6 +90,7 @@ export class OFMParser {
     const markdownExtra = enableMarkdownExtraSyntax
       ? MarkdownExtraParser.parse(text, opaqueRegions)
       : undefined;
+    const rMarkdown = enableRMarkdownSyntax ? RMarkdownParser.parse(text) : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -156,6 +159,12 @@ export class OFMParser {
         markdownExtraFootnotes: markdownExtra.footnotes,
         markdownExtraAbbreviations: markdownExtra.abbreviations,
         markdownExtraFencedCodeBlocks: markdownExtra.fencedCodeBlocks,
+      }),
+      ...(rMarkdown !== undefined && {
+        rMarkdownMetadata: rMarkdown.metadata,
+        rMarkdownChunks: rMarkdown.chunks,
+        rMarkdownInlineExpressions: rMarkdown.inlineExpressions,
+        rMarkdownMalformedChunks: rMarkdown.malformedChunks,
       }),
     };
 
@@ -228,6 +237,10 @@ export class OFMParser {
       markdownExtraFootnotes: [],
       markdownExtraAbbreviations: [],
       markdownExtraFencedCodeBlocks: [],
+      rMarkdownMetadata: [],
+      rMarkdownChunks: [],
+      rMarkdownInlineExpressions: [],
+      rMarkdownMalformedChunks: [],
     };
   }
 

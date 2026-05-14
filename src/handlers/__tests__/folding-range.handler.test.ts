@@ -233,4 +233,29 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 10, endLine: 12, kind: 'region' });
   });
+
+  it('folds R Markdown executable chunks when active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/report.Rmd',
+      [
+        '# R Markdown',
+        '',
+        '```{r setup, include = FALSE}',
+        'knitr::opts_chunk$set(echo = TRUE)',
+        '```',
+        '',
+        '```{python plot, eval = FALSE}',
+        'print("plot")',
+        '```',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'r-markdown' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
+  });
 });

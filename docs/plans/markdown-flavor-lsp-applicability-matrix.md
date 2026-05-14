@@ -205,6 +205,23 @@ output, generated metadata, and syntax highlighters remain out of scope.
 | Hover | Existing local Markdown hover surfaces remain available; renderer/conversion metadata hover is deferred as boundary behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; generated output, conversion artifacts, and renderer metadata remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 32 R Markdown Disposition
+
+Phase 32 marks the `r-markdown` profile's local LSP surfaces implemented for
+source-backed R Markdown syntax. R Markdown adds local indices for YAML
+metadata, fenced chunk headers, chunk labels/options, inline R markers, and
+malformed chunk headers. R, Python, shell, notebook, knitr, Pandoc, Shiny,
+package, cache, runtime, and generated-output behavior remain out of scope.
+
+| Surface | Phase 32 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for malformed R Markdown chunk headers (`FG601`); executable chunks do not run and generated output does not become a broken vault link. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for R Markdown chunk, chunk-option, and inline-expression snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, R Markdown chunk symbols, inline-expression symbols, and chunk folds. Runtime symbols, package objects, generated figures, and notebook output remain non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for R Markdown chunk engines, chunk labels, chunk options, and inline expressions. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; runtime/package/generated-output hover is deferred as execution-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; chunk runtime symbols, package references, generated output, and execution targets remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

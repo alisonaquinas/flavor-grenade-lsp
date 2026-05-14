@@ -136,6 +136,20 @@ generated metadata, or syntax highlighters. Evidence is recorded in
 `src/test/integration/markdown-flavor.test.ts`, and
 `docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
 
+Phase 32 replaces the `r-markdown` planned surface entries with implemented
+local R Markdown behavior for source-backed syntax that does not require R,
+Python, shell, notebook, knitr, Pandoc, Shiny, package, cache, runtime, or
+generated-output execution. Evidence is recorded in
+`src/parser/r-markdown-parser.ts`,
+`src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`,
+`src/resolution/__tests__/diagnostic-service.test.ts`,
+`src/completion/__tests__/completion-router.test.ts`,
+`src/handlers/__tests__/document-symbol.handler.test.ts`,
+`src/handlers/__tests__/folding-range.handler.test.ts`,
+`src/handlers/__tests__/semantic-tokens.handler.test.ts`,
+`src/test/integration/markdown-flavor.test.ts`, and
+`docs/plans/markdown-flavor-lsp-applicability-matrix.md`.
+
 | Flavor id | Label | Feature page | Primary source | Implementation ticket |
 |---|---|---|---|---|
 | `original` | Original Markdown | docs/features/original-markdown-flavor.md | docs/research/commonmark-and-original-markdown.md | TASK-315 |
