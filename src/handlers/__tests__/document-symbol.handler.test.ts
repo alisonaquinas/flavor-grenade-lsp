@@ -405,4 +405,95 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('kramdown table: A, B');
     expect(names).toContain('Footnote: note');
   });
+
+  it('adds Markdown Extra attributes, definition lists, tables, footnotes, and abbreviations as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Markdown Extra', 1, 0)]);
+    const extraIndex = doc.index as typeof doc.index & {
+      markdownExtraAttributes: Array<{
+        raw: string;
+        id?: string;
+        classes: string[];
+        range: HeadingEntry['range'];
+        markerRange: HeadingEntry['range'];
+      }>;
+      markdownExtraDefinitionLists: Array<{
+        raw: string;
+        term: string;
+        range: HeadingEntry['range'];
+      }>;
+      markdownExtraTables: Array<{
+        raw: string;
+        headerCells: string[];
+        rowCount: number;
+        range: HeadingEntry['range'];
+      }>;
+      markdownExtraFootnotes: Array<{
+        raw: string;
+        label: string;
+        range: HeadingEntry['range'];
+        labelRange: HeadingEntry['range'];
+      }>;
+      markdownExtraAbbreviations: Array<{
+        raw: string;
+        label: string;
+        value: string;
+        range: HeadingEntry['range'];
+        labelRange: HeadingEntry['range'];
+      }>;
+    };
+    extraIndex.markdownExtraAttributes = [
+      {
+        raw: '{#custom .hero}',
+        id: 'custom',
+        classes: ['hero'],
+        range: { start: { line: 1, character: 0 }, end: { line: 1, character: 15 } },
+        markerRange: { start: { line: 1, character: 1 }, end: { line: 1, character: 8 } },
+      },
+    ];
+    extraIndex.markdownExtraDefinitionLists = [
+      {
+        raw: 'Term\n: Definition',
+        term: 'Term',
+        range: { start: { line: 3, character: 0 }, end: { line: 4, character: 12 } },
+      },
+    ];
+    extraIndex.markdownExtraTables = [
+      {
+        raw: '| A | B |\n|---|---|',
+        headerCells: ['A', 'B'],
+        rowCount: 1,
+        range: { start: { line: 6, character: 0 }, end: { line: 8, character: 9 } },
+      },
+    ];
+    extraIndex.markdownExtraFootnotes = [
+      {
+        raw: '[^note]: body',
+        label: 'note',
+        range: { start: { line: 10, character: 0 }, end: { line: 10, character: 13 } },
+        labelRange: { start: { line: 10, character: 2 }, end: { line: 10, character: 6 } },
+      },
+    ];
+    extraIndex.markdownExtraAbbreviations = [
+      {
+        raw: '*[HTML]: Hyper Text Markup Language',
+        label: 'HTML',
+        value: 'Hyper Text Markup Language',
+        range: { start: { line: 12, character: 0 }, end: { line: 12, character: 34 } },
+        labelRange: { start: { line: 12, character: 2 }, end: { line: 12, character: 6 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('Markdown Extra attribute: custom');
+    expect(names).toContain('Definition: Term');
+    expect(names).toContain('Markdown Extra table: A, B');
+    expect(names).toContain('Footnote: note');
+    expect(names).toContain('Abbreviation: HTML');
+  });
 });

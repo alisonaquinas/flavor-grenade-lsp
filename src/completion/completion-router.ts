@@ -110,6 +110,11 @@ export class CompletionRouter {
       if (kramdownResult !== null) return kramdownResult;
     }
 
+    if (doc.markdownFlavor === 'markdown-extra') {
+      const markdownExtraResult = this.markdownExtraCompletions(text, params.position);
+      if (markdownExtraResult !== null) return markdownExtraResult;
+    }
+
     if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
       const gfmResult = this.gfmCompletions(text, params.position);
       if (gfmResult !== null) return gfmResult;
@@ -488,6 +493,37 @@ export class CompletionRouter {
 
     if (prefix.endsWith('[^')) {
       return this.singleCompletion(position, 0, 'kramdown footnote', 'label]: ');
+    }
+
+    return null;
+  }
+
+  private markdownExtraCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^\s*\|$/.test(prefix)) {
+      return this.singleCompletion(
+        position,
+        1,
+        'Markdown Extra table',
+        '| Header | Header |\n| --- | --- |\n| Cell | Cell |',
+      );
+    }
+
+    if (prefix.endsWith('[^')) {
+      return this.singleCompletion(position, 0, 'Markdown Extra footnote', 'label]: ');
+    }
+
+    if (prefix === '*[') {
+      return this.singleCompletion(position, 2, 'Markdown Extra abbreviation', '*[HTML]: ');
+    }
+
+    if (prefix === '{') {
+      return this.singleCompletion(position, 1, 'Markdown Extra attribute', '{#id .class}');
     }
 
     return null;

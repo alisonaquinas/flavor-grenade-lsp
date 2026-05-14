@@ -203,4 +203,34 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 10, endLine: 12, kind: 'region' });
   });
+
+  it('folds Markdown Extra definition lists, tables, and fenced code blocks when active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/markdown-extra.md',
+      [
+        '# Markdown Extra',
+        '',
+        'Term',
+        ': one',
+        ': two',
+        '',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '',
+        '``` {.php}',
+        'echo "hi";',
+        '```',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'markdown-extra' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 10, endLine: 12, kind: 'region' });
+  });
 });

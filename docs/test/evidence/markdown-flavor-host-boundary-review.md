@@ -223,3 +223,25 @@ inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 30 records kramdown renderer and conversion output as non-local. |
+
+## Phase 31 Markdown Extra Review
+
+Markdown Extra declares PHP Markdown Extra conversion, generated HTML,
+renderer output, syntax highlighter metadata, and generated attributes as
+non-local unless a later integration ticket owns configured local context.
+Phase 31 implements local source syntax for tables, definition lists,
+footnotes, abbreviations, fenced code blocks, and attributes while leaving
+renderer and conversion behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Tables, definition lists, footnotes, abbreviations, fenced code blocks, and attributes are active only under effective flavor `markdown-extra`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG502` covers malformed local Markdown Extra attributes; generated HTML and renderer metadata do not become broken vault links. |
+| Completion | Markdown Extra table, footnote, abbreviation, and attribute snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; PHP Markdown Extra conversion output, generated HTML, renderer metadata, and syntax highlighter metadata remain renderer-bound or conversion-bound without process execution, dynamic import, network access, or workspace edits. |
+
+## Phase 31 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 31 records Markdown Extra renderer and conversion output as non-local. |

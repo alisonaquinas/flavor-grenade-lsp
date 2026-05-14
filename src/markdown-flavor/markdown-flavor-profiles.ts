@@ -468,6 +468,7 @@ export const MARKDOWN_FLAVOR_PROFILES: Record<MarkdownFlavorId, MarkdownFlavorPr
     ],
     hostSpecificSyntax: ['renderer-specific-attributes'],
     opaqueRegions: ['code', 'attribute-blocks'],
+    surfaceStatus: 'implemented',
     surfaceSummary: 'Markdown Extra parser and local LSP behavior are implemented in Phase 31.',
   }),
   'r-markdown': profile({

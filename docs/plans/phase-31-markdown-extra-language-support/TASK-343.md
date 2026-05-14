@@ -2,7 +2,7 @@
 id: "TASK-343"
 title: "Add Markdown Extra diagnostics and LSP features"
 type: task
-status: open
+status: done
 priority: high
 phase: 31
 parent: "FEAT-057"
@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -76,16 +77,39 @@ Deliver diagnostics and LSP feature behavior for the markdown-extra flavor using
 
 ## Definition of Done
 
-- [ ] markdown-extra behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for markdown-extra.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for markdown-extra.
-- [ ] Rename coverage is implemented for safe local markdown-extra symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] markdown-extra behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for markdown-extra.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for markdown-extra.
+- [x] Rename coverage is implemented for safe local markdown-extra symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose Markdown Extra malformed-boundary diagnostics, table,
+> definition-list, footnote, abbreviation, and attribute completions/symbols,
+> folds, semantic tokens, analysis counts, and local-boundary disposition.
+> Renderer, conversion, syntax-highlighter, and generated-output behavior are
+> out of scope.
+
+> [!FAILURE] RED validation - 2026-05-13
+> Added LSP RED coverage for malformed-attribute diagnostics, Markdown Extra
+> completions, document symbols, folding ranges, semantic tokens, query counts,
+> and local boundary classification. Expected failures prove these surfaces are
+> not yet wired.
+
+> [!SUCCESS] GREEN validation - 2026-05-13
+> Wired FG502 diagnostics, Markdown Extra completions, document symbols,
+> folding, semantic tokens, spawned-server query counts, and local boundary
+> evidence. Focused LSP tests now pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Diagnostics, completion, symbols, folding, semantic tokens, query counts,
+> rename disposition, and host/conversion boundary evidence are complete for
+> Phase 31.

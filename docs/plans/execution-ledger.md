@@ -46,7 +46,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 28    | MultiMarkdown Language Support | 🔎 in-review | MultiMarkdown metadata, tables, footnotes, citations, and cross-references | 2026-05-13 | [PR #79](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/79) |
 | 29    | MDX Flavor Language Support | 🔎 in-review | MDX flavor syntax support without taking over VS Code MDX language mode | 2026-05-13 | [PR #80](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/80) |
 | 30    | kramdown Language Support | 🔎 in-review | kramdown attributes, definition lists, tables, math, and footnotes | 2026-05-13 | [PR #81](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/81) |
-| 31    | Markdown Extra Language Support | ⏳ planned | Markdown Extra tables, definition lists, footnotes, abbreviations, and attributes | — | — |
+| 31    | Markdown Extra Language Support | 🔎 in-review | Markdown Extra tables, definition lists, footnotes, abbreviations, and attributes | 2026-05-13 | [PR #82](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/82) |
 | 32    | R Markdown Language Support | ⏳ planned | R Markdown metadata and chunk syntax without code execution | — | — |
 | 33    | Reddit Markdown Language Support | ⏳ planned | Reddit platform Markdown syntax awareness and portability diagnostics | — | — |
 | 34    | Stack Overflow Markdown Language Support | ⏳ planned | Stack Overflow technical-writing Markdown and platform syntax awareness | — | — |

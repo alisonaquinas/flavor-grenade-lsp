@@ -511,6 +511,32 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG501']);
     expect(params.diagnostics[0]['message']).toContain('Malformed kramdown attribute');
   });
+
+  it('publishes Markdown Extra attribute diagnostics without resolving renderer output', () => {
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/markdown-extra.md', []),
+      text: ['# Heading', '', 'Paragraph', '{#custom', '[[Nope]]'].join('\n'),
+      markdownFlavor: 'markdown-extra' as const,
+      parseContext: { effectiveFlavor: 'markdown-extra' as const },
+    };
+
+    service.publishDiagnostics(id('markdown-extra'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG502']);
+    expect(params.diagnostics[0]['message']).toContain('Malformed Markdown Extra attribute');
+  });
 });
 
 describe('block reference diagnostics', () => {

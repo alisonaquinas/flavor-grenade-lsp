@@ -364,6 +364,40 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('Markdown Extra flavor routing', () => {
+    it('offers Markdown Extra snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'markdown-extra' }));
+
+      const tableText = '|';
+      router.setDocumentText(TEST_URI, tableText);
+      const tableResult = router.route(makeParams(TEST_URI, tableText, '|'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const abbreviationText = '*[';
+      router.setDocumentText(TEST_URI, abbreviationText);
+      const abbreviationResult = router.route(makeParams(TEST_URI, abbreviationText, '['));
+
+      const attributeText = '{';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, '{'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tableResult.items.map((item) => item.label)).toContain('Markdown Extra table');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('Markdown Extra footnote');
+      expect(abbreviationResult.items.map((item) => item.label)).toContain(
+        'Markdown Extra abbreviation',
+      );
+      expect(attributeResult.items.map((item) => item.label)).toContain('Markdown Extra attribute');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

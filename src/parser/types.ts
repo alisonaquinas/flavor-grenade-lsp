@@ -466,6 +466,29 @@ export interface KramdownMathBlockEntry {
   range: Range;
 }
 
+export type MarkdownExtraAttributeEntry = KramdownAttributeEntry;
+export type MarkdownExtraMalformedAttributeEntry = KramdownMalformedAttributeEntry;
+export type MarkdownExtraDefinitionListEntry = KramdownDefinitionListEntry;
+export type MarkdownExtraTableEntry = KramdownTableEntry;
+export type MarkdownExtraFootnoteEntry = KramdownFootnoteEntry;
+
+/** A Markdown Extra abbreviation definition. */
+export interface MarkdownExtraAbbreviationEntry {
+  raw: string;
+  label: string;
+  value: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A Markdown Extra fenced code block with optional attribute language. */
+export interface MarkdownExtraFencedCodeBlockEntry {
+  raw: string;
+  language?: string;
+  range: Range;
+  markerRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -516,6 +539,13 @@ export interface OFMIndex {
   kramdownTables?: KramdownTableEntry[];
   kramdownFootnotes?: KramdownFootnoteEntry[];
   kramdownMathBlocks?: KramdownMathBlockEntry[];
+  markdownExtraAttributes?: MarkdownExtraAttributeEntry[];
+  markdownExtraMalformedAttributes?: MarkdownExtraMalformedAttributeEntry[];
+  markdownExtraDefinitionLists?: MarkdownExtraDefinitionListEntry[];
+  markdownExtraTables?: MarkdownExtraTableEntry[];
+  markdownExtraFootnotes?: MarkdownExtraFootnoteEntry[];
+  markdownExtraAbbreviations?: MarkdownExtraAbbreviationEntry[];
+  markdownExtraFencedCodeBlocks?: MarkdownExtraFencedCodeBlockEntry[];
 }
 
 /**
