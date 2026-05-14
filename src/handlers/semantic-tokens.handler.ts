@@ -149,6 +149,21 @@ export class SemanticTokensHandler {
       if (t !== null) tokens.push(t);
     }
 
+    for (const declaration of doc.index.mdxEsmDeclarations ?? []) {
+      const t = this.rangeToToken(declaration.nameRange, TOKEN_TYPE_PROPERTY, MODIFIER_DECLARATION);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const element of doc.index.mdxJsxElements ?? []) {
+      const t = this.rangeToToken(element.nameRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const expression of doc.index.mdxExpressions ?? []) {
+      const t = this.rangeToToken(expression.range, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
     return tokens;
   }
 

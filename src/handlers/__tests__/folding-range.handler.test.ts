@@ -146,4 +146,31 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 0, endLine: 1, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 5, endLine: 8, kind: 'region' });
   });
+
+  it('folds MDX JSX and expression blocks when the MDX flavor is active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/mdx.md',
+      [
+        "import Chart from './Chart'",
+        '',
+        '# MDX',
+        '',
+        '<Chart>',
+        '  content',
+        '</Chart>',
+        '',
+        '{items.map((item) =>',
+        '  <Item key={item.id} />',
+        ')}',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'mdx' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 4, endLine: 6, kind: 'region' });
+    expect(ranges).toContainEqual({ startLine: 8, endLine: 10, kind: 'region' });
+  });
 });

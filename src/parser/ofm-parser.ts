@@ -12,6 +12,7 @@ import { GfmParser } from './gfm-parser.js';
 import { GlfmParser } from './glfm-parser.js';
 import { PandocParser } from './pandoc-parser.js';
 import { MultimarkdownParser } from './multimarkdown-parser.js';
+import { MdxParser } from './mdx-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -57,17 +58,22 @@ export class OFMParser {
       parseError: frontmatterParseError,
     } = this.frontmatterParser.parse(text);
 
-    // Stage 2: opaque regions
-    const opaqueRegions = mark(text, bodyOffset);
-
-    // Stage 3–7: token parsers
-    const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const enableObsidianSyntax = parseContext.effectiveFlavor === 'obsidian';
     const enableGfmSyntax =
       parseContext.effectiveFlavor === 'gfm' || parseContext.effectiveFlavor === 'glfm';
     const enableGlfmSyntax = parseContext.effectiveFlavor === 'glfm';
     const enablePandocSyntax = parseContext.effectiveFlavor === 'pandoc';
     const enableMultimarkdownSyntax = parseContext.effectiveFlavor === 'multimarkdown';
+    const enableMdxSyntax = parseContext.effectiveFlavor === 'mdx';
+
+    // Stage 2: opaque regions
+    const baseOpaqueRegions = mark(text, bodyOffset);
+    const mdx = enableMdxSyntax ? MdxParser.parse(text, baseOpaqueRegions) : undefined;
+    const opaqueRegions =
+      mdx === undefined ? baseOpaqueRegions : [...baseOpaqueRegions, ...mdx.opaqueRegions];
+
+    // Stage 3–7: token parsers
+    const markdownLinks = MarkdownLinkParser.parse(text, opaqueRegions);
     const gfm = enableGfmSyntax ? GfmParser.parse(text, opaqueRegions) : undefined;
     const glfm = enableGlfmSyntax ? GlfmParser.parse(text, opaqueRegions) : undefined;
     const pandoc = enablePandocSyntax ? PandocParser.parse(text, opaqueRegions) : undefined;
@@ -119,6 +125,12 @@ export class OFMParser {
         multimarkdownCrossReferences: multimarkdown.crossReferences,
         multimarkdownLabels: multimarkdown.labels,
         multimarkdownAbbreviations: multimarkdown.abbreviations,
+      }),
+      ...(mdx !== undefined && {
+        mdxEsmDeclarations: mdx.esmDeclarations,
+        mdxJsxElements: mdx.jsxElements,
+        mdxExpressions: mdx.expressions,
+        mdxMalformedBoundaries: mdx.malformedBoundaries,
       }),
     };
 
@@ -174,6 +186,10 @@ export class OFMParser {
       multimarkdownCrossReferences: [],
       multimarkdownLabels: [],
       multimarkdownAbbreviations: [],
+      mdxEsmDeclarations: [],
+      mdxJsxElements: [],
+      mdxExpressions: [],
+      mdxMalformedBoundaries: [],
     };
   }
 

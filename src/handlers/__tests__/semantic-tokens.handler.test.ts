@@ -277,4 +277,71 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(20);
   });
+
+  it('encodes MDX ESM declarations, JSX elements, and expressions', () => {
+    const doc = makeDoc(DOC_URI);
+    const mdxIndex = doc.index as typeof doc.index & {
+      mdxEsmDeclarations: Array<{
+        raw: string;
+        kind: 'import' | 'export';
+        name: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        nameRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      mdxJsxElements: Array<{
+        raw: string;
+        name: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+        nameRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      mdxExpressions: Array<{
+        raw: string;
+        range: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    mdxIndex.mdxEsmDeclarations = [
+      {
+        raw: "import Chart from './Chart'",
+        kind: 'import',
+        name: 'Chart',
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 27 } },
+        nameRange: { start: { line: 0, character: 7 }, end: { line: 0, character: 12 } },
+      },
+    ];
+    mdxIndex.mdxJsxElements = [
+      {
+        raw: '<Chart />',
+        name: 'Chart',
+        range: { start: { line: 1, character: 0 }, end: { line: 1, character: 9 } },
+        nameRange: { start: { line: 1, character: 1 }, end: { line: 1, character: 6 } },
+      },
+    ];
+    mdxIndex.mdxExpressions = [
+      {
+        raw: '{value}',
+        range: { start: { line: 2, character: 0 }, end: { line: 2, character: 7 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(15);
+  });
 });

@@ -146,7 +146,7 @@ export class LspModule implements OnModuleInit {
       definitionProvider: true,
       referencesProvider: true,
       completionProvider: {
-        triggerCharacters: ['[', '!', '#', '^', '>', '('],
+        triggerCharacters: ['[', '!', '#', '^', '>', '(', '<', '{'],
         commitCharacters: [']'],
         resolveProvider: false,
       },
@@ -359,6 +359,9 @@ export class LspModule implements OnModuleInit {
         multimarkdownCrossReferences: doc.index.multimarkdownCrossReferences?.length ?? 0,
         multimarkdownLabels: doc.index.multimarkdownLabels?.length ?? 0,
         multimarkdownAbbreviations: doc.index.multimarkdownAbbreviations?.length ?? 0,
+        mdxEsmDeclarations: doc.index.mdxEsmDeclarations?.length ?? 0,
+        mdxJsxElements: doc.index.mdxJsxElements?.length ?? 0,
+        mdxExpressions: doc.index.mdxExpressions?.length ?? 0,
       };
     });
 

@@ -6,7 +6,7 @@ import type { MarkdownFlavorId } from '../markdown-flavor/markdown-flavor-contra
  * OFM tokens). Covers comments, math blocks, and code spans/blocks.
  */
 export interface OpaqueRegion {
-  kind: 'comment' | 'math' | 'code' | 'templater';
+  kind: 'comment' | 'math' | 'code' | 'templater' | 'mdx-esm' | 'mdx-jsx' | 'mdx-expression';
   /** Absolute character offset of the opening delimiter (inclusive). */
   start: number;
   /** Absolute character offset of the closing delimiter (exclusive). */
@@ -389,6 +389,37 @@ export interface MultimarkdownAbbreviationEntry {
   labelRange: Range;
 }
 
+/** An MDX ESM import or export declaration. */
+export interface MdxEsmDeclarationEntry {
+  raw: string;
+  kind: 'import' | 'export';
+  name: string;
+  source?: string;
+  range: Range;
+  nameRange: Range;
+}
+
+/** An MDX JSX element or component reference. */
+export interface MdxJsxElementEntry {
+  raw: string;
+  name: string;
+  range: Range;
+  nameRange: Range;
+}
+
+/** An MDX expression island. */
+export interface MdxExpressionEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A malformed MDX boundary that cannot be safely interpreted. */
+export interface MdxMalformedBoundaryEntry {
+  raw: string;
+  reason: string;
+  range: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -429,6 +460,10 @@ export interface OFMIndex {
   multimarkdownCrossReferences?: MultimarkdownCrossReferenceEntry[];
   multimarkdownLabels?: MultimarkdownLabelEntry[];
   multimarkdownAbbreviations?: MultimarkdownAbbreviationEntry[];
+  mdxEsmDeclarations?: MdxEsmDeclarationEntry[];
+  mdxJsxElements?: MdxJsxElementEntry[];
+  mdxExpressions?: MdxExpressionEntry[];
+  mdxMalformedBoundaries?: MdxMalformedBoundaryEntry[];
 }
 
 /**

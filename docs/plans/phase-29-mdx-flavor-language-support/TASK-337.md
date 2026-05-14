@@ -2,7 +2,7 @@
 id: "TASK-337"
 title: "Add MDX diagnostics and LSP features"
 type: task
-status: open
+status: done
 priority: high
 phase: 29
 parent: "FEAT-055"
@@ -62,6 +62,7 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 | Source | `src/handlers/folding-range.handler.ts` |
 | Source | `src/handlers/semantic-tokens.handler.ts` |
 | Source | `src/handlers/hover.handler.ts` |
+| Source | `src/lsp/lsp.module.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `src/resolution/__tests__/diagnostic-service.test.ts` |
 | Test | `src/handlers/__tests__/definition.handler.test.ts` |
@@ -76,16 +77,36 @@ Deliver diagnostics and LSP feature behavior for the mdx flavor using [[docs/res
 
 ## Definition of Done
 
-- [ ] mdx behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for mdx.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Navigation coverage includes definition, references, document links, document symbols, and folding for mdx.
-- [ ] Rename coverage is implemented for safe local mdx symbols or rejected with an explicit disposition.
-- [ ] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] mdx behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor LSP fixtures proving inactive constructs do not receive diagnostics, completions, navigation, hover, semantic tokens, or rename edits for mdx.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Navigation coverage includes definition, references, document links, document symbols, and folding for mdx.
+- [x] Rename coverage is implemented for safe local mdx symbols or rejected with an explicit disposition.
+- [x] Host/conversion non-local boundaries use the shared Phase 20 classifier and do not emit local diagnostics, navigation, or rename edits.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> LSP work will expose MDX diagnostics, completion snippets, document symbols,
+> folds, semantic tokens, analysis counts, and renderer-bound classification.
+> React/TypeScript symbol lookup, import resolution, MDX compilation, and
+> JavaScript evaluation are out of scope.
+
+> [!INFO] RED - 2026-05-13
+> Added failing diagnostics, completion, document-symbol, folding,
+> semantic-token, and renderer-boundary coverage for MDX LSP surfaces.
+
+> [!INFO] GREEN - 2026-05-13
+> Implemented MDX `FG401` boundary diagnostics, component/expression/export
+> completions, document symbols, folding ranges, semantic tokens, query counts,
+> and renderer-bound classification evidence. Focused LSP coverage passed
+> locally.
+
+> [!INFO] Done - 2026-05-13
+> PR #80 CI run `25830191328` passed. MDX diagnostics and local LSP surfaces are
+> complete for Phase 29; React/TypeScript integration remains deferred.

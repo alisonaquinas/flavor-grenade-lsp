@@ -50,6 +50,9 @@ export class DocumentSymbolHandler {
     const multimarkdownLabels = doc.index.multimarkdownLabels ?? [];
     const multimarkdownCitations = doc.index.multimarkdownCitations ?? [];
     const multimarkdownFootnotes = doc.index.multimarkdownFootnotes ?? [];
+    const mdxEsmDeclarations = doc.index.mdxEsmDeclarations ?? [];
+    const mdxJsxElements = doc.index.mdxJsxElements ?? [];
+    const mdxExpressions = doc.index.mdxExpressions ?? [];
 
     if (
       headings.length === 0 &&
@@ -64,7 +67,10 @@ export class DocumentSymbolHandler {
       multimarkdownMetadata.length === 0 &&
       multimarkdownLabels.length === 0 &&
       multimarkdownCitations.length === 0 &&
-      multimarkdownFootnotes.length === 0
+      multimarkdownFootnotes.length === 0 &&
+      mdxEsmDeclarations.length === 0 &&
+      mdxJsxElements.length === 0 &&
+      mdxExpressions.length === 0
     )
       return [];
 
@@ -226,6 +232,36 @@ export class DocumentSymbolHandler {
         selectionRange: footnote.labelRange,
       };
       this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const declaration of mdxEsmDeclarations) {
+      const symbol: DocumentSymbol = {
+        name: `MDX ${declaration.kind}: ${declaration.name}`,
+        kind: SYMBOL_KIND_STRING,
+        range: declaration.range,
+        selectionRange: declaration.nameRange,
+      };
+      this.addSymbolAtLine(symbol, declaration.range.start.line, headings, roots);
+    }
+
+    for (const element of mdxJsxElements) {
+      const symbol: DocumentSymbol = {
+        name: `MDX component: ${element.name}`,
+        kind: SYMBOL_KIND_MODULE,
+        range: element.range,
+        selectionRange: element.nameRange,
+      };
+      this.addSymbolAtLine(symbol, element.range.start.line, headings, roots);
+    }
+
+    for (const expression of mdxExpressions) {
+      const symbol: DocumentSymbol = {
+        name: 'MDX expression',
+        kind: SYMBOL_KIND_STRING,
+        range: expression.range,
+        selectionRange: expression.range,
+      };
+      this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
     }
 
     return roots;

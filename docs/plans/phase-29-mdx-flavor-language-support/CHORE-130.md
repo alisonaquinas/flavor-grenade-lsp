@@ -2,7 +2,7 @@
 id: "CHORE-130"
 title: "Phase 29 verification and closeout sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 29
 parent: "FEAT-055"
@@ -38,12 +38,20 @@ Perform the operational sweep for MDX language-support phase closure.
 
 ## Definition of Done
 
-- [ ] Documentation trace is complete for mdx.
-- [ ] Required verification evidence is attached or linked.
-- [ ] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
-- [ ] Phase closeout notes identify any deferred work explicitly.
+- [x] Documentation trace is complete for mdx.
+- [x] Required verification evidence is attached or linked.
+- [x] Test matrix/index and validation evidence reflect every profile surface introduced, changed, deferred, or rejected in this phase.
+- [x] Phase closeout notes identify any deferred work explicitly.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Done - 2026-05-13
+> Step E passed `bun run lint --max-warnings 0` and `bun run typecheck` with no
+> findings. Step F found no code-quality tickets after reviewing the new MDX
+> parser and modified LSP surfaces. Step G passed `bun audit` and introduced no
+> dependencies, file I/O, path traversal, execution, dynamic import, or network
+> behavior. Steps I-L passed locally; verification and validation directories
+> are not present, and BDD passed.

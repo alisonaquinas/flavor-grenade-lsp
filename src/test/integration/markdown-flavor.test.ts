@@ -724,6 +724,70 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies MDX parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'mdx.md');
+    fs.writeFileSync(path.join(vault, '.flavor-grenade.toml'), 'core.markdown.flavor = "mdx"\n');
+    fs.writeFileSync(
+      notePath,
+      [
+        "import Chart from './Chart'",
+        'export const title = "MDX"',
+        '# {title}',
+        '<Chart value={1}>',
+        'body',
+        '</Chart>',
+        '{items.map((item) => <Item key={item.id} />)}',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).not.toContain(
+      'FG102',
+    );
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'mdx',
+      mdxEsmDeclarations: 2,
+      mdxJsxElements: 2,
+      mdxExpressions: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'mdx',
+      text: '<Component />',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'renderer-bound' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

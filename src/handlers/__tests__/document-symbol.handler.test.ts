@@ -269,4 +269,66 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Citation: doe2020');
     expect(names).toContain('Footnote: n');
   });
+
+  it('adds MDX imports, exports, JSX elements, and expressions as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('MDX', 1, 2)]);
+    const mdxIndex = doc.index as typeof doc.index & {
+      mdxEsmDeclarations: Array<{
+        raw: string;
+        kind: 'import' | 'export';
+        name: string;
+        range: HeadingEntry['range'];
+        nameRange: HeadingEntry['range'];
+      }>;
+      mdxJsxElements: Array<{
+        raw: string;
+        name: string;
+        range: HeadingEntry['range'];
+        nameRange: HeadingEntry['range'];
+      }>;
+      mdxExpressions: Array<{ raw: string; range: HeadingEntry['range'] }>;
+    };
+    mdxIndex.mdxEsmDeclarations = [
+      {
+        raw: "import Chart from './Chart'",
+        kind: 'import',
+        name: 'Chart',
+        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 27 } },
+        nameRange: { start: { line: 0, character: 7 }, end: { line: 0, character: 12 } },
+      },
+      {
+        raw: 'export const title = "Demo"',
+        kind: 'export',
+        name: 'title',
+        range: { start: { line: 1, character: 0 }, end: { line: 1, character: 27 } },
+        nameRange: { start: { line: 1, character: 13 }, end: { line: 1, character: 18 } },
+      },
+    ];
+    mdxIndex.mdxJsxElements = [
+      {
+        raw: '<Chart />',
+        name: 'Chart',
+        range: { start: { line: 4, character: 0 }, end: { line: 4, character: 9 } },
+        nameRange: { start: { line: 4, character: 1 }, end: { line: 4, character: 6 } },
+      },
+    ];
+    mdxIndex.mdxExpressions = [
+      {
+        raw: '{items.map((item) => <Item />)}',
+        range: { start: { line: 6, character: 0 }, end: { line: 6, character: 31 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('MDX import: Chart');
+    expect(names).toContain('MDX export: title');
+    expect(names).toContain('MDX component: Chart');
+    expect(names).toContain('MDX expression');
+  });
 });

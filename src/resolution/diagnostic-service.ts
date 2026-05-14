@@ -17,6 +17,7 @@ import { GfmParser } from '../parser/gfm-parser.js';
 import { GlfmParser } from '../parser/glfm-parser.js';
 import { PandocParser } from '../parser/pandoc-parser.js';
 import { MultimarkdownParser } from '../parser/multimarkdown-parser.js';
+import { MdxParser } from '../parser/mdx-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -99,6 +100,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'multimarkdown') {
       diagnostics.push(...this.diagnoseMultimarkdownMetadata(doc));
+    }
+
+    if (doc.markdownFlavor === 'mdx') {
+      diagnostics.push(...this.diagnoseMdxBoundaries(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -300,6 +305,19 @@ export class DiagnosticService {
       code: 'FG302',
       source: 'flavor-grenade',
       message: 'Malformed MultiMarkdown metadata: expected a leading Key: value row.',
+    }));
+  }
+
+  private diagnoseMdxBoundaries(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.mdxMalformedBoundaries ??
+      MdxParser.parse(doc.text, doc.opaqueRegions).malformedBoundaries;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG401',
+      source: 'flavor-grenade',
+      message: 'Malformed MDX boundary: expected closed JSX tag or balanced expression.',
     }));
   }
 

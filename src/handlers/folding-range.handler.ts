@@ -27,6 +27,7 @@ export class FoldingRangeHandler {
     this.addGlfmDescriptionListFolds(doc, builder);
     this.addPandocFolds(doc, builder);
     this.addMultimarkdownFolds(doc, builder);
+    this.addMdxFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -104,6 +105,15 @@ export class FoldingRangeHandler {
     }
     for (const table of doc.index.multimarkdownTables ?? []) {
       builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addMdxFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const element of doc.index.mdxJsxElements ?? []) {
+      builder.add(element.range.start.line, element.range.end.line, 'region');
+    }
+    for (const expression of doc.index.mdxExpressions ?? []) {
+      builder.add(expression.range.start.line, expression.range.end.line, 'region');
     }
   }
 

@@ -315,6 +315,33 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('MDX flavor routing', () => {
+    it('offers MDX snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'mdx' }));
+
+      const componentText = '<';
+      router.setDocumentText(TEST_URI, componentText);
+      const componentResult = router.route(makeParams(TEST_URI, componentText, '<'));
+
+      const expressionText = '{';
+      router.setDocumentText(TEST_URI, expressionText);
+      const expressionResult = router.route(makeParams(TEST_URI, expressionText, '{'));
+
+      const exportText = 'export ';
+      router.setDocumentText(TEST_URI, exportText);
+      const exportResult = router.route(makeParams(TEST_URI, exportText, ' '));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(componentResult.items.map((item) => item.label)).toContain('MDX component');
+      expect(expressionResult.items.map((item) => item.label)).toContain('MDX expression');
+      expect(exportResult.items.map((item) => item.label)).toContain('MDX named export');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {
