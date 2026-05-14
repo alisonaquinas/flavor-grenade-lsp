@@ -65,9 +65,9 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | open |
-| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | open |
-| [[TASK-350]] | Add Reddit tests and validation evidence | Task | open |
+| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | red |
+| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | red |
+| [[TASK-350]] | Add Reddit tests and validation evidence | Task | red |
 | [[CHORE-137]] | Phase 33 trace and documentation sweep | Chore | open |
 | [[CHORE-138]] | Phase 33 verification and closeout sweep | Chore | open |
 
@@ -106,3 +106,9 @@ Implement first-class reddit language support for Reddit Markdown, using [[docs/
 > Live Reddit user, subreddit, post, comment, moderation, and Rich Text editor
 > rendering behavior remain deferred unless separate integration tickets own
 > them.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Added failing coverage for Reddit parser analysis, diagnostics, completions,
+> document symbols, folding, semantic tokens, and spawned-server counts. Focused
+> RED command failed with 8 expected failures and `bun run lint --max-warnings
+> 0` passed.

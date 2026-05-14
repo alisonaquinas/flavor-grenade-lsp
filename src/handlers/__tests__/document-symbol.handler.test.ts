@@ -540,4 +540,55 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('R Markdown chunk: plot');
     expect(names).toContain('R Markdown inline: nrow(airquality)');
   });
+
+  it('adds Reddit tables and host references as document symbols', () => {
+    const doc = makeDoc(DOC_URI, [makeHeading('Reddit', 1, 0)]);
+    const redditIndex = doc.index as typeof doc.index & {
+      redditTables: Array<{
+        raw: string;
+        headerCells: string[];
+        rowCount: number;
+        range: HeadingEntry['range'];
+      }>;
+      redditHostReferences: Array<{
+        raw: string;
+        kind: 'subreddit' | 'user';
+        target: string;
+        range: HeadingEntry['range'];
+      }>;
+    };
+    redditIndex.redditTables = [
+      {
+        raw: '| A | B |\n|---|---|',
+        headerCells: ['A', 'B'],
+        rowCount: 1,
+        range: { start: { line: 2, character: 0 }, end: { line: 4, character: 9 } },
+      },
+    ];
+    redditIndex.redditHostReferences = [
+      {
+        raw: 'r/ObsidianMD',
+        kind: 'subreddit',
+        target: 'ObsidianMD',
+        range: { start: { line: 6, character: 4 }, end: { line: 6, character: 16 } },
+      },
+      {
+        raw: 'u/example',
+        kind: 'user',
+        target: 'example',
+        range: { start: { line: 6, character: 21 }, end: { line: 6, character: 30 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+    const names = result.flatMap((symbol) => [
+      symbol.name,
+      ...(symbol.children?.map((child) => child.name) ?? []),
+    ]);
+
+    expect(names).toContain('Reddit table: A, B');
+    expect(names).toContain('Subreddit: ObsidianMD');
+    expect(names).toContain('Reddit user: example');
+  });
 });

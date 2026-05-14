@@ -520,4 +520,52 @@ describe('SemanticTokensHandler', () => {
     expect(result).not.toBeNull();
     expect(result!.data).toHaveLength(25);
   });
+
+  it('encodes Reddit spoiler text, superscripts, and host references', () => {
+    const doc = makeDoc(DOC_URI);
+    const redditIndex = doc.index as typeof doc.index & {
+      redditSpoilers: Array<{
+        textRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      redditSuperscripts: Array<{
+        textRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+      redditHostReferences: Array<{
+        targetRange: {
+          start: { line: number; character: number };
+          end: { line: number; character: number };
+        };
+      }>;
+    };
+    redditIndex.redditSpoilers = [
+      {
+        textRange: { start: { line: 0, character: 2 }, end: { line: 0, character: 14 } },
+      },
+    ];
+    redditIndex.redditSuperscripts = [
+      {
+        textRange: { start: { line: 1, character: 2 }, end: { line: 1, character: 14 } },
+      },
+    ];
+    redditIndex.redditHostReferences = [
+      {
+        targetRange: { start: { line: 2, character: 2 }, end: { line: 2, character: 12 } },
+      },
+      {
+        targetRange: { start: { line: 2, character: 15 }, end: { line: 2, character: 22 } },
+      },
+    ];
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    expect(result).not.toBeNull();
+    expect(result!.data).toHaveLength(20);
+  });
 });

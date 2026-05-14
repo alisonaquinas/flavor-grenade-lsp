@@ -2,7 +2,7 @@
 id: "TASK-348"
 title: "Implement Reddit Markdown parser semantics"
 type: task
-status: open
+status: red
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -72,3 +72,14 @@ Deliver parser/profile semantics for the reddit flavor using [[docs/research/red
 > superscript, strikethrough, table, ordered-list marker, URL-scheme, and
 > `r/` or `u/` host-reference shapes. Constructs will be indexed only when
 > effective flavor is `reddit`; no Reddit API lookup is allowed.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. `bun test
+> src/parser/__tests__/markdown-flavor-parser-analysis.test.ts
+> src/resolution/__tests__/diagnostic-service.test.ts
+> src/completion/__tests__/completion-router.test.ts
+> src/handlers/__tests__/folding-range.handler.test.ts
+> src/handlers/__tests__/document-symbol.handler.test.ts
+> src/handlers/__tests__/semantic-tokens.handler.test.ts
+> src/test/integration/markdown-flavor.test.ts` failed as expected because
+> Reddit parser/index fields and profile surfaces are not implemented yet.

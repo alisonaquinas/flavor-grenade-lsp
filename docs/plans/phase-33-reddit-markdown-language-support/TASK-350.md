@@ -2,7 +2,7 @@
 id: "TASK-350"
 title: "Add Reddit Markdown tests and validation evidence"
 type: task
-status: open
+status: red
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -81,3 +81,8 @@ Deliver unit, integration, BDD, verification, and validation evidence for the re
 > URL schemes, inactive Obsidian behavior, completions, symbols, folds,
 > semantic tokens, spawned-server counts, and validation evidence for local-only
 > Reddit host boundaries.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Added RED coverage in parser, diagnostic, completion,
+> document-symbol, folding, semantic-token, and spawned-server integration
+> tests. Focused command produced 134 passing tests and 8 expected failures.

@@ -12,9 +12,9 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-059]] | Reddit Markdown Language Support | Feature | `in-progress` |
-| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | `open` |
-| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | `open` |
-| [[TASK-350]] | Add Reddit tests and validation evidence | Task | `open` |
+| [[TASK-348]] | Implement Reddit Markdown parser semantics | Task | `red` |
+| [[TASK-349]] | Add Reddit diagnostics and LSP features | Task | `red` |
+| [[TASK-350]] | Add Reddit tests and validation evidence | Task | `red` |
 | [[CHORE-137]] | Phase 33 trace and documentation sweep | Chore | `open` |
 | [[CHORE-138]] | Phase 33 verification and closeout sweep | Chore | `open` |
 

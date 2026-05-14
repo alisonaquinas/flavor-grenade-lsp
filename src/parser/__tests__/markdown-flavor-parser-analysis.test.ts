@@ -667,3 +667,67 @@ describe('R Markdown parser analysis', () => {
     ).toBe(true);
   });
 });
+
+describe('Reddit Markdown parser analysis', () => {
+  const parser = new OFMParser();
+
+  it('treats Reddit syntax as active while keeping Obsidian inert', () => {
+    const doc = parser.parse(
+      'file:///vault/reddit.md',
+      [
+        '# Reddit',
+        '',
+        '>!spoiler text!<',
+        '',
+        'Use ^(superscript text) and ~~deleted~~.',
+        '',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        '',
+        'Visit r/ObsidianMD and u/example.',
+        '',
+        '1) new Reddit only',
+        '',
+        '[bad](javascript:alert(1))',
+        '',
+        '[[Obsidian Link]]',
+        '![[image.png]]',
+        '#obsidian/tag',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'reddit' },
+    );
+    const redditIndex = doc.index as typeof doc.index & {
+      redditSpoilers: Array<{ text: string }>;
+      redditSuperscripts: Array<{ text: string }>;
+      redditStrikethroughs: Array<{ text: string }>;
+      redditTables: Array<{ headerCells: string[] }>;
+      redditHostReferences: Array<{ kind: string; target: string }>;
+      redditOldRedditIncompatibleLists: unknown[];
+      redditUnsafeLinks: unknown[];
+    };
+
+    expect(doc.markdownFlavor).toBe('reddit');
+    expect(redditIndex.redditSpoilers.map((entry) => entry.text)).toEqual(['spoiler text']);
+    expect(redditIndex.redditSuperscripts.map((entry) => entry.text)).toEqual(['superscript text']);
+    expect(redditIndex.redditStrikethroughs.map((entry) => entry.text)).toEqual(['deleted']);
+    expect(redditIndex.redditTables.map((entry) => entry.headerCells)).toEqual([['A', 'B']]);
+    expect(redditIndex.redditHostReferences).toEqual([
+      expect.objectContaining({ kind: 'subreddit', target: 'ObsidianMD' }),
+      expect.objectContaining({ kind: 'user', target: 'example' }),
+    ]);
+    expect(redditIndex.redditOldRedditIncompatibleLists).toHaveLength(1);
+    expect(redditIndex.redditUnsafeLinks).toHaveLength(1);
+    expect(doc.index.wikiLinks).toHaveLength(0);
+    expect(doc.index.embeds).toHaveLength(0);
+    expect(doc.index.tags).toHaveLength(0);
+  });
+
+  it('marks Reddit LSP surfaces implemented in the profile registry', () => {
+    const profile = getMarkdownFlavorProfile('reddit');
+    expect(
+      Object.values(profile.surfaces).every((surface) => surface.status === 'implemented'),
+    ).toBe(true);
+  });
+});

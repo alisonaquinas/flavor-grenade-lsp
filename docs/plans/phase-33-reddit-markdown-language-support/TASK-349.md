@@ -2,7 +2,7 @@
 id: "TASK-349"
 title: "Add Reddit Markdown diagnostics and LSP features"
 type: task
-status: open
+status: red
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -90,3 +90,9 @@ Deliver diagnostics and LSP feature behavior for the reddit flavor using [[docs/
 > completions, table and host-reference symbols, table folding, semantic
 > tokens, analysis counts, and non-local host-reference disposition. Live
 > Reddit lookup and Rich Text rendering are out of scope.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Focused RED failed for completion label `Reddit
+> spoiler`, document symbols, folding, semantic token data, diagnostics
+> `FG701` and `FG702`, and spawned-server query counts. `bun run lint
+> --max-warnings 0` passed.
