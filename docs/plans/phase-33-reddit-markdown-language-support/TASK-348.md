@@ -2,7 +2,7 @@
 id: "TASK-348"
 title: "Implement Reddit Markdown parser semantics"
 type: task
-status: open
+status: done
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -46,21 +46,48 @@ Deliver parser/profile semantics for the reddit flavor using [[docs/research/red
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/parser/markdown-flavor-profiles.ts` |
-| Source | `src/parser/markdown-flavor-parser-analysis.ts` |
+| Source | `src/parser/reddit-parser.ts` |
+| Source | `src/parser/ofm-parser.ts` |
+| Source | `src/parser/types.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-profiles.ts` |
 | Test | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` |
 | Test | `src/test/integration/markdown-flavor.test.ts` |
 | Test | `docs/bdd/features/markdown-flavor-dialects.feature` |
 
 ## Definition of Done
 
-- [ ] reddit behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for reddit.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] reddit behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Tests include negative cross-flavor parser fixtures proving inactive constructs stay inert for reddit.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> Parser work will add `RedditParser.parse(text, opaqueRegions)` for spoiler,
+> superscript, strikethrough, table, ordered-list marker, URL-scheme, and
+> `r/` or `u/` host-reference shapes. Constructs will be indexed only when
+> effective flavor is `reddit`; no Reddit API lookup is allowed.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. `bun test
+> src/parser/__tests__/markdown-flavor-parser-analysis.test.ts
+> src/resolution/__tests__/diagnostic-service.test.ts
+> src/completion/__tests__/completion-router.test.ts
+> src/handlers/__tests__/folding-range.handler.test.ts
+> src/handlers/__tests__/document-symbol.handler.test.ts
+> src/handlers/__tests__/semantic-tokens.handler.test.ts
+> src/test/integration/markdown-flavor.test.ts` failed as expected because
+> Reddit parser/index fields and profile surfaces are not implemented yet.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Added `src/parser/reddit-parser.ts`, Reddit index
+> fields, `OFMParser` dispatch, empty-index entries, and profile
+> `implemented` status. Focused parser analysis passed.
+
+> [!SUCCESS] Done - 2026-05-13
+> Status set to `done`. Phase 33 local gate passed and trace docs were updated.

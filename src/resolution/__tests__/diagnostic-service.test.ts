@@ -564,6 +564,34 @@ describe('DiagnosticService', () => {
     expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG601']);
     expect(params.diagnostics[0]['message']).toContain('Malformed R Markdown chunk header');
   });
+
+  it('publishes Reddit portability diagnostics without resolving host references', () => {
+    vaultIndex.set(id('reddit'), makeDoc('file:///vault/reddit.md'));
+    folderLookup.rebuild(vaultIndex);
+
+    const service = new DiagnosticService(
+      makeDispatcher(),
+      oracle,
+      embedResolver,
+      parseCache,
+      makeVaultDetector(),
+    );
+    const doc = {
+      ...makeDoc('file:///vault/reddit.md', []),
+      text: ['# Reddit', '1) new Reddit only', '[bad](javascript:alert(1))', 'r/ObsidianMD'].join(
+        '\n',
+      ),
+      markdownFlavor: 'reddit' as const,
+      parseContext: { effectiveFlavor: 'reddit' as const },
+    };
+
+    service.publishDiagnostics(id('reddit'), doc, '/vault');
+
+    const { params } = sentNotifications[0] as {
+      params: { uri: string; diagnostics: Array<Record<string, unknown>> };
+    };
+    expect(params.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual(['FG701', 'FG702']);
+  });
 });
 
 describe('block reference diagnostics', () => {

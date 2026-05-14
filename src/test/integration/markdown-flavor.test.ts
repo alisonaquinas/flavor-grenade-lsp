@@ -1016,6 +1016,77 @@ describe('Markdown flavor spawned-server propagation', () => {
 
     await client.close();
   }, 15000);
+
+  it('applies Reddit Markdown parser, diagnostics, and local syntax counts', async () => {
+    const vault = createRepoTempVault();
+    tempRoots.push(vault);
+    const notePath = path.join(vault, 'reddit.md');
+    fs.writeFileSync(path.join(vault, '.flavor-grenade.toml'), 'core.markdown.flavor = "reddit"\n');
+    fs.writeFileSync(
+      notePath,
+      [
+        '# Reddit',
+        '>!spoiler text!<',
+        'Power ^(tiny words) and ~~deleted~~.',
+        '| A | B |',
+        '|---|---|',
+        '| 1 | 2 |',
+        'Follow r/ObsidianMD and u/example.',
+        '1) old reddit marker',
+        '[bad](javascript:alert(1))',
+        '[[Nope]]',
+      ].join('\n'),
+    );
+    const noteUri = pathToFileURL(notePath).href;
+
+    client = new LspClient();
+    await client.request('initialize', {
+      processId: null,
+      rootUri: pathToFileURL(vault).href,
+      capabilities: {},
+    });
+
+    client.notify('textDocument/didOpen', {
+      textDocument: {
+        uri: noteUri,
+        languageId: 'markdown',
+        version: 1,
+        text: fs.readFileSync(notePath, 'utf8'),
+      },
+    });
+
+    const diagnostics = (await client.waitForNotification(
+      'textDocument/publishDiagnostics',
+    )) as Record<string, unknown>;
+    const diagnosticParams = diagnostics['params'] as {
+      diagnostics: Array<Record<string, unknown>>;
+    };
+    expect(diagnosticParams.diagnostics.map((diagnostic) => diagnostic['code'])).toEqual([
+      'FG701',
+      'FG702',
+    ]);
+
+    const query = await client.request('flavorGrenade/queryOpenDoc', { uri: noteUri });
+    expect(query.result).toMatchObject({
+      markdownFlavor: 'reddit',
+      redditSpoilers: 1,
+      redditSuperscripts: 1,
+      redditStrikethroughs: 1,
+      redditTables: 1,
+      redditHostReferences: 2,
+      redditOldRedditIncompatibleLists: 1,
+      redditUnsafeLinks: 1,
+      wikiLinks: 0,
+    });
+
+    const boundary = await client.request('flavorGrenade/classifyBoundary', {
+      flavor: 'reddit',
+      text: 'r/ObsidianMD',
+    });
+    expect(boundary.result).toMatchObject({ disposition: 'non-local-host' });
+
+    await client.close();
+  }, 15000);
 });
 
 function createRepoTempVault(): string {

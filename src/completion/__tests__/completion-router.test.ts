@@ -427,6 +427,28 @@ describe('CompletionRouter', () => {
     });
   });
 
+  describe('Reddit flavor routing', () => {
+    it('offers Reddit snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'reddit' }));
+
+      const spoilerText = '>!';
+      router.setDocumentText(TEST_URI, spoilerText);
+      const spoilerResult = router.route(makeParams(TEST_URI, spoilerText, '!'));
+
+      const superscriptText = '^(';
+      router.setDocumentText(TEST_URI, superscriptText);
+      const superscriptResult = router.route(makeParams(TEST_URI, superscriptText, '('));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(spoilerResult.items.map((item) => item.label)).toContain('Reddit spoiler');
+      expect(superscriptResult.items.map((item) => item.label)).toContain('Reddit superscript');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
   // ── routing to heading provider ───────────────────────────────────────────────
 
   describe('heading routing', () => {

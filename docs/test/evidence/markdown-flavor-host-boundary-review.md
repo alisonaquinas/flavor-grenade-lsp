@@ -267,3 +267,25 @@ while leaving runtime behavior inert.
 | Validation row | Result | Evidence |
 |---|---|---|
 | MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 32 records R Markdown chunks and runtime output as execution-bound. |
+
+## Phase 33 Reddit Markdown Review
+
+Reddit Markdown declares live user, subreddit, post, comment, moderation-state,
+and Rich Text editor behavior as non-local unless a later integration ticket
+owns authenticated Reddit context. Phase 33 implements local source syntax for
+spoilers, superscript, strikethrough, pipe tables, host-reference shapes,
+old-Reddit list portability, and unsafe link-scheme diagnostics while leaving
+live Reddit behavior inert.
+
+| Surface | Boundary disposition |
+|---|---|
+| Parser/profile | Spoilers, superscript, strikethrough, tables, old-Reddit list markers, unsafe links, and `r/` or `u/` host-reference shapes are active only under effective flavor `reddit`; Obsidian wiki links, embeds, tags, and callouts stay inert. |
+| Diagnostics | `FG701` covers old-Reddit-incompatible ordered-list markers and `FG702` covers unsupported URL schemes; Reddit host references are never resolved as local vault targets. |
+| Completion | Reddit spoiler and superscript snippets are local; Obsidian-only completion contexts stay suppressed. |
+| Navigation / rename | Local Markdown links and headings use existing local behavior where represented; live Reddit users, subreddits, posts, comments, moderation targets, and Rich Text editor state remain host-bound without network access, dynamic import, out-of-root file reads, or workspace edits. |
+
+## Phase 33 Validation Result
+
+| Validation row | Result | Evidence |
+|---|---|---|
+| MF-VA-005 | Pass | Shared classifier and BDD boundary examples identify host, renderer, conversion, bibliography, and execution-bound references as non-local unless an owning dialect phase adds explicit local-context evidence; Phase 33 records Reddit `r/` and `u/` host references as non-local. |

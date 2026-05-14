@@ -16,6 +16,7 @@ import { MdxParser } from './mdx-parser.js';
 import { KramdownParser } from './kramdown-parser.js';
 import { MarkdownExtraParser } from './markdown-extra-parser.js';
 import { RMarkdownParser } from './r-markdown-parser.js';
+import { RedditParser } from './reddit-parser.js';
 import { rangeFromOffsets } from './offset-utils.js';
 
 const MAX_PARSE_CHARACTERS = 1024 * 1024;
@@ -71,6 +72,7 @@ export class OFMParser {
     const enableKramdownSyntax = parseContext.effectiveFlavor === 'kramdown';
     const enableMarkdownExtraSyntax = parseContext.effectiveFlavor === 'markdown-extra';
     const enableRMarkdownSyntax = parseContext.effectiveFlavor === 'r-markdown';
+    const enableRedditSyntax = parseContext.effectiveFlavor === 'reddit';
 
     // Stage 2: opaque regions
     const baseOpaqueRegions = mark(text, bodyOffset);
@@ -91,6 +93,7 @@ export class OFMParser {
       ? MarkdownExtraParser.parse(text, opaqueRegions)
       : undefined;
     const rMarkdown = enableRMarkdownSyntax ? RMarkdownParser.parse(text) : undefined;
+    const reddit = enableRedditSyntax ? RedditParser.parse(text, opaqueRegions) : undefined;
     const gfmAutolinks = gfm?.autolinks.map((entry) => GfmParser.toMarkdownLink(entry)) ?? [];
     const index: OFMIndex = {
       wikiLinks: enableObsidianSyntax ? WikiLinkParser.parse(text, opaqueRegions) : [],
@@ -165,6 +168,15 @@ export class OFMParser {
         rMarkdownChunks: rMarkdown.chunks,
         rMarkdownInlineExpressions: rMarkdown.inlineExpressions,
         rMarkdownMalformedChunks: rMarkdown.malformedChunks,
+      }),
+      ...(reddit !== undefined && {
+        redditSpoilers: reddit.spoilers,
+        redditSuperscripts: reddit.superscripts,
+        redditStrikethroughs: reddit.strikethroughs,
+        redditTables: reddit.tables,
+        redditHostReferences: reddit.hostReferences,
+        redditOldRedditIncompatibleLists: reddit.oldRedditIncompatibleLists,
+        redditUnsafeLinks: reddit.unsafeLinks,
       }),
     };
 
@@ -241,6 +253,13 @@ export class OFMParser {
       rMarkdownChunks: [],
       rMarkdownInlineExpressions: [],
       rMarkdownMalformedChunks: [],
+      redditSpoilers: [],
+      redditSuperscripts: [],
+      redditStrikethroughs: [],
+      redditTables: [],
+      redditHostReferences: [],
+      redditOldRedditIncompatibleLists: [],
+      redditUnsafeLinks: [],
     };
   }
 

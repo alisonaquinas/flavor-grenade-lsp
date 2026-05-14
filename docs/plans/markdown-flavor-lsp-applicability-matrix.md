@@ -222,6 +222,24 @@ package, cache, runtime, and generated-output behavior remain out of scope.
 | Hover | Existing local Markdown hover surfaces remain available; runtime/package/generated-output hover is deferred as execution-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
 | Rename | Implemented for existing safe local headings and Markdown links; chunk runtime symbols, package references, generated output, and execution targets remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
 
+## Phase 33 Reddit Markdown Disposition
+
+Phase 33 marks the `reddit` profile's local LSP surfaces implemented for
+source-backed Reddit Markdown syntax. Reddit adds local indices for spoilers,
+superscript, strikethrough, pipe tables, `r/` and `u/` host-reference shapes,
+old-Reddit ordered-list portability warnings, and unsafe link-scheme warnings.
+Live Reddit user, subreddit, post, comment, moderation-state, and Rich Text
+editor behavior remain out of scope.
+
+| Surface | Phase 33 disposition | Evidence |
+|---|---|---|
+| Diagnostics | Implemented for old-Reddit-incompatible `1)` ordered-list markers (`FG701`) and unsupported URL schemes (`FG702`); host references do not become broken vault links. | `src/resolution/__tests__/diagnostic-service.test.ts`, `src/test/integration/markdown-flavor.test.ts` |
+| Completion | Implemented for Reddit spoiler and superscript snippets plus existing local Markdown link/heading completions; Obsidian-only contexts return no candidates. | `src/completion/__tests__/completion-router.test.ts` |
+| Navigation, document symbols, folding | Implemented through local headings, Markdown links, Reddit table symbols, subreddit/user host-reference symbols, and table folds. Live Reddit lookup remains non-local. | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts` |
+| Semantic tokens | Implemented for Reddit spoiler text, superscript text, and host-reference targets. | `src/handlers/__tests__/semantic-tokens.handler.test.ts` |
+| Hover | Existing local Markdown hover surfaces remain available; live Reddit metadata hover is deferred as host-bound behavior. | `docs/test/evidence/markdown-flavor-host-boundary-review.md` |
+| Rename | Implemented for existing safe local headings and Markdown links; live Reddit users, subreddits, posts, comments, and moderation targets remain non-local without configured integration context. | existing rename and Markdown-link rename suites, `src/markdown-flavor/non-local-boundary-classifier.ts` |
+
 ## Phase Gate
 
 - A flavor phase may mark a surface `not applicable` only when the research

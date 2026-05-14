@@ -156,6 +156,15 @@ inactive Obsidian syntax, and execution-bound classification without requiring
 R, Python, shell, notebook, knitr, Pandoc, Shiny, package, cache, runtime, or
 generated-output execution.
 
+### MF-I-021 - Reddit Markdown Spawned-Server Behavior
+
+Integration evidence for Phase 33. It proves Reddit Markdown behavior crosses
+the JSON-RPC process boundary for parser dispatch, local spoiler, superscript,
+strikethrough, table, host-reference, old-Reddit list, and unsafe-link counts,
+diagnostics, inactive Obsidian syntax, and non-local host classification without
+requiring Reddit API calls, live user/subreddit/post/comment lookup, moderation
+state, or Rich Text editor rendering.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.

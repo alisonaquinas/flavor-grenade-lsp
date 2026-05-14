@@ -21,6 +21,7 @@ import { MdxParser } from '../parser/mdx-parser.js';
 import { KramdownParser } from '../parser/kramdown-parser.js';
 import { MarkdownExtraParser } from '../parser/markdown-extra-parser.js';
 import { RMarkdownParser } from '../parser/r-markdown-parser.js';
+import { RedditParser } from '../parser/reddit-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -119,6 +120,10 @@ export class DiagnosticService {
 
     if (doc.markdownFlavor === 'r-markdown') {
       diagnostics.push(...this.diagnoseRMarkdownChunks(doc));
+    }
+
+    if (doc.markdownFlavor === 'reddit') {
+      diagnostics.push(...this.diagnoseRedditPortability(doc));
     }
 
     for (const entry of doc.index.wikiLinks) {
@@ -375,6 +380,40 @@ export class DiagnosticService {
       message:
         'Malformed R Markdown chunk header: expected a closing } and did not execute chunk code.',
     }));
+  }
+
+  private diagnoseRedditPortability(doc: OFMDoc): Diagnostic[] {
+    const parsed = RedditParser.parse(doc.text, doc.opaqueRegions);
+    const oldRedditLists =
+      doc.index.redditOldRedditIncompatibleLists ?? parsed.oldRedditIncompatibleLists;
+    const unsafeLinks = doc.index.redditUnsafeLinks ?? parsed.unsafeLinks;
+    const diagnostics: Diagnostic[] = [];
+
+    diagnostics.push(
+      ...oldRedditLists.map(
+        (entry): Diagnostic => ({
+          range: entry.range,
+          severity: 2,
+          code: 'FG701',
+          source: 'flavor-grenade',
+          message:
+            'Reddit ordered list marker uses 1) syntax that is incompatible with old Reddit.',
+        }),
+      ),
+    );
+    diagnostics.push(
+      ...unsafeLinks.map(
+        (entry): Diagnostic => ({
+          range: entry.targetRange,
+          severity: 2,
+          code: 'FG702',
+          source: 'flavor-grenade',
+          message: `Reddit Markdown link uses unsupported URL scheme in '${entry.target}'.`,
+        }),
+      ),
+    );
+
+    return diagnostics;
   }
 
   private isPipeTableSeparator(line: string): boolean {

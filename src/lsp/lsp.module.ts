@@ -377,6 +377,13 @@ export class LspModule implements OnModuleInit {
         rMarkdownChunks: doc.index.rMarkdownChunks?.length ?? 0,
         rMarkdownInlineExpressions: doc.index.rMarkdownInlineExpressions?.length ?? 0,
         rMarkdownMalformedChunks: doc.index.rMarkdownMalformedChunks?.length ?? 0,
+        redditSpoilers: doc.index.redditSpoilers?.length ?? 0,
+        redditSuperscripts: doc.index.redditSuperscripts?.length ?? 0,
+        redditStrikethroughs: doc.index.redditStrikethroughs?.length ?? 0,
+        redditTables: doc.index.redditTables?.length ?? 0,
+        redditHostReferences: doc.index.redditHostReferences?.length ?? 0,
+        redditOldRedditIncompatibleLists: doc.index.redditOldRedditIncompatibleLists?.length ?? 0,
+        redditUnsafeLinks: doc.index.redditUnsafeLinks?.length ?? 0,
       };
     });
 

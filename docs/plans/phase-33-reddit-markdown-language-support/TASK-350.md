@@ -2,7 +2,7 @@
 id: "TASK-350"
 title: "Add Reddit Markdown tests and validation evidence"
 type: task
-status: open
+status: done
 priority: high
 phase: 33
 parent: "FEAT-059"
@@ -63,14 +63,33 @@ Deliver unit, integration, BDD, verification, and validation evidence for the re
 
 ## Definition of Done
 
-- [ ] reddit behavior is implemented behind the flavor model.
-- [ ] Tests cover positive and portability/unsupported syntax cases.
-- [ ] Negative cross-flavor fixtures cover at least three inactive constructs for reddit, including Obsidian-only syntax where applicable.
-- [ ] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
-- [ ] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
-- [ ] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
+- [x] reddit behavior is implemented behind the flavor model.
+- [x] Tests cover positive and portability/unsupported syntax cases.
+- [x] Negative cross-flavor fixtures cover at least three inactive constructs for reddit, including Obsidian-only syntax where applicable.
+- [x] Validation evidence records exact diagnostic categories/codes, completion labels/kinds, hover boundary text class, semantic-token classes, navigation sub-surfaces, and rename disposition.
+- [x] Required LSP surfaces match [[docs/plans/markdown-flavor-lsp-applicability-matrix]] or record a deferred/not-applicable reason with a follow-up ticket.
+- [x] Trace rows in [[docs/test/matrix]] and [[docs/test/index]] are updated.
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!INFO] Step C implementation detail - 2026-05-13
+> RED coverage will assert Reddit spoilers, superscript, strikethrough,
+> tables, portability diagnostics for `1)` ordered-list markers and unsafe
+> URL schemes, inactive Obsidian behavior, completions, symbols, folds,
+> semantic tokens, spawned-server counts, and validation evidence for local-only
+> Reddit host boundaries.
+
+> [!FAIL] Step D RED - 2026-05-13
+> Status set to `red`. Added RED coverage in parser, diagnostic, completion,
+> document-symbol, folding, semantic-token, and spawned-server integration
+> tests. Focused command produced 134 passing tests and 8 expected failures.
+
+> [!SUCCESS] Step D GREEN - 2026-05-13
+> Status set to `green`. Focused command now passes with 142 tests and 415
+> expectations. `bun run typecheck` and `bun run lint --max-warnings 0` pass.
+
+> [!SUCCESS] Done - 2026-05-13
+> Status set to `done`. Phase 33 local gate passed and trace docs were updated.

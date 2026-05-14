@@ -258,4 +258,18 @@ describe('FoldingRangeHandler', () => {
     expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
     expect(ranges).toContainEqual({ startLine: 6, endLine: 8, kind: 'region' });
   });
+
+  it('folds Reddit table blocks when active', () => {
+    const doc = parser.parse(
+      'file:///vault/notes/reddit.md',
+      ['# Reddit', '', '| A | B |', '|---|---|', '| 1 | 2 |', '', '>!spoiler!<'].join('\n'),
+      1,
+      { effectiveFlavor: 'reddit' },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
+  });
 });

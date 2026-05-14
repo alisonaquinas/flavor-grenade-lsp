@@ -2,7 +2,7 @@
 id: "CHORE-137"
 title: "Phase 33 trace and documentation sweep"
 type: chore
-status: open
+status: done
 priority: medium
 phase: 33
 parent: "FEAT-059"
@@ -33,11 +33,16 @@ Perform trace and documentation kickoff hygiene for Reddit Markdown language-sup
 
 ## Definition of Done
 
-- [ ] Documentation trace gaps are identified or resolved for reddit.
-- [ ] Source/spec links needed by implementation tickets are present.
-- [ ] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-138]].
+- [x] Documentation trace gaps are identified or resolved for reddit.
+- [x] Source/spec links needed by implementation tickets are present.
+- [x] Closeout-only verification evidence and phase-completion updates are deferred to [[CHORE-138]].
 
 ## Workflow Log
 
 > [!INFO] Opened - 2026-05-13
 > Status set to `open`. Ticket created and ready for lifecycle transition.
+
+> [!SUCCESS] Done - 2026-05-13
+> Status set to `done`. Research trace, test index, test matrix, applicability
+> matrix, integration spec, host-boundary review, and validation run evidence
+> were updated for Reddit Markdown.
