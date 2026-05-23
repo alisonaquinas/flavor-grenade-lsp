@@ -12,8 +12,8 @@ used by LSP-capable editors and by the companion VS Code extension in
 
 ## Current Status
 
-- Server package version: `0.3.0`
-- VS Code extension package version: `0.1.4`
+- Server package version: `0.4.2`
+- VS Code extension package version: `0.2.2`
 - Release branch target: `main`
 - Integration branch: `develop`
 - Runtime used by CI: Bun `1.3.13`
@@ -68,7 +68,7 @@ The current implementation includes:
   recursive embed resolution
 - Prototype-pollution rejection during frontmatter parsing
 - VS Code extension safeguards for untrusted and virtual workspaces
-- User-level override only for custom server binary paths
+- User-level override only for custom server command paths
 
 ## Prerequisites
 

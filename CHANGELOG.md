@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.1...v0.4.2) (2026-05-23)
+
+### Added
+
+- Add CodeQL analysis for JavaScript, TypeScript, and GitHub Actions workflow changes.
+- Add Dependabot version-update configuration for root Bun dependencies, extension npm dependencies, website npm dependencies, and GitHub Actions, targeting `develop`.
+
+### Changed
+
+- Replace native executable payloads in the VS Code extension Marketplace package with a bundled JavaScript server module.
+- Update extension release CI to build, validate, attest, smoke-test, and publish a single Marketplace-safe VSIX payload.
+
+### Security
+
+- Refresh vulnerable transitive npm dependencies across the root, extension, and website dependency trees, including `qs`, `brace-expansion`, `uuid` through `@azure/msal-node`, `devalue`, and Svelte tooling.
+- Add Bun overrides for patched `qs` and `brace-expansion` versions so root installs resolve cleanly against current public advisory data.
+
 ## [0.4.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.0...v0.4.1) (2026-05-23)
 
 ### Fixed

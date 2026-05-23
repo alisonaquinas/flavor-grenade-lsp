@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.2] — 2026-05-23
+
+### Security
+
+- Refresh extension tooling transitive dependencies so public advisories for `qs`, `brace-expansion`, and `uuid` through `@azure/msal-node` are cleared.
+
+### Fixed
+
+- Replace bundled native server executables with a bundled JavaScript server module so Marketplace virus validation receives a non-native extension payload.
+
 ## [0.2.1] — 2026-05-23
 
 ### Fixed

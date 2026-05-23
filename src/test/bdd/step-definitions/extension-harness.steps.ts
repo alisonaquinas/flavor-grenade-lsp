@@ -890,10 +890,10 @@ Then('the README includes screenshots or images for status bar indexing', functi
   expect(true).toBe(true);
 });
 
-Then('the LanguageClient spawns the server binary over stdio transport', function (this: FGWorld) {
+Then('the LanguageClient spawns the server over stdio transport', function (this: FGWorld) {
   const s = state(this);
   s.languageClientRunning = true;
-  s.spawnedBinary ??= s.serverPathSetting || 'server/flavor-grenade-lsp';
+  s.spawnedBinary ??= s.serverPathSetting || 'server/main.js';
 });
 
 Then(
@@ -939,11 +939,10 @@ When(
     expect(method).toBe('flavorGrenade/status');
     const row = Object.fromEntries(dataTable.hashes().map((entry) => [entry.field, entry.value]));
     const stateValue = row.state;
-    const docCount = row.docCount;
     const s = state(this);
     if (stateValue === 'initializing') s.statusText = '$(loading~spin) FG: Starting...';
     else if (stateValue === 'indexing') s.statusText = '$(loading~spin) FG: Indexing...';
-    else if (stateValue === 'ready') s.statusText = `$(check) FG: ${docCount} docs`;
+    else if (stateValue === 'ready') s.statusText = '$(check) FG: Ready';
     else if (stateValue === 'error') {
       s.statusText = '$(error) FG: Error';
       s.statusTooltip = String(row.message ?? '');
@@ -1026,7 +1025,7 @@ Then('the extension shows disabled workspace status', function (this: FGWorld) {
   expect(state(this).languageClientRunning).toBe(false);
 });
 
-Then('the LanguageClient does not spawn the server binary', function (this: FGWorld) {
+Then('the LanguageClient does not spawn the server', function (this: FGWorld) {
   expect(state(this).languageClientRunning).toBe(false);
 });
 
@@ -1059,12 +1058,12 @@ Then('the LanguageClient connects over stdio to that binary', function (this: FG
   expect(state(this).spawnedBinary).toBeDefined();
 });
 
-Then('the bundled binary at {string} is not used', function (this: FGWorld, binary: string) {
-  expect(state(this).spawnedBinary).not.toBe(binary);
+Then('the bundled server module at {string} is not used', function (this: FGWorld, module: string) {
+  expect(state(this).spawnedBinary).not.toBe(module);
 });
 
-Then('the server was started with the bundled binary', function (this: FGWorld) {
-  state(this).spawnedBinary = 'server/flavor-grenade-lsp';
+Then('the server was started with the bundled server module', function (this: FGWorld) {
+  state(this).spawnedBinary = 'server/main.js';
 });
 
 When(
@@ -1095,28 +1094,21 @@ Given('the VS Code setting {string} is empty', function (this: FGWorld, setting:
 });
 
 Given('the extension is installed for the current platform', function (this: FGWorld) {
-  state(this).bundledBinary =
-    process.platform === 'win32' ? 'server/flavor-grenade-lsp.exe' : 'server/flavor-grenade-lsp';
+  state(this).bundledBinary = 'server/main.js';
 });
 
 Then(
-  'the extension resolves the server binary at {string} relative to the extension root',
-  function (this: FGWorld, binary: string) {
-    state(this).bundledBinary ??= binary;
-    expect(state(this).bundledBinary).toContain(binary);
+  'the extension resolves the bundled server module at {string} relative to the extension root',
+  function (this: FGWorld, module: string) {
+    state(this).bundledBinary ??= module;
+    expect(state(this).bundledBinary).toContain(module);
   },
 );
 
-Then('on Windows the resolved path ends with {string}', function (this: FGWorld, binary: string) {
-  if (process.platform === 'win32') expect(state(this).bundledBinary).toBe(binary);
+Then('the LanguageClient spawns that server module over stdio transport', function (this: FGWorld) {
+  expect(state(this).bundledBinary).toBe('server/main.js');
+  state(this).languageClientRunning = true;
 });
-
-Then(
-  'on other platforms the resolved path ends with {string}',
-  function (this: FGWorld, binary: string) {
-    if (process.platform !== 'win32') expect(state(this).bundledBinary).toBe(binary);
-  },
-);
 
 Then('the LanguageClient spawns that binary over stdio transport', function (this: FGWorld) {
   state(this).spawnedBinary = state(this).bundledBinary;

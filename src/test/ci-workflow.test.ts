@@ -115,8 +115,6 @@ describe('CI workflow verification battery', () => {
 
   test('runs the extension verification battery', () => {
     for (const command of [
-      'bun run build:binary',
-      'bun run build:binary:win',
       'npm run compile',
       'npm test',
       'npm run test:host',
@@ -131,9 +129,9 @@ describe('CI workflow verification battery', () => {
     for (const command of [
       "tags:\n      - 'ext-v*'",
       'bun install --frozen-lockfile --ignore-scripts',
-      'bun run build:binary:win',
+      'Build extension client and bundled JS server',
       'npm run verify:package-targets',
-      'bun run build:binary',
+      'Smoke Test Bundled JS Server',
       'xvfb-run -a npm run test:host',
       "contains(github.ref_name, '-test')",
       'Skip Marketplace publish for test tag',
@@ -144,11 +142,11 @@ describe('CI workflow verification battery', () => {
     }
 
     expectStepOrder(extensionReleaseWorkflow, [
-      'Build Windows server binary for package-target tests',
       'Run extension selector-proof tests',
       'Verify package target rules',
-      'Build Linux server binary for extension host tests',
       'Run extension host selector-proof tests',
+      'Build extension client and bundled JS server',
+      'Smoke Test Bundled JS Server',
     ]);
   });
 

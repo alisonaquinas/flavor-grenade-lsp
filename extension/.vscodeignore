@@ -3,7 +3,9 @@ src/**
 docs/**
 node_modules/**
 scripts/**
+test/**
 test-fixtures/**
+server-smoke.*
 *.ts
 !dist/**
 tsconfig.json
