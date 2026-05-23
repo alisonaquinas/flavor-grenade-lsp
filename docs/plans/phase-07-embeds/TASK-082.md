@@ -43,7 +43,7 @@ Create `src/resolution/__tests__/embed-resolver.test.ts` containing the full uni
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | EmbedResolver unit test coverage for all resolution paths | [[docs/requirements/embed-resolution]] |
+| — | EmbedResolver unit test coverage for all resolution paths | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

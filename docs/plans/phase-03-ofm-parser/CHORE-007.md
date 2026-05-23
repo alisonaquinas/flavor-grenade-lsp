@@ -38,7 +38,7 @@ Code-quality requirement: every phase must close with zero lint warnings. Lint d
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero-warning lint gate per phase | [[docs/requirements/code-quality]] |
+| — | Zero-warning lint gate per phase | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -39,8 +39,8 @@ Implement `textDocument/documentLink` so unambiguous local OFMarkdown and Markdo
 |---|---|---|
 | `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local links and leave ambiguous links unresolved | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.Coverage` | Document links must reflect OFMarkdown structure | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Use the same targets as definition where unambiguous | [[docs/requirements/navigation]] |
-| `Diagnostic.Ambiguous.RelatedInfo` | Ambiguous links rely on diagnostics/related information | [[docs/requirements/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Use the same targets as definition where unambiguous | [[docs/requirements/functional/navigation]] |
+| `Diagnostic.Ambiguous.RelatedInfo` | Ambiguous links rely on diagnostics/related information | [[docs/requirements/functional/diagnostics]] |
 
 ---
 
@@ -122,7 +122,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

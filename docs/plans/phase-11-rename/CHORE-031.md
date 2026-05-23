@@ -38,7 +38,7 @@ Maintain zero-warning lint hygiene across the codebase as required by the Phase 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality requirements | [[docs/requirements/code-quality]] |
+| — | Code quality requirements | [[docs/requirements/technical/code-quality]] |
 
 ---
 

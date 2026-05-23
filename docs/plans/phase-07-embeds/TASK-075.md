@@ -39,7 +39,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 
 - Add `embedRefs` collection to `RefGraph` alongside existing `wikiLinkRefs`
 - Provide methods to add, remove (by `sourceDocId`), and query `EmbedRef` entries
-- See also: [[docs/requirements/embed-resolution]], [[docs/adr/ADR002-ofm-only-scope]]
+- See also: [[docs/requirements/functional/embed-resolution]], [[docs/adr/ADR002-ofm-only-scope]]
 
 ---
 
@@ -47,7 +47,7 @@ Update `src/resolution/ref-graph.ts` to track embed entries separately from wiki
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | EmbedRef tracked separately from wiki-link refs in RefGraph | [[docs/requirements/embed-resolution]] |
+| — | EmbedRef tracked separately from wiki-link refs in RefGraph | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -124,7 +124,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

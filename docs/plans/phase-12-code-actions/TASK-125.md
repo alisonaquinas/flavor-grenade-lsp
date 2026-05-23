@@ -48,7 +48,7 @@ Create `src/handlers/semantic-tokens.handler.ts` providing semantic token types 
 
 - Tokens must be encoded in the LSP delta-encoded integer array format
 - Linked test: `tests/unit/unit-lsp-module.md`
-- See also: [[docs/requirements/diagnostics]]
+- See also: [[docs/requirements/functional/diagnostics]]
 
 ---
 
@@ -56,7 +56,7 @@ Create `src/handlers/semantic-tokens.handler.ts` providing semantic token types 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Semantic token highlighting for OFM-specific syntax elements | [[docs/requirements/diagnostics]] |
+| — | Semantic token highlighting for OFM-specific syntax elements | [[docs/requirements/functional/diagnostics]] |
 
 ---
 
@@ -132,7 +132,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

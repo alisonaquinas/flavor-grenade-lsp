@@ -92,7 +92,7 @@ aliases:
 **Goal:** 100% of cycles detected without crash; 100% of depth-exceeded chains stop cleanly; 0% false positives on non-circular chains.
 **Stakeholders:** Vault authors using transclusion-heavy vaults, server reliability.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], [[docs/requirements/diagnostics]].
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR012-parser-safety-policy]], [[docs/requirements/functional/diagnostics]].
 
 ---
 

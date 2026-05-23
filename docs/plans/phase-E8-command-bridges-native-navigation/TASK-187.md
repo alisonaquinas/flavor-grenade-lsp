@@ -117,7 +117,7 @@ Full state machine, TDD phase rules, and agent obligations:
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

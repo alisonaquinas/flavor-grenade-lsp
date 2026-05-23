@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {
@@ -30,6 +30,7 @@
     "bdd": "bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml",
     "lint": "eslint src/",
     "lint:dependencies": "node scripts/check-exact-dependencies.mjs",
+    "lint:installed-packages": "node scripts/check-installed-packages.mjs",
     "lint:docs": "markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./docs \"docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./website/docs \"website/docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./extension/docs \"extension/docs/**/*.md\"",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",

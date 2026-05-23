@@ -9,8 +9,10 @@ aliases:
 
 # Requirements × Tests Matrix
 
-> [!NOTE] Auto-update
-> Auto-update via `scripts/update-test-index.sh` (stub until Phase 3; fully implemented in Phase 3). Always commit matrix updates in the same commit as the test that triggered them.
+> [!NOTE] Maintenance
+> This matrix is maintained manually. `scripts/update-test-index.sh` is a
+> legacy no-op helper and is not a source of truth. Always commit matrix updates
+> in the same commit as the test that triggered them.
 
 This matrix maps every Planguage requirement tag to the test files that provide evidence for it, the current coverage status, the phase in which coverage was introduced, and any notes about partial coverage or deferred work.
 
@@ -301,7 +303,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--frozen-lockfile` |
 | `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--ignore-scripts` |
 | `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | `docs/security/dependency-audit-log.md` | ✅ passing | Phase 18 | Phase 18 recorded root and extension advisory scans and fixed the extension transitive `fast-uri` advisory |
+| `Security.Supply.SetupNodeCacheControl` | Scanner-covered `actions/setup-node` steps disable automatic package-manager caching | `src/test/ci-workflow.test.ts`, `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, `.github/workflows/website-pages.yml` | ✅ passing | 2026-05-23 release hardening | Workflow inspection verifies every scanner-covered setup-node step sets `package-manager-cache: false` |
 | `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` remains absent from manifests, lockfiles, and source | — | ⏳ planned | Phase 1 | Package/source audit passes; ESLint guard is still planned |
+| `Technical.SBOM.Server`, `Technical.SBOM.Extension`, `Technical.SBOM.Website` | Release SBOM evidence matches direct manifest and installed package state | `scripts/check-installed-packages.mjs`, `scripts/check-installed-packages.test.js`, `.github/workflows/ci.yml`, `docs/requirements/technical/sbom.md`, `extension/docs/requirements/technical/sbom.md`, `website/docs/requirements/technical/sbom.md` | ✅ passing | 2026-05-23 release hardening | CI checks root, extension, and website direct installed package versions after package installation |
 
 ---
 
@@ -462,7 +466,7 @@ cite commands, reviewer or generating command, commit, and source inputs.
 
 - [[docs/test/index]] — Test file inventory (flat list by type)
 - [[docs/requirements/index]] — Master Planguage tag index
-- [[docs/requirements/code-quality]] — Code quality Planguage requirements
-- [[docs/requirements/ci-cd]] — CI/CD Planguage requirements
-- [[docs/requirements/development-process]] — Development process Planguage requirements
+- [[docs/requirements/technical/code-quality]] — Code quality Planguage requirements
+- [[docs/requirements/operational/ci-cd]] — CI/CD Planguage requirements
+- [[docs/requirements/operational/development-process]] — Development process Planguage requirements
 - [[docs/plans/execution-ledger]] — Phase completion status

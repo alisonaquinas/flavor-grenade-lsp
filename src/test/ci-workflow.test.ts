@@ -73,6 +73,7 @@ describe('CI workflow verification battery', () => {
       'bun run typecheck',
       'bun run format:check',
       'bun run lint:dependencies',
+      'bun run lint:installed-packages',
       'bun run lint:docs',
       'bun run build',
       'bun test --coverage',
@@ -169,6 +170,7 @@ describe('CI workflow verification battery', () => {
     }
 
     expect(workflow).toContain('bun run lint:docs');
+    expect(workflow).toContain('node ../scripts/check-installed-packages.mjs .');
     expect(workflow).toContain('"!extension/docs/**"');
     expect(rootVerificationSpec).toContain('extension/docs/**/*.md');
     expect(extensionVerificationSpec).toContain('extension/docs/**/*.md');

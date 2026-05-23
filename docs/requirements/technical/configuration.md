@@ -59,7 +59,7 @@ aliases:
 **Goal:** 100% of invalid values handled with default substitution, no crash, and debug log.
 **Stakeholders:** Vault authors, editor integrators, DevOps engineers deploying the server.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/completions#Completion.Candidates.Cap]], [[docs/design/api-layer]], [[docs/architecture/overview]].
+**Source:** [[docs/requirements/functional/completions#Completion.Candidates.Cap]], [[docs/design/api-layer]], [[docs/architecture/overview]].
 
 ---
 

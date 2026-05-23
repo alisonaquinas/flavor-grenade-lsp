@@ -72,7 +72,7 @@ The Phase 1 scaffold specification (see [[docs/plans/phase-01-scaffold]]) is upd
 
 ## Related
 
-- [[docs/requirements/development-process]]
+- [[docs/requirements/operational/development-process]]
 - [[docs/design/behavior-layer]]
 - [[docs/plans/phase-01-scaffold]]
 - [[docs/plans/phase-03-ofm-parser]]

@@ -94,7 +94,7 @@ aliases:
 **Goal:** 100% safe TOML handling.
 **Stakeholders:** Workspace owners, vault authors, server maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/security/vault-confinement]], [[docs/research/security-threat-model]].
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/security-vault-confinement]], [[docs/research/security-threat-model]].
 
 ---
 
@@ -114,4 +114,4 @@ aliases:
 **Goal:** 100% invalid payload rejection before state mutation.
 **Stakeholders:** Extension users, LSP maintainers, future transport-mode users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/ofmarkdown-language-mode]], [[docs/plans/phase-20-markdown-flavor-server-propagation]].
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/ofmarkdown-language-mode]], [[docs/plans/phase-20-markdown-flavor-server-propagation]].

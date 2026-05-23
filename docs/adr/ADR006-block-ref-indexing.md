@@ -51,7 +51,7 @@ Index `^blockid` anchors as **`BlockAnchorDef`** in `OFMIndex`. Treat `[[doc#^id
 ## Related
 
 - [[docs/ofm-spec/block-references]]
-- [[docs/requirements/block-references]]
+- [[docs/requirements/functional/block-references]]
 - [[docs/plans/phase-08-block-refs]]
 - [[docs/concepts/symbol-model]]
 - [[docs/features/completions]]

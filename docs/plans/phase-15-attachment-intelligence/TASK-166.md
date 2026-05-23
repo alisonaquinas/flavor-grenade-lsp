@@ -46,7 +46,7 @@ document `DocId` values.
 |---|---|---|
 | `Parity.Attachments.NavigationHover` | Existing attachment references support definition to attachment file URIs | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Attachment refs support definition | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition returns target locations | [[docs/requirements/navigation]] |
+| `Navigation.Definition.AllLinkTypes` | Definition returns target locations | [[docs/requirements/functional/navigation]] |
 
 ---
 
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

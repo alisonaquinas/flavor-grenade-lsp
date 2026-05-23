@@ -38,7 +38,7 @@ The FSM parsers (`WikiLinkParser`, `EmbedParser`) are the most complexity-prone 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Low cyclomatic complexity; opaque region marker correctness | [[docs/requirements/code-quality]] |
+| — | Low cyclomatic complexity; opaque region marker correctness | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -31,7 +31,7 @@ Run the full lint suite over all code introduced or modified in Phase 9 and reso
 
 Lint warnings accumulate quickly during feature development. Sweeping at phase boundary keeps the codebase maintainable and prevents warning debt from carrying forward.
 
-- Motivated by: `Quality.Lint.NoWarnings` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.Lint.NoWarnings` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -39,7 +39,7 @@ Lint warnings accumulate quickly during feature development. Sweeping at phase b
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings at phase boundary | [[docs/requirements/code-quality]] |
+| — | Zero lint warnings at phase boundary | [[docs/requirements/technical/code-quality]] |
 
 ---
 

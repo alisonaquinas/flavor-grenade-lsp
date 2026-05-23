@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.4](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.3...v0.4.4) (2026-05-23)
+
+### Security
+
+- Disable automatic `actions/setup-node` package-manager caching in CI, extension release, and website publishing workflows to keep scanner-covered jobs resistant to cache poisoning.
+- Add workflow regression coverage that requires every `setup-node` use in scanner-covered workflows to set `package-manager-cache: false`.
+- Keep Dependabot version-update streams targeted at `develop` and covered by the CI workflow verification battery.
+
 ## [0.4.3](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.2...v0.4.3) (2026-05-23)
 
 ### Added
@@ -189,5 +197,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...HEAD
 [0.1.0]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.1.0

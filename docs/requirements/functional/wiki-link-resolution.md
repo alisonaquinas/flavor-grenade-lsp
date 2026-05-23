@@ -10,7 +10,7 @@ aliases:
 # Wiki-Link Resolution Requirements
 
 > [!NOTE] Scope
-> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[docs/requirements/diagnostics]].
+> These requirements govern how `flavor-grenade-lsp` resolves `[[wikilink]]` and `[text](url)` inline link syntax — including style-mode binding, alias expansion, single-file mode restrictions, non-markdown URL skipping, and ignore-glob enforcement. They do not cover embed (`![[...]]`) syntax, which is specified in [[embed-resolution]]. Diagnostic codes referenced here (FG001, FG002) are defined in [[docs/requirements/functional/diagnostics]].
 
 ---
 
@@ -102,7 +102,7 @@ aliases:
 **Goal:** 0% of non-markdown inline links produce FG001.
 **Stakeholders:** Vault authors who mix external links with wiki-links, technical writers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/ofm-spec/wiki-links]], [[docs/design/api-layer]], [[docs/requirements/diagnostics]].
+**Source:** [[docs/ofm-spec/wiki-links]], [[docs/design/api-layer]], [[docs/requirements/functional/diagnostics]].
 
 ---
 

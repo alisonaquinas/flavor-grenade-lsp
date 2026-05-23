@@ -38,7 +38,7 @@ Navigation is a hot path — called on every cursor move in editors that eagerly
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality requirements | [[docs/requirements/code-quality]] |
+| — | Code quality requirements | [[docs/requirements/technical/code-quality]] |
 
 ---
 

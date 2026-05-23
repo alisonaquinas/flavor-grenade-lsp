@@ -71,7 +71,7 @@ aliases:
 **Goal:** 0% silent failures — every `docs/` Markdown violation fails CI.
 **Stakeholders:** Documentation maintainers, contributors, Obsidian vault users of this project.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** `.github/workflows/ci.yml`, [[docs/requirements/development-process]], markdownlint-obsidian documentation.
+**Source:** `.github/workflows/ci.yml`, [[docs/requirements/operational/development-process]], markdownlint-obsidian documentation.
 
 ---
 
@@ -189,4 +189,4 @@ packaged server module validation.
 **Goal:** 0% bypasses on `develop` and `main` — pre-commit hook runs successfully on every commit.
 **Stakeholders:** All contributors, CI pipeline.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], `lefthook.yml`, [[docs/requirements/code-quality#Quality.Lint.ZeroWarnings]].
+**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], `lefthook.yml`, [[docs/requirements/technical/code-quality#Quality.Lint.ZeroWarnings]].

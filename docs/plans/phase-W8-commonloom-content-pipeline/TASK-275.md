@@ -54,7 +54,7 @@ Script behavior:
 ## Linked Requirements
 
 - [[website/docs/requirements/technical/source-layout-and-documentation]]
-- [[website/docs/requirements/technical/ci-cd]]
+- [[website/docs/requirements/operational/ci-cd]]
 
 ## Linked Tests
 

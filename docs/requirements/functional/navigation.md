@@ -10,7 +10,7 @@ aliases:
 # Navigation Requirements
 
 > [!NOTE] Scope
-> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[docs/requirements/diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[docs/requirements/rename]].
+> These requirements govern LSP navigation features: `textDocument/definition` (go-to-definition), `textDocument/references` (find-references), and `textDocument/codeLens` (reference count display). They apply to all link types defined in the OFM specification: wiki-links, embed links, block references, and tags. Single-file mode behaviour follows the suppression rules in [[docs/requirements/functional/diagnostics#Diagnostic.SingleFile.Suppression]]. Rename navigation is specified in [[docs/requirements/functional/rename]].
 
 ---
 

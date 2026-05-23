@@ -47,8 +47,8 @@ Implement `textDocument/selectionRange` so selections expand from the cursor tok
 |---|---|---|
 | `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.Coverage` | Selection ranges must reflect OFMarkdown structure | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque regions are respected when deriving ranges | [[docs/requirements/semantic-tokens]] |
-| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/security/input-validation]] |
+| `ST-002` | Opaque regions are respected when deriving ranges | [[docs/requirements/functional/semantic-tokens]] |
+| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/technical/security-input-validation]] |
 
 ---
 
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

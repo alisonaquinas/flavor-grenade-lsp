@@ -96,4 +96,4 @@ For vaults up to 50,000 headings, subsequence matching should complete in under 
 - [[docs/features/code-lens]]
 - [[docs/concepts/symbol-model]]
 - [[ADR006-block-ref-indexing]]
-- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/functional/wiki-link-resolution]]

@@ -34,9 +34,9 @@ phase moves into final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Vault.PathConfinement` | File operations must remain confined to the vault root | [[docs/requirements/security/vault-confinement]] |
-| `Security.Input.PositionValidation` | LSP-facing input should not crash request handling | [[docs/requirements/security/input-validation]] |
-| `Security.Disclosure.LogSanitization` | Responses and errors must not leak host details | [[docs/requirements/security/information-disclosure]] |
+| `Security.Vault.PathConfinement` | File operations must remain confined to the vault root | [[docs/requirements/functional/security-vault-confinement]] |
+| `Security.Input.PositionValidation` | LSP-facing input should not crash request handling | [[docs/requirements/technical/security-input-validation]] |
+| `Security.Disclosure.LogSanitization` | Responses and errors must not leak host details | [[docs/requirements/functional/security-information-disclosure]] |
 
 ---
 

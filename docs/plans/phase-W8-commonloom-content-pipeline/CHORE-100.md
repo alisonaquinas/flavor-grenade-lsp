@@ -36,9 +36,9 @@ package boundary and without local Commonloom source maintenance.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Process.TestIndex.Matrix` | Test evidence stays traceable when phase scope changes. | [[docs/requirements/development-process]] |
-| `Quality.Lint.ZeroWarnings` | Lint and typecheck sweeps remain explicit phase gates. | [[docs/requirements/code-quality]] |
-| `CICD.Workflow.PRGate` | Phase closeout depends on green PR CI before merge. | [[docs/requirements/ci-cd]] |
+| `Process.TestIndex.Matrix` | Test evidence stays traceable when phase scope changes. | [[docs/requirements/operational/development-process]] |
+| `Quality.Lint.ZeroWarnings` | Lint and typecheck sweeps remain explicit phase gates. | [[docs/requirements/technical/code-quality]] |
+| `CICD.Workflow.PRGate` | Phase closeout depends on green PR CI before merge. | [[docs/requirements/operational/ci-cd]] |
 
 ## Scope of Change
 

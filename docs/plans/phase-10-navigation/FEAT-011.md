@@ -53,7 +53,7 @@ Vault authors and LSP users gain a complete navigation feature set: go-to-defini
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Navigation requirements defined in Phase 10 | [[docs/requirements/navigation]] |
+| — | Navigation requirements defined in Phase 10 | [[docs/requirements/functional/navigation]] |
 
 ---
 

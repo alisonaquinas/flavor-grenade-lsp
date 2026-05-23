@@ -34,8 +34,8 @@ phase moves into final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[docs/requirements/code-quality]] |
-| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be reviewed | [[docs/requirements/code-quality]] |
+| `Quality.Docs.Docstrings` | Exported symbols must carry JSDoc | [[docs/requirements/technical/code-quality]] |
+| `Quality.SOLID.SingleResponsibility` | Large mixed-responsibility functions must be reviewed | [[docs/requirements/technical/code-quality]] |
 
 ---
 

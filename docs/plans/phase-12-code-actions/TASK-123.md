@@ -30,7 +30,7 @@ Create `src/handlers/workspace-symbol.handler.ts` implementing the `workspace/sy
 - Return `WorkspaceSymbol[]` with `name`, `kind` (headings → `SymbolKind.String`; tags → `SymbolKind.Key`; block anchors → `SymbolKind.Key`), and `location: { uri, range }`
 - Cap results at 50 items
 - Register `workspaceSymbolProvider: true` in `ServerCapabilities`
-- See also: [[docs/requirements/wiki-link-resolution]]
+- See also: [[docs/requirements/functional/wiki-link-resolution]]
 
 ---
 
@@ -38,7 +38,7 @@ Create `src/handlers/workspace-symbol.handler.ts` implementing the `workspace/sy
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault-wide symbol search by query string | [[docs/requirements/wiki-link-resolution]] |
+| — | Vault-wide symbol search by query string | [[docs/requirements/functional/wiki-link-resolution]] |
 
 ---
 
@@ -114,7 +114,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

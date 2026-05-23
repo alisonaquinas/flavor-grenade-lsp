@@ -10,7 +10,7 @@ aliases:
 # Diagnostic Requirements
 
 > [!NOTE] Scope
-> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[docs/requirements/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
+> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[docs/requirements/functional/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/functional/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
 
 ---
 
@@ -32,7 +32,7 @@ aliases:
 **Goal:** 100% of FG001, FG002, and FG003 diagnostics carry severity Error.
 **Stakeholders:** LSP client developers, CI pipeline maintainers, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticSeverity.
+**Source:** [[docs/requirements/functional/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticSeverity.
 
 ---
 
@@ -76,7 +76,7 @@ aliases:
 **Goal:** 100% of diagnostics carry their correct assigned FG code; 0 code collisions.
 **Stakeholders:** CI engineers, LSP client plugin authors, tool integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/api-layer]], [[docs/requirements/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/block-references]].
+**Source:** [[docs/design/api-layer]], [[docs/requirements/functional/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/functional/block-references]].
 
 ---
 
@@ -125,7 +125,7 @@ aliases:
 **Goal:** 100% of FG002 diagnostics have correctly populated `relatedInformation`.
 **Stakeholders:** Vault authors resolving naming conflicts, teams managing large shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticRelatedInformation.
+**Source:** [[docs/requirements/functional/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticRelatedInformation.
 
 ---
 
@@ -148,4 +148,4 @@ aliases:
 **Goal:** 0 cross-file diagnostics in single-file mode.
 **Stakeholders:** Text editor users opening individual files, developers testing isolated documents.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/wiki-link-resolution#Link.Resolution.ModeScope]], [[docs/requirements/block-references#Block.CrossRef.Diagnostic]], [[docs/design/api-layer]], [[docs/architecture/overview]].
+**Source:** [[docs/requirements/functional/wiki-link-resolution#Link.Resolution.ModeScope]], [[docs/requirements/functional/block-references#Block.CrossRef.Diagnostic]], [[docs/design/api-layer]], [[docs/architecture/overview]].

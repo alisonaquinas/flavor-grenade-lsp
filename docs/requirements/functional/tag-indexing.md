@@ -10,7 +10,7 @@ aliases:
 # Tag Indexing Requirements
 
 > [!NOTE] Scope
-> These requirements govern the completeness, hierarchical correctness, frontmatter equivalence, and Unicode coverage of the tag index maintained by VaultIndex. They apply to inline `#tag` syntax and `tags:` YAML frontmatter values. Code blocks, math blocks, and HTML comments are explicitly excluded from tag indexing scope. Tag-based completion behaviour is also covered in [[docs/requirements/completions]]. Tag go-to-definition and references are covered in [[docs/requirements/navigation]].
+> These requirements govern the completeness, hierarchical correctness, frontmatter equivalence, and Unicode coverage of the tag index maintained by VaultIndex. They apply to inline `#tag` syntax and `tags:` YAML frontmatter values. Code blocks, math blocks, and HTML comments are explicitly excluded from tag indexing scope. Tag-based completion behaviour is also covered in [[docs/requirements/functional/completions]]. Tag go-to-definition and references are covered in [[docs/requirements/functional/navigation]].
 
 ---
 
@@ -57,7 +57,7 @@ aliases:
 **Goal:** 100% of parent-tag queries return the complete descendant set.
 **Stakeholders:** Vault authors using hierarchical tags, PKM practitioners, teams with tag taxonomies.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], [[docs/requirements/navigation]].
+**Source:** [[docs/ofm-spec/tags]], [[docs/design/domain-layer]], [[docs/requirements/functional/navigation]].
 
 ---
 

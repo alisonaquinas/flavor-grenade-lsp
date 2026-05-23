@@ -41,7 +41,7 @@ Create `src/code-actions/tag-to-yaml.action.ts`. When the cursor is positioned o
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code action to migrate inline tag to frontmatter | [[docs/requirements/tag-indexing]] |
+| — | Code action to migrate inline tag to frontmatter | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 
@@ -117,7 +117,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

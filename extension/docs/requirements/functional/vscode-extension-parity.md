@@ -82,7 +82,7 @@ requirements.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md).
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md).
 
 ---
 
@@ -181,7 +181,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
 
 ---
 
@@ -272,7 +272,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
 
@@ -296,7 +296,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% selector availability for supported file-backed Markdown contexts.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -320,7 +320,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% required selector coverage.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 | Setting id | Selector label | Feature set |
 |---|---|---|
@@ -363,7 +363,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% correct override persistence scope.
 **Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -389,7 +389,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% documented auto/effective-state correctness.
 **Stakeholders:** Vault authors, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 

@@ -55,7 +55,7 @@ Vault authors gain the ability to rename headings and files using their editor's
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Rename requirements defined in Phase 11 | [[docs/requirements/rename]] |
+| — | Rename requirements defined in Phase 11 | [[docs/requirements/functional/rename]] |
 
 ---
 

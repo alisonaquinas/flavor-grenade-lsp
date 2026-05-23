@@ -43,7 +43,7 @@ pre-apply reference rewriting.
 |---|---|---|
 | `Parity.FileOperations.IndexRefresh` | `didRenameFiles` refreshes affected index entries and diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicRefactor` | Keep server state consistent after file operations | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Security.Vault.PathConfinement` | Refresh only paths that remain inside the vault root | [[docs/requirements/security/vault-confinement]] |
+| `Security.Vault.PathConfinement` | Refresh only paths that remain inside the vault root | [[docs/requirements/functional/security-vault-confinement]] |
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

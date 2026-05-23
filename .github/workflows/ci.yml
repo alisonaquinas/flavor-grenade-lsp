@@ -65,6 +65,8 @@ jobs:
 
       - run: bun run lint:dependencies
 
+      - run: bun run lint:installed-packages -- .
+
   format:
     name: Format check (Prettier)
     runs-on: ubuntu-latest
@@ -205,6 +207,8 @@ jobs:
 
       - run: npm ci
 
+      - run: node ../scripts/check-installed-packages.mjs .
+
       - run: npm run lint
 
       - run: npm run typecheck
@@ -244,6 +248,8 @@ jobs:
         working-directory: .
 
       - run: npm ci
+
+      - run: node ../scripts/check-installed-packages.mjs .
 
       - run: npm run compile
 

@@ -44,7 +44,7 @@ A focused sweep prevents incidental warnings from hiding release risks.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase E14 must introduce no lint warnings | [[docs/requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase E14 must introduce no lint warnings | [[docs/requirements/technical/code-quality]] |
 
 ---
 

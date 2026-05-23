@@ -39,8 +39,8 @@ Structural LSP support crosses requirements, design, BDD, tests, and phase plann
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.StructuralLSP.Coverage` | Phase 17 documentation must trace structural behavior end to end | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Document-link docs must match resolver behavior | [[docs/requirements/navigation]] |
-| `Diagnostic.Ambiguous.RelatedInfo` | Ambiguity docs must match document-link behavior | [[docs/requirements/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Document-link docs must match resolver behavior | [[docs/requirements/functional/navigation]] |
+| `Diagnostic.Ambiguous.RelatedInfo` | Ambiguity docs must match document-link behavior | [[docs/requirements/functional/diagnostics]] |
 
 ---
 

@@ -36,10 +36,10 @@ embed, block-reference, or tag behavior.
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] | Diagnose duplicate or ambiguous heading anchors for wiki and Markdown heading links |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]] | Navigate and find references across Markdown link and label forms |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]] | Update Markdown same-document and file-plus-fragment anchors during heading rename |
-| [[docs/requirements/completions#Completion.Trigger.Coverage]] | Extend completion coverage for Markdown link URL contexts without regressing existing triggers |
-| [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]] | Extend definition behavior to Markdown local links and same-document anchors |
-| [[docs/requirements/navigation#Navigation.References.Completeness]] | Include Markdown local links in reference queries |
-| [[docs/requirements/rename#Rename.Refactoring.Completeness]] | Include Markdown heading anchors in heading rename edits |
+| [[docs/requirements/functional/completions#Completion.Trigger.Coverage]] | Extend completion coverage for Markdown link URL contexts without regressing existing triggers |
+| [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]] | Extend definition behavior to Markdown local links and same-document anchors |
+| [[docs/requirements/functional/navigation#Navigation.References.Completeness]] | Include Markdown local links in reference queries |
+| [[docs/requirements/functional/rename#Rename.Refactoring.Completeness]] | Include Markdown heading anchors in heading rename edits |
 
 ## Scope
 

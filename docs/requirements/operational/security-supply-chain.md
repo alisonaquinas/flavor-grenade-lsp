@@ -11,7 +11,7 @@ aliases:
 # Supply Chain Security Requirements
 
 > [!NOTE] Scope
-> These are **operational security requirements** governing how dependencies are managed, audited, and published. They respond directly to the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), and NestJS CVEs documented in [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR014-dependency-security-policy]] and [[docs/adr/ADR008-oidc-publishing]].
+> These are **operational security requirements** governing how dependencies are managed, audited, cached, and published. They respond directly to the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), GitHub Actions cache-poisoning findings, and NestJS CVEs documented in [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR014-dependency-security-policy]] and [[docs/adr/ADR008-oidc-publishing]].
 
 ---
 
@@ -91,6 +91,27 @@ aliases:
 **Stakeholders:** Security auditors, release managers, supply chain reviewers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], CVE-2024-29409.
+
+---
+
+## Security.Supply.SetupNodeCacheControl
+
+**Tag:** Security.Supply.SetupNodeCacheControl
+**Gist:** Scanner-covered workflows that use `actions/setup-node` must disable its automatic package-manager cache unless an explicit reviewed cache key is present.
+**Ambition:** Automatic package-manager cache discovery can create a mutable dependency cache surface that is hard to review in release and security jobs. Requiring `package-manager-cache: false` keeps dependency installation behavior visible in the workflow and prevents a cache entry from becoming an implicit supply-chain input.
+**Scale:** Percentage of `actions/setup-node` steps in scanner-covered workflows that set `package-manager-cache: false`.
+**Meter:**
+
+1. Inspect `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, and `.github/workflows/website-pages.yml`.
+2. Count every `actions/setup-node` step.
+3. Verify each counted step includes `package-manager-cache: false`.
+4. Run `bun test src/test/ci-workflow.test.ts` and confirm the cache-control workflow test passes.
+5. Compute: (setup-node steps with `package-manager-cache: false` / total setup-node steps in scanner-covered workflows) × 100.
+**Fail:** Any scanner-covered `actions/setup-node` step lacks `package-manager-cache: false`.
+**Goal:** 100% of scanner-covered `actions/setup-node` steps disable automatic package-manager caching.
+**Stakeholders:** Supply chain security, CI integrity, release managers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, `.github/workflows/website-pages.yml`, `src/test/ci-workflow.test.ts`.
 
 ---
 

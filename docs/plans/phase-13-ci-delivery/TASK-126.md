@@ -29,7 +29,7 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 - Matrix: `os: [ubuntu-latest, macos-latest, windows-latest]` × `bun-version: ['1.1']`
 - Steps: `actions/checkout@v6`, `oven-sh/setup-bun@v2.2.0`, `bun install --frozen-lockfile`, `bun run build`, `bun run lint`, `bun test --coverage`, `bun run bdd --tags "@smoke"`, `actions/upload-artifact@v7` (cucumber-report, `if: always()`)
 - Artifact name: `cucumber-report-${{ matrix.os }}`
-- See also: [[docs/requirements/ci-cd]], [[docs/adr/ADR008-oidc-publishing]]
+- See also: [[docs/requirements/operational/ci-cd]], [[docs/adr/ADR008-oidc-publishing]]
 
 ---
 
@@ -37,7 +37,7 @@ Create `.github/workflows/ci.yml` — a CI workflow that runs on every push and 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Automated CI testing on all three target platforms | [[docs/requirements/ci-cd]] |
+| — | Automated CI testing on all three target platforms | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -115,7 +115,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -31,7 +31,7 @@ Create `src/tags/tag-registry.ts` containing the `TagRegistry` class. The regist
 - Tags inside code blocks and math blocks must NOT be indexed (respect OFM fence boundaries)
 - `allTags()` returns deduplicated list sorted by occurrence frequency (descending)
 - `parentOf('#project/active')` returns `['#project']`
-- See also: [[docs/requirements/tag-indexing]]
+- See also: [[docs/requirements/functional/tag-indexing]]
 
 ---
 
@@ -39,7 +39,7 @@ Create `src/tags/tag-registry.ts` containing the `TagRegistry` class. The regist
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault-wide tag index mapping tag strings to source locations | [[docs/requirements/tag-indexing]] |
+| — | Vault-wide tag index mapping tag strings to source locations | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 
@@ -118,7 +118,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

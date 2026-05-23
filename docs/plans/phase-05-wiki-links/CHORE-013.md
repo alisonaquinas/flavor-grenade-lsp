@@ -30,7 +30,7 @@ Run `bun run lint --max-warnings 0` across all new Phase 5 source files (`src/re
 
 Phase 5 introduces the largest surface area of new source files in the project so far. The lint sweep consolidates all linting fixes into a single atomic commit after all TASK tickets are complete, rather than scattering lint fixes across implementation commits.
 
-- Motivated by: `Quality.Lint.ZeroWarnings` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.Lint.ZeroWarnings` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Phase 5 introduces the largest surface area of new source files in the project s
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Lint zero-warning gate | [[docs/requirements/code-quality]] |
+| — | Lint zero-warning gate | [[docs/requirements/technical/code-quality]] |
 
 ---
 

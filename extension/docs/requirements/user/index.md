@@ -55,4 +55,4 @@ and root Markdown flavor requirements.
 - [Markdown flavor user requirements](markdown-flavors.md)
 - [VS Code extension parity feature](../../features/vscode-extension-parity.md)
 - [Extension functional requirements](../functional/vscode-extension-parity.md)
-- [Root Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md)
+- [Root Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md)

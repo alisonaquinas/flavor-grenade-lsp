@@ -36,9 +36,9 @@ Out of scope:
 - `extension/docs/tests/markdown-flavor-e2e-spec.md`
 - `extension/docs/tests/markdown-flavor-verification-spec.md`
 - `extension/docs/tests/markdown-flavor-validation-spec.md`
-- `docs/requirements/ofmarkdown-language-mode.md`
+- `docs/requirements/functional/ofmarkdown-language-mode.md`
 - `docs/requirements/functional/vscode-extension-parity.md`
-- `extension/docs/requirements/vscode-extension-parity.md`
+- `extension/docs/requirements/functional/vscode-extension-parity.md`
 - `extension/docs/requirements/functional/vscode-extension-parity.md`
 - `extension/docs/requirements/user/index.md`
 - `extension/docs/requirements/user/markdown-flavors.md`

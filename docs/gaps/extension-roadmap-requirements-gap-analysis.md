@@ -26,7 +26,7 @@ proof, and host verification.
 - [[docs/plans/phase-E11-marketplace-evidence-packaging-proof]]
 - [[docs/plans/phase-E12-ofmarkdown-editor-contributions]]
 - [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/requirements/functional/vscode-extension-parity]]
 - [extension/docs/requirements/functional/vscode-extension-parity.md](../../extension/docs/requirements/functional/vscode-extension-parity.md)
 - [extension/docs/requirements/user/markdown-flavors.md](../../extension/docs/requirements/user/markdown-flavors.md)

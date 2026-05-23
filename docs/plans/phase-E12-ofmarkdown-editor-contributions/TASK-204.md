@@ -130,7 +130,7 @@ Full state machine, TDD phase rules, and agent obligations:
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
 > [!WARNING]
-> `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]]
+> `red` before `green` is non-negotiable. See [[docs/requirements/technical/code-quality]]
 > `Quality.TDD.StrictRedGreen`.
 
 ---

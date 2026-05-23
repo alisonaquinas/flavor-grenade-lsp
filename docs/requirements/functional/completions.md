@@ -10,7 +10,7 @@ aliases:
 # Completion Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[docs/requirements/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
+> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[docs/requirements/functional/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
 
 ---
 
@@ -91,8 +91,8 @@ aliases:
 **Tag:** Completion.WikiStyle.Binding
 **User Req:** User.Author.CompleteWikiLink, User.Author.FollowLinkStyle
 **Gist:** Completion items for wiki-links must use the link text format prescribed by the active `wiki.style` configuration, and must not mix formats from different style modes in the same response.
-**Ambition:** This is the completion-specific formulation of [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
-**Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
+**Ambition:** This is the completion-specific formulation of [[docs/requirements/functional/wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
+**Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[docs/requirements/functional/wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
 **Meter:**
 
 1. Configure `wiki.style` to `file-stem`. Trigger completion at `[[` in a vault with documents whose titles differ from file stems. Verify all `insertText` values use the file stem (no title, no path prefix).
@@ -104,4 +104,4 @@ aliases:
 **Goal:** 100% of completion items conform to the active style.
 **Stakeholders:** Vault authors, teams enforcing link-style consistency, migration tooling users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[docs/design/api-layer]], [[docs/design/domain-layer]].
+**Source:** [[docs/requirements/functional/wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[docs/design/api-layer]], [[docs/design/domain-layer]].

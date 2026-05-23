@@ -51,4 +51,4 @@ MDX-aware analysis.
 
 - [[docs/research/mdx-analysis]]
 - [[docs/plans/phase-29-mdx-flavor-language-support]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]

@@ -39,8 +39,8 @@ Implement `textDocument/foldingRange` for OFMarkdown structural regions. Returne
 |---|---|---|
 | `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose supported OFMarkdown structures without crossing opaque regions | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.Coverage` | Folding ranges must reflect OFMarkdown structure | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque regions are excluded from token-derived structural ranges | [[docs/requirements/semantic-tokens]] |
-| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/security/input-validation]] |
+| `ST-002` | Opaque regions are excluded from token-derived structural ranges | [[docs/requirements/functional/semantic-tokens]] |
+| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/technical/security-input-validation]] |
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

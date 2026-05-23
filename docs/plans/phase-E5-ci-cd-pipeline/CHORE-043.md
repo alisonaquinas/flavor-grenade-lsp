@@ -42,7 +42,7 @@ The `extension-release.yml` workflow's publish job references `${{ secrets.VSCE_
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | CI/CD publish job requires authenticated Marketplace access via PAT | [[docs/requirements/ci-cd]] |
+| — | CI/CD publish job requires authenticated Marketplace access via PAT | [[docs/requirements/operational/ci-cd]] |
 
 ---
 

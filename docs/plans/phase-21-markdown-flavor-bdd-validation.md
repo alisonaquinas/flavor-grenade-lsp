@@ -30,9 +30,9 @@ after Phase 20 propagation is ready.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Assert language preservation in BDD |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Assert every required selector/profile id |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Assert profile source and signature behavior |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Assert language preservation in BDD |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Assert every required selector/profile id |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Assert profile source and signature behavior |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]] | Assert server profile evidence is represented in traceability matrices |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]] | Validate BDD fixture behavior against effective flavor |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Diagnostics.ProfileRules]] | Validate profile-scoped diagnostics evidence |

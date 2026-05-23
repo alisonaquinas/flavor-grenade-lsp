@@ -13,7 +13,7 @@ Scope: These requirements govern server-side flavor-aware language behavior
 derived from [[docs/features/markdown-flavor-feature-sets]] and the
 flavor-specific feature pages under `docs/features/*-flavor.md`. Client
 selection, persistence, and propagation remain governed by
-[[docs/requirements/ofmarkdown-language-mode]] and
+[[docs/requirements/functional/ofmarkdown-language-mode]] and
 [[docs/requirements/functional/vscode-extension-parity]].
 
 Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
@@ -58,13 +58,13 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 3. Verify active constructs emit typed index entries with stable ranges.
 4. Verify inactive constructs are plain text or portability candidates, not active symbols.
 5. Verify opaque regions apply per profile, including Obsidian opaque regions, MDX JSX/ESM regions, R Markdown chunks, math regions, and fenced code blocks where defined.
-6. Verify parser changes satisfy [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]].
+6. Verify parser changes satisfy [[docs/requirements/technical/security-parser-safety#Security.Parser.FlavorProfileResourceSafety]].
 7. Compute: (correct parser outcomes / total expected parser outcomes) x 100.
 **Fail:** Any inactive construct is emitted as active profile syntax, any active signature construct is absent from parse output, or any profile parser lacks required resource-safety evidence.
 **Goal:** 100% parser dispatch correctness for required fixtures.
 **Stakeholders:** Markdown authors, LSP implementers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/ofmarkdown-language-mode]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/ofmarkdown-language-mode]].
 
 ---
 
@@ -87,7 +87,7 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% diagnostic profile correctness.
 **Stakeholders:** Markdown authors, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/diagnostics]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/diagnostics]].
 
 ---
 
@@ -110,7 +110,7 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% completion profile correctness for covered triggers.
 **Stakeholders:** Markdown authors, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/completions]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/completions]].
 
 ---
 
@@ -133,7 +133,7 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% navigation profile correctness.
 **Stakeholders:** Markdown authors, LSP client users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/navigation]], [[docs/requirements/functional/ofmarkdown-parity]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/navigation]], [[docs/requirements/functional/ofmarkdown-parity]].
 
 ---
 
@@ -156,7 +156,7 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% hover profile correctness for covered constructs.
 **Stakeholders:** Markdown authors, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/hover]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/hover]].
 
 ---
 
@@ -178,7 +178,7 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% semantic token profile correctness for covered constructs.
 **Stakeholders:** Markdown authors, theme authors, editor integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/semantic-tokens]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/semantic-tokens]].
 
 ---
 
@@ -194,14 +194,14 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 1. Create rename fixtures for headings, local Markdown links, reference labels, explicit IDs, labels, footnotes, abbreviations, R chunk labels, MDX local components, and Obsidian notes, blocks, tags, embeds, and attachments.
 2. Request `textDocument/prepareRename` and `textDocument/rename` under the relevant flavor.
 3. Verify supported local symbols produce complete WorkspaceEdits that preserve syntax family.
-4. Verify every generated edit URI and range satisfies [[docs/requirements/security/vault-confinement#Security.Vault.RenameConfinement]] before `workspace/applyEdit`.
+4. Verify every generated edit URI and range satisfies [[docs/requirements/functional/security-vault-confinement#Security.Vault.RenameConfinement]] before `workspace/applyEdit`.
 5. Verify unsupported, inactive, host-specific, conversion-bound, and execution-bound targets are rejected atomically with no partial edit.
 6. Compute: (correct rename outcomes / total rename cases) x 100.
 **Fail:** Any supported local rename leaves stale references, any unsafe host/platform/execution target receives speculative edits, or any out-of-vault/stale-resource edit reaches `workspace/applyEdit`.
 **Goal:** 100% rename profile safety.
 **Stakeholders:** Markdown authors, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/rename]], [[docs/requirements/functional/ofmarkdown-parity]].
+**Source:** [[docs/features/markdown-flavor-feature-sets]], [[docs/requirements/functional/rename]], [[docs/requirements/functional/ofmarkdown-parity]].
 
 ---
 
@@ -225,4 +225,4 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Goal:** 100% non-local boundary correctness.
 **Stakeholders:** Markdown authors, security reviewers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/github-flavored-markdown-flavor]], [[docs/features/gitlab-flavored-markdown-flavor]], [[docs/features/pandoc-markdown-flavor]], [[docs/features/multimarkdown-flavor]], [[docs/features/mdx-flavor]], [[docs/features/r-markdown-flavor]], [[docs/features/reddit-markdown-flavor]], [[docs/features/stack-overflow-markdown-flavor]], [[docs/requirements/security/vault-confinement]].
+**Source:** [[docs/features/github-flavored-markdown-flavor]], [[docs/features/gitlab-flavored-markdown-flavor]], [[docs/features/pandoc-markdown-flavor]], [[docs/features/multimarkdown-flavor]], [[docs/features/mdx-flavor]], [[docs/features/r-markdown-flavor]], [[docs/features/reddit-markdown-flavor]], [[docs/features/stack-overflow-markdown-flavor]], [[docs/requirements/functional/security-vault-confinement]].

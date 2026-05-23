@@ -45,7 +45,7 @@ landing across many modules.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase changes must not introduce lint warnings | [[docs/requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase changes must not introduce lint warnings | [[docs/requirements/technical/code-quality]] |
 
 ---
 

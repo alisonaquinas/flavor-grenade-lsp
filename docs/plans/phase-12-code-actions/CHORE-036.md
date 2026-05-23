@@ -38,7 +38,7 @@ Code actions that produce `WorkspaceEdit` or `CreateFile` document changes opera
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault root URI containment for CreateFile edits | [[docs/requirements/diagnostics]] |
+| — | Vault root URI containment for CreateFile edits | [[docs/requirements/functional/diagnostics]] |
 
 ---
 

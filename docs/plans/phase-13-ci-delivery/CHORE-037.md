@@ -38,7 +38,7 @@ Keeping lint clean after each feature phase prevents warning accumulation. Workf
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings including workflow YAML files | [[docs/requirements/code-quality]] |
+| — | Zero lint warnings including workflow YAML files | [[docs/requirements/technical/code-quality]] |
 
 ---
 

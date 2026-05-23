@@ -92,5 +92,5 @@ There are no user-facing configuration keys specific to navigation. Navigation i
 - [[docs/features/symbols]]
 - [[docs/features/rename]]
 - [[docs/concepts/symbol-model]]
-- [[docs/requirements/wiki-link-resolution]]
-- [[docs/requirements/block-references]]
+- [[docs/requirements/functional/wiki-link-resolution]]
+- [[docs/requirements/functional/block-references]]

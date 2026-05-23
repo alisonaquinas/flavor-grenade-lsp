@@ -32,7 +32,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
   - "Require linear history"
   - "Require branches to be up to date before merging"
 - This is a manual human task; no code changes are required
-- See also: [[docs/requirements/ci-cd]]
+- See also: [[docs/requirements/operational/ci-cd]]
 
 ---
 
@@ -40,7 +40,7 @@ Configure GitHub repository branch protection rules for the `main` branch via th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Branch protection enforcing CI and review gate for main | [[docs/requirements/ci-cd]] |
+| — | Branch protection enforcing CI and review gate for main | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -112,7 +112,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

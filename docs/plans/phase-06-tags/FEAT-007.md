@@ -46,7 +46,7 @@ Vault authors gain a vault-wide tag registry that tracks every `#tag` occurrence
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Tag indexing and navigation across vault notes | [[docs/requirements/tag-indexing]] |
+| — | Tag indexing and navigation across vault notes | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 
@@ -54,7 +54,7 @@ Vault authors gain a vault-wide tag registry that tracks every `#tag` occurrence
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Tag registry, hierarchy, completion, and find-references | [[docs/requirements/tag-indexing]] |
+| — | Tag registry, hierarchy, completion, and find-references | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 

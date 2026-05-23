@@ -95,4 +95,4 @@ Setting `codeLens.enabled = false` causes `textDocument/codeLens` to return an e
 - [[docs/features/symbols]]
 - [[ADR006-block-ref-indexing]]
 - [[docs/concepts/symbol-model]]
-- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/functional/wiki-link-resolution]]

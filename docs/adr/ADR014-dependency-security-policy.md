@@ -109,6 +109,6 @@ This prohibition is currently enforced by manifest, lockfile, and source review.
 
 - [[docs/adr/ADR008-oidc-publishing]] — OIDC provenance publishing
 - [[docs/research/security-threat-model]] — Shai-Hulud 2.0 and Bun security evidence
-- [[docs/requirements/security/supply-chain]] — Planguage requirements derived from this ADR
+- [[docs/requirements/operational/security-supply-chain]] — Planguage requirements derived from this ADR
 - [[docs/plans/phase-01-scaffold]] — exact pinning and frozen lockfile already in place
 - [[docs/plans/phase-13-ci-delivery]] — dependency audit log and advisory monitoring setup

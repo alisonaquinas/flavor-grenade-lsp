@@ -15,7 +15,11 @@ the Planguage requirement tags it exercises, and the phase in which it was
 introduced.
 
 > [!NOTE] Maintenance
-> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
+> This file is maintained manually. `scripts/update-test-index.sh` is a legacy
+> no-op helper and is not a source of truth. Update this file whenever a new
+> test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or
+> `website/tests`. Always commit index updates with the test file or with the
+> ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
 > For the full requirements × tests × work-performed traceability matrix, see [[docs/test/matrix]].
@@ -83,7 +87,8 @@ Unit tests live under `tests/unit/` and mirror the `src/` module structure. Each
 | `src/lsp/handlers/__tests__/initialized.handler.test.ts` | Unit | Tests `initialized` rejects non-file root URIs before vault scan starts | `Security.Vault.URISchemeAllowlist` | Phase 18 |
 | `src/transport/json-rpc-dispatcher.test.ts` | Unit | Tests JSON-RPC routing, protocol errors, and rejection of dangerous prototype keys before handler dispatch | `Security.Input.PrototypePollution` | Phase 18 |
 | `scripts/check-exact-dependencies.test.js` | Unit | Tests dependency range detection ignores compatibility engine ranges and reports dependency/devDependency ranges | `Security.Supply.ExactPinning` | Phase 18 |
-| `src/test/ci-workflow.test.ts` | Unit | Verifies repository CI runs the root, BDD, extension, and website verification battery | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage` | Phase 18 |
+| `scripts/check-installed-packages.test.js` | Unit | Tests manifest dependency declarations against installed direct package versions | `Technical.SBOM.Server`, `Technical.SBOM.Extension`, `Technical.SBOM.Website` | 2026-05-23 release hardening |
+| `src/test/ci-workflow.test.ts` | Unit | Verifies repository CI runs the root, BDD, extension, website, SAST, Dependabot, and package-cache verification battery | `CICD.Workflow.PRGate`, `CICD.Workflow.BDDGate`, `Extension.Tests.HostCoverage`, `Security.Supply.SetupNodeCacheControl` | Phase 18 and 2026-05-23 release hardening |
 | `src/test/bdd/bdd-layout.test.ts` | Unit | Verifies raw source files and BDD step implementation notes stay out of `docs/` while Gherkin feature specs remain in `docs/bdd/features/` | `Quality.SourceLayout.DocsBoundary`, `Process.Testing.DirectoryStructure` | Phase 18 |
 
 ---
@@ -250,7 +255,7 @@ When you add a new test file:
 4. Run `scripts/update-test-index.sh` if available to auto-populate (Phase 3+).
 
 > [!WARNING]
-> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[docs/requirements/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
+> A test file that exists in `tests/` but does not appear in this index is an index maintenance violation (see [[docs/requirements/operational/development-process#Process.TestIndex.Matrix]]). The matrix entry must exist before the PR is merged.
 
 ---
 
@@ -258,6 +263,6 @@ When you add a new test file:
 
 - [[docs/test/matrix]] — Planguage requirements × test files × status traceability matrix
 - [[docs/requirements/index]] — Master Planguage tag index (source of truth for tag names)
-- [[docs/requirements/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
-- [[docs/requirements/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
+- [[docs/requirements/operational/development-process#Process.Testing.DirectoryStructure]] — Test file location policy
+- [[docs/requirements/operational/development-process#Process.TestIndex.Matrix]] — Matrix maintenance requirement
 - [[docs/plans/phase-01-scaffold]] — Phase 1 task list where first tests are introduced

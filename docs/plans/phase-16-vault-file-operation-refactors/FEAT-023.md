@@ -70,11 +70,11 @@ fragment, alias, and title text.
 | `Parity.FileOperations.SkippedAmbiguousReporting` | Report ambiguous references without speculative edits | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicValidation` | Validate deterministic all-or-nothing WorkspaceEdit output | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.IndexRefresh` | Refresh index and diagnostics after `didRenameFiles` | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Preserve rename completeness for wiki-link and heading references | [[docs/requirements/rename]] |
-| `Rename.StyleBinding.Consistency` | Preserve configured link style when rewriting wiki-links | [[docs/requirements/rename]] |
-| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[docs/requirements/security/vault-confinement]] |
-| `Security.Vault.RenameConfinement` | Refuse rename or move edits that escape the vault root | [[docs/requirements/security/vault-confinement]] |
-| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/wiki-link-resolution]] |
+| `Rename.Refactoring.Completeness` | Preserve rename completeness for wiki-link and heading references | [[docs/requirements/functional/rename]] |
+| `Rename.StyleBinding.Consistency` | Preserve configured link style when rewriting wiki-links | [[docs/requirements/functional/rename]] |
+| `Security.Vault.PathConfinement` | Canonicalize and vault-root-check old and new paths | [[docs/requirements/functional/security-vault-confinement]] |
+| `Security.Vault.RenameConfinement` | Refuse rename or move edits that escape the vault root | [[docs/requirements/functional/security-vault-confinement]] |
+| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/functional/wiki-link-resolution]] |
 
 ---
 

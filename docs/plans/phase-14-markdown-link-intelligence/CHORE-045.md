@@ -47,9 +47,9 @@ make the evidence trail obvious before the feature leaves review.
 | `Parity.MarkdownLinks.LocalResolution` | Test evidence covers local Markdown link resolution | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Test evidence covers same-document anchor behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.HeadingAmbiguity.Diagnostics` | Test evidence covers ambiguous heading diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Test evidence covers Markdown link definition | [[docs/requirements/navigation]] |
-| `Navigation.References.Completeness` | Test evidence covers Markdown references | [[docs/requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Test evidence covers Markdown heading rename edits | [[docs/requirements/rename]] |
+| `Navigation.Definition.AllLinkTypes` | Test evidence covers Markdown link definition | [[docs/requirements/functional/navigation]] |
+| `Navigation.References.Completeness` | Test evidence covers Markdown references | [[docs/requirements/functional/navigation]] |
+| `Rename.Refactoring.Completeness` | Test evidence covers Markdown heading rename edits | [[docs/requirements/functional/rename]] |
 
 ---
 

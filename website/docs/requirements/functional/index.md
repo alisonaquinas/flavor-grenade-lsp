@@ -12,6 +12,7 @@ and technical requirements into testable website behavior.
 - [[website/docs/requirements/user/index]]
 - [[website/docs/requirements/design/index]]
 - [[website/docs/requirements/technical/index]]
+- [[website/docs/requirements/operational/index]]
 - `PRODUCT.md`
 - `DESIGN.md`
 

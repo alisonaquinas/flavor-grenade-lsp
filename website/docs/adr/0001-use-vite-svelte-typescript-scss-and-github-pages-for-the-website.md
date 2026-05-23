@@ -145,7 +145,7 @@ Use Vite with React for the website shell and documentation controls.
 
 - [[website/docs/architecture/index]]
 - [[website/docs/requirements/technical/index]]
-- [[website/docs/requirements/technical/ci-cd]]
+- [[website/docs/requirements/operational/ci-cd]]
 - [[website/docs/requirements/design/index]]
 - Vite static deploy guidance for GitHub Pages documents `base` behavior for
   root-domain and repository-subpath deployments.

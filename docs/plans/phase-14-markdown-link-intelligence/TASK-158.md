@@ -43,7 +43,7 @@ Reference-style uses must bind only to link definitions in the same document.
 | `Parity.MarkdownLinks.ReferenceGraph` | Markdown document refs, image refs, label refs, and label definitions are indexed in RefGraph | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.LocalResolution` | Markdown link and label references are represented in the vault graph | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Markdown image references are available to later attachment intelligence | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.References.Completeness` | Markdown references are available to reference queries | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | Markdown references are available to reference queries | [[docs/requirements/functional/navigation]] |
 
 ---
 
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

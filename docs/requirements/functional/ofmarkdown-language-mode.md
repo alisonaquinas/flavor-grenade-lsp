@@ -146,7 +146,7 @@ aliases:
 **Goal:** 100% documented auto-detection correctness.
 **Stakeholders:** Vault authors, Markdown authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
 
 ---
 

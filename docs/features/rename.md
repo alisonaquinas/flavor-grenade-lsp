@@ -108,4 +108,4 @@ The following rename scenarios are explicitly not supported in v1:
 - [[docs/features/navigation]]
 - [[docs/features/diagnostics]]
 - [[docs/concepts/symbol-model]]
-- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/functional/wiki-link-resolution]]

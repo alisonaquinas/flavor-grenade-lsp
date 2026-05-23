@@ -15,7 +15,7 @@ updated: 2026-04-17
 > This document surveys security threats applicable to `flavor-grenade-lsp` — a long-running, stdio-transport LSP server that reads from user vaults, parses Obsidian Flavored Markdown, and performs file writes via LSP rename operations. It draws on CVEs, security research, and attack patterns relevant to LSP servers, NestJS, Bun, JSON-RPC transports, and Markdown parsers as of April 2026.
 
 > [!WARNING] Not an audit
-> This is a research document, not a security audit. Issues identified here are candidates for mitigation; they have not been verified against the current implementation. See [[docs/requirements/ci-cd]] and [[docs/adr/ADR009-precommit-hooks-zero-warnings]] for enforcement mechanisms.
+> This is a research document, not a security audit. Issues identified here are candidates for mitigation; they have not been verified against the current implementation. See [[docs/requirements/operational/ci-cd]] and [[docs/adr/ADR009-precommit-hooks-zero-warnings]] for enforcement mechanisms.
 
 ---
 
@@ -364,7 +364,7 @@ flavor-grenade-lsp does not launch other LSP servers, but its `.flavor-grenade.t
 | Exact dependency pinning (`exact = true` in bunfig.toml) | ✅ Phase 1 | [[docs/plans/phase-01-scaffold]] |
 | `--frozen-lockfile` in CI | ✅ Phase 1 | `.github/workflows/ci.yml` |
 | OIDC provenance publishing | ✅ Phase 13 planned | [[docs/adr/ADR008-oidc-publishing]] |
-| TypeScript strict mode (eliminates whole class of type errors) | ✅ Phase 1 | [[docs/requirements/code-quality#Quality.Types.StrictMode]] |
+| TypeScript strict mode (eliminates whole class of type errors) | ✅ Phase 1 | [[docs/requirements/technical/code-quality#Quality.Types.StrictMode]] |
 | No `@nestjs/devtools-integration` dependency | ✅ By design | [[docs/plans/phase-01-scaffold]] |
 | No `@nestjs/platform-express` (no HTTP server) | ✅ By design | [[docs/adr/ADR001-stdio-transport]] |
 

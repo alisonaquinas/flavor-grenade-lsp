@@ -37,8 +37,8 @@ package while the phase was in review.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Process.Scripts.Automation` | Repeated phase procedures should be documented or automated. | [[docs/requirements/development-process]] |
-| `CICD.Workflow.PRGate` | Final closeout cites green CI evidence before completion. | [[docs/requirements/ci-cd]] |
+| `Process.Scripts.Automation` | Repeated phase procedures should be documented or automated. | [[docs/requirements/operational/development-process]] |
+| `CICD.Workflow.PRGate` | Final closeout cites green CI evidence before completion. | [[docs/requirements/operational/ci-cd]] |
 
 ## Scope of Change
 

@@ -54,7 +54,7 @@ aliases:
 **Goal:** 0% of blocked-key frontmatter values appear in completion responses; `safe-alias` from `aliases:` is not affected by the filter.
 **Stakeholders:** Privacy-conscious vault authors, security-sensitive Obsidian users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/research/security-threat-model]], [[docs/requirements/completions]], [[docs/plans/phase-09-completions]].
+**Source:** [[docs/research/security-threat-model]], [[docs/requirements/functional/completions]], [[docs/plans/phase-09-completions]].
 
 ---
 

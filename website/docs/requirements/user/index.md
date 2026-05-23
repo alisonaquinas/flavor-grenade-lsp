@@ -4,7 +4,8 @@
 
 These requirements describe what the public Flavor Grenade website must help
 users accomplish. Technical implementation requirements live in
-[[website/docs/requirements/technical/index]].
+[[website/docs/requirements/technical/index]] and
+[[website/docs/requirements/operational/index]].
 
 ## Audience
 

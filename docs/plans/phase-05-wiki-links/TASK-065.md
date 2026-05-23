@@ -50,7 +50,7 @@ Update `LspModule` (or the root application module) to register the Phase 5 hand
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | LSP capability registration requirements | [[docs/requirements/wiki-link-resolution]] |
+| — | LSP capability registration requirements | [[docs/requirements/functional/wiki-link-resolution]] |
 
 ---
 
@@ -136,7 +136,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

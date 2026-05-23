@@ -48,7 +48,7 @@ When `title-slug` is active and a document has no H1 heading, the server falls b
 
 ## Related
 
-- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/functional/wiki-link-resolution]]
 - [[docs/features/completions]]
 - [[docs/ddd/reference-resolution/domain-model]]
 - [[ADR006-block-ref-indexing]]

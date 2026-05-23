@@ -145,7 +145,7 @@ Implementation plan: [[docs/plans/phase-13-ci-delivery]]
 
 Implement the first server-side Marksman parity slice: standard Markdown local links become first-class OFM references. This includes inline links, image link refs, reference-style label uses and definitions, local-vs-external target classification, same-document anchors, Markdown link URL completions, definition/references support, heading rename updates, and ambiguous heading diagnostics.
 
-Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[docs/requirements/completions#Completion.Trigger.Coverage]], [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/navigation#Navigation.References.Completeness]], [[docs/requirements/rename#Rename.Refactoring.Completeness]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[docs/requirements/functional/completions#Completion.Trigger.Coverage]], [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/functional/navigation#Navigation.References.Completeness]], [[docs/requirements/functional/rename#Rename.Refactoring.Completeness]]
 
 Detailed functional requirements: [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ParseCoverage]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.TargetClassification]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.ReferenceGraph]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.Completion]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.NavigationAndReferences]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.RenameAnchors]]
 
@@ -155,7 +155,7 @@ Implementation plan: [[docs/plans/phase-14-markdown-link-intelligence]]
 
 Make non-Markdown vault assets first-class targets for OFMarkdown embeds and standard Markdown image links. This phase indexes attachment targets, completes attachment paths, diagnoses missing attachments, navigates to assets, and returns lightweight hover metadata.
 
-Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[docs/requirements/embed-resolution#Embed.Resolution.MarkdownTarget]], [[docs/requirements/diagnostics#Diagnostic.Severity.Embed]], [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/hover#HV-002]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/embed-resolution#Embed.Resolution.ImageTarget]], [[docs/requirements/functional/embed-resolution#Embed.Resolution.MarkdownTarget]], [[docs/requirements/functional/diagnostics#Diagnostic.Severity.Embed]], [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/functional/hover#HV-002]]
 
 Detailed functional requirements: [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.IndexCoverage]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Completion]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]]
 
@@ -165,7 +165,7 @@ Implementation plan: [[docs/plans/phase-15-attachment-intelligence]]
 
 Make vault reorganization safe by updating every local reference to moved notes and attachments before the editor applies file or folder moves. This phase returns one vault-confined WorkspaceEdit for wiki-links, embeds, Markdown links, reference definitions, and Markdown image links, while reporting ambiguous references that cannot be safely rewritten.
 
-Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/rename#Rename.Refactoring.Completeness]], [[docs/requirements/rename#Rename.StyleBinding.Consistency]], [[docs/requirements/security/vault-confinement#Security.Vault.PathConfinement]], [[docs/requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/rename#Rename.Refactoring.Completeness]], [[docs/requirements/functional/rename#Rename.StyleBinding.Consistency]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.PathConfinement]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.RenameConfinement]], [[docs/requirements/functional/wiki-link-resolution#Link.Wiki.StyleBinding]]
 
 Detailed functional requirements: [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.CapabilityRegistration]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.MovePlannerConfinement]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.ReferenceRewrite]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.SkippedAmbiguousReporting]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicValidation]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.IndexRefresh]]
 
@@ -175,7 +175,7 @@ Implementation plan: [[docs/plans/phase-16-vault-file-operation-refactors]]
 
 Expose OFMarkdown document structure through standard LSP capabilities: `textDocument/documentLink`, `textDocument/foldingRange`, and `textDocument/selectionRange`. This phase reuses existing resolution data for document links and derives folding/selection ranges from OFMIndex without crossing opaque regions.
 
-Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/semantic-tokens#ST-002]], [[docs/requirements/security/input-validation#Security.Input.PositionValidation]], [[docs/requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]], [[docs/requirements/functional/semantic-tokens#ST-002]], [[docs/requirements/technical/security-input-validation#Security.Input.PositionValidation]], [[docs/requirements/functional/diagnostics#Diagnostic.Ambiguous.RelatedInfo]]
 
 Detailed functional requirements: [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.CapabilityRegistration]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]]
 
@@ -188,7 +188,7 @@ Close the remaining security gaps discovered in the 2026-05-08 deep audit of
 resource budgets, proves symlink realpath confinement, hardens JSON-RPC payload
 validation, and removes dependency range specifiers from package manifests.
 
-Requirement links: [[docs/requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[docs/requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[docs/requirements/security/parser-safety#Security.Parser.ParseTimeout]], [[docs/requirements/security/parser-safety#Security.Parser.ReDoS]], [[docs/requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[docs/requirements/security/vault-confinement#Security.Vault.SymlinkConfinement]], [[docs/requirements/security/input-validation#Security.Input.PrototypePollution]], [[docs/requirements/security/supply-chain#Security.Supply.ExactPinning]], [[docs/requirements/security/supply-chain#Security.Supply.AdvisoryMonitoring]]
+Requirement links: [[docs/requirements/functional/security-vault-confinement#Security.Vault.URISchemeAllowlist]], [[docs/requirements/technical/security-parser-safety#Security.Parser.YAMLLimits]], [[docs/requirements/technical/security-parser-safety#Security.Parser.ParseTimeout]], [[docs/requirements/technical/security-parser-safety#Security.Parser.ReDoS]], [[docs/requirements/technical/security-parser-safety#Security.Parser.VaultFileLimit]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.SymlinkConfinement]], [[docs/requirements/technical/security-input-validation#Security.Input.PrototypePollution]], [[docs/requirements/operational/security-supply-chain#Security.Supply.ExactPinning]], [[docs/requirements/operational/security-supply-chain#Security.Supply.AdvisoryMonitoring]]
 
 Implementation plan: [[docs/plans/phase-18-security-hardening-audit]]
 
@@ -202,7 +202,7 @@ syntax, inert/unsupported syntax, host/conversion boundaries, opaque regions,
 diagnostics, completions, navigation, hover, semantic tokens, and rename
 disposition. `auto` is represented as detection state, not as a dialect profile.
 
-Requirement links: [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]], [[docs/test/markdown-flavor-unit-spec]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/technical/security-parser-safety#Security.Parser.FlavorProfileResourceSafety]], [[docs/test/markdown-flavor-unit-spec]]
 
 Implementation plan: [[docs/plans/phase-19-markdown-flavor-model-profiles]]
 
@@ -216,7 +216,7 @@ for supported and unsupported flavor ids. Process-boundary propagation uses
 `workspace/didChangeConfiguration` carrying `flavorGrenade.markdownFlavor`.
 Phase 20 now also owns the shared non-local boundary classifier in [[docs/plans/phase-20-markdown-flavor-server-propagation/TASK-354]], so host, conversion, renderer, bibliography, MDX/JSX, and execution-bound references do not become broken vault diagnostics, local navigation targets, or speculative rename edits.
 
-Requirement links: [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/security/input-validation#Security.Input.ProjectConfigTOMLSafety]], [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]], [[docs/requirements/security/vault-confinement#Security.Vault.ProjectConfigConfinement]], [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]], [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]], [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]], [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]], [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]], [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigTOMLSafety]], [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]], [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]], [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]], [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]], [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]], [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]], [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]]
 
 Implementation plan: [[docs/plans/phase-20-markdown-flavor-server-propagation]]
 
@@ -233,7 +233,7 @@ workflows. Server dialect phases may proceed once Phase 20 propagation and
 Phase 19 model readiness are available. Phase 21 evidence is root/server BDD
 and validation evidence; VS Code host proof remains owned by Phase E17.
 
-Requirement links: [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/test/markdown-flavor-e2e-spec]], [[docs/test/markdown-flavor-verification-spec]], [[docs/test/markdown-flavor-validation-spec]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/test/markdown-flavor-e2e-spec]], [[docs/test/markdown-flavor-verification-spec]], [[docs/test/markdown-flavor-validation-spec]]
 
 Implementation plan: [[docs/plans/phase-21-markdown-flavor-bdd-validation]]
 
@@ -246,7 +246,7 @@ code, tables, task lists, wiki links, and callouts.
 Depends on Phase 19 model readiness and Phase 20 server propagation. Phase 21
 validates release evidence but is not a server dialect prerequisite.
 
-Requirement links: [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]]
+Requirement links: [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]]
 
 Implementation plan: [[docs/plans/phase-22-original-markdown-language-support]]
 
@@ -257,7 +257,7 @@ heading/link/list behavior, document links, folding, semantic tokens,
 completion, diagnostics, and navigation while keeping GFM and Obsidian
 extensions gated.
 
-Requirement links: [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-011 - CommonMark Parser And Analysis|MF-U-011]]
+Requirement links: [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-011 - CommonMark Parser And Analysis|MF-U-011]]
 
 Implementation plan: [[docs/plans/phase-23-commonmark-language-support]]
 
@@ -268,7 +268,7 @@ the selector model. This phase preserves wiki links, embeds, tags, block
 anchors, callouts, vault-local resolution, and structural LSP behavior without
 requiring `ofmarkdown` language promotion.
 
-Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-012 - Obsidian Parser And Analysis|MF-U-012]]
+Requirement links: [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-012 - Obsidian Parser And Analysis|MF-U-012]]
 
 Implementation plan: [[docs/plans/phase-24-obsidian-flavor-language-support]]
 
@@ -278,7 +278,7 @@ Implement actual language support for `gfm`: pipe tables, task lists,
 strikethrough, autolinks, GitHub-style heading anchors where practical, and
 matching diagnostics, completions, folding, semantic tokens, and navigation.
 
-Requirement links: [[docs/research/github-flavored-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
+Requirement links: [[docs/research/github-flavored-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
 
 Implementation plan: [[docs/plans/phase-25-gfm-language-support]]
 
@@ -288,7 +288,7 @@ Implement actual language support for `glfm`: the CommonMark/GFM baseline plus
 GitLab-specific references, media behavior, and heading/link conventions that
 can be modeled without GitLab service access.
 
-Requirement links: [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]]
+Requirement links: [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]]
 
 Implementation plan: [[docs/plans/phase-26-glfm-language-support]]
 
@@ -298,7 +298,7 @@ Implement practical local support for `pandoc`: metadata blocks, citations,
 footnotes, math, attributes, fenced divs, definition lists, labels, and
 cross-references without running Pandoc conversion.
 
-Requirement links: [[docs/research/pandoc-markdown-deep-research-report]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]]
+Requirement links: [[docs/research/pandoc-markdown-deep-research-report]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]]
 
 Implementation plan: [[docs/plans/phase-27-pandoc-markdown-language-support]]
 
@@ -307,7 +307,7 @@ Implementation plan: [[docs/plans/phase-27-pandoc-markdown-language-support]]
 Implement actual language support for `multimarkdown`: metadata, tables,
 footnotes, citations, labels, and document-production cross-references.
 
-Requirement links: [[docs/research/multimarkdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]]
+Requirement links: [[docs/research/multimarkdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]]
 
 Implementation plan: [[docs/plans/phase-28-multimarkdown-language-support]]
 
@@ -317,7 +317,7 @@ Implement practical local support for `mdx` as a Markdown flavor: JSX
 expression/component regions, ESM awareness, and Markdown/JSX boundaries while
 preserving manually selected VS Code `mdx` language mode.
 
-Requirement links: [[docs/research/mdx-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[docs/test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]]
+Requirement links: [[docs/research/mdx-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[docs/test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]]
 
 Implementation plan: [[docs/plans/phase-29-mdx-flavor-language-support]]
 
@@ -326,7 +326,7 @@ Implementation plan: [[docs/plans/phase-29-mdx-flavor-language-support]]
 Implement actual language support for `kramdown`: block/span attributes,
 definition lists, tables, math, footnotes, and IAL behavior.
 
-Requirement links: [[docs/research/kramdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]]
+Requirement links: [[docs/research/kramdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]]
 
 Implementation plan: [[docs/plans/phase-30-kramdown-language-support]]
 
@@ -335,7 +335,7 @@ Implementation plan: [[docs/plans/phase-30-kramdown-language-support]]
 Implement actual language support for `markdown-extra`: tables, definition
 lists, footnotes, abbreviations, fenced code, and attribute blocks.
 
-Requirement links: [[docs/research/markdown-extra-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]]
+Requirement links: [[docs/research/markdown-extra-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]]
 
 Implementation plan: [[docs/plans/phase-31-markdown-extra-language-support]]
 
@@ -345,7 +345,7 @@ Implement practical local support for `r-markdown`: YAML metadata, fenced chunk
 syntax, chunk labels/options, folding, document symbols, and diagnostics without
 executing code.
 
-Requirement links: [[docs/research/r-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]]
+Requirement links: [[docs/research/r-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]]
 
 Implementation plan: [[docs/plans/phase-32-r-markdown-language-support]]
 
@@ -355,7 +355,7 @@ Implement practical local support for `reddit`: Reddit-specific syntax
 awareness, escaping and line-break behavior, supported spoiler syntax, and
 portability diagnostics without calling Reddit services.
 
-Requirement links: [[docs/research/reddit-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]]
+Requirement links: [[docs/research/reddit-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]]
 
 Implementation plan: [[docs/plans/phase-33-reddit-markdown-language-support]]
 
@@ -365,7 +365,7 @@ Implement practical local support for `stack-overflow`: tag links, spoilers,
 syntax highlighting hints, code fence behavior, GFM-style tables, and
 question/answer versus comment-surface constraints.
 
-Requirement links: [[docs/research/stack-overflow-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]]
+Requirement links: [[docs/research/stack-overflow-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]]
 
 Implementation plan: [[docs/plans/phase-34-stack-overflow-markdown-language-support]]
 
@@ -392,26 +392,26 @@ whenever profile surfaces change.
 | Phase | Primary Requirements |
 |---|---|
 | 14 | [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.SameDocumentAnchor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.HeadingAmbiguity.Diagnostics]] |
-| 15 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/embed-resolution#Embed.Resolution.ImageTarget]], [[docs/requirements/hover#HV-002]] |
-| 16 | [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/security/vault-confinement#Security.Vault.RenameConfinement]], [[docs/requirements/rename#Rename.StyleBinding.Consistency]] |
-| 17 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/semantic-tokens#ST-002]], [[docs/requirements/security/input-validation#Security.Input.PositionValidation]] |
-| 18 | [[docs/requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]], [[docs/requirements/security/parser-safety#Security.Parser.YAMLLimits]], [[docs/requirements/security/parser-safety#Security.Parser.VaultFileLimit]], [[docs/requirements/security/supply-chain#Security.Supply.ExactPinning]] |
-| 19 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]], [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]] |
-| 20 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]], [[docs/requirements/security/input-validation#Security.Input.ProjectConfigTOMLSafety]], [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]], [[docs/requirements/security/vault-confinement#Security.Vault.ProjectConfigConfinement]], [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]], [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]], [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]], [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]], [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]], [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] |
-| 21 | [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/test/markdown-flavor-validation-spec]] |
-| 22 | [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]] |
-| 23 | [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-011 - CommonMark Parser And Analysis|MF-U-011]] |
-| 24 | [[docs/ofm-spec/index]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-012 - Obsidian Parser And Analysis|MF-U-012]] |
-| 25 | [[docs/research/github-flavored-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]] |
-| 26 | [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]] |
-| 27 | [[docs/research/pandoc-markdown-deep-research-report]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]] |
-| 28 | [[docs/research/multimarkdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]] |
-| 29 | [[docs/research/mdx-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[docs/test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]] |
-| 30 | [[docs/research/kramdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]] |
-| 31 | [[docs/research/markdown-extra-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]] |
-| 32 | [[docs/research/r-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]] |
-| 33 | [[docs/research/reddit-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]] |
-| 34 | [[docs/research/stack-overflow-markdown-analysis]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]] |
+| 15 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/embed-resolution#Embed.Resolution.ImageTarget]], [[docs/requirements/functional/hover#HV-002]] |
+| 16 | [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.RenameConfinement]], [[docs/requirements/functional/rename#Rename.StyleBinding.Consistency]] |
+| 17 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/functional/semantic-tokens#ST-002]], [[docs/requirements/technical/security-input-validation#Security.Input.PositionValidation]] |
+| 18 | [[docs/requirements/functional/security-vault-confinement#Security.Vault.URISchemeAllowlist]], [[docs/requirements/technical/security-parser-safety#Security.Parser.YAMLLimits]], [[docs/requirements/technical/security-parser-safety#Security.Parser.VaultFileLimit]], [[docs/requirements/operational/security-supply-chain#Security.Supply.ExactPinning]] |
+| 19 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]], [[docs/requirements/technical/security-parser-safety#Security.Parser.FlavorProfileResourceSafety]] |
+| 20 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]], [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]], [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigTOMLSafety]], [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]], [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]], [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]], [[docs/test/markdown-flavor-unit-spec#MF-U-007 - Flavor Change Refresh|MF-U-007]], [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-005|MF-I-005]], [[docs/test/markdown-flavor-integration-spec#MF-I-006 - Handler Refresh Coverage|MF-I-006]], [[docs/test/markdown-flavor-integration-spec#MF-I-007 - Resource-Specific Propagation|MF-I-007]], [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]], [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] |
+| 21 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/markdown-flavor-lsp]], [[docs/test/markdown-flavor-validation-spec]] |
+| 22 | [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/test/markdown-flavor-unit-spec#MF-U-010 - Original Markdown Parser And Analysis|MF-U-010]] |
+| 23 | [[docs/research/commonmark-and-original-markdown]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-011 - CommonMark Parser And Analysis|MF-U-011]] |
+| 24 | [[docs/ofm-spec/index]], [[docs/requirements/functional/ofmarkdown-parity#Parity.MarkdownLinks.LocalResolution]], [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]], [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]], [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-012 - Obsidian Parser And Analysis|MF-U-012]] |
+| 25 | [[docs/research/github-flavored-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]] |
+| 26 | [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-014 - GLFM Parser And Analysis|MF-U-014]] |
+| 27 | [[docs/research/pandoc-markdown-deep-research-report]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-015 - Pandoc Markdown Parser And Analysis|MF-U-015]] |
+| 28 | [[docs/research/multimarkdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-016 - MultiMarkdown Parser And Analysis|MF-U-016]] |
+| 29 | [[docs/research/mdx-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [[docs/test/markdown-flavor-unit-spec#MF-U-017 - MDX Parser And Analysis|MF-U-017]] |
+| 30 | [[docs/research/kramdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-018 - kramdown Parser And Analysis|MF-U-018]] |
+| 31 | [[docs/research/markdown-extra-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-019 - Markdown Extra Parser And Analysis|MF-U-019]] |
+| 32 | [[docs/research/r-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-020 - R Markdown Parser And Analysis|MF-U-020]] |
+| 33 | [[docs/research/reddit-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-021 - Reddit Markdown Parser And Analysis|MF-U-021]] |
+| 34 | [[docs/research/stack-overflow-markdown-analysis]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/test/markdown-flavor-unit-spec#MF-U-022 - Stack Overflow Markdown Parser And Analysis|MF-U-022]] |
 
 ## VS Code Extension Phases (`feature/vs-code`)
 
@@ -601,7 +601,7 @@ correct project or user scope, and propagates resource-specific effective flavor
 to the server using [[docs/design/markdown-flavor-auto-detection]]. E15 also
 owns stale unit-test blockers for the old language-mode promotion path.
 
-Requirement links: [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]]
+Requirement links: [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]]
 
 Test trace: [EXT-MF-U-001 through EXT-MF-U-014](../extension/docs/tests/markdown-flavor-unit-spec.md), plus [EXT-MF-I-004, EXT-MF-I-008, and EXT-MF-I-009](../extension/docs/tests/markdown-flavor-integration-spec.md) for rebuild-triggered refresh, outbound payload shape, and server-unavailable replay/recompute after selector overrides. Client-to-server propagation uses `workspace/didChangeConfiguration` or an equivalent documented contract carrying `flavorGrenade.markdownFlavor` and resource-specific effective flavor.
 
@@ -633,7 +633,7 @@ extension traceability matrices. E17 also records package-target evidence,
 selector behavior in restricted/virtual/remote contexts, and the stale
 `ofmarkdown` expectation scan required before validation signoff.
 
-Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.ServerModuleValidation]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
+Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.ServerModuleValidation]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
 
 Implementation plan: [[docs/plans/phase-E17-extension-flavor-host-verification]]
 

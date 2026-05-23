@@ -81,7 +81,7 @@ requirements.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/ofmarkdown-language-mode]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/functional/ofmarkdown-language-mode]].
 
 ---
 
@@ -178,7 +178,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/ofmarkdown-language-mode]], [[docs/plans/phase-E7-activation-precision]].
+**Source:** [[docs/features/vscode-extension-parity]], [[docs/requirements/functional/ofmarkdown-language-mode]], [[docs/plans/phase-E7-activation-precision]].
 
 ---
 
@@ -268,7 +268,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/ofmarkdown-language-mode]], [[docs/features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [[docs/requirements/functional/ofmarkdown-language-mode]], [[docs/features/vscode-extension-parity]], `extension/docs/features/vscode-extension-parity.md`.
 
 ---
 

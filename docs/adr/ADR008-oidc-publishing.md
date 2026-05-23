@@ -73,4 +73,4 @@ Implementation details:
 
 - [[docs/adr/ADR007-git-flow-branching]]
 - [[docs/plans/phase-13-ci-delivery]]
-- [[docs/requirements/ci-cd]]
+- [[docs/requirements/operational/ci-cd]]

@@ -96,5 +96,5 @@ During initial vault indexing, the VaultIndex must enforce a configurable maximu
 
 - [[docs/adr/ADR013-vault-root-confinement]] — complements this ADR with path safety rules
 - [[docs/research/security-threat-model]] — threat evidence
-- [[docs/requirements/security/parser-safety]] — Planguage requirements derived from this ADR
+- [[docs/requirements/technical/security-parser-safety]] — Planguage requirements derived from this ADR
 - [[docs/plans/phase-03-ofm-parser]] — implementation phase
