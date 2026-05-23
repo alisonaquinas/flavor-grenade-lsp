@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build the extension release gate's Linux server binary before VS Code extension host tests.
 - Add CI coverage for the extension release dry-run path so `ext-v*-test` tags validate packaging, checksums, attestations, and publish skipping without Marketplace publication.
 - Add CI coverage for the website publishing dry-run path so `*-test*` tags validate the website build, smoke checks, and Pages artifact upload while skipping deployment.
+- Harden spawned-server integration tests with ID-routed responses, notification buffering, timeout diagnostics, and process cleanup.
 
 ## [0.4.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.3.0...v0.4.0) (2026-05-23)
 
