@@ -10,7 +10,7 @@
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
   "engines": {
-    "vscode": "^1.82.0"
+    "vscode": "^1.120.0"
   },
   "categories": [
     "Programming Languages",
@@ -240,7 +240,7 @@
   },
   "devDependencies": {
     "@types/node": "25.9.1",
-    "@types/vscode": "1.82.0",
+    "@types/vscode": "1.120.0",
     "@vscode/test-electron": "2.5.2",
     "@vscode/vsce": "3.9.1",
     "esbuild": "0.28.0",
