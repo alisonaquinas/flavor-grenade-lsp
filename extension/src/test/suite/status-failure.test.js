@@ -48,7 +48,7 @@ module.exports = {
         assert.match(indexing.tooltip, /Documents: 7/);
 
         const ready = api.__testApplyStatus({ state: 'ready', vaultCount: 1, docCount: 3 });
-        assert.equal(ready.text, '$(check) FG: 3 docs');
+        assert.equal(ready.text, '$(check) FG: Ready');
         assert.match(ready.tooltip, /State: ready/);
 
         const error = api.__testApplyStatus({

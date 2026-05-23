@@ -46,8 +46,14 @@ function controllerFor(options: {
     memberships?: Record<string, boolean>;
     failMembership?: boolean;
     setLanguage?: (document: FakeDocument, languageId: string) => Promise<FakeDocument>;
-}): { controller: LanguageModeController; requests: unknown[]; promoted: string[] } {
+}): {
+    controller: LanguageModeController;
+    notifications: unknown[];
+    promoted: string[];
+    requests: unknown[];
+} {
     const requests: unknown[] = [];
+    const notifications: unknown[] = [];
     const promoted: string[] = [];
 
     const controller = new LanguageModeController(
@@ -64,6 +70,9 @@ function controllerFor(options: {
                     indexed: membership,
                     reason: membership ? 'flavor-config-vault' : 'not-indexed',
                 }) as never;
+            },
+            sendNotification: (method, params) => {
+                notifications.push({ method, params });
             },
         },
         {
@@ -84,7 +93,7 @@ function controllerFor(options: {
         },
     );
 
-    return { controller, requests, promoted };
+    return { controller, requests, promoted, notifications };
 }
 
 describe('language mode helpers', () => {
@@ -170,6 +179,37 @@ describe('language mode helpers', () => {
         const note = join(root, 'notes', 'welcome.md');
 
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
+    });
+
+    it('uses project flavor config as local effective flavor evidence', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, 'notes'));
+        await writeFile(join(root, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+        const doc = document(join(root, 'notes', 'welcome.md'));
+        const { controller, notifications } = controllerFor({ documents: [doc] });
+
+        await controller.maybePromote(doc as never);
+
+        assert.deepEqual(notifications, [
+            {
+                method: 'workspace/didChangeConfiguration',
+                params: {
+                    settings: {
+                        flavorGrenade: {
+                            markdownFlavor: 'auto',
+                            markdownFlavorResources: {
+                                [doc.uri.toString()]: {
+                                    selected: 'auto',
+                                    effective: 'gfm',
+                                    source: 'project-toml',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        ]);
     });
 });
 

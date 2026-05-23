@@ -43,7 +43,7 @@ describe('formatFlavorGrenadeStatus', () => {
         docCount: 5,
       }),
       {
-        text: '$(check) FG: 5 docs',
+        text: '$(check) FG: Ready',
         tooltip: 'Flavor Grenade: Ready — 5 docs in 1 vaults',
       },
     );
@@ -90,7 +90,7 @@ describe('formatFlavorGrenadeStatus', () => {
       serverPathSummary: 'bundled server',
     });
 
-    assert.equal(presentation.text, '$(check) FG: 17 docs');
+    assert.equal(presentation.text, '$(check) FG: Ready');
     assert.match(presentation.tooltip, /State: ready/);
     assert.match(presentation.tooltip, /Extension: 0\.1\.3/);
     assert.match(presentation.tooltip, /Server: 0\.2\.1/);

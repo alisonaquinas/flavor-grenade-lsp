@@ -1,6 +1,11 @@
 import { type StatusBarItem, StatusBarAlignment, window } from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
 import { formatFlavorGrenadeStatus, type FlavorGrenadeStatus } from './status-presentation.js';
+import {
+    MARKDOWN_FLAVOR_COMMAND,
+    formatMarkdownFlavorStatus,
+    type MarkdownFlavorResolution,
+} from './markdown-flavor.js';
 
 interface StatusNotificationOptions {
     onStatus?(status: FlavorGrenadeStatus): void;
@@ -33,6 +38,30 @@ export function createFlavorGrenadeStatusBar(): StatusBarItem {
     item.name = 'Flavor Grenade';
     item.command = 'flavorGrenade.showStatusActions';
     item.text = '$(loading~spin) FG: Starting...';
+    item.show();
+
+    return item;
+}
+
+export function applyMarkdownFlavorStatus(
+    item: Pick<StatusBarItem, 'text' | 'tooltip'>,
+    resolution?: MarkdownFlavorResolution,
+): void {
+    const presentation = formatMarkdownFlavorStatus(resolution);
+    item.text = presentation.text;
+    item.tooltip = presentation.tooltip;
+}
+
+export function createMarkdownFlavorStatusBar(): StatusBarItem {
+    const item = window.createStatusBarItem(
+        'flavorGrenade.markdownFlavor',
+        StatusBarAlignment.Left,
+        -2,
+    );
+
+    item.name = 'Flavor Grenade Markdown Flavor';
+    item.command = MARKDOWN_FLAVOR_COMMAND;
+    applyMarkdownFlavorStatus(item);
     item.show();
 
     return item;

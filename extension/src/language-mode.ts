@@ -1,11 +1,12 @@
-import { dirname, join } from 'node:path';
 import { stat } from 'node:fs/promises';
 import type { Disposable, TextDocument, TextEditor } from 'vscode';
 import {
     buildMarkdownFlavorConfigurationNotification,
     resolveMarkdownFlavor,
     type MarkdownFlavorSelection,
+    type MarkdownFlavorResolution,
 } from './markdown-flavor.js';
+import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const OFMARKDOWN_LANGUAGE_ID = 'ofmarkdown';
@@ -58,22 +59,8 @@ export async function hasOfMarkdownMarkerAncestor(
     filePath: string,
     statFn: StatFn = stat,
 ): Promise<boolean> {
-    let current = dirname(filePath);
-
-    while (true) {
-        if (
-            await markerExists(join(current, '.obsidian'), 'directory', statFn) ||
-            await markerExists(join(current, '.flavor-grenade.toml'), 'file', statFn)
-        ) {
-            return true;
-        }
-
-        const parent = dirname(current);
-        if (parent === current) {
-            return false;
-        }
-        current = parent;
-    }
+    const evidence = await findMarkdownFlavorEvidence(filePath, { statFn });
+    return evidence.hasObsidianMarker || evidence.hasFlavorConfigMarker;
 }
 
 export const hasObsidianAncestor = hasOfMarkdownMarkerAncestor;
@@ -136,26 +123,46 @@ export class LanguageModeController {
     }
 
     private async applyMembershipFlavor(document: TextDocument): Promise<void> {
-        const hasMarker = document.uri.fsPath
-            ? await hasOfMarkdownMarkerAncestor(document.uri.fsPath)
-            : false;
+        const resolution = await this.resolveMarkdownFlavorForDocument(document);
+        this.notifyFlavor(document, resolution);
+    }
 
-        if (hasMarker) {
-            this.notifyFlavor(document, true);
-            return;
+    async resolveMarkdownFlavorForDocument(document: TextDocument): Promise<MarkdownFlavorResolution> {
+        const selected = this.api.getMarkdownFlavorSelection?.(document) ?? 'auto';
+        if (!isManagedFileDocument(document)) {
+            return resolveMarkdownFlavor({ document, selected });
+        }
+
+        const evidence = document.uri.fsPath
+            ? await findMarkdownFlavorEvidence(document.uri.fsPath)
+            : undefined;
+        if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {
+            return resolveMarkdownFlavor({
+                document,
+                hasObsidianMarker: evidence.hasObsidianMarker,
+                projectFlavor: evidence.projectFlavor,
+                selected,
+            });
         }
 
         const serverMembership = await this.getServerOfMarkdownMembership(document);
-        this.notifyFlavor(document, serverMembership === true);
+        return resolveMarkdownFlavor({
+            document,
+            hasObsidianMarker: serverMembership?.reason === 'obsidian-vault',
+            projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
+            selected,
+        });
     }
 
-    private async getServerOfMarkdownMembership(document: TextDocument): Promise<boolean | undefined> {
+    private async getServerOfMarkdownMembership(
+        document: TextDocument,
+    ): Promise<DocumentMembershipResult | undefined> {
         try {
             const result = await this.client.sendRequest<DocumentMembershipResult>(
                 DOCUMENT_MEMBERSHIP_METHOD,
                 { uri: document.uri.toString() },
             );
-            return result.isOfMarkdown;
+            return result;
         } catch {
             return undefined;
         }
@@ -165,17 +172,11 @@ export class LanguageModeController {
         return this.api.getOpenDocuments().find((document) => document.uri.toString() === uri);
     }
 
-    private notifyFlavor(document: TextDocument, hasObsidianMarker: boolean): void {
+    private notifyFlavor(document: TextDocument, resolution: MarkdownFlavorResolution): void {
         if (!this.client.sendNotification) {
             return;
         }
 
-        const resolution = resolveMarkdownFlavor({
-            document,
-            hasObsidianMarker,
-            projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
-            selected: this.api.getMarkdownFlavorSelection?.(document) ?? 'auto',
-        });
         const notification = buildMarkdownFlavorConfigurationNotification({
             states: [{ document, resolution }],
         });
@@ -196,17 +197,4 @@ export class LanguageModeController {
 
 function isManagedFileDocument(document: Pick<TextDocument, 'languageId' | 'uri'>): boolean {
     return document.uri.scheme === 'file' && document.languageId === MARKDOWN_LANGUAGE_ID;
-}
-
-async function markerExists(
-    markerPath: string,
-    expectedKind: 'directory' | 'file',
-    statFn: StatFn,
-): Promise<boolean> {
-    try {
-        const marker = await statFn(markerPath);
-        return expectedKind === 'directory' ? marker.isDirectory() : marker.isFile();
-    } catch {
-        return false;
-    }
 }

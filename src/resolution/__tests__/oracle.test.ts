@@ -87,6 +87,91 @@ describe('Oracle', () => {
     });
   });
 
+  describe('Obsidian-style target normalization and fuzzy paths', () => {
+    it('normalizes backslashes and trailing .md before matching', () => {
+      vaultIndex.set(id('notes/alpha'), makeDoc('file:///vault/notes/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('notes\\alpha.md');
+      expect(result.kind).toBe('resolved');
+      if (result.kind === 'resolved') {
+        expect(result.targetDocId).toBe('notes/alpha');
+      }
+    });
+
+    it('resolves exact DocId paths case-insensitively', () => {
+      vaultIndex.set(id('notes/Other'), makeDoc('file:///vault/notes/Other.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('NOTES/other');
+      expect(result.kind).toBe('resolved');
+      if (result.kind === 'resolved') {
+        expect(result.targetDocId).toBe('notes/Other');
+      }
+    });
+
+    it('resolves path-like targets by suffix on path boundaries', () => {
+      vaultIndex.set(id('wiki/sources/foo'), makeDoc('file:///vault/wiki/sources/foo.md'));
+      vaultIndex.set(
+        id('raw/upnote/Some Note'),
+        makeDoc('file:///vault/raw/upnote/Some%20Note.md'),
+      );
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('sources/foo');
+      expect(result.kind).toBe('resolved');
+      if (result.kind === 'resolved') {
+        expect(result.targetDocId).toBe('wiki/sources/foo');
+      }
+    });
+
+    it('resolves path-suffix targets case-insensitively', () => {
+      vaultIndex.set(id('wiki/sources/foo'), makeDoc('file:///vault/wiki/sources/foo.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('Sources/FOO');
+      expect(result.kind).toBe('resolved');
+      if (result.kind === 'resolved') {
+        expect(result.targetDocId).toBe('wiki/sources/foo');
+      }
+    });
+
+    it('does not match partial path components during suffix resolution', () => {
+      vaultIndex.set(id('super-sources/foo'), makeDoc('file:///vault/super-sources/foo.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('sources/foo');
+      expect(result.kind).toBe('broken');
+      if (result.kind === 'broken') {
+        expect(result.diagnosticCode).toBe('FG001');
+      }
+    });
+
+    it('returns FG002 when path-suffix resolution has multiple candidates', () => {
+      vaultIndex.set(id('wiki/sources/foo'), makeDoc('file:///vault/wiki/sources/foo.md'));
+      vaultIndex.set(id('other/sources/foo'), makeDoc('file:///vault/other/sources/foo.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('sources/foo');
+      expect(result.kind).toBe('ambiguous');
+      if (result.kind === 'ambiguous') {
+        expect(result.diagnosticCode).toBe('FG002');
+        expect(result.candidates).toEqual(['wiki/sources/foo', 'other/sources/foo']);
+      }
+    });
+
+    it('resolves bare stems case-insensitively', () => {
+      vaultIndex.set(id('wiki/Foo'), makeDoc('file:///vault/wiki/Foo.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const result = oracle.resolve('foo');
+      expect(result.kind).toBe('resolved');
+      if (result.kind === 'resolved') {
+        expect(result.targetDocId).toBe('wiki/Foo');
+      }
+    });
+  });
+
   describe('alias match', () => {
     it('resolves a target that matches a frontmatter alias (case-insensitive)', () => {
       vaultIndex.set(id('beta'), makeDoc('file:///vault/beta.md', ['The Beta']));
