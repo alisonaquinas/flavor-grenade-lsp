@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import * as path from 'path';
 import type { MarkdownFlavorSelection } from './markdown-flavor-contract.js';
 import { isMarkdownFlavorSelection } from './markdown-flavor-state.js';
-import { confineExistingPathToVaultRoot } from '../vault/vault-path-confinement.js';
+import {
+  confineExistingPathToVaultRoot,
+  resolveVaultRelativePath,
+} from '../vault/vault-path-confinement.js';
 
 const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
@@ -15,14 +17,15 @@ export class ProjectMarkdownFlavorConfig {
       return undefined;
     }
 
-    const configPath = confineExistingPathToVaultRoot(
-      vaultRoot,
-      path.join(vaultRoot, PROJECT_CONFIG_FILE),
-    );
-    if (configPath === null) {
+    const candidateConfigPath = resolveVaultRelativePath(vaultRoot, PROJECT_CONFIG_FILE);
+    if (candidateConfigPath === null) {
       return undefined;
     }
 
+    const configPath = confineExistingPathToVaultRoot(vaultRoot, candidateConfigPath);
+    if (configPath === null) {
+      return undefined;
+    }
     const content = this.readConfig(configPath);
     if (content === null || hasDangerousTomlKey(content)) {
       return undefined;

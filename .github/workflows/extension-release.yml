@@ -5,6 +5,9 @@ on:
     tags:
       - 'ext-v*'
 
+permissions:
+  contents: read
+
 jobs:
   release-gate:
     name: Extension Release Gates

@@ -5,21 +5,29 @@ updates:
     target-branch: 'develop'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: 'npm'
     directory: '/extension'
     target-branch: 'develop'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: 'npm'
     directory: '/website'
     target-branch: 'develop'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     target-branch: 'develop'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7

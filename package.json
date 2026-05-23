@@ -58,6 +58,7 @@
     "@typescript-eslint/parser": "8.58.2",
     "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-security": "4.0.0",
     "lefthook": "2.1.6",
     "markdownlint-obsidian-cli": "1.1.0",
     "prettier": "3.8.3",

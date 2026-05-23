@@ -4,14 +4,23 @@ import { existsSync, readFileSync } from 'node:fs';
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
 const codeqlWorkflow = readFileSync('.github/workflows/codeql.yml', 'utf8');
 const codeqlConfig = readFileSync('.github/codeql/codeql-config.yml', 'utf8');
+const dependabotConfig = readFileSync('.github/dependabot.yml', 'utf8');
+const gitleaksConfig = readFileSync('.gitleaks.toml', 'utf8');
+const securitySastWorkflow = readFileSync('.github/workflows/security-sast.yml', 'utf8');
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
 const websitePagesWorkflow = readFileSync('.github/workflows/website-pages.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
+  devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
 };
+const rootEslintConfig = readFileSync('eslint.config.js', 'utf8');
 const extensionPackage = JSON.parse(readFileSync('extension/package.json', 'utf8')) as {
   scripts?: Record<string, string>;
 };
+const websitePackage = JSON.parse(readFileSync('website/package.json', 'utf8')) as {
+  devDependencies?: Record<string, string>;
+};
+const websiteEslintConfig = readFileSync('website/eslint.config.js', 'utf8');
 const cucumberConfig = readFileSync('cucumber.yaml', 'utf8');
 const rootVerificationSpec = readFileSync('docs/test/markdown-flavor-verification-spec.md', 'utf8');
 const extensionVerificationSpec = readFileSync(
@@ -67,6 +76,9 @@ describe('CI workflow verification battery', () => {
     expect(codeqlWorkflow).toContain('language: actions');
     expect(codeqlWorkflow).toContain('language: javascript-typescript');
     expect(codeqlWorkflow).toContain('config-file: ./.github/codeql/codeql-config.yml');
+    expect(codeqlWorkflow).toContain('Gate CodeQL alerts');
+    expect(codeqlWorkflow).toContain('code-scanning/alerts?state=open&tool_name=CodeQL');
+    expect(codeqlWorkflow).toContain('permissions:\n  contents: read');
 
     expect(codeqlConfig).toContain('disable-default-queries: false');
     expect(codeqlConfig).toContain('uses: security-and-quality');
@@ -82,6 +94,43 @@ describe('CI workflow verification battery', () => {
     ]) {
       expect(codeqlConfig).toContain(ignoredPath);
     }
+  });
+
+  test('runs layered free SAST and supply-chain scanners', () => {
+    for (const scanner of ['Semgrep CE', 'GitHub Actions security', 'Gitleaks', 'OSV-Scanner']) {
+      expect(securitySastWorkflow).toContain(scanner);
+    }
+
+    for (const command of [
+      'semgrep==1.163.0',
+      '--config p/default',
+      '--config p/javascript',
+      'actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz',
+      'zizmor==1.25.2',
+      '--persona=auditor --min-severity=medium --min-confidence=medium',
+      'gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz',
+      './gitleaks dir .',
+      '--config .gitleaks.toml',
+      'osv-scanner/releases/download/v${OSV_SCANNER_VERSION}/osv-scanner_linux_amd64',
+      './osv-scanner scan',
+      '--lockfile bun.lock',
+      '--lockfile extension/package-lock.json',
+      '--lockfile website/package-lock.json',
+      'github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13',
+    ]) {
+      expect(securitySastWorkflow).toContain(command);
+    }
+
+    expect(dependabotConfig.match(/cooldown:/g)?.length).toBe(4);
+    expect(dependabotConfig.match(/default-days: 7/g)?.length).toBe(4);
+
+    expect(rootPackage.devDependencies?.['eslint-plugin-security']).toBe('4.0.0');
+    expect(websitePackage.devDependencies?.['eslint-plugin-security']).toBe('4.0.0');
+    expect(rootEslintConfig).toContain('security/detect-child-process');
+    expect(websiteEslintConfig).toContain('security/detect-child-process');
+    expect(gitleaksConfig).toContain('useDefault = true');
+    expect(gitleaksConfig).toContain("'''(^|/)node_modules/'''");
+    expect(gitleaksConfig).toContain('5-key, 3-scenario-per-key coverage');
   });
 
   test('lints every docs root with exact OFM docs globs', () => {

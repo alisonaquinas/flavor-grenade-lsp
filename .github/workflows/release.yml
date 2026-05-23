@@ -6,6 +6,9 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
       - 'v*.*.*-test*'
 
+permissions:
+  contents: read
+
 jobs:
   build-binaries:
     name: Build binary (${{ matrix.target }})

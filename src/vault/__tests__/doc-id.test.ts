@@ -64,4 +64,14 @@ describe('fromDocId', () => {
     const recovered = fromDocId(root, id);
     expect(recovered).toBe(path.normalize(original));
   });
+
+  it('returns a validated relative suffix when vault root is empty', () => {
+    const result = fromDocId('', 'notes/MyNote' as DocId);
+
+    expect(result).toBe(path.normalize('notes/MyNote.md'));
+  });
+
+  it('rejects relative suffix DocIds that traverse upward', () => {
+    expect(() => fromDocId('', '../secret' as DocId)).toThrow('DocId escapes vault root');
+  });
 });

@@ -5,6 +5,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { FileOperationPlanner } from '../file-operation-planner.js';
 import { VaultIndex } from '../vault-index.js';
+import { resolveVaultRelativePath } from '../vault-path-confinement.js';
 import type { DocId } from '../doc-id.js';
 import type { OFMDoc, OFMIndex } from '../../parser/types.js';
 
@@ -13,7 +14,11 @@ function id(value: string): DocId {
 }
 
 function uriFor(vaultRoot: string, relPath: string): string {
-  return pathToFileURL(path.join(vaultRoot, relPath)).toString();
+  const filePath = resolveVaultRelativePath(vaultRoot, relPath);
+  if (filePath === null) {
+    throw new Error(`Invalid vault-relative test path: ${relPath}`);
+  }
+  return pathToFileURL(filePath).toString();
 }
 
 function makeIndex(): OFMIndex {

@@ -1,0 +1,26 @@
+title = "Flavor Grenade Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated dependencies and build artifacts are scanned by dependency tooling, not secret scanning."
+paths = [
+  '''(^|/)node_modules/''',
+  '''^coverage/''',
+  '''^dist/''',
+  '''^extension/\.vscode-test/''',
+  '''^extension/dist/''',
+  '''^extension/node_modules/''',
+  '''^extension/server/''',
+  '''^website/\.svelte-kit/''',
+  '''^website/dist/''',
+  '''^website/node_modules/''',
+]
+
+[[allowlists]]
+description = "Documentation phrase about configuration key coverage is not a secret."
+regexTarget = "line"
+regexes = [
+  '''5-key, 3-scenario-per-key coverage''',
+]
