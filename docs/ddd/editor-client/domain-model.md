@@ -46,7 +46,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol
 2. Construct and start a `LanguageClient` with `Executable` server options over stdio.
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
-5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending a `MarkdownFlavorSelection` to the server.
+5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending `MarkdownFlavorSelection` and `StructuredProfileSelection` inputs to the server.
 6. Push all disposables to `context.subscriptions` for automatic cleanup.
 
 ### Lifecycle
@@ -210,14 +210,21 @@ Obsidian hint when either:
 2. The server returns `isOfMarkdown: true` from `flavorGrenade/documentMembership`.
 
 Without a vault/config signal, the selector remains `auto`. BC4 resolves that
-selector to the authoritative `EffectiveMarkdownFlavor`, commonly
-`commonmark` for generic Markdown. The full precedence algorithm is specified
-in [[docs/design/markdown-flavor-auto-detection]].
+selector to the authoritative `EffectiveMarkdownContext`, commonly base
+`commonmark` with no structured profiles for generic Markdown. The full
+precedence algorithm is specified in
+[[docs/design/markdown-flavor-auto-detection]].
 
 **Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor`
 to any supported Markdown flavor id. Folder-backed documents write the override
 to the owning workspace folder or workspace setting. Standalone files write the
 override to the user setting.
+
+**Structured profile rule:** structured-document support is configured through
+`flavorGrenade.markdownStructuredProfiles`, not the Markdown flavor selector.
+The extension may send `"auto"`, `"none"`, or a compatible explicit list of
+`keep-a-changelog`, `common-changelog`, and `madr`; BC4 remains authoritative
+for the effective structured profile flags.
 
 **Safety rules:**
 
@@ -225,8 +232,9 @@ override to the user setting.
 - Do not use VS Code language mode as flavor state.
 - Do not restart the LanguageClient solely because the selector changed.
 - Propagate selector changes through `workspace/didChangeConfiguration` with
-  `flavorGrenade.markdownFlavor`; the server resolves the authoritative
-  `EffectiveMarkdownFlavor`.
+  `flavorGrenade.markdownFlavor` and
+  `flavorGrenade.markdownStructuredProfiles`; the server resolves the
+  authoritative `EffectiveMarkdownContext`.
 - If a document language id is `mdx`, `r`, `quarto`, or any non-`markdown`
   language id, the selector is disabled for that editor. Dedicated language
   tooling may own that editor experience.
@@ -253,7 +261,26 @@ type MarkdownFlavor =
   | 'stack-overflow';
 ```
 
-`MarkdownFlavorSelection` is not a VS Code language id and is not server-authoritative effective state. The normal language id remains `markdown`; flavor selection tells Flavor Grenade which profile input to send to BC4. The server then resolves an explicit `EffectiveMarkdownFlavor`.
+`MarkdownFlavorSelection` is not a VS Code language id and is not
+server-authoritative effective state. The normal language id remains
+`markdown`; flavor selection tells Flavor Grenade which base profile input to
+send to BC4. The server then resolves an explicit `EffectiveMarkdownContext`.
+
+### StructuredProfileSelection
+
+The optional selector state for changelog and MADR structure layered over the
+base Markdown flavor.
+
+```typescript
+type StructuredProfileSelection =
+  | 'auto'
+  | 'none'
+  | readonly ('keep-a-changelog' | 'common-changelog' | 'madr')[]
+```
+
+Structured profile ids are not shown in the Markdown flavor selector. They are
+separate flags that can be inferred from `CHANGELOG.md` and
+`docs/decisions/NNNN-title.md` documents or explicitly configured.
 
 ---
 
@@ -349,7 +376,7 @@ server command as a child process and communicates via stdin/stdout pipes.
 
 4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
 
-5. **Markdown flavor selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns effective flavor state after receiving the selector.
+5. **Markdown flavor and structured-profile selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns `EffectiveMarkdownContext` state after receiving selector inputs.
 
 6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.
 

@@ -15,7 +15,7 @@ aliases:
 
 This document is the authoritative domain model for **Bounded Context 2: Document Lifecycle**. BC2 is a Supporting subdomain that owns the in-memory representation of a single Markdown document: its text, parsed structure (CST + AST), derived index, and the parse context supplied by BC4.
 
-BC2 is the workhorse that all other BCs depend on. BC3 reads `MarkdownIndex` projections to extract refs and defs. BC4 stores `MarkdownDoc` collections and owns the `EffectiveMarkdownFlavor` supplied to parsing. BC5 dispatches LSP notifications to BC4; it does not choose parser behavior.
+BC2 is the workhorse that all other BCs depend on. BC3 reads `MarkdownIndex` projections to extract refs and defs. BC4 stores `MarkdownDoc` collections and owns the `EffectiveMarkdownContext` supplied to parsing. BC5 dispatches LSP notifications to BC4; it does not choose parser behavior.
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/reference-resolution/domain-model]], [[docs/ddd/vault/domain-model]].
 
@@ -26,7 +26,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/reference-re
 
 ## Aggregate: MarkdownDoc
 
-`MarkdownDoc` is the primary aggregate. Its identity is `DocId`. Its state is `(text, structure, index, parseContext)`, which is always consistent — never partially stale. Every text or effective-flavor change triggers a complete, synchronous re-parse.
+`MarkdownDoc` is the primary aggregate. Its identity is `DocId`. Its state is `(text, structure, index, parseContext)`, which is always consistent — never partially stale. Every text or effective-context change triggers a complete, synchronous re-parse.
 
 `OFMDoc` remains the current implementation/historical name for the Obsidian-compatible `MarkdownDoc`. New dialect work should use `MarkdownDoc` and `MarkdownIndex` in docs and public concepts, reserving `OFM*` names for current code or Obsidian-specific behavior.
 
@@ -38,7 +38,7 @@ MarkdownDoc
 ├── text:      string                   — raw UTF-8 document text
 ├── structure: Structure                — parsed CST + AST (derived from text + context)
 ├── index:     MarkdownIndex            — typed element collections / projections
-├── context:   ParseContext             — includes EffectiveMarkdownFlavor
+├── context:   ParseContext             — includes EffectiveMarkdownContext
 └── version:   number | null            — null = disk; n = editor-open version n
 ```
 
@@ -59,7 +59,7 @@ MarkdownDoc
                      │  index: MarkdownIndex ◄ rebuilt with text/context │
                      │                                                    │
                      │  context: ParseContext                            │
-                     │    EffectiveMarkdownFlavor supplied by BC4         │
+                     │    EffectiveMarkdownContext supplied by BC4        │
                      │                                                    │
                      │  version: number | null                             │
                      │    null  = disk state                              │
@@ -82,8 +82,8 @@ MarkdownDoc
 | I4 | `version` is monotonically increasing during an editor session. Applying a change with a lower version number than the current is a protocol error and is rejected. |
 | I5 | `index.frontmatter` is `null` iff no valid YAML frontmatter block is present. Malformed YAML produces a `null` frontmatter (parse error is logged but not thrown). |
 | I6 | Flavor-gated index collections such as `index.obsidian.wikiLinks` and `index.obsidian.embedLinks` contain nodes in source order (ascending by start position). Current `OFMIndex` exposes these as top-level fields. |
-| I7 | `context.effectiveMarkdownFlavor` is always explicit, never `auto`. BC4 computes it before BC2 parses. |
-| I8 | If only `EffectiveMarkdownFlavor` changes, the document must be re-parsed or re-projected so `MarkdownIndex` reflects the new dialect profile. |
+| I7 | `context.effectiveMarkdownFlavor` is always explicit, never `auto`; `context.structuredProfiles` is always a validated, compatible list. BC4 computes both before BC2 parses. |
+| I8 | If only `EffectiveMarkdownContext` changes, the document must be re-parsed or re-projected so `MarkdownIndex` reflects the new dialect profile and structured profile flags. |
 
 ---
 
@@ -106,11 +106,12 @@ interface ParseContext {
   docId: DocId
   effectiveMarkdownFlavor: MarkdownFlavorId
   profile: MarkdownFlavorProfile
+  structuredProfiles: readonly StructuredMarkdownProfileId[]
   source: 'disk' | 'lsp'
 }
 ```
 
-BC4 creates `ParseContext` from `EffectiveMarkdownFlavor`. BC2 must not read VS Code settings, TOML, vault markers, or `MarkdownFlavorSelection` directly.
+BC4 creates `ParseContext` from `EffectiveMarkdownContext`. BC2 must not read VS Code settings, TOML, vault markers, `MarkdownFlavorSelection`, or structured-profile selector inputs directly.
 
 > [!NOTE]
 > `applyLspChange` validates that `params.textDocument.version > doc.version` before applying. If the new version is not greater, the command logs a warning and returns the original `MarkdownDoc` unchanged. This protects against out-of-order LSP notifications.
@@ -299,7 +300,7 @@ Host-specific nodes remain syntax/index data. BC2 must not decide that a GitHub 
 | Event | Payload | Emitted By |
 |-------|---------|-----------|
 | `DocumentTextChanged` | `{ id: DocId; oldVersion: number \| null; newVersion: number }` | `withText`, `applyLspChange` |
-| `DocumentOpened` | `{ id: DocId; version: number; source: 'lsp' \| 'disk'; effectiveMarkdownFlavor: MarkdownFlavorId }` | `fromLsp`, `tryLoad` |
+| `DocumentOpened` | `{ id: DocId; version: number; source: 'lsp' \| 'disk'; effectiveMarkdownContext: EffectiveMarkdownContext }` | `fromLsp`, `tryLoad` |
 | `DocumentClosed` | `{ id: DocId }` | Called by BC4 when editor closes the document |
 | `DocumentFlavorChanged` | `{ id: DocId; oldFlavor: MarkdownFlavorId; newFlavor: MarkdownFlavorId }` | `withText` when only parse context changes |
 

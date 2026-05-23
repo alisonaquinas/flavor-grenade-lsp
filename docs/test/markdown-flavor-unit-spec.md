@@ -48,6 +48,10 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-022 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Stack Overflow Markdown analysis supports tag links, spoilers, syntax highlighting hints, code fence behavior, GFM-style tables, and post-surface constraints. |
 | MF-U-023 | planned syntax-inference classifier unit | `Extension.MarkdownFlavor.AutoDetection`, `Security.Parser.FlavorProfileResourceSafety` | TOML-absent documents with strong local syntax infer `mdx`, `r-markdown`, `stack-overflow`, `reddit`, `glfm`, `pandoc`, `multimarkdown`, `kramdown`, or `markdown-extra`; weak/shared syntax such as GFM tables/tasks/strikethrough does not infer a flavor by itself; Original Markdown is never inferred from absence of extensions. |
 | MF-U-024 | planned marker-boundary unit | `Extension.MarkdownFlavor.AutoDetection`, `Security.Vault.ProjectConfigConfinement` | Marker and context search stops at the active workspace/vault boundary, so fixture roots or nested workspaces do not inherit `.flavor-grenade.toml` from ancestor directories outside that boundary. |
+| MF-U-025 | planned structured-profile contract unit | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration` | `keep-a-changelog`, `common-changelog`, and `madr` exist only as `StructuredMarkdownProfileId` values; they are absent from `MarkdownFlavorId`, selector ids, and package flavor enum; TOML/VS Code settings accept `auto`, `none`, and explicit arrays while rejecting unknown ids and duplicate/incompatible changelog flags. |
+| MF-U-026 | planned structured-profile inference unit | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownFlavor.AutoDetection` | Filename/folder/content inference detects Keep a Changelog, Common Changelog, and MADR from strong local evidence; weak headings fall back to no structured profile; structured profile inference respects the active workspace boundary and can combine with every base Markdown flavor. |
+| MF-U-027 | `extension/src/markdown-flavor-evidence.test.ts` | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration`, `Extension.MarkdownFlavor.AutoDetection` | Every configured and TOML-absent inference smoke-test workspace contains Keep a Changelog, Common Changelog, and MADR structured examples under the expected `structured/` paths; each example remains colocated with its base flavor or inference evidence. |
+| MF-U-028 | planned structured-profile surface units | `FlavorLSP.StructuredProfiles.Flags`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.Hover.ProfileMetadata`, `FlavorLSP.SemanticTokens.ProfileTokens` | Structured profile fixtures drive diagnostics, document symbols, folding ranges, hover metadata, completion snippets, semantic tokens, and negative cases for inactive or incompatible changelog/MADR structures without changing base flavor tokenization. |
 
 ## Per-LSP-Surface Fixture Expectations
 
@@ -68,6 +72,7 @@ deferred lookup or product limitation in validation evidence.
 | MF-HOST-001 | `FlavorLSP.HostBoundary.NonLocalReferences`, `Security.Vault.PathConfinement` | Per-platform/conversion fixtures prove host references, conversion directives, JSX/ESM, and executable chunks are never treated as local vault edits, local definitions, or broken vault diagnostics and never trigger network access, process execution, dynamic imports, or out-of-root file reads without configured integration context. |
 | MF-SEC-001 | `Security.Parser.FlavorProfileResourceSafety` | Pathological fixtures for long delimiters, nested constructs, unterminated syntax, large tables/lists/chunks/citations, and unsafe-regex review for every dialect parser change. |
 | MF-SEC-002 | `Security.Input.ProjectConfigTOMLSafety`, `Security.Vault.ProjectConfigConfinement` | Oversized, invalid, dangerous-key, symlinked, and out-of-root `.flavor-grenade.toml` fixtures are treated as absent configuration without logging content or mutating prior flavor state. |
+| MF-SP-001 | `FlavorLSP.StructuredProfiles.Flags`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.Hover.ProfileMetadata`, `FlavorLSP.SemanticTokens.ProfileTokens` | Keep a Changelog, Common Changelog, and MADR fixtures declare expected structured diagnostics, section symbols, folds, hover profile labels, profile-specific completions, semantic tokens, and negative checks for weak evidence or incompatible changelog variants. |
 
 Minimum fixture families:
 
@@ -194,6 +199,11 @@ ancestor or nested child fixture has `.flavor-grenade.toml`.
 - Auto-detection precedence and invalid configured flavor fallback are covered.
 - TOML-absent syntax/context inference, ambiguity fallback, and boundary
   confinement are covered.
+- Structured profile flags for Keep a Changelog, Common Changelog, and MADR
+  are covered without expanding `MarkdownFlavorId`.
+- Every configured and TOML-absent inference smoke-test workspace has fixture
+  inventory coverage for Keep a Changelog, Common Changelog, and MADR
+  structured examples.
 - Client/server enum drift fails a unit contract test.
 - Unit evidence exists before integration or E2E tests rely on the flavor model.
 - Each Phase 22-34 dialect has a concrete parser/analysis unit spec ID.
