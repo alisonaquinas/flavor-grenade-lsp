@@ -402,7 +402,7 @@ ConfigModule
   └── FlavorConfigService    — thin wrapper; exposes getConfig(root?) for consumers
 
 Consumers:
-  VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownFlavor
+  VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownContext
   LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode); validates didChangeConfiguration payloads
   ReferenceModule ← (indirectly via VaultFolder config)
   DocumentModule ← (indirectly via BC4 ParseContext)

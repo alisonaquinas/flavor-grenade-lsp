@@ -50,3 +50,14 @@ Feature: VS Code extension parity
     Then the README includes screenshots or images for Markdown flavor behavior
     And the README includes screenshots or images for wiki-link completion
     And the README includes screenshots or images for status bar indexing
+
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  Scenario: Structured profile settings are separate from Markdown flavor selector UI
+    Given a Markdown document is active with language id "markdown"
+    When the user opens the Markdown flavor selector
+    Then the selector does not include id "keep-a-changelog"
+    And the selector does not include id "common-changelog"
+    And the selector does not include id "madr"
+    When "flavorGrenade.markdownStructuredProfiles" is set to "madr"
+    Then the extension sends structured profile "madr" to the server with the active resource
+    And the document language id remains "markdown"

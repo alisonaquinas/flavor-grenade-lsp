@@ -101,6 +101,50 @@ Feature: Markdown flavor dialect behavior
       | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
       | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |
 
+  @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
+  Scenario Outline: Structured profiles layer over any base Markdown flavor
+    Given "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
+    And the document path is "<path>"
+    And the document contains:
+      """
+      <markdown>
+      """
+    When Flavor Grenade analyzes the document
+    Then the effective Markdown flavor is "<baseFlavor>"
+    And the effective structured profile flags include "<profile>"
+    And "<profile>" is not treated as a Markdown flavor id
+    And the document language id remains "markdown"
+
+    Examples:
+      | baseFlavor | profile            | path                                      | markdown                                                                 |
+      | commonmark | keep-a-changelog   | CHANGELOG.md                              | # Changelog\n\n## [Unreleased]\n\n### Added\n\n- Added profile evidence. |
+      | gfm        | common-changelog   | CHANGELOG.md                              | # Changelog\n\n## 1.0.0 - 2026-05-23\n\n### Added\n\n- Added release note ([#1]). |
+      | obsidian   | madr               | docs/decisions/0001-use-structured.md     | # 1. Use structured profiles\n\n## Context and Problem Statement\n\nText.\n\n## Decision Outcome\n\nChosen option. |
+      | pandoc     | keep-a-changelog   | structured/keep-a-changelog/CHANGELOG.md | # Changelog\n\n## [Unreleased]\n\n### Security\n\n- Added security note. |
+
+  @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
+  @req:FlavorLSP.Diagnostics.ProfileRules @req:FlavorLSP.Completion.ProfileCandidates
+  @req:FlavorLSP.Navigation.ProfileResolution @req:FlavorLSP.Hover.ProfileMetadata
+  @req:FlavorLSP.SemanticTokens.ProfileTokens @req:FlavorLSP.Rename.ProfileSafety
+  Scenario Outline: Structured profiles define document-structure LSP behavior
+    Given "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
+    And the effective structured profile flags include "<profile>"
+    And the document contains "<sample>"
+    When Flavor Grenade analyzes the document
+    Then diagnostics include "<diagnostics>"
+    And completions include "<completion>"
+    And navigation resolves "<navigation>"
+    And hover explains "<hover>"
+    And semantic tokens mark "<tokens>"
+    And rename is limited to "<rename>"
+    And base Markdown syntax is still governed by "<baseFlavor>"
+
+    Examples:
+      | baseFlavor | profile          | sample                          | diagnostics                       | completion                  | navigation                  | hover                         | tokens                       | rename                       |
+      | commonmark | keep-a-changelog | ## [Unreleased]\n\n### Added    | missing release metadata warnings | changelog category headings | changelog release sections  | Keep a Changelog profile      | release and category headings | local anchors only           |
+      | gfm        | common-changelog | ## 1.0.0 - 2026-05-23           | category ordering warnings        | Common Changelog categories | release headings and refs   | Common Changelog profile      | release headings and refs    | local anchors only           |
+      | obsidian   | madr             | ## Context and Problem Statement | missing MADR decision sections    | MADR section headings       | ADR headings and decisions  | MADR profile and status       | ADR section headings         | local anchors and headings   |
+
   @req:FlavorLSP.Parser.ProfileDispatch
   Scenario Outline: Planned flavor signatures define observable parser behavior
     Given "flavorGrenade.markdownFlavor" is set to "<id>"

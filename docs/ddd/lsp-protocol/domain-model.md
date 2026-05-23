@@ -322,11 +322,15 @@ LspNotification<DidChangeWatchedFilesParams>
 LspNotification<DidChangeConfigurationParams>
   │
   ├─ Extract settings.flavorGrenade.markdownFlavor
+  ├─ Extract settings.flavorGrenade.markdownStructuredProfiles
   ├─ Validate value is 'auto' or supported MarkdownFlavorId
+  ├─ Validate structured profile value is 'auto', 'none', or compatible profile ids
   ├─ If valid:
   │    ConfigService.withVSCodeMarkdownFlavorSelection(selection, scope)
+  │    ConfigService.withVSCodeStructuredProfileSelection(selection, scope)
   │    Workspace.withMarkdownFlavorSelection(ws, selection, scope)
-  │      → BC4 recomputes EffectiveMarkdownFlavor
+  │    Workspace.withStructuredProfileSelection(ws, selection, scope)
+  │      → BC4 recomputes EffectiveMarkdownContext
   │      → affected docs are reparsed with new ParseContext
   │      → diagnostics are refreshed
   └─ If invalid:
@@ -342,21 +346,25 @@ interface DidChangeConfigurationParams {
   settings?: {
     flavorGrenade?: {
       markdownFlavor?: MarkdownFlavorSelection
+      markdownStructuredProfiles?: StructuredProfileSelection
     }
   }
 }
 
 type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
+type StructuredProfileSelection = 'auto' | 'none' | StructuredMarkdownProfileId[]
 ```
 
 **Validation behavior:**
 
-- Missing `settings`, missing `flavorGrenade`, or missing `markdownFlavor` is a no-op.
-- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
+- Missing `settings`, missing `flavorGrenade`, or missing both Markdown settings is a no-op.
+- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit base `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
+- `markdownStructuredProfiles: 'auto'` asks BC4 to infer profile flags; `none` disables structured profile behavior for that scope.
+- Explicit structured profile arrays must contain only known ids, must be unique, and must not contain both `keep-a-changelog` and `common-changelog`.
 - Unknown strings such as `asciidoc`, non-strings, arrays, and objects are invalid.
 - Because this method is an LSP notification, no error response is sent. BC5 logs the invalid payload and leaves server state unchanged.
 
-**Mutation target:** BC5 mutates Config/BC4 only through public application services. BC5 does not store `MarkdownFlavorSelection`, does not compute `EffectiveMarkdownFlavor`, and does not call BC2 directly for flavor changes.
+**Mutation target:** BC5 mutates Config/BC4 only through public application services. BC5 does not store selector state, does not compute `EffectiveMarkdownContext`, and does not call BC2 directly for flavor changes.
 
 ### Flavor Profile Boundary
 
@@ -364,8 +372,9 @@ BC5 validates the selector and transports it. It does not interpret dialect synt
 
 | Payload / concept | BC5 responsibility | Downstream owner |
 |-------------------|-------------------|------------------|
-| `flavorGrenade.markdownFlavor = auto` | Accept as selector input | BC4 resolves explicit `EffectiveMarkdownFlavor` |
+| `flavorGrenade.markdownFlavor = auto` | Accept as selector input | BC4 resolves explicit base `EffectiveMarkdownFlavor` |
 | Explicit `MarkdownFlavorId` | Validate against Config's supported corpus | BC4 stores selection and builds parse context |
+| `flavorGrenade.markdownStructuredProfiles` | Validate `auto`, `none`, or compatible structured profile ids | BC4 resolves structured profile flags and builds parse context |
 | Unknown selector value | Log and leave state unchanged | None |
 | Host-specific refs in diagnostics/hover | Marshal LSP data only | BC2 classifies; BC3 resolves only local refs |
 | MDX language id | Respect client selector boundary; do not force Markdown flavor behavior | Dedicated MDX tooling or future integration |
