@@ -8,6 +8,7 @@ import { IgnoreFilter } from './ignore-filter.js';
 import { VaultScanner } from './vault-scanner.js';
 import { toDocId } from './doc-id.js';
 import { buildAttachmentEntry } from './attachment-metadata.js';
+import { normalizeAbsolutePath, resolveVaultRelativePath } from './vault-path-confinement.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 
@@ -38,7 +39,12 @@ export class FileWatcher {
    * @param vaultRoot - Absolute path to the vault root directory.
    */
   start(vaultRoot: string): void {
-    this.resolvedRoot = path.resolve(vaultRoot);
+    const resolvedRoot = normalizeAbsolutePath(vaultRoot);
+    if (resolvedRoot === null) {
+      throw new Error('Vault root must be an absolute filesystem path.');
+    }
+
+    this.resolvedRoot = resolvedRoot;
     this.watcher = fs.watch(this.resolvedRoot, { recursive: true }, (eventType, filename) => {
       void this.handleEvent(eventType, filename);
     });
@@ -54,13 +60,10 @@ export class FileWatcher {
 
   private async handleEvent(eventType: string, filename: string | null): Promise<void> {
     if (filename === null) return;
-    const absPath = path.resolve(this.resolvedRoot, filename);
 
     // ADR013: confine all access to vault root.
-    const rootWithSep = this.resolvedRoot.endsWith(path.sep)
-      ? this.resolvedRoot
-      : `${this.resolvedRoot}${path.sep}`;
-    if (!absPath.startsWith(rootWithSep)) {
+    const absPath = resolveVaultRelativePath(this.resolvedRoot, filename);
+    if (absPath === null) {
       return;
     }
 

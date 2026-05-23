@@ -187,5 +187,5 @@ The traceability matrix is maintained in [[docs/test/matrix]]. For each function
 - [[docs/architecture/data-flow]] — Flows exercised by completion and diagnostics scenarios
 - `docs/bdd/features/vscode-extension.feature` — VS Code extension lifecycle and integration scenarios
 - `docs/bdd/features/ofmarkdown-language-mode.feature` — Markdown flavor selector acceptance scenarios
-- [[docs/adr/ADR015-platform-specific-vsix]] — Decision record for platform-specific VSIX packaging
+- [[docs/adr/ADR015-platform-specific-vsix]] — Decision record for extension server payload packaging
 - [[docs/adr/ADR020-markdown-flavor-selection]] — Decision record for Markdown flavor selection

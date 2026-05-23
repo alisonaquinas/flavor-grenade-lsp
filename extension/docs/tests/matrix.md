@@ -32,7 +32,7 @@ Detailed cases for the rows below live in:
 | `Extension.Marketplace.OFMProof` | E16/TASK-309 updates `extension/test/marketplace/readme-assets.test.ts` (`EXT-MF-I-005`) and `extension/test/marketplace/vsix-assets.test.ts` (`EXT-MF-I-006`) for selector proof | 🔴 failing | README proof must show Markdown flavor behavior; final verification keeps the selector-proof handoff explicit. |
 | `Extension.Tests.HostCoverage` | Existing host suite plus planned `markdown-flavor.test.js`, `EXT-MF-VF-008`, and validation host evidence | 🔴 failing | Host suite needs selector, persistence, propagation, package-target, stale-`ofmarkdown`, and language-preservation scenarios. CI must run host tests or fail without documented blocker evidence. |
 | `Extension.Activation.MarkerEvents` | `EXT-MF-U-014`, `EXT-MF-I-007` | 🔴 failing | Manifest activation and `LanguageClient.clientOptions.documentSelector` must serve file-backed `markdown` and reject stale `ofmarkdown`. `EXT-MF-I-006` remains VSIX asset proof only. |
-| `Extension.Packaging.TargetBinaryValidation` | `EXT-MF-VF-007`, `EXT-MF-VA-005`, `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | 🔴 failing | Package-target validation evidence is required before extension flavor validation signoff. |
+| `Extension.Packaging.ServerModuleValidation` | `EXT-MF-VF-007`, `EXT-MF-VA-005`, `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | 🔴 failing | Package-target validation evidence is required before extension flavor validation signoff. |
 
 ## Test-Level Matrix
 

@@ -9,11 +9,12 @@ Automation scripts that act on the repository. These scripts are **not** linked 
 | Script                 | Description                                                                                                                                     |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | `set-version.sh`       | Bump the version field in `package.json` to a new semver string.                                                                                |
-| `build-binary.mjs`     | Compile the server binary with Bun using the shared optional-dependency externals used by local and extension release builds.                   |
+| `build-binary.mjs`     | Compile native server binaries with Bun for local experiments and server GitHub Release artifacts.                                             |
+| `check-exact-dependencies.mjs` | Enforce exact dependency versions in root package metadata.                                                                           |
 | `copy-binary.mjs`      | Copy a compiled server binary from `dist/` into `extension/server/`.                                                                            |
 | `lint-all.sh`          | Run all linters sequentially (TypeScript, ESLint, Prettier, markdownlint-obsidian, markdownlint-cli2) and print a per-linter PASS/FAIL summary. |
 | `validate-docs.sh`     | Run only the Markdown linters — useful for doc-only changes.                                                                                    |
-| `update-test-index.sh` | (Stub) Scan `tests/` and regenerate `docs/test/index.md` and `docs/test/matrix.md`. Not yet implemented.                                        |
+| `update-test-index.sh` | Reserved command for future test index generation; currently exits with a not-implemented message.                                             |
 
 ---
 
@@ -39,9 +40,15 @@ node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp
 
 ## Binary Build Notes
 
-`build-binary.mjs` supports `--bytecode`, but extension release builds must not use it by default. Extension `0.1.2` showed that Bun `1.3.13` on Linux could cross-compile a Windows executable with `--bytecode` that crashed immediately on startup. The `0.1.3` release workflow uses `--compile --minify` and gates Marketplace publish on a Windows launch smoke test of the packaged `win32-x64` VSIX.
+`build-binary.mjs` supports `--bytecode`, but extension release builds no
+longer ship native Bun executables. Extension `0.1.2` showed that Bun `1.3.13`
+on Linux could cross-compile a Windows executable with `--bytecode` that crashed
+immediately on startup. Current extension releases package the JavaScript server
+module at `server/main.js` and gate Marketplace publish on package-target and
+server-module smoke tests.
 
-Use `--bytecode` only for local experiments or after revalidating every published platform artifact.
+Use `--bytecode` only for local binary experiments or after revalidating every
+published platform artifact.
 
 ---
 

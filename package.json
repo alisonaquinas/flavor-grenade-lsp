@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {
@@ -39,9 +39,9 @@
     "gate:2": "bun test src/test/integration/transport.test.ts"
   },
   "dependencies": {
-    "@nestjs/common": "11.1.19",
-    "@nestjs/core": "11.1.19",
-    "@nestjs/platform-express": "11.1.19",
+    "@nestjs/common": "11.1.23",
+    "@nestjs/core": "11.1.23",
+    "@nestjs/platform-express": "11.1.23",
     "@types/js-yaml": "4.0.9",
     "js-yaml": "4.1.1",
     "reflect-metadata": "0.2.2",
@@ -51,15 +51,16 @@
     "vscode-languageserver-types": "3.17.5"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "12.8.1",
-    "@jest/globals": "30.3.0",
-    "@types/node": "25.6.0",
-    "@typescript-eslint/eslint-plugin": "8.58.2",
-    "@typescript-eslint/parser": "8.58.2",
-    "eslint": "10.2.1",
+    "@cucumber/cucumber": "12.9.0",
+    "@jest/globals": "30.4.1",
+    "@types/node": "25.9.1",
+    "@typescript-eslint/eslint-plugin": "8.59.4",
+    "@typescript-eslint/parser": "8.59.4",
+    "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-security": "4.0.0",
     "lefthook": "2.1.6",
-    "markdownlint-obsidian-cli": "1.0.4",
+    "markdownlint-obsidian-cli": "1.1.0",
     "prettier": "3.8.3",
     "ts-node": "10.9.2",
     "typescript": "6.0.3"

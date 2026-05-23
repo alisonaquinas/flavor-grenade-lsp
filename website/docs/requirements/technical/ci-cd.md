@@ -188,13 +188,13 @@ Binary release distribution must:
 
 VS Code extension distribution must:
 
-- Build target-specific VSIX packages from `ext-vX.Y.Z` tags that pass CI and
-  the main-branch tag guard.
-- Verify each VSIX contains the correct bundled server binary.
+- Build the Marketplace VSIX from `ext-vX.Y.Z` tags that pass CI and the
+  main-branch tag guard.
+- Verify each VSIX contains exactly one bundled `server/main.js` module and no
+  native server executable payload.
 - Generate checksums for VSIX artifacts.
 - Attest VSIX provenance where supported.
-- Smoke-test at least the Windows packaged server binary before Marketplace
-  publish.
+- Smoke-test the packaged server module before Marketplace publish.
 - Publish to the Visual Studio Marketplace only from production extension tags.
 
 ## Security Requirements

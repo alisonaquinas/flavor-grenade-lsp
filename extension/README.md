@@ -180,7 +180,7 @@ in [extension/docs/features/command-bridge-contracts.md](docs/features/command-b
 
 ## Requirements
 
-- VS Code 1.82.0 or later
+- VS Code 1.120.0 or later
 - An Obsidian vault or a folder configured with `.flavor-grenade.toml`
 
 ## Links

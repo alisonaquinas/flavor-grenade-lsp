@@ -10,9 +10,8 @@ const serverDir = resolve(extensionRoot, 'server');
 
 rmSync(serverDir, { force: true, recursive: true });
 
-run('bun', ['run', 'build'], repoRoot);
-run(
-  'npx',
+runBun(['run', 'build'], repoRoot);
+runNpx(
   [
     'esbuild',
     '../dist/main.js',
@@ -32,19 +31,33 @@ run(
   extensionRoot,
 );
 
-function run(executable, args, cwd) {
-  const command =
+function runBun(args, cwd) {
+  const result =
     process.platform === 'win32'
-      ? process.env.ComSpec || 'C:\\Windows\\System32\\cmd.exe'
-      : executable;
-  const commandArgs =
+      ? spawnSync('bun.exe', args, { cwd, stdio: 'inherit' })
+      : spawnSync('bun', args, {
+          cwd,
+          stdio: 'inherit',
+        });
+  exitOnFailure(result);
+}
+
+function runNpx(args, cwd) {
+  const result =
     process.platform === 'win32'
-      ? ['/d', '/s', '/c', [executable, ...args].map(quoteWindowsArg).join(' ')]
-      : args;
-  const result = spawnSync(command, commandArgs, {
-    cwd,
-    stdio: 'inherit',
-  });
+      ? spawnSync(
+          'C:\\Windows\\System32\\cmd.exe',
+          ['/d', '/s', '/c', ['npx', ...args].map(quoteWindowsArg).join(' ')],
+          { cwd, stdio: 'inherit' },
+        )
+      : spawnSync('npx', args, {
+          cwd,
+          stdio: 'inherit',
+        });
+  exitOnFailure(result);
+}
+
+function exitOnFailure(result) {
   if (result.error !== undefined) {
     throw result.error;
   }

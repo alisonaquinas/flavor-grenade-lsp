@@ -47,7 +47,7 @@ if (options.target !== undefined) {
 
 bunArgs.push(`--outfile=${options.outfile}`);
 
-run('bun', bunArgs);
+runBun(bunArgs);
 
 const builtOutfile = resolveBuiltOutfile(options.outfile);
 
@@ -60,7 +60,7 @@ if (options.copyToExtension) {
   if (options.binaryName !== undefined) {
     copyArgs.push(options.binaryName);
   }
-  run(process.execPath, copyArgs);
+  runNode(copyArgs);
 }
 
 function parseArgs(rawArgs) {
@@ -110,8 +110,20 @@ function readValue(rawArgs, index, optionName) {
   return value;
 }
 
-function run(command, args) {
-  const result = spawnSync(command, args, { stdio: 'inherit' });
+function runBun(args) {
+  const result =
+    process.platform === 'win32'
+      ? spawnSync('bun.exe', args, { stdio: 'inherit' })
+      : spawnSync('bun', args, { stdio: 'inherit' });
+  exitOnFailure(result);
+}
+
+function runNode(args) {
+  const result = spawnSync(process.execPath, args, { stdio: 'inherit' });
+  exitOnFailure(result);
+}
+
+function exitOnFailure(result) {
   if (result.error !== undefined) {
     throw result.error;
   }

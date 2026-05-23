@@ -340,25 +340,36 @@ flavor/context state without requiring a custom Markdown language id.
 
 ---
 
-## Extension.Packaging.TargetBinaryValidation
+## Extension.Packaging.ServerModuleValidation
 
-**Tag:** Extension.Packaging.TargetBinaryValidation
+**Tag:** Extension.Packaging.ServerModuleValidation
 **User Req:** User.Extension.InstallCompatiblePackage
-**Gist:** Each packaged VSIX must contain exactly one server binary matching the package target, and client/server version mismatches must be visible before publish or at startup.
-**Ambition:** Users should not install an extension package whose bundled server cannot run on the target platform or whose client and server versions are out of sync.
-**Scale:** Percentage of packaged VSIX targets whose bundled server binary, package target metadata, and version metadata match the expected release manifest.
+**Gist:** Each packaged VSIX must contain exactly one bundled JavaScript server module, no native executable server payload, and visible client/server version metadata.
+**Ambition:** Users should not install an extension package whose bundled server payload is missing, duplicated, native-executable-only, or out of sync with the client.
+**Scale:** Percentage of packaged VSIX artifacts whose bundled server module and version metadata match the expected release manifest.
 **Meter:**
 
-1. Build every platform-specific VSIX target.
-2. Inspect each packaged VSIX for server binaries.
-3. Verify exactly one server binary is present.
-4. Verify the binary name and platform metadata match the VSIX target.
-5. Start the bundled server binary when the CI platform can execute it.
+1. Build the Marketplace VSIX from the extension tag.
+2. Inspect the packaged VSIX for server payload files.
+3. Verify exactly one `server/main.js` module is present.
+4. Verify no `server/flavor-grenade-lsp` or `server/flavor-grenade-lsp.exe`
+   native executable payload is present.
+5. Start the bundled server module with Node.js in CI.
 6. Query or inspect client and server version metadata.
-7. Verify mismatches fail packaging checks or produce a user-visible startup warning.
-8. Compute: (validated package targets / total package targets) x 100.
-**Fail:** Any packaged VSIX contains zero, multiple, or wrong-target server binaries, or a client/server version mismatch is not visible before release or at startup.
-**Goal:** 100% packaged target validation.
+7. Verify mismatches fail packaging checks or produce a user-visible startup
+   warning.
+8. Compute: (validated VSIX artifacts / total VSIX artifacts) x 100.
+**Fail:** Any packaged VSIX contains zero server modules, multiple server
+modules, a native executable server payload, or a client/server version mismatch
+that is not visible before release or at startup.
+**Goal:** 100% packaged server module validation.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[ADR015-platform-specific-vsix]], [[docs/features/vscode-extension-parity]], [[docs/plans/phase-E14-membership-refresh-compatibility-guardrails]].
+
+## Extension.Packaging.TargetBinaryValidation
+
+This historical requirement tag was superseded by
+[[#Extension.Packaging.ServerModuleValidation]] when the extension moved from
+platform-specific native server binaries to a bundled JavaScript server module.
+Archived plans and audits may still link to this heading for trace continuity.

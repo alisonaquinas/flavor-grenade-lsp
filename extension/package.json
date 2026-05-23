@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
   "engines": {
-    "vscode": "^1.82.0"
+    "vscode": "^1.120.0"
   },
   "categories": [
     "Programming Languages",
@@ -239,12 +239,12 @@
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "@types/node": "20.19.39",
-    "@types/vscode": "1.82.0",
+    "@types/node": "25.9.1",
+    "@types/vscode": "1.120.0",
     "@vscode/test-electron": "2.5.2",
     "@vscode/vsce": "3.9.1",
     "esbuild": "0.28.0",
-    "tsx": "4.21.0",
-    "typescript": "5.9.3"
+    "tsx": "4.22.3",
+    "typescript": "6.0.3"
   }
 }
