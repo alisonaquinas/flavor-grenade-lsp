@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { resolveVaultRelativePath } from './vault-path-confinement.js';
 
 /**
  * A branded string type representing a vault-relative document identifier.
@@ -37,5 +38,27 @@ export function toDocId(vaultRoot: string, absolutePath: string): DocId {
  */
 export function fromDocId(vaultRoot: string, docId: DocId): string {
   const withExt = path.extname(docId) === '' ? `${docId}.md` : docId;
-  return path.join(vaultRoot, withExt);
+  if (vaultRoot.length === 0) {
+    if (isUnsafeRelativeDocId(withExt)) {
+      throw new Error(`DocId escapes vault root: ${docId}`);
+    }
+    return withExt.split('/').join(path.sep);
+  }
+
+  const resolved = resolveVaultRelativePath(vaultRoot, withExt);
+  if (resolved === null) {
+    throw new Error(`DocId escapes vault root: ${docId}`);
+  }
+  return resolved;
+}
+
+function isUnsafeRelativeDocId(value: string): boolean {
+  return (
+    value.length === 0 ||
+    value.includes('\0') ||
+    path.isAbsolute(value) ||
+    path.win32.isAbsolute(value) ||
+    path.posix.isAbsolute(value) ||
+    value.split(/[\\/]+/).includes('..')
+  );
 }

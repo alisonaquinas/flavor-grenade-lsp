@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import * as path from 'path';
 import ignore, { type Ignore } from 'ignore';
+import { resolveVaultRelativePath } from './vault-path-confinement.js';
 
 /**
  * Filters vault-relative paths against `.gitignore` and `.ignore` pattern
@@ -46,7 +46,11 @@ export class IgnoreFilter {
   }
 
   private addFileIfExists(vaultRoot: string, filename: string): void {
-    const filePath = path.join(vaultRoot, filename);
+    const filePath = resolveVaultRelativePath(vaultRoot, filename);
+    if (filePath === null) {
+      return;
+    }
+
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       this.ig.add(content);

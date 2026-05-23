@@ -10,7 +10,10 @@ import { IgnoreFilter } from './ignore-filter.js';
 import { SingleFileModeGuard } from './single-file-mode.js';
 import { toDocId } from './doc-id.js';
 import { buildAttachmentEntry } from './attachment-metadata.js';
-import { confineExistingPathToVaultRoot } from './vault-path-confinement.js';
+import {
+  confineExistingPathToVaultRoot,
+  resolveVaultRelativePath,
+} from './vault-path-confinement.js';
 import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
@@ -127,7 +130,11 @@ export class VaultScanner {
     }
 
     for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
+      const fullPath = resolveVaultRelativePath(dir, entry.name);
+      if (fullPath === null) {
+        continue;
+      }
+
       const relPath = path.relative(vaultRoot, fullPath).split(path.sep).join('/');
 
       if (this.ignoreFilter.shouldIgnore(relPath)) {
@@ -178,7 +185,11 @@ export class VaultScanner {
   }
 
   private async loadDocumentExtensions(vaultRoot: string): Promise<ReadonlySet<string>> {
-    const configPath = path.join(vaultRoot, '.flavor-grenade.toml');
+    const configPath = resolveVaultRelativePath(vaultRoot, '.flavor-grenade.toml');
+    if (configPath === null) {
+      return VaultScanner.DEFAULT_DOCUMENT_EXTENSIONS;
+    }
+
     let configText: string;
 
     try {
@@ -196,7 +207,11 @@ export class VaultScanner {
   }
 
   private async loadObsidianAttachmentFolderHint(vaultRoot: string): Promise<string | undefined> {
-    const appJsonPath = path.join(vaultRoot, '.obsidian', 'app.json');
+    const appJsonPath = resolveVaultRelativePath(vaultRoot, '.obsidian/app.json');
+    if (appJsonPath === null) {
+      return undefined;
+    }
+
     let configText: string;
 
     try {

@@ -4,7 +4,11 @@ import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import { VaultIndex } from './vault-index.js';
 import type { DocId } from './doc-id.js';
-import { confineExistingPathToVaultRoot, isInsideOrEqualPath } from './vault-path-confinement.js';
+import {
+  confineExistingPathToVaultRoot,
+  confinePathToVaultRoot,
+  normalizeAbsolutePath,
+} from './vault-path-confinement.js';
 
 export interface FileRename {
   oldUri: string;
@@ -85,21 +89,21 @@ export class FileOperationPlanner {
   private vaultRelativePath(vaultRoot: string, uri: string, mustExist: boolean): string | null {
     let absPath: string;
     try {
-      absPath = path.resolve(fileURLToPath(uri));
+      const filePath = fileURLToPath(uri);
+      const confinedPath =
+        mustExist && fs.existsSync(filePath)
+          ? confineExistingPathToVaultRoot(vaultRoot, filePath)
+          : confinePathToVaultRoot(vaultRoot, filePath);
+      if (confinedPath === null) {
+        return null;
+      }
+      absPath = confinedPath;
     } catch {
       return null;
     }
 
-    const root = path.resolve(vaultRoot);
-    if (!isInsideOrEqualPath(root, absPath)) {
-      return null;
-    }
-
-    if (
-      mustExist &&
-      fs.existsSync(absPath) &&
-      confineExistingPathToVaultRoot(root, absPath) === null
-    ) {
+    const root = normalizeAbsolutePath(vaultRoot);
+    if (root === null) {
       return null;
     }
 

@@ -9,6 +9,7 @@ import { RefGraph } from '../ref-graph.js';
 import { FileOperationPlanner } from '../../vault/file-operation-planner.js';
 import { FileOperationRewriter } from '../file-operation-rewriter.js';
 import { WorkspaceEditValidator } from '../workspace-edit-validator.js';
+import { resolveVaultRelativePath } from '../../vault/vault-path-confinement.js';
 import type { DocId } from '../../vault/doc-id.js';
 
 function id(value: string): DocId {
@@ -16,7 +17,11 @@ function id(value: string): DocId {
 }
 
 function uriFor(vaultRoot: string, relPath: string): string {
-  return pathToFileURL(path.join(vaultRoot, relPath)).toString();
+  const filePath = resolveVaultRelativePath(vaultRoot, relPath);
+  if (filePath === null) {
+    throw new Error(`Invalid vault-relative test path: ${relPath}`);
+  }
+  return pathToFileURL(filePath).toString();
 }
 
 describe('file operation regression flow', () => {
