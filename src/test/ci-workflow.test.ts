@@ -109,7 +109,7 @@ describe('CI workflow verification battery', () => {
       'zizmor==1.25.2',
       '--persona=auditor --min-severity=medium --min-confidence=medium',
       'gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz',
-      './gitleaks dir .',
+      '"${RUNNER_TEMP}/gitleaks/gitleaks" dir .',
       '--config .gitleaks.toml',
       'osv-scanner/releases/download/v${OSV_SCANNER_VERSION}/osv-scanner_linux_amd64',
       './osv-scanner scan',
