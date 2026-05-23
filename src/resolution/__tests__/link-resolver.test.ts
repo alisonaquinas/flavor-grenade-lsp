@@ -112,6 +112,20 @@ describe('LinkResolver', () => {
     const ref = resolver.resolveLink(entry, id('beta'));
     expect(ref.resolvedTo).toBe('alpha');
   });
+
+  it('resolves folder-implicit Obsidian links through path-suffix matching', () => {
+    vaultIndex.set(id('wiki/sources/foo'), makeDoc('file:///vault/wiki/sources/foo.md'));
+    folderLookup.rebuild(vaultIndex);
+
+    const entry: WikiLinkEntry = {
+      raw: '[[sources/foo]]',
+      target: 'sources/foo',
+      range: ZERO_RANGE,
+    };
+
+    const ref = resolver.resolveLink(entry, id('wiki/index'));
+    expect(ref.resolvedTo).toBe('wiki/sources/foo');
+  });
 });
 
 describe('block references', () => {

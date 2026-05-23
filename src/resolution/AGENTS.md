@@ -9,7 +9,7 @@ and the vault reference graph. This is the semantic core of the server.
 
 ```
 resolution/
-├── oracle.ts                         # four-step link resolution engine
+├── oracle.ts                         # Obsidian-style link resolution engine
 ├── link-resolver.ts                  # wiki-link → LSP Location
 ├── embed-resolver.ts                 # embed → LSP Location
 ├── block-ref-completion-provider.ts  # completion for [[file#^anchor]] fragments
@@ -27,6 +27,10 @@ resolution/
   `oracle.invalidateAliasIndex()` whenever `VaultIndex` changes (e.g. after a
   file is added, removed, or its frontmatter changes), or alias/title lookups
   will return stale results.
+- Wiki-link document resolution must keep Obsidian-fuzzy path matching:
+  normalize `\` to `/`, strip one trailing `.md`, try exact/case-insensitive
+  DocId, then path-suffix for path-like targets before alias/stem/H1 fallbacks.
+  Path-suffix matches must align on `/` boundaries.
 - `DiagnosticService` must not store state between calls — it should re-derive
   diagnostics from the current `VaultIndex` on each invocation.
 - `RefGraph` must be kept in sync with `VaultIndex`. Whenever a document is
