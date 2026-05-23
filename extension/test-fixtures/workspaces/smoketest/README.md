@@ -1,8 +1,14 @@
 # Markdown Flavor Smoketest Fixtures
 
-Each child directory is a small workspace fixture with `.flavor-grenade.toml`
-declaring one supported Markdown flavor. The extension unit tests read these
-fixtures to verify project evidence detection for every explicit flavor.
+Top-level flavor directories are small workspace fixtures with
+`.flavor-grenade.toml` declaring one supported Markdown flavor. The extension
+unit tests read these fixtures to verify project evidence detection for every
+explicit flavor.
+
+The `inference/` directory contains samples with no `.flavor-grenade.toml`.
+Those fixtures exist for syntax/context inference smoke tests: Auto Detect
+should eventually infer the flavor from strong local syntax when configuration
+is absent.
 
 This root README is a negative control. It should remain generic Markdown and
 must not become OFM just because child fixtures contain `.flavor-grenade.toml`.

@@ -18,7 +18,7 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-001 | Flavor constants | `Extension.MarkdownFlavor.RequiredCoverage` | Exported flavor list includes `auto` and every required explicit flavor id in stable display order. |
 | EXT-MF-U-002 | Selector labels | `Extension.MarkdownFlavor.Selector` | Quick-pick labels and status labels match requirements for all flavors. |
 | EXT-MF-U-003 | Language preservation | `Extension.MarkdownLanguage.PreserveDefault` | Refresh logic never calls `setTextDocumentLanguage` for flavor selection. |
-| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | The root auto-detection truth table is covered: workspace-folder/workspace/user scope, `.obsidian/`, `.flavor-grenade.toml`, project config, server membership, invalid values, and CommonMark fallback. |
+| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | The root auto-detection truth table is covered: workspace-folder/workspace/user scope, `.obsidian/`, `.flavor-grenade.toml`, project config, server membership, syntax/context inference, invalid values, and CommonMark fallback. |
 | EXT-MF-U-005 | Membership fallback | `Extension.MarkdownFlavor.AutoDetection` | Server membership response can resolve Obsidian/Flavor Grenade vault state after startup. |
 | EXT-MF-U-006 | Workspace override target | `Extension.MarkdownFlavor.OverridePersistence` | Folder-backed active document writes `flavorGrenade.markdownFlavor` to workspace-folder or workspace scope. |
 | EXT-MF-U-007 | Standalone override target | `Extension.MarkdownFlavor.OverridePersistence` | Standalone Markdown file writes override to user scope. |
@@ -29,6 +29,8 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-012 | MDX distinction | `Extension.MarkdownFlavor.ManualLanguageSafety`, `Extension.MarkdownFlavor.RequiredCoverage` | `mdx` can be selected as a flavor only when the document language id remains `markdown`; a VS Code `mdx` language document is not modified. |
 | EXT-MF-U-013 | Flavor contract parity | `Extension.MarkdownFlavor.RequiredCoverage` | Extension constants, package schema enum, quick-pick ids, and server accepted ids are identical. |
 | EXT-MF-U-014 | Document selector and activation manifest guard | `Extension.Activation.MarkerEvents`, `Extension.MarkdownLanguage.PreserveDefault`, `Extension.MarkdownFlavor.Refresh` | E15 asserts file-backed `markdown` `LanguageClient` selection and selector command activation. E16 owns retired contribution activation cleanup for `onLanguage:ofmarkdown`. |
+| EXT-MF-U-015 | Smoketest fixture inventory | `Extension.MarkdownFlavor.AutoDetection` | `extension/test-fixtures/workspaces/smoketest/` contains configured TOML fixtures for every explicit flavor plus `inference/` fixtures with no `.flavor-grenade.toml` for strong syntax/context inference and ambiguity fallback. |
+| EXT-MF-U-016 | Fixture boundary guard | `Extension.MarkdownFlavor.AutoDetection`, `Security.Vault.ProjectConfigConfinement` | The smoketest root README is a negative control: it must not detect as OFM because of child fixture TOML files or a repository-level ancestor TOML outside the active workspace boundary. |
 
 ## Contribution Unit Cases
 

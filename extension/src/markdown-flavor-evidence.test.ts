@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile } from 'node:fs/promises';
+import { readdir, readFile, stat } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { describe, it } from 'node:test';
@@ -9,6 +9,19 @@ import {
   resolveMarkdownFlavor,
   type MarkdownFlavorId,
 } from './markdown-flavor.js';
+
+const INFERENCE_FIXTURES = [
+  'gfm-ambiguous',
+  'glfm',
+  'kramdown',
+  'markdown-extra',
+  'mdx',
+  'multimarkdown',
+  'pandoc',
+  'r-markdown',
+  'reddit',
+  'stack-overflow',
+] as const;
 
 function document(filePath: string) {
   const uri = pathToFileURL(filePath);
@@ -24,14 +37,11 @@ function document(filePath: string) {
 describe('Markdown flavor smoketest fixture evidence', () => {
   const fixtureRoot = resolve('test-fixtures', 'workspaces', 'smoketest');
 
-  it('has one fixture workspace for every explicit supported flavor', async () => {
-    const entries = await readdir(fixtureRoot, { withFileTypes: true });
-    const fixtureNames = entries
-      .filter((entry) => entry.isDirectory())
-      .map((entry) => entry.name)
-      .sort();
-
-    assert.deepEqual(fixtureNames, [...MARKDOWN_FLAVOR_IDS].sort());
+  it('has one configured fixture workspace for every explicit supported flavor', async () => {
+    for (const flavor of MARKDOWN_FLAVOR_IDS) {
+      const config = await stat(join(fixtureRoot, flavor, '.flavor-grenade.toml'));
+      assert.equal(config.isFile(), true, `${flavor} fixture should declare project TOML`);
+    }
   });
 
   it('detects each flavor from its project config marker', async () => {
@@ -67,6 +77,27 @@ describe('Markdown flavor smoketest fixture evidence', () => {
           source: 'project-toml',
         },
         `${flavor} fixture should drive auto detection through project TOML`,
+      );
+    }
+  });
+
+  it('has inference-only fixtures without project config markers', async () => {
+    const inferenceRoot = join(fixtureRoot, 'inference');
+    const entries = await readdir(inferenceRoot, { withFileTypes: true });
+    const fixtureNames = entries
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
+
+    assert.deepEqual(fixtureNames, [...INFERENCE_FIXTURES].sort());
+
+    for (const fixture of INFERENCE_FIXTURES) {
+      const samplePath = join(inferenceRoot, fixture, 'notes', 'sample.md');
+      const sample = await readFile(samplePath, 'utf8');
+      assert.ok(sample.trim().length > 0, `${fixture} inference sample must not be empty`);
+      await assert.rejects(
+        stat(join(inferenceRoot, fixture, '.flavor-grenade.toml')),
+        `${fixture} inference fixture must not declare project TOML`,
       );
     }
   });
