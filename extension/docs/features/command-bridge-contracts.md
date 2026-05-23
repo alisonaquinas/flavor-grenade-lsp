@@ -10,6 +10,12 @@ Phase E8 command bridges adapt server-provided OFMarkdown intelligence to VS
 Code UI. The server owns link, embed, reference, and graph intelligence. The
 extension owns VS Code commands, payload validation, and native UI calls.
 
+The extension must not re-resolve wiki-link target text. For example,
+`[[sources/foo]]` may be resolved by the server to
+`file:///vault/wiki/sources/foo.md` through Obsidian-style path-suffix matching.
+Bridge handlers must open the supplied `JsonLocation.uri` exactly after payload
+validation.
+
 Bridge payloads must be plain JSON values. Do not pass VS Code `Uri`,
 `Position`, `Range`, `Location`, class instances, functions, symbols, or other
 non-serializable values across the command boundary.

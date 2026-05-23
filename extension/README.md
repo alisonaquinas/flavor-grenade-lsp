@@ -20,6 +20,9 @@ diagnostic copy, troubleshooting, and vault reveal commands when they apply.
 
 Wiki-link completion offers vault notes as soon as you type `[[`, using the
 same indexed document graph that powers definitions, references, and rename.
+Following links is server-resolved, so Obsidian-style folder-implicit targets
+such as `[[sources/foo]]` can open `wiki/sources/foo.md` when that is the
+unique vault path suffix.
 
 ![Flavor Grenade heading and block-anchor completion](images/marketplace/heading-block-completion.png)
 
@@ -49,7 +52,7 @@ Callout completion offers common Obsidian callout types inside quote blocks.
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links
 - **Diagnostics** — Broken wiki-links (`BrokenLink`), ambiguous links (`AmbiguousLink`), broken embeds (`BrokenEmbed`), malformed frontmatter (`MalformedFrontmatter`)
-- **Go to Definition** — Navigate from `[[wiki-link]]` to the target document, heading, or block anchor
+- **Go to Definition** — Navigate from `[[wiki-link]]` to the target document, heading, or block anchor, including Obsidian-style path-suffix targets
 - **Rename** — Rename a document or heading and update all incoming references across the vault
 - **Code Actions** — Quick-fix to create a missing linked document; extract selection to new note
 - **Code Lens** — Inline reference counts on headings and documents
