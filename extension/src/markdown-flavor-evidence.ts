@@ -1,5 +1,5 @@
 import { open, stat } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { isMarkdownFlavorSelection, type MarkdownFlavorSelection } from './markdown-flavor.js';
 
 const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
@@ -18,10 +18,12 @@ export async function findMarkdownFlavorEvidence(
   filePath: string,
   options: {
     readFileFn?: ReadFileFn;
+    searchBoundary?: string;
     statFn?: StatFn;
   } = {},
 ): Promise<MarkdownFlavorEvidence> {
   const statFn = options.statFn ?? stat;
+  const searchBoundary = options.searchBoundary ? resolve(options.searchBoundary) : undefined;
   let current = dirname(filePath);
 
   while (true) {
@@ -41,6 +43,13 @@ export async function findMarkdownFlavorEvidence(
         projectFlavor: await readProjectMarkdownFlavor(configPath, {
           readFileFn: options.readFileFn,
         }),
+      };
+    }
+
+    if (searchBoundary !== undefined && resolve(current) === searchBoundary) {
+      return {
+        hasFlavorConfigMarker: false,
+        hasObsidianMarker: false,
       };
     }
 

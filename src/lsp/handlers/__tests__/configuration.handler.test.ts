@@ -110,6 +110,37 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     ).toEqual({ kind: 'inactive', reason: 'non-markdown-language' });
   });
 
+  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+    const state = new MarkdownFlavorState();
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/component.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'mdx', source: 'syntax-inference' });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/analysis.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ['Rows: `r nrow(airquality)`', '', '```{r setup}', 'x <- 1', '```'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'r-markdown', source: 'syntax-inference' });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/ambiguous.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ['| A | B |', '| - | - |', '| x | y |', '', '- [x] done'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'commonmark', source: 'commonmark-fallback' });
+  });
+
   it('uses confined project TOML flavor evidence and ignores unsafe project config', () => {
     const root = createTempRoot();
     try {
@@ -155,6 +186,26 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
 
     expect(harness.parseCache.get('file:///vault/open.md')?.markdownFlavor).toBe('commonmark');
     expect(harness.publishDiagnostics).toHaveBeenCalledTimes(1);
+  });
+
+  it('reparses open Markdown documents with syntax-inferred flavor when selector returns to auto', async () => {
+    const harness = createHarness({ vaultMode: 'single-file' });
+    harness.store.open(
+      'file:///vault/component.md',
+      'markdown',
+      1,
+      ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+    );
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownFlavor: 'commonmark' } },
+    });
+    expect(harness.parseCache.get('file:///vault/component.md')?.markdownFlavor).toBe('commonmark');
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownFlavor: 'auto' } },
+    });
+    expect(harness.parseCache.get('file:///vault/component.md')?.markdownFlavor).toBe('mdx');
   });
 });
 
@@ -202,7 +253,7 @@ describe('markdown flavor parser context and boundary classification', () => {
   });
 });
 
-function createHarness(): {
+function createHarness(options: { vaultMode?: 'obsidian' | 'single-file' } = {}): {
   store: DocumentStore;
   parseCache: ParseCache;
   state: MarkdownFlavorState;
@@ -214,11 +265,20 @@ function createHarness(): {
   const state = new MarkdownFlavorState();
   const publishDiagnostics = jest.fn();
   const diagnosticService = { publishDiagnostics };
+  const vaultMode = options.vaultMode ?? 'obsidian';
   const vaultDetector = {
-    detectFresh: (_path: string): { mode: 'obsidian'; vaultRoot: string } => ({
-      mode: 'obsidian',
-      vaultRoot: '/vault',
-    }),
+    detectFresh: (
+      _path: string,
+    ): { mode: 'obsidian'; vaultRoot: string } | { mode: 'single-file'; vaultRoot: null } =>
+      vaultMode === 'obsidian'
+        ? {
+            mode: 'obsidian',
+            vaultRoot: '/vault',
+          }
+        : {
+            mode: 'single-file',
+            vaultRoot: null,
+          },
   };
 
   return {

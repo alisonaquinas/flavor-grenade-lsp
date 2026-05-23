@@ -340,6 +340,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
         .get(MARKDOWN_FLAVOR_SETTING_KEY);
       return isMarkdownFlavorSelection(value) ? value : 'auto';
     },
+    getWorkspaceFolderPath: (document) => workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
     onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),
@@ -417,13 +418,16 @@ async function resolveLocalMarkdownFlavor(document: TextDocument) {
   }
 
   const evidence = document.uri.fsPath
-    ? await findMarkdownFlavorEvidence(document.uri.fsPath)
+    ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
+        searchBoundary: workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
+      })
     : undefined;
   return resolveMarkdownFlavor({
     document,
     hasObsidianMarker: evidence?.hasObsidianMarker,
     projectFlavor: evidence?.projectFlavor,
     selected,
+    syntaxText: document.getText(),
   });
 }
 

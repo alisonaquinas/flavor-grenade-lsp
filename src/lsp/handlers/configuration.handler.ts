@@ -79,6 +79,7 @@ export class ConfigurationHandler {
       languageId: doc.languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
       projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+      syntaxText: doc.getText(),
     });
     return result.kind === 'active' ? result.effective : 'commonmark';
   }

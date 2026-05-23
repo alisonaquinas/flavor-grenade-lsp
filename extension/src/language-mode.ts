@@ -36,6 +36,7 @@ interface LanguageModeApi {
     setTextDocumentLanguage(document: TextDocument, languageId: string): Thenable<TextDocument>;
     getMarkdownFlavorSelection?(document: TextDocument): MarkdownFlavorSelection | undefined;
     getProjectMarkdownFlavor?(document: TextDocument): MarkdownFlavorSelection | undefined;
+    getWorkspaceFolderPath?(document: TextDocument): string | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
     onDidChangeWorkspaceFolders(listener: () => void): Disposable;
@@ -134,7 +135,9 @@ export class LanguageModeController {
         }
 
         const evidence = document.uri.fsPath
-            ? await findMarkdownFlavorEvidence(document.uri.fsPath)
+            ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
+                  searchBoundary: this.api.getWorkspaceFolderPath?.(document),
+              })
             : undefined;
         if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {
             return resolveMarkdownFlavor({
@@ -142,6 +145,7 @@ export class LanguageModeController {
                 hasObsidianMarker: evidence.hasObsidianMarker,
                 projectFlavor: evidence.projectFlavor,
                 selected,
+                syntaxText: document.getText?.(),
             });
         }
 
@@ -151,6 +155,7 @@ export class LanguageModeController {
             hasObsidianMarker: serverMembership?.reason === 'obsidian-vault',
             projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
             selected,
+            syntaxText: document.getText?.(),
         });
     }
 
