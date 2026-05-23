@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
 
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
   scripts?: Record<string, string>;
 };
@@ -125,6 +126,31 @@ describe('CI workflow verification battery', () => {
     }
   });
 
+  test('keeps the extension release dry-run gate aligned with publish prerequisites', () => {
+    for (const command of [
+      "tags:\n      - 'ext-v*'",
+      'bun install --frozen-lockfile --ignore-scripts',
+      'bun run build:binary:win',
+      'npm run verify:package-targets',
+      'bun run build:binary',
+      'xvfb-run -a npm run test:host',
+      "contains(github.ref_name, '-test')",
+      'Skip Marketplace publish for test tag',
+      'vsce publish has no dry-run flag in @vscode/vsce 3.9.1',
+      'vsce publish --packagePath vsix-artifacts/*.vsix',
+    ]) {
+      expect(extensionReleaseWorkflow).toContain(command);
+    }
+
+    expectStepOrder(extensionReleaseWorkflow, [
+      'Build Windows server binary for package-target tests',
+      'Run extension selector-proof tests',
+      'Verify package target rules',
+      'Build Linux server binary for extension host tests',
+      'Run extension host selector-proof tests',
+    ]);
+  });
+
   test('preserves the website verification battery', () => {
     expect(workflow).toContain('working-directory: website');
 
@@ -133,3 +159,15 @@ describe('CI workflow verification battery', () => {
     }
   });
 });
+
+function expectStepOrder(content: string, expectedOrder: string[]): void {
+  let previousIndex = -1;
+  for (const marker of expectedOrder) {
+    const index = content.indexOf(marker);
+    expect(index, `${marker} must be present`).toBeGreaterThanOrEqual(0);
+    expect(index, `${marker} must appear after the prior release gate step`).toBeGreaterThan(
+      previousIndex,
+    );
+    previousIndex = index;
+  }
+}
