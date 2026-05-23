@@ -32,7 +32,7 @@ Run `bun run lint --max-warnings 0` across all `src/` files after all Phase 1 TA
 
 The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger ESLint warnings on initial creation due to decorators, unused imports, or return-type inference gaps. This chore cleans those up before Phase 2 begins, so that the zero-warnings invariant is established as a baseline from the very first source commit.
 
-- Motivated by: [[docs/requirements/code-quality]] `Quality.Lint.ZeroWarnings`
+- Motivated by: [[docs/requirements/technical/code-quality]] `Quality.Lint.ZeroWarnings`
 
 ---
 
@@ -40,7 +40,7 @@ The Phase 1 skeleton files (`src/main.ts`, `src/lsp/lsp.module.ts`) may trigger 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | ESLint must exit 0 with `--max-warnings 0` on all `src/` files | [[docs/requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | ESLint must exit 0 with `--max-warnings 0` on all `src/` files | [[docs/requirements/technical/code-quality]] |
 
 ---
 
@@ -118,7 +118,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[docs/requirements/code-quality]] `Quality.Lint.ZeroWarnings`. Blocked until TASK-002 through TASK-016 are all done.
+> Chore created. Status: `open`. Motivation: [[docs/requirements/technical/code-quality]] `Quality.Lint.ZeroWarnings`. Blocked until TASK-002 through TASK-016 are all done.
 
 > [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

@@ -13,7 +13,7 @@ describe('troubleshooting docs', () => {
     const text = await readFile(resolve('docs', 'troubleshooting.md'), 'utf8');
 
     for (const phrase of [
-      'Missing server binary',
+      'Missing bundled server',
       'Crash loop',
       'Version mismatch',
       'versionWarning',

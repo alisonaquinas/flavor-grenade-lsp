@@ -45,7 +45,7 @@ shared vault, completion, diagnostics, navigation, hover, and config modules.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings for Phase 15 changes | [[docs/requirements/code-quality]] |
+| — | Zero lint warnings for Phase 15 changes | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -32,7 +32,7 @@ LSP ranges never parse through or expand across `<% ... %>` spans.
 - Update folding and selection behavior to treat `templater` like other opaque
   regions.
 - Add focused parser and structural handler tests before implementation.
-- See also: [[docs/ofm-spec/templater]] and [[docs/requirements/semantic-tokens]].
+- See also: [[docs/ofm-spec/templater]] and [[docs/requirements/functional/semantic-tokens]].
 
 ---
 
@@ -42,7 +42,7 @@ LSP ranges never parse through or expand across `<% ... %>` spans.
 |---|---|---|
 | `Parity.StructuralLSP.FoldingRanges` | Folding ranges must not cross Templater regions | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.SelectionRanges` | Selection ranges must not cross Templater regions | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque regions are respected when deriving ranges | [[docs/requirements/semantic-tokens]] |
+| `ST-002` | Opaque regions are respected when deriving ranges | [[docs/requirements/functional/semantic-tokens]] |
 
 ---
 

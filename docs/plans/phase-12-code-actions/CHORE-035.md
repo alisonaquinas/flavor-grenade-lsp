@@ -38,7 +38,7 @@ Code quality review after feature implementation catches logical gaps and struct
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Post-phase code quality and structural soundness | [[docs/requirements/code-quality]] |
+| — | Post-phase code quality and structural soundness | [[docs/requirements/technical/code-quality]] |
 
 ---
 

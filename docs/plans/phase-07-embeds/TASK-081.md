@@ -30,7 +30,7 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 - In `EmbedParser`: when pipe content matches the pattern AND target has image extension, set `embedSize: { width, height? }` on the parsed entry
 - In `EmbedResolver`: when `embedSize` is set, pass through to `EmbedRef.embedSize` without treating it as an alias
 - Non-image embeds: pipe content is always treated as display alias, never size specifier
-- See also: [[docs/ofm-spec/embeds]], [[docs/requirements/embed-resolution]]
+- See also: [[docs/ofm-spec/embeds]], [[docs/requirements/functional/embed-resolution]]
 
 ---
 
@@ -38,7 +38,7 @@ In the Phase 3 `EmbedParser`, the `|200` part of `![[image.png|200]]` was parsed
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Embed size specifier `\|WxH` distinguished from display alias | [[docs/requirements/embed-resolution]] |
+| — | Embed size specifier `\|WxH` distinguished from display alias | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -115,7 +115,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

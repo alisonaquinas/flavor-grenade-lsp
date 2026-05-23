@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+import { resolveVaultRelativePath } from './vault-path-confinement.js';
 
 /** The detection mode for a vault. */
 export type VaultMode = 'obsidian' | 'flavor-grenade' | 'single-file';
@@ -81,12 +82,14 @@ export class VaultDetector {
   }
 
   private checkDir(dir: string): VaultDetectionResult | null {
-    const hasObsidian = this.isDir(path.join(dir, '.obsidian'));
+    const obsidianPath = resolveVaultRelativePath(dir, '.obsidian');
+    const hasObsidian = obsidianPath !== null && this.isDir(obsidianPath);
     if (hasObsidian) {
       return { mode: 'obsidian', vaultRoot: dir };
     }
 
-    const hasFg = this.isFile(path.join(dir, '.flavor-grenade.toml'));
+    const configPath = resolveVaultRelativePath(dir, '.flavor-grenade.toml');
+    const hasFg = configPath !== null && this.isFile(configPath);
     if (hasFg) {
       return { mode: 'flavor-grenade', vaultRoot: dir };
     }

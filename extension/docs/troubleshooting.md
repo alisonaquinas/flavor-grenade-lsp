@@ -7,14 +7,14 @@ status, version, platform, vault count, document count, and a sanitized server
 path summary. It does not include tokens, environment variables, or raw
 command-line arguments.
 
-## Missing Server Binary
+## Missing Bundled Server
 
 Status: `FG: Config` or `FG: Error`.
 
 Actions:
 
 - Run **Flavor Grenade: Show Output** and check the resolved server path.
-- Reinstall the platform-specific VSIX if the bundled binary is missing.
+- Reinstall the latest extension if the bundled server module is missing.
 - Clear `flavorGrenade.server.path` unless you intentionally use a custom
   development server.
 - Use **Flavor Grenade: Copy Diagnostic Info** when reporting the failure.
@@ -37,8 +37,8 @@ Status tooltip or copied diagnostics may include:
 
 Actions:
 
-- Reinstall the latest platform-specific VSIX if the warning appears after an
-  extension update.
+- Reinstall the latest extension if the warning appears after an extension
+  update.
 - Run **Flavor Grenade: Restart Server** after reinstalling.
 - Include copied diagnostics when reporting persistent mismatches; the warning
   includes extension and server versions without exposing raw paths.
@@ -114,12 +114,13 @@ Actions:
 
 ## Remote Workspaces
 
-Status: `FG: Starting`, `FG: Indexing`, then `FG: N docs` for supported
+Status: `FG: Starting`, `FG: Indexing`, then `FG: Ready` for supported
 file-backed WSL, SSH, and Dev Container workspaces.
 
-Flavor Grenade runs in the workspace extension host, so the bundled server
-binary must match the host where the files live, not necessarily the desktop UI
-operating system. Use [workspace environment smoke tests](features/workspace-environments.md)
+Flavor Grenade runs in the workspace extension host. The Marketplace package
+ships a bundled JavaScript server module that runs under the extension host's
+Node runtime, so releases no longer require a platform-specific native server
+binary. Use [workspace environment smoke tests](features/workspace-environments.md)
 when validating a release candidate.
 
 Actions:
@@ -127,5 +128,4 @@ Actions:
 - Confirm the workspace is trusted and file-backed.
 - Run **Flavor Grenade: Copy Diagnostic Info** and verify `platform` matches the
   remote host or container.
-- Reinstall the platform-specific VSIX for the host if the server binary is
-  missing.
+- Reinstall the latest extension if the bundled server module is missing.

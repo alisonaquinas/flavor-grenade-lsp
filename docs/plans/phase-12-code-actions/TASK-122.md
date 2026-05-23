@@ -32,7 +32,7 @@ Create `src/code-actions/fix-nbsp.action.ts`. When an FG006 (non-breaking space)
   - `isPreferred`: `true`
   - `edit.changes`: `{ [uri]: [{ range: nbspRange, newText: ' ' }] }`
 - The `nbspRange` comes directly from the FG006 diagnostic range; it covers exactly one character (U+00A0)
-- See also: [[docs/requirements/diagnostics]]
+- See also: [[docs/requirements/functional/diagnostics]]
 
 ---
 
@@ -40,7 +40,7 @@ Create `src/code-actions/fix-nbsp.action.ts`. When an FG006 (non-breaking space)
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Quick-fix for FG006 non-breaking space diagnostic | [[docs/requirements/diagnostics]] |
+| — | Quick-fix for FG006 non-breaking space diagnostic | [[docs/requirements/functional/diagnostics]] |
 
 ---
 
@@ -116,7 +116,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

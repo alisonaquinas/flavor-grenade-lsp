@@ -40,8 +40,8 @@ selection ranges.
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Preserve Obsidian embed and Markdown image attachment intelligence |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.FileOperations.AtomicRefactor]] | Preserve vault file-operation refactors for Obsidian references |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.Coverage]] | Preserve document links, folding, and selection ranges for Obsidian structures |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Provide a documented source-backed dialect profile |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Ensure selected flavor affects server analysis |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]] | Keep the flavor profile signature aligned with implemented surfaces |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]] | Dispatch parser behavior through the effective profile |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Diagnostics.ProfileRules]] | Apply profile-specific diagnostics |

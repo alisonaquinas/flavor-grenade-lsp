@@ -254,7 +254,7 @@ Whatever mechanism is implemented, tests must prove that one document's
 override does not leak into another document's effective flavor.
 
 The propagation payload must also satisfy
-[[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]]:
+[[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]]:
 bounded map size, enum validation, supported URI schemes, resource ownership
 checks, stale-resource eviction, and dangerous-key rejection.
 
@@ -306,7 +306,7 @@ Minimum test coverage:
 
 ## Cross-References
 
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/features/ofmarkdown-language-mode]]
 - [[docs/ddd/config/domain-model]]
 - [[docs/ddd/editor-client/domain-model]]

@@ -11,10 +11,10 @@ Only the latest published release line receives security fixes.
 
 | Component | Supported version | Status |
 |---|---:|---|
-| LSP server | `0.3.x` | Supported |
-| VS Code extension | `0.1.x` | Supported |
-| Older server releases | `< 0.3.0` | Unsupported |
-| Older extension releases | `< 0.1.4` | Unsupported |
+| LSP server | `0.4.x` | Supported |
+| VS Code extension | `0.2.x` | Supported |
+| Older server releases | `< 0.4.2` | Unsupported |
+| Older extension releases | `< 0.2.2` | Unsupported |
 
 > [!IMPORTANT]
 > Once a patched version is published, earlier releases are no longer supported.
@@ -55,7 +55,7 @@ basis.
 | Vault scanner and indexer | Path traversal, symlink confinement, file watcher behavior |
 | OFM parser | Parser denial of service, YAML safety, prototype pollution |
 | Resolution and edits | Unsafe workspace edits, rename behavior, attachment resolution |
-| VS Code extension | Workspace trust, virtual workspace handling, command execution, binary path overrides |
+| VS Code extension | Workspace trust, virtual workspace handling, command execution, bundled server module startup, user-level server path overrides |
 | Release pipeline | npm trusted publishing, package contents, VSIX package targets, pinned CI actions |
 | Supply chain | Malicious dependencies or compromised publish configuration |
 
@@ -85,8 +85,8 @@ basis.
 - Prototype-pollution rejection during frontmatter parsing.
 - Parser and recursive embed budgets.
 - VS Code startup blocked in untrusted and virtual workspaces.
-- Custom server binary path scoped to user or machine settings, not workspace
-  settings.
+- Custom server command path scoped to user or machine settings, not workspace
+  settings; packaged users run the bundled `server/main.js` module.
 - GitHub Actions pinned by commit SHA.
 
 ## Disclosure Policy

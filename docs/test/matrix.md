@@ -9,8 +9,10 @@ aliases:
 
 # Requirements × Tests Matrix
 
-> [!NOTE] Auto-update
-> Auto-update via `scripts/update-test-index.sh` (stub until Phase 3; fully implemented in Phase 3). Always commit matrix updates in the same commit as the test that triggered them.
+> [!NOTE] Maintenance
+> This matrix is maintained manually. `scripts/update-test-index.sh` is a
+> legacy no-op helper and is not a source of truth. Always commit matrix updates
+> in the same commit as the test that triggered them.
 
 This matrix maps every Planguage requirement tag to the test files that provide evidence for it, the current coverage status, the phase in which coverage was introduced, and any notes about partial coverage or deferred work.
 
@@ -301,7 +303,9 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Security.Supply.FrozenLockfile` | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--frozen-lockfile` |
 | `Security.Supply.IgnoreScripts` | All CI `bun install` uses `--ignore-scripts` CLI flag; `.npmrc` alone insufficient (Bun bypass) | `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `.github/workflows/extension-release.yml` | ✅ passing | Phase 1 | Workflow inspection shows all Bun installs use `--ignore-scripts` |
 | `Security.Supply.AdvisoryMonitoring` | Direct dependency upgrades reviewed against security advisories; documented in audit log | `docs/security/dependency-audit-log.md` | ✅ passing | Phase 18 | Phase 18 recorded root and extension advisory scans and fixed the extension transitive `fast-uri` advisory |
+| `Security.Supply.SetupNodeCacheControl` | Scanner-covered `actions/setup-node` steps disable automatic package-manager caching | `src/test/ci-workflow.test.ts`, `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, `.github/workflows/website-pages.yml` | ✅ passing | 2026-05-23 release hardening | Workflow inspection verifies every scanner-covered setup-node step sets `package-manager-cache: false` |
 | `Security.Supply.NoDevtoolsIntegration` | `@nestjs/devtools-integration` remains absent from manifests, lockfiles, and source | — | ⏳ planned | Phase 1 | Package/source audit passes; ESLint guard is still planned |
+| `Technical.SBOM.Server`, `Technical.SBOM.Extension`, `Technical.SBOM.Website` | Release SBOM evidence matches direct manifest and installed package state | `scripts/check-installed-packages.mjs`, `scripts/check-installed-packages.test.js`, `.github/workflows/ci.yml`, `docs/requirements/technical/sbom.md`, `extension/docs/requirements/technical/sbom.md`, `website/docs/requirements/technical/sbom.md` | ✅ passing | 2026-05-23 release hardening | CI checks root, extension, and website direct installed package versions after package installation |
 
 ---
 
@@ -326,8 +330,8 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.CommandBridges.PayloadValidation` | Command bridge payloads are validated before VS Code API calls | `extension/src/command-bridges.test.ts`, `extension/src/test/suite/command-bridges.test.js` | ✅ passing | Phase E9 | Invalid payloads return safe failure and do not call native APIs or throw uncaught host exceptions |
 | `Extension.CommandBridges.GraphActions` | Required graph, vault, embed, and diagnostic bridge commands are registered | `extension/src/command-bridges.test.ts`, `extension/src/test/suite/command-bridges.test.js` | ✅ passing | Phase E9 | Coverage verifies command contributions, activation events, backlinks, outlinks, reveal, embed, and diagnostic copy bridges |
 | `Extension.Tests.HostCoverage` | Extension-host tests cover required client behavior groups | `.github/workflows/ci.yml`, `src/test/ci-workflow.test.ts`, `extension/src/test/suite/*.js`, `extension/test/host-update-wait.test.ts`, `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature` | 🔴 failing | Markdown flavor requirements | Existing host gate runs, and BUG-042 covers stale Windows VS Code updater preflight behavior; required Markdown flavor selector, override persistence, and researched-flavor fixtures are not implemented yet |
-| `Extension.Binary.Resolution` | 2-tier binary resolution: user setting → bundled path | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
-| `Extension.Binary.PlatformSuffix` | `.exe` suffix appended on Windows, omitted on Unix | `extension/src/server-command.test.ts` | ✅ passing | Phase E2 | Covers Windows and non-Windows bundled binary paths |
+| `Extension.ServerCommand.Resolution` | Server command resolution: user setting → development `dist/main.js` → packaged `server/main.js` | `extension/src/server-command.test.ts`, `extension/src/server-path.ts` | ✅ passing | Phase E2, Phase E14 | Workspace-level `server.path` values are ignored by `server-path.ts`; pure resolver behavior is unit-tested |
+| `Extension.ServerCommand.PackagedModule` | Packaged extension starts the bundled JavaScript server module | `extension/test/package-targets/server-binary.test.ts`, `.github/workflows/extension-release.yml` | ✅ passing | Phase E14 | Package validator and release smoke test require exactly one `server/main.js` payload and reject native executables |
 | `Extension.Marketplace.OFMProof` | Marketplace README shows required Markdown flavor and OFMarkdown screenshots or images | `extension/test/marketplace/readme-assets.test.ts` | 🔴 failing | Markdown flavor requirements | Existing proof checks focus on OFMarkdown mode; add/retarget proof for Markdown flavor selector and required researched flavor support |
 | `Extension.Marketplace.AssetPackaging` | Referenced Marketplace README assets ship in packaged VSIX output | `extension/test/marketplace/readme-assets.test.ts`, `extension/test/marketplace/vsix-assets.test.ts` | ✅ passing | Phase E11 | Checks local README references, supported image formats, inventory coverage, and packaged VSIX archive output |
 | `Extension.Contributions.FlavorScoped` | Snippets, keybindings, commands, and optional theme examples stay scoped by Markdown flavor/context | `extension/test/contributions/snippets.test.ts`, `extension/test/contributions/language-configuration.test.ts`, `extension/test/contributions/keybindings.test.ts`, `extension/test/contributions/ofmarkdown-isolation.test.ts` | 🔴 failing | Markdown flavor requirements | Existing tests are `ofmarkdown` language-scope tests; rewrite around selector/context keys and generic Markdown isolation |
@@ -341,10 +345,10 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | `Extension.Lifecycle.Restart` | `flavorGrenade.server.path` config change triggers restart | — | ⬜ not-yet-written | Phase E3 | Integration test |
 | `Extension.Lifecycle.CrashRecovery` | Server crash triggers automatic restart (up to 4 in 3 minutes) | — | ⬜ not-yet-written | Phase E3 | Integration test; default error handler behavior |
 | `Extension.Lifecycle.CleanShutdown` | Deactivation stops client, server exits cleanly | — | ⬜ not-yet-written | Phase E3 | Integration test |
-| `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, and assets | `.github/workflows/extension-release.yml`, `extension/.vscodeignore` | ✅ passing | Phase E4 | Release workflow inspects packaged VSIX contents and rejects nested VSIXs or a missing target binary |
-| `Extension.Packaging.TargetBinaryValidation` | Platform VSIX output contains exactly one server binary matching the VSIX target | `extension/test/package-targets/server-binary.test.ts`, `.github/workflows/extension-release.yml` | ✅ passing | Phase E14 | Unit coverage checks target mapping and missing/duplicate/wrong-target rejection; package test inspects a real VSIX archive; release workflow runs the same validator for all seven targets |
+| `Extension.Packaging.VSIXContents` | VSIX contains only dist/, server/, manifest, changelog, README, license, and assets | `.github/workflows/extension-release.yml`, `extension/.vscodeignore` | ✅ passing | Phase E4, Phase E14 | Release workflow inspects packaged VSIX contents and rejects nested VSIXs or a missing server module |
+| `Extension.Packaging.ServerModuleValidation` | VSIX output contains exactly one bundled JavaScript server module and no native executable payload | `extension/test/package-targets/server-binary.test.ts`, `.github/workflows/extension-release.yml` | ✅ passing | Phase E14 | Unit coverage checks missing, duplicate, and native-executable rejection; package test inspects a real VSIX archive; release workflow runs the same validator before publishing |
 | `Extension.Packaging.VSIXInstall` | Local VSIX install succeeds and extension functions | — | ⬜ not-yet-written | Phase E4 | Manual smoke test |
-| `Extension.CICD.MatrixBuild` | All 7 platform-specific VSIXs build on tag push | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
+| `Extension.CICD.VSIXBuild` | Universal Marketplace VSIX builds on extension tag push | `.github/workflows/extension-release.yml` | ✅ passing | Phase E5, Phase E14 | CI builds one VSIX, verifies checksums, package contents, provenance, and bundled JS server startup |
 | `Extension.CICD.MarketplacePublish` | Publish job succeeds with VSCE_PAT | — | ⬜ not-yet-written | Phase E5 | CI verification; not a unit test |
 | `Extension.MarkdownLanguage.PreserveDefault` | `.md` documents stay in VS Code's built-in `markdown` language mode | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/vscode-extension.feature`, planned `extension/src/markdown-flavor.test.ts`, planned `extension/src/test/suite/markdown-flavor.test.js` | 🔴 failing | Markdown flavor requirements | Existing implementation still has retired `ofmarkdown` promotion tests; replace with preserve-default tests |
 | `Extension.MarkdownFlavor.Selector` | Extension exposes a separate Markdown flavor selector | `docs/bdd/features/ofmarkdown-language-mode.feature`, planned `extension/src/markdown-flavor.test.ts`, planned `extension/src/test/suite/markdown-flavor.test.js` | 🔴 failing | Markdown flavor requirements | Needs status item or equivalent selector tests plus quick-pick choice assertions |
@@ -462,7 +466,7 @@ cite commands, reviewer or generating command, commit, and source inputs.
 
 - [[docs/test/index]] — Test file inventory (flat list by type)
 - [[docs/requirements/index]] — Master Planguage tag index
-- [[docs/requirements/code-quality]] — Code quality Planguage requirements
-- [[docs/requirements/ci-cd]] — CI/CD Planguage requirements
-- [[docs/requirements/development-process]] — Development process Planguage requirements
+- [[docs/requirements/technical/code-quality]] — Code quality Planguage requirements
+- [[docs/requirements/operational/ci-cd]] — CI/CD Planguage requirements
+- [[docs/requirements/operational/development-process]] — Development process Planguage requirements
 - [[docs/plans/execution-ledger]] — Phase completion status

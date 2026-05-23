@@ -48,7 +48,7 @@ Out of scope:
 1. Enumerated the scoped docs with `rg --files docs`.
 2. Read the controlling server requirements, especially
    [[docs/requirements/functional/markdown-flavor-lsp]] and
-   [[docs/requirements/ofmarkdown-language-mode]].
+   [[docs/requirements/functional/ofmarkdown-language-mode]].
 3. Compared roadmap phases 19-34, their phase plan files, and their ticket
    indexes/tasks against the required server-side LSP surfaces:
    diagnostics, completion, definition, references, document links, document

@@ -6,7 +6,6 @@ import { describe, it, afterEach } from 'node:test';
 import {
     DOCUMENT_MEMBERSHIP_METHOD,
     LanguageModeController,
-    MARKDOWN_LANGUAGE_ID,
     OFMARKDOWN_LANGUAGE_ID,
     hasOfMarkdownMarkerAncestor,
     isPromotableMarkdownDocument,

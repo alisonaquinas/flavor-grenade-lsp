@@ -37,7 +37,7 @@ Update `ReferencesService` to handle `textDocument/references` requests where th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Find-references for block anchor definitions | [[docs/requirements/block-references]] |
+| — | Find-references for block anchor definitions | [[docs/requirements/functional/block-references]] |
 
 ---
 
@@ -111,7 +111,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

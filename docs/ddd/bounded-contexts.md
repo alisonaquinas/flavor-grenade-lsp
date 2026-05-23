@@ -105,7 +105,7 @@ See also: [[ubiquitous-language]], [[docs/ddd/vault/domain-model]], [[docs/ddd/l
 | BC3 Reference Resolution | BC4 Vault & Workspace    | Customer-Supplier + ACL | BC4 owns `RefGraph`. `Oracle` is the ACL: it bridges `VaultIndex` (BC4's name) to `Scope`/`Def` (BC3's language) without leaking BC4 types into BC3.                                                                                                          |
 | BC4 Vault & Workspace    | BC5 LSP Protocol         | Customer-Supplier       | BC5 is the customer. `LspServer` validates protocol payloads and calls BC4 workspace/config mutations, including `workspace/didChangeConfiguration` flavor updates. BC4 never imports BC5 types.                                                              |
 | LSP 3.17 spec            | BC5 LSP Protocol         | Conformist              | BC5 conforms entirely to the external LSP specification. No deviation, no translation.                                                                                                                                                                        |
-| BC5 LSP Protocol         | BC6 Editor Client        | Open Host Service       | JSON-RPC over stdio — the published protocol. BC6 spawns the server binary and communicates exclusively through this channel.                                                                                                                                 |
+| BC5 LSP Protocol         | BC6 Editor Client        | Open Host Service       | JSON-RPC over stdio — the published protocol. BC6 spawns the resolved server command and communicates exclusively through this channel.                                                                                                                       |
 | LSP 3.17 spec            | BC6 Editor Client        | Conformist              | BC6 conforms to the LSP 3.17 client protocol via `vscode-languageclient@9.x`. No protocol deviations.                                                                                                                                                         |
 | BC5 LSP Protocol         | BC6 Editor Client        | Custom Notification     | BC6 consumes the `flavorGrenade/status` server→client notification to drive the StatusBarWidget.                                                                                                                                                              |
 | BC5 LSP Protocol         | BC6 Editor Client        | Custom Request          | BC6 queries `flavorGrenade/documentMembership` for vault/index membership hints. The server still owns `EffectiveMarkdownFlavor`; client-side `Auto Detect` is selector state, not authoritative effective state.                                                 |
@@ -376,18 +376,18 @@ See [[docs/ddd/lsp-protocol/domain-model]] for the full method-to-command mappin
 
 ### BC6 Language
 
-TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient`, `BinaryResolver`, `StatusBarWidget`, `MarkdownFlavorController`, `DocumentMembership`, `PlatformVSIX`, `ExtensionActivation`, `ExtensionDeactivation`.
+TypeScript, `vscode-languageclient@9.x`, VS Code Extension API. `ExtensionClient`, `ServerResolver`, `StatusBarWidget`, `MarkdownFlavorController`, `DocumentMembership`, `VSIXPackage`, `ExtensionActivation`, `ExtensionDeactivation`.
 
 ### BC6 Owns
 
 | Type                       | Description                                                                                                                                                         |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ExtensionClient`          | The VS Code extension entry point — resolves binary, manages LanguageClient lifecycle, wires status bar and commands                                                |
-| `BinaryResolver`           | 2-tier resolution strategy: (1) user or machine `flavorGrenade.server.path`, with workspace values ignored, (2) bundled binary at `server/flavor-grenade-lsp[.exe]` |
+| `ExtensionClient`          | The VS Code extension entry point — resolves the server command, manages LanguageClient lifecycle, wires status bar and commands                                   |
+| `ServerResolver`           | Resolution strategy: user or machine `flavorGrenade.server.path`, development `dist/main.js`, then packaged `server/main.js`; workspace values are ignored          |
 | `StatusBarWidget`          | VS Code `StatusBarItem` reflecting server indexing state via `flavorGrenade/status` notifications                                                                   |
 | `MarkdownFlavorController` | Client-side service that writes/sends `MarkdownFlavorSelection` inputs while preserving VS Code's `markdown` language id                                            |
 | `DocumentMembership`       | Server-authored answer describing whether a URI belongs to a detected vault or current vault index                                                                  |
-| `PlatformVSIX`             | Platform-specific `.vsix` package containing client JS bundle and one Bun-compiled server binary for a single target                                                |
+| `VSIXPackage`              | Marketplace package containing the client JS bundle, packaged `server/main.js`, manifest, changelog, README, license, and assets                                    |
 
 ### BC6 Does Not Know About
 
@@ -399,7 +399,7 @@ BC2 (Document Lifecycle), BC3 (Reference Resolution), BC4 (Vault & Workspace) in
 - **Consumes** `flavorGrenade/status` custom notification to drive `StatusBarWidget` state transitions (initializing → indexing → ready → error).
 - **Requests** `flavorGrenade/documentMembership` for auto-detection hints. Server-side BC4 still owns the final `EffectiveMarkdownFlavor`.
 - **Sends** `workspace/executeCommand` for `flavorGrenade.rebuildIndex` when the user invokes the Rebuild Index palette command.
-- **Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the server binary as a child process and communicates via stdin/stdout.
+- **Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the resolved server command as a child process and communicates via stdin/stdout.
 
 ### BC6 Public Interface
 

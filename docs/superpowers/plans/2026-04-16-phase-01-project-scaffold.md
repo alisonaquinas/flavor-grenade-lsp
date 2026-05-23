@@ -512,7 +512,7 @@ This file serves two purposes: (1) vault detection marker for the LSP server its
 ```toml
 # flavor-grenade-lsp project configuration
 # This file marks a directory as a flavor-grenade-lsp project root.
-# See docs/requirements/configuration.md for the full schema reference.
+# See docs/requirements/technical/configuration.md for the full schema reference.
 
 [core]
 # File extensions treated as OFM documents
@@ -653,4 +653,4 @@ flavor-grenade-lsp/
 - [[docs/architecture/layers]] — NestJS module dependency order
 - [[docs/ddd/lsp-protocol/domain-model]] — what LspModule will host in Phase 2
 - [[docs/plans/phase-02-lsp-transport]] — next phase plan
-- [[docs/requirements/configuration]] — config schema driving `.flavor-grenade.toml`
+- [[docs/requirements/technical/configuration]] — config schema driving `.flavor-grenade.toml`

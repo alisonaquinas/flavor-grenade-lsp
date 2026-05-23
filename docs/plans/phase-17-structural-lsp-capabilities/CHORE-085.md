@@ -42,9 +42,9 @@ integration, and validation gates are treated as final.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Input.PositionValidation` | LSP positions and ranges are validated before use | [[docs/requirements/security/input-validation]] |
-| `Security.Vault.PathConfinement` | Structural links do not create vault-escape paths | [[docs/requirements/security/vault-confinement]] |
-| `ST-002` | Opaque regions prevent parsing through unsafe text spans | [[docs/requirements/semantic-tokens]] |
+| `Security.Input.PositionValidation` | LSP positions and ranges are validated before use | [[docs/requirements/technical/security-input-validation]] |
+| `Security.Vault.PathConfinement` | Structural links do not create vault-escape paths | [[docs/requirements/functional/security-vault-confinement]] |
+| `ST-002` | Opaque regions prevent parsing through unsafe text spans | [[docs/requirements/functional/semantic-tokens]] |
 
 ---
 

@@ -7,9 +7,9 @@ import type {
   LspCompletionItem,
   LspLocation,
 } from '../lsp-types.js';
-import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
@@ -61,10 +61,7 @@ Given('a vault containing:', async function (this: FGWorld, dataTable: DataTable
   }
   // Ensure vault is detectable by VaultDetector (needs a marker file)
   if (!this.singleFileMode) {
-    const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-    if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-    }
+    writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), LEGACY_OFM_PROJECT_CONFIG);
   }
 });
 
@@ -73,10 +70,10 @@ Given(
   function (this: FGWorld, relPath: string, content: string) {
     this.writeVaultFile(relPath, content);
     if (!this.singleFileMode) {
-      const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-      if (!fs.existsSync(markerPath)) {
-        fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-      }
+      writeFileIfMissing(
+        path.join(this.vaultDir, '.flavor-grenade.toml'),
+        LEGACY_OFM_PROJECT_CONFIG,
+      );
     }
   },
 );
@@ -84,10 +81,7 @@ Given(
 Given('the file {string} contains:', function (this: FGWorld, relPath: string, docString: string) {
   this.writeVaultFile(relPath, docString);
   if (!this.singleFileMode) {
-    const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-    if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-    }
+    writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), LEGACY_OFM_PROJECT_CONFIG);
   }
 });
 

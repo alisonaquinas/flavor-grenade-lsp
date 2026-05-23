@@ -76,8 +76,8 @@ Implement first-class mdx language support for MDX, using [[docs/research/mdx-an
 
 | Requirement | Source |
 |---|---|
-| Extension.MarkdownFlavor.DialectProfiles | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.MarkdownFlavor.ServerPropagation | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.DialectProfiles | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.MarkdownFlavor.ServerPropagation | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | FlavorLSP.Profile.SignatureCoverage | [[docs/requirements/functional/markdown-flavor-lsp]] |
 | FlavorLSP.Parser.ProfileDispatch | [[docs/requirements/functional/markdown-flavor-lsp]] |
 | FlavorLSP.Diagnostics.ProfileRules | [[docs/requirements/functional/markdown-flavor-lsp]] |

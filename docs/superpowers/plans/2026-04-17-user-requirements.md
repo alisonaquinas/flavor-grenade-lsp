@@ -693,14 +693,14 @@ git commit -m "docs(user-req): add configuring-behaviour theme (2 reqs)"
 
 **Files:**
 
-- Modify: `docs/requirements/wiki-link-resolution.md`
+- Modify: `docs/requirements/functional/wiki-link-resolution.md`
 
 In this file, each requirement block starts with `**Tag:** <tag-name>`. Insert a `**User Req:**` line immediately after each `**Tag:**` line, using the values from the FR Back-Reference Map above.
 
 - [ ] **Step 1: Read the file to understand exact content**
 
 ```bash
-head -30 docs/requirements/wiki-link-resolution.md
+head -30 docs/requirements/functional/wiki-link-resolution.md
 ```
 
 - [ ] **Step 2: Add `User Req:` after each `**Tag:**` line**
@@ -723,7 +723,7 @@ Apply the same pattern for all 5 tags:
 - [ ] **Step 3: Verify all 5 `User Req:` lines are present**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/wiki-link-resolution.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/wiki-link-resolution.md
 ```
 
 Expected: `5`
@@ -731,7 +731,7 @@ Expected: `5`
 - [ ] **Step 4: Commit**
 
 ```bash
-git add docs/requirements/wiki-link-resolution.md
+git add docs/requirements/functional/wiki-link-resolution.md
 git commit -m "docs(user-req): add User Req: back-refs to wiki-link-resolution"
 ```
 
@@ -741,7 +741,7 @@ git commit -m "docs(user-req): add User Req: back-refs to wiki-link-resolution"
 
 **Files:**
 
-- Modify: `docs/requirements/embed-resolution.md`
+- Modify: `docs/requirements/functional/embed-resolution.md`
 
 FR tags in this file and their User Req values:
 
@@ -755,7 +755,7 @@ FR tags in this file and their User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/embed-resolution.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/embed-resolution.md
 ```
 
 Expected: `4`
@@ -763,7 +763,7 @@ Expected: `4`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/embed-resolution.md
+git add docs/requirements/functional/embed-resolution.md
 git commit -m "docs(user-req): add User Req: back-refs to embed-resolution"
 ```
 
@@ -773,7 +773,7 @@ git commit -m "docs(user-req): add User Req: back-refs to embed-resolution"
 
 **Files:**
 
-- Modify: `docs/requirements/tag-indexing.md`
+- Modify: `docs/requirements/functional/tag-indexing.md`
 
 FR tags and User Req values:
 
@@ -787,7 +787,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/tag-indexing.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/tag-indexing.md
 ```
 
 Expected: `4`
@@ -795,7 +795,7 @@ Expected: `4`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/tag-indexing.md
+git add docs/requirements/functional/tag-indexing.md
 git commit -m "docs(user-req): add User Req: back-refs to tag-indexing"
 ```
 
@@ -805,7 +805,7 @@ git commit -m "docs(user-req): add User Req: back-refs to tag-indexing"
 
 **Files:**
 
-- Modify: `docs/requirements/block-references.md`
+- Modify: `docs/requirements/functional/block-references.md`
 
 FR tags and User Req values:
 
@@ -819,7 +819,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/block-references.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/block-references.md
 ```
 
 Expected: `4`
@@ -827,7 +827,7 @@ Expected: `4`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/block-references.md
+git add docs/requirements/functional/block-references.md
 git commit -m "docs(user-req): add User Req: back-refs to block-references"
 ```
 
@@ -837,7 +837,7 @@ git commit -m "docs(user-req): add User Req: back-refs to block-references"
 
 **Files:**
 
-- Modify: `docs/requirements/completions.md`
+- Modify: `docs/requirements/functional/completions.md`
 
 FR tags and User Req values:
 
@@ -851,7 +851,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/completions.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/completions.md
 ```
 
 Expected: `4`
@@ -859,7 +859,7 @@ Expected: `4`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/completions.md
+git add docs/requirements/functional/completions.md
 git commit -m "docs(user-req): add User Req: back-refs to completions"
 ```
 
@@ -869,7 +869,7 @@ git commit -m "docs(user-req): add User Req: back-refs to completions"
 
 **Files:**
 
-- Modify: `docs/requirements/diagnostics.md`
+- Modify: `docs/requirements/functional/diagnostics.md`
 
 FR tags and User Req values:
 
@@ -885,7 +885,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/diagnostics.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/diagnostics.md
 ```
 
 Expected: `6`
@@ -893,7 +893,7 @@ Expected: `6`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/diagnostics.md
+git add docs/requirements/functional/diagnostics.md
 git commit -m "docs(user-req): add User Req: back-refs to diagnostics"
 ```
 
@@ -903,7 +903,7 @@ git commit -m "docs(user-req): add User Req: back-refs to diagnostics"
 
 **Files:**
 
-- Modify: `docs/requirements/navigation.md`
+- Modify: `docs/requirements/functional/navigation.md`
 
 FR tags and User Req values:
 
@@ -916,7 +916,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/navigation.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/navigation.md
 ```
 
 Expected: `3`
@@ -924,7 +924,7 @@ Expected: `3`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/navigation.md
+git add docs/requirements/functional/navigation.md
 git commit -m "docs(user-req): add User Req: back-refs to navigation"
 ```
 
@@ -934,7 +934,7 @@ git commit -m "docs(user-req): add User Req: back-refs to navigation"
 
 **Files:**
 
-- Modify: `docs/requirements/rename.md`
+- Modify: `docs/requirements/functional/rename.md`
 
 FR tags and User Req values:
 
@@ -947,7 +947,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/rename.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/rename.md
 ```
 
 Expected: `3`
@@ -955,7 +955,7 @@ Expected: `3`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/rename.md
+git add docs/requirements/functional/rename.md
 git commit -m "docs(user-req): add User Req: back-refs to rename"
 ```
 
@@ -965,7 +965,7 @@ git commit -m "docs(user-req): add User Req: back-refs to rename"
 
 **Files:**
 
-- Modify: `docs/requirements/workspace.md`
+- Modify: `docs/requirements/functional/workspace.md`
 
 FR tags and User Req values:
 
@@ -979,7 +979,7 @@ FR tags and User Req values:
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/workspace.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/functional/workspace.md
 ```
 
 Expected: `4`
@@ -987,7 +987,7 @@ Expected: `4`
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/requirements/workspace.md
+git add docs/requirements/functional/workspace.md
 git commit -m "docs(user-req): add User Req: back-refs to workspace"
 ```
 
@@ -997,7 +997,7 @@ git commit -m "docs(user-req): add User Req: back-refs to workspace"
 
 **Files:**
 
-- Modify: `docs/requirements/configuration.md`
+- Modify: `docs/requirements/technical/configuration.md`
 
 FR tags and User Req values (only 2 of 4 FR tags in this file have user mappings):
 
@@ -1011,7 +1011,7 @@ FR tags and User Req values (only 2 of 4 FR tags in this file have user mappings
 - [ ] **Step 2: Verify exactly 2 added (not 4)**
 
 ```bash
-grep -c '^\*\*User Req:\*\*' docs/requirements/configuration.md
+grep -c '^\*\*User Req:\*\*' docs/requirements/technical/configuration.md
 ```
 
 Expected: `2`
@@ -1019,7 +1019,7 @@ Expected: `2`
 - [ ] **Step 3: Confirm unmapped FRs have no `User Req:` field**
 
 ```bash
-grep -A1 'Config\.Fault\.Isolation' docs/requirements/configuration.md | grep 'User Req'
+grep -A1 'Config\.Fault\.Isolation' docs/requirements/technical/configuration.md | grep 'User Req'
 ```
 
 Expected: no output (empty)
@@ -1027,7 +1027,7 @@ Expected: no output (empty)
 - [ ] **Step 4: Commit**
 
 ```bash
-git add docs/requirements/configuration.md
+git add docs/requirements/technical/configuration.md
 git commit -m "docs(user-req): add User Req: back-refs to configuration (2 of 4 FRs)"
 ```
 

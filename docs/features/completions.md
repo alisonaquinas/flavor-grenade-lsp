@@ -122,5 +122,5 @@ When the number of matching candidates exceeds the cap, the response sets `isInc
 - [[ADR006-block-ref-indexing]]
 - [[docs/features/diagnostics]]
 - [[docs/features/semantic-tokens]]
-- [[docs/requirements/wiki-link-resolution]]
+- [[docs/requirements/functional/wiki-link-resolution]]
 - [[docs/ofm-spec/index]]

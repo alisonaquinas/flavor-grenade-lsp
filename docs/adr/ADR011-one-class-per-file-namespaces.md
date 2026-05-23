@@ -11,7 +11,7 @@ date: 2026-04-16
 
 NestJS projects commonly begin with a handful of focused files but accumulate logic over time into large service files containing multiple exported classes, utility functions, and type definitions. A single `vault.service.ts` that grows to contain `VaultService`, `VaultIndexer`, `VaultWatcher`, and `VaultCacheManager` becomes a high-change-frequency file with a wide blast radius: every feature touching the vault domain modifies the same file, merge conflicts increase, and code review diffs are hard to scope.
 
-SOLID's Single Responsibility Principle states that a class should have one reason to change. High Coherence (see [[docs/requirements/code-quality]]) requires that the elements of a module be strongly related in purpose. Both principles point toward small, focused files with narrow interfaces.
+SOLID's Single Responsibility Principle states that a class should have one reason to change. High Coherence (see [[docs/requirements/technical/code-quality]]) requires that the elements of a module be strongly related in purpose. Both principles point toward small, focused files with narrow interfaces.
 
 TypeScript offers two competing organisational tools for grouping related declarations:
 
@@ -67,5 +67,5 @@ The rules, in order of precedence:
 
 - [[docs/ddd/bounded-contexts]]
 - [[docs/architecture/layers]]
-- [[docs/requirements/code-quality]]
+- [[docs/requirements/technical/code-quality]]
 - [[docs/adr/ADR009-precommit-hooks-zero-warnings]]

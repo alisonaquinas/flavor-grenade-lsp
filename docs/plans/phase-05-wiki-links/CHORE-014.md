@@ -30,7 +30,7 @@ Review and improve the internal code quality of all Phase 5 resolution module so
 
 Phase 5 introduces the core wiki-link resolution engine. Performance and correctness of `RefGraph` rebuild and `Oracle` resolution order are critical because they are called on every file change. A dedicated quality sweep identifies and fixes subtle issues before Phase 6 layers more features on top.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Phase 5 introduces the core wiki-link resolution engine. Performance and correct
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate | [[docs/requirements/code-quality]] |
+| — | Code quality gate | [[docs/requirements/technical/code-quality]] |
 
 ---
 

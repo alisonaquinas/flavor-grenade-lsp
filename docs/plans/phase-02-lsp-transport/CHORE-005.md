@@ -38,7 +38,7 @@ Resource leaks in stdio transport components could cause the server to malfuncti
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | No resource leaks; all error paths covered | [[docs/requirements/code-quality]] |
+| — | No resource leaks; all error paths covered | [[docs/requirements/technical/code-quality]] |
 
 ---
 

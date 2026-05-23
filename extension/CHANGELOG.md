@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.2.4] — 2026-05-23
+
+### Security
+
+- Disable automatic `actions/setup-node` package-manager caching in the extension release workflow so dry-run and Marketplace release jobs do not rely on mutable implicit package caches.
+- Keep extension release workflow cache hardening covered by the repository CI workflow verification tests.
+
+## [0.2.3] — 2026-05-23
+
+### Changed
+
+- Normalize extension documentation around the current bundled JavaScript server module package model.
+- Add local full-maturity guidance for extension source, scripts, tests, Marketplace evidence, and package-target verification areas.
+- Refresh extension development dependency metadata for the current VS Code API and TypeScript toolchain.
+
+## [0.2.2] — 2026-05-23
+
+### Changed
+
+- Update the extension API target and minimum VS Code version to 1.120.0.
+
+### Security
+
+- Refresh extension tooling transitive dependencies so public advisories for `qs`, `brace-expansion`, and `uuid` through `@azure/msal-node` are cleared.
+
+### Fixed
+
+- Replace bundled native server executables with a bundled JavaScript server module so Marketplace virus validation receives a non-native extension payload.
+
 ## [0.2.1] — 2026-05-23
 
 ### Fixed

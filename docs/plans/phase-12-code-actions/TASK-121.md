@@ -28,7 +28,7 @@ Extend the existing `src/code-actions/tag-to-yaml.action.ts` (originally impleme
 - Do NOT re-implement the basic tag-to-yaml flow from Phase 6; extend `src/code-actions/tag-to-yaml.action.ts`
 - Edge case 1: tag already in frontmatter `tags` array → return a `CodeAction` with `kind: CodeActionKind.Empty`, `title: 'Tag already in frontmatter'`, no `edit` (no-op, informational only)
 - Edge case 2: multiple inline occurrences of the same `#tag` → batch all inline deletions into one `WorkspaceEdit` with a single frontmatter insert
-- See also: [[docs/requirements/tag-indexing]]
+- See also: [[docs/requirements/functional/tag-indexing]]
 
 ---
 
@@ -36,7 +36,7 @@ Extend the existing `src/code-actions/tag-to-yaml.action.ts` (originally impleme
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Tag migration to frontmatter with edge-case coverage | [[docs/requirements/tag-indexing]] |
+| — | Tag migration to frontmatter with edge-case coverage | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 
@@ -113,7 +113,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

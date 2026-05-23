@@ -1,28 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import * as path from 'path';
 import type { MarkdownFlavorSelection } from './markdown-flavor-contract.js';
 import { isMarkdownFlavorSelection } from './markdown-flavor-state.js';
-import { confineExistingPathToVaultRoot } from '../vault/vault-path-confinement.js';
+import {
+  confineExistingPathToVaultRoot,
+  resolveVaultRelativePath,
+} from '../vault/vault-path-confinement.js';
 
 const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
 
 @Injectable()
+/**
+ * Reads project-level Markdown flavor evidence from `.flavor-grenade.toml`.
+ *
+ * Reads are confined to the vault root, capped at a small byte budget, and
+ * ignored when the file contains prototype-related TOML keys.
+ */
 export class ProjectMarkdownFlavorConfig {
+  /**
+   * Resolve the project-configured Markdown flavor for a vault root.
+   *
+   * @param vaultRoot - Absolute vault root path, or `null` when no vault exists.
+   * @returns A safe selector value when project config declares one.
+   */
   resolveFlavor(vaultRoot: string | null): MarkdownFlavorSelection | undefined {
     if (vaultRoot === null) {
       return undefined;
     }
 
-    const configPath = confineExistingPathToVaultRoot(
-      vaultRoot,
-      path.join(vaultRoot, PROJECT_CONFIG_FILE),
-    );
-    if (configPath === null) {
+    const candidateConfigPath = resolveVaultRelativePath(vaultRoot, PROJECT_CONFIG_FILE);
+    if (candidateConfigPath === null) {
       return undefined;
     }
 
+    const configPath = confineExistingPathToVaultRoot(vaultRoot, candidateConfigPath);
+    if (configPath === null) {
+      return undefined;
+    }
     const content = this.readConfig(configPath);
     if (content === null || hasDangerousTomlKey(content)) {
       return undefined;
@@ -31,14 +46,21 @@ export class ProjectMarkdownFlavorConfig {
   }
 
   private readConfig(configPath: string): string | null {
+    let fd: number | undefined;
     try {
-      const stat = fs.statSync(configPath);
+      fd = fs.openSync(configPath, 'r');
+      const stat = fs.fstatSync(fd);
       if (!stat.isFile() || stat.size > MAX_PROJECT_CONFIG_BYTES) {
         return null;
       }
-      return fs.readFileSync(configPath, 'utf8');
+      const content = fs.readFileSync(fd, 'utf8');
+      return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? null : content;
     } catch {
       return null;
+    } finally {
+      if (fd !== undefined) {
+        fs.closeSync(fd);
+      }
     }
   }
 }

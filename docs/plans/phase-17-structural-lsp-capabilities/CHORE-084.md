@@ -42,8 +42,8 @@ and before final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Maintainability.Boundaries` | New code respects established module boundaries | [[docs/requirements/code-quality]] |
-| `Quality.TDD.StrictRedGreen` | Behavioural fixes discovered during the sweep are ticketed first | [[docs/requirements/code-quality]] |
+| `Quality.Maintainability.Boundaries` | New code respects established module boundaries | [[docs/requirements/technical/code-quality]] |
+| `Quality.TDD.StrictRedGreen` | Behavioural fixes discovered during the sweep are ticketed first | [[docs/requirements/technical/code-quality]] |
 
 ---
 

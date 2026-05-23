@@ -87,6 +87,6 @@ All four escape scenarios must produce `null` from `confineToVaultRoot` and resu
 - [[docs/adr/ADR012-parser-safety-policy]] — companion parser-level safety ADR
 - [[docs/research/security-threat-model]] — CVE-2024-22415 and path traversal evidence
 - [[docs/research/security-threat-model]] — rename write risk
-- [[docs/requirements/security/vault-confinement]] — Planguage requirements derived from this ADR
+- [[docs/requirements/functional/security-vault-confinement]] — Planguage requirements derived from this ADR
 - [[docs/plans/phase-04-vault-index]] — implementation phase for VaultIndex confinement
 - [[docs/plans/phase-11-rename]] — implementation phase for rename confinement

@@ -46,10 +46,10 @@ unless the matrix is reconciled after the implementation tasks finish.
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.Attachments.Intelligence` | Attachment behavior has test evidence | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Embed.Resolution.ImageTarget` | Image attachment resolution has test evidence | [[docs/requirements/embed-resolution]] |
-| `Diagnostic.Severity.Embed` | Broken attachment diagnostics have severity evidence | [[docs/requirements/diagnostics]] |
-| `Navigation.Definition.AllLinkTypes` | Attachment definition has test evidence | [[docs/requirements/navigation]] |
-| `HV-002` | Attachment hover has test evidence | [[docs/requirements/hover]] |
+| `Embed.Resolution.ImageTarget` | Image attachment resolution has test evidence | [[docs/requirements/functional/embed-resolution]] |
+| `Diagnostic.Severity.Embed` | Broken attachment diagnostics have severity evidence | [[docs/requirements/functional/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Attachment definition has test evidence | [[docs/requirements/functional/navigation]] |
+| `HV-002` | Attachment hover has test evidence | [[docs/requirements/functional/hover]] |
 
 ---
 

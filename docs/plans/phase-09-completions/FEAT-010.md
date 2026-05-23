@@ -57,8 +57,8 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Completion provider requirements | [[docs/requirements/completions]] |
-| — | Configuration requirements for linkStyle and candidates cap | [[docs/requirements/configuration]] |
+| — | Completion provider requirements | [[docs/requirements/functional/completions]] |
+| — | Configuration requirements for linkStyle and candidates cap | [[docs/requirements/technical/configuration]] |
 
 ---
 

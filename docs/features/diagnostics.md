@@ -152,5 +152,5 @@ This prevents the editor from flickering diagnostics between keystrokes in the m
 - [[docs/features/code-actions]]
 - [[docs/features/navigation]]
 - [[docs/ofm-spec/index]]
-- [[docs/requirements/wiki-link-resolution]]
-- [[docs/requirements/block-references]]
+- [[docs/requirements/functional/wiki-link-resolution]]
+- [[docs/requirements/functional/block-references]]

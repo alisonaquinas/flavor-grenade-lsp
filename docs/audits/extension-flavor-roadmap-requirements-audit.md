@@ -18,7 +18,7 @@ This audit covers the requested extension-flavor planning surface:
 - `docs/plans/phase-E17-extension-flavor-host-verification.md` and tickets under
   `docs/plans/phase-E17-extension-flavor-host-verification/`.
 - `extension/docs/**`.
-- `docs/requirements/ofmarkdown-language-mode.md`.
+- `docs/requirements/functional/ofmarkdown-language-mode.md`.
 - `docs/requirements/functional/vscode-extension-parity.md`.
 - `docs/design/markdown-flavor-auto-detection.md`.
 - `docs/test/**` where relevant to extension flavor verification.

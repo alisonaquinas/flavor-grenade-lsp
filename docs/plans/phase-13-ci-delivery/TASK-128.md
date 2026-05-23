@@ -42,7 +42,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
   ```
 
 - `continue-on-error: true` is intentional and should be removed once all BDD scenarios pass
-- See also: [[docs/requirements/ci-cd]]
+- See also: [[docs/requirements/operational/ci-cd]]
 
 ---
 
@@ -50,7 +50,7 @@ Add a separate `bdd-full` job to `.github/workflows/ci.yml` that runs the full B
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Full BDD suite run informally in CI without blocking merges | [[docs/requirements/ci-cd]] |
+| — | Full BDD suite run informally in CI without blocking merges | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -126,7 +126,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

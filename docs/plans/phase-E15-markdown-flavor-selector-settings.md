@@ -28,16 +28,16 @@ server propagation calls. The auto-detection resolver follows
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Stop changing `.md` language ids for flavor |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]] | Add visible flavor selector and quick-pick choices |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector/settings enum |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Keep selector/schema/profile ids compatible with the shared dialect profile contract |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Stop changing `.md` language ids for flavor |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]] | Add visible flavor selector and quick-pick choices |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector/settings enum |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Keep selector/schema/profile ids compatible with the shared dialect profile contract |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
 | [[docs/design/markdown-flavor-auto-detection]] | Implement the unified precedence and resource-specific detection flow |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Keep non-`markdown` manual language selections out of flavor scope |
-| [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]] | Send only bounded, resource-owned flavor payloads |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write overrides to correct settings target |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Keep non-`markdown` manual language selections out of flavor scope |
+| [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]] | Send only bounded, resource-owned flavor payloads |
 | [GAP-E-001](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close language promotion gap |
 | [GAP-E-006](../../extension/docs/gaps/markdown-flavor-gap-analysis.md) | Close client-to-server propagation gap |
 

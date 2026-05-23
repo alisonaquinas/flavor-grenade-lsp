@@ -27,10 +27,10 @@ scope instead of documentation-only requirements.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Define the canonical flavor id list and labels |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Add source-backed explicit flavor profiles |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Profile.SignatureCoverage]] | Define the minimum server profile schema and registry coverage for all explicit flavors |
-| [[docs/requirements/security/parser-safety#Security.Parser.FlavorProfileResourceSafety]] | Add parser/resource-safety fields to the profile schema |
+| [[docs/requirements/technical/security-parser-safety#Security.Parser.FlavorProfileResourceSafety]] | Add parser/resource-safety fields to the profile schema |
 | [[docs/test/markdown-flavor-unit-spec]] | Implement profile registry unit test coverage |
 | [GAP-S-001](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor enum/model gap |
 | [GAP-S-002](../gaps/markdown-flavor-gap-analysis.md) | Close missing dialect profile registry gap |

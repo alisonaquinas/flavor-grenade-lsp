@@ -55,7 +55,7 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Block reference requirements defined in Phase 8 | [[docs/requirements/block-references]] |
+| — | Block reference requirements defined in Phase 8 | [[docs/requirements/functional/block-references]] |
 
 ---
 

@@ -88,7 +88,7 @@ Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary. |
+| `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to a language server command. Workspace values are ignored for safety. Leave empty to use the bundled server module. |
 | `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `title-slug`, `file-path-stem`. |
 | `flavorGrenade.markdownFlavor` | `string` | `"auto"` | Markdown flavor selector. Options: `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, `stack-overflow`. |
 | `flavorGrenade.completion.candidates` | `number` | `50` | Maximum number of completion items returned. |
@@ -176,11 +176,11 @@ in [extension/docs/features/command-bridge-contracts.md](docs/features/command-b
 6. Run **Flavor Grenade: Restart Server** in the Extension Host window.
 7. Open a note inside a folder containing `.obsidian/`; confirm the Markdown flavor status item shows **Markdown: Obsidian**.
 8. Open a non-vault Markdown file; confirm the language picker remains **Markdown**.
-9. Confirm changed LSP behavior is visible without rebuilding the bundled server binary.
+9. Confirm changed LSP behavior is visible after the TypeScript watch task rebuilds `../dist/main.js`.
 
 ## Requirements
 
-- VS Code 1.82.0 or later
+- VS Code 1.120.0 or later
 - An Obsidian vault or a folder configured with `.flavor-grenade.toml`
 
 ## Links

@@ -28,7 +28,7 @@ subset.
 **Files modified:**
 
 - `.github/workflows/ci.yml` — add jobs or steps for the missing gates.
-- `docs/requirements/ci-cd.md` — update CI meter/source if job names change.
+- `docs/requirements/operational/ci-cd.md` — update CI meter/source if job names change.
 - `docs/test/matrix.md` and `docs/test/index.md` — update traceability if new
   workflow verification tests are added.
 
@@ -46,8 +46,8 @@ subset.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | Every PR must pass all required CI checks before merge. | [[docs/requirements/ci-cd]] |
-| `CICD.Workflow.BDDGate` | The default BDD gate must execute in CI. | [[docs/requirements/ci-cd]] |
+| `CICD.Workflow.PRGate` | Every PR must pass all required CI checks before merge. | [[docs/requirements/operational/ci-cd]] |
+| `CICD.Workflow.BDDGate` | The default BDD gate must execute in CI. | [[docs/requirements/operational/ci-cd]] |
 | `Extension.Tests.HostCoverage` | Extension-host behavior must be covered by executable tests. | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ## Linked Tests

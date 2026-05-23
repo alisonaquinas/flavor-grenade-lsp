@@ -48,5 +48,5 @@ Every flavor feature set must:
 
 - [[docs/features/ofmarkdown-language-mode]]
 - [[docs/plans/markdown-flavor-lsp-applicability-matrix]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/test/markdown-flavor-unit-spec]]

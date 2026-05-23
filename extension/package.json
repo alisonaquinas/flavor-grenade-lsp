@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
     "url": "https://github.com/alisonaquinas/flavor-grenade-lsp"
   },
   "engines": {
-    "vscode": "^1.82.0"
+    "vscode": "^1.120.0"
   },
   "categories": [
     "Programming Languages",
@@ -153,7 +153,7 @@
           "type": "string",
           "scope": "machine",
           "default": "",
-          "description": "Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary."
+          "description": "Custom user-level path to a language server command. Workspace values are ignored for safety. Leave empty to use the bundled server module."
         },
         "flavorGrenade.linkStyle": {
           "type": "string",
@@ -215,7 +215,7 @@
   "capabilities": {
     "untrustedWorkspaces": {
       "supported": false,
-      "description": "Spawns a language server binary."
+      "description": "Starts a bundled language server."
     },
     "virtualWorkspaces": {
       "supported": false,
@@ -223,10 +223,11 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run build:extension",
-    "compile": "npm run check-types && npm run build:extension",
+    "vscode:prepublish": "npm run build:extension && npm run build:server",
+    "compile": "npm run check-types && npm run build:extension && npm run build:server",
     "check-types": "tsc --noEmit --project tsconfig.json",
     "build:extension": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --minify --sourcemap",
+    "build:server": "node scripts/build-server-module.mjs",
     "watch": "npm run watch:extension",
     "watch:extension": "node scripts/watch-extension.mjs",
     "test": "node --import tsx --test \"src/**/*.test.ts\" \"test/**/*.test.ts\"",
@@ -238,12 +239,12 @@
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "@types/node": "20.19.39",
-    "@types/vscode": "1.82.0",
+    "@types/node": "25.9.1",
+    "@types/vscode": "1.120.0",
     "@vscode/test-electron": "2.5.2",
     "@vscode/vsce": "3.9.1",
     "esbuild": "0.28.0",
-    "tsx": "4.21.0",
-    "typescript": "5.9.3"
+    "tsx": "4.22.3",
+    "typescript": "6.0.3"
   }
 }

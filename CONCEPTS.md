@@ -10,7 +10,7 @@ link. Examples include images, PDFs, audio files, and other local files.
 Attachments are indexed separately from Markdown documents so image links can
 resolve without being treated as notes.
 
-See also: `VaultIndex`, `Embed`, `MarkdownImage`.
+**See also:** `VaultIndex`, `Embed`, `MarkdownImage`.
 
 ## BlockAnchor
 
@@ -21,7 +21,7 @@ that block addressable through links such as `[[file#^identifier]]`.
 The caret sigil is not stored in the identifier. Block anchors are stored in
 `OFMIndex.blockAnchors`.
 
-See also: `OFMIndex`, `WikiLink`.
+**See also:** `OFMIndex`, `WikiLink`.
 
 ## Callout
 
@@ -31,7 +31,7 @@ fold state and title text. The type keyword, such as `NOTE`, `WARNING`, or
 `OFMIndex.callouts` and participate in completion, symbols, semantic tokens,
 and folding.
 
-See also: `OFMIndex`.
+**See also:** `OFMIndex`.
 
 ## DiagnosticCode
 
@@ -49,7 +49,7 @@ A string code attached to an LSP diagnostic. Current codes are:
 Diagnostic codes are consumed by code-action handlers so quick fixes can match
 the diagnostics they resolve.
 
-See also: `Oracle`, `src/resolution/diagnostic-service.ts`.
+**See also:** `Oracle`, `src/resolution/diagnostic-service.ts`.
 
 ## DocId
 
@@ -60,7 +60,7 @@ without the `.md` extension. Examples are `notes/MyNote` and
 `toDocId()` strips the `.md` extension and normalizes path separators to `/`.
 DocIds are used as keys in `VaultIndex` and throughout reference resolution.
 
-See also: `VaultIndex`, `src/vault/doc-id.ts`.
+**See also:** `VaultIndex`, `src/vault/doc-id.ts`.
 
 ## Embed
 
@@ -68,7 +68,7 @@ A transclusion link of the form `![[target]]` or `![[image.png|200x150]]`.
 Embeds can target notes, headings, block anchors, and local attachments. Broken
 embed or attachment targets produce `FG004`.
 
-See also: `WikiLink`, `Attachment`, `OFMIndex`.
+**See also:** `WikiLink`, `Attachment`, `OFMIndex`.
 
 ## Frontmatter
 
@@ -80,7 +80,7 @@ Frontmatter `aliases` participate in Oracle resolution. Frontmatter `tags`
 participate in the vault-wide tag registry. Frontmatter parsing has size,
 alias-count, and prototype-pollution safeguards.
 
-See also: `OFMDoc`, `Oracle`, `TagRegistry`.
+**See also:** `OFMDoc`, `Oracle`, `TagRegistry`.
 
 ## JsonRpcDispatcher
 
@@ -90,7 +90,7 @@ converts thrown errors into JSON-RPC error responses.
 
 All request handlers registered with the dispatcher return `Promise<unknown>`.
 
-See also: `src/transport/json-rpc-dispatcher.ts`.
+**See also:** `src/transport/json-rpc-dispatcher.ts`.
 
 ## MarkdownImage
 
@@ -98,7 +98,7 @@ A standard Markdown image token of the form `![alt](target "title")`.
 Local image and attachment targets are classified and resolved against the vault
 attachment index. External URLs are ignored by vault diagnostics.
 
-See also: `Attachment`, `MarkdownLink`, `OFMIndex`.
+**See also:** `Attachment`, `MarkdownLink`, `OFMIndex`.
 
 ## MarkdownLink
 
@@ -108,7 +108,7 @@ participate in definition, diagnostics, document links, references, and heading
 rename behavior. External URLs and unsupported schemes do not create vault
 diagnostics.
 
-See also: `LinkLabel`, `Oracle`, `OFMIndex`.
+**See also:** `LinkLabel`, `Oracle`, `OFMIndex`.
 
 ## LinkLabel
 
@@ -117,7 +117,7 @@ A reference-style Markdown label use or definition. The parser indexes
 `[label]: target "title"`. Labels are matched document-locally with normalized
 case-insensitive keys.
 
-See also: `MarkdownLink`, `OFMIndex`.
+**See also:** `MarkdownLink`, `OFMIndex`.
 
 ## OFM
 
@@ -131,7 +131,7 @@ The fully parsed in-memory representation of one document. It stores the raw
 text, URI, LSP version, parsed frontmatter, frontmatter body offset,
 opaque regions, and the `OFMIndex`.
 
-See also: `OFMIndex`, `src/parser/types.ts`.
+**See also:** `OFMIndex`, `src/parser/types.ts`.
 
 ## OFMIndex
 
@@ -151,7 +151,7 @@ The token index extracted from an `OFMDoc`. It currently contains:
 The parser rebuilds the index atomically when a document changes. `VaultIndex`
 stores the parsed document and its index.
 
-See also: `OFMDoc`, `src/parser/types.ts`.
+**See also:** `OFMDoc`, `src/parser/types.ts`.
 
 ## OpaqueRegion
 
@@ -162,7 +162,7 @@ HTML comments, and Templater blocks.
 The opaque-region pass runs before token parsers so constructs such as
 `[[link]]` inside code or comments are ignored.
 
-See also: `src/parser/opaque-region-marker.ts`.
+**See also:** `src/parser/opaque-region-marker.ts`.
 
 ## Oracle
 
@@ -179,7 +179,7 @@ For standard Markdown targets, the Oracle resolves same-document fragments,
 local note paths, file-plus-fragment targets, and heading anchors after target
 classification.
 
-See also: `src/resolution/oracle.ts`, `DocId`.
+**See also:** `src/resolution/oracle.ts`, `DocId`.
 
 ## TagRegistry
 
@@ -187,7 +187,7 @@ The vault-wide index of all tag occurrences, built from inline `#tag` tokens
 and frontmatter `tags:` arrays. It supports frequency queries, prefix filtering,
 and slash-delimited hierarchy lookup.
 
-See also: `src/tags/tag-registry.ts`.
+**See also:** `src/tags/tag-registry.ts`.
 
 ## VaultIndex
 
@@ -198,7 +198,7 @@ read from it rather than maintaining separate document caches.
 The index is populated by the initial vault scan and updated from open, change,
 close, and file-watcher events.
 
-See also: `src/vault/vault-index.ts`, `DocId`, `OFMDoc`.
+**See also:** `src/vault/vault-index.ts`, `DocId`, `OFMDoc`.
 
 ## VaultMode
 
@@ -211,7 +211,7 @@ The outcome of vault detection:
 Single-file mode keeps local parsing features available and suppresses
 vault-wide diagnostics that would otherwise become false positives.
 
-See also: `src/vault/vault-detector.ts`.
+**See also:** `src/vault/vault-detector.ts`.
 
 ## WikiLink
 
@@ -223,4 +223,4 @@ fragment, or block reference. Examples include `[[target|display]]`,
 Wiki-links are the primary OFM navigation primitive and are resolved by the
 Oracle.
 
-See also: `Oracle`, `OFMIndex`, `src/parser/types.ts`.
+**See also:** `Oracle`, `OFMIndex`, `src/parser/types.ts`.

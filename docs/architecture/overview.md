@@ -154,7 +154,7 @@ host-specific behavior, or opaque text:
 
 See [[docs/concepts/document-model]] for the 8-stage pipeline,
 [[docs/concepts/ofm-syntax]] for the OFM element taxonomy, and
-[[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
+[[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
 for required flavor profiles.
 
 ---

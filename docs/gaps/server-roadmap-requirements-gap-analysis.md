@@ -16,7 +16,7 @@ on Markdown flavor server behavior.
 - [docs/plans/markdown-flavor-lsp-applicability-matrix.md](../plans/markdown-flavor-lsp-applicability-matrix.md)
 - [docs/requirements/index.md](../requirements/index.md)
 - [docs/requirements/functional/markdown-flavor-lsp.md](../requirements/functional/markdown-flavor-lsp.md)
-- [docs/requirements/ofmarkdown-language-mode.md](../requirements/ofmarkdown-language-mode.md)
+- [docs/requirements/functional/ofmarkdown-language-mode.md](../requirements/ofmarkdown-language-mode.md)
 - [docs/requirements/functional/ofmarkdown-parity.md](../requirements/functional/ofmarkdown-parity.md)
 - [docs/requirements/security/](../requirements/security/)
 - [docs/requirements/user/markdown-flavors.md](../requirements/user/markdown-flavors.md)

@@ -1,16 +1,27 @@
 ---
 adr: "015"
-title: Platform-specific VSIX distribution for VS Code extension
-status: accepted
+title: VS Code extension server payload distribution
+status: superseded
 date: 2026-04-21
-amended: 2026-05-06
+amended: 2026-05-06, 2026-05-23
 ---
 
-# ADR 015 — Platform-specific VSIX distribution for VS Code extension
+# ADR 015 — VS Code extension server payload distribution
+
+> [!IMPORTANT]
+> This ADR records the original native-binary VSIX decision and its
+> replacement. Current extension releases use a single Marketplace VSIX that
+> bundles the JavaScript server module at `server/main.js`. Historical planning
+> documents may still mention platform-specific native VSIXs; those statements
+> describe the earlier implementation path, not the current release package.
 
 ## Context
 
-`flavor-grenade-lsp` needs a VS Code extension that bundles the language server binary so users get full Obsidian Flavored Markdown intelligence without installing a separate CLI tool. The server is compiled via `bun build --compile`, producing a self-contained executable with the Bun runtime embedded.
+At the time of the original decision, `flavor-grenade-lsp` needed a VS Code
+extension that bundled the language server binary so users could get full
+Obsidian Flavored Markdown intelligence without installing a separate CLI tool.
+The server was compiled via `bun build --compile`, producing a self-contained
+executable with the Bun runtime embedded.
 
 Three distribution strategies were evaluated:
 
@@ -22,7 +33,8 @@ Three distribution strategies were evaluated:
 
 ## Decision
 
-Adopt **Option 1 — platform-specific VSIXs**. Publish 7 platform-specific packages:
+The original decision adopted **Option 1 — platform-specific VSIXs**. It
+published seven platform-specific packages:
 
 | VS Code target | Bun cross-compilation target |
 |---|---|
@@ -34,11 +46,17 @@ Adopt **Option 1 — platform-specific VSIXs**. Publish 7 platform-specific pack
 | `win32-x64` | `bun-windows-x64` |
 | `win32-arm64` | `bun-windows-arm64` |
 
-Each VSIX bundles the compiled binary at `server/flavor-grenade-lsp[.exe]`. The extension client resolves this path at activation via a 2-tier strategy: user setting override, then bundled binary.
+Each VSIX bundled the compiled binary at `server/flavor-grenade-lsp[.exe]`.
+The extension client resolved this path at activation via a 2-tier strategy:
+user setting override, then bundled binary.
 
-All 7 targets are cross-compiled on `ubuntu-latest` via Bun's built-in cross-compilation. The release workflow must also run a Windows smoke test against the packaged `win32-x64` VSIX before publishing.
+All 7 targets were cross-compiled on `ubuntu-latest` via Bun's built-in
+cross-compilation. The release workflow also ran a Windows smoke test against
+the packaged `win32-x64` VSIX before publishing.
 
-Extension release binaries are built with `--compile --minify`. They must not use `--bytecode` unless a future release revalidates it for every published platform package.
+Extension release binaries were built with `--compile --minify`. They did not
+use `--bytecode` after the 0.1.3 hotfix unless a future release revalidated it
+for every published platform package.
 
 ## Consequences
 
@@ -75,3 +93,27 @@ the release workflow. Each VSIX archive is inspected for exactly one
 `extension/server/flavor-grenade-lsp` or `extension/server/flavor-grenade-lsp.exe`
 entry, and that entry must match the `vsce --target` platform. This check runs
 for all seven release targets before artifacts are uploaded.
+
+## Amendment 2026-05-23 — Universal VSIX with bundled JavaScript server
+
+Current extension releases no longer ship native Bun executables. The release
+workflow builds the server as a JavaScript module and packages exactly one
+`extension/server/main.js` file inside a single VSIX.
+
+The extension resolver now uses this startup order:
+
+1. User or machine `flavorGrenade.server.path`, with workspace values ignored.
+2. Development mode `dist/main.js` from the repository root via `node`.
+3. Packaged `server/main.js` via `node`.
+
+The release workflow verifies this model by compiling the extension, running
+unit and host tests, checking Marketplace assets, checking package-target rules,
+building a VSIX with `vsce package`, inspecting that VSIX for `server/main.js`,
+attesting provenance, and smoke-testing the bundled JavaScript server with
+Node.js.
+
+The replacement keeps the zero-download install property while avoiding native
+executable Marketplace scanning and cross-compiled binary crash modes. The
+tradeoff is that the packaged extension relies on the VS Code extension host
+environment providing Node.js rather than embedding the Bun runtime in a native
+server executable.

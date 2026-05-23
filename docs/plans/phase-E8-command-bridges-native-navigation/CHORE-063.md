@@ -43,7 +43,7 @@ kept separate from behavior changes.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase E8 must introduce no lint warnings | [[docs/requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase E8 must introduce no lint warnings | [[docs/requirements/technical/code-quality]] |
 
 ---
 

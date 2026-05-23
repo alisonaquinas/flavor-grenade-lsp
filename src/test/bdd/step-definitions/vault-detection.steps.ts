@@ -4,6 +4,7 @@ import { FGWorld } from '../world.js';
 import type { FgQueryIndexResult } from '../lsp-types.js';
 import fs from 'node:fs';
 import path from 'node:path';
+import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── vault-detection.feature and workspace.feature step definitions ─────────
 
@@ -39,10 +40,7 @@ Given(
       if (row.type === 'directory') {
         fs.mkdirSync(abs, { recursive: true });
       } else {
-        fs.mkdirSync(path.dirname(abs), { recursive: true });
-        if (!fs.existsSync(abs)) {
-          fs.writeFileSync(abs, '', 'utf8');
-        }
+        writeFileIfMissing(abs, '');
       }
     }
   },
@@ -60,10 +58,7 @@ Given('a directory structure:', function (this: FGWorld, dataTable: DataTable) {
     if (row.type === 'directory') {
       fs.mkdirSync(abs, { recursive: true });
     } else {
-      fs.mkdirSync(path.dirname(abs), { recursive: true });
-      if (!fs.existsSync(abs)) {
-        fs.writeFileSync(abs, '', 'utf8');
-      }
+      writeFileIfMissing(abs, '');
     }
   }
 });
@@ -400,9 +395,8 @@ Then(
 // ── File existence (used as preconditions) ─────────────────────────────────
 
 Given('the file {string} exists', function (this: FGWorld, relPath: string) {
-  if (!fs.existsSync(path.join(this.vaultDir, relPath))) {
-    this.writeVaultFile(relPath, '');
-  }
+  if (!this.vaultDir) this.createVaultDir();
+  writeFileIfMissing(path.join(this.vaultDir, relPath), '');
 });
 
 Given('no vault markers are present in {string}', function (this: FGWorld, _dir: string) {
@@ -421,17 +415,11 @@ Given(
       if (row.type === 'directory') {
         fs.mkdirSync(abs, { recursive: true });
       } else {
-        fs.mkdirSync(path.dirname(abs), { recursive: true });
-        if (!fs.existsSync(abs)) {
-          fs.writeFileSync(abs, '', 'utf8');
-        }
+        writeFileIfMissing(abs, '');
       }
     }
     // Ensure vault marker exists
-    const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-    if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
-    }
+    writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), '');
   },
 );
 
@@ -459,10 +447,7 @@ Given(
     const content = normalizeIgnorePattern(pattern1) + nl + normalizeIgnorePattern(pattern2) + nl;
     this.writeVaultFile('.gitignore', content);
     // Ensure vault marker exists
-    const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-    if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
-    }
+    writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), '');
   },
 );
 
@@ -478,10 +463,7 @@ Given('the vault contains:', function (this: FGWorld, dataTable: DataTable) {
     if (row.type === 'directory') {
       fs.mkdirSync(abs, { recursive: true });
     } else {
-      fs.mkdirSync(path.dirname(abs), { recursive: true });
-      if (!fs.existsSync(abs)) {
-        fs.writeFileSync(abs, '', 'utf8');
-      }
+      writeFileIfMissing(abs, '');
     }
   }
 });
@@ -523,10 +505,10 @@ Then('links in vault-b do not resolve to documents in vault-a', function (this: 
 Given('a running LSP server with an indexed vault', async function (this: FGWorld) {
   if (!this.vaultDir) this.createVaultDir();
   // Ensure vault marker
-  const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-  if (!fs.existsSync(markerPath)) {
-    fs.writeFileSync(markerPath, 'core.markdown.flavor = "obsidian"\n', 'utf8');
-  }
+  writeFileIfMissing(
+    path.join(this.vaultDir, '.flavor-grenade.toml'),
+    'core.markdown.flavor = "obsidian"\n',
+  );
   if (!this.proc) {
     await this.startServer(this.vaultUri());
   }
@@ -584,9 +566,8 @@ Then(
 );
 
 Given('the vault contains {string}', function (this: FGWorld, relPath: string) {
-  if (!fs.existsSync(path.join(this.vaultDir, relPath))) {
-    this.writeVaultFile(relPath, '');
-  }
+  if (!this.vaultDir) this.createVaultDir();
+  writeFileIfMissing(path.join(this.vaultDir, relPath), '');
 });
 
 When('the file {string} is deleted from the filesystem', function (this: FGWorld, relPath: string) {

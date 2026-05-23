@@ -38,7 +38,7 @@ CI workflows that inadvertently expose secrets or use long-lived tokens in plain
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | OIDC-aligned token management in CI/CD workflows | [[docs/requirements/ci-cd]] |
+| — | OIDC-aligned token management in CI/CD workflows | [[docs/requirements/operational/ci-cd]] |
 
 ---
 

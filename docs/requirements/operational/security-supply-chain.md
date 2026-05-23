@@ -1,0 +1,134 @@
+---
+title: Requirements — Supply Chain Security
+tags:
+  - requirements/security
+  - requirements/security/supply-chain
+aliases:
+  - Supply Chain Requirements
+  - Dependency Security Requirements
+---
+
+# Supply Chain Security Requirements
+
+> [!NOTE] Scope
+> These are **operational security requirements** governing how dependencies are managed, audited, cached, and published. They respond directly to the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), GitHub Actions cache-poisoning findings, and NestJS CVEs documented in [[docs/research/security-threat-model]]. Decisions are codified in [[docs/adr/ADR014-dependency-security-policy]] and [[docs/adr/ADR008-oidc-publishing]].
+
+---
+
+## Security.Supply.ExactPinning
+
+**Tag:** Security.Supply.ExactPinning
+**Gist:** Runtime and development dependencies should use exact version strings where possible; range specifiers (`^`, `~`, `>=`, `*`) remain tracked supply-chain debt until CI range linting is added.
+**Ambition:** Semver range specifiers allow a package registry update to silently upgrade a dependency to a newer (potentially compromised) version without a lockfile change appearing in the PR. The Shai-Hulud 2.0 campaign exploited this by publishing malicious patch versions of popular packages — any consumer with `"^1.2.3"` received the malicious `1.2.4` on their next `npm install`. Exact pinning means the lockfile is the sole authoritative source of resolved versions; registry updates cannot introduce new versions without an explicit PR that modifies `package.json` and `bun.lockb`, which requires human review.
+**Scale:** Percentage of dependency entries in `package.json` (both `dependencies` and `devDependencies`) that use a range specifier rather than an exact version string.
+**Meter:**
+
+1. Parse `package.json` dependencies and devDependencies.
+2. For each entry, check whether the version string begins with `^`, `~`, `>`, `>=`, or `*`.
+3. Count violations.
+4. Compute: (entries with range specifiers / total entries) × 100.
+**Fail:** Range specifiers increase compared with the prior audited baseline, or a dependency PR changes ranges without security review.
+**Goal:** 0% range specifiers — all entries use exact version strings, enforced by `bunfig.toml` `exact = true` for new Bun adds plus a future CI range lint check.
+**Stakeholders:** Supply chain security, dependency auditors, CI integrity.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], Shai-Hulud 2.0 analysis.
+
+---
+
+## Security.Supply.FrozenLockfile
+
+**Tag:** Security.Supply.FrozenLockfile
+**Gist:** All CI `bun install` invocations must use `--frozen-lockfile`; any discrepancy between `package.json` and `bun.lockb` must fail the build rather than update the lockfile.
+**Ambition:** A lockfile that is allowed to update during CI provides a false sense of security — the lockfile in the repository may represent a known-good state, but CI is actually resolving and installing a different set of versions. `--frozen-lockfile` ensures that CI installs exactly the versions encoded in `bun.lockb` at the time of the last reviewed lockfile commit. Any drift between `package.json` and `bun.lockb` (e.g., from a malformed manual edit or a compromised Dependabot PR) is surfaced as a build failure rather than silently resolved.
+**Scale:** Percentage of CI workflow runs that use `bun install --frozen-lockfile` (not `bun install` without the flag). Measured by inspection of `.github/workflows/ci.yml`, `.github/workflows/release.yml`, and `.github/workflows/extension-release.yml`.
+**Meter:**
+
+1. Inspect all `bun install` invocations in `.github/workflows/ci.yml`, `.github/workflows/release.yml`, and `.github/workflows/extension-release.yml`.
+2. Verify each uses `--frozen-lockfile`.
+3. In a test run: modify `package.json` to add a non-existent package version without updating `bun.lockb`; verify CI fails.
+4. Compute: (bun install calls with --frozen-lockfile / total bun install calls) × 100.
+**Fail:** Any CI `bun install` invocation without `--frozen-lockfile`; any CI run that updates `bun.lockb` during the build.
+**Goal:** 100% of CI `bun install` calls use `--frozen-lockfile`.
+**Stakeholders:** Supply chain security, CI integrity.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], `.github/workflows/ci.yml`.
+
+---
+
+## Security.Supply.IgnoreScripts
+
+**Tag:** Security.Supply.IgnoreScripts
+**Gist:** All CI `bun install` invocations must include the `--ignore-scripts` CLI flag to prevent postinstall script execution; the `.npmrc` directive alone is insufficient due to Bun's known bypass.
+**Ambition:** The Bun package manager prioritizes its own internal package allow-list over the `ignore-scripts=true` directive in `.npmrc` (bunsecurity.dev, CVSS 5.5, CWE-183). This means a centrally-configured no-script policy through `.npmrc` provides no protection against postinstall scripts in packages on Bun's allow-list. The `--ignore-scripts` CLI flag does work correctly. The Shai-Hulud 2.0 campaign used `preinstall` scripts to execute payloads — this is the exact attack vector that `--ignore-scripts` prevents. Because the flag must be explicitly passed on every invocation rather than set once in configuration, each `bun install` call in the CI workflow must include it.
+**Scale:** Percentage of CI `bun install` invocations that include the `--ignore-scripts` flag.
+**Meter:**
+
+1. Inspect all `bun install` calls in `.github/workflows/ci.yml`, `.github/workflows/release.yml`, and `.github/workflows/extension-release.yml`.
+2. Verify each includes `--ignore-scripts`.
+3. In a test run: create a temporary dependency with a malicious `preinstall` script; verify CI does not execute the script.
+4. Compute: (calls with --ignore-scripts / total calls) × 100.
+**Fail:** Any CI `bun install` invocation without `--ignore-scripts`; any postinstall script executing in CI.
+**Goal:** 100% of CI installs use `--ignore-scripts`; zero postinstall scripts execute in CI.
+**Stakeholders:** Supply chain security, CI integrity.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], bunsecurity.dev Bun security disclosure.
+
+---
+
+## Security.Supply.AdvisoryMonitoring
+
+**Tag:** Security.Supply.AdvisoryMonitoring
+**Gist:** Direct dependencies must be reviewed against published security advisories before each upgrade; findings must be documented in `docs/security/dependency-audit-log.md` with reviewer sign-off.
+**Ambition:** Automated tools such as Dependabot surface known CVEs but cannot assess whether a newly published advisory for a core dependency (e.g., `@nestjs/common`, `typescript-eslint`, `vscode-languageserver-protocol`) has a viable exploit path in the specific usage pattern of this server. Human review adds the contextual judgment that automation cannot provide. CVE-2024-29409 (`@nestjs/common` arbitrary code injection via `FileTypeValidator`) is an example where review would have identified that the server does not use `FileTypeValidator`, making the upgrade advisory rather than critical — without review, teams either panic-upgrade or ignore the advisory entirely. The audit log creates an institutional record.
+**Scale:** Percentage of direct dependency upgrades where a security advisory review was performed and documented in `docs/security/dependency-audit-log.md` before the upgrade PR was merged.
+**Meter:**
+
+1. For the last 10 dependency upgrade PRs, check whether each has a corresponding entry in `docs/security/dependency-audit-log.md`.
+2. Each entry must include: package name, old version, new version, advisory check (advisory found / no advisory / advisory not applicable), and reviewer name.
+3. Compute: (upgrades with documented review / total upgrades) × 100.
+**Fail:** Any direct dependency upgrade merged without a documented advisory review entry.
+**Goal:** 100% of direct dependency upgrades have documented advisory reviews.
+**Stakeholders:** Security auditors, release managers, supply chain reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], CVE-2024-29409.
+
+---
+
+## Security.Supply.SetupNodeCacheControl
+
+**Tag:** Security.Supply.SetupNodeCacheControl
+**Gist:** Scanner-covered workflows that use `actions/setup-node` must disable its automatic package-manager cache unless an explicit reviewed cache key is present.
+**Ambition:** Automatic package-manager cache discovery can create a mutable dependency cache surface that is hard to review in release and security jobs. Requiring `package-manager-cache: false` keeps dependency installation behavior visible in the workflow and prevents a cache entry from becoming an implicit supply-chain input.
+**Scale:** Percentage of `actions/setup-node` steps in scanner-covered workflows that set `package-manager-cache: false`.
+**Meter:**
+
+1. Inspect `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, and `.github/workflows/website-pages.yml`.
+2. Count every `actions/setup-node` step.
+3. Verify each counted step includes `package-manager-cache: false`.
+4. Run `bun test src/test/ci-workflow.test.ts` and confirm the cache-control workflow test passes.
+5. Compute: (setup-node steps with `package-manager-cache: false` / total setup-node steps in scanner-covered workflows) × 100.
+**Fail:** Any scanner-covered `actions/setup-node` step lacks `package-manager-cache: false`.
+**Goal:** 100% of scanner-covered `actions/setup-node` steps disable automatic package-manager caching.
+**Stakeholders:** Supply chain security, CI integrity, release managers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** `.github/workflows/ci.yml`, `.github/workflows/extension-release.yml`, `.github/workflows/website-pages.yml`, `src/test/ci-workflow.test.ts`.
+
+---
+
+## Security.Supply.NoDevtoolsIntegration
+
+**Tag:** Security.Supply.NoDevtoolsIntegration
+**Gist:** `@nestjs/devtools-integration` must never be added as a dependency; package audit and future lint rules enforce this prohibition.
+**Ambition:** CVE-2025-54782 in `@nestjs/devtools-integration` is an RCE vulnerability via unsafe `vm.runInNewContext()` in the `/inspector/graph/interact` endpoint. flavor-grenade-lsp uses `NestFactory.createApplicationContext` with no HTTP server and has no legitimate use for the devtools integration package. Adding it would introduce a known RCE vulnerability for no functional benefit. The ESLint rule makes the prohibition machine-enforceable: any PR that adds an import of `@nestjs/devtools-integration` fails linting and cannot be merged. The rule is simpler and more reliable than a code review checklist item.
+**Scale:** Boolean — either `@nestjs/devtools-integration` is absent from all manifests and lockfiles, or it is present. A future ESLint `no-restricted-imports` guard should also reject source imports of the package.
+**Meter:**
+
+1. Inspect `package.json`, `extension/package.json`, `bun.lock`, `extension/package-lock.json`, and source imports for `@nestjs/devtools-integration`.
+2. Verify no dependency, devDependency, transitive lock entry, or source import exists.
+3. When the future lint guard lands, create a temporary test file with `import {} from '@nestjs/devtools-integration'`, run `bun run lint`, and verify lint exits non-zero.
+4. Delete the temporary test file.
+**Fail:** Any manifest, lockfile, or source import includes `@nestjs/devtools-integration`.
+**Goal:** The package is absent from manifests, lockfiles, and source; a future lint guard catches accidental imports at lint time.
+**Stakeholders:** Security auditors, NestJS dependency reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/research/security-threat-model]], [[docs/adr/ADR014-dependency-security-policy]], CVE-2025-54782.

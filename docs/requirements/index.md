@@ -36,15 +36,25 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 - If a threshold requires empirical measurement or stakeholder negotiation, the requirement skeleton is written with the Scale and Meter defined but Fail/Goal left as open questions, noted inline.
 - Numeric targets that appear without source evidence are explicitly labelled as provisional.
 
+## Organization
+
+| Layer | Directory | Purpose |
+|---|---|---|
+| Functional | [[docs/requirements/functional/index]] | Product and user-visible behavior |
+| Technical | [[docs/requirements/technical/index]] | Internal implementation, parser safety, validation, and quality rules |
+| Operational | [[docs/requirements/operational/index]] | CI, release, process, and supply-chain controls |
+| Security index | [[docs/requirements/security/index]] | Cross-cutting security view over functional, technical, and operational requirements |
+| User | [[docs/requirements/user/index]] | User goals that map to functional requirements |
+
 ## Master Tag Table
 
 | Tag | Gist | File |
 |---|---|---|
-| **Link.Wiki.StyleBinding** | Completion items and rename edits must match the configured wiki link style. | [[docs/requirements/wiki-link-resolution]] |
-| **Link.Wiki.AliasResolution** | YAML `aliases:` frontmatter values must be valid link targets equivalent to the document's primary name. | [[docs/requirements/wiki-link-resolution]] |
-| **Link.Resolution.ModeScope** | Single-file mode must suppress all cross-file link resolution. | [[docs/requirements/wiki-link-resolution]] |
-| **Link.Inline.URLSkip** | Inline links whose URL is not a markdown file path must produce no FG001 diagnostic. | [[docs/requirements/wiki-link-resolution]] |
-| **Link.Resolution.IgnoreGlob** | Files matching `.gitignore` patterns must be absent from completion and definition results. | [[docs/requirements/wiki-link-resolution]] |
+| **Link.Wiki.StyleBinding** | Completion items and rename edits must match the configured wiki link style. | [[docs/requirements/functional/wiki-link-resolution]] |
+| **Link.Wiki.AliasResolution** | YAML `aliases:` frontmatter values must be valid link targets equivalent to the document's primary name. | [[docs/requirements/functional/wiki-link-resolution]] |
+| **Link.Resolution.ModeScope** | Single-file mode must suppress all cross-file link resolution. | [[docs/requirements/functional/wiki-link-resolution]] |
+| **Link.Inline.URLSkip** | Inline links whose URL is not a markdown file path must produce no FG001 diagnostic. | [[docs/requirements/functional/wiki-link-resolution]] |
+| **Link.Resolution.IgnoreGlob** | Files matching `.gitignore` patterns must be absent from completion and definition results. | [[docs/requirements/functional/wiki-link-resolution]] |
 | **Embed.Resolution.MarkdownTarget** | `![[file.md]]` embeds must resolve to documents in VaultIndex; absence produces FG004. | [[embed-resolution]] |
 | **Embed.Resolution.ImageTarget** | `![[image.png]]` embeds to image files must not produce FG001; only FG004 applies. | [[embed-resolution]] |
 | **Embed.HeadingEmbed.Resolution** | `![[doc#heading]]` embeds must validate that both the document and the heading exist. | [[embed-resolution]] |
@@ -53,45 +63,45 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Tag.Hierarchy.Awareness** | The tag index must support parent-tag queries that include all child tags. | [[tag-indexing]] |
 | **Tag.YAML.Equivalence** | `tags:` frontmatter values must be indexed identically to inline `#tags`. | [[tag-indexing]] |
 | **Tag.Completion.Unicode** | Tag completion must support Unicode letters and emoji in tag names. | [[tag-indexing]] |
-| **Block.Anchor.Indexing** | All `^blockid` anchors in document body must appear in OFMIndex.blockAnchors. | [[docs/requirements/block-references]] |
-| **Block.CrossRef.Diagnostic** | `[[doc#^nonexistent]]` must produce FG005 (BrokenBlockRef); suppressed in single-file mode. | [[docs/requirements/block-references]] |
-| **Block.Completion.Offer** | After typing `[[doc#^`, completion must offer all known `^blockid` values from the resolved document. | [[docs/requirements/block-references]] |
-| **Block.Anchor.Lineend** | Only `^id` patterns at end-of-line are treated as block anchors. | [[docs/requirements/block-references]] |
-| **Completion.Candidates.Cap** | Completion candidate list must be capped at `completion.candidates` config value with `isIncomplete` set. | [[docs/requirements/completions]] |
-| **Completion.Trigger.Coverage** | All trigger characters must return candidates when cursor is in appropriate context. | [[docs/requirements/completions]] |
-| **Completion.CalloutType.Coverage** | The 13 primary standard Obsidian callout types must appear as candidates at `> [!` position. | [[docs/requirements/completions]] |
-| **Completion.WikiStyle.Binding** | Completion items must conform to the active wiki link style configuration. | [[docs/requirements/completions]] |
-| **Diagnostic.Severity.WikiLink** | FG001/FG002/FG003 must carry Error severity. | [[docs/requirements/diagnostics]] |
-| **Diagnostic.Severity.Embed** | FG004 must carry Warning severity. | [[docs/requirements/diagnostics]] |
-| **Diagnostic.Code.Assignment** | Each diagnostic type must carry its assigned FG-prefixed numeric code. | [[docs/requirements/diagnostics]] |
-| **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[docs/requirements/diagnostics]] |
-| **Diagnostic.Ambiguous.RelatedInfo** | FG002 diagnostics must list all duplicate definition locations in `relatedInformation`. | [[docs/requirements/diagnostics]] |
-| **Diagnostic.SingleFile.Suppression** | All cross-file diagnostics must be suppressed in single-file mode. | [[docs/requirements/diagnostics]] |
-| **CA-001** | The server surfaces a `fg.createMissingFile` code action when a wiki-link target does not exist; execution creates the file and clears FG001. | [[docs/requirements/code-actions]] |
-| **CA-002** | The server surfaces a `fg.toc` code action for documents with headings; execution inserts or replaces a correctly formatted TOC block. | [[docs/requirements/code-actions]] |
-| **CA-003** | The server surfaces a `fg.tagToYaml` code action when the cursor is on an inline body tag; execution moves the tag to frontmatter and removes it from the body. | [[docs/requirements/code-actions]] |
-| **HV-001** | Hovering a wiki-link returns the target document's title, vault-relative path, and first-paragraph preview truncated to `hover.preview_chars`. | [[docs/requirements/hover]] |
-| **HV-002** | Hovering an embed link returns the embedded target's resolved vault-relative path and detected file type. | [[docs/requirements/hover]] |
-| **ST-001** | The server emits semantic token ranges for wiki-links, embed links, block anchors, inline tags, and callout markers. | [[docs/requirements/semantic-tokens]] |
-| **ST-002** | Semantic tokens are not emitted for OFM constructs inside fenced code blocks or display math blocks. | [[docs/requirements/semantic-tokens]] |
-| **Navigation.Definition.AllLinkTypes** | Go-to-definition must work for wiki-links, embed links, block references, and tags. | [[docs/requirements/navigation]] |
-| **Navigation.References.Completeness** | Find-references must return all references in the folder that resolve to the target. | [[docs/requirements/navigation]] |
-| **Navigation.CodeLens.Count** | Each heading must display a "N references" code lens with an accurate count. | [[docs/requirements/navigation]] |
-| **Rename.Refactoring.Completeness** | All cross-document references to the renamed element must be updated in a single workspace edit. | [[docs/requirements/rename]] |
-| **Rename.Prepare.Rejection** | `textDocument/prepareRename` must return `null` for non-renameable cursor positions. | [[docs/requirements/rename]] |
-| **Rename.StyleBinding.Consistency** | Rename only updates references bound via the active wiki style. | [[docs/requirements/rename]] |
+| **Block.Anchor.Indexing** | All `^blockid` anchors in document body must appear in OFMIndex.blockAnchors. | [[docs/requirements/functional/block-references]] |
+| **Block.CrossRef.Diagnostic** | `[[doc#^nonexistent]]` must produce FG005 (BrokenBlockRef); suppressed in single-file mode. | [[docs/requirements/functional/block-references]] |
+| **Block.Completion.Offer** | After typing `[[doc#^`, completion must offer all known `^blockid` values from the resolved document. | [[docs/requirements/functional/block-references]] |
+| **Block.Anchor.Lineend** | Only `^id` patterns at end-of-line are treated as block anchors. | [[docs/requirements/functional/block-references]] |
+| **Completion.Candidates.Cap** | Completion candidate list must be capped at `completion.candidates` config value with `isIncomplete` set. | [[docs/requirements/functional/completions]] |
+| **Completion.Trigger.Coverage** | All trigger characters must return candidates when cursor is in appropriate context. | [[docs/requirements/functional/completions]] |
+| **Completion.CalloutType.Coverage** | The 13 primary standard Obsidian callout types must appear as candidates at `> [!` position. | [[docs/requirements/functional/completions]] |
+| **Completion.WikiStyle.Binding** | Completion items must conform to the active wiki link style configuration. | [[docs/requirements/functional/completions]] |
+| **Diagnostic.Severity.WikiLink** | FG001/FG002/FG003 must carry Error severity. | [[docs/requirements/functional/diagnostics]] |
+| **Diagnostic.Severity.Embed** | FG004 must carry Warning severity. | [[docs/requirements/functional/diagnostics]] |
+| **Diagnostic.Code.Assignment** | Each diagnostic type must carry its assigned FG-prefixed numeric code. | [[docs/requirements/functional/diagnostics]] |
+| **Diagnostic.Debounce.Latency** | Diagnostics must be published within 500 ms of last document change in a vault of ≤1000 documents. | [[docs/requirements/functional/diagnostics]] |
+| **Diagnostic.Ambiguous.RelatedInfo** | FG002 diagnostics must list all duplicate definition locations in `relatedInformation`. | [[docs/requirements/functional/diagnostics]] |
+| **Diagnostic.SingleFile.Suppression** | All cross-file diagnostics must be suppressed in single-file mode. | [[docs/requirements/functional/diagnostics]] |
+| **CA-001** | The server surfaces a `fg.createMissingFile` code action when a wiki-link target does not exist; execution creates the file and clears FG001. | [[docs/requirements/functional/code-actions]] |
+| **CA-002** | The server surfaces a `fg.toc` code action for documents with headings; execution inserts or replaces a correctly formatted TOC block. | [[docs/requirements/functional/code-actions]] |
+| **CA-003** | The server surfaces a `fg.tagToYaml` code action when the cursor is on an inline body tag; execution moves the tag to frontmatter and removes it from the body. | [[docs/requirements/functional/code-actions]] |
+| **HV-001** | Hovering a wiki-link returns the target document's title, vault-relative path, and first-paragraph preview truncated to `hover.preview_chars`. | [[docs/requirements/functional/hover]] |
+| **HV-002** | Hovering an embed link returns the embedded target's resolved vault-relative path and detected file type. | [[docs/requirements/functional/hover]] |
+| **ST-001** | The server emits semantic token ranges for wiki-links, embed links, block anchors, inline tags, and callout markers. | [[docs/requirements/functional/semantic-tokens]] |
+| **ST-002** | Semantic tokens are not emitted for OFM constructs inside fenced code blocks or display math blocks. | [[docs/requirements/functional/semantic-tokens]] |
+| **Navigation.Definition.AllLinkTypes** | Go-to-definition must work for wiki-links, embed links, block references, and tags. | [[docs/requirements/functional/navigation]] |
+| **Navigation.References.Completeness** | Find-references must return all references in the folder that resolve to the target. | [[docs/requirements/functional/navigation]] |
+| **Navigation.CodeLens.Count** | Each heading must display a "N references" code lens with an accurate count. | [[docs/requirements/functional/navigation]] |
+| **Rename.Refactoring.Completeness** | All cross-document references to the renamed element must be updated in a single workspace edit. | [[docs/requirements/functional/rename]] |
+| **Rename.Prepare.Rejection** | `textDocument/prepareRename` must return `null` for non-renameable cursor positions. | [[docs/requirements/functional/rename]] |
+| **Rename.StyleBinding.Consistency** | Rename only updates references bound via the active wiki style. | [[docs/requirements/functional/rename]] |
 | **Workspace.VaultDetection.Primary** | Directories containing `.obsidian/` must be automatically detected as vault roots. | [[workspace]] |
 | **Workspace.VaultDetection.Fallback** | Directories containing `.flavor-grenade.toml` must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
 | **Workspace.FileExtension.Filter** | Only files with configured extensions enter the index; others are silently ignored. | [[workspace]] |
 | **Workspace.MultiFolder.Isolation** | Cross-root link resolution must not be performed between distinct vault roots. | [[workspace]] |
-| **Extension.MarkdownLanguage.PreserveDefault** | The VS Code extension must keep `.md` files in the built-in `markdown` language mode. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.Selector** | The VS Code extension must expose Markdown flavor through a separate selector. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.RequiredCoverage** | The selector, setting schema, and server-facing flavor model must include every researched Markdown flavor. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.DialectProfiles** | Every supported explicit flavor must have a documented dialect profile derived from research. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor from vault and workspace signals. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[docs/requirements/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.ManualLanguageSafety** | The selector must not override manual non-Markdown language mode selections. | [[docs/requirements/ofmarkdown-language-mode]] |
+| **Extension.MarkdownLanguage.PreserveDefault** | The VS Code extension must keep `.md` files in the built-in `markdown` language mode. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.Selector** | The VS Code extension must expose Markdown flavor through a separate selector. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.RequiredCoverage** | The selector, setting schema, and server-facing flavor model must include every researched Markdown flavor. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.DialectProfiles** | Every supported explicit flavor must have a documented dialect profile derived from research. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor from vault and workspace signals. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.ManualLanguageSafety** | The selector must not override manual non-Markdown language mode selections. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **FlavorLSP.Profile.SignatureCoverage** | Every explicit Markdown flavor must have a server profile declaring active, inert, and host-specific syntax. | [[docs/requirements/functional/markdown-flavor-lsp]] |
 | **FlavorLSP.Parser.ProfileDispatch** | The parser must dispatch through the effective flavor profile. | [[docs/requirements/functional/markdown-flavor-lsp]] |
 | **FlavorLSP.Diagnostics.ProfileRules** | Diagnostics must use flavor-specific grammar, portability, and boundary rules. | [[docs/requirements/functional/markdown-flavor-lsp]] |
@@ -154,38 +164,42 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Quality.Types.StrictMode** | TypeScript strict mode enabled; `tsc --noEmit` must exit 0 with zero errors. | [[code-quality]] |
 | **Quality.TDD.StrictRedGreen** | Every implementation commit must be preceded by a failing test that drives it; no code without a red test first. | [[code-quality]] |
 | **Quality.SourceLayout.DocsBoundary** | Documentation folders may contain specs, but raw source files and source-like BDD implementation notes stay with source/test harnesses. | [[code-quality]] |
-| **CICD.Workflow.PRGate** | Every PR to `main` or `develop` must pass all CI checks before merge. | [[docs/requirements/ci-cd]] |
-| **CICD.Workflow.BDDGate** | The default Cucumber BDD gate must execute every checked-in scenario without undefined, pending, or failed steps. | [[docs/requirements/ci-cd]] |
-| **CICD.Markdown.DocsFolderLinting** | `docs/` markdown linted by markdownlint-obsidian in CI; violations fail CI. | [[docs/requirements/ci-cd]] |
-| **CICD.Markdown.SourceLinting** | Non-docs, non-.github markdown linted by markdownlint-cli2 in CI. | [[docs/requirements/ci-cd]] |
-| **CICD.Publish.OIDC** | npm and Bun publishing use OIDC provenance; `npm publish --provenance` required. | [[docs/requirements/ci-cd]] |
-| **CICD.Publish.Trigger** | Publishing triggered only by semver tag push to `main`. | [[docs/requirements/ci-cd]] |
-| **CICD.PreCommit.Gate** | `lefthook` pre-commit runs typecheck + lint + format:check + test before each commit. | [[docs/requirements/ci-cd]] |
+| **CICD.Workflow.PRGate** | Every PR to `main` or `develop` must pass all CI checks before merge. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.Workflow.BDDGate** | The default Cucumber BDD gate must execute every checked-in scenario without undefined, pending, or failed steps. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.Markdown.DocsFolderLinting** | `docs/` markdown linted by markdownlint-obsidian in CI; violations fail CI. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.Markdown.SourceLinting** | Non-docs, non-.github markdown linted by markdownlint-cli2 in CI. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.Publish.OIDC** | npm and Bun publishing use OIDC provenance; `npm publish --provenance` required. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.Publish.Trigger** | Publishing triggered only by semver tag push to `main`. | [[docs/requirements/operational/ci-cd]] |
+| **CICD.PreCommit.Gate** | `lefthook` pre-commit runs typecheck + lint + format:check + test before each commit. | [[docs/requirements/operational/ci-cd]] |
 | **Process.Branching.MainReleasesOnly** | `main` receives only release/hotfix merges; direct pushes prohibited. | [[development-process]] |
 | **Process.Testing.DirectoryStructure** | All tests under `tests/`; unit tests mirror `src/` under `tests/unit/`. | [[development-process]] |
 | **Process.TestIndex.Matrix** | `docs/test/matrix.md` updated for every new test file added. | [[development-process]] |
 | **Process.Scripts.Automation** | Repetitive procedures automated in `scripts/` shell scripts. | [[development-process]] |
 | **Process.BinaryFiles.LFS** | All binary files tracked via Git LFS; no binary blobs committed directly. | [[development-process]] |
-| **Security.Parser.ReDoS** | All OFM parser regexes must be audited for catastrophic backtracking; super-linear patterns are prohibited. | [[docs/requirements/security/parser-safety]] |
-| **Security.Parser.ParseTimeout** | Any single vault file must complete parsing within 200 ms; timeouts produce empty results without crashing. | [[docs/requirements/security/parser-safety]] |
-| **Security.Parser.YAMLLimits** | Frontmatter YAML parsed with alias cap (50), size limit (64 KB), safe mode; parse failures caught as malformed frontmatter. | [[docs/requirements/security/parser-safety]] |
-| **Security.Parser.EmbedDepth** | Embed resolution detects cycles via visited-URI set and enforces max depth 10; circular embeds produce FG005. | [[docs/requirements/security/parser-safety]] |
-| **Security.Parser.VaultFileLimit** | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage`. | [[docs/requirements/security/parser-safety]] |
-| **Security.Vault.PathConfinement** | All file paths from vault content or LSP params are canonicalized and vault-root-checked before any I/O. | [[docs/requirements/security/vault-confinement]] |
-| **Security.Vault.SymlinkConfinement** | Symlinks resolving outside the vault root are treated as non-existent; real symlink target path is checked, not symlink path. | [[docs/requirements/security/vault-confinement]] |
-| **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[docs/requirements/security/vault-confinement]] |
-| **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[docs/requirements/security/vault-confinement]] |
-| **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[docs/requirements/security/input-validation]] |
-| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, are rejected at the transport layer before JSON parsing. | [[docs/requirements/security/input-validation]] |
-| **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[docs/requirements/security/input-validation]] |
-| **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[docs/requirements/security/supply-chain]] |
-| **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[docs/requirements/security/supply-chain]] |
-| **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[docs/requirements/security/supply-chain]] |
-| **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[docs/requirements/security/supply-chain]] |
-| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[docs/requirements/security/supply-chain]] |
-| **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[docs/requirements/security/information-disclosure]] |
-| **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[docs/requirements/security/information-disclosure]] |
-| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[docs/requirements/security/information-disclosure]] |
+| **Security.Parser.ReDoS** | All OFM parser regexes must be audited for catastrophic backtracking; super-linear patterns are prohibited. | [[docs/requirements/technical/security-parser-safety]] |
+| **Security.Parser.ParseTimeout** | Any single vault file must complete parsing within 200 ms; timeouts produce empty results without crashing. | [[docs/requirements/technical/security-parser-safety]] |
+| **Security.Parser.YAMLLimits** | Frontmatter YAML parsed with alias cap (50), size limit (64 KB), safe mode; parse failures caught as malformed frontmatter. | [[docs/requirements/technical/security-parser-safety]] |
+| **Security.Parser.EmbedDepth** | Embed resolution detects cycles via visited-URI set and enforces max depth 10; circular embeds produce FG005. | [[docs/requirements/technical/security-parser-safety]] |
+| **Security.Parser.VaultFileLimit** | Initial vault indexing stops at 50,000 files (configurable); client notified via `window/showMessage`. | [[docs/requirements/technical/security-parser-safety]] |
+| **Security.Vault.PathConfinement** | All file paths from vault content or LSP params are canonicalized and vault-root-checked before any I/O. | [[docs/requirements/functional/security-vault-confinement]] |
+| **Security.Vault.SymlinkConfinement** | Symlinks resolving outside the vault root are treated as non-existent; real symlink target path is checked, not symlink path. | [[docs/requirements/functional/security-vault-confinement]] |
+| **Security.Vault.URISchemeAllowlist** | Only `file://` URIs are accepted; non-`file://` URIs return InvalidParams (-32602) before reaching any resolver. | [[docs/requirements/functional/security-vault-confinement]] |
+| **Security.Vault.RenameConfinement** | Rename edit targets must pass vault-root confinement; any escaping URI cancels the entire rename. | [[docs/requirements/functional/security-vault-confinement]] |
+| **Security.Input.PositionValidation** | All LSP `Position`/`Range` params validated as non-negative integers within document bounds before VaultIndex access. | [[docs/requirements/technical/security-input-validation]] |
+| **Security.Input.PayloadSize** | JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, are rejected at the transport layer before JSON parsing. | [[docs/requirements/technical/security-input-validation]] |
+| **Security.Input.PrototypePollution** | Incoming JSON-RPC bodies schema-validated before object merge; `__proto__` and `constructor.prototype` keys must not pollute `Object.prototype`. | [[docs/requirements/technical/security-input-validation]] |
+| **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[docs/requirements/operational/security-supply-chain]] |
+| **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[docs/requirements/operational/security-supply-chain]] |
+| **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[docs/requirements/operational/security-supply-chain]] |
+| **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[docs/requirements/operational/security-supply-chain]] |
+| **Security.Supply.SetupNodeCacheControl** | Scanner-covered `actions/setup-node` steps must disable automatic package-manager caching unless an explicit reviewed cache key is present. | [[docs/requirements/operational/security-supply-chain]] |
+| **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[docs/requirements/operational/security-supply-chain]] |
+| **Technical.SBOM.Server** | Server releases must include current source, author, license, and lockfile-derived dependency evidence. | [[docs/requirements/technical/sbom]] |
+| **Technical.SBOM.Extension** | Extension releases must include current source, author, license, VSIX payload, and lockfile-derived dependency evidence. | [extension SBOM](../../extension/docs/requirements/technical/sbom.md) |
+| **Technical.SBOM.Website** | Website releases must include current source, author, license, static-artifact, and lockfile-derived dependency evidence. | [website SBOM](../../website/docs/requirements/technical/sbom.md) |
+| **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[docs/requirements/functional/security-information-disclosure]] |
+| **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[docs/requirements/functional/security-information-disclosure]] |
+| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[docs/requirements/functional/security-information-disclosure]] |
 
 ## User Requirements
 

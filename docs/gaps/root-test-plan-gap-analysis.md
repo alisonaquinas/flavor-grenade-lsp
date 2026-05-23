@@ -35,7 +35,7 @@ Primary test docs:
 Requirements and acceptance docs:
 
 - `docs/requirements/index.md`
-- `docs/requirements/ofmarkdown-language-mode.md`
+- `docs/requirements/functional/ofmarkdown-language-mode.md`
 - `docs/requirements/functional/markdown-flavor-lsp.md`
 - `docs/requirements/functional/ofmarkdown-parity.md`
 - `docs/requirements/functional/vscode-extension-parity.md`

@@ -42,8 +42,8 @@ Add the Phase 17 integration and BDD trace coverage that proves document links, 
 | `Parity.StructuralLSP.DocumentLinks` | Document-link behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.FoldingRanges` | Folding-range behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.SelectionRanges` | Selection-range behavior is covered by unit and integration tests | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Document link targets match existing resolution behavior | [[docs/requirements/navigation]] |
-| `ST-002` | Opaque region boundaries are test-covered | [[docs/requirements/semantic-tokens]] |
+| `Navigation.Definition.AllLinkTypes` | Document link targets match existing resolution behavior | [[docs/requirements/functional/navigation]] |
+| `ST-002` | Opaque region boundaries are test-covered | [[docs/requirements/functional/semantic-tokens]] |
 
 ---
 
@@ -132,7 +132,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

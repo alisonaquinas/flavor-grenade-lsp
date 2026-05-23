@@ -39,7 +39,7 @@ The Phase 17 gate depends on `Parity.StructuralLSP.Coverage` evidence. The matri
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.StructuralLSP.Coverage` | Structural LSP test coverage must be traceable | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque-region tests must be traceable | [[docs/requirements/semantic-tokens]] |
+| `ST-002` | Opaque-region tests must be traceable | [[docs/requirements/functional/semantic-tokens]] |
 
 ---
 

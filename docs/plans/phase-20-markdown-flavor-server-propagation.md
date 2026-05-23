@@ -28,8 +28,8 @@ flavor context.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve `auto` from vault/config/context signals |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Accept and apply effective flavor in server analysis |
 | [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Refresh open document analysis after flavor changes |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Parser.ProfileDispatch]] | Provide effective flavor context to parser and analysis services |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Diagnostics.ProfileRules]] | Refresh diagnostics from the effective profile after flavor changes |
@@ -39,9 +39,9 @@ flavor context.
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.SemanticTokens.ProfileTokens]] | Refresh semantic-token context from the effective profile after flavor changes |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Rename.ProfileSafety]] | Provide effective profile context to rename safety checks |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]] | Add shared non-local host/conversion boundary classification |
-| [[docs/requirements/security/input-validation#Security.Input.ProjectConfigTOMLSafety]] | Validate project config evidence before it affects flavor state |
-| [[docs/requirements/security/input-validation#Security.Input.FlavorPropagationPayload]] | Validate resource-specific propagation payloads before state mutation |
-| [[docs/requirements/security/vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.flavor-grenade.toml` discovery to the workspace/vault root |
+| [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigTOMLSafety]] | Validate project config evidence before it affects flavor state |
+| [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]] | Validate resource-specific propagation payloads before state mutation |
+| [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.flavor-grenade.toml` discovery to the workspace/vault root |
 | [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[docs/test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |

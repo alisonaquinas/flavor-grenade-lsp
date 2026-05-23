@@ -33,7 +33,7 @@ Create `src/handlers/code-action.handler.ts` implementing the `textDocument/code
   - FG007 diagnostic (malformed YAML) → delegate to `RemoveFrontmatterAction`
 - Full diagnostic code registry: FG001 (broken wiki-link), FG002 (ambiguous wiki-link), FG003 (malformed wiki-link), FG004 (broken embed), FG005 (broken block ref), FG006 (non-breaking space), FG007 (malformed YAML frontmatter)
 - FG006 severity: Warning; emitted by `DiagnosticService` during document parsing; must not fire inside frontmatter block
-- See also: [[docs/requirements/diagnostics]]
+- See also: [[docs/requirements/functional/diagnostics]]
 
 ---
 
@@ -41,7 +41,7 @@ Create `src/handlers/code-action.handler.ts` implementing the `textDocument/code
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | codeAction dispatcher and FG006 diagnostic | [[docs/requirements/diagnostics]] |
+| — | codeAction dispatcher and FG006 diagnostic | [[docs/requirements/functional/diagnostics]] |
 
 ---
 
@@ -121,7 +121,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

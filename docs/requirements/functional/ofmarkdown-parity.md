@@ -130,7 +130,7 @@ standard Markdown link forms and vault file operations.
 **Goal:** 100% behavior coverage for supported attachment types.
 **Stakeholders:** Vault authors, media-heavy note users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/features/ofmarkdown-parity-roadmap]], [[docs/requirements/embed-resolution]].
+**Source:** [[docs/features/ofmarkdown-parity-roadmap]], [[docs/requirements/functional/embed-resolution]].
 
 ---
 
@@ -205,7 +205,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% correct target classification.
 **Stakeholders:** Vault authors, static-site authors, diagnostics maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR017-standard-markdown-link-intelligence]], [[docs/requirements/completions]], [[docs/plans/phase-14-markdown-link-intelligence]].
+**Source:** [[ADR017-standard-markdown-link-intelligence]], [[docs/requirements/functional/completions]], [[docs/plans/phase-14-markdown-link-intelligence]].
 
 ---
 
@@ -251,7 +251,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% completion coverage for eligible Markdown URL contexts.
 **Stakeholders:** Vault authors, documentation authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/completions]], [[docs/features/ofmarkdown-parity-roadmap]], [[docs/plans/phase-14-markdown-link-intelligence]].
+**Source:** [[docs/requirements/functional/completions]], [[docs/features/ofmarkdown-parity-roadmap]], [[docs/plans/phase-14-markdown-link-intelligence]].
 
 ---
 
@@ -273,7 +273,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% navigation and reference coverage for supported Markdown links.
 **Stakeholders:** Vault authors, LSP client users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/navigation]], [[ADR017-standard-markdown-link-intelligence]], [[docs/plans/phase-14-markdown-link-intelligence]].
+**Source:** [[docs/requirements/functional/navigation]], [[ADR017-standard-markdown-link-intelligence]], [[docs/plans/phase-14-markdown-link-intelligence]].
 
 ---
 
@@ -296,7 +296,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% Markdown anchor update coverage.
 **Stakeholders:** Vault authors, documentation maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/rename]], [[ADR017-standard-markdown-link-intelligence]], [[docs/plans/phase-14-markdown-link-intelligence]].
+**Source:** [[docs/requirements/functional/rename]], [[ADR017-standard-markdown-link-intelligence]], [[docs/plans/phase-14-markdown-link-intelligence]].
 
 ---
 
@@ -319,7 +319,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% attachment index coverage for eligible files.
 **Stakeholders:** Vault authors, media-heavy note users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/embed-resolution]], [[docs/plans/phase-15-attachment-intelligence]].
+**Source:** [[docs/requirements/functional/embed-resolution]], [[docs/plans/phase-15-attachment-intelligence]].
 
 ---
 
@@ -363,7 +363,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% diagnostic correctness for supported attachment refs.
 **Stakeholders:** Vault authors, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/diagnostics]], [[docs/requirements/embed-resolution]], [[docs/plans/phase-15-attachment-intelligence]].
+**Source:** [[docs/requirements/functional/diagnostics]], [[docs/requirements/functional/embed-resolution]], [[docs/plans/phase-15-attachment-intelligence]].
 
 ---
 
@@ -386,7 +386,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% definition coverage and metadata hover for supported attachments.
 **Stakeholders:** Vault authors, media-heavy note users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/hover]], [[docs/requirements/navigation]], [[docs/plans/phase-15-attachment-intelligence]].
+**Source:** [[docs/requirements/functional/hover]], [[docs/requirements/functional/navigation]], [[docs/plans/phase-15-attachment-intelligence]].
 
 ---
 
@@ -409,7 +409,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% correct hint behavior where a supported hint is configured.
 **Stakeholders:** Vault authors, Obsidian users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/configuration]], [[docs/plans/phase-15-attachment-intelligence]].
+**Source:** [[docs/requirements/technical/configuration]], [[docs/plans/phase-15-attachment-intelligence]].
 
 ---
 
@@ -453,7 +453,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% confinement correctness for move planning.
 **Stakeholders:** Vault authors, security reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/security/vault-confinement]], [[ADR018-vault-file-operation-refactoring]], [[docs/plans/phase-16-vault-file-operation-refactors]].
+**Source:** [[docs/requirements/functional/security-vault-confinement]], [[ADR018-vault-file-operation-refactoring]], [[docs/plans/phase-16-vault-file-operation-refactors]].
 
 ---
 
@@ -520,7 +520,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% validation correctness.
 **Stakeholders:** Vault authors, LSP client users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ADR018-vault-file-operation-refactoring]], [[docs/requirements/security/input-validation]], [[docs/plans/phase-16-vault-file-operation-refactors]].
+**Source:** [[ADR018-vault-file-operation-refactoring]], [[docs/requirements/technical/security-input-validation]], [[docs/plans/phase-16-vault-file-operation-refactors]].
 
 ---
 
@@ -542,7 +542,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% affected-state refresh coverage.
 **Stakeholders:** Vault authors, LSP client users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/plans/phase-16-vault-file-operation-refactors]], [[docs/requirements/workspace]].
+**Source:** [[docs/plans/phase-16-vault-file-operation-refactors]], [[docs/requirements/functional/workspace]].
 
 ---
 
@@ -586,7 +586,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% document-link correctness for supported link cases.
 **Stakeholders:** LSP client users, editor integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/navigation]], [[docs/plans/phase-17-structural-lsp-capabilities]].
+**Source:** [[docs/requirements/functional/navigation]], [[docs/plans/phase-17-structural-lsp-capabilities]].
 
 ---
 
@@ -608,7 +608,7 @@ implementation-sized capabilities used by the phase plans and tickets.
 **Goal:** 100% folding coverage for supported constructs.
 **Stakeholders:** Vault authors, LSP client users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/ofm-spec/index]], [[docs/requirements/semantic-tokens]], [[docs/plans/phase-17-structural-lsp-capabilities]].
+**Source:** [[docs/ofm-spec/index]], [[docs/requirements/functional/semantic-tokens]], [[docs/plans/phase-17-structural-lsp-capabilities]].
 
 ---
 

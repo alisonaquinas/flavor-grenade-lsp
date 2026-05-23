@@ -82,7 +82,7 @@ requirements.
 **Goal:** 100% required behavior group coverage.
 **Stakeholders:** Extension maintainers, release managers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md).
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md).
 
 ---
 
@@ -181,7 +181,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% activation-signal correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
+**Source:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), `docs/plans/phase-E7-activation-precision.md`.
 
 ---
 
@@ -272,7 +272,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% flavor refresh correctness.
 **Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `extension/docs/features/vscode-extension-parity.md`.
 
 ---
 
@@ -296,7 +296,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% selector availability for supported file-backed Markdown contexts.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -320,7 +320,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% required selector coverage.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [Markdown flavor feature sets](../../../../docs/features/markdown-flavor-feature-sets.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 | Setting id | Selector label | Feature set |
 |---|---|---|
@@ -363,7 +363,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% correct override persistence scope.
 **Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -389,7 +389,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Goal:** 100% documented auto/effective-state correctness.
 **Stakeholders:** Vault authors, Markdown authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+**Source:** [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -406,7 +406,8 @@ flavor/context state without requiring a custom Markdown language id.
 2. Inspect documented remote, WSL, SSH, and Dev Container smoke-test procedures.
 3. Run available automated or manual checks.
 4. Verify unsupported modes show disabled status and do not spawn the server.
-5. Verify supported remote modes resolve the correct platform-specific binary.
+5. Verify supported remote modes start the bundled server module in the
+   workspace extension host.
 6. Compute: (environment modes with correct behavior / total environment modes) x 100.
 **Fail:** Any unsupported environment spawns the server, or any supported remote mode lacks documented verification.
 **Goal:** 100% explicit behavior for listed environment modes.
@@ -461,25 +462,33 @@ flavor/context state without requiring a custom Markdown language id.
 
 ---
 
-## Extension.Packaging.TargetBinaryValidation
+## Extension.Packaging.ServerModuleValidation
 
-**Tag:** Extension.Packaging.TargetBinaryValidation
+**Tag:** Extension.Packaging.ServerModuleValidation
 **User Req:** User.Extension.InstallCompatiblePackage
-**Gist:** Each packaged VSIX must contain exactly one server binary matching the package target, and client/server version mismatches must be visible before publish or at startup.
-**Ambition:** Users should not install an extension package whose bundled server cannot run on the target platform or whose client and server versions are out of sync.
-**Scale:** Percentage of packaged VSIX targets whose bundled server binary, package target metadata, and version metadata match the expected release manifest.
+**Gist:** Each packaged VSIX must contain exactly one bundled server module, contain no native server executable payload, and make client/server version mismatches visible before publish or at startup.
+**Ambition:** Users should not install an extension package whose bundled server cannot pass Marketplace validation or whose client and server versions are out of sync.
+**Scale:** Percentage of packaged VSIX artifacts whose bundled server module, package metadata, and version metadata match the expected release manifest.
 **Meter:**
 
-1. Build every platform-specific VSIX target.
-2. Inspect each packaged VSIX for server binaries.
-3. Verify exactly one server binary is present.
-4. Verify the binary name and platform metadata match the VSIX target.
-5. Start the bundled server binary when the CI platform can execute it.
+1. Build the Marketplace VSIX.
+2. Inspect the packaged VSIX for bundled server entries.
+3. Verify exactly one `server/main.js` module is present.
+4. Verify no native `server/flavor-grenade-lsp` executable is present.
+5. Start or smoke-test the bundled server module in CI.
 6. Query or inspect client and server version metadata.
 7. Verify mismatches fail packaging checks or produce a user-visible startup warning.
-8. Compute: (validated package targets / total package targets) x 100.
-**Fail:** Any packaged VSIX contains zero, multiple, or wrong-target server binaries, or a client/server version mismatch is not visible before release or at startup.
-**Goal:** 100% packaged target validation.
+8. Compute: (validated package artifacts / total package artifacts) x 100.
+**Fail:** Any packaged VSIX contains zero or multiple server modules, contains a native server executable, or a client/server version mismatch is not visible before release or at startup.
+**Goal:** 100% package validation.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [ADR015](../../../../docs/adr/ADR015-platform-specific-vsix.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.
+
+## Extension.Packaging.TargetBinaryValidation
+
+This historical requirement tag was superseded by
+[Extension.Packaging.ServerModuleValidation](#extensionpackagingservermodulevalidation)
+when the extension moved from platform-specific native server binaries to a
+bundled JavaScript server module. Archived plans and audits may still link to
+this heading for trace continuity.

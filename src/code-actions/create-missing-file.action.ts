@@ -1,11 +1,14 @@
 import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import { fileURLToPath, pathToFileURL } from 'url';
-import * as path from 'path';
 import type { CodeAction, Diagnostic, Range } from 'vscode-languageserver-types';
 import { VaultDetector } from '../vault/vault-detector.js';
 import { ParseCache } from '../parser/parser.module.js';
 import type { WikiLinkEntry } from '../parser/types.js';
+import {
+  normalizeAbsolutePath,
+  resolveVaultRelativePath,
+} from '../vault/vault-path-confinement.js';
 
 interface CodeActionParams {
   textDocument: { uri: string };
@@ -38,7 +41,9 @@ export class CreateMissingFileAction {
     const detection = this.vaultDetector.detectFresh(documentPath);
     if (detection.vaultRoot === null) return [];
 
-    const vaultRoot = path.resolve(detection.vaultRoot);
+    const vaultRoot = normalizeAbsolutePath(detection.vaultRoot);
+    if (vaultRoot === null) return [];
+
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return [];
 
@@ -93,23 +98,7 @@ export class CreateMissingFileAction {
   }
 
   private resolveConfinedTarget(vaultRoot: string, target: string): string | null {
-    const normalizedTarget = target.replace(/\\/g, path.sep).replace(/\//g, path.sep);
-    if (
-      normalizedTarget.length === 0 ||
-      normalizedTarget.includes('\0') ||
-      path.isAbsolute(normalizedTarget) ||
-      path.win32.isAbsolute(normalizedTarget) ||
-      path.posix.isAbsolute(normalizedTarget)
-    ) {
-      return null;
-    }
-
-    const newFilePath = path.resolve(vaultRoot, `${normalizedTarget}.md`);
-    const relative = path.relative(vaultRoot, newFilePath);
-    if (relative.startsWith('..') || path.isAbsolute(relative)) {
-      return null;
-    }
-    return newFilePath;
+    return resolveVaultRelativePath(vaultRoot, `${target}.md`);
   }
 }
 

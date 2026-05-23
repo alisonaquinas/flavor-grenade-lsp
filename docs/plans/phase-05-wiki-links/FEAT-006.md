@@ -54,8 +54,8 @@ Vault authors gain a server that understands `[[wiki-link]]` syntax: broken link
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Wiki-link resolution requirements | [[docs/requirements/wiki-link-resolution]] |
-| — | Diagnostics requirements | [[docs/requirements/diagnostics]] |
+| — | Wiki-link resolution requirements | [[docs/requirements/functional/wiki-link-resolution]] |
+| — | Diagnostics requirements | [[docs/requirements/functional/diagnostics]] |
 
 ---
 

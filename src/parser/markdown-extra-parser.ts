@@ -97,11 +97,19 @@ export class MarkdownExtraParser {
     marker: string,
   ): number {
     for (let index = startLine; index < lines.length; index++) {
-      if (new RegExp(`^[ \\t]{0,3}\\${marker}{3,}[ \\t]*$`).test(lines[index].content)) {
+      if (MarkdownExtraParser.isClosingFence(lines[index].content, marker)) {
         return index;
       }
     }
     return Math.max(startLine - 1, 0);
+  }
+
+  private static isClosingFence(line: string, marker: string): boolean {
+    if (marker === '`') {
+      return /^[ \t]{0,3}`{3,}[ \t]*$/.test(line);
+    }
+
+    return /^[ \t]{0,3}~{3,}[ \t]*$/.test(line);
   }
 
   private static languageFromInfo(info: string | undefined): string | undefined {

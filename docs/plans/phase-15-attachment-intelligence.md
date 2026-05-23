@@ -32,11 +32,11 @@ standard Markdown image links.
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]] | Diagnose missing attachments and suppress diagnostics for existing attachments |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]] | Provide definition and lightweight metadata hover for attachment references |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]] | Respect configured attachment folder hints without hiding valid attachments |
-| [[docs/requirements/embed-resolution#Embed.Resolution.ImageTarget]] | Preserve and extend existing image embed resolution behavior |
-| [[docs/requirements/embed-resolution#Embed.Resolution.MarkdownTarget]] | Ensure Markdown documents and attachments remain distinct target classes |
-| [[docs/requirements/diagnostics#Diagnostic.Severity.Embed]] | Keep attachment/embed diagnostics at the documented severity |
-| [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]] | Definition for embed and Markdown image attachment targets |
-| [[docs/requirements/hover#HV-002]] | Hover details for embedded targets |
+| [[docs/requirements/functional/embed-resolution#Embed.Resolution.ImageTarget]] | Preserve and extend existing image embed resolution behavior |
+| [[docs/requirements/functional/embed-resolution#Embed.Resolution.MarkdownTarget]] | Ensure Markdown documents and attachments remain distinct target classes |
+| [[docs/requirements/functional/diagnostics#Diagnostic.Severity.Embed]] | Keep attachment/embed diagnostics at the documented severity |
+| [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]] | Definition for embed and Markdown image attachment targets |
+| [[docs/requirements/functional/hover#HV-002]] | Hover details for embedded targets |
 
 ## Scope
 
@@ -91,4 +91,4 @@ standard Markdown image links.
 
 - [[docs/features/ofmarkdown-parity-roadmap]]
 - [[docs/requirements/functional/ofmarkdown-parity]]
-- [[docs/requirements/embed-resolution]]
+- [[docs/requirements/functional/embed-resolution]]

@@ -40,7 +40,7 @@ tag-triggered GitHub Pages release workflow guarded by `main` branch ancestry.
 
 | Requirement | Source |
 |---|---|
-| CI/CD requirements | [[website/docs/requirements/technical/ci-cd]] |
+| CI/CD requirements | [[website/docs/requirements/operational/ci-cd]] |
 | Deployment architecture | [[website/docs/architecture/ci-cd-and-deployment]] |
 | Source layout and documentation | [[website/docs/requirements/technical/source-layout-and-documentation]] |
 

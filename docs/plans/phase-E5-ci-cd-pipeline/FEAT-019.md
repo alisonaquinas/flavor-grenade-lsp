@@ -74,7 +74,7 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Automated multi-platform VSIX build and publish pipeline | [[docs/requirements/ci-cd]] |
+| — | Automated multi-platform VSIX build and publish pipeline | [[docs/requirements/operational/ci-cd]] |
 
 ---
 

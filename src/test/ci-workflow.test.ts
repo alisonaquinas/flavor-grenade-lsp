@@ -2,14 +2,25 @@ import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
 
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+const codeqlWorkflow = readFileSync('.github/workflows/codeql.yml', 'utf8');
+const codeqlConfig = readFileSync('.github/codeql/codeql-config.yml', 'utf8');
+const dependabotConfig = readFileSync('.github/dependabot.yml', 'utf8');
+const gitleaksConfig = readFileSync('.gitleaks.toml', 'utf8');
+const securitySastWorkflow = readFileSync('.github/workflows/security-sast.yml', 'utf8');
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
 const websitePagesWorkflow = readFileSync('.github/workflows/website-pages.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
+  devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
 };
+const rootEslintConfig = readFileSync('eslint.config.js', 'utf8');
 const extensionPackage = JSON.parse(readFileSync('extension/package.json', 'utf8')) as {
   scripts?: Record<string, string>;
 };
+const websitePackage = JSON.parse(readFileSync('website/package.json', 'utf8')) as {
+  devDependencies?: Record<string, string>;
+};
+const websiteEslintConfig = readFileSync('website/eslint.config.js', 'utf8');
 const cucumberConfig = readFileSync('cucumber.yaml', 'utf8');
 const rootVerificationSpec = readFileSync('docs/test/markdown-flavor-verification-spec.md', 'utf8');
 const extensionVerificationSpec = readFileSync(
@@ -24,6 +35,17 @@ const task311 = readFileSync(
   'docs/plans/phase-E17-extension-flavor-host-verification/TASK-311.md',
   'utf8',
 );
+
+function expectSetupNodeCacheDisabled(workflowName: string, content: string): void {
+  const setupNodeUses = content.match(/actions\/setup-node@/g) ?? [];
+  const disabledSetupNodeUses =
+    content.match(/actions\/setup-node@[\s\S]*?package-manager-cache: false/g) ?? [];
+
+  expect(
+    disabledSetupNodeUses.length,
+    `${workflowName} must disable setup-node automatic package-manager caching for every use`,
+  ).toBe(setupNodeUses.length);
+}
 
 const requiredFlavorGateFiles = [
   'docs/bdd/features/ofmarkdown-language-mode.feature',
@@ -51,6 +73,7 @@ describe('CI workflow verification battery', () => {
       'bun run typecheck',
       'bun run format:check',
       'bun run lint:dependencies',
+      'bun run lint:installed-packages',
       'bun run lint:docs',
       'bun run build',
       'bun test --coverage',
@@ -58,6 +81,81 @@ describe('CI workflow verification battery', () => {
     ]) {
       expect(workflow).toContain(command);
     }
+  });
+
+  test('runs strict CodeQL analysis for app and workflow code', () => {
+    expect(codeqlWorkflow).toContain("branches: ['main', 'develop']");
+    expect(codeqlWorkflow).toContain('language: actions');
+    expect(codeqlWorkflow).toContain('language: javascript-typescript');
+    expect(codeqlWorkflow).toContain('config-file: ./.github/codeql/codeql-config.yml');
+    expect(codeqlWorkflow).toContain('Gate CodeQL alerts');
+    expect(codeqlWorkflow).toContain('code-scanning/alerts?state=open&tool_name=CodeQL');
+    expect(codeqlWorkflow).toContain('permissions:\n  contents: read');
+    expect(codeqlWorkflow).toContain('persist-credentials: false');
+
+    expect(codeqlConfig).toContain('disable-default-queries: false');
+    expect(codeqlConfig).toContain('uses: security-and-quality');
+
+    for (const ignoredPath of [
+      'coverage/**',
+      'dist/**',
+      'extension/.vscode-test/**',
+      'extension/dist/**',
+      'extension/server/**',
+      'website/.svelte-kit/**',
+      'website/dist/**',
+    ]) {
+      expect(codeqlConfig).toContain(ignoredPath);
+    }
+  });
+
+  test('runs layered free SAST and supply-chain scanners', () => {
+    for (const scanner of ['Semgrep CE', 'GitHub Actions security', 'Gitleaks', 'OSV-Scanner']) {
+      expect(securitySastWorkflow).toContain(scanner);
+    }
+
+    for (const command of [
+      'semgrep==1.163.0',
+      '--config p/default',
+      '--config p/javascript',
+      'actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz',
+      'zizmor==1.25.2',
+      '--persona=auditor --min-severity=medium --min-confidence=medium',
+      'gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz',
+      '"${RUNNER_TEMP}/gitleaks/gitleaks" dir .',
+      '--config .gitleaks.toml',
+      'osv-scanner/releases/download/v${OSV_SCANNER_VERSION}/osv-scanner_linux_amd64',
+      './osv-scanner scan',
+      '--lockfile bun.lock',
+      '--lockfile extension/package-lock.json',
+      '--lockfile website/package-lock.json',
+      'github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba',
+    ]) {
+      expect(securitySastWorkflow).toContain(command);
+    }
+
+    expect(dependabotConfig.match(/cooldown:/g)?.length).toBe(4);
+    expect(dependabotConfig.match(/default-days: 7/g)?.length).toBe(4);
+
+    expect(rootPackage.devDependencies?.['eslint-plugin-security']).toBe('4.0.0');
+    expect(websitePackage.devDependencies?.['eslint-plugin-security']).toBe('4.0.0');
+    expect(rootEslintConfig).toContain('security/detect-child-process');
+    expect(websiteEslintConfig).toContain('security/detect-child-process');
+    expect(gitleaksConfig).toContain('useDefault = true');
+    expect(gitleaksConfig).toContain("'''^\\.git/'''");
+    expect(gitleaksConfig).toContain("'''(^|/)node_modules/'''");
+    expect(gitleaksConfig).toContain('5-key, 3-scenario-per-key coverage');
+  });
+
+  test('disables setup-node automatic package-manager caching in scanner-covered workflows', () => {
+    expectSetupNodeCacheDisabled('CI', workflow);
+    expectSetupNodeCacheDisabled('Extension Release', extensionReleaseWorkflow);
+    expectSetupNodeCacheDisabled('Website Pages', websitePagesWorkflow);
+  });
+
+  test('targets dependency update streams at develop', () => {
+    expect(dependabotConfig.match(/target-branch: 'develop'/g)?.length).toBe(4);
+    expect(dependabotConfig).not.toContain("target-branch: 'main'");
   });
 
   test('lints every docs root with exact OFM docs globs', () => {
@@ -72,6 +170,7 @@ describe('CI workflow verification battery', () => {
     }
 
     expect(workflow).toContain('bun run lint:docs');
+    expect(workflow).toContain('node ../scripts/check-installed-packages.mjs .');
     expect(workflow).toContain('"!extension/docs/**"');
     expect(rootVerificationSpec).toContain('extension/docs/**/*.md');
     expect(extensionVerificationSpec).toContain('extension/docs/**/*.md');
@@ -115,8 +214,6 @@ describe('CI workflow verification battery', () => {
 
   test('runs the extension verification battery', () => {
     for (const command of [
-      'bun run build:binary',
-      'bun run build:binary:win',
       'npm run compile',
       'npm test',
       'npm run test:host',
@@ -131,10 +228,11 @@ describe('CI workflow verification battery', () => {
     for (const command of [
       "tags:\n      - 'ext-v*'",
       'bun install --frozen-lockfile --ignore-scripts',
-      'bun run build:binary:win',
+      'Build extension client and bundled JS server',
       'npm run verify:package-targets',
-      'bun run build:binary',
+      'Smoke Test Bundled JS Server',
       'xvfb-run -a npm run test:host',
+      'sha256sum ./*.vsix > checksums.sha256',
       "contains(github.ref_name, '-test')",
       'Skip Marketplace publish for test tag',
       'vsce publish has no dry-run flag in @vscode/vsce 3.9.1',
@@ -144,11 +242,11 @@ describe('CI workflow verification battery', () => {
     }
 
     expectStepOrder(extensionReleaseWorkflow, [
-      'Build Windows server binary for package-target tests',
       'Run extension selector-proof tests',
       'Verify package target rules',
-      'Build Linux server binary for extension host tests',
       'Run extension host selector-proof tests',
+      'Build extension client and bundled JS server',
+      'Smoke Test Bundled JS Server',
     ]);
   });
 
