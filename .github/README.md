@@ -16,8 +16,8 @@
 
 | Component | Version | Notes |
 |---|---:|---|
-| Server | `0.3.0` | LSP package release branch targets `main` |
-| VS Code extension | `0.1.4` | Bundled server integration and OFMarkdown UX |
+| Server | `0.4.2` | LSP package release branch targets `main` |
+| VS Code extension | `0.2.2` | Bundled JS server integration, OFMarkdown UX, and Markdown flavor selector |
 | CI runtime | Bun `1.3.13` | Matched across typecheck, lint, test, build, and publish jobs |
 
 ## What It Understands

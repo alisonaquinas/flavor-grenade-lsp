@@ -98,18 +98,34 @@ aliases:
 ## CICD.Extension.WindowsBinarySmokeTest
 
 **Tag:** CICD.Extension.WindowsBinarySmokeTest
-**Gist:** Marketplace extension publishing must be blocked unless the packaged `win32-x64` VSIX server executable launches successfully on a Windows runner.
-**Ambition:** Platform-specific VSIXs ship compiled binaries that users execute directly from the extension install directory. A package can pass TypeScript, lint, tests, and VSIX packaging while still containing a native executable that crashes before LSP initialization. Extension `0.1.2` exposed this failure mode: the Marketplace-installed Windows server matched the CI artifact exactly, but the Linux-cross-compiled Bun bytecode executable segfaulted immediately on Windows. The release pipeline must therefore test the packaged binary, not only the source or local build command.
-**Scale:** Percentage of Marketplace extension publishes where the packaged `win32-x64` server binary was not launched on Windows before publish.
+**Gist:** Marketplace extension publishing must be blocked unless the packaged
+VSIX contains exactly one bundled server module, no native executable payload,
+and a launchable packaged server entry point.
+**Ambition:** Extension packages ship the bundled server module that users execute
+from the extension install directory. A package can pass TypeScript, lint, tests,
+and VSIX packaging while still containing the wrong server payload. Extension
+`0.1.2` exposed the native-executable version of this failure mode: the
+Marketplace-installed Windows server matched the CI artifact exactly, but the
+Linux-cross-compiled Bun bytecode executable segfaulted immediately on Windows.
+The current package-target gate therefore rejects native executable payloads,
+requires exactly one `server/main.js`, and smoke-tests the packaged JavaScript
+server module before Marketplace publish.
+**Scale:** Percentage of Marketplace extension publishes where the packaged
+server module was not inspected and launched before publish.
 **Meter:**
 
 1. Trigger the `extension-release.yml` workflow with a test `ext-v*` tag.
-2. Verify the `vsix-win32-x64` artifact is downloaded by a `windows-latest` job.
-3. Verify the job extracts the VSIX and launches `extension/server/flavor-grenade-lsp.exe`.
-4. Verify the publish job declares `needs: [build, smoke-test-windows-binary]`.
-5. Compute: (publishes with the Windows smoke test / total Marketplace publishes) × 100.
-**Fail:** Any Marketplace publish where the Windows VSIX server binary was not smoke-tested, or where the smoke test exited non-zero but publish still ran.
-**Goal:** 100% of Marketplace extension publishes are gated on a successful packaged Windows server launch.
+2. Verify the workflow packages one Marketplace VSIX artifact.
+3. Verify the package-target check extracts the VSIX, requires exactly one
+   `extension/server/main.js`, and rejects native executable server payloads.
+4. Verify the workflow launches the packaged server module before publish.
+5. Verify the publish job depends on the package-target and smoke-test jobs.
+6. Compute: (publishes with packaged server module validation / total
+   Marketplace publishes) x 100.
+**Fail:** Any Marketplace publish where the VSIX server module was not
+smoke-tested, or where the smoke test exited non-zero but publish still ran.
+**Goal:** 100% of Marketplace extension publishes are gated on successful
+packaged server module validation.
 **Stakeholders:** Windows users, release engineers, Marketplace consumers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/adr/ADR015-platform-specific-vsix]], `.github/workflows/extension-release.yml`, extension `0.1.3` hotfix investigation.

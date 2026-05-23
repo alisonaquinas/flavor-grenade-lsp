@@ -13,8 +13,8 @@
 
 | Area | Current status |
 |---|---|
-| Server release metadata | `0.3.0` |
-| VS Code extension metadata | `0.1.4` |
+| Server release metadata | `0.4.2` |
+| VS Code extension metadata | `0.2.2` |
 | Primary integration branch | `develop` |
 | Release branch target | `main` |
 | Package publish target | npm with trusted publishing |
@@ -28,7 +28,8 @@
 - Editing features for completions, rename, file-operation planning, and quick
   fixes.
 - VS Code extension support for OFMarkdown language mode, commands, snippets,
-  marketplace assets, status actions, and packaged server binaries.
+  marketplace assets, status actions, Markdown flavor selection, and the
+  packaged JavaScript server module.
 - Security hardening around vault confinement, URI classification, parser
   budgets, frontmatter parsing, and workspace trust.
 

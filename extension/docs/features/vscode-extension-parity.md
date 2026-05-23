@@ -32,7 +32,7 @@ Code while keeping Markdown flavor intelligence in the language server.
 | Tests | `Extension.Tests.HostCoverage`, `Extension.Workspace.EnvironmentModes` |
 | Marketplace | `Extension.Marketplace.OFMProof`, `Extension.Marketplace.AssetPackaging` |
 | Contributions | `Extension.Contributions.FlavorScoped` |
-| Packaging | `Extension.Packaging.TargetBinaryValidation` |
+| Packaging | `Extension.Packaging.ServerModuleValidation` |
 
 ## Command Bridge Contract
 

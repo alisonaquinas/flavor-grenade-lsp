@@ -2,9 +2,9 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-13
-current-version: 0.3.0
-current-extension-version: 0.1.4
+updated: 2026-05-23
+current-version: 0.4.2
+current-extension-version: 0.2.2
 ---
 
 # flavor-grenade-lsp — Feature Roadmap
@@ -13,7 +13,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 
 > [!NOTE]
 > Status values: `planned` | `in-progress` | `in-review` | `complete` | `blocked`
-> All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.3.0**.
+> All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.4.2**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **in-progress** from the 2026-05-08 deep audit of `develop`.
@@ -462,7 +462,7 @@ Implementation plan: [[docs/plans/phase-E1-extension-scaffold]]
 
 #### Phase E2 — LanguageClient Core
 
-Implement 2-tier binary resolution (user setting → bundled binary at `server/flavor-grenade-lsp[.exe]`). Configure `LanguageClient` v9.x with Executable ServerOptions over stdio. Wire `activate()` and `deactivate()` lifecycle. Gate: extension activates and spawns the server in VS Code Extension Development Host; LSP initialization handshake succeeds.
+Implement server command resolution (user setting → development `dist/main.js` → packaged `server/main.js`). Configure `LanguageClient` v9.x with Executable ServerOptions over stdio. Wire `activate()` and `deactivate()` lifecycle. Gate: extension activates and spawns the server in VS Code Extension Development Host; LSP initialization handshake succeeds.
 
 Implementation plan: [[docs/plans/phase-E2-languageclient-core]]
 
@@ -480,7 +480,7 @@ Implementation plan: [[docs/plans/phase-E4-packaging-local-test]]
 
 #### Phase E5 — CI/CD Pipeline
 
-Create `extension-release.yml` workflow triggered by `ext-v*` tags. 7-target build matrix cross-compiles server binaries on `ubuntu-latest` via Bun, packages platform-specific VSIXs, and publishes all 7 to the Marketplace in a gated publish job. Gate: all 7 VSIXs build successfully on tag push.
+Create `extension-release.yml` workflow triggered by `ext-v*` tags. The current workflow builds the client and bundled `server/main.js`, packages one Marketplace VSIX, verifies package contents and checksums, attests provenance, smoke-tests the bundled JS server, and publishes in a gated job. Gate: release, package-target, host, asset, provenance, and smoke-test checks pass on tag push.
 
 Implementation plan: [[docs/plans/phase-E5-ci-cd-pipeline]]
 
@@ -584,7 +584,7 @@ validation so bundled binaries stay aligned with the extension. Gate: refresh
 triggers assign the correct language mode and packaged VSIX checks catch target
 or version mismatches.
 
-Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]]
+Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.ServerModuleValidation]]
 
 Historical trace: the retired language-mode membership-refresh requirement is
 superseded by [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]].
@@ -633,7 +633,7 @@ extension traceability matrices. E17 also records package-target evidence,
 selector behavior in restricted/virtual/remote contexts, and the stale
 `ofmarkdown` expectation scan required before validation signoff.
 
-Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
+Requirement links: [[docs/requirements/functional/vscode-extension-parity#Extension.Tests.HostCoverage]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]], [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]], [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.ServerModuleValidation]], [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]], [extension markdown flavor e2e spec](../extension/docs/tests/markdown-flavor-e2e-spec.md), [extension markdown flavor verification spec](../extension/docs/tests/markdown-flavor-verification-spec.md), [extension markdown flavor validation spec](../extension/docs/tests/markdown-flavor-validation-spec.md)
 
 Implementation plan: [[docs/plans/phase-E17-extension-flavor-host-verification]]
 

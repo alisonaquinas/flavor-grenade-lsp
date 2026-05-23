@@ -8,8 +8,10 @@ import {
 
 const MAX_RESOURCE_FLAVOR_ENTRIES = 100;
 
+/** Concrete flavor used by parsers and handlers after selector resolution. */
 export type EffectiveMarkdownFlavor = MarkdownFlavorId;
 
+/** Evidence source that selected a document's effective Markdown flavor. */
 export type FlavorResolutionSource =
   | 'explicit-selection'
   | 'resource-propagation'
@@ -17,6 +19,7 @@ export type FlavorResolutionSource =
   | 'obsidian-marker'
   | 'commonmark-fallback';
 
+/** Active or inactive flavor resolution result for one document resource. */
 export type FlavorResolutionResult =
   | {
       kind: 'active';
@@ -29,6 +32,7 @@ export type FlavorResolutionResult =
       reason: 'non-markdown-language' | 'unsupported-scheme';
     };
 
+/** Inputs available when resolving a document's Markdown flavor. */
 export interface ResolveFlavorInput {
   uri: string;
   languageId: string;
@@ -36,18 +40,27 @@ export interface ResolveFlavorInput {
   projectTomlFlavor?: MarkdownFlavorSelection;
 }
 
+/** Resource-specific flavor payload propagated by the VS Code client. */
 export interface PropagatedResourceFlavor {
   selected: MarkdownFlavorSelection;
   effective: MarkdownFlavorId;
   source: FlavorResolutionSource | 'workspace-setting' | 'workspace-folder-setting';
 }
 
+/** LSP configuration payload accepted by the server flavor state service. */
 export interface MarkdownFlavorConfiguration {
   selection?: MarkdownFlavorSelection;
   resources?: Record<string, PropagatedResourceFlavor>;
 }
 
 @Injectable()
+/**
+ * Maintains Markdown flavor selector state for server-side analysis.
+ *
+ * The service validates client-propagated resource flavors, resolves `auto`
+ * from project and vault evidence, and falls back to CommonMark for ordinary
+ * Markdown files.
+ */
 export class MarkdownFlavorState {
   private selection: MarkdownFlavorSelection = 'auto';
   private readonly resourceFlavors = new Map<string, PropagatedResourceFlavor>();
@@ -155,6 +168,7 @@ export class MarkdownFlavorState {
   }
 }
 
+/** True when a value is a supported selector value, including `auto`. */
 export function isMarkdownFlavorSelection(value: unknown): value is MarkdownFlavorSelection {
   return (
     typeof value === 'string' && (MARKDOWN_FLAVOR_SELECTIONS as readonly string[]).includes(value)
