@@ -13,7 +13,7 @@ This model extends the root Editor Client bounded context for VS Code parity.
 | Component | Responsibility |
 |---|---|
 | ExtensionClient | Owns activation and LanguageClient lifecycle |
-| BinaryResolver | Resolves custom, development, or bundled server command |
+| ServerResolver | Resolves custom, development, or bundled server command |
 | StatusBarWidget | Displays server and vault state only |
 | MarkdownFlavorController | Owns visible selector state and sends `MarkdownFlavorSelection` inputs while preserving VS Code's `markdown` language mode |
 | CommandBridgeRegistry | Registers VS Code commands that consume server payloads |

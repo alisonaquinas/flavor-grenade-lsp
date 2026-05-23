@@ -76,7 +76,7 @@ Markdown flavor Auto Detect behavior follows the root
 
 ## Non-Goals
 
-- No automatic server binary download.
+- No automatic server download.
 - No web extension support in this phase.
 - No server-side import of VS Code types.
 - No custom tree view until command bridges and status UX are stable.

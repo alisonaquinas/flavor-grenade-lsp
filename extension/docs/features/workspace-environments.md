@@ -15,12 +15,12 @@ server process is created.
 
 | Environment | Server startup | Expected status | Evidence |
 |---|---|---|---|
-| Local Windows | Starts from the Windows VSIX binary | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | Package target includes `server/flavor-grenade-lsp.exe`; vault opens in trusted file workspace |
-| Local macOS | Starts from the macOS VSIX binary | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | Package target includes `server/flavor-grenade-lsp`; vault opens in trusted file workspace |
-| Local Linux | Starts from the Linux VSIX binary | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | Package target includes `server/flavor-grenade-lsp`; vault opens in trusted file workspace |
-| WSL | Starts in the WSL extension host | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | `remoteName` is `wsl` and diagnostic platform is Linux host architecture |
-| SSH | Starts in the SSH extension host | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | `remoteName` is `ssh-remote` and diagnostic platform is the remote host platform |
-| Dev Container | Starts in the container extension host | `FG: Starting`, `FG: Indexing`, then `FG: N docs` | `remoteName` is `dev-container` and diagnostic platform is the container platform |
+| Local Windows | Starts bundled JS server module | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | Package includes `server/main.js`; vault opens in trusted file workspace |
+| Local macOS | Starts bundled JS server module | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | Package includes `server/main.js`; vault opens in trusted file workspace |
+| Local Linux | Starts bundled JS server module | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | Package includes `server/main.js`; vault opens in trusted file workspace |
+| WSL | Starts bundled JS server module in the WSL extension host | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | `remoteName` is `wsl`; package includes `server/main.js` |
+| SSH | Starts bundled JS server module in the SSH extension host | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | `remoteName` is `ssh-remote`; package includes `server/main.js` |
+| Dev Container | Starts bundled JS server module in the container extension host | `FG: Starting`, `FG: Indexing`, then `FG: Ready` | `remoteName` is `dev-container`; package includes `server/main.js` |
 | Restricted Mode | Does not start | `FG: Disabled` | Tooltip says workspace is not trusted and diagnostics show `serverPath: not started` |
 | Virtual workspace | Does not start | `FG: Disabled` | Tooltip says file-system vault access is required and diagnostics show `serverPath: not started` |
 
@@ -29,11 +29,11 @@ server process is created.
 Use this checklist for local Windows, macOS, Linux, WSL, SSH, and Dev Container
 verification:
 
-1. Install the platform-specific Flavor Grenade VSIX for the environment where
-   the extension host runs.
+1. Install the Flavor Grenade VSIX in the environment where the extension host
+   runs.
 2. Open a trusted file-system Obsidian vault containing `.obsidian/`.
 3. Open a vault Markdown note.
-4. Confirm the status reaches `FG: N docs`.
+4. Confirm the status reaches `FG: Ready`.
 5. Run **Flavor Grenade: Copy Diagnostic Info**.
 6. Record the environment name, status text, diagnostic `platform`, diagnostic
    `serverPath`, and whether completions work for `[[`.

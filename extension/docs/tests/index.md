@@ -88,7 +88,7 @@ Detailed extension test cases live in:
 |---|---|
 | Local extension gate | `npm test`, `npm run compile`, and `npm run test:host` include Markdown flavor tests. |
 | Repository CI | Root CI lists extension unit/host checks, BDD, docs lint, typecheck, and package validation. |
-| Package target gate | `npm run verify:package-targets` proves each VSIX target contains the expected bundled server binary and no wrong-platform payload. |
+| Package target gate | `npm run verify:package-targets` proves the VSIX contains exactly one bundled server module and no native server executable payload. |
 | Docs gate | `markdownlint-obsidian` runs for `docs/**/*.md` and `extension/docs/**/*.md`. |
 | Host CI gate | CI runs the Markdown flavor host suite or fails without a dated blocker and replacement evidence artifact. |
 | Stale expectation scan | Current tests and package/client activation paths fail if they still assert language promotion to `ofmarkdown`. |
@@ -100,7 +100,7 @@ Detailed extension test cases live in:
 | Research trace | Every selector flavor maps to a `docs/research/` source or `ofm-spec/` source. |
 | Acceptance criteria | BDD scenarios cover selector coverage, dialect profiles, persistence, auto-detection, and manual language safety. |
 | Product review | Screenshots/proof show Markdown flavor behavior without custom language-mode retcons. |
-| Package target evidence | Validation signoff includes `npm run verify:package-targets` output and selector proof asset coverage. |
+| Package evidence | Validation signoff includes `npm run verify:package-targets` output and selector proof asset coverage. |
 | Stale expectation evidence | Historical `ofmarkdown` mentions are allowed only as retired context; current behavior and tests reject promotion assumptions. |
 
 ## Current Gap

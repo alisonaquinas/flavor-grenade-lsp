@@ -2,10 +2,10 @@
 @adr:ADR001 @adr:ADR015
 Feature: VS Code extension lifecycle and integration
 
-  The VS Code extension wraps the flavor-grenade-lsp server binary, spawning it
-  over stdio via vscode-languageclient 9.x. It bundles a platform-specific
-  compiled binary, provides a 2-tier binary resolution strategy (user setting
-  then bundled), exposes a status bar widget driven by flavorGrenade/status
+  The VS Code extension wraps the flavor-grenade-lsp server, spawning it over
+  stdio via vscode-languageclient 9.x. It ships a bundled JavaScript server
+  module, provides a 2-tier server resolution strategy (user setting then
+  bundled), exposes a status bar widget driven by flavorGrenade/status
   notifications, registers palette commands for server management, and resolves
   Markdown flavor state for detected vault/index documents.
 
@@ -17,7 +17,7 @@ Feature: VS Code extension lifecycle and integration
   Scenario: Extension activation on markdown file open
     When the user opens a file "notes/welcome.md" in the workspace
     Then the extension activates via the "onLanguage:markdown" activation event
-    And the LanguageClient spawns the server binary over stdio transport
+    And the LanguageClient spawns the server over stdio transport
     And the client sends an "initialize" request with:
       | field                          | value              |
       | capabilities.textDocument      | present            |
@@ -55,7 +55,7 @@ Feature: VS Code extension lifecycle and integration
       | state      | ready |
       | vaultCount | 1     |
       | docCount   | 42    |
-    Then the status bar item shows "$(check) FG: 42 docs"
+    Then the status bar item shows "$(check) FG: Ready"
 
   Scenario: Status bar shows error state
     Given the extension has activated and the LanguageClient is running
@@ -68,7 +68,7 @@ Feature: VS Code extension lifecycle and integration
 
   Scenario: Restart Server command
     Given the extension has activated and the LanguageClient is running
-    And the status bar item shows "$(check) FG: 42 docs"
+    And the status bar item shows "$(check) FG: Ready"
     When the user executes the "flavorGrenade.restartServer" command
     Then the LanguageClient restarts
     And the status bar item resets to "$(loading~spin) FG: Starting..."
@@ -92,7 +92,7 @@ Feature: VS Code extension lifecycle and integration
     Given the extension has activated in Restricted Mode or a virtual workspace
     When the user executes the "flavorGrenade.rebuildIndex" command
     Then the extension shows disabled workspace status
-    And the LanguageClient does not spawn the server binary
+    And the LanguageClient does not spawn the server
     And the server process receives no "initialize" request
 
   Scenario: Custom server path
@@ -101,23 +101,21 @@ Feature: VS Code extension lifecycle and integration
     When the user opens a file "notes/welcome.md" in the workspace
     Then the extension spawns "/opt/fg/flavor-grenade-lsp" as the server process
     And the LanguageClient connects over stdio to that binary
-    And the bundled binary at "server/flavor-grenade-lsp" is not used
+    And the bundled server module at "server/main.js" is not used
 
   Scenario: Server path config change triggers restart
     Given the extension has activated and the LanguageClient is running
-    And the server was started with the bundled binary
+    And the server was started with the bundled server module
     When the user changes "flavorGrenade.server.path" to "/opt/fg/flavor-grenade-lsp"
     Then the LanguageClient restarts automatically
     And the new server process uses the binary at "/opt/fg/flavor-grenade-lsp"
 
-  Scenario: Bundled binary resolution
+  Scenario: Bundled server module resolution
     Given the VS Code setting "flavorGrenade.server.path" is empty
     And the extension is installed for the current platform
     When the user opens a file "notes/welcome.md" in the workspace
-    Then the extension resolves the server binary at "server/flavor-grenade-lsp" relative to the extension root
-    And on Windows the resolved path ends with "server/flavor-grenade-lsp.exe"
-    And on other platforms the resolved path ends with "server/flavor-grenade-lsp"
-    And the LanguageClient spawns that binary over stdio transport
+    Then the extension resolves the bundled server module at "server/main.js" relative to the extension root
+    And the LanguageClient spawns that server module over stdio transport
 
   Scenario: Extension deactivation cleans up
     Given the extension has activated and the LanguageClient is running
