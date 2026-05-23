@@ -25,7 +25,7 @@
         "eslint": "10.2.1",
         "eslint-config-prettier": "10.1.8",
         "lefthook": "2.1.6",
-        "markdownlint-obsidian-cli": "1.0.4",
+        "markdownlint-obsidian-cli": "1.1.0",
         "prettier": "3.8.3",
         "ts-node": "10.9.2",
         "typescript": "6.0.3",
@@ -691,9 +691,9 @@
 
     "markdownlint": ["markdownlint@0.40.0", "", { "dependencies": { "micromark": "4.0.2", "micromark-core-commonmark": "2.0.3", "micromark-extension-directive": "4.0.0", "micromark-extension-gfm-autolink-literal": "2.1.0", "micromark-extension-gfm-footnote": "2.1.0", "micromark-extension-gfm-table": "2.1.1", "micromark-extension-math": "3.1.0", "micromark-util-types": "2.0.2", "string-width": "8.1.0" } }, "sha512-UKybllYNheWac61Ia7T6fzuQNDZimFIpCg2w6hHjgV1Qu0w1TV0LlSgryUGzM0bkKQCBhy2FDhEELB73Kb0kAg=="],
 
-    "markdownlint-obsidian": ["markdownlint-obsidian@1.0.0", "", { "dependencies": { "chalk": "^5.3.0", "fast-xml-parser": "^5.5.11", "globby": "^14.0.0", "gray-matter": "^4.0.3", "js-yaml": "^4.1.0", "jsonc-parser": "^3.2.0", "markdown-it": "^14.1.1", "markdownlint": "^0.40.0", "minimatch": "^10.2.5" } }, "sha512-mtZMzxuCMnzScYKRIfiOrr3k199E0Q/UF0/FhXE6rs7OnB+xll9BWLztaVAkK5AuHMPQlpVHMo8MZkKMFPerVg=="],
+    "markdownlint-obsidian": ["markdownlint-obsidian@1.1.0", "", { "dependencies": { "chalk": "^5.3.0", "fast-xml-parser": "^5.5.11", "globby": "^14.0.0", "gray-matter": "^4.0.3", "js-yaml": "^4.1.0", "jsonc-parser": "^3.2.0", "markdown-it": "^14.1.1", "markdownlint": "^0.40.0", "minimatch": "^10.2.5" } }, "sha512-7Z5RTLztdWuCRzI+s8BKf0aTcSQoLp0vH9L5th/SqMSCgmx5TMvVMc6dVIBh2TG9ApjWUNcWtgkYosd1tssUuw=="],
 
-    "markdownlint-obsidian-cli": ["markdownlint-obsidian-cli@1.0.4", "", { "dependencies": { "commander": "^12.0.0", "markdownlint-obsidian": "^1.0.0" }, "bin": { "markdownlint-obsidian": "dist/bin.mjs" } }, "sha512-T/I4d1S5kSyCbpCNBEu02+luygZMEiW+TihO0xYtWtdTGwl+mMbuPmFvTPFnKaqZKX/A/0UlwmfA4lZfJXRgMA=="],
+    "markdownlint-obsidian-cli": ["markdownlint-obsidian-cli@1.1.0", "", { "dependencies": { "commander": "^12.0.0", "markdownlint-obsidian": "^1.1.0" }, "bin": { "markdownlint-obsidian": "dist/bin.mjs" } }, "sha512-a1eMy91tesQUv8WaoX7Q5EJqv9wcATgOlxs4A6d+QFwV+4YpR3nBPvb+R1I2bbbe1bS6e0rI4jByC8AvTVF7WQ=="],
 
     "math-intrinsics": ["math-intrinsics@1.1.0", "", {}, "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g=="],
 
