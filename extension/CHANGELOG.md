@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2] — 2026-05-23
+
+### Fixed
+
+- Replace bundled native server executables with a bundled JavaScript server module so Marketplace virus validation receives a non-native extension payload.
+
 ## [0.2.1] — 2026-05-23
 
 ### Fixed

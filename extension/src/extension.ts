@@ -14,6 +14,7 @@ import {
   State,
   type LanguageClientOptions,
   type ServerOptions,
+  TransportKind,
 } from 'vscode-languageclient/node';
 import type { ServerCommand } from './server-command.js';
 import { resolveServerCommand } from './server-path.js';
@@ -113,7 +114,9 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
       const editor = window.activeTextEditor;
       if (!editor || !isFlavorEligibleDocument(editor.document)) {
-        await window.showWarningMessage('Markdown flavor applies only to file-backed Markdown documents.');
+        await window.showWarningMessage(
+          'Markdown flavor applies only to file-backed Markdown documents.',
+        );
         return;
       }
 
@@ -157,10 +160,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         await client.restart();
       }
       const activeDocument = window.activeTextEditor?.document;
-      if (
-        activeDocument &&
-        e.affectsConfiguration(MARKDOWN_FLAVOR_SECTION, activeDocument.uri)
-      ) {
+      if (activeDocument && e.affectsConfiguration(MARKDOWN_FLAVOR_SECTION, activeDocument.uri)) {
         await refreshMarkdownFlavorStatus(context);
       }
     }),
@@ -262,15 +262,10 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
   const serverCommand = resolveServerCommand(context);
   const config = workspace.getConfiguration('flavorGrenade');
 
-  const serverOptions: ServerOptions = {
-    run: serverCommand,
-    debug: serverCommand,
-  };
+  const serverOptions = toServerOptions(serverCommand);
 
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [
-      ...MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
-    ],
+    documentSelector: [...MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR],
     synchronize: {
       fileEvents: workspace.createFileSystemWatcher('**/*.md'),
     },
@@ -515,8 +510,29 @@ function applyDisabledEnvironmentStatus(
 }
 
 function summarizeServerCommand(command: ServerCommand): string {
+  if (command.kind === 'module') {
+    return 'bundled server module';
+  }
   if (command.command === 'node') {
     return 'development server';
   }
-  return command.args && command.args.length > 0 ? 'custom server command' : 'bundled server';
+  return 'custom server command';
+}
+
+function toServerOptions(command: ServerCommand): ServerOptions {
+  if (command.kind === 'module') {
+    return {
+      run: { module: command.module, transport: TransportKind.stdio },
+      debug: {
+        module: command.module,
+        transport: TransportKind.stdio,
+        options: { execArgv: ['--nolazy', '--inspect=6009'] },
+      },
+    };
+  }
+
+  return {
+    run: { command: command.command, args: command.args },
+    debug: { command: command.command, args: command.args },
+  };
 }

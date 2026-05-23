@@ -2,69 +2,42 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
-export type VsixTarget =
-  | 'alpine-x64'
-  | 'darwin-arm64'
-  | 'darwin-x64'
-  | 'linux-arm64'
-  | 'linux-x64'
-  | 'win32-arm64'
-  | 'win32-x64';
+const SERVER_MODULE = 'extension/server/main.js';
+const NATIVE_SERVER_PATTERN = /^extension\/server\/flavor-grenade-lsp(?:\.exe)?$/;
 
-export const VSIX_TARGETS: readonly VsixTarget[] = [
-  'alpine-x64',
-  'darwin-arm64',
-  'darwin-x64',
-  'linux-arm64',
-  'linux-x64',
-  'win32-arm64',
-  'win32-x64',
-];
-
-const SERVER_BINARY_PATTERN = /^extension\/server\/flavor-grenade-lsp(?:\.exe)?$/;
-
-export function expectedServerBinaryForTarget(target: VsixTarget): string {
-  return target.startsWith('win32')
-    ? 'extension/server/flavor-grenade-lsp.exe'
-    : 'extension/server/flavor-grenade-lsp';
-}
-
-export function validateServerBinaryEntries(options: {
-  entries: string[];
-  target: VsixTarget;
-}): string[] {
-  const serverBinaries = options.entries
-    .map((entry) => entry.replaceAll('\\', '/'))
-    .filter((entry) => SERVER_BINARY_PATTERN.test(entry));
-  const expected = expectedServerBinaryForTarget(options.target);
+export function validateServerPayloadEntries(options: { entries: string[] }): string[] {
+  const normalizedEntries = options.entries.map((entry) => entry.replaceAll('\\', '/'));
+  const nativeServers = normalizedEntries.filter((entry) => NATIVE_SERVER_PATTERN.test(entry));
+  const serverModules = normalizedEntries.filter((entry) => entry === SERVER_MODULE);
   const errors: string[] = [];
 
-  if (serverBinaries.length === 0) {
-    errors.push(`missing server binary for ${options.target}: expected ${expected}`);
-    return errors;
+  if (serverModules.length === 0) {
+    errors.push(`missing bundled server module: expected ${SERVER_MODULE}`);
   }
 
-  if (serverBinaries.length !== 1) {
+  if (serverModules.length > 1) {
+    errors.push(`expected exactly one bundled server module; found ${serverModules.length}`);
+  }
+
+  if (nativeServers.length > 0) {
     errors.push(
-      `expected exactly one server binary for ${options.target}; found ${serverBinaries.length}`,
+      `native server executables are not Marketplace-safe payloads: ${nativeServers.join(', ')}`,
     );
-  }
-
-  if (!serverBinaries.includes(expected)) {
-    errors.push(`wrong target server binary for ${options.target}: expected ${expected}`);
   }
 
   return errors;
 }
 
-export function validateServerBinaryVsix(options: {
-  target: VsixTarget;
-  vsixPath: string;
-}): string[] {
-  return validateServerBinaryEntries({
+export function validateServerPayloadVsix(options: { vsixPath: string }): string[] {
+  return validateServerPayloadEntries({
     entries: readZipEntries(options.vsixPath),
-    target: options.target,
   });
+}
+
+export function hasNativeServerEntry(entries: string[]): boolean {
+  return entries
+    .map((entry) => entry.replaceAll('\\', '/'))
+    .some((entry) => NATIVE_SERVER_PATTERN.test(entry));
 }
 
 export function readZipEntries(zipPath: string): string[] {
@@ -104,14 +77,14 @@ function findEndOfCentralDirectory(archive: Buffer): number {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const options = parseCliArgs(process.argv.slice(2));
-  const errors = validateServerBinaryVsix(options);
+  const errors = validateServerPayloadVsix(options);
   if (errors.length > 0) {
     console.error(errors.join('\n'));
     process.exitCode = 1;
   }
 }
 
-function parseCliArgs(args: string[]): { target: VsixTarget; vsixPath: string } {
+function parseCliArgs(args: string[]): { vsixPath: string } {
   const options = new Map<string, string>();
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -127,13 +100,9 @@ function parseCliArgs(args: string[]): { target: VsixTarget; vsixPath: string } 
   }
 
   const vsixPath = options.get('vsix');
-  const target = options.get('target');
-  if (!vsixPath || !target) {
-    throw new Error('Usage: server-binary.ts --vsix <path> --target <vsix-target>');
-  }
-  if (!VSIX_TARGETS.includes(target as VsixTarget)) {
-    throw new Error(`Unsupported VSIX target: ${target}`);
+  if (!vsixPath) {
+    throw new Error('Usage: server-binary.ts --vsix <path>');
   }
 
-  return { target: target as VsixTarget, vsixPath };
+  return { vsixPath };
 }
