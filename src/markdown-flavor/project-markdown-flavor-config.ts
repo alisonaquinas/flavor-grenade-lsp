@@ -46,14 +46,21 @@ export class ProjectMarkdownFlavorConfig {
   }
 
   private readConfig(configPath: string): string | null {
+    let fd: number | undefined;
     try {
-      const stat = fs.statSync(configPath);
+      fd = fs.openSync(configPath, 'r');
+      const stat = fs.fstatSync(fd);
       if (!stat.isFile() || stat.size > MAX_PROJECT_CONFIG_BYTES) {
         return null;
       }
-      return fs.readFileSync(configPath, 'utf8');
+      const content = fs.readFileSync(fd, 'utf8');
+      return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? null : content;
     } catch {
       return null;
+    } finally {
+      if (fd !== undefined) {
+        fs.closeSync(fd);
+      }
     }
   }
 }

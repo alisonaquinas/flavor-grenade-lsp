@@ -2,8 +2,8 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import type { LspDiagnostic, LspCodeAction } from '../lsp-types.js';
 import { expect } from 'bun:test';
 import { FGWorld } from '../world.js';
-import fs from 'node:fs';
 import path from 'node:path';
+import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Diagnostics-specific steps ─────────────────────────────────────────────
 
@@ -20,10 +20,10 @@ Given(
     const nbspHeading = heading.replace(/^(#+) /, '$1\u00A0');
     this.writeVaultFile(relPath, nbspHeading);
     if (!this.singleFileMode) {
-      const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-      if (!fs.existsSync(markerPath)) {
-        fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-      }
+      writeFileIfMissing(
+        path.join(this.vaultDir, '.flavor-grenade.toml'),
+        LEGACY_OFM_PROJECT_CONFIG,
+      );
     }
   },
 );
