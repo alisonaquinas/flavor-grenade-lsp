@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.0...v0.4.1) (2026-05-23)
+
+### Fixed
+
+- Build the extension release gate's Windows server binary before package-target VSIX validation.
+- Build the extension release gate's Linux server binary before VS Code extension host tests.
+- Add CI coverage for the extension release dry-run path so `ext-v*-test` tags validate packaging, checksums, attestations, and publish skipping without Marketplace publication.
+
 ## [0.4.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.3.0...v0.4.0) (2026-05-23)
 
 ### Added

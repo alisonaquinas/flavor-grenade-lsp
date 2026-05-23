@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1] — 2026-05-23
+
+### Fixed
+
+- Build required server binaries before extension release package-target and host-test gates.
+- Add dry-run release workflow coverage so test tags exercise VSIX packaging and publish-skip behavior before Marketplace release.
+
 ## [0.2.0] — 2026-05-23
 
 ### Added
