@@ -1,9 +1,9 @@
 import { Given, When, Then, DataTable } from '@cucumber/cucumber';
 import { expect } from 'bun:test';
 import { FGWorld } from '../world.js';
-import fs from 'node:fs';
 import path from 'node:path';
 import type { LspCompletionList, LspCompletionItemWithInsert } from '../lsp-types.js';
+import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── completions.feature step definitions ──────────────────────────────────
 
@@ -72,10 +72,7 @@ Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTabl
   }
 
   // Ensure vault marker
-  const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-  if (!fs.existsSync(markerPath)) {
-    fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-  }
+  writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), LEGACY_OFM_PROJECT_CONFIG);
 });
 
 // ── When: completion request ───────────────────────────────────────────────
