@@ -14,9 +14,9 @@ Code while keeping Markdown flavor intelligence in the language server.
 | Area | Requirement |
 |---|---|
 | Activation | Activate for `.obsidian/` and `.flavor-grenade.toml`; avoid expensive startup for generic Markdown |
-| Markdown flavor | Keep `.md` files in `markdown`; expose Auto Detect and every supported researched Markdown flavor in a separate selector |
+| Markdown flavor | Keep `.md` files in `markdown`; expose Auto Detect and every supported researched Markdown flavor in a separate status-bar selector that reports the effective flavor |
 | Commands | Register restart, rebuild, output, show references, follow link, open embed, backlinks, outlinks, reveal vault, copy diagnostics |
-| Status | Show starting, indexing, ready, disabled, and error states with useful tooltips and quick actions |
+| Status | Show starting, indexing, ready, disabled, and error states without document counts in the status text; keep document counts in diagnostics and expose useful tooltips and quick actions |
 | Tests | Cover activation, Markdown flavor selection, commands, status, and server path failures in extension-host tests |
 | Marketplace | Show current Markdown flavor and OFM feature screenshots in README and packaged assets |
 | Contributions | Add snippets and command affordances gated by flavor/context rather than a custom language id |

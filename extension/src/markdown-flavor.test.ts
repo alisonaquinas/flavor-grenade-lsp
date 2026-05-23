@@ -10,6 +10,7 @@ import {
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   buildMarkdownFlavorConfigurationNotification,
   createMarkdownFlavorQuickPickItems,
+  formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
   resolveMarkdownFlavor,
   resolveMarkdownFlavorUpdateTarget,
@@ -150,6 +151,35 @@ describe('Markdown flavor resolution', () => {
         selected: 'obsidian',
       }),
       { kind: 'inactive', reason: 'non-markdown-language' },
+    );
+  });
+});
+
+describe('Markdown flavor status presentation', () => {
+  it('shows the effective flavor and keeps Auto Detect detail in the tooltip', () => {
+    const presentation = formatMarkdownFlavorStatus({
+      kind: 'active',
+      selected: 'auto',
+      effective: 'obsidian',
+      source: 'obsidian-marker',
+    });
+
+    assert.equal(presentation.text, '$(symbol-misc) Markdown: Obsidian');
+    assert.match(presentation.tooltip, /Markdown Flavor: Auto Detect \(Obsidian\)/);
+    assert.match(presentation.tooltip, /Click to select Markdown flavor/);
+  });
+
+  it('marks non-Markdown documents as inactive', () => {
+    assert.deepEqual(
+      formatMarkdownFlavorStatus({
+        kind: 'inactive',
+        reason: 'non-markdown-language',
+      }),
+      {
+        text: '$(symbol-misc) Markdown: Inactive',
+        tooltip:
+          'Markdown Flavor: inactive for this document\nReason: non-Markdown language\nOpen a file-backed Markdown document to select a Markdown flavor.',
+      },
     );
   });
 });

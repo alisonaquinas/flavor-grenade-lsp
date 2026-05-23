@@ -117,7 +117,7 @@ requirements.
 **Meter:**
 
 1. Simulate initializing, indexing, ready, error, missing binary, restricted workspace, and virtual workspace states.
-2. Inspect the status bar item text and tooltip for each state.
+2. Inspect the status bar item text and tooltip for each state, verifying the ready text does not include the document count.
 3. Invoke available quick actions from the status item or command palette.
 4. Verify each state has accurate text, useful detail, and a next action.
 5. Compute: (states with complete status behavior / total states tested) x 100.
@@ -286,11 +286,12 @@ flavor/context state without requiring a custom Markdown language id.
 **Meter:**
 
 1. Open file-backed Markdown documents in workspace-folder, workspace-only, vault, generic Markdown, and standalone-file contexts.
-2. Verify a Flavor Grenade Markdown flavor selector is visible or command-accessible without opening the VS Code language picker.
+2. Verify a Flavor Grenade Markdown flavor selector is visible in the status bar or command-accessible without opening the VS Code language picker.
 3. Select `Auto Detect` and each explicit flavor.
 4. Verify the selector state changes and the active document remains `languageId = markdown`.
-5. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
-6. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
+5. Verify the status-bar selector reports the current effective flavor for the active Markdown document.
+6. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
+7. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
 **Fail:** The user must use the VS Code language picker for flavor selection, the selector is unavailable for supported Markdown contexts, or selecting a flavor changes the document away from `markdown`.
 **Goal:** 100% selector availability for supported file-backed Markdown contexts.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
@@ -376,7 +377,7 @@ flavor/context state without requiring a custom Markdown language id.
 **Meter:**
 
 1. Open a Markdown document under a `.obsidian/` folder with `flavorGrenade.markdownFlavor` set to `auto`.
-2. Verify the selector reports `Auto Detect` with effective flavor `obsidian`.
+2. Verify the status-bar selector reports `Auto Detect` with effective flavor `obsidian`.
 3. Open a Markdown document in a Flavor Grenade workspace with explicit project flavor config or workspace setting.
 4. Verify `auto` resolves to that configured supported flavor id.
 5. Open a standalone generic `.md` file with no vault or config signal.

@@ -36,6 +36,23 @@ export const MARKDOWN_FLAVOR_LABELS: Record<MarkdownFlavorSelection, string> = {
   'stack-overflow': 'Stack Overflow Markdown',
 };
 
+export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, string> = {
+  auto: 'Auto',
+  original: 'Original',
+  commonmark: 'CommonMark',
+  obsidian: 'Obsidian',
+  gfm: 'GFM',
+  glfm: 'GLFM',
+  pandoc: 'Pandoc',
+  multimarkdown: 'MultiMarkdown',
+  mdx: 'MDX',
+  kramdown: 'kramdown',
+  'markdown-extra': 'Extra',
+  'r-markdown': 'R Markdown',
+  reddit: 'Reddit',
+  'stack-overflow': 'Stack Overflow',
+};
+
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
 export const MARKDOWN_FLAVOR_SETTING = 'flavorGrenade.markdownFlavor';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
@@ -77,6 +94,11 @@ export interface MarkdownFlavorQuickPickItem {
   id: MarkdownFlavorSelection;
   label: string;
   description?: string;
+}
+
+export interface MarkdownFlavorStatusPresentation {
+  text: string;
+  tooltip: string;
 }
 
 export interface MarkdownFlavorStateForDocument {
@@ -121,6 +143,44 @@ export function createMarkdownFlavorQuickPickItems(): MarkdownFlavorQuickPickIte
     id,
     label: MARKDOWN_FLAVOR_LABELS[id],
   }));
+}
+
+export function formatMarkdownFlavorStatus(
+  resolution?: MarkdownFlavorResolution,
+): MarkdownFlavorStatusPresentation {
+  if (!resolution) {
+    return {
+      text: '$(symbol-misc) Markdown: No file',
+      tooltip:
+        'Markdown Flavor: no active file-backed Markdown document\nOpen a file-backed Markdown document to select a Markdown flavor.',
+    };
+  }
+
+  if (resolution.kind === 'inactive') {
+    return {
+      text: '$(symbol-misc) Markdown: Inactive',
+      tooltip:
+        `Markdown Flavor: inactive for this document\nReason: ${inactiveReasonLabel(resolution.reason)}\n` +
+        'Open a file-backed Markdown document to select a Markdown flavor.',
+    };
+  }
+
+  const effectiveLabel = MARKDOWN_FLAVOR_LABELS[resolution.effective];
+  const selectorLabel =
+    resolution.selected === 'auto'
+      ? `Auto Detect (${effectiveLabel})`
+      : MARKDOWN_FLAVOR_LABELS[resolution.selected];
+
+  return {
+    text: `$(symbol-misc) Markdown: ${MARKDOWN_FLAVOR_SHORT_LABELS[resolution.effective]}`,
+    tooltip: [
+      `Markdown Flavor: ${selectorLabel}`,
+      `Selected: ${MARKDOWN_FLAVOR_LABELS[resolution.selected]}`,
+      `Effective: ${effectiveLabel}`,
+      `Source: ${sourceLabel(resolution.source)}`,
+      'Click to select Markdown flavor.',
+    ].join('\n'),
+  };
 }
 
 export function isFlavorEligibleDocument(document: TextDocumentLike): boolean {
@@ -221,6 +281,28 @@ function activeResolution(
     effective,
     source,
   };
+}
+
+function inactiveReasonLabel(reason: Extract<MarkdownFlavorResolution, { kind: 'inactive' }>['reason']): string {
+  switch (reason) {
+    case 'non-markdown-language':
+      return 'non-Markdown language';
+    case 'unsupported-scheme':
+      return 'unsupported URI scheme';
+  }
+}
+
+function sourceLabel(source: FlavorResolutionSource): string {
+  switch (source) {
+    case 'explicit-selection':
+      return 'explicit selection';
+    case 'project-toml':
+      return 'project configuration';
+    case 'obsidian-marker':
+      return 'Obsidian vault marker';
+    case 'commonmark-fallback':
+      return 'CommonMark fallback';
+  }
 }
 
 function collectPropagatedResources(
