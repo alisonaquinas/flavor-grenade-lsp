@@ -4,6 +4,7 @@ import { FGWorld } from '../world.js';
 import type { LspLocation } from '../lsp-types.js';
 import fs from 'node:fs';
 import path from 'node:path';
+import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
@@ -119,10 +120,7 @@ Given(
     this.writeVaultFile('notes/_tag-seed.md', `# Tag Seed\n${content}`);
 
     // Ensure vault marker
-    const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
-    if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
-    }
+    writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), LEGACY_OFM_PROJECT_CONFIG);
 
     if (!this.proc) {
       await this.startServer(this.vaultUri());

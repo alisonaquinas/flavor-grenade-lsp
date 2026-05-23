@@ -399,10 +399,15 @@ async function refreshMarkdownFlavorStatus(context: ExtensionContext): Promise<v
     return;
   }
 
-  const resolution =
-    languageModeController?.resolveMarkdownFlavorForDocument(document) ??
-    resolveLocalMarkdownFlavor(document);
-  applyMarkdownFlavorStatus(statusBar, await resolution);
+  if (languageModeController) {
+    applyMarkdownFlavorStatus(
+      statusBar,
+      await languageModeController.resolveMarkdownFlavorForDocument(document),
+    );
+    return;
+  }
+
+  applyMarkdownFlavorStatus(statusBar, await resolveLocalMarkdownFlavor(document));
 }
 
 async function resolveLocalMarkdownFlavor(document: TextDocument) {
