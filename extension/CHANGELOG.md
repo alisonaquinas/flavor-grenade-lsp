@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3] — 2026-05-23
+
+### Changed
+
+- Normalize extension documentation around the current bundled JavaScript server module package model.
+- Add local full-maturity guidance for extension source, scripts, tests, Marketplace evidence, and package-target verification areas.
+- Refresh extension development dependency metadata for the current VS Code API and TypeScript toolchain.
+
 ## [0.2.2] — 2026-05-23
 
 ### Changed
