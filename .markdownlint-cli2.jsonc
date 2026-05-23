@@ -12,7 +12,8 @@
     "docs/**",
     "website/docs/**",
     ".github/**",
-    "extension/.vscode-test/**"
+    "extension/.vscode-test/**",
+    "extension/test-fixtures/workspaces/smoketest/**"
   ],
   "config": {
     "default": true,
