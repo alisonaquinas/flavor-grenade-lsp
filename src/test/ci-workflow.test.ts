@@ -79,6 +79,7 @@ describe('CI workflow verification battery', () => {
     expect(codeqlWorkflow).toContain('Gate CodeQL alerts');
     expect(codeqlWorkflow).toContain('code-scanning/alerts?state=open&tool_name=CodeQL');
     expect(codeqlWorkflow).toContain('permissions:\n  contents: read');
+    expect(codeqlWorkflow).toContain('persist-credentials: false');
 
     expect(codeqlConfig).toContain('disable-default-queries: false');
     expect(codeqlConfig).toContain('uses: security-and-quality');
