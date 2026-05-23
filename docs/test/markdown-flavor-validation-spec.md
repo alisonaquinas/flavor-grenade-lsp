@@ -22,6 +22,7 @@ research corpus.
 | MF-VA-003 | `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/evidence/markdown-flavor-research-trace.md` | Profile examples cite the correct research source slug and at least one signature behavior per flavor. |
 | MF-VA-004 | `docs/test/evidence/markdown-flavor-product-review.md` | Reviewer confirms `mdx` as a flavor does not authorize changing the VS Code language id away from `markdown`. |
 | MF-VA-005 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Reviewer confirms platform, conversion, renderer, and execution-bound references have non-local fixture coverage or an explicit deferred lookup disposition. |
+| MF-VA-006 | `docs/test/evidence/markdown-flavor-inference-review.md` | Reviewer confirms syntax/context inference uses only strong local evidence, documents ambiguous fallback to CommonMark, and does not infer Original Markdown by absence of extensions. |
 
 ## Planned Evidence Artifacts
 
@@ -35,6 +36,7 @@ and host-boundary review metadata required before release-readiness claims.
 | `docs/test/evidence/markdown-flavor-product-review.md` | Signed review notes for `auto`, `mdx`, platform flavors, and manual non-Markdown language safety. |
 | `docs/test/evidence/markdown-flavor-validation-run.md` | Validation run date, reviewer, commit, commands, and links to BDD/test output. |
 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Table mapping host/conversion fixtures to GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow boundary expectations; each row states no local diagnostics/navigation/rename or links an explicit deferral. |
+| `docs/test/evidence/markdown-flavor-inference-review.md` | Table mapping each inference fixture to expected strong/medium/weak evidence, expected effective flavor or CommonMark fallback, ambiguity rationale, boundary scope, and safety checks. |
 
 Each artifact must include its generation or review date, reviewer name or
 generating command, repository commit SHA, source inputs reviewed, pass/fail
@@ -57,6 +59,9 @@ redacted excerpts when command output is needed.
 - Host-specific and conversion-specific references cannot be counted as local
   LSP support unless fixture evidence proves the server has verified local
   context.
+- Syntax/context inference cannot count as validated unless evidence proves
+  strong local syntax wins, weak/shared syntax falls back, and fixture roots do
+  not inherit ancestor or child markers.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.
 - Phase 21 release readiness is limited to root/server PR evidence unless the

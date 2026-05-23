@@ -18,6 +18,7 @@ Validation proves the extension behavior matches user-facing product intent.
 | EXT-MF-VA-004 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Every displayed flavor has a source-backed profile and no unresearched flavor is exposed. |
 | EXT-MF-VA-005 | `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | Marketplace selector proof and package-target verification evidence are present for validation signoff. |
 | EXT-MF-VA-006 | `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | Current extension tests, package activation, client selectors, and host waits no longer assert `ofmarkdown` language promotion. |
+| EXT-MF-VA-007 | `extension/docs/tests/evidence/markdown-flavor-inference-smoke.md` | User-visible Auto Detect behavior is validated for TOML-absent inference fixtures, ambiguous fallback, and the root smoketest README negative control. |
 
 ## Planned Evidence Artifacts
 
@@ -33,6 +34,7 @@ reviewer or command that produced it, and links the verification output.
 | `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | `npm run verify:package-targets` log excerpt plus VSIX target list proving packaged server payload checks ran before release or validation signoff. |
 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Displayed flavor id and label table traced to `docs/research/` or `docs/ofm-spec/`. |
 | `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | Command output or reviewer notes listing allowed historical `ofmarkdown` mentions and proving current activation, document selector, package, contribution, and host tests do not depend on language promotion. |
+| `extension/docs/tests/evidence/markdown-flavor-inference-smoke.md` | Host smoke notes or screenshot paths for TOML-absent inference fixtures, expected inferred flavor or CommonMark fallback, root README boundary behavior, command output, commit SHA, and pass/fail status. |
 
 Evidence artifacts must be sanitized before commit. They must not include note
 body text, frontmatter values, `.flavor-grenade.toml` contents, environment
@@ -48,5 +50,7 @@ redacted excerpts when command output is needed.
 - Package-target evidence confirms packaged VSIX payload checks were run.
 - Stale `ofmarkdown` expectation evidence distinguishes historical docs from
   current extension behavior and tests.
+- Inference smoke evidence distinguishes configured TOML detection from
+  syntax/context inference and proves root fixture README remains generic.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.

@@ -21,7 +21,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-002 | `src/test/integration/markdown-flavor.test.ts` | Change configuration from `commonmark` to `obsidian` with an open document containing `[[Target]]`. | Server refreshes the open document and Obsidian profile enables wiki-link diagnostics/navigation. |
 | MF-I-003 | `src/test/integration/markdown-flavor.test.ts` | Iterate every required explicit flavor id through configuration updates. | Server accepts each id and publishes or exposes a refresh state without process restart. |
 | MF-I-004 | `src/test/integration/markdown-flavor.test.ts` | Use unsupported flavor id `asciidoc`. | Server reports configuration validation failure and keeps previous effective flavor. |
-| MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with `.flavor-grenade.toml`, workspace setting, both present, standalone file context, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: folder/workspace override, standalone user override, project config, Obsidian marker, membership evidence, then CommonMark fallback. |
+| MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with `.flavor-grenade.toml`, workspace setting, both present, standalone file context, syntax-inference candidates, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: folder/workspace override, standalone user override, project config, Obsidian marker, syntax/context inference, membership evidence, then CommonMark fallback. |
 | MF-I-006 | `src/test/integration/markdown-flavor.test.ts` | Change effective flavor with an open fixture containing diagnostics, completion, navigation, hover, semantic-token, and rename trigger points. | Each handler consumes the refreshed effective flavor and returns flavor-specific results without requiring server restart. |
 | MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
 | MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
@@ -39,13 +39,16 @@ and affects analysis without requiring VS Code UI.
 | MF-I-020 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `r-markdown` and open a document with YAML metadata, R chunks, chunk options, inline R, malformed chunk syntax, and an Obsidian wiki link. | Open-document analysis reports effective flavor `r-markdown`, indexes R Markdown local syntax counts, keeps wiki links inert, avoids CommonMark portability warnings for active R Markdown syntax, and classifies execution-bound chunks without running code. |
 | MF-I-021 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `reddit` and open a document with spoilers, superscript, strikethrough, tables, Reddit host references, old-Reddit ordered-list syntax, unsafe links, and an Obsidian wiki link. | Open-document analysis reports effective flavor `reddit`, indexes Reddit local syntax counts, keeps wiki links inert, reports Reddit portability diagnostics, and classifies Reddit host references without service access. |
 | MF-I-022 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `stack-overflow` and open a document with Stack Exchange tag references, spoilers, language directives, fence language hints, tables, malformed directives, and an Obsidian wiki link. | Open-document analysis reports effective flavor `stack-overflow`, indexes Stack Overflow local syntax counts, keeps wiki links inert, reports Stack Overflow portability diagnostics, and classifies Stack Exchange tag references without service access. |
+| MF-I-023 | `src/test/integration/markdown-flavor.test.ts` | Start spawned servers against TOML-absent inference fixtures for MDX, R Markdown, Stack Overflow, Reddit, GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, and an ambiguous GFM-like fixture. | Strong inference fixtures report source `syntax-inference` and the expected effective flavor; the ambiguous GFM-like fixture reports `commonmark-fallback`; no inference test performs network access, process execution, renderer loading, dynamic imports, or out-of-root reads. |
+| MF-I-024 | `src/test/integration/markdown-flavor.test.ts` | Open a root fixture README under a smoketest workspace that has child flavor fixtures but no root `.flavor-grenade.toml`; run the same fixture from a repository checkout that has a parent `.flavor-grenade.toml`. | Root README remains CommonMark or inactive as specified by the workspace boundary and does not detect as OFM/project flavor because of child fixtures or ancestor markers outside the active workspace root. |
 
 ## Spawned-Server IDs
 
 ### MF-I-005
 
 Spawned-server temp workspace evidence for [[docs/design/markdown-flavor-auto-detection]], `.flavor-grenade.toml`, workspace
-setting, both present, invalid configured values, and fallback precedence.
+setting, both present, syntax/context inference, invalid configured values,
+and fallback precedence.
 
 ### MF-I-006 - Handler Refresh Coverage
 
@@ -178,12 +181,29 @@ diagnostics, inactive Obsidian syntax, and non-local host classification without
 requiring Stack Exchange API calls, live tag/question/answer/user/comment
 lookup, site metadata, or rendered post/comment HTML behavior.
 
+### MF-I-023 - Syntax Inference Spawned-Server Behavior
+
+Integration evidence that Auto Detect can resolve TOML-absent documents from
+strong local syntax and bounded context. It must include positive inference
+fixtures for every inferable flavor listed in
+[[docs/design/markdown-flavor-auto-detection]], plus ambiguity fixtures that
+fall back to CommonMark.
+
+### MF-I-024 - Fixture Boundary Spawned-Server Behavior
+
+Integration evidence that workspace/vault boundaries constrain marker search.
+It must prove the smoketest root README is not treated as OFM when opened as a
+workspace root with only child fixture TOML files, and is not polluted by a
+repository-level `.flavor-grenade.toml` when run from the development checkout.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.
 - Every required flavor id can be applied without restart.
 - `.flavor-grenade.toml`, workspace setting, precedence, and invalid-value
   fallback are proven across the process boundary.
+- TOML-absent inference, ambiguity fallback, and fixture-boundary confinement
+  are proven across the process boundary.
 - Diagnostics, completion, navigation, hover, semantic tokens, and rename all
   consume refreshed effective flavor state.
 - Host-boundary references stay non-local across diagnostics, navigation,
