@@ -12,7 +12,7 @@ used by LSP-capable editors and by the companion VS Code extension in
 
 ## Current Status
 
-- Server package version: `0.4.1`
+- Server package version: `0.4.2`
 - VS Code extension package version: `0.2.2`
 - Release branch target: `main`
 - Integration branch: `develop`
