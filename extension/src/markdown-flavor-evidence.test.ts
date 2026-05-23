@@ -117,6 +117,8 @@ describe('Markdown flavor smoketest fixture evidence', () => {
           selected: 'auto',
           effective: flavor,
           source: 'project-toml',
+          structuredProfiles: [],
+          structuredProfileSource: 'structured-profile-inference',
         },
         `${flavor} fixture should drive auto detection through project TOML`,
       );
@@ -161,5 +163,79 @@ describe('Markdown flavor smoketest fixture evidence', () => {
         hasObsidianMarker: false,
       },
     );
+  });
+
+  it('reads flavor config from an Obsidian vault root without losing the Obsidian marker', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-config-'));
+    tempDirs.push(root);
+    await mkdir(join(root, '.obsidian'));
+    await mkdir(join(root, 'notes'));
+    await writeFile(
+      join(root, '.flavor-grenade.toml'),
+      [
+        '[core.markdown]',
+        'flavor = "obsidian"',
+        'structured_profiles = [',
+        '  "madr",',
+        ']',
+      ].join('\n'),
+    );
+    const notePath = join(root, 'notes', 'welcome.md');
+    await writeFile(notePath, '# Welcome\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: true,
+      projectFlavor: 'obsidian',
+      projectStructuredProfiles: ['madr'],
+    });
+  });
+
+  it('continues past a nested Obsidian marker to honor workspace TOML precedence', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-parent-config-'));
+    tempDirs.push(root);
+    const vaultRoot = join(root, 'vault');
+    await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
+    await mkdir(join(vaultRoot, 'notes'));
+    await writeFile(
+      join(root, '.flavor-grenade.toml'),
+      [
+        '[core.markdown]',
+        'flavor = "gfm"',
+        'structured_profiles = ["keep-a-changelog"]',
+      ].join('\n'),
+    );
+    const notePath = join(vaultRoot, 'notes', 'welcome.md');
+    await writeFile(notePath, '# Welcome\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: true,
+      projectFlavor: 'gfm',
+      projectStructuredProfiles: ['keep-a-changelog'],
+    });
+  });
+
+  it('stops at an Obsidian vault root when no workspace boundary is supplied', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-unbounded-parent-'));
+    tempDirs.push(root);
+    const vaultRoot = join(root, 'vault');
+    await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
+    await mkdir(join(vaultRoot, 'notes'));
+    await writeFile(
+      join(root, '.flavor-grenade.toml'),
+      [
+        '[core.markdown]',
+        'flavor = "gfm"',
+        'structured_profiles = ["keep-a-changelog"]',
+      ].join('\n'),
+    );
+    const notePath = join(vaultRoot, 'notes', 'welcome.md');
+    await writeFile(notePath, '# Welcome\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath), {
+      hasFlavorConfigMarker: false,
+      hasObsidianMarker: true,
+    });
   });
 });

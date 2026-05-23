@@ -186,6 +186,45 @@
           "default": "auto",
           "description": "Markdown flavor selector. Auto Detect resolves from workspace/project evidence and falls back to CommonMark."
         },
+        "flavorGrenade.markdownStructuredProfiles": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "auto",
+                "none"
+              ]
+            },
+            {
+              "type": "array",
+              "uniqueItems": true,
+              "not": {
+                "allOf": [
+                  {
+                    "contains": {
+                      "const": "keep-a-changelog"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "common-changelog"
+                    }
+                  }
+                ]
+              },
+              "items": {
+                "type": "string",
+                "enum": [
+                  "keep-a-changelog",
+                  "common-changelog",
+                  "madr"
+                ]
+              }
+            }
+          ],
+          "default": "auto",
+          "description": "Structured Markdown profile flags layered over the selected base flavor."
+        },
         "flavorGrenade.completion.candidates": {
           "type": "number",
           "default": 50,

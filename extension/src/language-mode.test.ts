@@ -197,11 +197,14 @@ describe('language mode helpers', () => {
                     settings: {
                         flavorGrenade: {
                             markdownFlavor: 'auto',
+                            markdownStructuredProfiles: 'auto',
                             markdownFlavorResources: {
                                 [doc.uri.toString()]: {
                                     selected: 'auto',
                                     effective: 'gfm',
                                     source: 'project-toml',
+                                    structuredProfiles: [],
+                                    structuredProfileSource: 'structured-profile-inference',
                                 },
                             },
                         },

@@ -3,6 +3,10 @@ import * as fs from 'fs';
 import type { MarkdownFlavorSelection } from './markdown-flavor-contract.js';
 import { isMarkdownFlavorSelection } from './markdown-flavor-state.js';
 import {
+  isStructuredProfileSelection,
+  type StructuredProfileSelection,
+} from './structured-profiles.js';
+import {
   confineExistingPathToVaultRoot,
   resolveVaultRelativePath,
 } from '../vault/vault-path-confinement.js';
@@ -25,6 +29,17 @@ export class ProjectMarkdownFlavorConfig {
    * @returns A safe selector value when project config declares one.
    */
   resolveFlavor(vaultRoot: string | null): MarkdownFlavorSelection | undefined {
+    return this.resolveConfigValue(vaultRoot, parseProjectFlavor);
+  }
+
+  resolveStructuredProfiles(vaultRoot: string | null): StructuredProfileSelection | undefined {
+    return this.resolveConfigValue(vaultRoot, parseProjectStructuredProfiles);
+  }
+
+  private resolveConfigValue<T>(
+    vaultRoot: string | null,
+    parser: (content: string) => T | undefined,
+  ): T | undefined {
     if (vaultRoot === null) {
       return undefined;
     }
@@ -42,7 +57,7 @@ export class ProjectMarkdownFlavorConfig {
     if (content === null || hasDangerousTomlKey(content)) {
       return undefined;
     }
-    return parseProjectFlavor(content);
+    return parser(content);
   }
 
   private readConfig(configPath: string): string | null {
@@ -66,9 +81,24 @@ export class ProjectMarkdownFlavorConfig {
 }
 
 function parseProjectFlavor(content: string): MarkdownFlavorSelection | undefined {
+  const value = parseProjectMarkdownKey(content, 'flavor');
+  return typeof value === 'string' && isMarkdownFlavorSelection(value) ? value : undefined;
+}
+
+function parseProjectStructuredProfiles(content: string): StructuredProfileSelection | undefined {
+  const value = parseProjectMarkdownKey(content, 'structured_profiles');
+  return isStructuredProfileSelection(value) ? value : undefined;
+}
+
+function parseProjectMarkdownKey(
+  content: string,
+  key: string,
+): string | readonly string[] | undefined {
   let section = '';
 
-  for (const rawLine of content.split(/\r?\n/)) {
+  const rawLines = content.split(/\r?\n/);
+  for (let index = 0; index < rawLines.length; index += 1) {
+    const rawLine = rawLines[index];
     const line = stripInlineComment(rawLine).trim();
     if (line.length === 0) {
       continue;
@@ -80,20 +110,62 @@ function parseProjectFlavor(content: string): MarkdownFlavorSelection | undefine
       continue;
     }
 
-    const valueMatch = /^([A-Za-z0-9_.-]+)\s*=\s*"([^"]*)"\s*$/.exec(line);
+    const arrayStartMatch = /^([A-Za-z0-9_.-]+)\s*=\s*\[\s*$/.exec(line);
+    if (arrayStartMatch) {
+      const fullKey = section.length > 0 ? `${section}.${arrayStartMatch[1]}` : arrayStartMatch[1];
+      if (fullKey !== `core.markdown.${key}`) {
+        continue;
+      }
+      const arrayLines: string[] = [];
+      for (index += 1; index < rawLines.length; index += 1) {
+        const arrayLine = stripInlineComment(rawLines[index]).trim();
+        if (arrayLine === ']') {
+          return parseStringArray(arrayLines.join(','));
+        }
+        if (arrayLine.endsWith(']')) {
+          arrayLines.push(arrayLine.slice(0, -1));
+          return parseStringArray(arrayLines.join(','));
+        }
+        arrayLines.push(arrayLine);
+      }
+      return undefined;
+    }
+
+    const valueMatch = /^([A-Za-z0-9_.-]+)\s*=\s*(?:"([^"]*)"|\[([^\]]*)\])\s*$/.exec(line);
     if (!valueMatch) {
       continue;
     }
 
     const fullKey = section.length > 0 ? `${section}.${valueMatch[1]}` : valueMatch[1];
-    if (fullKey !== 'core.markdown.flavor') {
+    if (fullKey !== `core.markdown.${key}`) {
       continue;
     }
 
-    return isMarkdownFlavorSelection(valueMatch[2]) ? valueMatch[2] : undefined;
+    if (valueMatch[2] !== undefined) {
+      return valueMatch[2];
+    }
+    return parseStringArray(valueMatch[3]);
   }
 
   return undefined;
+}
+
+function parseStringArray(value: string): readonly string[] | undefined {
+  if (value.trim().length === 0) {
+    return [];
+  }
+  const parsed: string[] = [];
+  for (const part of value.split(',')) {
+    if (part.trim().length === 0) {
+      continue;
+    }
+    const match = /^\s*"([^"]*)"\s*$/.exec(part);
+    if (!match) {
+      return undefined;
+    }
+    parsed.push(match[1]);
+  }
+  return parsed;
 }
 
 function stripInlineComment(line: string): string {
