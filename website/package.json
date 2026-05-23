@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "commonloom": "0.1.0",
-    "svelte": "5.55.5"
+    "svelte": "5.55.9"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
