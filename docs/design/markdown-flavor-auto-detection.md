@@ -17,6 +17,11 @@ an effective flavor. The output is either an explicit `MarkdownFlavorId` or
 `inactive` when Flavor Grenade must not apply Markdown flavor behavior to the
 document.
 
+Structured document profiles such as Keep a Changelog, Common Changelog, and
+MADR are resolved separately as profile flags. They can be layered over any
+effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
+[[docs/design/markdown-structured-profile-flags]].
+
 ## Goals
 
 - Keep `.md` documents in VS Code's built-in `markdown` language mode.
@@ -39,6 +44,8 @@ document.
 | `MarkdownFlavorSelection` | Selector/config value: `auto` or a supported explicit `MarkdownFlavorId`. |
 | `MarkdownFlavorId` | Explicit flavor id: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, or `stack-overflow`. |
 | `EffectiveMarkdownFlavor` | The explicit flavor currently applied to a document. It is never `auto`. |
+| `StructuredMarkdownProfileId` | Independent structured-document profile flag, such as `keep-a-changelog`, `common-changelog`, or `madr`. It is not a `MarkdownFlavorId`. |
+| `EffectiveMarkdownContext` | One `EffectiveMarkdownFlavor` plus zero or more structured profile flags. |
 | `inactive` | No Markdown flavor behavior applies because the document is outside Flavor Grenade's active Markdown scope. |
 | `folder-backed document` | A file-backed Markdown document owned by a VS Code workspace folder. |
 | `standalone document` | A file-backed Markdown document with no owning VS Code workspace folder. |
@@ -70,7 +77,13 @@ type ResolveFlavorInput = {
     workspace?: MarkdownFlavorSelection;
     user?: MarkdownFlavorSelection;
   };
+  inspectedVSCodeStructuredProfileSetting: {
+    folder?: StructuredProfileSelection;
+    workspace?: StructuredProfileSelection;
+    user?: StructuredProfileSelection;
+  };
   projectTomlFlavor?: MarkdownFlavorSelection;
+  projectTomlStructuredProfiles?: StructuredProfileSelection;
   markers: {
     hasObsidianDirectory: boolean;
     hasFlavorGrenadeToml: boolean;
@@ -78,6 +91,13 @@ type ResolveFlavorInput = {
   syntaxInference?: {
     candidates: Array<{
       flavor: MarkdownFlavorId;
+      confidence: 'strong' | 'medium' | 'weak';
+      evidence: string[];
+    }>;
+  };
+  structuredProfileInference?: {
+    candidates: Array<{
+      profile: StructuredMarkdownProfileId;
       confidence: 'strong' | 'medium' | 'weak';
       evidence: string[];
     }>;
@@ -115,6 +135,7 @@ type ResolveFlavorResult =
       kind: 'active';
       selected: MarkdownFlavorSelection;
       effective: MarkdownFlavorId;
+      structuredProfiles: StructuredMarkdownProfileId[];
       source:
         | 'workspace-folder-setting'
         | 'workspace-setting'
@@ -135,6 +156,9 @@ type ResolveFlavorResult =
         | 'virtual-or-restricted-context';
     };
 ```
+
+The `effective` field is the base Markdown flavor only. Structured profiles are
+separate flags in `structuredProfiles`; they never replace the base flavor.
 
 ## Decision Flow
 
@@ -307,7 +331,32 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
 ```
 
 `active(...)` attaches the selected source, workspace folder, and vault root
-metadata needed for UI display and server propagation.
+metadata needed for UI display and server propagation. It also attaches
+structured profile flags resolved by
+[[docs/design/markdown-structured-profile-flags]].
+
+## Structured Profile Flag Resolution
+
+After this algorithm resolves the base `EffectiveMarkdownFlavor`, a second
+resolver determines structured profile flags. These flags can be mixed with any
+base flavor:
+
+- `commonmark + keep-a-changelog`
+- `gfm + common-changelog`
+- `obsidian + madr`
+- `pandoc + keep-a-changelog`
+
+The supported structured profile ids are:
+
+- `keep-a-changelog`
+- `common-changelog`
+- `madr`
+
+These ids are intentionally excluded from `MarkdownFlavorId` and from the
+Markdown flavor selector list. They are configured through separate TOML and VS
+Code settings with the same workspace-folder/workspace/user precedence shape as
+the base flavor setting. They can also be auto-detected from filename, folder
+placement, front matter, headings, and bounded local document structure.
 
 ## Resource-Specific Propagation
 
@@ -362,13 +411,18 @@ change:
 - `.obsidian/` marker appears or disappears;
 - `.flavor-grenade.toml` appears, disappears, or changes;
 - document text changes enough to alter syntax-inference evidence;
+- document text changes enough to alter structured-profile evidence;
 - workspace context files used by syntax inference appear, disappear, or change;
 - `flavorGrenade.markdownFlavor` changes at folder, workspace, or user scope;
+- `flavorGrenade.markdownStructuredProfiles` changes at folder, workspace, or
+  user scope;
 - restricted/virtual workspace state changes.
 - workspace trust state changes.
 
-If the effective flavor changes, BC4 schedules parse, diagnostics, completion,
-semantic token, hover, navigation, and rename refresh for affected documents.
+If the effective flavor or structured profile flags change, BC4 schedules
+parse, diagnostics, completion, semantic token, hover, navigation, and rename
+refresh for affected documents. Refresh decisions compare the full
+`EffectiveMarkdownContext`, not only `EffectiveMarkdownFlavor`.
 
 ## Test Obligations
 

@@ -20,6 +20,10 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`,
 `reddit`, and `stack-overflow`.
 
+Structured profiles are separate flags, not required explicit flavors. Keep a
+Changelog, Common Changelog, and MADR may be layered onto any required explicit
+flavor through [[docs/design/markdown-structured-profile-flags]].
+
 ---
 
 ## FlavorLSP.Profile.SignatureCoverage
@@ -226,3 +230,28 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 **Stakeholders:** Markdown authors, security reviewers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/features/github-flavored-markdown-flavor]], [[docs/features/gitlab-flavored-markdown-flavor]], [[docs/features/pandoc-markdown-flavor]], [[docs/features/multimarkdown-flavor]], [[docs/features/mdx-flavor]], [[docs/features/r-markdown-flavor]], [[docs/features/reddit-markdown-flavor]], [[docs/features/stack-overflow-markdown-flavor]], [[docs/requirements/functional/security-vault-confinement]].
+
+---
+
+## FlavorLSP.StructuredProfiles.Flags
+
+**Tag:** FlavorLSP.StructuredProfiles.Flags
+**User Req:** User.Flavor.ApplyStructuredProfiles
+**Gist:** Structured Markdown profiles must be independent flags layered over the effective base flavor, not new flavor ids.
+**Ambition:** Changelogs and ADRs should receive useful structure-aware diagnostics, symbols, hovers, completions, and navigation without forcing users to choose between document-structure support and their actual Markdown dialect.
+**Scale:** Percentage of structured profile combinations that preserve base flavor behavior and apply only the requested or inferred structured-document rules.
+**Meter:**
+
+1. Inspect the shared flavor contract and verify `keep-a-changelog`, `common-changelog`, and `madr` are absent from `MarkdownFlavorId`.
+2. Verify a separate `StructuredMarkdownProfileId` contract exists for `keep-a-changelog`, `common-changelog`, and `madr`.
+3. Parse fixtures for `commonmark + keep-a-changelog`, `gfm + common-changelog`, `obsidian + madr`, and at least one additional base-flavor/profile combination.
+4. Verify base-flavor syntax remains governed by the effective `MarkdownFlavorId`.
+5. Verify structured diagnostics/symbols/folds apply only to matching changelog or MADR structure.
+6. Verify `keep-a-changelog` and `common-changelog` are mutually exclusive during automatic inference and explicit configuration.
+7. Verify no structured profile causes network access, process execution, renderer invocation, or out-of-workspace reads.
+8. Compute: (correct structured profile outcomes / total structured profile outcomes) x 100.
+**Fail:** Any structured profile is added to the base flavor selector, any structured flag disables base flavor parsing, or any automatic inference applies a changelog/ADR profile from weak evidence alone.
+**Goal:** 100% structured profile flag correctness for supported profiles.
+**Stakeholders:** Markdown authors, release maintainers, architecture decision authors, LSP implementers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-structured-profile-flags]], [[docs/research/keep-a-changelog-analysis]], [[docs/research/common-changelog-analysis]], [[docs/research/madr-analysis]].

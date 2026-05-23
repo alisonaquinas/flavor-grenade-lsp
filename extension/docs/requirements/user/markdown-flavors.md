@@ -66,6 +66,16 @@ aliases:
 
 ---
 
+## User.ExtensionFlavor.ConfigureStructuredProfiles
+
+**Tag:** User.ExtensionFlavor.ConfigureStructuredProfiles
+**Goal:** Configure structured profile flags separately from Markdown flavor
+**Need:** A VS Code user wants Keep a Changelog, Common Changelog, and MADR support to auto-detect from file naming and folders, while still being configurable in VS Code settings without adding them to the Markdown flavor selector.
+**Feature docs:** [Markdown structured profile flags](../../../../docs/design/markdown-structured-profile-flags.md), [VS Code extension parity](../../features/vscode-extension-parity.md)
+**Maps to:** Extension.MarkdownStructuredProfiles.Configuration, Extension.MarkdownFlavor.AutoDetection
+
+---
+
 ## User.ExtensionFlavor.TrustSelectedBehavior
 
 **Tag:** User.ExtensionFlavor.TrustSelectedBehavior
@@ -113,5 +123,6 @@ and to `Extension.MarkdownFlavor.RequiredCoverage` plus
 ## Related Functional Requirements
 
 - [Markdown flavor auto-detection algorithm](../../../../docs/design/markdown-flavor-auto-detection.md)
+- [Markdown structured profile flags](../../../../docs/design/markdown-structured-profile-flags.md)
 - [Root Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md)
 - [Extension functional requirements](../functional/vscode-extension-parity.md)
