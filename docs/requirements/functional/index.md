@@ -11,6 +11,31 @@ aliases:
 Functional requirements describe product behavior visible through the language
 server, VS Code extension, and supported Markdown authoring workflows.
 
+Use this folder when a change affects what a user or LSP client can observe:
+diagnostics, navigation, completion, rename, semantic tokens, code actions,
+vault membership, flavor-specific Markdown behavior, or extension behavior that
+is part of the product contract.
+
+## Layer Boundary
+
+Functional requirements define externally visible behavior. They should state
+the user-visible goal, measurable target, and verification evidence without
+repeating implementation details from the technical layer. Security requirements
+that change visible behavior, such as rejecting vault-escaping links or hiding
+absolute paths, live here with a `security-` prefix and link back to the
+cross-cutting security index.
+
+## Maintenance Rules
+
+- Add a file here when a new feature or user-facing capability needs its own
+  requirement set.
+- Keep every requirement tag traceable from [[docs/test/matrix]] before a
+  feature is considered complete.
+- Move implementation-only constraints to [[docs/requirements/technical/index]]
+  and CI or release controls to [[docs/requirements/operational/index]].
+- Prefer links to existing feature, DDD, and test docs over duplicating long
+  explanations.
+
 ## Files
 
 | File | Scope |

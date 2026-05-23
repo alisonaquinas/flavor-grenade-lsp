@@ -15,7 +15,11 @@ the Planguage requirement tags it exercises, and the phase in which it was
 introduced.
 
 > [!NOTE] Maintenance
-> This file is updated automatically by `scripts/update-test-index.sh` (stub in Phase 1; fully implemented in Phase 3). Until the script is implemented, update this file manually whenever a new test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or `website/tests`. Always commit index updates with the test file or with the ticket status update that brings older missing entries back into sync.
+> This file is maintained manually. `scripts/update-test-index.sh` is a legacy
+> no-op helper and is not a source of truth. Update this file whenever a new
+> test file is added under `tests/`, `src/**/__tests__/`, `extension/**`, or
+> `website/tests`. Always commit index updates with the test file or with the
+> ticket status update that brings older missing entries back into sync.
 
 > [!TIP]
 > For the full requirements × tests × work-performed traceability matrix, see [[docs/test/matrix]].

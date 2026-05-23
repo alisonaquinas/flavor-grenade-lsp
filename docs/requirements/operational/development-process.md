@@ -10,7 +10,12 @@ aliases:
 # Development Process Requirements
 
 > [!NOTE] Scope
-> These requirements govern the development workflow: branching strategy, test directory structure, test index maintenance, script automation, and binary file handling. They apply to all contributors and to the CI/CD pipeline. Branching rules are enforced by branch protection; test structure and index rules are enforced by convention and by the `scripts/update-test-index.sh` automation stub (implemented in Phase 3).
+> These requirements govern the development workflow: branching strategy, test
+> directory structure, test index maintenance, script automation, and binary
+> file handling. They apply to all contributors and to the CI/CD pipeline.
+> Branching rules are enforced by branch protection; test structure and index
+> rules are enforced by convention and manual updates to [[docs/test/index]] and
+> [[docs/test/matrix]].
 
 ---
 
@@ -59,7 +64,7 @@ aliases:
 
 **Tag:** Process.TestIndex.Matrix
 **Gist:** `docs/test/matrix.md` is maintained as a live matrix relating test files to Planguage requirement tags and to the phase and commit in which they were written; it must be updated whenever a new test file is added.
-**Ambition:** Without a traceability matrix, it is impossible to answer the question "which requirements have test coverage?" without reading every test file. The matrix provides at-a-glance requirement coverage: a reviewer can verify that every Planguage tag in the requirements layer has at least one corresponding test, identify untested requirements before shipping a phase, and understand which phases introduced coverage for which requirements. The `scripts/update-test-index.sh` automation stub exists to support automated matrix maintenance starting in Phase 3.
+**Ambition:** Without a traceability matrix, it is impossible to answer the question "which requirements have test coverage?" without reading every test file. The matrix provides at-a-glance requirement coverage: a reviewer can verify that every Planguage tag in the requirements layer has at least one corresponding test, identify untested requirements before shipping a phase, and understand which phases introduced coverage for which requirements. The current matrix is manually maintained; any future automation must be reviewed as an implementation change and documented before it becomes authoritative.
 **Scale:** Percentage of test files in the owned test trees that have a corresponding entry in `docs/test/matrix.md` with at least one Planguage tag in the Requirements Tags column.
 **Meter:**
 

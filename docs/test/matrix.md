@@ -9,8 +9,10 @@ aliases:
 
 # Requirements × Tests Matrix
 
-> [!NOTE] Auto-update
-> Auto-update via `scripts/update-test-index.sh` (stub until Phase 3; fully implemented in Phase 3). Always commit matrix updates in the same commit as the test that triggered them.
+> [!NOTE] Maintenance
+> This matrix is maintained manually. `scripts/update-test-index.sh` is a
+> legacy no-op helper and is not a source of truth. Always commit matrix updates
+> in the same commit as the test that triggered them.
 
 This matrix maps every Planguage requirement tag to the test files that provide evidence for it, the current coverage status, the phase in which coverage was introduced, and any notes about partial coverage or deferred work.
 
