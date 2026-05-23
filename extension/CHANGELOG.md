@@ -2,6 +2,10 @@
 
 ## [0.2.2] — 2026-05-23
 
+### Changed
+
+- Update the extension API target and minimum VS Code version to 1.120.0.
+
 ### Security
 
 - Refresh extension tooling transitive dependencies so public advisories for `qs`, `brace-expansion`, and `uuid` through `@azure/msal-node` are cleared.
