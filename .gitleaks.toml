@@ -6,6 +6,7 @@ useDefault = true
 [[allowlists]]
 description = "Generated dependencies and build artifacts are scanned by dependency tooling, not secret scanning."
 paths = [
+  '''^\.git/''',
   '''(^|/)node_modules/''',
   '''^coverage/''',
   '''^dist/''',

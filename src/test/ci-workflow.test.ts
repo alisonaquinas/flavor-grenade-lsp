@@ -129,6 +129,7 @@ describe('CI workflow verification battery', () => {
     expect(rootEslintConfig).toContain('security/detect-child-process');
     expect(websiteEslintConfig).toContain('security/detect-child-process');
     expect(gitleaksConfig).toContain('useDefault = true');
+    expect(gitleaksConfig).toContain("'''^\\.git/'''");
     expect(gitleaksConfig).toContain("'''(^|/)node_modules/'''");
     expect(gitleaksConfig).toContain('5-key, 3-scenario-per-key coverage');
   });
@@ -206,6 +207,7 @@ describe('CI workflow verification battery', () => {
       'npm run verify:package-targets',
       'Smoke Test Bundled JS Server',
       'xvfb-run -a npm run test:host',
+      'sha256sum ./*.vsix > checksums.sha256',
       "contains(github.ref_name, '-test')",
       'Skip Marketplace publish for test tag',
       'vsce publish has no dry-run flag in @vscode/vsce 3.9.1',

@@ -13,7 +13,7 @@ export default defineConfig(
   },
   js.configs.recommended,
   {
-    plugins: security.configs.recommended.plugins,
+    plugins: { security },
     rules: {
       'security/detect-bidi-characters': 'error',
       'security/detect-buffer-noassert': 'error',
