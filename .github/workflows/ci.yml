@@ -201,6 +201,7 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
+          package-manager-cache: false
 
       - run: npm ci
 
@@ -237,6 +238,7 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
+          package-manager-cache: false
 
       - run: bun install --frozen-lockfile --ignore-scripts
         working-directory: .
@@ -292,6 +294,7 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
+          package-manager-cache: false
 
       # Bootstrap a pinned npm release from the registry tarball instead of using
       # `npm install -g npm@<version>`. Fetching via curl/jq and running the

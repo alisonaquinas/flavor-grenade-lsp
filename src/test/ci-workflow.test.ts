@@ -36,6 +36,17 @@ const task311 = readFileSync(
   'utf8',
 );
 
+function expectSetupNodeCacheDisabled(workflowName: string, content: string): void {
+  const setupNodeUses = content.match(/actions\/setup-node@/g) ?? [];
+  const disabledSetupNodeUses =
+    content.match(/actions\/setup-node@[\s\S]*?package-manager-cache: false/g) ?? [];
+
+  expect(
+    disabledSetupNodeUses.length,
+    `${workflowName} must disable setup-node automatic package-manager caching for every use`,
+  ).toBe(setupNodeUses.length);
+}
+
 const requiredFlavorGateFiles = [
   'docs/bdd/features/ofmarkdown-language-mode.feature',
   'docs/bdd/features/markdown-flavor-dialects.feature',
@@ -133,6 +144,17 @@ describe('CI workflow verification battery', () => {
     expect(gitleaksConfig).toContain("'''^\\.git/'''");
     expect(gitleaksConfig).toContain("'''(^|/)node_modules/'''");
     expect(gitleaksConfig).toContain('5-key, 3-scenario-per-key coverage');
+  });
+
+  test('disables setup-node automatic package-manager caching in scanner-covered workflows', () => {
+    expectSetupNodeCacheDisabled('CI', workflow);
+    expectSetupNodeCacheDisabled('Extension Release', extensionReleaseWorkflow);
+    expectSetupNodeCacheDisabled('Website Pages', websitePagesWorkflow);
+  });
+
+  test('targets dependency update streams at develop', () => {
+    expect(dependabotConfig.match(/target-branch: 'develop'/g)?.length).toBe(4);
+    expect(dependabotConfig).not.toContain("target-branch: 'main'");
   });
 
   test('lints every docs root with exact OFM docs globs', () => {
