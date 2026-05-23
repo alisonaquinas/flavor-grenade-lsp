@@ -50,6 +50,9 @@ jobs:
         working-directory: extension
         run: npm run verify:package-targets
 
+      - name: Build Linux server binary for extension host tests
+        run: bun run build:binary
+
       - name: Run extension host selector-proof tests
         working-directory: extension
         run: xvfb-run -a npm run test:host
