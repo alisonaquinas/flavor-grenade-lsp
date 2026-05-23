@@ -182,6 +182,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Security.Supply.FrozenLockfile** | All CI `bun install` uses `--frozen-lockfile`; lockfile drift fails the build. | [[docs/requirements/security/supply-chain]] |
 | **Security.Supply.IgnoreScripts** | All CI `bun install` uses `--ignore-scripts` (CLI flag, not `.npmrc`, due to Bun bypass). | [[docs/requirements/security/supply-chain]] |
 | **Security.Supply.AdvisoryMonitoring** | Direct dependency upgrades reviewed against security advisories; documented in `docs/security/dependency-audit-log.md`. | [[docs/requirements/security/supply-chain]] |
+| **Security.Supply.SetupNodeCacheControl** | Scanner-covered `actions/setup-node` steps must disable automatic package-manager caching unless an explicit reviewed cache key is present. | [[docs/requirements/security/supply-chain]] |
 | **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[docs/requirements/security/supply-chain]] |
 | **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[docs/requirements/security/information-disclosure]] |
 | **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[docs/requirements/security/information-disclosure]] |

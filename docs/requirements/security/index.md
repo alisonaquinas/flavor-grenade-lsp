@@ -22,7 +22,7 @@ aliases:
 | [[docs/requirements/security/parser-safety]] | Technical | ReDoS, YAML injection, circular embeds, vault size |
 | [[docs/requirements/security/vault-confinement]] | Functional | Path traversal, URI injection, write confinement |
 | [[docs/requirements/security/input-validation]] | Technical | JSON-RPC param validation, prototype pollution, payload size |
-| [[docs/requirements/security/supply-chain]] | Operational | Dependency pinning, ignore-scripts, advisory monitoring, OIDC |
+| [[docs/requirements/security/supply-chain]] | Operational | Dependency pinning, ignore-scripts, package-cache control, advisory monitoring, OIDC |
 | [[docs/requirements/security/information-disclosure]] | Functional | Log sanitization, completion filtering, process privilege |
 
 ---
@@ -47,6 +47,7 @@ aliases:
 | **Security.Supply.IgnoreScripts** | `bun install --ignore-scripts` must be used in all CI runs to prevent postinstall script execution. | [[docs/requirements/security/supply-chain]] | P1 |
 | **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[docs/requirements/security/supply-chain]] | P1 |
 | **Security.Supply.AdvisoryMonitoring** | Direct dependencies must be reviewed against published security advisories before each upgrade; findings documented in `docs/security/dependency-audit-log.md`. | [[docs/requirements/security/supply-chain]] | P2 |
+| **Security.Supply.SetupNodeCacheControl** | Scanner-covered `actions/setup-node` steps must disable automatic package-manager caching unless an explicit reviewed cache key is present. | [[docs/requirements/security/supply-chain]] | P1 |
 | **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[docs/requirements/security/supply-chain]] | P1 |
 | **Security.Disclosure.LogSanitization** | Server logs must never include vault document content; only file paths, line numbers, and diagnostic codes may appear in log output. | [[docs/requirements/security/information-disclosure]] | P2 |
 | **Security.Disclosure.CompletionFilter** | Completion candidates derived from frontmatter values must not include values from sensitive key names (password, token, secret, api_key, etc.). | [[docs/requirements/security/information-disclosure]] | P3 |
@@ -66,7 +67,7 @@ Security requirements will be added to [[docs/test/matrix]] as implementation ph
 | Phase 9 (Completions) | `Security.Disclosure.CompletionFilter` |
 | Phase 11 (Rename) | `Security.Vault.RenameConfinement` |
 | Phase 13 (CI/CD) | `Security.Supply.AdvisoryMonitoring` |
-| Phase 1 + ongoing | `Security.Supply.FrozenLockfile`, `Security.Supply.IgnoreScripts`, `Security.Supply.ExactPinning`, `Security.Supply.NoDevtoolsIntegration`, `Security.Config.NoCodeExecution` |
+| Phase 1 + ongoing | `Security.Supply.FrozenLockfile`, `Security.Supply.IgnoreScripts`, `Security.Supply.ExactPinning`, `Security.Supply.SetupNodeCacheControl`, `Security.Supply.NoDevtoolsIntegration`, `Security.Config.NoCodeExecution` |
 
 ---
 

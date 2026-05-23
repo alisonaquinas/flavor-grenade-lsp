@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4] — 2026-05-23
+
+### Security
+
+- Disable automatic `actions/setup-node` package-manager caching in the extension release workflow so dry-run and Marketplace release jobs do not rely on mutable implicit package caches.
+- Keep extension release workflow cache hardening covered by the repository CI workflow verification tests.
+
 ## [0.2.3] — 2026-05-23
 
 ### Changed
