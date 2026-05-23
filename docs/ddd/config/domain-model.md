@@ -157,7 +157,8 @@ interface MarkdownFlavorProfile {
 }
 
 interface EffectiveMarkdownContext {
-  flavor: MarkdownFlavorId
+  effectiveMarkdownFlavor: MarkdownFlavorId
+  profile: MarkdownFlavorProfile
   structuredProfiles: readonly StructuredMarkdownProfileId[]
 }
 

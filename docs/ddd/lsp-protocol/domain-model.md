@@ -321,22 +321,24 @@ LspNotification<DidChangeWatchedFilesParams>
 ```text
 LspNotification<DidChangeConfigurationParams>
   │
-  ├─ Extract settings.flavorGrenade.markdownFlavor
-  ├─ Extract settings.flavorGrenade.markdownStructuredProfiles
-  ├─ Validate value is 'auto' or supported MarkdownFlavorId
-  ├─ Validate structured profile value is 'auto', 'none', or compatible profile ids
-  ├─ If valid:
-  │    ConfigService.withVSCodeMarkdownFlavorSelection(selection, scope)
-  │    ConfigService.withVSCodeStructuredProfileSelection(selection, scope)
-  │    Workspace.withMarkdownFlavorSelection(ws, selection, scope)
-  │    Workspace.withStructuredProfileSelection(ws, selection, scope)
+  ├─ Extract settings.flavorGrenade.markdownFlavor as markdownFlavorSelection
+  ├─ Extract settings.flavorGrenade.markdownStructuredProfiles as structuredProfileSelection
+  ├─ Validate markdownFlavorSelection is 'auto' or supported MarkdownFlavorId when present
+  ├─ Validate structuredProfileSelection is 'auto', 'none', or compatible profile ids when present
+  ├─ If markdownFlavorSelection is present and valid:
+  │    ConfigService.withVSCodeMarkdownFlavorSelection(markdownFlavorSelection, scope)
+  │    Workspace.withMarkdownFlavorSelection(ws, markdownFlavorSelection, scope)
+  ├─ If structuredProfileSelection is present and valid:
+  │    ConfigService.withVSCodeStructuredProfileSelection(structuredProfileSelection, scope)
+  │    Workspace.withStructuredProfileSelection(ws, structuredProfileSelection, scope)
+  ├─ If either valid field was applied:
   │      → BC4 recomputes EffectiveMarkdownContext
   │      → affected docs are reparsed with new ParseContext
   │      → diagnostics are refreshed
-  └─ If invalid:
+  └─ For each invalid present field:
        log warning
-       keep previous Config/Workspace flavor state
-       do not reparse or refresh diagnostics for the invalid value
+       keep previous Config/Workspace state for that field
+       do not reparse or refresh diagnostics solely for the invalid value
 ```
 
 **Payload shape:**
@@ -361,7 +363,9 @@ type StructuredProfileSelection = 'auto' | 'none' | StructuredMarkdownProfileId[
 - `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit base `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
 - `markdownStructuredProfiles: 'auto'` asks BC4 to infer profile flags; `none` disables structured profile behavior for that scope.
 - Explicit structured profile arrays must contain only known ids, must be unique, and must not contain both `keep-a-changelog` and `common-changelog`.
-- Unknown strings such as `asciidoc`, non-strings, arrays, and objects are invalid.
+- Unknown `markdownFlavor` strings such as `asciidoc`, non-strings, arrays, and objects are invalid for `markdownFlavor`.
+- Unknown structured profile strings, bare profile id strings, duplicate arrays, incompatible changelog arrays, and non-string array entries are invalid for `markdownStructuredProfiles`.
+- A valid `markdownFlavor` update is applied even when `markdownStructuredProfiles` is invalid, and a valid `markdownStructuredProfiles` update is applied even when `markdownFlavor` is invalid. Invalid fields preserve their previous state independently.
 - Because this method is an LSP notification, no error response is sent. BC5 logs the invalid payload and leaves server state unchanged.
 
 **Mutation target:** BC5 mutates Config/BC4 only through public application services. BC5 does not store selector state, does not compute `EffectiveMarkdownContext`, and does not call BC2 directly for flavor changes.

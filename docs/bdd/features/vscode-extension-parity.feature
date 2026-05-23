@@ -58,6 +58,6 @@ Feature: VS Code extension parity
     Then the selector does not include id "keep-a-changelog"
     And the selector does not include id "common-changelog"
     And the selector does not include id "madr"
-    When "flavorGrenade.markdownStructuredProfiles" is set to "madr"
+    When "flavorGrenade.markdownStructuredProfiles" is set to "[\"madr\"]"
     Then the extension sends structured profile "madr" to the server with the active resource
     And the document language id remains "markdown"

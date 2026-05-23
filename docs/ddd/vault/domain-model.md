@@ -237,6 +237,42 @@ BC4 tie-breakers:
 
 `EffectiveMarkdownContext` belongs to `VaultFolder`/`Workspace`, not BC2 or BC5. BC2 receives it only through `ParseContext`.
 
+### StructuredProfileResolver
+
+`StructuredProfileResolver` is executed by BC4 after `MarkdownFlavorCascade`
+selects the base flavor. It returns zero or more compatible
+`StructuredMarkdownProfileId` values for the same `EffectiveMarkdownContext`.
+
+```text
+1. Explicit VS Code structured-profile setting
+2. Project TOML core.markdown.structured_profiles
+3. Strong local structured-profile evidence
+4. No structured profile
+```
+
+Evidence values:
+
+| Evidence | Strong signal examples |
+|---|---|
+| Filename/folder | `CHANGELOG.md`, `docs/decisions/NNNN-title.md`, `decisions/NNNN-title.md` |
+| Keep a Changelog content | `# Changelog`, `## [Unreleased]`, bracketed release headings, `Added`/`Changed`/`Deprecated`/`Removed`/`Fixed`/`Security` categories |
+| Common Changelog content | `# Changelog`, `## VERSION - YYYY-MM-DD`, `Changed`/`Added`/`Removed`/`Fixed` categories, linked change references, `**Breaking:**` prefixes |
+| MADR content | MADR metadata or headings such as `Context and Problem Statement`, `Considered Options`, and `Decision Outcome` |
+
+Resolver rules:
+
+- `auto` delegates to evidence inference.
+- `none` returns an empty structured profile list for the relevant scope.
+- Explicit arrays must be unique and compatible.
+- `keep-a-changelog` and `common-changelog` are mutually exclusive. If both
+  changelog profiles have strong evidence for one document, BC4 chooses the
+  more specific local evidence winner; if no winner is clear, no changelog
+  profile is inferred and diagnostics can report ambiguous structured evidence.
+- Weak evidence never enables a structured profile by itself.
+- Structured profile inference is bounded to the active workspace/vault root
+  and must not inspect sibling workspaces, remote services, rendered output, or
+  generated release artifacts.
+
 ### Effective Context Responsibilities
 
 BC4 owns the server-authoritative answer to "which Markdown flavor and

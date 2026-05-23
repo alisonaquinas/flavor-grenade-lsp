@@ -95,10 +95,10 @@ Feature: Markdown flavor selection
 
     Examples:
       | baseFlavor | selection          | expectedProfiles    | path                                  |
-      | commonmark | keep-a-changelog   | keep-a-changelog    | CHANGELOG.md                          |
-      | gfm        | common-changelog   | common-changelog    | CHANGELOG.md                          |
-      | obsidian   | madr               | madr                | docs/decisions/0001-use-profile.md    |
-      | pandoc     | none               | none                | CHANGELOG.md                          |
+      | commonmark | ["keep-a-changelog"] | keep-a-changelog | CHANGELOG.md                       |
+      | gfm        | ["common-changelog"] | common-changelog | CHANGELOG.md                       |
+      | obsidian   | ["madr"]             | madr             | docs/decisions/0001-use-profile.md |
+      | pandoc     | none                 | none             | CHANGELOG.md                       |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Auto Detect infers structured profiles from document context

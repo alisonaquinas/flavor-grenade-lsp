@@ -46,7 +46,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol
 2. Construct and start a `LanguageClient` with `Executable` server options over stdio.
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
-5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending a `MarkdownFlavorSelection` to the server.
+5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending `MarkdownFlavorSelection` and `StructuredProfileSelection` inputs to the server.
 6. Push all disposables to `context.subscriptions` for automatic cleanup.
 
 ### Lifecycle
@@ -376,7 +376,7 @@ server command as a child process and communicates via stdin/stdout pipes.
 
 4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
 
-5. **Markdown flavor selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns effective flavor state after receiving the selector.
+5. **Markdown flavor and structured-profile selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns `EffectiveMarkdownContext` state after receiving selector inputs.
 
 6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.
 

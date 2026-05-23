@@ -50,7 +50,8 @@ type StructuredProfileSelection =
   | readonly StructuredMarkdownProfileId[]
 
 interface EffectiveMarkdownContext {
-  flavor: MarkdownFlavorId
+  effectiveMarkdownFlavor: MarkdownFlavorId
+  profile: MarkdownFlavorProfile
   structuredProfiles: readonly StructuredMarkdownProfileId[]
 }
 ```

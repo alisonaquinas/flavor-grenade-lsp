@@ -101,7 +101,7 @@ Feature: Markdown flavor dialect behavior
       | reddit         | reddit-markdown-analysis                   | Reddit platform Markdown behavior            |
       | stack-overflow | stack-overflow-markdown-analysis           | Stack Overflow technical-writing behavior    |
 
-  @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
+  @planned @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
   Scenario Outline: Structured profiles layer over any base Markdown flavor
     Given "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
     And the document path is "<path>"
@@ -122,7 +122,7 @@ Feature: Markdown flavor dialect behavior
       | obsidian   | madr               | docs/decisions/0001-use-structured.md     | # 1. Use structured profiles\n\n## Context and Problem Statement\n\nText.\n\n## Decision Outcome\n\nChosen option. |
       | pandoc     | keep-a-changelog   | structured/keep-a-changelog/CHANGELOG.md | # Changelog\n\n## [Unreleased]\n\n### Security\n\n- Added security note. |
 
-  @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
+  @planned @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
   @req:FlavorLSP.Diagnostics.ProfileRules @req:FlavorLSP.Completion.ProfileCandidates
   @req:FlavorLSP.Navigation.ProfileResolution @req:FlavorLSP.Hover.ProfileMetadata
   @req:FlavorLSP.SemanticTokens.ProfileTokens @req:FlavorLSP.Rename.ProfileSafety

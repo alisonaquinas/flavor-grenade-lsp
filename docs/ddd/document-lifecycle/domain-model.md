@@ -300,7 +300,7 @@ Host-specific nodes remain syntax/index data. BC2 must not decide that a GitHub 
 | Event | Payload | Emitted By |
 |-------|---------|-----------|
 | `DocumentTextChanged` | `{ id: DocId; oldVersion: number \| null; newVersion: number }` | `withText`, `applyLspChange` |
-| `DocumentOpened` | `{ id: DocId; version: number; source: 'lsp' \| 'disk'; effectiveMarkdownFlavor: MarkdownFlavorId }` | `fromLsp`, `tryLoad` |
+| `DocumentOpened` | `{ id: DocId; version: number; source: 'lsp' \| 'disk'; effectiveMarkdownContext: EffectiveMarkdownContext }` | `fromLsp`, `tryLoad` |
 | `DocumentClosed` | `{ id: DocId }` | Called by BC4 when editor closes the document |
 | `DocumentFlavorChanged` | `{ id: DocId; oldFlavor: MarkdownFlavorId; newFlavor: MarkdownFlavorId }` | `withText` when only parse context changes |
 

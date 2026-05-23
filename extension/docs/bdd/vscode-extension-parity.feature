@@ -46,7 +46,9 @@ Feature: VS Code extension parity
       | reddit         | Reddit Markdown               |
       | stack-overflow | Stack Overflow Markdown       |
 
-  # Source: docs/bdd/features/ofmarkdown-language-mode.feature
+  # Extension-local summary; detailed source scenarios live in
+  # docs/bdd/features/ofmarkdown-language-mode.feature and
+  # docs/bdd/features/vscode-extension-parity.feature.
   @planned @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario: Structured profile ids stay outside the Markdown flavor selector
     Given a Markdown document is active with language id "markdown"
@@ -55,21 +57,24 @@ Feature: VS Code extension parity
     And the selector does not include id "common-changelog"
     And the selector does not include id "madr"
 
-  # Source: docs/bdd/features/ofmarkdown-language-mode.feature
+  # Extension-local summary; detailed source scenarios live in
+  # docs/bdd/features/ofmarkdown-language-mode.feature and
+  # docs/bdd/features/vscode-extension-parity.feature.
   @planned @req:Extension.MarkdownStructuredProfiles.Configuration @req:FlavorLSP.StructuredProfiles.Flags
   Scenario Outline: Structured profile settings propagate with the effective flavor
     Given a Markdown document is active with language id "markdown"
     And the effective Markdown flavor becomes "<baseFlavor>"
-    When "flavorGrenade.markdownStructuredProfiles" is set to "<profile>"
-    Then the extension sends structured profile "<profile>" to the server
-    And server diagnostics, completions, navigation, hover, semantic tokens, and rename use "<profile>" as a structured overlay
+    When "flavorGrenade.markdownStructuredProfiles" is set to "<selection>"
+    Then the extension sends structured profile selection "<selection>" to the server with the active resource
+    And server diagnostics, completions, navigation, hover, semantic tokens, and rename use expected structured profile state "<profile>"
     And the Markdown flavor selector still shows only base flavor choices
 
     Examples:
-      | baseFlavor | profile           |
-      | commonmark | keep-a-changelog  |
-      | gfm        | common-changelog  |
-      | obsidian   | madr              |
+      | baseFlavor | selection             | profile           |
+      | commonmark | ["keep-a-changelog"]  | keep-a-changelog  |
+      | gfm        | ["common-changelog"]  | common-changelog  |
+      | obsidian   | ["madr"]              | madr              |
+      | pandoc     | none                  | none              |
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.OverridePersistence

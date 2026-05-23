@@ -73,7 +73,7 @@ Feature: Markdown flavor selection
       | reddit         | Reddit Markdown          |
       | stack-overflow | Stack Overflow Markdown  |
 
-  @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profiles are not Markdown flavor selector choices
     Given a Markdown document is active with language id "markdown"
     When the user opens the Markdown flavor selector
@@ -85,7 +85,7 @@ Feature: Markdown flavor selection
       | common-changelog  |
       | madr              |
 
-  @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile configuration propagates with the base flavor
     Given a workspace folder containing ".flavor-grenade.toml"
     And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
@@ -97,12 +97,12 @@ Feature: Markdown flavor selection
 
     Examples:
       | baseFlavor | selection          | expectedProfiles    | path                               |
-      | commonmark | keep-a-changelog   | keep-a-changelog    | CHANGELOG.md                       |
-      | gfm        | common-changelog   | common-changelog    | CHANGELOG.md                       |
-      | obsidian   | madr               | madr                | docs/decisions/0001-use-profile.md |
-      | pandoc     | none               | none                | CHANGELOG.md                       |
+      | commonmark | ["keep-a-changelog"] | keep-a-changelog | CHANGELOG.md                       |
+      | gfm        | ["common-changelog"] | common-changelog | CHANGELOG.md                       |
+      | obsidian   | ["madr"]             | madr             | docs/decisions/0001-use-profile.md |
+      | pandoc     | none                 | none             | CHANGELOG.md                       |
 
-  @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Auto Detect infers structured profiles from document context
     Given no structured profile override is configured
     And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
