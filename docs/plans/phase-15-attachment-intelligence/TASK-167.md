@@ -31,7 +31,7 @@ dimensions when the metadata is available without blocking editor response.
 - Support hover on local `![alt](attachment.ext)` targets.
 - Extend `src/handlers/hover.handler.ts` to use `entityAtPosition()` so
   Markdown image entities can share attachment hover rendering with embeds.
-- Use type labels aligned with [[docs/requirements/hover]] `HV-002`: Image, Audio,
+- Use type labels aligned with [[docs/requirements/functional/hover]] `HV-002`: Image, Audio,
   Video, PDF, or File.
 - Do not render previews or perform heavyweight binary parsing.
 - Preserve existing Markdown embed and wiki-link hover behavior.
@@ -45,7 +45,7 @@ dimensions when the metadata is available without blocking editor response.
 |---|---|---|
 | `Parity.Attachments.NavigationHover` | Existing attachment references support lightweight metadata hover | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Attachment refs support hover metadata | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/hover]] |
+| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/functional/hover]] |
 
 ---
 
@@ -131,7 +131,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

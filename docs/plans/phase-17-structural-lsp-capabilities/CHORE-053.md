@@ -38,7 +38,7 @@ Keeping lint clean after each feature phase prevents warning accumulation around
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase 17 must introduce no lint warnings | [[docs/requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase 17 must introduce no lint warnings | [[docs/requirements/technical/code-quality]] |
 
 ---
 

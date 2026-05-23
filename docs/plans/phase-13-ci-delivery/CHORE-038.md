@@ -38,7 +38,7 @@ CI configuration errors and inconsistent artifact naming can silently break rele
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Post-phase code quality review of CI configuration and editor examples | [[docs/requirements/code-quality]] |
+| — | Post-phase code quality review of CI configuration and editor examples | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -30,7 +30,7 @@ Review and improve the internal code quality of all Phase 4 vault module source 
 
 Phase 4 introduces async-heavy code (`VaultScanner`, `FileWatcher`) and a non-trivial data structure (`FolderLookup` trie). A dedicated quality sweep after all tasks are done reduces the risk of subtle async bugs and trie edge-case failures slipping through to Phase 5 work.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ Phase 4 introduces async-heavy code (`VaultScanner`, `FileWatcher`) and a non-tr
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate | [[docs/requirements/code-quality]] |
+| — | Code quality gate | [[docs/requirements/technical/code-quality]] |
 
 ---
 

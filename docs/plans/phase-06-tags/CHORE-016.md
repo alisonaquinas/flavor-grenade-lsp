@@ -38,7 +38,7 @@ Phase 6 introduces new source files (`src/tags/`, `src/completion/tag-completion
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Lint-clean codebase at zero warnings | [[docs/requirements/code-quality]] |
+| — | Lint-clean codebase at zero warnings | [[docs/requirements/technical/code-quality]] |
 
 ---
 

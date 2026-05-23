@@ -32,7 +32,7 @@ Review all new `src/` files introduced during Phase 1 for naming consistency, mo
 
 Phase 1 skeleton code is intentionally minimal, but patterns established in the scaffold (naming, structure, nesting) become templates for all subsequent phases. Catching and correcting quality issues at this stage prevents technical debt from propagating into Phase 2 and beyond.
 
-- Motivated by: [[docs/requirements/code-quality]]
+- Motivated by: [[docs/requirements/technical/code-quality]]
 
 ---
 
@@ -40,7 +40,7 @@ Phase 1 skeleton code is intentionally minimal, but patterns established in the 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality requirements to be authored in Phase 0; this sweep enforces them retroactively on Phase 1 output | [[docs/requirements/code-quality]] |
+| — | Code quality requirements to be authored in Phase 0; this sweep enforces them retroactively on Phase 1 output | [[docs/requirements/technical/code-quality]] |
 
 ---
 
@@ -120,7 +120,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[docs/requirements/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
+> Chore created. Status: `open`. Motivation: [[docs/requirements/technical/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
 
 > [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

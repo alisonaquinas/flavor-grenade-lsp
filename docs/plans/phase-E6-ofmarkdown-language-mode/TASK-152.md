@@ -41,10 +41,10 @@ Create the extension-side component that promotes qualifying `markdown` document
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.UserOverrideSafety | Preserve manual non-Markdown selections | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.UserOverrideSafety | Preserve manual non-Markdown selections | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 
 ---
 

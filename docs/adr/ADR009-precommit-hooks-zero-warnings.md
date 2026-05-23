@@ -9,7 +9,7 @@ date: 2026-04-16
 
 ## Context
 
-Linting warnings that are permitted to accumulate become permanent technical debt. Once a codebase contains hundreds of suppressed warnings, enforcing any new lint rule produces noise rather than signal, and developers learn to ignore the output entirely. The project requires "aggressive strict linting, warnings treated as errors" (see [[docs/requirements/code-quality]]).
+Linting warnings that are permitted to accumulate become permanent technical debt. Once a codebase contains hundreds of suppressed warnings, enforcing any new lint rule produces noise rather than signal, and developers learn to ignore the output entirely. The project requires "aggressive strict linting, warnings treated as errors" (see [[docs/requirements/technical/code-quality]]).
 
 Two enforcement points were evaluated:
 
@@ -66,6 +66,6 @@ CI mirrors the exact same four checks. The CI job is the authoritative gate for 
 ## Related
 
 - [[docs/adr/ADR002-ofm-only-scope]]
-- [[docs/requirements/code-quality]]
-- [[docs/requirements/ci-cd]]
+- [[docs/requirements/technical/code-quality]]
+- [[docs/requirements/operational/ci-cd]]
 - [[docs/plans/phase-01-scaffold]]

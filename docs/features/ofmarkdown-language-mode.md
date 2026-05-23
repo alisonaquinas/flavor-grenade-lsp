@@ -228,7 +228,7 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 - [[docs/design/markdown-flavor-auto-detection]]
 - [[docs/adr/ADR020-markdown-flavor-selection]]
 - [[docs/adr/ADR016-ofmarkdown-language-mode]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - `docs/bdd/features/ofmarkdown-language-mode.feature`
 - [[docs/ddd/editor-client/domain-model]]
 - [[docs/features/semantic-tokens]]

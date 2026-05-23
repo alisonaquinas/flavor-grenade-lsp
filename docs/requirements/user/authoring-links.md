@@ -9,7 +9,7 @@ aliases:
 # Authoring Links User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover the experience of writing links, callouts, and other vault constructs with editor assistance. Implementation details are in [[docs/requirements/completions]], [[docs/requirements/wiki-link-resolution]], and [[docs/requirements/rename]].
+> These user requirements cover the experience of writing links, callouts, and other vault constructs with editor assistance. Implementation details are in [[docs/requirements/functional/completions]], [[docs/requirements/functional/wiki-link-resolution]], and [[docs/requirements/functional/rename]].
 
 ---
 

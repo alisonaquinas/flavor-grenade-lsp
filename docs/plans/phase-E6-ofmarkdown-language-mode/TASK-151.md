@@ -43,8 +43,8 @@ Add the VS Code manifest and asset metadata needed for the `ofmarkdown` language
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 
 ---
 

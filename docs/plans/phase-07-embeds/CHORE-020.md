@@ -30,7 +30,7 @@ Review all Phase 7 source files for code quality issues and resolve them without
 
 Phase 7 introduces `AssetIndex` alongside the existing `VaultIndex`. Blurring the boundary between these two indexes could cause correctness issues in resolution. The hover handler constructs user-visible content that must be sanitised. The size-specifier regex must not accept pathological inputs.
 
-- Motivated by: [[docs/requirements/code-quality]], AssetIndex/VaultIndex separation review
+- Motivated by: [[docs/requirements/technical/code-quality]], AssetIndex/VaultIndex separation review
 
 ---
 
@@ -38,9 +38,9 @@ Phase 7 introduces `AssetIndex` alongside the existing `VaultIndex`. Blurring th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | AssetIndex vs VaultIndex separation | [[docs/requirements/code-quality]] |
-| — | Hover content sanitisation | [[docs/requirements/code-quality]] |
-| — | Size-specifier parsing correctness | [[docs/requirements/embed-resolution]] |
+| — | AssetIndex vs VaultIndex separation | [[docs/requirements/technical/code-quality]] |
+| — | Hover content sanitisation | [[docs/requirements/technical/code-quality]] |
+| — | Size-specifier parsing correctness | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 

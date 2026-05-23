@@ -33,11 +33,11 @@ Focus areas:
 - [docs/plans/phase-E16-flavor-scoped-contributions-marketplace.md](../plans/phase-E16-flavor-scoped-contributions-marketplace.md)
 - [docs/plans/phase-E17-extension-flavor-host-verification.md](../plans/phase-E17-extension-flavor-host-verification.md)
 - Pending ticket indexes and task/chore/feature tickets under matching `docs/plans/**/`
-- [docs/requirements/ofmarkdown-language-mode.md](../requirements/ofmarkdown-language-mode.md)
+- [docs/requirements/functional/ofmarkdown-language-mode.md](../requirements/ofmarkdown-language-mode.md)
 - [docs/requirements/functional/markdown-flavor-lsp.md](../requirements/functional/markdown-flavor-lsp.md)
 - [docs/requirements/functional/vscode-extension-parity.md](../requirements/functional/vscode-extension-parity.md)
-- [docs/requirements/ci-cd.md](../requirements/ci-cd.md)
-- [docs/requirements/development-process.md](../requirements/development-process.md)
+- [docs/requirements/operational/ci-cd.md](../requirements/ci-cd.md)
+- [docs/requirements/operational/development-process.md](../requirements/development-process.md)
 - [docs/test/matrix.md](../test/matrix.md), [docs/test/index.md](../test/index.md), and `docs/test/markdown-flavor-*.md`
 - [extension/docs/tests/matrix.md](../../extension/docs/tests/matrix.md), [extension/docs/tests/index.md](../../extension/docs/tests/index.md), and `extension/docs/tests/markdown-flavor-*.md`
 - [docs/bdd/features/ofmarkdown-language-mode.feature](../bdd/features/ofmarkdown-language-mode.feature)

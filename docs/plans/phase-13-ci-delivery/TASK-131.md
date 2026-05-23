@@ -56,7 +56,7 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
   ```
 
 - `NODE_AUTH_TOKEN` must come from GitHub Secrets; never hardcode or expose in logs
-- See also: [[docs/adr/ADR008-oidc-publishing]], [[docs/requirements/ci-cd]]
+- See also: [[docs/adr/ADR008-oidc-publishing]], [[docs/requirements/operational/ci-cd]]
 
 ---
 
@@ -64,7 +64,7 @@ Update `package.json` to set the npm package name to `@flavor-grenade/lsp-server
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | npm package publishing as part of release automation | [[docs/requirements/ci-cd]] |
+| — | npm package publishing as part of release automation | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

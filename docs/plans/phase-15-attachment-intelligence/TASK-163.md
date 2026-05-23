@@ -51,8 +51,8 @@ to Markdown documents.
 |---|---|---|
 | `Parity.Attachments.IndexCoverage` | Non-Markdown vault files are indexed as attachment targets | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Attachments are addressable vault assets | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Embed.Resolution.ImageTarget` | Image embed targets resolve as vault assets | [[docs/requirements/embed-resolution]] |
-| `Embed.Resolution.MarkdownTarget` | Markdown docs stay distinct from attachments | [[docs/requirements/embed-resolution]] |
+| `Embed.Resolution.ImageTarget` | Image embed targets resolve as vault assets | [[docs/requirements/functional/embed-resolution]] |
+| `Embed.Resolution.MarkdownTarget` | Markdown docs stay distinct from attachments | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -45,7 +45,7 @@ references live with the BDD harness.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.SourceLayout.DocsBoundary` | Documentation folders must not contain raw executable source or test assets. | [[docs/requirements/code-quality]] |
+| `Quality.SourceLayout.DocsBoundary` | Documentation folders must not contain raw executable source or test assets. | [[docs/requirements/technical/code-quality]] |
 
 ## Linked Tests
 

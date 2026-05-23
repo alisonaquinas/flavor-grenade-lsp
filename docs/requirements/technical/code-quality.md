@@ -10,7 +10,7 @@ aliases:
 # Code Quality Requirements
 
 > [!NOTE] Scope
-> These requirements govern source code quality: SOLID adherence, module coherence, coupling limits, documentation standards, and linting policy. They apply to all TypeScript source files under `src/`. Compliance is enforced via ESLint, TypeScript strict mode, and the pre-commit gate defined in [[docs/requirements/ci-cd]].
+> These requirements govern source code quality: SOLID adherence, module coherence, coupling limits, documentation standards, and linting policy. They apply to all TypeScript source files under `src/`. Compliance is enforced via ESLint, TypeScript strict mode, and the pre-commit gate defined in [[docs/requirements/operational/ci-cd]].
 
 ---
 
@@ -70,7 +70,7 @@ aliases:
 **Goal:** 0% violations — ESLint `no-extraneous-class` and custom rules enforce this at lint time (`bun run lint` must exit 0).
 **Stakeholders:** All contributors, code reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/adr/ADR011-one-class-per-file-namespaces]], [[docs/requirements/ci-cd]].
+**Source:** [[docs/adr/ADR011-one-class-per-file-namespaces]], [[docs/requirements/operational/ci-cd]].
 
 ---
 
@@ -109,7 +109,7 @@ aliases:
 **Goal:** 100% of exported classes, public methods, and public properties carry JSDoc docstrings.
 **Stakeholders:** Contributors, documentation consumers, IDE users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/requirements/ci-cd#CICD.PreCommit.Gate]], [[docs/adr/ADR009-precommit-hooks-zero-warnings]].
+**Source:** [[docs/requirements/operational/ci-cd#CICD.PreCommit.Gate]], [[docs/adr/ADR009-precommit-hooks-zero-warnings]].
 
 ---
 
@@ -129,7 +129,7 @@ aliases:
 **Goal:** 0 warnings, 0 errors — `bun run lint --max-warnings 0` exits 0.
 **Stakeholders:** All contributors, CI pipeline.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], [[docs/requirements/ci-cd#CICD.PreCommit.Gate]].
+**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], [[docs/requirements/operational/ci-cd#CICD.PreCommit.Gate]].
 
 ---
 
@@ -167,7 +167,7 @@ aliases:
 **Goal:** 100% of new production code is preceded by a failing test in the git history.
 **Stakeholders:** All contributors, code reviewers, phase auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** Kent Beck, *Test-Driven Development by Example*; [[docs/plans/phase-01-scaffold]], [[docs/requirements/development-process#Process.Testing.DirectoryStructure]].
+**Source:** Kent Beck, *Test-Driven Development by Example*; [[docs/plans/phase-01-scaffold]], [[docs/requirements/operational/development-process#Process.Testing.DirectoryStructure]].
 
 ---
 

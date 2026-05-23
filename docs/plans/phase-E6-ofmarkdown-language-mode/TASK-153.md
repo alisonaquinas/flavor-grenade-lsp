@@ -41,8 +41,8 @@ Add `flavorGrenade/documentMembership`, a custom request that lets the VS Code e
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.NonVaultIsolation | Preserve generic Markdown mode | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 
 ---
 

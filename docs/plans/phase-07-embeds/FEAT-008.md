@@ -47,7 +47,7 @@ Vault authors gain first-class editor support for `![[embed]]` syntax. Broken em
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Embed resolution and navigation across vault | [[docs/requirements/embed-resolution]] |
+| — | Embed resolution and navigation across vault | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -55,7 +55,7 @@ Vault authors gain first-class editor support for `![[embed]]` syntax. Broken em
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | FG004 diagnostic, go-to-definition, hover for embeds | [[docs/requirements/embed-resolution]] |
+| — | FG004 diagnostic, go-to-definition, hover for embeds | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 

@@ -30,7 +30,7 @@ Review and improve the internal code quality of the Phase 9 completion subsystem
 
 The `ContextAnalyzer` backwards-scan and the `CompletionRouter` switch are both correctness-critical. A quality sweep at phase boundary catches logic gaps before Phase 10 builds on top of them.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ The `ContextAnalyzer` backwards-scan and the `CompletionRouter` switch are both 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate at phase boundary | [[docs/requirements/code-quality]] |
+| — | Code quality gate at phase boundary | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -50,7 +50,7 @@ Every pull request to the repository is automatically tested across three operat
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Automated CI, binary release, and npm publishing | [[docs/requirements/ci-cd]] |
+| — | Automated CI, binary release, and npm publishing | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -58,7 +58,7 @@ Every pull request to the repository is automatically tested across three operat
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | CI pipeline, binary build, release, and publish automation | [[docs/requirements/ci-cd]] |
+| — | CI pipeline, binary build, release, and publish automation | [[docs/requirements/operational/ci-cd]] |
 
 ---
 

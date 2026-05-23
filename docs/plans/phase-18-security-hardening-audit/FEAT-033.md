@@ -52,15 +52,15 @@ crafted input, or silently drifting to unreviewed dependency versions.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Vault.URISchemeAllowlist` | Reject non-file URIs | [[docs/requirements/security/vault-confinement]] |
-| `Security.Parser.YAMLLimits` | Bound frontmatter YAML parsing | [[docs/requirements/security/parser-safety]] |
-| `Security.Parser.ParseTimeout` | Bound parser runtime | [[docs/requirements/security/parser-safety]] |
-| `Security.Parser.ReDoS` | Prevent catastrophic parser regex behavior | [[docs/requirements/security/parser-safety]] |
-| `Security.Parser.VaultFileLimit` | Bound initial vault indexing | [[docs/requirements/security/parser-safety]] |
-| `Security.Vault.SymlinkConfinement` | Treat out-of-vault symlink targets as missing | [[docs/requirements/security/vault-confinement]] |
-| `Security.Input.PrototypePollution` | Reject dangerous JSON-RPC object keys | [[docs/requirements/security/input-validation]] |
-| `Security.Supply.ExactPinning` | Pin dependency versions exactly | [[docs/requirements/security/supply-chain]] |
-| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/security/supply-chain]] |
+| `Security.Vault.URISchemeAllowlist` | Reject non-file URIs | [[docs/requirements/functional/security-vault-confinement]] |
+| `Security.Parser.YAMLLimits` | Bound frontmatter YAML parsing | [[docs/requirements/technical/security-parser-safety]] |
+| `Security.Parser.ParseTimeout` | Bound parser runtime | [[docs/requirements/technical/security-parser-safety]] |
+| `Security.Parser.ReDoS` | Prevent catastrophic parser regex behavior | [[docs/requirements/technical/security-parser-safety]] |
+| `Security.Parser.VaultFileLimit` | Bound initial vault indexing | [[docs/requirements/technical/security-parser-safety]] |
+| `Security.Vault.SymlinkConfinement` | Treat out-of-vault symlink targets as missing | [[docs/requirements/functional/security-vault-confinement]] |
+| `Security.Input.PrototypePollution` | Reject dangerous JSON-RPC object keys | [[docs/requirements/technical/security-input-validation]] |
+| `Security.Supply.ExactPinning` | Pin dependency versions exactly | [[docs/requirements/operational/security-supply-chain]] |
+| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/operational/security-supply-chain]] |
 
 ---
 

@@ -143,7 +143,7 @@ editor without hunting through settings.
 ## Cross-References
 
 - [[docs/features/ofmarkdown-language-mode]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/requirements/user/vscode-language-mode]]
 - [[docs/ddd/editor-client/domain-model]]
 - [[docs/research/commonmark-and-original-markdown]]

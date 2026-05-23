@@ -38,15 +38,15 @@ is marked complete.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[docs/requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]] | Reject non-file LSP URIs before any path or resolver handling |
-| [[docs/requirements/security/parser-safety#Security.Parser.YAMLLimits]] | Enforce frontmatter YAML size and alias limits |
-| [[docs/requirements/security/parser-safety#Security.Parser.ParseTimeout]] | Bound single-file parser runtime |
-| [[docs/requirements/security/parser-safety#Security.Parser.ReDoS]] | Add parser regex audit and adversarial regression coverage |
-| [[docs/requirements/security/parser-safety#Security.Parser.VaultFileLimit]] | Stop vault indexing at a configurable file limit and notify the client |
-| [[docs/requirements/security/vault-confinement#Security.Vault.SymlinkConfinement]] | Treat out-of-vault symlink targets as missing based on realpath checks |
-| [[docs/requirements/security/input-validation#Security.Input.PrototypePollution]] | Reject dangerous JSON-RPC object keys before handlers receive payloads |
-| [[docs/requirements/security/supply-chain#Security.Supply.ExactPinning]] | Remove dependency range specifiers and add a CI range lint |
-| [[docs/requirements/security/supply-chain#Security.Supply.AdvisoryMonitoring]] | Record advisory scan evidence in the phase workflow |
+| [[docs/requirements/functional/security-vault-confinement#Security.Vault.URISchemeAllowlist]] | Reject non-file LSP URIs before any path or resolver handling |
+| [[docs/requirements/technical/security-parser-safety#Security.Parser.YAMLLimits]] | Enforce frontmatter YAML size and alias limits |
+| [[docs/requirements/technical/security-parser-safety#Security.Parser.ParseTimeout]] | Bound single-file parser runtime |
+| [[docs/requirements/technical/security-parser-safety#Security.Parser.ReDoS]] | Add parser regex audit and adversarial regression coverage |
+| [[docs/requirements/technical/security-parser-safety#Security.Parser.VaultFileLimit]] | Stop vault indexing at a configurable file limit and notify the client |
+| [[docs/requirements/functional/security-vault-confinement#Security.Vault.SymlinkConfinement]] | Treat out-of-vault symlink targets as missing based on realpath checks |
+| [[docs/requirements/technical/security-input-validation#Security.Input.PrototypePollution]] | Reject dangerous JSON-RPC object keys before handlers receive payloads |
+| [[docs/requirements/operational/security-supply-chain#Security.Supply.ExactPinning]] | Remove dependency range specifiers and add a CI range lint |
+| [[docs/requirements/operational/security-supply-chain#Security.Supply.AdvisoryMonitoring]] | Record advisory scan evidence in the phase workflow |
 
 ## Scope
 
@@ -90,10 +90,10 @@ is marked complete.
 ## Related
 
 - [[docs/requirements/security/index]]
-- [[docs/requirements/security/parser-safety]]
-- [[docs/requirements/security/vault-confinement]]
-- [[docs/requirements/security/input-validation]]
-- [[docs/requirements/security/supply-chain]]
+- [[docs/requirements/technical/security-parser-safety]]
+- [[docs/requirements/functional/security-vault-confinement]]
+- [[docs/requirements/technical/security-input-validation]]
+- [[docs/requirements/operational/security-supply-chain]]
 - [[docs/adr/ADR012-parser-safety-policy]]
 - [[docs/adr/ADR013-vault-root-confinement]]
 - [[docs/adr/ADR014-dependency-security-policy]]

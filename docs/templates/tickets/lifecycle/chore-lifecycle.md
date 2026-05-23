@@ -158,7 +158,7 @@ Chore abandoned. The work is no longer needed (e.g., the motivating requirement 
 ## Related
 
 - [[docs/templates/tickets/chore]] — Chore ticket template
-- [[docs/requirements/code-quality]] — Quality requirements this type of work supports
-- [[docs/requirements/ci-cd]] — CI/CD requirements
-- [[docs/requirements/development-process]] — Process requirements
+- [[docs/requirements/technical/code-quality]] — Quality requirements this type of work supports
+- [[docs/requirements/operational/ci-cd]] — CI/CD requirements
+- [[docs/requirements/operational/development-process]] — Process requirements
 - [[docs/test/matrix]] — Must stay current through chore work

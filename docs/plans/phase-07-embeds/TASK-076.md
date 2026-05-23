@@ -34,7 +34,7 @@ Create `src/resolution/embed-resolver.ts` containing the `EmbedResolver` class. 
   - `#heading`: resolve doc, then find heading in `OFMDoc`
   - `#^blockid`: resolve doc, then find block anchor in `OFMDoc`
 - Return `null` if target cannot be resolved (triggers FG004 in DiagnosticService)
-- See also: [[docs/requirements/embed-resolution]], [[docs/adr/ADR013-vault-root-confinement]]
+- See also: [[docs/requirements/functional/embed-resolution]], [[docs/adr/ADR013-vault-root-confinement]]
 
 ---
 
@@ -42,7 +42,7 @@ Create `src/resolution/embed-resolver.ts` containing the `EmbedResolver` class. 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Embed target resolution for markdown docs, assets, and sub-targets | [[docs/requirements/embed-resolution]] |
+| — | Embed target resolution for markdown docs, assets, and sub-targets | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -126,7 +126,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

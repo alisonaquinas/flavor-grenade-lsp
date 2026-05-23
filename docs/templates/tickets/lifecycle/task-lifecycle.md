@@ -6,7 +6,7 @@ aliases: [Task Lifecycle, TASK Lifecycle]
 
 # Task Ticket Lifecycle
 
-A **Task** ticket (`TASK-NNN`) is an atomic implementation unit. Its lifecycle is modelled on the strict Red → Green → Refactor TDD discipline mandated by [[docs/requirements/code-quality]] (`Quality.TDD.StrictRedGreen`). Every implementation commit must be preceded by a failing test; no code without a red test first.
+A **Task** ticket (`TASK-NNN`) is an atomic implementation unit. Its lifecycle is modelled on the strict Red → Green → Refactor TDD discipline mandated by [[docs/requirements/technical/code-quality]] (`Quality.TDD.StrictRedGreen`). Every implementation commit must be preceded by a failing test; no code without a red test first.
 
 ---
 
@@ -213,7 +213,7 @@ Task abandoned with documented reason. A cancelled task does not count toward th
 
 - [[docs/templates/tickets/lifecycle/feature-lifecycle]] — Parent feature lifecycle
 
-- [[docs/requirements/code-quality]] — `Quality.TDD.StrictRedGreen` requirement
+- [[docs/requirements/technical/code-quality]] — `Quality.TDD.StrictRedGreen` requirement
 
 - [[docs/test/matrix]] — Requirements × tests traceability matrix
 

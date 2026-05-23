@@ -31,7 +31,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 - Message format: `Cannot resolve embed '![[<target>]]'`
 - In `DiagnosticService`, after running `EmbedResolver` over all `EmbedRef` entries: for each entry where `resolvedTo === null`, emit an FG004 diagnostic at the embed span's range
 - Single-file mode: suppress FG004 (same rule as FG001 suppression)
-- See also: `bdd/features/embeds.feature`, [[docs/requirements/embed-resolution]]
+- See also: `bdd/features/embeds.feature`, [[docs/requirements/functional/embed-resolution]]
 
 ---
 
@@ -39,7 +39,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | FG004 BrokenEmbed Warning for unresolvable embed targets | [[docs/requirements/embed-resolution]] |
+| — | FG004 BrokenEmbed Warning for unresolvable embed targets | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -116,7 +116,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

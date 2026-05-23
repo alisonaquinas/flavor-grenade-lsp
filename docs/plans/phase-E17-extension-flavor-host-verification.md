@@ -31,7 +31,7 @@ safety evidence.
 | [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] | Verify refresh triggers in host/e2e coverage |
 | [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] | Verify selector/environment-mode regressions in restricted, virtual, and remote contexts |
 | [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] | Own package-target evidence closeout for extension flavor validation |
-| [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Verify plaintext and MDX language preservation |
 | [extension markdown flavor e2e spec](../../extension/docs/tests/markdown-flavor-e2e-spec.md) | Implement extension host e2e test cases |
 | [extension markdown flavor verification spec](../../extension/docs/tests/markdown-flavor-verification-spec.md) | Wire extension commands and CI gates |
 | [extension markdown flavor validation spec](../../extension/docs/tests/markdown-flavor-validation-spec.md) | Add user-visible validation evidence |

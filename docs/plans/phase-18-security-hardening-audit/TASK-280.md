@@ -43,8 +43,8 @@ undefined or pending steps.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | The repository test gate must be reliable and executable. | [[docs/requirements/ci-cd]] |
-| `Quality.TDD.StrictRedGreen` | Failing verification evidence precedes implementation. | [[docs/requirements/code-quality]] |
+| `CICD.Workflow.PRGate` | The repository test gate must be reliable and executable. | [[docs/requirements/operational/ci-cd]] |
+| `Quality.TDD.StrictRedGreen` | Failing verification evidence precedes implementation. | [[docs/requirements/technical/code-quality]] |
 
 ## Linked BDD Scenarios
 

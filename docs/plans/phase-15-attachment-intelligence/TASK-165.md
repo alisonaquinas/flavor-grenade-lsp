@@ -45,8 +45,8 @@ severity.
 |---|---|---|
 | `Parity.Attachments.Diagnostics` | Broken attachment references produce diagnostics while existing attachments remain clean | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.Intelligence` | Attachment refs support diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Diagnostic.Severity.Embed` | Broken embed diagnostics use warning severity | [[docs/requirements/diagnostics]] |
-| `Embed.Resolution.ImageTarget` | Broken image embeds use embed diagnostics | [[docs/requirements/embed-resolution]] |
+| `Diagnostic.Severity.Embed` | Broken embed diagnostics use warning severity | [[docs/requirements/functional/diagnostics]] |
+| `Embed.Resolution.ImageTarget` | Broken image embeds use embed diagnostics | [[docs/requirements/functional/embed-resolution]] |
 
 ---
 
@@ -133,7 +133,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

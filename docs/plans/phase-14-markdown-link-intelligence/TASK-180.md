@@ -56,7 +56,7 @@ behavior.
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading candidates | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[docs/requirements/completions]] |
+| `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[docs/requirements/functional/completions]] |
 | `Parity.MarkdownLinks.LocalResolution` | Completion candidates target locally resolvable documents and headings | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchor completion offers headings from the current document | [[docs/requirements/functional/ofmarkdown-parity]] |
 
@@ -131,7 +131,7 @@ All of the following must be true before this task is marked `done`:
 ## Notes
 
 This task completes the Phase 14 trace to
-[[docs/requirements/completions#Completion.Trigger.Coverage]]. Attachment path
+[[docs/requirements/functional/completions#Completion.Trigger.Coverage]]. Attachment path
 completion inside Markdown image targets belongs to [[TASK-164]] in Phase 15.
 
 ---
@@ -148,7 +148,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -10,7 +10,7 @@ date: 2026-04-16
 > [!warning] Superseded
 > This ADR records the original OFM-only architecture decision. It is
 > superseded for new requirements by [[ADR020-markdown-flavor-selection]] and
-> [[docs/requirements/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]],
+> [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]],
 > which require explicit support for the researched Markdown flavor set.
 
 ## Context

@@ -58,10 +58,10 @@ Editors can use standard LSP document links, folding ranges, and selection range
 | `Parity.StructuralLSP.DocumentLinks` | Document links target unambiguous local OFMarkdown links | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.FoldingRanges` | Folding ranges expose OFMarkdown structures without crossing opaque regions | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.StructuralLSP.SelectionRanges` | Selection ranges expand through OFMarkdown construct boundaries | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Reuse resolution targets for local links where unambiguous | [[docs/requirements/navigation]] |
-| `ST-002` | Respect opaque regions when deriving structural ranges | [[docs/requirements/semantic-tokens]] |
-| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/security/input-validation]] |
-| `Diagnostic.Ambiguous.RelatedInfo` | Leave ambiguous links unresolved and rely on diagnostics/related information | [[docs/requirements/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Reuse resolution targets for local links where unambiguous | [[docs/requirements/functional/navigation]] |
+| `ST-002` | Respect opaque regions when deriving structural ranges | [[docs/requirements/functional/semantic-tokens]] |
+| `Security.Input.PositionValidation` | Validate positions and ranges before structural queries | [[docs/requirements/technical/security-input-validation]] |
+| `Diagnostic.Ambiguous.RelatedInfo` | Leave ambiguous links unresolved and rely on diagnostics/related information | [[docs/requirements/functional/diagnostics]] |
 
 ---
 

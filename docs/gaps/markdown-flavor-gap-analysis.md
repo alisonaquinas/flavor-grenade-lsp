@@ -50,7 +50,7 @@ Net state:
 Primary current requirements:
 
 - `docs/adr/ADR020-markdown-flavor-selection.md`
-- `docs/requirements/ofmarkdown-language-mode.md`
+- `docs/requirements/functional/ofmarkdown-language-mode.md`
 - `docs/requirements/user/vscode-language-mode.md`
 - `docs/features/ofmarkdown-language-mode.md`
 - `docs/features/vscode-extension-parity.md`

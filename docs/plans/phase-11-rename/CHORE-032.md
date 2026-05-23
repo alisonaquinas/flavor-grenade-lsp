@@ -38,7 +38,7 @@ The WorkspaceEditBuilder sort is a correctness invariant for multi-edit operatio
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality requirements | [[docs/requirements/code-quality]] |
+| — | Code quality requirements | [[docs/requirements/technical/code-quality]] |
 
 ---
 

@@ -56,5 +56,5 @@ Configuration values from `.flavor-grenade.toml` are merged on top of built-in d
 - [[ADR001-stdio-transport]]
 - [[docs/concepts/workspace-model]]
 - [[docs/plans/phase-04-vault-index]]
-- [[docs/requirements/workspace]]
+- [[docs/requirements/functional/workspace]]
 - [[ADR002-ofm-only-scope]]

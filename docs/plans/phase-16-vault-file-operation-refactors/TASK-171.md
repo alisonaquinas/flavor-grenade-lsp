@@ -46,9 +46,9 @@ links.
 | `Parity.FileOperations.ReferenceRewrite` | Resolved moved-target references are rewritten without changing syntax family | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.SkippedAmbiguousReporting` | Ambiguous moved-target references are reported without speculative edits | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicRefactor` | Update every local reference form for moved targets | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Preserve completeness for existing wiki-link and heading references | [[docs/requirements/rename]] |
-| `Rename.StyleBinding.Consistency` | Preserve configured link style when wiki-link text is rewritten | [[docs/requirements/rename]] |
-| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/wiki-link-resolution]] |
+| `Rename.Refactoring.Completeness` | Preserve completeness for existing wiki-link and heading references | [[docs/requirements/functional/rename]] |
+| `Rename.StyleBinding.Consistency` | Preserve configured link style when wiki-link text is rewritten | [[docs/requirements/functional/rename]] |
+| `Link.Wiki.StyleBinding` | Keep wiki-link output consistent with active style | [[docs/requirements/functional/wiki-link-resolution]] |
 
 ---
 
@@ -132,7 +132,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

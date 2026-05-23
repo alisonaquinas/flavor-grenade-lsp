@@ -66,11 +66,11 @@ attachments to the parsed document index.
 | `Parity.Attachments.Diagnostics` | Missing attachments diagnose and existing attachments stay clean | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.NavigationHover` | Attachment references support definition and metadata hover | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.Attachments.ConfigHints` | Configured attachment folder hints affect attachment behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Embed.Resolution.ImageTarget` | Image embeds resolve as attachment targets | [[docs/requirements/embed-resolution]] |
-| `Embed.Resolution.MarkdownTarget` | Distinct target classes | [[docs/requirements/embed-resolution]] |
-| `Diagnostic.Severity.Embed` | Broken embeds use LSP warning severity | [[docs/requirements/diagnostics]] |
-| `Navigation.Definition.AllLinkTypes` | Definition works for supported link forms | [[docs/requirements/navigation]] |
-| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/hover]] |
+| `Embed.Resolution.ImageTarget` | Image embeds resolve as attachment targets | [[docs/requirements/functional/embed-resolution]] |
+| `Embed.Resolution.MarkdownTarget` | Distinct target classes | [[docs/requirements/functional/embed-resolution]] |
+| `Diagnostic.Severity.Embed` | Broken embeds use LSP warning severity | [[docs/requirements/functional/diagnostics]] |
+| `Navigation.Definition.AllLinkTypes` | Definition works for supported link forms | [[docs/requirements/functional/navigation]] |
+| `HV-002` | Embed hover includes resolved path and detected file type | [[docs/requirements/functional/hover]] |
 
 ---
 

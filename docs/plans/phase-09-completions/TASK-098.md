@@ -32,7 +32,7 @@ Ensure every completion item's `insertText` is formatted according to the config
 - The `CompletionRouter` reads `config.linkStyle` and passes it to each sub-provider at construction time
 - Each sub-provider formats `insertText` by calling a shared `formatInsertText(doc, linkStyle)` helper
 - ADR: [[docs/adr/ADR005-wiki-style-binding]]
-- Linked req: [[docs/requirements/configuration]] `Config.WikiLinkStyle`
+- Linked req: [[docs/requirements/technical/configuration]] `Config.WikiLinkStyle`
 
 ---
 
@@ -40,7 +40,7 @@ Ensure every completion item's `insertText` is formatted according to the config
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Config.WikiLinkStyle — linkStyle formatting of completion insert texts | [[docs/requirements/configuration]] |
+| — | Config.WikiLinkStyle — linkStyle formatting of completion insert texts | [[docs/requirements/technical/configuration]] |
 
 ---
 
@@ -116,7 +116,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

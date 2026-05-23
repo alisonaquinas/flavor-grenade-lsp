@@ -48,8 +48,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Productivity code actions for vault note editing | [[docs/requirements/wiki-link-resolution]] |
-| — | Diagnostic rules for non-standard characters | [[docs/requirements/diagnostics]] |
+| — | Productivity code actions for vault note editing | [[docs/requirements/functional/wiki-link-resolution]] |
+| — | Diagnostic rules for non-standard characters | [[docs/requirements/functional/diagnostics]] |
 
 ---
 
@@ -57,8 +57,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code actions, diagnostics, symbol providers, semantic tokens | [[docs/requirements/diagnostics]] |
-| — | Wiki-link resolution and vault navigation | [[docs/requirements/wiki-link-resolution]] |
+| — | Code actions, diagnostics, symbol providers, semantic tokens | [[docs/requirements/functional/diagnostics]] |
+| — | Wiki-link resolution and vault navigation | [[docs/requirements/functional/wiki-link-resolution]] |
 
 ---
 

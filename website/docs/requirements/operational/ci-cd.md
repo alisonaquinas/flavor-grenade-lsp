@@ -1,4 +1,4 @@
-# CI/CD Technical Requirements
+# CI/CD Operational Requirements
 
 ## Scope
 

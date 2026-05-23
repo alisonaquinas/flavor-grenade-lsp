@@ -30,7 +30,7 @@ Review and improve the internal code quality of the Phase 8 block reference subs
 
 The `targetDocId: null` sentinel and the FG005/FG001 discrimination are subtle correctness invariants introduced in Phase 8. A dedicated quality sweep reduces the risk of silent logic errors reaching Phase 9.
 
-- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/code-quality]])
+- Motivated by: `Quality.CodeReview.PhaseGate` (see [[docs/requirements/technical/code-quality]])
 
 ---
 
@@ -38,7 +38,7 @@ The `targetDocId: null` sentinel and the FG005/FG001 discrimination are subtle c
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality gate at phase boundary | [[docs/requirements/code-quality]] |
+| — | Code quality gate at phase boundary | [[docs/requirements/technical/code-quality]] |
 
 ---
 

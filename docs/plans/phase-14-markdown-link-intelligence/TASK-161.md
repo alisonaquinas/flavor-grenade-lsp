@@ -54,8 +54,8 @@ on a label definition should include all same-document label uses.
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms participate in definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition works for Markdown local links and labels | [[docs/requirements/navigation]] |
-| `Navigation.References.Completeness` | References include Markdown local links and label uses | [[docs/requirements/navigation]] |
+| `Navigation.Definition.AllLinkTypes` | Definition works for Markdown local links and labels | [[docs/requirements/functional/navigation]] |
+| `Navigation.References.Completeness` | References include Markdown local links and label uses | [[docs/requirements/functional/navigation]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors participate in definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
@@ -144,7 +144,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

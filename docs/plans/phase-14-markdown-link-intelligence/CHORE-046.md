@@ -48,10 +48,10 @@ work from being accidentally implied as complete.
 | `Parity.MarkdownLinks.LocalResolution` | Docs trace local Markdown link behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Docs trace same-document anchor behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.HeadingAmbiguity.Diagnostics` | Docs trace duplicate heading diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Completion.Trigger.Coverage` | Docs trace Markdown link URL completion coverage | [[docs/requirements/completions]] |
-| `Navigation.Definition.AllLinkTypes` | Docs trace Markdown definition behavior | [[docs/requirements/navigation]] |
-| `Navigation.References.Completeness` | Docs trace Markdown references behavior | [[docs/requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Docs trace Markdown heading rename behavior | [[docs/requirements/rename]] |
+| `Completion.Trigger.Coverage` | Docs trace Markdown link URL completion coverage | [[docs/requirements/functional/completions]] |
+| `Navigation.Definition.AllLinkTypes` | Docs trace Markdown definition behavior | [[docs/requirements/functional/navigation]] |
+| `Navigation.References.Completeness` | Docs trace Markdown references behavior | [[docs/requirements/functional/navigation]] |
+| `Rename.Refactoring.Completeness` | Docs trace Markdown heading rename behavior | [[docs/requirements/functional/rename]] |
 
 ---
 

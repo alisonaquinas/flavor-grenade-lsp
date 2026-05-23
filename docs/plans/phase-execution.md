@@ -45,7 +45,7 @@ Each ticket type has a defined lifecycle state machine. Agents must follow it wi
 | Chore | [[docs/templates/tickets/lifecycle/chore-lifecycle]] | `open` |
 | Spike | [[docs/templates/tickets/lifecycle/spike-lifecycle]] | `open` |
 
-The `TASK` lifecycle enforces a strict **RED → GREEN** TDD cycle. The failing test commit must precede the implementation commit in git history. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+The `TASK` lifecycle enforces a strict **RED → GREEN** TDD cycle. The failing test commit must precede the implementation commit in git history. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -267,6 +267,6 @@ The AI agent must NOT mark a phase `complete` without CI confirmation. The PR CI
 - [[docs/plans/execution-ledger]] — Phase status table and gate commands
 - [[AGENTS]] — Repository-level agent guidance
 - [[docs/templates/tickets/index]] — Ticket template reference and ID conventions
-- [[docs/requirements/code-quality]] — `Quality.TDD.StrictRedGreen` and quality requirements
+- [[docs/requirements/technical/code-quality]] — `Quality.TDD.StrictRedGreen` and quality requirements
 - [[docs/adr/ADR013-vault-root-confinement]] — Security constraint for path operations
 - [[docs/adr/ADR014-dependency-security-policy]] — Supply chain rules

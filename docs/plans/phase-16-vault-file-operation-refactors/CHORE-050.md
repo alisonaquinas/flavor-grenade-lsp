@@ -46,7 +46,7 @@ handling.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings for implementation and tests | [[docs/requirements/code-quality]] |
+| — | Zero lint warnings for implementation and tests | [[docs/requirements/technical/code-quality]] |
 
 ---
 

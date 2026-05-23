@@ -106,9 +106,9 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/adr/ADR020-markdown-flavor-selection]] | Markdown flavor selector decision |
 | [[docs/concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[docs/concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
-| [[docs/requirements/workspace]] | Workspace requirements (Planguage) |
-| [[docs/requirements/wiki-link-resolution]] | Wiki-link requirements |
-| [[docs/requirements/block-references]] | Block reference requirements |
+| [[docs/requirements/functional/workspace]] | Workspace requirements (Planguage) |
+| [[docs/requirements/functional/wiki-link-resolution]] | Wiki-link requirements |
+| [[docs/requirements/functional/block-references]] | Block reference requirements |
 | [[docs/features/completions]] | Completion provider specification |
 | [[docs/features/diagnostics]] | Diagnostic rules table |
 | [[docs/features/navigation]] | Go-to-def and find-references |
@@ -121,7 +121,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/features/ofmarkdown-language-mode]] | VS Code Markdown flavor selector |
 | [[docs/features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
 | [[docs/features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
-| [[docs/requirements/index]] | Master Planguage functional requirements index |
+| [[docs/requirements/index]] | Master Planguage requirements index |
 | [[docs/requirements/functional/ofmarkdown-parity]] | Server-side OFMarkdown parity functional requirements |
 | [[docs/requirements/functional/vscode-extension-parity]] | VS Code extension parity functional requirements |
 | [[docs/design/markdown-flavor-auto-detection]] | Effective Markdown flavor auto-detection algorithm |

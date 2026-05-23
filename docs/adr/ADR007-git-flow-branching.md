@@ -74,4 +74,4 @@ GitHub Actions CI configuration:
 
 - [[docs/adr/ADR008-oidc-publishing]]
 - [[docs/plans/phase-13-ci-delivery]]
-- [[docs/requirements/development-process]]
+- [[docs/requirements/operational/development-process]]

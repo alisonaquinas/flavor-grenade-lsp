@@ -54,9 +54,9 @@ must remain unchanged.
 | Planguage Tag | Gist | Source File |
 |---|---|---|
 | `Parity.MarkdownLinks.RenameAnchors` | Heading rename updates Markdown same-document and file-plus-fragment anchors | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Heading rename updates every resolved Markdown heading anchor | [[docs/requirements/rename]] |
+| `Rename.Refactoring.Completeness` | Heading rename updates every resolved Markdown heading anchor | [[docs/requirements/functional/rename]] |
 | `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors update when headings are renamed | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.References.Completeness` | Rename uses complete reference discovery | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | Rename uses complete reference discovery | [[docs/requirements/functional/navigation]] |
 
 ---
 
@@ -140,7 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

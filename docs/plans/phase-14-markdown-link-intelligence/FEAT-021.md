@@ -75,9 +75,9 @@ the same vault-aware rules without producing noise for external URLs.
 | `Parity.HeadingAmbiguity.Diagnostics` | Duplicate or ambiguous heading anchors produce diagnostics with related locations | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms support definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.MarkdownLinks.RenameAnchors` | Markdown heading anchors update during heading rename | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition supports Markdown local links | [[docs/requirements/navigation]] |
-| `Navigation.References.Completeness` | References include Markdown local links | [[docs/requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Heading rename updates Markdown heading anchors | [[docs/requirements/rename]] |
+| `Navigation.Definition.AllLinkTypes` | Definition supports Markdown local links | [[docs/requirements/functional/navigation]] |
+| `Navigation.References.Completeness` | References include Markdown local links | [[docs/requirements/functional/navigation]] |
+| `Rename.Refactoring.Completeness` | Heading rename updates Markdown heading anchors | [[docs/requirements/functional/rename]] |
 
 ---
 

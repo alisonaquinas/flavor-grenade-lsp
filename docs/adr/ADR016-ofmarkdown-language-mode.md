@@ -78,7 +78,7 @@ Rejected because language mode is VS Code client state. The server can report me
 ## Cross-References
 
 - [[docs/features/ofmarkdown-language-mode]]
-- [[docs/requirements/ofmarkdown-language-mode]]
+- [[docs/requirements/functional/ofmarkdown-language-mode]]
 - `docs/bdd/features/ofmarkdown-language-mode.feature`
 - [[docs/ddd/editor-client/domain-model]]
 - [[docs/superpowers/specs/2026-04-21-vscode-extension-design]]

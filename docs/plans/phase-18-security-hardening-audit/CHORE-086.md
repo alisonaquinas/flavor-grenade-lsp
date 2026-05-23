@@ -38,9 +38,9 @@ and security requirement docs.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/security/supply-chain]] |
-| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[docs/requirements/security/input-validation]] |
-| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[docs/requirements/security/information-disclosure]] |
+| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/operational/security-supply-chain]] |
+| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[docs/requirements/technical/security-input-validation]] |
+| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[docs/requirements/functional/security-information-disclosure]] |
 
 ---
 

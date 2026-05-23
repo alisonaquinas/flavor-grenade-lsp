@@ -26,9 +26,9 @@ BUG-038.
 
 **Files modified:**
 
-- `docs/requirements/ci-cd.md`
-- `docs/requirements/code-quality.md`
-- `docs/requirements/development-process.md`
+- `docs/requirements/operational/ci-cd.md`
+- `docs/requirements/technical/code-quality.md`
+- `docs/requirements/operational/development-process.md`
 - `docs/requirements/index.md`
 - `docs/design/behavior-layer.md`
 - `docs/test/index.md`
@@ -46,9 +46,9 @@ BUG-038.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `CICD.Workflow.PRGate` | The default BDD gate is part of PR verification. | [[docs/requirements/ci-cd]] |
-| `Quality.SourceLayout.DocsBoundary` | Docs may contain specs, but raw implementation notes belong with source/test harnesses. | [[docs/requirements/code-quality]] |
-| `Process.TestIndex.Matrix` | Test index and matrix must reflect added BDD harness coverage. | [[docs/requirements/development-process]] |
+| `CICD.Workflow.PRGate` | The default BDD gate is part of PR verification. | [[docs/requirements/operational/ci-cd]] |
+| `Quality.SourceLayout.DocsBoundary` | Docs may contain specs, but raw implementation notes belong with source/test harnesses. | [[docs/requirements/technical/code-quality]] |
+| `Process.TestIndex.Matrix` | Test index and matrix must reflect added BDD harness coverage. | [[docs/requirements/operational/development-process]] |
 
 ## Acceptance Criteria
 

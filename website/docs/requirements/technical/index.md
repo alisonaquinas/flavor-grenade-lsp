@@ -18,11 +18,12 @@ implementation must stay independent from the LSP server runtime.
 | commonloom | Required package for W8 Markdown content generation, sanitization, diagnostics, and source traces. |
 | zod | Required only where the local website adapter validates Flavor Grenade manifests or generated content models directly. |
 
-## Related Technical Specifications
+## Related Specifications
 
-- [[website/docs/requirements/technical/ci-cd]]: CI, release, distribution, and publishing workflow requirements.
+- [[website/docs/requirements/operational/ci-cd]]: operational CI, release, distribution, and publishing workflow requirements.
 - [[source-layout-and-documentation]]: website source layout, test layout,
   internal documentation, changelog, and docstring standards.
+- [[sbom]]: website software bill of materials and SBOM release requirements.
 
 ## Static Site Output
 

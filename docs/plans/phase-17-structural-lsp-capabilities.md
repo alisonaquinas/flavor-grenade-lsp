@@ -31,10 +31,10 @@ editors can use without custom client extensions.
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.DocumentLinks]] | Return document links for unambiguous local OFMarkdown links and attachments |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.FoldingRanges]] | Return folding ranges for supported OFMarkdown structures without crossing opaque regions |
 | [[docs/requirements/functional/ofmarkdown-parity#Parity.StructuralLSP.SelectionRanges]] | Return nested selection ranges through OFMarkdown construct boundaries |
-| [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]] | Reuse resolution targets for document links where unambiguous |
-| [[docs/requirements/semantic-tokens#ST-002]] | Respect opaque regions when deriving ranges |
-| [[docs/requirements/security/input-validation#Security.Input.PositionValidation]] | Validate positions and ranges before structural queries |
-| [[docs/requirements/diagnostics#Diagnostic.Ambiguous.RelatedInfo]] | Leave ambiguous document links unresolved and rely on diagnostics/related information |
+| [[docs/requirements/functional/navigation#Navigation.Definition.AllLinkTypes]] | Reuse resolution targets for document links where unambiguous |
+| [[docs/requirements/functional/semantic-tokens#ST-002]] | Respect opaque regions when deriving ranges |
+| [[docs/requirements/technical/security-input-validation#Security.Input.PositionValidation]] | Validate positions and ranges before structural queries |
+| [[docs/requirements/functional/diagnostics#Diagnostic.Ambiguous.RelatedInfo]] | Leave ambiguous document links unresolved and rely on diagnostics/related information |
 
 ## Scope
 

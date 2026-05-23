@@ -28,7 +28,7 @@ Run the full linter across all files introduced or modified in Phase 12 (`src/ha
 
 ## Motivation
 
-Keeping lint clean after each feature phase prevents warning accumulation and maintains code quality standards defined in [[docs/requirements/code-quality]].
+Keeping lint clean after each feature phase prevents warning accumulation and maintains code quality standards defined in [[docs/requirements/technical/code-quality]].
 
 - Motivated by: `Quality.Lint.ZeroWarnings`
 
@@ -38,7 +38,7 @@ Keeping lint clean after each feature phase prevents warning accumulation and ma
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Zero lint warnings across the codebase | [[docs/requirements/code-quality]] |
+| — | Zero lint warnings across the codebase | [[docs/requirements/technical/code-quality]] |
 
 ---
 

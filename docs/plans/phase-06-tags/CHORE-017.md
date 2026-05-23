@@ -30,7 +30,7 @@ Review all Phase 6 source files for code quality issues and resolve them without
 
 Phase 6 introduces `TagRegistry` with both `rebuild()` and incremental update paths. Subtle bugs in incremental update correctness (e.g., stale occurrences after a file change) or unicode regex gaps could cause silent data loss or incorrect completions in real vaults.
 
-- Motivated by: [[docs/requirements/code-quality]], incremental update correctness review
+- Motivated by: [[docs/requirements/technical/code-quality]], incremental update correctness review
 
 ---
 
@@ -38,8 +38,8 @@ Phase 6 introduces `TagRegistry` with both `rebuild()` and incremental update pa
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | TagRegistry incremental update correctness | [[docs/requirements/code-quality]] |
-| — | Unicode tag regex coverage | [[docs/requirements/tag-indexing]] |
+| — | TagRegistry incremental update correctness | [[docs/requirements/technical/code-quality]] |
+| — | Unicode tag regex coverage | [[docs/requirements/functional/tag-indexing]] |
 
 ---
 

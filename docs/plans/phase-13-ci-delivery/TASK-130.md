@@ -33,7 +33,7 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
   - `{os: windows-latest, target: win-x64, binary: flavor-grenade-lsp.exe}`
 - Steps: checkout, setup-bun, `bun install --frozen-lockfile`, `bun run build:binary`, rename binary with target suffix, upload artifact
 - `create-release` job: `needs: build-binaries`, downloads all `binary-*` artifacts, creates GitHub Release with `softprops/action-gh-release@v3` and `generate_release_notes: true`
-- See also: [[docs/adr/ADR008-oidc-publishing]], [[docs/requirements/ci-cd]]
+- See also: [[docs/adr/ADR008-oidc-publishing]], [[docs/requirements/operational/ci-cd]]
 
 ---
 
@@ -41,7 +41,7 @@ Create `.github/workflows/release.yml` — a workflow triggered on `v*.*.*` semv
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Automated binary release on semver tags | [[docs/requirements/ci-cd]] |
+| — | Automated binary release on semver tags | [[docs/requirements/operational/ci-cd]] |
 
 ---
 
@@ -118,7 +118,7 @@ Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tic
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

@@ -43,8 +43,8 @@ title text.
 | `Parity.FileOperations.AtomicRefactor` | Regression suite proves atomic move refactors | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.ReferenceRewrite` | Regression suite verifies syntax-preserving moved-target rewrites | [[docs/requirements/functional/ofmarkdown-parity]] |
 | `Parity.FileOperations.AtomicValidation` | Regression suite verifies no partial edit escapes validation | [[docs/requirements/functional/ofmarkdown-parity]] |
-| `Rename.Refactoring.Completeness` | Existing rename coverage remains green | [[docs/requirements/rename]] |
-| `Security.Vault.RenameConfinement` | Escaping moves are refused | [[docs/requirements/security/vault-confinement]] |
+| `Rename.Refactoring.Completeness` | Existing rename coverage remains green | [[docs/requirements/functional/rename]] |
+| `Security.Vault.RenameConfinement` | Escaping moves are refused | [[docs/requirements/functional/security-vault-confinement]] |
 
 ---
 
@@ -128,7 +128,7 @@ Full state machine, TDD phase rules, and agent obligations:
 `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. See
-> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/technical/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

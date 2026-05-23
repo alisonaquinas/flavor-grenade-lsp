@@ -30,7 +30,7 @@ aliases:
 **Goal:** 0% non-release commits on `main` — every commit on `main` is a release merge.
 **Stakeholders:** Release engineers, package consumers, OIDC provenance reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/adr/ADR007-git-flow-branching]], [[docs/requirements/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
+**Source:** [[docs/adr/ADR007-git-flow-branching]], [[docs/requirements/operational/ci-cd#CICD.Publish.Trigger]], git-flow branching model documentation.
 
 ---
 

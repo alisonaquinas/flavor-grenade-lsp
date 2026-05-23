@@ -36,7 +36,7 @@ aliases: ["CHORE-040"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Documentation quality; no functional requirement | [[docs/requirements/code-quality]] |
+| — | Documentation quality; no functional requirement | [[docs/requirements/technical/code-quality]] |
 
 ---
 
