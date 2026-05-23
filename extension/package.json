@@ -245,6 +245,6 @@
     "@vscode/vsce": "3.9.1",
     "esbuild": "0.28.0",
     "tsx": "4.22.3",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   }
 }
