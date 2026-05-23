@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
+const websitePagesWorkflow = readFileSync('.github/workflows/website-pages.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
   scripts?: Record<string, string>;
 };
@@ -157,6 +158,40 @@ describe('CI workflow verification battery', () => {
     for (const command of ['npm run lint', 'npm run typecheck', 'npm test', 'npm run build']) {
       expect(workflow).toContain(command);
     }
+  });
+
+  test('keeps the website publishing dry-run gate build-only for test tags', () => {
+    for (const command of [
+      "tags:\n      - 'v*.*.*'",
+      "- 'v*.*.*-test*'",
+      "- 'site-v*.*.*'",
+      "- 'site-v*.*.*-test*'",
+      'RELEASE_MODE=test',
+      'Validate website release tag',
+      'Verify production tag commit is on main',
+      "${{ !contains(github.ref_name, '-test') }}",
+      'npm run lint',
+      'npm run typecheck',
+      'npm test',
+      'npm run build',
+      'Smoke production build',
+      'actions/upload-pages-artifact',
+      'actions/deploy-pages',
+    ]) {
+      expect(websitePagesWorkflow).toContain(command);
+    }
+
+    expectStepOrder(websitePagesWorkflow, [
+      'Validate website release tag',
+      'Install website dependencies',
+      'Lint website',
+      'Typecheck website',
+      'Test website',
+      'Build website',
+      'Smoke production build',
+      'actions/upload-pages-artifact',
+      'Deploy website to GitHub Pages',
+    ]);
   });
 });
 
