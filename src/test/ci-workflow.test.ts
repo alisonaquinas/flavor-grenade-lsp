@@ -2,6 +2,8 @@ import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
 
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+const codeqlWorkflow = readFileSync('.github/workflows/codeql.yml', 'utf8');
+const codeqlConfig = readFileSync('.github/codeql/codeql-config.yml', 'utf8');
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
 const websitePagesWorkflow = readFileSync('.github/workflows/website-pages.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
@@ -57,6 +59,28 @@ describe('CI workflow verification battery', () => {
       'bun run bdd',
     ]) {
       expect(workflow).toContain(command);
+    }
+  });
+
+  test('runs strict CodeQL analysis for app and workflow code', () => {
+    expect(codeqlWorkflow).toContain("branches: ['main', 'develop']");
+    expect(codeqlWorkflow).toContain('language: actions');
+    expect(codeqlWorkflow).toContain('language: javascript-typescript');
+    expect(codeqlWorkflow).toContain('config-file: ./.github/codeql/codeql-config.yml');
+
+    expect(codeqlConfig).toContain('disable-default-queries: false');
+    expect(codeqlConfig).toContain('uses: security-and-quality');
+
+    for (const ignoredPath of [
+      'coverage/**',
+      'dist/**',
+      'extension/.vscode-test/**',
+      'extension/dist/**',
+      'extension/server/**',
+      'website/.svelte-kit/**',
+      'website/dist/**',
+    ]) {
+      expect(codeqlConfig).toContain(ignoredPath);
     }
   });
 

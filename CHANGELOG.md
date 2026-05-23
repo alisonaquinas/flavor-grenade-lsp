@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a strict CodeQL configuration that runs the `security-and-quality` query suite for JavaScript, TypeScript, and GitHub Actions analysis on `main` and `develop`.
+
 ## [0.4.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.1...v0.4.2) (2026-05-23)
 
 ### Added
