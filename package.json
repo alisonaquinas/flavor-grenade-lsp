@@ -41,7 +41,7 @@
   "dependencies": {
     "@nestjs/common": "11.1.19",
     "@nestjs/core": "11.1.23",
-    "@nestjs/platform-express": "11.1.19",
+    "@nestjs/platform-express": "11.1.23",
     "@types/js-yaml": "4.0.9",
     "js-yaml": "4.1.1",
     "reflect-metadata": "0.2.2",
