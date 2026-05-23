@@ -39,7 +39,7 @@
     "gate:2": "bun test src/test/integration/transport.test.ts"
   },
   "dependencies": {
-    "@nestjs/common": "11.1.19",
+    "@nestjs/common": "11.1.23",
     "@nestjs/core": "11.1.23",
     "@nestjs/platform-express": "11.1.19",
     "@types/js-yaml": "4.0.9",
