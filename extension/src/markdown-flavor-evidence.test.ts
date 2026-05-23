@@ -41,6 +41,35 @@ function document(filePath: string) {
   };
 }
 
+async function assertStructuredProfileExamples(workspaceRoot: string, fixtureName: string) {
+  const keepPath = join(workspaceRoot, 'structured', 'keep-a-changelog', 'CHANGELOG.md');
+  const commonPath = join(workspaceRoot, 'structured', 'common-changelog', 'CHANGELOG.md');
+  const madrPath = join(
+    workspaceRoot,
+    'structured',
+    'madr',
+    'docs',
+    'decisions',
+    `0001-${fixtureName}-structured-profile.md`,
+  );
+
+  const keep = await readFile(keepPath, 'utf8');
+  const common = await readFile(commonPath, 'utf8');
+  const madr = await readFile(madrPath, 'utf8');
+
+  assert.match(keep, /## \[Unreleased\]/, `${fixtureName} should include Keep a Changelog syntax`);
+  assert.match(
+    common,
+    /## 0\.1\.0 - 2026-05-23/,
+    `${fixtureName} should include Common Changelog syntax`,
+  );
+  assert.match(
+    madr,
+    /## Context and Problem Statement/,
+    `${fixtureName} should include MADR syntax`,
+  );
+}
+
 describe('Markdown flavor smoketest fixture evidence', () => {
   const fixtureRoot = resolve('test-fixtures', 'workspaces', 'smoketest');
 
@@ -48,6 +77,12 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     for (const flavor of MARKDOWN_FLAVOR_IDS) {
       const config = await stat(join(fixtureRoot, flavor, '.flavor-grenade.toml'));
       assert.equal(config.isFile(), true, `${flavor} fixture should declare project TOML`);
+    }
+  });
+
+  it('has structured profile examples for every configured smoke workspace', async () => {
+    for (const flavor of MARKDOWN_FLAVOR_IDS) {
+      await assertStructuredProfileExamples(join(fixtureRoot, flavor), flavor);
     }
   });
 
@@ -102,6 +137,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
       const samplePath = join(inferenceRoot, fixture, 'notes', 'sample.md');
       const sample = await readFile(samplePath, 'utf8');
       assert.ok(sample.trim().length > 0, `${fixture} inference sample must not be empty`);
+      await assertStructuredProfileExamples(join(inferenceRoot, fixture), fixture);
       await assert.rejects(
         stat(join(inferenceRoot, fixture, '.flavor-grenade.toml')),
         `${fixture} inference fixture must not declare project TOML`,
