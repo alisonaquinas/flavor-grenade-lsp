@@ -56,7 +56,7 @@
     "@types/node": "25.6.0",
     "@typescript-eslint/eslint-plugin": "8.58.2",
     "@typescript-eslint/parser": "8.58.2",
-    "eslint": "10.2.1",
+    "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
     "lefthook": "2.1.6",
     "markdownlint-obsidian-cli": "1.1.0",
