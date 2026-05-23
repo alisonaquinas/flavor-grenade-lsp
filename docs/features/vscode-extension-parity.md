@@ -24,7 +24,7 @@ does not own Markdown parsing intelligence.
 | Status and quick actions | [[docs/requirements/functional/vscode-extension-parity#Extension.Status.Diagnostics]], [[docs/requirements/functional/vscode-extension-parity#Extension.Status.QuickActions]] |
 | Markdown flavor selector and editor contributions | [[docs/requirements/functional/vscode-extension-parity#Extension.Contributions.FlavorScoped]], [[docs/requirements/functional/vscode-extension-parity#Extension.MarkdownFlavor.Refresh]] |
 | Workspace environments | [[docs/requirements/functional/vscode-extension-parity#Extension.Workspace.EnvironmentModes]] |
-| Packaging guardrails | [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.TargetBinaryValidation]] |
+| Packaging guardrails | [[docs/requirements/functional/vscode-extension-parity#Extension.Packaging.ServerModuleValidation]] |
 
 ## P1 - Activation Precision
 

@@ -1,5 +1,6 @@
 import type { MarkdownFlavorId } from './markdown-flavor-contract.js';
 
+/** Disposition for flavor syntax that is local, host-owned, or unsupported. */
 export type BoundaryDisposition =
   | 'local'
   | 'non-local-host'
@@ -9,11 +10,19 @@ export type BoundaryDisposition =
   | 'execution-bound'
   | 'unsupported';
 
+/** Boundary classification plus the human-readable reason for the decision. */
 export interface BoundaryClassification {
   disposition: BoundaryDisposition;
   reason: string;
 }
 
+/**
+ * Classify flavor-specific syntax that should not become a local vault target.
+ *
+ * The classifier keeps platform references, bibliography references, renderer
+ * constructs, and executable chunks out of vault diagnostics and local rename
+ * planning unless a later feature explicitly implements that host behavior.
+ */
 export function classifyMarkdownBoundaryReference(
   flavor: MarkdownFlavorId,
   text: string,

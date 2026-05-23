@@ -5,8 +5,8 @@ artifacts:
 
 | Artifact | Location | Current version |
 |---|---:|---:|
-| LSP server | repository root | `0.3.0` |
-| VS Code extension | `extension/` | `0.1.4` |
+| LSP server | repository root | `0.4.2` |
+| VS Code extension | `extension/` | `0.2.2` |
 
 > [!IMPORTANT]
 > Open feature and fix pull requests against `develop`. Open release pull
@@ -129,8 +129,10 @@ added or existing coverage moves.
 
 ## Code Style
 
-All exported symbols need JSDoc comments. This includes exported functions,
-classes, interfaces, type aliases, and enum members.
+Externally consumed exported symbols need JSDoc comments. Internal exports used
+only for NestJS dependency injection or same-package tests should still be named
+clearly and documented at the module or folder level when their behavior is not
+obvious.
 
 ```typescript
 /**

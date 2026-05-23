@@ -13,7 +13,7 @@ aliases:
 
 # BC6 — Editor Client Domain Model
 
-This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
+This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server command, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol/domain-model]], [[docs/design/api-layer]], [[docs/superpowers/specs/2026-04-21-vscode-extension-design]].
 
@@ -42,8 +42,8 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol
 
 `ExtensionClient` is the main orchestrator in `extension.ts`. It is the single aggregate in BC6. Its responsibilities are:
 
-1. Resolve the server binary path via `BinaryResolver`.
-2. Construct and start a `LanguageClient` with `Executable` server options (stdio transport).
+1. Resolve the server command via `ServerResolver`.
+2. Construct and start a `LanguageClient` with `Executable` server options over stdio.
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
 5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending a `MarkdownFlavorSelection` to the server.
@@ -57,14 +57,15 @@ VS Code activates extension (onLanguage:markdown)
   ▼
 activate(context: ExtensionContext)
   │
-  ├─ BinaryResolver.resolveServerPath(context)
+  ├─ ServerResolver.resolveServerCommand(context)
   │    → user/machine setting flavorGrenade.server.path (if set)
   │    → ignores workspace and workspace-folder server.path values
-  │    → bundled server/flavor-grenade-lsp[.exe] (default)
-  │    → ERROR if binary not found at resolved path
+  │    → development mode: node ../dist/main.js
+  │    → packaged mode: node server/main.js
+  │    → ERROR if the resolved command cannot start
   │
   ├─ Create LanguageClient
-  │    serverOptions: { run: { command: serverPath }, debug: { command: serverPath } }
+  │    serverOptions: { run: command, debug: command }
   │    clientOptions: {
   │      documentSelector: [
   │        { scheme: 'file', language: 'markdown' }
@@ -72,7 +73,7 @@ activate(context: ExtensionContext)
   │    }
   │
   ├─ client.start()
-  │    → spawns server binary as child process
+  │    → spawns server command as child process
   │    → JSON-RPC handshake (initialize / initialized)
   │
   ├─ Wire StatusBarWidget
@@ -108,22 +109,26 @@ deactivate(): void
 
 ## Value Objects
 
-### BinaryResolver
+### ServerResolver
 
-A pure function (`resolveServerPath`) that implements the 2-tier resolution strategy for locating the server binary.
+A pure function (`resolveServerCommand`) that implements the supported startup
+strategy for the server process.
 
 ```typescript
-function resolveServerPath(context: ExtensionContext): string
+function resolveServerCommand(context: ExtensionContext): ServerCommand
 ```
 
 **Resolution order:**
 
-1. **User or machine setting** — `flavorGrenade.server.path` from VS Code configuration. Workspace and workspace-folder values are ignored so a repository cannot cause VS Code to execute an arbitrary server binary. The setting remains an escape hatch for developers building the server from source.
-2. **Bundled binary** — `server/flavor-grenade-lsp[.exe]` relative to `context.extensionUri`. Default for all normal users. Platform-specific VSIXs guarantee this binary is present.
+1. **User or machine setting** — `flavorGrenade.server.path` from VS Code configuration. Workspace and workspace-folder values are ignored so a repository cannot cause VS Code to execute an arbitrary server command. The setting remains an escape hatch for developers building the server from source.
+2. **Development mode** — root `dist/main.js` started via `node`, so a local extension development host can use freshly compiled server output.
+3. **Packaged mode** — bundled `server/main.js` started via `node`. This is the default for Marketplace users.
 
-**No PATH fallback. No environment variable. No download.** The platform-specific VSIX distribution model ensures the binary is always bundled.
+**No PATH fallback. No environment variable. No download.** The VSIX packages
+the JavaScript server module and verifies it during release.
 
-**Error handling:** If the resolved path does not point to an existing file, activation fails with a user-visible error message.
+**Error handling:** If the resolved command cannot start, activation fails with
+a user-visible error message and diagnostic details in the output channel.
 
 ### StatusBarWidget
 
@@ -139,8 +144,8 @@ Markdown flavor state use separate state machines.
 | Server State | Status Bar Display | Icon |
 |-------------|-------------------|------|
 | `initializing` | `FG: Starting...` | `$(loading~spin)` |
-| `indexing` | `FG: Indexing... (N docs)` | `$(loading~spin)` |
-| `ready` | `FG: N docs` | `$(check)` |
+| `indexing` | `FG: Indexing...` | `$(loading~spin)` |
+| `ready` | `FG: Ready` | `$(check)` |
 | `error` | `FG: Error` | `$(error)` |
 
 **Behaviour:**
@@ -325,7 +330,8 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 | Server → Client | Standard notification | `textDocument/publishDiagnostics` |
 | Server → Client | Command payload | `flavorGrenade.*` command identifiers and JSON payloads returned in LSP structures |
 
-**Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the server binary as a child process and communicates via stdin/stdout pipes.
+**Transport:** JSON-RPC 2.0 over stdio. `LanguageClient` spawns the resolved
+server command as a child process and communicates via stdin/stdout pipes.
 
 **Crash recovery:** `LanguageClient` uses its default error handler, which restarts the server up to 4 times within 3 minutes. No custom handler is needed.
 
@@ -335,7 +341,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 ## Invariants
 
-1. **Binary must exist at resolved path before LanguageClient starts.** `resolveServerPath()` is called before `LanguageClient` construction. If the binary is not found, `activate()` fails with a user-visible error and the extension does not start. This prevents confusing ENOENT errors from the language client.
+1. **Server command must be resolved before LanguageClient starts.** `resolveServerCommand()` is called before `LanguageClient` construction. If the command cannot be resolved or started, `activate()` fails with a user-visible error and the extension writes diagnostic detail to the output channel.
 
 2. **Status bar must reflect current server state (no stale display after restart).** When the client restarts (via `flavorGrenade.restartServer` or crash recovery), the `StatusBarWidget` resets to `initializing` state immediately. Subsequent `flavorGrenade/status` notifications drive it through the normal state progression.
 
@@ -349,25 +355,29 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 ---
 
-## PlatformVSIX — Distribution Model
+## VSIX Distribution Model
 
-Each release produces 7 platform-specific `.vsix` packages. Each VSIX contains the same esbuild-bundled client JS (`dist/extension.js`) and one Bun-compiled server binary for the target platform.
+Each extension release produces one Marketplace VSIX. The package contains the
+esbuild-bundled client JavaScript at `dist/extension.js` and the compiled
+server JavaScript module at `server/main.js`.
 
-| VS Code Target | Bun `--target` | Binary Name |
-|---------------|---------------|-------------|
-| `linux-x64` | `bun-linux-x64` | `flavor-grenade-lsp` |
-| `linux-arm64` | `bun-linux-arm64` | `flavor-grenade-lsp` |
-| `alpine-x64` | `bun-linux-x64-musl` | `flavor-grenade-lsp` |
-| `darwin-x64` | `bun-darwin-x64` | `flavor-grenade-lsp` |
-| `darwin-arm64` | `bun-darwin-arm64` | `flavor-grenade-lsp` |
-| `win32-x64` | `bun-windows-x64` | `flavor-grenade-lsp.exe` |
-| `win32-arm64` | `bun-windows-arm64` | `flavor-grenade-lsp.exe` |
+Release gates verify the package shape before publish:
 
-All binaries are cross-compiled on `ubuntu-latest` in CI with `bun build --compile --minify`. Extension release builds intentionally omit `--bytecode`; `0.1.2` showed that Linux Bun `1.3.13` could produce a Windows executable that segfaulted on startup when `--bytecode` was enabled.
+- `npm run compile` builds the client and server module.
+- `npm test` covers resolver, status, command bridge, language-mode, and
+  selector behavior.
+- `npm run verify:marketplace-assets` checks Marketplace README assets and VSIX
+  asset inclusion.
+- `npm run verify:package-targets` rejects missing, duplicate, nested, or native
+  executable server payloads.
+- `npm run test:host` starts the extension in VS Code's extension host.
+- The release workflow packages the VSIX, inspects it for `server/main.js`,
+  generates checksums, attests provenance, and smoke-tests the bundled server
+  module with Node.js.
 
-The release workflow must smoke-test the packaged `win32-x64` VSIX on `windows-latest` by extracting it and launching `server/flavor-grenade-lsp.exe`. Marketplace publish is blocked until that smoke test passes.
-
-The platform-specific VSIX model guarantees that the binary is always present — no runtime download, no PATH resolution, no environment variable lookup.
+This model keeps install-time behavior deterministic: no runtime download, no
+PATH search, no environment-variable discovery, and no workspace-controlled
+server command.
 
 ---
 

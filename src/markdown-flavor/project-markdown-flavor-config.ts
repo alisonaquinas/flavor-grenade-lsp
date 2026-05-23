@@ -11,7 +11,19 @@ const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
 
 @Injectable()
+/**
+ * Reads project-level Markdown flavor evidence from `.flavor-grenade.toml`.
+ *
+ * Reads are confined to the vault root, capped at a small byte budget, and
+ * ignored when the file contains prototype-related TOML keys.
+ */
 export class ProjectMarkdownFlavorConfig {
+  /**
+   * Resolve the project-configured Markdown flavor for a vault root.
+   *
+   * @param vaultRoot - Absolute vault root path, or `null` when no vault exists.
+   * @returns A safe selector value when project config declares one.
+   */
   resolveFlavor(vaultRoot: string | null): MarkdownFlavorSelection | undefined {
     if (vaultRoot === null) {
       return undefined;

@@ -33,7 +33,7 @@ aliases:
 **Tag:** User.Extension.TrustExtensionBehavior
 **Goal:** Trust extension behavior across updates
 **Need:** A VS Code user wants activation, commands, status, and Markdown flavor behavior to be tested so extension updates do not break basic editing workflows.
-**Maps to:** Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.TargetBinaryValidation
+**Maps to:** Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes, Extension.Packaging.ServerModuleValidation
 
 ---
 
@@ -49,9 +49,9 @@ aliases:
 ## User.Extension.InstallCompatiblePackage
 
 **Tag:** User.Extension.InstallCompatiblePackage
-**Goal:** Install a platform-compatible extension package
-**Need:** A VS Code user wants the installed package to contain a server binary that matches their platform and extension version, so the extension starts reliably after install or update.
-**Maps to:** Extension.Packaging.TargetBinaryValidation, Extension.Workspace.EnvironmentModes
+**Goal:** Install a compatible extension package
+**Need:** A VS Code user wants the installed package to contain exactly one bundled JavaScript server module with matching extension/server version metadata, so the extension starts reliably after install or update.
+**Maps to:** Extension.Packaging.ServerModuleValidation, Extension.Workspace.EnvironmentModes
 
 ---
 

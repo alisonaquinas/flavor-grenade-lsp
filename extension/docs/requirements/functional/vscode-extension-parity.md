@@ -462,9 +462,9 @@ flavor/context state without requiring a custom Markdown language id.
 
 ---
 
-## Extension.Packaging.TargetBinaryValidation
+## Extension.Packaging.ServerModuleValidation
 
-**Tag:** Extension.Packaging.TargetBinaryValidation
+**Tag:** Extension.Packaging.ServerModuleValidation
 **User Req:** User.Extension.InstallCompatiblePackage
 **Gist:** Each packaged VSIX must contain exactly one bundled server module, contain no native server executable payload, and make client/server version mismatches visible before publish or at startup.
 **Ambition:** Users should not install an extension package whose bundled server cannot pass Marketplace validation or whose client and server versions are out of sync.
@@ -484,3 +484,11 @@ flavor/context state without requiring a custom Markdown language id.
 **Stakeholders:** VS Code users, release managers, support maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [ADR015](../../../../docs/adr/ADR015-platform-specific-vsix.md), [VS Code extension parity](../../features/vscode-extension-parity.md), `docs/plans/phase-E14-membership-refresh-compatibility-guardrails.md`.
+
+## Extension.Packaging.TargetBinaryValidation
+
+This historical requirement tag was superseded by
+[Extension.Packaging.ServerModuleValidation](#extensionpackagingservermodulevalidation)
+when the extension moved from platform-specific native server binaries to a
+bundled JavaScript server module. Archived plans and audits may still link to
+this heading for trace continuity.
