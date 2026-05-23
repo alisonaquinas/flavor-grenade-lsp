@@ -61,7 +61,9 @@ describe('Markdown flavor selector schema', () => {
     assert.equal(schema?.default, 'auto');
     assert.ok(manifest.activationEvents?.includes(`onCommand:${MARKDOWN_FLAVOR_COMMAND}`));
     assert.ok(
-      manifest.contributes?.commands?.some((command) => command.command === MARKDOWN_FLAVOR_COMMAND),
+      manifest.contributes?.commands?.some(
+        (command) => command.command === MARKDOWN_FLAVOR_COMMAND,
+      ),
     );
   });
 
@@ -78,7 +80,9 @@ describe('Markdown flavor selector schema', () => {
 
 describe('Markdown flavor document scope', () => {
   it('selects file-backed Markdown documents only', () => {
-    assert.deepEqual(MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR, [{ scheme: 'file', language: 'markdown' }]);
+    assert.deepEqual(MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR, [
+      { scheme: 'file', language: 'markdown' },
+    ]);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md')), true);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md', 'ofmarkdown')), false);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md', 'plaintext')), false);
@@ -152,6 +156,87 @@ describe('Markdown flavor resolution', () => {
       }),
       { kind: 'inactive', reason: 'non-markdown-language' },
     );
+  });
+
+  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+    const cases = [
+      {
+        expected: 'mdx',
+        text: ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+      },
+      {
+        expected: 'r-markdown',
+        text: ['Rows: `r nrow(airquality)`', '', '```{r setup}', 'x <- 1', '```'].join('\n'),
+      },
+      {
+        expected: 'stack-overflow',
+        text: ['See [tag:markdown].', '<!-- language-all: lang-js -->'].join('\n'),
+      },
+      {
+        expected: 'reddit',
+        text: ['>!spoiler text!<', 'Visit r/ObsidianMD and u/example.'].join('\n'),
+      },
+      {
+        expected: 'glfm',
+        text: ['[[_TOC_]]', 'See #123 and !456.'].join('\n'),
+      },
+      {
+        expected: 'pandoc',
+        text: ['% Pandoc Title', '% Ada', '', 'See @doe99.'].join('\n'),
+      },
+      {
+        expected: 'multimarkdown',
+        text: ['Title: MultiMarkdown', 'Author: Ada', '', '# Intro [sec:intro]'].join('\n'),
+      },
+      {
+        expected: 'kramdown',
+        text: ['# Heading {#custom .hero}', '', 'Paragraph', '{:.lead}'].join('\n'),
+      },
+      {
+        expected: 'markdown-extra',
+        text: ['*[HTML]: Hyper Text Markup Language', '', 'Paragraph', '{#custom .hero}'].join(
+          '\n',
+        ),
+      },
+    ] as const;
+
+    for (const testCase of cases) {
+      assert.deepEqual(
+        resolveMarkdownFlavor({
+          document: document(`file:///workspace/${testCase.expected}.md`),
+          selected: 'auto',
+          syntaxText: testCase.text,
+        }),
+        {
+          kind: 'active',
+          selected: 'auto',
+          effective: testCase.expected,
+          source: 'syntax-inference',
+        },
+        `${testCase.expected} should infer from strong syntax`,
+      );
+    }
+  });
+
+  it('keeps weak shared syntax and Original-like documents on CommonMark fallback', () => {
+    for (const text of [
+      ['| Task | State |', '| --- | --- |', '| Fixture | Ready |', '', '- [x] checked'].join('\n'),
+      ['Original Title', '==============', '', 'Paragraph with [link](target.md).'].join('\n'),
+    ]) {
+      assert.deepEqual(
+        resolveMarkdownFlavor({
+          document: document('file:///workspace/ambiguous.md'),
+          selected: 'auto',
+          syntaxText: text,
+        }),
+        {
+          kind: 'active',
+          selected: 'auto',
+          effective: 'commonmark',
+          source: 'commonmark-fallback',
+        },
+      );
+    }
   });
 });
 

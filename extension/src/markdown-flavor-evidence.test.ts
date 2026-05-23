@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { describe, it } from 'node:test';
+import { afterEach, describe, it } from 'node:test';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 import {
   MARKDOWN_FLAVOR_IDS,
@@ -22,6 +23,12 @@ const INFERENCE_FIXTURES = [
   'reddit',
   'stack-overflow',
 ] as const;
+
+const tempDirs: string[] = [];
+
+afterEach(async () => {
+  await Promise.all(tempDirs.splice(0).map((dir) => rm(dir, { recursive: true, force: true })));
+});
 
 function document(filePath: string) {
   const uri = pathToFileURL(filePath);
@@ -100,5 +107,23 @@ describe('Markdown flavor smoketest fixture evidence', () => {
         `${fixture} inference fixture must not declare project TOML`,
       );
     }
+  });
+
+  it('does not inherit project markers from outside the active workspace boundary', async () => {
+    const parent = await mkdtemp(join(tmpdir(), 'fg-parent-marker-'));
+    tempDirs.push(parent);
+    const workspaceRoot = join(parent, 'smoketest');
+    await mkdir(workspaceRoot);
+    await writeFile(join(parent, '.flavor-grenade.toml'), 'core.markdown.flavor = "obsidian"\n');
+    const readmePath = join(workspaceRoot, 'README.md');
+    await writeFile(readmePath, '# Smoketest root\n');
+
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(readmePath, { searchBoundary: workspaceRoot }),
+      {
+        hasFlavorConfigMarker: false,
+        hasObsidianMarker: false,
+      },
+    );
   });
 });

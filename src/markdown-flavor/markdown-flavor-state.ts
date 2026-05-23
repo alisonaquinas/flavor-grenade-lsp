@@ -5,6 +5,7 @@ import {
   type MarkdownFlavorId,
   type MarkdownFlavorSelection,
 } from './markdown-flavor-contract.js';
+import { inferMarkdownFlavorFromSyntax } from './syntax-inference.js';
 
 const MAX_RESOURCE_FLAVOR_ENTRIES = 100;
 
@@ -17,6 +18,7 @@ export type FlavorResolutionSource =
   | 'resource-propagation'
   | 'project-toml'
   | 'obsidian-marker'
+  | 'syntax-inference'
   | 'commonmark-fallback';
 
 /** Active or inactive flavor resolution result for one document resource. */
@@ -38,6 +40,7 @@ export interface ResolveFlavorInput {
   languageId: string;
   hasObsidianMarker: boolean;
   projectTomlFlavor?: MarkdownFlavorSelection;
+  syntaxText?: string;
 }
 
 /** Resource-specific flavor payload propagated by the VS Code client. */
@@ -135,6 +138,11 @@ export class MarkdownFlavorState {
 
     if (input.hasObsidianMarker) {
       return { kind: 'active', selected: 'auto', effective: 'obsidian', source: 'obsidian-marker' };
+    }
+
+    const inferred = inferMarkdownFlavorFromSyntax(input.syntaxText);
+    if (inferred) {
+      return { kind: 'active', selected: 'auto', effective: inferred, source: 'syntax-inference' };
     }
 
     return {

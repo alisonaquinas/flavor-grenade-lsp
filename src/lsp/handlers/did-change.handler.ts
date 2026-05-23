@@ -46,7 +46,11 @@ export class DidChangeHandler {
     const updated = this.store.get(textDocument.uri);
     if (updated) {
       const doc = this.ofmParser.parse(textDocument.uri, updated.getText(), textDocument.version, {
-        effectiveFlavor: this.resolveFlavor(textDocument.uri, updated.languageId),
+        effectiveFlavor: this.resolveFlavor(
+          textDocument.uri,
+          updated.languageId,
+          updated.getText(),
+        ),
       });
       this.parseCache.set(textDocument.uri, doc);
 
@@ -70,6 +74,7 @@ export class DidChangeHandler {
   private resolveFlavor(
     uri: string,
     languageId: string,
+    syntaxText: string,
   ): ReturnType<OFMParser['parse']>['markdownFlavor'] {
     if (this.flavorState === null) {
       return 'obsidian';
@@ -81,6 +86,7 @@ export class DidChangeHandler {
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
       projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+      syntaxText,
     });
     return result.kind === 'active' ? result.effective : 'commonmark';
   }

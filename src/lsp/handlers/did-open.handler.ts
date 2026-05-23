@@ -52,7 +52,11 @@ export class DidOpenHandler {
       textDocument.text,
     );
     const doc = this.ofmParser.parse(textDocument.uri, textDocument.text, textDocument.version, {
-      effectiveFlavor: this.resolveFlavor(textDocument.uri, textDocument.languageId),
+      effectiveFlavor: this.resolveFlavor(
+        textDocument.uri,
+        textDocument.languageId,
+        textDocument.text,
+      ),
     });
     this.parseCache.set(textDocument.uri, doc);
 
@@ -75,6 +79,7 @@ export class DidOpenHandler {
   private resolveFlavor(
     uri: string,
     languageId: string,
+    syntaxText: string,
   ): ReturnType<OFMParser['parse']>['markdownFlavor'] {
     if (this.flavorState === null) {
       return 'obsidian';
@@ -86,6 +91,7 @@ export class DidOpenHandler {
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
       projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+      syntaxText,
     });
     return result.kind === 'active' ? result.effective : 'commonmark';
   }
