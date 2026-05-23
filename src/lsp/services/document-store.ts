@@ -60,4 +60,12 @@ export class DocumentStore {
   get(uri: string): TextDocument | undefined {
     return this.documents.get(uri);
   }
+
+  all(): TextDocument[] {
+    return [...this.documents.values()];
+  }
+
+  uris(): string[] {
+    return [...this.documents.keys()];
+  }
 }

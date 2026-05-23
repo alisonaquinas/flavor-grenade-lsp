@@ -75,7 +75,7 @@ Stakeholders: Project maintainer, readers, upstream project communities.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/faq]], `PRODUCT.md`
+Source: [[website/docs/requirements/user/faq]], `PRODUCT.md`
 
 Open questions:
 

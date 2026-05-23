@@ -30,7 +30,7 @@ Audit all Phase 5 resolution module source files for security vulnerabilities. T
 
 Phase 5 resolves user-authored wiki-link targets into filesystem paths. ADR013 requires that all user-controlled content is sanitized before any filesystem access. A security sweep verifies these invariants hold and that no path traversal via crafted wiki-link targets is possible.
 
-- Motivated by: [[adr/ADR013-vault-root-confinement]]
+- Motivated by: [[docs/adr/ADR013-vault-root-confinement]]
 
 ---
 
@@ -38,7 +38,7 @@ Phase 5 resolves user-authored wiki-link targets into filesystem paths. ADR013 r
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | URI validation and path sanitization requirements | [[requirements/index]] |
+| — | URI validation and path sanitization requirements | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Phase 5 resolves user-authored wiki-link targets into filesystem paths. ADR013 r
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | All user-controlled strings (wiki-link targets, aliases, heading text) must be validated before use in any path operation; no path escaping vault root is permitted |
+| [[docs/adr/ADR013-vault-root-confinement]] | All user-controlled strings (wiki-link targets, aliases, heading text) must be validated before use in any path operation; no path escaping vault root is permitted |
 
 ---
 
@@ -91,8 +91,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] All wiki-link target strings are validated (URI-safe check) before any filesystem path construction
 - [ ] No user-controlled string (alias, heading, block ID) reaches an `fs` call or `path.join` without sanitization
 - [ ] `DefinitionService` verifies resolved `Location.uri` is within vault root before returning it
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -102,7 +102,7 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -122,7 +122,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: Phase 5 security sweep covering URI validation on wiki-link targets before filesystem access (ADR013) and no user-controlled strings in paths without sanitization.

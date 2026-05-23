@@ -1,6 +1,6 @@
 ---
 title: Flavor Grenade VS Code Extension Docs
-tags: [extension/docs, vscode, ofmarkdown]
+tags: [extension/docs, vscode, markdown-flavor]
 aliases: [Extension Docs, VS Code Extension Docs]
 ---
 
@@ -15,18 +15,22 @@ without scanning the server docs.
 
 | Document | Purpose |
 |---|---|
-| [features/activation-behavior.md](features/activation-behavior.md) | User-facing activation, idle startup, language wake, and command wake behavior |
+| [features/activation-behavior.md](features/activation-behavior.md) | User-facing activation, idle startup, Markdown wake, and command wake behavior |
 | [features/command-bridge-contracts.md](features/command-bridge-contracts.md) | Maintainer-facing command bridge payload contracts and safe failure behavior |
 | [features/vscode-extension-parity.md](features/vscode-extension-parity.md) | User-facing VS Code extension parity feature spec |
 | [features/workspace-environments.md](features/workspace-environments.md) | Workspace trust, virtual workspace, local, and remote environment behavior |
+| [requirements/user/index.md](requirements/user/index.md) | Extension-local user requirements for Markdown flavor UX |
 | [requirements/functional/vscode-extension-parity.md](requirements/functional/vscode-extension-parity.md) | Extension-specific functional requirements |
 | [ddd/editor-client-parity-model.md](ddd/editor-client-parity-model.md) | Extension client domain model additions |
 | [bdd/vscode-extension-parity.feature](bdd/vscode-extension-parity.feature) | Extension parity acceptance scenarios |
+| [tests/index.md](tests/index.md) | Extension-local Markdown flavor test plan |
+| [tests/matrix.md](tests/matrix.md) | Extension-local requirements-to-tests matrix |
 | [plans/vscode-extension-parity.md](plans/vscode-extension-parity.md) | Extension implementation plan |
 
 ## Root References
 
 - `docs/features/vscode-extension-parity.md`
+- `docs/design/markdown-flavor-auto-detection.md`
 - `docs/requirements/functional/vscode-extension-parity.md`
 - `docs/ddd/editor-client/domain-model.md`
 - `docs/adr/ADR019-vscode-command-bridges-and-client-ux.md`

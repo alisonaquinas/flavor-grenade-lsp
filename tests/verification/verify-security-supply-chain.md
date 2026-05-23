@@ -8,7 +8,7 @@ aliases: [Verify Supply Chain Security]
 
 ## Purpose
 
-This document defines verification test cases for the supply chain security requirements of `flavor-grenade-lsp`. Each test case validates that dependency management, lockfile integrity, install-time script execution, advisory monitoring, and prohibited dependencies are controlled according to the Planguage requirements in [[requirements/security/supply-chain]]. The threat context — the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), and NestJS CVEs — is documented in [[research/security-threat-model]]. Supply chain tests are predominantly Scripted with Bash, as they operate against configuration files rather than a live server.
+This document defines verification test cases for the supply chain security requirements of `flavor-grenade-lsp`. Each test case validates that dependency management, lockfile integrity, install-time script execution, advisory monitoring, and prohibited dependencies are controlled according to the Planguage requirements in [[docs/requirements/security/supply-chain]]. The threat context — the Shai-Hulud 2.0 npm supply chain campaign (November 2025), the Bun `.npmrc` `ignore-scripts` bypass (CVSS 5.5), and NestJS CVEs — is documented in [[docs/research/security-threat-model]]. Supply chain tests are predominantly Scripted with Bash, as they operate against configuration files rather than a live server.
 
 ## Requirements Covered
 

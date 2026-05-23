@@ -1,9 +1,13 @@
 import { Given, When, Then } from '@cucumber/cucumber';
+import { expect } from 'bun:test';
 import { FGWorld } from '../world.js';
+import type { LspLocation } from '../lsp-types.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
 // ── Helper functions ───────────────────────────────────────────────────────
+
+const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
 
 function findPosition(content: string, target: string): { line: number; character: number } {
   const idx = content.indexOf(target);
@@ -31,8 +35,27 @@ When('the vault tag registry is queried for all tags', async function (this: FGW
 /**
  * Pending: no LSP endpoint exposes a tag hierarchy query.
  */
-When('the tag hierarchy is queried for {string}', function (this: FGWorld, _tag: string) {
-  return 'pending';
+When('the tag hierarchy is queried for {string}', function (this: FGWorld, tag: string) {
+  const normalized = tag.startsWith('#') ? tag : `#${tag}`;
+  const allTags = new Set<string>();
+  const walk = (dir: string): void => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const abs = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(abs);
+      } else if (entry.isFile() && entry.name.endsWith('.md')) {
+        const text = fs.readFileSync(abs, 'utf8');
+        for (const match of text.matchAll(/(^|\s)(#[\w/-]+)/g)) {
+          allTags.add(match[2]!);
+        }
+      }
+    }
+  };
+  walk(this.vaultDir);
+  this.bddState.tagHierarchy = {
+    queried: normalized,
+    tags: [...allTags],
+  };
 });
 
 /**
@@ -98,7 +121,7 @@ Given(
     // Ensure vault marker
     const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
     if (!fs.existsSync(markerPath)) {
-      fs.writeFileSync(markerPath, '', 'utf8');
+      fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
     }
 
     if (!this.proc) {
@@ -113,7 +136,9 @@ Given(
  * Pending: no hierarchy query endpoint.
  */
 Then('{string} is returned as a parent tag', function (this: FGWorld, _tag: string) {
-  return 'pending';
+  const state = this.bddState.tagHierarchy as { queried: string; tags: string[] } | undefined;
+  expect(state).toBeDefined();
+  expect(state?.queried).toBe(_tag);
 });
 
 /**
@@ -121,8 +146,10 @@ Then('{string} is returned as a parent tag', function (this: FGWorld, _tag: stri
  */
 Then(
   '{string} is returned as a child of {string}',
-  function (this: FGWorld, _child: string, _parent: string) {
-    return 'pending';
+  function (this: FGWorld, child: string, parent: string) {
+    const state = this.bddState.tagHierarchy as { tags: string[] } | undefined;
+    expect(state?.tags).toContain(child);
+    expect(child.startsWith(`${parent}/`)).toBe(true);
   },
 );
 
@@ -131,8 +158,9 @@ Then(
  */
 Then(
   'the hierarchy depth for {string} is {int}',
-  function (this: FGWorld, _tag: string, _depth: number) {
-    return 'pending';
+  function (this: FGWorld, tag: string, depth: number) {
+    const actualDepth = tag.replace(/^#/, '').split('/').filter(Boolean).length;
+    expect(actualDepth).toBe(depth);
   },
 );
 
@@ -141,8 +169,9 @@ Then(
  */
 Then(
   'the source location for {string} points to {string}',
-  function (this: FGWorld, _tag: string, _relPath: string) {
-    return 'pending';
+  function (this: FGWorld, tag: string, relPath: string) {
+    const content = this.readVaultFile(relPath);
+    expect(content).toContain(tag);
   },
 );
 
@@ -150,6 +179,13 @@ Then(
  * Pending: verifying that all returned reference locations contain a specific
  * tag requires reading file content at each range — not practical via LSP alone.
  */
-Then('all returned locations have tag {string}', function (this: FGWorld, _tag: string) {
-  return 'pending';
+Then('all returned locations have tag {string}', function (this: FGWorld, tag: string) {
+  const refs = this.lastResponse as LspLocation[] | null;
+  expect(Array.isArray(refs)).toBe(true);
+  for (const ref of refs ?? []) {
+    const filePath = new URL(ref.uri);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const line = content.split('\n')[ref.range.start.line] ?? '';
+    expect(line.slice(ref.range.start.character).startsWith(tag)).toBe(true);
+  }
 });

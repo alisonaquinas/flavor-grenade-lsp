@@ -14,9 +14,9 @@ view time.
 | App shell | `website/src/App.svelte` or equivalent entry shell | Header, footer, theme control, page chrome, and global layout. |
 | Routes | `website/src/routes/` or typed route modules | Static route definitions for homepage, quickstart, how-to, concepts, advanced usage, FAQ, and feature pages. |
 | Components | `website/src/components/` | Product demo panels, copyable command blocks, guide lists, FAQ items, footer, navigation, and theme controls. |
-| Content data | `website/src/content/` or generated modules | Typed content records derived from Markdown or authored metadata. |
+| Content data | `website/src/content/` and generated TypeScript modules | Typed content records derived from Markdown, frontmatter, media, and manifests. |
 | Styles | `website/src/styles/` | SCSS tokens, resets, layout primitives, theme variables, and component styling. |
-| Assets | `website/src/assets/` and repository product assets | Product logos, icons, screenshots, social images, and static media. |
+| Assets | `website/src/assets/`, `website/src/content/media`, and repository product assets | Product logos, icons, screenshots, document images, social images, and static media. |
 | Tests | `website/tests/` | Unit, component, accessibility, routing, SEO, and build-output tests. |
 
 ## Vite Role
@@ -98,3 +98,7 @@ The website must reuse existing product assets where suitable:
 
 Generated or future screenshots should show actual VS Code extension behavior
 and must include useful alt text.
+
+Document-specific images referenced from public Markdown copy may live under
+`website/src/content/media`. They must resolve through the Vite build and must
+include useful alt text or an explicit decorative marker.

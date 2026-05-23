@@ -9,7 +9,7 @@ aliases: [ofm-elements, ofm-taxonomy, ofm-syntax-ref]
 This document is a **quick-reference summary** of the Obsidian Flavored Markdown element types recognized by `flavor-grenade-lsp`. It covers the trigger syntax for each element, which LSP features apply to it, and the parse precedence rules that determine tokenization order.
 
 > [!note] Full specification
-> This document is intentionally concise. The authoritative grammar, edge cases, ambiguity resolution rules, and examples for each element type live in `ofm-spec/`. When this summary and `ofm-spec/` disagree, `ofm-spec/` is correct. See [[ofm-spec/wiki-links]], [[ofm-spec/embeds]], [[ofm-spec/block-references]], [[ofm-spec/tags]], [[ofm-spec/callouts]], and [[ofm-spec/frontmatter]].
+> This document is intentionally concise. The authoritative grammar, edge cases, ambiguity resolution rules, and examples for each element type live in `ofm-spec/`. When this summary and `ofm-spec/` disagree, `ofm-spec/` is correct. See [[docs/ofm-spec/wiki-links]], [[docs/ofm-spec/embeds]], [[docs/ofm-spec/block-references]], [[docs/ofm-spec/tags]], [[docs/ofm-spec/callouts]], and [[docs/ofm-spec/frontmatter]].
 
 ---
 
@@ -42,7 +42,7 @@ This document is a **quick-reference summary** of the Obsidian Flavored Markdown
 
 ## Ignore Regions
 
-The following element types are marked as **opaque ignore regions** during stage 3 of the parse pipeline (see [[concepts/document-model]] stage 3). Inside ignore regions:
+The following element types are marked as **opaque ignore regions** during stage 3 of the parse pipeline (see [[docs/concepts/document-model]] stage 3). Inside ignore regions:
 
 - Wiki-link tokenization does not run.
 - Tag tokenization does not run.
@@ -123,20 +123,20 @@ The following topics are covered in depth in `ofm-spec/`:
 
 | Topic | File |
 |-------|------|
-| Wiki-link grammar (formal BNF) | [[ofm-spec/wiki-links]] |
-| Embed resolution rules | [[ofm-spec/embeds]] |
-| Block anchor valid ID characters | [[ofm-spec/block-references]] |
-| Tag hierarchy and nesting | [[ofm-spec/tags]] |
-| Callout type registry and custom types | [[ofm-spec/callouts]] |
-| Frontmatter schema and recognized keys | [[ofm-spec/frontmatter]] |
-| Templater block patterns | [[ofm-spec/templater]] |
-| Math syntax (KaTeX subset) | [[ofm-spec/math]] |
+| Wiki-link grammar (formal BNF) | [[docs/ofm-spec/wiki-links]] |
+| Embed resolution rules | [[docs/ofm-spec/embeds]] |
+| Block anchor valid ID characters | [[docs/ofm-spec/block-references]] |
+| Tag hierarchy and nesting | [[docs/ofm-spec/tags]] |
+| Callout type registry and custom types | [[docs/ofm-spec/callouts]] |
+| Frontmatter schema and recognized keys | [[docs/ofm-spec/frontmatter]] |
+| Templater block patterns | [[docs/ofm-spec/templater]] |
+| Math syntax (KaTeX subset) | [[docs/ofm-spec/math]] |
 
 ---
 
 ## Cross-References
 
-- [[concepts/document-model]] — How these elements feed the 8-stage parse pipeline
-- [[concepts/symbol-model]] — How elements map to Def/Ref symbols
-- [[concepts/connection-graph]] — How Ref symbols are resolved across documents
-- [[design/api-layer]] — Which LSP methods are triggered by which element types
+- [[docs/concepts/document-model]] — How these elements feed the 8-stage parse pipeline
+- [[docs/concepts/symbol-model]] — How elements map to Def/Ref symbols
+- [[docs/concepts/connection-graph]] — How Ref symbols are resolved across documents
+- [[docs/design/api-layer]] — Which LSP methods are triggered by which element types

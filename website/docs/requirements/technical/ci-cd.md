@@ -6,7 +6,7 @@ This specification defines the required CI, release, distribution, and
 publishing behavior for Flavor Grenade LSP, the VS Code extension, and the
 future GitHub Pages website.
 
-It supplements [[index]] and must stay consistent with the repository git-flow
+It supplements [[website/docs/requirements/technical/index]] and must stay consistent with the repository git-flow
 model:
 
 - `develop` is the integration branch for feature and fix work.

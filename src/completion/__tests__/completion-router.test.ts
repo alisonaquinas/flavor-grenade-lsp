@@ -29,6 +29,7 @@ function makeDoc(
     blockAnchors = [] as string[],
     callouts = [] as string[],
     frontmatter = null as Record<string, unknown> | null,
+    markdownFlavor = 'obsidian' as OFMDoc['markdownFlavor'],
   } = {},
 ): OFMDoc {
   return {
@@ -56,7 +57,13 @@ function makeDoc(
         text: h.text,
         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 10 } },
       })),
+      markdownLinks: [],
+      markdownImages: [],
+      linkLabelRefs: [],
+      linkLabelDefs: [],
     },
+    markdownFlavor,
+    parseContext: { effectiveFlavor: markdownFlavor },
   };
 }
 
@@ -161,6 +168,308 @@ describe('CompletionRouter', () => {
         range: { start: { line: 0, character: 2 }, end: { line: 0, character: 2 } },
         newText: 'alpha',
       });
+    });
+
+    it('suppresses inactive Obsidian completions for Original Markdown', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'original' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
+    });
+
+    it('suppresses inactive Obsidian completions for CommonMark', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const text = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'commonmark' }));
+      router.setDocumentText(TEST_URI, text);
+      const params = makeParams(TEST_URI, text, '[');
+
+      const result = router.route(params);
+
+      expect(result.items).toHaveLength(0);
+      expect(result.isIncomplete).toBe(false);
+    });
+  });
+
+  describe('Obsidian flavor routing', () => {
+    it('keeps Obsidian-only completions active for the Obsidian flavor', () => {
+      vaultIndex.set(id('alpha'), makeDoc('file:///vault/alpha.md'));
+      folderLookup.rebuild(vaultIndex);
+
+      const wikiText = '[[';
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'obsidian' }));
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      const calloutText = '> [!';
+      router.setDocumentText(TEST_URI, calloutText);
+      const calloutResult = router.route(makeParams(TEST_URI, calloutText, '!'));
+
+      expect(wikiResult.items.some((item) => item.label === 'alpha')).toBe(true);
+      expect(calloutResult.items.some((item) => item.label === 'NOTE')).toBe(true);
+    });
+  });
+
+  describe('GFM flavor routing', () => {
+    it('offers table and task-list snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'gfm' }));
+
+      const tableText = '|';
+      router.setDocumentText(TEST_URI, tableText);
+      const tableResult = router.route(makeParams(TEST_URI, tableText, '|'));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tableResult.items.map((item) => item.label)).toContain('GFM table');
+      expect(taskResult.items.map((item) => item.label)).toContain('GFM task item');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('GLFM flavor routing', () => {
+    it('offers GLFM snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'glfm' }));
+
+      const taskText = '- ';
+      router.setDocumentText(TEST_URI, taskText);
+      const taskResult = router.route(makeParams(TEST_URI, taskText, ' '));
+
+      const tocText = '[';
+      router.setDocumentText(TEST_URI, tocText);
+      const tocResult = router.route(makeParams(TEST_URI, tocText, '['));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(taskResult.items.map((item) => item.label)).toContain('GLFM inapplicable task item');
+      expect(tocResult.items.map((item) => item.label)).toContain('GLFM table of contents');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('Pandoc flavor routing', () => {
+    it('offers Pandoc snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'pandoc' }));
+
+      const citationText = '[@';
+      router.setDocumentText(TEST_URI, citationText);
+      const citationResult = router.route(makeParams(TEST_URI, citationText, '@'));
+
+      const attributeText = '{';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, '{'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(citationResult.items.map((item) => item.label)).toContain('Pandoc citation');
+      expect(attributeResult.items.map((item) => item.label)).toContain('Pandoc attribute set');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('MultiMarkdown flavor routing', () => {
+    it('offers MultiMarkdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'multimarkdown' }));
+
+      const metadataText = 'Tit';
+      router.setDocumentText(TEST_URI, metadataText);
+      const metadataResult = router.route(makeParams(TEST_URI, metadataText, 't'));
+
+      const citationText = '[](#';
+      router.setDocumentText(TEST_URI, citationText);
+      const citationResult = router.route(makeParams(TEST_URI, citationText, '#'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(metadataResult.items.map((item) => item.label)).toContain(
+        'MultiMarkdown metadata key',
+      );
+      expect(citationResult.items.map((item) => item.label)).toContain('MultiMarkdown citation');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('MultiMarkdown footnote');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('MDX flavor routing', () => {
+    it('offers MDX snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'mdx' }));
+
+      const componentText = '<';
+      router.setDocumentText(TEST_URI, componentText);
+      const componentResult = router.route(makeParams(TEST_URI, componentText, '<'));
+
+      const expressionText = '{';
+      router.setDocumentText(TEST_URI, expressionText);
+      const expressionResult = router.route(makeParams(TEST_URI, expressionText, '{'));
+
+      const exportText = 'export ';
+      router.setDocumentText(TEST_URI, exportText);
+      const exportResult = router.route(makeParams(TEST_URI, exportText, ' '));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(componentResult.items.map((item) => item.label)).toContain('MDX component');
+      expect(expressionResult.items.map((item) => item.label)).toContain('MDX expression');
+      expect(exportResult.items.map((item) => item.label)).toContain('MDX named export');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('kramdown flavor routing', () => {
+    it('offers kramdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'kramdown' }));
+
+      const attributeText = '{:';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, ':'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(attributeResult.items.map((item) => item.label)).toContain('kramdown attribute');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('kramdown footnote');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('Markdown Extra flavor routing', () => {
+    it('offers Markdown Extra snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'markdown-extra' }));
+
+      const tableText = '|';
+      router.setDocumentText(TEST_URI, tableText);
+      const tableResult = router.route(makeParams(TEST_URI, tableText, '|'));
+
+      const footnoteText = '[^';
+      router.setDocumentText(TEST_URI, footnoteText);
+      const footnoteResult = router.route(makeParams(TEST_URI, footnoteText, '^'));
+
+      const abbreviationText = '*[';
+      router.setDocumentText(TEST_URI, abbreviationText);
+      const abbreviationResult = router.route(makeParams(TEST_URI, abbreviationText, '['));
+
+      const attributeText = '{';
+      router.setDocumentText(TEST_URI, attributeText);
+      const attributeResult = router.route(makeParams(TEST_URI, attributeText, '{'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tableResult.items.map((item) => item.label)).toContain('Markdown Extra table');
+      expect(footnoteResult.items.map((item) => item.label)).toContain('Markdown Extra footnote');
+      expect(abbreviationResult.items.map((item) => item.label)).toContain(
+        'Markdown Extra abbreviation',
+      );
+      expect(attributeResult.items.map((item) => item.label)).toContain('Markdown Extra attribute');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('R Markdown flavor routing', () => {
+    it('offers R Markdown snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'r-markdown' }));
+
+      const chunkText = '```{';
+      router.setDocumentText(TEST_URI, chunkText);
+      const chunkResult = router.route(makeParams(TEST_URI, chunkText, '{'));
+
+      const optionText = '```{r setup, ';
+      router.setDocumentText(TEST_URI, optionText);
+      const optionResult = router.route(makeParams(TEST_URI, optionText, ' '));
+
+      const inlineText = '`r';
+      router.setDocumentText(TEST_URI, inlineText);
+      const inlineResult = router.route(makeParams(TEST_URI, inlineText, 'r'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(chunkResult.items.map((item) => item.label)).toContain('R Markdown chunk');
+      expect(optionResult.items.map((item) => item.label)).toContain('R Markdown chunk option');
+      expect(inlineResult.items.map((item) => item.label)).toContain(
+        'R Markdown inline expression',
+      );
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('Reddit flavor routing', () => {
+    it('offers Reddit snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'reddit' }));
+
+      const spoilerText = '>!';
+      router.setDocumentText(TEST_URI, spoilerText);
+      const spoilerResult = router.route(makeParams(TEST_URI, spoilerText, '!'));
+
+      const superscriptText = '^(';
+      router.setDocumentText(TEST_URI, superscriptText);
+      const superscriptResult = router.route(makeParams(TEST_URI, superscriptText, '('));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(spoilerResult.items.map((item) => item.label)).toContain('Reddit spoiler');
+      expect(superscriptResult.items.map((item) => item.label)).toContain('Reddit superscript');
+      expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('Stack Overflow flavor routing', () => {
+    it('offers Stack Overflow snippets without enabling Obsidian completions', () => {
+      parseCache.set(TEST_URI, makeDoc(TEST_URI, { markdownFlavor: 'stack-overflow' }));
+
+      const tagText = '[tag:';
+      router.setDocumentText(TEST_URI, tagText);
+      const tagResult = router.route(makeParams(TEST_URI, tagText, ':'));
+
+      const languageText = '<!-- language';
+      router.setDocumentText(TEST_URI, languageText);
+      const languageResult = router.route(makeParams(TEST_URI, languageText, 'e'));
+
+      const wikiText = '[[';
+      router.setDocumentText(TEST_URI, wikiText);
+      const wikiResult = router.route(makeParams(TEST_URI, wikiText, '['));
+
+      expect(tagResult.items.map((item) => item.label)).toContain('Stack Overflow tag reference');
+      expect(languageResult.items.map((item) => item.label)).toContain(
+        'Stack Overflow language directive',
+      );
+      expect(wikiResult.items).toHaveLength(0);
     });
   });
 

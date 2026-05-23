@@ -43,8 +43,8 @@ traceability must show which cases prove each signal.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Activation.MarkerEvents` | Activation fixtures must trace to marker, language, and command signals | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Activation.VaultPrecision` | Vault and generic Markdown outcomes must be traced | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.MarkerEvents` | Activation fixtures must trace to marker, language, and command signals | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Activation.VaultPrecision` | Vault and generic Markdown outcomes must be traced | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -91,8 +91,8 @@ traceability must show which cases prove each signal.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] Phase E7 test rows exist in [[test/matrix]]
-- [x] Phase E7 test files are listed in [[test/index]]
+- [x] Phase E7 test rows exist in [[docs/test/matrix]]
+- [x] Phase E7 test files are listed in [[docs/test/index]]
 - [x] Requirement tags map to passing or planned evidence consistently
 - [x] No runtime behavior files are changed
 - [x] Markdown lint passes for changed docs
@@ -109,7 +109,7 @@ to the relevant task ticket.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -125,8 +125,8 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > Chore created. Status: `open`. Motivation: Phase E7 test traceability.
 
 > [!INFO] In Review - 2026-05-07
-> Added Phase E7 rows to [[test/matrix]] and listed
-> `extension/src/activation-gate.test.ts` in [[test/index]].
+> Added Phase E7 rows to [[docs/test/matrix]] and listed
+> `extension/src/activation-gate.test.ts` in [[docs/test/index]].
 
 > [!SUCCESS] Done - 2026-05-07
 > PR #39 CI passed; test trace sweep is complete.

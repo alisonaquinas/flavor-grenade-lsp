@@ -37,8 +37,9 @@ export type MarkdownResolutionResult =
   | { kind: 'non-vault' };
 
 /**
- * Resolves wiki-link targets to vault documents using a four-step strategy:
- * exact path → alias → stem → H1 title.
+ * Resolves wiki-link targets to vault documents using Obsidian-style document
+ * matching plus Flavor Grenade alias/title fallbacks:
+ * exact path → case-insensitive path → path suffix → alias → stem → H1 title.
  */
 @Injectable()
 export class Oracle {
@@ -57,13 +58,19 @@ export class Oracle {
    *
    * Resolution order:
    * 1. Empty/blank → malformed (FG003)
-   * 2. Exact path match (check vaultIndex.has)
-   * 3. Alias match from frontmatter.aliases (case-insensitive)
-   * 4. Stem suffix match via folderLookup.lookupByStem
+   * 2. Normalize backslashes to slashes and strip trailing `.md`
+   * 3. Exact path match (check vaultIndex.has)
+   * 4. Case-insensitive path match
+   * 5. Path-suffix match for path-like targets
    *    - unique → resolved
    *    - multiple → ambiguous (FG002)
-   *    - none → continue to step 5
-   * 5. H1 title match (case-insensitive first heading of level 1)
+   *    - none → continue to step 6
+   * 6. Alias match from frontmatter.aliases (case-insensitive)
+   * 7. Stem suffix match via folderLookup.lookupByStem
+   *    - unique → resolved
+   *    - multiple → ambiguous (FG002)
+   *    - none → continue to step 8
+   * 8. H1 title match (case-insensitive first heading of level 1)
    *    - unique → resolved
    *    - multiple → ambiguous (FG002)
    *    - none → broken (FG001)
@@ -73,17 +80,24 @@ export class Oracle {
    * @param blockRef - Optional block reference id.
    */
   resolve(target: string, heading?: string, blockRef?: string): ResolutionResult {
-    if (target.trim() === '') {
+    const normalizedTarget = normalizeWikiTarget(target);
+    if (normalizedTarget.trim() === '') {
       return { kind: 'malformed', diagnosticCode: 'FG003' };
     }
 
-    const exact = this.tryExactMatch(target, heading, blockRef);
+    const exact = this.tryExactMatch(normalizedTarget, heading, blockRef);
     if (exact !== null) return exact;
 
-    const alias = this.tryAliasMatch(target, heading, blockRef);
+    const caseInsensitive = this.tryCaseInsensitivePathMatch(normalizedTarget, heading, blockRef);
+    if (caseInsensitive !== null) return caseInsensitive;
+
+    const pathSuffix = this.tryPathSuffixMatch(normalizedTarget, heading, blockRef);
+    if (pathSuffix !== null) return pathSuffix;
+
+    const alias = this.tryAliasMatch(normalizedTarget, heading, blockRef);
     if (alias !== null) return alias;
 
-    return this.tryStemMatch(target, heading, blockRef);
+    return this.tryStemMatch(normalizedTarget, heading, blockRef);
   }
 
   /**
@@ -151,6 +165,46 @@ export class Oracle {
     return null;
   }
 
+  private tryCaseInsensitivePathMatch(
+    target: string,
+    heading?: string,
+    blockRef?: string,
+  ): ResolutionResult | null {
+    const lowerTarget = target.toLowerCase();
+    for (const [docId] of this.vaultIndex.entries()) {
+      if ((docId as string).toLowerCase() === lowerTarget) {
+        return this.makeResolved(docId, heading, blockRef);
+      }
+    }
+    return null;
+  }
+
+  private tryPathSuffixMatch(
+    target: string,
+    heading?: string,
+    blockRef?: string,
+  ): ResolutionResult | null {
+    if (!target.includes('/')) return null;
+
+    const lowerTarget = target.toLowerCase();
+    const candidates: DocId[] = [];
+    for (const [docId] of this.vaultIndex.entries()) {
+      const docPath = docId as string;
+      const lowerDocPath = docPath.toLowerCase();
+      if (lowerDocPath.length <= lowerTarget.length) continue;
+
+      const boundary = lowerDocPath.length - lowerTarget.length - 1;
+      if (lowerDocPath.charAt(boundary) !== '/') continue;
+      if (lowerDocPath.slice(boundary + 1) === lowerTarget) {
+        candidates.push(docId);
+      }
+    }
+
+    if (candidates.length === 0) return null;
+    if (candidates.length === 1) return this.makeResolved(candidates[0], heading, blockRef);
+    return { kind: 'ambiguous', candidates, diagnosticCode: 'FG002' };
+  }
+
   private resolveMarkdownDocId(
     targetDocId: DocId,
   ):
@@ -213,7 +267,10 @@ export class Oracle {
   }
 
   private tryStemMatch(target: string, heading?: string, blockRef?: string): ResolutionResult {
-    const candidates = this.folderLookup.lookupByStem(target);
+    let candidates = this.folderLookup.lookupByStem(target);
+    if (candidates.length === 0) {
+      candidates = this.findCaseInsensitiveStemMatches(target);
+    }
     if (candidates.length === 1) {
       return this.makeResolved(candidates[0], heading, blockRef);
     }
@@ -224,6 +281,19 @@ export class Oracle {
     const titleResult = this.tryTitleMatch(target, heading, blockRef);
     if (titleResult !== null) return titleResult;
     return { kind: 'broken', reason: 'not-found', diagnosticCode: 'FG001' };
+  }
+
+  private findCaseInsensitiveStemMatches(target: string): DocId[] {
+    const lowerTarget = target.toLowerCase();
+    const matches: DocId[] = [];
+    for (const [docId] of this.vaultIndex.entries()) {
+      const segments = (docId as string).split('/');
+      const stem = segments[segments.length - 1];
+      if (stem.toLowerCase() === lowerTarget) {
+        matches.push(docId);
+      }
+    }
+    return matches;
   }
 
   private tryTitleMatch(
@@ -290,4 +360,8 @@ export class Oracle {
     if (!Array.isArray(aliases)) return [];
     return aliases.filter((a): a is string => typeof a === 'string');
   }
+}
+
+function normalizeWikiTarget(target: string): string {
+  return target.replace(/\\/g, '/').replace(/\.md$/i, '');
 }

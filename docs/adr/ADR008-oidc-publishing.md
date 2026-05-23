@@ -45,7 +45,7 @@ Implementation details:
 
    The same OIDC token is presented to both registries within the same workflow run.
 
-5. **Workflow trigger.** The publish workflow triggers only on `push` to `main` (see [[adr/ADR007-git-flow-branching]]). The job is conditional on the push being a semver tag (e.g., `v*.*.*`). Merges that are not tagged do not trigger publishing.
+5. **Workflow trigger.** The publish workflow triggers only on `push` to `main` (see [[docs/adr/ADR007-git-flow-branching]]). The job is conditional on the push being a semver tag (e.g., `v*.*.*`). Merges that are not tagged do not trigger publishing.
 
 6. **Environment gate.** The publish job runs in the GitHub Actions environment `npm-publish`. The environment requires a reviewer approval before the job proceeds (optional, configurable per team preference). This provides a manual gate even though OIDC itself is automated.
 
@@ -71,6 +71,6 @@ Implementation details:
 
 ## Related
 
-- [[adr/ADR007-git-flow-branching]]
-- [[plans/phase-13-ci-delivery]]
-- [[requirements/ci-cd]]
+- [[docs/adr/ADR007-git-flow-branching]]
+- [[docs/plans/phase-13-ci-delivery]]
+- [[docs/requirements/ci-cd]]

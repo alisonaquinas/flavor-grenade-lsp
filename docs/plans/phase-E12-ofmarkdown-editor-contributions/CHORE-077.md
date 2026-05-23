@@ -42,7 +42,7 @@ isolation.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Contributions.OFMarkdownScoped` | Contribution scoping evidence is traceable | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Contributions.OFMarkdownScoped` | Contribution scoping evidence is traceable | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -68,7 +68,7 @@ isolation.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR016-ofmarkdown-language-mode]] | Traceability must preserve OFMarkdown language-id scoping |
+| [[docs/adr/ADR016-ofmarkdown-language-mode]] | Traceability must preserve OFMarkdown language-id scoping |
 
 ---
 
@@ -88,9 +88,9 @@ isolation.
 
 All of the following must be true before this ticket is marked `done`:
 
-- [x] E12 rows in [[test/matrix]] point to current contribution evidence
-- [x] [[test/index]] lists any new E12 verification files
-- [x] Phase links remain consistent with [[plans/phase-E12-ofmarkdown-editor-contributions]]
+- [x] E12 rows in [[docs/test/matrix]] point to current contribution evidence
+- [x] [[docs/test/index]] lists any new E12 verification files
+- [x] Phase links remain consistent with [[docs/plans/phase-E12-ofmarkdown-editor-contributions]]
 - [x] BDD trace still points to `docs/bdd/features/vscode-extension-parity.feature`
 - [x] No behaviour-affecting changes in `src/`
 - [x] Markdown links and wikilinks are coherent
@@ -108,7 +108,7 @@ implementation. The current ticket-generation task did not perform that work.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

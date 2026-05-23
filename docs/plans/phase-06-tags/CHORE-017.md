@@ -30,7 +30,7 @@ Review all Phase 6 source files for code quality issues and resolve them without
 
 Phase 6 introduces `TagRegistry` with both `rebuild()` and incremental update paths. Subtle bugs in incremental update correctness (e.g., stale occurrences after a file change) or unicode regex gaps could cause silent data loss or incorrect completions in real vaults.
 
-- Motivated by: [[requirements/code-quality]], incremental update correctness review
+- Motivated by: [[docs/requirements/code-quality]], incremental update correctness review
 
 ---
 
@@ -38,8 +38,8 @@ Phase 6 introduces `TagRegistry` with both `rebuild()` and incremental update pa
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | TagRegistry incremental update correctness | [[requirements/code-quality]] |
-| — | Unicode tag regex coverage | [[requirements/tag-indexing]] |
+| — | TagRegistry incremental update correctness | [[docs/requirements/code-quality]] |
+| — | Unicode tag regex coverage | [[docs/requirements/tag-indexing]] |
 
 ---
 
@@ -64,7 +64,7 @@ Phase 6 introduces `TagRegistry` with both `rebuild()` and incremental update pa
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR002-ofm-only-scope]] | OFM tag character rules govern regex scope |
+| [[docs/adr/ADR002-ofm-only-scope]] | OFM tag character rules govern regex scope |
 
 ---
 
@@ -88,8 +88,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 - [ ] Incremental update path verified correct: no stale occurrences after file change or delete
 
 ---
@@ -102,7 +102,7 @@ Focus: TagRegistry incremental update correctness vs full rebuild, unicode tag r
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -113,7 +113,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep for Phase 6 — incremental update correctness and unicode tag regex coverage.

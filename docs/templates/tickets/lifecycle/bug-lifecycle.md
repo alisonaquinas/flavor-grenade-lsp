@@ -105,7 +105,7 @@ Fix and regression test are complete. Awaiting CI confirmation and review.
 | | |
 |---|---|
 | **Entry criteria** | `bun test` exits 0 including the new regression test; `bun run lint --max-warnings 0` exits 0; `tsc --noEmit` exits 0 |
-| **Agent obligations** | Verify all **Regression Guard** checkboxes; update [[test/matrix]] for the violated requirement; update [[test/index]] if a new test file was added; append `[!INFO]` log entry |
+| **Agent obligations** | Verify all **Regression Guard** checkboxes; update [[docs/test/matrix]] for the violated requirement; update [[docs/test/index]] if a new test file was added; append `[!INFO]` log entry |
 | **Exit condition (forward)** | CI green; transition to `verified` |
 | **Exit condition (back)** | Review reveals additional uncovered case; write new failing test; transition back to `in-progress` |
 
@@ -118,7 +118,7 @@ CI is green. The fix is confirmed in the test suite. The regression test will pr
 | | |
 |---|---|
 | **Entry criteria** | CI green on the fix branch or PR; regression test present and passing in CI |
-| **Agent obligations** | Confirm the BDD scenario gap is closed (new or updated scenario exists); confirm [[test/matrix]] row shows `✅ passing` |
+| **Agent obligations** | Confirm the BDD scenario gap is closed (new or updated scenario exists); confirm [[docs/test/matrix]] row shows `✅ passing` |
 | **Exit condition** | Human accepts the fix; transition to `done` |
 
 ---
@@ -129,7 +129,7 @@ Bug closed. Fix is merged, regression guard is in place, and the defect cannot s
 
 | | |
 |---|---|
-| **Entry criteria** | Fix merged; CI green on merge target; [[test/matrix]] updated; BDD scenario gap closed |
+| **Entry criteria** | Fix merged; CI green on merge target; [[docs/test/matrix]] updated; BDD scenario gap closed |
 | **Agent obligations** | Append `[!CHECK]` Workflow Log entry with PR/commit evidence; update frontmatter `updated` date |
 | **Exit condition** | Terminal state |
 
@@ -209,7 +209,7 @@ The fix cannot proceed. A dependency (another bug fix, a design decision, a miss
 
 ## Related
 
-- [[templates/tickets/bug]] — Bug ticket template
-- [[templates/tickets/lifecycle/task-lifecycle]] — Task lifecycle (same TDD discipline applies to fixes)
-- [[requirements/index]] — Planguage requirement tags (violated requirement reference)
-- [[test/matrix]] — Requirements × tests traceability matrix
+- [[docs/templates/tickets/bug]] — Bug ticket template
+- [[docs/templates/tickets/lifecycle/task-lifecycle]] — Task lifecycle (same TDD discipline applies to fixes)
+- [[docs/requirements/index]] — Planguage requirement tags (violated requirement reference)
+- [[docs/test/matrix]] — Requirements × tests traceability matrix

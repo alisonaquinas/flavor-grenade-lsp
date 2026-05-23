@@ -36,7 +36,7 @@ Stakeholders: LLM agents, documentation maintainers, advanced users.
 
 Owner: Website content.
 
-Source: [[requirements/user/concepts]], `PRODUCT.md`
+Source: [[website/docs/requirements/user/concepts]], `PRODUCT.md`
 
 Open questions:
 
@@ -79,7 +79,7 @@ Stakeholders: LLM agents, documentation maintainers, search visitors.
 
 Owner: Website content.
 
-Source: [[project-brief]], [[requirements/user/concepts]], `PRODUCT.md`
+Source: [[project-brief]], [[website/docs/requirements/user/concepts]], `PRODUCT.md`
 
 Open questions:
 

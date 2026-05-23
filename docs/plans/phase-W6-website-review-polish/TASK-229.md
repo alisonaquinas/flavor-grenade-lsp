@@ -2,7 +2,7 @@
 id: "TASK-229"
 title: "Repair homepage and footer image rendering"
 type: task
-status: green
+status: done
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-229"]
 
 # Repair Homepage And Footer Image Rendering
 
-> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-229` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -52,16 +52,16 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Header brand icon renders without a broken-image icon.
-- [ ] Footer brand icon renders without a broken-image icon.
-- [ ] Homepage proof image renders without a broken-image icon.
-- [ ] Accessible text remains meaningful.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Header brand icon renders without a broken-image icon.
+- [x] Footer brand icon renders without a broken-image icon.
+- [x] Homepage proof image renders without a broken-image icon.
+- [x] Accessible text remains meaningful.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -75,3 +75,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Copied reviewed artwork into `website/public/assets` and updated homepage and
 > shell image sources to use public static asset paths.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

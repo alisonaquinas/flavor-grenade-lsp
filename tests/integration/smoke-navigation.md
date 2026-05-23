@@ -12,14 +12,14 @@ This smoke test validates the minimum viable navigation round-trip: that `textDo
 
 ## Phase Gate
 
-Phase 3 — see [[plans/execution-ledger]]
+Phase 3 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
-### TC-SMOKE-013 — go-to-definition on [[doc]] navigates to target document at line 0
+### TC-SMOKE-013 — go-to-definition on \[\[doc]] navigates to target document at line 0
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/navigation]] — `Go-to-definition on [[doc]] navigates to target document`
+**BDD Reference:** \[\[bdd/features/navigation]] — `Go-to-definition on [[doc]] navigates to target document`
 **Phase gate:** Phase 3
 
 **Setup:**
@@ -83,7 +83,7 @@ And the target range is at line 0, character 0
 ### TC-SMOKE-014 — find-references on a heading returns all vault files linking to it
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/navigation]] — `Find-references on a heading returns all wiki-links targeting that heading`
+**BDD Reference:** \[\[bdd/features/navigation]] — `Find-references on a heading returns all wiki-links targeting that heading`
 **Phase gate:** Phase 3
 
 **Setup:**

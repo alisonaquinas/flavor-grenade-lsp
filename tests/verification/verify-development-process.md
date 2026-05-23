@@ -8,7 +8,7 @@ aliases: [Verify Development Process]
 
 ## Purpose
 
-This document defines scripted verification test cases for the development process requirements of `flavor-grenade-lsp`. Each test case validates that branching discipline, test directory structure, test index maintenance, script automation, and binary file handling conform to the Planguage requirements in [[requirements/development-process]]. These are repository-level static checks that can be executed at any point against the current working tree and git history. All test cases are of type Scripted and use Bash blocks.
+This document defines scripted verification test cases for the development process requirements of `flavor-grenade-lsp`. Each test case validates that branching discipline, test directory structure, test index maintenance, script automation, and binary file handling conform to the Planguage requirements in [[docs/requirements/development-process]]. These are repository-level static checks that can be executed at any point against the current working tree and git history. All test cases are of type Scripted and use Bash blocks.
 
 ## Requirements Covered
 

@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "bin": {
@@ -24,13 +24,13 @@
     "dev": "bun --watch src/main.ts",
     "build": "tsc --project tsconfig.json",
     "build:binary": "node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp --copy-to-extension",
-    "build:binary:win": "node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp.exe --copy-to-extension --binary-name=flavor-grenade-lsp.exe",
+    "build:binary:win": "node scripts/build-binary.mjs --outfile=dist/flavor-grenade-lsp.exe --target=bun-windows-x64 --copy-to-extension --binary-name=flavor-grenade-lsp.exe",
     "start": "node dist/main.js",
     "test": "bun test",
     "bdd": "bun --bun node_modules/@cucumber/cucumber/bin/cucumber-js --config cucumber.yaml",
     "lint": "eslint src/",
     "lint:dependencies": "node scripts/check-exact-dependencies.mjs",
-    "lint:docs": "markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./docs \"docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./website/docs \"website/docs/**/*.md\"",
+    "lint:docs": "markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./docs \"docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./website/docs \"website/docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./extension/docs \"extension/docs/**/*.md\"",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
     "typecheck": "tsc --noEmit",

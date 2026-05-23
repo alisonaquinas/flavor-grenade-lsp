@@ -43,7 +43,7 @@ checking.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Marketplace.AssetPackaging` | Referenced README assets ship in packaged VSIX output | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Marketplace.AssetPackaging` | Referenced README assets ship in packaged VSIX output | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -68,7 +68,7 @@ checking.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Package inspection must respect target-specific VSIX structure |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Package inspection must respect target-specific VSIX structure |
 
 ---
 
@@ -92,8 +92,8 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Verification fails when a README asset is missing from the VSIX
 - [x] Verification does not require Marketplace publish credentials
 - [x] No behaviour-affecting changes in `src/`
-- [x] [[test/matrix]] updated if verification files were added or removed
-- [x] [[test/index]] updated if verification files were added or removed
+- [x] [[docs/test/matrix]] updated if verification files were added or removed
+- [x] [[docs/test/index]] updated if verification files were added or removed
 - [x] `cd extension && npx vsce package --no-dependencies` passes
 
 ---
@@ -108,7 +108,7 @@ part of E11.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

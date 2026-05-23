@@ -48,21 +48,21 @@ Bootstrap a working NestJS + Bun + TypeScript project skeleton that compiles cle
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | No user-visible behaviour delivered in this phase | [[requirements/user/index]] |
+| — | No user-visible behaviour delivered in this phase | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure scaffold; functional requirements addressed in later phases | [[requirements/index]] |
+| — | Infrastructure scaffold; functional requirements addressed in later phases | [[docs/requirements/index]] |
 
 ---
 
@@ -78,8 +78,8 @@ Bootstrap a working NestJS + Bun + TypeScript project skeleton that compiles cle
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-01-scaffold]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-01-scaffold]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -94,7 +94,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 - [ ] CHORE-001 (Lint Sweep) is in `done` state
 - [ ] CHORE-002 (Code Quality Sweep) is in `done` state
 - [ ] CHORE-003 (Security Sweep) is in `done` state
-- [ ] [[plans/execution-ledger]] row for Phase 1 updated to `done`
+- [ ] [[docs/plans/execution-ledger]] row for Phase 1 updated to `done`
 
 ---
 
@@ -147,7 +147,7 @@ Tasks in this phase are primarily infrastructure and can be executed sequentiall
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -168,7 +168,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Phase 1 Project Scaffold feature defined; all child tasks (TASK-002 through TASK-016) and chores (CHORE-001 through CHORE-003) created. Blocked by FEAT-001 until Phase 0 documentation quality gates pass.

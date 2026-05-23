@@ -81,8 +81,8 @@ logic already owned by the Reference Resolution bounded context.
 
 ## Cross-References
 
-- [[research/marksman-feature-parity-ofmarkdown]]
-- [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/functional/ofmarkdown-parity]]
-- [[ddd/reference-resolution/domain-model]]
+- [[docs/research/marksman-feature-parity-ofmarkdown]]
+- [[docs/features/ofmarkdown-parity-roadmap]]
+- [[docs/requirements/functional/ofmarkdown-parity]]
+- [[docs/ddd/reference-resolution/domain-model]]
 - `docs/bdd/features/ofmarkdown-parity.feature`

@@ -13,9 +13,9 @@ aliases:
 
 # BC5 — LSP Protocol Domain Model
 
-This document is the authoritative domain model for **Bounded Context 5: LSP Protocol**. BC5 is a Generic subdomain. It does not contain original business logic — it is a conformist adapter to the Language Server Protocol 3.17 specification. Its primary artefact is `LspServer`, an application service that maps JSON-RPC method calls to BC4 workspace mutations and BC3 query services.
+This document is the authoritative domain model for **Bounded Context 5: LSP Protocol**. BC5 is a Generic subdomain. It does not contain original business logic — it is a conformist adapter to the Language Server Protocol 3.17 specification. Its primary artefact is `LspServer`, an application service that maps JSON-RPC method calls to BC4 workspace/config mutations and BC3 query services.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-model]], [[ddd/reference-resolution/domain-model]], [[ddd/document-lifecycle/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/vault/domain-model]], [[docs/ddd/reference-resolution/domain-model]], [[docs/ddd/document-lifecycle/domain-model]].
 
 > [!NOTE]
 > BC5 is a **Conformist** to the LSP 3.17 specification. Do not invent protocol deviations. Custom extensions are scoped to the `flavorGrenade/` namespace. Everything else must conform to the spec verbatim.
@@ -29,7 +29,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/vault/domain-mode
 | Type | Generic subdomain |
 | Integration pattern | Conformist (to LSP 3.17 spec) + Open Host Service (to editor clients) |
 | Primary artefact | `LspServer` application service |
-| Custom extensions | `flavorGrenade/status` notification only |
+| Custom extensions | `flavorGrenade/status`, `flavorGrenade/documentMembership`, `flavorGrenade.*` command payloads |
 | Transport | JSON-RPC 2.0 over stdio |
 
 ---
@@ -109,9 +109,10 @@ interface ServerCapabilities {
 `LspServer` is the single entry point for all JSON-RPC traffic. It is an **application service**, not a domain object — it contains no business logic of its own. Its responsibilities are:
 
 1. Validate incoming request shapes.
-2. Route to the correct BC4 or BC3 application service.
-3. Await the result.
-4. Format and emit the JSON-RPC response.
+2. Validate protocol payloads, including `MarkdownFlavorSelection` values.
+3. Route to the correct BC4 or BC3 application service.
+4. Await the result.
+5. Format and emit the JSON-RPC response.
 
 ### Lifecycle
 
@@ -180,7 +181,9 @@ LspRequest<InitializeParams>
 LspNotification<DidOpenTextDocumentParams>
   │
   ├─ Extract TextDocumentItem { uri, languageId, version, text }
-  ├─ OFMDocFactory.fromLsp(item) → OFMDoc
+  ├─ Reject/ignore flavor behavior for non-markdown language ids
+  ├─ Workspace.parseContextFor(uri, 'lsp') → ParseContext
+  ├─ MarkdownDocFactory.fromLsp(item, context) → MarkdownDoc
   ├─ Workspace.updateDoc(ws, docId, doc) → new Workspace
   │    → routes to VaultFolder.withDoc (if vault found)
   │    → or Workspace.withSingleFile (if no vault)
@@ -195,8 +198,9 @@ LspNotification<DidOpenTextDocumentParams>
 LspNotification<DidChangeTextDocumentParams>
   │
   ├─ Extract { textDocument: { uri, version }, contentChanges }
-  ├─ Lookup existing OFMDoc via Workspace
-  ├─ OFMDoc.applyLspChange(doc, params) → updatedDoc
+  ├─ Lookup existing MarkdownDoc via Workspace
+  ├─ Workspace.parseContextFor(uri, 'lsp') → ParseContext
+  ├─ MarkdownDoc.applyLspChange(doc, params, context) → updatedDoc
   │    full sync:        replace entire text, re-parse
   │    incremental sync: apply range edits, re-parse
   ├─ Workspace.updateDoc(ws, docId, updatedDoc) → new Workspace
@@ -205,7 +209,7 @@ LspNotification<DidChangeTextDocumentParams>
 ```
 
 > [!NOTE]
-> For incremental sync, `OFMDoc.applyLspChange` applies all `contentChanges` in order. LSP specifies that incremental changes are applied sequentially and ranges refer to the document state *before* this change set, so each change must be applied in a fresh position context. The implementation uses tree-sitter's incremental re-parse for performance.
+> For incremental sync, `MarkdownDoc.applyLspChange` (current code: `OFMDoc.applyLspChange`) applies all `contentChanges` in order. LSP specifies that incremental changes are applied sequentially and ranges refer to the document state *before* this change set, so each change must be applied in a fresh position context. The implementation uses tree-sitter's incremental re-parse for performance.
 
 ---
 
@@ -216,7 +220,7 @@ LspNotification<DidCloseTextDocumentParams>
   │
   ├─ Lookup VaultFolder containing the URI
   ├─ VaultFolder.closeDoc(folder, docId) → folder with doc.version = null
-  │    (reverts to disk-state OFMDoc; re-reads from disk asynchronously)
+  │    (reverts to disk-state MarkdownDoc; re-reads from disk asynchronously)
   └─ If SingleFileMode: Workspace.withoutSingleFile(ws, uri)
 ```
 
@@ -228,7 +232,7 @@ LspNotification<DidCloseTextDocumentParams>
 LspRequest<CompletionParams>
   │
   ├─ Extract { textDocument.uri, position, context }
-  ├─ Resolve OFMDoc from Workspace
+  ├─ Resolve MarkdownDoc from Workspace
   ├─ Determine trigger:
   │    context.triggerCharacter = '['  → wikilink completion
   │    context.triggerCharacter = '#'  → heading / tag completion
@@ -257,7 +261,7 @@ LspRequest<CompletionParams>
 LspRequest<DefinitionParams>
   │
   ├─ Extract { textDocument.uri, position }
-  ├─ Resolve OFMDoc and VaultFolder
+  ├─ Resolve MarkdownDoc and VaultFolder
   ├─ ReferenceService.findDef(doc, position, refGraph)
   │    → Ref at cursor → Dest { doc: DocId, def: Def }
   ├─ Convert Dest to LSP Location { uri, range }
@@ -284,7 +288,7 @@ LspRequest<ReferenceParams>
 ```text
 LspRequest<DocumentDiagnosticParams>
   │
-  ├─ Resolve OFMDoc and VaultFolder
+  ├─ Resolve MarkdownDoc and VaultFolder
   ├─ DiagnosticService.compute(doc, refGraph, config)
   │    Checks enabled by FlavorConfig.diagnostics:
   │      block_ref.enabled → broken BlockRef → error
@@ -301,14 +305,72 @@ LspRequest<DocumentDiagnosticParams>
 LspNotification<DidChangeWatchedFilesParams>
   │
   ├─ For each FileEvent in changes:
-  │    created: OFMDocFactory.tryLoad(path) → Workspace.updateDoc
-  │    changed: OFMDocFactory.tryLoad(path) → Workspace.updateDoc (if not editor-open)
+  │    created: Workspace.parseContextFor(path, 'disk') → MarkdownDocFactory.tryLoad(path, context) → Workspace.updateDoc
+  │    changed: Workspace.parseContextFor(path, 'disk') → MarkdownDocFactory.tryLoad(path, context) → Workspace.updateDoc (if not editor-open)
   │    deleted: Workspace.updateDoc with removal
   └─ Push diagnostic refresh notifications if diagnosticProvider pull is not supported
 ```
 
 > [!NOTE]
 > Client-side file watching (via `workspace/didChangeWatchedFiles`) supplements the server-side `FileWatcher`. The server's `FileWatcher` is authoritative for vaults opened via `initialize` workspace folders. Client notifications handle editors that do not emit `didSave` for files changed outside the editor.
+
+---
+
+### `workspace/didChangeConfiguration`
+
+```text
+LspNotification<DidChangeConfigurationParams>
+  │
+  ├─ Extract settings.flavorGrenade.markdownFlavor
+  ├─ Validate value is 'auto' or supported MarkdownFlavorId
+  ├─ If valid:
+  │    ConfigService.withVSCodeMarkdownFlavorSelection(selection, scope)
+  │    Workspace.withMarkdownFlavorSelection(ws, selection, scope)
+  │      → BC4 recomputes EffectiveMarkdownFlavor
+  │      → affected docs are reparsed with new ParseContext
+  │      → diagnostics are refreshed
+  └─ If invalid:
+       log warning
+       keep previous Config/Workspace flavor state
+       do not reparse or refresh diagnostics for the invalid value
+```
+
+**Payload shape:**
+
+```typescript
+interface DidChangeConfigurationParams {
+  settings?: {
+    flavorGrenade?: {
+      markdownFlavor?: MarkdownFlavorSelection
+    }
+  }
+}
+
+type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
+```
+
+**Validation behavior:**
+
+- Missing `settings`, missing `flavorGrenade`, or missing `markdownFlavor` is a no-op.
+- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
+- Unknown strings such as `asciidoc`, non-strings, arrays, and objects are invalid.
+- Because this method is an LSP notification, no error response is sent. BC5 logs the invalid payload and leaves server state unchanged.
+
+**Mutation target:** BC5 mutates Config/BC4 only through public application services. BC5 does not store `MarkdownFlavorSelection`, does not compute `EffectiveMarkdownFlavor`, and does not call BC2 directly for flavor changes.
+
+### Flavor Profile Boundary
+
+BC5 validates the selector and transports it. It does not interpret dialect syntax surfaces.
+
+| Payload / concept | BC5 responsibility | Downstream owner |
+|-------------------|-------------------|------------------|
+| `flavorGrenade.markdownFlavor = auto` | Accept as selector input | BC4 resolves explicit `EffectiveMarkdownFlavor` |
+| Explicit `MarkdownFlavorId` | Validate against Config's supported corpus | BC4 stores selection and builds parse context |
+| Unknown selector value | Log and leave state unchanged | None |
+| Host-specific refs in diagnostics/hover | Marshal LSP data only | BC2 classifies; BC3 resolves only local refs |
+| MDX language id | Respect client selector boundary; do not force Markdown flavor behavior | Dedicated MDX tooling or future integration |
+
+This keeps LSP conformist behavior separate from domain decisions. For example, `gfm` may classify GitHub issue references, but BC5 must not report them as broken vault links unless BC3 received a real local ref from BC2.
 
 ---
 

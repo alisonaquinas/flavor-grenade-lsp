@@ -44,8 +44,8 @@ break recovery actions.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase E10 must introduce no lint warnings | [[requirements/code-quality]] |
-| `Extension.Status.Diagnostics` | Status diagnostics implementation must remain type-safe | [[requirements/functional/vscode-extension-parity]] |
+| `Quality.Lint.ZeroWarnings` | Phase E10 must introduce no lint warnings | [[docs/requirements/code-quality]] |
+| `Extension.Status.Diagnostics` | Status diagnostics implementation must remain type-safe | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -95,10 +95,10 @@ All of the following must be true before this ticket is marked `done`:
 - [x] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [x] `tsc --noEmit` exits 0
 - [x] `bun test` passes (no regressions introduced)
-- [x] Extension verification commands from [[plans/phase-E10-status-ux-troubleshooting]] pass or blocker is documented
+- [x] Extension verification commands from [[docs/plans/phase-E10-status-ux-troubleshooting]] pass or blocker is documented
 - [x] No behavior-affecting changes beyond lint and type fixes
-- [x] [[test/matrix]] updated if any test files were added or removed
-- [x] [[test/index]] updated if any test files were added or removed
+- [x] [[docs/test/matrix]] updated if any test files were added or removed
+- [x] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -111,7 +111,7 @@ Run after all Phase E10 task tickets are in `done` or `in-review`.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -127,7 +127,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

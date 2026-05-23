@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build",
+    "build": "npm run content:generate && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build",
+    "content:generate": "tsx scripts/content/generate.ts",
+    "content:check": "tsx scripts/content/check.ts",
     "preview": "vite preview",
     "lint": "eslint --max-warnings 0 src tests *.config.js *.config.ts",
-    "typecheck": "svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
-    "test": "vitest run"
+    "typecheck": "npm run content:generate && npm run content:check && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit",
+    "test": "npm run content:generate && npm run content:check && vitest run"
   },
   "dependencies": {
+    "commonloom": "0.1.0",
     "svelte": "5.55.5"
   },
   "devDependencies": {
@@ -25,9 +28,11 @@
     "jsdom": "29.1.1",
     "sass-embedded": "1.99.0",
     "svelte-check": "4.4.8",
+    "tsx": "^4.21.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.2",
     "vite": "8.0.11",
-    "vitest": "4.1.5"
+    "vitest": "4.1.5",
+    "zod": "^4.4.3"
   }
 }

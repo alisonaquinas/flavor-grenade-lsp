@@ -29,7 +29,7 @@ Create the `extension/` directory at the repository root and write `extension/pa
 
 - Create `extension/` directory at the repo root
 
-- Write `extension/package.json` with the exact content specified in the phase plan [[plans/phase-E1-extension-scaffold]]
+- Write `extension/package.json` with the exact content specified in the phase plan [[docs/plans/phase-E1-extension-scaffold]]
 
 - Key manifest fields: `publisher: "alisonaquinas"`, `engines.vscode: "^1.93.0"`, `extensionKind: ["workspace"]`, `main: "./dist/extension.js"`
 
@@ -39,17 +39,17 @@ Create the `extension/` directory at the repository root and write `extension/pa
 
 - Run `cd extension && npm install` after writing the file
 
-- See also: [[plans/phase-E1-extension-scaffold]], [[adr/ADR015-platform-specific-vsix]]
+- See also: [[docs/plans/phase-E1-extension-scaffold]], [[docs/adr/ADR015-platform-specific-vsix]]
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure scaffold; no functional requirement tag yet assigned for extension client | [[requirements/index]] |
+| — | Infrastructure scaffold; no functional requirement tag yet assigned for extension client | [[docs/requirements/index]] |
 
 ---
 
@@ -79,7 +79,7 @@ Create the `extension/` directory at the repository root and write `extension/pa
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension uses platform-specific VSIX packaging; manifest must declare `extensionKind: ["workspace"]` and omit server build from `vscode:prepublish` |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension uses platform-specific VSIX packaging; manifest must declare `extensionKind: ["workspace"]` and omit server build from `vscode:prepublish` |
 
 ---
 
@@ -127,7 +127,7 @@ The `extension/` directory is a separate npm project from the root Bun project. 
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -143,13 +143,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure infrastructure task with no unit tests — the RED/GREEN cycle is satisfied by verifying `npm install` exits 0. See [[templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
+> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure infrastructure task with no unit tests — the RED/GREEN cycle is satisfied by verifying `npm install` exits 0. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].

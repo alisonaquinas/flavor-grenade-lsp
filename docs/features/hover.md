@@ -132,8 +132,8 @@ The `Hover` response includes a `range` field indicating the span of the hovered
 
 ## Related
 
-- [[features/diagnostics]]
-- [[features/navigation]]
-- [[features/completions]]
+- [[docs/features/diagnostics]]
+- [[docs/features/navigation]]
+- [[docs/features/completions]]
 - [[ADR002-ofm-only-scope]]
-- [[ofm-spec/index]]
+- [[docs/ofm-spec/index]]

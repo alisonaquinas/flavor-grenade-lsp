@@ -8,7 +8,7 @@ aliases: [Validation Test Index, User Requirement Validation Index]
 
 > [!INFO] Validation plans trace directly to user requirements — implementation-agnostic goals expressed from the vault author's perspective. Each plan contains one end-to-end scenario per user requirement tag (`TC-VAL-THEME-NNN`). Scenarios are written without TypeScript/NestJS/JSON-RPC terms; they describe what a vault author experiences. Each TC-VAL entry maps to its covering TC-VER entries by ID.
 
-Source user requirements: [[requirements/user/index]]
+Source user requirements: [[docs/requirements/user/index]]
 
 ---
 
@@ -72,7 +72,7 @@ Each TC-VAL entry lists its covering TC-VER IDs inside the plan file. To trace f
 
 1. Find the TC-VAL entry in the plan file
 2. Read the **Mapped FRs** row — lists Planguage tags
-3. Follow the wikilink to the corresponding [[tests/verification/verify-*]] file
+3. Follow the wikilink to the corresponding \[\[tests/verification/verify-*]] file
 4. Find the TC-VER entry matching the Planguage tag
 
 ---
@@ -81,7 +81,7 @@ Each TC-VAL entry lists its covering TC-VER IDs inside the plan file. To trace f
 
 - [[tests/integration/index]] — E2E smoke plans (TC-SMOKE-*)
 - [[tests/verification/index]] — FR-level verification plans (TC-VER-*)
-- [[requirements/user/index]] — Master user requirement list
-- [[requirements/index]] — Master Planguage functional requirement list
-- [[test/matrix]] — Pass/fail tracking for all test files
-- [[test/index]] — Master list of all test files in the suite
+- [[docs/requirements/user/index]] — Master user requirement list
+- [[docs/requirements/index]] — Master Planguage functional requirement list
+- [[docs/test/matrix]] — Pass/fail tracking for all test files
+- [[docs/test/index]] — Master list of all test files in the suite

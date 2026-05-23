@@ -29,7 +29,7 @@ Create `src/transport/stdio-reader.ts`, implementing a `StdioReader` class that 
 - Internal buffer accumulates chunks until a complete header+body pair is available
 - Header parsing: scan for `Content-Length:`, extract numeric value, advance past `\r\n\r\n`
 - Body read: slice exactly N bytes from the buffer, emit as `'message'` event, shift buffer
-- See also: [[adr/ADR001-stdio-transport]]
+- See also: [[docs/adr/ADR001-stdio-transport]]
 
 ```typescript
 // src/transport/stdio-reader.ts
@@ -45,7 +45,7 @@ export class StdioReader extends EventEmitter {
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Transport framing correctness | [[plans/phase-02-lsp-transport]] |
+| — | Transport framing correctness | [[docs/plans/phase-02-lsp-transport]] |
 
 ---
 
@@ -63,7 +63,7 @@ export class StdioReader extends EventEmitter {
 |---|---|---|---|
 | `tests/unit/transport/stdio-reader.spec.ts` | Unit | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -71,7 +71,7 @@ export class StdioReader extends EventEmitter {
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Use stdio with Content-Length framing for LSP transport |
+| [[docs/adr/ADR001-stdio-transport]] | Use stdio with Content-Length framing for LSP transport |
 
 ---
 
@@ -102,8 +102,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-003]] child task row updated to `in-review`
 
 ---
@@ -116,18 +116,18 @@ Partial-read handling is the core difficulty: a single `data` event may contain 
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-003]].

@@ -22,7 +22,7 @@ aliases: ["CHORE-054"]
 
 ## Description
 
-Audit [[test/matrix]] and [[test/index]] after Phase 17 tests land. Confirm every structural LSP test row maps to the correct requirement tag and that stale or missing rows are corrected.
+Audit [[docs/test/matrix]] and [[docs/test/index]] after Phase 17 tests land. Confirm every structural LSP test row maps to the correct requirement tag and that stale or missing rows are corrected.
 
 ---
 
@@ -38,8 +38,8 @@ The Phase 17 gate depends on `Parity.StructuralLSP.Coverage` evidence. The matri
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.StructuralLSP.Coverage` | Structural LSP test coverage must be traceable | [[requirements/functional/ofmarkdown-parity]] |
-| `ST-002` | Opaque-region tests must be traceable | [[requirements/semantic-tokens]] |
+| `Parity.StructuralLSP.Coverage` | Structural LSP test coverage must be traceable | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `ST-002` | Opaque-region tests must be traceable | [[docs/requirements/semantic-tokens]] |
 
 ---
 
@@ -84,9 +84,9 @@ The Phase 17 gate depends on `Parity.StructuralLSP.Coverage` evidence. The matri
 
 All of the following must be true before this ticket is marked `done`:
 
-- [ ] [[test/matrix]] contains passing rows for `Parity.StructuralLSP.Coverage`
-- [ ] [[test/matrix]] contains rows for `Navigation.Definition.AllLinkTypes`, `ST-002`, `Security.Input.PositionValidation`, and `Diagnostic.Ambiguous.RelatedInfo` where Phase 17 adds evidence
-- [ ] [[test/index]] lists every new Phase 17 unit, integration, and BDD test file
+- [ ] [[docs/test/matrix]] contains passing rows for `Parity.StructuralLSP.Coverage`
+- [ ] [[docs/test/matrix]] contains rows for `Navigation.Definition.AllLinkTypes`, `ST-002`, `Security.Input.PositionValidation`, and `Diagnostic.Ambiguous.RelatedInfo` where Phase 17 adds evidence
+- [ ] [[docs/test/index]] lists every new Phase 17 unit, integration, and BDD test file
 - [ ] No stale Phase 17 test paths remain in either document
 - [ ] `bun run lint --max-warnings 0` passes with no new suppressions added
 - [ ] `tsc --noEmit` exits 0
@@ -102,7 +102,7 @@ Run after [[TASK-179]] and before [[CHORE-055]].
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behavior-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behavior-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -113,13 +113,13 @@ Full state machine, scope-creep rules, and no-behavior-change invariant: [[templ
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened - 2026-05-06
 > Chore created. Status: `open`. Motivation: Phase 17 test matrix and test index trace sweep.
 
 > [!SUCCESS] In Review - 2026-05-07
-> Audited [[test/matrix]] and [[test/index]] for Phase 17 unit,
+> Audited [[docs/test/matrix]] and [[docs/test/index]] for Phase 17 unit,
 > integration, and BDD coverage. Added trace rows for structural LSP,
 > opaque-region, ambiguity, and position-validation evidence. Status:
 > `in-review`.

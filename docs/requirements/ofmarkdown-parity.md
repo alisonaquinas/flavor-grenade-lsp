@@ -10,4 +10,4 @@ aliases:
 # OFMarkdown Parity Requirements
 
 Canonical server-side Planguage requirements live in
-[[requirements/functional/ofmarkdown-parity]].
+[[docs/requirements/functional/ofmarkdown-parity]].

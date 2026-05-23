@@ -11,7 +11,7 @@ aliases: [Verify Tag Indexing]
 This document defines the scripted and agent-driven verification test cases for the Tag Indexing
 Requirements of flavor-grenade-lsp. Each test case is derived directly from the Planguage `Meter`
 field of its corresponding requirement and references the BDD scenarios in
-[[bdd/features/tags]] where coverage exists. These tests are the authoritative verification record
+[[docs/ofm-spec/tags]] where coverage exists. These tests are the authoritative verification record
 for tag completeness, hierarchical parent-child awareness, YAML frontmatter equivalence, and Unicode
 tag parsing and completion.
 
@@ -33,7 +33,7 @@ tag parsing and completion.
 **Planguage Tag:** `Tag.Index.Completeness`
 **Gist:** All `#tag` occurrences in vault body text must be discovered and indexed by VaultIndex, excluding only occurrences inside fenced code blocks, indented code blocks, math blocks, and HTML comments.
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `Inline tag is indexed correctly in the vault tag registry`, `Tag inside fenced code block is NOT indexed`, `Tag inside math block is NOT indexed`
+**BDD Reference:** [[docs/ofm-spec/tags]] — `Inline tag is indexed correctly in the vault tag registry`, `Tag inside fenced code block is NOT indexed`, `Tag inside math block is NOT indexed`
 **Phase:** Phase 1
 
 **Setup:**
@@ -107,7 +107,7 @@ And (indexed body-text tags / actual body-text tags across all docs) × 100 = 10
 **Planguage Tag:** `Tag.Hierarchy.Awareness`
 **Gist:** The tag index must support hierarchical parent-tag queries such that querying `#project` also returns documents and positions tagged with `#project/active` and `#project/done`.
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `Nested tag hierarchy is preserved`
+**BDD Reference:** [[docs/ofm-spec/tags]] — `Nested tag hierarchy is preserved`
 **Phase:** Phase 1
 
 **Setup:**
@@ -181,7 +181,7 @@ Then (parent-tag requests returning complete child set / 3 parent-tag requests) 
 **Planguage Tag:** `Tag.YAML.Equivalence`
 **Gist:** Tag values declared in `tags:` YAML frontmatter must be indexed identically to the same tag value appearing as inline `#tag` syntax in the document body, with no distinction between the two sources in the tag index.
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `YAML frontmatter tags are equivalent to inline tags`
+**BDD Reference:** [[docs/ofm-spec/tags]] — `YAML frontmatter tags are equivalent to inline tags`
 **Phase:** Phase 1
 
 **Setup:**
@@ -261,7 +261,7 @@ And (YAML tag values correctly indexed as equivalent / total YAML tag values tes
 **Planguage Tag:** `Tag.Completion.Unicode`
 **Gist:** Tag completion must successfully parse and return candidates for tag names containing Unicode letters (including non-Latin scripts) and emoji characters.
 **Type:** Both
-**BDD Reference:** [[bdd/features/tags]] — `Unicode tag with emoji is indexed`; Cyrillic, Arabic, CJK, and mixed-ASCII sub-cases: **BDD gap**
+**BDD Reference:** [[docs/ofm-spec/tags]] — `Unicode tag with emoji is indexed`; Cyrillic, Arabic, CJK, and mixed-ASCII sub-cases: **BDD gap**
 **Phase:** Phase 1
 
 **Setup:**

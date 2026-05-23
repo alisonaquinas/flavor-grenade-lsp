@@ -60,21 +60,21 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Vault authors can install the extension from the VS Code Marketplace on any supported platform without building from source | [[requirements/user/index]] |
+| — | Vault authors can install the extension from the VS Code Marketplace on any supported platform without building from source | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Automated multi-platform VSIX build and publish pipeline | [[requirements/ci-cd]] |
+| — | Automated multi-platform VSIX build and publish pipeline | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -90,11 +90,11 @@ When a maintainer pushes an `ext-v*` tag, the CI/CD pipeline automatically build
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E5-ci-cd-pipeline]]
+- Phase plan: [[docs/plans/phase-E5-ci-cd-pipeline]]
 
-- ADR: [[adr/ADR015-platform-specific-vsix]]
+- ADR: [[docs/adr/ADR015-platform-specific-vsix]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -122,7 +122,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 - [ ] No new linter warnings introduced
 
-- [ ] [[plans/execution-ledger]] row for Phase E5 updated to `done`
+- [ ] [[docs/plans/execution-ledger]] row for Phase E5 updated to `done`
 
 ---
 
@@ -160,7 +160,7 @@ All 7 targets are cross-compiled on `ubuntu-latest`. Bun supports cross-compilat
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -181,7 +181,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. Phase E5 CI/CD Pipeline feature defined; all child tasks (TASK-149, TASK-150) and chore (CHORE-043) created. Blocked by FEAT-018 (Phase E4).

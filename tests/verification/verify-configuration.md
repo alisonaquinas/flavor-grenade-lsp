@@ -8,7 +8,7 @@ aliases: [Verify Configuration]
 
 ## Purpose
 
-This document covers scripted and agent-driven test cases that verify the four Planguage requirements governing the configuration system in `flavor-grenade-lsp`. The requirements address three-tier layering and override precedence, validation of the `completion.candidates` value, fault isolation when a config file is malformed, and the `core.text_sync` default. All test cases must be executed in Phase 1 after the config loader is implemented and before any feature that depends on configuration is accepted. Source requirements are in [[requirements/configuration]]; the config-loader design is in [[design/api-layer#config-loader]].
+This document covers scripted and agent-driven test cases that verify the four Planguage requirements governing the configuration system in `flavor-grenade-lsp`. The requirements address three-tier layering and override precedence, validation of the `completion.candidates` value, fault isolation when a config file is malformed, and the `core.text_sync` default. All test cases must be executed in Phase 1 after the config loader is implemented and before any feature that depends on configuration is accepted. Source requirements are in [[docs/requirements/configuration]]; the config-loader design is in [[docs/design/api-layer]].
 
 ## Requirements Covered
 
@@ -26,7 +26,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 **Planguage Tag:** `Config.Precedence.Layering`
 **Gist:** Project-level `.flavor-grenade.toml` values override user-level config values, which override built-in defaults; each layer affects only the keys it explicitly defines.
 **Type:** Both
-**BDD Reference:** **BDD gap** — no scenario in [[bdd/features/workspace]] or [[bdd/features/vault-detection]] covers multi-layer config precedence directly.
+**BDD Reference:** **BDD gap** — no scenario in [[docs/requirements/workspace]] or \[\[bdd/features/vault-detection]] covers multi-layer config precedence directly.
 **Phase:** Phase 1
 
 **Setup:** Two fixture files are required. A user-level config file sets `wiki.style = "title-slug"` and leaves `completion.candidates` unset. A project-level `.flavor-grenade.toml` sets `completion.candidates = 20` and leaves `wiki.style` unset. Built-in defaults supply `completion.candidates = 50`, `wiki.style = "file-stem"`, and `core.text_sync = "full"`.
@@ -58,7 +58,7 @@ And the effective value of "core.text_sync" is still "full"
 
 **Agent-driven steps:**
 
-1. Write the user config fixture at the platform user-config path (e.g., `~/.config/flavor-grenade/config.toml` or as directed by [[design/api-layer#config-loader]]) with only `wiki.style = "title-slug"`.
+1. Write the user config fixture at the platform user-config path (e.g., `~/.config/flavor-grenade/config.toml` or as directed by [[docs/design/api-layer]]) with only `wiki.style = "title-slug"`.
 2. Write the project fixture `.flavor-grenade.toml` in a temporary vault root with only `completion.candidates = 20`.
 3. Start the server against that vault root. Inspect the effective config via the server's debug endpoint or log output.
 4. Assert: `wiki.style = "title-slug"`, `completion.candidates = 20`, `core.text_sync = "full"`.
@@ -78,7 +78,7 @@ And the effective value of "core.text_sync" is still "full"
 **Planguage Tag:** `Config.Validation.Candidates`
 **Gist:** The `completion.candidates` value is rejected if zero, negative, or non-integer; the server silently substitutes the built-in default (50) and emits a debug log message.
 **Type:** Both
-**BDD Reference:** **BDD gap** — no scenario in [[bdd/features/workspace]] or [[bdd/features/vault-detection]] covers `completion.candidates` validation.
+**BDD Reference:** **BDD gap** — no scenario in [[docs/requirements/workspace]] or \[\[bdd/features/vault-detection]] covers `completion.candidates` validation.
 **Phase:** Phase 1
 
 **Setup:** Five project `.flavor-grenade.toml` fixtures, one per invalid value: `0`, `-1`, `-100`, `3.7`, `"fifty"`. For each, a vault root directory is prepared with at least one `.md` file containing enough `[[`-prefixed text to generate more than 50 completion candidates.
@@ -123,7 +123,7 @@ Examples:
 **Planguage Tag:** `Config.Fault.Isolation`
 **Gist:** A malformed TOML file in any configuration layer causes only that layer to be dropped; the server still reaches `initialized`, logs a debug-level parse error, and applies the remaining valid layers.
 **Type:** Both
-**BDD Reference:** **BDD gap** — no scenario in [[bdd/features/workspace]] or [[bdd/features/vault-detection]] covers malformed config fault isolation.
+**BDD Reference:** **BDD gap** — no scenario in [[docs/requirements/workspace]] or \[\[bdd/features/vault-detection]] covers malformed config fault isolation.
 **Phase:** Phase 1
 
 **Setup (scripted path):** A malformed project `.flavor-grenade.toml` fixture with deliberate TOML syntax errors (unclosed quote, invalid separator). A valid user config file with at least two keys set (`wiki.style` and `completion.candidates`). Both files present when the server starts.
@@ -177,7 +177,7 @@ And the effective value uses the project config despite the malformed user file
 **Planguage Tag:** `Config.TextSync.Default`
 **Gist:** When `core.text_sync` is absent from all configuration layers, the server advertises `TextDocumentSyncKind.Full` (value 1) in its `initialize` response.
 **Type:** Both
-**BDD Reference:** **BDD gap** — no scenario in [[bdd/features/workspace]] or [[bdd/features/vault-detection]] covers `core.text_sync` defaulting.
+**BDD Reference:** **BDD gap** — no scenario in [[docs/requirements/workspace]] or \[\[bdd/features/vault-detection]] covers `core.text_sync` defaulting.
 **Phase:** Phase 1
 
 **Setup:** Three distinct startup configurations, none of which defines `core.text_sync`: (1) no user config, no project config; (2) user config present with other keys but no `core.text_sync`; (3) project config present as an empty file.

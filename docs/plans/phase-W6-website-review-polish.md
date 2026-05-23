@@ -1,7 +1,7 @@
 ---
 title: "Phase W6: Website Review Polish"
 phase: W6
-status: in-progress
+status: complete
 tags: [plans, website, visual-polish, accessibility, review]
 aliases: [Phase W6, Website Review Polish]
 updated: 2026-05-09
@@ -13,7 +13,7 @@ updated: 2026-05-09
 |---|---|
 | Phase | W6 |
 | Title | Website Review Polish |
-| Status | in-progress |
+| Status | complete |
 | Gate | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop |
 | Depends on | Phase W5 implementation review state |
 
@@ -27,12 +27,12 @@ responsive spacing, and image reliability rather than new content scope.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[../website/docs/requirements/design/index]] | Apply homepage and footer visual feedback requirements |
-| [[../website/docs/requirements/functional/product-identity-assets]] | Ensure product images and screenshots render without broken icons |
-| [[../website/docs/requirements/functional/theme-modes]] | Replace the segmented theme mode control with a compact icon toggle |
-| [[../website/docs/requirements/functional/attribution]] | Add recognizable icons to footer creator and project links |
-| [[../website/docs/requirements/user/accessibility-and-usability]] | Preserve accessible names, spacing, and keyboard support |
-| [[../website/docs/requirements/user/homepage]] | Improve CTA iconography and stacked mobile button widths |
+| [requirements/design/index](../../website/docs/requirements/design/index.md) | Apply homepage and footer visual feedback requirements |
+| [requirements/functional/product-identity-assets](../../website/docs/requirements/functional/product-identity-assets.md) | Ensure product images and screenshots render without broken icons |
+| [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md) | Replace the segmented theme mode control with a compact icon toggle |
+| [requirements/functional/attribution](../../website/docs/requirements/functional/attribution.md) | Add recognizable icons to footer creator and project links |
+| [requirements/user/accessibility-and-usability](../../website/docs/requirements/user/accessibility-and-usability.md) | Preserve accessible names, spacing, and keyboard support |
+| [requirements/user/homepage](../../website/docs/requirements/user/homepage.md) | Improve CTA iconography and stacked mobile button widths |
 
 ## Scope
 
@@ -116,29 +116,32 @@ or missing icon affordances.
 > Captured Playwright screenshots through Microsoft Edge at `413x730`,
 > full-page mobile, and `1280x900` desktop. Reviewed regions show loaded
 > product/proof images, compact theme control, collapsed mobile navigation,
-> iconified CTAs, and readable footer spacing. PR intentionally not opened yet
-> per review instruction.
+> iconified CTAs, and readable footer spacing. PR #58 merged with green CI.
 
 ## Tickets
 
-- [[plans/phase-W6-website-review-polish/FEAT-039]]
-- [[plans/phase-W6-website-review-polish/TASK-229]]
-- [[plans/phase-W6-website-review-polish/TASK-230]]
-- [[plans/phase-W6-website-review-polish/TASK-231]]
-- [[plans/phase-W6-website-review-polish/TASK-232]]
-- [[plans/phase-W6-website-review-polish/TASK-233]]
-- [[plans/phase-W6-website-review-polish/TASK-234]]
-- [[plans/phase-W6-website-review-polish/TASK-235]]
-- [[plans/phase-W6-website-review-polish/TASK-236]]
-- [[plans/phase-W6-website-review-polish/TASK-237]]
-- [[plans/phase-W6-website-review-polish/TASK-238]]
-- [[plans/phase-W6-website-review-polish/CHORE-092]]
-- [[plans/phase-W6-website-review-polish/CHORE-093]]
+- [[docs/plans/phase-W6-website-review-polish/FEAT-039]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-229]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-230]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-231]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-232]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-233]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-234]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-235]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-236]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-237]]
+- [[docs/plans/phase-W6-website-review-polish/TASK-238]]
+- [[docs/plans/phase-W6-website-review-polish/CHORE-092]]
+- [[docs/plans/phase-W6-website-review-polish/CHORE-093]]
 
 ## Related
 
-- [[../website/docs/requirements/design/index]]
-- [[../website/docs/requirements/functional/product-identity-assets]]
-- [[../website/docs/requirements/functional/theme-modes]]
-- [[../website/docs/requirements/functional/attribution]]
-- [[../website/docs/requirements/user/homepage]]
+- [requirements/design/index](../../website/docs/requirements/design/index.md)
+- [requirements/functional/product-identity-assets](../../website/docs/requirements/functional/product-identity-assets.md)
+- [requirements/functional/theme-modes](../../website/docs/requirements/functional/theme-modes.md)
+- [requirements/functional/attribution](../../website/docs/requirements/functional/attribution.md)
+- [requirements/user/homepage](../../website/docs/requirements/user/homepage.md)
+
+> [!SUCCESS] PR #58 CI · 2026-05-09
+> PR #58 merged. Website checks, tests, typecheck, lint, docs lint, and build
+> passed for the W6 implementation branch.

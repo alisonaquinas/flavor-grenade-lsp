@@ -49,7 +49,7 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Comprehensive completion across all OFM construct types | [[requirements/user/index]] |
+| — | Comprehensive completion across all OFM construct types | [[docs/requirements/user/index]] |
 
 ---
 
@@ -57,8 +57,8 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Completion provider requirements | [[requirements/completions]] |
-| — | Configuration requirements for linkStyle and candidates cap | [[requirements/configuration]] |
+| — | Completion provider requirements | [[docs/requirements/completions]] |
+| — | Configuration requirements for linkStyle and candidates cap | [[docs/requirements/configuration]] |
 
 ---
 
@@ -72,8 +72,8 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-09-completions]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-09-completions]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -82,10 +82,10 @@ Vault authors gain a comprehensive, context-aware completion experience across e
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] All scenarios in `completions.feature` pass in CI
-- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]])
+- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[docs/test/matrix]]
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
+- [ ] Phase gate command passes in CI (see [[docs/plans/execution-ledger]])
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -129,13 +129,13 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ADR references:
 
-- [[adr/ADR005-wiki-style-binding]] — `linkStyle` configuration and insert text formatting rules
+- [[docs/adr/ADR005-wiki-style-binding]] — `linkStyle` configuration and insert text formatting rules
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -156,7 +156,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

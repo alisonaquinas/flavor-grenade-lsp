@@ -47,7 +47,7 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Block reference navigation and diagnostics | [[requirements/user/index]] |
+| — | Block reference navigation and diagnostics | [[docs/requirements/user/index]] |
 
 ---
 
@@ -55,7 +55,7 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Block reference requirements defined in Phase 8 | [[requirements/block-references]] |
+| — | Block reference requirements defined in Phase 8 | [[docs/requirements/block-references]] |
 
 ---
 
@@ -69,8 +69,8 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-08-block-refs]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-08-block-refs]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -79,10 +79,10 @@ Vault authors gain the ability to link directly to named paragraphs or list item
 All of the following must be true before this ticket is marked `done`. The LLM agent checks each item when transitioning to `in-review`.
 
 - [ ] All scenarios in `block-references.feature` pass in CI
-- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]])
+- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[docs/test/matrix]]
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
+- [ ] Phase gate command passes in CI (see [[docs/plans/execution-ledger]])
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -123,13 +123,13 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ADR references:
 
-- [[adr/ADR006-block-ref-indexing]] — block anchor ID format constraints and indexing strategy
+- [[docs/adr/ADR006-block-ref-indexing]] — block anchor ID format constraints and indexing strategy
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -150,7 +150,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

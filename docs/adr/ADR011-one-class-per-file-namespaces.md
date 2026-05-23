@@ -11,7 +11,7 @@ date: 2026-04-16
 
 NestJS projects commonly begin with a handful of focused files but accumulate logic over time into large service files containing multiple exported classes, utility functions, and type definitions. A single `vault.service.ts` that grows to contain `VaultService`, `VaultIndexer`, `VaultWatcher`, and `VaultCacheManager` becomes a high-change-frequency file with a wide blast radius: every feature touching the vault domain modifies the same file, merge conflicts increase, and code review diffs are hard to scope.
 
-SOLID's Single Responsibility Principle states that a class should have one reason to change. High Coherence (see [[requirements/code-quality]]) requires that the elements of a module be strongly related in purpose. Both principles point toward small, focused files with narrow interfaces.
+SOLID's Single Responsibility Principle states that a class should have one reason to change. High Coherence (see [[docs/requirements/code-quality]]) requires that the elements of a module be strongly related in purpose. Both principles point toward small, focused files with narrow interfaces.
 
 TypeScript offers two competing organisational tools for grouping related declarations:
 
@@ -21,7 +21,7 @@ TypeScript offers two competing organisational tools for grouping related declar
 
 The NestJS module system already enforces bounded contexts at the framework level via `@Module()` decorators. Each `@Module()` owns a set of `providers`, `imports`, and `exports`. Over-populating a single module file with multiple service classes defeats the framework's organisational model.
 
-The five bounded contexts identified in the DDD model (see [[ddd/bounded-contexts]]) are: `lsp`, `parser`, `vault`, `reference`, and `config`. These map directly to the five top-level directories under `src/`.
+The five bounded contexts identified in the DDD model (see [[docs/ddd/bounded-contexts]]) are: `lsp`, `parser`, `vault`, `reference`, and `config`. These map directly to the five top-level directories under `src/`.
 
 ## Decision
 
@@ -65,7 +65,7 @@ The rules, in order of precedence:
 
 ## Related
 
-- [[ddd/bounded-contexts]]
-- [[architecture/layers]]
-- [[requirements/code-quality]]
-- [[adr/ADR009-precommit-hooks-zero-warnings]]
+- [[docs/ddd/bounded-contexts]]
+- [[docs/architecture/layers]]
+- [[docs/requirements/code-quality]]
+- [[docs/adr/ADR009-precommit-hooks-zero-warnings]]

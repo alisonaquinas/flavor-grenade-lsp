@@ -127,8 +127,8 @@ NestJS detects circular imports at startup and throws an error with the cycle li
 
 ## Cross-References
 
-- [[architecture/overview]] — High-level system description and design principles
-- [[architecture/data-flow]] — Runtime data flow through these layers
-- [[ddd/bounded-contexts]] — DDD mapping of these modules to bounded contexts
-- [[concepts/document-model]] — OFMDoc internals
-- [[concepts/connection-graph]] — RefGraph and Oracle internals
+- [[docs/architecture/overview]] — High-level system description and design principles
+- [[docs/architecture/data-flow]] — Runtime data flow through these layers
+- [[docs/ddd/bounded-contexts]] — DDD mapping of these modules to bounded contexts
+- [[docs/concepts/document-model]] — OFMDoc internals
+- [[docs/concepts/connection-graph]] — RefGraph and Oracle internals

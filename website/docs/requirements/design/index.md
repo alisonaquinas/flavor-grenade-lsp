@@ -101,6 +101,16 @@ Secondary navigation may expose:
 - Releases or changelog
 - GitHub repository
 
+Desktop navigation must expose hover and focus dropdowns for section hubs:
+
+- How-To dropdown links to how-to article pages.
+- Concepts dropdown links to concept article pages.
+- Advanced Usage dropdown links to advanced-topic article pages.
+
+Dropdowns must be keyboard reachable, pointer reachable, and must not replace
+the parent hub link. Mobile navigation may expose the same subpage links through
+an expanded menu structure rather than hover behavior.
+
 Docs pages must support breadcrumb context or a visible section marker so users
 never lose their place.
 
@@ -110,9 +120,12 @@ never lose their place.
 | --- | --- | --- |
 | Homepage | Explain product and route users. | Hero, primary CTAs, product demo visual, feature overview, install paths, docs links. |
 | Quickstart | Get users to first success. | Prerequisites, install path, copyable commands, verification, first workflows. |
-| How-to | Complete one task. | Goal, when to use, steps, expected result, common failure, concept link. |
-| Concept | Teach one mental model. | Definition, why it matters, example, related concepts, related tasks. |
-| Advanced | Explain deep behavior. | Configuration, integration boundaries, safety model, current vs planned behavior. |
+| How-to hub | Route users to task articles. | Workflow groups, linked article list, short summaries, setup-first ordering. |
+| How-to article | Complete one task. | Goal, when to use, steps, expected result, common failure, concept link. |
+| Concept hub | Route users to wiki articles. | Linked concept list, short questions, maintainer-oriented concept links. |
+| Concept article | Teach one mental model. | Definition, why it matters, example, related concepts, related tasks. |
+| Advanced hub | Route users to deep topics. | Linked advanced-topic list, boundaries, configuration, performance, safety. |
+| Advanced article | Explain deep behavior. | Configuration, integration boundaries, safety model, current vs planned behavior. |
 | FAQ | Answer objections. | Direct questions, direct answers, links to next steps. |
 
 ## Visual Direction
@@ -297,6 +310,10 @@ Docs pages:
 
 - Use a readable content column.
 - Provide local navigation for page groups.
+- Hub pages must use linked article lists instead of static bullets when the
+  items represent subpage topics.
+- How-to, Concepts, and Advanced Usage hubs must link each topic heading or list
+  item to a deeper article page.
 - Keep command and code examples visually stable.
 - Use accordions only for progressive detail, not for essential setup steps.
 - Avoid nested cards.
@@ -322,6 +339,7 @@ Named rule:
 Required components:
 
 - Sticky header with desktop navigation.
+- Desktop dropdown navigation for How-To, Concepts, and Advanced Usage.
 - Mobile navigation menu.
 - Narrow-view hamburger navigation control.
 - Compact theme mode control: light, dark, system available through one icon
@@ -416,6 +434,8 @@ Footer layout:
 - Copy buttons must preserve selectable command text.
 - Copy feedback must be visible and announced accessibly.
 - Menus and accordions must be keyboard usable.
+- Desktop dropdown menus must open on hover and focus, support keyboard
+  traversal, and keep parent navigation links available.
 - Theme changes must preserve focus.
 - Hover styles must have equivalent focus styles.
 - Motion must be subtle and purposeful.
@@ -451,7 +471,7 @@ Do not use em dashes in public-facing website copy.
 
 ## SEO And Metadata Requirements
 
-Every page must support the SEO requirements in [[../user/seo-discovery]].
+Every page must support the SEO requirements in [[website/docs/requirements/user/seo-discovery]].
 
 Design must make SEO content visible and useful rather than hiding it in
 metadata only:

@@ -1,11 +1,12 @@
 import type { Range } from 'vscode-languageserver-types';
+import type { MarkdownFlavorId } from '../markdown-flavor/markdown-flavor-contract.js';
 
 /**
  * A region of document text that should be treated as opaque (not parsed for
  * OFM tokens). Covers comments, math blocks, and code spans/blocks.
  */
 export interface OpaqueRegion {
-  kind: 'comment' | 'math' | 'code' | 'templater';
+  kind: 'comment' | 'math' | 'code' | 'templater' | 'mdx-esm' | 'mdx-jsx' | 'mdx-expression';
   /** Absolute character offset of the opening delimiter (inclusive). */
   start: number;
   /** Absolute character offset of the closing delimiter (exclusive). */
@@ -179,6 +180,436 @@ export interface LinkLabelDef {
   titleRange?: Range;
 }
 
+/** A GFM pipe table block. */
+export interface GfmTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  range: Range;
+}
+
+/** A pipe-table-looking block rejected by GFM table shape rules. */
+export interface GfmMalformedTableEntry {
+  raw: string;
+  headerCells: string[];
+  delimiterCells: string[];
+  range: Range;
+}
+
+/** A GFM task list item marker and text. */
+export interface GfmTaskListItemEntry {
+  raw: string;
+  checked: boolean;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GFM strikethrough span. */
+export interface GfmStrikethroughEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A GFM extended bare autolink. */
+export interface GfmAutolinkEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A GLFM inapplicable task list item marker and text. */
+export interface GlfmInapplicableTaskListItemEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A GLFM description list block. */
+export interface GlfmDescriptionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A description-list-looking block rejected by GLFM shape rules. */
+export interface GlfmMalformedDescriptionListEntry {
+  raw: string;
+  term: string;
+  range: Range;
+}
+
+/** A GLFM footnote definition. */
+export interface GlfmFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A GLFM table-of-contents tag. */
+export interface GlfmTocTagEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A GLFM host-scoped reference that must not become a local vault target. */
+export interface GlfmHostReferenceEntry {
+  raw: string;
+  kind: 'issue' | 'merge-request' | 'epic' | 'user' | 'cross-project';
+  range: Range;
+}
+
+/** Parsed Pandoc attribute contents. */
+export interface PandocAttributeSet {
+  id?: string;
+  classes: string[];
+  keyValues: Record<string, string>;
+}
+
+/** A Pandoc title block made of leading `%` metadata lines. */
+export interface PandocTitleBlockEntry {
+  raw: string;
+  lines: number;
+  range: Range;
+}
+
+/** A Pandoc citation key occurrence. */
+export interface PandocCitationEntry {
+  raw: string;
+  key: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A Pandoc footnote definition. */
+export interface PandocFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A Pandoc attribute block attached to source syntax. */
+export interface PandocAttributeEntry extends PandocAttributeSet {
+  raw: string;
+  range: Range;
+}
+
+/** A malformed Pandoc attribute block. */
+export interface PandocMalformedAttributeEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Pandoc fenced Div block. */
+export interface PandocFencedDivEntry {
+  raw: string;
+  attributes: PandocAttributeSet;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A Pandoc definition list block. */
+export interface PandocDefinitionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A leading MultiMarkdown metadata key/value row. */
+export interface MultimarkdownMetadataEntry {
+  raw: string;
+  key: string;
+  value: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A malformed leading MultiMarkdown metadata row. */
+export interface MultimarkdownMalformedMetadataEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A MultiMarkdown table block with optional caption label. */
+export interface MultimarkdownTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  label?: string;
+  range: Range;
+  labelRange?: Range;
+}
+
+/** A MultiMarkdown footnote definition. */
+export interface MultimarkdownFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A MultiMarkdown bibliography entry or citation key definition. */
+export interface MultimarkdownCitationEntry {
+  raw: string;
+  key: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A MultiMarkdown cross-reference occurrence. */
+export interface MultimarkdownCrossReferenceEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A MultiMarkdown label attached to a heading, table, figure, or block. */
+export interface MultimarkdownLabelEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A MultiMarkdown abbreviation or glossary-style definition. */
+export interface MultimarkdownAbbreviationEntry {
+  raw: string;
+  label: string;
+  value: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** An MDX ESM import or export declaration. */
+export interface MdxEsmDeclarationEntry {
+  raw: string;
+  kind: 'import' | 'export';
+  name: string;
+  source?: string;
+  range: Range;
+  nameRange: Range;
+}
+
+/** An MDX JSX element or component reference. */
+export interface MdxJsxElementEntry {
+  raw: string;
+  name: string;
+  range: Range;
+  nameRange: Range;
+}
+
+/** An MDX expression island. */
+export interface MdxExpressionEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A malformed MDX boundary that cannot be safely interpreted. */
+export interface MdxMalformedBoundaryEntry {
+  raw: string;
+  reason: string;
+  range: Range;
+}
+
+/** Parsed kramdown attribute list contents. */
+export interface KramdownAttributeEntry {
+  raw: string;
+  id?: string;
+  classes: string[];
+  keyValues: Record<string, string>;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A malformed kramdown attribute list. */
+export interface KramdownMalformedAttributeEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A kramdown definition list block. */
+export interface KramdownDefinitionListEntry {
+  raw: string;
+  term: string;
+  definitionCount: number;
+  range: Range;
+}
+
+/** A kramdown pipe table block. */
+export interface KramdownTableEntry {
+  raw: string;
+  headerCells: string[];
+  rowCount: number;
+  range: Range;
+}
+
+/** A kramdown footnote definition. */
+export interface KramdownFootnoteEntry {
+  raw: string;
+  label: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A kramdown math block delimited by $$ lines. */
+export interface KramdownMathBlockEntry {
+  raw: string;
+  range: Range;
+}
+
+export type MarkdownExtraAttributeEntry = KramdownAttributeEntry;
+export type MarkdownExtraMalformedAttributeEntry = KramdownMalformedAttributeEntry;
+export type MarkdownExtraDefinitionListEntry = KramdownDefinitionListEntry;
+export type MarkdownExtraTableEntry = KramdownTableEntry;
+export type MarkdownExtraFootnoteEntry = KramdownFootnoteEntry;
+
+/** A Markdown Extra abbreviation definition. */
+export interface MarkdownExtraAbbreviationEntry {
+  raw: string;
+  label: string;
+  value: string;
+  range: Range;
+  labelRange: Range;
+}
+
+/** A Markdown Extra fenced code block with optional attribute language. */
+export interface MarkdownExtraFencedCodeBlockEntry {
+  raw: string;
+  language?: string;
+  range: Range;
+  markerRange: Range;
+}
+
+/** A top-level R Markdown YAML metadata key/value row. */
+export interface RMarkdownMetadataEntry {
+  raw: string;
+  key: string;
+  value?: string;
+  range: Range;
+  keyRange: Range;
+}
+
+/** A fenced R Markdown executable chunk header and source block. */
+export interface RMarkdownChunkEntry {
+  raw: string;
+  engine: string;
+  label?: string;
+  options: Record<string, string>;
+  range: Range;
+  headerRange: Range;
+  engineRange: Range;
+  labelRange?: Range;
+  optionRanges: Range[];
+}
+
+/** An inline R Markdown expression marker. */
+export interface RMarkdownInlineExpressionEntry {
+  raw: string;
+  expression: string;
+  range: Range;
+  expressionRange: Range;
+}
+
+/** A malformed R Markdown chunk opening line. */
+export interface RMarkdownMalformedChunkEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Reddit spoiler span delimited by >! and !<. */
+export interface RedditSpoilerEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A Reddit superscript span written as ^word or ^(words). */
+export interface RedditSuperscriptEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+export type RedditStrikethroughEntry = GfmStrikethroughEntry;
+export type RedditTableEntry = GfmTableEntry;
+
+/** A Reddit host reference that must stay non-local. */
+export interface RedditHostReferenceEntry {
+  raw: string;
+  kind: 'subreddit' | 'user';
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** An ordered-list marker accepted by new Reddit but not old Reddit. */
+export interface RedditOldRedditIncompatibleListEntry {
+  raw: string;
+  range: Range;
+}
+
+/** A Reddit Markdown link with a locally unsafe URL scheme. */
+export interface RedditUnsafeLinkEntry {
+  raw: string;
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A Stack Exchange tag or meta-tag reference. */
+export interface StackOverflowTagReferenceEntry {
+  raw: string;
+  kind: 'tag' | 'meta-tag';
+  target: string;
+  range: Range;
+  targetRange: Range;
+}
+
+/** A Stack Overflow spoiler blockquote line. */
+export interface StackOverflowSpoilerEntry {
+  raw: string;
+  text: string;
+  range: Range;
+  textRange: Range;
+}
+
+/** A Stack Overflow syntax-highlighting HTML comment directive. */
+export interface StackOverflowLanguageDirectiveEntry {
+  raw: string;
+  scope: 'all' | 'next-block';
+  language: string;
+  range: Range;
+  languageRange: Range;
+}
+
+/** A Stack Overflow fenced code opener with a language hint. */
+export interface StackOverflowFencedCodeBlockEntry {
+  raw: string;
+  language: string;
+  range: Range;
+  languageRange: Range;
+}
+
+export type StackOverflowTableEntry = GfmTableEntry;
+
+/** A Stack Overflow language directive with a non-portable language value. */
+export interface StackOverflowMalformedLanguageDirectiveEntry {
+  raw: string;
+  range: Range;
+  languageRange: Range;
+}
+
 /**
  * The index of OFM-specific tokens extracted from a document.
  */
@@ -193,6 +624,66 @@ export interface OFMIndex {
   markdownImages: MarkdownImageRef[];
   linkLabelRefs: LinkLabelRef[];
   linkLabelDefs: LinkLabelDef[];
+  gfmTables?: GfmTableEntry[];
+  gfmMalformedTables?: GfmMalformedTableEntry[];
+  gfmTaskListItems?: GfmTaskListItemEntry[];
+  gfmStrikethroughs?: GfmStrikethroughEntry[];
+  gfmAutolinks?: GfmAutolinkEntry[];
+  glfmInapplicableTaskListItems?: GlfmInapplicableTaskListItemEntry[];
+  glfmDescriptionLists?: GlfmDescriptionListEntry[];
+  glfmMalformedDescriptionLists?: GlfmMalformedDescriptionListEntry[];
+  glfmFootnotes?: GlfmFootnoteEntry[];
+  glfmTocTags?: GlfmTocTagEntry[];
+  glfmHostReferences?: GlfmHostReferenceEntry[];
+  pandocTitleBlocks?: PandocTitleBlockEntry[];
+  pandocCitations?: PandocCitationEntry[];
+  pandocFootnotes?: PandocFootnoteEntry[];
+  pandocAttributes?: PandocAttributeEntry[];
+  pandocMalformedAttributes?: PandocMalformedAttributeEntry[];
+  pandocFencedDivs?: PandocFencedDivEntry[];
+  pandocDefinitionLists?: PandocDefinitionListEntry[];
+  multimarkdownMetadata?: MultimarkdownMetadataEntry[];
+  multimarkdownMalformedMetadata?: MultimarkdownMalformedMetadataEntry[];
+  multimarkdownTables?: MultimarkdownTableEntry[];
+  multimarkdownFootnotes?: MultimarkdownFootnoteEntry[];
+  multimarkdownCitations?: MultimarkdownCitationEntry[];
+  multimarkdownCrossReferences?: MultimarkdownCrossReferenceEntry[];
+  multimarkdownLabels?: MultimarkdownLabelEntry[];
+  multimarkdownAbbreviations?: MultimarkdownAbbreviationEntry[];
+  mdxEsmDeclarations?: MdxEsmDeclarationEntry[];
+  mdxJsxElements?: MdxJsxElementEntry[];
+  mdxExpressions?: MdxExpressionEntry[];
+  mdxMalformedBoundaries?: MdxMalformedBoundaryEntry[];
+  kramdownAttributes?: KramdownAttributeEntry[];
+  kramdownMalformedAttributes?: KramdownMalformedAttributeEntry[];
+  kramdownDefinitionLists?: KramdownDefinitionListEntry[];
+  kramdownTables?: KramdownTableEntry[];
+  kramdownFootnotes?: KramdownFootnoteEntry[];
+  kramdownMathBlocks?: KramdownMathBlockEntry[];
+  markdownExtraAttributes?: MarkdownExtraAttributeEntry[];
+  markdownExtraMalformedAttributes?: MarkdownExtraMalformedAttributeEntry[];
+  markdownExtraDefinitionLists?: MarkdownExtraDefinitionListEntry[];
+  markdownExtraTables?: MarkdownExtraTableEntry[];
+  markdownExtraFootnotes?: MarkdownExtraFootnoteEntry[];
+  markdownExtraAbbreviations?: MarkdownExtraAbbreviationEntry[];
+  markdownExtraFencedCodeBlocks?: MarkdownExtraFencedCodeBlockEntry[];
+  rMarkdownMetadata?: RMarkdownMetadataEntry[];
+  rMarkdownChunks?: RMarkdownChunkEntry[];
+  rMarkdownInlineExpressions?: RMarkdownInlineExpressionEntry[];
+  rMarkdownMalformedChunks?: RMarkdownMalformedChunkEntry[];
+  redditSpoilers?: RedditSpoilerEntry[];
+  redditSuperscripts?: RedditSuperscriptEntry[];
+  redditStrikethroughs?: RedditStrikethroughEntry[];
+  redditTables?: RedditTableEntry[];
+  redditHostReferences?: RedditHostReferenceEntry[];
+  redditOldRedditIncompatibleLists?: RedditOldRedditIncompatibleListEntry[];
+  redditUnsafeLinks?: RedditUnsafeLinkEntry[];
+  stackOverflowTagReferences?: StackOverflowTagReferenceEntry[];
+  stackOverflowSpoilers?: StackOverflowSpoilerEntry[];
+  stackOverflowLanguageDirectives?: StackOverflowLanguageDirectiveEntry[];
+  stackOverflowFencedCodeBlocks?: StackOverflowFencedCodeBlockEntry[];
+  stackOverflowTables?: StackOverflowTableEntry[];
+  stackOverflowMalformedLanguageDirectives?: StackOverflowMalformedLanguageDirectiveEntry[];
 }
 
 /**
@@ -225,4 +716,12 @@ export interface OFMDoc {
   opaqueRegions: OpaqueRegion[];
   /** Token index for this document. */
   index: OFMIndex;
+  /** Effective Markdown flavor used for this parse. */
+  markdownFlavor: MarkdownFlavorId;
+  /** Parse context metadata consumed by flavor-aware analysis. */
+  parseContext: ParseContext;
+}
+
+export interface ParseContext {
+  effectiveFlavor: MarkdownFlavorId;
 }

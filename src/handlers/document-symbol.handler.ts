@@ -6,6 +6,9 @@ import type { HeadingEntry } from '../parser/types.js';
 
 const SYMBOL_KIND_MODULE = 2; // SymbolKind.Module (used for headings)
 const SYMBOL_KIND_KEY = 20; // SymbolKind.Key (used for block anchors)
+const SYMBOL_KIND_ARRAY = 18; // SymbolKind.Array (used for table regions)
+const SYMBOL_KIND_BOOLEAN = 17; // SymbolKind.Boolean (used for task items)
+const SYMBOL_KIND_STRING = 15; // SymbolKind.String (used for inline flavor markers)
 
 interface DocumentSymbol {
   name: string;
@@ -36,8 +39,70 @@ export class DocumentSymbolHandler {
 
     const headings = doc.index.headings;
     const anchors = doc.index.blockAnchors;
+    const gfmTables = doc.index.gfmTables ?? [];
+    const gfmTasks = doc.index.gfmTaskListItems ?? [];
+    const glfmDescriptionLists = doc.index.glfmDescriptionLists ?? [];
+    const glfmTocTags = doc.index.glfmTocTags ?? [];
+    const pandocTitleBlocks = doc.index.pandocTitleBlocks ?? [];
+    const pandocAttributes = doc.index.pandocAttributes ?? [];
+    const pandocFootnotes = doc.index.pandocFootnotes ?? [];
+    const multimarkdownMetadata = doc.index.multimarkdownMetadata ?? [];
+    const multimarkdownLabels = doc.index.multimarkdownLabels ?? [];
+    const multimarkdownCitations = doc.index.multimarkdownCitations ?? [];
+    const multimarkdownFootnotes = doc.index.multimarkdownFootnotes ?? [];
+    const mdxEsmDeclarations = doc.index.mdxEsmDeclarations ?? [];
+    const mdxJsxElements = doc.index.mdxJsxElements ?? [];
+    const mdxExpressions = doc.index.mdxExpressions ?? [];
+    const kramdownAttributes = doc.index.kramdownAttributes ?? [];
+    const kramdownDefinitionLists = doc.index.kramdownDefinitionLists ?? [];
+    const kramdownTables = doc.index.kramdownTables ?? [];
+    const kramdownFootnotes = doc.index.kramdownFootnotes ?? [];
+    const markdownExtraAttributes = doc.index.markdownExtraAttributes ?? [];
+    const markdownExtraDefinitionLists = doc.index.markdownExtraDefinitionLists ?? [];
+    const markdownExtraTables = doc.index.markdownExtraTables ?? [];
+    const markdownExtraFootnotes = doc.index.markdownExtraFootnotes ?? [];
+    const markdownExtraAbbreviations = doc.index.markdownExtraAbbreviations ?? [];
+    const rMarkdownChunks = doc.index.rMarkdownChunks ?? [];
+    const rMarkdownInlineExpressions = doc.index.rMarkdownInlineExpressions ?? [];
+    const redditTables = doc.index.redditTables ?? [];
+    const redditHostReferences = doc.index.redditHostReferences ?? [];
+    const stackOverflowTables = doc.index.stackOverflowTables ?? [];
+    const stackOverflowTagReferences = doc.index.stackOverflowTagReferences ?? [];
 
-    if (headings.length === 0 && anchors.length === 0) return [];
+    if (
+      headings.length === 0 &&
+      anchors.length === 0 &&
+      gfmTables.length === 0 &&
+      gfmTasks.length === 0 &&
+      glfmDescriptionLists.length === 0 &&
+      glfmTocTags.length === 0 &&
+      pandocTitleBlocks.length === 0 &&
+      pandocAttributes.length === 0 &&
+      pandocFootnotes.length === 0 &&
+      multimarkdownMetadata.length === 0 &&
+      multimarkdownLabels.length === 0 &&
+      multimarkdownCitations.length === 0 &&
+      multimarkdownFootnotes.length === 0 &&
+      mdxEsmDeclarations.length === 0 &&
+      mdxJsxElements.length === 0 &&
+      mdxExpressions.length === 0 &&
+      kramdownAttributes.length === 0 &&
+      kramdownDefinitionLists.length === 0 &&
+      kramdownTables.length === 0 &&
+      kramdownFootnotes.length === 0 &&
+      markdownExtraAttributes.length === 0 &&
+      markdownExtraDefinitionLists.length === 0 &&
+      markdownExtraTables.length === 0 &&
+      markdownExtraFootnotes.length === 0 &&
+      markdownExtraAbbreviations.length === 0 &&
+      rMarkdownChunks.length === 0 &&
+      rMarkdownInlineExpressions.length === 0 &&
+      redditTables.length === 0 &&
+      redditHostReferences.length === 0 &&
+      stackOverflowTables.length === 0 &&
+      stackOverflowTagReferences.length === 0
+    )
+      return [];
 
     // Build heading symbols with nesting
     const roots: DocumentSymbol[] = [];
@@ -88,7 +153,331 @@ export class DocumentSymbolHandler {
       }
     }
 
+    for (const table of gfmTables) {
+      const symbol: DocumentSymbol = {
+        name: `GFM table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const task of gfmTasks) {
+      const symbol: DocumentSymbol = {
+        name: `Task: ${task.text}`,
+        kind: SYMBOL_KIND_BOOLEAN,
+        range: task.range,
+        selectionRange: task.markerRange,
+      };
+      this.addSymbolAtLine(symbol, task.range.start.line, headings, roots);
+    }
+
+    for (const list of glfmDescriptionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Description: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const toc of glfmTocTags) {
+      const symbol: DocumentSymbol = {
+        name: 'GitLab table of contents',
+        kind: SYMBOL_KIND_STRING,
+        range: toc.range,
+        selectionRange: toc.range,
+      };
+      this.addSymbolAtLine(symbol, toc.range.start.line, headings, roots);
+    }
+
+    for (const block of pandocTitleBlocks) {
+      roots.unshift({
+        name: 'Pandoc metadata',
+        kind: SYMBOL_KIND_STRING,
+        range: block.range,
+        selectionRange: block.range,
+      });
+    }
+
+    for (const attribute of pandocAttributes) {
+      if (attribute.id === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `Pandoc label: ${attribute.id}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.range,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const footnote of pandocFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    if (multimarkdownMetadata.length > 0) {
+      const first = multimarkdownMetadata[0];
+      const last = multimarkdownMetadata[multimarkdownMetadata.length - 1];
+      roots.unshift({
+        name: 'MultiMarkdown metadata',
+        kind: SYMBOL_KIND_STRING,
+        range: { start: first.range.start, end: last.range.end },
+        selectionRange: first.keyRange,
+      });
+    }
+
+    for (const label of multimarkdownLabels) {
+      const symbol: DocumentSymbol = {
+        name: `MultiMarkdown label: ${label.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: label.range,
+        selectionRange: label.labelRange,
+      };
+      this.addSymbolAtLine(symbol, label.range.start.line, headings, roots);
+    }
+
+    for (const citation of multimarkdownCitations) {
+      const symbol: DocumentSymbol = {
+        name: `Citation: ${citation.key}`,
+        kind: SYMBOL_KIND_KEY,
+        range: citation.range,
+        selectionRange: citation.keyRange,
+      };
+      this.addSymbolAtLine(symbol, citation.range.start.line, headings, roots);
+    }
+
+    for (const footnote of multimarkdownFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const declaration of mdxEsmDeclarations) {
+      const symbol: DocumentSymbol = {
+        name: `MDX ${declaration.kind}: ${declaration.name}`,
+        kind: SYMBOL_KIND_STRING,
+        range: declaration.range,
+        selectionRange: declaration.nameRange,
+      };
+      this.addSymbolAtLine(symbol, declaration.range.start.line, headings, roots);
+    }
+
+    for (const element of mdxJsxElements) {
+      const symbol: DocumentSymbol = {
+        name: `MDX component: ${element.name}`,
+        kind: SYMBOL_KIND_MODULE,
+        range: element.range,
+        selectionRange: element.nameRange,
+      };
+      this.addSymbolAtLine(symbol, element.range.start.line, headings, roots);
+    }
+
+    for (const expression of mdxExpressions) {
+      const symbol: DocumentSymbol = {
+        name: 'MDX expression',
+        kind: SYMBOL_KIND_STRING,
+        range: expression.range,
+        selectionRange: expression.range,
+      };
+      this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
+    }
+
+    for (const attribute of kramdownAttributes) {
+      const label =
+        attribute.id !== undefined
+          ? attribute.id
+          : attribute.classes.length > 0
+            ? `.${attribute.classes[0]}`
+            : undefined;
+      if (label === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `kramdown attribute: ${label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.markerRange,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const list of kramdownDefinitionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Definition: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const table of kramdownTables) {
+      const symbol: DocumentSymbol = {
+        name: `kramdown table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const footnote of kramdownFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const attribute of markdownExtraAttributes) {
+      const label =
+        attribute.id !== undefined
+          ? attribute.id
+          : attribute.classes.length > 0
+            ? `.${attribute.classes[0]}`
+            : undefined;
+      if (label === undefined) continue;
+      const symbol: DocumentSymbol = {
+        name: `Markdown Extra attribute: ${label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: attribute.range,
+        selectionRange: attribute.markerRange,
+      };
+      this.addSymbolAtLine(symbol, attribute.range.start.line, headings, roots);
+    }
+
+    for (const list of markdownExtraDefinitionLists) {
+      const symbol: DocumentSymbol = {
+        name: `Definition: ${list.term}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: list.range,
+        selectionRange: list.range,
+      };
+      this.addSymbolAtLine(symbol, list.range.start.line, headings, roots);
+    }
+
+    for (const table of markdownExtraTables) {
+      const symbol: DocumentSymbol = {
+        name: `Markdown Extra table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const footnote of markdownExtraFootnotes) {
+      const symbol: DocumentSymbol = {
+        name: `Footnote: ${footnote.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: footnote.range,
+        selectionRange: footnote.labelRange,
+      };
+      this.addSymbolAtLine(symbol, footnote.range.start.line, headings, roots);
+    }
+
+    for (const abbreviation of markdownExtraAbbreviations) {
+      const symbol: DocumentSymbol = {
+        name: `Abbreviation: ${abbreviation.label}`,
+        kind: SYMBOL_KIND_KEY,
+        range: abbreviation.range,
+        selectionRange: abbreviation.labelRange,
+      };
+      this.addSymbolAtLine(symbol, abbreviation.range.start.line, headings, roots);
+    }
+
+    for (const chunk of rMarkdownChunks) {
+      const label = chunk.label ?? chunk.engine;
+      const symbol: DocumentSymbol = {
+        name: `R Markdown chunk: ${label}`,
+        kind: SYMBOL_KIND_STRING,
+        range: chunk.range,
+        selectionRange: chunk.labelRange ?? chunk.engineRange,
+      };
+      this.addSymbolAtLine(symbol, chunk.range.start.line, headings, roots);
+    }
+
+    for (const expression of rMarkdownInlineExpressions) {
+      const symbol: DocumentSymbol = {
+        name: `R Markdown inline: ${expression.expression}`,
+        kind: SYMBOL_KIND_STRING,
+        range: expression.range,
+        selectionRange: expression.expressionRange,
+      };
+      this.addSymbolAtLine(symbol, expression.range.start.line, headings, roots);
+    }
+
+    for (const table of redditTables) {
+      const symbol: DocumentSymbol = {
+        name: `Reddit table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const reference of redditHostReferences) {
+      const label = reference.kind === 'subreddit' ? 'Subreddit' : 'Reddit user';
+      const symbol: DocumentSymbol = {
+        name: `${label}: ${reference.target}`,
+        kind: SYMBOL_KIND_STRING,
+        range: reference.range,
+        selectionRange: reference.targetRange,
+      };
+      this.addSymbolAtLine(symbol, reference.range.start.line, headings, roots);
+    }
+
+    for (const table of stackOverflowTables) {
+      const symbol: DocumentSymbol = {
+        name: `Stack Overflow table: ${table.headerCells.join(', ')}`,
+        kind: SYMBOL_KIND_ARRAY,
+        range: table.range,
+        selectionRange: table.range,
+      };
+      this.addSymbolAtLine(symbol, table.range.start.line, headings, roots);
+    }
+
+    for (const reference of stackOverflowTagReferences) {
+      const label =
+        reference.kind === 'meta-tag' ? 'Stack Overflow meta tag' : 'Stack Overflow tag';
+      const symbol: DocumentSymbol = {
+        name: `${label}: ${reference.target}`,
+        kind: SYMBOL_KIND_STRING,
+        range: reference.range,
+        selectionRange: reference.targetRange,
+      };
+      this.addSymbolAtLine(symbol, reference.range.start.line, headings, roots);
+    }
+
     return roots;
+  }
+
+  private addSymbolAtLine(
+    symbol: DocumentSymbol,
+    line: number,
+    headings: HeadingEntry[],
+    roots: DocumentSymbol[],
+  ): void {
+    const parentSym = this.findParentSection(headings, line, roots, []);
+    if (parentSym === null) {
+      roots.push(symbol);
+      return;
+    }
+    if (parentSym.children === undefined) parentSym.children = [];
+    parentSym.children.push(symbol);
   }
 
   /**

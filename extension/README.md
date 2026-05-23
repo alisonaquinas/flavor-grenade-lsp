@@ -6,20 +6,23 @@ Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/
 
 ![OFMarkdown language mode promotion](images/marketplace/ofmarkdown-mode.png)
 
-Vault notes are promoted to **OFMarkdown** so Obsidian-specific links, embeds,
-tags, and block anchors get language-server support without taking over generic
-Markdown files.
+Vault notes stay in VS Code's built-in **Markdown** mode while Flavor Grenade
+applies the active Markdown flavor behind the language-server features.
 
 ![Flavor Grenade status bar indexing](images/marketplace/status-indexing.png)
 
 The status bar shows whether Flavor Grenade is starting, indexing, ready,
-disabled, crashed, or misconfigured. Status actions expose rebuild, output,
-diagnostic copy, troubleshooting, and vault reveal commands when they apply.
+disabled, crashed, or misconfigured without embedding the document count in the
+status text. A separate Markdown flavor status item shows the current effective
+flavor, such as **Markdown: Obsidian**, and opens the Flavor Grenade selector.
 
 ![Flavor Grenade wiki-link completion](images/marketplace/wiki-link-completion.png)
 
 Wiki-link completion offers vault notes as soon as you type `[[`, using the
 same indexed document graph that powers definitions, references, and rename.
+Following links is server-resolved, so Obsidian-style folder-implicit targets
+such as `[[sources/foo]]` can open `wiki/sources/foo.md` when that is the
+unique vault path suffix.
 
 ![Flavor Grenade heading and block-anchor completion](images/marketplace/heading-block-completion.png)
 
@@ -49,12 +52,12 @@ Callout completion offers common Obsidian callout types inside quote blocks.
 
 - **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links
 - **Diagnostics** — Broken wiki-links (`BrokenLink`), ambiguous links (`AmbiguousLink`), broken embeds (`BrokenEmbed`), malformed frontmatter (`MalformedFrontmatter`)
-- **Go to Definition** — Navigate from `[[wiki-link]]` to the target document, heading, or block anchor
+- **Go to Definition** — Navigate from `[[wiki-link]]` to the target document, heading, or block anchor, including Obsidian-style path-suffix targets
 - **Rename** — Rename a document or heading and update all incoming references across the vault
 - **Code Actions** — Quick-fix to create a missing linked document; extract selection to new note
 - **Code Lens** — Inline reference counts on headings and documents
 - **Semantic Tokens** — Syntax highlighting for wiki-links, tags, embeds, and block references
-- **OFMarkdown language mode** — Obsidian vault notes are recognized as `OFMarkdown` without taking over generic Markdown files
+- **Markdown flavor selector** — The status bar shows the effective flavor and opens a selector for Auto Detect or an explicit flavor without using VS Code's language picker
 
 ## OFMarkdown Editor Affordances
 
@@ -69,9 +72,9 @@ The extension contributes snippets only for the **OFMarkdown** language mode:
 | `ofm-tags` | YAML `tags` frontmatter |
 | `ofm-block-anchor` | `^block-id` anchor |
 
-OFMarkdown mode also adds editor pairs for wiki-links, embeds, and Obsidian
-comments, plus word selection tuned for tags and block anchors. Generic
-Markdown keeps VS Code's normal Markdown behavior.
+The Markdown flavor selector keeps `.md` files in VS Code's built-in Markdown
+mode. Generic Markdown keeps VS Code's normal Markdown behavior unless a
+workspace, project, or user flavor selection applies.
 
 Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
 
@@ -87,6 +90,7 @@ Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
 |---------|------|---------|-------------|
 | `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to the language server binary. Workspace values are ignored for safety. Leave empty to use the bundled binary. |
 | `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `title-slug`, `file-path-stem`. |
+| `flavorGrenade.markdownFlavor` | `string` | `"auto"` | Markdown flavor selector. Options: `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, `stack-overflow`. |
 | `flavorGrenade.completion.candidates` | `number` | `50` | Maximum number of completion items returned. |
 | `flavorGrenade.diagnostics.suppress` | `string[]` | `[]` | Diagnostic codes to suppress (e.g. `["AmbiguousLink", "BrokenEmbed"]`). |
 | `flavorGrenade.trace.server` | `string` | `"off"` | Trace communication between VS Code and the language server. Options: `off`, `messages`, `verbose`. |
@@ -95,11 +99,13 @@ Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
 
 1. Install **Flavor Grenade** from the [VS Code Marketplace](https://marketplace.visualstudio.com/).
 2. Open an Obsidian vault folder in VS Code.
-3. Open any vault `.md` file — the language server starts automatically and VS Code switches the language picker to **OFMarkdown**.
+3. Open any vault `.md` file — the language server starts automatically and the Markdown flavor status item reports the effective flavor.
 
 That's it. Wiki-link completions, diagnostics, go-to-definition, and all other features activate as soon as the server finishes indexing your vault. The status bar shows indexing progress.
 
-Generic Markdown files outside detected vaults stay in VS Code's normal **Markdown** mode. If you manually choose another language mode for a document, Flavor Grenade leaves that choice alone.
+Generic Markdown files outside detected vaults stay in VS Code's normal
+**Markdown** mode. If you manually choose another language mode for a document,
+Flavor Grenade leaves that choice alone.
 
 Language-specific VS Code settings can target OFMarkdown:
 
@@ -168,7 +174,7 @@ in [extension/docs/features/command-bridge-contracts.md](docs/features/command-b
 4. Start the **Run Extension** launch configuration.
 5. Edit code under the repository root `src/`; the server TypeScript watch task rebuilds `../dist/main.js`.
 6. Run **Flavor Grenade: Restart Server** in the Extension Host window.
-7. Open a note inside a folder containing `.obsidian/`; confirm the language picker becomes **OFMarkdown**.
+7. Open a note inside a folder containing `.obsidian/`; confirm the Markdown flavor status item shows **Markdown: Obsidian**.
 8. Open a non-vault Markdown file; confirm the language picker remains **Markdown**.
 9. Confirm changed LSP behavior is visible without rebuilding the bundled server binary.
 

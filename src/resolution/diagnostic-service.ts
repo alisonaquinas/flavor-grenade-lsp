@@ -13,6 +13,16 @@ import type { DocId } from '../vault/doc-id.js';
 import { fromDocId } from '../vault/doc-id.js';
 import type { LinkLabelDef, MarkdownLinkRef } from '../parser/types.js';
 import { classifyMarkdownTarget } from './markdown-target-classifier.js';
+import { GfmParser } from '../parser/gfm-parser.js';
+import { GlfmParser } from '../parser/glfm-parser.js';
+import { PandocParser } from '../parser/pandoc-parser.js';
+import { MultimarkdownParser } from '../parser/multimarkdown-parser.js';
+import { MdxParser } from '../parser/mdx-parser.js';
+import { KramdownParser } from '../parser/kramdown-parser.js';
+import { MarkdownExtraParser } from '../parser/markdown-extra-parser.js';
+import { RMarkdownParser } from '../parser/r-markdown-parser.js';
+import { RedditParser } from '../parser/reddit-parser.js';
+import { StackOverflowParser } from '../parser/stack-overflow-parser.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -25,6 +35,8 @@ import { classifyMarkdownTarget } from './markdown-target-classifier.js';
  * - **FG005** broken block reference (`[[…#^id]]` anchor not found)
  * - **FG006** non-breaking space (U+00A0) in the document body
  * - **FG007** malformed YAML frontmatter
+ * - **FG101** Original Markdown portability warning for unsupported extensions
+ * - **FG102** CommonMark portability warning for non-core flavor extensions
  */
 @Injectable()
 export class DiagnosticService {
@@ -71,6 +83,54 @@ export class DiagnosticService {
       });
     }
 
+    if (doc.markdownFlavor === 'original') {
+      diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'original'));
+    }
+
+    if (doc.markdownFlavor === 'commonmark') {
+      diagnostics.push(...this.diagnoseMarkdownPortability(doc, 'commonmark'));
+    }
+
+    if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
+      diagnostics.push(...this.diagnoseGfmTables(doc));
+    }
+
+    if (doc.markdownFlavor === 'glfm') {
+      diagnostics.push(...this.diagnoseGlfmDescriptionLists(doc));
+    }
+
+    if (doc.markdownFlavor === 'pandoc') {
+      diagnostics.push(...this.diagnosePandocAttributes(doc));
+    }
+
+    if (doc.markdownFlavor === 'multimarkdown') {
+      diagnostics.push(...this.diagnoseMultimarkdownMetadata(doc));
+    }
+
+    if (doc.markdownFlavor === 'mdx') {
+      diagnostics.push(...this.diagnoseMdxBoundaries(doc));
+    }
+
+    if (doc.markdownFlavor === 'kramdown') {
+      diagnostics.push(...this.diagnoseKramdownAttributes(doc));
+    }
+
+    if (doc.markdownFlavor === 'markdown-extra') {
+      diagnostics.push(...this.diagnoseMarkdownExtraAttributes(doc));
+    }
+
+    if (doc.markdownFlavor === 'r-markdown') {
+      diagnostics.push(...this.diagnoseRMarkdownChunks(doc));
+    }
+
+    if (doc.markdownFlavor === 'reddit') {
+      diagnostics.push(...this.diagnoseRedditPortability(doc));
+    }
+
+    if (doc.markdownFlavor === 'stack-overflow') {
+      diagnostics.push(...this.diagnoseStackOverflowPortability(doc));
+    }
+
     for (const entry of doc.index.wikiLinks) {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);
       if (diag !== null) diagnostics.push(diag);
@@ -95,6 +155,305 @@ export class DiagnosticService {
     const nbspDiags = this.diagnoseNbsp(doc);
     diagnostics.push(...nbspDiags);
     return diagnostics;
+  }
+
+  private diagnoseMarkdownPortability(
+    doc: OFMDoc,
+    flavor: 'original' | 'commonmark',
+  ): Diagnostic[] {
+    const diagnostics: Diagnostic[] = [];
+    const lineStartOffsets = this.lineStartOffsets(doc.text);
+    const lines = doc.text.split('\n');
+    let offset = 0;
+    let fence: string | undefined;
+
+    for (const rawLine of lines) {
+      const line = rawLine.replace(/\r$/, '');
+      const lineEnd = offset + line.length;
+
+      if (fence !== undefined) {
+        if (line.trimStart().startsWith(fence)) {
+          fence = undefined;
+        }
+        offset += rawLine.length + 1;
+        continue;
+      }
+
+      const fenceMatch = /^[ \t]{0,3}(```+|~~~+)/.exec(line);
+      if (fenceMatch !== null) {
+        fence = fenceMatch[1][0]!.repeat(fenceMatch[1].length);
+        if (flavor === 'original') {
+          diagnostics.push(
+            this.portabilityDiagnostic(
+              offset + (fenceMatch.index ?? 0),
+              lineEnd,
+              lineStartOffsets,
+              'FG101',
+              'Fenced code blocks are not part of Original Markdown.',
+            ),
+          );
+        }
+        offset += rawLine.length + 1;
+        continue;
+      }
+
+      if (!this.isOpaqueOffset(offset, doc)) {
+        if (this.isPipeTableSeparator(line)) {
+          diagnostics.push(
+            this.portabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Pipe tables are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
+            ),
+          );
+        }
+
+        if (/^[ \t]{0,3}[-*+][ \t]+\[[ xX]\][ \t]+/.test(line)) {
+          diagnostics.push(
+            this.portabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Task list items are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
+            ),
+          );
+        }
+
+        if (/^[ \t]{0,3}>[ \t]*\[![^\]]+\]/.test(line)) {
+          diagnostics.push(
+            this.portabilityDiagnostic(
+              offset,
+              lineEnd,
+              lineStartOffsets,
+              flavor === 'original' ? 'FG101' : 'FG102',
+              `Callouts are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
+            ),
+          );
+        }
+      }
+
+      offset += rawLine.length + 1;
+    }
+
+    const wikiPattern = /!?\[\[[^\]\n]+\]\]/g;
+    let match: RegExpExecArray | null;
+    while ((match = wikiPattern.exec(doc.text)) !== null) {
+      if (this.isOpaqueOffset(match.index, doc)) continue;
+      diagnostics.push(
+        this.portabilityDiagnostic(
+          match.index,
+          match.index + match[0].length,
+          lineStartOffsets,
+          flavor === 'original' ? 'FG101' : 'FG102',
+          `Wiki links and embeds are not part of ${this.flavorDiagnosticLabel(flavor)}.`,
+        ),
+      );
+    }
+
+    return diagnostics.sort((a, b) => {
+      if (a.range.start.line !== b.range.start.line) return a.range.start.line - b.range.start.line;
+      return a.range.start.character - b.range.start.character;
+    });
+  }
+
+  private portabilityDiagnostic(
+    startOffset: number,
+    endOffset: number,
+    lineStartOffsets: number[],
+    code: 'FG101' | 'FG102',
+    message: string,
+  ): Diagnostic {
+    return {
+      range: {
+        start: this.offsetToPosition(startOffset, lineStartOffsets),
+        end: this.offsetToPosition(endOffset, lineStartOffsets),
+      },
+      severity: 2,
+      code,
+      source: 'flavor-grenade',
+      message,
+    };
+  }
+
+  private flavorDiagnosticLabel(flavor: 'original' | 'commonmark'): string {
+    return flavor === 'original' ? 'Original Markdown' : 'CommonMark';
+  }
+
+  private diagnoseGfmTables(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.gfmMalformedTables ?? GfmParser.parse(doc.text, doc.opaqueRegions).malformedTables;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG201',
+      source: 'flavor-grenade',
+      message: `Malformed GFM table: header has ${entry.headerCells.length} cells but delimiter has ${entry.delimiterCells.length}.`,
+    }));
+  }
+
+  private diagnoseGlfmDescriptionLists(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.glfmMalformedDescriptionLists ??
+      GlfmParser.parse(doc.text, doc.opaqueRegions).malformedDescriptionLists;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG202',
+      source: 'flavor-grenade',
+      message: `Malformed GLFM description list: definition for '${entry.term}' must contain text.`,
+    }));
+  }
+
+  private diagnosePandocAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.pandocMalformedAttributes ??
+      PandocParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG301',
+      source: 'flavor-grenade',
+      message: 'Malformed Pandoc attribute: expected id, class, or key=value entries.',
+    }));
+  }
+
+  private diagnoseMultimarkdownMetadata(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.multimarkdownMalformedMetadata ??
+      MultimarkdownParser.parse(doc.text, doc.opaqueRegions).malformedMetadata;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG302',
+      source: 'flavor-grenade',
+      message: 'Malformed MultiMarkdown metadata: expected a leading Key: value row.',
+    }));
+  }
+
+  private diagnoseMdxBoundaries(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.mdxMalformedBoundaries ??
+      MdxParser.parse(doc.text, doc.opaqueRegions).malformedBoundaries;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG401',
+      source: 'flavor-grenade',
+      message: 'Malformed MDX boundary: expected closed JSX tag or balanced expression.',
+    }));
+  }
+
+  private diagnoseKramdownAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.kramdownMalformedAttributes ??
+      KramdownParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG501',
+      source: 'flavor-grenade',
+      message:
+        'Malformed kramdown attribute: expected a closing } with id, class, or key=value entries.',
+    }));
+  }
+
+  private diagnoseMarkdownExtraAttributes(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.markdownExtraMalformedAttributes ??
+      MarkdownExtraParser.parse(doc.text, doc.opaqueRegions).malformedAttributes;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG502',
+      source: 'flavor-grenade',
+      message:
+        'Malformed Markdown Extra attribute: expected a closing } with id, class, or key=value entries.',
+    }));
+  }
+
+  private diagnoseRMarkdownChunks(doc: OFMDoc): Diagnostic[] {
+    const malformed =
+      doc.index.rMarkdownMalformedChunks ?? RMarkdownParser.parse(doc.text).malformedChunks;
+    return malformed.map((entry) => ({
+      range: entry.range,
+      severity: 2,
+      code: 'FG601',
+      source: 'flavor-grenade',
+      message:
+        'Malformed R Markdown chunk header: expected a closing } and did not execute chunk code.',
+    }));
+  }
+
+  private diagnoseRedditPortability(doc: OFMDoc): Diagnostic[] {
+    const parsed = RedditParser.parse(doc.text, doc.opaqueRegions);
+    const oldRedditLists =
+      doc.index.redditOldRedditIncompatibleLists ?? parsed.oldRedditIncompatibleLists;
+    const unsafeLinks = doc.index.redditUnsafeLinks ?? parsed.unsafeLinks;
+    const diagnostics: Diagnostic[] = [];
+
+    diagnostics.push(
+      ...oldRedditLists.map(
+        (entry): Diagnostic => ({
+          range: entry.range,
+          severity: 2,
+          code: 'FG701',
+          source: 'flavor-grenade',
+          message:
+            'Reddit ordered list marker uses 1) syntax that is incompatible with old Reddit.',
+        }),
+      ),
+    );
+    diagnostics.push(
+      ...unsafeLinks.map(
+        (entry): Diagnostic => ({
+          range: entry.targetRange,
+          severity: 2,
+          code: 'FG702',
+          source: 'flavor-grenade',
+          message: `Reddit Markdown link uses unsupported URL scheme in '${entry.target}'.`,
+        }),
+      ),
+    );
+
+    return diagnostics;
+  }
+
+  private diagnoseStackOverflowPortability(doc: OFMDoc): Diagnostic[] {
+    const parsed = StackOverflowParser.parse(doc.text, doc.opaqueRegions);
+    const malformed =
+      doc.index.stackOverflowMalformedLanguageDirectives ?? parsed.malformedLanguageDirectives;
+    return malformed.map(
+      (entry): Diagnostic => ({
+        range: entry.languageRange,
+        severity: 2,
+        code: 'FG801',
+        source: 'flavor-grenade',
+        message: 'Malformed Stack Overflow language directive: expected a lang-* value.',
+      }),
+    );
+  }
+
+  private isPipeTableSeparator(line: string): boolean {
+    return (
+      line.includes('|') && line.includes('---') && /^[ \t]*\|?[ \t:|-]+\|[ \t:|-]+$/.test(line)
+    );
+  }
+
+  private lineStartOffsets(text: string): number[] {
+    const starts = [0];
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '\n') {
+        starts.push(i + 1);
+      }
+    }
+    return starts;
+  }
+
+  private isOpaqueOffset(offset: number, doc: OFMDoc): boolean {
+    return doc.opaqueRegions.some((region) => offset >= region.start && offset < region.end);
   }
 
   private diagnoseMarkdownTarget(

@@ -32,7 +32,7 @@ Create `eslint.config.js` at the project root using ESLint's flat config format 
 - Use `export default [{ files: ['src/**/*.ts'], languageOptions: { parser: tsparser }, ... }]`
 - Include `...tseslint.configs.recommended.rules` to enable all recommended TypeScript rules
 - Add `'@typescript-eslint/no-explicit-any': 'error'` and `'@typescript-eslint/explicit-function-return-type': 'warn'`
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -40,7 +40,7 @@ Create `eslint.config.js` at the project root using ESLint's flat config format 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Linting configuration; zero-warnings quality requirement addressed by CHORE-001 | [[requirements/index]] |
+| — | Linting configuration; zero-warnings quality requirement addressed by CHORE-001 | [[docs/requirements/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Create `eslint.config.js` at the project root using ESLint's flat config format 
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | `no-explicit-any` enforced at `error` level — LSP handler types must use strict LSP protocol types, not `any` |
+| [[docs/adr/ADR001-stdio-transport]] | `no-explicit-any` enforced at `error` level — LSP handler types must use strict LSP protocol types, not `any` |
 
 ---
 
@@ -108,7 +108,7 @@ ESLint v9 uses flat config (`eslint.config.js`) by default. The older `.eslintrc
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

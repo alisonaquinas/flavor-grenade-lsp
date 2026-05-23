@@ -8,7 +8,7 @@ aliases: [Verification Test Index, FR Verification Index]
 
 > [!INFO] Verification plans trace directly to Planguage functional requirement tags. Each plan contains one test case section per requirement tag (`TC-VER-DOMAIN-NNN`). Steps are derived from the requirement's `Meter` field; pass/fail criteria come from `Goal` and `Fail`. Plans include both **scripted** (Gherkin / Bash) and **agent-driven** (LLM agent over JSON-RPC) test cases.
 
-Source requirements: [[requirements/index]]
+Source requirements: [[docs/requirements/index]]
 
 ---
 
@@ -92,7 +92,7 @@ The following plans contain test cases with no matching BDD scenario at time of 
 - [[tests/verification/verify-security-vault-confinement]] — path-traversal entries
 - [[tests/verification/verify-security-input-validation]] — all entries
 
-See [[bdd/index]] for the current BDD feature file inventory.
+See \[\[bdd/index]] for the current BDD feature file inventory.
 
 ---
 
@@ -100,6 +100,6 @@ See [[bdd/index]] for the current BDD feature file inventory.
 
 - [[tests/integration/index]] — E2E smoke plans (TC-SMOKE-*)
 - [[tests/validation/index]] — User-level validation plans (TC-VAL-*)
-- [[requirements/index]] — Master Planguage requirement tag list
-- [[test/matrix]] — Pass/fail tracking for all test files
-- [[test/index]] — Master list of all test files in the suite
+- [[docs/requirements/index]] — Master Planguage requirement tag list
+- [[docs/test/matrix]] — Pass/fail tracking for all test files
+- [[docs/test/index]] — Master list of all test files in the suite

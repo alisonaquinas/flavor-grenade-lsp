@@ -28,9 +28,9 @@ Code APIs.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]] | Adapt server locations to native VS Code UI commands |
-| [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]] | Validate valid and invalid JSON-serializable payloads before API calls |
-| [[requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] | Register graph, embed, vault reveal, and diagnostic bridge commands |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.NativeUI]] | Adapt server locations to native VS Code UI commands |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.PayloadValidation]] | Validate valid and invalid JSON-serializable payloads before API calls |
+| [[docs/requirements/functional/vscode-extension-parity#Extension.CommandBridges.GraphActions]] | Register graph, embed, vault reveal, and diagnostic bridge commands |
 
 ## Scope
 
@@ -69,6 +69,6 @@ npm run build:extension
 
 ## Related
 
-- [[features/vscode-extension-parity]]
-- [[ddd/editor-client/domain-model]]
+- [[docs/features/vscode-extension-parity]]
+- [[docs/ddd/editor-client/domain-model]]
 - [[ADR019-vscode-command-bridges-and-client-ux]]

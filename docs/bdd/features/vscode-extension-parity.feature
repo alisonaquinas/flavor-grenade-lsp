@@ -1,7 +1,7 @@
 @vscode @extension @parity @adr:ADR019
 Feature: VS Code extension parity
   The VS Code extension should match Marksman VSCode integration affordances
-  and add OFMarkdown-specific client behavior without moving language
+  and add Markdown-flavor-specific client behavior without moving language
   intelligence out of the server.
 
   @req:Extension.Activation.MarkerEvents
@@ -9,9 +9,9 @@ Feature: VS Code extension parity
     Given a VS Code workspace contains ".obsidian/"
     When the Flavor Grenade extension host starts
     Then the extension activates
-    And the LanguageClient starts membership detection
+    And the LanguageClient starts Markdown flavor detection
 
-  @req:Extension.Activation.MarkerEvents @req:Extension.LanguageMode.MembershipRefresh
+  @req:Extension.Activation.MarkerEvents @req:Extension.MarkdownFlavor.Refresh
   Scenario: Extension stays idle for generic Markdown workspaces
     Given a VS Code workspace contains Markdown files
     And the workspace has no ".obsidian/" folder
@@ -47,6 +47,6 @@ Feature: VS Code extension parity
   Scenario: Marketplace README includes OFMarkdown proof
     Given the extension README is packaged into the VSIX
     When Marketplace assets are inspected
-    Then the README includes screenshots or images for OFMarkdown mode
+    Then the README includes screenshots or images for Markdown flavor behavior
     And the README includes screenshots or images for wiki-link completion
     And the README includes screenshots or images for status bar indexing

@@ -7,6 +7,8 @@ import path from 'node:path';
 
 // ── Diagnostics-specific steps ─────────────────────────────────────────────
 
+const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+
 /**
  * Write a file where the heading's space after '#' is replaced with U+00A0 (non-breaking space).
  * E.g. given heading "# Title", writes "#\u00A0Title".
@@ -20,7 +22,7 @@ Given(
     if (!this.singleFileMode) {
       const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
       if (!fs.existsSync(markerPath)) {
-        fs.writeFileSync(markerPath, '', 'utf8');
+        fs.writeFileSync(markerPath, LEGACY_OFM_PROJECT_CONFIG, 'utf8');
       }
     }
   },

@@ -17,9 +17,9 @@ TypeScript projects organise test files in one of two conventional ways.
 
 The project also requires "index tests in /docs/test" with a requirement matrix linking test files to requirements. A separate `tests/` root makes this indexing clean: `docs/test/` can enumerate paths under `tests/` without any source file noise from `src/`.
 
-The OFM parser (see [[plans/phase-03-ofm-parser]]) will require a significant set of fixture vaults — real or synthetic OFM files that exercise specific parsing rules. These fixtures are test-only artefacts and should not live inside `src/`.
+The OFM parser (see [[docs/plans/phase-03-ofm-parser]]) will require a significant set of fixture vaults — real or synthetic OFM files that exercise specific parsing rules. These fixtures are test-only artefacts and should not live inside `src/`.
 
-The BDD layer (see [[design/behavior-layer]]) requires Cucumber step definition files that wire Gherkin scenarios to TypeScript code. Step files are not source modules and should not be importable as production dependencies.
+The BDD layer (see [[docs/design/behavior-layer]]) requires Cucumber step definition files that wire Gherkin scenarios to TypeScript code. Step files are not source modules and should not be importable as production dependencies.
 
 ## Decision
 
@@ -48,7 +48,7 @@ TypeScript configuration: a `tsconfig.test.json` at the repository root extends 
 
 Import paths: test files reference source modules using a `@src/` path alias mapped to `src/` in `tsconfig.test.json`. This avoids fragile relative `../../src/` chains from deeply nested test files. Example: `import { OFMParser } from '@src/parser/ofm-parser.service'`.
 
-The Phase 1 scaffold specification (see [[plans/phase-01-scaffold]]) is updated to create the `tests/` tree at project initialisation, not `src/__tests__/`.
+The Phase 1 scaffold specification (see [[docs/plans/phase-01-scaffold]]) is updated to create the `tests/` tree at project initialisation, not `src/__tests__/`.
 
 ## Consequences
 
@@ -72,7 +72,7 @@ The Phase 1 scaffold specification (see [[plans/phase-01-scaffold]]) is updated 
 
 ## Related
 
-- [[requirements/development-process]]
-- [[design/behavior-layer]]
-- [[plans/phase-01-scaffold]]
-- [[plans/phase-03-ofm-parser]]
+- [[docs/requirements/development-process]]
+- [[docs/design/behavior-layer]]
+- [[docs/plans/phase-01-scaffold]]
+- [[docs/plans/phase-03-ofm-parser]]

@@ -23,6 +23,16 @@ export class FoldingRangeHandler {
     const builder = new FoldingRangeBuilder(this.lineCount(doc.text));
     this.addFrontmatterFold(doc, builder);
     this.addHeadingFolds(doc, builder);
+    this.addGfmTableFolds(doc, builder);
+    this.addGlfmDescriptionListFolds(doc, builder);
+    this.addPandocFolds(doc, builder);
+    this.addMultimarkdownFolds(doc, builder);
+    this.addMdxFolds(doc, builder);
+    this.addKramdownFolds(doc, builder);
+    this.addMarkdownExtraFolds(doc, builder);
+    this.addRMarkdownFolds(doc, builder);
+    this.addRedditFolds(doc, builder);
+    this.addStackOverflowFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -62,6 +72,95 @@ export class FoldingRangeHandler {
         endLine = line;
       }
       builder.add(startLine, endLine, 'region');
+    }
+  }
+
+  private addGfmTableFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.gfmTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addGlfmDescriptionListFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.glfmDescriptionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+  }
+
+  private addPandocFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.pandocDefinitionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+    for (const div of doc.index.pandocFencedDivs ?? []) {
+      builder.add(div.range.start.line, div.range.end.line, 'region');
+    }
+    for (const block of doc.index.pandocTitleBlocks ?? []) {
+      builder.add(block.range.start.line, block.range.end.line, 'region');
+    }
+  }
+
+  private addMultimarkdownFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    const metadata = doc.index.multimarkdownMetadata ?? [];
+    if (metadata.length > 1) {
+      builder.add(
+        metadata[0].range.start.line,
+        metadata[metadata.length - 1].range.end.line,
+        'region',
+      );
+    }
+    for (const table of doc.index.multimarkdownTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addMdxFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const element of doc.index.mdxJsxElements ?? []) {
+      builder.add(element.range.start.line, element.range.end.line, 'region');
+    }
+    for (const expression of doc.index.mdxExpressions ?? []) {
+      builder.add(expression.range.start.line, expression.range.end.line, 'region');
+    }
+  }
+
+  private addKramdownFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.kramdownDefinitionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+    for (const table of doc.index.kramdownTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+    for (const block of doc.index.kramdownMathBlocks ?? []) {
+      builder.add(block.range.start.line, block.range.end.line, 'region');
+    }
+  }
+
+  private addMarkdownExtraFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const list of doc.index.markdownExtraDefinitionLists ?? []) {
+      builder.add(list.range.start.line, list.range.end.line, 'region');
+    }
+    for (const table of doc.index.markdownExtraTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+    for (const block of doc.index.markdownExtraFencedCodeBlocks ?? []) {
+      builder.add(block.range.start.line, block.range.end.line, 'region');
+    }
+  }
+
+  private addRMarkdownFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const chunk of doc.index.rMarkdownChunks ?? []) {
+      builder.add(chunk.range.start.line, chunk.range.end.line, 'region');
+    }
+  }
+
+  private addRedditFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.redditTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addStackOverflowFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const table of doc.index.stackOverflowTables ?? []) {
+      builder.add(table.range.start.line, table.range.end.line, 'region');
     }
   }
 

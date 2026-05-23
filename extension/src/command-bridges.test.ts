@@ -116,6 +116,23 @@ describe('native reference and link bridges', () => {
       ['file:///vault/link.md', 'file:///vault/embed.png'],
     );
   });
+
+  it('opens server-resolved folder-implicit wiki-link targets without local reinterpretation', async () => {
+    const { api, shownDocuments } = fakeApi();
+    const handlers = createCommandBridgeHandlers(api);
+
+    assert.equal(
+      await handlers.followLink({
+        target: locationPayload('file:///vault/wiki/sources/foo.md'),
+      }),
+      true,
+    );
+
+    assert.deepEqual(
+      shownDocuments.map((entry) => (entry as { uri: { value: string } }).uri.value),
+      ['file:///vault/wiki/sources/foo.md'],
+    );
+  });
 });
 
 describe('payload validation', () => {

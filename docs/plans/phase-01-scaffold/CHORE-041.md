@@ -36,7 +36,7 @@ aliases: ["CHORE-041"]
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Build hygiene; no functional requirement | [[requirements/code-quality]] |
+| — | Build hygiene; no functional requirement | [[docs/requirements/code-quality]] |
 
 ---
 

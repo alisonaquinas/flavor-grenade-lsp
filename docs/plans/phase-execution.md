@@ -12,9 +12,9 @@ This document defines the operational rules for executing implementation phases 
 
 ## Rule 1 — Phases Execute Sequentially
 
-Phases execute strictly one at a time. No phase begins until the previous phase's gate is passing in CI. See the dependency graph and gate commands in [[plans/execution-ledger]].
+Phases execute strictly one at a time. No phase begins until the previous phase's gate is passing in CI. See the dependency graph and gate commands in [[docs/plans/execution-ledger]].
 
-**Exception:** Phases 6, 7, and 8 may proceed in parallel once Phase 5 is complete (see [[plans/execution-ledger]] Phase Dependencies).
+**Exception:** Phases 6, 7, and 8 may proceed in parallel once Phase 5 is complete (see [[docs/plans/execution-ledger]] Phase Dependencies).
 
 ---
 
@@ -39,19 +39,19 @@ Each ticket type has a defined lifecycle state machine. Agents must follow it wi
 
 | Ticket Type | Lifecycle Document | Initial State |
 |---|---|---|
-| Feature | [[templates/tickets/lifecycle/feature-lifecycle]] | `draft` |
-| Task | [[templates/tickets/lifecycle/task-lifecycle]] | `open` |
-| Bug | [[templates/tickets/lifecycle/bug-lifecycle]] | `open` |
-| Chore | [[templates/tickets/lifecycle/chore-lifecycle]] | `open` |
-| Spike | [[templates/tickets/lifecycle/spike-lifecycle]] | `open` |
+| Feature | [[docs/templates/tickets/lifecycle/feature-lifecycle]] | `draft` |
+| Task | [[docs/templates/tickets/lifecycle/task-lifecycle]] | `open` |
+| Bug | [[docs/templates/tickets/lifecycle/bug-lifecycle]] | `open` |
+| Chore | [[docs/templates/tickets/lifecycle/chore-lifecycle]] | `open` |
+| Spike | [[docs/templates/tickets/lifecycle/spike-lifecycle]] | `open` |
 
-The `TASK` lifecycle enforces a strict **RED → GREEN** TDD cycle. The failing test commit must precede the implementation commit in git history. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+The `TASK` lifecycle enforces a strict **RED → GREEN** TDD cycle. The failing test commit must precede the implementation commit in git history. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Rule 4 — No Phase is Complete with Open Tickets
 
-A phase cannot be marked `complete` in [[plans/execution-ledger]] if any ticket in its phase folder has a non-terminal status. Terminal statuses are: `done`, `wont-fix`, `duplicate`, `cancelled`, `output-delivered`, `inconclusive`.
+A phase cannot be marked `complete` in [[docs/plans/execution-ledger]] if any ticket in its phase folder has a non-terminal status. Terminal statuses are: `done`, `wont-fix`, `duplicate`, `cancelled`, `output-delivered`, `inconclusive`.
 
 ---
 
@@ -95,7 +95,7 @@ Every phase must complete steps A through M in order. No step may be skipped.
 2. Read each `FEAT-NNN` and `TASK-NNN` ticket in the phase
 3. Confirm all tickets have accurate descriptions, linked requirements, and linked BDD scenarios
 4. Identify any gaps (missing tasks, incorrect scope) and **open new tickets** as needed before proceeding
-5. If any prerequisite phase is not `complete` in [[plans/execution-ledger]], **stop** — do not begin implementation
+5. If any prerequisite phase is not `complete` in [[docs/plans/execution-ledger]], **stop** — do not begin implementation
 
 ### Step B — Update Phase Tickets
 
@@ -122,7 +122,7 @@ Execute `TASK` tickets, following the TDD lifecycle (`open → red → green →
 1. Write the failing test first; commit alone (**RED** commit)
 2. Write minimum implementation to make the test pass; commit (**GREEN** commit)
 3. Refactor if needed — all tests must remain green
-4. Update `Linked Tests` rows in the ticket and the corresponding rows in [[test/matrix]] and [[test/index]]
+4. Update `Linked Tests` rows in the ticket and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]]
 5. Open additional `TASK` or `BUG` tickets as implementation reveals new requirements or defects
 6. Mark tickets `done` only after CI confirms green — not just local green
 
@@ -142,7 +142,7 @@ Work through the phase's lint `CHORE` ticket (`CHORE-NNN — Lint Sweep`):
 Work through the phase's code quality `CHORE` ticket (`CHORE-NNN — Code Quality Sweep`):
 
 1. Review all new `src/` files introduced in this phase for:
-   - Naming consistency with [[ddd/ubiquitous-language]]
+   - Naming consistency with [[docs/ddd/ubiquitous-language]]
    - Module boundary violations (cross-module imports that bypass barrel `index.ts` files)
    - Code smells: deep nesting (> 3 levels), functions > 40 lines, magic numbers without named constants
    - Missing JSDoc on exported symbols
@@ -156,7 +156,7 @@ Work through the phase's code quality `CHORE` ticket (`CHORE-NNN — Code Qualit
 Work through the phase's security `CHORE` ticket (`CHORE-NNN — Security Sweep`):
 
 1. Review all new code for:
-   - **Path traversal risks**: verify every file path operation is confined to vault root (see [[adr/ADR013-vault-root-confinement]])
+   - **Path traversal risks**: verify every file path operation is confined to vault root (see [[docs/adr/ADR013-vault-root-confinement]])
    - **Input validation**: all LSP-received strings must be validated before use in file paths or `eval`-adjacent operations
    - **Supply chain**: any new `npm` dependencies added this phase must have a rationale comment; check for known vulnerabilities via `bun audit`
    - **Information disclosure**: error messages must not leak absolute host paths or vault content to LSP clients
@@ -175,31 +175,31 @@ After steps E, F, and G, there will typically be new `BUG` and `CHORE` tickets. 
 
 1. Run `bun test src/`
 2. Fix all failing tests; open `BUG` tickets for each non-trivial failure
-3. Update [[test/matrix]] and [[test/index]] rows
+3. Update [[docs/test/matrix]] and [[docs/test/index]] rows
 4. Repeat until `bun test src/` exits 0 with zero failures and zero skipped tests
 
 ### Step J — Run Integration Tests
 
-1. Check whether `tests/integration/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/integration/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note "no integration tests in this phase" in the Step M retrospective; proceed to Step K
-   - **If test files exist:** run `bun test tests/integration/`
+   - **If test files exist:** run `bun test src/test/integration/`
 2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step K — Run Verification Tests
 
-1. Check whether `tests/verification/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/verification/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to Step L
-   - **If test files exist:** run `bun test tests/verification/`
+   - **If test files exist:** run `bun test src/test/verification/`
 2. Fix all failures; open `BUG` tickets as needed (Rule 5)
 3. Repeat until clean
 
 ### Step L — Run Validation Tests
 
-1. Check whether `tests/validation/` contains any `.test.ts` or `.spec.ts` files
+1. Check whether `src/test/validation/` contains any `.test.ts` or `.spec.ts` files
    - **If no test files exist:** mark this step **N/A** — note in retrospective; proceed to BDD check
-   - **If test files exist:** run `bun test tests/validation/`; fix all failures
-2. Run all BDD `@smoke` scenarios: `bun run bdd --tags "@smoke"`
+   - **If test files exist:** run `bun test src/test/validation/`; fix all failures
+2. Run the full BDD gate: `bun run bdd`
    - **If cucumber is not yet configured for this phase:** mark BDD check **N/A** and note in retrospective
 3. Fix any failing BDD scenarios; open `BUG` tickets per Rule 5
 4. Repeat until all pass
@@ -252,20 +252,21 @@ A phase is complete **only** when ALL of the following are true:
 
 - [ ] Steps A through **M** executed to completion (no step skipped)
 - [ ] All `TASK`, `CHORE`, and `BUG` tickets in the phase folder are in a terminal state
-- [ ] The phase gate command passes in CI on all three platforms (linux-x64, darwin-arm64, win-x64)
+- [ ] The PR CI gate from `.github/workflows/ci.yml` is green for the phase branch
+- [ ] Any release, binary, or platform package gates touched by the phase are green on their required target platforms; otherwise record "not applicable" in the retrospective
 - [ ] The execution ledger row shows `✅ complete` with a completion date
 - [ ] A PR linking the phase work is open or merged
 - [ ] `FEAT-NNN.md` contains a completed `## Retrospective` section
 
-The AI agent must NOT mark a phase `complete` without CI confirmation. The CI gate is authoritative. See [[plans/execution-ledger]] for gate commands.
+The AI agent must NOT mark a phase `complete` without CI confirmation. The PR CI gate is authoritative for normal root/server phases; release and platform package gates are authoritative only for phases that modify publishing, binary, extension, or platform packaging behavior. See [[docs/plans/execution-ledger]] for gate commands.
 
 ---
 
 ## Related
 
-- [[plans/execution-ledger]] — Phase status table and gate commands
+- [[docs/plans/execution-ledger]] — Phase status table and gate commands
 - [[AGENTS]] — Repository-level agent guidance
-- [[templates/tickets/index]] — Ticket template reference and ID conventions
-- [[requirements/code-quality]] — `Quality.TDD.StrictRedGreen` and quality requirements
-- [[adr/ADR013-vault-root-confinement]] — Security constraint for path operations
-- [[adr/ADR014-dependency-security-policy]] — Supply chain rules
+- [[docs/templates/tickets/index]] — Ticket template reference and ID conventions
+- [[docs/requirements/code-quality]] — `Quality.TDD.StrictRedGreen` and quality requirements
+- [[docs/adr/ADR013-vault-root-confinement]] — Security constraint for path operations
+- [[docs/adr/ADR014-dependency-security-policy]] — Supply chain rules

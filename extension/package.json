@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Obsidian Markdown Support",
   "description": "Language intelligence for Obsidian Flavored Markdown: wiki-links, tags, embeds, block references, and more.",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {
@@ -44,6 +44,7 @@
     "onCommand:flavorGrenade.showOutlinks",
     "onCommand:flavorGrenade.revealVaultRoot",
     "onCommand:flavorGrenade.copyDiagnosticInfo",
+    "onCommand:flavorGrenade.selectMarkdownFlavor",
     "onLanguage:markdown",
     "onLanguage:ofmarkdown"
   ],
@@ -119,6 +120,10 @@
       {
         "command": "flavorGrenade.copyDiagnosticInfo",
         "title": "Flavor Grenade: Copy Diagnostic Info"
+      },
+      {
+        "command": "flavorGrenade.selectMarkdownFlavor",
+        "title": "Flavor Grenade: Select Markdown Flavor"
       }
     ],
     "keybindings": [
@@ -159,6 +164,27 @@
           ],
           "default": "file-stem",
           "description": "Wiki-link completion style."
+        },
+        "flavorGrenade.markdownFlavor": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "original",
+            "commonmark",
+            "obsidian",
+            "gfm",
+            "glfm",
+            "pandoc",
+            "multimarkdown",
+            "mdx",
+            "kramdown",
+            "markdown-extra",
+            "r-markdown",
+            "reddit",
+            "stack-overflow"
+          ],
+          "default": "auto",
+          "description": "Markdown flavor selector. Auto Detect resolves from workspace/project evidence and falls back to CommonMark."
         },
         "flavorGrenade.completion.candidates": {
           "type": "number",

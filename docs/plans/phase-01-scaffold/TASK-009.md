@@ -31,7 +31,7 @@ Create `src/main.ts` as the NestJS application entry point. The file must begin 
 - First line must be: `import 'reflect-metadata';`
 - Use `NestFactory.createApplicationContext(LspModule, { logger: ['error', 'warn'] })` — not `NestFactory.create()` — as no HTTP listener is needed
 - `await app.init()` triggers NestJS module initialisation lifecycle
-- See also: [[adr/ADR001-stdio-transport]], [[architecture/overview]]
+- See also: [[docs/adr/ADR001-stdio-transport]], [[docs/architecture/overview]]
 
 ---
 
@@ -39,7 +39,7 @@ Create `src/main.ts` as the NestJS application entry point. The file must begin 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Entry point bootstrap; functional requirements addressed in Phase 2 LSP transport tasks | [[requirements/index]] |
+| — | Entry point bootstrap; functional requirements addressed in Phase 2 LSP transport tasks | [[docs/requirements/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Create `src/main.ts` as the NestJS application entry point. The file must begin 
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Application context created without HTTP listener; stdio transport attached in Phase 2 |
+| [[docs/adr/ADR001-stdio-transport]] | Application context created without HTTP listener; stdio transport attached in Phase 2 |
 
 ---
 
@@ -108,7 +108,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

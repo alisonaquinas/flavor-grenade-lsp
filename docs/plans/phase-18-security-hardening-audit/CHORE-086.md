@@ -7,7 +7,7 @@ priority: "high"
 phase: "18"
 created: "2026-05-08"
 updated: "2026-05-08"
-dependencies: ["BUG-016", "BUG-017", "BUG-018", "BUG-019", "BUG-020", "BUG-021", "BUG-022", "BUG-023", "BUG-024", "BUG-025"]
+dependencies: ["BUG-016", "BUG-017", "BUG-018", "BUG-019", "BUG-020", "BUG-021", "BUG-022", "BUG-023", "BUG-024", "BUG-025", "BUG-042"]
 tags: [tickets/chore, "phase/18", security, verification]
 aliases: ["CHORE-086"]
 ---
@@ -30,7 +30,7 @@ Phase 18 exists to close security audit findings. A final sweep prevents a
 ticket from being marked complete without evidence across local commands, CI,
 and security requirement docs.
 
-- Motivated by: [[plans/phase-execution]] Step G and [[requirements/security/index]]
+- Motivated by: [[docs/plans/phase-execution]] Step G and [[docs/requirements/security/index]]
 
 ---
 
@@ -38,9 +38,9 @@ and security requirement docs.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[requirements/security/supply-chain]] |
-| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[requirements/security/input-validation]] |
-| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[requirements/security/information-disclosure]] |
+| `Security.Supply.AdvisoryMonitoring` | Record advisory scan evidence | [[docs/requirements/security/supply-chain]] |
+| `Security.Input.PayloadSize` | Keep existing transport size limits green | [[docs/requirements/security/input-validation]] |
+| `Security.Config.NoCodeExecution` | Confirm config still cannot spawn commands | [[docs/requirements/security/information-disclosure]] |
 
 ---
 
@@ -67,7 +67,7 @@ and security requirement docs.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR014-dependency-security-policy]] | Advisory monitoring and exact pinning evidence must be current |
+| [[docs/adr/ADR014-dependency-security-policy]] | Advisory monitoring and exact pinning evidence must be current |
 
 ---
 
@@ -75,11 +75,11 @@ and security requirement docs.
 
 **Blocked by:**
 
-- [[plans/phase-18-security-hardening-audit/BUG-016]] through [[plans/phase-18-security-hardening-audit/BUG-025]] — findings must be fixed first.
+- [[docs/plans/phase-18-security-hardening-audit/BUG-016]] through [[docs/plans/phase-18-security-hardening-audit/BUG-025]] — findings must be fixed first.
 
 **Unblocks:**
 
-- [[plans/phase-18-security-hardening-audit/FEAT-033]] — final phase review.
+- [[docs/plans/phase-18-security-hardening-audit/FEAT-033]] — final phase review.
 
 ---
 
@@ -104,7 +104,7 @@ or extension dependency scans.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 
@@ -126,3 +126,13 @@ Full state machine: [[templates/tickets/lifecycle/chore-lifecycle]]
 
 > [!SUCCESS] Extension verification — 2026-05-08
 > BUG-025 was fixed and moved to `in-review`. The extension startup regression test, extension typecheck, full extension unit suite, package verification checks, host test suite, and docs lint passed. Status: `in-review`.
+
+> [!WARNING] Host verification finding - 2026-05-13
+> `npm run test:host` failed before tests executed because the VS Code
+> `vscode-updating` mutex was held. Opened [[BUG-042]] before retrying or
+> changing the verification path. Status remains `in-review`.
+
+> [!SUCCESS] Host verification restored - 2026-05-13
+> BUG-042 restored local extension-host verification without touching the
+> user's VS Code updater processes. `npm run test:host` passed across all three
+> host fixtures. Status remains `in-review`.

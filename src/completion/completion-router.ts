@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Injectable } from '@nestjs/common';
 import type { CompletionItem } from 'vscode-languageserver-types';
 import { ContextAnalyzer } from './context-analyzer.js';
+import type { CompletionContext } from './context-analyzer.js';
 import { WikiLinkCompletionProvider } from '../resolution/wiki-link-completion-provider.js';
 import { HeadingCompletionProvider } from './heading-completion-provider.js';
 import { BlockRefCompletionProvider } from '../resolution/block-ref-completion-provider.js';
@@ -80,6 +81,59 @@ export class CompletionRouter {
 
     // 4. Detect context
     const context = this.contextAnalyzer.analyze(text, offset);
+    if (doc.markdownFlavor !== 'obsidian' && this.isObsidianInactiveContext(context)) {
+      return { items: [], isIncomplete: false };
+    }
+
+    if (doc.markdownFlavor === 'glfm') {
+      const glfmResult = this.glfmCompletions(text, params.position);
+      if (glfmResult !== null) return glfmResult;
+    }
+
+    if (doc.markdownFlavor === 'pandoc') {
+      const pandocResult = this.pandocCompletions(text, params.position);
+      if (pandocResult !== null) return pandocResult;
+    }
+
+    if (doc.markdownFlavor === 'multimarkdown') {
+      const multimarkdownResult = this.multimarkdownCompletions(text, params.position);
+      if (multimarkdownResult !== null) return multimarkdownResult;
+    }
+
+    if (doc.markdownFlavor === 'mdx') {
+      const mdxResult = this.mdxCompletions(text, params.position);
+      if (mdxResult !== null) return mdxResult;
+    }
+
+    if (doc.markdownFlavor === 'kramdown') {
+      const kramdownResult = this.kramdownCompletions(text, params.position);
+      if (kramdownResult !== null) return kramdownResult;
+    }
+
+    if (doc.markdownFlavor === 'markdown-extra') {
+      const markdownExtraResult = this.markdownExtraCompletions(text, params.position);
+      if (markdownExtraResult !== null) return markdownExtraResult;
+    }
+
+    if (doc.markdownFlavor === 'r-markdown') {
+      const rMarkdownResult = this.rMarkdownCompletions(text, params.position);
+      if (rMarkdownResult !== null) return rMarkdownResult;
+    }
+
+    if (doc.markdownFlavor === 'reddit') {
+      const redditResult = this.redditCompletions(text, params.position);
+      if (redditResult !== null) return redditResult;
+    }
+
+    if (doc.markdownFlavor === 'stack-overflow') {
+      const stackOverflowResult = this.stackOverflowCompletions(text, params.position);
+      if (stackOverflowResult !== null) return stackOverflowResult;
+    }
+
+    if (doc.markdownFlavor === 'gfm' || doc.markdownFlavor === 'glfm') {
+      const gfmResult = this.gfmCompletions(text, params.position);
+      if (gfmResult !== null) return gfmResult;
+    }
 
     // 5. Dispatch to provider
     let result: { items: CompletionItem[]; isIncomplete: boolean };
@@ -221,6 +275,353 @@ export class CompletionRouter {
       ...item,
       insertText: newText,
       textEdit: { range, newText },
+    };
+  }
+
+  private isObsidianInactiveContext(context: CompletionContext): boolean {
+    return [
+      'wiki-link',
+      'wiki-link-heading',
+      'wiki-link-block',
+      'embed',
+      'tag',
+      'callout',
+    ].includes(context.kind);
+  }
+
+  private gfmCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^\s*\|$/.test(prefix)) {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM table',
+              insertText: '| Header | Header |\n| --- | --- |\n| Cell | Cell |',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (/^[ \t]{0,3}[-*+][ \t]$/.test(prefix)) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GFM task item',
+              insertText: '[ ] ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private glfmCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^[ \t]{0,3}[-*+][ \t]$/.test(prefix)) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GLFM inapplicable task item',
+              insertText: '[~] ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix === '[') {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'GLFM table of contents',
+              insertText: '[[_TOC_]]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private pandocCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix.endsWith('[@')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc citation',
+              insertText: 'key]',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix === '{') {
+      const range = this.replacementRange(position, 1);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'Pandoc attribute set',
+              insertText: '{#id .class}',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private multimarkdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^[A-Za-z][A-Za-z0-9 _-]{0,20}$/.test(prefix)) {
+      const range = this.replacementRange(position, prefix.length);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown metadata key',
+              insertText: 'Title: ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix.endsWith('[](#')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown citation',
+              insertText: 'key)',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    if (prefix.endsWith('[^')) {
+      const range = this.replacementRange(position, 0);
+      return {
+        items: [
+          this.withTextEdit(
+            {
+              label: 'MultiMarkdown footnote',
+              insertText: 'label]: ',
+            },
+            range,
+          ),
+        ],
+        isIncomplete: false,
+      };
+    }
+
+    return null;
+  }
+
+  private mdxCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '<') {
+      return this.singleCompletion(position, 1, 'MDX component', '<Component />');
+    }
+
+    if (prefix === '{') {
+      return this.singleCompletion(position, 1, 'MDX expression', '{expression}');
+    }
+
+    if (prefix.endsWith('export ')) {
+      return this.singleCompletion(position, 0, 'MDX named export', 'const name = ');
+    }
+
+    return null;
+  }
+
+  private kramdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '{:') {
+      return this.singleCompletion(position, 2, 'kramdown attribute', '{: #id .class}');
+    }
+
+    if (prefix.endsWith('[^')) {
+      return this.singleCompletion(position, 0, 'kramdown footnote', 'label]: ');
+    }
+
+    return null;
+  }
+
+  private markdownExtraCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (/^\s*\|$/.test(prefix)) {
+      return this.singleCompletion(
+        position,
+        1,
+        'Markdown Extra table',
+        '| Header | Header |\n| --- | --- |\n| Cell | Cell |',
+      );
+    }
+
+    if (prefix.endsWith('[^')) {
+      return this.singleCompletion(position, 0, 'Markdown Extra footnote', 'label]: ');
+    }
+
+    if (prefix === '*[') {
+      return this.singleCompletion(position, 2, 'Markdown Extra abbreviation', '*[HTML]: ');
+    }
+
+    if (prefix === '{') {
+      return this.singleCompletion(position, 1, 'Markdown Extra attribute', '{#id .class}');
+    }
+
+    return null;
+  }
+
+  private rMarkdownCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '```{') {
+      return this.singleCompletion(
+        position,
+        4,
+        'R Markdown chunk',
+        '```{r label, echo = TRUE}\n\n```',
+      );
+    }
+
+    if (/^[ \t]{0,3}(```+|~~~+)\{[A-Za-z][^}]*,\s*$/.test(prefix)) {
+      return this.singleCompletion(position, 0, 'R Markdown chunk option', 'include = FALSE');
+    }
+
+    if (prefix === '`r') {
+      return this.singleCompletion(position, 2, 'R Markdown inline expression', '`r expression`');
+    }
+
+    return null;
+  }
+
+  private redditCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '>!') {
+      return this.singleCompletion(position, 2, 'Reddit spoiler', '>!spoiler!<');
+    }
+
+    if (prefix === '^(') {
+      return this.singleCompletion(position, 2, 'Reddit superscript', '^(text)');
+    }
+
+    return null;
+  }
+
+  private stackOverflowCompletions(
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+
+    if (prefix === '[tag:') {
+      return this.singleCompletion(position, 5, 'Stack Overflow tag reference', '[tag:markdown]');
+    }
+
+    if (prefix === '<!-- language') {
+      return this.singleCompletion(
+        position,
+        13,
+        'Stack Overflow language directive',
+        '<!-- language: lang-js -->',
+      );
+    }
+
+    return null;
+  }
+
+  private singleCompletion(
+    position: { line: number; character: number },
+    replaceLength: number,
+    label: string,
+    insertText: string,
+  ): { items: CompletionItem[]; isIncomplete: boolean } {
+    const range = this.replacementRange(position, replaceLength);
+    return {
+      items: [this.withTextEdit({ label, insertText }, range)],
+      isIncomplete: false,
     };
   }
 

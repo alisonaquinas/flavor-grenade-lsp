@@ -30,7 +30,7 @@ Install the NestJS runtime dependencies required for the LSP server application 
 - Command: `bun add @nestjs/core @nestjs/common @nestjs/platform-express reflect-metadata rxjs`
 - After installation, verify entries appear in `package.json` `dependencies` section
 - `import 'reflect-metadata'` must be the first line of `src/main.ts` (see TASK-009)
-- See also: [[architecture/overview]], [[adr/ADR001-stdio-transport]]
+- See also: [[docs/architecture/overview]], [[docs/adr/ADR001-stdio-transport]]
 
 ---
 
@@ -38,7 +38,7 @@ Install the NestJS runtime dependencies required for the LSP server application 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Infrastructure dependency install; no functional requirement tag yet assigned | [[requirements/index]] |
+| — | Infrastructure dependency install; no functional requirement tag yet assigned | [[docs/requirements/index]] |
 
 ---
 
@@ -62,7 +62,7 @@ Install the NestJS runtime dependencies required for the LSP server application 
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | NestJS application context bootstrapped without HTTP server for stdio LSP transport |
+| [[docs/adr/ADR001-stdio-transport]] | NestJS application context bootstrapped without HTTP server for stdio LSP transport |
 
 ---
 
@@ -104,7 +104,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

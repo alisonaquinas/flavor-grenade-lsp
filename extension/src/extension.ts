@@ -1,9 +1,11 @@
 import {
+  ConfigurationTarget,
   type ExtensionContext,
   ExtensionMode,
   type StatusBarItem,
+  type TextDocument,
+  commands,
   env,
-  languages,
   window,
   workspace,
 } from 'vscode';
@@ -16,12 +18,27 @@ import {
 import type { ServerCommand } from './server-command.js';
 import { resolveServerCommand } from './server-path.js';
 import {
+  applyMarkdownFlavorStatus,
   applyFlavorGrenadeStatus,
   createFlavorGrenadeStatusBar,
+  createMarkdownFlavorStatusBar,
   registerFlavorGrenadeStatusNotifications,
 } from './status-bar.js';
 import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
+import {
+  MARKDOWN_FLAVOR_COMMAND,
+  MARKDOWN_FLAVOR_SECTION,
+  MARKDOWN_FLAVOR_SETTING_KEY,
+  MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
+  createMarkdownFlavorQuickPickItems,
+  isFlavorEligibleDocument,
+  isMarkdownFlavorSelection,
+  resolveMarkdownFlavor,
+  resolveMarkdownFlavorUpdateTarget,
+  selectionSettingValue,
+} from './markdown-flavor.js';
+import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 import { decideStartupGate } from './activation-gate.js';
 import { ServerStartupBlockedError } from './server-startup-error.js';
 import { buildDiagnosticInfo, getStatusQuickActions } from './status-presentation.js';
@@ -34,6 +51,7 @@ import { describeWorkspaceEnvironment } from './workspace-environment.js';
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
 let statusBarItem: Pick<StatusBarItem, 'text' | 'tooltip'> | undefined;
+let markdownFlavorStatusBarItem: Pick<StatusBarItem, 'text' | 'tooltip'> | undefined;
 let currentStatus: FlavorGrenadeStatus = createBaseStatus('disabled');
 let languageModeController: LanguageModeController | undefined;
 
@@ -49,6 +67,8 @@ export interface FlavorGrenadeExtensionApi {
 export async function activate(context: ExtensionContext): Promise<FlavorGrenadeExtensionApi> {
   currentStatus = createBaseStatus('disabled', context);
   applyDisabledEnvironmentStatus(context);
+  ensureMarkdownFlavorStatusBar(context);
+  await refreshMarkdownFlavorStatus(context);
 
   const startClient = async (commandId?: string): Promise<LanguageClient> => {
     const disabledStatus = applyDisabledEnvironmentStatus(context);
@@ -85,12 +105,63 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
     () => languageModeController?.refreshAll(),
   );
   context.subscriptions.push(...commandDisposables);
+  context.subscriptions.push(
+    commands.registerCommand(MARKDOWN_FLAVOR_COMMAND, async () => {
+      if (applyDisabledEnvironmentStatus(context)) {
+        return;
+      }
+
+      const editor = window.activeTextEditor;
+      if (!editor || !isFlavorEligibleDocument(editor.document)) {
+        await window.showWarningMessage('Markdown flavor applies only to file-backed Markdown documents.');
+        return;
+      }
+
+      const selected = await window.showQuickPick(createMarkdownFlavorQuickPickItems(), {
+        matchOnDescription: true,
+        placeHolder: 'Choose a Markdown flavor',
+        title: 'Flavor Grenade Markdown Flavor',
+      });
+      if (!selected) {
+        return;
+      }
+
+      const config = workspace.getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri);
+      const inspect = config.inspect<unknown>(MARKDOWN_FLAVOR_SETTING_KEY);
+      const target = resolveMarkdownFlavorUpdateTarget({
+        hasFolderOverride: inspect?.workspaceFolderValue !== undefined,
+        hasWorkspaceFolder: workspace.getWorkspaceFolder(editor.document.uri) !== undefined,
+        workspaceFolderCount: workspace.workspaceFolders?.length ?? 0,
+      });
+      await config.update(
+        MARKDOWN_FLAVOR_SETTING_KEY,
+        selectionSettingValue(selected.id),
+        target === 'workspace-folder'
+          ? ConfigurationTarget.WorkspaceFolder
+          : target === 'workspace'
+            ? ConfigurationTarget.Workspace
+            : ConfigurationTarget.Global,
+      );
+
+      await refreshMarkdownFlavorStatus(context);
+      await startClient(MARKDOWN_FLAVOR_COMMAND);
+      await languageModeController?.refreshAll();
+      await refreshMarkdownFlavorStatus(context);
+    }),
+  );
 
   // Restart on server path change
   context.subscriptions.push(
     workspace.onDidChangeConfiguration(async (e) => {
       if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
         await client.restart();
+      }
+      const activeDocument = window.activeTextEditor?.document;
+      if (
+        activeDocument &&
+        e.affectsConfiguration(MARKDOWN_FLAVOR_SECTION, activeDocument.uri)
+      ) {
+        await refreshMarkdownFlavorStatus(context);
       }
     }),
   );
@@ -116,9 +187,14 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
   context.subscriptions.push(
     workspace.onDidOpenTextDocument(() => {
       void maybeStartClient();
+      void refreshMarkdownFlavorStatus(context);
+    }),
+    window.onDidChangeActiveTextEditor(() => {
+      void refreshMarkdownFlavorStatus(context);
     }),
     workspace.onDidChangeWorkspaceFolders(() => {
       void maybeStartClient();
+      void refreshMarkdownFlavorStatus(context);
     }),
   );
 
@@ -130,9 +206,15 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       markerWatcher,
       markerWatcher.onDidCreate(() => {
         void maybeStartClient();
+        void refreshMarkdownFlavorStatus(context);
       }),
       markerWatcher.onDidChange(() => {
         void maybeStartClient();
+        void refreshMarkdownFlavorStatus(context);
+      }),
+      markerWatcher.onDidDelete(() => {
+        void maybeStartClient();
+        void refreshMarkdownFlavorStatus(context);
       }),
     );
   }
@@ -187,8 +269,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
-      { scheme: 'file', language: 'markdown' },
-      { scheme: 'file', language: 'ofmarkdown' },
+      ...MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
     ],
     synchronize: {
       fileEvents: workspace.createFileSystemWatcher('**/*.md'),
@@ -218,6 +299,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
       currentStatus = status;
       if (status.state === 'ready') {
         void languageModeController?.refreshAll();
+        void refreshMarkdownFlavorStatus(context);
       }
     },
   });
@@ -256,14 +338,20 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
   languageModeController = new LanguageModeController(nextClient, {
     getOpenDocuments: () => workspace.textDocuments,
     getVisibleEditors: () => window.visibleTextEditors,
-    setTextDocumentLanguage: (document, languageId) =>
-      languages.setTextDocumentLanguage(document, languageId),
+    setTextDocumentLanguage: (document) => Promise.resolve(document),
+    getMarkdownFlavorSelection: (document) => {
+      const value = workspace
+        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+        .get(MARKDOWN_FLAVOR_SETTING_KEY);
+      return isMarkdownFlavorSelection(value) ? value : 'auto';
+    },
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
     onDidChangeWorkspaceFolders: (listener) => workspace.onDidChangeWorkspaceFolders(listener),
   });
   context.subscriptions.push(...languageModeController.start());
   await languageModeController.refreshAll();
+  await refreshMarkdownFlavorStatus(context);
 
   // If the server reached ready before the notification listener observed it,
   // awaitIndexReady gives us a deterministic post-start status check.
@@ -287,6 +375,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
         );
         applyFlavorGrenadeStatus(statusBar, currentStatus);
         void languageModeController?.refreshAll();
+        void refreshMarkdownFlavorStatus(context);
       },
       () => {
         // Ignore best-effort status refresh failures; normal LSP features still report errors.
@@ -294,6 +383,55 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     );
 
   return nextClient;
+}
+
+function ensureMarkdownFlavorStatusBar(context: ExtensionContext): StatusBarItem {
+  if (markdownFlavorStatusBarItem) {
+    return markdownFlavorStatusBarItem as StatusBarItem;
+  }
+
+  const statusBar = createMarkdownFlavorStatusBar();
+  markdownFlavorStatusBarItem = statusBar;
+  context.subscriptions.push(statusBar);
+  return statusBar;
+}
+
+async function refreshMarkdownFlavorStatus(context: ExtensionContext): Promise<void> {
+  const statusBar = ensureMarkdownFlavorStatusBar(context);
+  const document = window.activeTextEditor?.document;
+  if (!document) {
+    applyMarkdownFlavorStatus(statusBar);
+    return;
+  }
+
+  const resolution =
+    languageModeController?.resolveMarkdownFlavorForDocument(document) ??
+    resolveLocalMarkdownFlavor(document);
+  applyMarkdownFlavorStatus(statusBar, await resolution);
+}
+
+async function resolveLocalMarkdownFlavor(document: TextDocument) {
+  const selected = markdownFlavorSelectionForDocument(document);
+  if (!isFlavorEligibleDocument(document)) {
+    return resolveMarkdownFlavor({ document, selected });
+  }
+
+  const evidence = document.uri.fsPath
+    ? await findMarkdownFlavorEvidence(document.uri.fsPath)
+    : undefined;
+  return resolveMarkdownFlavor({
+    document,
+    hasObsidianMarker: evidence?.hasObsidianMarker,
+    projectFlavor: evidence?.projectFlavor,
+    selected,
+  });
+}
+
+function markdownFlavorSelectionForDocument(document: TextDocument) {
+  const value = workspace
+    .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+    .get(MARKDOWN_FLAVOR_SETTING_KEY);
+  return isMarkdownFlavorSelection(value) ? value : 'auto';
 }
 
 function ensureStatusBar(context: ExtensionContext): StatusBarItem {

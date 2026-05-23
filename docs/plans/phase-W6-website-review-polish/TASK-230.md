@@ -2,7 +2,7 @@
 id: "TASK-230"
 title: "Replace segmented theme control with compact icon toggle"
 type: task
-status: green
+status: done
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-230"]
 
 # Replace Segmented Theme Control With Compact Icon Toggle
 
-> [!INFO] `TASK-230` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-230` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -48,16 +48,16 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Only one compact visible theme control affordance appears in the header.
-- [ ] System, light, and dark modes remain reachable.
-- [ ] Keyboard operation and focus behavior are verified.
-- [ ] Theme persistence tests still pass.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Only one compact visible theme control affordance appears in the header.
+- [x] System, light, and dark modes remain reachable.
+- [x] Keyboard operation and focus behavior are verified.
+- [x] Theme persistence tests still pass.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -71,3 +71,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Replaced the segmented mode picker with one accessible icon button that cycles
 > system, light, and dark while preserving storage behavior.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

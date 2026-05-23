@@ -2,7 +2,7 @@
 id: "TASK-237"
 title: "Normalize feature card borders"
 type: task
-status: green
+status: done
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-237"]
 
 # Normalize Feature Card Borders
 
-> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-237` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -54,7 +54,7 @@ Expected behavior:
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -68,3 +68,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Removed per-signal default border overrides and kept a shared accent treatment
 > for hover, focus, and selected feature cards.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

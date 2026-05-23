@@ -20,7 +20,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Goal
 
-> Write one paragraph describing the user-visible outcome this feature delivers. Use vocabulary from [[ddd/ubiquitous-language]]. No implementation terms (TypeScript, NestJS, JSON-RPC) in this section — describe what vault authors or LSP users gain.
+> Write one paragraph describing the user-visible outcome this feature delivers. Use vocabulary from [[docs/ddd/ubiquitous-language]]. No implementation terms (TypeScript, NestJS, JSON-RPC) in this section — describe what vault authors or LSP users gain.
 
 {{GOAL-DESCRIPTION}}
 
@@ -44,7 +44,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
@@ -54,7 +54,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
@@ -76,7 +76,7 @@ aliases: ["{{TICKET-ID}}"]
 
 - Phase plan: `[[plans/phase-{{NN}}-{{PHASE-SLUG}}]]`
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -86,13 +86,13 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 - [ ] All scenarios in linked BDD feature files pass in CI
 
-- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
+- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[docs/test/matrix]]
 
-- [ ] [[test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
 
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 
-- [ ] Phase gate command passes in CI (see [[plans/execution-ledger]])
+- [ ] Phase gate command passes in CI (see [[docs/plans/execution-ledger]])
 
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 
@@ -120,7 +120,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 - `[[tickets/{{BLOCKING-TICKET-ID}}]]` — {{REASON}}
 
-- Phase {{N}} (see [[plans/execution-ledger]]) — {{REASON}}
+- Phase {{N}} (see [[docs/plans/execution-ledger]]) — {{REASON}}
 
 **Unblocks:**
 
@@ -138,7 +138,7 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -159,7 +159,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 <!-- TEMPLATE USAGE: Replace the entry below with a real date when creating the ticket. -->
 

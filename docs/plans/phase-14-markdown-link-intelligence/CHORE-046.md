@@ -37,7 +37,7 @@ Phase 14 intentionally implements only the first server-side Marksman parity
 slice. A trace sweep keeps later attachment, file-operation, and structural LSP
 work from being accidentally implied as complete.
 
-- Motivated by: [[plans/phase-14-markdown-link-intelligence]]
+- Motivated by: [[docs/plans/phase-14-markdown-link-intelligence]]
 
 ---
 
@@ -45,13 +45,13 @@ work from being accidentally implied as complete.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.LocalResolution` | Docs trace local Markdown link behavior | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Docs trace same-document anchor behavior | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.HeadingAmbiguity.Diagnostics` | Docs trace duplicate heading diagnostics | [[requirements/functional/ofmarkdown-parity]] |
-| `Completion.Trigger.Coverage` | Docs trace Markdown link URL completion coverage | [[requirements/completions]] |
-| `Navigation.Definition.AllLinkTypes` | Docs trace Markdown definition behavior | [[requirements/navigation]] |
-| `Navigation.References.Completeness` | Docs trace Markdown references behavior | [[requirements/navigation]] |
-| `Rename.Refactoring.Completeness` | Docs trace Markdown heading rename behavior | [[requirements/rename]] |
+| `Parity.MarkdownLinks.LocalResolution` | Docs trace local Markdown link behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Docs trace same-document anchor behavior | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.HeadingAmbiguity.Diagnostics` | Docs trace duplicate heading diagnostics | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Completion.Trigger.Coverage` | Docs trace Markdown link URL completion coverage | [[docs/requirements/completions]] |
+| `Navigation.Definition.AllLinkTypes` | Docs trace Markdown definition behavior | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | Docs trace Markdown references behavior | [[docs/requirements/navigation]] |
+| `Rename.Refactoring.Completeness` | Docs trace Markdown heading rename behavior | [[docs/requirements/rename]] |
 
 ---
 
@@ -111,7 +111,7 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] Phase plan, tickets, requirements, BDD, and test evidence agree on Phase
   14 scope.
 - [ ] Out-of-scope parity work remains explicitly excluded.
-- [ ] Links to [[ofm-spec/markdown-links]],
+- [ ] Links to [[docs/ofm-spec/markdown-links]],
   `docs/bdd/features/ofmarkdown-parity.feature`, and linked requirements resolve.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
@@ -130,7 +130,7 @@ metadata discovered after implementation.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

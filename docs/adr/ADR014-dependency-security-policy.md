@@ -19,7 +19,7 @@ flavor-grenade-lsp uses Bun as both its runtime and package manager. This create
 
 3. **Dependency confusion / typosquatting**: The npm registry is open to registration; a package with a name similar to a dependency can be installed via a typographical error and will execute its `postinstall` script automatically.
 
-The threat is documented in [[research/security-threat-model#Threat-Category-3]].
+The threat is documented in [[docs/research/security-threat-model]].
 
 ## Decision
 
@@ -67,7 +67,7 @@ A `docs/security/dependency-audit-log.md` file (created in Phase 13) records eac
 
 Every version published to npm and the Bun registry must carry an OIDC provenance attestation (`npm publish --provenance`). This allows consumers to verify the full build chain: that the published artifact was produced by a specific GitHub Actions workflow run from a specific commit on `main`.
 
-This is already planned in [[adr/ADR008-oidc-publishing]] and enforced in `.github/workflows/release.yml`.
+This is already planned in [[docs/adr/ADR008-oidc-publishing]] and enforced in `.github/workflows/release.yml`.
 
 ### 6. Lockfile Review on Dependency PRs
 
@@ -107,8 +107,8 @@ This prohibition is currently enforced by manifest, lockfile, and source review.
 
 ## Related
 
-- [[adr/ADR008-oidc-publishing]] — OIDC provenance publishing
-- [[research/security-threat-model#Threat-Category-3]] — Shai-Hulud 2.0 and Bun security evidence
-- [[requirements/security/supply-chain]] — Planguage requirements derived from this ADR
-- [[plans/phase-01-scaffold]] — exact pinning and frozen lockfile already in place
-- [[plans/phase-13-ci-delivery]] — dependency audit log and advisory monitoring setup
+- [[docs/adr/ADR008-oidc-publishing]] — OIDC provenance publishing
+- [[docs/research/security-threat-model]] — Shai-Hulud 2.0 and Bun security evidence
+- [[docs/requirements/security/supply-chain]] — Planguage requirements derived from this ADR
+- [[docs/plans/phase-01-scaffold]] — exact pinning and frozen lockfile already in place
+- [[docs/plans/phase-13-ci-delivery]] — dependency audit log and advisory monitoring setup

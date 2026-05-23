@@ -30,8 +30,12 @@ describe('mobile layout regression guards', () => {
     expect(app).toContain('class="nav-toggle"');
     expect(app).toContain('aria-expanded={navOpen}');
     expect(app).toContain('class:open={navOpen}');
+    expect(app).toContain('class="nav-dropdown"');
+    expect(app).toContain('aria-label={`${item.label} article links`}');
     expect(css).toContain('.nav-toggle');
     expect(css).toContain('.primary-nav.open');
+    expect(css).toContain('.nav-item:focus-within > .nav-dropdown');
+    expect(css).toContain('position: static;');
   });
 
   it('keeps feature proof cards selectable with consistent default borders', async () => {

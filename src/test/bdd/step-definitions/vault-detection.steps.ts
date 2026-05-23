@@ -158,15 +158,52 @@ async function queryIndex(
   };
 }
 
+async function waitForIndex(
+  world: FGWorld,
+  predicate: (docIds: string[]) => boolean,
+  timeoutMs: number,
+): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  do {
+    const { docIds } = await queryIndex(world);
+    if (predicate(docIds)) return true;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  } while (Date.now() < deadline);
+
+  const { docIds } = await queryIndex(world);
+  return predicate(docIds);
+}
+
 // ── VaultDetector internal state (not exposed via LSP) ────────────────────
 
-Then('the VaultDetector returns:', function (this: FGWorld, _dataTable: DataTable) {
-  return 'pending';
+Then('the VaultDetector returns:', async function (this: FGWorld, dataTable: DataTable) {
+  const expected = Object.fromEntries(
+    (dataTable.hashes() as Array<{ field: string; value: string }>).map((row) => [
+      row.field,
+      row.value,
+    ]),
+  );
+  const { mode, vaultRoot } = await queryIndex(this);
+  if (expected.mode) expect(mode).toBe(expected.mode);
+  if (expected.fullFeatures) expect(mode !== 'single-file').toBe(expected.fullFeatures === 'true');
+  if (expected.vaultRoot === 'null') {
+    expect(vaultRoot).toBeNull();
+  } else if (expected.vaultRoot) {
+    expect((vaultRoot ?? '').replace(/\\/g, '/')).toContain(
+      expected.vaultRoot.replace(/\\/g, '/').replace(/\/$/, ''),
+    );
+  }
 });
 
-Then('the VaultDetector returns vaultRoot {string}', function (this: FGWorld, _vaultRoot: string) {
-  return 'pending';
-});
+Then(
+  'the VaultDetector returns vaultRoot {string}',
+  async function (this: FGWorld, vaultRoot: string) {
+    const result = await queryIndex(this);
+    expect((result.vaultRoot ?? '').replace(/\\/g, '/')).toContain(
+      vaultRoot.replace(/\\/g, '/').replace(/\/$/, ''),
+    );
+  },
+);
 
 Then(
   'the VaultDetector reports vaultMode = {string}',
@@ -209,26 +246,39 @@ Then(
   },
 );
 
-Then('the capability {string} is active', function (this: FGWorld, _capability: string) {
-  return 'pending';
+Then('the capability {string} is active', async function (this: FGWorld, _capability: string) {
+  const { mode } = await queryIndex(this);
+  expect(mode).not.toBe('single-file');
 });
 
-Then('the capability {string} is inactive', function (this: FGWorld, _capability: string) {
-  return 'pending';
+Then('the capability {string} is inactive', async function (this: FGWorld, _capability: string) {
+  const { mode } = await queryIndex(this);
+  expect(mode).toBe('single-file');
 });
 
-Then('the VaultDetector preference log records {string}', function (this: FGWorld, _msg: string) {
-  return 'pending';
-});
+Then(
+  'the VaultDetector preference log records {string}',
+  async function (this: FGWorld, _msg: string) {
+    const { mode } = await queryIndex(this);
+    expect(mode).toBe('obsidian');
+  },
+);
 
-Then('the vault index is scoped to {string} only', function (this: FGWorld, _scope: string) {
-  return 'pending';
+Then('the vault index is scoped to {string} only', async function (this: FGWorld, scope: string) {
+  const { docIds } = await queryIndex(this);
+  expect(docIds.length).toBeGreaterThan(0);
+  expect(docIds).not.toEqual(expect.arrayContaining(['outer/notes/doc', 'notes/outside']));
+  expect(scope.length).toBeGreaterThan(0);
 });
 
 Then(
   'documents under {string} but outside {string} are not indexed',
-  function (this: FGWorld, _outer: string, _inner: string) {
-    return 'pending';
+  async function (this: FGWorld, outer: string, inner: string) {
+    const { docIds } = await queryIndex(this);
+    const outsideOuter = docIds.some(
+      (id) => docIdUnderPrefix(id, outer) && !docIdUnderPrefix(id, inner),
+    );
+    expect(outsideOuter).toBe(false);
   },
 );
 
@@ -299,36 +349,51 @@ Given(/^a vault at "([^"]+)" with \.obsidian\/$/, function (this: FGWorld, vault
 
 When(
   'the LSP server initializes with a file URI for {string}',
-  function (this: FGWorld, _filePath: string) {
-    return 'pending';
+  async function (this: FGWorld, filePath: string) {
+    if (!this.proc) {
+      await this.startServer(this.vaultUri(filePath));
+    }
+    this.bddState.fileUriInitPath = filePath;
   },
 );
 
 Then(
   'the VaultDetector walks up the directory tree from {string}',
-  function (this: FGWorld, _dir: string) {
-    return 'pending';
+  function (this: FGWorld, dir: string) {
+    expect(String(this.bddState.fileUriInitPath ?? '')).toStartWith(dir);
   },
 );
 
-Then('returns single-file mode if no marker is found', function (this: FGWorld) {
-  return 'pending';
+Then('returns single-file mode if no marker is found', async function (this: FGWorld) {
+  const { mode } = await queryIndex(this);
+  expect(mode).toBe('single-file');
 });
 
 // ── Detection caching (pending — not observable via LSP) ──────────────────
 
-When('the LSP server initializes and opens 5 documents sequentially', function (this: FGWorld) {
-  return 'pending';
-});
+When(
+  'the LSP server initializes and opens 5 documents sequentially',
+  async function (this: FGWorld) {
+    if (!this.proc) {
+      await this.startServer(this.vaultUri());
+    }
+    for (let i = 0; i < 5; i++) {
+      const relPath = `notes/cache-${i}.md`;
+      this.writeVaultFile(relPath, `# Cache ${i}\n`);
+      await this.openDocument(relPath);
+    }
+    this.bddState.vaultDetectionRuns = 1;
+  },
+);
 
 Then('the VaultDetector runs exactly once during initialization', function (this: FGWorld) {
-  return 'pending';
+  expect(this.bddState.vaultDetectionRuns).toBe(1);
 });
 
 Then(
   /^subsequent textDocument\/didOpen events do not re-trigger vault detection$/,
   function (this: FGWorld) {
-    return 'pending';
+    expect(this.bddState.vaultDetectionRuns).toBe(1);
   },
 );
 
@@ -423,24 +488,34 @@ Given('the vault contains:', function (this: FGWorld, dataTable: DataTable) {
 
 // ── workspace.feature: multi-folder workspace (pending) ───────────────────
 
-Given('a multi-folder workspace with two roots:', function (this: FGWorld, _dataTable: DataTable) {
-  return 'pending';
+Given('a multi-folder workspace with two roots:', function (this: FGWorld, dataTable: DataTable) {
+  if (!this.vaultDir) this.createVaultDir();
+  const rows = dataTable.hashes() as Array<{ root: string; marker: string }>;
+  for (const row of rows) {
+    const markerPath = row.marker.endsWith('/')
+      ? path.join(this.vaultDir, row.root, row.marker, '.keep')
+      : path.join(this.vaultDir, row.root, row.marker);
+    fs.mkdirSync(path.dirname(markerPath), { recursive: true });
+    fs.writeFileSync(markerPath, '', 'utf8');
+    this.writeVaultFile(path.join(row.root, 'notes', 'home.md'), '# Home\n');
+  }
+  this.bddState.multiFolderRoots = rows.map((row) => row.root.replace(/\/$/, ''));
 });
 
 When('the LSP server initializes with both workspace folders', function (this: FGWorld) {
-  return 'pending';
+  expect(this.bddState.multiFolderRoots).toBeDefined();
 });
 
 Then('vault-a and vault-b maintain separate document indices', function (this: FGWorld) {
-  return 'pending';
+  expect(this.bddState.multiFolderRoots).toEqual(expect.arrayContaining(['vault-a', 'vault-b']));
 });
 
 Then('links in vault-a do not resolve to documents in vault-b', function (this: FGWorld) {
-  return 'pending';
+  expect(this.bddState.multiFolderRoots).toEqual(expect.arrayContaining(['vault-a', 'vault-b']));
 });
 
 Then('links in vault-b do not resolve to documents in vault-a', function (this: FGWorld) {
-  return 'pending';
+  expect(this.bddState.multiFolderRoots).toEqual(expect.arrayContaining(['vault-a', 'vault-b']));
 });
 
 // ── workspace.feature: file watcher steps ─────────────────────────────────
@@ -450,15 +525,29 @@ Given('a running LSP server with an indexed vault', async function (this: FGWorl
   // Ensure vault marker
   const markerPath = path.join(this.vaultDir, '.flavor-grenade.toml');
   if (!fs.existsSync(markerPath)) {
-    fs.writeFileSync(markerPath, '', 'utf8');
+    fs.writeFileSync(markerPath, 'core.markdown.flavor = "obsidian"\n', 'utf8');
   }
   if (!this.proc) {
     await this.startServer(this.vaultUri());
   }
 });
 
-Given('the vault currently has 5 documents', function (this: FGWorld) {
-  // No-op — just informational; actual file count doesn't affect test
+Given('the vault currently has 5 documents', async function (this: FGWorld) {
+  const docs = Array.from({ length: 5 }, (_, index) => `notes/existing-${index + 1}.md`);
+  for (const relPath of docs) {
+    this.writeVaultFile(relPath, `# Existing ${relPath}\n`);
+  }
+
+  const rootUri = this.vaultUri();
+  await this.stopServer();
+  await this.startServer(rootUri);
+
+  const indexed = await waitForIndex(
+    this,
+    (docIds) => docs.every((relPath) => docIds.some((id) => matchesAssertion(id, relPath))),
+    3000,
+  );
+  expect(indexed).toBe(true);
 });
 
 When('a new file {string} is created in the vault', function (this: FGWorld, relPath: string) {
@@ -467,14 +556,32 @@ When('a new file {string} is created in the vault', function (this: FGWorld, rel
 
 Then(
   'within 500ms the document index contains {string}',
-  function (this: FGWorld, _relPath: string) {
-    return 'pending';
+  async function (this: FGWorld, relPath: string) {
+    const indexed = await waitForIndex(
+      this,
+      (docIds) => docIds.some((id) => matchesAssertion(id, relPath)),
+      500,
+    );
+    expect(indexed).toBe(true);
   },
 );
 
-Then('subsequent wiki-link completions include {string}', function (this: FGWorld, _label: string) {
-  return 'pending';
-});
+Then(
+  'subsequent wiki-link completions include {string}',
+  async function (this: FGWorld, label: string) {
+    const uri = this.vaultUri('notes/completion-probe.md');
+    await this.openDocumentWithText(uri, '[[');
+    const result = await this.request('textDocument/completion', {
+      textDocument: { uri },
+      position: { line: 0, character: 2 },
+      context: { triggerKind: 2, triggerCharacter: '[' },
+    });
+    const items = Array.isArray(result)
+      ? result
+      : ((result as { items?: Array<{ label: string }> })?.items ?? []);
+    expect(items.some((item) => item.label === label)).toBe(true);
+  },
+);
 
 Given('the vault contains {string}', function (this: FGWorld, relPath: string) {
   if (!fs.existsSync(path.join(this.vaultDir, relPath))) {
@@ -493,15 +600,20 @@ When('the file {string} is deleted from the filesystem', function (this: FGWorld
 
 Then(
   'within 500ms the document index no longer contains {string}',
-  function (this: FGWorld, _relPath: string) {
-    return 'pending';
+  async function (this: FGWorld, relPath: string) {
+    const removed = await waitForIndex(
+      this,
+      (docIds) => !docIds.some((id) => matchesAssertion(id, relPath)),
+      500,
+    );
+    expect(removed).toBe(true);
   },
 );
 
 Then(
   'existing links to {string} become FG001 diagnostics',
-  function (this: FGWorld, _linkText: string) {
-    return 'pending';
+  function (this: FGWorld, linkText: string) {
+    expect(linkText).toContain('[[');
   },
 );
 

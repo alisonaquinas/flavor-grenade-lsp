@@ -12,14 +12,14 @@ This smoke test validates the minimum viable wiki-link round-trip: that a valid 
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-005 — valid wiki-link resolves without diagnostic
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/wiki-links]] — `Valid wiki-link passes without diagnostic`
+**BDD Reference:** [[docs/ofm-spec/wiki-links]] — `Valid wiki-link passes without diagnostic`
 **Phase gate:** Phase 2
 
 **Setup:**
@@ -74,7 +74,7 @@ And the link "[[existing]]" resolves to "notes/existing.md"
 ### TC-SMOKE-006 — broken wiki-link produces FG001 with Error severity
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/wiki-links]] — `Broken wiki-link reports FG001 (BrokenWikiLink)`
+**BDD Reference:** [[docs/ofm-spec/wiki-links]] — `Broken wiki-link reports FG001 (BrokenWikiLink)`
 **Phase gate:** Phase 2
 
 **Setup:**

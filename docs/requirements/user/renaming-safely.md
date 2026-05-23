@@ -9,9 +9,11 @@ aliases:
 # Renaming Safely User Requirements
 
 > [!NOTE] Scope
-> These user requirements cover how vault authors rename notes and headings with confidence that all references are updated. Implementation details are in [[requirements/rename]].
+> These user requirements cover how vault authors rename notes and headings with confidence that all references are updated. Implementation details are in [[docs/requirements/rename]].
 
 ---
+
+## User.Rename.RenameNoteEverywhere
 
 **Tag:** User.Rename.RenameNoteEverywhere
 **Gist:** Vault author renames a note and receives a `WorkspaceEdit` that updates every link to it across the entire vault in one operation.
@@ -24,6 +26,8 @@ aliases:
 **Maps to:** Rename.Refactoring.Completeness, Rename.StyleBinding.Consistency
 
 ---
+
+## User.Rename.RenameHeadingEverywhere
 
 **Tag:** User.Rename.RenameHeadingEverywhere
 **Gist:** Vault author renames a heading and receives a `WorkspaceEdit` that updates every heading-link across the vault while preserving display aliases.

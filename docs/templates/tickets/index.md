@@ -17,11 +17,11 @@ This directory contains OFM-formatted templates for work item tickets used in th
 
 | Template | Type Code | Use When |
 |---|---|---|
-| [[templates/tickets/feature]] | `FEAT` | Delivering a phase-aligned capability area spanning multiple tasks |
-| [[templates/tickets/task]] | `TASK` | Implementing a single atomic work item within a feature |
-| [[templates/tickets/bug]] | `BUG` | Reporting a defect in implemented behaviour |
-| [[templates/tickets/spike]] | `SPIKE` | Investigating an open question before committing to an approach |
-| [[templates/tickets/chore]] | `CHORE` | Maintenance, tooling, refactoring, or documentation housekeeping |
+| [[docs/templates/tickets/feature]] | `FEAT` | Delivering a phase-aligned capability area spanning multiple tasks |
+| [[docs/templates/tickets/task]] | `TASK` | Implementing a single atomic work item within a feature |
+| [[docs/templates/tickets/bug]] | `BUG` | Reporting a defect in implemented behaviour |
+| [[docs/templates/tickets/spike]] | `SPIKE` | Investigating an open question before committing to an approach |
+| [[docs/templates/tickets/chore]] | `CHORE` | Maintenance, tooling, refactoring, or documentation housekeeping |
 
 ---
 
@@ -31,11 +31,11 @@ Ticket IDs use the schema `<TYPE>-<NNN>` with three-digit zero-padded numbers, a
 
 | Type Code | Template | Example IDs |
 |---|---|---|
-| `FEAT` | [[templates/tickets/feature]] | `FEAT-001`, `FEAT-002` |
-| `TASK` | [[templates/tickets/task]] | `TASK-001`, `TASK-042` |
-| `BUG` | [[templates/tickets/bug]] | `BUG-001`, `BUG-003` |
-| `SPIKE` | [[templates/tickets/spike]] | `SPIKE-001`, `SPIKE-007` |
-| `CHORE` | [[templates/tickets/chore]] | `CHORE-001`, `CHORE-012` |
+| `FEAT` | [[docs/templates/tickets/feature]] | `FEAT-001`, `FEAT-002` |
+| `TASK` | [[docs/templates/tickets/task]] | `TASK-001`, `TASK-042` |
+| `BUG` | [[docs/templates/tickets/bug]] | `BUG-001`, `BUG-003` |
+| `SPIKE` | [[docs/templates/tickets/spike]] | `SPIKE-001`, `SPIKE-007` |
+| `CHORE` | [[docs/templates/tickets/chore]] | `CHORE-001`, `CHORE-012` |
 
 Counters are independent per type. Do not reuse or retire numbers.
 
@@ -45,10 +45,10 @@ Counters are independent per type. Do not reuse or retire numbers.
 
 1. Copy the appropriate template from this directory.
 2. Name the file `<TICKET-ID>.md` (e.g., `TASK-042.md`).
-3. Place it in `docs/tickets/` (the instance directory — not this templates directory).
+3. Place it in `docs/plans/phase-{{NN}}-{{slug}}/` (the phase ticket directory — not this templates directory).
 4. Replace every `{{PLACEHOLDER}}` with real values.
 5. Add wikilinks to all relevant requirements, BDD features, test files, ADRs, and phase plans.
-6. Leave the **Workflow Log** section initialised with a single `open` entry — the LLM agent writes subsequent entries.
+6. Leave the **Workflow Log** section initialised with a single entry for the ticket type's initial lifecycle state — the LLM agent writes subsequent entries.
 
 ---
 
@@ -58,11 +58,11 @@ Each ticket type has a dedicated lifecycle document defining its state machine, 
 
 | Ticket Type | Lifecycle Doc | Initial State |
 |---|---|---|
-| Feature | [[templates/tickets/lifecycle/feature-lifecycle]] | `draft` |
-| Task | [[templates/tickets/lifecycle/task-lifecycle]] | `open` |
-| Bug | [[templates/tickets/lifecycle/bug-lifecycle]] | `open` |
-| Spike | [[templates/tickets/lifecycle/spike-lifecycle]] | `open` |
-| Chore | [[templates/tickets/lifecycle/chore-lifecycle]] | `open` |
+| Feature | [[docs/templates/tickets/lifecycle/feature-lifecycle]] | `draft` |
+| Task | [[docs/templates/tickets/lifecycle/task-lifecycle]] | `open` |
+| Bug | [[docs/templates/tickets/lifecycle/bug-lifecycle]] | `open` |
+| Spike | [[docs/templates/tickets/lifecycle/spike-lifecycle]] | `open` |
+| Chore | [[docs/templates/tickets/lifecycle/chore-lifecycle]] | `open` |
 
 ---
 
@@ -96,7 +96,7 @@ Every template contains a `## Workflow Log` section at the bottom. This section 
 > Brief note: what work is starting and why.
 
 > [!WARNING] Agent — YYYY-MM-DD — `in-progress` → `blocked`
-> Blocked on [[tickets/TASK-NNN]] — reason.
+> Blocked on [[plans/phase-{{NN}}-{{slug}}/TASK-NNN]] or same-phase [[TASK-NNN]] — reason.
 
 > [!CHECK] Agent — YYYY-MM-DD — `in-review` → `done`
 > All acceptance criteria met. CI green. Evidence: <PR/commit reference>.
@@ -130,15 +130,15 @@ When filling in ticket link sections, use these canonical link targets:
 | ADR | `[[adr/ADR{{NNN}}-{{slug}}]]` | `[[adr/ADR006-block-ref-indexing]]` |
 | Phase plan | `[[plans/phase-{{NN}}-{{slug}}]]` | `[[plans/phase-05-wiki-links]]` |
 | Execution ledger | `[[plans/execution-ledger]]` | — |
-| Another ticket | `[[tickets/{{ID}}]]` | `[[tickets/TASK-042]]` |
+| Another ticket | `[[plans/phase-{{NN}}-{{slug}}/{{ID}}]]` or same-phase `[[{{ID}}]]` | `[[plans/phase-05-wiki-links/TASK-060]]` |
 
 ---
 
 ## Related Documents
 
-- [[requirements/index]] — Master Planguage tag index
-- [[requirements/user/index]] — User requirement tag index
-- [[test/matrix]] — Requirements × tests traceability matrix
-- [[test/index]] — Test file inventory
-- [[plans/execution-ledger]] — Phase completion status
+- [[docs/requirements/index]] — Master Planguage tag index
+- [[docs/requirements/user/index]] — User requirement tag index
+- [[docs/test/matrix]] — Requirements × tests traceability matrix
+- [[docs/test/index]] — Test file inventory
+- [[docs/plans/execution-ledger]] — Phase completion status
 - [[AGENTS]] — Agent guidance for this repository

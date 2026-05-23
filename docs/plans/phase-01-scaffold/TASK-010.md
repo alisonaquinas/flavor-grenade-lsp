@@ -31,7 +31,7 @@ Create `src/lsp/lsp.module.ts` containing the `LspModule` NestJS module class de
 - Use the `@Module` decorator from `@nestjs/common`
 - All three arrays (`imports`, `providers`, `exports`) are empty at this phase — placeholders only
 - Exported class name must be exactly `LspModule` to match the import in `src/main.ts`
-- See also: [[adr/ADR001-stdio-transport]], [[architecture/overview]]
+- See also: [[docs/adr/ADR001-stdio-transport]], [[docs/architecture/overview]]
 
 ---
 
@@ -39,7 +39,7 @@ Create `src/lsp/lsp.module.ts` containing the `LspModule` NestJS module class de
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Module skeleton; LSP functional requirements addressed in Phase 2+ | [[requirements/index]] |
+| — | Module skeleton; LSP functional requirements addressed in Phase 2+ | [[docs/requirements/index]] |
 
 ---
 
@@ -63,7 +63,7 @@ Create `src/lsp/lsp.module.ts` containing the `LspModule` NestJS module class de
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | `LspModule` is the root NestJS module; stdio transport provider will be registered here in Phase 2 |
+| [[docs/adr/ADR001-stdio-transport]] | `LspModule` is the root NestJS module; stdio transport provider will be registered here in Phase 2 |
 
 ---
 
@@ -105,7 +105,7 @@ The `lsp/` subdirectory must be created as part of this task. If TASK-015 (direc
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

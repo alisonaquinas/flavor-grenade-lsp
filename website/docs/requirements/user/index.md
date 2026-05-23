@@ -4,7 +4,7 @@
 
 These requirements describe what the public Flavor Grenade website must help
 users accomplish. Technical implementation requirements live in
-[[requirements/technical/index]].
+[[website/docs/requirements/technical/index]].
 
 ## Audience
 
@@ -23,14 +23,14 @@ The website must serve:
 
 | Requirement | Summary | Source |
 | --- | --- | --- |
-| [[homepage]] | Explain the product and route users to the right next step. | [[../project-brief]] |
-| [[quickstart]] | Help users install, verify, and try first useful actions. | [[../project-brief]] |
-| [[how-to]] | Provide task-focused guides for common user workflows. | [[../project-brief]] |
-| [[advanced-usage]] | Explain deeper configuration, integrations, and boundaries. | [[../project-brief]] |
-| [[faq]] | Answer high-intent questions and objections directly. | [[../project-brief]] |
-| [[concepts]] | Teach the mental model through a linked LLM-wiki structure. | [[../project-brief]] |
-| [[seo-discovery]] | Make pages discoverable for relevant search intent. | [[../project-brief]], [[../research/reference-site-research]] |
-| [[accessibility-and-usability]] | Keep the site usable, navigable, and readable for all users. | [[../research/reference-site-research]] |
+| [[homepage]] | Explain the product and route users to the right next step. | [[website/docs/project-brief]] |
+| [[quickstart]] | Help users install, verify, and try first useful actions. | [[website/docs/project-brief]] |
+| [[website/docs/requirements/user/how-to]] | Provide task-focused guides for common user workflows. | [[website/docs/project-brief]] |
+| [[website/docs/requirements/user/advanced-usage]] | Explain deeper configuration, integrations, and boundaries. | [[website/docs/project-brief]] |
+| [[faq]] | Answer high-intent questions and objections directly. | [[website/docs/project-brief]] |
+| [[website/docs/requirements/user/concepts]] | Teach the mental model through a linked LLM-wiki structure. | [[website/docs/project-brief]] |
+| [[seo-discovery]] | Make pages discoverable for relevant search intent. | [[website/docs/project-brief]], [[website/docs/research/reference-site-research]] |
+| [[accessibility-and-usability]] | Keep the site usable, navigable, and readable for all users. | [[website/docs/research/reference-site-research]] |
 
 ## Acceptance Model
 

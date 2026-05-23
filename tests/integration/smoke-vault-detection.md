@@ -12,14 +12,14 @@ This smoke test validates that the VaultDetector correctly identifies vault mode
 
 ## Phase Gate
 
-Phase 1 — see [[plans/execution-ledger]]
+Phase 1 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-003 — .obsidian/ directory triggers obsidian vault mode
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/vault-detection]] — `.obsidian/ found — vault mode active with full features`
+**BDD Reference:** \[\[bdd/features/vault-detection]] — `.obsidian/ found — vault mode active with full features`
 **Phase gate:** Phase 1
 
 **Setup:**
@@ -72,7 +72,7 @@ And the document index contains "notes/first.md" and "notes/second.md"
 ### TC-SMOKE-004 — no vault marker produces single-file mode and suppresses FG001
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/vault-detection]] — `Neither marker found — single-file mode with cross-file features suppressed`
+**BDD Reference:** \[\[bdd/features/vault-detection]] — `Neither marker found — single-file mode with cross-file features suppressed`
 **Phase gate:** Phase 1
 
 **Setup:**

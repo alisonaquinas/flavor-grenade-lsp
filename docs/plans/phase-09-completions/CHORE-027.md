@@ -30,7 +30,7 @@ Audit all Phase 9 completion code for security concerns with focus on two areas:
 
 Completion trigger strings are derived from user cursor context. If any trigger string or prefix were passed into a filesystem API, a crafted document could potentially escape the vault root. Additionally, the standard callout type list must be immutable and not influenced by user input.
 
-- Motivated by: `Security.InputValidation.CompletionTriggers` (see [[requirements/security/index]])
+- Motivated by: `Security.InputValidation.CompletionTriggers` (see [[docs/requirements/security/index]])
 
 ---
 
@@ -38,7 +38,7 @@ Completion trigger strings are derived from user cursor context. If any trigger 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Completion trigger strings must not reach filesystem operations | [[requirements/security/index]] |
+| — | Completion trigger strings must not reach filesystem operations | [[docs/requirements/security/index]] |
 
 ---
 
@@ -64,7 +64,7 @@ Completion trigger strings are derived from user cursor context. If any trigger 
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR005-wiki-style-binding]] | linkStyle configuration and completion insert text formatting |
+| [[docs/adr/ADR005-wiki-style-binding]] | linkStyle configuration and completion insert text formatting |
 
 ---
 
@@ -90,8 +90,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
 - [ ] Confirmed: no completion trigger string or cursor-derived prefix is ever passed to a filesystem API
 - [ ] Confirmed: `STANDARD_CALLOUT_TYPES` is a hardcoded `as const` array not derived from config or user input
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -103,7 +103,7 @@ Custom callout types (from `CalloutEntry[]` in vault documents) are enumerated f
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -114,7 +114,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security sweep confirming completion trigger strings are not used in filesystem operations and callout type list is hardcoded.

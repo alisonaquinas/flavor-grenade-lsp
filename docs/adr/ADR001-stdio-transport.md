@@ -21,7 +21,7 @@ The primary use cases identified for this project are: (1) single-user local edi
 
 Ship with **stdio JSON-RPC transport**. The server entry point `src/main.ts` reads raw bytes from `process.stdin`, applies Content-Length frame parsing, deserializes JSON-RPC messages, dispatches them through the NestJS service layer, serializes responses, and writes them back to `process.stdout` with proper Content-Length headers.
 
-HTTP+SSE transport is explicitly reserved for a future phase (see [[plans/phase-02-lsp-transport]]). The architecture will not preclude it: the transport layer will be abstracted behind an interface (`ITransport`) so that a future HTTP adapter can be introduced without touching the protocol handler.
+HTTP+SSE transport is explicitly reserved for a future phase (see [[docs/plans/phase-02-lsp-transport]]). The architecture will not preclude it: the transport layer will be abstracted behind an interface (`ITransport`) so that a future HTTP adapter can be introduced without touching the protocol handler.
 
 ## Consequences
 
@@ -44,7 +44,7 @@ HTTP+SSE transport is explicitly reserved for a future phase (see [[plans/phase-
 
 ## Related
 
-- [[architecture/overview]]
-- [[plans/phase-02-lsp-transport]]
-- [[ddd/lsp-protocol/domain-model]]
+- [[docs/architecture/overview]]
+- [[docs/plans/phase-02-lsp-transport]]
+- [[docs/ddd/lsp-protocol/domain-model]]
 - [[ADR004-text-sync-strategy]]

@@ -34,7 +34,7 @@ Oracle resolution.
   non-vault targets.
 - Preserve enough structured data for file target, fragment, image-vs-link
   syntax, and original text range.
-- Follow [[ofm-spec/markdown-links]] `OFM-MDLINK-004`.
+- Follow [[docs/ofm-spec/markdown-links]] `OFM-MDLINK-004`.
 
 ## Implementation Details
 
@@ -54,8 +54,8 @@ Oracle resolution.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.TargetClassification` | Classify Markdown targets as local documents, attachments, fragments, URLs, or unsupported schemes | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.LocalResolution` | Local links participate in vault resolution and external links do not | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.TargetClassification` | Classify Markdown targets as local documents, attachments, fragments, URLs, or unsupported schemes | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Local links participate in vault resolution and external links do not | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -116,7 +116,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass or are ready for downstream resolver work.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -131,7 +131,7 @@ Keep this classifier small and deterministic. Resolution belongs in
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -140,7 +140,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

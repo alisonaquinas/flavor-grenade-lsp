@@ -8,7 +8,7 @@ aliases: [Verify Embed Resolution]
 
 ## Purpose
 
-This file defines scripted and agent-driven verification test cases for the four Planguage requirements in the embed resolution domain. Each test case maps directly to one Planguage tag defined in [[requirements/embed-resolution]] and validates the server's diagnostic behaviour against the Fail and Goal thresholds stated there. The tests cover correct FG004 emission for missing markdown embed targets, correct diagnostic code assignment (FG004 not FG001) for image embeds, two-level validation for heading-scoped embeds, and two-level validation for block-anchor embeds.
+This file defines scripted and agent-driven verification test cases for the four Planguage requirements in the embed resolution domain. Each test case maps directly to one Planguage tag defined in [[docs/requirements/embed-resolution]] and validates the server's diagnostic behaviour against the Fail and Goal thresholds stated there. The tests cover correct FG004 emission for missing markdown embed targets, correct diagnostic code assignment (FG004 not FG001) for image embeds, two-level validation for heading-scoped embeds, and two-level validation for block-anchor embeds.
 
 ## Requirements Covered
 
@@ -26,7 +26,7 @@ This file defines scripted and agent-driven verification test cases for the four
 **Planguage Tag:** `Embed.Resolution.MarkdownTarget`
 **Gist:** `![[file.md]]` embed syntax must resolve to documents present in VaultIndex, and must produce FG004 (BrokenEmbed) when the target document cannot be found.
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Valid markdown embed passes without diagnostic` and `Broken embed reports FG004 with Warning severity`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Valid markdown embed passes without diagnostic` and `Broken embed reports FG004 with Warning severity`
 **Phase:** Phase 1
 
 **Setup:**
@@ -80,7 +80,7 @@ And (correctly classified embeds / total embed links tested) × 100 equals 100
 **Planguage Tag:** `Embed.Resolution.ImageTarget`
 **Gist:** `![[image.png]]` embed links pointing to image files must not produce FG001 (BrokenWikiLink); only FG004 (BrokenEmbed) applies when the image file is absent.
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Image embed for missing image reports FG004 not FG001`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Image embed for missing image reports FG004 not FG001`
 **Phase:** Phase 1
 
 **Setup:**
@@ -134,7 +134,7 @@ And (correctly handled image embeds / total image embed links tested) × 100 equ
 **Planguage Tag:** `Embed.HeadingEmbed.Resolution`
 **Gist:** `![[doc#Heading]]` section embed syntax must validate that both the target document exists in VaultIndex and that the named heading exists within that document, producing appropriate diagnostics when either is absent.
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Heading embed validates both doc and heading exist` and `Heading embed with nonexistent heading reports FG004`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Heading embed validates both doc and heading exist` and `Heading embed with nonexistent heading reports FG004`
 **Phase:** Phase 1
 
 **Setup:**
@@ -203,7 +203,7 @@ And (correctly diagnosed embeds / total embeds tested) × 100 equals 100
 **Planguage Tag:** `Embed.BlockEmbed.Resolution`
 **Gist:** `![[doc#^blockid]]` block embed syntax must validate that the target document exists and that the referenced `^blockid` anchor is present in that document, producing FG004 when either condition is unmet.
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Block embed validates block anchor exists in target document` and `Block embed with nonexistent block anchor reports FG004`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Block embed validates block anchor exists in target document` and `Block embed with nonexistent block anchor reports FG004`
 **Phase:** Phase 1
 
 **Setup:**

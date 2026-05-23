@@ -6,13 +6,13 @@ aliases: [Unit Tests Navigation, Unit Tests Rename, DefinitionService Tests, Ren
 
 > [!INFO] DefinitionService and ReferencesService delegate entirely to Oracle — unit tests focus on correct LSP Location construction. RenameService tests verify WorkspaceEdit shape and StyleBinding preservation (ADR005).
 
-Related: [[requirements/navigation]] | [[requirements/rename]] | [[adr/ADR005-wiki-style-binding]] | [[architecture/layers]] | [[adr/ADR010-tests-directory-structure]]
+Related: [[docs/requirements/navigation]] | [[docs/requirements/rename]] | [[docs/adr/ADR005-wiki-style-binding]] | [[docs/architecture/layers]] | [[docs/adr/ADR010-tests-directory-structure]]
 
 ---
 
 ## Overview
 
-This file covers three Feature Layer services: `DefinitionService`, `ReferencesService`, and `RenameService`. All Oracle interactions are replaced with mocks. `RenameService` tests additionally verify `WorkspaceEdit` structure and the StyleBinding invariant from [[adr/ADR005-wiki-style-binding]].
+This file covers three Feature Layer services: `DefinitionService`, `ReferencesService`, and `RenameService`. All Oracle interactions are replaced with mocks. `RenameService` tests additionally verify `WorkspaceEdit` structure and the StyleBinding invariant from [[docs/adr/ADR005-wiki-style-binding]].
 
 ---
 
@@ -489,7 +489,7 @@ it('updates only the anchor portion of CrossSection refs when renaming a heading
 **Class / Service:** `RenameService`
 **Spec file:** `tests/unit/features/rename-service.spec.ts`
 **Linked FR:** `FR-REN-004`
-**Linked ADR:** [[adr/ADR005-wiki-style-binding]]
+**Linked ADR:** [[docs/adr/ADR005-wiki-style-binding]]
 **Type:** Scripted (Bun test runner)
 
 **RED — Failing test:**

@@ -31,7 +31,7 @@ misconfigured server states are visible through the VS Code client surface.
   `flavorGrenade/status`
 - Cover missing custom server path without spawning orphaned child processes
 - Capture enough state to support the richer status UX planned in Phase E10
-- See also: [[plans/phase-E10-status-ux-troubleshooting]]
+- See also: [[docs/plans/phase-E10-status-ux-troubleshooting]]
 
 ---
 
@@ -39,8 +39,8 @@ misconfigured server states are visible through the VS Code client surface.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Tests.HostCoverage` | Host tests include status transition and failure groups | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.Diagnostics` | Status UI exposes lifecycle, error, and misconfiguration states | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Host tests include status transition and failure groups | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Status UI exposes lifecycle, error, and misconfiguration states | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -61,7 +61,7 @@ misconfigured server states are visible through the VS Code client surface.
 | `extension/src/status-bar.test.ts` | Unit | `Extension.Status.Diagnostics` | passing |
 
 > After implementation, update the rows above and the corresponding rows in
-> See [[test/matrix]] and [[test/index]].
+> See [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -69,7 +69,7 @@ misconfigured server states are visible through the VS Code client surface.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension failures must account for bundled server command resolution |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension failures must account for bundled server command resolution |
 
 ---
 
@@ -104,8 +104,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-027]] child task row updated to `in-review`
 
 ---
@@ -120,14 +120,14 @@ regression coverage for state visibility and server failure handling.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -136,7 +136,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

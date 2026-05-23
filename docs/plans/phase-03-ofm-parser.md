@@ -124,22 +124,22 @@ OFMDoc = { uri, version, frontmatter, body, index, opaqueRegions }
 
 - [ ] **6. Implement `WikiLinkParser`**
 
-  Create `src/parser/wiki-link-parser.ts`. Use a character-level FSM (not regex on the whole document) to find `[[...]]` tokens outside opaque regions.
+  Create `src/parser/wiki-link-parser.ts`. Use a character-level FSM (not regex on the whole document) to find `\[\[...]]` tokens outside opaque regions.
 
   Handles all variants:
-  - `[[note]]` — simple file link
-  - `[[note|alias]]` — display alias
-  - `[[note#heading]]` — heading link
-  - `[[note#^blockid]]` — block reference
-  - `[[note#heading|alias]]` — heading with alias
-  - `[[folder/note]]` — path-qualified
-  - `[[#heading]]` — intra-document heading
-  - `[[#^blockid]]` — intra-document block ref
-  - `[[]]` — empty (FG003)
+  - `\[\[note]]` — simple file link
+  - `\[\[note|alias]]` — display alias
+  - `\[\[note#heading]]` — heading link
+  - `\[\[note#^blockid]]` — block reference
+  - `\[\[note#heading|alias]]` — heading with alias
+  - `\[\[folder/note]]` — path-qualified
+  - `[]()` — intra-document heading
+  - `\[\[#^blockid]]` — intra-document block ref
+  - `[]()` — empty (FG003)
 
 - [ ] **7. Implement `EmbedParser`**
 
-  Create `src/parser/embed-parser.ts`. Same FSM as WikiLinkParser but prefixed by `!`. The `!` must not itself be inside an opaque region. Embed-width syntax `![[image.png|200]]` must be handled — the `|200` or `|200x150` is a size specifier, not an alias, when the target has an image extension.
+  Create `src/parser/embed-parser.ts`. Same FSM as WikiLinkParser but prefixed by `!`. The `!` must not itself be inside an opaque region. Embed-width syntax `!\[\[image.png|200]]` must be handled — the `|200` or `|200x150` is a size specifier, not an alias, when the target has an image extension.
 
 - [ ] **8. Implement `BlockAnchorParser`**
 

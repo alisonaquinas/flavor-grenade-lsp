@@ -1,137 +1,222 @@
 ---
-title: OFMarkdown Language Mode Requirements
+title: Markdown Flavor Selection Requirements
 tags:
-  - requirements/ofmarkdown-language-mode
+  - requirements/markdown-flavor-selection
 aliases:
-  - OFMarkdown Requirements
-  - VS Code Language Mode Requirements
+  - Markdown Flavor Requirements
+  - OFMarkdown Language Mode Requirements
+  - VS Code Markdown Flavor Requirements
 ---
 
-# OFMarkdown Language Mode Requirements
+# Markdown Flavor Selection Requirements
 
 > [!NOTE] Scope
-> These requirements govern the VS Code extension behavior that assigns the `ofmarkdown` language id to open documents that Flavor Grenade recognizes as Obsidian Flavored Markdown vault documents. Server parsing, diagnostics, completion, and navigation semantics are governed by the existing OFM feature requirements.
+> These requirements replace the earlier alternate `ofmarkdown` language-mode design. VS Code must keep `.md` files in the built-in `markdown` language mode and expose Markdown flavor as a separate selector. Server parsing, diagnostics, completion, and navigation semantics remain governed by the existing Markdown and OFM feature requirements.
+>
+> The `ofmarkdown-language-mode.md` slug is retained as a legacy backlink target. The current requirements target Markdown flavor selection, not alternate language-mode promotion.
 
 ---
 
-**Tag:** Extension.LanguageMode.Contribution
-**User Req:** User.Extension.RecognizeOFMarkdown
-**Gist:** The VS Code extension must contribute a language id `ofmarkdown` with aliases `OFMarkdown` and `Obsidian Flavored Markdown` without globally associating `.md` files to that language.
-**Ambition:** OFMarkdown needs a first-class VS Code identity so authors can target language-specific settings and future snippets while preserving normal Markdown behavior for non-vault files. The language contribution must therefore create a selectable language mode but not hijack every Markdown file by extension.
-**Scale:** Percentage of extension manifest inspections in which `contributes.languages` includes exactly one `ofmarkdown` language contribution with the required aliases and no `.md` extension binding.
+## Extension.MarkdownLanguage.PreserveDefault
+
+**Tag:** Extension.MarkdownLanguage.PreserveDefault
+**User Req:** User.Extension.PreserveMarkdownLanguage
+**Gist:** The VS Code extension must keep Markdown documents in VS Code's built-in `markdown` language mode instead of promoting them to an alternate language id.
+**Ambition:** Users should keep the default Markdown editor ecosystem: built-in highlighting, Markdown extensions, editor settings, previews, snippets, and commands. Flavor Grenade should add flavor awareness without taking over the language picker.
+**Scale:** Percentage of opened `.md` documents whose VS Code `languageId` remains `markdown` after extension activation, flavor detection, and user flavor override.
 **Meter:**
 
-1. Inspect `extension/package.json`.
-2. Verify `contributes.languages` contains an entry with `id = "ofmarkdown"`.
-3. Verify the entry has aliases `OFMarkdown` and `Obsidian Flavored Markdown`.
-4. Verify the entry does not list `.md` in `extensions`.
-5. Verify the entry does not use `filenames` or `firstLine` patterns that would globally claim generic Markdown.
-6. Compute: (manifest checks passing / total checks) × 100.
-**Fail:** Any global `.md` association to `ofmarkdown`, missing language id, or missing alias.
-**Goal:** 100% manifest conformance.
+1. Open a `.md` file in an Obsidian vault.
+2. Wait for extension activation and flavor detection.
+3. Verify the document `languageId` remains `markdown`.
+4. Select each supported explicit flavor override from the required flavor set.
+5. Verify the document `languageId` remains `markdown` after each override.
+6. Repeat in a generic Markdown workspace and in single-file mode.
+7. Compute: (documents remaining `markdown` / total `.md` documents tested) x 100.
+**Fail:** Any `.md` document is reassigned to `ofmarkdown` or another custom Markdown language id by Flavor Grenade.
+**Goal:** 100% of `.md` documents remain in `markdown`.
 **Stakeholders:** Vault authors, VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR016-ofmarkdown-language-mode]], VS Code Extension API contribution point documentation.
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
 
 ---
 
-**Tag:** Extension.LanguageMode.DynamicAssignment
-**User Req:** User.Extension.RecognizeOFMarkdown
-**Gist:** When a file-backed Markdown document is detected as belonging to an Obsidian vault or as present in the Flavor Grenade index, the extension must set that document's VS Code language id to `ofmarkdown`.
-**Ambition:** Authors should see OFMarkdown as the active mode only when the document is semantically an OFM vault document. Detection must be automatic and should converge without the author manually changing the language picker.
-**Scale:** Percentage of qualifying open documents whose `languageId` becomes `ofmarkdown` within 1000 ms after vault/index detection completes.
+## Extension.MarkdownFlavor.Selector
+
+**Tag:** Extension.MarkdownFlavor.Selector
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The extension must expose a second Markdown flavor selector near the VS Code language mode control, independent of the built-in language picker.
+**Ambition:** Users need a visible way to understand and change how Flavor Grenade interprets the current Markdown document without changing the VS Code language mode. The selector should make flavor state obvious and reversible.
+**Scale:** Percentage of editor contexts where a Markdown flavor selector is visible and reports the current effective flavor.
 **Meter:**
 
-1. Open a workspace folder containing `.obsidian/` and a Markdown file `notes/welcome.md`.
-2. Open `notes/welcome.md` in VS Code.
-3. Wait for extension activation and vault/index detection.
-4. Verify the active document's `languageId` is `ofmarkdown`.
-5. Repeat with a folder that has `.flavor-grenade.toml` and no `.obsidian/`; verify promotion after the server reports the document as indexed.
-6. Compute: (qualifying documents promoted / total qualifying documents tested) × 100.
-**Fail:** Any qualifying open Markdown document remains `markdown` after detection settles.
-**Goal:** 100% of qualifying open documents promoted within 1000 ms of detection completion.
-**Stakeholders:** Vault authors, VS Code users.
+1. Open a Markdown file in a workspace folder.
+2. Verify a Flavor Grenade status item or equivalent selector is visible near the language mode area as VS Code allows.
+3. Verify the selector label includes `Auto Detect` or one supported effective flavor.
+4. Open the selector and verify choices include every required flavor listed in `Extension.MarkdownFlavor.RequiredCoverage`.
+5. Select each choice and verify the selector updates without changing the language id.
+6. Compute: (selector contexts passing / total Markdown contexts tested) x 100.
+**Fail:** The user must use the VS Code language picker to choose Markdown flavor, or the selector is absent for supported Markdown documents.
+**Goal:** 100% selector availability for file-backed Markdown documents.
+**Stakeholders:** VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/ofmarkdown-language-mode]], [[requirements/workspace]], [[adr/ADR016-ofmarkdown-language-mode]].
+**Source:** [[docs/features/ofmarkdown-language-mode]], [[docs/adr/ADR020-markdown-flavor-selection]].
 
 ---
 
-**Tag:** Extension.LanguageMode.NonVaultIsolation
-**User Req:** User.Extension.PreserveMarkdown
-**Gist:** Markdown documents that are not in an Obsidian vault and are not in the Flavor Grenade index must remain in VS Code's built-in `markdown` language mode.
-**Ambition:** Flavor Grenade should be precise, not invasive. Users frequently open README files, changelogs, and generic Markdown documents in the same VS Code window; those files should keep the normal Markdown ecosystem unless Flavor Grenade has evidence that they belong to an OFM vault.
-**Scale:** Percentage of non-qualifying Markdown documents whose language id remains `markdown` after extension activation and server readiness.
+## Extension.MarkdownFlavor.RequiredCoverage
+
+**Tag:** Extension.MarkdownFlavor.RequiredCoverage
+**User Req:** User.Extension.SelectMarkdownFlavor
+**Gist:** The selector, setting schema, and server-facing flavor model must include every Markdown flavor researched in `docs/research/`, plus an `auto` mode.
+**Ambition:** The research corpus is now product input. Users should be able to explicitly select any documented Markdown dialect without waiting for a new language id or a hidden setting.
+**Scale:** Number of supported flavor ids present in the selector, settings schema, and client/server initialization payload.
 **Meter:**
 
-1. Open a workspace folder with Markdown files but no `.obsidian/`, no `.flavor-grenade.toml`, and no server index membership.
-2. Open at least 5 `.md` files.
-3. Wait for extension activation and server readiness.
-4. Verify each document's `languageId` remains `markdown`.
-5. Compute: (non-qualifying documents remaining markdown / total non-qualifying documents tested) × 100.
-**Fail:** Any non-qualifying Markdown document is changed to `ofmarkdown`.
-**Goal:** 100% of non-qualifying Markdown documents remain `markdown`.
-**Stakeholders:** VS Code users, non-Obsidian Markdown authors.
+1. Inspect the flavor enum used by the selector specification.
+2. Verify it contains exactly the required ids in the table below.
+3. Verify user-facing labels match the table below.
+4. Verify each id is accepted by `flavorGrenade.markdownFlavor`.
+5. Verify the effective flavor can be propagated to the server.
+6. Compute: (required flavor ids present / 14) x 100.
+**Fail:** Any required flavor is missing, or an unsupported flavor is exposed as selectable.
+**Goal:** 100% required flavor coverage.
+**Stakeholders:** Markdown authors, vault authors, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR016-ofmarkdown-language-mode]], [[features/ofmarkdown-language-mode]].
+**Source:** [[docs/research/commonmark-and-original-markdown]], [[docs/research/github-flavored-markdown-analysis]], [[docs/research/gitlab-flavored-markdown-analysis]], [[docs/research/pandoc-markdown-deep-research-report]], [[docs/research/multimarkdown-analysis]], [[docs/research/mdx-analysis]], [[docs/research/kramdown-analysis]], [[docs/research/markdown-extra-analysis]], [[docs/research/r-markdown-analysis]], [[docs/research/reddit-markdown-analysis]], [[docs/research/stack-overflow-markdown-analysis]], [[docs/ofm-spec/index]], [[docs/adr/ADR020-markdown-flavor-selection]].
+
+| Flavor id | Selector label | Research source |
+|---|---|---|
+| `auto` | Auto Detect | Workspace/vault detection requirements |
+| `original` | Original Markdown | [[docs/research/commonmark-and-original-markdown]] |
+| `commonmark` | CommonMark | [[docs/research/commonmark-and-original-markdown]] |
+| `obsidian` | Obsidian | [[docs/ofm-spec/index]] |
+| `gfm` | GitHub Flavored Markdown | [[docs/research/github-flavored-markdown-analysis]] |
+| `glfm` | GitLab Flavored Markdown | [[docs/research/gitlab-flavored-markdown-analysis]] |
+| `pandoc` | Pandoc Markdown | [[docs/research/pandoc-markdown-deep-research-report]] |
+| `multimarkdown` | MultiMarkdown | [[docs/research/multimarkdown-analysis]] |
+| `mdx` | MDX | [[docs/research/mdx-analysis]] |
+| `kramdown` | kramdown | [[docs/research/kramdown-analysis]] |
+| `markdown-extra` | Markdown Extra | [[docs/research/markdown-extra-analysis]] |
+| `r-markdown` | R Markdown | [[docs/research/r-markdown-analysis]] |
+| `reddit` | Reddit Markdown | [[docs/research/reddit-markdown-analysis]] |
+| `stack-overflow` | Stack Overflow Markdown | [[docs/research/stack-overflow-markdown-analysis]] |
 
 ---
 
-**Tag:** Extension.LanguageMode.UserOverrideSafety
+## Extension.MarkdownFlavor.DialectProfiles
+
+**Tag:** Extension.MarkdownFlavor.DialectProfiles
+**User Req:** User.Extension.TrustFlavorBehavior
+**Gist:** Every supported explicit flavor must have a documented dialect profile derived from its research note or normative OFM specification source.
+**Ambition:** A flavor must be more than a selector label. Each supported flavor needs a stable profile of core syntax, extensions, disabled constructs, and host-specific behavior so diagnostics and completions can become precise over time.
+**Scale:** Percentage of supported explicit flavors with a documented profile and source trace.
+**Meter:**
+
+1. Inspect the Markdown flavor profile registry or requirements table.
+2. For each explicit flavor id, verify a profile names its research source.
+3. Verify the profile distinguishes core Markdown, extension syntax, and host-specific behavior.
+4. Verify platform flavors such as MDX, R Markdown, Reddit, and Stack Overflow are described without taking over non-`markdown` VS Code language ids.
+5. Compute: (flavors with complete profiles / 13 explicit flavors) x 100.
+**Fail:** Any required flavor exists only as a UI label or undocumented enum value.
+**Goal:** 100% documented dialect profiles for required explicit flavors.
+**Stakeholders:** Markdown authors, extension maintainers, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** Markdown flavor research notes in `docs/research/`, plus `docs/ofm-spec/` for the Obsidian profile.
+
+---
+
+## Extension.MarkdownFlavor.AutoDetection
+
+**Tag:** Extension.MarkdownFlavor.AutoDetection
+**User Req:** User.Extension.AutoDetectFlavor
+**Gist:** In `auto` mode, the extension and server should continue to infer the effective flavor from vault and workspace signals.
+**Ambition:** Existing vault users should not have to configure anything. Obsidian vaults should behave as Obsidian flavored Markdown, plain Markdown files should default conservatively, and future detection can expand without changing the UI model.
+**Scale:** Percentage of documented contexts where `auto` resolves to the expected effective flavor.
+**Meter:**
+
+1. Open a Markdown file under a `.obsidian/` vault.
+2. Verify `auto` resolves to `obsidian`.
+3. Open a Markdown file under a `.flavor-grenade.toml` workspace with no explicit flavor setting.
+4. Verify `auto` resolves according to project config if present, including any supported flavor id.
+5. Open a single generic `.md` file outside a workspace.
+6. Verify `auto` resolves to `commonmark` unless future evidence says otherwise.
+7. Compute: (correct auto resolutions / total contexts tested) x 100.
+**Fail:** Auto detection selects Obsidian for generic Markdown without a vault/config signal, or fails to select Obsidian for `.obsidian/` vault notes.
+**Goal:** 100% documented auto-detection correctness.
+**Stakeholders:** Vault authors, Markdown authors.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/workspace]], [[docs/adr/ADR020-markdown-flavor-selection]], [[docs/features/ofmarkdown-language-mode]].
+
+---
+
+## Extension.MarkdownFlavor.OverridePersistence
+
+**Tag:** Extension.MarkdownFlavor.OverridePersistence
+**User Req:** User.Extension.OverrideMarkdownFlavor
+**Gist:** User flavor overrides must persist as project settings when a workspace folder is open and as user settings when the context is a standalone file.
+**Ambition:** Overrides should land at the least surprising scope. A folder-level choice belongs with the project so collaborators and future sessions get the same interpretation. A single-file choice cannot be written to a project, so it belongs to the user's settings.
+**Scale:** Percentage of override operations written to the correct VS Code configuration target.
+**Meter:**
+
+1. Open a Markdown file inside a workspace folder.
+2. Select `CommonMark` in the flavor selector.
+3. Verify the setting is written at workspace-folder or workspace scope, not user scope.
+4. Open a standalone Markdown file with no workspace folder.
+5. Select `Original Markdown`.
+6. Verify the setting is written at user scope.
+7. Clear the override by selecting `Auto Detect`.
+8. Verify the same scope is cleared or reset.
+9. Compute: (correct persistence operations / total operations tested) x 100.
+**Fail:** A folder-backed override is written only to user settings, or a standalone-file override attempts to write a project setting.
+**Goal:** 100% correct persistence scope.
+**Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], VS Code configuration target behavior.
+
+---
+
+## Extension.MarkdownFlavor.ServerPropagation
+
+**Tag:** Extension.MarkdownFlavor.ServerPropagation
+**User Req:** User.Extension.TrustFlavorBehavior
+**Gist:** The effective Markdown flavor must be propagated to the server so diagnostics, completion, parsing, and navigation use the selected dialect.
+**Ambition:** A selector that changes only UI text is misleading. The effective flavor must affect language intelligence consistently once the server supports flavor-specific behavior.
+**Scale:** Percentage of server-facing document analysis requests that include or can derive the current effective flavor.
+**Meter:**
+
+1. Start the extension with `auto` in an Obsidian vault.
+2. Verify server initialization or document metadata reports effective flavor `obsidian`.
+3. Override the folder to each required explicit flavor id.
+4. Verify the server receives a configuration change or refresh signal and re-analyzes open documents with that flavor id.
+5. Override a single-file context to `original`.
+6. Verify the server receives or derives `original`.
+7. Compute: (correct server flavor states / total flavor-state transitions) x 100.
+**Fail:** The UI selector changes but the server continues analyzing with the previous effective flavor.
+**Goal:** 100% propagation for supported flavor transitions.
+**Stakeholders:** Markdown authors, extension maintainers, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/design/api-layer]], [[docs/adr/ADR020-markdown-flavor-selection]].
+
+---
+
+## Extension.MarkdownFlavor.ManualLanguageSafety
+
+**Tag:** Extension.MarkdownFlavor.ManualLanguageSafety
 **User Req:** User.Extension.PreserveManualMode
-**Gist:** The extension must not change the language id of documents whose current language id is neither `markdown` nor `ofmarkdown`.
-**Ambition:** Users may intentionally set a Markdown-looking file to another language mode such as `mdx`, `plaintext`, or a custom notebook language. Flavor Grenade must not fight that explicit choice.
-**Scale:** Percentage of open documents with non-`markdown` and non-`ofmarkdown` language ids that remain unchanged after detection passes.
+**Gist:** The flavor selector must not override documents whose current VS Code language id is not `markdown`.
+**Ambition:** A user who manually sets a `.md` file to `mdx`, `plaintext`, or another language is making a language-mode choice. Flavor Grenade should not interpret that as permission to apply Markdown flavor behavior, even though `mdx` is also a supported flavor id for Markdown documents.
+**Scale:** Percentage of non-`markdown` documents ignored by flavor auto-detection and override application.
 **Meter:**
 
-1. Open a `.md` file inside an Obsidian vault.
-2. Manually change its VS Code language mode to `plaintext`.
-3. Trigger detection by restarting the extension or running the language mode refresh command.
-4. Verify the document remains `plaintext`.
-5. Repeat with at least one custom language id if available.
-6. Compute: (manual-language documents preserved / total manual-language documents tested) × 100.
-**Fail:** Any non-`markdown` or non-`ofmarkdown` document is reassigned by the extension.
+1. Open a `.md` file and manually change its language id to `plaintext`.
+2. Trigger flavor detection and selector refresh.
+3. Verify the document language id remains `plaintext`.
+4. Verify no flavor override is applied to that document unless the user returns it to `markdown`.
+5. Repeat with `mdx` if available.
+6. Compute: (manual-language documents preserved / total manual-language documents tested) x 100.
+**Fail:** Any non-`markdown` document is treated as active Markdown flavor scope or reassigned.
 **Goal:** 100% manual language selections preserved.
 **Stakeholders:** Advanced VS Code users, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR016-ofmarkdown-language-mode]], VS Code API documentation for `setTextDocumentLanguage`.
-
----
-
-**Tag:** Extension.LanguageMode.LoopSafety
-**User Req:** User.Extension.StableModeSwitch
-**Gist:** Language-mode assignment must not create activation, restart, didOpen/didClose, or status notification loops.
-**Ambition:** VS Code documents are closed and reopened internally when `setTextDocumentLanguage` changes the language id. Without explicit guards, a correct promotion could become an infinite loop or repeatedly restart the LanguageClient. The user-visible result must be stable: one promotion, no flicker, no repeated server process churn.
-**Scale:** Number of language-mode assignment calls and LanguageClient restarts per qualifying document open.
-**Meter:**
-
-1. Instrument the extension test harness to count calls to `setTextDocumentLanguage`, LanguageClient starts, and LanguageClient restarts.
-2. Open one qualifying Markdown document in a vault.
-3. Wait until the document language id is `ofmarkdown` and the LanguageClient is running.
-4. Verify `setTextDocumentLanguage` was called at most once for that document.
-5. Verify the LanguageClient did not restart due solely to the language id transition.
-6. Repeat across at least 5 documents.
-**Fail:** More than one language-mode assignment for the same settled document, or any restart loop caused by assignment.
-**Goal:** At most one assignment per qualifying document open; zero language-mode-induced restart loops.
-**Stakeholders:** Vault authors, extension maintainers.
-**Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR016-ofmarkdown-language-mode]], VS Code API documentation for `setTextDocumentLanguage`.
-
----
-
-**Tag:** Extension.LanguageMode.MarkdownParity
-**User Req:** User.Extension.PreserveMarkdownEditing
-**Gist:** After a document is promoted to `ofmarkdown`, baseline Markdown editing behavior and highlighting must remain available.
-**Ambition:** The new language mode should add identity and OFM targeting, not make the editor feel worse. Promotion must preserve Markdown-style highlighting, comments, bracket behavior, and LSP features while allowing OFM-specific semantic tokens to layer on top.
-**Scale:** Percentage of baseline Markdown editor affordances that remain available in `ofmarkdown` mode across a smoke test document.
-**Meter:**
-
-1. Open a representative OFM document and allow promotion to `ofmarkdown`.
-2. Verify Markdown headings, lists, fenced code blocks, links, and frontmatter still receive grammar highlighting.
-3. Verify comment toggling and bracket auto-closing behave according to the contributed language configuration.
-4. Verify OFM semantic tokens still apply to wiki-links, tags, embeds, callouts, and block anchors.
-5. Compute: (affordances preserved / total affordances tested) × 100.
-**Fail:** Promotion removes baseline Markdown highlighting or disables existing LSP features.
-**Goal:** 100% of baseline Markdown smoke affordances preserved.
-**Stakeholders:** Vault authors, VS Code users.
-**Owner:** flavor-grenade-lsp contributors.
-**Source:** [[features/ofmarkdown-language-mode]], [[features/semantic-tokens]], VS Code syntax highlight guide.
+**Source:** [[docs/adr/ADR020-markdown-flavor-selection]], VS Code API documentation for language ids.

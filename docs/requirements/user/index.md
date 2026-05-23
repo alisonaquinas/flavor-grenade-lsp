@@ -46,36 +46,54 @@ Each user requirement uses the following fields:
 | User.Rename.RenameHeadingEverywhere | Rename a heading and have all links to it updated | [[renaming-safely]] | Rename.Refactoring.Completeness, Rename.Prepare.Rejection |
 | User.Vault.AutoDetectVault | Have the server automatically find and use the vault root | [[vault-setup]] | Workspace.VaultDetection.Primary, Workspace.VaultDetection.Fallback |
 | User.Vault.WorkAcrossEntireVault | Have links resolve across all notes in the vault | [[vault-setup]] | Workspace.FileExtension.Filter, Workspace.MultiFolder.Isolation |
-| User.Config.CustomiseLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behaviour]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
-| User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behaviour]] | Config.Validation.Candidates, Completion.Candidates.Cap |
-| User.Extension.RecognizeOFMarkdown | Have VS Code recognize vault notes as OFMarkdown | [[vscode-language-mode]] | Extension.LanguageMode.Contribution, Extension.LanguageMode.DynamicAssignment |
-| User.Extension.PreserveMarkdown | Keep generic Markdown files in normal Markdown mode | [[vscode-language-mode]] | Extension.LanguageMode.NonVaultIsolation |
-| User.Extension.PreserveManualMode | Preserve manual language mode choices | [[vscode-language-mode]] | Extension.LanguageMode.UserOverrideSafety |
-| User.Extension.StableModeSwitch | Avoid flicker or restart loops during automatic recognition | [[vscode-language-mode]] | Extension.LanguageMode.LoopSafety |
-| User.Extension.PreserveMarkdownEditing | Keep Markdown editing behavior after OFMarkdown promotion | [[vscode-language-mode]] | Extension.LanguageMode.MarkdownParity |
-| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.ParseCoverage, Parity.MarkdownLinks.TargetClassification, Parity.MarkdownLinks.ReferenceGraph, Parity.MarkdownLinks.Completion |
-| User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics, Parity.MarkdownLinks.SameDocumentAnchor |
-| User.Rename.MoveNotesSafely | Move notes without breaking links | [[requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor, Parity.FileOperations.CapabilityRegistration, Parity.FileOperations.MovePlannerConfinement, Parity.FileOperations.ReferenceRewrite, Parity.FileOperations.SkippedAmbiguousReporting, Parity.FileOperations.AtomicValidation, Parity.FileOperations.IndexRefresh |
-| User.Embed.ManageAttachments | Manage attachments with editor help | [[requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence, Parity.Attachments.IndexCoverage, Parity.Attachments.Completion, Parity.Attachments.Diagnostics, Parity.Attachments.NavigationHover, Parity.Attachments.ConfigHints |
-| User.Navigate.UseEditorStructure | Use editor structure tools in OFMarkdown | [[requirements/user/ofmarkdown-parity]] | Parity.StructuralLSP.Coverage, Parity.StructuralLSP.CapabilityRegistration, Parity.StructuralLSP.DocumentLinks, Parity.StructuralLSP.FoldingRanges, Parity.StructuralLSP.SelectionRanges |
-| User.Extension.StartOnlyForVaults | Start automatically for vaults without invading generic Markdown | [[requirements/user/vscode-extension-parity]] | Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.LanguageMode.MembershipRefresh |
-| User.Extension.UseNativeVSCodeActions | Use native VS Code actions for vault navigation | [[requirements/user/vscode-extension-parity]] | Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.OFMarkdownScoped |
-| User.Extension.TrustExtensionBehavior | Trust extension behavior across updates | [[requirements/user/vscode-extension-parity]] | Extension.Tests.HostCoverage, Extension.LanguageMode.MembershipRefresh, Extension.Workspace.EnvironmentModes |
-| User.Extension.EvaluateBeforeInstall | Understand the extension before installing | [[requirements/user/vscode-extension-parity]] | Extension.Marketplace.OFMProof, Extension.Marketplace.AssetPackaging |
-| User.Extension.UnderstandServerState | Understand server state at a glance | [[requirements/user/vscode-extension-parity]] | Extension.Status.Diagnostics, Extension.Status.QuickActions, Extension.Workspace.EnvironmentModes |
+| User.Config.CustomizeLinkStyle | Configure how links are written (stem, title, path) | [[configuring-behavior]] | Config.Precedence.Layering, Link.Wiki.StyleBinding |
+| User.Config.TuneCompletions | Control how many completion candidates are offered | [[configuring-behavior]] | Config.Validation.Candidates, Completion.Candidates.Cap |
+| User.Extension.PreserveMarkdownLanguage | Keep `.md` files in VS Code's normal Markdown mode | [[vscode-language-mode]] | Extension.MarkdownLanguage.PreserveDefault |
+| User.Extension.SelectMarkdownFlavor | Choose any supported researched Markdown flavor | [[vscode-language-mode]] | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage |
+| User.Extension.AutoDetectFlavor | Let VS Code infer the Markdown flavor from vault context | [[vscode-language-mode]] | Extension.MarkdownFlavor.AutoDetection |
+| User.Extension.OverrideMarkdownFlavor | Persist manual flavor choices at the right scope | [[vscode-language-mode]] | Extension.MarkdownFlavor.OverridePersistence |
+| User.Extension.TrustFlavorBehavior | Make selected flavors affect server analysis | [[vscode-language-mode]] | Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles |
+| User.Extension.PreserveManualMode | Preserve manual non-Markdown language choices | [[vscode-language-mode]] | Extension.MarkdownFlavor.ManualLanguageSafety |
+| User.Flavor.SelectSupportedFlavor | Select the intended Markdown flavor | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage |
+| User.Flavor.UnderstandActiveRules | Understand the active flavor's rules | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Hover.ProfileMetadata |
+| User.Flavor.AvoidCrossFlavorMistakes | Avoid writing syntax for the wrong flavor | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Completion.ProfileCandidates, FlavorLSP.SemanticTokens.ProfileTokens, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorOriginal | Author original Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution |
+| User.Flavor.AuthorCommonMark | Author CommonMark safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution |
+| User.Flavor.AuthorObsidian | Author Obsidian vault notes safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution |
+| User.Flavor.AuthorGFM | Author GitHub Flavored Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorGLFM | Author GitLab Flavored Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorPandoc | Author Pandoc Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorMultiMarkdown | Author MultiMarkdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorMDX | Author MDX in Markdown mode safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.ManualLanguageSafety, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorKramdown | Author kramdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution |
+| User.Flavor.AuthorMarkdownExtra | Author Markdown Extra safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution |
+| User.Flavor.AuthorRMarkdown | Author R Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorReddit | Author Reddit Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Flavor.AuthorStackOverflow | Author Stack Overflow Markdown safely | [[docs/requirements/user/markdown-flavors]] | Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences |
+| User.Author.UseStandardMarkdownLinks | Use standard Markdown links safely | [[docs/requirements/user/ofmarkdown-parity]] | Parity.MarkdownLinks.LocalResolution, Parity.MarkdownLinks.ParseCoverage, Parity.MarkdownLinks.TargetClassification, Parity.MarkdownLinks.ReferenceGraph, Parity.MarkdownLinks.Completion |
+| User.Diagnose.SpotAmbiguousHeadingAnchors | Detect ambiguous heading links | [[docs/requirements/user/ofmarkdown-parity]] | Parity.HeadingAmbiguity.Diagnostics, Parity.MarkdownLinks.SameDocumentAnchor |
+| User.Rename.MoveNotesSafely | Move notes without breaking links | [[docs/requirements/user/ofmarkdown-parity]] | Parity.FileOperations.AtomicRefactor, Parity.FileOperations.CapabilityRegistration, Parity.FileOperations.MovePlannerConfinement, Parity.FileOperations.ReferenceRewrite, Parity.FileOperations.SkippedAmbiguousReporting, Parity.FileOperations.AtomicValidation, Parity.FileOperations.IndexRefresh |
+| User.Embed.ManageAttachments | Manage attachments with editor help | [[docs/requirements/user/ofmarkdown-parity]] | Parity.Attachments.Intelligence, Parity.Attachments.IndexCoverage, Parity.Attachments.Completion, Parity.Attachments.Diagnostics, Parity.Attachments.NavigationHover, Parity.Attachments.ConfigHints |
+| User.Navigate.UseEditorStructure | Use editor structure tools in OFMarkdown | [[docs/requirements/user/ofmarkdown-parity]] | Parity.StructuralLSP.Coverage, Parity.StructuralLSP.CapabilityRegistration, Parity.StructuralLSP.DocumentLinks, Parity.StructuralLSP.FoldingRanges, Parity.StructuralLSP.SelectionRanges |
+| User.Extension.StartOnlyForVaults | Start automatically for vaults without invading generic Markdown | [[docs/requirements/user/vscode-extension-parity]] | Extension.Activation.VaultPrecision, Extension.Activation.MarkerEvents, Extension.MarkdownFlavor.Refresh |
+| User.Extension.UseNativeVSCodeActions | Use native VS Code actions for vault navigation | [[docs/requirements/user/vscode-extension-parity]] | Extension.CommandBridges.NativeUI, Extension.CommandBridges.PayloadValidation, Extension.CommandBridges.GraphActions, Extension.Contributions.FlavorScoped |
+| User.Extension.TrustExtensionBehavior | Trust extension behavior across updates | [[docs/requirements/user/vscode-extension-parity]] | Extension.Tests.HostCoverage, Extension.MarkdownFlavor.Refresh, Extension.Workspace.EnvironmentModes |
+| User.Extension.EvaluateBeforeInstall | Understand the extension before installing | [[docs/requirements/user/vscode-extension-parity]] | Extension.Marketplace.OFMProof, Extension.Marketplace.AssetPackaging |
+| User.Extension.UnderstandServerState | Understand server state at a glance | [[docs/requirements/user/vscode-extension-parity]] | Extension.Status.Diagnostics, Extension.Status.QuickActions, Extension.Workspace.EnvironmentModes |
 
 ## Related Documents
 
-- [[requirements/index]] — functional requirements index (Planguage layer)
-- [[requirements/user/navigating-notes]] — navigation user requirements
-- [[requirements/user/authoring-links]] — authoring and completion user requirements
-- [[requirements/user/embedding-content]] — embed user requirements
-- [[requirements/user/writing-with-tags]] — tag user requirements
-- [[requirements/user/referencing-blocks]] — block reference user requirements
-- [[requirements/user/seeing-broken-links]] — diagnostic user requirements
-- [[requirements/user/renaming-safely]] — rename user requirements
-- [[requirements/user/vault-setup]] — vault detection user requirements
-- [[requirements/user/configuring-behaviour]] — configuration user requirements
-- [[requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
-- [[requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
-- [[requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements
+- [[docs/requirements/index]] — functional requirements index (Planguage layer)
+- [[docs/requirements/user/navigating-notes]] — navigation user requirements
+- [[docs/requirements/user/authoring-links]] — authoring and completion user requirements
+- [[docs/requirements/user/embedding-content]] — embed user requirements
+- [[docs/requirements/user/writing-with-tags]] — tag user requirements
+- [[docs/requirements/user/referencing-blocks]] — block reference user requirements
+- [[docs/requirements/user/seeing-broken-links]] — diagnostic user requirements
+- [[docs/requirements/user/renaming-safely]] — rename user requirements
+- [[docs/requirements/user/vault-setup]] — vault detection user requirements
+- [[docs/requirements/user/configuring-behavior]] — configuration user requirements
+- [[docs/requirements/user/vscode-language-mode]] — VS Code OFMarkdown language mode user requirements
+- [[docs/requirements/user/markdown-flavors]] — Markdown flavor authoring user requirements
+- [[docs/requirements/user/ofmarkdown-parity]] — OFMarkdown parity user requirements
+- [[docs/requirements/user/vscode-extension-parity]] — VS Code extension parity user requirements

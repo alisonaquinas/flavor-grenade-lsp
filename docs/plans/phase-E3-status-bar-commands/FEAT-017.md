@@ -52,21 +52,21 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 
 ## Linked User Requirements
 
-> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[requirements/user/index]].
+> User requirements are implementation-agnostic goals from the vault author's perspective. Source: [[docs/requirements/user/index]].
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Vault authors see real-time server status and can control the server from the editor | [[requirements/user/index]] |
+| — | Vault authors see real-time server status and can control the server from the editor | [[docs/requirements/user/index]] |
 
 ---
 
 ## Linked Functional Requirements
 
-> Planguage requirements that this feature must satisfy. Source: [[requirements/index]].
+> Planguage requirements that this feature must satisfy. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension UX layer; functional requirements addressed by server-side phases | [[requirements/index]] |
+| — | Extension UX layer; functional requirements addressed by server-side phases | [[docs/requirements/index]] |
 
 ---
 
@@ -82,9 +82,9 @@ Users see the vault indexing state in the VS Code status bar at all times — wh
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E3-status-bar-commands]]
+- Phase plan: [[docs/plans/phase-E3-status-bar-commands]]
 
-- Execution ledger row: [[plans/execution-ledger]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -148,13 +148,13 @@ All of the following must be true before this ticket is marked `done`. The LLM a
 
 The three tasks in this phase are tightly sequential: TASK-144 creates the status bar module, TASK-145 creates the commands module, and TASK-146 wires both into `activate()` along with the config watcher. Each task creates or modifies exactly one file, keeping the scope atomic.
 
-The `flavorGrenade/status` custom notification and the `flavorGrenade.rebuildIndex` workspace command are already defined and implemented on the server side (see [[design/api-layer]] for the full specification). This phase only implements the client-side consumer of those capabilities.
+The `flavorGrenade/status` custom notification and the `flavorGrenade.rebuildIndex` workspace command are already defined and implemented on the server side (see [[docs/design/api-layer]] for the full specification). This phase only implements the client-side consumer of those capabilities.
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -175,7 +175,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `draft`. Phase E3 Status Bar & Commands feature defined; all child tasks (TASK-144 through TASK-146) created. Blocked by FEAT-016 until Phase E2 LanguageClient Core is complete.

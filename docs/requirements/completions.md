@@ -10,9 +10,11 @@ aliases:
 # Completion Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[requirements/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
+> These requirements govern `textDocument/completion` behaviour: candidate list capping, trigger-character coverage, Obsidian callout-type enumeration, and wiki-style binding for completion insertions. Tag completion Unicode coverage is specified in [[tag-indexing#Tag.Completion.Unicode]]. Block anchor completion is specified in [[docs/requirements/block-references#Block.Completion.Offer]]. The wiki-style configuration is defined in [[configuration]].
 
 ---
+
+## Completion.Candidates.Cap
 
 **Tag:** Completion.Candidates.Cap
 **User Req:** User.Author.CompleteWikiLink, User.Config.TuneCompletions
@@ -33,9 +35,11 @@ aliases:
 **Goal:** 100% compliance on both sub-scales.
 **Stakeholders:** LSP client developers, editor plugin authors, vault authors in large vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[configuration#Config.Validation.Candidates]], [[design/api-layer#completion-handler]], LSP specification §3.16 `CompletionList`.
+**Source:** [[configuration#Config.Validation.Candidates]], [[docs/design/api-layer]], LSP specification §3.16 `CompletionList`.
 
 ---
+
+## Completion.Trigger.Coverage
 
 **Tag:** Completion.Trigger.Coverage
 **User Req:** User.Author.CompleteWikiLink, User.Author.CompleteHeading, User.Author.CompleteCallout, User.Tags.CompleteTag
@@ -56,15 +60,17 @@ aliases:
 **Goal:** 100% of appropriate trigger positions return non-empty candidate lists.
 **Stakeholders:** Editor users, LSP client integrators, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#completion-handler]], [[ofm-spec/wiki-links]], [[ofm-spec/tags#inline-tag-syntax]], LSP specification §3.16 trigger characters.
+**Source:** [[docs/design/api-layer]], [[docs/ofm-spec/wiki-links]], [[docs/ofm-spec/tags]], LSP specification §3.16 trigger characters.
 
 ---
+
+## Completion.CalloutType.Coverage
 
 **Tag:** Completion.CalloutType.Coverage
 **User Req:** User.Author.CompleteCallout
 **Gist:** When the cursor is at the `> [!` position in a block-quote line, the completion response must include all 13 primary standard Obsidian callout type names as candidates.
 **Ambition:** Obsidian defines 13 built-in callout types (`note`, `info`, `tip`, `warning`, `danger`, `success`, `question`, `failure`, `bug`, `example`, `quote`, `abstract`, `todo`) plus documented aliases. Authors must currently type callout names from memory or consult the Obsidian documentation. Completion at the `> [!` trigger position makes callout authoring discoverable, consistent with Obsidian's own UI affordances, and prevents misspelled callout types that render as unstyled blockquotes.
-**Scale:** Percentage of the 13 primary standard Obsidian callout type names (as documented in [[ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
+**Scale:** Percentage of the 13 primary standard Obsidian callout type names (as documented in [[docs/ofm-spec/callouts]]) that appear as completion candidates when `textDocument/completion` is triggered at a `> [!` cursor position.
 **Meter:**
 
 1. Open any document with the cursor placed at the end of `> [!` on an otherwise empty blockquote line.
@@ -76,15 +82,17 @@ aliases:
 **Goal:** 100% (all 13 types present).
 **Stakeholders:** Note authors, documentation writers, anyone using Obsidian callouts.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/callouts#standard-types]], [[design/api-layer#completion-handler]], Obsidian Help: Callouts.
+**Source:** [[docs/ofm-spec/callouts]], [[docs/design/api-layer]], Obsidian Help: Callouts.
 
 ---
+
+## Completion.WikiStyle.Binding
 
 **Tag:** Completion.WikiStyle.Binding
 **User Req:** User.Author.CompleteWikiLink, User.Author.FollowLinkStyle
 **Gist:** Completion items for wiki-links must use the link text format prescribed by the active `wiki.style` configuration, and must not mix formats from different style modes in the same response.
-**Ambition:** This is the completion-specific formulation of [[wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
-**Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
+**Ambition:** This is the completion-specific formulation of [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]]. Completion is the primary mechanism by which the server writes new link text into the author's document. If completion produces link text in the wrong style, every accepted completion silently corrupts the vault's link-style consistency, leading to a mixed-format vault that is harder to batch-migrate and easier to break with rename refactoring. Binding completion to the active style at the point of insertion prevents the accumulation of format debt.
+**Scale:** Percentage of `insertText` values in a wiki-link completion response that conform to the active `wiki.style` setting. Measured across at least 3 style configurations. See [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]] for the style conformance definition.
 **Meter:**
 
 1. Configure `wiki.style` to `file-stem`. Trigger completion at `[[` in a vault with documents whose titles differ from file stems. Verify all `insertText` values use the file stem (no title, no path prefix).
@@ -96,4 +104,4 @@ aliases:
 **Goal:** 100% of completion items conform to the active style.
 **Stakeholders:** Vault authors, teams enforcing link-style consistency, migration tooling users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[design/api-layer#completion-handler]], [[design/domain-layer#wiki-style]].
+**Source:** [[docs/requirements/wiki-link-resolution#Link.Wiki.StyleBinding]], [[configuration]], [[docs/design/api-layer]], [[docs/design/domain-layer]].

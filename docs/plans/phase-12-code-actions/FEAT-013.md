@@ -48,8 +48,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Productivity code actions for vault note editing | [[requirements/wiki-link-resolution]] |
-| — | Diagnostic rules for non-standard characters | [[requirements/diagnostics]] |
+| — | Productivity code actions for vault note editing | [[docs/requirements/wiki-link-resolution]] |
+| — | Diagnostic rules for non-standard characters | [[docs/requirements/diagnostics]] |
 
 ---
 
@@ -57,8 +57,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code actions, diagnostics, symbol providers, semantic tokens | [[requirements/diagnostics]] |
-| — | Wiki-link resolution and vault navigation | [[requirements/wiki-link-resolution]] |
+| — | Code actions, diagnostics, symbol providers, semantic tokens | [[docs/requirements/diagnostics]] |
+| — | Wiki-link resolution and vault navigation | [[docs/requirements/wiki-link-resolution]] |
 
 ---
 
@@ -73,8 +73,8 @@ Vault authors gain a suite of productivity code actions that reduce manual editi
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-12-code-actions]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-12-code-actions]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -86,9 +86,9 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] FG006 diagnostic scenarios in `bdd/features/diagnostics.feature` pass in CI
 - [ ] `workspace/symbol` provider tests pass
 - [ ] Semantic token encoding tests pass
-- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[test/matrix]]
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] All linked Planguage requirement tags have `✅ passing` rows in [[docs/test/matrix]]
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] Phase gate command `bun run gate:12` passes in CI
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
@@ -129,13 +129,13 @@ All of the following must be true before this ticket is marked `done`:
 
 FG006 is first introduced in this phase. The full diagnostic code registry: FG001 (broken wiki-link), FG002 (ambiguous wiki-link), FG003 (malformed wiki-link), FG004 (broken embed), FG005 (broken block ref), FG006 (non-breaking space), FG007 (malformed YAML frontmatter).
 
-ADR references: [[adr/ADR005-wiki-style-binding]] constrains file path resolution for create-missing-note; [[adr/ADR013-vault-root-confinement]] constrains URI construction for CreateFile edits.
+ADR references: [[docs/adr/ADR005-wiki-style-binding]] constrains file path resolution for create-missing-note; [[docs/adr/ADR013-vault-root-confinement]] constrains URI construction for CreateFile edits.
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -156,7 +156,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

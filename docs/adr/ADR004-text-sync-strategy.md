@@ -50,5 +50,5 @@ Users may set `core.text_sync = "incremental"` in `.flavor-grenade.toml` to swit
 ## Related
 
 - [[ADR001-stdio-transport]]
-- [[ddd/lsp-protocol/domain-model]]
-- [[requirements/workspace]]
+- [[docs/ddd/lsp-protocol/domain-model]]
+- [[docs/requirements/workspace]]

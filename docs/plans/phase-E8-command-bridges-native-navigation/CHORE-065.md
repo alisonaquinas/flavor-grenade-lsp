@@ -43,9 +43,9 @@ payload ownership and validation behavior unambiguous.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.NativeUI` | Documentation must identify native VS Code bridge surfaces | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Documentation must state payload validation behavior | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Documentation must list required graph action bridges | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.NativeUI` | Documentation must identify native VS Code bridge surfaces | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Documentation must state payload validation behavior | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Documentation must list required graph action bridges | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -108,7 +108,7 @@ the Phase E8 task tickets.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

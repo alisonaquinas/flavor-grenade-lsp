@@ -12,14 +12,14 @@ This smoke test validates the minimum viable embed round-trip: that a valid `![[
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-007 — valid markdown embed resolves without diagnostic
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Valid markdown embed passes without diagnostic`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Valid markdown embed passes without diagnostic`
 **Phase gate:** Phase 2
 
 **Setup:**
@@ -73,7 +73,7 @@ And the embed "![[doc]]" resolves to "notes/doc.md"
 ### TC-SMOKE-008 — broken embed produces FG004 with Warning severity (not FG001)
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/embeds]] — `Broken embed reports FG004 with Warning severity`
+**BDD Reference:** [[docs/ofm-spec/embeds]] — `Broken embed reports FG004 with Warning severity`
 **Phase gate:** Phase 2
 
 **Setup:**

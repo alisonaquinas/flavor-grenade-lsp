@@ -40,7 +40,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 
 - `exact = true` means newly installed packages are pinned to exact versions, not semver ranges
 - `coverage = true` enables coverage output for `bun test` without additional flags
-- See also: [[architecture/overview]]
+- See also: [[docs/architecture/overview]]
 
 ---
 
@@ -48,7 +48,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Bun runtime configuration; no functional requirement tag yet assigned | [[requirements/index]] |
+| — | Bun runtime configuration; no functional requirement tag yet assigned | [[docs/requirements/index]] |
 
 ---
 
@@ -72,7 +72,7 @@ Create `bunfig.toml` at the project root to configure Bun's test runner and pack
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Bun is the runtime; `bunfig.toml` configures its behaviour for this project |
+| [[docs/adr/ADR001-stdio-transport]] | Bun is the runtime; `bunfig.toml` configures its behaviour for this project |
 
 ---
 
@@ -113,7 +113,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ---
 

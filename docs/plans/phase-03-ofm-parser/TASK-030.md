@@ -28,7 +28,7 @@ Create `src/parser/types.ts` defining all shared TypeScript types for the OFM pa
 - All types in `src/parser/types.ts`; exported for use across the codebase
 - `Range` type comes from `vscode-languageserver-types`; do not redefine it
 - TypeScript correctness verified by `tsc --noEmit` — no runtime test file needed for type-only module
-- See also: [[adr/ADR012-parser-safety-policy]]
+- See also: [[docs/adr/ADR012-parser-safety-policy]]
 
 ```typescript
 // src/parser/types.ts (key shapes)
@@ -62,7 +62,7 @@ export interface OpaqueRegion {
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Type contract for OFM parser pipeline | [[plans/phase-03-ofm-parser]] |
+| — | Type contract for OFM parser pipeline | [[docs/plans/phase-03-ofm-parser]] |
 
 ---
 
@@ -84,7 +84,7 @@ TypeScript types verified by `tsc --noEmit`. No separate test file needed for th
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR012-parser-safety-policy]] | Parser types must be immutable-friendly; no mutable shared state |
+| [[docs/adr/ADR012-parser-safety-policy]] | Parser types must be immutable-friendly; no mutable shared state |
 
 ---
 
@@ -125,18 +125,18 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-004]].

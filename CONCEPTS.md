@@ -167,9 +167,13 @@ See also: `src/parser/opaque-region-marker.ts`.
 ## Oracle
 
 The resolution service for wiki-link and local Markdown targets. For wiki-links
-it tries exact DocId match, frontmatter alias match, stem suffix match, and H1
-title match. It returns resolved, broken, ambiguous, or malformed results with
-the appropriate diagnostic code.
+it normalizes slashes and a trailing `.md` extension, then tries exact DocId
+match, case-insensitive DocId match, Obsidian-style path-suffix match,
+frontmatter alias match, stem match, and H1 title match. The path-suffix step
+only applies to path-like targets and matches on `/` boundaries, so
+`[[sources/foo]]` can resolve to `wiki/sources/foo.md` while
+`super-sources/foo.md` is not a match. It returns resolved, broken, ambiguous,
+or malformed results with the appropriate diagnostic code.
 
 For standard Markdown targets, the Oracle resolves same-document fragments,
 local note paths, file-plus-fragment targets, and heading anchors after target

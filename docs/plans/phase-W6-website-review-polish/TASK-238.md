@@ -2,7 +2,7 @@
 id: "TASK-238"
 title: "Expand mobile feature proof cards inline"
 type: task
-status: green
+status: done
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-238"]
 
 # Expand Mobile Feature Proof Cards Inline
 
-> [!INFO] `TASK-238` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-238` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -53,12 +53,12 @@ Expected behavior:
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
 > [!INFO] Opened · 2026-05-09
-> Ticket created from mobile interaction follow-up feedback. Status: `green`
+> Ticket created from mobile interaction follow-up feedback. Status: `done`
 > because implementation and regression coverage were completed in the same
 > update pass.
 
@@ -66,3 +66,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > Website lint, typecheck, tests, and build pass. Mobile screenshot confirms
 > the selected card expands inline and the desktop detail-panel behavior remains
 > unchanged by CSS breakpoint.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

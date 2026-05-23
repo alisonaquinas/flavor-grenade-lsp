@@ -10,9 +10,11 @@ aliases:
 # Code Quality Requirements
 
 > [!NOTE] Scope
-> These requirements govern source code quality: SOLID adherence, module coherence, coupling limits, documentation standards, and linting policy. They apply to all TypeScript source files under `src/`. Compliance is enforced via ESLint, TypeScript strict mode, and the pre-commit gate defined in [[requirements/ci-cd]].
+> These requirements govern source code quality: SOLID adherence, module coherence, coupling limits, documentation standards, and linting policy. They apply to all TypeScript source files under `src/`. Compliance is enforced via ESLint, TypeScript strict mode, and the pre-commit gate defined in [[docs/requirements/ci-cd]].
 
 ---
+
+## Quality.SOLID.SingleResponsibility
 
 **Tag:** Quality.SOLID.SingleResponsibility
 **Gist:** Each class or service must have exactly one reason to change — a single cohesive set of related behaviours.
@@ -28,9 +30,11 @@ aliases:
 **Goal:** 0% violations — every class has exactly one reason to change.
 **Stakeholders:** All contributors, reviewers, future maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/layers]], [[ddd/bounded-contexts]], Robert C. Martin, *Clean Architecture* §7.
+**Source:** [[docs/architecture/layers]], [[docs/ddd/bounded-contexts]], Robert C. Martin, *Clean Architecture* §7.
 
 ---
+
+## Quality.SOLID.DependencyInversion
 
 **Tag:** Quality.SOLID.DependencyInversion
 **Gist:** All cross-module dependencies must point toward abstractions (NestJS injection tokens or TypeScript interfaces), never toward concrete implementation classes from another module.
@@ -46,9 +50,11 @@ aliases:
 **Goal:** 0% cross-module concrete imports — 100% of cross-module dependencies are to interfaces or injection tokens.
 **Stakeholders:** Contributors, architectural reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR011-one-class-per-file-namespaces]], [[architecture/layers]], LSP specification §3.17.
+**Source:** [[docs/adr/ADR011-one-class-per-file-namespaces]], [[docs/architecture/layers]], LSP specification §3.17.
 
 ---
+
+## Quality.Coherence.OneClassPerFile
 
 **Tag:** Quality.Coherence.OneClassPerFile
 **Gist:** Each `.ts` source file must export exactly one primary class, service, module, or interface; barrel `index.ts` files that re-export from other files in the same directory are the sole exception.
@@ -64,9 +70,11 @@ aliases:
 **Goal:** 0% violations — ESLint `no-extraneous-class` and custom rules enforce this at lint time (`bun run lint` must exit 0).
 **Stakeholders:** All contributors, code reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR011-one-class-per-file-namespaces]], [[requirements/ci-cd]].
+**Source:** [[docs/adr/ADR011-one-class-per-file-namespaces]], [[docs/requirements/ci-cd]].
 
 ---
+
+## Quality.Coupling.ModuleBoundaries
 
 **Tag:** Quality.Coupling.ModuleBoundaries
 **Gist:** Cross-module imports must only cross via a module's public `index.ts` barrel — never via internal paths such as `../../lsp/lsp.server`.
@@ -82,9 +90,11 @@ aliases:
 **Goal:** 0% violations — enforced by ESLint `import/no-internal-modules` rule; `bun run lint --max-warnings 0` must exit 0.
 **Stakeholders:** All contributors, architectural reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR011-one-class-per-file-namespaces]], [[architecture/layers]].
+**Source:** [[docs/adr/ADR011-one-class-per-file-namespaces]], [[docs/architecture/layers]].
 
 ---
+
+## Quality.Docs.Docstrings
 
 **Tag:** Quality.Docs.Docstrings
 **Gist:** Every exported class, public method, and public property must carry a JSDoc docstring that describes its purpose, parameters, and return value.
@@ -99,9 +109,11 @@ aliases:
 **Goal:** 100% of exported classes, public methods, and public properties carry JSDoc docstrings.
 **Stakeholders:** Contributors, documentation consumers, IDE users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[requirements/ci-cd#CICD.PreCommit.Gate]], [[adr/ADR009-precommit-hooks-zero-warnings]].
+**Source:** [[docs/requirements/ci-cd#CICD.PreCommit.Gate]], [[docs/adr/ADR009-precommit-hooks-zero-warnings]].
 
 ---
+
+## Quality.Lint.ZeroWarnings
 
 **Tag:** Quality.Lint.ZeroWarnings
 **Gist:** All linters — ESLint, TypeScript compiler, Prettier check — must produce zero errors AND zero warnings; `--max-warnings 0` is enforced in CI and pre-commit.
@@ -117,9 +129,11 @@ aliases:
 **Goal:** 0 warnings, 0 errors — `bun run lint --max-warnings 0` exits 0.
 **Stakeholders:** All contributors, CI pipeline.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[adr/ADR009-precommit-hooks-zero-warnings]], [[requirements/ci-cd#CICD.PreCommit.Gate]].
+**Source:** [[docs/adr/ADR009-precommit-hooks-zero-warnings]], [[docs/requirements/ci-cd#CICD.PreCommit.Gate]].
 
 ---
+
+## Quality.Types.StrictMode
 
 **Tag:** Quality.Types.StrictMode
 **Gist:** TypeScript strict mode is enabled (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`); compiler warnings are treated as errors (`noEmitOnError: true`).
@@ -134,9 +148,11 @@ aliases:
 **Goal:** `tsc --noEmit` exits 0 with zero errors and zero `noEmitOnError`-blocked outputs.
 **Stakeholders:** All contributors, CI pipeline, type safety reviewers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[plans/phase-01-scaffold]], [[adr/ADR009-precommit-hooks-zero-warnings]], TypeScript Handbook §Compiler Options.
+**Source:** [[docs/plans/phase-01-scaffold]], [[docs/adr/ADR009-precommit-hooks-zero-warnings]], TypeScript Handbook §Compiler Options.
 
 ---
+
+## Quality.TDD.StrictRedGreen
 
 **Tag:** Quality.TDD.StrictRedGreen
 **Gist:** Every piece of production code must be preceded by a failing test; no implementation may be written without a red test that drives it.
@@ -151,4 +167,24 @@ aliases:
 **Goal:** 100% of new production code is preceded by a failing test in the git history.
 **Stakeholders:** All contributors, code reviewers, phase auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** Kent Beck, *Test-Driven Development by Example*; [[plans/phase-01-scaffold#Task-9]], [[requirements/development-process#Process.Testing.DirectoryStructure]].
+**Source:** Kent Beck, *Test-Driven Development by Example*; [[docs/plans/phase-01-scaffold]], [[docs/requirements/development-process#Process.Testing.DirectoryStructure]].
+
+---
+
+## Quality.SourceLayout.DocsBoundary
+
+**Tag:** Quality.SourceLayout.DocsBoundary
+**Gist:** Documentation folders may contain requirements, specs, plans, ADRs, and Gherkin feature specs, but raw source files and source-like implementation notes must live with the source or test harness they describe.
+**Ambition:** The `docs/` tree is the long-form product and process knowledge base. Mixing raw implementation source or step-definition bodies into docs makes the documentation folder behave like a shadow source tree: code search, formatting, ownership, and review expectations become ambiguous. Gherkin `.feature` files are allowed in `docs/bdd/features/` because they are executable specifications; step definitions, harness state, and implementation reference maps belong under `src/test/bdd/`.
+**Scale:** Count of raw source files and source-owned BDD implementation-note directories under `docs/`.
+**Meter:**
+
+1. Search `docs/` for raw source files with extensions such as `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.py`, `.sh`, `.go`, `.rs`, `.java`, and `.cs`.
+2. Verify `docs/bdd/steps/` does not exist.
+3. Verify BDD feature specs remain in `docs/bdd/features/**/*.feature`.
+4. Verify source-owned step maps and harness implementation notes live under `src/test/bdd/`.
+**Fail:** Any raw source file under `docs/`, any restored `docs/bdd/steps/` implementation-note tree, or any source-owned BDD step documentation maintained outside the BDD harness tree.
+**Goal:** Zero raw source files under `docs/`; BDD implementation notes live under `src/test/bdd/`; Gherkin feature specs remain allowed under `docs/bdd/features/`.
+**Stakeholders:** Documentation maintainers, test harness maintainers, phase reviewers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/plans/phase-18-security-hardening-audit/TASK-281]], `src/test/bdd/bdd-layout.test.ts`, `src/test/bdd/step-definitions/STEP-MAP.md`.

@@ -29,7 +29,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Implementation Notes
 
-> Optional: design constraints, API shapes, or algorithmic hints relevant to this task. Reference [[ddd/ubiquitous-language]] terms and [[architecture/overview]] module boundaries. Do not duplicate content from design docs — link to them instead.
+> Optional: design constraints, API shapes, or algorithmic hints relevant to this task. Reference [[docs/ddd/ubiquitous-language]] terms and [[docs/architecture/overview]] module boundaries. Do not duplicate content from design docs — link to them instead.
 
 - {{IMPL-NOTE-1}}
 
@@ -39,7 +39,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
@@ -65,7 +65,7 @@ aliases: ["{{TICKET-ID}}"]
 |---|---|---|---|
 | `tests/{{TYPE}}/{{MODULE}}/{{FILE}}.spec.ts` | Unit | `` `{{FR-TAG}}` `` | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -111,9 +111,9 @@ All of the following must be true before this task is marked `done`:
 
 - [ ] All linked BDD scenarios pass locally
 
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
 
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/index]] row(s) added for new test files
 
 - [ ] Parent feature `[[tickets/{{PARENT-FEAT-ID}}]]` child task row updated to `in-review`
 
@@ -129,7 +129,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -145,13 +145,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 <!-- TEMPLATE USAGE: Replace the entry below with a real date when creating the ticket. -->
 

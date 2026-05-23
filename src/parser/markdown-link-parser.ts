@@ -62,12 +62,13 @@ export class MarkdownLinkParser {
     };
 
     const occupiedRanges: Array<{ start: number; end: number }> = [];
-    if (!text.includes(']')) {
+    if (!text.includes(']') && !text.includes('<')) {
       return result;
     }
 
     MarkdownLinkParser.parseDefinitions(text, opaqueRegions, result, occupiedRanges);
     MarkdownLinkParser.parseInlineLinks(text, opaqueRegions, result, occupiedRanges);
+    MarkdownLinkParser.parseAutolinks(text, opaqueRegions, result, occupiedRanges);
     MarkdownLinkParser.parseLabelRefs(text, opaqueRegions, result, occupiedRanges);
 
     return result;
@@ -223,6 +224,7 @@ export class MarkdownLinkParser {
       const end = start + match[0].length;
       if (MarkdownLinkParser.shouldSkip(start, opaqueRegions, occupiedRanges)) continue;
       if (MarkdownLinkParser.isWikiOrEmbedContext(text, start, end)) continue;
+      if (MarkdownLinkParser.isNonReferenceBracketContext(text, start, end)) continue;
       if (text[end] === '(') continue;
       if (text[end] === ':') continue;
 
@@ -245,6 +247,36 @@ export class MarkdownLinkParser {
         range: rangeFromOffsets(text, start, end),
         textRange: rangeFromOffsets(text, textStart, textStart + displayText.length),
         labelRange: rangeFromOffsets(text, labelStart, labelStart + label.length),
+      });
+      occupiedRanges.push({ start, end });
+    }
+  }
+
+  private static parseAutolinks(
+    text: string,
+    opaqueRegions: readonly OpaqueRegion[],
+    result: MarkdownLinkParseResult,
+    occupiedRanges: Array<{ start: number; end: number }>,
+  ): void {
+    const pattern = /<([^<>\s]+)>/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = pattern.exec(text)) !== null) {
+      const start = match.index;
+      const end = start + match[0].length;
+      if (MarkdownLinkParser.shouldSkip(start, opaqueRegions, occupiedRanges)) continue;
+
+      const target = match[1];
+      if (!MarkdownLinkParser.isAutolinkTarget(target)) continue;
+
+      const targetStart = start + 1;
+      result.markdownLinks.push({
+        raw: match[0],
+        text: target,
+        target,
+        range: rangeFromOffsets(text, start, end),
+        textRange: rangeFromOffsets(text, targetStart, targetStart + target.length),
+        targetRange: rangeFromOffsets(text, targetStart, targetStart + target.length),
       });
       occupiedRanges.push({ start, end });
     }
@@ -304,6 +336,29 @@ export class MarkdownLinkParser {
       text.slice(start, start + 3) === '!]]' ||
       text.slice(start, start + 3) === '![[' ||
       text.slice(end, end + 1) === ']'
+    );
+  }
+
+  private static isNonReferenceBracketContext(text: string, start: number, end: number): boolean {
+    const token = text.slice(start, end);
+    const lineStart = text.lastIndexOf('\n', start - 1) + 1;
+    const before = text.slice(lineStart, start);
+
+    if (/^\[[ xX]\]$/.test(token)) {
+      return /^[ \t]{0,3}[-*+][ \t]+$/.test(before);
+    }
+
+    if (/^\[![^\]\n]+\]$/.test(token)) {
+      return /^[ \t]{0,3}(?:>[ \t]*)+$/.test(before);
+    }
+
+    return false;
+  }
+
+  private static isAutolinkTarget(target: string): boolean {
+    return (
+      /^[A-Za-z][A-Za-z0-9+.-]{1,31}:[^\s<>]*$/.test(target) ||
+      /^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(target)
     );
   }
 

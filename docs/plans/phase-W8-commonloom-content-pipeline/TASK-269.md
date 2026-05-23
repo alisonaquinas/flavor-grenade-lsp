@@ -1,0 +1,109 @@
+---
+id: "TASK-269"
+title: "Parse Markdown and frontmatter"
+type: task
+status: done
+priority: high
+phase: W8
+parent: "FEAT-041"
+created: "2026-05-10"
+updated: "2026-05-11"
+dependencies: ["TASK-268"]
+tags: [tickets/task, "phase/W8", website, markdown, frontmatter]
+aliases: ["TASK-269"]
+---
+
+# Parse Markdown And Frontmatter
+
+> [!INFO] `TASK-269` · Task · Phase W8 · Parent: [[FEAT-041]] · Status: `done`
+
+## Description
+
+Consume Commonloom Markdown parsing with frontmatter extraction and full public
+Markdown formatting support through the external `commonloom` package.
+
+## Work Scope
+
+- Use package-provided CommonMark and GFM parsing, including headings, emphasis, strong text,
+  blockquotes, ordered and unordered lists, task lists, tables, code fences,
+  inline code, links, images, thematic breaks, and nested blocks.
+- Extract frontmatter through Commonloom package APIs.
+- Validate frontmatter through adapter-supplied `zod` schemas.
+- Produce heading metadata for ids, labels, levels, and source positions where
+  available.
+
+## Implementation Notes
+
+Create or modify:
+
+- `website/src/content/pipeline/website/**`
+- `website/tests/content-pipeline-markdown.test.ts`
+
+Parser API shapes are package-owned. Local code should import them from
+`commonloom` instead of redefining parser modules under
+`website/src/content/pipeline/commonloom`.
+
+Code fences render as plain escaped code blocks in W8. Syntax highlighting is
+deferred; no highlighter dependency is added in this phase.
+
+## Linked Requirements
+
+- [[website/docs/requirements/technical/source-layout-and-documentation]]
+- [[website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
+
+## Linked Tests
+
+| Test file | Expected first assertion |
+|---|---|
+| `website/tests/content-pipeline-markdown.test.ts` | CommonMark and GFM constructs parse and produce heading metadata. |
+| `website/tests/content-pipeline-markdown.test.ts` | Invalid frontmatter returns a diagnostic. |
+
+## Linked BDD
+
+N/A. W8 is covered by website Vitest tests rather than Cucumber BDD scenarios.
+
+## Definition of Done
+
+- [x] Unit tests cover representative CommonMark and GFM constructs.
+- [x] Invalid frontmatter reports a diagnostic instead of crashing generation.
+- [x] Heading extraction supports route anchors and content quality checks.
+- [x] Markdown body output is stable across repeated runs.
+
+## Lifecycle
+
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
+
+## Workflow Log
+
+> [!INFO] Opened · 2026-05-10
+> Ticket normalized for Phase Execution Step C. Status: `open`.
+
+> [!FAILURE] Red test · 2026-05-10
+> Added failing Markdown/frontmatter parser coverage for CommonMark headings,
+> GFM tables/task lists, and invalid frontmatter diagnostics. Status: `red`.
+
+> [!SUCCESS] Green · 2026-05-10
+> Added gray-matter frontmatter parsing, Zod diagnostics, unified/remark-gfm
+> Markdown parsing, and source-line-aware heading extraction. Targeted tests
+> pass. Status: `green`.
+
+> [!INFO] In review · 2026-05-10
+> `npm test -- --run content-pipeline`, `npm run lint`, and `npm run
+> typecheck` pass from `website/`. Status: `in-review`.
+
+> [!WARNING] Review feedback · 2026-05-10
+> Subagent review found malformed YAML could throw and invalid frontmatter was
+> exposed as typed metadata. Moved back to `green` while parser diagnostics are
+> tightened.
+
+> [!SUCCESS] Review fix · 2026-05-10
+> Malformed YAML now returns `FRONTMATTER_INVALID` diagnostics without throwing,
+> and invalid frontmatter is unavailable to callers while the Markdown body can
+> still parse. Verified with `npm test -- --run content-pipeline`, `npm run
+> lint`, and `npm run typecheck`. Status: `green`.
+
+> [!SUCCESS] Closed · 2026-05-11
+> PR #64 merged W8 into `develop` with green CI, and the current branch passed
+> `npm run content:generate`, `npm run content:check`, `npm run lint`,
+> `npm run typecheck`, `npm test`, `npm run build`, and `bun run lint:docs`.
+> Status: `done`.

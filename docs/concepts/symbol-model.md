@@ -286,8 +286,8 @@ Scope = Doc(DocId) | Global
 
 ## Cross-References
 
-- [[concepts/connection-graph]] — How ScopedSym values are wired in RefGraph
-- [[concepts/document-model]] — How OFMIndex carries typed arrays of these symbols
-- [[concepts/path-model]] — DocId and Slug type definitions
-- [[concepts/ofm-syntax]] — Syntax that generates each symbol type
-- [[design/domain-layer]] — DDD analysis of the symbol subdomain
+- [[docs/concepts/connection-graph]] — How ScopedSym values are wired in RefGraph
+- [[docs/concepts/document-model]] — How OFMIndex carries typed arrays of these symbols
+- [[docs/concepts/path-model]] — DocId and Slug type definitions
+- [[docs/concepts/ofm-syntax]] — Syntax that generates each symbol type
+- [[docs/design/domain-layer]] — DDD analysis of the symbol subdomain

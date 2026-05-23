@@ -33,7 +33,7 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 - Add manual smoke steps to extension docs.
 
-- Update [[test/matrix]] and [[test/index]] for new test files.
+- Update [[docs/test/matrix]] and [[docs/test/index]] for new test files.
 
 ---
 
@@ -41,10 +41,10 @@ Add automated tests and a documented manual smoke test covering the OFMarkdown l
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[requirements/ofmarkdown-language-mode]] |
-| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.Contribution | Contribute `ofmarkdown` without globally claiming `.md` files | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.DynamicAssignment | Promote qualifying vault/index documents | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.LoopSafety | Avoid assignment and restart loops | [[docs/requirements/ofmarkdown-language-mode]] |
+| Extension.LanguageMode.MarkdownParity | Preserve baseline Markdown editing behavior | [[docs/requirements/ofmarkdown-language-mode]] |
 
 ---
 

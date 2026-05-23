@@ -34,7 +34,7 @@ and oversized functions before the phase PR is opened.
 Phase execution Step F requires a code quality sweep after implementation tasks
 and before final verification.
 
-- Motivated by: [[plans/phase-execution]]
+- Motivated by: [[docs/plans/phase-execution]]
 
 ---
 
@@ -42,8 +42,8 @@ and before final verification.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Maintainability.Boundaries` | New code respects established module boundaries | [[requirements/code-quality]] |
-| `Quality.TDD.StrictRedGreen` | Behavioural fixes discovered during the sweep are ticketed first | [[requirements/code-quality]] |
+| `Quality.Maintainability.Boundaries` | New code respects established module boundaries | [[docs/requirements/code-quality]] |
+| `Quality.TDD.StrictRedGreen` | Behavioural fixes discovered during the sweep are ticketed first | [[docs/requirements/code-quality]] |
 
 ---
 

@@ -51,17 +51,17 @@ Replace the stub `extension/src/extension.ts` (created in Phase E1) with the ful
 
 - Typecheck and build after modification: `cd extension && npx tsc --noEmit`
 
-- See also: [[plans/phase-E2-languageclient-core]] task 2 for the reference implementation
+- See also: [[docs/plans/phase-E2-languageclient-core]] task 2 for the reference implementation
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Extension infrastructure; LanguageClient wiring is a client-side concern not covered by server functional requirements | [[requirements/index]] |
+| — | Extension infrastructure; LanguageClient wiring is a client-side concern not covered by server functional requirements | [[docs/requirements/index]] |
 
 ---
 
@@ -91,8 +91,8 @@ Replace the stub `extension/src/extension.ts` (created in Phase E1) with the ful
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | LanguageClient must use Executable ServerOptions with stdio transport (the default for `command` form) — no socket, no pipe |
-| [[adr/ADR015-platform-specific-vsix]] | Bundled binary is guaranteed present in platform-specific VSIXs — no fallback download logic in activation |
+| [[docs/adr/ADR001-stdio-transport]] | LanguageClient must use Executable ServerOptions with stdio transport (the default for `command` form) — no socket, no pipe |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Bundled binary is guaranteed present in platform-specific VSIXs — no fallback download logic in activation |
 
 ---
 
@@ -146,13 +146,13 @@ All of the following must be true before this task is marked `done`:
 
 ## Notes
 
-The reference implementation is provided in [[plans/phase-E2-languageclient-core]] task 2. Key design choice: `client.start()` is awaited in `activate()`, meaning VS Code will wait for the LSP handshake before considering the extension fully activated. If the server binary is missing or crashes, the LanguageClient will surface the error in the output channel. The `deactivate()` function is deliberately empty because `LanguageClient` implements `Disposable` and `context.subscriptions.push(client)` ensures `stop()` is called during extension host shutdown.
+The reference implementation is provided in [[docs/plans/phase-E2-languageclient-core]] task 2. Key design choice: `client.start()` is awaited in `activate()`, meaning VS Code will wait for the LSP handshake before considering the extension fully activated. If the server binary is missing or crashes, the LanguageClient will surface the error in the output channel. The `deactivate()` function is deliberately empty because `LanguageClient` implements `Disposable` and `context.subscriptions.push(client)` ensures `stop()` is called during extension host shutdown.
 
 ---
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -168,13 +168,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-016]].

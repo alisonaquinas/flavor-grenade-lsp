@@ -11,9 +11,11 @@ aliases:
 # Information Disclosure Prevention Requirements
 
 > [!NOTE] Scope
-> These are **functional security requirements** governing how the server handles potentially sensitive vault content in logs, LSP responses, and configuration processing. Obsidian vaults regularly contain sensitive personal data — journal entries, passwords stored in frontmatter, API keys in notes, health records. These requirements prevent that data from leaking outside the user's intended context. Evidence is drawn from [[research/security-threat-model#Threat-Category-4]] and [[research/security-threat-model#Threat-Category-7]].
+> These are **functional security requirements** governing how the server handles potentially sensitive vault content in logs, LSP responses, and configuration processing. Obsidian vaults regularly contain sensitive personal data — journal entries, passwords stored in frontmatter, API keys in notes, health records. These requirements prevent that data from leaking outside the user's intended context. Evidence is drawn from [[docs/research/security-threat-model]] and [[docs/research/security-threat-model]].
 
 ---
+
+## Security.Disclosure.LogSanitization
 
 **Tag:** Security.Disclosure.LogSanitization
 **Gist:** Server logs must never include vault document content; only file paths, line numbers, diagnostic codes, and error types may appear in log output.
@@ -30,9 +32,11 @@ aliases:
 **Goal:** 0% of log entries contain document content — logs contain only paths, line numbers, codes, and error types.
 **Stakeholders:** Vault authors, privacy-conscious users, IT security administrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-4.1]], general privacy best practices.
+**Source:** [[docs/research/security-threat-model]], general privacy best practices.
 
 ---
+
+## Security.Disclosure.CompletionFilter
 
 **Tag:** Security.Disclosure.CompletionFilter
 **Gist:** Completion candidates derived from frontmatter values must not include values from sensitive key names (`password`, `token`, `secret`, `api_key`, `private_key`, `credential`, `auth`); the blocked key list must be configurable.
@@ -50,9 +54,11 @@ aliases:
 **Goal:** 0% of blocked-key frontmatter values appear in completion responses; `safe-alias` from `aliases:` is not affected by the filter.
 **Stakeholders:** Privacy-conscious vault authors, security-sensitive Obsidian users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-4.2]], [[requirements/completions]], [[plans/phase-09-completions]].
+**Source:** [[docs/research/security-threat-model]], [[docs/requirements/completions]], [[docs/plans/phase-09-completions]].
 
 ---
+
+## Security.Config.NoCodeExecution
 
 **Tag:** Security.Config.NoCodeExecution
 **Gist:** The `.flavor-grenade.toml` configuration schema must never include fields that specify commands, executables, or scripts to be run by the server; vault-provided configuration must never cause process spawning.
@@ -70,4 +76,4 @@ aliases:
 **Goal:** 0 command-execution fields in the configuration schema; any command-like TOML content is silently ignored.
 **Stakeholders:** Vault authors, security auditors, users of shared or third-party vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Threat-Category-7]], OpenCode LSP configuration vulnerability (2026), [[adr/ADR002-ofm-only-scope]].
+**Source:** [[docs/research/security-threat-model]], OpenCode LSP configuration vulnerability (2026), [[docs/adr/ADR002-ofm-only-scope]].

@@ -41,6 +41,7 @@ export const COMMAND_ACTIVATION_EVENTS = [
   'onCommand:flavorGrenade.showOutlinks',
   'onCommand:flavorGrenade.revealVaultRoot',
   'onCommand:flavorGrenade.copyDiagnosticInfo',
+  'onCommand:flavorGrenade.selectMarkdownFlavor',
 ] as const;
 
 export type StatFile = typeof stat;

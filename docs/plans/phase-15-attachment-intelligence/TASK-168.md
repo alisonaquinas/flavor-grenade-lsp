@@ -36,7 +36,7 @@ vault.
   or insufficient.
 - Use folder preference as ranking or guidance, not as the only valid location.
 - Keep config behavior compatible with the index contract from [[TASK-163]].
-- See also: [[plans/phase-15-attachment-intelligence]]
+- See also: [[docs/plans/phase-15-attachment-intelligence]]
 
 ---
 
@@ -44,8 +44,8 @@ vault.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.Attachments.ConfigHints` | Attachment completion and indexing respect configured attachment folder hints | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Attachment folder hints are respected | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.ConfigHints` | Attachment completion and indexing respect configured attachment folder hints | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Attachment folder hints are respected | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -65,7 +65,7 @@ vault.
 | `src/completion/__tests__/completion-router.test.ts` | Unit | `Parity.Attachments.Intelligence` | 🔴 failing |
 
 > After implementation, update the rows above and the corresponding rows in
-> Update [[test/matrix]] and [[test/index]].
+> Update [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -113,8 +113,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenario passes locally.
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`.
-- [ ] [[test/index]] row(s) added for new test files.
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`.
+- [ ] [[docs/test/index]] row(s) added for new test files.
 - [ ] Parent feature [[FEAT-022]] child task row updated to `in-review`.
 
 ---
@@ -129,7 +129,7 @@ completion, diagnostics, navigation, and hover tasks rather than redefine them.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -138,7 +138,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -147,7 +147,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened — 2026-05-06

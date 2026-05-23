@@ -7,10 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.3.0...v0.4.0) (2026-05-23)
+
 ### Added
 
 - Add public website documentation pages for quickstart, VS Code extension setup, how-to workflows, advanced usage, FAQ, and LLM wiki concepts.
 - Add the Website release workflow for tag-triggered GitHub Pages deployment, production smoke checks, and retained release evidence.
+- Add Markdown flavor state propagation from the VS Code extension to the language server.
+- Add Markdown flavor profiles, parser analysis, diagnostics, completions, symbols, folding, and semantic-token support across Original Markdown, CommonMark, Obsidian, GFM, GLFM, Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
+- Add project-level Markdown flavor configuration through `.flavor-grenade.toml`.
+- Add validation and test evidence for the Markdown flavor roadmap, including BDD coverage, profile contracts, integration tests, and research-backed feature-set docs.
+
+### Changed
+
+- Keep `.md` documents in VS Code's built-in Markdown mode while applying flavor-aware LSP behavior through effective flavor state.
+- Scope Obsidian-only behavior so it is active for the Obsidian flavor without leaking into generic Markdown flavors.
+- Replace local Commonloom source with generated website content tooling and richer public documentation routes.
+
+### Fixed
+
+- Match Obsidian-style wiki-link document resolution for normalized paths, trailing `.md`, case-insensitive DocIds, path-suffix matches, aliases, stems, and H1 fallback.
+- Preserve server-resolved link and embed targets in the VS Code extension instead of reinterpreting them on the client.
+- Harden VS Code extension host test runtime startup around update mutex and downloaded runtime behavior.
+- Stabilize BDD and CI verification gates used by the release workflow.
 
 ## [0.3.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.2.1...v0.3.0) (2026-05-09)
 

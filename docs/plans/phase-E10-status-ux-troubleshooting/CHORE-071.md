@@ -44,8 +44,8 @@ tooltip fields, and quick-action commands.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.Status.Diagnostics` | Documentation must explain known status and error states | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Status.QuickActions` | Documentation must name recovery and diagnostic actions accurately | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.Diagnostics` | Documentation must explain known status and error states | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Status.QuickActions` | Documentation must name recovery and diagnostic actions accurately | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -71,7 +71,7 @@ tooltip fields, and quick-action commands.
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Status recovery actions should use native VS Code command surfaces |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Status recovery actions should use native VS Code command surfaces |
 
 ---
 
@@ -112,7 +112,7 @@ other phase ticket folders.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behavior-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -128,7 +128,7 @@ Full state machine, scope-creep rules, and no-behavior-change invariant:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

@@ -29,7 +29,7 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 - Export all providers for use by downstream modules
 - Wire startup sequence: on `initialized` notification, call `VaultDetector.detect()`, then conditionally start `VaultScanner` (full vault mode) or configure single-file mode
 - Register `flavorGrenade/awaitIndexReady` request handler
-- See also: [[adr/ADR003-vault-detection]]
+- See also: [[docs/adr/ADR003-vault-detection]]
 
 ---
 
@@ -37,7 +37,7 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Module composition requirements | [[requirements/index]] |
+| — | Module composition requirements | [[docs/requirements/index]] |
 
 ---
 
@@ -61,8 +61,8 @@ Create `src/vault/vault.module.ts`. This NestJS module (or equivalent dependency
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR003-vault-detection]] | Vault lifecycle and module initialization order |
-| [[adr/ADR013-vault-root-confinement]] | VaultModule startup must establish vault root before any file access |
+| [[docs/adr/ADR003-vault-detection]] | Vault lifecycle and module initialization order |
+| [[docs/adr/ADR013-vault-root-confinement]] | VaultModule startup must establish vault root before any file access |
 
 ---
 
@@ -93,8 +93,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-005]] child task row updated to `in-review`
 
 ---
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -121,13 +121,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-005]].

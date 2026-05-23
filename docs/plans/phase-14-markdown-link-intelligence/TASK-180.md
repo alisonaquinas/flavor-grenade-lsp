@@ -36,7 +36,7 @@ behavior.
 - Suppress completion inside external URL and unknown-scheme targets.
 - Reuse existing completion candidate caps, sorting, and style-binding helpers
   where they apply.
-- See also: [[plans/phase-14-markdown-link-intelligence]].
+- See also: [[docs/plans/phase-14-markdown-link-intelligence]].
 
 ## Implementation Details
 
@@ -55,10 +55,10 @@ behavior.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading candidates | [[requirements/functional/ofmarkdown-parity]] |
-| `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[requirements/completions]] |
-| `Parity.MarkdownLinks.LocalResolution` | Completion candidates target locally resolvable documents and headings | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchor completion offers headings from the current document | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.Completion` | Markdown link URL contexts return document and heading candidates | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Completion.Trigger.Coverage` | Markdown link URL contexts return completion candidates | [[docs/requirements/completions]] |
+| `Parity.MarkdownLinks.LocalResolution` | Completion candidates target locally resolvable documents and headings | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchor completion offers headings from the current document | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -123,7 +123,7 @@ All of the following must be true before this task is marked `done`:
   references, and callouts remain green.
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -131,7 +131,7 @@ All of the following must be true before this task is marked `done`:
 ## Notes
 
 This task completes the Phase 14 trace to
-[[requirements/completions#Completion.Trigger.Coverage]]. Attachment path
+[[docs/requirements/completions#Completion.Trigger.Coverage]]. Attachment path
 completion inside Markdown image targets belongs to [[TASK-164]] in Phase 15.
 
 ---
@@ -139,7 +139,7 @@ completion inside Markdown image targets belongs to [[TASK-164]] in Phase 15.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -148,7 +148,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -157,7 +157,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order.
 > Do not edit previous entries. Update the `status` frontmatter field to match
 > the current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-06

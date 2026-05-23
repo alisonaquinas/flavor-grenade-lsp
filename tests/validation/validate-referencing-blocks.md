@@ -24,7 +24,7 @@ These test cases confirm that vault authors can create block-level anchors in th
 **User Req Tag:** `User.Blocks.ReferenceSpecificText`
 **Goal:** Link to and jump to a specific block in another note
 **Type:** Both
-**Mapped FRs:** `Block.Anchor.Indexing` — see [[tests/verification/verify-blocks]], `Block.CrossRef.Diagnostic` — see [[tests/verification/verify-blocks]], `Navigation.Definition.AllLinkTypes` — see [[tests/verification/verify-navigation]]
+**Mapped FRs:** `Block.Anchor.Indexing` — see \[\[tests/verification/verify-blocks]], `Block.CrossRef.Diagnostic` — see \[\[tests/verification/verify-blocks]], `Navigation.Definition.AllLinkTypes` — see [[tests/verification/verify-navigation]]
 **Verification coverage:** TC-VER-BLOK-001, TC-VER-BLOK-002, TC-VER-NAV-001
 
 **Scenario (user perspective):**
@@ -96,7 +96,7 @@ Feature: Full author flow for block anchors
 **User Req Tag:** `User.Blocks.CompleteBlockRef`
 **Goal:** Get block ID suggestions when referencing a block
 **Type:** Both
-**Mapped FRs:** `Block.Completion.Offer` — see [[tests/verification/verify-blocks]], `Block.Anchor.Lineend` — see [[tests/verification/verify-blocks]]
+**Mapped FRs:** `Block.Completion.Offer` — see \[\[tests/verification/verify-blocks]], `Block.Anchor.Lineend` — see \[\[tests/verification/verify-blocks]]
 **Verification coverage:** TC-VER-BLOK-003, TC-VER-BLOK-004
 
 **Scenario (user perspective):**

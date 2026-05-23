@@ -11,9 +11,11 @@ aliases:
 # JSON-RPC Input Validation Requirements
 
 > [!NOTE] Scope
-> These are **technical security requirements** governing validation of all data received from the LSP client over the JSON-RPC stdio transport. Although the LSP client is trusted, these requirements defend against buggy clients, future transport modes (TCP/pipe), and prototype pollution attacks that exploit JavaScript's object model. Evidence is drawn from [[research/security-threat-model#Threat-Category-2]].
+> These are **technical security requirements** governing validation of all data received from the LSP client over the JSON-RPC stdio transport. Although the LSP client is trusted, these requirements defend against buggy clients, future transport modes (TCP/pipe), and prototype pollution attacks that exploit JavaScript's object model. Evidence is drawn from [[docs/research/security-threat-model]].
 
 ---
+
+## Security.Input.PositionValidation
 
 **Tag:** Security.Input.PositionValidation
 **Gist:** All `Position` and `Range` parameters in LSP requests must be validated as non-negative integers within the bounds of the referenced document before any VaultIndex operation; invalid positions return an InvalidParams error (-32602).
@@ -30,9 +32,11 @@ aliases:
 **Goal:** 100% of invalid positions rejected at the handler boundary — zero reach the VaultIndex.
 **Stakeholders:** Correctness of LSP responses, future TCP-transport security.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.1]], LSP Specification §3.17 Position.
+**Source:** [[docs/research/security-threat-model]], LSP Specification §3.17 Position.
 
 ---
+
+## Security.Input.PayloadSize
 
 **Tag:** Security.Input.PayloadSize
 **Gist:** JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, must be rejected at the transport layer before unbounded buffering or JSON parsing occurs.
@@ -48,9 +52,11 @@ aliases:
 **Goal:** 100% of oversized messages rejected at the frame-size checks; zero oversized bodies parsed.
 **Stakeholders:** Server reliability, memory safety.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.2]], LSP Specification §3.17 Base Protocol.
+**Source:** [[docs/research/security-threat-model]], LSP Specification §3.17 Base Protocol.
 
 ---
+
+## Security.Input.PrototypePollution
 
 **Tag:** Security.Input.PrototypePollution
 **Gist:** All incoming JSON-RPC message bodies must be validated by schema before any object merge operation; `__proto__`, `constructor`, and `prototype` keys in parsed JSON must not propagate into application objects or pollute `Object.prototype`.
@@ -67,4 +73,45 @@ aliases:
 **Goal:** 0 prototype pollution instances — `Object.prototype` is never mutated by incoming LSP messages.
 **Stakeholders:** Application security, NestJS DI integrity, security auditors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[research/security-threat-model#Sub-threat-2.3]], CVE-2024-29409, SNYK-JS-NESTJSCOMMON-9538801.
+**Source:** [[docs/research/security-threat-model]], CVE-2024-29409, SNYK-JS-NESTJSCOMMON-9538801.
+
+---
+
+## Security.Input.ProjectConfigTOMLSafety
+
+**Tag:** Security.Input.ProjectConfigTOMLSafety
+**Gist:** `.flavor-grenade.toml` must be size-limited, schema-validated, vault-confined by realpath, and parsed without propagating `__proto__`, `constructor`, or `prototype` keys into application configuration.
+**Ambition:** Markdown flavor auto-detection treats project TOML as a flavor signal. That makes the TOML file user-controlled configuration that can affect server analysis. A malicious config must not trigger memory pressure, prototype pollution, unsafe path traversal, or content-bearing logs.
+**Scale:** Percentage of TOML parse attempts that enforce size, schema, path, dangerous-key, and redacted-log guarantees.
+**Meter:**
+
+1. Create fixtures for oversized TOML, invalid TOML, unknown flavor ids, dangerous keys, symlinked config paths, and traversal attempts.
+2. Verify the server reads TOML only after vault-root realpath confinement passes.
+3. Verify invalid or oversized TOML is treated as absent configuration and cannot corrupt prior flavor state.
+4. Verify dangerous keys are rejected or stripped before merge.
+5. Verify logs contain file path/status only, not TOML content.
+**Fail:** Any unsafe TOML path is read, any oversized/invalid TOML crashes the server, any dangerous key pollutes application objects, or TOML content appears in logs.
+**Goal:** 100% safe TOML handling.
+**Stakeholders:** Workspace owners, vault authors, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/security/vault-confinement]], [[docs/research/security-threat-model]].
+
+---
+
+## Security.Input.FlavorPropagationPayload
+
+**Tag:** Security.Input.FlavorPropagationPayload
+**Gist:** Resource-specific Markdown flavor propagation payloads must be schema-validated with enum checks, map-size limits, supported `file://` URI keys, resource ownership checks, stale-entry eviction, and dangerous-key rejection.
+**Ambition:** Phase E15 and Phase 20 allow the extension to send selected/effective flavor state for multiple resources. Without bounds and ownership checks, a buggy or malicious client can send huge maps, non-file URIs, stale entries, or prototype-pollution keys that consume memory or leak flavor state across documents.
+**Scale:** Percentage of malformed flavor propagation payloads rejected before Config, BC4, or parser state changes.
+**Meter:**
+
+1. Send payloads with unsupported flavor ids, `auto` as effective flavor, non-`file://` URI keys, unknown resource keys, oversized maps, nested unexpected objects, stale workspace entries, and dangerous keys.
+2. Verify each invalid payload returns InvalidParams or is ignored without mutating active flavor state.
+3. Verify valid payloads are capped and resource-specific.
+4. Verify stale resources are evicted when documents close or workspace folders are removed.
+**Fail:** Any invalid payload mutates effective flavor state, reaches parser/cache state, or pollutes application objects.
+**Goal:** 100% invalid payload rejection before state mutation.
+**Stakeholders:** Extension users, LSP maintainers, future transport-mode users.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/ofmarkdown-language-mode]], [[docs/plans/phase-20-markdown-flavor-server-propagation]].

@@ -2,7 +2,7 @@
 id: "TASK-232"
 title: "Add icon affordances to footer links"
 type: task
-status: green
+status: done
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-232"]
 
 # Add Icon Affordances To Footer Links
 
-> [!INFO] `TASK-232` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-232` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -46,16 +46,16 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Footer creator links include icons.
-- [ ] Footer project links include icons.
-- [ ] Visible descriptive labels remain present.
-- [ ] Icons do not create cramped mobile layout.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Footer creator links include icons.
+- [x] Footer project links include icons.
+- [x] Visible descriptive labels remain present.
+- [x] Icons do not create cramped mobile layout.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -68,3 +68,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Green · 2026-05-09
 > Added icon metadata and rendered inline icons for creator and project footer
 > links.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

@@ -50,7 +50,7 @@ Every pull request to the repository is automatically tested across three operat
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| — | Automated CI, binary release, and npm publishing | [[requirements/ci-cd]] |
+| — | Automated CI, binary release, and npm publishing | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -58,7 +58,7 @@ Every pull request to the repository is automatically tested across three operat
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | CI pipeline, binary build, release, and publish automation | [[requirements/ci-cd]] |
+| — | CI pipeline, binary build, release, and publish automation | [[docs/requirements/ci-cd]] |
 
 ---
 
@@ -72,8 +72,8 @@ Every pull request to the repository is automatically tested across three operat
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-13-ci-delivery]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-13-ci-delivery]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -84,8 +84,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] CI workflow is green on all three platforms (ubuntu, macos, windows) for a PR to `main`
 - [ ] A `v0.1.0` tag produces 4 binary artifacts in a GitHub Release
 - [ ] `npm publish --dry-run` exits 0
-- [ ] [[test/matrix]] updated with every new test file introduced
-- [ ] [[test/index]] updated with every new test file introduced
+- [ ] [[docs/test/matrix]] updated with every new test file introduced
+- [ ] [[docs/test/index]] updated with every new test file introduced
 - [ ] No new linter warnings introduced (`bun run lint --max-warnings 0`)
 - [ ] `tsc --noEmit` exits 0
 
@@ -126,13 +126,13 @@ All of the following must be true before this ticket is marked `done`:
 
 ## Notes
 
-ADR reference: [[adr/ADR008-oidc-publishing]] constrains how npm tokens and Codecov tokens must be stored and used in CI workflows. OIDC publishing eliminates long-lived npm tokens in GitHub Actions.
+ADR reference: [[docs/adr/ADR008-oidc-publishing]] constrains how npm tokens and Codecov tokens must be stored and used in CI workflows. OIDC publishing eliminates long-lived npm tokens in GitHub Actions.
 
 ---
 
 ## Lifecycle
 
-Full state machine, entry/exit criteria, and agent obligations for each state: [[templates/tickets/lifecycle/feature-lifecycle]]
+Full state machine, entry/exit criteria, and agent obligations for each state: [[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` → `ready` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)
@@ -153,7 +153,7 @@ Full state machine, entry/exit criteria, and agent obligations for each state: [
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/feature-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `draft`. Spec incomplete; child tasks not yet created.

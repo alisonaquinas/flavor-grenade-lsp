@@ -30,7 +30,7 @@ Review all Phase 7 source files for code quality issues and resolve them without
 
 Phase 7 introduces `AssetIndex` alongside the existing `VaultIndex`. Blurring the boundary between these two indexes could cause correctness issues in resolution. The hover handler constructs user-visible content that must be sanitised. The size-specifier regex must not accept pathological inputs.
 
-- Motivated by: [[requirements/code-quality]], AssetIndex/VaultIndex separation review
+- Motivated by: [[docs/requirements/code-quality]], AssetIndex/VaultIndex separation review
 
 ---
 
@@ -38,9 +38,9 @@ Phase 7 introduces `AssetIndex` alongside the existing `VaultIndex`. Blurring th
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | AssetIndex vs VaultIndex separation | [[requirements/code-quality]] |
-| — | Hover content sanitisation | [[requirements/code-quality]] |
-| — | Size-specifier parsing correctness | [[requirements/embed-resolution]] |
+| — | AssetIndex vs VaultIndex separation | [[docs/requirements/code-quality]] |
+| — | Hover content sanitisation | [[docs/requirements/code-quality]] |
+| — | Size-specifier parsing correctness | [[docs/requirements/embed-resolution]] |
 
 ---
 
@@ -67,7 +67,7 @@ Phase 7 introduces `AssetIndex` alongside the existing `VaultIndex`. Blurring th
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | AssetIndex must enforce vault root confinement |
+| [[docs/adr/ADR013-vault-root-confinement]] | AssetIndex must enforce vault root confinement |
 
 ---
 
@@ -94,8 +94,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] AssetIndex and VaultIndex remain clearly separated concerns
 - [ ] Hover content verified sanitised (no server-local paths)
 - [ ] Size-specifier regex edge cases reviewed and handled
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -107,7 +107,7 @@ Focus: AssetIndex vs VaultIndex separation, hover content sanitization, size-spe
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -118,7 +118,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: code quality sweep for Phase 7 — AssetIndex vs VaultIndex separation, hover content sanitisation, size-specifier parsing correctness.

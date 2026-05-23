@@ -2,7 +2,7 @@
 id: "TASK-231"
 title: "Add icon affordances and equal stacked widths to hero actions"
 type: task
-status: green
+status: done
 priority: medium
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-231"]
 
 # Add Icon Affordances And Equal Stacked Widths To Hero Actions
 
-> [!INFO] `TASK-231` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-231` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -46,15 +46,15 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Hero action data or rendered markup includes icons for each action.
-- [ ] Stacked action buttons use equal widths.
-- [ ] Mobile layout remains free of horizontal overflow.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Hero action data or rendered markup includes icons for each action.
+- [x] Stacked action buttons use equal widths.
+- [x] Mobile layout remains free of horizontal overflow.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -72,3 +72,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Mobile width polish · 2026-05-09
 > Updated the narrow homepage hero stack so action buttons use the full content
 > column width and visually align with the proof card below.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

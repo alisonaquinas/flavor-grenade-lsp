@@ -2,7 +2,7 @@
 id: "TASK-234"
 title: "Collapse narrow navigation into hamburger menu"
 type: task
-status: green
+status: done
 priority: high
 phase: W6
 parent: "FEAT-039"
@@ -15,7 +15,7 @@ aliases: ["TASK-234"]
 
 # Collapse Narrow Navigation Into Hamburger Menu
 
-> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `green`
+> [!INFO] `TASK-234` · Task · Phase W6 · Parent: [[FEAT-039]] · Status: `done`
 
 ## Description
 
@@ -48,16 +48,16 @@ Expected behavior:
 
 ## Definition of Done
 
-- [ ] Failing regression test exists before implementation.
-- [ ] Narrow header shows a hamburger icon instead of the full wrapped nav.
-- [ ] Desktop header still shows primary navigation links.
-- [ ] Menu state is keyboard and screen-reader accessible.
-- [ ] Browser screenshot verifies the narrow header region.
-- [ ] Parent feature child row is updated.
+- [x] Failing regression test exists before implementation.
+- [x] Narrow header shows a hamburger icon instead of the full wrapped nav.
+- [x] Desktop header still shows primary navigation links.
+- [x] Menu state is keyboard and screen-reader accessible.
+- [x] Browser screenshot verifies the narrow header region.
+- [x] Parent feature child row is updated.
 
 ## Lifecycle
 
-Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 ## Workflow Log
 
@@ -76,3 +76,7 @@ Full state machine: [[templates/tickets/lifecycle/task-lifecycle]]
 > [!SUCCESS] Nav scope polish · 2026-05-09
 > Removed GitHub from desktop and mobile primary navigation. Repository access
 > remains available through the hero CTA and footer project links.
+
+> [!CHECK] CI verified · 2026-05-09
+> PR #58 merged with green CI. Website checks, tests, typecheck, lint, docs lint,
+> and build passed for the W6 implementation branch.

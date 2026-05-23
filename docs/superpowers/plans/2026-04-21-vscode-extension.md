@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript, `vscode-languageclient@^9.0.1`, `@types/vscode@~1.93.0`, esbuild (client bundling), `@vscode/vsce` (packaging/publishing), Bun (server cross-compilation).
 
-**Spec:** [[superpowers/specs/2026-04-21-vscode-extension-design]]
+**Spec:** [[docs/superpowers/specs/2026-04-21-vscode-extension-design]]
 **ADR:** [[ADR015-platform-specific-vsix]]
 
 ---

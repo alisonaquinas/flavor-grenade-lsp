@@ -30,7 +30,7 @@ with no uncaught extension-host exception.
 - Validate URI-bearing payloads before converting to VS Code objects
 - Validate location arrays before reference UI calls
 - Keep payload contracts plain JSON across the LanguageClient boundary
-- See also: [[requirements/user/vscode-extension-parity]]
+- See also: [[docs/requirements/user/vscode-extension-parity]]
 
 ---
 
@@ -38,8 +38,8 @@ with no uncaught extension-host exception.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.PayloadValidation` | Bridge payloads must be validated before API calls | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.NativeUI` | Valid payloads still reach native VS Code UI | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Bridge payloads must be validated before API calls | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.NativeUI` | Valid payloads still reach native VS Code UI | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -96,7 +96,7 @@ All of the following must be true before this task is marked `done`:
 - [x] Invalid payloads produce safe failure behavior
 - [x] `cd extension && npm run check-types` passes
 - [x] `cd extension && npm test` passes
-- [x] [[test/matrix]] and [[test/index]] updated for new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] updated for new coverage
 
 ---
 
@@ -110,12 +110,12 @@ uncaught extension-host exception.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

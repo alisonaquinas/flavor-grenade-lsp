@@ -32,7 +32,7 @@ Review all new `src/` files introduced during Phase 1 for naming consistency, mo
 
 Phase 1 skeleton code is intentionally minimal, but patterns established in the scaffold (naming, structure, nesting) become templates for all subsequent phases. Catching and correcting quality issues at this stage prevents technical debt from propagating into Phase 2 and beyond.
 
-- Motivated by: [[requirements/code-quality]]
+- Motivated by: [[docs/requirements/code-quality]]
 
 ---
 
@@ -40,7 +40,7 @@ Phase 1 skeleton code is intentionally minimal, but patterns established in the 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Code quality requirements to be authored in Phase 0; this sweep enforces them retroactively on Phase 1 output | [[requirements/code-quality]] |
+| — | Code quality requirements to be authored in Phase 0; this sweep enforces them retroactively on Phase 1 output | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -68,7 +68,7 @@ Phase 1 skeleton code is intentionally minimal, but patterns established in the 
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR001-stdio-transport]] | Module boundaries must respect the layering defined in [[architecture/overview]]; `src/lsp/` must not directly import from `src/vault/` or `src/parser/` at this phase |
+| [[docs/adr/ADR001-stdio-transport]] | Module boundaries must respect the layering defined in [[docs/architecture/overview]]; `src/lsp/` must not directly import from `src/vault/` or `src/parser/` at this phase |
 
 ---
 
@@ -95,8 +95,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 
 ---
 
@@ -108,7 +108,7 @@ At Phase 1, the `src/` codebase is minimal (two files: `main.ts` and `lsp/lsp.mo
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -117,10 +117,10 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
-> Chore created. Status: `open`. Motivation: [[requirements/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
+> Chore created. Status: `open`. Motivation: [[docs/requirements/code-quality]]. Blocked until CHORE-001 (Lint Sweep) is done.
 
 > [!SUCCESS] Done — 2026-04-17
 > Sweep complete. All findings ticketed and resolved. Status: `done`.

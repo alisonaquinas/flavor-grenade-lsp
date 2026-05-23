@@ -26,17 +26,17 @@ standard Markdown image links.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Completion, diagnostics, definition, and hover metadata for vault attachments |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.IndexCoverage]] | Index non-Markdown vault files as attachment targets without parsed OFM documents |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Completion]] | Complete attachment paths in embeds and Markdown image links |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]] | Diagnose missing attachments and suppress diagnostics for existing attachments |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]] | Provide definition and lightweight metadata hover for attachment references |
-| [[requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]] | Respect configured attachment folder hints without hiding valid attachments |
-| [[requirements/embed-resolution#Embed.Resolution.ImageTarget]] | Preserve and extend existing image embed resolution behavior |
-| [[requirements/embed-resolution#Embed.Resolution.MarkdownTarget]] | Ensure Markdown documents and attachments remain distinct target classes |
-| [[requirements/diagnostics#Diagnostic.Severity.Embed]] | Keep attachment/embed diagnostics at the documented severity |
-| [[requirements/navigation#Navigation.Definition.AllLinkTypes]] | Definition for embed and Markdown image attachment targets |
-| [[requirements/hover#HV-002]] | Hover details for embedded targets |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Intelligence]] | Completion, diagnostics, definition, and hover metadata for vault attachments |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.IndexCoverage]] | Index non-Markdown vault files as attachment targets without parsed OFM documents |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Completion]] | Complete attachment paths in embeds and Markdown image links |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.Diagnostics]] | Diagnose missing attachments and suppress diagnostics for existing attachments |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.NavigationHover]] | Provide definition and lightweight metadata hover for attachment references |
+| [[docs/requirements/functional/ofmarkdown-parity#Parity.Attachments.ConfigHints]] | Respect configured attachment folder hints without hiding valid attachments |
+| [[docs/requirements/embed-resolution#Embed.Resolution.ImageTarget]] | Preserve and extend existing image embed resolution behavior |
+| [[docs/requirements/embed-resolution#Embed.Resolution.MarkdownTarget]] | Ensure Markdown documents and attachments remain distinct target classes |
+| [[docs/requirements/diagnostics#Diagnostic.Severity.Embed]] | Keep attachment/embed diagnostics at the documented severity |
+| [[docs/requirements/navigation#Navigation.Definition.AllLinkTypes]] | Definition for embed and Markdown image attachment targets |
+| [[docs/requirements/hover#HV-002]] | Hover details for embedded targets |
 
 ## Scope
 
@@ -89,6 +89,6 @@ standard Markdown image links.
 
 ## Related
 
-- [[features/ofmarkdown-parity-roadmap]]
-- [[requirements/functional/ofmarkdown-parity]]
-- [[requirements/embed-resolution]]
+- [[docs/features/ofmarkdown-parity-roadmap]]
+- [[docs/requirements/functional/ofmarkdown-parity]]
+- [[docs/requirements/embed-resolution]]

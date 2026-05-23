@@ -10,9 +10,11 @@ aliases:
 # Embed Resolution Requirements
 
 > [!NOTE] Scope
-> These requirements govern the server's handling of Obsidian embed syntax (`![[target]]`), including resolution of markdown document embeds, image-file embeds, heading-scoped embeds, and block-anchor embeds. Diagnostic codes referenced here are defined in [[requirements/diagnostics]]. Wiki-link resolution without the `!` prefix is specified in [[wiki-link-resolution]].
+> These requirements govern the server's handling of Obsidian embed syntax (`![[target]]`), including resolution of markdown document embeds, image-file embeds, heading-scoped embeds, and block-anchor embeds. Diagnostic codes referenced here are defined in [[docs/requirements/diagnostics]]. Wiki-link resolution without the `!` prefix is specified in [[docs/requirements/wiki-link-resolution]].
 
 ---
+
+## Embed.Resolution.MarkdownTarget
 
 **Tag:** Embed.Resolution.MarkdownTarget
 **User Req:** User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent
@@ -30,9 +32,11 @@ aliases:
 **Goal:** 100% correct classification.
 **Stakeholders:** Vault authors, technical writers using transclusion, Obsidian Publish users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#markdown-embeds]], [[design/domain-layer#vault-index]], [[requirements/diagnostics#FG004]].
+**Source:** [[docs/ofm-spec/embeds]], [[docs/design/domain-layer]], [[docs/requirements/diagnostics]].
 
 ---
+
+## Embed.Resolution.ImageTarget
 
 **Tag:** Embed.Resolution.ImageTarget
 **User Req:** User.Embed.DetectBrokenEmbed
@@ -51,9 +55,11 @@ aliases:
 **Goal:** 100% correct diagnostic assignment.
 **Stakeholders:** Vault authors who embed images, presentation creators, Obsidian Publish users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#image-embeds]], [[requirements/diagnostics#FG001]], [[requirements/diagnostics#FG004]], [[design/domain-layer#asset-index]].
+**Source:** [[docs/ofm-spec/embeds]], [[docs/requirements/diagnostics]], [[docs/requirements/diagnostics]], [[docs/design/domain-layer]].
 
 ---
+
+## Embed.HeadingEmbed.Resolution
 
 **Tag:** Embed.HeadingEmbed.Resolution
 **User Req:** User.Embed.DetectBrokenEmbed, User.Embed.PreviewLinkedContent
@@ -76,9 +82,11 @@ aliases:
 **Goal:** 100% correct diagnosis across all three cases.
 **Stakeholders:** Vault authors using section transclusion, knowledge base curators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#heading-embeds]], [[design/domain-layer#heading-index]], [[requirements/diagnostics#FG004]].
+**Source:** [[docs/ofm-spec/embeds]], [[docs/design/domain-layer]], [[docs/requirements/diagnostics]].
 
 ---
+
+## Embed.BlockEmbed.Resolution
 
 **Tag:** Embed.BlockEmbed.Resolution
 **User Req:** User.Embed.DetectBrokenEmbed
@@ -100,4 +108,4 @@ aliases:
 **Goal:** 100% correct diagnosis.
 **Stakeholders:** Vault authors using block transclusion, Zettelkasten practitioners, evergreen note authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/embeds#block-embeds]], [[requirements/block-references]], [[design/domain-layer#block-anchor-index]], [[requirements/diagnostics#FG004]].
+**Source:** [[docs/ofm-spec/embeds]], [[docs/requirements/block-references]], [[docs/design/domain-layer]], [[docs/requirements/diagnostics]].

@@ -7,4 +7,5 @@ default:
   format:
     - 'progress-bar'
     - 'json:reports/cucumber-report.json'
+  tags: 'not @planned'
   publishQuiet: true

@@ -8,6 +8,12 @@ import { LifecycleState } from './services/lifecycle-state.js';
 import { CapabilityRegistry } from './services/capability-registry.js';
 import { StatusNotifier } from './services/status-notifier.js';
 import { ServerSettingsModule } from './services/server-settings.module.js';
+import {
+  MarkdownFlavorState,
+  ProjectMarkdownFlavorConfig,
+  classifyMarkdownBoundaryReference,
+  isMarkdownFlavorId,
+} from '../markdown-flavor/index.js';
 import { InitializeHandler } from './handlers/initialize.handler.js';
 import { InitializedHandler } from './handlers/initialized.handler.js';
 import { ShutdownHandler } from './handlers/shutdown.handler.js';
@@ -15,9 +21,10 @@ import { ExitHandler } from './handlers/exit.handler.js';
 import { DidOpenHandler } from './handlers/did-open.handler.js';
 import { DidChangeHandler } from './handlers/did-change.handler.js';
 import { DidCloseHandler } from './handlers/did-close.handler.js';
+import { ConfigurationHandler } from './handlers/configuration.handler.js';
 import { FileOperationsHandler } from './handlers/file-operations.handler.js';
 import { FileOperationRefreshService } from './handlers/file-operation-refresh.service.js';
-import { ParserModule } from '../parser/parser.module.js';
+import { ParserModule, ParseCache } from '../parser/parser.module.js';
 import { VaultModule } from '../vault/vault.module.js';
 import { ResolutionModule } from '../resolution/resolution.module.js';
 import { CompletionModule } from '../completion/completion.module.js';
@@ -79,6 +86,9 @@ import { assertFileUri } from './file-uri.js';
     DidOpenHandler,
     DidChangeHandler,
     DidCloseHandler,
+    ConfigurationHandler,
+    MarkdownFlavorState,
+    ProjectMarkdownFlavorConfig,
     FileOperationsHandler,
     FileOperationRefreshService,
     WorkspaceSymbolHandler,
@@ -101,6 +111,7 @@ export class LspModule implements OnModuleInit {
     private readonly didOpen: DidOpenHandler,
     private readonly didChange: DidChangeHandler,
     private readonly didClose: DidCloseHandler,
+    private readonly configuration: ConfigurationHandler,
     private readonly fileOperations: FileOperationsHandler,
     private readonly capabilityRegistry: CapabilityRegistry,
     private readonly definition: DefinitionHandler,
@@ -122,6 +133,7 @@ export class LspModule implements OnModuleInit {
     private readonly prepareRename: PrepareRenameHandler,
     private readonly rename: RenameHandler,
     private readonly vaultIndex: VaultIndex,
+    private readonly parseCache: ParseCache,
   ) {}
 
   /**
@@ -134,7 +146,7 @@ export class LspModule implements OnModuleInit {
       definitionProvider: true,
       referencesProvider: true,
       completionProvider: {
-        triggerCharacters: ['[', '!', '#', '^', '>', '('],
+        triggerCharacters: ['[', '!', '#', '^', '>', '(', '<', '{'],
         commitCharacters: [']'],
         resolveProvider: false,
       },
@@ -198,6 +210,9 @@ export class LspModule implements OnModuleInit {
         this.prepareRename.removeDocumentText(uri);
       }
     });
+    this.dispatcher.onNotification('workspace/didChangeConfiguration', (p) =>
+      this.configuration.handle(p),
+    );
     this.dispatcher.onRequest('workspace/willRenameFiles', (p) =>
       this.fileOperations.handleWillRenameFiles(p),
     );
@@ -308,6 +323,84 @@ export class LspModule implements OnModuleInit {
     );
 
     this.dispatcher.onRequest('workspace/executeCommand', (p) => this.handleExecuteCommand(p));
+
+    this.dispatcher.onRequest('flavorGrenade/queryOpenDoc', async (params: unknown) => {
+      const uri = (params as { uri?: string } | null)?.uri;
+      if (!uri) return null;
+      const doc = this.parseCache.get(uri);
+      if (!doc) return null;
+      return {
+        markdownFlavor: doc.markdownFlavor,
+        wikiLinks: doc.index.wikiLinks.length,
+        embeds: doc.index.embeds.length,
+        tags: doc.index.tags.length,
+        callouts: doc.index.callouts.length,
+        blockAnchors: doc.index.blockAnchors.length,
+        headings: doc.index.headings.length,
+        gfmTables: doc.index.gfmTables?.length ?? 0,
+        gfmTaskListItems: doc.index.gfmTaskListItems?.length ?? 0,
+        gfmStrikethroughs: doc.index.gfmStrikethroughs?.length ?? 0,
+        gfmAutolinks: doc.index.gfmAutolinks?.length ?? 0,
+        glfmInapplicableTaskListItems: doc.index.glfmInapplicableTaskListItems?.length ?? 0,
+        glfmDescriptionLists: doc.index.glfmDescriptionLists?.length ?? 0,
+        glfmFootnotes: doc.index.glfmFootnotes?.length ?? 0,
+        glfmTocTags: doc.index.glfmTocTags?.length ?? 0,
+        glfmHostReferences: doc.index.glfmHostReferences?.length ?? 0,
+        pandocTitleBlocks: doc.index.pandocTitleBlocks?.length ?? 0,
+        pandocCitations: doc.index.pandocCitations?.length ?? 0,
+        pandocFootnotes: doc.index.pandocFootnotes?.length ?? 0,
+        pandocAttributes: doc.index.pandocAttributes?.length ?? 0,
+        pandocFencedDivs: doc.index.pandocFencedDivs?.length ?? 0,
+        pandocDefinitionLists: doc.index.pandocDefinitionLists?.length ?? 0,
+        multimarkdownMetadata: doc.index.multimarkdownMetadata?.length ?? 0,
+        multimarkdownTables: doc.index.multimarkdownTables?.length ?? 0,
+        multimarkdownFootnotes: doc.index.multimarkdownFootnotes?.length ?? 0,
+        multimarkdownCitations: doc.index.multimarkdownCitations?.length ?? 0,
+        multimarkdownCrossReferences: doc.index.multimarkdownCrossReferences?.length ?? 0,
+        multimarkdownLabels: doc.index.multimarkdownLabels?.length ?? 0,
+        multimarkdownAbbreviations: doc.index.multimarkdownAbbreviations?.length ?? 0,
+        mdxEsmDeclarations: doc.index.mdxEsmDeclarations?.length ?? 0,
+        mdxJsxElements: doc.index.mdxJsxElements?.length ?? 0,
+        mdxExpressions: doc.index.mdxExpressions?.length ?? 0,
+        kramdownAttributes: doc.index.kramdownAttributes?.length ?? 0,
+        kramdownDefinitionLists: doc.index.kramdownDefinitionLists?.length ?? 0,
+        kramdownTables: doc.index.kramdownTables?.length ?? 0,
+        kramdownFootnotes: doc.index.kramdownFootnotes?.length ?? 0,
+        kramdownMathBlocks: doc.index.kramdownMathBlocks?.length ?? 0,
+        markdownExtraAttributes: doc.index.markdownExtraAttributes?.length ?? 0,
+        markdownExtraDefinitionLists: doc.index.markdownExtraDefinitionLists?.length ?? 0,
+        markdownExtraTables: doc.index.markdownExtraTables?.length ?? 0,
+        markdownExtraFootnotes: doc.index.markdownExtraFootnotes?.length ?? 0,
+        markdownExtraAbbreviations: doc.index.markdownExtraAbbreviations?.length ?? 0,
+        markdownExtraFencedCodeBlocks: doc.index.markdownExtraFencedCodeBlocks?.length ?? 0,
+        rMarkdownMetadata: doc.index.rMarkdownMetadata?.length ?? 0,
+        rMarkdownChunks: doc.index.rMarkdownChunks?.length ?? 0,
+        rMarkdownInlineExpressions: doc.index.rMarkdownInlineExpressions?.length ?? 0,
+        rMarkdownMalformedChunks: doc.index.rMarkdownMalformedChunks?.length ?? 0,
+        redditSpoilers: doc.index.redditSpoilers?.length ?? 0,
+        redditSuperscripts: doc.index.redditSuperscripts?.length ?? 0,
+        redditStrikethroughs: doc.index.redditStrikethroughs?.length ?? 0,
+        redditTables: doc.index.redditTables?.length ?? 0,
+        redditHostReferences: doc.index.redditHostReferences?.length ?? 0,
+        redditOldRedditIncompatibleLists: doc.index.redditOldRedditIncompatibleLists?.length ?? 0,
+        redditUnsafeLinks: doc.index.redditUnsafeLinks?.length ?? 0,
+        stackOverflowTagReferences: doc.index.stackOverflowTagReferences?.length ?? 0,
+        stackOverflowSpoilers: doc.index.stackOverflowSpoilers?.length ?? 0,
+        stackOverflowLanguageDirectives: doc.index.stackOverflowLanguageDirectives?.length ?? 0,
+        stackOverflowFencedCodeBlocks: doc.index.stackOverflowFencedCodeBlocks?.length ?? 0,
+        stackOverflowTables: doc.index.stackOverflowTables?.length ?? 0,
+        stackOverflowMalformedLanguageDirectives:
+          doc.index.stackOverflowMalformedLanguageDirectives?.length ?? 0,
+      };
+    });
+
+    this.dispatcher.onRequest('flavorGrenade/classifyBoundary', async (params: unknown) => {
+      const p = params as { flavor?: unknown; text?: unknown } | null;
+      if (!isMarkdownFlavorId(p?.flavor) || typeof p?.text !== 'string') {
+        return { disposition: 'unsupported', reason: 'invalid boundary classification request' };
+      }
+      return classifyMarkdownBoundaryReference(p.flavor, p.text);
+    });
 
     // Custom method for the VS Code extension — bypasses vscode-languageclient's
     // built-in interception of standard LSP methods like workspace/executeCommand.

@@ -27,7 +27,7 @@ Create `extension/.vscodeignore` with aggressive exclusions to keep the VSIX pac
 
 ## Implementation Notes
 
-- Write `extension/.vscodeignore` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]:
+- Write `extension/.vscodeignore` with the exact content from the phase plan [[docs/plans/phase-E1-extension-scaffold]]:
 
   - `.github/**`
 
@@ -59,17 +59,17 @@ Create `extension/.vscodeignore` with aggressive exclusions to keep the VSIX pac
 
 - The `!dist/**` negation is critical — it ensures the bundled `extension.js` and source maps are included in the VSIX even though `*.ts` is excluded
 
-- See also: [[plans/phase-E1-extension-scaffold]], [[adr/ADR015-platform-specific-vsix]]
+- See also: [[docs/plans/phase-E1-extension-scaffold]], [[docs/adr/ADR015-platform-specific-vsix]]
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Packaging hygiene; no functional requirement tag for VSIX content filtering | [[requirements/index]] |
+| — | Packaging hygiene; no functional requirement tag for VSIX content filtering | [[docs/requirements/index]] |
 
 ---
 
@@ -99,7 +99,7 @@ Create `extension/.vscodeignore` with aggressive exclusions to keep the VSIX pac
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX must be lean; `.vscodeignore` controls what ships to users |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX must be lean; `.vscodeignore` controls what ships to users |
 
 ---
 
@@ -145,7 +145,7 @@ The `.vscodeignore` file follows `.gitignore` syntax. The `!dist/**` negation pa
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -161,13 +161,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure configuration task with no unit tests — the RED/GREEN cycle is satisfied by verifying the file exists with correct patterns. Full VSIX content verification happens in CI packaging (Phase E3+). See [[templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
+> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure configuration task with no unit tests — the RED/GREEN cycle is satisfied by verifying the file exists with correct patterns. Full VSIX content verification happens in CI packaging (Phase E3+). See [[docs/templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].

@@ -40,10 +40,10 @@ Reference-style uses must bind only to link definitions in the same document.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.ReferenceGraph` | Markdown document refs, image refs, label refs, and label definitions are indexed in RefGraph | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.MarkdownLinks.LocalResolution` | Markdown link and label references are represented in the vault graph | [[requirements/functional/ofmarkdown-parity]] |
-| `Parity.Attachments.Intelligence` | Markdown image references are available to later attachment intelligence | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.References.Completeness` | Markdown references are available to reference queries | [[requirements/navigation]] |
+| `Parity.MarkdownLinks.ReferenceGraph` | Markdown document refs, image refs, label refs, and label definitions are indexed in RefGraph | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.LocalResolution` | Markdown link and label references are represented in the vault graph | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Parity.Attachments.Intelligence` | Markdown image references are available to later attachment intelligence | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.References.Completeness` | Markdown references are available to reference queries | [[docs/requirements/navigation]] |
 
 ---
 
@@ -105,7 +105,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass or are ready for Oracle/navigation work.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -133,7 +133,7 @@ owned by `VaultIndex`.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -142,7 +142,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

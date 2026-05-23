@@ -10,9 +10,11 @@ aliases:
 # Code Action Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/codeAction` and `workspace/executeCommand` behaviour for the three OFM-specific code actions shipped in v1: `fg.createMissingFile` (create a missing wiki-link target), `fg.toc` (generate a table of contents from headings), and `fg.tagToYaml` (move inline tags to frontmatter). Diagnostic trigger conditions for FG001 are specified in [[wiki-link-resolution]]. Configuration keys are specified in [[configuration]].
+> These requirements govern `textDocument/codeAction` and `workspace/executeCommand` behaviour for the three OFM-specific code actions shipped in v1: `fg.createMissingFile` (create a missing wiki-link target), `fg.toc` (generate a table of contents from headings), and `fg.tagToYaml` (move inline tags to frontmatter). Diagnostic trigger conditions for FG001 are specified in [[docs/requirements/wiki-link-resolution]]. Configuration keys are specified in [[configuration]].
 
 ---
+
+## CA-001
 
 **Tag:** CA-001
 **Gist:** The server must surface a `fg.createMissingFile` code action when the cursor is inside a wiki-link whose target resolves to zero documents, and executing that action must create the missing file in the vault and clear the FG001 diagnostic.
@@ -34,6 +36,8 @@ aliases:
 
 ---
 
+## CA-002
+
 **Tag:** CA-002
 **Gist:** The server must surface a `fg.toc` code action whenever the current document contains at least one heading, and executing the action must insert or replace a `<!-- TOC -->` block with a correctly formatted Markdown list of heading links respecting the configured `toc.max_depth`.
 **Ambition:** Long OFM notes with many headings become navigable only if the author manually maintains a table of contents — a tedious, error-prone, and invariably stale process. An LSP code action that regenerates the TOC on demand eliminates that maintenance burden and ensures the TOC always reflects the current heading structure. The `<!-- TOC -->` comment markers allow idempotent re-generation: a second invocation updates rather than duplicates, which is the behaviour authors expect from a "keep it fresh" workflow.
@@ -52,6 +56,8 @@ aliases:
 **Goal:** 100% compliance on all three sub-scales.
 
 ---
+
+## CA-003
 
 **Tag:** CA-003
 **Gist:** The server must surface a `fg.tagToYaml` code action when the cursor is on an inline `#tag` in the document body (outside code and math blocks), and executing the action must move the selected tag(s) into the frontmatter `tags:` array and remove them from the body text.

@@ -13,9 +13,9 @@ aliases:
 
 # BC6 — Editor Client Domain Model
 
-This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up a status bar widget and Command Palette commands, and maps server vault/index membership to VS Code's `ofmarkdown` language mode. All Obsidian Flavored Markdown intelligence lives in the server (BC2–BC5).
+This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server binary, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus user settings to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/lsp-protocol/domain-model]], [[design/api-layer]], [[superpowers/specs/2026-04-21-vscode-extension-design]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol/domain-model]], [[docs/design/api-layer]], [[docs/superpowers/specs/2026-04-21-vscode-extension-design]].
 
 > [!NOTE]
 > BC6 is a **Conformist** to the LSP 3.17 specification (client side). It communicates with BC5 exclusively via JSON-RPC over stdio. It does not import any server-side types, aggregates, or domain events. The `flavorGrenade/status` custom notification and `flavorGrenade.rebuildIndex` command are the only non-standard protocol extensions consumed or sent.
@@ -46,13 +46,13 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[ddd/lsp-protocol/doma
 2. Construct and start a `LanguageClient` with `Executable` server options (stdio transport).
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
-5. Register `LanguageModeController` so qualifying Markdown documents are promoted to `OFMarkdownLanguageMode`.
+5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while sending a `MarkdownFlavorSelection` to the server.
 6. Push all disposables to `context.subscriptions` for automatic cleanup.
 
 ### Lifecycle
 
 ```text
-VS Code activates extension (onLanguage:markdown or onLanguage:ofmarkdown)
+VS Code activates extension (onLanguage:markdown)
   │
   ▼
 activate(context: ExtensionContext)
@@ -67,8 +67,7 @@ activate(context: ExtensionContext)
   │    serverOptions: { run: { command: serverPath }, debug: { command: serverPath } }
   │    clientOptions: {
   │      documentSelector: [
-  │        { scheme: 'file', language: 'markdown' },
-  │        { scheme: 'file', language: 'ofmarkdown' }
+  │        { scheme: 'file', language: 'markdown' }
   │      ]
   │    }
   │
@@ -84,10 +83,12 @@ activate(context: ExtensionContext)
   │    flavorGrenade.rebuildIndex   → client.sendRequest('workspace/executeCommand', ...)
   │    flavorGrenade.showOutput     → client.outputChannel.show()
   │
-  ├─ Register LanguageModeController
+  ├─ Register MarkdownFlavorController
   │    early check: ancestor .obsidian/ exists
   │    server check: flavorGrenade/documentMembership
-  │    assignment: markdown → ofmarkdown with URI in-flight guard
+  │    selector: Auto Detect plus supported Markdown flavor ids
+  │    persistence: workspace-folder setting for folder documents, user setting for standalone files
+  │    propagation: refresh server analysis with effective Markdown flavor
   │
   └─ Push to context.subscriptions: [client, statusBarItem, ...commands]
 
@@ -127,6 +128,11 @@ function resolveServerPath(context: ExtensionContext): string
 ### StatusBarWidget
 
 A VS Code `StatusBarItem` that reflects the server's current indexing state. Driven entirely by `flavorGrenade/status` notifications from the server.
+
+`StatusBarWidget` does not own Markdown flavor selector state. If the flavor
+selector shares status bar real estate, it still remains a separate UI surface
+backed by `MarkdownFlavorController`; server/vault lifecycle state and
+Markdown flavor state use separate state machines.
 
 **State transitions:**
 
@@ -178,30 +184,71 @@ import VS Code concepts.
 ### ExtensionHostTest
 
 Extension-host tests verify BC6 behavior inside VS Code itself. They cover
-activation, command registration, status bar updates, language-mode assignment,
+activation, command registration, status bar updates, Markdown flavor selection,
 custom server path failures, and command bridge payload validation.
 
-### LanguageModeController
+### MarkdownFlavorController
 
-The VS Code component that owns dynamic language id assignment. It watches visible editors, opened documents, active editor changes, workspace folder changes, and server readiness. It is the only BC6 component allowed to call VS Code's language assignment API.
+The VS Code component that owns selector display state. It watches visible editors, opened documents, active editor changes, workspace folder changes, server readiness, and relevant configuration changes.
 
-**Promotion rule:** a file-backed `markdown` document becomes `ofmarkdown` when either:
+**Language invariant:** file-backed Markdown documents remain in VS Code's built-in `markdown` language mode. The controller must not call `setTextDocumentLanguage` for Flavor Grenade flavor selection.
+
+**Selector invariant:** `MarkdownFlavorController` owns selector display state,
+persisted selector values, and refresh decisions. It may expose that state through
+a command, status bar item, or another VS Code UI surface, but the
+`StatusBarWidget` remains limited to server and vault status.
+
+**Auto-detection hint rule:** a file-backed `markdown` document displays an
+Obsidian hint when either:
 
 1. A `.obsidian/` directory is found in one of its ancestor directories.
 2. The server returns `isOfMarkdown: true` from `flavorGrenade/documentMembership`.
 
+Without a vault/config signal, the selector remains `auto`. BC4 resolves that
+selector to the authoritative `EffectiveMarkdownFlavor`, commonly
+`commonmark` for generic Markdown. The full precedence algorithm is specified
+in [[docs/design/markdown-flavor-auto-detection]].
+
+**Explicit override rule:** the selector can set `flavorGrenade.markdownFlavor`
+to any supported Markdown flavor id. Folder-backed documents write the override
+to the owning workspace folder or workspace setting. Standalone files write the
+override to the user setting.
+
 **Safety rules:**
 
-- Never change a document whose language id is neither `markdown` nor `ofmarkdown`.
-- Track in-flight assignments by URI because VS Code reopens the document after `setTextDocumentLanguage`.
-- Do not restart the LanguageClient because of a language id transition.
-- Keep the LanguageClient `documentSelector` registered for both `markdown` and `ofmarkdown`.
+- Never apply Markdown flavor behavior to a document whose language id is not `markdown`.
+- Do not use VS Code language mode as flavor state.
+- Do not restart the LanguageClient solely because the selector changed.
+- Propagate selector changes through `workspace/didChangeConfiguration` with
+  `flavorGrenade.markdownFlavor`; the server resolves the authoritative
+  `EffectiveMarkdownFlavor`.
+- If a document language id is `mdx`, `r`, `quarto`, or any non-`markdown`
+  language id, the selector is disabled for that editor. Dedicated language
+  tooling may own that editor experience.
 
-### OFMarkdownLanguageMode
+### MarkdownFlavorSelection
 
-The VS Code language id `ofmarkdown`, displayed as **OFMarkdown**. It is contributed by the extension manifest without an `.md` extension binding. Assignment is dynamic and document-specific.
+The user-visible selector state for a Markdown document.
 
-`OFMarkdownLanguageMode` is not a new server parser mode. The server already parses OFM; the language id exists so VS Code users can target settings, keybindings, snippets, and future grammar/theme contributions at recognized vault documents.
+```typescript
+type MarkdownFlavor =
+  | 'auto'
+  | 'original'
+  | 'commonmark'
+  | 'obsidian'
+  | 'gfm'
+  | 'glfm'
+  | 'pandoc'
+  | 'multimarkdown'
+  | 'mdx'
+  | 'kramdown'
+  | 'markdown-extra'
+  | 'r-markdown'
+  | 'reddit'
+  | 'stack-overflow';
+```
+
+`MarkdownFlavorSelection` is not a VS Code language id and is not server-authoritative effective state. The normal language id remains `markdown`; flavor selection tells Flavor Grenade which profile input to send to BC4. The server then resolves an explicit `EffectiveMarkdownFlavor`.
 
 ---
 
@@ -228,7 +275,7 @@ interface FlavorGrenadeStatusParams {
 
 ### `flavorGrenade/documentMembership` (client → server)
 
-Custom request sent by `LanguageModeController` when client-side `.obsidian/` detection is insufficient or when the server reports readiness after indexing.
+Custom request sent by `MarkdownFlavorController` when client-side `.obsidian/` detection is insufficient or when the server reports readiness after indexing.
 
 ```typescript
 interface DocumentMembershipParams {
@@ -243,7 +290,7 @@ interface DocumentMembershipResult {
 }
 ```
 
-The server-side answer is authoritative for `.flavor-grenade.toml` vaults and any document already present in the index.
+The server-side answer is authoritative for `.flavor-grenade.toml` vaults and any document already present in the index. It is a membership hint, not a flavor computation result; BC6 must not infer the final effective flavor from it except to keep the selector UI coherent.
 
 ---
 
@@ -282,7 +329,7 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 **Crash recovery:** `LanguageClient` uses its default error handler, which restarts the server up to 4 times within 3 minutes. No custom handler is needed.
 
-**Config propagation:** User settings (`linkStyle`, `completion.candidates`, `diagnostics.suppress`) are passed to the server via `initializationOptions` at startup. Changes to these settings trigger a client restart, which re-sends `initializationOptions` with updated values.
+**Config propagation:** Markdown flavor selector changes are sent through `workspace/didChangeConfiguration` and must not restart the LanguageClient. Other startup-only settings may still flow through `initializationOptions` when the implementation requires it.
 
 ---
 
@@ -294,7 +341,11 @@ BC6 communicates with BC5 exclusively through the LSP wire protocol. There is no
 
 3. **Client disposal handles server shutdown (no orphaned processes).** All disposables — `LanguageClient`, `StatusBarItem`, command registrations — are pushed to `context.subscriptions`. VS Code disposes these on extension deactivation, which triggers `client.stop()`, which sends LSP `shutdown` + `exit` to the server process. If the server does not exit cleanly, the child process is killed.
 
-4. **Language mode assignment is precise and loop-safe.** `LanguageModeController` may promote `markdown` to `ofmarkdown` only for file documents with a positive vault/index membership signal. It must not override user-selected non-Markdown modes and must not repeatedly assign the same URI after VS Code reopens the document.
+4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
+
+5. **Markdown flavor selector state is scoped.** Folder-backed overrides are written to workspace-folder or workspace settings; standalone-file overrides are written to user settings. The server owns effective flavor state after receiving the selector.
+
+6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.
 
 ---
 
@@ -324,8 +375,8 @@ The platform-specific VSIX model guarantees that the binary is always present �
 
 - [[bounded-contexts]] — Context map and integration styles
 - [[ubiquitous-language]] — Editor Client Terms section
-- [[ddd/lsp-protocol/domain-model]] — BC5 server-side counterpart
-- [[design/api-layer]] — Server capabilities and `flavorGrenade/status` notification
-- [[features/ofmarkdown-language-mode]] — Dynamic VS Code language mode behavior
-- [[adr/ADR016-ofmarkdown-language-mode]] — OFMarkdown language mode decision
-- [[superpowers/specs/2026-04-21-vscode-extension-design]] — Full extension design spec
+- [[docs/ddd/lsp-protocol/domain-model]] — BC5 server-side counterpart
+- [[docs/design/api-layer]] — Server capabilities and `flavorGrenade/status` notification
+- [[docs/features/ofmarkdown-language-mode]] — Markdown flavor selection behavior
+- [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
+- [[docs/superpowers/specs/2026-04-21-vscode-extension-design]] — Full extension design spec

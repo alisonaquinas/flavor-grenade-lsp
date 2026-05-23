@@ -88,7 +88,7 @@ SymbolDiff {
 
 `RefGraph.update` processes removals first (purging stale edges and moving affected refs to `unresolvedRefs` if their def was removed), then additions (attempting to resolve previously unresolved refs against newly added defs, and resolving the new refs against existing defs).
 
-The resulting graph is a new `RefGraph` value — `RefGraph` is immutable, consistent with [[concepts/document-model]]'s immutability principle. The old `RefGraph` is discarded.
+The resulting graph is a new `RefGraph` value — `RefGraph` is immutable, consistent with [[docs/concepts/document-model]]'s immutability principle. The old `RefGraph` is discarded.
 
 > [!note] Why immutable?
 > Immutability means `DiagnosticService` can hold a reference to the previous `RefGraph` snapshot during its async re-evaluation loop without risk of the graph changing under it. The NestJS event loop serializes the `update()` call and the diagnostic run, but immutability makes the invariant explicit and verifiable.
@@ -180,8 +180,8 @@ The following invariants are maintained by `RefGraph` at all times. Violation of
 
 ## Cross-References
 
-- [[concepts/symbol-model]] — Full Sym/Def/Ref type hierarchy
-- [[concepts/document-model]] — OFMDoc and OFMIndex structure
-- [[concepts/workspace-model]] — VaultFolder and SymbolDiff computation
-- [[architecture/data-flow]] — How RefGraph.update fits into the change pipeline
-- [[architecture/layers]] — ReferenceModule placement in the layer stack
+- [[docs/concepts/symbol-model]] — Full Sym/Def/Ref type hierarchy
+- [[docs/concepts/document-model]] — OFMDoc and OFMIndex structure
+- [[docs/concepts/workspace-model]] — VaultFolder and SymbolDiff computation
+- [[docs/architecture/data-flow]] — How RefGraph.update fits into the change pipeline
+- [[docs/architecture/layers]] — ReferenceModule placement in the layer stack

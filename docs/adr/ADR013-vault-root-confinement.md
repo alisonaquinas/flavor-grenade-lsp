@@ -13,7 +13,7 @@ date: 2026-04-17
 
 flavor-grenade-lsp operates on the user's file system as the editor user, with full read access to all files that user can read. It also performs **write operations** via `workspace/applyEdit` in the rename refactoring path. The consequence of a path traversal bug in the rename path is not just information disclosure — it is arbitrary file write as the user.
 
-The threat is documented in [[research/security-threat-model#Sub-threat-1.2]]. The attack vector is a vault document containing a crafted wiki-link whose resolved target path, after URI decoding and resolution, falls outside the vault root. If the server computes an edit URI from this resolved path without bounds-checking, the rename handler could overwrite a file anywhere on the user's file system.
+The threat is documented in [[docs/research/security-threat-model]]. The attack vector is a vault document containing a crafted wiki-link whose resolved target path, after URI decoding and resolution, falls outside the vault root. If the server computes an edit URI from this resolved path without bounds-checking, the rename handler could overwrite a file anywhere on the user's file system.
 
 ## Decision
 
@@ -84,9 +84,9 @@ All four escape scenarios must produce `null` from `confineToVaultRoot` and resu
 
 ## Related
 
-- [[adr/ADR012-parser-safety-policy]] — companion parser-level safety ADR
-- [[research/security-threat-model#Sub-threat-1.2]] — CVE-2024-22415 and path traversal evidence
-- [[research/security-threat-model#Threat-Category-4]] — rename write risk
-- [[requirements/security/vault-confinement]] — Planguage requirements derived from this ADR
-- [[plans/phase-04-vault-index]] — implementation phase for VaultIndex confinement
-- [[plans/phase-11-rename]] — implementation phase for rename confinement
+- [[docs/adr/ADR012-parser-safety-policy]] — companion parser-level safety ADR
+- [[docs/research/security-threat-model]] — CVE-2024-22415 and path traversal evidence
+- [[docs/research/security-threat-model]] — rename write risk
+- [[docs/requirements/security/vault-confinement]] — Planguage requirements derived from this ADR
+- [[docs/plans/phase-04-vault-index]] — implementation phase for VaultIndex confinement
+- [[docs/plans/phase-11-rename]] — implementation phase for rename confinement

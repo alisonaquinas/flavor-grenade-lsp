@@ -10,9 +10,11 @@ aliases:
 # Hover Requirements
 
 > [!NOTE] Scope
-> These requirements govern `textDocument/hover` behaviour: wiki-link hover content (title, first-paragraph preview, and stats), and embed hover content (resolved path and file type). Tag hover, frontmatter key hover, and the `hover.enabled` configuration switch are specified in [[features/hover]]. Positions that return null are enumerated in [[features/hover#No Hover Positions]]. The `hover.preview_chars` configuration key is specified in [[configuration]].
+> These requirements govern `textDocument/hover` behaviour: wiki-link hover content (title, first-paragraph preview, and stats), and embed hover content (resolved path and file type). Tag hover, frontmatter key hover, and the `hover.enabled` configuration switch are specified in [[docs/features/hover]]. Positions that return null are enumerated in [[docs/features/hover#No Hover Positions]]. The `hover.preview_chars` configuration key is specified in [[configuration]].
 
 ---
+
+## HV-001
 
 **Tag:** HV-001
 **Gist:** Hovering a wiki-link must return a `Hover` response containing the target document's title (H1 heading or file stem), its vault-relative path, and the first non-frontmatter, non-heading paragraph of the target document, truncated to `hover.preview_chars` characters.
@@ -34,6 +36,8 @@ aliases:
 **Goal:** 100% compliance on all three sub-scales.
 
 ---
+
+## HV-002
 
 **Tag:** HV-002
 **Gist:** Hovering an embed link must return a `Hover` response containing the embedded target's resolved vault-relative path and its detected file type, using type-appropriate content as defined in the embed hover specification.

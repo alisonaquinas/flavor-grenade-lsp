@@ -12,14 +12,14 @@ This smoke test validates the minimum viable diagnostic pipeline: that the serve
 
 ## Phase Gate
 
-Phase 2 — see [[plans/execution-ledger]]
+Phase 2 — see [[docs/plans/execution-ledger]]
 
 ## Test Cases
 
 ### TC-SMOKE-009 — FG001 diagnostic published on didOpen with correct fields
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Broken wiki-link produces FG001 with Error severity`
 **Phase gate:** Phase 2
 
 **Setup:**
@@ -84,7 +84,7 @@ And the diagnostics array contains exactly one item with:
 ### TC-SMOKE-010 — multiple diagnostics from one file are all published in a single notification
 
 **Type:** Both
-**BDD Reference:** [[bdd/features/diagnostics]] — `Multiple diagnostics from one file are all published together`
+**BDD Reference:** \[\[bdd/features/diagnostics]] — `Multiple diagnostics from one file are all published together`
 **Phase gate:** Phase 2
 
 **Setup:**

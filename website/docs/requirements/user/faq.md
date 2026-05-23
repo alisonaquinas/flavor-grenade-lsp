@@ -29,5 +29,5 @@ state unsupported behavior or limits clearly.
 ## Follow-On Pages
 
 - [[quickstart]]
-- [[advanced-usage]]
-- [[concepts]]
+- [[website/docs/requirements/user/advanced-usage]]
+- [[website/docs/requirements/user/concepts]]

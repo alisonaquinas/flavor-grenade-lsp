@@ -47,7 +47,7 @@ Stakeholders: Mobile readers, search visitors, project maintainer.
 
 Owner: Website implementation.
 
-Source: [[requirements/user/accessibility-and-usability]], [[requirements/design/index]]
+Source: [[website/docs/requirements/user/accessibility-and-usability]], [[website/docs/requirements/design/index]]
 
 Open questions:
 
@@ -97,7 +97,7 @@ Stakeholders: All website visitors, keyboard users.
 
 Owner: Website implementation.
 
-Source: [[requirements/design/index]], [[requirements/user/accessibility-and-usability]]
+Source: [[website/docs/requirements/design/index]], [[website/docs/requirements/user/accessibility-and-usability]]
 
 Open questions:
 

@@ -69,7 +69,7 @@ aliases: ["{{TICKET-ID}}"]
 
 ## Related Requirements
 
-> Requirements whose implementation depends on the outcome of this spike. Source: [[requirements/index]].
+> Requirements whose implementation depends on the outcome of this spike. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
@@ -153,7 +153,7 @@ A spike is `done` when:
 
 ## Lifecycle
 
-Full state machine, time-box discipline, and output artifact rules: [[templates/tickets/lifecycle/spike-lifecycle]]
+Full state machine, time-box discipline, and output artifact rules: [[docs/templates/tickets/lifecycle/spike-lifecycle]]
 
 **State path:** `open` → `in-progress` → `concluded` → `output-delivered` → `done`
 **Alternate terminal:** `inconclusive` (time-box expired; partial findings documented; follow-on created)
@@ -176,7 +176,7 @@ Full state machine, time-box discipline, and output artifact rules: [[templates/
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/spike-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/spike-lifecycle]] for callout-type conventions and full transition rules.
 
 <!-- TEMPLATE USAGE: Replace the entry below with a real date when creating the ticket. -->
 

@@ -463,7 +463,7 @@ Documents must be written in dependency order:
 
 ## Related
 
-- [[architecture/overview]] — runtime architecture (to be created)
-- [[ddd/bounded-contexts]] — bounded context map (to be created)
-- [[ofm-spec/index]] — OFM syntax overview (to be created)
-- [[requirements/index]] — Planguage master tag index (to be created)
+- [[docs/architecture/overview]] — runtime architecture (to be created)
+- [[docs/ddd/bounded-contexts]] — bounded context map (to be created)
+- [[docs/ofm-spec/index]] — OFM syntax overview (to be created)
+- [[docs/requirements/index]] — Planguage master tag index (to be created)

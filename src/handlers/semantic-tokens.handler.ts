@@ -12,7 +12,7 @@ const TOKEN_TYPE_STRING = 0; // wiki-links, embeds
 const TOKEN_TYPE_KEYWORD = 1; // tags
 const TOKEN_TYPE_LABEL = 2; // block anchors
 const TOKEN_TYPE_ENUM_MEMBER = 3; // callout types
-const _TOKEN_TYPE_PROPERTY = 4; // frontmatter keys (reserved for future use)
+const TOKEN_TYPE_PROPERTY = 4; // metadata keys
 
 /**
  * Token modifier bitmask indices:
@@ -91,6 +91,154 @@ export class SemanticTokensHandler {
     // Callouts → type: enumMember (3), modifier: none (0)
     for (const callout of doc.index.callouts) {
       const t = this.rangeToToken(callout.range, TOKEN_TYPE_ENUM_MEMBER, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const task of doc.index.gfmTaskListItems ?? []) {
+      const t = this.rangeToToken(task.markerRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const strike of doc.index.gfmStrikethroughs ?? []) {
+      const t = this.rangeToToken(strike.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const task of doc.index.glfmInapplicableTaskListItems ?? []) {
+      const t = this.rangeToToken(task.markerRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.glfmFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const citation of doc.index.pandocCitations ?? []) {
+      const t = this.rangeToToken(citation.keyRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.pandocFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const attribute of doc.index.pandocAttributes ?? []) {
+      const t = this.rangeToToken(attribute.range, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const metadata of doc.index.multimarkdownMetadata ?? []) {
+      const t = this.rangeToToken(metadata.keyRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const label of doc.index.multimarkdownLabels ?? []) {
+      const t = this.rangeToToken(label.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const citation of doc.index.multimarkdownCitations ?? []) {
+      const t = this.rangeToToken(citation.keyRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.multimarkdownFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const declaration of doc.index.mdxEsmDeclarations ?? []) {
+      const t = this.rangeToToken(declaration.nameRange, TOKEN_TYPE_PROPERTY, MODIFIER_DECLARATION);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const element of doc.index.mdxJsxElements ?? []) {
+      const t = this.rangeToToken(element.nameRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const expression of doc.index.mdxExpressions ?? []) {
+      const t = this.rangeToToken(expression.range, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const attribute of doc.index.kramdownAttributes ?? []) {
+      const t = this.rangeToToken(attribute.markerRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.kramdownFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const attribute of doc.index.markdownExtraAttributes ?? []) {
+      const t = this.rangeToToken(attribute.markerRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const footnote of doc.index.markdownExtraFootnotes ?? []) {
+      const t = this.rangeToToken(footnote.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const abbreviation of doc.index.markdownExtraAbbreviations ?? []) {
+      const t = this.rangeToToken(abbreviation.labelRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const chunk of doc.index.rMarkdownChunks ?? []) {
+      const engine = this.rangeToToken(chunk.engineRange, TOKEN_TYPE_KEYWORD, 0);
+      if (engine !== null) tokens.push(engine);
+      if (chunk.labelRange !== undefined) {
+        const label = this.rangeToToken(chunk.labelRange, TOKEN_TYPE_LABEL, 0);
+        if (label !== null) tokens.push(label);
+      }
+      for (const optionRange of chunk.optionRanges) {
+        const option = this.rangeToToken(optionRange, TOKEN_TYPE_PROPERTY, 0);
+        if (option !== null) tokens.push(option);
+      }
+    }
+
+    for (const expression of doc.index.rMarkdownInlineExpressions ?? []) {
+      const t = this.rangeToToken(expression.expressionRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const spoiler of doc.index.redditSpoilers ?? []) {
+      const t = this.rangeToToken(spoiler.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const superscript of doc.index.redditSuperscripts ?? []) {
+      const t = this.rangeToToken(superscript.textRange, TOKEN_TYPE_STRING, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const reference of doc.index.redditHostReferences ?? []) {
+      const t = this.rangeToToken(reference.targetRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const reference of doc.index.stackOverflowTagReferences ?? []) {
+      const t = this.rangeToToken(reference.targetRange, TOKEN_TYPE_LABEL, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const directive of doc.index.stackOverflowLanguageDirectives ?? []) {
+      const t = this.rangeToToken(directive.languageRange, TOKEN_TYPE_PROPERTY, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const block of doc.index.stackOverflowFencedCodeBlocks ?? []) {
+      const t = this.rangeToToken(block.languageRange, TOKEN_TYPE_KEYWORD, 0);
+      if (t !== null) tokens.push(t);
+    }
+
+    for (const spoiler of doc.index.stackOverflowSpoilers ?? []) {
+      const t = this.rangeToToken(spoiler.textRange, TOKEN_TYPE_STRING, 0);
       if (t !== null) tokens.push(t);
     }
 

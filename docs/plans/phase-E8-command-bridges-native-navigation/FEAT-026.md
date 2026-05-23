@@ -50,7 +50,7 @@ language intelligence remains server-owned.
 
 | User Req Tag | Goal | Source File |
 |---|---|---|
-| `User.Extension.UseNativeVSCodeActions` | Use familiar VS Code UI for server-provided navigation | [[requirements/user/vscode-extension-parity]] |
+| `User.Extension.UseNativeVSCodeActions` | Use familiar VS Code UI for server-provided navigation | [[docs/requirements/user/vscode-extension-parity]] |
 
 ---
 
@@ -58,9 +58,9 @@ language intelligence remains server-owned.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.NativeUI` | Server locations invoke native VS Code UI commands | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.PayloadValidation` | Bridge payloads are validated before VS Code API calls | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Required graph and diagnostic bridge commands are registered | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.NativeUI` | Server locations invoke native VS Code UI commands | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Bridge payloads are validated before VS Code API calls | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Required graph and diagnostic bridge commands are registered | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -74,8 +74,8 @@ language intelligence remains server-owned.
 
 ## Phase Plan Reference
 
-- Phase plan: [[plans/phase-E8-command-bridges-native-navigation]]
-- Execution ledger row: [[plans/execution-ledger]]
+- Phase plan: [[docs/plans/phase-E8-command-bridges-native-navigation]]
+- Execution ledger row: [[docs/plans/execution-ledger]]
 
 ---
 
@@ -90,7 +90,7 @@ All of the following must be true before this ticket is marked `done`:
 - [x] Payload contracts remain JSON-serializable and client-owned
 - [x] Command contribution names match registered command names
 - [x] Phase gate commands pass under `extension/`
-- [x] [[test/matrix]] and [[test/index]] reflect new coverage
+- [x] [[docs/test/matrix]] and [[docs/test/index]] reflect new coverage
 
 ---
 
@@ -123,7 +123,7 @@ All of the following must be true before this ticket is marked `done`:
 ## Notes
 
 This feature follows the command bridge slice in
-[[research/marksman-vscode-feature-parity-ofmarkdown]] and
+[[docs/research/marksman-vscode-feature-parity-ofmarkdown]] and
 `extension/docs/plans/vscode-extension-parity.md`.
 
 ---
@@ -131,7 +131,7 @@ This feature follows the command bridge slice in
 ## Lifecycle
 
 Full state machine, entry/exit criteria, and agent obligations for each state:
-[[templates/tickets/lifecycle/feature-lifecycle]]
+[[docs/templates/tickets/lifecycle/feature-lifecycle]]
 
 **State path:** `draft` -> `ready` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked` (from `in-progress`), `cancelled` (from any state)

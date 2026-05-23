@@ -34,7 +34,7 @@ Adopt **git-flow** as the branching strategy for flavor-grenade-lsp.
 
 Branch semantics:
 
-- **`main`** — Tagged releases only. Never pushed to directly. Every commit on `main` corresponds to a semver tag (e.g., `v1.2.0`). The OIDC publish workflow triggers on `push` to `main` (see [[adr/ADR008-oidc-publishing]]).
+- **`main`** — Tagged releases only. Never pushed to directly. Every commit on `main` corresponds to a semver tag (e.g., `v1.2.0`). The OIDC publish workflow triggers on `push` to `main` (see [[docs/adr/ADR008-oidc-publishing]]).
 - **`develop`** — Integration branch. All feature branches merge here via pull request. The CI suite runs on every PR targeting `develop`. `develop` is not published; it is the staging area before a `release/*` branch is cut.
 - **`feature/*`** — One branch per feature, branched from `develop`. Named `feature/<short-description>` (e.g., `feature/block-ref-completion`). Merged back to `develop` via PR; the branch is deleted after merge.
 - **`release/*`** — Cut from `develop` when the team decides to prepare a release. Named `release/<version>` (e.g., `release/1.2.0`). Only bug fixes, version bumps, and changelog entries are committed here. When ready, merged to `main` (tagged) and back-merged to `develop`. Branch deleted after merge.
@@ -72,6 +72,6 @@ GitHub Actions CI configuration:
 
 ## Related
 
-- [[adr/ADR008-oidc-publishing]]
-- [[plans/phase-13-ci-delivery]]
-- [[requirements/development-process]]
+- [[docs/adr/ADR008-oidc-publishing]]
+- [[docs/plans/phase-13-ci-delivery]]
+- [[docs/requirements/development-process]]

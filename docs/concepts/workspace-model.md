@@ -160,19 +160,27 @@ class Workspace {
 
 ### Document Membership for Editor Clients
 
-Editor clients sometimes need a simple answer to "does this URI belong to Flavor Grenade's OFM world?" without exposing `VaultFolder`, `DocId`, or `RefGraph` internals. The VS Code extension uses this to decide whether an open Markdown document should be assigned the `ofmarkdown` language id.
+Editor clients sometimes need a simple answer to "does this URI belong to
+Flavor Grenade's indexed Markdown world?" without exposing `VaultFolder`,
+`DocId`, or `RefGraph` internals. The VS Code extension uses this to derive the
+effective Markdown flavor when its selector is set to `Auto Detect`.
 
 Membership is derived from `Workspace` state:
 
-| Workspace state for URI | Membership answer |
+| Workspace state for URI | Auto-detected flavor |
 |---|---|
-| URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | OFMarkdown |
-| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` | OFMarkdown |
-| URI is present in a `VaultFolder.docs` map after indexing | OFMarkdown |
-| URI is only in `SingleFileMode` | Not OFMarkdown for VS Code language-mode assignment |
-| URI is unknown or outside all vault roots | Not OFMarkdown |
+| URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | Obsidian |
+| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` with an explicit flavor | Configured flavor |
+| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` without an explicit flavor | Obsidian-compatible project Markdown |
+| URI is present in a `VaultFolder.docs` map after indexing | Project Markdown flavor |
+| URI is only in `SingleFileMode` | CommonMark |
+| URI is unknown or outside all vault roots | CommonMark |
 
-This membership view is intentionally narrower than parsing capability. The server can still parse a standalone OFM file in single-file mode, but the VS Code language mode is reserved for vault/index documents per [[ADR016-ofmarkdown-language-mode]].
+This membership view is intentionally narrower than parsing capability. The
+server can still parse a standalone OFM file in single-file mode, but VS Code
+must keep the document language id as `markdown` and express dialect behavior
+through the Markdown flavor selector per
+[[docs/adr/ADR020-markdown-flavor-selection]].
 
 ### Config Merging
 
@@ -216,10 +224,10 @@ For editor-open documents (version ≥ 0), `FileWatcher` ignores `change` events
 
 ## Cross-References
 
-- [[concepts/document-model]] — OFMDoc structure and lifecycle
-- [[concepts/connection-graph]] — RefGraph owned by VaultFolder
-- [[concepts/path-model]] — VaultRoot, DocId, Slug types
-- [[concepts/symbol-model]] — ScopedSym values flowing through withDoc
-- [[architecture/data-flow]] — VaultFolder.withDoc in the didChange pipeline
-- [[architecture/layers]] — VaultModule in the layer stack
-- [[features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode
+- [[docs/concepts/document-model]] — OFMDoc structure and lifecycle
+- [[docs/concepts/connection-graph]] — RefGraph owned by VaultFolder
+- [[docs/concepts/path-model]] — VaultRoot, DocId, Slug types
+- [[docs/concepts/symbol-model]] — ScopedSym values flowing through withDoc
+- [[docs/architecture/data-flow]] — VaultFolder.withDoc in the didChange pipeline
+- [[docs/architecture/layers]] — VaultModule in the layer stack
+- [[docs/features/ofmarkdown-language-mode]] — VS Code OFMarkdown language mode

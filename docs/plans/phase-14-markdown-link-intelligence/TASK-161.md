@@ -53,10 +53,10 @@ on a label definition should include all same-document label uses.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms participate in definition and references | [[requirements/functional/ofmarkdown-parity]] |
-| `Navigation.Definition.AllLinkTypes` | Definition works for Markdown local links and labels | [[requirements/navigation]] |
-| `Navigation.References.Completeness` | References include Markdown local links and label uses | [[requirements/navigation]] |
-| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors participate in definition and references | [[requirements/functional/ofmarkdown-parity]] |
+| `Parity.MarkdownLinks.NavigationAndReferences` | Markdown link and label forms participate in definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
+| `Navigation.Definition.AllLinkTypes` | Definition works for Markdown local links and labels | [[docs/requirements/navigation]] |
+| `Navigation.References.Completeness` | References include Markdown local links and label uses | [[docs/requirements/navigation]] |
+| `Parity.MarkdownLinks.SameDocumentAnchor` | Same-document anchors participate in definition and references | [[docs/requirements/functional/ofmarkdown-parity]] |
 
 ---
 
@@ -120,7 +120,7 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes.
 - [ ] `tsc --noEmit` exits 0.
 - [ ] Linked BDD scenarios pass locally.
-- [ ] [[test/matrix]] and [[test/index]] are updated for new tests.
+- [ ] [[docs/test/matrix]] and [[docs/test/index]] are updated for new tests.
 - [ ] Parent feature [[FEAT-021]] child task row updated to `in-review`.
 
 ---
@@ -135,7 +135,7 @@ duplicate resolution logic in handlers.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ ->
 `in-review` -> `done`
@@ -144,7 +144,7 @@ Full state machine, TDD phase rules, and agent obligations:
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 

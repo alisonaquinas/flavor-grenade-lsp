@@ -211,7 +211,15 @@ Then(
 Then(
   /^"#topic-one\/sub" is NOT included in the references \(different tag\)$/,
   function (this: FGWorld) {
-    return 'pending';
+    const refs = this.lastResponse as LspLocation[] | null;
+    expect(Array.isArray(refs)).toBe(true);
+    const subRef = refs?.some((ref) => {
+      const content = fs.readFileSync(uriToPath(ref.uri), 'utf8');
+      const lines = content.split('\n');
+      const line = lines[ref.range.start.line] ?? '';
+      return ref.range.start.character === line.indexOf('#topic-one/sub');
+    });
+    expect(subRef).toBe(false);
   },
 );
 

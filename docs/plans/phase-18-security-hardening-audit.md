@@ -1,7 +1,7 @@
 ---
 title: "Phase 18: Security Hardening Audit"
 phase: 18
-status: in-progress
+status: in-review
 tags: [plans, security, audit, hardening]
 aliases: [Phase 18, Security Hardening Audit]
 updated: 2026-05-08
@@ -13,7 +13,7 @@ updated: 2026-05-08
 |---|---|
 | Phase | 18 |
 | Title | Security Hardening Audit |
-| Status | in-progress |
+| Status | in-review |
 | Gate | Security requirements with open audit findings have passing tests and CI checks |
 | Depends on | Phase 17 |
 
@@ -38,15 +38,15 @@ is marked complete.
 
 | Requirement | Phase responsibility |
 |---|---|
-| [[requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]] | Reject non-file LSP URIs before any path or resolver handling |
-| [[requirements/security/parser-safety#Security.Parser.YAMLLimits]] | Enforce frontmatter YAML size and alias limits |
-| [[requirements/security/parser-safety#Security.Parser.ParseTimeout]] | Bound single-file parser runtime |
-| [[requirements/security/parser-safety#Security.Parser.ReDoS]] | Add parser regex audit and adversarial regression coverage |
-| [[requirements/security/parser-safety#Security.Parser.VaultFileLimit]] | Stop vault indexing at a configurable file limit and notify the client |
-| [[requirements/security/vault-confinement#Security.Vault.SymlinkConfinement]] | Treat out-of-vault symlink targets as missing based on realpath checks |
-| [[requirements/security/input-validation#Security.Input.PrototypePollution]] | Reject dangerous JSON-RPC object keys before handlers receive payloads |
-| [[requirements/security/supply-chain#Security.Supply.ExactPinning]] | Remove dependency range specifiers and add a CI range lint |
-| [[requirements/security/supply-chain#Security.Supply.AdvisoryMonitoring]] | Record advisory scan evidence in the phase workflow |
+| [[docs/requirements/security/vault-confinement#Security.Vault.URISchemeAllowlist]] | Reject non-file LSP URIs before any path or resolver handling |
+| [[docs/requirements/security/parser-safety#Security.Parser.YAMLLimits]] | Enforce frontmatter YAML size and alias limits |
+| [[docs/requirements/security/parser-safety#Security.Parser.ParseTimeout]] | Bound single-file parser runtime |
+| [[docs/requirements/security/parser-safety#Security.Parser.ReDoS]] | Add parser regex audit and adversarial regression coverage |
+| [[docs/requirements/security/parser-safety#Security.Parser.VaultFileLimit]] | Stop vault indexing at a configurable file limit and notify the client |
+| [[docs/requirements/security/vault-confinement#Security.Vault.SymlinkConfinement]] | Treat out-of-vault symlink targets as missing based on realpath checks |
+| [[docs/requirements/security/input-validation#Security.Input.PrototypePollution]] | Reject dangerous JSON-RPC object keys before handlers receive payloads |
+| [[docs/requirements/security/supply-chain#Security.Supply.ExactPinning]] | Remove dependency range specifiers and add a CI range lint |
+| [[docs/requirements/security/supply-chain#Security.Supply.AdvisoryMonitoring]] | Record advisory scan evidence in the phase workflow |
 
 ## Scope
 
@@ -79,21 +79,21 @@ is marked complete.
 
 ## Acceptance
 
-- Every BUG ticket in [[plans/phase-18-security-hardening-audit/index]] reaches
+- Every BUG ticket in [[docs/plans/phase-18-security-hardening-audit/index]] reaches
   `done`.
 - `bun run lint --max-warnings 0`, `bun run typecheck`, `bun test`, and
   `bun run lint:docs` pass locally.
 - CI passes on the phase PR.
-- [[test/matrix]] and [[test/index]] contain passing evidence for all linked
+- [[docs/test/matrix]] and [[docs/test/index]] contain passing evidence for all linked
   security requirements.
 
 ## Related
 
-- [[requirements/security/index]]
-- [[requirements/security/parser-safety]]
-- [[requirements/security/vault-confinement]]
-- [[requirements/security/input-validation]]
-- [[requirements/security/supply-chain]]
-- [[adr/ADR012-parser-safety-policy]]
-- [[adr/ADR013-vault-root-confinement]]
-- [[adr/ADR014-dependency-security-policy]]
+- [[docs/requirements/security/index]]
+- [[docs/requirements/security/parser-safety]]
+- [[docs/requirements/security/vault-confinement]]
+- [[docs/requirements/security/input-validation]]
+- [[docs/requirements/security/supply-chain]]
+- [[docs/adr/ADR012-parser-safety-policy]]
+- [[docs/adr/ADR013-vault-root-confinement]]
+- [[docs/adr/ADR014-dependency-security-policy]]

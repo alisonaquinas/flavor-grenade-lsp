@@ -33,7 +33,7 @@ extension-host exceptions.
 - Include malformed, missing, and non-serializable payload cases
 - Observe VS Code command invocation through mocks, spies, or controlled command
   registration suited to the host-test runner
-- See also: [[adr/ADR019-vscode-command-bridges-and-client-ux]]
+- See also: [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]]
 
 ---
 
@@ -41,9 +41,9 @@ extension-host exceptions.
 
 | Requirement Tag | Gist | Source File |
 |---|---|---|
-| `Extension.CommandBridges.PayloadValidation` | Bridge commands validate payloads before VS Code API calls | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.CommandBridges.GraphActions` | Required graph and utility bridge commands are registered | [[requirements/functional/vscode-extension-parity]] |
-| `Extension.Tests.HostCoverage` | Host tests include command registration and bridge behavior | [[requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.PayloadValidation` | Bridge commands validate payloads before VS Code API calls | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.CommandBridges.GraphActions` | Required graph and utility bridge commands are registered | [[docs/requirements/functional/vscode-extension-parity]] |
+| `Extension.Tests.HostCoverage` | Host tests include command registration and bridge behavior | [[docs/requirements/functional/vscode-extension-parity]] |
 
 ---
 
@@ -64,7 +64,7 @@ extension-host exceptions.
 | `extension/src/test/suite/command-bridges.test.js` | Integration | `Extension.Tests.HostCoverage` | passing |
 
 > After implementation, update the rows above and the corresponding rows in
-> See [[test/matrix]] and [[test/index]].
+> See [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -72,7 +72,7 @@ extension-host exceptions.
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR019-vscode-command-bridges-and-client-ux]] | Server-provided command payloads must stay JSON-serializable |
+| [[docs/adr/ADR019-vscode-command-bridges-and-client-ux]] | Server-provided command payloads must stay JSON-serializable |
 
 ---
 
@@ -107,8 +107,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-027]] child task row updated to `in-review`
 
 ---
@@ -123,14 +123,14 @@ or graph computation into the extension client.
 ## Lifecycle
 
 Full state machine, TDD phase rules, and agent obligations:
-[[templates/tickets/lifecycle/task-lifecycle]]
+[[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` -> `red` -> `green` -> `refactor` _(optional)_ -> `in-review` -> `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
 > [!WARNING] `red` before `green` is non-negotiable. The failing test commit
 > must precede the implementation commit in git history with no exceptions. See
-> See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
@@ -139,7 +139,7 @@ Full state machine, TDD phase rules, and agent obligations:
 > [!NOTE] Append-only. LLM agents add entries below in chronological order. Do
 > not edit previous entries. Update the `status` frontmatter field to match the
 > current state whenever adding an entry. See
-> See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
+> See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions
 > and full transition rules.
 
 > [!INFO] Opened - 2026-05-07

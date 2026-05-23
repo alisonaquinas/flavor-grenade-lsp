@@ -10,9 +10,11 @@ aliases:
 # Block Reference Requirements
 
 > [!NOTE] Scope
-> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a block-level line, either after whitespace or at the start of a standalone anchor line. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
+> These requirements govern the indexing, diagnostic emission, completion, and syntactic parsing rules for Obsidian block-anchor (`^blockid`) references. A block anchor is a `^` character followed by an alphanumeric identifier placed at the end of a block-level line, either after whitespace or at the start of a standalone anchor line. Block embed resolution is a related but separate concern covered in [[embed-resolution#Embed.BlockEmbed.Resolution]]. Cross-reference diagnostics in single-file mode suppression are governed by [[docs/requirements/diagnostics#Diagnostic.SingleFile.Suppression]].
 
 ---
+
+## Block.Anchor.Indexing
 
 **Tag:** Block.Anchor.Indexing
 **User Req:** User.Blocks.ReferenceSpecificText
@@ -35,9 +37,11 @@ aliases:
 **Goal:** 100% of expected anchors indexed; 0 false-positive anchors indexed.
 **Stakeholders:** Vault authors using block transclusion, evergreen note practitioners.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/block-references]], [[design/domain-layer#block-anchor-index]], [[embed-resolution]].
+**Source:** [[docs/ofm-spec/block-references]], [[docs/design/domain-layer]], [[embed-resolution]].
 
 ---
+
+## Block.CrossRef.Diagnostic
 
 **Tag:** Block.CrossRef.Diagnostic
 **User Req:** User.Blocks.ReferenceSpecificText
@@ -58,9 +62,11 @@ aliases:
 **Goal:** 100% correct diagnostic behaviour in both modes.
 **Stakeholders:** Vault authors using block cross-references, transclusion chain maintainers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/block-references]], [[requirements/diagnostics#FG005]], [[requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[design/api-layer#diagnostic-handler]].
+**Source:** [[docs/ofm-spec/block-references]], [[docs/requirements/diagnostics]], [[docs/requirements/diagnostics#Diagnostic.SingleFile.Suppression]], [[docs/design/api-layer]].
 
 ---
+
+## Block.Completion.Offer
 
 **Tag:** Block.Completion.Offer
 **User Req:** User.Blocks.CompleteBlockRef
@@ -79,9 +85,11 @@ aliases:
 **Goal:** 100% of known block anchors appear in the completion list.
 **Stakeholders:** Vault authors composing transclusion networks, evergreen note systems users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/block-references]], [[requirements/completions]], [[design/api-layer#completion-handler]], [[design/domain-layer#block-anchor-index]].
+**Source:** [[docs/ofm-spec/block-references]], [[docs/requirements/completions]], [[docs/design/api-layer]], [[docs/design/domain-layer]].
 
 ---
+
+## Block.Anchor.Lineend
 
 **Tag:** Block.Anchor.Lineend
 **User Req:** User.Blocks.CompleteBlockRef
@@ -104,4 +112,4 @@ aliases:
 **Goal:** 100% correct classification.
 **Stakeholders:** All vault authors; particularly those using mathematical notation or footnote-style markers.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[ofm-spec/block-references]], [[design/domain-layer#ofm-parser]], `Block.Anchor.Indexing`.
+**Source:** [[docs/ofm-spec/block-references]], [[docs/design/domain-layer]], `Block.Anchor.Indexing`.

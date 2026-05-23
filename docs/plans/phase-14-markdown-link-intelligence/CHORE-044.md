@@ -45,7 +45,7 @@ landing across many modules.
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| `Quality.Lint.ZeroWarnings` | Phase changes must not introduce lint warnings | [[requirements/code-quality]] |
+| `Quality.Lint.ZeroWarnings` | Phase changes must not introduce lint warnings | [[docs/requirements/code-quality]] |
 
 ---
 
@@ -115,7 +115,7 @@ lint cleanup belongs back in the relevant task ticket.
 ## Lifecycle
 
 Full state machine, scope-creep rules, and no-behaviour-change invariant:
-[[templates/tickets/lifecycle/chore-lifecycle]]
+[[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` -> `in-progress` -> `in-review` -> `done`
 **Lateral states:** `blocked`, `cancelled`

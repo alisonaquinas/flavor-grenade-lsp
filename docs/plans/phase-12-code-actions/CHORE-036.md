@@ -38,7 +38,7 @@ Code actions that produce `WorkspaceEdit` or `CreateFile` document changes opera
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Vault root URI containment for CreateFile edits | [[requirements/diagnostics]] |
+| — | Vault root URI containment for CreateFile edits | [[docs/requirements/diagnostics]] |
 
 ---
 
@@ -64,7 +64,7 @@ Code actions that produce `WorkspaceEdit` or `CreateFile` document changes opera
 
 | ADR | Constraint |
 |---|---|
-| [[adr/ADR013-vault-root-confinement]] | CreateFile URI must resolve to within vault root; reject path traversal attempts |
+| [[docs/adr/ADR013-vault-root-confinement]] | CreateFile URI must resolve to within vault root; reject path traversal attempts |
 
 ---
 
@@ -88,8 +88,8 @@ All of the following must be true before this ticket is marked `done`:
 - [ ] `tsc --noEmit` exits 0
 - [ ] `bun test` passes (no regressions introduced)
 - [ ] No behaviour-affecting changes in `src/` (if any sneak in, convert to TASK ticket)
-- [ ] [[test/matrix]] updated if any test files were added or removed
-- [ ] [[test/index]] updated if any test files were added or removed
+- [ ] [[docs/test/matrix]] updated if any test files were added or removed
+- [ ] [[docs/test/index]] updated if any test files were added or removed
 - [ ] `CreateFile` URI construction verified to reject paths outside vault root
 - [ ] No user-controlled heading text rendered as unescaped HTML anywhere in Phase 12 code
 - [ ] FG006 range validation confirmed present and tested
@@ -104,7 +104,7 @@ Path traversal check for vault root: the resolved file URI must start with the v
 
 ## Lifecycle
 
-Full state machine, scope-creep rules, and no-behaviour-change invariant: [[templates/tickets/lifecycle/chore-lifecycle]]
+Full state machine, scope-creep rules, and no-behaviour-change invariant: [[docs/templates/tickets/lifecycle/chore-lifecycle]]
 
 **State path:** `open` → `in-progress` → `in-review` → `done`
 **Lateral states:** `blocked`, `cancelled`
@@ -115,7 +115,7 @@ Full state machine, scope-creep rules, and no-behaviour-change invariant: [[temp
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/chore-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Chore created. Status: `open`. Motivation: security audit of Phase 12 code actions — vault root URI containment, no unescaped heading HTML, FG006 range bounds validation.

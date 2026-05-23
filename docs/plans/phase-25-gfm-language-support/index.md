@@ -1,0 +1,32 @@
+---
+title: Phase 25 GitHub Flavored Markdown Language Support Tickets
+phase: 25
+status: in-review
+tags: [plans/phase-25, tickets/index, gfm]
+aliases: ["Phase 25 Tickets"]
+updated: 2026-05-13
+---
+
+# Phase 25 GitHub Flavored Markdown Language Support Tickets
+
+| Ticket | Title | Type | Status |
+|---|---|---|---|
+| [[FEAT-051]] | GitHub Flavored Markdown Language Support | Feature | `in-review` |
+| [[TASK-324]] | Implement GFM parser semantics | Task | `done` |
+| [[TASK-325]] | Add GFM diagnostics and LSP features | Task | `done` |
+| [[TASK-326]] | Add GFM tests and validation evidence | Task | `done` |
+| [[CHORE-121]] | Phase 25 trace and documentation sweep | Chore | `done` |
+| [[CHORE-122]] | Phase 25 verification and closeout sweep | Chore | `done` |
+| [[CHORE-143]] | Document exported GFM parse result contract | Chore | `done` |
+
+## Ticket Details
+
+`TASK-324` covers tables, task lists, strikethrough, autolinks, and GitHub-style
+heading anchor behavior where local support is practical.
+
+`TASK-325` wires diagnostics, completions, folding, semantic tokens, document
+symbols, document links, and navigation for GFM constructs.
+
+`TASK-326` adds unit coverage via
+[[docs/test/markdown-flavor-unit-spec#MF-U-013 - GFM Parser And Analysis|MF-U-013]]
+plus integration, BDD, and validation coverage for `gfm`.

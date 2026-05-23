@@ -9,11 +9,34 @@ import {
   websitePages,
   type WebsitePageContent,
 } from '../src/content/pages';
-import { websiteRoutes } from '../src/content/routes';
+import { guideArticleGroups, websiteRoutes } from '../src/content/routes';
 
 describe('website content and public links', () => {
   it('defines content records for every public route', () => {
     expect(validateWebsitePages(websitePages, websiteRoutes)).toEqual([]);
+  });
+
+  it('links each guide hub to every article in its group', () => {
+    for (const group of guideArticleGroups) {
+      const hubPage = websitePages.find((page) => page.routeId === group.hubRouteId);
+      const linkedRouteIds = new Set(
+        hubPage?.sections.flatMap((section) => section.articleLinks?.map((link) => link.routeId) ?? []),
+      );
+
+      expect([...linkedRouteIds]).toEqual(group.routeIds);
+    }
+  });
+
+  it('keeps article examples concrete instead of stub-like', () => {
+    const articleRouteIds = guideArticleGroups.flatMap((group) => group.routeIds);
+
+    for (const routeId of articleRouteIds) {
+      const pageRecord = websitePages.find((page) => page.routeId === routeId);
+      const examples = pageRecord?.sections.flatMap((section) => section.code ?? []) ?? [];
+
+      expect(examples.length).toBeGreaterThan(0);
+      expect(examples.join('\n')).toMatch(/\.obsidian|\.flavor-grenade|rootUri|\[\[|#|npm|npx|```|!?\[/);
+    }
   });
 
   it('rejects broken internal route links and unapproved outbound hosts', () => {

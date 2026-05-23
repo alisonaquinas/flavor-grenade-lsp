@@ -27,7 +27,7 @@ Create `extension/tsconfig.json` with the TypeScript compiler options required f
 
 ## Implementation Notes
 
-- Create `extension/tsconfig.json` with the exact content from the phase plan [[plans/phase-E1-extension-scaffold]]
+- Create `extension/tsconfig.json` with the exact content from the phase plan [[docs/plans/phase-E1-extension-scaffold]]
 
 - Key flags: `"target": "ES2022"`, `"module": "Node16"`, `"moduleResolution": "Node16"`, `"strict": true`, `"strictNullChecks": true`, `"noImplicitAny": true`, `"esModuleInterop": true`
 
@@ -39,17 +39,17 @@ Create `extension/tsconfig.json` with the TypeScript compiler options required f
 
 - Uses Node16 module resolution (not bundler) because the extension runs in VS Code's Node.js host; esbuild handles the bundling step separately
 
-- See also: [[plans/phase-E1-extension-scaffold]]
+- See also: [[docs/plans/phase-E1-extension-scaffold]]
 
 ---
 
 ## Linked Functional Requirements
 
-> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[requirements/index]].
+> The specific Planguage requirement tags this task provides evidence for. Every task must satisfy at least one. Source: [[docs/requirements/index]].
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | Compiler configuration for extension client; no functional requirement tag yet assigned | [[requirements/index]] |
+| — | Compiler configuration for extension client; no functional requirement tag yet assigned | [[docs/requirements/index]] |
 
 ---
 
@@ -79,7 +79,7 @@ Create `extension/tsconfig.json` with the TypeScript compiler options required f
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR015-platform-specific-vsix]] | Extension client targets Node.js (VS Code host), not Bun; Node16 module resolution is required |
+| [[docs/adr/ADR015-platform-specific-vsix]] | Extension client targets Node.js (VS Code host), not Bun; Node16 module resolution is required |
 
 ---
 
@@ -127,7 +127,7 @@ Node16 module resolution is correct for the extension client because it runs in 
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` *(optional)* → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
@@ -143,13 +143,13 @@ Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/
 | `blocked` | Named dependency unavailable | Append `[!WARNING]`; note prior state for resume |
 | `cancelled` | Abandoned | Append `[!CAUTION]`; update parent feature table |
 
-> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure configuration task with no unit tests — the RED/GREEN cycle is satisfied by verifying `tsc --noEmit` exits 0 after TASK-139 provides source files. See [[templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
+> [!WARNING] `red` before `green` is non-negotiable. However, this is a pure configuration task with no unit tests — the RED/GREEN cycle is satisfied by verifying `tsc --noEmit` exits 0 after TASK-139 provides source files. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for infrastructure task exceptions.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-21
 > Ticket created. Status: `open`. Parent: [[FEAT-015]].

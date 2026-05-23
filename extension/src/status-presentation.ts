@@ -49,7 +49,7 @@ export function formatFlavorGrenadeStatus(
       };
     case 'ready':
       return {
-        text: `$(check) FG: ${params.docCount} docs`,
+        text: '$(check) FG: Ready',
         tooltip:
           tooltip ?? `Flavor Grenade: Ready — ${params.docCount} docs in ${params.vaultCount} vaults`,
       };

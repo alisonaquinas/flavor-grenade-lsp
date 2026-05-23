@@ -8,7 +8,7 @@ aliases: [Verify Workspace]
 
 ## Purpose
 
-This document covers scripted and agent-driven test cases that verify the four Planguage requirements governing vault discovery, file-extension filtering, and multi-root isolation in `flavor-grenade-lsp`. Each test case maps directly to a requirement tag in [[requirements/workspace]] and to one or more BDD scenarios in [[bdd/features/workspace]] and [[bdd/features/vault-detection]]. Test cases must be executed in Phase 1 after the VaultDetector and VaultIndex are implemented; they form the acceptance gate before any LSP feature work proceeds.
+This document covers scripted and agent-driven test cases that verify the four Planguage requirements governing vault discovery, file-extension filtering, and multi-root isolation in `flavor-grenade-lsp`. Each test case maps directly to a requirement tag in [[docs/requirements/workspace]] and to one or more BDD scenarios in [[docs/requirements/workspace]] and \[\[bdd/features/vault-detection]]. Test cases must be executed in Phase 1 after the VaultDetector and VaultIndex are implemented; they form the acceptance gate before any LSP feature work proceeds.
 
 ## Requirements Covered
 
@@ -26,7 +26,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 **Planguage Tag:** `Workspace.VaultDetection.Primary`
 **Gist:** Any directory containing a `.obsidian/` subdirectory must be automatically identified as a vault root and indexed without requiring additional user configuration.
 **Type:** Both
-**BDD Reference:** [[bdd/features/workspace]] — `Vault detected via .obsidian/ directory`; [[bdd/features/vault-detection]] — `.obsidian/ found — vault mode active with full features`
+**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .obsidian/ directory`; \[\[bdd/features/vault-detection]] — `.obsidian/ found — vault mode active with full features`
 **Phase:** Phase 1
 
 **Setup:** Create 5 directories each containing `.obsidian/` and at least 3 `.md` files. Create one additional directory without `.obsidian/` containing `.md` files. Start the server with a workspace root containing all 6 directories. Wait for `$/progress` to signal indexing complete.
@@ -64,7 +64,7 @@ And the capability "flavorGrenade.crossFileLinks" is active for all 5 detected v
 **Planguage Tag:** `Workspace.VaultDetection.Fallback`
 **Gist:** A directory containing `.flavor-grenade.toml` but no `.obsidian/` must be detected as a vault root; when both markers coexist, `.obsidian/` takes precedence.
 **Type:** Both
-**BDD Reference:** [[bdd/features/workspace]] — `Vault detected via .flavor-grenade.toml when no .obsidian/ present`; [[bdd/features/vault-detection]] — `.flavor-grenade.toml found — vault mode active with full features` and `Both .obsidian/ and .flavor-grenade.toml present — obsidian takes precedence`
+**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .flavor-grenade.toml when no .obsidian/ present`; \[\[bdd/features/vault-detection]] — `.flavor-grenade.toml found — vault mode active with full features` and `Both .obsidian/ and .flavor-grenade.toml present — obsidian takes precedence`
 **Phase:** Phase 1
 
 **Setup:** Create 3 directories each containing `.flavor-grenade.toml` and at least 3 `.md` files, with no `.obsidian/` present. Create a fourth directory containing both `.obsidian/` and `.flavor-grenade.toml`. Start the server with all 4 directories as workspace roots.
@@ -102,7 +102,7 @@ And the VaultDetector preference log records "obsidian marker takes precedence" 
 **Planguage Tag:** `Workspace.FileExtension.Filter`
 **Gist:** Only files whose extension appears in the configured extensions list (default `["md"]`) must be included in the VaultIndex; all other files are silently ignored with no warnings emitted.
 **Type:** Both
-**BDD Reference:** [[bdd/features/workspace]] — `Non-.md files are ignored with default extension filter`; [[bdd/features/vault-detection]] — `.flavor-grenade.toml configures custom extension list`
+**BDD Reference:** [[docs/requirements/workspace]] — `Non-.md files are ignored with default extension filter`; \[\[bdd/features/vault-detection]] — `.flavor-grenade.toml configures custom extension list`
 **Phase:** Phase 1
 
 **Setup:** Create a vault containing exactly 10 `.md` files, 3 `.png` files, 3 `.pdf` files, 2 `.txt` files, and 2 `.mdx` files. Start the server with default extension configuration (`["md"]`). Then reconfigure to `["md", "mdx"]` and restart.
@@ -141,7 +141,7 @@ And the document index still does NOT contain any ".txt", ".png", or ".pdf" entr
 **Planguage Tag:** `Workspace.MultiFolder.Isolation`
 **Gist:** When the server manages multiple vault roots simultaneously, link resolution must not cross root boundaries.
 **Type:** Both
-**BDD Reference:** [[bdd/features/workspace]] — `Multi-folder workspace keeps folders isolated`
+**BDD Reference:** [[docs/requirements/workspace]] — `Multi-folder workspace keeps folders isolated`
 **Phase:** Phase 1
 
 **Setup:** Configure the server with two vault roots (`vault-a/` and `vault-b/`), each containing at least 5 documents. Ensure vault B contains a document with the same file stem as at least one document in vault A (e.g., both contain `index.md`).

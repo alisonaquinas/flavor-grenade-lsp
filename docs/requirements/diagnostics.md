@@ -10,9 +10,11 @@ aliases:
 # Diagnostic Requirements
 
 > [!NOTE] Scope
-> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
+> These requirements govern the diagnostic system: severity assignment, FG-code enumeration, debounce latency, `relatedInformation` population, and single-file mode suppression. Diagnostic triggers (i.e., the conditions under which each code is emitted) are specified in the feature files that own each link or embed type: [[docs/requirements/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/block-references]]. This file governs the cross-cutting properties that apply uniformly to all diagnostics.
 
 ---
+
+## Diagnostic.Severity.WikiLink
 
 **Tag:** Diagnostic.Severity.WikiLink
 **User Req:** User.Diagnose.SpotBrokenLinks
@@ -30,9 +32,11 @@ aliases:
 **Goal:** 100% of FG001, FG002, and FG003 diagnostics carry severity Error.
 **Stakeholders:** LSP client developers, CI pipeline maintainers, vault authors.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticSeverity.
+**Source:** [[docs/requirements/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticSeverity.
 
 ---
+
+## Diagnostic.Severity.Embed
 
 **Tag:** Diagnostic.Severity.Embed
 **User Req:** User.Diagnose.SpotBrokenEmbeds
@@ -50,15 +54,17 @@ aliases:
 **Goal:** 100% of FG004 diagnostics carry severity Warning.
 **Stakeholders:** LSP client developers, vault authors, Obsidian Publish users.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[embed-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticSeverity.
+**Source:** [[embed-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticSeverity.
 
 ---
+
+## Diagnostic.Code.Assignment
 
 **Tag:** Diagnostic.Code.Assignment
 **User Req:** User.Diagnose.SpotBrokenLinks, User.Diagnose.SpotBrokenEmbeds
 **Gist:** Each diagnostic type emitted by the server must carry its assigned FG-prefixed numeric code string in the `code` field, and no two distinct diagnostic types may share the same code.
 **Ambition:** Stable, unique diagnostic codes enable downstream tooling — CI scripts, editor rule configurations, custom linters, and documentation — to identify, filter, and suppress specific diagnostic types without relying on fragile message-string matching. A code registry that allows collisions or undefined codes makes the diagnostic system unreliable as a machine-readable interface, eroding the value of the entire system as a programmatic signal.
-**Scale:** Percentage of diagnostic instances emitted during a full vault analysis session that carry a non-null `code` value matching the expected FG-code for their type, as defined in the diagnostic code registry in [[design/api-layer#diagnostic-codes]].
+**Scale:** Percentage of diagnostic instances emitted during a full vault analysis session that carry a non-null `code` value matching the expected FG-code for their type, as defined in the diagnostic code registry in [[docs/design/api-layer]].
 **Meter:**
 
 1. Construct a test vault that exercises at least one instance of each defined diagnostic type: FG001, FG002, FG004, FG005.
@@ -70,9 +76,11 @@ aliases:
 **Goal:** 100% of diagnostics carry their correct assigned FG code; 0 code collisions.
 **Stakeholders:** CI engineers, LSP client plugin authors, tool integrators.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[design/api-layer#diagnostic-codes]], [[wiki-link-resolution]], [[embed-resolution]], [[requirements/block-references]].
+**Source:** [[docs/design/api-layer]], [[docs/requirements/wiki-link-resolution]], [[embed-resolution]], [[docs/requirements/block-references]].
 
 ---
+
+## Diagnostic.Debounce.Latency
 
 **Tag:** Diagnostic.Debounce.Latency
 **User Req:** User.Diagnose.SpotBrokenLinks, User.Diagnose.SpotBrokenEmbeds
@@ -91,9 +99,11 @@ aliases:
 **Goal:** Median latency ≤ 200 ms.
 **Stakeholders:** Vault authors, editor UX quality, performance-sensitive integrations.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[architecture/overview#debounce-strategy]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 publishDiagnostics.
+**Source:** [[docs/architecture/overview]], [[docs/design/api-layer]], LSP specification §3.17 publishDiagnostics.
 
 ---
+
+## Diagnostic.Ambiguous.RelatedInfo
 
 **Tag:** Diagnostic.Ambiguous.RelatedInfo
 **User Req:** User.Diagnose.SpotAmbiguousLinks
@@ -115,9 +125,11 @@ aliases:
 **Goal:** 100% of FG002 diagnostics have correctly populated `relatedInformation`.
 **Stakeholders:** Vault authors resolving naming conflicts, teams managing large shared vaults.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution]], [[design/api-layer#diagnostic-handler]], LSP specification §3.17 DiagnosticRelatedInformation.
+**Source:** [[docs/requirements/wiki-link-resolution]], [[docs/design/api-layer]], LSP specification §3.17 DiagnosticRelatedInformation.
 
 ---
+
+## Diagnostic.SingleFile.Suppression
 
 **Tag:** Diagnostic.SingleFile.Suppression
 **User Req:** User.Diagnose.SpotBrokenLinks
@@ -136,4 +148,4 @@ aliases:
 **Goal:** 0 cross-file diagnostics in single-file mode.
 **Stakeholders:** Text editor users opening individual files, developers testing isolated documents.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[wiki-link-resolution#Link.Resolution.ModeScope]], [[requirements/block-references#Block.CrossRef.Diagnostic]], [[design/api-layer#single-file-mode]], [[architecture/overview#mode-detection]].
+**Source:** [[docs/requirements/wiki-link-resolution#Link.Resolution.ModeScope]], [[docs/requirements/block-references#Block.CrossRef.Diagnostic]], [[docs/design/api-layer]], [[docs/architecture/overview]].

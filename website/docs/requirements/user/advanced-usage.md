@@ -14,6 +14,8 @@ integrations, vault behavior, performance, and safety boundaries.
 ## Acceptance Criteria
 
 - Advanced usage explains the server configuration model.
+- The Advanced Usage hub links each major section heading to a dedicated
+  advanced-topic article.
 - Advanced usage explains editor integration beyond VS Code when supported or
   planned.
 - Advanced usage explains vault mode and single-file mode.
@@ -25,8 +27,10 @@ integrations, vault behavior, performance, and safety boundaries.
 - Advanced usage links to concept pages for OFM, vault index, link resolution,
   and local target safety.
 - Advanced usage distinguishes current behavior from planned behavior.
+- The desktop Advanced Usage navigation item provides a hover and focus
+  dropdown linking to advanced-topic article pages.
 
 ## Follow-On Pages
 
-- [[concepts]]
+- [[website/docs/requirements/user/concepts]]
 - [[faq]]

@@ -31,7 +31,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 - Message format: `Cannot resolve embed '![[<target>]]'`
 - In `DiagnosticService`, after running `EmbedResolver` over all `EmbedRef` entries: for each entry where `resolvedTo === null`, emit an FG004 diagnostic at the embed span's range
 - Single-file mode: suppress FG004 (same rule as FG001 suppression)
-- See also: `bdd/features/embeds.feature`, [[requirements/embed-resolution]]
+- See also: `bdd/features/embeds.feature`, [[docs/requirements/embed-resolution]]
 
 ---
 
@@ -39,7 +39,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 | Planguage Tag | Gist | Source File |
 |---|---|---|
-| — | FG004 BrokenEmbed Warning for unresolvable embed targets | [[requirements/embed-resolution]] |
+| — | FG004 BrokenEmbed Warning for unresolvable embed targets | [[docs/requirements/embed-resolution]] |
 
 ---
 
@@ -58,7 +58,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 |---|---|---|---|
 | `tests/integration/smoke-embeds.md` | Integration | — | 🔴 failing |
 
-> After implementation, update the rows above and the corresponding rows in [[test/matrix]] and [[test/index]].
+> After implementation, update the rows above and the corresponding rows in [[docs/test/matrix]] and [[docs/test/index]].
 
 ---
 
@@ -66,7 +66,7 @@ Update `DiagnosticService` to emit the FG004 `BrokenEmbed` diagnostic for embed 
 
 | ADR | Decision |
 |---|---|
-| [[adr/ADR002-ofm-only-scope]] | FG004 applies to OFM embed syntax only |
+| [[docs/adr/ADR002-ofm-only-scope]] | FG004 applies to OFM embed syntax only |
 
 ---
 
@@ -97,8 +97,8 @@ All of the following must be true before this task is marked `done`:
 - [ ] `bun run lint --max-warnings 0` passes
 - [ ] `tsc --noEmit` exits 0
 - [ ] All linked BDD scenarios pass locally
-- [ ] [[test/matrix]] row(s) updated to `✅ passing`
-- [ ] [[test/index]] row(s) added for new test files
+- [ ] [[docs/test/matrix]] row(s) updated to `✅ passing`
+- [ ] [[docs/test/index]] row(s) added for new test files
 - [ ] Parent feature [[FEAT-008]] child task row updated to `in-review`
 
 ---
@@ -111,18 +111,18 @@ FG004 is Warning severity (not Error) to match Obsidian's own behaviour: broken 
 
 ## Lifecycle
 
-Full state machine, TDD phase rules, and agent obligations: [[templates/tickets/lifecycle/task-lifecycle]]
+Full state machine, TDD phase rules, and agent obligations: [[docs/templates/tickets/lifecycle/task-lifecycle]]
 
 **State path:** `open` → `red` → `green` → `refactor` _(optional)_ → `in-review` → `done`
 **Lateral states:** `blocked` (from any active state, resumes to prior state), `cancelled`
 
-> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
+> [!WARNING] `red` before `green` is non-negotiable. The failing test commit must precede the implementation commit in git history with no exceptions. See [[docs/requirements/code-quality]] `Quality.TDD.StrictRedGreen`.
 
 ---
 
 ## Workflow Log
 
-> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
+> [!NOTE] Append-only. LLM agents add entries below in chronological order. Do not edit previous entries. Update the `status` frontmatter field to match the current state whenever adding an entry. See [[docs/templates/tickets/lifecycle/task-lifecycle]] for callout-type conventions and full transition rules.
 
 > [!INFO] Opened — 2026-04-17
 > Ticket created. Status: `open`. Parent: [[FEAT-008]].

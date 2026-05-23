@@ -29,7 +29,7 @@ The LSP `initialize` request provides a `rootUri` (or `workspaceFolders`). Detec
 **Secondary detection:** presence of a `.flavor-grenade.toml` file in or above `rootUri`.
 **Either signal** triggers vault mode. **Neither signal** → single-file mode.
 
-The directory that contains the detected signal is the vault root. The vault index (see [[plans/phase-04-vault-index]]) is built from all `.md` files recursively under the vault root, respecting any `exclude` patterns defined in `.flavor-grenade.toml`.
+The directory that contains the detected signal is the vault root. The vault index (see [[docs/plans/phase-04-vault-index]]) is built from all `.md` files recursively under the vault root, respecting any `exclude` patterns defined in `.flavor-grenade.toml`.
 
 Configuration values from `.flavor-grenade.toml` are merged on top of built-in defaults regardless of whether `.obsidian/` was the triggering signal. If `.flavor-grenade.toml` is absent, all defaults apply.
 
@@ -39,7 +39,7 @@ Configuration values from `.flavor-grenade.toml` are merged on top of built-in d
 
 - Obsidian users get vault mode with zero configuration. Opening the vault folder in their editor is sufficient.
 - Non-Obsidian OFM users (Foam, Logseq export workflows, custom toolchains) can opt in by creating `.flavor-grenade.toml`.
-- Single-file mode is a safe, usable fallback: diagnostics that require cross-file resolution are suppressed per [[features/diagnostics]] rather than producing false positives.
+- Single-file mode is a safe, usable fallback: diagnostics that require cross-file resolution are suppressed per [[docs/features/diagnostics]] rather than producing false positives.
 - Detection is deterministic and stateless — no heuristics, no content sampling.
 
 **Negative:**
@@ -54,7 +54,7 @@ Configuration values from `.flavor-grenade.toml` are merged on top of built-in d
 ## Related
 
 - [[ADR001-stdio-transport]]
-- [[concepts/workspace-model]]
-- [[plans/phase-04-vault-index]]
-- [[requirements/workspace]]
+- [[docs/concepts/workspace-model]]
+- [[docs/plans/phase-04-vault-index]]
+- [[docs/requirements/workspace]]
 - [[ADR002-ofm-only-scope]]

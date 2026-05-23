@@ -8,7 +8,7 @@ aliases: [Verify Information Disclosure]
 
 ## Purpose
 
-This document defines verification test cases for the information disclosure prevention security requirements of `flavor-grenade-lsp`. Each test case validates that the server does not leak sensitive vault content through log output, LSP completion responses, or vault-provided configuration that could trigger process execution. Obsidian vaults regularly contain sensitive personal data — journal entries, passwords in frontmatter, API keys, health records — and this server must not allow that content to escape the user's intended context. Requirements are defined in [[requirements/security/information-disclosure]] and threat context in [[research/security-threat-model]].
+This document defines verification test cases for the information disclosure prevention security requirements of `flavor-grenade-lsp`. Each test case validates that the server does not leak sensitive vault content through log output, LSP completion responses, or vault-provided configuration that could trigger process execution. Obsidian vaults regularly contain sensitive personal data — journal entries, passwords in frontmatter, API keys, health records — and this server must not allow that content to escape the user's intended context. Requirements are defined in [[docs/requirements/security/information-disclosure]] and threat context in [[docs/research/security-threat-model]].
 
 ## Requirements Covered
 
