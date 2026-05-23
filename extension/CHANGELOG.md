@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.0] — 2026-05-23
+
+### Added
+
+- Add the `flavorGrenade.markdownFlavor` setting with Auto Detect plus every supported researched Markdown flavor.
+- Add the **Flavor Grenade: Select Markdown Flavor** command and quick-pick selector.
+- Add a dedicated Markdown flavor status-bar item that reports the active effective flavor and opens the selector.
+- Propagate resource-specific selected and effective Markdown flavor state to the language server.
+
+### Changed
+
+- Keep file-backed `.md` documents in VS Code's built-in Markdown language mode while Flavor Grenade applies flavor-aware behavior.
+- Show lifecycle status as `FG: Ready` without embedding the document count in the status-bar text.
+- Document the Markdown flavor selector and updated Markdown-mode behavior in the Marketplace README and extension docs.
+
+### Fixed
+
+- Preserve server-resolved wiki-link and embed targets without client-side target reinterpretation.
+- Resolve project `.flavor-grenade.toml` flavor evidence locally so the status-bar flavor display and server propagation agree.
+- Harden extension-host update wait behavior for downloaded VS Code test runtimes.
+
 ## [0.1.4] — 2026-05-09
 
 ### Fixed
