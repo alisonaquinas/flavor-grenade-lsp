@@ -41,7 +41,8 @@ and affects analysis without requiring VS Code UI.
 | MF-I-022 | `src/test/integration/markdown-flavor.test.ts` | Start a spawned server with `.flavor-grenade.toml` selecting `stack-overflow` and open a document with Stack Exchange tag references, spoilers, language directives, fence language hints, tables, malformed directives, and an Obsidian wiki link. | Open-document analysis reports effective flavor `stack-overflow`, indexes Stack Overflow local syntax counts, keeps wiki links inert, reports Stack Overflow portability diagnostics, and classifies Stack Exchange tag references without service access. |
 | MF-I-023 | `src/test/integration/markdown-flavor.test.ts` | Start spawned servers against TOML-absent inference fixtures for MDX, R Markdown, Stack Overflow, Reddit, GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, and an ambiguous GFM-like fixture. | Strong inference fixtures report source `syntax-inference` and the expected effective flavor; the ambiguous GFM-like fixture reports `commonmark-fallback`; no inference test performs network access, process execution, renderer loading, dynamic imports, or out-of-root reads. |
 | MF-I-024 | `src/test/integration/markdown-flavor.test.ts` | Open a root fixture README under a smoketest workspace that has child flavor fixtures but no root `.flavor-grenade.toml`; run the same fixture from a repository checkout that has a parent `.flavor-grenade.toml`. | Root README remains CommonMark or inactive as specified by the workspace boundary and does not detect as OFM/project flavor because of child fixtures or ancestor markers outside the active workspace root. |
-| MF-I-025 | `src/test/integration/markdown-flavor.test.ts` | Start spawned servers with base flavors `commonmark`, `gfm`, `obsidian`, and `pandoc`, then open Keep a Changelog, Common Changelog, and MADR fixtures with structured profiles inferred or explicitly configured. | Open-document analysis reports the configured base effective flavor plus the expected structured profile flags; structured profiles do not change base parser behavior, do not appear in `MarkdownFlavorId`, and do not leak between resources. |
+| MF-I-025 | `src/test/integration/markdown-flavor.test.ts` | Start spawned servers with configured flavor smoke workspaces and TOML-absent inference smoke workspaces, then open their Keep a Changelog, Common Changelog, and MADR structured fixtures with profiles inferred or explicitly configured. | Open-document analysis reports the configured or inferred base effective flavor plus the expected structured profile flags; structured profiles do not change base parser behavior, do not appear in `MarkdownFlavorId`, and do not leak between resources or sibling structured examples. |
+| MF-I-026 | `src/test/integration/markdown-flavor.test.ts` | Open structured-profile fixtures with diagnostics, completion, navigation, hover, semantic-token, and rename trigger points under representative configured and inferred base flavors. | Each handler consumes the document-specific structured profile flags for changelog/MADR structure while preserving the base effective flavor; incompatible or weak structured evidence produces no structured-profile surface behavior. |
 
 ## Spawned-Server IDs
 
@@ -197,6 +198,23 @@ It must prove the smoketest root README is not treated as OFM when opened as a
 workspace root with only child fixture TOML files, and is not polluted by a
 repository-level `.flavor-grenade.toml` when run from the development checkout.
 
+### MF-I-025 - Structured Profile Spawned-Server Behavior
+
+Integration evidence that structured profiles are document-specific overlays
+across configured and TOML-absent inference smoke workspaces. It must open both
+changelog variants and a MADR fixture in representative base flavors and
+inference-only folders, prove the selected structured profile is attached to
+the current document only, and prove sibling `CHANGELOG.md` variants do not
+cause both changelog profiles to be effective at once.
+
+### MF-I-026 - Structured Profile Surface Behavior
+
+Integration evidence that structured profile flags reach real LSP handlers. It
+must prove diagnostics, completion, symbols/folds, hover metadata, semantic
+tokens, and rename safety consume Keep a Changelog, Common Changelog, and MADR
+flags independently of the base flavor. It must also prove weak evidence and
+the non-selected changelog variant do not activate profile-specific behavior.
+
 ## Exit Criteria
 
 - Flavor state survives a real LSP process boundary.
@@ -205,6 +223,8 @@ repository-level `.flavor-grenade.toml` when run from the development checkout.
   fallback are proven across the process boundary.
 - TOML-absent inference, ambiguity fallback, and fixture-boundary confinement
   are proven across the process boundary.
+- Structured profile inference and explicit configuration are proven across
+  configured and TOML-absent inference smoke workspaces.
 - Diagnostics, completion, navigation, hover, semantic tokens, and rename all
   consume refreshed effective flavor state.
 - Host-boundary references stay non-local across diagnostics, navigation,

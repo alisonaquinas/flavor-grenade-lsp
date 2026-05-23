@@ -406,9 +406,10 @@ flavor/context state without requiring a custom Markdown language id.
 2. Verify a separate `flavorGrenade.markdownStructuredProfiles` setting accepts `"auto"`, `"none"`, or a unique compatible array using `keep-a-changelog`, `common-changelog`, and `madr`.
 3. Open `CHANGELOG.md` fixtures for Keep a Changelog and Common Changelog under different base flavor settings and verify profile flags are inferred independently of base flavor.
 4. Open MADR fixtures under `docs/decisions/` and verify `madr` is inferred from path, filename, metadata, and headings.
-5. Verify explicit VS Code structured-profile settings override automatic inference and propagate to the server with the active document resource.
-6. Verify workspace-folder/workspace/user scope rules mirror `flavorGrenade.markdownFlavor`.
-7. Compute: (correct structured-profile extension outcomes / total structured-profile extension outcomes) x 100.
+5. Verify every configured and TOML-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
+6. Verify explicit VS Code structured-profile settings override automatic inference and propagate to the server with the active document resource.
+7. Verify workspace-folder/workspace/user scope rules mirror `flavorGrenade.markdownFlavor`.
+8. Compute: (correct structured-profile extension outcomes / total structured-profile extension outcomes) x 100.
 **Fail:** Any structured profile appears as a base Markdown flavor choice, any explicit structured profile setting is ignored, or any inferred structured profile leaks across workspace folders or unrelated documents.
 **Goal:** 100% structured profile configuration correctness.
 **Stakeholders:** VS Code users, release maintainers, architecture decision authors, extension maintainers.

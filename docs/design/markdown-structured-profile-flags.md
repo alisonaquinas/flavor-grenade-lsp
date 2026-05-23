@@ -199,8 +199,9 @@ Infer `common-changelog` when stricter signals agree:
 - change entries include Markdown links in parenthesized references;
 - entries use `**Breaking:**` or subsystem prefixes.
 
-If `Unreleased`, `Deprecated`, or `Security` appears as a release section,
-prefer `keep-a-changelog` unless explicit configuration says otherwise.
+If `Unreleased` appears as a release heading, or `Deprecated` or `Security`
+appears as a category heading, prefer `keep-a-changelog` unless explicit
+configuration says otherwise.
 
 ### MADR
 

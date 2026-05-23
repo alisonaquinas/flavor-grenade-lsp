@@ -17,7 +17,7 @@ This document is the authoritative model for the configuration system in `flavor
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/design/markdown-structured-profile-flags]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
-> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownFlavor` state.
+> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors and structured profile selections, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownContext` state: one base flavor plus zero or more structured profile flags.
 
 ---
 
@@ -199,8 +199,8 @@ interface HostSpecificBoundary {
 
 Consumers:
 
-- BC4 uses `MarkdownFlavorSelection` and `MarkdownFlavorProfile` metadata to resolve and store `EffectiveMarkdownFlavor`.
-- BC2 consumes only the explicit `EffectiveMarkdownFlavor` and relevant profile capability flags in `ParseContext`.
+- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata to resolve and store `EffectiveMarkdownContext`.
+- BC2 consumes only the explicit base `EffectiveMarkdownFlavor` and structured profile flags in `ParseContext`.
 - BC5 validates LSP configuration payloads against the supported selector set before dispatching to BC4/Config.
 - BC6 displays labels/order from the same contract and sends selector values; it does not define new ids.
 
@@ -329,7 +329,7 @@ Tie-breakers:
 - If a VS Code workspace-folder/workspace setting and `.flavor-grenade.toml` both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
 - If both VS Code workspace-folder and workspace values exist, workspace-folder wins for documents under that folder.
 - A value of `auto` does not itself become effective state; it delegates to the next lower source.
-- Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownFlavor`; resolution continues to the next valid lower-priority source.
+- Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownContext`; resolution continues to the next valid lower-priority source.
 - `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
 
 Structured profile flags are resolved after `MarkdownFlavorCascade` and are

@@ -245,11 +245,12 @@ flavor through [[docs/design/markdown-structured-profile-flags]].
 1. Inspect the shared flavor contract and verify `keep-a-changelog`, `common-changelog`, and `madr` are absent from `MarkdownFlavorId`.
 2. Verify a separate `StructuredMarkdownProfileId` contract exists for `keep-a-changelog`, `common-changelog`, and `madr`.
 3. Parse fixtures for `commonmark + keep-a-changelog`, `gfm + common-changelog`, `obsidian + madr`, and at least one additional base-flavor/profile combination.
-4. Verify base-flavor syntax remains governed by the effective `MarkdownFlavorId`.
-5. Verify structured diagnostics/symbols/folds apply only to matching changelog or MADR structure.
-6. Verify `keep-a-changelog` and `common-changelog` are mutually exclusive during automatic inference and explicit configuration.
-7. Verify no structured profile causes network access, process execution, renderer invocation, or out-of-workspace reads.
-8. Compute: (correct structured profile outcomes / total structured profile outcomes) x 100.
+4. Verify every configured and TOML-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
+5. Verify base-flavor syntax remains governed by the effective `MarkdownFlavorId`.
+6. Verify structured diagnostics/symbols/folds apply only to matching changelog or MADR structure.
+7. Verify `keep-a-changelog` and `common-changelog` are mutually exclusive during automatic inference and explicit configuration.
+8. Verify no structured profile causes network access, process execution, renderer invocation, or out-of-workspace reads.
+9. Compute: (correct structured profile outcomes / total structured profile outcomes) x 100.
 **Fail:** Any structured profile is added to the base flavor selector, any structured flag disables base flavor parsing, or any automatic inference applies a changelog/ADR profile from weak evidence alone.
 **Goal:** 100% structured profile flag correctness for supported profiles.
 **Stakeholders:** Markdown authors, release maintainers, architecture decision authors, LSP implementers.

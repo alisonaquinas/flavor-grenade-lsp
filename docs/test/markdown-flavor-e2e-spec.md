@@ -34,6 +34,7 @@ extension. Passing Phase 21 BDD does not count as E17 VS Code host proof.
 | MF-E-003 | `docs/bdd/features/vscode-extension.feature`, `docs/bdd/features/ofmarkdown-language-mode.feature` | LanguageClient serves Markdown documents while flavor state changes; selector enumeration, target-specific override persistence, configuration propagation, and manual non-Markdown language safety execute without relying on custom language ids. |
 | MF-E-004 | `docs/bdd/features/markdown-flavor-dialects.feature` | Root acceptance scenarios record per-LSP-surface expectations for diagnostics, completion, navigation, hover, semantic tokens, rename, and host-boundary behavior before dialect phases claim validation evidence. |
 | MF-E-005 | `docs/bdd/features/ofmarkdown-language-mode.feature`, planned inference feature scenarios | TOML-absent inference samples infer the expected strong-syntax flavors, ambiguous shared syntax remains CommonMark, and root smoketest README remains generic Markdown rather than OFM. |
+| MF-E-006 | planned structured-profile feature scenarios | Keep a Changelog, Common Changelog, and MADR examples under configured and TOML-absent inference smoke workspaces resolve as structured profile flags layered over the active base flavor, without adding selector choices or enabling both changelog variants for one document. |
 
 ## Exit Criteria
 
@@ -43,6 +44,8 @@ extension. Passing Phase 21 BDD does not count as E17 VS Code host proof.
   only recomputed harness state.
 - Auto-detection scenarios include syntax/context inference and boundary
   confinement, not only TOML/marker fallback.
+- Structured profile scenarios include both changelog variants and MADR across
+  configured and TOML-absent inference smoke workspaces.
 - E2E acceptance remains independent from internal implementation class names.
 - Phase 21 evidence is labeled as root/server BDD and validation evidence, not
   VS Code host automation.

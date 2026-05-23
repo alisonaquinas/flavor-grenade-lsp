@@ -59,7 +59,7 @@ MarkdownDoc
                      │  index: MarkdownIndex ◄ rebuilt with text/context │
                      │                                                    │
                      │  context: ParseContext                            │
-                     │    EffectiveMarkdownFlavor supplied by BC4         │
+                     │    EffectiveMarkdownContext supplied by BC4        │
                      │                                                    │
                      │  version: number | null                             │
                      │    null  = disk state                              │

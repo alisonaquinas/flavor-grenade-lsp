@@ -10,12 +10,14 @@ aliases:
 # Markdown Flavor Auto-Detection Algorithm
 
 This technical spec defines the unified logic flow for resolving an active
-Markdown document to an `EffectiveMarkdownFlavor`.
+Markdown document to an `EffectiveMarkdownContext`: one base
+`EffectiveMarkdownFlavor` plus zero or more structured profile flags.
 
 The selector value `auto` is a request to run this algorithm. It is never itself
-an effective flavor. The output is either an explicit `MarkdownFlavorId` or
-`inactive` when Flavor Grenade must not apply Markdown flavor behavior to the
-document.
+an effective flavor. The base-flavor output is either an explicit
+`MarkdownFlavorId` or `inactive` when Flavor Grenade must not apply Markdown
+flavor behavior to the document. Structured profile flags are resolved only for
+active Markdown documents.
 
 Structured document profiles such as Keep a Changelog, Common Changelog, and
 MADR are resolved separately as profile flags. They can be layered over any
@@ -55,10 +57,10 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
 | Owner | Responsibility |
 |---|---|
 | BC6 Editor Client | Displays the selector, persists user choices to the right VS Code configuration scope, preserves manual language choices, and sends flavor state to the server. |
-| BC4 Vault / Workspace | Owns vault membership, project config evidence, and authoritative `EffectiveMarkdownFlavor` state for server analysis. |
+| BC4 Vault / Workspace | Owns vault membership, project config evidence, and authoritative `EffectiveMarkdownContext` state for server analysis. |
 | Config | Validates flavor ids and merges TOML/default configuration. It does not resolve document-specific effective state alone. |
 | BC5 LSP Protocol | Validates incoming flavor payloads and transports resource-specific state. It does not reinterpret flavor syntax. |
-| BC2 Document Lifecycle | Consumes `EffectiveMarkdownFlavor` through `ParseContext` and profile flags. |
+| BC2 Document Lifecycle | Consumes `EffectiveMarkdownContext` through `ParseContext`: one base flavor plus zero or more structured profile flags. |
 
 ## Inputs
 
@@ -130,21 +132,23 @@ Security invariants:
 ## Output
 
 ```typescript
+type ActiveFlavorSource =
+  | 'workspace-folder-setting'
+  | 'workspace-setting'
+  | 'standalone-user-setting'
+  | 'project-toml'
+  | 'obsidian-marker'
+  | 'syntax-inference'
+  | 'server-membership'
+  | 'commonmark-fallback';
+
 type ResolveFlavorResult =
   | {
       kind: 'active';
       selected: MarkdownFlavorSelection;
       effective: MarkdownFlavorId;
       structuredProfiles: StructuredMarkdownProfileId[];
-      source:
-        | 'workspace-folder-setting'
-        | 'workspace-setting'
-        | 'standalone-user-setting'
-        | 'project-toml'
-        | 'obsidian-marker'
-        | 'syntax-inference'
-        | 'server-membership'
-        | 'commonmark-fallback';
+      source: ActiveFlavorSource;
       workspaceFolder?: string;
       vaultRoot?: string;
     }
@@ -274,8 +278,9 @@ packages, run renderers, or follow host links.
    `r-markdown`; `package.json` MDX dependencies can break a tie toward `mdx`.
 6. If no winner remains, fall through to `commonmark`.
 
-The classifier should expose its evidence for status/tooling diagnostics, but
-the server-facing effective flavor remains the single selected id.
+The classifier should expose its evidence for status/tooling diagnostics. The
+server-facing base flavor remains a single selected id, with structured
+profiles carried separately in `EffectiveMarkdownContext`.
 
 ## Pseudocode
 
@@ -295,17 +300,17 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
   if (input.owningWorkspaceFolder) {
     const folder = explicit(input.inspectedVSCodeSetting.folder);
     if (folder) {
-      return active(folder, 'workspace-folder-setting', input);
+      return active(folder, 'workspace-folder-setting', input, folder);
     }
 
     const workspace = explicit(input.inspectedVSCodeSetting.workspace);
     if (workspace) {
-      return active(workspace, 'workspace-setting', input);
+      return active(workspace, 'workspace-setting', input, workspace);
     }
   } else {
     const user = explicit(input.inspectedVSCodeSetting.user);
     if (user) {
-      return active(user, 'standalone-user-setting', input);
+      return active(user, 'standalone-user-setting', input, user);
     }
   }
 
@@ -328,10 +333,49 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
 
   return active('commonmark', 'commonmark-fallback', input);
 }
+
+function active(
+  effective: MarkdownFlavorId,
+  source: ActiveFlavorSource,
+  input: ResolveFlavorInput,
+  selected: MarkdownFlavorSelection = 'auto',
+): ResolveFlavorResult {
+  return {
+    kind: 'active',
+    selected,
+    effective,
+    structuredProfiles: resolveStructuredProfiles(input),
+    source,
+    workspaceFolder: input.owningWorkspaceFolder,
+    vaultRoot: input.serverMembership?.vaultRoot,
+  };
+}
+
+function resolveStructuredProfiles(input: ResolveFlavorInput): StructuredMarkdownProfileId[] {
+  const vscodeSelection = input.owningWorkspaceFolder
+    ? input.inspectedVSCodeStructuredProfileSetting.folder ??
+      input.inspectedVSCodeStructuredProfileSetting.workspace
+    : input.inspectedVSCodeStructuredProfileSetting.user;
+  const explicitVSCode = normalizeStructuredProfileSelection(vscodeSelection);
+  if (explicitVSCode.kind === 'explicit') {
+    return explicitVSCode.profiles;
+  }
+
+  const explicitToml = normalizeStructuredProfileSelection(input.projectTomlStructuredProfiles);
+  if (explicitToml.kind === 'explicit') {
+    return explicitToml.profiles;
+  }
+
+  if (explicitVSCode.kind === 'none' || explicitToml.kind === 'none') {
+    return [];
+  }
+
+  return inferStructuredProfiles(input.structuredProfileInference);
+}
 ```
 
 `active(...)` attaches the selected source, workspace folder, and vault root
-metadata needed for UI display and server propagation. It also attaches
+metadata needed for UI display and server propagation. It also attaches valid
 structured profile flags resolved by
 [[docs/design/markdown-structured-profile-flags]].
 

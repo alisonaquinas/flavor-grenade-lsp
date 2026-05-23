@@ -18,7 +18,7 @@ This document is the authoritative domain model for **Bounded Context 4: Vault &
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/document-lifecycle/domain-model]], [[docs/ddd/reference-resolution/domain-model]], [[docs/ddd/config/domain-model]].
 
 > [!NOTE]
-> BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4. BC4 owns `EffectiveMarkdownFlavor` state and supplies it to BC2 as `ParseContext`.
+> BC4 is the customer of BC2 (Document Lifecycle) and BC3 (Reference Resolution). It calls their published APIs but does not import their internals. BC5 (LSP Protocol) is the customer of BC4. BC4 owns `EffectiveMarkdownContext` state and supplies it to BC2 as `ParseContext`.
 
 ---
 

@@ -27,6 +27,7 @@ Detailed extension test cases live in:
 | Flavor selector | The selector is visible for file-backed Markdown documents and lists `auto` plus every required researched flavor. |
 | Override persistence | Workspace files write flavor overrides to workspace-folder or workspace settings; standalone files write to user settings. |
 | Auto-detection | `.obsidian/` resolves to Obsidian, configured workspaces resolve from workspace-folder or workspace settings, TOML-absent strong syntax/context can infer a flavor, ambiguous shared syntax resolves to CommonMark, and generic Markdown resolves to CommonMark. |
+| Structured profiles | Keep a Changelog, Common Changelog, and MADR are configured and inferred separately from the base Markdown flavor, have smoke fixtures under configured and TOML-absent inference workspaces, and never appear as Markdown flavor selector choices. |
 | Fixture boundary safety | Smoketest root README and other negative controls do not inherit child fixture TOML or repository ancestor TOML outside the active workspace boundary. |
 | Document selector and activation | Activation events and `LanguageClient.clientOptions.documentSelector` serve file-backed `markdown` and reject stale `ofmarkdown`. |
 | Server propagation | Effective flavor changes refresh server-facing analysis state for every required flavor id, preserve resource-specific state, and recover after server-unavailable paths. |
@@ -40,7 +41,7 @@ Detailed extension test cases live in:
 | Test file | Purpose |
 |---|---|
 | `extension/src/markdown-flavor.test.ts` | Pure unit coverage for selector state, flavor enum/schema, auto-detection, override targets, document scope, and server propagation payloads. |
-| `extension/src/markdown-flavor-evidence.test.ts` | Smoketest fixture inventory for configured TOML fixtures, TOML-absent inference fixtures, ambiguity samples, and marker-boundary negative controls. |
+| `extension/src/markdown-flavor-evidence.test.ts` | Smoketest fixture inventory for configured TOML fixtures, TOML-absent inference fixtures, structured-profile examples, ambiguity samples, and marker-boundary negative controls. |
 | `extension/src/language-mode.test.ts` | Preserves `markdown` language ids and rejects promotion during refresh. |
 | `extension/src/client-options.test.ts` | Deferred guard for deeper `LanguageClient.clientOptions.documentSelector` wiring beyond the E15 unit assertion. |
 | `extension/src/test/suite/markdown-flavor.test.js` | Extension-host coverage for user-visible selector behavior, settings targets, and language preservation. |
@@ -57,6 +58,7 @@ Detailed extension test cases live in:
 | Flavor enum/schema | `auto` plus every researched explicit flavor id is accepted and exposed in stable order. |
 | Selector model | Label, quick-pick rows, effective flavor display, and inactive state for non-`markdown` documents. |
 | Auto-detection resolver | `.obsidian/`, `.flavor-grenade.toml`, project setting, membership result, TOML-absent syntax/context inference, ambiguity fallback, fixture-boundary confinement, and generic CommonMark fallback. |
+| Structured profile resolver | `flavorGrenade.markdownStructuredProfiles` accepts `auto`, `none`, and compatible explicit arrays; auto inference detects Keep a Changelog, Common Changelog, and MADR from local evidence without changing the base flavor. |
 | Override persistence | Workspace-folder/workspace/user configuration target selection and `Auto Detect` clearing behavior. |
 | Server propagation | Configuration or metadata refresh payload includes the effective flavor after every transition. |
 | Document selector guard | Manifest activation and client options never depend on `onLanguage:ofmarkdown` or an `ofmarkdown` document selector. |
@@ -71,6 +73,7 @@ Detailed extension test cases live in:
 | Server refresh wiring | `extension/src/commands.test.ts` proves selector changes trigger the same server refresh path used by rebuild/index-ready changes. |
 | Server propagation payloads | Client-to-server configuration payloads include selected and effective flavor state for every explicit flavor and do not leak between resources. |
 | Inference fixture inventory | Configured fixtures, TOML-absent inference fixtures, ambiguous fallback fixtures, and root README negative controls exist and stay distinct. |
+| Structured profile fixture inventory | Keep a Changelog, Common Changelog, and MADR fixtures exist under configured and TOML-absent inference smoke workspaces and stay distinct from base flavor selection. |
 | Unsupported environments | Restricted and virtual workspaces do not spawn or propagate server flavor state from selector changes. |
 | Marketplace/package proof | `extension/test/marketplace/readme-assets.test.ts` and `extension/test/marketplace/vsix-assets.test.ts` include Markdown flavor selector evidence. |
 
@@ -85,6 +88,7 @@ Detailed extension test cases live in:
 | Manual language flow | Change `.md` to `plaintext` or `mdx` language mode and verify Flavor Grenade leaves it alone. |
 | Generic Markdown flow | Open generic Markdown and verify `Auto Detect (CommonMark)` without vault indexing work. |
 | Inference flow | Open TOML-absent inference fixtures and verify strong syntax infers the expected flavor while weak/shared syntax falls back to CommonMark. |
+| Structured profile flow | Open Keep a Changelog, Common Changelog, and MADR fixtures and verify the expected profile flag layers over the containing workspace's configured or inferred base flavor. |
 | Fixture boundary flow | Open root smoketest README and verify it remains generic Markdown despite child fixture TOML and repository ancestor TOML. |
 
 ### Verification
@@ -98,6 +102,7 @@ Detailed extension test cases live in:
 | Host CI gate | CI runs the Markdown flavor host suite or fails without a dated blocker and replacement evidence artifact. |
 | Stale expectation scan | Current tests and package/client activation paths fail if they still assert language promotion to `ofmarkdown`. |
 | Inference fixture guard | Local or CI checks fail if TOML-absent inference fixtures, ambiguous fallback fixture, or root README negative control disappear. |
+| Structured profile fixture guard | Local or CI checks fail if Keep a Changelog, Common Changelog, or MADR smoke fixtures disappear from configured or TOML-absent inference workspaces. |
 
 ### Validation
 
@@ -109,6 +114,7 @@ Detailed extension test cases live in:
 | Package evidence | Validation signoff includes `npm run verify:package-targets` output and selector proof asset coverage. |
 | Stale expectation evidence | Historical `ofmarkdown` mentions are allowed only as retired context; current behavior and tests reject promotion assumptions. |
 | Inference smoke evidence | Host/manual proof records TOML-absent inference results, ambiguity fallback, and root fixture boundary behavior. |
+| Structured profile smoke evidence | Host/manual proof records Keep a Changelog, Common Changelog, and MADR results across configured and TOML-absent inference smoke workspaces. |
 
 ## Current Gap
 
