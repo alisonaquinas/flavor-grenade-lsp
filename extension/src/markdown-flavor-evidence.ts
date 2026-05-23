@@ -1,4 +1,4 @@
-import { readFile, stat } from 'node:fs/promises';
+import { open, stat } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { isMarkdownFlavorSelection, type MarkdownFlavorSelection } from './markdown-flavor.js';
 
@@ -6,7 +6,7 @@ const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
 
 type StatFn = typeof stat;
-type ReadFileFn = typeof readFile;
+type ReadFileFn = (path: string, encoding: 'utf8') => Promise<string>;
 
 export interface MarkdownFlavorEvidence {
   hasFlavorConfigMarker: boolean;
@@ -40,7 +40,6 @@ export async function findMarkdownFlavorEvidence(
         hasObsidianMarker: false,
         projectFlavor: await readProjectMarkdownFlavor(configPath, {
           readFileFn: options.readFileFn,
-          statFn,
         }),
       };
     }
@@ -63,24 +62,43 @@ export async function readProjectMarkdownFlavor(
     statFn?: StatFn;
   } = {},
 ): Promise<MarkdownFlavorSelection | undefined> {
-  const statFn = options.statFn ?? stat;
-  let size = 0;
+  const content = options.readFileFn
+    ? await readConfigWithInjectedReader(configPath, options.readFileFn)
+    : await readConfigFromOpenFile(configPath);
+
+  return content === undefined || hasDangerousTomlKey(content)
+    ? undefined
+    : parseProjectFlavor(content);
+}
+
+async function readConfigWithInjectedReader(
+  configPath: string,
+  readFileFn: ReadFileFn,
+): Promise<string | undefined> {
   try {
-    const result = await statFn(configPath);
-    if (!result.isFile() || result.size > MAX_PROJECT_CONFIG_BYTES) {
-      return undefined;
-    }
-    size = result.size;
+    const content = await readFileFn(configPath, 'utf8');
+    return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? undefined : content;
   } catch {
     return undefined;
   }
+}
 
-  const readFileFn = options.readFileFn ?? readFile;
-  const content = await readFileFn(configPath, 'utf8');
-  if (size > MAX_PROJECT_CONFIG_BYTES || hasDangerousTomlKey(content)) {
+async function readConfigFromOpenFile(configPath: string): Promise<string | undefined> {
+  let file: Awaited<ReturnType<typeof open>> | undefined;
+  try {
+    file = await open(configPath, 'r');
+    const result = await file.stat();
+    if (!result.isFile() || result.size > MAX_PROJECT_CONFIG_BYTES) {
+      return undefined;
+    }
+
+    const content = await file.readFile('utf8');
+    return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? undefined : content;
+  } catch {
     return undefined;
+  } finally {
+    await file?.close();
   }
-  return parseProjectFlavor(content);
 }
 
 async function markerExists(

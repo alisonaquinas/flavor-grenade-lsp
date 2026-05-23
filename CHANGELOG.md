@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.3](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.2...v0.4.3) (2026-05-23)
+
 ### Added
 
 - Add a strict CodeQL configuration that runs the `security-and-quality` query suite for JavaScript, TypeScript, and GitHub Actions analysis on `main` and `develop`.
 - Add layered free security scanning for Semgrep CE, actionlint, zizmor, Gitleaks, OSV-Scanner, CodeQL alert gating, and high-signal ESLint security rules.
+- Add full-maturity local documentation guidance across source, extension, website, script, and test directories.
+
+### Changed
+
+- Normalize current architecture, release, and testing documentation around the bundled JavaScript server module extension package.
+- Refresh development dependency and GitHub Actions versions across the server, extension, and website workspaces.
+- Strengthen Markdown flavor API documentation for effective flavor state, boundary classification, and project flavor configuration.
 
 ### Security
 
