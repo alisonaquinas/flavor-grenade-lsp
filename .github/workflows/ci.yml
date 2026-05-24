@@ -343,10 +343,23 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
-    # Only run on release tag pushes, not branch pushes or PRs.
-    # Test tags use npm's native dry-run mode below.
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [typecheck, lint, dependency-policy, test, bdd, build, markdown-lint-docs, markdown-lint-other, format, website-checks, extension-checks]
+    # Only run on production release tag pushes, not branch pushes, PRs, or
+    # signing-only test tags.
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs:
+      [
+        typecheck,
+        lint,
+        dependency-policy,
+        test,
+        bdd,
+        build,
+        markdown-lint-docs,
+        markdown-lint-other,
+        format,
+        website-checks,
+        extension-checks,
+      ]
     environment: npm-publish
     # id-token: write is required for OIDC trusted publishing (keyless).
     # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
@@ -401,9 +414,4 @@ jobs:
         # omitting it causes npm to return E404 even for unscoped packages.
         # Bun registry is not targeted — it lacks OIDC support (oven-sh/bun#22423)
         # and packages on npmjs.org are installable via `bun add` regardless.
-        run: |
-          if [[ "$GITHUB_REF_NAME" == *-test* ]]; then
-            npm publish --dry-run --access public
-          else
-            npm publish --provenance --access public
-          fi
+        run: npm publish --provenance --access public
