@@ -24,6 +24,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+          lfs: true
 
       - name: Release mode
         run: |
@@ -83,6 +84,10 @@ jobs:
           grep -q "/quickstart/" website/dist/sitemap.xml
           grep -q "Sitemap:" website/dist/robots.txt
           grep -R "marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp" website/src/content website/dist > website/release-evidence/marketplace-link.txt
+          if grep -R "git-lfs.github.com/spec/v1" website/dist/assets; then
+            echo "Website dist contains Git LFS pointer files instead of image bytes." >&2
+            exit 1
+          fi
           {
             echo "# Website release smoke evidence"
             echo ""

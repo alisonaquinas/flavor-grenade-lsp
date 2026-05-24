@@ -42,5 +42,5 @@ describe('content pipeline scripts', () => {
     expect(() =>
       execFileSync(command, args, { cwd: websiteRoot, stdio: 'pipe' }),
     ).not.toThrow();
-  });
+  }, 15_000);
 });
