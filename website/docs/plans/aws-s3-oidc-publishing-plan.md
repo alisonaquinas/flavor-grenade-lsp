@@ -41,11 +41,11 @@ AWS and GitHub setup must provide:
 
 | Name | Location | Purpose |
 |---|---|---|
-| `AWS_WEBSITE_BUCKET` | GitHub environment variable | Target S3 bucket name |
+| `AWS_WEBSITE_BUCKET` | GitHub environment variable | Target S3 bucket name, currently `flavor-grenade-site` |
 | `AWS_REGION` | GitHub environment variable | Bucket and STS workflow region |
 | `AWS_WEBSITE_DEPLOY_ROLE_ARN` | GitHub environment variable | IAM role assumed by GitHub Actions |
-| `AWS_CLOUDFRONT_DISTRIBUTION_ID` | GitHub environment variable | Optional CDN invalidation target |
-| `WEBSITE_PUBLIC_URL` | GitHub environment variable | Deployment environment URL |
+| `AWS_CLOUDFRONT_DISTRIBUTION_ID` | GitHub environment variable | Optional CDN invalidation target, currently `E2TPBPS2W81ASF` |
+| `WEBSITE_PUBLIC_URL` | GitHub environment variable | Deployment environment URL, currently `https://flavor-grenade.dev` |
 | `WEBSITE_BASE_URL_PATH` | GitHub environment variable | Vite base path, normally `/` |
 
 No normal production deploy input should be an AWS access key or secret access
@@ -71,8 +71,7 @@ Expected outputs:
 
 ### Phase 2: Rename Or Replace Workflow
 
-Replace `.github/workflows/website-pages.yml` with a workflow named for the new
-target, for example:
+The implementation replaces `.github/workflows/website-pages.yml` with:
 
 ```text
 .github/workflows/website-s3.yml
@@ -187,8 +186,8 @@ Update website workflow tests to assert:
 - workflow runs `aws s3 sync`
 - workflow preserves build and release evidence artifacts
 
-Existing tests likely referencing `website-pages.yml` must be updated to the
-new workflow path or the replacement workflow name.
+Existing tests referencing `website-pages.yml` must be updated to the new
+workflow path.
 
 ### Phase 8: Update Docs And Release Notes
 

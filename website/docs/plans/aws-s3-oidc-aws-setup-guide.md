@@ -18,6 +18,15 @@ Use placeholders until the real AWS account values are known:
 | `<role-name>` | IAM role name, for example `flavor-grenade-website-deploy` |
 | `<public-url>` | Final website URL |
 
+Current production values:
+
+| Field | Value |
+|---|---|
+| S3 bucket | `flavor-grenade-site` |
+| S3 bucket ARN | `arn:aws:s3:::flavor-grenade-site` |
+| CloudFront distribution id | `E2TPBPS2W81ASF` |
+| Public URL | `https://flavor-grenade.dev` |
+
 ## Recommended Target
 
 Use:
