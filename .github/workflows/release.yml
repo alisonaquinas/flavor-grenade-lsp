@@ -13,6 +13,9 @@ jobs:
   build-binaries:
     name: Build binary (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -58,6 +61,28 @@ jobs:
           else
             mv dist/${{ matrix.binary }} dist/flavor-grenade-lsp-${{ matrix.target }}
           fi
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Sign binary with GitHub OIDC
+        shell: bash
+        run: |
+          if [[ "${{ matrix.target }}" == "win-x64" ]]; then
+            binary_path="dist/flavor-grenade-lsp-${{ matrix.target }}.exe"
+          else
+            binary_path="dist/flavor-grenade-lsp-${{ matrix.target }}"
+          fi
+
+          bundle_path="${binary_path}.sigstore.json"
+          cosign sign-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --yes
+
+          cosign verify-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --certificate-identity-regexp "^https://github.com/${GITHUB_REPOSITORY}/.github/workflows/release.yml@refs/tags/v.*$" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
