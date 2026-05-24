@@ -43,7 +43,8 @@ The installable skill source lives under `skills/` because current `add-skill`
 discovery checks that directory before falling back to recursive search.
 `skill/` is reserved for marketplace metadata and product specifications.
 `plugins/` contains agent-specific plugin packages that surround the portable
-skill with manifests, commands, hooks, agents, and optional MCP/LSP metadata.
+skill with manifests, commands, hooks, agents, optional MCP metadata, and
+mandatory embedded-LSP metadata.
 
 ## Marketplace Manifest
 

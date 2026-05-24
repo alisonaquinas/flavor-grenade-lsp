@@ -9,7 +9,7 @@
 | Smoke | Packaged artifact works from an unpacked install |
 | Agent compatibility | Claude Code and Codex install path fixtures work |
 | Marketplace | Repository can be listed and installed as a skill source |
-| Plugin | Claude and Codex plugin manifests, commands, hooks, agents, and optional MCP/LSP metadata validate |
+| Plugin | Claude and Codex plugin manifests, commands, hooks, agents, optional MCP metadata, and mandatory embedded-LSP metadata validate |
 | Security | Hostile fixtures fail safely |
 | Release | Artifacts, checksums, signatures, and compatibility matrix verify |
 
@@ -98,7 +98,9 @@ Plugin fixture:
    exist.
 5. Confirm Codex metadata omits fields rejected by the selected Codex plugin
    validator.
-6. Confirm hooks are advisory, Markdown-scoped, and timeout-bound.
+6. Confirm every plugin artifact includes the target embedded LSP executable,
+   runtime manifest, digest metadata, and LSP handshake verification report.
+7. Confirm hooks are advisory, Markdown-scoped, and timeout-bound.
 
 ## Release Validation
 

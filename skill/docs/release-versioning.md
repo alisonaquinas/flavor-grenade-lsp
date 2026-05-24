@@ -76,7 +76,7 @@ The matrix must also record plugin compatibility:
 
 | Skill | Claude plugin schema | Codex plugin schema | Commands | Hooks | Agents | MCP | LSP |
 |---|---|---|---|---|---|---|---|
-| `0.1.0` | supported | supported fields only | Claude required, Codex validated/deferred | advisory | Claude required, Codex validated/deferred | optional | Claude optional, Codex validated/deferred |
+| `0.1.0` | supported | supported fields only | Claude required, Codex validated/deferred | advisory | Claude required, Codex validated/deferred | optional | required in artifact; manifest field validated/deferred by agent |
 
 ## Release Workflow
 
@@ -137,6 +137,8 @@ Release CI must verify:
 - Claude plugin manifest validates
 - Codex plugin manifest validates against supported fields
 - plugin command, hook, agent, MCP, and LSP path references resolve
+- every plugin artifact includes the target embedded LSP runtime and handshake
+  verification report
 - `npx add-skill` repository install fixture passes
 - `npx skill` compatibility is either verified or explicitly marked deferred
 - JSON schema snapshots pass

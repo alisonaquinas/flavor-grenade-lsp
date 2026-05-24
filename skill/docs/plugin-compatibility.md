@@ -3,10 +3,10 @@
 ## Purpose
 
 The skill product must also be packageable as a plugin around the skill. The
-plugin layer supplies installer metadata and optional agent integrations such as
-slash commands, hooks, subagents, MCP declarations, and LSP declarations. The
-skill remains the core capability; plugin files make that capability easier for
-Claude Code and Codex to discover and invoke.
+plugin layer supplies installer metadata and agent integrations such as slash
+commands, hooks, subagents, MCP declarations, and LSP declarations. The plugin
+must include the runtime-specific Flavor Grenade LSP executable through the
+packaged skill; without that embedded LSP runtime, the plugin is invalid.
 
 ## Product Layout
 
@@ -56,9 +56,29 @@ but source specs and tests must preserve the distinction between:
 - `.codex-plugin/`: Codex plugin manifest
 - `commands/`: slash-command or command prompt files
 - `agents/`: specialized subagent definitions
-- `hooks/`: optional local automation
+- `hooks/`: local advisory automation
 - `mcp/`: optional MCP metadata
-- `lsp/`: optional LSP metadata
+- `lsp/`: required LSP metadata for plugin hosts that support LSP declarations
+
+## Mandatory Embedded LSP
+
+Every plugin artifact must include the portable skill and its embedded native
+LSP runtime:
+
+```text
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/bin/<target>/flavor-grenade-lsp
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/manifest.json
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs
+```
+
+The plugin must not depend on a globally installed `flavor-grenade-lsp`, a Bun
+source checkout, or a network download. Plugin commands, hooks, MCP adapters,
+and LSP declarations must all resolve through the bundled runtime resolver so
+digest verification and platform selection run before the LSP starts.
+
+Validation must fail if a plugin archive lacks the executable for its target,
+the executable digest, the runtime manifest, or an LSP handshake verification
+report.
 
 ## Claude Plugin Manifest
 
@@ -199,9 +219,11 @@ MCP config rules:
 
 ## LSP Declarations
 
-Claude supports plugin LSP server declarations. The plugin may declare the
-embedded Flavor Grenade executable as an LSP server for hosts that can consume
-that metadata.
+The plugin must include an LSP declaration for the embedded Flavor Grenade
+runtime. Claude supports plugin LSP server declarations, so the Claude plugin
+manifest must reference `./lsp/servers.json`. Codex must include the same LSP
+metadata file in the archive even when `.codex-plugin/plugin.json` omits the
+field because the selected Codex validator does not yet accept it.
 
 LSP declaration rules:
 
@@ -209,8 +231,9 @@ LSP declaration rules:
 - include target-specific path selection or point to the runtime resolver
 - preserve digest verification before launch
 - do not bypass wrapper safety checks for agent-facing commands
-- omit the declaration from Codex plugin metadata unless Codex validates an LSP
-  server field for the selected version
+- include `lsp/servers.json` in every plugin artifact
+- omit the `lspServers` field from Codex plugin metadata only when Codex
+  rejects that manifest field; do not omit the packaged LSP metadata itself
 
 ## Settings And Assets
 
@@ -237,7 +260,11 @@ CI must validate:
 - Claude command files exist for required commands
 - hook files exist when referenced
 - MCP files exist only when referenced
-- LSP files exist only when referenced
+- LSP files exist in every plugin artifact
+- every plugin artifact includes the target runtime executable, manifest,
+  digest, and LSP handshake verification report
+- `lsp/servers.json` exists in every plugin artifact and points to the bundled
+  runtime resolver or target executable
 - Codex manifest omits unsupported fields for the selected Codex validator
 - every command file references a packaged wrapper command
 - hooks are advisory and Markdown-scoped
@@ -249,11 +276,11 @@ The skill release must publish plugin-compatible artifacts:
 | Artifact | Contents |
 |---|---|
 | skill archive | Portable `skills/flavorgrenade-lsp/` skill |
-| Claude plugin archive | `.claude-plugin/`, skill, commands, agents, hooks, optional MCP/LSP metadata |
-| Codex plugin archive | `.codex-plugin/`, skill, compatible hooks/MCP metadata, docs |
+| Claude plugin archive | `.claude-plugin/`, embedded-LSP skill, commands, agents, hooks, optional MCP metadata, required LSP metadata |
+| Codex plugin archive | `.codex-plugin/`, embedded-LSP skill, compatible hooks/MCP metadata, docs, required packaged LSP metadata |
 
 If a single archive is used for both Claude and Codex, it must include both
-plugin manifests and pass both validators.
+plugin manifests, include the embedded LSP runtime, and pass both validators.
 
 ## Sources
 
