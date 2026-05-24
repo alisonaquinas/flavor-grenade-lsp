@@ -24,7 +24,7 @@ The example keeps the edit local to `[[Project Plan#Risks]]`. It should not rewr
 Renaming #Risks can update [[Project Plan#Risks]] while leaving an unrelated external URL unchanged.
 ```
 
-## For future docs
+## Why it matters
 
 Use safety-focused language for rename docs. Tell readers to inspect proposed edits and respect skipped ambiguous references.
 

@@ -1,97 +1,108 @@
 # Flavor Grenade LSP
 
-Flavor Grenade LSP is a Language Server Protocol server for Obsidian Flavored
-Markdown, often shortened to OFM. It provides editor intelligence for vaults
-that use wiki-links, embeds, block references, tags, callouts, frontmatter,
-Markdown links, attachments, and heading anchors.
+Language Server Protocol support for Obsidian-style Markdown vaults and
+flavor-aware Markdown projects.
 
-The server is written in TypeScript, wired with NestJS dependency injection,
-and built with Bun. It communicates over stdio JSON-RPC and is intended to be
-used by LSP-capable editors and by the companion VS Code extension in
-`extension/`.
+Flavor Grenade indexes local Markdown workspaces and provides editor features
+for wiki-links, embeds, headings, block references, tags, frontmatter,
+attachments, Markdown links, and structured documents such as changelogs and
+MADR decision records.
 
-## Current Status
+## Install
 
-- Server package version: `0.4.2`
-- VS Code extension package version: `0.2.2`
-- Release branch target: `main`
-- Integration branch: `develop`
-- Runtime used by CI: Bun `1.3.13`
-- Publish workflow: npm trusted publishing from `v*.*.*` tags
+Most users should install the VS Code extension:
 
-## Supported Language Features
+- [Flavor Grenade LSP on the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp)
+- [Source repository](https://github.com/alisonaquinas/flavor-grenade-lsp)
+
+The npm package is the language server for LSP-capable editors and extension
+integrations:
+
+```bash
+npm install -g flavor-grenade-lsp
+flavor-grenade-lsp
+```
+
+The server speaks LSP over stdio. Editors should launch the command and perform
+the standard `initialize` handshake over stdin/stdout.
+
+## What It Supports
+
+Core Obsidian-style Markdown support:
 
 - Wiki-links: `[[Note]]`, `[[Note|Alias]]`, `[[Note#Heading]]`, and
   `[[Note#^block-id]]`
-- Embeds: `![[Note]]`, `![[Note#Heading]]`, `![[Note#^block-id]]`, and local
-  attachment embeds
-- Standard Markdown inline links, image links, reference labels, and reference
-  definitions
-- Same-document Markdown anchors such as `[text](#heading)`
-- Block anchors of the form `^block-id`
-- Tags, including slash-delimited tag hierarchies
-- Obsidian callouts such as `> [!NOTE]`
-- YAML frontmatter, including aliases and tags
-- Opaque regions for code, math, comments, and Templater blocks
+- Embeds for notes, headings, blocks, and local attachments
+- Tags, nested tag paths, callouts, YAML frontmatter, aliases, and block anchors
+- Markdown inline links, image links, reference labels, and heading anchors
+- Opaque-region handling for code, math, comments, and Templater blocks
+
+Flavor-aware Markdown support:
+
+- Auto-detection from project config, vault markers, file syntax, and document
+  context
+- Explicit base flavors for Original Markdown, CommonMark, Obsidian, GFM, GLFM,
+  Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and
+  Stack Overflow Markdown
+- Structured profile flags for Keep a Changelog, Common Changelog, and MADR
+  layered over any base flavor
 
 ## Editor Features
 
-- Completion for notes, headings, block anchors, tags, callouts, embeds, and
-  attachments
-- Go to definition for wiki-links, Markdown links, headings, block anchors,
-  embeds, and reference labels
-- Find references and backlinks for indexed OFM symbols
-- Hover for resolved links, attachments, tags, callouts, and diagnostics
-- Document symbols, workspace symbols, semantic tokens, document highlights,
-  folding ranges, selection ranges, and document links
-- Rename support for headings and file stems, including updates to inbound
-  references
-- Code actions for common fixes such as creating missing notes, fixing
-  non-breaking spaces, generating tables of contents, and converting tags to
-  frontmatter
-- File-operation planning for editor rename workflows
+- Completions for notes, headings, block anchors, tags, callouts, embeds,
+  attachments, Markdown flavor snippets, and structured-profile headings
+- Diagnostics for broken links, ambiguous targets, malformed wiki-links, broken
+  embeds or attachments, missing block anchors, non-breaking spaces, malformed
+  frontmatter, and structured-profile issues
+- Go to definition, find references, document highlights, document links,
+  document symbols, workspace symbols, folding ranges, selection ranges,
+  semantic tokens, hovers, code lens, and rename
+- Code actions for creating missing notes, fixing non-breaking spaces,
+  generating tables of contents, and moving inline tags to frontmatter
+- Vault-confined file-operation planning for safe rename workflows
 
-## Security Posture
+## Vault And Project Detection
 
-The server treats vault content as local user data. It does not make network
-calls and it does not write directly to the vault during normal diagnostics,
-completion, or navigation. Rename and create-file workflows are returned as LSP
-workspace edits for the client to apply.
+Flavor Grenade detects a project by walking upward from an opened Markdown file.
+The strongest signals are:
 
-The current implementation includes:
+- `.flavor-grenade.toml`
+- `.obsidian/`
 
-- Vault-relative document identifiers with no file extension
-- URI scheme checks for local file targets
-- Realpath confinement for vault scans and symlink handling
-- Root-level `.obsidian/` ignored by Git
-- Parser limits for large files, YAML frontmatter size, YAML aliases, and
-  recursive embed resolution
-- Prototype-pollution rejection during frontmatter parsing
-- VS Code extension safeguards for untrusted and virtual workspaces
-- User-level override only for custom server command paths
+When no marker exists, Flavor Grenade can infer the active Markdown flavor from
+syntax and path context. Generic Markdown falls back to CommonMark instead of
+being treated as Obsidian content.
 
-## Prerequisites
+Example project config:
 
-- Bun `1.3.13` or newer for server development
-- Node.js `20` or newer for VS Code extension tooling
-- GitHub CLI for maintainers who open and merge release pull requests
+```toml
+markdown_flavor = "gfm"
+structured_profiles = ["keep-a-changelog"]
+```
 
-## Install Dependencies
+Use `structured_profiles = "none"` to disable structured profile behavior.
+
+## Security Model
+
+Flavor Grenade treats workspace files as local user data.
+
+- It does not make network calls during indexing, diagnostics, completion, or
+  navigation.
+- It returns LSP workspace edits for client approval instead of directly editing
+  vault files.
+- It rejects non-file root URIs, unsupported URI schemes, prototype-polluting
+  JSON-RPC payloads, and paths outside the detected vault boundary.
+- It applies parser and scan limits for large or adversarial local files.
+
+## Develop
+
+Install root dependencies:
 
 ```bash
 bun install
 ```
 
-The extension has its own Node-based toolchain:
-
-```bash
-cd extension
-npm install
-```
-
-## Build And Test
-
-Run the server checks from the repository root:
+Run server checks:
 
 ```bash
 bun run build
@@ -101,89 +112,23 @@ bun test
 bun run bdd
 ```
 
-Run the extension checks from `extension/`:
+Run VS Code extension checks:
 
 ```bash
+cd extension
+npm install
 npm run compile
 npm test
 npm run test:host
-npm run verify:marketplace-assets
-npm run verify:package-targets
 ```
 
-## Run The Server
+## Repository Layout
 
-Build the TypeScript output and start the stdio server:
-
-```bash
-bun run build
-node dist/main.js
-```
-
-LSP clients should connect to the process over stdin and stdout using the
-standard Language Server Protocol initialization handshake.
-
-## Vault Detection
-
-The server detects a vault by walking upward from the opened document and
-looking for one of these markers:
-
-- `.obsidian/`
-- `.flavor-grenade.toml`
-
-If no marker is found, the server runs in single-file mode. Single-file mode
-keeps syntax-aware local features available, but suppresses diagnostics that
-would require a vault-wide index.
-
-## Architecture
-
-The main modules are:
-
-- `TransportModule`: stdio JSON-RPC framing, reading, writing, and dispatch
-- `ParserModule`: OFM parsing and opaque-region detection
-- `VaultModule`: vault detection, scanning, file watching, attachment indexing,
-  and file-operation refresh
-- `ResolutionModule`: Oracle resolution, diagnostics, reference graph, and
-  Markdown target classification
-- `CompletionModule`: completion routing and trigger-specific providers
-- `NavigationModule`: code lens and document highlight support
-- `RenameModule`: prepare-rename and rename support
-- `CodeActionsModule`: quick fixes and generated workspace edits
-- `TagsModule`: vault-wide tag indexing
-- `extension/`: VS Code client, OFMarkdown language contribution, commands,
-  snippets, marketplace assets, and packaged server integration
-
-`VaultIndex` is the single source of truth for parsed documents. Handlers read
-from it instead of maintaining parallel document caches.
-
-## Diagnostic Codes
-
-- `FG001`: Broken wiki-link, Markdown note link, or heading target
-- `FG002`: Ambiguous wiki-link, Markdown note link, attachment, or heading
-  target
-- `FG003`: Malformed wiki-link
-- `FG004`: Broken embed, Markdown image, or attachment target
-- `FG005`: Missing block anchor target
-- `FG006`: Non-breaking space in document body text
-- `FG007`: YAML frontmatter parse error
-
-## Documentation
-
-Long-form product, architecture, BDD, DDD, ADR, roadmap, and Planguage
-requirements live in `docs/`. Extension-specific product and design documents
-live in `extension/docs/`.
-
-Root-level Markdown is kept portable and uses standard Markdown syntax.
-GitHub-facing files in `.github/` may use GitHub Flavored Markdown features.
-
-## Branches
-
-- `main`: released versions
-- `develop`: integration branch
-- `feature/*`: feature work targeting `develop`
-- `release/*`: release work targeting `main`
-
-Repository pull requests are merged with merge commits.
+- `src/`: TypeScript language server
+- `extension/`: VS Code extension client and Marketplace package
+- `docs/`: server requirements, design, BDD, DDD, ADRs, research, and plans
+- `extension/docs/`: extension-specific docs
+- `website/`: public documentation website
 
 ## License
 

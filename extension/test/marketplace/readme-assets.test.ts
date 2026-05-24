@@ -12,59 +12,63 @@ const readmePath = join(extensionRoot, 'README.md');
 interface RequiredMarketplaceVisual {
   alt: RegExp;
   id: string;
-  path: string;
+  localPath: string;
 }
+
+const mediaAssetBase =
+  'https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/';
 
 const requiredVisuals: RequiredMarketplaceVisual[] = [
   {
     id: 'ofmarkdown-mode',
     alt: /OFMarkdown language mode promotion/i,
-    path: 'images/marketplace/ofmarkdown-mode.png',
+    localPath: 'images/marketplace/ofmarkdown-mode.png',
   },
   {
     id: 'status-indexing',
     alt: /status bar indexing/i,
-    path: 'images/marketplace/status-indexing.png',
+    localPath: 'images/marketplace/status-indexing.png',
   },
   {
     id: 'wiki-link-completion',
     alt: /wiki-link completion/i,
-    path: 'images/marketplace/wiki-link-completion.png',
+    localPath: 'images/marketplace/wiki-link-completion.png',
   },
   {
     id: 'heading-block-completion',
     alt: /heading and block-anchor completion/i,
-    path: 'images/marketplace/heading-block-completion.png',
+    localPath: 'images/marketplace/heading-block-completion.png',
   },
   {
     id: 'reference-code-lens',
     alt: /reference code lens/i,
-    path: 'images/marketplace/reference-code-lens.png',
+    localPath: 'images/marketplace/reference-code-lens.png',
   },
   {
     id: 'embed-diagnostics-hover',
     alt: /embed diagnostics and hover/i,
-    path: 'images/marketplace/embed-diagnostics-hover.png',
+    localPath: 'images/marketplace/embed-diagnostics-hover.png',
   },
   {
     id: 'tag-completion-references',
     alt: /tag completion and references/i,
-    path: 'images/marketplace/tag-completion-references.png',
+    localPath: 'images/marketplace/tag-completion-references.png',
   },
   {
     id: 'callout-completion',
     alt: /callout completion/i,
-    path: 'images/marketplace/callout-completion.png',
+    localPath: 'images/marketplace/callout-completion.png',
   },
 ];
 
 describe('Marketplace README assets', () => {
-  it('references required Marketplace visuals with supported local image formats', async () => {
+  it('references required Marketplace visuals with stable GitHub media image URLs', async () => {
     const readme = await readFile(readmePath, 'utf8');
     const images = parseMarkdownImages(readme);
 
     for (const visual of requiredVisuals) {
-      const image = images.find((candidate) => candidate.path === visual.path);
+      const expectedUrl = `${mediaAssetBase}${visual.localPath}`;
+      const image = images.find((candidate) => candidate.path === expectedUrl);
 
       assert.ok(image, `${visual.id} visual must be referenced from extension/README.md`);
       assert.match(image.alt, visual.alt, `${visual.id} visual must have descriptive alt text`);
@@ -74,7 +78,7 @@ describe('Marketplace README assets', () => {
         `${visual.id} visual must use a Marketplace-supported image format`,
       );
       assert.equal(
-        existsSync(join(extensionRoot, image.path)),
+        existsSync(join(extensionRoot, visual.localPath)),
         true,
         `${visual.id} visual must resolve under extension/`,
       );

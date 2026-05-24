@@ -53,9 +53,9 @@ export interface HomepageAssetPlacement {
 /** First-viewport homepage message and actions. */
 export const homepageHero: HomepageHero = {
   h1: 'Flavor Grenade LSP',
-  category: 'Obsidian Flavored Markdown language server and VS Code extension',
+  category: 'Obsidian Flavored Markdown and flavor-aware Markdown language server',
   value:
-    'Keep Obsidian Vault links, headings, embeds, tags, and rename workflows sharp enough for humans and LLM maintainers.',
+    'Keep Markdown flavors, Obsidian vault links, structured profiles, headings, embeds, tags, and safe edits clear enough for humans and LSP clients.',
   actions: [
     { label: 'Quickstart', href: getRouteById('quickstart').path, kind: 'primary', icon: 'book-open' },
     {
@@ -75,12 +75,12 @@ export const homepageHero: HomepageHero = {
 
 /** Inspectable product proof for the homepage hero. */
 export const homepageProof: HomepageProof = {
-  title: 'Vault-aware proof',
-  caption: 'A real OFMarkdown workflow: link resolution, diagnostics, and safe edits.',
+  title: 'Vault-aware and flavor-aware proof',
+  caption: 'One project model drives flavor detection, local links, diagnostics, and safe edits.',
   lines: [
     '[[Daily Note#Open questions]]',
-    'FG001 missing target diagnostic',
-    'Rename heading -> update inbound references',
+    'Auto Detect -> obsidian, gfm, mdx, commonmark',
+    'FG001 missing target diagnostic + code action',
     '#project/flavor-grenade indexed tags',
   ],
 };
@@ -88,29 +88,29 @@ export const homepageProof: HomepageProof = {
 /** Homepage feature overview with varied signal roles. */
 export const featureHighlights: readonly FeatureHighlight[] = [
   {
-    title: 'Find broken links early',
-    description: 'Diagnostics catch missing wiki links, Markdown anchors, and attachment targets.',
+    title: 'Detect the right Markdown flavor',
+    description: 'Auto Detect uses config, vault markers, syntax, context, and CommonMark fallback.',
     signal: 'diagnostic',
     detail: {
-      title: 'How diagnostics catch broken vault references',
+      title: 'How Auto Detect keeps generic Markdown generic',
       summary:
-        'Flavor Grenade parses wiki-links and Markdown anchors against the indexed vault graph before the note drifts out of shape.',
-      markdownExample: ['[[Project Plan#Risks]]', '![roadmap](assets/roadmap.png)'],
+        'Flavor Grenade resolves one effective base flavor per document before applying vault behavior or structured profiles.',
+      markdownExample: ['[core.markdown]\nflavor = "gfm"', 'structured_profiles = "auto"'],
       outcome:
-        'Missing documents, headings, and local attachments become editor diagnostics with vault-relative targets the maintainer can fix.',
+        'A root README can stay CommonMark while Obsidian notes, MDX pages, and changelogs get the behavior their evidence supports.',
     },
   },
   {
-    title: 'Complete from the vault graph',
-    description: 'Completions use indexed docs, headings, blocks, tags, and attachments.',
+    title: 'Complete from project structure',
+    description: 'Completions use indexed docs, headings, blocks, tags, attachments, and profiles.',
     signal: 'completion',
     detail: {
-      title: 'How completions use indexed Obsidian Vault data',
+      title: 'How completions use indexed Markdown context',
       summary:
-        'The language server keeps a vault index of documents, headings, tags, blocks, and attachments for ranking completion candidates.',
-      markdownExample: ['Today connects to [[', '#project/'],
+        'The language server keeps a project index of documents, headings, tags, blocks, attachments, and structured headings for context-sensitive suggestions.',
+      markdownExample: ['Today connects to [[Daily Note]]', '#project/ and ## [Unreleased]'],
       outcome:
-        'The editor offers real note names, heading anchors, and tags from the workspace instead of generic Markdown snippets.',
+        'The editor offers real note names, heading anchors, tags, and profile sections from the active workspace instead of generic snippets.',
     },
   },
   {
@@ -127,16 +127,16 @@ export const featureHighlights: readonly FeatureHighlight[] = [
     },
   },
   {
-    title: 'Keep LLM wiki pages consistent',
-    description: 'Typed docs and strict checks help agents maintain Karpathy-style concept pages.',
+    title: 'Read structured Markdown faster',
+    description: 'Hovers, symbols, folds, and semantic tokens expose useful document structure.',
     signal: 'index',
     detail: {
-      title: 'How strict checks help LLM-maintained wiki pages',
+      title: 'How structured profiles make long Markdown scannable',
       summary:
-        'Markdown linting and vault-aware LSP checks give agents concrete feedback while they maintain Karpathy-style concept pages.',
-      markdownExample: ['# Concept: Vault Index', 'See also: [[DocId]] and [[Rename Safety]]'],
+        'Structured profiles layer changelog and MADR knowledge on top of the base flavor so long files become easier to scan and maintain.',
+      markdownExample: ['# Changelog\n## [Unreleased]', '## Context and Problem Statement'],
       outcome:
-        'LLM edits can be reviewed against headings, links, tags, and local graph consistency before they become documentation debt.',
+        'Document symbols, folding ranges, hovers, and completions can reflect real release or decision-record structure.',
     },
   },
 ];

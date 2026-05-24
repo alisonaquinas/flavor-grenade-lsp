@@ -27,9 +27,9 @@ describe('website SEO files', () => {
   it('defines homepage Open Graph and Twitter metadata', () => {
     expect(getHomeMetadata()).toMatchObject({
       'og:type': 'website',
-      'og:title': 'Flavor Grenade LSP | Obsidian Flavored Markdown Tools',
+      'og:title': 'Flavor Grenade LSP | Flavor-Aware Markdown Tools',
       'twitter:card': 'summary_large_image',
-      'twitter:title': 'Flavor Grenade LSP | Obsidian Flavored Markdown Tools',
+      'twitter:title': 'Flavor Grenade LSP | Flavor-Aware Markdown Tools',
     });
   });
 

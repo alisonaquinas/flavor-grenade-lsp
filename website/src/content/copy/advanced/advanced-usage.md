@@ -16,18 +16,18 @@ These pages are for readers who need more than the happy path: Configuration mod
 
 Each article explains the boundary in plain English first, then gives a small example you can check in a vault.
 
-- [Configuration Model](/advanced-usage/configuration-model/) - Understand VS Code settings, vault markers, document extensions, and server options.
-- [Vault Mode and Single-file Mode](/advanced-usage/vault-mode-and-single-file-mode/) - Compare vault-wide behavior with the conservative single-file fallback mode.
+- [Configuration Model](/advanced-usage/configuration-model/) - Understand Auto Detect, `.flavor-grenade.toml`, VS Code settings, and direct-client configuration.
+- [Vault Mode and Single-file Mode](/advanced-usage/vault-mode-and-single-file-mode/) - Compare vault-wide behavior with the CommonMark single-file fallback.
 - [Indexing and Performance](/advanced-usage/indexing-and-performance/) - Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features.
-- [Unsupported URI Schemes and Confinement](/advanced-usage/unsupported-uri-schemes-and-confinement/) - See how local vault targets are separated from external URLs, schemes, and outside paths.
+- [Unsupported URI Schemes and Confinement](/advanced-usage/unsupported-uri-schemes-and-confinement/) - See how local file targets are separated from external URLs, app schemes, and outside paths.
 - [Parser Boundaries and Opaque Regions](/advanced-usage/parser-boundaries-and-opaque-regions/) - Review parser ordering, opaque-region marking, token parsing, and conservative edge cases.
-- [Compatibility and Direct LSP Integration](/advanced-usage/compatibility-and-direct-lsp-integration/) - Use the supported VS Code extension path first; direct LSP clients own advanced setup.
+- [Compatibility and Direct LSP Integration](/advanced-usage/compatibility-and-direct-lsp-integration/) - Use the VS Code extension's bundled server first; direct LSP clients own launch and initialization.
 
 ## Current behavior and planned behavior
 
-Current behavior is strongest in the VS Code extension and local language server. Planned behavior includes richer website delivery and broader public docs, not promises that every editor works out of the box.
+Current behavior is strongest in the VS Code extension and local language server. The extension ships a bundled JavaScript server module, opens local file-system workspaces, and sends the server the active Markdown flavor state. Auto Detect uses project configuration first, then vault markers, then syntax and context inference, then CommonMark fallback.
 
-When a page describes direct LSP clients, read it as integration guidance. The server speaks LSP, but non-VS-Code clients still own launch, root selection, transport, and file watching.
+When a page describes direct LSP clients, read it as integration guidance. The server speaks LSP over stdio, but non-VS-Code clients still own launch, root selection, transport, configuration payloads, and file watching.
 
-- Current behavior: VS Code extension, direct server use, and vault-aware Markdown features.
-- Planned behavior: deeper public docs and deployment automation.
+- Current behavior: VS Code extension, direct server use, vault-aware Markdown features, flavor-aware parsing, path and URI confinement, and CommonMark fallback for generic Markdown.
+- Planned behavior: deeper public docs and website publishing automation, including S3/OIDC-backed delivery where the project uses it.

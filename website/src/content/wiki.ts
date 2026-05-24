@@ -4,6 +4,8 @@ import type { RouteId } from './routes';
 export type ConceptWikiId =
   | 'inspiration-and-prior-art'
   | 'obsidian-flavored-markdown'
+  | 'markdown-flavor-model'
+  | 'structured-profiles'
   | 'vault-index'
   | 'wiki-link-resolution'
   | 'docid-vault-relative-paths'
@@ -49,14 +51,36 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
   }),
   concept({
     id: 'obsidian-flavored-markdown',
-    title: 'Obsidian Flavored Markdown',
+    title: 'Obsidian Flavored Markdown and Markdown Flavors',
     question: 'What makes Markdown become Obsidian Flavored Markdown?',
     answer:
-      'Obsidian Flavored Markdown is Markdown plus vault semantics: wiki links, embeds, tags, headings, block references, callouts, frontmatter, and local attachment conventions.',
+      'Obsidian Flavored Markdown is one base flavor where Markdown gains vault semantics: wiki links, embeds, tags, headings, block references, callouts, frontmatter, and local attachments.',
     example: '[[People/Ada Lovelace#Notes]] and ![[images/diagram.png]] are vault-local references, not web URLs.',
-    relatedConceptIds: ['wiki-link-resolution', 'opaque-regions'],
+    relatedConceptIds: ['markdown-flavor-model', 'wiki-link-resolution'],
     relatedRouteIds: ['conceptObsidianFlavoredMarkdown', 'quickstart'],
     sourceLinks: ['https://obsidian.md/'],
+  }),
+  concept({
+    id: 'markdown-flavor-model',
+    title: 'Markdown Flavor Model',
+    question: 'How does Auto Detect choose a base Markdown flavor?',
+    answer:
+      'Auto Detect resolves one effective base flavor from explicit settings, project TOML, vault markers, syntax, path context, or CommonMark fallback when evidence stays weak.',
+    example: '.flavor-grenade.toml can set core.markdown.flavor = "gfm" while a root README without evidence falls back to CommonMark.',
+    relatedConceptIds: ['obsidian-flavored-markdown', 'structured-profiles'],
+    relatedRouteIds: ['conceptMarkdownFlavorModel', 'howToChooseMarkdownFlavor'],
+    sourceLinks: [],
+  }),
+  concept({
+    id: 'structured-profiles',
+    title: 'Structured Profiles',
+    question: 'How do profiles layer structure onto Markdown?',
+    answer:
+      'Structured profiles are flags for known document shapes, currently Keep a Changelog, Common Changelog, and MADR; they do not expand the base flavor list.',
+    example: 'CHANGELOG.md can be gfm plus keep-a-changelog, while docs/decisions/0001-use-lsp.md can be obsidian plus madr.',
+    relatedConceptIds: ['markdown-flavor-model', 'diagnostics'],
+    relatedRouteIds: ['conceptStructuredProfiles', 'howToUseStructuredProfiles'],
+    sourceLinks: [],
   }),
   concept({
     id: 'vault-index',

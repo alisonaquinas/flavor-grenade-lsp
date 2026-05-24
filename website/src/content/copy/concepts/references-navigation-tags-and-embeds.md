@@ -24,7 +24,7 @@ This example mixes a tag, note link, and embed because real vault notes often do
 #project/flavor-grenade, [[Daily Note]], and ![[diagram.png]] are indexed together for navigation and lookup.
 ```
 
-## For future docs
+## Why it matters
 
 Explain these features as different views over shared vault data, not as unrelated parsers. Use the same vocabulary in tickets and public prose so future edits preserve that shared model.
 

@@ -10,6 +10,8 @@ describe('Karpathy-style LLM wiki concept pages', () => {
     expect(conceptWikiPages.map((page) => page.id)).toEqual([
       'inspiration-and-prior-art',
       'obsidian-flavored-markdown',
+      'markdown-flavor-model',
+      'structured-profiles',
       'vault-index',
       'wiki-link-resolution',
       'docid-vault-relative-paths',
