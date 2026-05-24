@@ -42,10 +42,10 @@
   $: themeIconLabel = iconLabels[themeModeIcon(themeMode)];
   const productIcon =
     homepageAssetPlacements.find((asset) => asset.placement === 'header')?.source ??
-    '/assets/flavor-grenade-lsp-icon.png';
+    '/assets/flavor-grenade-lsp-icon-097debba.png';
   const proofImage =
     homepageAssetPlacements.find((asset) => asset.placement === 'hero')?.source ??
-    '/assets/wiki-link-completion.png';
+    '/assets/wiki-link-completion-982775b8.png';
 
   function applyTheme(mode: ThemeMode, prefersDark: boolean): void {
     resolvedTheme = resolveTheme(mode, prefersDark);

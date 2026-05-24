@@ -145,22 +145,22 @@ export const featureHighlights: readonly FeatureHighlight[] = [
 export const homepageAssetPlacements: readonly HomepageAssetPlacement[] = [
   {
     placement: 'header',
-    source: '/assets/flavor-grenade-lsp-icon.png',
+    source: '/assets/flavor-grenade-lsp-icon-097debba.png',
     alt: 'Flavor Grenade LSP product icon',
   },
   {
     placement: 'hero',
-    source: '/assets/wiki-link-completion.png',
+    source: '/assets/wiki-link-completion-982775b8.png',
     alt: 'VS Code showing Flavor Grenade wiki-link completion in an Obsidian Vault',
   },
   {
     placement: 'footer',
-    source: '/assets/flavor-grenade-lsp-icon.png',
+    source: '/assets/flavor-grenade-lsp-icon-097debba.png',
     alt: 'Flavor Grenade LSP product icon',
   },
   {
     placement: 'social',
-    source: '/assets/flavor-grenade-lsp-icon.png',
+    source: '/assets/flavor-grenade-lsp-icon-097debba.png',
     alt: 'Flavor Grenade LSP logo for social previews',
   },
 ];
