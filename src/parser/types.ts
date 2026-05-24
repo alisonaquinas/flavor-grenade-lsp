@@ -1,5 +1,6 @@
 import type { Range } from 'vscode-languageserver-types';
 import type { MarkdownFlavorId } from '../markdown-flavor/markdown-flavor-contract.js';
+import type { StructuredMarkdownProfileId } from '../markdown-flavor/structured-profiles.js';
 
 /**
  * A region of document text that should be treated as opaque (not parsed for
@@ -724,4 +725,5 @@ export interface OFMDoc {
 
 export interface ParseContext {
   effectiveFlavor: MarkdownFlavorId;
+  structuredProfiles?: readonly StructuredMarkdownProfileId[];
 }

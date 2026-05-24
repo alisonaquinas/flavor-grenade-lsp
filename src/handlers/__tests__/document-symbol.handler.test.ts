@@ -157,6 +157,74 @@ describe('DocumentSymbolHandler', () => {
     expect(names).toContain('Task: done');
   });
 
+  it('adds structured profile symbols when a profile is active', () => {
+    const doc = makeDoc(DOC_URI, [
+      makeHeading('Changelog', 1, 0),
+      makeHeading('1.0.0 - 2026-05-23', 2, 2),
+      makeHeading('Changed', 3, 4),
+      makeHeading('Added', 3, 6),
+      makeHeading('Removed', 3, 8),
+      makeHeading('Fixed', 3, 10),
+    ]);
+    doc.text = [
+      '# Changelog',
+      '',
+      '## 1.0.0 - 2026-05-23',
+      '',
+      '### Changed',
+      '',
+      '### Added',
+      '',
+      '### Removed',
+      '',
+      '### Fixed',
+    ].join('\n');
+    doc.markdownFlavor = 'gfm';
+    doc.parseContext = { effectiveFlavor: 'gfm', structuredProfiles: ['common-changelog'] };
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    const names = JSON.stringify(result);
+    expect(names).toContain('Common Changelog release: 1.0.0 - 2026-05-23');
+    expect(names).toContain('Common Changelog group: Changed');
+  });
+
+  it('attaches structured symbols to the matching duplicate heading range', () => {
+    const doc = makeDoc(DOC_URI, [
+      makeHeading('Changelog', 1, 0),
+      makeHeading('1.1.0 - 2026-05-24', 2, 2),
+      makeHeading('Fixed', 3, 4),
+      makeHeading('1.0.0 - 2026-05-23', 2, 6),
+      makeHeading('Fixed', 3, 8),
+    ]);
+    doc.text = [
+      '# Changelog',
+      '',
+      '## 1.1.0 - 2026-05-24',
+      '',
+      '### Fixed',
+      '',
+      '## 1.0.0 - 2026-05-23',
+      '',
+      '### Fixed',
+    ].join('\n');
+    doc.markdownFlavor = 'gfm';
+    doc.parseContext = { effectiveFlavor: 'gfm', structuredProfiles: ['keep-a-changelog'] };
+    parseCache.set(DOC_URI, doc);
+
+    const result = handler.handle({ textDocument: { uri: DOC_URI } });
+
+    const changelog = result.find((symbol) => symbol.name === 'Changelog');
+    const secondRelease = changelog?.children?.find(
+      (symbol) => symbol.name === '1.0.0 - 2026-05-23',
+    );
+    const secondFixed = secondRelease?.children?.find((symbol) => symbol.name === 'Fixed');
+    expect(secondFixed?.children?.map((symbol) => symbol.name)).toContain(
+      'Keep a Changelog group: Fixed',
+    );
+  });
+
   it('adds GLFM description lists and TOC tags as document symbols', () => {
     const doc = makeDoc(DOC_URI, [makeHeading('GLFM', 1, 0)]);
     doc.index.glfmDescriptionLists = [

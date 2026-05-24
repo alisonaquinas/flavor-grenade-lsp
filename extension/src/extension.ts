@@ -31,10 +31,12 @@ import {
   MARKDOWN_FLAVOR_COMMAND,
   MARKDOWN_FLAVOR_SECTION,
   MARKDOWN_FLAVOR_SETTING_KEY,
+  MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   createMarkdownFlavorQuickPickItems,
   isFlavorEligibleDocument,
   isMarkdownFlavorSelection,
+  isStructuredProfileSelection,
   resolveMarkdownFlavor,
   resolveMarkdownFlavorUpdateTarget,
   selectionSettingValue,
@@ -340,6 +342,12 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
         .get(MARKDOWN_FLAVOR_SETTING_KEY);
       return isMarkdownFlavorSelection(value) ? value : 'auto';
     },
+    getMarkdownStructuredProfileSelection: (document) => {
+      const value = workspace
+        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+        .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
+      return isStructuredProfileSelection(value) ? value : 'auto';
+    },
     getWorkspaceFolderPath: (document) => workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
@@ -426,7 +434,9 @@ async function resolveLocalMarkdownFlavor(document: TextDocument) {
     document,
     hasObsidianMarker: evidence?.hasObsidianMarker,
     projectFlavor: evidence?.projectFlavor,
+    projectStructuredProfiles: evidence?.projectStructuredProfiles,
     selected,
+    structuredProfileSelection: markdownStructuredProfileSelectionForDocument(document),
     syntaxText: document.getText(),
   });
 }
@@ -436,6 +446,13 @@ function markdownFlavorSelectionForDocument(document: TextDocument) {
     .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
     .get(MARKDOWN_FLAVOR_SETTING_KEY);
   return isMarkdownFlavorSelection(value) ? value : 'auto';
+}
+
+function markdownStructuredProfileSelectionForDocument(document: TextDocument) {
+  const value = workspace
+    .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+    .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
+  return isStructuredProfileSelection(value) ? value : 'auto';
 }
 
 function ensureStatusBar(context: ExtensionContext): StatusBarItem {

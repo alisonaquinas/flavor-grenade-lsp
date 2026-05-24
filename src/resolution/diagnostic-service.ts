@@ -23,6 +23,7 @@ import { MarkdownExtraParser } from '../parser/markdown-extra-parser.js';
 import { RMarkdownParser } from '../parser/r-markdown-parser.js';
 import { RedditParser } from '../parser/reddit-parser.js';
 import { StackOverflowParser } from '../parser/stack-overflow-parser.js';
+import { structuredProfileDiagnostics } from '../markdown-flavor/structured-profile-analysis.js';
 
 /**
  * Publishes `textDocument/publishDiagnostics` notifications for all
@@ -130,6 +131,8 @@ export class DiagnosticService {
     if (doc.markdownFlavor === 'stack-overflow') {
       diagnostics.push(...this.diagnoseStackOverflowPortability(doc));
     }
+
+    diagnostics.push(...structuredProfileDiagnostics(doc));
 
     for (const entry of doc.index.wikiLinks) {
       const diag = this.diagnoseEntry(docId, entry, vaultRoot);

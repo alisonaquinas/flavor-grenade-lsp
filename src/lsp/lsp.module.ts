@@ -331,6 +331,7 @@ export class LspModule implements OnModuleInit {
       if (!doc) return null;
       return {
         markdownFlavor: doc.markdownFlavor,
+        structuredProfiles: doc.parseContext.structuredProfiles ?? [],
         wikiLinks: doc.index.wikiLinks.length,
         embeds: doc.index.embeds.length,
         tags: doc.index.tags.length,

@@ -15,9 +15,19 @@ export const MARKDOWN_FLAVOR_IDS = [
 ] as const;
 
 export const MARKDOWN_FLAVOR_SELECTIONS = ['auto', ...MARKDOWN_FLAVOR_IDS] as const;
+export const STRUCTURED_MARKDOWN_PROFILE_IDS = [
+  'keep-a-changelog',
+  'common-changelog',
+  'madr',
+] as const;
 
 export type MarkdownFlavorId = (typeof MARKDOWN_FLAVOR_IDS)[number];
 export type MarkdownFlavorSelection = (typeof MARKDOWN_FLAVOR_SELECTIONS)[number];
+export type StructuredMarkdownProfileId = (typeof STRUCTURED_MARKDOWN_PROFILE_IDS)[number];
+export type StructuredProfileSelection =
+  | 'auto'
+  | 'none'
+  | readonly StructuredMarkdownProfileId[];
 
 export const MARKDOWN_FLAVOR_LABELS: Record<MarkdownFlavorSelection, string> = {
   auto: 'Auto Detect',
@@ -55,8 +65,11 @@ export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, strin
 
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
 export const MARKDOWN_FLAVOR_SETTING = 'flavorGrenade.markdownFlavor';
+export const MARKDOWN_STRUCTURED_PROFILES_SETTING =
+  'flavorGrenade.markdownStructuredProfiles';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
 export const MARKDOWN_FLAVOR_SETTING_KEY = 'markdownFlavor';
+export const MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY = 'markdownStructuredProfiles';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR = [
   { scheme: 'file', language: MARKDOWN_LANGUAGE_ID },
@@ -80,12 +93,20 @@ export type FlavorResolutionSource =
   | 'syntax-inference'
   | 'commonmark-fallback';
 
+export type StructuredProfileResolutionSource =
+  | 'explicit-selection'
+  | 'project-toml'
+  | 'structured-profile-inference'
+  | 'none';
+
 export type MarkdownFlavorResolution =
   | {
       kind: 'active';
       selected: MarkdownFlavorSelection;
       effective: MarkdownFlavorId;
       source: FlavorResolutionSource;
+      structuredProfiles: readonly StructuredMarkdownProfileId[];
+      structuredProfileSource: StructuredProfileResolutionSource;
     }
   | {
       kind: 'inactive';
@@ -114,12 +135,15 @@ export interface MarkdownFlavorConfigurationNotification {
     settings: {
       flavorGrenade: {
         markdownFlavor: MarkdownFlavorSelection;
+        markdownStructuredProfiles: StructuredProfileSelection;
         markdownFlavorResources: Record<
           string,
           {
             selected: MarkdownFlavorSelection;
             effective: MarkdownFlavorId;
             source: FlavorResolutionSource;
+            structuredProfiles: readonly StructuredMarkdownProfileId[];
+            structuredProfileSource: StructuredProfileResolutionSource;
           }
         >;
       };
@@ -138,6 +162,36 @@ export function isMarkdownFlavorSelection(value: unknown): value is MarkdownFlav
     typeof value === 'string' &&
     MARKDOWN_FLAVOR_SELECTIONS.includes(value as MarkdownFlavorSelection)
   );
+}
+
+export function isStructuredMarkdownProfileId(
+  value: unknown,
+): value is StructuredMarkdownProfileId {
+  return (
+    typeof value === 'string' &&
+    STRUCTURED_MARKDOWN_PROFILE_IDS.includes(value as StructuredMarkdownProfileId)
+  );
+}
+
+export function isStructuredProfileSelection(value: unknown): value is StructuredProfileSelection {
+  return (
+    value === 'auto' ||
+    value === 'none' ||
+    (Array.isArray(value) && isValidStructuredProfileList(value))
+  );
+}
+
+function isValidStructuredProfileList(
+  value: readonly unknown[],
+): value is readonly StructuredMarkdownProfileId[] {
+  const seen = new Set<StructuredMarkdownProfileId>();
+  for (const item of value) {
+    if (!isStructuredMarkdownProfileId(item) || seen.has(item)) {
+      return false;
+    }
+    seen.add(item);
+  }
+  return !(seen.has('keep-a-changelog') && seen.has('common-changelog'));
 }
 
 export function createMarkdownFlavorQuickPickItems(): MarkdownFlavorQuickPickItem[] {
@@ -193,7 +247,9 @@ export function resolveMarkdownFlavor(input: {
   document: TextDocumentLike;
   hasObsidianMarker?: boolean;
   projectFlavor?: unknown;
+  projectStructuredProfiles?: unknown;
   selected: unknown;
+  structuredProfileSelection?: unknown;
   syntaxText?: string;
 }): MarkdownFlavorResolution {
   const inactive = inactiveDocumentReason(input.document);
@@ -202,24 +258,34 @@ export function resolveMarkdownFlavor(input: {
   }
 
   const selected = isMarkdownFlavorSelection(input.selected) ? input.selected : 'auto';
+  const structured = resolveStructuredProfiles({
+    selection: isStructuredProfileSelection(input.structuredProfileSelection)
+      ? input.structuredProfileSelection
+      : 'auto',
+    projectSelection: isStructuredProfileSelection(input.projectStructuredProfiles)
+      ? input.projectStructuredProfiles
+      : undefined,
+    uri: input.document.uri.toString(),
+    syntaxText: input.syntaxText ?? input.document.getText?.(),
+  });
   if (isMarkdownFlavorId(selected)) {
-    return activeResolution(selected, selected, 'explicit-selection');
+    return activeResolution(selected, selected, 'explicit-selection', structured);
   }
 
   if (isMarkdownFlavorId(input.projectFlavor)) {
-    return activeResolution('auto', input.projectFlavor, 'project-toml');
+    return activeResolution('auto', input.projectFlavor, 'project-toml', structured);
   }
 
   if (input.hasObsidianMarker === true) {
-    return activeResolution('auto', 'obsidian', 'obsidian-marker');
+    return activeResolution('auto', 'obsidian', 'obsidian-marker', structured);
   }
 
   const inferred = inferMarkdownFlavorFromSyntax(input.syntaxText ?? input.document.getText?.());
   if (inferred) {
-    return activeResolution('auto', inferred, 'syntax-inference');
+    return activeResolution('auto', inferred, 'syntax-inference', structured);
   }
 
-  return activeResolution('auto', 'commonmark', 'commonmark-fallback');
+  return activeResolution('auto', 'commonmark', 'commonmark-fallback', structured);
 }
 
 export function selectionSettingValue(
@@ -261,6 +327,7 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
       settings: {
         flavorGrenade: {
           markdownFlavor: payload.markdownFlavor,
+          markdownStructuredProfiles: payload.markdownStructuredProfiles,
           markdownFlavorResources: payload.resources,
         },
       },
@@ -282,12 +349,17 @@ function activeResolution(
   selected: MarkdownFlavorSelection,
   effective: MarkdownFlavorId,
   source: FlavorResolutionSource,
+  structured: {
+    structuredProfiles: readonly StructuredMarkdownProfileId[];
+    structuredProfileSource: StructuredProfileResolutionSource;
+  },
 ): MarkdownFlavorResolution {
   return {
     kind: 'active',
     selected,
     effective,
     source,
+    ...structured,
   };
 }
 
@@ -354,6 +426,163 @@ function inferMarkdownFlavorFromSyntax(text: string | undefined): MarkdownFlavor
   return undefined;
 }
 
+function resolveStructuredProfiles(input: {
+  selection: StructuredProfileSelection;
+  projectSelection?: StructuredProfileSelection;
+  uri: string;
+  syntaxText?: string;
+}): {
+  structuredProfiles: readonly StructuredMarkdownProfileId[];
+  structuredProfileSource: StructuredProfileResolutionSource;
+} {
+  if (Array.isArray(input.selection)) {
+    return {
+      structuredProfiles: input.selection,
+      structuredProfileSource: 'explicit-selection',
+    };
+  }
+  if (input.selection === 'none') {
+    return { structuredProfiles: [], structuredProfileSource: 'none' };
+  }
+  if (Array.isArray(input.projectSelection)) {
+    return {
+      structuredProfiles: input.projectSelection,
+      structuredProfileSource: 'project-toml',
+    };
+  }
+  if (input.projectSelection === 'none') {
+    return { structuredProfiles: [], structuredProfileSource: 'none' };
+  }
+  return {
+    structuredProfiles: inferStructuredProfiles(input.uri, input.syntaxText),
+    structuredProfileSource: 'structured-profile-inference',
+  };
+}
+
+function inferStructuredProfiles(
+  uri: string,
+  text: string | undefined,
+): readonly StructuredMarkdownProfileId[] {
+  const sample = (text ?? '').slice(0, 64 * 1024);
+  const profiles: StructuredMarkdownProfileId[] = [];
+  const changelog = inferChangelogProfile(uri, sample);
+  if (changelog) {
+    profiles.push(changelog);
+  }
+  if (hasMadrEvidence(uri, sample)) {
+    profiles.push('madr');
+  }
+  return profiles;
+}
+
+function inferChangelogProfile(
+  uri: string,
+  text: string,
+): 'keep-a-changelog' | 'common-changelog' | undefined {
+  const first = firstHeading(text);
+  if (!/CHANGELOG\.md$/i.test(uri) || first?.level !== 1 || first.text !== 'Changelog') {
+    return undefined;
+  }
+
+  const categories = headingTexts(text, 3);
+  const categorySet = new Set(categories);
+  const keepCategories = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security'].filter(
+    (category) => categorySet.has(category),
+  );
+  if (
+    /^##\s+\[?Unreleased\]?\s*$/im.test(text) &&
+    keepCategories.length >= 2
+  ) {
+    return 'keep-a-changelog';
+  }
+  if ((categorySet.has('Deprecated') || categorySet.has('Security')) && keepCategories.length >= 2) {
+    return 'keep-a-changelog';
+  }
+
+  if (hasCommonChangelogReleaseBlock(text)) {
+    return 'common-changelog';
+  }
+
+  if (
+    /^##\s+\[\d+\.\d+\.\d+[^\]\n]*\]\s+-\s+\d{4}-\d{2}-\d{2}\s*$/im.test(text) &&
+    keepCategories.length >= 2
+  ) {
+    return 'keep-a-changelog';
+  }
+  return undefined;
+}
+
+function hasCommonChangelogReleaseBlock(text: string): boolean {
+  const commonCategories = ['Changed', 'Added', 'Removed', 'Fixed'];
+  return releaseBlocks(text).some(
+    (block) =>
+      /^\[?\d+\.\d+\.\d+[^\]\n]*\]?\s+-\s+\d{4}-\d{2}-\d{2}\s*$/i.test(block.heading) &&
+      sameStringList(headingTexts(block.text, 3), commonCategories) &&
+      /-\s+.+\(\[[^\]]+\]\([^)]+\)\)/.test(block.text) &&
+      (/\*\*Breaking:\*\*/.test(block.text) || /-\s+[A-Za-z][\w -]+:\s+/.test(block.text)),
+  );
+}
+
+function releaseBlocks(text: string): Array<{ heading: string; text: string }> {
+  const headingMatches = [...text.matchAll(/^##\s+(.+?)\s*$/gim)];
+  return headingMatches.map((match, index) => {
+    const next = headingMatches[index + 1];
+    return {
+      heading: match[1].trim(),
+      text: text.slice(match.index, next?.index),
+    };
+  });
+}
+
+function sameStringList(left: readonly string[], right: readonly string[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index]);
+}
+
+function firstHeading(text: string): { level: number; text: string } | undefined {
+  let body = text;
+  if (body.startsWith('---')) {
+    const closing = body.indexOf('\n---', 3);
+    if (closing >= 0) {
+      body = body.slice(closing + 4);
+    }
+  }
+  const match = /^(#{1,6})\s+(.+?)\s*$/m.exec(body);
+  if (match === null) return undefined;
+  return { level: match[1].length, text: match[2].trim() };
+}
+
+function hasMadrEvidence(uri: string, text: string): boolean {
+  const normalizedUri = uri.replace(/\\/g, '/');
+  const hasPath = /(^|\/)(docs\/decisions|decisions)\//i.test(normalizedUri);
+  const hasFilename = /\/\d{4}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$/i.test(normalizedUri);
+  if (!hasPath && !hasFilename) {
+    return false;
+  }
+  const headings = new Set(headingTexts(text, 2));
+  const madrHeadingCount = [
+    'Context and Problem Statement',
+    'Considered Options',
+    'Decision Outcome',
+  ].filter((heading) => headings.has(heading)).length;
+  const hasMetadata = /^---[\s\S]*\b(status|date|decision-makers|consulted|informed)\s*:/m.test(
+    text,
+  );
+  const hasOptionEvidence = /\b(Good|Neutral|Bad), because\b/.test(text);
+  return madrHeadingCount >= 2 && (hasMetadata || hasOptionEvidence || (hasPath && hasFilename));
+}
+
+function headingTexts(text: string, level: number): string[] {
+  const result: string[] = [];
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.replace(/\r$/, '');
+    const match = /^(#{1,6})\s+(.+?)\s*$/.exec(line);
+    if (match !== null && match[1].length === level) {
+      result.push(match[2].trim());
+    }
+  }
+  return result;
+}
+
 function hasMdxEvidence(text: string): boolean {
   return (
     /(^|\n)\s*(import|export)\s+[\s\S]*?\n/.test(text) &&
@@ -414,12 +643,14 @@ function hasMarkdownExtraEvidence(text: string): boolean {
 function collectPropagatedResources(states: readonly MarkdownFlavorStateForDocument[]):
   | {
       markdownFlavor: MarkdownFlavorSelection;
+      markdownStructuredProfiles: StructuredProfileSelection;
       resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'];
     }
   | undefined {
   const resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'] =
     {};
   let markdownFlavor: MarkdownFlavorSelection | undefined;
+  let markdownStructuredProfiles: StructuredProfileSelection | undefined;
 
   for (const state of states) {
     const resource = propagatedResourceForState(state);
@@ -427,11 +658,12 @@ function collectPropagatedResources(states: readonly MarkdownFlavorStateForDocum
       continue;
     }
     markdownFlavor ??= resource.selected;
+    markdownStructuredProfiles ??= resource.structuredProfileSelection;
     resources[resource.uri] = resource.value;
   }
 
   return markdownFlavor && Object.keys(resources).length > 0
-    ? { markdownFlavor, resources }
+    ? { markdownFlavor, markdownStructuredProfiles: markdownStructuredProfiles ?? 'auto', resources }
     : undefined;
 }
 
@@ -443,7 +675,10 @@ function propagatedResourceForState(state: MarkdownFlavorStateForDocument):
         selected: MarkdownFlavorSelection;
         effective: MarkdownFlavorId;
         source: FlavorResolutionSource;
+        structuredProfiles: readonly StructuredMarkdownProfileId[];
+        structuredProfileSource: StructuredProfileResolutionSource;
       };
+      structuredProfileSelection: StructuredProfileSelection;
     }
   | undefined {
   if (state.resolution.kind !== 'active' || !isFlavorEligibleDocument(state.document)) {
@@ -460,7 +695,13 @@ function propagatedResourceForState(state: MarkdownFlavorStateForDocument):
       selected: state.resolution.selected,
       effective: state.resolution.effective,
       source: state.resolution.source,
+      structuredProfiles: state.resolution.structuredProfiles,
+      structuredProfileSource: state.resolution.structuredProfileSource,
     },
+    structuredProfileSelection:
+      state.resolution.structuredProfileSource === 'explicit-selection'
+        ? state.resolution.structuredProfiles
+        : 'auto',
   };
 }
 

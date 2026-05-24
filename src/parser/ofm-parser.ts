@@ -41,7 +41,10 @@ export class OFMParser {
    * @param version - Incremental version counter from the LSP client.
    */
   parse(uri: string, text: string, version: number, context?: ParseContext): OFMDoc {
-    const parseContext = context ?? { effectiveFlavor: 'obsidian' as const };
+    const parseContext = {
+      effectiveFlavor: context?.effectiveFlavor ?? ('obsidian' as const),
+      structuredProfiles: context?.structuredProfiles ?? [],
+    };
     if (text.length > MAX_PARSE_CHARACTERS) {
       return {
         uri,
