@@ -24,7 +24,7 @@ A task page can link to a concept when the reader needs background, then return 
 A guide can say "see [[Vault Index]]" instead of redefining DocId, wiki-link resolution, and rename safety in every task page.
 ```
 
-## For future docs
+## Why it matters
 
 Credit Karpathy, Obsidian, and Marksman as inspiration without implying that they maintain, endorse, or define Flavor Grenade behavior.
 

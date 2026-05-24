@@ -3,7 +3,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { OFMParser } from '../../../parser/ofm-parser.js';
 import { ParseCache } from '../../../parser/parser.module.js';
-import { MARKDOWN_FLAVOR_IDS } from '../../../markdown-flavor/index.js';
+import {
+  MARKDOWN_FLAVOR_IDS,
+  STRUCTURED_MARKDOWN_PROFILE_IDS,
+  isMarkdownFlavorId,
+} from '../../../markdown-flavor/index.js';
 import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
 import { classifyMarkdownBoundaryReference } from '../../../markdown-flavor/non-local-boundary-classifier.js';
 import { ProjectMarkdownFlavorConfig } from '../../../markdown-flavor/project-markdown-flavor-config.js';
@@ -11,6 +15,88 @@ import { DocumentStore } from '../../services/document-store.js';
 import { ConfigurationHandler } from '../configuration.handler.js';
 
 describe('workspace/didChangeConfiguration markdown flavor handling', () => {
+  it('keeps structured profile ids separate from base Markdown flavor ids', () => {
+    expect(STRUCTURED_MARKDOWN_PROFILE_IDS).toEqual([
+      'keep-a-changelog',
+      'common-changelog',
+      'madr',
+    ]);
+    for (const profileId of STRUCTURED_MARKDOWN_PROFILE_IDS) {
+      expect(isMarkdownFlavorId(profileId)).toBe(false);
+      expect(MARKDOWN_FLAVOR_IDS).not.toContain(profileId);
+    }
+  });
+
+  it('accepts structured profile selections and rejects invalid or incompatible arrays', async () => {
+    const harness = createHarness();
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownStructuredProfiles: ['keep-a-changelog'] } },
+    });
+    expect(harness.state.snapshot().structuredProfileSelection).toEqual(['keep-a-changelog']);
+
+    for (const invalid of [
+      ['keep-a-changelog', 'keep-a-changelog'],
+      ['keep-a-changelog', 'common-changelog'],
+      ['unknown'],
+      'keep-a-changelog',
+    ]) {
+      await harness.handler.handle({
+        settings: { flavorGrenade: { markdownStructuredProfiles: invalid } },
+      });
+      expect(harness.state.snapshot().structuredProfileSelection).toEqual(['keep-a-changelog']);
+    }
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownStructuredProfiles: 'none' } },
+    });
+    expect(harness.state.snapshot().structuredProfileSelection).toBe('none');
+  });
+
+  it('applies valid flavor and structured profile configuration fields independently', async () => {
+    const harness = createHarness();
+
+    await harness.handler.handle({
+      settings: {
+        flavorGrenade: {
+          markdownFlavor: 'gfm',
+          markdownStructuredProfiles: ['keep-a-changelog', 'common-changelog'],
+        },
+      },
+    });
+
+    expect(harness.state.snapshot().selection).toBe('gfm');
+    expect(harness.state.snapshot().structuredProfileSelection).toBe('auto');
+
+    await harness.handler.handle({
+      settings: {
+        flavorGrenade: {
+          markdownFlavor: 'asciidoc',
+          markdownStructuredProfiles: ['madr'],
+        },
+      },
+    });
+
+    expect(harness.state.snapshot().selection).toBe('gfm');
+    expect(harness.state.snapshot().structuredProfileSelection).toEqual(['madr']);
+  });
+
+  it('treats excessively deep untrusted configuration payloads as unsafe', async () => {
+    const harness = createHarness();
+    const root: Record<string, unknown> = {};
+    let cursor = root;
+    for (let index = 0; index < 150; index++) {
+      const next: Record<string, unknown> = {};
+      cursor.next = next;
+      cursor = next;
+    }
+    cursor.settings = { flavorGrenade: { markdownFlavor: 'gfm' } };
+
+    await expect(harness.handler.handle(root)).resolves.toBeUndefined();
+
+    expect(harness.state.snapshot().selection).toBe('auto');
+  });
+
   it('accepts every required selector id and rejects unsupported ids without mutation', async () => {
     const harness = createHarness();
 
@@ -41,6 +127,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
               selected: 'gfm',
               effective: 'gfm',
               source: 'workspace-setting',
+              ignored: { nested: 'payload' },
             },
           },
         },
@@ -48,6 +135,13 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     });
 
     expect(harness.state.effectiveFlavorForUri('file:///vault/open.md')).toBe('gfm');
+    expect(harness.state.snapshot().resources['file:///vault/open.md']).toEqual({
+      selected: 'gfm',
+      effective: 'gfm',
+      source: 'workspace-setting',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
+    });
 
     const invalidPayloads = [
       {
@@ -70,6 +164,22 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
           selected: 'asciidoc',
           effective: 'gfm',
           source: 'workspace-setting',
+        },
+      },
+      { 'file:///vault/open.md': null },
+      {
+        'file:///vault/open.md': {
+          selected: 'gfm',
+          effective: 'gfm',
+          source: 'forged',
+        },
+      },
+      {
+        'file:///vault/open.md': {
+          selected: 'gfm',
+          effective: 'gfm',
+          source: 'workspace-setting',
+          structuredProfileSource: 'forged',
         },
       },
     ];
@@ -110,6 +220,37 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     ).toEqual({ kind: 'inactive', reason: 'non-markdown-language' });
   });
 
+  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+    const state = new MarkdownFlavorState();
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/component.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'mdx', source: 'syntax-inference' });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/analysis.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ['Rows: `r nrow(airquality)`', '', '```{r setup}', 'x <- 1', '```'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'r-markdown', source: 'syntax-inference' });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///notes/ambiguous.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: ['| A | B |', '| - | - |', '| x | y |', '', '- [x] done'].join('\n'),
+      }),
+    ).toMatchObject({ kind: 'active', effective: 'commonmark', source: 'commonmark-fallback' });
+  });
+
   it('uses confined project TOML flavor evidence and ignores unsafe project config', () => {
     const root = createTempRoot();
     try {
@@ -137,6 +278,309 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     }
   });
 
+  it('reads structured profile TOML values independently of the base flavor', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        [
+          '[core.markdown]',
+          'flavor = "gfm"',
+          'structured_profiles = [',
+          '  "madr",',
+          '  "keep-a-changelog",',
+          ']',
+        ].join('\n'),
+      );
+
+      expect(config.resolveFlavor(root)).toBe('gfm');
+      expect(config.resolveStructuredProfiles(root)).toEqual(['madr', 'keep-a-changelog']);
+
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        '[core.markdown]\nstructured_profiles = ["madr",]\n',
+      );
+      expect(config.resolveStructuredProfiles(root)).toEqual(['madr']);
+
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        '[core.markdown]\nstructured_profiles = ["keep-a-changelog", "common-changelog"]\n',
+      );
+      expect(config.resolveStructuredProfiles(root)).toBeUndefined();
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves structured profiles from explicit config, TOML, and local inference', () => {
+    const state = new MarkdownFlavorState();
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        structuredProfileSelection: ['madr'],
+        syntaxText: '# Changelog\n\n## [Unreleased]\n\n### Added\n\n- Entry.',
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      effective: 'commonmark',
+      structuredProfiles: ['madr'],
+      structuredProfileSource: 'explicit-selection',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        projectTomlStructuredProfiles: ['keep-a-changelog'],
+        syntaxText: '# Changelog\n\n## 1.0.0 - 2026-05-23',
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: ['keep-a-changelog'],
+      structuredProfileSource: 'project-toml',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## [Unreleased]',
+          '',
+          '### Added',
+          '',
+          '- Entry.',
+          '',
+          '### Security',
+          '',
+          '- Security entry.',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: ['keep-a-changelog'],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/docs/decisions/0001-use-context.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '---',
+          'status: accepted',
+          'date: 2026-05-23',
+          '---',
+          '# 1. Use context',
+          '',
+          '## Context and Problem Statement',
+          '',
+          'Text.',
+          '',
+          '## Decision Outcome',
+          '',
+          'Chosen option.',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: ['madr'],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: ['common-changelog'],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.1.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '## 1.0.0 - 2026-05-22',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1]).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2]).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed flag ([#3]).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo ([#4]).',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+
+    expect(
+      state.resolveForDocument({
+        uri: 'file:///vault/CHANGELOG.md',
+        languageId: 'markdown',
+        hasObsidianMarker: false,
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Notes',
+          '',
+          '- Release note.',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+    ).toMatchObject({
+      kind: 'active',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
+    });
+  });
+
+  it('adds structured profile flags to parser context without changing base flavor tokenization', () => {
+    const parser = new OFMParser();
+    const doc = parser.parse('file:///vault/CHANGELOG.md', '[[Target]]\n# Changelog', 1, {
+      effectiveFlavor: 'commonmark',
+      structuredProfiles: ['keep-a-changelog'],
+    });
+
+    expect(doc.markdownFlavor).toBe('commonmark');
+    expect(doc.parseContext.structuredProfiles).toEqual(['keep-a-changelog']);
+    expect(doc.index.wikiLinks).toEqual([]);
+  });
+
   it('reparses open Markdown documents after accepted flavor changes only', async () => {
     const harness = createHarness();
     harness.store.open('file:///vault/open.md', 'markdown', 1, '[[Target]]\n# Heading');
@@ -155,6 +599,26 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
 
     expect(harness.parseCache.get('file:///vault/open.md')?.markdownFlavor).toBe('commonmark');
     expect(harness.publishDiagnostics).toHaveBeenCalledTimes(1);
+  });
+
+  it('reparses open Markdown documents with syntax-inferred flavor when selector returns to auto', async () => {
+    const harness = createHarness({ vaultMode: 'single-file' });
+    harness.store.open(
+      'file:///vault/component.md',
+      'markdown',
+      1,
+      ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+    );
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownFlavor: 'commonmark' } },
+    });
+    expect(harness.parseCache.get('file:///vault/component.md')?.markdownFlavor).toBe('commonmark');
+
+    await harness.handler.handle({
+      settings: { flavorGrenade: { markdownFlavor: 'auto' } },
+    });
+    expect(harness.parseCache.get('file:///vault/component.md')?.markdownFlavor).toBe('mdx');
   });
 });
 
@@ -202,7 +666,7 @@ describe('markdown flavor parser context and boundary classification', () => {
   });
 });
 
-function createHarness(): {
+function createHarness(options: { vaultMode?: 'obsidian' | 'single-file' } = {}): {
   store: DocumentStore;
   parseCache: ParseCache;
   state: MarkdownFlavorState;
@@ -214,11 +678,20 @@ function createHarness(): {
   const state = new MarkdownFlavorState();
   const publishDiagnostics = jest.fn();
   const diagnosticService = { publishDiagnostics };
+  const vaultMode = options.vaultMode ?? 'obsidian';
   const vaultDetector = {
-    detectFresh: (_path: string): { mode: 'obsidian'; vaultRoot: string } => ({
-      mode: 'obsidian',
-      vaultRoot: '/vault',
-    }),
+    detectFresh: (
+      _path: string,
+    ): { mode: 'obsidian'; vaultRoot: string } | { mode: 'single-file'; vaultRoot: null } =>
+      vaultMode === 'obsidian'
+        ? {
+            mode: 'obsidian',
+            vaultRoot: '/vault',
+          }
+        : {
+            mode: 'single-file',
+            vaultRoot: null,
+          },
   };
 
   return {

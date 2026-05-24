@@ -1,9 +1,9 @@
 ---
 title: "Concepts | Flavor Grenade LSP"
-description: "Short wiki-style explanations for Obsidian Flavored Markdown language-server concepts."
+description: "Short wiki-style explanations for flavor-aware Markdown language-server concepts."
 h1: "Concepts"
 summary: "Short concept pages explain the ideas behind the guides in plain language."
-related: ["conceptInspirationPriorArt","conceptObsidianFlavoredMarkdown","conceptVaultIndex"]
+related: ["conceptMarkdownFlavorModel","conceptStructuredProfiles","conceptVaultIndex"]
 ---
 
 # Concepts
@@ -12,10 +12,12 @@ Short concept pages explain the ideas behind the guides in plain language.
 
 ## Small ideas you can link to
 
-These pages keep important terms small, linked, and easy to reuse. Read them when a guide mentions a term like vault index, rename safety, or opaque regions and you want the plain-English version.
+These pages keep important terms small, linked, and easy to reuse. Read them when a guide mentions a term like Markdown flavor model, structured profiles, vault index, rename safety, or opaque regions and you want the plain-English version.
 
 - Inspiration and Prior Art: What inspired the public wiki shape?
 - Obsidian Flavored Markdown: What makes Markdown become Obsidian Flavored Markdown?
+- Markdown Flavor Model: How does Auto Detect choose one base flavor?
+- Structured Profiles: How can changelog and MADR structure layer onto any flavor?
 - Vault Index: Why does the server build a vault index?
 - Wiki-link Resolution: How does a wiki link find its target?
 - DocId and Vault-Relative Paths: Why are document IDs vault-relative?
@@ -26,7 +28,9 @@ These pages keep important terms small, linked, and easy to reuse. Read them whe
 - References, Navigation, Tags, and Embeds: How do editor features share the same vault model?
 
 - [Inspiration and Prior Art](/concepts/inspiration-and-prior-art/) - Credit the LLM wiki pattern, Obsidian vault workflows, and Markdown LSP prior art.
-- [Obsidian Flavored Markdown](/concepts/obsidian-flavored-markdown/) - Learn how Obsidian Flavored Markdown differs from plain Markdown in vault workflows.
+- [Obsidian Flavored Markdown and Markdown Flavors](/concepts/obsidian-flavored-markdown/) - Learn how Obsidian Flavored Markdown fits into Flavor Grenade base-flavor detection.
+- [Markdown Flavor Model](/concepts/markdown-flavor-model/) - Understand base Markdown flavors, explicit configuration, inference, and CommonMark fallback.
+- [Structured Profiles](/concepts/structured-profiles/) - Understand changelog and MADR profiles as optional structure layered over a base Markdown flavor.
 - [Vault Index](/concepts/vault-index/) - Understand how Flavor Grenade indexes vault documents, attachments, tags, and links.
 - [Wiki-link Resolution](/concepts/wiki-link-resolution/) - Understand how Flavor Grenade resolves wiki links, aliases, headings, and attachments.
 - [DocId and Vault-Relative Paths](/concepts/docid-and-vault-relative-paths/) - See why document identity is vault-relative, extension-free, and portable.
@@ -36,6 +40,6 @@ These pages keep important terms small, linked, and easy to reuse. Read them whe
 - [Rename Safety](/concepts/rename-safety/) - Learn how rename uses resolved local references instead of blind text replacement.
 - [References, Navigation, Tags, and Embeds](/concepts/references-navigation-tags-and-embeds/) - See how references, navigation, tags, highlights, and embeds share one vault graph.
 
-## For future docs
+## Shared vocabulary
 
-Use these public terms when writing or updating docs so the site stays consistent about Obsidian vaults, Markdown behavior, and the boundary between the VS Code extension and the language server.
+Use these public terms when writing or updating docs so the site stays consistent about Markdown flavors, structured profiles, Obsidian vaults, local links, and the boundary between the VS Code extension and the language server.

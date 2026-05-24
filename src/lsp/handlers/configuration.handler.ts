@@ -12,10 +12,12 @@ import { VaultDetector } from '../../vault/vault-detector.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
 import { DocumentStore } from '../services/document-store.js';
+import type { ParseContext } from '../../parser/types.js';
 
 interface FlavorGrenadeSettings {
   markdownFlavor?: unknown;
   markdownFlavorResources?: unknown;
+  markdownStructuredProfiles?: unknown;
 }
 
 @Injectable()
@@ -44,12 +46,15 @@ export class ConfigurationHandler {
     if (settings.markdownFlavor !== undefined) {
       config.selection = settings.markdownFlavor as MarkdownFlavorConfiguration['selection'];
     }
+    if (settings.markdownStructuredProfiles !== undefined) {
+      config.structuredProfileSelection =
+        settings.markdownStructuredProfiles as MarkdownFlavorConfiguration['structuredProfileSelection'];
+    }
     if (settings.markdownFlavorResources !== undefined) {
-      if (!isRecord(settings.markdownFlavorResources)) {
-        return;
+      if (isRecord(settings.markdownFlavorResources)) {
+        config.resources =
+          settings.markdownFlavorResources as MarkdownFlavorConfiguration['resources'];
       }
-      config.resources =
-        settings.markdownFlavorResources as MarkdownFlavorConfiguration['resources'];
     }
 
     const changed = this.flavorState.applyConfiguration(config, new Set(this.store.uris()));
@@ -64,14 +69,14 @@ export class ConfigurationHandler {
         continue;
       }
       const parsed = this.parser.parse(doc.uri, doc.getText(), doc.version, {
-        effectiveFlavor: this.resolveFlavor(doc),
+        ...this.resolveParseContext(doc),
       });
       this.parseCache.set(doc.uri, parsed);
       this.publishDiagnostics(doc.uri, parsed);
     }
   }
 
-  private resolveFlavor(doc: TextDocument): ReturnType<OFMParser['parse']>['markdownFlavor'] {
+  private resolveParseContext(doc: TextDocument): ParseContext {
     const fsPath = SingleFileModeGuard.uriToPath(doc.uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
     const result = this.flavorState.resolveForDocument({
@@ -79,8 +84,17 @@ export class ConfigurationHandler {
       languageId: doc.languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
       projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+      projectTomlStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
+        detection.vaultRoot,
+      ),
+      syntaxText: doc.getText(),
     });
-    return result.kind === 'active' ? result.effective : 'commonmark';
+    return result.kind === 'active'
+      ? {
+          effectiveFlavor: result.effective,
+          structuredProfiles: result.structuredProfiles,
+        }
+      : { effectiveFlavor: 'commonmark', structuredProfiles: [] };
   }
 
   private publishDiagnostics(uri: string, doc: ReturnType<OFMParser['parse']>): void {
@@ -106,18 +120,28 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function hasDangerousPrototypeKey(value: unknown): boolean {
-  if (Array.isArray(value)) {
-    return value.some((item) => hasDangerousPrototypeKey(item));
-  }
-  if (!isRecord(value)) {
-    return false;
-  }
-  for (const key of Object.keys(value)) {
-    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+  const stack: Array<{ value: unknown; depth: number }> = [{ value, depth: 0 }];
+  let visited = 0;
+  while (stack.length > 0) {
+    const current = stack.pop()!;
+    visited += 1;
+    if (visited > 10_000 || current.depth > 100) {
       return true;
     }
-    if (hasDangerousPrototypeKey(value[key])) {
-      return true;
+    if (Array.isArray(current.value)) {
+      for (const item of current.value) {
+        stack.push({ value: item, depth: current.depth + 1 });
+      }
+      continue;
+    }
+    if (!isRecord(current.value)) {
+      continue;
+    }
+    for (const key of Object.keys(current.value)) {
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        return true;
+      }
+      stack.push({ value: current.value[key], depth: current.depth + 1 });
     }
   }
   return false;

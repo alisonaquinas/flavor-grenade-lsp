@@ -3,7 +3,7 @@
 ## Purpose
 
 This design specification defines the UI/UX, layout, and look/feel for the
-Flavor Grenade public website. It applies to the GitHub Pages homepage, docs
+Flavor Grenade public website. It applies to the static homepage, docs
 pages, feature pages, quickstart, how-to content, concepts wiki, advanced usage,
 and FAQ.
 

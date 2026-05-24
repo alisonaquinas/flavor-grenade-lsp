@@ -12,7 +12,7 @@ Vault mode gives Flavor Grenade the whole local picture; single-file mode keeps 
 
 ## Vault mode
 
-Vault mode starts when Flavor Grenade finds `.obsidian/` or `.flavor-grenade.toml`. It can then scan the vault and build the map used by completion, diagnostics, references, and rename.
+Vault mode starts when Flavor Grenade finds `.obsidian/` or `.flavor-grenade.toml` at the opened root or a safe ancestor. It can then scan the vault or project and build the map used by completion, diagnostics, references, and rename.
 
 Use vault mode for normal Obsidian work. It gives the tool enough context to understand notes, inbound links, attachments, tags, and headings across files.
 
@@ -25,19 +25,22 @@ MyVault/
 
 ## Single-file mode
 
-Single-file mode is the fallback when no vault marker is available. Flavor Grenade can still parse the open file, but it does not scan the whole workspace for note names.
+Single-file mode is the fallback when no vault marker or usable project root is available. Flavor Grenade can still parse the open file and resolve a Markdown flavor. If syntax and context do not identify a stronger flavor, the fallback is CommonMark.
 
 That quiet behavior is intentional. A loose Markdown file may belong to another tool or to a vault that was not opened, so broad diagnostics and cross-file edits would be risky.
 
 ## Direct clients
 
-A direct LSP client should send a `rootUri` or workspace folder for the intended vault root.
+A direct LSP client should send a file `rootUri` or workspace folder for the intended vault root.
 
-If the client sends no usable root, Flavor Grenade cannot discover vault markers. That is the difference between full vault behavior and conservative single-file behavior.
+If the client sends no usable file root, Flavor Grenade cannot discover vault markers or safely confine paths. That is the difference between full vault behavior and conservative single-file behavior.
 
-```text
+```json
 {
-  "rootUri": "file:///Users/alex/MyVault"
+  "rootUri": "file:///Users/alex/MyVault",
+  "workspaceFolders": [
+    { "uri": "file:///Users/alex/MyVault", "name": "MyVault" }
+  ]
 }
 ```
 
@@ -45,4 +48,4 @@ If the client sends no usable root, Flavor Grenade cannot discover vault markers
 
 Verify the boundary with the same Markdown file in two contexts: inside a detected vault, then as a loose file outside any marked root. In the vault, note completion and cross-file references can use indexed files. Outside the vault, Flavor Grenade should stay cautious because there is no safe vault map.
 
-Single-file mode is not automatically a broken install. It is the correct fallback when the client has not provided enough workspace context.
+Single-file mode is not automatically a broken install. It is the correct fallback when the client has not provided enough workspace context, and CommonMark is the expected fallback for generic Markdown.

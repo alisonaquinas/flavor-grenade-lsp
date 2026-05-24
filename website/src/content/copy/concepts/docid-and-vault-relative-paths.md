@@ -24,7 +24,7 @@ The note identity and heading identity are separate. `notes/Daily` names the not
 C:/vault/notes/Daily.md is stored as notes/Daily, so [[notes/Daily#Open questions]] can stay vault-relative.
 ```
 
-## For future docs
+## Why it matters
 
 Use vault-relative examples unless the article is specifically showing why absolute paths are not stored as identity.
 

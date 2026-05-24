@@ -15,6 +15,8 @@ import { ServerSettings } from '../lsp/services/server-settings.js';
 import type { Range } from 'vscode-languageserver-types';
 import type { DocId } from '../vault/doc-id.js';
 import { VaultIndex } from '../vault/vault-index.js';
+import { structuredProfileCompletions } from '../markdown-flavor/structured-profile-analysis.js';
+import type { OFMDoc } from '../parser/types.js';
 
 /** Parameters accepted by the router (matches textDocument/completion shape). */
 export interface CompletionParams {
@@ -84,6 +86,9 @@ export class CompletionRouter {
     if (doc.markdownFlavor !== 'obsidian' && this.isObsidianInactiveContext(context)) {
       return { items: [], isIncomplete: false };
     }
+
+    const structuredResult = this.structuredProfileCompletions(doc, text, params.position);
+    if (structuredResult !== null) return structuredResult;
 
     if (doc.markdownFlavor === 'glfm') {
       const glfmResult = this.glfmCompletions(text, params.position);
@@ -621,6 +626,23 @@ export class CompletionRouter {
     const range = this.replacementRange(position, replaceLength);
     return {
       items: [this.withTextEdit({ label, insertText }, range)],
+      isIncomplete: false,
+    };
+  }
+
+  private structuredProfileCompletions(
+    doc: OFMDoc,
+    text: string,
+    position: { line: number; character: number },
+  ): { items: CompletionItem[]; isIncomplete: boolean } | null {
+    const completions = structuredProfileCompletions(doc, text, position);
+    if (completions.length === 0) return null;
+    const line = text.split('\n')[position.line] ?? '';
+    const prefix = line.slice(0, position.character);
+    const replaceLength = /^[ \t]{0,3}#{2,3}\s*([A-Za-z -]*)$/.exec(prefix)?.[1].length ?? 0;
+    const range = this.replacementRange(position, replaceLength);
+    return {
+      items: completions.map((item) => this.withTextEdit({ ...item, kind: 15 }, range)),
       isIncomplete: false,
     };
   }

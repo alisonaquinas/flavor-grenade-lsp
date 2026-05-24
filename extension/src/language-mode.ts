@@ -5,6 +5,7 @@ import {
     resolveMarkdownFlavor,
     type MarkdownFlavorSelection,
     type MarkdownFlavorResolution,
+    type StructuredProfileSelection,
 } from './markdown-flavor.js';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 
@@ -35,7 +36,11 @@ interface LanguageModeApi {
     getVisibleEditors(): readonly TextEditor[];
     setTextDocumentLanguage(document: TextDocument, languageId: string): Thenable<TextDocument>;
     getMarkdownFlavorSelection?(document: TextDocument): MarkdownFlavorSelection | undefined;
+    getMarkdownStructuredProfileSelection?(
+        document: TextDocument,
+    ): StructuredProfileSelection | undefined;
     getProjectMarkdownFlavor?(document: TextDocument): MarkdownFlavorSelection | undefined;
+    getWorkspaceFolderPath?(document: TextDocument): string | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
     onDidChangeWorkspaceFolders(listener: () => void): Disposable;
@@ -129,19 +134,26 @@ export class LanguageModeController {
 
     async resolveMarkdownFlavorForDocument(document: TextDocument): Promise<MarkdownFlavorResolution> {
         const selected = this.api.getMarkdownFlavorSelection?.(document) ?? 'auto';
+        const structuredProfileSelection =
+            this.api.getMarkdownStructuredProfileSelection?.(document) ?? 'auto';
         if (!isManagedFileDocument(document)) {
             return resolveMarkdownFlavor({ document, selected });
         }
 
         const evidence = document.uri.fsPath
-            ? await findMarkdownFlavorEvidence(document.uri.fsPath)
+            ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
+                  searchBoundary: this.api.getWorkspaceFolderPath?.(document),
+              })
             : undefined;
         if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {
             return resolveMarkdownFlavor({
                 document,
                 hasObsidianMarker: evidence.hasObsidianMarker,
                 projectFlavor: evidence.projectFlavor,
+                projectStructuredProfiles: evidence.projectStructuredProfiles,
                 selected,
+                structuredProfileSelection,
+                syntaxText: document.getText?.(),
             });
         }
 
@@ -151,6 +163,8 @@ export class LanguageModeController {
             hasObsidianMarker: serverMembership?.reason === 'obsidian-vault',
             projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
             selected,
+            structuredProfileSelection,
+            syntaxText: document.getText?.(),
         });
     }
 

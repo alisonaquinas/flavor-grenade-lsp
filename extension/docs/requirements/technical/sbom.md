@@ -20,7 +20,7 @@ generate a machine-readable SBOM from `extension/package.json` and
 | Field | Value |
 |---|---|
 | Package | `flavor-grenade-lsp` |
-| Version | `0.2.4` |
+| Version | `0.3.0` |
 | Publisher | `alisonaquinas` |
 | Source | <https://github.com/alisonaquinas/flavor-grenade-lsp> |
 | Author | Alison Aquinas |

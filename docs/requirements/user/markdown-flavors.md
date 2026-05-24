@@ -41,6 +41,15 @@ aliases:
 
 ---
 
+## User.Flavor.ApplyStructuredProfiles
+
+**Tag:** User.Flavor.ApplyStructuredProfiles
+**Goal:** Apply structured document profiles without changing base flavor
+**Need:** A Markdown author wants Keep a Changelog, Common Changelog, and MADR rules to layer onto any active Markdown flavor through auto-detection or explicit configuration, so a changelog or ADR can still be CommonMark, GFM, Obsidian, Pandoc, or another supported base flavor.
+**Maps to:** FlavorLSP.StructuredProfiles.Flags, Extension.MarkdownStructuredProfiles.Configuration, Extension.MarkdownFlavor.AutoDetection
+
+---
+
 ## User.Flavor.AuthorOriginal
 
 **Tag:** User.Flavor.AuthorOriginal
@@ -155,3 +164,30 @@ aliases:
 **Goal:** Author Stack Overflow Markdown safely
 **Need:** A technical Q&A author wants CommonMark prose, code fences, language hints, tables, spoilers, local links, and Stack Overflow references understood while post-body and comment limitations stay distinct and platform references remain non-local.
 **Maps to:** Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.ServerPropagation, FlavorLSP.Profile.SignatureCoverage, FlavorLSP.Parser.ProfileDispatch, FlavorLSP.Diagnostics.ProfileRules, FlavorLSP.Navigation.ProfileResolution, FlavorLSP.HostBoundary.NonLocalReferences
+
+---
+
+## User.Flavor.AuthorKeepAChangelog
+
+**Tag:** User.Flavor.AuthorKeepAChangelog
+**Goal:** Author Keep a Changelog documents safely
+**Need:** A release maintainer wants `CHANGELOG.md` files using Keep a Changelog headings, `Unreleased`, release dates, categories, and version links validated as a structured profile without changing the file's base Markdown flavor.
+**Maps to:** FlavorLSP.StructuredProfiles.Flags, Extension.MarkdownStructuredProfiles.Configuration
+
+---
+
+## User.Flavor.AuthorCommonChangelog
+
+**Tag:** User.Flavor.AuthorCommonChangelog
+**Goal:** Author Common Changelog documents safely
+**Need:** A release maintainer wants Common Changelog release headings, four-category ordering, change references, breaking prefixes, and author notation validated as a structured profile without adding Common Changelog to the base flavor list.
+**Maps to:** FlavorLSP.StructuredProfiles.Flags, Extension.MarkdownStructuredProfiles.Configuration
+
+---
+
+## User.Flavor.AuthorMADR
+
+**Tag:** User.Flavor.AuthorMADR
+**Goal:** Author MADR decision records safely
+**Need:** An architecture decision author wants MADR front matter, decision headings, considered options, outcomes, consequences, confirmation, and pros/cons structure validated as a structured profile that can mix with any base Markdown flavor.
+**Maps to:** FlavorLSP.StructuredProfiles.Flags, Extension.MarkdownStructuredProfiles.Configuration

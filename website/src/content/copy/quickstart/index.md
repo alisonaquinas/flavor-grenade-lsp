@@ -34,13 +34,14 @@ Install [Flavor Grenade LSP from the Visual Studio Marketplace](https://marketpl
 
 Use File > Open Folder and choose the folder that contains `.obsidian/` or `.flavor-grenade.toml`.
 
-### Confirm OFMarkdown activation
+### Confirm flavor activation
 
-Open a Markdown note in the vault. The language mode should become OFMarkdown, and the Flavor Grenade server status should settle into a ready state after indexing.
+Open a Markdown note in the vault. The Flavor Grenade status should show the effective flavor, such as OFMarkdown for Obsidian vault content or CommonMark for generic Markdown, and the server status should settle into a ready state after indexing.
 
 ```text
 MyVault/
   .obsidian/
+  .flavor-grenade.toml
   Notes/
     Daily Note.md
 ```
@@ -87,6 +88,6 @@ You do not need a complicated vault to test the basics. A couple of notes are en
 
 ## Troubleshooting
 
-If the VS Code extension does not activate, check workspace trust, the selected language mode, the extension status, and whether you opened the vault root.
+If the VS Code extension does not activate, check workspace trust, the selected language mode, the flavor status, the extension status, and whether you opened the intended workspace root.
 
 If direct npm usage does not behave like vault mode, check that the client is actually launching `flavor-grenade-lsp`, using stdio transport, and sending a `rootUri` or workspace folder that points at the vault. If completion works but diagnostics do not, give the first index a moment to finish and make sure the target file is inside the vault.

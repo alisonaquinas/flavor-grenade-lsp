@@ -3,6 +3,7 @@ import type { FoldingRange } from 'vscode-languageserver-types';
 import { offsetToPosition, rangeFromOffsets } from '../parser/offset-utils.js';
 import { ParseCache } from '../parser/parser.module.js';
 import type { OFMDoc, OpaqueRegion } from '../parser/types.js';
+import { structuredProfileFoldingRanges } from '../markdown-flavor/structured-profile-analysis.js';
 
 interface FoldingRangeParams {
   textDocument?: { uri?: string };
@@ -33,6 +34,7 @@ export class FoldingRangeHandler {
     this.addRMarkdownFolds(doc, builder);
     this.addRedditFolds(doc, builder);
     this.addStackOverflowFolds(doc, builder);
+    this.addStructuredProfileFolds(doc, builder);
     this.addCalloutFolds(doc, builder);
     this.addOpaqueRegionFolds(doc, builder);
     return builder.build();
@@ -161,6 +163,12 @@ export class FoldingRangeHandler {
   private addStackOverflowFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
     for (const table of doc.index.stackOverflowTables ?? []) {
       builder.add(table.range.start.line, table.range.end.line, 'region');
+    }
+  }
+
+  private addStructuredProfileFolds(doc: OFMDoc, builder: FoldingRangeBuilder): void {
+    for (const range of structuredProfileFoldingRanges(doc)) {
+      builder.add(range.startLine, range.endLine, range.kind);
     }
   }
 

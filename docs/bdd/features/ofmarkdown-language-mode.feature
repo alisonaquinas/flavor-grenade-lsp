@@ -71,6 +71,50 @@ Feature: Markdown flavor selection
       | reddit         | Reddit Markdown          |
       | stack-overflow | Stack Overflow Markdown  |
 
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  Scenario Outline: Structured profiles are not Markdown flavor selector choices
+    Given a Markdown document is active with language id "markdown"
+    When the user opens the Markdown flavor selector
+    Then the selector does not include id "<profile>"
+
+    Examples:
+      | profile           |
+      | keep-a-changelog  |
+      | common-changelog  |
+      | madr              |
+
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  Scenario Outline: Structured profile configuration propagates with the base flavor
+    Given a workspace folder containing ".flavor-grenade.toml"
+    And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
+    And "flavorGrenade.markdownStructuredProfiles" is set to "<selection>"
+    When the user opens "<path>"
+    Then the document language id remains "markdown"
+    And the server is refreshed with effective flavor "<baseFlavor>"
+    And the client sends a "workspace/didChangeConfiguration" notification with structured profiles "<expectedProfiles>"
+
+    Examples:
+      | baseFlavor | selection          | expectedProfiles    | path                                  |
+      | commonmark | ["keep-a-changelog"] | keep-a-changelog | CHANGELOG.md                       |
+      | gfm        | ["common-changelog"] | common-changelog | CHANGELOG.md                       |
+      | obsidian   | ["madr"]             | madr             | docs/decisions/0001-use-profile.md |
+      | pandoc     | none                 | none             | CHANGELOG.md                       |
+
+  @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
+  Scenario Outline: Auto Detect infers structured profiles from document context
+    Given no structured profile override is configured
+    And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
+    When the user opens "<path>" containing "<evidence>"
+    Then the document language id remains "markdown"
+    And the server is refreshed with effective flavor "<baseFlavor>"
+    And the effective structured profile flags include "<profile>"
+
+    Examples:
+      | baseFlavor | profile          | path                               | evidence                          |
+      | commonmark | keep-a-changelog | CHANGELOG.md                       | ## [Unreleased]                   |
+      | gfm        | common-changelog | CHANGELOG.md                       | ## 1.0.0 - 2026-05-23             |
+      | obsidian   | madr             | docs/decisions/0001-use-profile.md | ## Context and Problem Statement  |
+
   Scenario: User overrides flavor for a workspace folder target
     Given a workspace folder containing ".flavor-grenade.toml"
     And the user opens "notes/welcome.md"

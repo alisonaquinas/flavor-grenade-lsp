@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...v0.5.0) (2026-05-24)
+
+### Added
+
+- Add syntax and context inference for Markdown flavor auto-detection when
+  `.flavor-grenade.toml` is absent, including smoke-test fixture coverage for
+  inference-only workspaces.
+- Add structured Markdown profile flags for Keep a Changelog, Common
+  Changelog, and MADR as layerable variants over existing Markdown flavors.
+- Add structured-profile diagnostics, document symbols, folding ranges, hovers,
+  and completions for changelog and MADR documents.
+
+### Changed
+
+- Document the refined Markdown flavor auto-detection decision tree and
+  structured-profile requirements across server and extension docs.
+- Expand smoke-test workspaces with flavor-specific changelog and MADR examples.
+- Replace the website GitHub Pages release workflow with an AWS S3 publishing
+  workflow that uses GitHub Actions OIDC, `site-v*` tags, and the protected
+  `website-production` environment.
+
+### Fixed
+
+- Prevent root-level generic smoke-test README files from being inferred as
+  Obsidian Flavored Markdown.
+- Remove dynamic structured-heading regular expressions so Semgrep security
+  analysis passes without suppressions.
+
 ## [0.4.4](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.3...v0.4.4) (2026-05-23)
 
 ### Security
@@ -197,5 +225,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...HEAD
+[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...HEAD
 [0.1.0]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.1.0

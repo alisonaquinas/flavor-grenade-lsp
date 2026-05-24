@@ -14,13 +14,13 @@ Use the VS Code extension for the smooth path; use direct LSP integration when y
 
 The VS Code extension packages the server, handles activation, and is the recommended setup for most users.
 
-The extension path should be boring in the best way: install, open a vault, wait for ready status, and start using completion or diagnostics. Choose the server-only path when you are integrating another editor or testing the server directly.
+The extension path should be boring in the best way: install, open a vault or configured Markdown project, wait for ready status, and start using completion or diagnostics. Current releases use a bundled JavaScript server module at `server/main.js` instead of platform-specific native server payloads.
 
 ## Install the server from npm
 
 For direct LSP use, install the language server package with npm in the environment where your editor client will launch it. This does not install the VS Code extension or configure an editor by itself.
 
-Use a local project install when you want the server pinned with the workspace, or use `npx` for a quick test. Your client still needs to start the command and send a usable `rootUri`.
+Use a local project install when you want the server pinned with the workspace, or use `npx` for a quick test. Your client still needs to start the command over stdio and send a usable `rootUri`.
 
 ```text
 npm install --save-dev flavor-grenade-lsp
@@ -29,15 +29,78 @@ npx flavor-grenade-lsp
 
 ## Direct LSP clients
 
-Direct clients must launch the server, provide a usable `rootUri`, and handle file watching.
+Direct clients must launch the server, provide a usable file `rootUri`, send configuration, and handle file watching.
 
-The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/` or `.flavor-grenade.toml`, build a vault index, and provide vault-wide features such as note completion, references, and rename.
+The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/` or `.flavor-grenade.toml`, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
 
-```text
+```json
 {
   "rootUri": "file:///Users/alex/MyVault",
   "workspaceFolders": [
     { "uri": "file:///Users/alex/MyVault", "name": "MyVault" }
+  ],
+  "initializationOptions": {
+    "markdownFlavor": {
+      "selected": "auto",
+      "effective": "obsidian",
+      "structuredProfiles": "auto"
+    }
+  },
+  "capabilities": {
+    "workspace": {
+      "configuration": true,
+      "didChangeWatchedFiles": { "dynamicRegistration": true }
+    }
+  }
+}
+```
+
+If your client sends workspace configuration after initialize, use the same public setting names as the VS Code extension:
+
+```json
+{
+  "settings": {
+    "flavorGrenade": {
+      "markdownFlavor": "auto",
+      "markdownStructuredProfiles": ["madr"],
+      "completion": { "candidates": 50 },
+      "diagnostics": { "suppress": [] },
+      "trace": { "server": "off" }
+    }
+  }
+}
+```
+
+For a project-level override, put a `.flavor-grenade.toml` file at the project root:
+
+```toml
+[core.markdown]
+flavor = "gfm"
+structured_profiles = ["keep-a-changelog"]
+```
+
+Use `structured_profiles = "none"` when a repository should not apply structured-document behavior.
+
+## Initialize shape
+
+A minimal direct-client flow is:
+
+```text
+spawn: npx flavor-grenade-lsp
+send: initialize with file rootUri and workspaceFolders
+send: initialized
+watch: Markdown files, .obsidian/, and .flavor-grenade.toml
+send: didOpen/didChange/didClose for open documents
+```
+
+The server accepts normal LSP initialize parameters. Flavor-specific initialization data is optional when `.flavor-grenade.toml` or Auto Detect can decide the flavor, but direct clients should send explicit state when they have a selector UI.
+
+```json
+{
+  "processId": 12345,
+  "rootUri": "file:///Users/alex/DocsProject",
+  "workspaceFolders": [
+    { "uri": "file:///Users/alex/DocsProject", "name": "DocsProject" }
   ]
 }
 ```
@@ -46,10 +109,10 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
 
 The server speaks LSP, but non-VS-Code clients may need custom transport and configuration work.
 
-If a direct client can launch a Node-based stdio language server and send normal LSP initialize parameters, it has the right starting point. If it cannot provide a stable file root, expect single-file behavior rather than full vault behavior.
+If a direct client can launch a Node-based stdio language server and send normal LSP initialize parameters, it has the right starting point. If it cannot provide a stable file root, expect single-file behavior and CommonMark fallback rather than full vault behavior.
 
 ## Practical check
 
-A direct-client example should include both the command that launches the npm-installed server and the initialize data the client sends afterward. Installing the package is only half the work; the client still owns stdio transport, workspace folders, root URI selection, and restart behavior.
+A direct-client example should include both the command that launches the npm-installed server and the initialize data the client sends afterward. Installing the package is only half the work; the client still owns stdio transport, workspace folders, root URI selection, configuration, file watching, and restart behavior.
 
 Keep the VS Code article linked from here because it is the supported path for most readers. Direct integration is for editor maintainers, advanced users, and test harnesses that already understand LSP wiring.

@@ -1,194 +1,151 @@
-# Flavor Grenade LSP — Obsidian Markdown Support
+# Flavor Grenade LSP
 
-Language intelligence for [Obsidian Flavored Markdown](https://help.obsidian.md/Editing+and+formatting/Obsidian+Flavored+Markdown) in Visual Studio Code. Powered by the [flavor-grenade-lsp](https://github.com/alisonaquinas/flavor-grenade-lsp) language server.
+Markdown language intelligence for Obsidian vaults and flavor-aware Markdown
+workspaces in Visual Studio Code.
 
-## OFMarkdown In VS Code
+Flavor Grenade keeps ordinary `.md` files in VS Code's built-in Markdown mode
+while the extension and bundled language server add vault indexing,
+Obsidian-style navigation, Markdown flavor detection, structured-document
+diagnostics, and project-aware completions.
 
-![OFMarkdown language mode promotion](images/marketplace/ofmarkdown-mode.png)
+![Flavor Grenade wiki-link completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/wiki-link-completion.png)
 
-Vault notes stay in VS Code's built-in **Markdown** mode while Flavor Grenade
-applies the active Markdown flavor behind the language-server features.
+## What You Get
 
-![Flavor Grenade status bar indexing](images/marketplace/status-indexing.png)
+- Wiki-link, heading, block-anchor, tag, callout, embed, attachment, and
+  Markdown-link completions
+- Go to definition, find references, hovers, document links, symbols, folding,
+  semantic tokens, code lens, rename, and code actions
+- Diagnostics for broken wiki-links, ambiguous links, malformed wiki-links,
+  broken embeds or attachments, missing block anchors, non-breaking spaces,
+  malformed frontmatter, and structured-document issues
+- Markdown flavor auto-detection for Obsidian, CommonMark, GFM, GLFM, Pandoc,
+  MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, Stack
+  Overflow, and Original Markdown
+- Structured profile flags for Keep a Changelog, Common Changelog, and MADR
+  layered over any base Markdown flavor
 
-The status bar shows whether Flavor Grenade is starting, indexing, ready,
-disabled, crashed, or misconfigured without embedding the document count in the
-status text. A separate Markdown flavor status item shows the current effective
-flavor, such as **Markdown: Obsidian**, and opens the Flavor Grenade selector.
+## Screenshots
 
-![Flavor Grenade wiki-link completion](images/marketplace/wiki-link-completion.png)
+![OFMarkdown language mode promotion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/ofmarkdown-mode.png)
 
-Wiki-link completion offers vault notes as soon as you type `[[`, using the
-same indexed document graph that powers definitions, references, and rename.
-Following links is server-resolved, so Obsidian-style folder-implicit targets
-such as `[[sources/foo]]` can open `wiki/sources/foo.md` when that is the
-unique vault path suffix.
+Detected vault files can use the OFMarkdown language contribution when that is
+useful, but normal Markdown files stay in VS Code's Markdown mode unless Flavor
+Grenade has project evidence.
 
-![Flavor Grenade heading and block-anchor completion](images/marketplace/heading-block-completion.png)
+![Flavor Grenade status bar indexing](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/status-indexing.png)
+
+The status bar reports server state and active Markdown flavor. Auto Detect uses
+project config first, then vault markers, then syntax and context inference,
+then CommonMark fallback.
+
+![Flavor Grenade heading and block-anchor completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/heading-block-completion.png)
 
 Heading and block-anchor completions make `[[note#heading]]` and
-`[[note#^block]]` links discoverable without memorizing target structure.
+`[[note#^block]]` links discoverable.
 
-![Flavor Grenade reference code lens](images/marketplace/reference-code-lens.png)
+![Flavor Grenade reference code lens](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/reference-code-lens.png)
 
-Reference code lens puts incoming-link counts above headings and block anchors
-so frequently referenced knowledge surfaces are easy to spot.
+Reference code lens surfaces incoming-link counts above headings and block
+anchors.
 
-![Flavor Grenade embed diagnostics and hover](images/marketplace/embed-diagnostics-hover.png)
+![Flavor Grenade embed diagnostics and hover](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/embed-diagnostics-hover.png)
 
-Embed diagnostics identify missing targets, while hover previews give quick
-context for resolved note and attachment embeds.
+Embed diagnostics flag missing targets. Hovers show context for resolved notes
+and local attachments.
 
-![Flavor Grenade tag completion and references](images/marketplace/tag-completion-references.png)
+![Flavor Grenade tag completion and references](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/tag-completion-references.png)
 
 Tag completion and references use the vault-wide tag index, including nested
 Obsidian tag paths.
 
-![Flavor Grenade callout completion](images/marketplace/callout-completion.png)
+![Flavor Grenade callout completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/callout-completion.png)
 
 Callout completion offers common Obsidian callout types inside quote blocks.
 
-## Features
-
-- **Completions** — `[[` triggers wiki-link completions across the vault; `#` triggers tag completions; heading and block-anchor completions inside links
-- **Diagnostics** — Broken wiki-links (`BrokenLink`), ambiguous links (`AmbiguousLink`), broken embeds (`BrokenEmbed`), malformed frontmatter (`MalformedFrontmatter`)
-- **Go to Definition** — Navigate from `[[wiki-link]]` to the target document, heading, or block anchor, including Obsidian-style path-suffix targets
-- **Rename** — Rename a document or heading and update all incoming references across the vault
-- **Code Actions** — Quick-fix to create a missing linked document; extract selection to new note
-- **Code Lens** — Inline reference counts on headings and documents
-- **Semantic Tokens** — Syntax highlighting for wiki-links, tags, embeds, and block references
-- **Markdown flavor selector** — The status bar shows the effective flavor and opens a selector for Auto Detect or an explicit flavor without using VS Code's language picker
-
-## OFMarkdown Editor Affordances
-
-The extension contributes snippets only for the **OFMarkdown** language mode:
-
-| Prefix | Inserts |
-|--------|---------|
-| `ofm-callout` | Obsidian callout block |
-| `ofm-embed` | `![[embed]]` link |
-| `ofm-wikilink` | `[[wiki-link]]` |
-| `ofm-aliases` | YAML `aliases` frontmatter |
-| `ofm-tags` | YAML `tags` frontmatter |
-| `ofm-block-anchor` | `^block-id` anchor |
-
-The Markdown flavor selector keeps `.md` files in VS Code's built-in Markdown
-mode. Generic Markdown keeps VS Code's normal Markdown behavior unless a
-workspace, project, or user flavor selection applies.
-
-Payload-free Flavor Grenade commands have OFMarkdown-scoped keybindings:
-
-| Command | Windows/Linux | macOS |
-|---------|---------------|-------|
-| Rebuild Index | `Ctrl+Alt+G Ctrl+Alt+R` | `Cmd+Alt+G Cmd+Alt+R` |
-| Show Status Actions | `Ctrl+Alt+G Ctrl+Alt+S` | `Cmd+Alt+G Cmd+Alt+S` |
-| Show Output | `Ctrl+Alt+G Ctrl+Alt+O` | `Cmd+Alt+G Cmd+Alt+O` |
-
-## Configuration
-
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| `flavorGrenade.server.path` | `string` | `""` | Custom user-level path to a language server command. Workspace values are ignored for safety. Leave empty to use the bundled server module. |
-| `flavorGrenade.linkStyle` | `string` | `"file-stem"` | Wiki-link completion style. Options: `file-stem`, `title-slug`, `file-path-stem`. |
-| `flavorGrenade.markdownFlavor` | `string` | `"auto"` | Markdown flavor selector. Options: `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, `stack-overflow`. |
-| `flavorGrenade.completion.candidates` | `number` | `50` | Maximum number of completion items returned. |
-| `flavorGrenade.diagnostics.suppress` | `string[]` | `[]` | Diagnostic codes to suppress (e.g. `["AmbiguousLink", "BrokenEmbed"]`). |
-| `flavorGrenade.trace.server` | `string` | `"off"` | Trace communication between VS Code and the language server. Options: `off`, `messages`, `verbose`. |
-
 ## Getting Started
 
-1. Install **Flavor Grenade** from the [VS Code Marketplace](https://marketplace.visualstudio.com/).
-2. Open an Obsidian vault folder in VS Code.
-3. Open any vault `.md` file — the language server starts automatically and the Markdown flavor status item reports the effective flavor.
+1. Install Flavor Grenade LSP from the Visual Studio Marketplace.
+2. Open an Obsidian vault or a folder containing `.flavor-grenade.toml`.
+3. Open a Markdown file.
+4. Wait for the status bar to report that Flavor Grenade is ready.
+5. Type `[[`, `#`, `> [!`, or a Markdown link target to use completions.
 
-That's it. Wiki-link completions, diagnostics, go-to-definition, and all other features activate as soon as the server finishes indexing your vault. The status bar shows indexing progress.
+Generic Markdown workspaces stay idle until there is positive project evidence
+or you run an explicit Flavor Grenade command.
 
-Generic Markdown files outside detected vaults stay in VS Code's normal
-**Markdown** mode. If you manually choose another language mode for a document,
-Flavor Grenade leaves that choice alone.
+## Project Configuration
 
-Language-specific VS Code settings can target OFMarkdown:
+Use `.flavor-grenade.toml` to pin a project when Auto Detect is not enough:
 
-```json
-{
-  "[ofmarkdown]": {
-    "editor.wordWrap": "on"
-  }
-}
+```toml
+markdown_flavor = "gfm"
+structured_profiles = ["keep-a-changelog"]
 ```
 
-## Activation Behavior
+Supported `markdown_flavor` values:
 
-Flavor Grenade starts automatically when VS Code opens a workspace that looks
-like an Obsidian or Flavor Grenade vault:
+- `original`
+- `commonmark`
+- `obsidian`
+- `gfm`
+- `glfm`
+- `pandoc`
+- `multimarkdown`
+- `mdx`
+- `kramdown`
+- `markdown-extra`
+- `r-markdown`
+- `reddit`
+- `stack-overflow`
 
-- A workspace containing `.obsidian/` activates the extension and starts vault
-  membership detection.
-- A workspace containing `.flavor-grenade.toml` also activates the extension and
-  starts vault membership detection.
-- Opening Markdown in a generic workspace with neither marker keeps Flavor
-  Grenade idle. VS Code continues to treat those files as normal **Markdown**,
-  and the extension does not start vault indexing just because a README or other
-  ordinary `.md` file is open.
-- Opening a supported `markdown` or `ofmarkdown` file can wake the extension,
-  but startup still checks for a positive vault signal before doing vault work.
-- Running an explicit command, such as **Flavor Grenade: Restart Server**,
-  **Flavor Grenade: Rebuild Index**, or **Flavor Grenade: Show Output**, can
-  wake the extension. Command wake does not promise that a vault exists or that
-  indexing will find content; the same startup checks still run before the
-  command path starts server work.
+Supported `structured_profiles` values:
 
-This behavior comes from Phase E7 activation precision and the extension parity
-requirements for `Extension.Activation.VaultPrecision` and
-`Extension.Activation.MarkerEvents`.
+- `keep-a-changelog`
+- `common-changelog`
+- `madr`
+- `none`
+
+Keep a Changelog and Common Changelog are mutually exclusive. MADR can combine
+with either changelog profile when the document context supports it.
+
+## VS Code Settings
+
+- `flavorGrenade.markdownFlavor`: `auto` or an explicit base Markdown flavor
+- `flavorGrenade.markdownStructuredProfiles`: `auto`, `none`, or an array of
+  structured profile ids
+- `flavorGrenade.linkStyle`: wiki-link completion style, one of `file-stem`,
+  `title-slug`, or `file-path-stem`
+- `flavorGrenade.completion.candidates`: maximum completion items returned
+- `flavorGrenade.diagnostics.suppress`: diagnostic codes to suppress
+- `flavorGrenade.trace.server`: LSP trace level
+- `flavorGrenade.server.path`: user-level custom language-server command path
 
 ## Commands
 
-Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type "Flavor Grenade":
+Open the Command Palette and search for "Flavor Grenade":
 
-- **Flavor Grenade: Restart Server** — Stop and restart the language server
-- **Flavor Grenade: Rebuild Index** — Re-scan the vault and rebuild the document index
-- **Flavor Grenade: Show Output** — Open the language server output channel for troubleshooting
-
-Flavor Grenade also registers bridge commands used by the language server and
-extension UI:
-
-- `flavorGrenade.showReferences`
-- `flavorGrenade.followLink`
-- `flavorGrenade.openEmbedTarget`
-- `flavorGrenade.showBacklinks`
-- `flavorGrenade.showOutlinks`
-- `flavorGrenade.revealVaultRoot`
-- `flavorGrenade.copyDiagnosticInfo`
-
-Bridge payloads are plain JSON: file URI strings, zero-based positions, ranges,
-locations, and diagnostic text. Invalid payloads fail safely before VS Code APIs
-are called, with no uncaught extension-host exception. Maintainer details live
-in [extension/docs/features/command-bridge-contracts.md](docs/features/command-bridge-contracts.md).
-
-## Development Smoke Test
-
-1. From the repository root, run `bun install`.
-2. From `extension/`, run `npm ci`.
-3. Open `extension/` in VS Code.
-4. Start the **Run Extension** launch configuration.
-5. Edit code under the repository root `src/`; the server TypeScript watch task rebuilds `../dist/main.js`.
-6. Run **Flavor Grenade: Restart Server** in the Extension Host window.
-7. Open a note inside a folder containing `.obsidian/`; confirm the Markdown flavor status item shows **Markdown: Obsidian**.
-8. Open a non-vault Markdown file; confirm the language picker remains **Markdown**.
-9. Confirm changed LSP behavior is visible after the TypeScript watch task rebuilds `../dist/main.js`.
+- Restart Server
+- Rebuild Index
+- Show Output
+- Show Status Actions
+- Select Markdown Flavor
+- Open Troubleshooting
 
 ## Requirements
 
 - VS Code 1.120.0 or later
-- An Obsidian vault or a folder configured with `.flavor-grenade.toml`
+- A local file-system workspace. Restricted Mode and virtual workspaces are not
+  supported because the extension starts a bundled language server and indexes
+  local files.
 
 ## Links
 
 - [Source code](https://github.com/alisonaquinas/flavor-grenade-lsp)
 - [Issue tracker](https://github.com/alisonaquinas/flavor-grenade-lsp/issues)
-- [Changelog](CHANGELOG.md)
+- [Changelog](https://github.com/alisonaquinas/flavor-grenade-lsp/blob/main/extension/CHANGELOG.md)
+- [Documentation website](https://www.alisonaquinas.com/flavor-grenade-lsp/)
 
 ## License
 
-[MIT](LICENSE)
+MIT

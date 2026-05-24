@@ -16,7 +16,16 @@
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/configure-obsidian-vaults/</loc>
   </url>
   <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/choose-a-markdown-flavor/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/use-structured-profiles/</loc>
+  </url>
+  <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/fix-broken-links/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/use-code-actions/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/how-to/rename-notes-safely/</loc>
@@ -68,6 +77,12 @@
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/obsidian-flavored-markdown/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/markdown-flavor-model/</loc>
+  </url>
+  <url>
+    <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/structured-profiles/</loc>
   </url>
   <url>
     <loc>https://alisonaquinas.github.io/flavor-grenade-lsp/concepts/vault-index/</loc>

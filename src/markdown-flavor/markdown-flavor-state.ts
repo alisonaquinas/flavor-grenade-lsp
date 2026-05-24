@@ -5,6 +5,15 @@ import {
   type MarkdownFlavorId,
   type MarkdownFlavorSelection,
 } from './markdown-flavor-contract.js';
+import { inferMarkdownFlavorFromSyntax } from './syntax-inference.js';
+import {
+  isValidStructuredProfileList,
+  isStructuredProfileSelection,
+  resolveStructuredProfiles,
+  type StructuredMarkdownProfileId,
+  type StructuredProfileResolutionSource,
+  type StructuredProfileSelection,
+} from './structured-profiles.js';
 
 const MAX_RESOURCE_FLAVOR_ENTRIES = 100;
 
@@ -17,6 +26,7 @@ export type FlavorResolutionSource =
   | 'resource-propagation'
   | 'project-toml'
   | 'obsidian-marker'
+  | 'syntax-inference'
   | 'commonmark-fallback';
 
 /** Active or inactive flavor resolution result for one document resource. */
@@ -26,6 +36,8 @@ export type FlavorResolutionResult =
       selected: MarkdownFlavorSelection;
       effective: EffectiveMarkdownFlavor;
       source: FlavorResolutionSource;
+      structuredProfiles: readonly StructuredMarkdownProfileId[];
+      structuredProfileSource: StructuredProfileResolutionSource;
     }
   | {
       kind: 'inactive';
@@ -38,6 +50,9 @@ export interface ResolveFlavorInput {
   languageId: string;
   hasObsidianMarker: boolean;
   projectTomlFlavor?: MarkdownFlavorSelection;
+  projectTomlStructuredProfiles?: StructuredProfileSelection;
+  structuredProfileSelection?: StructuredProfileSelection;
+  syntaxText?: string;
 }
 
 /** Resource-specific flavor payload propagated by the VS Code client. */
@@ -45,12 +60,15 @@ export interface PropagatedResourceFlavor {
   selected: MarkdownFlavorSelection;
   effective: MarkdownFlavorId;
   source: FlavorResolutionSource | 'workspace-setting' | 'workspace-folder-setting';
+  structuredProfiles?: readonly StructuredMarkdownProfileId[];
+  structuredProfileSource?: StructuredProfileResolutionSource;
 }
 
 /** LSP configuration payload accepted by the server flavor state service. */
 export interface MarkdownFlavorConfiguration {
   selection?: MarkdownFlavorSelection;
   resources?: Record<string, PropagatedResourceFlavor>;
+  structuredProfileSelection?: StructuredProfileSelection;
 }
 
 @Injectable()
@@ -63,14 +81,17 @@ export interface MarkdownFlavorConfiguration {
  */
 export class MarkdownFlavorState {
   private selection: MarkdownFlavorSelection = 'auto';
+  private structuredProfileSelection: StructuredProfileSelection = 'auto';
   private readonly resourceFlavors = new Map<string, PropagatedResourceFlavor>();
 
   snapshot(): {
     selection: MarkdownFlavorSelection;
+    structuredProfileSelection: StructuredProfileSelection;
     resources: Record<string, PropagatedResourceFlavor>;
   } {
     return {
       selection: this.selection,
+      structuredProfileSelection: this.structuredProfileSelection,
       resources: Object.fromEntries(this.resourceFlavors.entries()),
     };
   }
@@ -80,20 +101,23 @@ export class MarkdownFlavorState {
   }
 
   applyConfiguration(config: MarkdownFlavorConfiguration, openUris: Set<string>): boolean {
-    if (!this.isValidResourceMap(config.resources, openUris)) {
-      return false;
-    }
-    if (config.selection !== undefined && !isMarkdownFlavorSelection(config.selection)) {
-      return false;
-    }
-
     const before = JSON.stringify(this.snapshot());
-    if (config.selection !== undefined) {
+    if (config.selection !== undefined && isMarkdownFlavorSelection(config.selection)) {
       this.selection = config.selection;
     }
-    if (config.resources !== undefined) {
+    if (
+      config.structuredProfileSelection !== undefined &&
+      isStructuredProfileSelection(config.structuredProfileSelection)
+    ) {
+      this.structuredProfileSelection = config.structuredProfileSelection;
+    }
+    const resources =
+      config.resources === undefined
+        ? undefined
+        : this.sanitizedResourceEntries(config.resources, openUris);
+    if (resources !== undefined) {
       this.resourceFlavors.clear();
-      for (const [uri, value] of Object.entries(config.resources)) {
+      for (const [uri, value] of resources) {
         this.resourceFlavors.set(uri, value);
       }
     }
@@ -115,6 +139,8 @@ export class MarkdownFlavorState {
         selected: resource.selected,
         effective: resource.effective,
         source: 'resource-propagation',
+        structuredProfiles: resource.structuredProfiles ?? [],
+        structuredProfileSource: resource.structuredProfileSource ?? 'structured-profile-inference',
       };
     }
 
@@ -125,16 +151,40 @@ export class MarkdownFlavorState {
         selected: this.selection,
         effective: explicit,
         source: 'explicit-selection',
+        ...this.resolveStructuredProfileState(input),
       };
     }
 
     const project = explicitFlavor(input.projectTomlFlavor);
     if (project) {
-      return { kind: 'active', selected: 'auto', effective: project, source: 'project-toml' };
+      return {
+        kind: 'active',
+        selected: 'auto',
+        effective: project,
+        source: 'project-toml',
+        ...this.resolveStructuredProfileState(input),
+      };
     }
 
     if (input.hasObsidianMarker) {
-      return { kind: 'active', selected: 'auto', effective: 'obsidian', source: 'obsidian-marker' };
+      return {
+        kind: 'active',
+        selected: 'auto',
+        effective: 'obsidian',
+        source: 'obsidian-marker',
+        ...this.resolveStructuredProfileState(input),
+      };
+    }
+
+    const inferred = inferMarkdownFlavorFromSyntax(input.syntaxText);
+    if (inferred) {
+      return {
+        kind: 'active',
+        selected: 'auto',
+        effective: inferred,
+        source: 'syntax-inference',
+        ...this.resolveStructuredProfileState(input),
+      };
     }
 
     return {
@@ -142,29 +192,68 @@ export class MarkdownFlavorState {
       selected: 'auto',
       effective: 'commonmark',
       source: 'commonmark-fallback',
+      ...this.resolveStructuredProfileState(input),
     };
   }
 
-  private isValidResourceMap(
+  private resolveStructuredProfileState(input: ResolveFlavorInput): {
+    structuredProfiles: readonly StructuredMarkdownProfileId[];
+    structuredProfileSource: StructuredProfileResolutionSource;
+  } {
+    return resolveStructuredProfiles({
+      selection: input.structuredProfileSelection ?? this.structuredProfileSelection,
+      projectSelection: input.projectTomlStructuredProfiles,
+      uri: input.uri,
+      syntaxText: input.syntaxText,
+    });
+  }
+
+  private sanitizedResourceEntries(
     resources: Record<string, PropagatedResourceFlavor> | undefined,
     openUris: Set<string>,
-  ): boolean {
+  ): Array<[string, PropagatedResourceFlavor]> | undefined {
     if (resources === undefined) {
-      return true;
+      return [];
     }
     const entries = Object.entries(resources);
     if (entries.length > MAX_RESOURCE_FLAVOR_ENTRIES) {
-      return false;
+      return undefined;
     }
+    const sanitized: Array<[string, PropagatedResourceFlavor]> = [];
     for (const [uri, value] of entries) {
       if (!uri.startsWith('file://') || !openUris.has(uri)) {
-        return false;
+        return undefined;
+      }
+      if (!isRecord(value)) {
+        return undefined;
       }
       if (!isMarkdownFlavorSelection(value.selected) || !isMarkdownFlavorId(value.effective)) {
-        return false;
+        return undefined;
       }
+      if (!isPropagatedFlavorResolutionSource(value.source)) {
+        return undefined;
+      }
+      const structuredProfiles = value.structuredProfiles ?? [];
+      if (!Array.isArray(structuredProfiles) || !isValidStructuredProfileList(structuredProfiles)) {
+        return undefined;
+      }
+      const structuredProfileSource =
+        value.structuredProfileSource ?? 'structured-profile-inference';
+      if (!isStructuredProfileResolutionSource(structuredProfileSource)) {
+        return undefined;
+      }
+      sanitized.push([
+        uri,
+        {
+          selected: value.selected,
+          effective: value.effective,
+          source: value.source,
+          structuredProfiles,
+          structuredProfileSource,
+        },
+      ]);
     }
-    return true;
+    return sanitized;
   }
 }
 
@@ -177,4 +266,34 @@ export function isMarkdownFlavorSelection(value: unknown): value is MarkdownFlav
 
 function explicitFlavor(value: MarkdownFlavorSelection | undefined): MarkdownFlavorId | undefined {
   return value && value !== 'auto' ? value : undefined;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isStructuredProfileResolutionSource(
+  value: unknown,
+): value is StructuredProfileResolutionSource {
+  return (
+    value === 'explicit-selection' ||
+    value === 'project-toml' ||
+    value === 'structured-profile-inference' ||
+    value === 'none'
+  );
+}
+
+function isPropagatedFlavorResolutionSource(
+  value: unknown,
+): value is PropagatedResourceFlavor['source'] {
+  return (
+    value === 'explicit-selection' ||
+    value === 'resource-propagation' ||
+    value === 'project-toml' ||
+    value === 'obsidian-marker' ||
+    value === 'syntax-inference' ||
+    value === 'commonmark-fallback' ||
+    value === 'workspace-setting' ||
+    value === 'workspace-folder-setting'
+  );
 }

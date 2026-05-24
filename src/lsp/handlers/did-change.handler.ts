@@ -9,6 +9,7 @@ import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
 import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import type { ParseContext } from '../../parser/types.js';
 
 /** Parameters sent with a `textDocument/didChange` notification. */
 interface DidChangeTextDocumentParams {
@@ -46,7 +47,7 @@ export class DidChangeHandler {
     const updated = this.store.get(textDocument.uri);
     if (updated) {
       const doc = this.ofmParser.parse(textDocument.uri, updated.getText(), textDocument.version, {
-        effectiveFlavor: this.resolveFlavor(textDocument.uri, updated.languageId),
+        ...this.resolveParseContext(textDocument.uri, updated.languageId, updated.getText()),
       });
       this.parseCache.set(textDocument.uri, doc);
 
@@ -67,12 +68,9 @@ export class DidChangeHandler {
     this.diagnosticService!.publishDiagnostics(docId, doc, detection.vaultRoot);
   }
 
-  private resolveFlavor(
-    uri: string,
-    languageId: string,
-  ): ReturnType<OFMParser['parse']>['markdownFlavor'] {
+  private resolveParseContext(uri: string, languageId: string, syntaxText: string): ParseContext {
     if (this.flavorState === null) {
-      return 'obsidian';
+      return { effectiveFlavor: 'obsidian', structuredProfiles: [] };
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
@@ -81,7 +79,16 @@ export class DidChangeHandler {
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
       projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
+      projectTomlStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
+        detection.vaultRoot,
+      ),
+      syntaxText,
     });
-    return result.kind === 'active' ? result.effective : 'commonmark';
+    return result.kind === 'active'
+      ? {
+          effectiveFlavor: result.effective,
+          structuredProfiles: result.structuredProfiles,
+        }
+      : { effectiveFlavor: 'commonmark', structuredProfiles: [] };
   }
 }

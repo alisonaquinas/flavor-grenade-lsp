@@ -11,7 +11,7 @@ generate a machine-readable SBOM from `website/package.json` and
 |---|---|
 | Package | `flavor-grenade-lsp-website` |
 | Version | `0.0.0` |
-| Publication | Private npm package; static artifacts publish to GitHub Pages |
+| Publication | Private npm package; static artifacts publish to AWS S3 |
 | Source | <https://github.com/alisonaquinas/flavor-grenade-lsp> |
 | Author | Alison Aquinas |
 | Lockfile | `website/package-lock.json` |

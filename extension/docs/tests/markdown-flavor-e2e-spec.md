@@ -25,6 +25,9 @@ E2E fixtures validate user-visible results of the root
 | EXT-MF-E-008 | Invalid and precedence fixture | Open a workspace with invalid setting value, valid `.flavor-grenade.toml`, `.obsidian/`, and then an explicit selector override. | Invalid values are ignored; explicit selector outranks workspace/project/marker evidence; selector display and server refresh show the final effective flavor. |
 | EXT-MF-E-009 | Selector availability fixture | Open file-backed workspace-folder, workspace-only, Obsidian vault, generic Markdown, standalone, untitled, virtual, and non-`markdown` documents. | Selector is available for supported file-backed `markdown` contexts and inactive/hidden for unsupported, virtual, untitled, or non-`markdown` contexts. |
 | EXT-MF-E-010 | Host propagation fixture | Select representative `obsidian`, `gfm`, `mdx`, and `r-markdown` flavors while host logs record server notifications. | Effective flavor propagation is observed end-to-end without changing VS Code `languageId` away from `markdown`. |
+| EXT-MF-E-011 | Smoketest inference fixture | Open TOML-absent inference samples for MDX, R Markdown, Stack Overflow, Reddit, GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, and ambiguous GFM-like syntax. | Selector/status shows Auto Detect with the inferred strong flavor for unambiguous samples; ambiguous GFM-like syntax shows Auto Detect (CommonMark). |
+| EXT-MF-E-012 | Smoketest boundary fixture | Open the root `smoketest/README.md` in an isolated copy and from a development checkout with repository ancestor TOML. | Root README remains `markdown`, does not display OFM/Obsidian/project flavor, and does not start vault behavior because of child fixture TOML files or ancestor markers outside the workspace boundary. |
+| EXT-MF-E-013 | Structured profile smoketest fixture | Open Keep a Changelog, Common Changelog, and MADR examples from configured and TOML-absent inference smoke workspaces. | Status/propagation evidence shows the same base flavor result as the containing workspace plus the expected structured profile flag; structured profile ids never appear in the Markdown flavor selector, and opening one changelog variant does not activate the other. |
 
 ## Exit Criteria
 
@@ -36,6 +39,12 @@ E2E fixtures validate user-visible results of the root
   Detect clearing all pass.
 - Invalid setting fallback and precedence are proven in at least one real host
   fixture.
+- Syntax/context inference and ambiguous fallback are proven in real host
+  fixtures without TOML.
+- Fixture boundary behavior is proven so the root smoketest README remains a
+  negative control.
+- Structured profile behavior is proven for both changelog variants and MADR
+  across configured and TOML-absent inference smoke workspaces.
 - Selector availability is explicit for supported file-backed Markdown contexts
   and unsupported/virtual/non-Markdown contexts.
 - No E2E flow changes a `.md` document to a custom Markdown language id.

@@ -393,6 +393,31 @@ flavor/context state without requiring a custom Markdown language id.
 
 ---
 
+## Extension.MarkdownStructuredProfiles.Configuration
+
+**Tag:** Extension.MarkdownStructuredProfiles.Configuration
+**User Req:** User.ExtensionFlavor.ConfigureStructuredProfiles
+**Gist:** The extension must configure structured Markdown profile flags separately from `flavorGrenade.markdownFlavor`.
+**Ambition:** Users should be able to keep the base Markdown flavor selector focused on Markdown dialects while applying Keep a Changelog, Common Changelog, or MADR as independent document-structure flags.
+**Scale:** Percentage of supported structured-profile settings and auto-detection contexts that produce correct resource-specific profile flags without expanding the Markdown flavor list.
+**Meter:**
+
+1. Inspect `package.json` and verify `flavorGrenade.markdownFlavor` still contains only `auto` plus required base flavor ids.
+2. Verify a separate `flavorGrenade.markdownStructuredProfiles` setting accepts `"auto"`, `"none"`, or a unique compatible array using `keep-a-changelog`, `common-changelog`, and `madr`.
+3. Open `CHANGELOG.md` fixtures for Keep a Changelog and Common Changelog under different base flavor settings and verify profile flags are inferred independently of base flavor.
+4. Open MADR fixtures under `docs/decisions/` and verify `madr` is inferred from path, filename, metadata, and headings.
+5. Verify every configured and TOML-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
+6. Verify explicit VS Code structured-profile settings override automatic inference and propagate to the server with the active document resource.
+7. Verify workspace-folder/workspace/user scope rules mirror `flavorGrenade.markdownFlavor`.
+8. Compute: (correct structured-profile extension outcomes / total structured-profile extension outcomes) x 100.
+**Fail:** Any structured profile appears as a base Markdown flavor choice, any explicit structured profile setting is ignored, or any inferred structured profile leaks across workspace folders or unrelated documents.
+**Goal:** 100% structured profile configuration correctness.
+**Stakeholders:** VS Code users, release maintainers, architecture decision authors, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown structured profile flags](../../../../docs/design/markdown-structured-profile-flags.md), [Keep a Changelog research](../../../../docs/research/keep-a-changelog-analysis.md), [Common Changelog research](../../../../docs/research/common-changelog-analysis.md), [MADR research](../../../../docs/research/madr-analysis.md).
+
+---
+
 ## Extension.Workspace.EnvironmentModes
 
 **Tag:** Extension.Workspace.EnvironmentModes

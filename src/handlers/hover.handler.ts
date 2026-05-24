@@ -10,6 +10,7 @@ import type { EmbedEntry, MarkdownImageRef, WikiLinkEntry } from '../parser/type
 import type { DocId } from '../vault/doc-id.js';
 import { entityAtPosition } from './cursor-entity.js';
 import { classifyMarkdownTarget } from '../resolution/markdown-target-classifier.js';
+import { structuredProfileHover } from '../markdown-flavor/structured-profile-analysis.js';
 
 /** LSP MarkupContent value. */
 export interface MarkupContent {
@@ -59,6 +60,11 @@ export class HoverHandler {
   handle(params: HoverParams): HoverResult | null {
     const doc = this.parseCache.get(params.textDocument.uri);
     if (doc === undefined) return null;
+
+    const structuredHover = structuredProfileHover(doc, params.position);
+    if (structuredHover !== undefined) {
+      return { contents: { kind: 'markdown', value: structuredHover } };
+    }
 
     const entity = entityAtPosition(doc, params.position);
     switch (entity.kind) {

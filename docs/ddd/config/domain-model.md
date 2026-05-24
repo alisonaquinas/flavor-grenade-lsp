@@ -14,10 +14,10 @@ aliases:
 
 This document is the authoritative model for the configuration system in `flavor-grenade-lsp`. Config is a cross-cutting concern, not a full bounded context — it has no aggregate root and no domain events. It is a supporting module (`ConfigModule` in NestJS) that provides read-only `FlavorConfig` values and the shared Markdown flavor contract consumed by BC4, BC2, BC5, and BC6.
 
-See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
+See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/design/markdown-structured-profile-flags]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
-> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownFlavor` state.
+> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors and structured profile selections, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownContext` state: one base flavor plus zero or more structured profile flags.
 
 ---
 
@@ -47,6 +47,12 @@ vault_detection = "obsidian"
 # "auto" means BC4 resolves the effective flavor through MarkdownFlavorCascade.
 # Explicit values must be supported MarkdownFlavorId values.
 markdown.flavor = "auto"
+
+# Optional structured-document profile flags layered over the base flavor.
+# "auto" infers from filename/folder/content, "none" disables flags, and arrays
+# force specific supported StructuredMarkdownProfileId values.
+markdown.structured_profiles = "auto"
+# markdown.structured_profiles = ["keep-a-changelog"]
 
 [completion]
 # Maximum number of completion candidates returned per request
@@ -90,6 +96,7 @@ interface FlavorConfig {
     textSync:               'full' | 'incremental'
     vaultDetection:         'obsidian' | 'toml-only' | 'both'
     markdownFlavor:         MarkdownFlavorSelection
+    markdownStructuredProfiles: StructuredProfileSelection
   }
   completion: {
     candidates:    number               // must be > 0
@@ -127,6 +134,18 @@ type MarkdownFlavorId =
 
 type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
 
+type StructuredMarkdownProfileId =
+  | 'keep-a-changelog'
+  | 'common-changelog'
+  | 'madr'
+
+type StructuredProfileSelection =
+  | 'auto'
+  | 'none'
+  | readonly StructuredMarkdownProfileId[]
+
+// Explicit arrays must be unique and must not contain both changelog profiles.
+
 interface MarkdownFlavorProfile {
   id: MarkdownFlavorId
   label: string
@@ -135,6 +154,12 @@ interface MarkdownFlavorProfile {
   hostBoundaries: HostSpecificBoundary[]
   unsupportedConstructs: string[]
   sourceTrace: string[]
+}
+
+interface EffectiveMarkdownContext {
+  effectiveMarkdownFlavor: MarkdownFlavorId
+  profile: MarkdownFlavorProfile
+  structuredProfiles: readonly StructuredMarkdownProfileId[]
 }
 
 interface MarkdownSyntaxSurface {
@@ -175,8 +200,8 @@ interface HostSpecificBoundary {
 
 Consumers:
 
-- BC4 uses `MarkdownFlavorSelection` and `MarkdownFlavorProfile` metadata to resolve and store `EffectiveMarkdownFlavor`.
-- BC2 consumes only the explicit `EffectiveMarkdownFlavor` and relevant profile capability flags in `ParseContext`.
+- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata to resolve and store `EffectiveMarkdownContext`.
+- BC2 consumes only the explicit base `EffectiveMarkdownFlavor` and structured profile flags in `ParseContext`.
 - BC5 validates LSP configuration payloads against the supported selector set before dispatching to BC4/Config.
 - BC6 displays labels/order from the same contract and sends selector values; it does not define new ids.
 
@@ -185,6 +210,11 @@ Rules:
 - `auto` is allowed only as a `MarkdownFlavorSelection`.
 - `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
 - Unknown ids are invalid in both TOML and LSP configuration payloads.
+- Structured document profiles are independent flags. `keep-a-changelog`,
+  `common-changelog`, and `madr` are valid
+  `StructuredMarkdownProfileId` values, not valid `MarkdownFlavorId` values.
+- Structured profile flags are carried in `EffectiveMarkdownContext` alongside
+  the base flavor and may be mixed with any supported base flavor.
 - Profile metadata is deterministic and source-backed so tests can compare ids, labels, order, and trace coverage.
 - Feature pages in `docs/features/*-flavor.md` are the product-facing source for profile behavior. The Config contract converts those pages into machine-readable ids, syntax surfaces, unsupported constructs, and host boundaries.
 - Host references are not local vault references by default. GitHub/GitLab/Reddit/Stack Overflow object refs, Pandoc conversion behavior, R Markdown execution, and MDX language-mode ownership remain bounded unless a future integration explicitly crosses that boundary.
@@ -206,6 +236,17 @@ Rules:
 | `r-markdown` | [[docs/features/r-markdown-flavor]] | YAML metadata, chunks, inline R, chunk labels, citations, cross-references | R code is never executed by the LSP. |
 | `reddit` | [[docs/features/reddit-markdown-flavor]] | Reddit prose Markdown, spoilers, superscript, tables, platform links | Subreddit/user/comment references are classified, not live-resolved. |
 | `stack-overflow` | [[docs/features/stack-overflow-markdown-flavor]] | CommonMark base, code authoring, tables, spoilers, post/comment profiles, platform links | Stack Exchange question/user/tag refs require host context. |
+
+### Structured Profile Flags
+
+Structured profile flags are not part of the supported profile corpus above.
+They add document-structure rules on top of the active base flavor.
+
+| Profile id | Research | Applies to | Notes |
+|---|---|---|---|
+| `keep-a-changelog` | [[docs/research/keep-a-changelog-analysis]] | Keep a Changelog 1.1.0 files | May mix with any base Markdown flavor; mutually exclusive with `common-changelog`. |
+| `common-changelog` | [[docs/research/common-changelog-analysis]] | Common Changelog files | May mix with any base Markdown flavor; mutually exclusive with `keep-a-changelog`. |
+| `madr` | [[docs/research/madr-analysis]] | Markdown Architectural Decision Records | May mix with any base Markdown flavor and with non-changelog structured profiles. |
 
 ---
 
@@ -289,8 +330,13 @@ Tie-breakers:
 - If a VS Code workspace-folder/workspace setting and `.flavor-grenade.toml` both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
 - If both VS Code workspace-folder and workspace values exist, workspace-folder wins for documents under that folder.
 - A value of `auto` does not itself become effective state; it delegates to the next lower source.
-- Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownFlavor`; resolution continues to the next valid lower-priority source.
+- Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownContext`; resolution continues to the next valid lower-priority source.
 - `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
+
+Structured profile flags are resolved after `MarkdownFlavorCascade` and are
+document-specific. Explicit VS Code structured-profile settings beat TOML
+structured-profile settings; TOML beats automatic detection; `none` disables
+all structured profile behavior for the relevant scope.
 
 Example:
 
@@ -312,7 +358,9 @@ VS Code workspace-folder setting = gfm
 | `core.text_sync` | Must be `"full"` or `"incremental"` | Log warning; use `"full"` |
 | `core.vault_detection` | Must be `"obsidian"`, `"toml-only"`, or `"both"` | Log warning; use `"obsidian"` |
 | `core.markdown.flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Log warning; treat this layer as absent for flavor cascade |
+| `core.markdown.structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Log warning; treat this layer as absent for structured-profile resolution |
 | `flavorGrenade.markdownFlavor` from VS Code/LSP | Must be `"auto"` or a supported `MarkdownFlavorId` | Reject payload for flavor mutation; keep previous server state |
+| `flavorGrenade.markdownStructuredProfiles` from VS Code/LSP | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Reject payload for structured-profile mutation; keep previous server state |
 | `completion.wiki.style` | Must be one of the three enum values | Log warning; use `"file-stem"` |
 | `code_action.toc.include` | Each element must be an integer 1–6 | Remove out-of-range values; log warning if list becomes empty → use `[1,2,3,4,5,6]` |
 | Any TOML parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
@@ -355,7 +403,7 @@ ConfigModule
   └── FlavorConfigService    — thin wrapper; exposes getConfig(root?) for consumers
 
 Consumers:
-  VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownFlavor
+  VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownContext
   LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode); validates didChangeConfiguration payloads
   ReferenceModule ← (indirectly via VaultFolder config)
   DocumentModule ← (indirectly via BC4 ParseContext)
@@ -368,8 +416,8 @@ Consumers:
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed
 4. VaultFolder.withConfig(folder, newConfig) → new VaultFolder stored in Workspace
-5. BC4 re-runs MarkdownFlavorCascade for affected docs
-6. If any EffectiveMarkdownFlavor changed, BC4 schedules reparse/diagnostic refresh
+5. BC4 re-runs MarkdownFlavorCascade and structured profile resolution for affected docs
+6. If any EffectiveMarkdownContext changed, BC4 schedules reparse/diagnostic refresh
 7. LspServer optionally sends flavorGrenade/status notification to client
 ```
 
@@ -377,12 +425,15 @@ Consumers:
 
 ```text
 1. BC5 receives workspace/didChangeConfiguration
-2. BC5 extracts settings.flavorGrenade.markdownFlavor
-3. BC5 validates value against MarkdownFlavorSelection
+2. BC5 extracts settings.flavorGrenade.markdownFlavor and
+   settings.flavorGrenade.markdownStructuredProfiles
+3. BC5 validates values against MarkdownFlavorSelection and
+   StructuredProfileSelection
 4. Valid value:
    ConfigModule records the VS Code layer for the relevant workspace/folder scope
-   BC4 Workspace.withMarkdownFlavorSelection(...) mutates Workspace/VaultFolder state
-   BC4 recomputes EffectiveMarkdownFlavor and reparses affected docs if changed
+   BC4 Workspace.withMarkdownFlavorSelection(...) and
+   Workspace.withStructuredProfileSelection(...) mutate Workspace/VaultFolder state
+   BC4 recomputes EffectiveMarkdownContext and reparses affected docs if changed
 5. Invalid value:
    BC5 logs warning; workspace/didChangeConfiguration is a notification, so no error response is sent
    ConfigModule and BC4 keep previous state
@@ -403,6 +454,7 @@ The following table documents every built-in default value. These are the values
 | `core.text_sync` | `"full"` |
 | `core.vault_detection` | `"obsidian"` |
 | `core.markdown.flavor` | `"auto"` |
+| `core.markdown.structured_profiles` | `"auto"` |
 | `completion.candidates` | `50` |
 | `completion.wiki.style` | `"file-stem"` |
 | `completion.callout.enabled` | `true` |

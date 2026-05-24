@@ -1,10 +1,11 @@
-# GitHub Pages Website Project Brief
+# Static Website Project Brief
 
 ## Purpose
 
-Build a public GitHub Pages website for Flavor Grenade LSP. The site should
-explain the language server, the VS Code extension, and the Obsidian Flavored
-Markdown workflow in clear search-friendly pages.
+Build a public static website for Flavor Grenade LSP, distributed through AWS
+S3 or a CDN backed by AWS S3. The site should explain the language server, the
+VS Code extension, and the Obsidian Flavored Markdown workflow in clear
+search-friendly pages.
 
 The website is a product and documentation surface, not an internal engineering
 vault. It should help people decide whether Flavor Grenade fits their note
@@ -12,7 +13,7 @@ workflow, then get them from installation to productive use quickly.
 
 ## Goals
 
-- Publish a homepage for the project on GitHub Pages.
+- Publish a homepage for the project through AWS S3 static distribution.
 - Create a Karpathy-style LLM wiki: short linked pages, strong concepts, direct
   explanations, and examples that teach the model of the tool.
 - Use that wiki to keep standards high for LLM agents implementing and
@@ -186,8 +187,8 @@ FAQ should answer:
 
 ## Open Decisions
 
-- Site generator: plain GitHub Pages, VitePress, Astro, MkDocs, or another
-  static generator.
+- Site generator: Vite-only, SvelteKit static adapter, Astro, MkDocs, or
+  another static generator.
 - Visual direction for homepage screenshots and extension demo media.
 - Whether `website/docs` is the canonical public docs source or a staging area
   before generated pages move under `website/src`.

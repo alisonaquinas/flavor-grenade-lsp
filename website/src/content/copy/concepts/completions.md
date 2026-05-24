@@ -1,37 +1,45 @@
 ---
 title: "Completions | Flavor Grenade LSP"
-description: "Understand context-routed completions from the vault index, tag registry, and attachments."
+description: "Understand context-routed completions for links, headings, tags, attachments, flavor snippets, and structured profiles."
 h1: "Completions"
-summary: "Completions suggest the notes, headings, tags, and files that fit where you are typing."
+summary: "Completions suggest the links, headings, tags, files, snippets, and structured sections that fit where you are typing."
 related: ["conceptVaultIndex","conceptWikiLinkResolution","howToCompleteWikiLinksHeadings"]
 ---
 
 # Completions
 
-Completions suggest the notes, headings, tags, and files that fit where you are typing.
+Completions suggest the links, headings, tags, files, snippets, and structured sections that fit where you are typing.
 
 ## In plain English
 
-Completion looks at the cursor, the trigger text, and the vault index, then offers suggestions that make sense in that spot.
+Completion looks at the cursor, the trigger text, the project index, the configured Markdown flavor, and any structured profiles. Then it offers suggestions that make sense in that spot.
 
-Typing inside `[[...]]` should suggest notes or headings. Typing a tag prefix should suggest tags. That context keeps the list useful instead of dumping everything in the vault.
+Typing inside `[[...]]` should suggest notes or headings. Typing a Markdown link target can suggest local files or headings. Typing a tag prefix should suggest tags. In a structured document, heading completion can suggest the next expected section.
 
-## In a vault
+Flavor snippets are also context-aware. They should help insert syntax for the active Markdown flavor instead of offering every possible Markdown convention at once.
 
-The example starts with a note prefix and then narrows to a heading prefix, which is how many people build precise links while writing.
+## In a project
+
+The example starts with a wiki-link note prefix and then narrows to a heading prefix, which is how many people build precise links while writing.
 
 ```text
 Typing [[Pro can suggest [[Project Plan]] and typing [[Project Plan# can suggest its headings.
 ```
 
-## For future docs
+For Markdown links, the same project model can suggest local files or headings:
 
-Be clear that vault-wide note completion depends on vault mode. A loose file can be parsed, but it does not give Flavor Grenade a full vault to search.
+```text
+Typing [overview](./do can suggest ./docs/overview.md.
+```
+
+## Why it matters
+
+Be clear that project-wide completion depends on project detection. A loose file can be parsed, but it does not give Flavor Grenade a full index to search.
 
 ## Try this
 
-Type `[[Pro` in a vault with `Project Plan.md`, then type `[[Project Plan#` after the note exists. The first completion proves note candidates came from the index; the second proves heading candidates came from the resolved target. If either candidate is missing, the article should guide users toward root detection, indexing, and trigger context.
+Type `[[Pro` in a project with `Project Plan.md`, then type `[[Project Plan#` after the note exists. The first completion proves note candidates came from the index; the second proves heading candidates came from the resolved target. If either candidate is missing, the article should guide users toward root detection, indexing, and trigger context.
 
-If suggestions are missing, check the basics first: was the vault detected, did indexing finish, and is the cursor in a place where OFM completion applies?
+If suggestions are missing, check the basics first: was the project detected, did indexing finish, is the flavor what you expect, and is the cursor in a place where that completion applies?
 
-The suggestion list should feel local to the moment. A note prefix should not bury you in tags, and a heading prefix should come from the note you already named. That is why completion depends on both the index and the exact text around the cursor. The context tells Flavor Grenade which part of the vault is useful right now.
+The suggestion list should feel local to the moment. A note prefix should not bury you in tags, and a heading prefix should come from the note or file you already named. That is why completion depends on both the index and the exact text around the cursor. The context tells Flavor Grenade which part of the project is useful right now.

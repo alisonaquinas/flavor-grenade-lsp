@@ -7,6 +7,8 @@ import {
   MARKDOWN_FLAVOR_LABELS,
   MARKDOWN_FLAVOR_SELECTIONS,
   MARKDOWN_FLAVOR_SETTING,
+  MARKDOWN_STRUCTURED_PROFILES_SETTING,
+  STRUCTURED_MARKDOWN_PROFILE_IDS,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   buildMarkdownFlavorConfigurationNotification,
   createMarkdownFlavorQuickPickItems,
@@ -50,18 +52,56 @@ describe('Markdown flavor selector schema', () => {
       activationEvents?: string[];
       contributes?: {
         commands?: Array<{ command?: string }>;
-        configuration?: { properties?: Record<string, { enum?: string[]; default?: string }> };
+        configuration?: {
+          properties?: Record<
+            string,
+            {
+              enum?: string[];
+              default?: string;
+              oneOf?: Array<{
+                enum?: string[];
+                items?: { enum?: string[] };
+                not?: { allOf?: unknown[] };
+              }>;
+            }
+          >;
+        };
       };
     };
 
     const schema = manifest.contributes?.configuration?.properties?.[MARKDOWN_FLAVOR_SETTING];
+    const structuredSchema =
+      manifest.contributes?.configuration?.properties?.[MARKDOWN_STRUCTURED_PROFILES_SETTING];
 
     assert.deepEqual(MARKDOWN_FLAVOR_SELECTIONS, REQUIRED_SELECTIONS);
     assert.deepEqual(schema?.enum, [...REQUIRED_SELECTIONS]);
     assert.equal(schema?.default, 'auto');
+    assert.deepEqual(STRUCTURED_MARKDOWN_PROFILE_IDS, [
+      'keep-a-changelog',
+      'common-changelog',
+      'madr',
+    ]);
+    assert.equal(structuredSchema?.default, 'auto');
+    assert.ok(
+      structuredSchema?.oneOf?.some((entry: { enum?: string[] }) =>
+        entry.enum?.includes('auto'),
+      ),
+    );
+    assert.ok(
+      structuredSchema?.oneOf?.some((entry: { items?: { enum?: string[] } }) =>
+        entry.items?.enum?.includes('madr'),
+      ),
+    );
+    assert.ok(
+      structuredSchema?.oneOf?.some(
+        (entry: { not?: { allOf?: unknown[] } }) => entry.not?.allOf !== undefined,
+      ),
+    );
     assert.ok(manifest.activationEvents?.includes(`onCommand:${MARKDOWN_FLAVOR_COMMAND}`));
     assert.ok(
-      manifest.contributes?.commands?.some((command) => command.command === MARKDOWN_FLAVOR_COMMAND),
+      manifest.contributes?.commands?.some(
+        (command) => command.command === MARKDOWN_FLAVOR_COMMAND,
+      ),
     );
   });
 
@@ -78,7 +118,9 @@ describe('Markdown flavor selector schema', () => {
 
 describe('Markdown flavor document scope', () => {
   it('selects file-backed Markdown documents only', () => {
-    assert.deepEqual(MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR, [{ scheme: 'file', language: 'markdown' }]);
+    assert.deepEqual(MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR, [
+      { scheme: 'file', language: 'markdown' },
+    ]);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md')), true);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md', 'ofmarkdown')), false);
     assert.equal(isFlavorEligibleDocument(document('file:///vault/note.md', 'plaintext')), false);
@@ -99,6 +141,8 @@ describe('Markdown flavor resolution', () => {
         selected: 'auto',
         effective: 'commonmark',
         source: 'commonmark-fallback',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
       },
     );
 
@@ -113,6 +157,8 @@ describe('Markdown flavor resolution', () => {
         selected: 'auto',
         effective: 'gfm',
         source: 'project-toml',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
       },
     );
 
@@ -127,6 +173,8 @@ describe('Markdown flavor resolution', () => {
         selected: 'auto',
         effective: 'obsidian',
         source: 'obsidian-marker',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
       },
     );
   });
@@ -142,6 +190,8 @@ describe('Markdown flavor resolution', () => {
         selected: 'original',
         effective: 'original',
         source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
       },
     );
 
@@ -153,6 +203,361 @@ describe('Markdown flavor resolution', () => {
       { kind: 'inactive', reason: 'non-markdown-language' },
     );
   });
+
+  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+    const cases = [
+      {
+        expected: 'mdx',
+        text: ["import Chart from './Chart'", '', '<Chart value={total} />'].join('\n'),
+      },
+      {
+        expected: 'r-markdown',
+        text: ['Rows: `r nrow(airquality)`', '', '```{r setup}', 'x <- 1', '```'].join('\n'),
+      },
+      {
+        expected: 'stack-overflow',
+        text: ['See [tag:markdown].', '<!-- language-all: lang-js -->'].join('\n'),
+      },
+      {
+        expected: 'reddit',
+        text: ['>!spoiler text!<', 'Visit r/ObsidianMD and u/example.'].join('\n'),
+      },
+      {
+        expected: 'glfm',
+        text: ['[[_TOC_]]', 'See #123 and !456.'].join('\n'),
+      },
+      {
+        expected: 'pandoc',
+        text: ['% Pandoc Title', '% Ada', '', 'See @doe99.'].join('\n'),
+      },
+      {
+        expected: 'multimarkdown',
+        text: ['Title: MultiMarkdown', 'Author: Ada', '', '# Intro [sec:intro]'].join('\n'),
+      },
+      {
+        expected: 'kramdown',
+        text: ['# Heading {#custom .hero}', '', 'Paragraph', '{:.lead}'].join('\n'),
+      },
+      {
+        expected: 'markdown-extra',
+        text: ['*[HTML]: Hyper Text Markup Language', '', 'Paragraph', '{#custom .hero}'].join(
+          '\n',
+        ),
+      },
+    ] as const;
+
+    for (const testCase of cases) {
+      assert.deepEqual(
+        resolveMarkdownFlavor({
+          document: document(`file:///workspace/${testCase.expected}.md`),
+          selected: 'auto',
+          syntaxText: testCase.text,
+        }),
+        {
+          kind: 'active',
+          selected: 'auto',
+          effective: testCase.expected,
+          source: 'syntax-inference',
+          structuredProfiles: [],
+          structuredProfileSource: 'structured-profile-inference',
+        },
+        `${testCase.expected} should infer from strong syntax`,
+      );
+    }
+  });
+
+  it('keeps weak shared syntax and Original-like documents on CommonMark fallback', () => {
+    for (const text of [
+      ['| Task | State |', '| --- | --- |', '| Fixture | Ready |', '', '- [x] checked'].join('\n'),
+      ['Original Title', '==============', '', 'Paragraph with [link](target.md).'].join('\n'),
+    ]) {
+      assert.deepEqual(
+        resolveMarkdownFlavor({
+          document: document('file:///workspace/ambiguous.md'),
+          selected: 'auto',
+          syntaxText: text,
+        }),
+        {
+          kind: 'active',
+          selected: 'auto',
+          effective: 'commonmark',
+          source: 'commonmark-fallback',
+          structuredProfiles: [],
+          structuredProfileSource: 'structured-profile-inference',
+        },
+      );
+    }
+  });
+
+  it('resolves structured profile flags independently from the base flavor', () => {
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed old flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed bug ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: ['common-changelog'],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '## Changelog',
+          '',
+          '## [Unreleased]',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature.',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo.',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Release Notes',
+          '',
+          '# Changelog',
+          '',
+          '## [Unreleased]',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature.',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo.',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1]).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2]).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed old flag ([#3]).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed bug ([#4]).',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Notes',
+          '',
+          '- Release note.',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed old flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed bug ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.0.0 - 2026-05-23',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed old flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed bug ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Changelog',
+          '',
+          '## 1.1.0 - 2026-05-23',
+          '',
+          '### Changed',
+          '',
+          '- API: changed behavior ([#1](https://example.com/1)).',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature ([#2](https://example.com/2)).',
+          '',
+          '## 1.0.0 - 2026-05-22',
+          '',
+          '### Removed',
+          '',
+          '- UI: removed old flag ([#3](https://example.com/3)).',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed bug ([#4](https://example.com/4)).',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/docs/decisions/0001-use-context.md'),
+        selected: 'obsidian',
+        structuredProfileSelection: 'none',
+        syntaxText: '## Context and Problem Statement\n\n## Decision Outcome',
+      }),
+      {
+        kind: 'active',
+        selected: 'obsidian',
+        effective: 'obsidian',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'none',
+      },
+    );
+  });
 });
 
 describe('Markdown flavor status presentation', () => {
@@ -162,6 +567,8 @@ describe('Markdown flavor status presentation', () => {
       selected: 'auto',
       effective: 'obsidian',
       source: 'obsidian-marker',
+      structuredProfiles: [],
+      structuredProfileSource: 'structured-profile-inference',
     });
 
     assert.equal(presentation.text, '$(symbol-misc) Markdown: Obsidian');
@@ -241,11 +648,14 @@ describe('Markdown flavor server propagation', () => {
             settings: {
               flavorGrenade: {
                 markdownFlavor: flavor,
+                markdownStructuredProfiles: 'auto',
                 markdownFlavorResources: {
                   [note.uri.toString()]: {
                     selected: flavor,
                     effective: flavor,
                     source: 'explicit-selection',
+                    structuredProfiles: [],
+                    structuredProfileSource: 'structured-profile-inference',
                   },
                 },
               },
@@ -254,6 +664,42 @@ describe('Markdown flavor server propagation', () => {
         },
       );
     }
+  });
+
+  it('propagates explicit structured profile selections with resource state', () => {
+    const note = document('file:///workspace/adr.md');
+    const resolved = resolveMarkdownFlavor({
+      document: note,
+      selected: 'commonmark',
+      structuredProfileSelection: ['madr'],
+    });
+
+    assert.equal(resolved.kind, 'active');
+    assert.deepEqual(
+      buildMarkdownFlavorConfigurationNotification({
+        states: [{ document: note, resolution: resolved }],
+      }),
+      {
+        method: 'workspace/didChangeConfiguration',
+        params: {
+          settings: {
+            flavorGrenade: {
+              markdownFlavor: 'commonmark',
+              markdownStructuredProfiles: ['madr'],
+              markdownFlavorResources: {
+                [note.uri.toString()]: {
+                  selected: 'commonmark',
+                  effective: 'commonmark',
+                  source: 'explicit-selection',
+                  structuredProfiles: ['madr'],
+                  structuredProfileSource: 'explicit-selection',
+                },
+              },
+            },
+          },
+        },
+      },
+    );
   });
 
   it('does not propagate unsafe, stale, or inactive resources', () => {
