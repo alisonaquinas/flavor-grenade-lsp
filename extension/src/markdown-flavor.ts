@@ -572,11 +572,13 @@ function hasMadrEvidence(uri: string, text: string): boolean {
 }
 
 function headingTexts(text: string, level: number): string[] {
-  const pattern = new RegExp(`^${'#'.repeat(level)}\\s+(.+?)\\s*$`, 'gim');
   const result: string[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = pattern.exec(text)) !== null) {
-    result.push(match[1].trim());
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.replace(/\r$/, '');
+    const match = /^(#{1,6})\s+(.+?)\s*$/.exec(line);
+    if (match !== null && match[1].length === level) {
+      result.push(match[2].trim());
+    }
   }
   return result;
 }
