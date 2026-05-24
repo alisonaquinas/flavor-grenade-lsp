@@ -5,6 +5,7 @@ import { VaultIndex } from '../../vault/vault-index.js';
 import type { OFMDoc, EmbedEntry, WikiLinkEntry, HeadingEntry } from '../../parser/types.js';
 import type { EmbedResolution, EmbedResolver } from '../../resolution/embed-resolver.js';
 import type { DocId } from '../../vault/doc-id.js';
+import { OFMParser } from '../../parser/ofm-parser.js';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -99,6 +100,39 @@ describe('HoverHandler', () => {
       position: { line: 0, character: 0 },
     });
     expect(result).toBeNull();
+  });
+
+  it('returns structured profile hover text for active profile headings', () => {
+    const parser = new OFMParser();
+    const doc = parser.parse(
+      'file:///vault/docs/decisions/0001-use-adrs.md',
+      [
+        '---',
+        'status: accepted',
+        '---',
+        '# Use ADRs',
+        '',
+        '## Context and Problem Statement',
+        '',
+        '## Considered Options',
+        '',
+        '### MADR',
+        '',
+        '* Good, because it is structured.',
+        '',
+        '## Decision Outcome',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'obsidian', structuredProfiles: ['madr'] },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const result = handler.handle({
+      textDocument: { uri: doc.uri },
+      position: { line: 5, character: 4 },
+    });
+
+    expect(result?.contents.value).toBe('MADR decision-record section.');
   });
 
   // -------------------------------------------------------------------------

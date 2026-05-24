@@ -288,4 +288,30 @@ describe('FoldingRangeHandler', () => {
 
     expect(ranges).toContainEqual({ startLine: 2, endLine: 4, kind: 'region' });
   });
+
+  it('adds structured profile folding ranges when a profile is active', () => {
+    const doc = parser.parse(
+      'file:///vault/CHANGELOG.md',
+      [
+        '# Changelog',
+        '',
+        '## [Unreleased]',
+        '',
+        '### Added',
+        '',
+        '- Work',
+        '',
+        '### Fixed',
+        '',
+        '- Bug',
+      ].join('\n'),
+      1,
+      { effectiveFlavor: 'gfm', structuredProfiles: ['keep-a-changelog'] },
+    );
+    parseCache.set(doc.uri, doc);
+
+    const ranges = handler.handle({ textDocument: { uri: doc.uri } });
+
+    expect(ranges).toContainEqual({ startLine: 2, endLine: 10, kind: 'region' });
+  });
 });

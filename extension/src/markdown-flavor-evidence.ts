@@ -1,5 +1,5 @@
-import { open, stat } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { open, realpath, stat } from 'node:fs/promises';
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
 import {
   isMarkdownFlavorSelection,
   isStructuredProfileSelection,
@@ -11,6 +11,7 @@ const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
 
 type StatFn = typeof stat;
+type RealpathFn = (path: string) => Promise<string>;
 type ReadFileFn = (path: string, encoding: 'utf8') => Promise<string>;
 
 export interface MarkdownFlavorEvidence {
@@ -24,22 +25,56 @@ export async function findMarkdownFlavorEvidence(
   filePath: string,
   options: {
     readFileFn?: ReadFileFn;
+    realpathFn?: RealpathFn;
     searchBoundary?: string;
     statFn?: StatFn;
   } = {},
 ): Promise<MarkdownFlavorEvidence> {
   const statFn = options.statFn ?? stat;
+  const realpathFn = options.realpathFn ?? ((path: string) => realpath(path));
   const searchBoundary = options.searchBoundary ? resolve(options.searchBoundary) : undefined;
-  let current = dirname(filePath);
+  const startPath = searchBoundary === undefined ? filePath : resolve(filePath);
+  if (searchBoundary !== undefined && !isPathWithinOrEqual(startPath, searchBoundary)) {
+    return {
+      hasFlavorConfigMarker: false,
+      hasObsidianMarker: false,
+    };
+  }
+  const realBoundary =
+    searchBoundary === undefined ? undefined : await realpathOrUndefined(searchBoundary, realpathFn);
+  if (searchBoundary !== undefined && realBoundary === undefined) {
+    return {
+      hasFlavorConfigMarker: false,
+      hasObsidianMarker: false,
+    };
+  }
+  const realStart =
+    realBoundary === undefined ? undefined : await realpathOrUndefined(startPath, realpathFn);
+  if (
+    realBoundary !== undefined &&
+    (realStart === undefined || !isPathWithinOrEqual(realStart, realBoundary))
+  ) {
+    return {
+      hasFlavorConfigMarker: false,
+      hasObsidianMarker: false,
+    };
+  }
+  let current = dirname(startPath);
   let foundObsidianMarker = false;
 
   while (true) {
     const obsidianPath = join(current, '.obsidian');
-    const hasObsidianMarker = await markerExists(obsidianPath, 'directory', statFn);
+    const hasObsidianMarker =
+      (await markerExists(obsidianPath, 'directory', statFn)) &&
+      (realBoundary === undefined ||
+        (await realpathIsWithinOrEqual(obsidianPath, realBoundary, realpathFn)));
     foundObsidianMarker ||= hasObsidianMarker;
 
     const configPath = join(current, PROJECT_CONFIG_FILE);
-    const hasFlavorConfigMarker = await markerExists(configPath, 'file', statFn);
+    const hasFlavorConfigMarker =
+      (await markerExists(configPath, 'file', statFn)) &&
+      (realBoundary === undefined ||
+        (await realpathIsWithinOrEqual(configPath, realBoundary, realpathFn)));
     if (hasFlavorConfigMarker) {
       const config = await readProjectMarkdownConfig(configPath, {
         readFileFn: options.readFileFn,
@@ -76,6 +111,31 @@ export async function findMarkdownFlavorEvidence(
       };
     }
     current = parent;
+  }
+}
+
+function isPathWithinOrEqual(childPath: string, parentPath: string): boolean {
+  const relativePath = relative(parentPath, childPath);
+  return relativePath === '' || (!relativePath.startsWith('..') && !isAbsolute(relativePath));
+}
+
+async function realpathIsWithinOrEqual(
+  childPath: string,
+  parentPath: string,
+  realpathFn: RealpathFn,
+): Promise<boolean> {
+  const realChild = await realpathOrUndefined(childPath, realpathFn);
+  return realChild !== undefined && isPathWithinOrEqual(resolve(realChild), resolve(parentPath));
+}
+
+async function realpathOrUndefined(
+  path: string,
+  realpathFn: RealpathFn,
+): Promise<string | undefined> {
+  try {
+    return await realpathFn(path);
+  } catch {
+    return undefined;
   }
 }
 

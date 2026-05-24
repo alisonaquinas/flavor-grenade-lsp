@@ -81,6 +81,22 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     expect(harness.state.snapshot().structuredProfileSelection).toEqual(['madr']);
   });
 
+  it('treats excessively deep untrusted configuration payloads as unsafe', async () => {
+    const harness = createHarness();
+    const root: Record<string, unknown> = {};
+    let cursor = root;
+    for (let index = 0; index < 150; index++) {
+      const next: Record<string, unknown> = {};
+      cursor.next = next;
+      cursor = next;
+    }
+    cursor.settings = { flavorGrenade: { markdownFlavor: 'gfm' } };
+
+    await expect(harness.handler.handle(root)).resolves.toBeUndefined();
+
+    expect(harness.state.snapshot().selection).toBe('auto');
+  });
+
   it('accepts every required selector id and rejects unsupported ids without mutation', async () => {
     const harness = createHarness();
 

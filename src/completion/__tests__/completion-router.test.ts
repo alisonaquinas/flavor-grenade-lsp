@@ -30,6 +30,7 @@ function makeDoc(
     callouts = [] as string[],
     frontmatter = null as Record<string, unknown> | null,
     markdownFlavor = 'obsidian' as OFMDoc['markdownFlavor'],
+    structuredProfiles = [] as NonNullable<OFMDoc['parseContext']['structuredProfiles']>,
   } = {},
 ): OFMDoc {
   return {
@@ -63,7 +64,7 @@ function makeDoc(
       linkLabelDefs: [],
     },
     markdownFlavor,
-    parseContext: { effectiveFlavor: markdownFlavor },
+    parseContext: { effectiveFlavor: markdownFlavor, structuredProfiles },
   };
 }
 
@@ -239,6 +240,53 @@ describe('CompletionRouter', () => {
       expect(tableResult.items.map((item) => item.label)).toContain('GFM table');
       expect(taskResult.items.map((item) => item.label)).toContain('GFM task item');
       expect(wikiResult.items).toHaveLength(0);
+    });
+  });
+
+  describe('structured profile routing', () => {
+    it('offers Keep a Changelog category completions when the profile is active', () => {
+      const uri = 'file:///vault/CHANGELOG.md';
+      const doc = makeDoc(uri, {
+        markdownFlavor: 'gfm',
+        structuredProfiles: ['keep-a-changelog'],
+      });
+      parseCache.set(uri, doc);
+      router.setDocumentText(uri, '### ');
+
+      const result = router.route(makeParams(uri, '### '));
+
+      expect(result.items.map((item) => item.label)).toContain('Keep a Changelog Security');
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 4 }, end: { line: 0, character: 4 } },
+        newText: expect.any(String),
+      });
+    });
+
+    it('replaces only partial structured heading text', () => {
+      const uri = 'file:///vault/CHANGELOG.md';
+      const doc = makeDoc(uri, {
+        markdownFlavor: 'gfm',
+        structuredProfiles: ['keep-a-changelog'],
+      });
+      parseCache.set(uri, doc);
+      router.setDocumentText(uri, '### Sec');
+
+      const result = router.route(makeParams(uri, '### Sec'));
+
+      expect(result.items.map((item) => item.label)).toEqual(['Keep a Changelog Security']);
+      expect(result.items[0].textEdit).toEqual({
+        range: { start: { line: 0, character: 4 }, end: { line: 0, character: 7 } },
+        newText: 'Security',
+      });
+    });
+
+    it('does not offer structured completions when no structured profile is active', () => {
+      const uri = 'file:///vault/CHANGELOG.md';
+      const doc = makeDoc(uri, { markdownFlavor: 'gfm' });
+      parseCache.set(uri, doc);
+      router.setDocumentText(uri, '### ');
+
+      expect(router.route(makeParams(uri, '### '))).toEqual({ items: [], isIncomplete: false });
     });
   });
 

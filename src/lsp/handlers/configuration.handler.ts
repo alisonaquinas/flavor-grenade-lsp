@@ -120,18 +120,28 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function hasDangerousPrototypeKey(value: unknown): boolean {
-  if (Array.isArray(value)) {
-    return value.some((item) => hasDangerousPrototypeKey(item));
-  }
-  if (!isRecord(value)) {
-    return false;
-  }
-  for (const key of Object.keys(value)) {
-    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+  const stack: Array<{ value: unknown; depth: number }> = [{ value, depth: 0 }];
+  let visited = 0;
+  while (stack.length > 0) {
+    const current = stack.pop()!;
+    visited += 1;
+    if (visited > 10_000 || current.depth > 100) {
       return true;
     }
-    if (hasDangerousPrototypeKey(value[key])) {
-      return true;
+    if (Array.isArray(current.value)) {
+      for (const item of current.value) {
+        stack.push({ value: item, depth: current.depth + 1 });
+      }
+      continue;
+    }
+    if (!isRecord(current.value)) {
+      continue;
+    }
+    for (const key of Object.keys(current.value)) {
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        return true;
+      }
+      stack.push({ value: current.value[key], depth: current.depth + 1 });
     }
   }
   return false;

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import type { Range } from 'vscode-languageserver-types';
 import { ParseCache } from '../parser/parser.module.js';
 import type { HeadingEntry } from '../parser/types.js';
+import { structuredProfileSymbols } from '../markdown-flavor/structured-profile-analysis.js';
 
 const SYMBOL_KIND_MODULE = 2; // SymbolKind.Module (used for headings)
 const SYMBOL_KIND_KEY = 20; // SymbolKind.Key (used for block anchors)
@@ -68,6 +69,7 @@ export class DocumentSymbolHandler {
     const redditHostReferences = doc.index.redditHostReferences ?? [];
     const stackOverflowTables = doc.index.stackOverflowTables ?? [];
     const stackOverflowTagReferences = doc.index.stackOverflowTagReferences ?? [];
+    const structuredSymbols = structuredProfileSymbols(doc);
 
     if (
       headings.length === 0 &&
@@ -100,7 +102,8 @@ export class DocumentSymbolHandler {
       redditTables.length === 0 &&
       redditHostReferences.length === 0 &&
       stackOverflowTables.length === 0 &&
-      stackOverflowTagReferences.length === 0
+      stackOverflowTagReferences.length === 0 &&
+      structuredSymbols.length === 0
     )
       return [];
 
@@ -462,6 +465,16 @@ export class DocumentSymbolHandler {
       this.addSymbolAtLine(symbol, reference.range.start.line, headings, roots);
     }
 
+    for (const structured of structuredSymbols) {
+      const symbol: DocumentSymbol = {
+        name: structured.name,
+        kind: SYMBOL_KIND_STRING,
+        range: structured.range,
+        selectionRange: structured.selectionRange,
+      };
+      this.addSymbolAtLine(symbol, structured.range.start.line, headings, roots);
+    }
+
     return roots;
   }
 
@@ -502,19 +515,27 @@ export class DocumentSymbolHandler {
 
     if (lastHeadingIdx === -1) return null;
 
-    // Find the corresponding DocumentSymbol by traversing the tree
     const targetHeading = headings[lastHeadingIdx];
-    return this.findSymbolByName(roots, targetHeading.text);
+    return this.findSymbolByRange(roots, targetHeading.range);
   }
 
-  private findSymbolByName(symbols: DocumentSymbol[], name: string): DocumentSymbol | null {
+  private findSymbolByRange(symbols: DocumentSymbol[], range: Range): DocumentSymbol | null {
     for (const sym of symbols) {
-      if (sym.name === name) return sym;
+      if (sameRange(sym.selectionRange, range)) return sym;
       if (sym.children !== undefined) {
-        const found = this.findSymbolByName(sym.children, name);
+        const found = this.findSymbolByRange(sym.children, range);
         if (found !== null) return found;
       }
     }
     return null;
   }
+}
+
+function sameRange(left: Range, right: Range): boolean {
+  return (
+    left.start.line === right.start.line &&
+    left.start.character === right.start.character &&
+    left.end.line === right.end.line &&
+    left.end.character === right.end.character
+  );
 }

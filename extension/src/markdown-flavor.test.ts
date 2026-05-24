@@ -333,6 +333,66 @@ describe('Markdown flavor resolution', () => {
         selected: 'gfm',
         structuredProfileSelection: 'auto',
         syntaxText: [
+          '## Changelog',
+          '',
+          '## [Unreleased]',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature.',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo.',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
+          '# Release Notes',
+          '',
+          '# Changelog',
+          '',
+          '## [Unreleased]',
+          '',
+          '### Added',
+          '',
+          '- CLI: added feature.',
+          '',
+          '### Fixed',
+          '',
+          '- Docs: fixed typo.',
+        ].join('\n'),
+      }),
+      {
+        kind: 'active',
+        selected: 'gfm',
+        effective: 'gfm',
+        source: 'explicit-selection',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      },
+    );
+
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/CHANGELOG.md'),
+        selected: 'gfm',
+        structuredProfileSelection: 'auto',
+        syntaxText: [
           '# Changelog',
           '',
           '## 1.0.0 - 2026-05-23',

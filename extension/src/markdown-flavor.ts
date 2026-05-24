@@ -479,7 +479,8 @@ function inferChangelogProfile(
   uri: string,
   text: string,
 ): 'keep-a-changelog' | 'common-changelog' | undefined {
-  if (!/CHANGELOG\.md$/i.test(uri) || !/^#\s+Changelog\s*$/im.test(text)) {
+  const first = firstHeading(text);
+  if (!/CHANGELOG\.md$/i.test(uri) || first?.level !== 1 || first.text !== 'Changelog') {
     return undefined;
   }
 
@@ -535,6 +536,19 @@ function releaseBlocks(text: string): Array<{ heading: string; text: string }> {
 
 function sameStringList(left: readonly string[], right: readonly string[]): boolean {
   return left.length === right.length && left.every((value, index) => value === right[index]);
+}
+
+function firstHeading(text: string): { level: number; text: string } | undefined {
+  let body = text;
+  if (body.startsWith('---')) {
+    const closing = body.indexOf('\n---', 3);
+    if (closing >= 0) {
+      body = body.slice(closing + 4);
+    }
+  }
+  const match = /^(#{1,6})\s+(.+?)\s*$/m.exec(body);
+  if (match === null) return undefined;
+  return { level: match[1].length, text: match[2].trim() };
 }
 
 function hasMadrEvidence(uri: string, text: string): boolean {
