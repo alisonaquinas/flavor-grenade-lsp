@@ -9,10 +9,7 @@ be able to inspect the repository, list available skills, and install
 Marketplace layout:
 
 ```text
-skill/
-├── README.md
-├── marketplace.json
-├── docs/
+skills/
 └── flavorgrenade-lsp/
     ├── SKILL.md
     ├── README.md
@@ -23,10 +20,18 @@ skill/
     ├── wrappers/
     ├── examples/
     └── docs/
+skill/
+├── README.md
+├── marketplace.json
+└── docs/
 ```
 
-`skill/docs/` is the source specification set. `skill/flavorgrenade-lsp/docs/`
+`skill/docs/` is the source specification set. `skills/flavorgrenade-lsp/docs/`
 is the packaged user documentation copied into releases.
+
+The installable skill source lives under `skills/` because current `add-skill`
+discovery checks that directory before falling back to recursive search.
+`skill/` is reserved for marketplace metadata and product specifications.
 
 ## Marketplace Manifest
 
@@ -41,7 +46,7 @@ is the packaged user documentation copied into releases.
     {
       "name": "flavorgrenade-lsp",
       "package": "flavorgrenade-lsp-skill",
-      "path": "skill/flavorgrenade-lsp",
+      "path": "skills/flavorgrenade-lsp",
       "description": "Flavor-aware Markdown analysis for LLM agents using Flavor Grenade LSP.",
       "tags": ["markdown", "lsp", "claude-code", "codex"],
       "license": "MIT",
@@ -52,6 +57,26 @@ is the packaged user documentation copied into releases.
 ```
 
 The manifest must be validated in CI.
+
+`skill/marketplace.json` is project metadata for this repository. It must not be
+the only discovery mechanism. The installable `SKILL.md` under `skills/` remains
+the compatibility surface for `add-skill` and other repository scanners.
+
+## Skill Entrypoint Metadata
+
+`skills/flavorgrenade-lsp/SKILL.md` must include YAML frontmatter accepted by
+`add-skill` discovery:
+
+```markdown
+---
+name: flavorgrenade-lsp
+description: Flavor-aware Markdown analysis for LLM agents using Flavor Grenade LSP.
+---
+```
+
+The `name` must match `skill/marketplace.json`, the package manifest install
+name, and installer examples. CI must fail if `name` or `description` is
+missing.
 
 ## Installer Compatibility
 
@@ -90,6 +115,8 @@ Package requirements:
 
 - package name: `flavorgrenade-lsp-skill`
 - executable bin: `flavorgrenade`
+- package version must equal `manifest.json` version when `package.json` is
+  present
 - package files limited to skill runtime, wrappers, docs, examples, manifest,
   checksums, and signatures
 - no source repository history

@@ -75,8 +75,8 @@ Agents that do not have first-class skill support may still use the package by
 running wrappers directly:
 
 ```bash
-node skill/flavorgrenade-lsp/wrappers/flavorgrenade.mjs verify-install --json
-node skill/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze README.md --json
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs verify-install --json
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze README.md --json
 ```
 
 The wrapper command must not depend on agent-specific environment variables.
@@ -122,5 +122,5 @@ Each skill release must publish a matrix:
 |---|---|---|---|---|---|
 | `0.1.0` | `0.5.x` | `1.0` | supported | supported | Initial embedded executable release |
 
-The matrix belongs in `skill/flavorgrenade-lsp/docs/compatibility.md` in the
+The matrix belongs in `skills/flavorgrenade-lsp/docs/compatibility.md` in the
 released artifact.

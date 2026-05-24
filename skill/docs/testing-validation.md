@@ -19,6 +19,7 @@ Unit tests must cover:
 - platform and architecture target mapping
 - unsupported platform failure
 - manifest schema validation
+- `SKILL.md` frontmatter validation for `name` and `description`
 - package version and manifest version alignment
 - digest verification success and failure
 - executable path resolution
@@ -36,6 +37,7 @@ Integration tests must cover:
 - `analyze` returns flavor and symbols for CommonMark
 - `detect` honors TOML configuration
 - `detect` explains inference when config is absent
+- `explain-flavor` returns ordered decision steps and rejected candidates
 - root `README.md` does not default to OFM without evidence
 - changelog files return structured variants
 - MADR files return structured variants

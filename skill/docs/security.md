@@ -14,7 +14,8 @@ supply-chain substitution of the embedded executable.
 - No shell command strings built from user input.
 - Spawn the executable with argv arrays.
 - Verify executable digest before launch.
-- Verify signatures when the required verifier is available.
+- Verify signatures when the required verifier is available, unless the user
+  explicitly disables runtime signature verification.
 - Reject paths outside the selected workspace.
 - Reject unsupported URI schemes.
 - Do not execute Markdown code blocks.
@@ -36,6 +37,11 @@ Wrappers must:
 4. Confirm final paths remain inside root.
 5. Reject device paths, UNC surprises, unsupported schemes, and path traversal.
 6. Pass paths as argv values or JSON-RPC data, not shell-expanded strings.
+
+`--include` and `--exclude` globs must be parsed by wrapper code after workspace
+root resolution. They must never be delegated to shell expansion, and every
+matched path must pass the same workspace confinement checks as direct path
+arguments.
 
 ## Output Limits
 
@@ -110,6 +116,12 @@ Each release artifact must include:
 
 The wrapper must verify the executable digest every time before launch. Archive
 signature verification is part of install and release validation.
+
+Runtime signature verification is a defense-in-depth check on top of mandatory
+digest verification. `--no-signature-check` may skip only this runtime Sigstore
+check; it must not bypass digest verification, release-time archive signature
+verification, or CI validation. `--require-signature` must fail closed if the
+verifier is missing or signature verification cannot complete.
 
 ## Security Tests
 

@@ -45,6 +45,7 @@ version, changelog, release notes, and release workflow.
 The first complete skill release must provide:
 
 - a valid `SKILL.md` with concise agent instructions
+- `SKILL.md` YAML frontmatter with matching `name` and `description` metadata
 - an embedded native executable for each released runtime target
 - a runtime resolver that chooses the correct executable
 - executable digest verification before launch

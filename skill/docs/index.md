@@ -28,9 +28,9 @@ from this repo using compatible skill installers.
 |---|---|
 | Package name | `flavorgrenade-lsp-skill` |
 | Install name | `flavorgrenade-lsp` |
-| Skill entrypoint | `skill/flavorgrenade-lsp/SKILL.md` |
+| Skill entrypoint | `skills/flavorgrenade-lsp/SKILL.md` |
 | Skill docs | `skill/docs/` |
-| Skill changelog | `skill/flavorgrenade-lsp/CHANGELOG.md` |
+| Skill changelog | `skills/flavorgrenade-lsp/CHANGELOG.md` |
 | Skill tag pattern | `skill-v*.*.*` |
 | Skill test tag pattern | `skill-v*.*.*-test*` |
 
@@ -50,7 +50,9 @@ from this repo using compatible skill installers.
 
 Current `add-skill` documentation describes installing skills from GitHub
 shorthand, full Git URLs, direct subpaths, and local paths, with agent targets
-including `claude-code` and `codex`. This spec therefore treats
+including `claude-code` and `codex`. It discovers valid skills from
+`SKILL.md` files with `name` and `description` frontmatter and checks `skills/`
+as a priority directory. This spec therefore treats
 `npx add-skill alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp` as a
 required install path and treats `npx skill` compatibility as a packaging alias
 target that must be verified against the selected installer before release.

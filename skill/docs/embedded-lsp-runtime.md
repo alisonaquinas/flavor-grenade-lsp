@@ -27,7 +27,7 @@ targets.
 Runtime-specific artifacts should contain one executable target:
 
 ```text
-skill/flavorgrenade-lsp/
+skills/flavorgrenade-lsp/
 ├── SKILL.md
 ├── README.md
 ├── CHANGELOG.md
@@ -89,7 +89,8 @@ The runtime resolver must:
 7. Verify the executable exists.
 8. Verify executable permissions on Unix-like platforms.
 9. Compute SHA-256 and compare to the manifest.
-10. Optionally verify Sigstore bundle when `cosign` is available.
+10. Verify the Sigstore bundle when `cosign` is available, unless runtime
+    signature verification is explicitly disabled.
 11. Run a minimal LSP `initialize` handshake.
 
 The resolver must never download a replacement binary.
@@ -117,7 +118,7 @@ Long-lived server reuse is out of scope for S1.
 | Unsupported platform | Exit non-zero and list supported targets |
 | Missing executable | Exit non-zero and suggest reinstall |
 | Digest mismatch | Exit non-zero; do not launch executable |
-| Signature verification unavailable | Warn only when digest verification passes |
+| Signature verification unavailable | Warn only when digest verification passes, or fail when `--require-signature` is set |
 | Signature verification fails | Exit non-zero |
 | LSP handshake fails | Exit non-zero with redacted troubleshooting data |
 | Timeout | Kill child process and return structured error |

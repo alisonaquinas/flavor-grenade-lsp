@@ -124,6 +124,8 @@ Each artifact must include:
   SHA-256 digest, and signing bundle path
 - a generated install verification report
 - a short `SKILL.md` entrypoint optimized for agent use
+- `SKILL.md` YAML frontmatter with `name: flavorgrenade-lsp` and a concise
+  `description` so repository skill installers can discover it
 - no source repository history, local config, `.env` files, caches, or test
   output
 
@@ -231,7 +233,10 @@ Stable JSON result envelope:
   "skillVersion": "0.1.0",
   "serverVersion": "0.5.0",
   "platform": "linux-x64",
-  "workspaceRoot": "/repo",
+  "workspace": {
+    "root": ".",
+    "mode": "workspace"
+  },
   "files": [],
   "diagnostics": [],
   "flavors": [],
@@ -290,6 +295,8 @@ Required controls:
 - no shell interpolation of user-supplied paths
 - spawn the executable with an argv array, never a shell command string
 - reject paths outside the requested workspace root
+- interpret `--include` and `--exclude` globs inside the wrapper after
+  workspace confinement, never through shell expansion
 - reject unsupported URI schemes before sending analysis requests
 - never execute Markdown code blocks, MDX imports, R chunks, Pandoc filters, or
   renderer hooks
@@ -405,6 +412,7 @@ Release CI must run:
 CI must fail if:
 
 - `SKILL.md` references a command that is not packaged
+- `SKILL.md` lacks required `name` or `description` frontmatter
 - a manifest executable digest does not match the bundled executable
 - a wrapper command shells out with unescaped user input
 - a runtime target is missing from the compatibility matrix

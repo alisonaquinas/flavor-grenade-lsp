@@ -29,6 +29,7 @@ behind `--pretty`.
 | `folds <path>` | Return folding ranges |
 | `hover <path>:<line>:<character>` | Return hover data at a position |
 | `completions <path>:<line>:<character>` | Return completions at a position |
+| `explain-flavor <path>` | Return the flavor decision tree, confidence, evidence, and fallback behavior |
 | `variants <path>` | Return structured-profile variants |
 | `refs <path>` | Return local references, unresolved references, and non-local boundaries |
 
@@ -43,7 +44,8 @@ behind `--pretty`.
 | `--max-bytes <number>` | Per-file byte cap |
 | `--include <glob>` | Include Markdown files matching a glob |
 | `--exclude <glob>` | Exclude files matching a glob |
-| `--no-signature-check` | Skip optional Sigstore verification but keep digest verification |
+| `--require-signature` | Fail if Sigstore verification cannot run or fails |
+| `--no-signature-check` | Skip runtime Sigstore verification only; digest verification remains mandatory |
 | `--trace` | Emit redacted request timing and runtime metadata |
 
 No option may require interactive input.
@@ -152,6 +154,40 @@ Detection must distinguish:
 - syntax inference
 - structured-profile inference
 - fallback default
+
+## Explain Flavor Result
+
+`explain-flavor` returns the same decision evidence as `detect`, plus ordered
+rule evaluation and rejected candidates.
+
+```json
+{
+  "path": "README.md",
+  "selected": {
+    "baseFlavor": "gfm",
+    "variants": [],
+    "confidence": "medium"
+  },
+  "decisionTree": [
+    {
+      "step": "toml-config",
+      "matched": false,
+      "reason": "No .flavor-grenade.toml found."
+    },
+    {
+      "step": "syntax-inference",
+      "matched": true,
+      "evidence": ["task-list", "table"]
+    }
+  ],
+  "rejected": [
+    {
+      "baseFlavor": "obsidian",
+      "reason": "No vault marker, wiki-link, embed, or Obsidian-specific syntax."
+    }
+  ]
+}
+```
 
 ## Diagnostics Result
 
