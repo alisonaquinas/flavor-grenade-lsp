@@ -76,6 +76,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | W6    | Website Review Polish | ✅ complete | Browser-reviewed homepage visual feedback is implemented, tested, and verified on mobile and desktop | 2026-05-09 | PR #58 CI green |
 | W7    | Website Guide Prose And Article Hubs | ✅ complete | How-to, concept, and advanced article pages build with dropdown navigation, linked hub pages, concrete prose, and asset evidence | 2026-05-09 | PR #61 CI green |
 | W8    | Commonloom Content Pipeline | ✅ complete | TASK-279 removed `website/src/content/pipeline/commonloom`; full local W8 gate and PR #65 CI run `25705556117` passed. Prior PR #64 merged at `9569e37` with green CI. | 2026-05-10 | 2026-05-12 |
+| S1    | Flavor Grenade LSP Skill Product | ⏳ planned | Versioned skill artifacts install locally, wrap the native executable, and publish through a separate skill release flow | — | — |
 
 ---
 
@@ -241,6 +242,19 @@ baseline because the public website documents both the LSP server and VS Code
 extension. Phase W8 depends on W7 because it migrates the existing article hubs
 and public copy into the Commonloom Markdown pipeline.
 
+```text
+Skill Product Phases:
+
+Phase 34 ──► Phase S1
+Native executable release pipeline ──► Phase S1
+```
+
+Skill product phases use `S`-prefixed numbering to distinguish separately
+versioned and separately released LLM skill artifacts from server, extension,
+and website work. Phase S1 packages a runtime-specific native executable behind
+agent-friendly wrappers and owns its own changelog, version, release tags, and
+release workflow.
+
 ---
 
 ## Notes
@@ -252,3 +266,6 @@ and public copy into the Commonloom Markdown pipeline.
 - Website phases use `W`-prefixed numbering (W1–W8). Their gates are verified
   with website-local npm scripts, repository docs lint, and GitHub Actions
   evidence once CI is wired.
+- Skill product phases use `S`-prefixed numbering. Their gates are verified
+  with skill-local tests, native executable install smoke tests, package
+  assembly checks, and separate skill release workflow evidence.
