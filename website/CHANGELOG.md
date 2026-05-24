@@ -8,11 +8,20 @@ The website is a private package and publishes from `site-v*` release tags.
 
 ## [Unreleased]
 
+### Added
+
+- Add public guides for choosing Markdown flavors, using structured profiles,
+  and applying Flavor Grenade code actions.
+- Add concept pages for the Markdown flavor model and structured profile flags.
+
 ### Changed
 
 - Replace the GitHub Pages release workflow with an AWS S3 publishing workflow
   that uses GitHub Actions OIDC, `site-v*` tags, and the protected
   `website-production` environment.
+- Refresh website copy for flavor-aware Markdown, Auto Detect, CommonMark
+  fallback, structured profiles, hovers, symbols, folds, semantic tokens, and
+  code actions.
 
 ## [0.0.0] - 2026-05-23
 

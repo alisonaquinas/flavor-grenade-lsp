@@ -96,7 +96,7 @@ export function generateJsonLd(
     {
       '@context': 'https://schema.org',
       '@type': 'HowTo',
-      name: 'Use Flavor Grenade LSP with an Obsidian Vault',
+      name: 'Use Flavor Grenade LSP with a Markdown workspace',
       step: howToRoutes.map((route, index) => ({
         '@type': 'HowToStep',
         position: index + 1,

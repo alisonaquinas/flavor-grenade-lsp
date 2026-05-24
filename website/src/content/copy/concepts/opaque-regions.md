@@ -24,7 +24,7 @@ A documentation page can show `[[Example Link]]` inside a code fence without cre
 A code fence containing [[Example Link]] should remain sample text, not a broken vault link.
 ```
 
-## For future docs
+## Why it matters
 
 Keep sample OFM inside fenced code. When a link should really resolve, put it in normal prose.
 

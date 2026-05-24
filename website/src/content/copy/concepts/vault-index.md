@@ -24,7 +24,7 @@ This example shows one note becoming a stable identity plus the facts Flavor Gre
 notes/Daily.md -> DocId notes/Daily -> [[Project Plan]], #project/flavor-grenade, ![[diagram.png]].
 ```
 
-## For future docs
+## Why it matters
 
 Do not describe each feature as building its own private version of the vault. If a behavior needs parsed note data, describe it as coming from the index or from something derived from the index.
 

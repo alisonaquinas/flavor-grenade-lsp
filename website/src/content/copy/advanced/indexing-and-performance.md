@@ -12,29 +12,29 @@ Learn why the right indexed files make vault features faster and more trustworth
 
 ## Index lifecycle
 
-Indexing starts by scanning the vault, reading Markdown files, and storing the facts Flavor Grenade needs later.
+Indexing starts by scanning the detected vault or project, reading Markdown files, resolving the effective Markdown flavor, and storing the facts Flavor Grenade needs later.
 
-A healthy lifecycle should feel boring: scan, parse, store facts, refresh when files change, then let every feature read the same state.
+A healthy lifecycle should feel boring: scan, parse with the active flavor and structured profiles, store facts, refresh when files change, then let every feature read the same state.
 
 ```text
-.obsidian/ root -> scan -> parse -> VaultIndex -> diagnostics/completions/references
+.obsidian/ or .flavor-grenade.toml -> scan -> parse -> VaultIndex -> diagnostics/completions/references
 ```
 
 ## Large vaults
 
-Use ignore rules for generated docs, exports, and vendor folders so user-authored notes stay fast and precise.
+Use ignore rules for generated docs, exports, and vendor folders so user-authored notes stay fast and precise. Generated website output and copied package documentation usually should not drive vault suggestions.
 
 Large vaults often contain copied documentation, build output, or archives that should not drive completion. Keeping those folders out of the active index improves speed and makes diagnostics easier to trust.
 
 ## Performance boundary
 
-The index is the shared source of truth; individual features should not invent a second private model of the vault.
+The index is the shared source of truth; individual features should not invent a second private model of the vault, the active Markdown flavor, or the local path graph.
 
 Duplicate models drift. That is how completion can see one target while rename sees another. Prefer data that can be rebuilt from the same indexed documents.
 
 ## Practical check
 
-Use a small sample vault to explain the lifecycle, then name the real-world knobs: ignored folders, generated output, large archives, and file watching. Users do not need implementation internals before they understand that every feature depends on the same parsed document set.
+Use a small sample vault to explain the lifecycle, then name the real-world knobs: ignored folders, generated output, large archives, selected Markdown flavor, structured profiles, and file watching. Users do not need implementation internals before they understand that every feature depends on the same parsed document set.
 
 For examples, use a before-and-after story: a generated docs folder pollutes completion, then an ignore rule removes it from the active index. That makes performance guidance practical.
 

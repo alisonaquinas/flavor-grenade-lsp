@@ -60,8 +60,11 @@ describe('website shell navigation and theme modes', () => {
         'How-To',
         [
           'Use the VS Code Extension',
-          'Configure Obsidian Vaults',
+          'Configure Markdown Workspaces',
+          'Choose a Markdown Flavor',
+          'Use Structured Profiles',
           'Fix Broken Links',
+          'Use Code Actions',
           'Rename Notes Safely',
           'Complete Wiki-links and Headings',
           'Navigate Notes, Headings, Blocks, Embeds, and Attachments',
@@ -74,7 +77,9 @@ describe('website shell navigation and theme modes', () => {
         'Concepts',
         [
           'Inspiration and Prior Art',
-          'Obsidian Flavored Markdown',
+          'Obsidian Flavored Markdown and Markdown Flavors',
+          'Markdown Flavor Model',
+          'Structured Profiles',
           'Vault Index',
           'Wiki-link Resolution',
           'DocId and Vault-Relative Paths',
