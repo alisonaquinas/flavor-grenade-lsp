@@ -147,6 +147,84 @@ jobs:
 
       - run: bun run build
 
+  release-binary-signing-pr-dry-run:
+    name: Release binary signing dry run (PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Build Linux native binary candidate
+        run: bun run build:binary
+
+      - name: Rename binary with release suffix
+        run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Validate signing prerequisites without OIDC
+        run: |
+          test -s dist/flavor-grenade-lsp-linux-x64
+          cosign version
+          cosign sign-blob --help >/dev/null
+          cosign verify-blob --help >/dev/null
+
+  release-binary-signing-oidc-dry-run:
+    name: Release binary signing dry run (OIDC)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_type == 'branch'
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Build Linux native binary candidate
+        run: bun run build:binary
+
+      - name: Rename binary with release suffix
+        run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Sign and verify binary with GitHub OIDC
+        run: |
+          binary_path="dist/flavor-grenade-lsp-linux-x64"
+          bundle_path="${binary_path}.sigstore.json"
+
+          cosign sign-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --tlog-upload=false \
+            --yes
+
+          cosign verify-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --certificate-identity-regexp "^https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/heads/(main|develop)$" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            --insecure-ignore-tlog
+
   markdown-lint-docs:
     name: Markdown lint (OFM docs — markdownlint-obsidian)
     runs-on: ubuntu-latest
@@ -265,10 +343,23 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
-    # Only run on release tag pushes, not branch pushes or PRs.
-    # Test tags use npm's native dry-run mode below.
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [typecheck, lint, dependency-policy, test, bdd, build, markdown-lint-docs, markdown-lint-other, format, website-checks, extension-checks]
+    # Only run on production release tag pushes, not branch pushes, PRs, or
+    # signing-only test tags.
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs:
+      [
+        typecheck,
+        lint,
+        dependency-policy,
+        test,
+        bdd,
+        build,
+        markdown-lint-docs,
+        markdown-lint-other,
+        format,
+        website-checks,
+        extension-checks,
+      ]
     environment: npm-publish
     # id-token: write is required for OIDC trusted publishing (keyless).
     # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
@@ -323,9 +414,4 @@ jobs:
         # omitting it causes npm to return E404 even for unscoped packages.
         # Bun registry is not targeted — it lacks OIDC support (oven-sh/bun#22423)
         # and packages on npmjs.org are installable via `bun add` regardless.
-        run: |
-          if [[ "$GITHUB_REF_NAME" == *-test* ]]; then
-            npm publish --dry-run --access public
-          else
-            npm publish --provenance --access public
-          fi
+        run: npm publish --provenance --access public
