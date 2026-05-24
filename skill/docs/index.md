@@ -58,8 +58,8 @@ including `claude-code` and `codex`. It discovers valid skills from
 `SKILL.md` files with `name` and `description` frontmatter and checks `skills/`
 as a priority directory. This spec therefore treats
 `npx add-skill alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp` as a
-required install path and treats `npx skill` compatibility as a packaging alias
-target that must be verified against the selected installer before release.
+required install path. `npx skill` remains an open compatibility target until a
+specific CLI contract is selected and verified.
 
 Sources:
 

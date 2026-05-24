@@ -32,7 +32,8 @@ plugins/
     ├── commands/
     ├── agents/
     ├── hooks/
-    ├── mcp/
+    ├── codex/
+    ├── .mcp.json
     └── lsp/
 ```
 
@@ -105,15 +106,16 @@ npx add-skill alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp --globa
 ```
 
 The product should also be shaped so an installer exposed as `npx skill` can use
-the same repository and skill metadata:
+the same repository and skill metadata after a concrete CLI contract is
+selected:
 
 ```bash
 npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp
 npx skill list alisonaquinas/flavor-grenade-lsp
 ```
 
-`npx skill` is a compatibility requirement, not yet a verified concrete CLI
-contract in this repo. Before implementation closes, S1 must either:
+`npx skill` is an open compatibility target, not a verified S1 requirement.
+Before any release claims `npx skill` support, S1 must either:
 
 - validate a specific `npx skill` CLI and document exact syntax, or
 - record that `npx add-skill` is the supported installer and keep `npx skill`

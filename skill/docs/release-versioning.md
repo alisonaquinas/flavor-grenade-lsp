@@ -140,7 +140,8 @@ Release CI must verify:
 - every plugin artifact includes the target embedded LSP runtime and handshake
   verification report
 - `npx add-skill` repository install fixture passes
-- `npx skill` compatibility is either verified or explicitly marked deferred
+- `npx skill` compatibility is either verified with a selected CLI contract or
+  explicitly left as an open compatibility target
 - JSON schema snapshots pass
 - hostile fixture tests pass
 

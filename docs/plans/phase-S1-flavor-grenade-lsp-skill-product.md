@@ -83,6 +83,8 @@ explicitly chooses matching versions for a coordinated release.
 
 The skill ships as a small directory bundle:
 
+Source layout:
+
 ```text
 skills/flavorgrenade-lsp/
 ├── SKILL.md
@@ -90,14 +92,12 @@ skills/flavorgrenade-lsp/
 ├── CHANGELOG.md
 ├── manifest.json
 ├── bin/
-│   ├── darwin-arm64/flavor-grenade-lsp
-│   ├── darwin-x64/flavor-grenade-lsp
-│   ├── linux-x64/flavor-grenade-lsp
-│   └── win-x64/flavor-grenade-lsp.exe
+│   └── <target>/flavor-grenade-lsp[.exe]
 ├── wrappers/
-│   ├── flavorgrenade-analyze.mjs
-│   ├── flavorgrenade-lsp-client.mjs
-│   └── flavorgrenade-runtime.mjs
+│   ├── flavorgrenade.mjs
+│   ├── lsp-client.mjs
+│   ├── runtime.mjs
+│   └── schema.mjs
 ├── examples/
 │   ├── mixed-flavors/
 │   ├── inferred-flavors/
@@ -107,9 +107,12 @@ skills/flavorgrenade-lsp/
     └── skill-smoke.test.mjs
 ```
 
+Runtime artifact layout must include exactly one `bin/<target>/` executable
+unless an all-platform archive is explicitly introduced by a later decision.
+
 The distributable artifact may be published as one archive per runtime target
-or as one archive containing all runtime targets. The first release should
-prefer per-runtime archives to avoid unnecessarily large installs:
+or as one archive containing all runtime targets. The first release must use
+per-runtime archives to avoid unnecessarily large installs:
 
 | Artifact | Contents |
 |---|---|

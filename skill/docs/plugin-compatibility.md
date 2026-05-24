@@ -38,10 +38,10 @@ plugins/
     │   ├── markdown-flavor-reviewer.md
     │   └── markdown-release-auditor.md
     ├── hooks/
-    │   ├── claude-hooks.json
-    │   └── codex-hooks.json
-    ├── mcp/
-    │   └── servers.json
+    │   └── hooks.json
+    ├── codex/
+    │   └── hooks.json
+    ├── .mcp.json
     ├── lsp/
     │   └── servers.json
     ├── assets/
@@ -57,7 +57,8 @@ but source specs and tests must preserve the distinction between:
 - `commands/`: slash-command or command prompt files
 - `agents/`: specialized subagent definitions
 - `hooks/`: local advisory automation
-- `mcp/`: optional MCP metadata
+- `.mcp.json`: optional local MCP metadata
+- `codex/`: generated or Codex-specific compatibility metadata
 - `lsp/`: required LSP metadata for plugin hosts that support LSP declarations
 
 ## Mandatory Embedded LSP
@@ -97,19 +98,19 @@ Claude plugin releases must include:
   "homepage": "https://flavor-grenade.dev/",
   "repository": "https://github.com/alisonaquinas/flavor-grenade-lsp",
   "license": "MIT",
-  "keywords": ["markdown", "lsp", "flavor", "documentation"],
-  "skills": "./skills/",
-  "commands": ["./commands/"],
-  "agents": ["./agents/"],
-  "hooks": "./hooks/claude-hooks.json",
-  "mcpServers": "./mcp/servers.json",
-  "lspServers": "./lsp/servers.json"
+  "keywords": ["markdown", "lsp", "flavor", "documentation"]
 }
 ```
 
-Claude plugin files must use paths relative to the plugin root. Any command that
-invokes the embedded executable must use a plugin-root-relative wrapper path and
-must not require global installation.
+Claude plugin component discovery is driven by the plugin root layout. The
+manifest must stay limited to fields accepted by the current Claude plugin
+validator. If a validator version accepts explicit component path fields such as
+`skills`, `commands`, `agents`, `hooks`, `mcpServers`, or `lspServers`, the
+release may add them only after validation proves those paths are accepted.
+
+Claude plugin files must use paths relative to the plugin root. Hook files use
+`hooks/hooks.json`. Any command that invokes the embedded executable must use a
+plugin-root-relative wrapper path and must not require global installation.
 
 ## Codex Plugin Manifest
 
@@ -120,26 +121,26 @@ Codex plugin releases must include:
   "name": "flavorgrenade-lsp",
   "version": "0.1.0",
   "description": "Flavor-aware Markdown analysis for Codex using Flavor Grenade LSP.",
-  "skills": "./skills/",
-  "hooks": "./hooks/codex-hooks.json",
-  "mcpServers": "./mcp/servers.json"
+  "skills": "./skills/"
 }
 ```
 
 Codex compatibility has a stricter validation posture. Fields that are not
 accepted by the installed Codex plugin validator must be omitted from
-`.codex-plugin/plugin.json` even if Claude supports equivalent fields. Commands,
-agents, LSP declarations, and apps must be added only after the selected Codex
-version validates them.
+`.codex-plugin/plugin.json` even if Claude supports equivalent fields. Hooks,
+commands, agents, MCP declarations, LSP declarations, and apps must be added
+only after the selected Codex version validates them. Codex-specific hook config
+may be packaged under `codex/hooks.json` as data, but the manifest must not
+reference it until validation accepts the field.
 
 The outer plugin directory name and `.codex-plugin/plugin.json` `name` value
 must match the normalized plugin name `flavorgrenade-lsp`.
 
 ## Slash Commands
 
-The plugin must provide command prompt files for common workflows. Commands must
-be thin entrypoints that tell the agent to call the wrapper; they must not
-duplicate the server's logic.
+The plugin must provide curated command prompt files for common workflows.
+Commands must be thin entrypoints that tell the agent to call the wrapper; they
+must not duplicate the server's logic.
 
 Required command files:
 
@@ -158,9 +159,14 @@ Each command must include:
 - safety reminder about no code execution
 - fallback if install verification fails
 
-Claude may expose these as slash commands through its plugin command support.
-Codex must either expose them through a validated command mechanism or keep them
-as documented prompt files for future compatibility.
+These are curated shortcuts, not the complete wrapper surface. All required
+wrapper commands from `commands-and-json.md` must remain available through
+`wrappers/flavorgrenade.mjs`, and validation must prove each curated command
+references an existing wrapper command.
+
+Claude may expose the curated prompt files as slash commands through its plugin
+command support. Codex must either expose them through a validated command
+mechanism or keep them as documented prompt files for future compatibility.
 
 ## Hooks
 
@@ -184,9 +190,9 @@ Hook requirements:
 - hooks must not fail unrelated non-Markdown edits
 - hooks must not execute Markdown code blocks or renderer hooks
 
-Claude hooks may use the Claude plugin `hooks` field. Codex hooks may use the
-Codex `hooks` field only if the selected Codex version accepts the field during
-validation.
+Claude hooks use `hooks/hooks.json` when hooks are packaged. Codex hooks may use
+the Codex `hooks` field only if the selected Codex version accepts the field
+during validation; otherwise Codex hook config remains packaged documentation.
 
 ## Specialized Agents
 
@@ -211,7 +217,7 @@ added later, it must be local-only and wrap the same embedded executable.
 
 MCP config rules:
 
-- omit MCP fields if no MCP server files are packaged
+- omit MCP fields if no `.mcp.json` file is packaged
 - never declare remote MCP servers for Markdown analysis
 - use plugin-root-relative command paths
 - keep MCP output schemas aligned with `commands-and-json.md`
@@ -219,11 +225,10 @@ MCP config rules:
 
 ## LSP Declarations
 
-The plugin must include an LSP declaration for the embedded Flavor Grenade
-runtime. Claude supports plugin LSP server declarations, so the Claude plugin
-manifest must reference `./lsp/servers.json`. Codex must include the same LSP
-metadata file in the archive even when `.codex-plugin/plugin.json` omits the
-field because the selected Codex validator does not yet accept it.
+The plugin artifact must include LSP metadata for the embedded Flavor Grenade
+runtime. Manifest exposure is host-specific and must be gated by validator and
+documentation evidence. The LSP metadata file is mandatory even when a host
+manifest omits an LSP field because the selected validator does not accept it.
 
 LSP declaration rules:
 
@@ -232,8 +237,8 @@ LSP declaration rules:
 - preserve digest verification before launch
 - do not bypass wrapper safety checks for agent-facing commands
 - include `lsp/servers.json` in every plugin artifact
-- omit the `lspServers` field from Codex plugin metadata only when Codex
-  rejects that manifest field; do not omit the packaged LSP metadata itself
+- include manifest `lspServers` fields only when the target host validator
+  accepts them; do not omit the packaged LSP metadata itself
 
 ## Settings And Assets
 
@@ -259,7 +264,8 @@ CI must validate:
 - plugin manifest component paths exist
 - Claude command files exist for required commands
 - hook files exist when referenced
-- MCP files exist only when referenced
+- `.mcp.json` exists only when referenced by a validated manifest or release
+  metadata
 - LSP files exist in every plugin artifact
 - every plugin artifact includes the target runtime executable, manifest,
   digest, and LSP handshake verification report
@@ -267,6 +273,8 @@ CI must validate:
   runtime resolver or target executable
 - Codex manifest omits unsupported fields for the selected Codex validator
 - every command file references a packaged wrapper command
+- every required wrapper command remains available through
+  `wrappers/flavorgrenade.mjs`, even when no curated command prompt exists
 - hooks are advisory and Markdown-scoped
 
 ## Release Requirements
