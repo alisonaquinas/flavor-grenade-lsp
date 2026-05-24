@@ -2,7 +2,7 @@
 
 ## Scope
 
-The Flavor Grenade website must be a static site generated for GitHub Pages. It
+The Flavor Grenade website must be a static site generated for AWS S3. It
 will live under `website/` and publish compiled assets only. Source content and
 implementation must stay independent from the LSP server runtime.
 
@@ -14,7 +14,7 @@ implementation must stay independent from the LSP server runtime.
 | Svelte | Required UI component framework for the main website shell and docs-oriented interactions. |
 | TypeScript | Required scripting language; all website scripts must be strictly typechecked and linted. |
 | SCSS | Required styling authoring format for site-level styles, tokens, layout, and component styling. |
-| GitHub Pages | Required static hosting target. |
+| AWS S3 | Required static distribution target. |
 | commonloom | Required package for W8 Markdown content generation, sanitization, diagnostics, and source traces. |
 | zod | Required only where the local website adapter validates Flavor Grenade manifests or generated content models directly. |
 
@@ -33,7 +33,8 @@ implementation must stay independent from the LSP server runtime.
   that choice.
 - The build must not require a server process at runtime.
 - Any dynamic behavior must run in the browser after static assets load.
-- The generated site must support direct GitHub Pages hosting.
+- The generated site must support direct AWS S3 static hosting or AWS S3 as a
+  CDN origin.
 
 ## Vite Requirements
 
@@ -41,9 +42,9 @@ implementation must stay independent from the LSP server runtime.
 - Configure `root` to the website app directory once the implementation starts.
 - Configure `base` for the final hosting target:
   - Use `/` for a custom domain or root-domain deployment.
-  - Use `/flavor-grenade-lsp/` for repository GitHub Pages at
-    `https://alisonaquinas.github.io/flavor-grenade-lsp/`.
-- Keep build output deterministic for CI and Pages deployment.
+  - Use a non-root base only if the S3/CDN public URL intentionally serves the
+    site from a subpath.
+- Keep build output deterministic for CI and S3 deployment.
 - Use Vite plugins for framework integration instead of custom bundler glue.
 - Support local development with Vite HMR.
 
@@ -157,19 +158,27 @@ implementation must stay independent from the LSP server runtime.
 - Existing product logo and extension imagery must be reused where suitable
   instead of creating duplicate brand assets.
 
-## GitHub Pages Deployment Requirements
+## AWS S3 Deployment Requirements
 
 - Add a CI workflow or job that builds the website and publishes the static
-  output to GitHub Pages.
-- Public deployment must be tag triggered from release commits on `main`,
-  following the repository git-flow model.
+  output to an AWS S3 bucket.
+- Public deployment must be triggered only by `site-vX.Y.Z` website release
+  tags from release commits on `main`, following the repository git-flow model.
+- Server `vX.Y.Z` tags must not trigger website deployment.
 - Tag-triggered deployment workflows must verify that the tag commit is
   contained in `origin/main` before publishing because GitHub tag events are not
   branch-scoped by themselves.
 - The workflow must install website dependencies, run lint/type/build checks,
   and upload the static artifact.
-- If using repository Pages instead of a custom domain, Vite `base` must match
-  the repository subpath.
+- The workflow must publish `website/dist` to the configured production S3
+  bucket only after checks pass.
+- The workflow should assume an AWS IAM role with GitHub Actions OIDC instead
+  of using long-lived AWS access keys.
+- AWS permissions must be scoped to the target website bucket and, when used,
+  the CDN distribution invalidation action.
+- The deployment must handle stale files, content types, cache-control headers,
+  and CDN cache refresh consistently.
+- Vite `base` must match the public S3 or CDN URL path.
 - The deployed site must not expose source maps unless intentionally enabled.
 
 ## Local Development Requirements
@@ -206,4 +215,5 @@ implementation must stay independent from the LSP server runtime.
 - Whether to use Vite alone, SvelteKit static adapter, or another static-site
   layer on top of Vite.
 - Whether search is build-time generated, client-side indexed, or deferred.
-- Whether GitHub Pages uses a custom domain or repository subpath.
+- Whether production uses direct S3 website hosting or an S3 origin behind a
+  CDN.

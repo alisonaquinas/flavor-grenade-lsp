@@ -6,7 +6,7 @@ constraints, operations, and user goals stay distinct.
 Use this index when a website change needs requirement traceability. The website
 is a static documentation and adoption surface, so its requirements focus on
 clear product explanation, docs navigation, accessibility, static rendering,
-content generation, and GitHub Pages release controls.
+content generation, and AWS S3 release controls.
 
 ## Layer Boundary
 
@@ -16,7 +16,7 @@ content generation, and GitHub Pages release controls.
   and interactive documentation controls.
 - Technical requirements define the static-site stack, source layout, content
   pipeline, and SBOM expectations.
-- Operational requirements define CI, release, and GitHub Pages publishing
+- Operational requirements define CI, release, and AWS S3 publishing
   controls.
 - User requirements define visitor goals and page-level adoption questions.
 
@@ -35,5 +35,5 @@ content generation, and GitHub Pages release controls.
 | Design | [design/index.md](design/index.md) | Website UI, layout, tone, visual identity, and brand-docs experience |
 | Functional | [functional/index.md](functional/index.md) | Public website behavior and content capabilities |
 | Technical | [technical/index.md](technical/index.md) | Static-site technology, source layout, and documentation structure |
-| Operational | [operational/index.md](operational/index.md) | CI, release, distribution, and GitHub Pages publishing |
+| Operational | [operational/index.md](operational/index.md) | CI, release, distribution, and AWS S3 publishing |
 | User | [user/index.md](user/index.md) | Website visitor goals |

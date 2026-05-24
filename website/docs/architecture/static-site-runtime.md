@@ -3,9 +3,9 @@
 ## Overview
 
 The website runtime is a static Vite application using Svelte components,
-strict TypeScript modules, and SCSS styles. It is optimized for GitHub Pages:
-build once in CI, publish static files, and run only browser-side enhancement at
-view time.
+strict TypeScript modules, and SCSS styles. It is optimized for AWS S3
+distribution: build once in CI, publish static files, and run only browser-side
+enhancement at view time.
 
 ## Layers
 
@@ -28,7 +28,8 @@ Vite is the build and development boundary:
   changes the output directory.
 - `base` must match the hosting target:
   - `/` for a custom domain or root-domain deployment.
-  - `/flavor-grenade-lsp/` for repository GitHub Pages.
+  - a non-root path only when the S3 or CDN public URL intentionally serves the
+    site from a subpath.
 - Vite plugins handle Svelte integration. Custom bundler glue is out of scope.
 
 ## Svelte Role

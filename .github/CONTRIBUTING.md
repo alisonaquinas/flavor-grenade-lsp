@@ -121,7 +121,8 @@ added or existing coverage moves.
 - Documentation under `docs/` follows the OFM-aware documentation conventions
   used by `markdownlint-obsidian`.
 - Public website documentation under `website/docs/` follows the same
-  OFM-aware linting conventions before it is rendered for GitHub Pages.
+  OFM-aware linting conventions before it is rendered for static website
+  publishing.
 - Documentation under `extension/docs/` should remain coherent with the server
   specs when extension behavior depends on LSP capabilities.
 - Do not use Obsidian wiki-links in `.github/` files. Use standard Markdown

@@ -8,7 +8,7 @@ const dependabotConfig = readFileSync('.github/dependabot.yml', 'utf8');
 const gitleaksConfig = readFileSync('.gitleaks.toml', 'utf8');
 const securitySastWorkflow = readFileSync('.github/workflows/security-sast.yml', 'utf8');
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
-const websitePagesWorkflow = readFileSync('.github/workflows/website-pages.yml', 'utf8');
+const websiteS3Workflow = readFileSync('.github/workflows/website-s3.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
   devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
@@ -150,7 +150,7 @@ describe('CI workflow verification battery', () => {
   test('disables setup-node automatic package-manager caching in scanner-covered workflows', () => {
     expectSetupNodeCacheDisabled('CI', workflow);
     expectSetupNodeCacheDisabled('Extension Release', extensionReleaseWorkflow);
-    expectSetupNodeCacheDisabled('Website Pages', websitePagesWorkflow);
+    expectSetupNodeCacheDisabled('Website S3', websiteS3Workflow);
   });
 
   test('targets dependency update streams at develop', () => {
@@ -260,8 +260,7 @@ describe('CI workflow verification battery', () => {
 
   test('keeps the website publishing dry-run gate build-only for test tags', () => {
     for (const command of [
-      "tags:\n      - 'v*.*.*'",
-      "- 'v*.*.*-test*'",
+      "tags:\n      - 'site-v*.*.*'",
       "- 'site-v*.*.*'",
       "- 'site-v*.*.*-test*'",
       'RELEASE_MODE=test',
@@ -273,13 +272,26 @@ describe('CI workflow verification battery', () => {
       'npm test',
       'npm run build',
       'Smoke production build',
-      'actions/upload-pages-artifact',
-      'actions/deploy-pages',
+      'actions/upload-artifact',
+      'actions/download-artifact',
+      'aws-actions/configure-aws-credentials',
+      'aws s3 sync website-dist',
+      'aws cloudfront create-invalidation',
+      'website-production',
+      'id-token: write',
     ]) {
-      expect(websitePagesWorkflow).toContain(command);
+      expect(websiteS3Workflow).toContain(command);
     }
 
-    expectStepOrder(websitePagesWorkflow, [
+    expect(websiteS3Workflow).not.toContain("'v*.*.*'");
+    expect(websiteS3Workflow).not.toContain("'v*.*.*-test*'");
+    expect(websiteS3Workflow).not.toContain('actions/upload-pages-artifact');
+    expect(websiteS3Workflow).not.toContain('actions/deploy-pages');
+    expect(websiteS3Workflow).not.toContain('pages: write');
+    expect(websiteS3Workflow).not.toContain('AWS_ACCESS_KEY_ID');
+    expect(websiteS3Workflow).not.toContain('AWS_SECRET_ACCESS_KEY');
+
+    expectStepOrder(websiteS3Workflow, [
       'Validate website release tag',
       'Install website dependencies',
       'Lint website',
@@ -287,8 +299,12 @@ describe('CI workflow verification battery', () => {
       'Test website',
       'Build website',
       'Smoke production build',
-      'actions/upload-pages-artifact',
-      'Deploy website to GitHub Pages',
+      'actions/upload-artifact',
+      'Deploy website to AWS S3',
+      'actions/download-artifact',
+      'aws-actions/configure-aws-credentials',
+      'Sync immutable website assets',
+      'Sync website HTML and metadata',
     ]);
   });
 });

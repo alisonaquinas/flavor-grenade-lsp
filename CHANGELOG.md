@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Replace the website GitHub Pages release workflow with an AWS S3 publishing
+  workflow that uses GitHub Actions OIDC, `site-v*` tags, and the protected
+  `website-production` environment.
+
 ## [0.4.4](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.3...v0.4.4) (2026-05-23)
 
 ### Security
