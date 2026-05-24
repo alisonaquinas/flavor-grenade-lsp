@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.0] — 2026-05-24
+
+### Added
+
+- Add syntax and context inference for Markdown flavor auto-detection when
+  project TOML is absent.
+- Add the `flavorGrenade.markdownStructuredProfiles` setting for Auto Detect,
+  explicit profile lists, and `none`.
+- Add client-side propagation and smoke-test coverage for Keep a Changelog,
+  Common Changelog, and MADR structured Markdown profiles layered over base
+  Markdown flavors.
+
+### Changed
+
+- Expand extension smoke-test workspaces with configured and inference-only
+  changelog and MADR examples for every supported base flavor.
+
+### Fixed
+
+- Keep root-level generic smoke-test README files from being inferred as
+  Obsidian Flavored Markdown.
+
 ## [0.2.4] — 2026-05-23
 
 ### Security

@@ -18,7 +18,7 @@ generate a machine-readable SBOM from `package.json` and `bun.lock`.
 | Field | Value |
 |---|---|
 | Package | `flavor-grenade-lsp` |
-| Version | `0.4.4` |
+| Version | `0.5.0` |
 | Source | <https://github.com/alisonaquinas/flavor-grenade-lsp> |
 | Author | Alison Aquinas |
 | License | Repository `LICENSE` |
