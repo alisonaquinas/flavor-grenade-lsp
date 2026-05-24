@@ -12,6 +12,7 @@ supply-chain substitution of the embedded executable.
 - No network access from wrappers.
 - No runtime binary downloads.
 - No shell command strings built from user input.
+- Plugin commands and hooks must not shell-expand user-controlled paths or globs.
 - Spawn the executable with argv arrays.
 - Verify executable digest before launch.
 - Verify signatures when the required verifier is available, unless the user
@@ -146,9 +147,13 @@ Required tests:
 No skill release is complete until a reviewer can verify:
 
 - wrappers do not use `shell: true`
+- plugin hooks and command launchers do not use shell interpolation for paths,
+  globs, or file names
 - wrapper subprocess calls use argv arrays
 - file reads are workspace-confined
 - digest verification is mandatory
 - network APIs are absent from wrappers
 - tests cover hostile fixtures
 - release artifacts are signed
+- plugin manifests do not reference remote MCP servers, unverified LSP
+  executables, or missing hook files

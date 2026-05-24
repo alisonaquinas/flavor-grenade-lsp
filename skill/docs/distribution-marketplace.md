@@ -24,6 +24,16 @@ skill/
 ├── README.md
 ├── marketplace.json
 └── docs/
+plugins/
+└── flavorgrenade-lsp/
+    ├── .claude-plugin/
+    ├── .codex-plugin/
+    ├── skills/
+    ├── commands/
+    ├── agents/
+    ├── hooks/
+    ├── mcp/
+    └── lsp/
 ```
 
 `skill/docs/` is the source specification set. `skills/flavorgrenade-lsp/docs/`
@@ -32,6 +42,8 @@ is the packaged user documentation copied into releases.
 The installable skill source lives under `skills/` because current `add-skill`
 discovery checks that directory before falling back to recursive search.
 `skill/` is reserved for marketplace metadata and product specifications.
+`plugins/` contains agent-specific plugin packages that surround the portable
+skill with manifests, commands, hooks, agents, and optional MCP/LSP metadata.
 
 ## Marketplace Manifest
 
@@ -194,6 +206,10 @@ CI must fail when:
 - release artifact includes multiple runtime executables unintentionally
 - install smoke tests fail for Claude Code or Codex target paths
 - `npx add-skill --list` cannot discover the skill from a packed fixture
+- Claude or Codex plugin manifests point at missing command, hook, agent, MCP,
+  LSP, or skill paths
+- Codex plugin metadata includes fields rejected by the selected Codex plugin
+  validator
 
 ## Documentation Requirements
 

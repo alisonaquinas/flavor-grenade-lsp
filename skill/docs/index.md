@@ -17,6 +17,7 @@ from this repo using compatible skill installers.
 | [embedded-lsp-runtime](embedded-lsp-runtime.md) | Bundled executable layout, runtime selection, verification |
 | [agent-compatibility](agent-compatibility.md) | Claude Code, Codex, and general agent behavior contract |
 | [distribution-marketplace](distribution-marketplace.md) | Repo marketplace layout, `npx add-skill` / `npx skill` compatibility, install modes |
+| [plugin-compatibility](plugin-compatibility.md) | Claude and Codex plugin manifests, commands, hooks, agents, MCP, and LSP metadata |
 | [commands-and-json](commands-and-json.md) | Wrapper command surface and stable JSON output schemas |
 | [release-versioning](release-versioning.md) | Independent semver, changelog, tags, artifact signing, compatibility matrix |
 | [security](security.md) | Wrapper and embedded-binary security requirements |
@@ -29,6 +30,9 @@ from this repo using compatible skill installers.
 | Package name | `flavorgrenade-lsp-skill` |
 | Install name | `flavorgrenade-lsp` |
 | Skill entrypoint | `skills/flavorgrenade-lsp/SKILL.md` |
+| Plugin source | `plugins/flavorgrenade-lsp/` |
+| Claude plugin manifest | `plugins/flavorgrenade-lsp/.claude-plugin/plugin.json` |
+| Codex plugin manifest | `plugins/flavorgrenade-lsp/.codex-plugin/plugin.json` |
 | Skill docs | `skill/docs/` |
 | Skill changelog | `skills/flavorgrenade-lsp/CHANGELOG.md` |
 | Skill tag pattern | `skill-v*.*.*` |

@@ -26,6 +26,7 @@ updated: 2026-05-24
 | [skill/docs/embedded-lsp-runtime](../../skill/docs/embedded-lsp-runtime.md) | Embed and verify the runtime-specific native LSP executable |
 | [skill/docs/agent-compatibility](../../skill/docs/agent-compatibility.md) | Support Claude Code, Codex, and generic agent workflows |
 | [skill/docs/distribution-marketplace](../../skill/docs/distribution-marketplace.md) | Make this repo usable as a skill marketplace and installer source |
+| [skill/docs/plugin-compatibility](../../skill/docs/plugin-compatibility.md) | Define Claude and Codex plugin manifests, commands, hooks, agents, MCP, and LSP metadata |
 | [skill/docs/commands-and-json](../../skill/docs/commands-and-json.md) | Specify wrapper commands and stable JSON schemas |
 | [skill/docs/release-versioning](../../skill/docs/release-versioning.md) | Release and version the skill independently |
 | [skill/docs/security](../../skill/docs/security.md) | Constrain wrapper, path, process, logging, and supply-chain behavior |
@@ -413,6 +414,8 @@ CI must fail if:
 
 - `SKILL.md` references a command that is not packaged
 - `SKILL.md` lacks required `name` or `description` frontmatter
+- plugin manifests reference missing skills, commands, agents, hooks, MCP files,
+  LSP files, or unsupported Codex fields
 - a manifest executable digest does not match the bundled executable
 - a wrapper command shells out with unescaped user input
 - a runtime target is missing from the compatibility matrix
@@ -490,6 +493,7 @@ and not a replacement for the server package.
 | Workstream | Deliverable |
 |---|---|
 | Product scaffold | `skills/flavorgrenade-lsp/` source tree, skill manifest, skill changelog, docs |
+| Plugin scaffold | `plugins/flavorgrenade-lsp/` Claude/Codex manifests, commands, hooks, agents, and optional MCP/LSP metadata |
 | Runtime resolver | Cross-platform executable selection, digest verification, install verification |
 | LSP adapter | JSON-RPC subprocess client used by wrapper commands |
 | Command wrappers | Agent-friendly command surface with stable JSON output |
@@ -583,6 +587,7 @@ digest verification, wrapper smoke tests, and release-signing dry-run passing.
 - [skill/docs/embedded-lsp-runtime](../../skill/docs/embedded-lsp-runtime.md)
 - [skill/docs/agent-compatibility](../../skill/docs/agent-compatibility.md)
 - [skill/docs/distribution-marketplace](../../skill/docs/distribution-marketplace.md)
+- [skill/docs/plugin-compatibility](../../skill/docs/plugin-compatibility.md)
 - [skill/docs/commands-and-json](../../skill/docs/commands-and-json.md)
 - [skill/docs/release-versioning](../../skill/docs/release-versioning.md)
 - [skill/docs/security](../../skill/docs/security.md)

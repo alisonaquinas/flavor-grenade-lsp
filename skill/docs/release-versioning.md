@@ -72,6 +72,12 @@ Minimum matrix:
 |---|---|---|---|---|---|
 | `0.1.0` | `0.5.x` | `1.0` | supported | supported | linux-x64, darwin-arm64, darwin-x64, win-x64 |
 
+The matrix must also record plugin compatibility:
+
+| Skill | Claude plugin schema | Codex plugin schema | Commands | Hooks | Agents | MCP | LSP |
+|---|---|---|---|---|---|---|---|
+| `0.1.0` | supported | supported fields only | Claude required, Codex validated/deferred | advisory | Claude required, Codex validated/deferred | optional | Claude optional, Codex validated/deferred |
+
 ## Release Workflow
 
 Production release:
@@ -128,6 +134,9 @@ Release CI must verify:
 - executable signatures verify when included
 - Claude Code install fixture passes
 - Codex install fixture passes
+- Claude plugin manifest validates
+- Codex plugin manifest validates against supported fields
+- plugin command, hook, agent, MCP, and LSP path references resolve
 - `npx add-skill` repository install fixture passes
 - `npx skill` compatibility is either verified or explicitly marked deferred
 - JSON schema snapshots pass

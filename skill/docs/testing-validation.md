@@ -9,6 +9,7 @@
 | Smoke | Packaged artifact works from an unpacked install |
 | Agent compatibility | Claude Code and Codex install path fixtures work |
 | Marketplace | Repository can be listed and installed as a skill source |
+| Plugin | Claude and Codex plugin manifests, commands, hooks, agents, and optional MCP/LSP metadata validate |
 | Security | Hostile fixtures fail safely |
 | Release | Artifacts, checksums, signatures, and compatibility matrix verify |
 
@@ -88,6 +89,17 @@ Marketplace fixture:
 4. Confirm installed files match expected inventory.
 5. Run `verify-install`.
 
+Plugin fixture:
+
+1. Validate `.claude-plugin/plugin.json`.
+2. Validate `.codex-plugin/plugin.json`.
+3. Confirm manifest names and versions match the skill manifest.
+4. Confirm referenced skills, commands, agents, hooks, MCP files, and LSP files
+   exist.
+5. Confirm Codex metadata omits fields rejected by the selected Codex plugin
+   validator.
+6. Confirm hooks are advisory, Markdown-scoped, and timeout-bound.
+
 ## Release Validation
 
 For every runtime artifact:
@@ -112,6 +124,7 @@ bun run skill:test
 bun run skill:package -- --dry-run
 bun run skill:verify -- --target current
 bun run skill:marketplace:verify
+bun run skill:plugin:verify
 bun run skill:release:dry-run
 ```
 

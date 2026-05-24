@@ -56,6 +56,8 @@ The first complete skill release must provide:
 - smoke fixtures for Keep a Changelog, Common Changelog, and MADR variants
 - installation through repository skill installers
 - compatibility with Claude Code and Codex skill layouts
+- plugin packaging for Claude and Codex, including manifests, commands, hooks,
+  specialized agents, and optional MCP/LSP metadata where validated
 - a skill changelog and compatibility matrix
 - release artifacts signed separately from server artifacts
 
