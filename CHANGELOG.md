@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Sign Bun native executable release assets with GitHub Actions OIDC-backed
+  Sigstore `cosign` bundles and verify them before attaching release artifacts.
+- Add native executable signing dry runs to CI: pull requests build a candidate
+  binary and validate `cosign` tooling without OIDC, while trusted branch CI
+  performs a non-public OIDC sign/verify dry run.
+
 ## [0.5.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...v0.5.0) (2026-05-24)
 
 ### Added
