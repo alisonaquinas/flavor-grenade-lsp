@@ -41,7 +41,8 @@ TypeScript architecture?
   library boundary.
 - Keep generated build output out of git.
 - Let page-local metadata live with copy when that improves maintainability.
-- Stay compatible with Vite and GitHub Pages static builds.
+- Stay compatible with Vite static builds and the current static hosting
+  target.
 
 ## Considered Options
 

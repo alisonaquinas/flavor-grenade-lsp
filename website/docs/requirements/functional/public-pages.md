@@ -4,7 +4,7 @@
 
 Tag: `Website.Pages.RequiredSet`
 
-Gist: Publish the required public docs pages for the GitHub Pages website.
+Gist: Publish the required public docs pages for the static website.
 
 Ambition: Users can move from discovery to setup, task completion, deeper
 concepts, and objections without reading internal project planning docs.
@@ -107,7 +107,7 @@ Source: [[project-brief]], [[website/docs/requirements/user/index]]
 Open questions:
 
 - Which site generator will own route generation?
-- Which pages should ship in the first GitHub Pages release versus later
+- Which pages should ship in the first website release versus later
   iterations?
 
 ## Website.Homepage.FirstViewport

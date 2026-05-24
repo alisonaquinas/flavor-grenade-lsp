@@ -115,7 +115,7 @@ Open questions:
 
 Tag: `Website.Routing.StaticDirectAccess`
 
-Gist: Support direct access to public docs routes on GitHub Pages.
+Gist: Support direct access to public docs routes from static hosting.
 
 Ambition: Users and search engines can load a specific route directly without
 needing to start from the homepage.
@@ -124,7 +124,7 @@ Scale: Percentage of public routes in the generated sitemap that return a
 rendered page when loaded directly from the static build.
 
 Meter: After production build, load each route listed in `sitemap.xml` using a
-static preview server or Pages-equivalent static hosting.
+static preview server or S3-equivalent static hosting.
 
 Fail: Any sitemap route fails direct load or resolves to unrelated content.
 
@@ -144,6 +144,6 @@ Source: [[website/docs/requirements/technical/index]], [[website/docs/requiremen
 
 Open questions:
 
-- Will the final deployment use a custom domain or repository subpath?
+- Will the final deployment use a custom domain, root S3/CDN path, or subpath?
 - Will routing use generated static HTML files, hash routing, or a static-site
   adapter?

@@ -4,7 +4,7 @@
 
 This specification defines the required CI, release, distribution, and
 publishing behavior for Flavor Grenade LSP, the VS Code extension, and the
-future GitHub Pages website.
+AWS S3-hosted website.
 
 It supplements [[website/docs/requirements/technical/index]] and must stay consistent with the repository git-flow
 model:
@@ -22,6 +22,8 @@ model:
   the full unit test checks for the affected project areas.
 - Publishing is not a branch push side effect. Public distribution and
   publishing jobs must be triggered by release tags.
+- Website publishing must use website-specific tags, not the LSP server
+  release tags.
 - Tag-triggered publish workflows must prove the tag commit belongs to `main`
   before producing public artifacts.
 - Test tags may exercise packaging and release machinery, but they must not
@@ -29,8 +31,7 @@ model:
 - Release jobs must rebuild from source at the tag commit. They must not
   publish artifacts copied from a developer workstation.
 - Workflow permissions must be minimal by default and expanded per job only
-  when publishing, attestation, Pages deployment, or release creation requires
-  it.
+  when publishing, attestation, S3 deployment, or release creation requires it.
 - Long-lived publish credentials are avoided where platform support allows
   OIDC or trusted publishing.
 
@@ -83,7 +84,8 @@ Website checks, once the website implementation exists:
 - Run website lint with zero warnings.
 - Run website unit tests.
 - Run static build.
-- Verify the generated output is static and suitable for GitHub Pages.
+- Verify the generated output is static and suitable for AWS S3 static hosting
+  or an AWS S3 origin behind a CDN.
 - Verify generated `sitemap.xml`, `robots.txt`, canonical URLs, and social
   metadata.
 - Verify that website source remains under `website/src` and website tests
@@ -94,7 +96,7 @@ Website checks, once the website implementation exists:
 
 ## Required Release Gates
 
-No publish, release, package upload, or Pages deployment job may run unless the
+No publish, release, package upload, or website deployment job may run unless the
 required CI checks for that artifact have passed for the same tag commit.
 
 Release workflows may implement this by:
@@ -127,12 +129,14 @@ VS Code extension tags:
 
 Website tags:
 
-- The public GitHub Pages website must deploy from a release tag whose commit
+- Production website deployment must use `site-vX.Y.Z` tags.
+- Production website deployment must not run for server `vX.Y.Z` tags.
+- The public AWS S3 website must deploy from a website release tag whose commit
   is on `main`.
-- If website releases share the server version, use the matching `vX.Y.Z` tag.
-- If website releases need independent cadence, use `site-vX.Y.Z`.
-- Test website tags may build and upload artifacts without deploying to the
-  production Pages environment.
+- Test website tags may use `site-vX.Y.Z-test.N`.
+- Test website tags may build, verify, package, and upload workflow artifacts,
+  but they must not write to the production S3 bucket or invalidate production
+  CDN caches.
 
 ## Main-Branch Tag Guard
 
@@ -146,27 +150,38 @@ Required guard behavior:
 - Fail the publish workflow if `git merge-base --is-ancestor "$GITHUB_SHA"
   "origin/main"` does not succeed.
 - Run this guard before requesting publish credentials, creating releases,
-  deploying Pages, or uploading production artifacts.
+  deploying the website, or uploading production artifacts.
 - Keep the guard enabled for server, npm, extension, GitHub Release, and
   website publish workflows.
 
-## GitHub Pages Distribution
+## AWS S3 Website Distribution
 
-The GitHub Pages workflow must:
+The AWS S3 website workflow must:
 
+- Trigger only from `site-vX.Y.Z` and `site-vX.Y.Z-test.N` tags.
 - Build the static website from the tagged source.
 - Use the website `base` configured for the production hosting target.
 - Run website lint, typecheck, unit tests, and build before deployment.
-- Upload the generated static artifact only after checks pass.
-- Deploy to the protected Pages environment only from production website tags
-  that pass the main-branch tag guard.
-- Use minimal permissions:
-  - `contents: read`
-  - `pages: write`
-  - `id-token: write`
-- Use concurrency so only one production Pages deployment runs at a time.
+- Upload the generated static artifact as workflow evidence only after checks
+  pass.
+- Deploy to the protected website production environment only from production
+  website tags that pass the main-branch tag guard.
+- Publish the built `website/dist` contents to the configured production AWS S3
+  bucket.
+- Use AWS OIDC role assumption from GitHub Actions instead of long-lived AWS
+  access keys where possible.
+- Scope the AWS role to the target website bucket and any required CDN
+  invalidation permission.
+- Keep bucket name, AWS region, optional CDN distribution id, and public base URL
+  in protected environment variables or secrets.
+- Delete or expire objects that are no longer present in the new build so stale
+  routes and assets do not remain public unintentionally.
+- Preserve correct content types, cache-control metadata, and immutable caching
+  for hashed assets.
+- Invalidate or otherwise refresh CDN caches when a CDN fronts the S3 bucket.
+- Use concurrency so only one production website deployment runs at a time.
 - Keep PR and `develop` runs as checks or previews only; they must not update
-  the production GitHub Pages site.
+  the production S3 bucket.
 
 ## Package And Release Distribution
 
@@ -203,7 +218,7 @@ VS Code extension distribution must:
   version policy.
 - Set workflow-level permissions to `contents: read` unless a job needs more.
 - Scope publish credentials to protected environments such as `npm-publish`,
-  `vsce-publish`, or `github-pages`.
+  `vsce-publish`, or `website-production`.
 - Do not expose publish secrets to pull requests from forks.
 - Do not run dependency install scripts in CI unless a specific job documents
   why scripts are required.
@@ -230,16 +245,16 @@ CI and release workflows must preserve useful evidence:
 - Production publishing is triggered only by the appropriate release tag.
 - Every production publish workflow verifies the tag commit is on `main`.
 - Test tags exercise packaging without publishing production artifacts.
-- GitHub Pages deploys only from production website tags on `main`.
-- npm, GitHub Release, VSIX, and Pages publishing jobs are gated by successful
+- AWS S3 website deployment runs only from production `site-vX.Y.Z` tags on
+  `main`.
+- Server `vX.Y.Z` tags do not trigger website deployment.
+- npm, GitHub Release, VSIX, and website publishing jobs are gated by successful
   CI for the same tag commit.
 
 ## Open Decisions
 
-- Whether website production deploys share `vX.Y.Z` server release tags or use
-  independent `site-vX.Y.Z` tags.
 - Whether branch CI should always run extension tests or use safe path filters
   after the website implementation adds more jobs.
 - Whether BDD should remain a separate release gate or become part of every
   branch CI run.
-- Whether Pages preview deployments are needed for pull requests.
+- Whether S3 or CDN-backed preview deployments are needed for pull requests.

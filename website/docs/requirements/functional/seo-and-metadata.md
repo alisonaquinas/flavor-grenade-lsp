@@ -100,7 +100,7 @@ Fail: Either `robots.txt` or `sitemap.xml` is missing from published output.
 Goal: Both files exist, and `sitemap.xml` lists 100% of public pages intended
 for indexing.
 
-Stretch: Goal level plus sitemap URLs use the correct GitHub Pages base path or
+Stretch: Goal level plus sitemap URLs use the correct production base path or
 custom domain.
 
 Wish: Stretch level plus sitemap `lastmod` values are generated from source or

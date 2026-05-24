@@ -1,19 +1,24 @@
 ---
 status: accepted
 date: 2026-05-09
+amended-by: 0003-use-aws-s3-for-website-distribution
 decision-makers: Alison Aquinas
 consulted: Codex
 informed: Future website contributors
 ---
 
-# Use Vite Svelte TypeScript SCSS and GitHub Pages for the website
+# Use Vite Svelte TypeScript SCSS for the website
+
+> Hosting amendment: [[website/docs/adr/0003-use-aws-s3-for-website-distribution]]
+> supersedes the GitHub Pages hosting portion of this decision. The Vite,
+> Svelte, TypeScript, SCSS, and static-output decisions remain accepted.
 
 ## Context and Problem Statement
 
-Flavor Grenade needs a public website that can be hosted on GitHub Pages and
-serve as both product homepage and documentation entry point. The site must
-explain the LSP server, VS Code extension, Obsidian Flavored Markdown behavior,
-quickstart, how-to pages, advanced usage, FAQ, and a Karpathy-style LLM wiki.
+Flavor Grenade needs a public static website that can serve as both product
+homepage and documentation entry point. The site must explain the LSP server,
+VS Code extension, Obsidian Flavored Markdown behavior, quickstart, how-to
+pages, advanced usage, FAQ, and a Karpathy-style LLM wiki.
 
 The implementation must produce static output, keep public pages SEO-friendly,
 support mobile-friendly light and dark themes, reuse product assets, and remain
@@ -21,11 +26,11 @@ separate from the LSP server runtime. All website scripting must be strictly
 typechecked and linted TypeScript.
 
 The decision question is: which website technology stack should be used for
-the first GitHub Pages implementation?
+the first static website implementation?
 
 ## Decision Drivers
 
-- Static GitHub Pages hosting
+- Static hosting
 - Strict TypeScript scripting
 - Componentized docs interactions
 - SEO-friendly public pages
@@ -36,19 +41,19 @@ the first GitHub Pages implementation?
 
 ## Considered Options
 
-- Vite with Svelte TypeScript SCSS and GitHub Pages
+- Vite with Svelte TypeScript SCSS
 - SvelteKit static adapter
 - Astro content site
 - Vite with React
 
 ## Decision Outcome
 
-Chosen option: "Vite with Svelte TypeScript SCSS and GitHub Pages".
+Chosen option: "Vite with Svelte TypeScript SCSS".
 
 This option satisfies the explicit technical requirements with the smallest
 durable architecture: Vite owns local development and static builds, Svelte
 owns interactive documentation UI, TypeScript owns all scripting, SCSS owns the
-visual system, and GitHub Pages owns static hosting.
+visual system, and the hosting layer owns static distribution.
 
 React was removed from the requirements because the current interaction model
 does not need a second UI framework. Svelte is sufficient for the app shell,
@@ -61,8 +66,8 @@ docs-oriented controls.
   a runtime server.
 - Good, because Svelte keeps interactive docs components compact and avoids
   adding React to the website bundle.
-- Good, because Vite directly supports static builds and GitHub Pages base path
-  configuration.
+- Good, because Vite directly supports static builds and configurable base
+  paths for static hosting.
 - Good, because SCSS can encode the existing design tokens without requiring a
   larger CSS framework decision.
 - Bad, because a Vite-only static site may need custom content routing,
@@ -82,20 +87,19 @@ The decision is confirmed when:
   `typecheck` scripts.
 - `website` builds static output to `website/dist` or a documented replacement
   directory.
-- Vite `base` is configured for the selected GitHub Pages hosting mode.
+- Vite `base` is configured for the selected static hosting target.
 - Svelte components use TypeScript where scripting is present.
 - CI fails on website typecheck, lint warnings, unit test failures, and build
   failures.
 - Generated public pages include required SEO metadata.
-- GitHub Pages deployment is tag triggered from release commits on `main`.
+- Website deployment is tag triggered from release commits on `main`.
 
 ## Pros and Cons of the Options
 
-### Vite with Svelte TypeScript SCSS and GitHub Pages
+### Vite with Svelte TypeScript SCSS
 
 Use Vite as the only frontend build pipeline, Svelte for components,
-TypeScript for scripting, SCSS for styling, and GitHub Pages for static
-hosting.
+TypeScript for scripting, and SCSS for styling.
 
 - Good, because it matches the current technical requirements exactly.
 - Good, because it keeps runtime deployment simple: static files only.
@@ -147,8 +151,8 @@ Use Vite with React for the website shell and documentation controls.
 - [[website/docs/requirements/technical/index]]
 - [[website/docs/requirements/operational/ci-cd]]
 - [[website/docs/requirements/design/index]]
-- Vite static deploy guidance for GitHub Pages documents `base` behavior for
-  root-domain and repository-subpath deployments.
+- Vite static deploy guidance documents `base` behavior for root-domain and
+  subpath deployments.
 - Svelte TypeScript guidance documents `<script lang="ts">` and Vite
   preprocessing for TypeScript features inside Svelte components.
 
@@ -157,6 +161,4 @@ Revisit this decision if:
 - the content pipeline requires framework-native content collections that make
   Vite-only routing too expensive,
 - the site needs server rendering or runtime routes,
-- search or generated LLM-wiki pages require a dedicated static-site framework,
-  or
-- GitHub Pages stops being the intended hosting target.
+- search or generated LLM-wiki pages require a dedicated static-site framework.

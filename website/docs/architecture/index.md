@@ -3,9 +3,10 @@
 ## Purpose
 
 This architecture describes the planned public website for Flavor Grenade LSP.
-The website is a static GitHub Pages site that explains the language server,
-the VS Code extension, and the Obsidian Flavored Markdown workflow through a
-search-friendly homepage and a linked LLM-wiki style documentation system.
+The website is a static AWS S3-distributed site that explains the language
+server, the VS Code extension, and the Obsidian Flavored Markdown workflow
+through a search-friendly homepage and a linked LLM-wiki style documentation
+system.
 
 The architecture is intentionally separate from the LSP server runtime. The
 website may read generated content, copied assets, and static metadata, but it
@@ -13,7 +14,7 @@ must not require the language server process at runtime.
 
 ## Architecture Goals
 
-- Generate static HTML, CSS, JavaScript, and assets for GitHub Pages.
+- Generate static HTML, CSS, JavaScript, and assets for AWS S3 distribution.
 - Keep the first page useful without JavaScript.
 - Use Svelte for the interactive page shell and documentation controls.
 - Use strictly typechecked and linted TypeScript for all website scripting.
@@ -27,16 +28,16 @@ must not require the language server process at runtime.
 
 ```mermaid
 flowchart LR
-  Visitor["Website visitor"] --> Pages["GitHub Pages static site"]
-  Search["Search crawler"] --> Pages
-  Pages --> Assets["Static assets and product imagery"]
-  Pages --> Marketplace["Visual Studio Marketplace"]
-  Pages --> GitHub["GitHub repository"]
+  Visitor["Website visitor"] --> Site["AWS S3 static site or CDN"]
+  Search["Search crawler"] --> Site
+  Site --> Assets["Static assets and product imagery"]
+  Site --> Marketplace["Visual Studio Marketplace"]
+  Site --> GitHub["GitHub repository"]
 
   Author["Maintainer or LLM agent"] --> Docs["website/docs source"]
   Docs --> Build["Website build"]
   Source["website/src source"] --> Build
-  Build --> Pages
+  Build --> Site
 ```
 
 ## Major Building Blocks
@@ -51,16 +52,16 @@ flowchart LR
 | `website/src/content/generated` | Generated TypeScript content records consumed by the website renderer; ignored build output. |
 | `website/tests` | Required location for website unit, component, accessibility, routing, SEO, and build-output tests. |
 | `website/public` | Future static passthrough assets such as `robots.txt`, favicons, and social images when needed. |
-| `website/dist` | Generated static output for GitHub Pages. This directory is build output, not source of truth. |
+| `website/dist` | Generated static output for AWS S3 distribution. This directory is build output, not source of truth. |
 | Root package | Existing LSP server package and shared repository checks. |
 | `extension/` | Existing VS Code extension package, Marketplace assets, and extension checks. |
-| `.github/workflows` | CI, release, distribution, and future Pages deployment automation. |
+| `.github/workflows` | CI, release, distribution, and website deployment automation. |
 
 ## Architecture Views
 
 - [[static-site-runtime]] describes the browser runtime and source layout.
 - [[website/docs/architecture/content-pipeline]] describes Markdown, route, metadata, and SEO flow.
-- [[ci-cd-and-deployment]] describes checks, release gates, and Pages deploy.
+- [[ci-cd-and-deployment]] describes checks, release gates, and S3 deploy.
 - [[website/docs/adr/0001-use-vite-svelte-typescript-scss-and-github-pages-for-the-website]]
   records the core technology decision.
 - [[website/docs/adr/0002-use-page-group-markdown-manifests-for-website-copy]]
@@ -92,12 +93,10 @@ maintenance. Source code belongs in `website/src`; tests belong in
 ## Runtime Boundary
 
 The deployed website has no server runtime. All pages, assets, and metadata are
-served statically by GitHub Pages. Browser JavaScript may enhance navigation,
-theme selection, copy buttons, filters, and search, but core page content must
-remain meaningful when JavaScript is unavailable.
+served statically from AWS S3 or a CDN backed by AWS S3. Browser JavaScript may
+enhance navigation, theme selection, copy buttons, filters, and search, but core
+page content must remain meaningful when JavaScript is unavailable.
 
 ## Open Questions
 
 - Whether client-side search is needed for the first public release.
-- Whether website releases share server version tags or use independent
-  `site-vX.Y.Z` tags.
