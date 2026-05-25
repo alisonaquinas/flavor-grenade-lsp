@@ -179,6 +179,39 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     });
   });
 
+  it('reads camelCase structured profiles from JSON project config', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-json-camel-profiles-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs', 'decisions'), { recursive: true });
+    await writeFile(
+      join(root, '.flavor-grenade.json'),
+      JSON.stringify({
+        core: {
+          markdown: {
+            flavor: 'commonmark',
+            structuredProfiles: ['keep-a-changelog'],
+            overrides: [
+              {
+                path: 'docs/decisions',
+                flavor: 'gfm',
+                structuredProfiles: ['madr'],
+              },
+            ],
+          },
+        },
+      }),
+    );
+    const notePath = join(root, 'docs', 'decisions', '0001-test.md');
+    await writeFile(notePath, '# Decision\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      projectFlavor: 'gfm',
+      projectStructuredProfiles: ['madr'],
+    });
+  });
+
   it('has inference-only fixtures without project config markers', async () => {
     const inferenceRoot = join(fixtureRoot, 'inference');
     const entries = await readdir(inferenceRoot, { withFileTypes: true });

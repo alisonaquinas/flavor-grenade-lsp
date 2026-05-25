@@ -478,6 +478,22 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
           path.join(root, 'docs', 'decisions', '0001-test.md'),
         ),
       ).toEqual(['madr']);
+
+      fs.writeFileSync(
+        path.join(root, '.editorconfig'),
+        [
+          'root = true',
+          '',
+          '[*.md]',
+          'flavor_grenade_markdown_flavor = glfm',
+          'flavor_grenade_markdown_structured_profiles = common-changelog',
+        ].join('\n'),
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'nested', 'README.md'))).toBe('glfm');
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'nested', 'README.md')),
+      ).toEqual(['common-changelog']);
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }

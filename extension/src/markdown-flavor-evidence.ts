@@ -587,7 +587,7 @@ function configValuesFromRecord(raw: unknown): ProjectConfigOverride {
   }
   const pathValue = raw.path ?? raw.directory ?? raw.dir;
   const flavor = raw.flavor;
-  const profiles = raw.structured_profiles;
+  const profiles = raw.structured_profiles ?? raw.structuredProfiles;
   return {
     path: typeof pathValue === 'string' ? pathValue : '',
     projectFlavor:

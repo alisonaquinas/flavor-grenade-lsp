@@ -388,6 +388,10 @@ function configPathMatches(pattern: string, relativePath: string): boolean {
   const normalizedPattern = normalizeConfigPath(pattern);
   const normalizedPath = normalizeConfigPath(relativePath);
   if (normalizedPattern.includes('*')) {
+    if (!normalizedPattern.includes('/')) {
+      const pathName = trimPathSlashes(normalizedPath).split('/').at(-1) ?? '';
+      return wildcardSegmentMatches(normalizedPattern, pathName);
+    }
     return globPatternMatches(normalizedPattern, normalizedPath);
   }
   return (
