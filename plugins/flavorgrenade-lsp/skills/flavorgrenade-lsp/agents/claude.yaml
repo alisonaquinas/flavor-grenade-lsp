@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flavor Grenade LSP"
+  short_description: "Markdown flavor analysis through an embedded LSP"
+  default_prompt: "Use $flavorgrenade-lsp to detect Markdown flavor and diagnostics."
