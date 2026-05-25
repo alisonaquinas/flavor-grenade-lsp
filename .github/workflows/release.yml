@@ -3,8 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-      - 'v*.*.*-test*'
+      - 'v*.*.*'
 
 permissions:
   contents: read
@@ -119,7 +118,12 @@ jobs:
           else
             args+=(--latest=true)
           fi
-          gh release create "$GITHUB_REF_NAME" dist/flavor-grenade-lsp-* "${args[@]}"
+
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/flavor-grenade-lsp-* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/flavor-grenade-lsp-* "${args[@]}"
+          fi
 
   # npm publishing is handled by the CI workflow's gated publish job, which
   # runs after typecheck/lint/test/build pass and uses OIDC trusted publishing.

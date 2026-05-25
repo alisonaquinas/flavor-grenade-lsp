@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
 
 const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+const releaseWorkflow = readFileSync('.github/workflows/release.yml', 'utf8');
 const codeqlWorkflow = readFileSync('.github/workflows/codeql.yml', 'utf8');
 const codeqlConfig = readFileSync('.github/codeql/codeql-config.yml', 'utf8');
 const dependabotConfig = readFileSync('.github/dependabot.yml', 'utf8');
@@ -222,6 +223,48 @@ describe('CI workflow verification battery', () => {
     ]) {
       expect(workflow).toContain(command);
     }
+  });
+
+  test('signs the npm package tarball before release and publish', () => {
+    expect(releaseWorkflow).toContain("- 'v*.*.*'");
+    expect(releaseWorkflow).not.toContain("'v[0-9]+.[0-9]+.[0-9]+'");
+    expect(releaseWorkflow).not.toContain('Build and sign npm package');
+    expect(releaseWorkflow).not.toContain('dist/*.tgz');
+    expect(workflow).not.toContain('${{ env.NPM_PACKAGE_PATH }}');
+
+    for (const command of [
+      'Pack npm package',
+      'npm pack --ignore-scripts --json',
+      'Upload npm package candidate',
+      'needs: pack-npm-package',
+      'node - "$TMPDIR/npm-metadata.json" "$TMPDIR/npm.tgz" <<',
+      'npm 11.14.0 tarball integrity mismatch',
+      'cosign sign-blob "$NPM_PACKAGE_PATH"',
+      'cosign verify-blob "$NPM_PACKAGE_PATH"',
+      '--certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/tags/${GITHUB_REF_NAME}"',
+      'sha256sum "$package_name" > "$package_name.sha256"',
+      'Upload signed npm package evidence',
+      'npm-package/*.tgz.sha256',
+      'npm publish "$NPM_PACKAGE_PATH" --provenance --access public --ignore-scripts',
+      'Verify signed npm package evidence',
+      'sha256sum --check "$package_name.sha256"',
+      'Attach signed npm package to GitHub Release',
+      'for _ in {1..120}',
+      'gh release upload "$GITHUB_REF_NAME" signed-npm-package/* --clobber',
+    ]) {
+      expect(workflow).toContain(command);
+    }
+
+    expect(releaseWorkflow).toContain(
+      'gh release upload "$GITHUB_REF_NAME" dist/flavor-grenade-lsp-* --clobber',
+    );
+
+    expectStepOrder(workflow, [
+      'bun run build',
+      'npm pack --ignore-scripts --json',
+      'Sign npm package with GitHub OIDC',
+      'Publish to npmjs.com',
+    ]);
   });
 
   test('keeps the extension release dry-run gate aligned with publish prerequisites', () => {
