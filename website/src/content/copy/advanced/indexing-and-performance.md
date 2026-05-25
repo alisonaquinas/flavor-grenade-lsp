@@ -17,7 +17,7 @@ Indexing starts by scanning the detected vault or project, reading Markdown file
 A healthy lifecycle should feel boring: scan, parse with the active flavor and structured profiles, store facts, refresh when files change, then let every feature read the same state.
 
 ```text
-.obsidian/ or .flavor-grenade.toml -> scan -> parse -> VaultIndex -> diagnostics/completions/references
+.obsidian/ or project config -> scan -> parse -> VaultIndex -> diagnostics/completions/references
 ```
 
 ## Large vaults

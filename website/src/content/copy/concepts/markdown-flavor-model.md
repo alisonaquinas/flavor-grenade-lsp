@@ -24,9 +24,11 @@ structured_profiles = "auto"
 
 ## Detection order
 
-The strongest signal is explicit configuration. VS Code settings can choose `flavorGrenade.markdownFlavor`, and `.flavor-grenade.toml` can declare `core.markdown.flavor` for the repository. Those signals beat inference because they are intentional.
+The strongest signal is explicit configuration. VS Code settings can choose `flavorGrenade.markdownFlavor`, and project config can declare `core.markdown.flavor` for the repository. Supported project config files are `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and Flavor Grenade directives in `.editorconfig`. Those signals beat inference because they are intentional.
 
-When explicit TOML is absent, Flavor Grenade looks for context. An `.obsidian/` folder is strong evidence for Obsidian Markdown. MDX component syntax, R Markdown chunks, platform-specific tables, footnotes, attributes, and other syntax can also point to a flavor. If signals remain weak or ambiguous, the safe fallback is CommonMark.
+When explicit project config is absent, Flavor Grenade looks for context. An `.obsidian/` folder is strong evidence for Obsidian Markdown. MDX component syntax, R Markdown chunks, platform-specific tables, footnotes, attributes, and other syntax can also point to a flavor. If signals remain weak or ambiguous, the safe fallback is CommonMark.
+
+Project config can also be document-specific. One repository can default to CommonMark while `docs/github/` uses GFM and `docs/decisions/` enables the MADR profile.
 
 ## Why fallback matters
 
@@ -47,6 +49,7 @@ A documentation repository might contain all of these files:
 - `README.md` with no special syntax, resolved as CommonMark.
 - `docs/components/button.mdx`, inferred as MDX.
 - `notes/Daily.md` under `.obsidian/`, resolved as Obsidian.
-- `CHANGELOG.md`, resolved as GFM with a changelog profile.
+- `docs/github/CHANGELOG.md`, resolved as GFM with a changelog profile.
+- `docs/decisions/0001-use-language-server.md`, resolved as CommonMark with MADR.
 
 Each file can still use the same language server. The important part is that Flavor Grenade reports and analyzes the effective flavor per document instead of forcing the whole workspace into one Markdown assumption.

@@ -31,7 +31,7 @@ npx flavor-grenade-lsp
 
 Direct clients must launch the server, provide a usable file `rootUri`, send configuration, and handle file watching.
 
-The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/` or `.flavor-grenade.toml`, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
+The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/` or a Flavor Grenade project config marker, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
 
 ```json
 {
@@ -71,7 +71,7 @@ If your client sends workspace configuration after initialize, use the same publ
 }
 ```
 
-For a project-level override, put a `.flavor-grenade.toml` file at the project root:
+For a project-level override, put a Flavor Grenade project config file at the project root. TOML is still supported and is checked first:
 
 ```toml
 [core.markdown]
@@ -79,7 +79,37 @@ flavor = "gfm"
 structured_profiles = ["keep-a-changelog"]
 ```
 
-Use `structured_profiles = "none"` when a repository should not apply structured-document behavior.
+JSONC and YAML use the same logical shape:
+
+```jsonc
+{
+  "core": {
+    "markdown": {
+      "flavor": "commonmark",
+      "structured_profiles": "auto",
+      "overrides": [
+        { "path": "docs/api", "flavor": "pandoc" },
+        { "path": "docs/decisions", "flavor": "commonmark", "structured_profiles": ["madr"] }
+      ]
+    }
+  }
+}
+```
+
+```yaml
+core:
+  markdown:
+    flavor: commonmark
+    structured_profiles: auto
+    overrides:
+      - path: docs/api
+        flavor: pandoc
+      - path: docs/decisions
+        flavor: commonmark
+        structured_profiles: [madr]
+```
+
+Use `structured_profiles = "none"` or `structured_profiles: none` when a repository should not apply structured-document behavior.
 
 ## Initialize shape
 
@@ -89,11 +119,11 @@ A minimal direct-client flow is:
 spawn: npx flavor-grenade-lsp
 send: initialize with file rootUri and workspaceFolders
 send: initialized
-watch: Markdown files, .obsidian/, and .flavor-grenade.toml
+watch: Markdown files, .obsidian/, and Flavor Grenade project config markers
 send: didOpen/didChange/didClose for open documents
 ```
 
-The server accepts normal LSP initialize parameters. Flavor-specific initialization data is optional when `.flavor-grenade.toml` or Auto Detect can decide the flavor, but direct clients should send explicit state when they have a selector UI.
+The server accepts normal LSP initialize parameters. Flavor-specific initialization data is optional when project configuration or Auto Detect can decide the flavor, but direct clients should send explicit state when they have a selector UI.
 
 ```json
 {

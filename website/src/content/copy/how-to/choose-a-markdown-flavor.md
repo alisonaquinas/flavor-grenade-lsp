@@ -24,7 +24,7 @@ Keep structured profiles separate. A Keep a Changelog file can still be GFM, Com
 
 ### Check project evidence
 
-Look for `.flavor-grenade.toml`, `.obsidian/`, MDX component syntax, R Markdown chunks, Stack Overflow style posts, Reddit conventions, or other syntax that makes one flavor stronger than the fallback.
+Look for Flavor Grenade project config, `.obsidian/`, MDX component syntax, R Markdown chunks, Stack Overflow style posts, Reddit conventions, or other syntax that makes one flavor stronger than the fallback.
 
 ### Use the selector for one workspace
 
@@ -32,12 +32,27 @@ Run the Flavor Grenade Markdown flavor command from VS Code, choose a base flavo
 
 ### Pin project configuration when it should travel
 
-Use `.flavor-grenade.toml` when the decision belongs to the repository and should travel with the content.
+Use a project config file when the decision belongs to the repository and should travel with the content. TOML is checked first, and JSON, JSONC, YAML/YML, and Flavor Grenade `.editorconfig` directives are also supported.
 
 ```toml
 [core.markdown]
 flavor = "gfm"
 structured_profiles = "auto"
+```
+
+Use directory overrides when one repository mixes Markdown styles:
+
+```yaml
+core:
+  markdown:
+    flavor: commonmark
+    overrides:
+      - path: docs/github
+        flavor: gfm
+        structured_profiles: [keep-a-changelog]
+      - path: docs/decisions
+        flavor: commonmark
+        structured_profiles: [madr]
 ```
 
 Supported base flavor ids are `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`.
@@ -50,6 +65,6 @@ Once the effective flavor is stable, warnings should become more useful. Obsidia
 
 ## Common failure mode
 
-The most common failure is treating location as stronger evidence than it is. A root-level `README.md` near an Obsidian vault is not automatically an Obsidian note. If there is no TOML file, vault marker, or syntax signal attached to that file, CommonMark fallback is the safer result.
+The most common failure is treating location as stronger evidence than it is. A root-level `README.md` near an Obsidian vault is not automatically an Obsidian note. If there is no project config file, vault marker, or syntax signal attached to that file, CommonMark fallback is the safer result.
 
 The second failure is mixing base flavors with structured profiles. Do not add `keep-a-changelog`, `common-changelog`, or `madr` to the Markdown flavor selector. Configure those with `flavorGrenade.markdownStructuredProfiles` or `structured_profiles` so the base flavor remains clear.
