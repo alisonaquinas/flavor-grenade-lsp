@@ -5,8 +5,10 @@ import path from 'node:path';
 const options = parseArgs(process.argv.slice(2));
 const root = path.resolve(options.root ?? process.cwd());
 const version = normalizeVersion(options.version);
-const serverVersion = options.serverVersion;
-const serverReleaseTag = options.serverReleaseTag;
+const serverVersion = options.serverVersion === undefined ? undefined : normalizeServerVersion(options.serverVersion);
+const serverReleaseTag = options.serverReleaseTag === undefined
+  ? undefined
+  : normalizeServerReleaseTag(options.serverReleaseTag);
 
 const pluginRoot = path.join(root, 'plugins', 'flavorgrenade-lsp');
 const skillRoot = path.join(pluginRoot, 'skills', 'flavorgrenade-lsp');
@@ -92,6 +94,21 @@ function normalizeVersion(value) {
   return normalized;
 }
 
+function normalizeServerVersion(value) {
+  const normalized = value.replace(/^v/, '');
+  if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(normalized)) {
+    throw new Error(`Invalid server version: ${value}`);
+  }
+  return normalized;
+}
+
+function normalizeServerReleaseTag(value) {
+  if (!/^v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(value)) {
+    throw new Error(`Invalid server release tag: ${value}`);
+  }
+  return value;
+}
+
 function updateJson(filePath, updater) {
   const data = JSON.parse(readFileSync(filePath, 'utf8'));
   writeFileSync(filePath, `${JSON.stringify(updater(data), null, 2)}\n`);
@@ -100,27 +117,35 @@ function updateJson(filePath, updater) {
 function updateCompatibility(filePath, version, serverVersion) {
   const serverRange = serverVersion === undefined ? null : `${majorMinor(serverVersion)}.x`;
   let content = readFileSync(filePath, 'utf8');
-  content = content.replace(
+  content = replaceRequired(
+    content,
     /\| `[^`]+` \| `[^`]+` \| `1\.0` \| supported \| supported \|/m,
     `| \`${version}\` | \`${serverRange ?? '0.5.x'}\` | \`1.0\` | supported | supported |`,
+    `${filePath}: compatibility matrix row`,
   );
-  content = content.replace(
+  content = replaceRequired(
+    content,
     /\| `[^`]+` \| Claude prompts, Codex docs \| advisory \| packaged prompts \| optional \| required metadata \|/m,
     `| \`${version}\` | Claude prompts, Codex docs | advisory | packaged prompts | optional | required metadata |`,
+    `${filePath}: plugin compatibility row`,
   );
   writeFileSync(filePath, content);
 }
 
 function updateJsonSchemaNotes(filePath, version, serverVersion) {
   let content = readFileSync(filePath, 'utf8');
-  content = content.replace(
+  content = replaceRequired(
+    content,
     /"skill": \{ "name": "flavorgrenade-lsp-skill", "version": "[^"]+" \}/,
     `"skill": { "name": "flavorgrenade-lsp-skill", "version": "${version}" }`,
+    `${filePath}: skill schema version`,
   );
   if (serverVersion !== undefined) {
-    content = content.replace(
+    content = replaceRequired(
+      content,
       /"server": \{ "name": "flavor-grenade-lsp", "version": "[^"]+" \}/,
       `"server": { "name": "flavor-grenade-lsp", "version": "${serverVersion}" }`,
+      `${filePath}: server schema version`,
     );
   }
   writeFileSync(filePath, content);
@@ -130,4 +155,12 @@ function majorMinor(version) {
   const match = /^(\d+)\.(\d+)\./.exec(version);
   if (match === null) throw new Error(`Invalid server version: ${version}`);
   return `${match[1]}.${match[2]}`;
+}
+
+function replaceRequired(content, pattern, replacement, description) {
+  if (!pattern.test(content)) {
+    throw new Error(`Could not update ${description}; expected text was not found.`);
+  }
+  pattern.lastIndex = 0;
+  return content.replace(pattern, replacement);
 }

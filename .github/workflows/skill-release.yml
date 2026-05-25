@@ -5,10 +5,6 @@ on:
     tags: ['skill-v*.*.*', 'skill-v*.*.*-test*']
   workflow_dispatch:
     inputs:
-      dry_run:
-        description: Build and sign artifacts without publishing a release.
-        type: boolean
-        default: true
       server_release:
         description: Server release tag to embed, or latest.
         type: string
@@ -83,6 +79,25 @@ jobs:
             --target "${{ matrix.target }}" \
             --server-release "$server_release" \
             --repo "${{ github.repository }}"
+
+      - name: Stamp embedded server version
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          else
+            plugin_version="${{ inputs.plugin_version }}"
+          fi
+          if [[ "${{ matrix.target }}" == "win-x64" ]]; then
+            provenance="dist/flavor-grenade-lsp.exe.runtime.json"
+          else
+            provenance="dist/flavor-grenade-lsp.runtime.json"
+          fi
+          server_release_tag="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync(process.argv[1], 'utf8')).releaseTag)" "$provenance")"
+          server_version="${server_release_tag#v}"
+          bun run skill:set-version -- "$plugin_version" \
+            --server-version "$server_version" \
+            --server-release-tag "$server_release_tag"
 
       - name: Package skill artifact
         id: package

@@ -166,7 +166,7 @@ jobs:
             --repo "${{ github.repository }}"
 
       - name: Set plugin version for consumption check
-        run: bun run skill:set-version -- "0.1.0" --server-version "${GITHUB_REF_NAME#v}" --server-release-tag "$GITHUB_REF_NAME"
+        run: bun run skill:set-version -- "0.0.0-runtime-check" --server-version "${GITHUB_REF_NAME#v}" --server-release-tag "$GITHUB_REF_NAME"
 
       - name: Package and verify plugin artifact
         run: |

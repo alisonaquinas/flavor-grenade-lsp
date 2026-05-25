@@ -49,6 +49,42 @@ describe('set-plugin-version', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  it('fails when required documentation replacement targets are missing', () => {
+    const root = tempRepo();
+    try {
+      writeFileSync(
+        path.join(root, 'plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/docs/compatibility.md'),
+        '| Skill version | Server version |\n|---|---|\n| stale | stale |\n',
+      );
+
+      const result = spawnSync(process.execPath, [scriptPath, '1.2.3', '--root', root], {
+        encoding: 'utf8',
+      });
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain('Could not update');
+      expect(result.stderr).toContain('compatibility matrix row');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('rejects malformed server release tags', () => {
+    const root = tempRepo();
+    try {
+      const result = spawnSync(
+        process.execPath,
+        [scriptPath, '1.2.3', '--server-version', '0.6.7', '--server-release-tag', 'release-0.6.7', '--root', root],
+        { encoding: 'utf8' },
+      );
+
+      expect(result.status).toBe(1);
+      expect(result.stderr).toContain('Invalid server release tag');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });
 
 function tempRepo() {
