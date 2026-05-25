@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -88,7 +88,7 @@ describe('set-plugin-version', () => {
 });
 
 function tempRepo() {
-  const root = path.join(tmpdir(), `fg-plugin-version-${process.pid}-${Date.now()}`);
+  const root = mkdtempSync(path.join(tmpdir(), 'fg-plugin-version-'));
   mkdirSync(path.join(root, 'plugins', 'flavorgrenade-lsp', 'skills', 'flavorgrenade-lsp', 'docs'), {
     recursive: true,
   });

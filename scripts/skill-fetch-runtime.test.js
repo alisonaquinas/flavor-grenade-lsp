@@ -3,6 +3,7 @@ import {
   chmodSync,
   existsSync,
   mkdirSync,
+  mkdtempSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -180,9 +181,7 @@ describe('skill-fetch-runtime', () => {
 });
 
 function tempDir(prefix) {
-  const root = path.join(tmpdir(), `${prefix}${process.pid}-${Date.now()}`);
-  mkdirSync(root, { recursive: true });
-  return root;
+  return mkdtempSync(path.join(tmpdir(), prefix));
 }
 
 function sha256(text) {

@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -30,7 +30,7 @@ describe('skill-verify', () => {
 });
 
 function tempSkill() {
-  const root = path.join(tmpdir(), `fg-verify-${process.pid}-${Date.now()}`, 'skill');
+  const root = path.join(mkdtempSync(path.join(tmpdir(), 'fg-verify-')), 'skill');
   mkdirSync(path.join(root, 'wrappers'), { recursive: true });
   mkdirSync(path.join(root, 'bin', 'linux-x64'), { recursive: true });
   writeFileSync(path.join(root, 'SKILL.md'), '---\nname: flavorgrenade-lsp\n---\n');

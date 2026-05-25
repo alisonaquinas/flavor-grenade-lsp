@@ -461,7 +461,8 @@ function findMatchedOverrideEvidence(workspaceRoot, evidence, file) {
   const configPath = path.join(workspaceRoot, evidence.path);
   let overrides = [];
   try {
-    const content = statSync(configPath).size <= 8192 ? readFileSync(configPath, 'utf8') : '';
+    const content = readFileSync(configPath, 'utf8');
+    if (content.length > 8192) return null;
     overrides = parseOverridesForEvidence(evidence.format, content);
   } catch {
     return null;
