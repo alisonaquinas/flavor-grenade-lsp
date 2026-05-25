@@ -11,10 +11,10 @@
   --line: #ead8cf;
   --cool: #1f6f8b;
   --green: #2d7a52;
-  --texture-page: oklch(0.58 0.045 44 / 0.08);
-  --texture-coral: oklch(0.62 0.15 34 / 0.13);
-  --texture-cool: oklch(0.54 0.07 210 / 0.1);
-  --texture-quiet: oklch(0.52 0.035 58 / 0.1);
+  --texture-page: oklch(0.58 0.045 44 / 0.075);
+  --texture-coral: oklch(0.61 0.15 34 / 0.16);
+  --texture-cool: oklch(0.54 0.07 210 / 0.12);
+  --texture-quiet: oklch(0.52 0.035 58 / 0.12);
   color: var(--ink);
   background: var(--surface);
   font-family:
@@ -38,10 +38,10 @@
   --line: #4a3430;
   --cool: #8fd3ee;
   --green: #8ed9ad;
-  --texture-page: oklch(0.86 0.035 52 / 0.055);
-  --texture-coral: oklch(0.78 0.12 34 / 0.12);
-  --texture-cool: oklch(0.78 0.08 210 / 0.11);
-  --texture-quiet: oklch(0.82 0.04 58 / 0.08);
+  --texture-page: oklch(0.86 0.035 52 / 0.075);
+  --texture-coral: oklch(0.79 0.12 34 / 0.17);
+  --texture-cool: oklch(0.8 0.08 210 / 0.14);
+  --texture-quiet: oklch(0.83 0.04 58 / 0.11);
 }
 
 * {
@@ -308,7 +308,7 @@ button {
   pointer-events: none;
   position: absolute;
   transform: rotate(-4deg);
-  z-index: -1;
+  z-index: 0;
 }
 
 .hero-shell > * {
@@ -456,7 +456,7 @@ p {
   pointer-events: none;
   position: absolute;
   transform: rotate(2deg);
-  z-index: -1;
+  z-index: 0;
 }
 
 .install-section > * {
@@ -480,6 +480,7 @@ p {
 }
 
 .install-card {
+  background: color-mix(in srgb, var(--surface-raised) 86%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   color: inherit;
@@ -561,7 +562,7 @@ p {
   pointer-events: none;
   position: absolute;
   transform: rotate(-2deg);
-  z-index: -1;
+  z-index: 0;
 }
 
 .feature-section > * {
@@ -590,7 +591,7 @@ p {
 }
 
 .feature-item {
-  background: transparent;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   color: inherit;
@@ -699,7 +700,7 @@ p {
   pointer-events: none;
   position: absolute;
   transform: rotate(3deg);
-  z-index: -1;
+  z-index: 0;
 }
 
 .docs-page > * {
@@ -984,6 +985,25 @@ p {
   .hero-shell {
     overflow: hidden;
     padding-inline: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .hero-shell::before,
+  .install-section::before,
+  .feature-section::before,
+  .docs-page::before {
+    block-size: min(34rem, 120vw);
+    inline-size: min(46rem, 140vw);
+    opacity: 0.58;
+  }
+
+  .hero-shell::before,
+  .install-section::before,
+  .docs-page::before {
+    inset-inline-end: clamp(-24rem, -62vw, -11rem);
+  }
+
+  .feature-section::before {
+    inset-inline-start: clamp(-24rem, -62vw, -11rem);
   }
 
   .eyebrow {
