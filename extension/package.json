@@ -231,6 +231,12 @@
           "default": "auto",
           "description": "Structured Markdown profile flags layered over the selected base flavor."
         },
+        "flavorGrenade.projectConfig.maxBytes": {
+          "type": "number",
+          "default": 8192,
+          "minimum": 1,
+          "description": "Maximum project configuration file size, in bytes, read for Markdown flavor detection."
+        },
         "flavorGrenade.completion.candidates": {
           "type": "number",
           "default": 50,

@@ -16,7 +16,7 @@ import {
   resolveVaultRelativePath,
 } from '../vault/vault-path-confinement.js';
 
-const MAX_PROJECT_CONFIG_BYTES = 8192;
+const DEFAULT_PROJECT_CONFIG_MAX_BYTES = 8192;
 const DANGEROUS_CONFIG_KEY_PATTERN =
   /(^|[\s.[{,])"?(__proto__|constructor|prototype)"?(\s*:|\s*=|\s*\]|\s*\.|\s*\})/;
 
@@ -42,6 +42,12 @@ interface ProjectMarkdownConfigOverride {
  * rejected when prototype-related keys are present.
  */
 export class ProjectMarkdownFlavorConfig {
+  private maxProjectConfigBytes = DEFAULT_PROJECT_CONFIG_MAX_BYTES;
+
+  setMaxProjectConfigBytes(value: unknown): void {
+    this.maxProjectConfigBytes = normalizeProjectConfigMaxBytes(value);
+  }
+
   /**
    * Resolve the project-configured Markdown flavor for a vault root/document.
    *
@@ -112,11 +118,11 @@ export class ProjectMarkdownFlavorConfig {
     try {
       fd = fs.openSync(configPath, 'r');
       const stat = fs.fstatSync(fd);
-      if (!stat.isFile() || stat.size > MAX_PROJECT_CONFIG_BYTES) {
+      if (!stat.isFile() || stat.size > this.maxProjectConfigBytes) {
         return null;
       }
       const content = fs.readFileSync(fd, 'utf8');
-      return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? null : content;
+      return Buffer.byteLength(content, 'utf8') > this.maxProjectConfigBytes ? null : content;
     } catch {
       return null;
     } finally {
@@ -125,6 +131,14 @@ export class ProjectMarkdownFlavorConfig {
       }
     }
   }
+}
+
+function normalizeProjectConfigMaxBytes(value: unknown): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    return DEFAULT_PROJECT_CONFIG_MAX_BYTES;
+  }
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : DEFAULT_PROJECT_CONFIG_MAX_BYTES;
 }
 
 function parseConfigFile(

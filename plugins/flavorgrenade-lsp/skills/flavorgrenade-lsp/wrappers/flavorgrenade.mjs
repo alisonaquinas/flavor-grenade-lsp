@@ -77,10 +77,10 @@ async function main() {
       : null;
 
   const result = await withClient(runtime, { ...options, cwd: workspaceRoot }, rootUri, async (client) => {
-    const files = collectMarkdownFiles(absolutePath, options);
+    const files = collectMarkdownFiles(absolutePath, options, workspaceRoot);
     const filesToOpen =
       command === 'hover' && rootUri !== null
-        ? mergeUnique([...files, ...collectMarkdownFiles(workspaceRoot, options)])
+        ? mergeUnique([...files, ...collectMarkdownFiles(workspaceRoot, options, workspaceRoot)])
         : files;
     for (const file of filesToOpen) {
       const text = await readFile(file, 'utf8');
@@ -390,6 +390,8 @@ function parseArgs(args) {
     else if (arg === '--no-signature-check') options.noSignatureCheck = true;
     else if (arg === '--include') options.include = rest[++index];
     else if (arg === '--exclude') options.exclude = rest[++index];
+    else if (arg === '--max-files') options.maxFiles = Number(rest[++index]);
+    else if (arg === '--max-bytes') options.maxBytes = Number(rest[++index]);
     else positional.push(arg);
   }
   return { command, positional, options };
@@ -409,22 +411,59 @@ function resolveWorkspace(workspaceOption, targetPath) {
   return stat.isDirectory() ? resolved : path.dirname(resolved);
 }
 
-function collectMarkdownFiles(target, options) {
+function collectMarkdownFiles(target, options, workspaceRoot = undefined) {
   const stat = statSync(target);
-  if (stat.isFile()) return [target];
+  const root = workspaceRoot ?? (stat.isDirectory() ? target : path.dirname(target));
+  if (stat.isFile()) {
+    return shouldCollectFile(target, root, options, stat) ? [target] : [];
+  }
   const files = [];
   const stack = [target];
-  const maxFiles = Number(options.maxFiles ?? 500);
+  const maxFiles = positiveIntegerOrDefault(options.maxFiles, 500);
   while (stack.length > 0 && files.length < maxFiles) {
     const current = stack.pop();
     for (const entry of readdirSync(current, { withFileTypes: true })) {
       const full = path.join(current, entry.name);
       if (entry.isDirectory()) stack.push(full);
-      else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) files.push(full);
+      else if (entry.isFile() && shouldCollectFile(full, root, options)) files.push(full);
       if (files.length >= maxFiles) break;
     }
   }
   return files;
+}
+
+function shouldCollectFile(file, root, options, knownStat = undefined) {
+  if (!file.toLowerCase().endsWith('.md')) return false;
+  const relative = relativePath(root, file);
+  if (!matchesAnySelector(options.include, relative, true)) return false;
+  if (matchesAnySelector(options.exclude, relative, false)) return false;
+  const maxBytes = positiveIntegerOrDefault(options.maxBytes, Number.POSITIVE_INFINITY);
+  if (Number.isFinite(maxBytes)) {
+    const stat = knownStat ?? statSync(file);
+    if (stat.size > maxBytes) return false;
+  }
+  return true;
+}
+
+function matchesAnySelector(value, relative, defaultValue) {
+  const selectors = normalizeSelectorList(value);
+  if (selectors.length === 0) return defaultValue;
+  return selectors.some((selector) => configSelectorMatches(selector, relative));
+}
+
+function normalizeSelectorList(value) {
+  if (value === undefined) return [];
+  if (Array.isArray(value)) return value.flatMap(normalizeSelectorList);
+  return String(value)
+    .split(',')
+    .map((selector) => selector.trim())
+    .filter(Boolean);
+}
+
+function positiveIntegerOrDefault(value, defaultValue) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return defaultValue;
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : defaultValue;
 }
 
 function findConfigEvidence(workspaceRoot, file) {
@@ -781,13 +820,17 @@ function relativePath(root, file) {
   return path.relative(root, file).replace(/\\/g, '/') || path.basename(file);
 }
 
-main()
-  .then((result) => {
-    if (result !== undefined) {
-      process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
-    }
-  })
-  .catch((error) => {
-    process.stdout.write(`${JSON.stringify(errorEnvelope(error), null, 2)}\n`);
-    process.exitCode = 1;
-  });
+export { collectMarkdownFiles, configSelectorMatches, parseArgs };
+
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+  main()
+    .then((result) => {
+      if (result !== undefined) {
+        process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+      }
+    })
+    .catch((error) => {
+      process.stdout.write(`${JSON.stringify(errorEnvelope(error), null, 2)}\n`);
+      process.exitCode = 1;
+    });
+}

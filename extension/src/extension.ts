@@ -33,6 +33,7 @@ import {
   MARKDOWN_FLAVOR_SETTING_KEY,
   MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
+  PROJECT_CONFIG_MAX_BYTES_SETTING_KEY,
   createMarkdownFlavorQuickPickItems,
   isFlavorEligibleDocument,
   isMarkdownFlavorSelection,
@@ -162,6 +163,9 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
         await client.restart();
       }
+      if (e.affectsConfiguration(`flavorGrenade.${PROJECT_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
+        await client.restart();
+      }
       const activeDocument = window.activeTextEditor?.document;
       if (activeDocument && e.affectsConfiguration(MARKDOWN_FLAVOR_SECTION, activeDocument.uri)) {
         await refreshMarkdownFlavorStatus(context);
@@ -276,6 +280,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
       linkStyle: config.get('linkStyle'),
       completionCandidates: config.get('completion.candidates'),
       diagnosticsSuppress: config.get('diagnostics.suppress'),
+      projectConfigMaxBytes: config.get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
     },
   };
 
@@ -349,6 +354,10 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
         .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
       return isStructuredProfileSelection(value) ? value : 'auto';
     },
+    getProjectConfigMaxBytes: (document) =>
+      workspace
+        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+        .get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
     getWorkspaceFolderPath: (document) => workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
@@ -429,6 +438,9 @@ async function resolveLocalMarkdownFlavor(document: TextDocument) {
   const evidence = document.uri.fsPath
     ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
         searchBoundary: workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
+        projectConfigMaxBytes: workspace
+          .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
+          .get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
       })
     : undefined;
   return resolveMarkdownFlavor({
