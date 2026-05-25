@@ -1,0 +1,21 @@
+{
+  "name": "flavorgrenade-lsp-skill",
+  "installName": "flavorgrenade-lsp",
+  "version": "0.1.0",
+  "schemaVersion": "1.0",
+  "server": {
+    "name": "flavor-grenade-lsp",
+    "version": "0.5.0",
+    "commit": "240ee90b00000000000000000000000000000000",
+    "releaseTag": "v0.5.0"
+  },
+  "runtime": {
+    "target": "win-x64",
+    "executable": "bin/win-x64/flavor-grenade-lsp.exe",
+    "sha256": "",
+    "sigstoreBundle": "bin/win-x64/flavor-grenade-lsp.sigstore.json"
+  },
+  "commands": {
+    "main": "wrappers/flavorgrenade.mjs"
+  }
+}

@@ -1,0 +1,54 @@
+# Flavor Grenade LSP Skill
+
+LLM-facing command wrappers for Flavor Grenade LSP. The skill embeds or is
+packaged with one runtime-specific `flavor-grenade-lsp` executable and exposes
+stable JSON commands for Markdown flavor analysis.
+
+## Install Shape
+
+```text
+skills/flavorgrenade-lsp/
+├── SKILL.md
+├── manifest.json
+├── wrappers/
+├── docs/
+├── examples/
+└── bin/<target>/flavor-grenade-lsp[.exe]
+```
+
+The source tree can be installed by repository skill installers. Release
+artifacts are assembled per runtime target.
+
+## Commands
+
+```bash
+node wrappers/flavorgrenade.mjs verify-install --json
+node wrappers/flavorgrenade.mjs analyze <path> --json
+node wrappers/flavorgrenade.mjs detect <path> --json
+node wrappers/flavorgrenade.mjs diagnostics <path> --json
+node wrappers/flavorgrenade.mjs symbols <path> --json
+node wrappers/flavorgrenade.mjs folds <path> --json
+node wrappers/flavorgrenade.mjs hover <path>:<line>:<character> --json
+node wrappers/flavorgrenade.mjs completions <path>:<line>:<character> --json
+node wrappers/flavorgrenade.mjs explain-flavor <path> --json
+node wrappers/flavorgrenade.mjs variants <path> --json
+node wrappers/flavorgrenade.mjs refs <path> --json
+```
+
+All commands default to JSON. Paths are confined to the selected workspace.
+
+## Configuration
+
+The embedded LSP remains authoritative. The wrapper reports config evidence but
+does not reinterpret config files itself. Supported project config inputs are
+TOML, JSON, JSONC, YAML, and Flavor Grenade `.editorconfig` directives.
+
+One config file may assign different flavors or structured profiles to
+different directories. Run analysis per target file or workspace path so
+directory-specific evidence is preserved.
+
+## Safety
+
+Wrappers do not download runtime binaries, execute Markdown code, run renderer
+plugins, or fetch remote references. Host and renderer references are reported
+as boundaries.

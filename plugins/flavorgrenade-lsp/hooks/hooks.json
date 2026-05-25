@@ -1,0 +1,32 @@
+{
+  "hooks": [
+    {
+      "name": "post-edit-markdown-diagnostics",
+      "enabledByDefault": false,
+      "matcher": "**/*.md",
+      "command": [
+        "node",
+        "skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs",
+        "diagnostics",
+        "${file}",
+        "--json"
+      ],
+      "timeoutMs": 30000,
+      "advisory": true
+    },
+    {
+      "name": "config-aware-markdown-detect",
+      "enabledByDefault": false,
+      "matcher": "**/*.md",
+      "command": [
+        "node",
+        "skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs",
+        "detect",
+        "${file}",
+        "--json"
+      ],
+      "timeoutMs": 30000,
+      "advisory": true
+    }
+  ]
+}

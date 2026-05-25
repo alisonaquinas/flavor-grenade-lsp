@@ -1,0 +1,10 @@
+{
+  "hooks": [
+    {
+      "name": "post-edit-markdown-diagnostics",
+      "enabledByDefault": false,
+      "matcher": "**/*.md",
+      "advisory": true
+    }
+  ]
+}
