@@ -534,7 +534,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for attempt in {1..120}; do
+          for _ in {1..120}; do
             if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
               gh release upload "$GITHUB_REF_NAME" signed-npm-package/* --clobber
               exit 0

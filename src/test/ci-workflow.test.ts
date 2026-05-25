@@ -249,7 +249,7 @@ describe('CI workflow verification battery', () => {
       'Verify signed npm package evidence',
       'sha256sum --check "$package_name.sha256"',
       'Attach signed npm package to GitHub Release',
-      'for attempt in {1..120}',
+      'for _ in {1..120}',
       'gh release upload "$GITHUB_REF_NAME" signed-npm-package/* --clobber',
     ]) {
       expect(workflow).toContain(command);
