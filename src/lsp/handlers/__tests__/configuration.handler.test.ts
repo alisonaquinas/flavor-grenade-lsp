@@ -220,7 +220,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     ).toEqual({ kind: 'inactive', reason: 'non-markdown-language' });
   });
 
-  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+  it('infers strong project-config-absent syntax before CommonMark fallback', () => {
     const state = new MarkdownFlavorState();
 
     expect(
@@ -251,7 +251,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     ).toMatchObject({ kind: 'active', effective: 'commonmark', source: 'commonmark-fallback' });
   });
 
-  it('uses confined project TOML flavor evidence and ignores unsafe project config', () => {
+  it('uses confined project config flavor evidence and ignores unsafe project config', () => {
     const root = createTempRoot();
     try {
       const config = new ProjectMarkdownFlavorConfig();
@@ -313,6 +313,197 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     }
   });
 
+  it('keeps TOML first in discovery order when alternate config formats coexist', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.toml'),
+        [
+          '[core.markdown]',
+          'flavor = "gfm"',
+          '',
+          '[[core.markdown.overrides]]',
+          'path = "docs/api"',
+          'flavor = "glfm"',
+          'structured_profiles = ["common-changelog"]',
+        ].join('\n'),
+      );
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.json'),
+        '{"core":{"markdown":{"flavor":"obsidian"}}}\n',
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'README.md'))).toBe('gfm');
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'api', 'CHANGELOG.md'))).toBe(
+        'glfm',
+      );
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'docs', 'api', 'CHANGELOG.md')),
+      ).toEqual(['common-changelog']);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves plain JSON project config values', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.json'),
+        JSON.stringify({
+          core: {
+            markdown: {
+              flavor: 'mdx',
+              structured_profiles: ['madr'],
+            },
+          },
+        }),
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'component.md'))).toBe('mdx');
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'docs', 'component.md')),
+      ).toEqual(['madr']);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves directory-specific flavor and profile overrides from one JSONC config', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.jsonc'),
+        [
+          '{',
+          '  // Default for ordinary markdown in this workspace.',
+          '  "core": {',
+          '    "markdown": {',
+          '      "flavor": "commonmark",',
+          '      "structured_profiles": ["madr"],',
+          '      "overrides": [',
+          '        { "path": "docs", "flavor": "gfm", "structured_profiles": ["keep-a-changelog"] },',
+          '        { "path": "notes/research", "flavor": "obsidian", "structured_profiles": "none" }',
+          '      ]',
+          '    }',
+          '  }',
+          '}',
+        ].join('\n'),
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'README.md'))).toBe('commonmark');
+      expect(config.resolveStructuredProfiles(root, path.join(root, 'README.md'))).toEqual([
+        'madr',
+      ]);
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'CHANGELOG.md'))).toBe('gfm');
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'docs', 'CHANGELOG.md')),
+      ).toEqual(['keep-a-changelog']);
+      expect(config.resolveFlavor(root, path.join(root, 'notes', 'research', 'index.md'))).toBe(
+        'obsidian',
+      );
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'notes', 'research', 'index.md')),
+      ).toBe('none');
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves YAML project config without changing TOML compatibility', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.yaml'),
+        [
+          'core:',
+          '  markdown:',
+          '    flavor: commonmark',
+          '    overrides:',
+          '      - path: docs/decisions',
+          '        flavor: pandoc',
+          '        structured_profiles:',
+          '          - madr',
+        ].join('\n'),
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'decisions', '0001-test.md'))).toBe(
+        'pandoc',
+      );
+      expect(
+        config.resolveStructuredProfiles(
+          root,
+          path.join(root, 'docs', 'decisions', '0001-test.md'),
+        ),
+      ).toEqual(['madr']);
+      expect(config.resolveFlavor(root, path.join(root, 'notes', 'plain.md'))).toBe('commonmark');
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves markdown flavor and profiles from .editorconfig directives', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.editorconfig'),
+        [
+          'root = true',
+          '',
+          '[docs/**/*.md]',
+          'flavor_grenade_markdown_flavor = gfm',
+          'flavor_grenade_markdown_structured_profiles = keep-a-changelog',
+          '',
+          '[docs/decisions/*.md]',
+          'flavor_grenade.markdown_flavor = pandoc',
+          'flavor_grenade.markdown_structured_profiles = madr',
+        ].join('\n'),
+      );
+
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'guide', 'README.md'))).toBe('gfm');
+      expect(
+        config.resolveStructuredProfiles(root, path.join(root, 'docs', 'guide', 'README.md')),
+      ).toEqual(['keep-a-changelog']);
+      expect(config.resolveFlavor(root, path.join(root, 'docs', 'decisions', '0001-test.md'))).toBe(
+        'pandoc',
+      );
+      expect(
+        config.resolveStructuredProfiles(
+          root,
+          path.join(root, 'docs', 'decisions', '0001-test.md'),
+        ),
+      ).toEqual(['madr']);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('ignores unsafe project config across non-TOML formats', () => {
+    const root = createTempRoot();
+    try {
+      const config = new ProjectMarkdownFlavorConfig();
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.json'),
+        '{"core":{"markdown":{"flavor":"gfm"}},"__proto__":{"polluted":true}}\n',
+      );
+      expect(config.resolveFlavor(root)).toBeUndefined();
+
+      fs.rmSync(path.join(root, '.flavor-grenade.json'));
+      fs.writeFileSync(
+        path.join(root, '.flavor-grenade.yaml'),
+        ['core:', '  markdown:', '    flavor: gfm', 'constructor:', '  polluted: true'].join('\n'),
+      );
+      expect(config.resolveFlavor(root)).toBeUndefined();
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
   it('resolves structured profiles from explicit config, TOML, and local inference', () => {
     const state = new MarkdownFlavorState();
 
@@ -336,13 +527,13 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
         uri: 'file:///vault/CHANGELOG.md',
         languageId: 'markdown',
         hasObsidianMarker: false,
-        projectTomlStructuredProfiles: ['keep-a-changelog'],
+        projectConfigStructuredProfiles: ['keep-a-changelog'],
         syntaxText: '# Changelog\n\n## 1.0.0 - 2026-05-23',
       }),
     ).toMatchObject({
       kind: 'active',
       structuredProfiles: ['keep-a-changelog'],
-      structuredProfileSource: 'project-toml',
+      structuredProfileSource: 'project-config',
     });
 
     expect(

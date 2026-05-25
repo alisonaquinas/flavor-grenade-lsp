@@ -322,7 +322,7 @@ interface DocumentMembershipResult {
 }
 ```
 
-The server-side answer is authoritative for `.flavor-grenade.toml` vaults and any document already present in the index. It is a membership hint, not a flavor computation result; BC6 must not infer the final effective flavor from it except to keep the selector UI coherent.
+The server-side answer is authoritative for project-config-backed vaults and any document already present in the index. It is a membership hint, not a flavor computation result; BC6 must not infer the final effective flavor from it except to keep the selector UI coherent.
 
 ---
 

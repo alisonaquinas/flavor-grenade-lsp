@@ -15,7 +15,7 @@ aliases: [path-types, docid, slug, vaultroot, path-resolution, wiki-encoded]
 ```text
 AbsPath         — absolute filesystem path (OS-native separators internally)
   │
-  ├── VaultRoot — AbsPath known to be a vault root (contains .obsidian/ or .flavor-grenade.toml)
+  ├── VaultRoot — AbsPath known to be a vault root (contains .obsidian/ or a Flavor Grenade project config marker)
   │
   └── VaultPath — (VaultRoot × RelPath) — vault-relative path string
         │
@@ -33,7 +33,7 @@ WikiEncoded     — wiki-link text as it appears between [[ and ]] (pre-decode)
 type VaultRoot = { _tag: 'VaultRoot'; absPath: AbsPath }
 ```
 
-`VaultRoot` is an `AbsPath` that has been validated to contain either a `.obsidian/` subdirectory or a `.flavor-grenade.toml` file. It is constructed only by `VaultDetector` — nowhere else in the system creates a `VaultRoot` directly.
+`VaultRoot` is an `AbsPath` that has been validated to contain either a `.obsidian/` subdirectory or a Flavor Grenade project config marker. It is constructed only by `VaultDetector` — nowhere else in the system creates a `VaultRoot` directly.
 
 `VaultRoot` carries semantic weight: it is the reference point from which all `VaultPath` values are computed. Two documents with the same `VaultRoot` are in the same vault; cross-vault resolution is never performed.
 
@@ -196,7 +196,7 @@ Approx mode uses the suffix tree in `FolderLookup`. The suffix tree is built fro
 
 ---
 
-## `.obsidian/` and `.flavor-grenade.toml` Detection Logic
+## `.obsidian/` and Project Config Detection Logic
 
 `VaultDetector` traverses the filesystem upward from the document's absolute path, checking each ancestor directory for vault markers:
 
@@ -206,13 +206,13 @@ Algorithm VaultDetector.detect(docAbsPath):
   while current != filesystem_root:
     if exists(current / ".obsidian") AND isDirectory(current / ".obsidian"):
       return VaultRoot(current)   ← primary signal
-    if exists(current / ".flavor-grenade.toml"):
+    if exists(current / Flavor Grenade project config marker):
       return VaultRoot(current)   ← secondary signal
     current = parent(current)
   return None                     ← single-file mode
 ```
 
-`.obsidian/` takes precedence over `.flavor-grenade.toml` if both exist in the same directory. If they exist in different ancestor directories, the closer one (lower in the directory tree, i.e., shorter distance to the document) wins.
+`.obsidian/` takes precedence over project config markers if both exist in the same directory. If they exist in different ancestor directories, the closer one (lower in the directory tree, i.e., shorter distance to the document) wins.
 
 ---
 

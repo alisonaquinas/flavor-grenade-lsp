@@ -10,7 +10,7 @@ aliases:
 # Configuration Requirements
 
 > [!NOTE] Scope
-> These requirements govern the configuration system for `flavor-grenade-lsp`: the layering and precedence rules for the three-tier config stack (built-in defaults, user config, project config), validation of individual config values, fault isolation when config files are malformed, and default values for required keys. Configuration keys referenced here are the authoritative source of truth for their defaults; all other feature files defer to this file for config-related specifications. The config file format is TOML, parsed at server startup and on file-change notifications.
+> These requirements govern the configuration system for `flavor-grenade-lsp`: the layering and precedence rules for the three-tier config stack (built-in defaults, user config, project config), validation of individual config values, fault isolation when config files are malformed, and default values for required keys. Configuration keys referenced here are the authoritative source of truth for their defaults; all other feature files defer to this file for config-related specifications. Project config supports TOML, JSON, JSONC, YAML, and Flavor Grenade directives in `.editorconfig`, parsed at server startup and on file-change notifications.
 
 ---
 
@@ -18,7 +18,7 @@ aliases:
 
 **Tag:** Config.Precedence.Layering
 **User Req:** User.Config.CustomizeLinkStyle
-**Gist:** Project-level `.flavor-grenade.toml` values override user-level config values, which in turn override built-in defaults; each layer must affect only the keys it explicitly defines, leaving all other keys at their inherited value.
+**Gist:** Project-level config values override user-level config values, which in turn override built-in defaults; each layer must affect only the keys it explicitly defines, leaving all other keys at their inherited value.
 **Ambition:** A three-tier configuration stack is standard practice for developer tools (editors, linters, LSPs) and provides the correct layering for both personal and team usage: team-wide project settings in the project file, personal preferences in the user file, and safe defaults for unconfigured scenarios. The critical property is that each tier is additive, not total: a project file that sets only `wiki.style` must not reset `completion.candidates` to an unexpected value. Violating this contract creates configuration surprises that are extremely difficult to debug because the symptom (unexpected LSP behaviour) appears far removed from the cause (a missing key in a config file resetting to default).
 **Scale:** Percentage of test cases in which a key defined at a higher-priority tier takes the expected value when the same key is also defined at a lower-priority tier, and in which a key defined only at a lower-priority tier retains its lower-tier value. Scope: at least 5 distinct configuration keys across at least 3 test scenarios per key.
 **Meter:**
@@ -50,7 +50,7 @@ aliases:
 **Meter:**
 
 1. Test at least 5 invalid values: `0`, `-1`, `-100`, `3.7`, `"fifty"`.
-2. For each, write the value to the project `.flavor-grenade.toml` under `completion.candidates`.
+2. For each, write the value to project config under `completion.candidates`.
 3. Start the server; verify it reaches the `initialized` state without error.
 4. Issue `textDocument/completion` with a query that would return more than 50 candidates; verify the response contains exactly 50 items (confirming the default is in effect).
 5. Inspect the server log for a debug-level message referencing the invalid value.
@@ -66,15 +66,15 @@ aliases:
 ## Config.Fault.Isolation
 
 **Tag:** Config.Fault.Isolation
-**Gist:** A malformed TOML syntax error in any configuration file (project, user, or built-in override) must cause only that file to be dropped from the configuration merge, without crashing the server or preventing it from serving requests; the server must log the parse error at debug level and continue with the remaining valid configuration layers.
-**Ambition:** Configuration file corruption is a realistic failure mode: truncated writes, encoding issues, and manual editing mistakes all produce invalid TOML. A server that crashes on any config parse error punishes the author at the worst possible time — often on startup, blocking all LSP functionality until the config is fixed. Fault isolation ensures the server degrades gracefully: it loses only the settings from the malformed file, continues operating on defaults or higher-priority valid files, and gives the author an observable signal (the debug log) to diagnose the issue at their own pace.
-**Scale:** Percentage of server startups with a malformed TOML file in at least one configuration layer in which the server (a) does not crash, (b) reaches the `initialized` state, (c) emits at least one debug-level log message identifying the malformed file and the parse error, and (d) uses the remaining valid configuration layers for its effective configuration.
+**Gist:** A malformed project config syntax error in any configuration file (project, user, or built-in override) must cause only that file to be dropped from the configuration merge, without crashing the server or preventing it from serving requests; the server must log the parse error at debug level and continue with the remaining valid configuration layers.
+**Ambition:** Configuration file corruption is a realistic failure mode: truncated writes, encoding issues, and manual editing mistakes all produce invalid config. A server that crashes on any config parse error punishes the author at the worst possible time — often on startup, blocking all LSP functionality until the config is fixed. Fault isolation ensures the server degrades gracefully: it loses only the settings from the malformed file, continues operating on defaults or higher-priority valid files, and gives the author an observable signal (the debug log) to diagnose the issue at their own pace.
+**Scale:** Percentage of server startups with a malformed project config file in at least one configuration layer in which the server (a) does not crash, (b) reaches the `initialized` state, (c) emits at least one debug-level log message identifying the malformed file and the parse error, and (d) uses the remaining valid configuration layers for its effective configuration.
 **Meter:**
 
-1. Create a project `.flavor-grenade.toml` with deliberate syntax errors (unclosed quotes, invalid key-value separator, binary data).
+1. Create project config files with deliberate syntax errors across TOML, JSON, JSONC, YAML, and `.editorconfig` directives.
 2. Create a valid user config file with at least 2 config keys set.
 3. Start the server; verify it reaches `initialized`.
-4. Verify the server log contains a debug-level message citing the malformed project file path and the TOML parse error.
+4. Verify the server log contains a debug-level message citing the malformed project file path and parse error.
 5. Verify the effective configuration uses the user config values (not built-in defaults alone), confirming the valid file was processed despite the malformed file.
 6. Repeat with a malformed user config file alongside a valid project config.
 7. Compute: (malformed-file startups with correct isolation behaviour / total malformed-file startups tested) × 100.

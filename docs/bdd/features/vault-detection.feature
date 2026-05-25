@@ -32,6 +32,30 @@ Feature: Vault root detection
       | fullFeatures | true         |
     And the capability "flavorGrenade.crossFileLinks" is active
 
+  Scenario Outline: Flavor Grenade project config marker found — vault mode active with full features
+    Given the file "project/<marker>" contains:
+      """
+      <content>
+      """
+    And a directory structure at "project/":
+      | path                   | type |
+      | project/docs/README.md | file |
+    When the LSP server initializes with rootUri "project/"
+    Then the VaultDetector returns:
+      | field        | value          |
+      | mode         | flavor-grenade |
+      | vaultRoot    | project/       |
+      | fullFeatures | true           |
+    And the capability "flavorGrenade.crossFileLinks" is active
+
+    Examples:
+      | marker                 | content                                           |
+      | .flavor-grenade.json   | {"core":{"markdown":{"flavor":"gfm"}}}            |
+      | .flavor-grenade.jsonc  | // comment\n{"core":{"markdown":{"flavor":"gfm"}}} |
+      | .flavor-grenade.yaml   | core:\n  markdown:\n    flavor: gfm              |
+      | .flavor-grenade.yml    | core:\n  markdown:\n    flavor: gfm              |
+      | .editorconfig          | [*.md]\nflavor_grenade_markdown_flavor = gfm     |
+
   Scenario: Both .obsidian/ and .flavor-grenade.toml present — obsidian takes precedence
     Given a directory structure at "mixed/":
       | path                          | type      |

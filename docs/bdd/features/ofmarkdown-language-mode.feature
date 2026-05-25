@@ -49,6 +49,41 @@ Feature: Markdown flavor selection
       | reddit         | Reddit Markdown          |
       | stack-overflow | Stack Overflow Markdown  |
 
+  @planned @req:Extension.MarkdownFlavor.AutoDetection
+  Scenario Outline: Alternate project config formats set the Auto Detect default
+    Given a workspace folder containing "<configFile>"
+    And the workspace config declares default Markdown flavor "gfm"
+    And no Markdown flavor override is configured
+    When the user opens "docs/README.md"
+    Then the document language id remains "markdown"
+    And the Markdown flavor selector shows "Auto Detect (GitHub Flavored Markdown)"
+    And the server is refreshed with effective flavor "gfm"
+
+    Examples:
+      | configFile              |
+      | .flavor-grenade.toml    |
+      | .flavor-grenade.json    |
+      | .flavor-grenade.jsonc   |
+      | .flavor-grenade.yaml    |
+      | .flavor-grenade.yml     |
+      | .editorconfig           |
+
+  @planned @req:Extension.MarkdownFlavor.AutoDetection
+  Scenario: One project config file applies directory-specific overrides
+    Given a workspace folder containing ".flavor-grenade.jsonc"
+    And the workspace config declares default Markdown flavor "commonmark"
+    And the workspace config maps "docs/api/" to Markdown flavor "glfm"
+    And the workspace config maps "docs/api/" to structured profile "common-changelog"
+    And the workspace config maps "docs/decisions/" to structured profile "madr"
+    When the user opens "docs/api/CHANGELOG.md"
+    Then the document language id remains "markdown"
+    And the server is refreshed with effective flavor "glfm"
+    And the effective structured profile flags include "common-changelog"
+    When the user opens "docs/decisions/0001-use-profile.md"
+    Then the document language id remains "markdown"
+    And the server is refreshed with effective flavor "commonmark"
+    And the effective structured profile flags include "madr"
+
   Scenario Outline: Markdown flavor selector enumerates every required choice
     Given a Markdown document is active with language id "markdown"
     When the user opens the Markdown flavor selector

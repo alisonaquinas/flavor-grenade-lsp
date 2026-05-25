@@ -78,9 +78,10 @@ export class DidChangeHandler {
       uri,
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
-      projectTomlFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot),
-      projectTomlStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
+      projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
+      projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
         detection.vaultRoot,
+        fsPath,
       ),
       syntaxText,
     });

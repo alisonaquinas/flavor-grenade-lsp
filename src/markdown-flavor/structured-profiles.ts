@@ -9,6 +9,7 @@ export type StructuredProfileSelection = 'auto' | 'none' | readonly StructuredMa
 
 export type StructuredProfileResolutionSource =
   | 'explicit-selection'
+  | 'project-config'
   | 'project-toml'
   | 'structured-profile-inference'
   | 'none';
@@ -70,7 +71,7 @@ export function resolveStructuredProfiles(input: {
   if (Array.isArray(input.projectSelection)) {
     return {
       structuredProfiles: input.projectSelection,
-      structuredProfileSource: 'project-toml',
+      structuredProfileSource: 'project-config',
     };
   }
   if (input.projectSelection === 'none') {

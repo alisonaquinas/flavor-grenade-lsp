@@ -43,6 +43,7 @@ aliases:
 | **Security.Input.PositionValidation** | All LSP `Position` and `Range` parameters must be validated as non-negative integers within document bounds before reaching the VaultIndex. | [[docs/requirements/technical/security-input-validation]] | P2 |
 | **Security.Input.PayloadSize** | JSON-RPC messages exceeding 16 MiB, or headers exceeding 8 KiB, must be rejected before JSON parsing. | [[docs/requirements/technical/security-input-validation]] | P3 |
 | **Security.Input.PrototypePollution** | All incoming JSON-RPC message bodies must pass schema validation before any object merge operation; `Object.prototype` must not be pollutable from LSP input. | [[docs/requirements/technical/security-input-validation]] | P2 |
+| **Security.Input.ProjectConfigSafety** | Project config files must be size-limited, schema-validated, vault-confined, and dangerous-key safe before they affect application configuration. | [[docs/requirements/technical/security-input-validation]] | P1 |
 | **Security.Supply.FrozenLockfile** | `bun install --frozen-lockfile` must be used in all CI runs; any lockfile drift fails the build. | [[docs/requirements/operational/security-supply-chain]] | P1 |
 | **Security.Supply.IgnoreScripts** | `bun install --ignore-scripts` must be used in all CI runs to prevent postinstall script execution. | [[docs/requirements/operational/security-supply-chain]] | P1 |
 | **Security.Supply.ExactPinning** | Exact dependency pinning is the target policy; remaining range specifiers are tracked supply-chain debt until CI range linting lands. | [[docs/requirements/operational/security-supply-chain]] | P1 |
@@ -51,7 +52,7 @@ aliases:
 | **Security.Supply.NoDevtoolsIntegration** | `@nestjs/devtools-integration` must remain absent from manifests, lockfiles, and source. | [[docs/requirements/operational/security-supply-chain]] | P1 |
 | **Security.Disclosure.LogSanitization** | Server logs must never include vault document content; only file paths, line numbers, and diagnostic codes may appear in log output. | [[docs/requirements/functional/security-information-disclosure]] | P2 |
 | **Security.Disclosure.CompletionFilter** | Completion candidates derived from frontmatter values must not include values from sensitive key names (password, token, secret, api_key, etc.). | [[docs/requirements/functional/security-information-disclosure]] | P3 |
-| **Security.Config.NoCodeExecution** | The `.flavor-grenade.toml` configuration schema must never include fields that specify commands, scripts, or executables to run; vault config must never cause process spawning. | [[docs/requirements/functional/security-information-disclosure]] | P1 |
+| **Security.Config.NoCodeExecution** | Project config schemas must never include fields that specify commands, scripts, or executables to run; vault config must never cause process spawning. | [[docs/requirements/functional/security-information-disclosure]] | P1 |
 
 ---
 

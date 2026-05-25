@@ -20,7 +20,7 @@ aliases:
 **Gist:** Vault author sets a link-style preference once and the server applies it consistently across every feature without requiring an editor restart.
 **Ambition:** Configuration takes effect immediately on save, applies uniformly to completion, rename, and code-action outputs, and never requires per-feature overrides.
 **Scale:** Percentage of link-producing operations that conform to the configured link style immediately after the configuration file is saved, measured across completion, rename, and code-action features.
-**Meter:** Integration test suite: `bun test tests/integration/configuration/` — writes each of the three `wiki.style` values to `.flavor-grenade.toml`, triggers operations without restarting the server, and validates that all produced link texts match the newly set style.
+**Meter:** Integration test suite: `bun test tests/integration/configuration/` — writes each of the three `wiki.style` values to project config, triggers operations without restarting the server, and validates that all produced link texts match the newly set style.
 **Fail:** Any link-producing operation that does not reflect the current configuration, or that requires a server restart before the new setting is honored.
 **Goal:** Configure how links are written (stem, title, path)
 **Need:** A vault author wants to control how the server writes link text when inserting or updating links — for example, using only the file's stem, using the full title from frontmatter, or using the vault-relative file path. They expect their choice to apply consistently across all features without needing per-feature configuration, and to take effect immediately without restarting the editor.

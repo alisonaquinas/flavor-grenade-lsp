@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { resolveVaultRelativePath } from './vault-path-confinement.js';
+import { PROJECT_MARKDOWN_CONFIG_FILES } from '../markdown-flavor/project-markdown-config-files.js';
 
 /** The detection mode for a vault. */
 export type VaultMode = 'obsidian' | 'flavor-grenade' | 'single-file';
@@ -17,9 +18,9 @@ export interface VaultDetectionResult {
 
 /**
  * Detects the vault root by walking up the directory tree looking for
- * `.obsidian/` or `.flavor-grenade.toml` marker files.
+ * `.obsidian/` or Flavor Grenade config marker files.
  *
- * Detection precedence: `.obsidian/` beats `.flavor-grenade.toml` when both
+ * Detection precedence: `.obsidian/` beats Flavor Grenade config when both
  * are present at the same level.
  *
  * Result is cached after the first call.
@@ -88,10 +89,15 @@ export class VaultDetector {
       return { mode: 'obsidian', vaultRoot: dir };
     }
 
-    const configPath = resolveVaultRelativePath(dir, '.flavor-grenade.toml');
-    const hasFg = configPath !== null && this.isFile(configPath);
-    if (hasFg) {
-      return { mode: 'flavor-grenade', vaultRoot: dir };
+    for (const fileName of PROJECT_MARKDOWN_CONFIG_FILES) {
+      const configPath = resolveVaultRelativePath(dir, fileName);
+      if (
+        configPath !== null &&
+        this.isFile(configPath) &&
+        (fileName !== '.editorconfig' || this.hasFlavorGrenadeEditorConfigDirective(configPath))
+      ) {
+        return { mode: 'flavor-grenade', vaultRoot: dir };
+      }
     }
 
     return null;
@@ -108,6 +114,15 @@ export class VaultDetector {
   private isFile(p: string): boolean {
     try {
       return fs.statSync(p).isFile();
+    } catch {
+      return false;
+    }
+  }
+
+  private hasFlavorGrenadeEditorConfigDirective(p: string): boolean {
+    try {
+      const content = fs.readFileSync(p, 'utf8');
+      return /(^|\r?\n)\s*flavor_grenade[._]markdown_/i.test(content.slice(0, 8192));
     } catch {
       return false;
     }
