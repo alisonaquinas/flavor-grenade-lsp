@@ -18,12 +18,19 @@ const binaryAsset = target === 'win-x64'
 const bundleAsset = `${binaryAsset}.sigstore.json`;
 const localBinary = target === 'win-x64' ? 'flavor-grenade-lsp.exe' : 'flavor-grenade-lsp';
 const downloadDir = path.join(ROOT, 'build', 'server-runtime', target);
+const distBinary = path.join(ROOT, 'dist', localBinary);
+const distBundle = `${distBinary}.sigstore.json`;
+const distProvenance = path.join(ROOT, 'dist', `${localBinary}.runtime.json`);
 
 rmSync(downloadDir, { recursive: true, force: true });
 mkdirSync(downloadDir, { recursive: true });
 mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
+rmSync(distBinary, { force: true });
+rmSync(distBundle, { force: true });
+rmSync(distProvenance, { force: true });
 
 const metadata = releaseMetadata(repo, release);
+ensureReleaseAssets(metadata, [binaryAsset, bundleAsset]);
 downloadReleaseAsset(repo, metadata.tagName, binaryAsset, downloadDir);
 downloadReleaseAsset(repo, metadata.tagName, bundleAsset, downloadDir);
 
@@ -34,8 +41,6 @@ if (!existsSync(downloadedBundle)) throw new Error(`Downloaded Sigstore bundle m
 
 verifySignature(downloadedBinary, downloadedBundle, repo);
 
-const distBinary = path.join(ROOT, 'dist', localBinary);
-const distBundle = `${distBinary}.sigstore.json`;
 copyFileSync(downloadedBinary, distBinary);
 copyFileSync(downloadedBundle, distBundle);
 
@@ -51,7 +56,7 @@ const provenance = {
   sha256: sha256File(distBinary),
   verified: true,
 };
-writeFileSync(path.join(ROOT, 'dist', `${localBinary}.runtime.json`), `${JSON.stringify(provenance, null, 2)}\n`);
+writeFileSync(distProvenance, `${JSON.stringify(provenance, null, 2)}\n`);
 process.stdout.write(`${JSON.stringify(provenance, null, 2)}\n`);
 
 function parseArgs(args) {
@@ -78,8 +83,21 @@ function readValue(args, index, option) {
 function releaseMetadata(repo, release) {
   const args = ['release', 'view'];
   if (release !== 'latest') args.push(release);
-  args.push('--repo', repo, '--json', 'tagName,targetCommitish,url');
+  args.push('--repo', repo, '--json', 'tagName,targetCommitish,url,assets');
   return JSON.parse(run('gh', args, { encoding: 'utf8' }).stdout);
+}
+
+function ensureReleaseAssets(metadata, requiredAssets) {
+  const assets = new Set((metadata.assets ?? []).map((asset) => asset.name));
+  const missing = requiredAssets.filter((asset) => !assets.has(asset));
+  if (missing.length > 0) {
+    throw new Error(
+      [
+        `Server release ${metadata.tagName} is missing required signed runtime asset(s): ${missing.join(', ')}.`,
+        'Use a server release produced by .github/workflows/release.yml after signed binary publishing was enabled.',
+      ].join(' '),
+    );
+  }
 }
 
 function downloadReleaseAsset(repo, tag, pattern, destination) {
