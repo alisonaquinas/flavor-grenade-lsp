@@ -68,7 +68,11 @@ Each artifact must include `manifest.json`.
     "target": "linux-x64",
     "executable": "bin/linux-x64/flavor-grenade-lsp",
     "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-    "sigstoreBundle": "bin/linux-x64/flavor-grenade-lsp.sigstore.json"
+    "sigstoreBundle": "bin/linux-x64/flavor-grenade-lsp.sigstore.json",
+    "signature": {
+      "oidcIssuer": "https://token.actions.githubusercontent.com",
+      "certificateIdentityRegexp": "^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*"
+    }
   },
   "commands": {
     "main": "wrappers/flavorgrenade.mjs"
@@ -89,8 +93,9 @@ The runtime resolver must:
 7. Verify the executable exists.
 8. Verify executable permissions on Unix-like platforms.
 9. Compute SHA-256 and compare to the manifest.
-10. Verify the Sigstore bundle when `cosign` is available, unless runtime
-    signature verification is explicitly disabled.
+10. Verify the executable Sigstore bundle with `cosign verify-blob` when
+    `cosign` is available, unless runtime signature verification is explicitly
+    disabled.
 11. Run a minimal LSP `initialize` handshake.
 
 The resolver must never download a replacement binary.

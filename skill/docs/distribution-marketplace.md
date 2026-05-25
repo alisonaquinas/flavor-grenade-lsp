@@ -206,6 +206,7 @@ Required artifacts per release:
 - runtime-specific skill archive
 - SHA-256 checksum file
 - Sigstore bundle for each archive
+- Sigstore bundle embedded next to the native executable inside each archive
 - manifest for each archive
 - release notes
 - compatibility matrix
@@ -233,6 +234,8 @@ CI must fail when:
   wrong plugin path, or omits required installation/authentication policy
 - package version and manifest version differ
 - release artifact does not include an executable
+- release artifact does not include the manifest-declared executable Sigstore
+  bundle
 - release artifact includes multiple runtime executables unintentionally
 - install smoke tests fail for Claude Code or Codex target paths
 - `npx add-skill --list` cannot discover the skill from a packed fixture

@@ -131,7 +131,7 @@ Release CI must verify:
 - every archive contains exactly one intended runtime target
 - every executable digest matches its manifest
 - archive signatures verify
-- executable signatures verify when included
+- executable signatures verify against the manifest-declared Sigstore bundle
 - Claude Code install fixture passes
 - Codex install fixture passes
 - Claude plugin manifest validates

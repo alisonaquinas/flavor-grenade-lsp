@@ -264,13 +264,15 @@ manifest omits an LSP field because the selected validator does not accept it.
 
 LSP declaration rules:
 
-- declare only local plugin-root-relative executable paths
-- include target-specific path selection or point to the runtime resolver
+- declare only local plugin-root-relative launch paths
+- launch the wrapper in `lsp` mode or point directly to a target executable
 - preserve digest verification before launch
 - do not bypass wrapper safety checks for agent-facing commands
 - include `lsp/servers.json` in every plugin artifact
 - include manifest `lspServers` fields only when the target host validator
   accepts them; do not omit the packaged LSP metadata itself
+- if `lsp/servers.json` launches the wrapper, it must include the `lsp`
+  argument so the process speaks LSP stdio rather than command JSON
 
 ## Settings And Assets
 

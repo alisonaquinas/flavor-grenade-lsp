@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, rmSync, statSync, copyFileSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
@@ -37,20 +38,36 @@ let runtimeAvailable = false;
 let sha256 = '';
 if (existsSync(distExecutable)) {
   copyFileSync(distExecutable, runtimePath);
+  const sourceBundle = `${distExecutable}.sigstore.json`;
+  if (existsSync(sourceBundle)) {
+    copyFileSync(sourceBundle, `${runtimePath}.sigstore.json`);
+  }
   sha256 = sha256File(runtimePath);
   runtimeAvailable = true;
 }
 
 const packagedManifest = {
   ...manifest,
+  server: {
+    ...manifest.server,
+    commit: gitValue(['rev-parse', 'HEAD']) ?? manifest.server?.commit ?? '',
+  },
   runtime: {
     target,
     executable: `bin/${target}/${executableName}`,
     sha256,
     sigstoreBundle: `bin/${target}/${executableName}.sigstore.json`,
+    signature: {
+      oidcIssuer: 'https://token.actions.githubusercontent.com',
+      certificateIdentityRegexp:
+        '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
+    },
   },
 };
 writeFileSync(path.join(skillOut, 'manifest.json'), `${JSON.stringify(packagedManifest, null, 2)}\n`);
+rmSync(path.join(pluginOut, 'skills', SKILL_NAME), { recursive: true, force: true });
+mkdirSync(path.join(pluginOut, 'skills'), { recursive: true });
+copyTree(skillOut, path.join(pluginOut, 'skills', SKILL_NAME));
 writeFileSync(
   path.join(packageRoot, 'package-report.json'),
   `${JSON.stringify(
@@ -96,4 +113,12 @@ function copyTree(source, destination) {
 
 function sha256File(filePath) {
   return createHash('sha256').update(readFileSync(filePath)).digest('hex');
+}
+
+function gitValue(args) {
+  try {
+    return execFileSync('git', args, { encoding: 'utf8' }).trim();
+  } catch {
+    return null;
+  }
 }

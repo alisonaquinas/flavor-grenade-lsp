@@ -6,7 +6,7 @@
   "server": {
     "name": "flavor-grenade-lsp",
     "version": "0.5.0",
-    "commit": "240ee90b00000000000000000000000000000000",
+    "commit": "",
     "releaseTag": "v0.5.0"
   },
   "runtime": {

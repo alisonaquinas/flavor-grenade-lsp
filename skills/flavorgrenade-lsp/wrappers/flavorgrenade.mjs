@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawn } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -20,6 +21,11 @@ async function main() {
   const { command, positional, options } = parseArgs(process.argv.slice(2));
   const runtime = await resolveRuntime({ target: options.target ?? 'current' });
   const signature = verifySigstoreIfAvailable(runtime, options);
+
+  if (command === 'lsp') {
+    await launchLsp(runtime);
+    return undefined;
+  }
 
   if (command === 'verify-install') {
     await withClient(runtime, options, null, async (client) => {
@@ -101,6 +107,23 @@ async function withClient(runtime, options, rootUri, callback) {
   } finally {
     await client.shutdown();
   }
+}
+
+function launchLsp(runtime) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(runtime.executable, [], {
+      stdio: 'inherit',
+      shell: false,
+      windowsHide: true,
+    });
+    child.on('error', (error) => {
+      reject(Object.assign(error, { code: 'FG_SKILL_LSP_LAUNCH_FAILED', recoverable: false }));
+    });
+    child.on('exit', (code) => {
+      process.exitCode = code ?? 0;
+      resolve();
+    });
+  });
 }
 
 async function analyze(client, files, workspaceRoot) {
@@ -429,6 +452,12 @@ function parseOverridesForEvidence(format, content) {
   if (format === 'toml') {
     return parseTomlOverridesForEvidence(content);
   }
+  if (format === 'yaml') {
+    return parseYamlOverridesForEvidence(content);
+  }
+  if (format === 'editorconfig') {
+    return parseEditorConfigOverridesForEvidence(content);
+  }
   return [];
 }
 
@@ -449,6 +478,84 @@ function parseTomlOverridesForEvidence(content) {
     if (match[1] === 'flavor') current.flavor = match[2];
     if (match[1] === 'structured_profiles') current.structuredProfiles = match[2];
   }
+  return overrides;
+}
+
+function parseYamlOverridesForEvidence(content) {
+  const overrides = [];
+  let inOverrides = false;
+  let current = null;
+  let pendingArrayKey = null;
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*/, '');
+    const trimmed = line.trim();
+    if (trimmed.length === 0) continue;
+    if (/^overrides:\s*$/.test(trimmed)) {
+      inOverrides = true;
+      continue;
+    }
+    if (!inOverrides) continue;
+    const itemMatch = /^-\s*(.*)$/.exec(trimmed);
+    if (itemMatch) {
+      if (current !== null && pendingArrayKey !== null && !itemMatch[1].includes(':')) {
+        current[pendingArrayKey] = true;
+        continue;
+      }
+      current = {};
+      overrides.push(current);
+      pendingArrayKey = assignYamlEvidence(current, itemMatch[1]);
+      continue;
+    }
+    if (current !== null) pendingArrayKey = assignYamlEvidence(current, trimmed);
+  }
+  return overrides;
+}
+
+function assignYamlEvidence(target, value) {
+  const match = /^([A-Za-z0-9_.-]+):\s*(?:"([^"]*)"|'([^']*)'|([^#]*?))\s*$/.exec(value);
+  if (!match) return;
+  const key = match[1];
+  const raw = (match[2] ?? match[3] ?? match[4] ?? '').trim();
+  if (key === 'path' || key === 'directory' || key === 'dir') target.selector = raw;
+  if (key === 'flavor') target.flavor = raw;
+  if (key === 'structured_profiles' || key === 'structuredProfiles') {
+    target.structuredProfiles = raw || true;
+    return 'structuredProfiles';
+  }
+  return null;
+}
+
+function parseEditorConfigOverridesForEvidence(content) {
+  const overrides = [];
+  let section = '';
+  let current = {};
+  const flush = () => {
+    if (section.length === 0) {
+      current = {};
+      return;
+    }
+    const flavor = current.flavor_grenade_markdown_flavor ?? current['flavor_grenade.markdown_flavor'];
+    const structuredProfiles =
+      current.flavor_grenade_markdown_structured_profiles ??
+      current['flavor_grenade.markdown_structured_profiles'];
+    if (flavor !== undefined || structuredProfiles !== undefined) {
+      overrides.push({ selector: section, flavor, structuredProfiles });
+    }
+    current = {};
+  };
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.replace(/[;#].*$/, '').trim();
+    if (line.length === 0) continue;
+    const sectionMatch = /^\[([^\]]+)\]$/.exec(line);
+    if (sectionMatch) {
+      flush();
+      section = sectionMatch[1];
+      continue;
+    }
+    const entryMatch = /^([^=:\s]+)\s*[=:]\s*(.*?)\s*$/.exec(line);
+    if (entryMatch) current[entryMatch[1].toLowerCase()] = entryMatch[2];
+  }
+  flush();
   return overrides;
 }
 
@@ -555,7 +662,9 @@ function relativePath(root, file) {
 
 main()
   .then((result) => {
-    process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    if (result !== undefined) {
+      process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    }
   })
   .catch((error) => {
     process.stdout.write(`${JSON.stringify(errorEnvelope(error), null, 2)}\n`);

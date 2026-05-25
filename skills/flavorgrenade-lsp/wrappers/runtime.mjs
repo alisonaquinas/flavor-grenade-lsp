@@ -98,7 +98,39 @@ export function verifySigstoreIfAvailable(runtime, options = {}) {
     }
     return { checked: false, reason: 'cosign-unavailable' };
   }
-  return { checked: false, reason: 'verification-deferred' };
+  const signature = runtime.manifest.runtime.signature ?? {};
+  const verifyArgs = [
+    'verify-blob',
+    runtime.executable,
+    '--bundle',
+    bundle,
+    '--certificate-oidc-issuer',
+    signature.oidcIssuer ?? 'https://token.actions.githubusercontent.com',
+  ];
+  if (signature.certificateIdentity) {
+    verifyArgs.push('--certificate-identity', signature.certificateIdentity);
+  } else {
+    verifyArgs.push(
+      '--certificate-identity-regexp',
+      signature.certificateIdentityRegexp ??
+        '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
+    );
+  }
+  const verification = spawnSync('cosign', verifyArgs, {
+    encoding: 'utf8',
+    shell: false,
+  });
+  if (verification.status !== 0) {
+    throw Object.assign(new Error('Sigstore verification failed.'), {
+      code: 'FG_SKILL_SIGNATURE_INVALID',
+      recoverable: false,
+    });
+  }
+  return {
+    checked: true,
+    bundle: path.relative(runtime.skillRoot, bundle).replace(/\\/g, '/'),
+    oidcIssuer: verifyArgs[verifyArgs.indexOf('--certificate-oidc-issuer') + 1],
+  };
 }
 
 export function assertInside(root, candidate, code = 'FG_SKILL_PATH_OUTSIDE_WORKSPACE') {
