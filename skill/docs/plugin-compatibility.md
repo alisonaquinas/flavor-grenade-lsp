@@ -158,6 +158,9 @@ Each command must include:
 - expected JSON fields
 - a reminder that flavor decisions may come from TOML, JSON, JSONC, YAML,
   `.editorconfig`, directory overrides, VS Code/LSP settings, or inference
+- guidance to cite wrapper `config` evidence instead of raw config contents
+- guidance to rerun detection per target file when directory overrides may
+  apply
 - safety reminder about no code execution
 - fallback if install verification fails
 
@@ -194,6 +197,9 @@ Hook requirements:
 - hooks must not execute Markdown code blocks or renderer hooks
 - hooks must not assume `.flavor-grenade.toml` is the only project config
   marker
+- hooks must not log raw config values, document text, or private absolute paths
+- hooks must run `detect` for the changed file when directory overrides or
+  `.editorconfig` sections may affect diagnostics
 
 Claude hooks use `hooks/hooks.json` when hooks are packaged. Codex hooks may use
 the Codex `hooks` field only if the selected Codex version accepts the field
@@ -213,7 +219,9 @@ Required agent definitions:
 | `markdown-release-auditor` | Review changelogs, MADR records, release docs, and structured-profile variants |
 
 Agent prompts must instruct reviewers to use wrapper output as evidence and to
-avoid making claims from syntax guesses alone.
+avoid making claims from syntax guesses alone. They must also instruct
+reviewers to treat config decisions as file-specific when directory overrides
+or `.editorconfig` sections are present.
 
 ## MCP Declarations
 
@@ -283,6 +291,8 @@ CI must validate:
 - hooks are advisory and Markdown-scoped
 - plugin command and hook fixtures cover at least one non-TOML project config
   and one directory-scoped override
+- plugin prompts do not tell agents to parse raw config as the source of truth
+- validation output redacts raw config values and absolute local paths
 
 ## Release Requirements
 

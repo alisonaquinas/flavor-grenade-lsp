@@ -22,6 +22,8 @@ supply-chain substitution of the embedded executable.
 - Treat project config files as untrusted input, including TOML, JSON, JSONC,
   YAML, and `.editorconfig`.
 - Reject dangerous object keys and path escapes in directory override selectors.
+- Redact raw config values from default JSON output, traces, logs, fixture
+  evidence, and plugin validation reports.
 - Do not execute Markdown code blocks.
 - Do not evaluate MDX ESM or JSX.
 - Do not run R chunks.
@@ -79,6 +81,7 @@ Forbidden:
 
 - document contents
 - frontmatter values
+- raw config values
 - code block contents
 - environment variables
 - credentials
@@ -135,11 +138,16 @@ Required tests:
 - symlink escape is rejected
 - unsupported URI scheme is rejected
 - shell metacharacters in file names are safe
-- malformed TOML, JSON, JSONC, YAML, and `.editorconfig` files are isolated
-  without crashing the wrapper
+- malformed active TOML, JSON, JSONC, YAML, and `.editorconfig` config files
+  are redacted and do not crash the wrapper
+- config parse errors are reported with redacted codes, not parser excerpts
 - directory override selectors cannot escape the workspace
+- directory override selectors cannot use absolute paths, parent traversal, or
+  unsupported schemes
 - dangerous keys such as `__proto__`, `prototype`, and `constructor` are
   rejected or ignored during config normalization
+- config evidence snapshots omit raw values, document contents, frontmatter,
+  environment variables, and private absolute paths
 - corrupted executable digest blocks launch
 - missing executable blocks launch
 - malicious frontmatter is treated as text

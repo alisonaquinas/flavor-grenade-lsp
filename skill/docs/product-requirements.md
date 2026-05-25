@@ -117,9 +117,25 @@ fixtures. Supported project config inputs are:
 TOML remains a first-class config format. JSON, JSONC, YAML, and
 `.editorconfig` are additive alternatives, not replacements.
 
+All supported config formats must express the same effective configuration
+model. The wrapper contract must describe the normalized result, not the syntax
+used to write it. At minimum, normalized config evidence must cover:
+
+- active base flavor
+- active structured profiles
+- project config file path and format
+- global `core.markdown` keys used
+- matching directory-scoped override, when present
+- override keys that replaced global keys
+- global keys inherited by a matched override
+- `.editorconfig` section directives, when they participate
+- redacted parse or validation errors
+
 The skill must support the server's directory-scoped configuration model. A
-single project config file can define global `core.markdown` defaults and an
-ordered `core.markdown.overrides` list for vault-relative directories or globs.
+single project config file can define global `core.markdown` defaults and a
+`core.markdown.overrides` list for vault-relative directories or globs. The
+most specific matching override wins; if two matching selectors have equal
+specificity, the later override entry wins.
 For any analyzed file, wrapper output must make clear whether the base flavor
 and structured profiles came from:
 
@@ -130,9 +146,17 @@ and structured profiles came from:
 - VS Code or LSP configuration state supplied by the caller;
 - auto-detection fallback.
 
-The skill must treat malformed config the same way as the LSP: isolate the bad
-file or key, continue with remaining valid layers, and report redacted config
-status without document contents.
+Directory overrides are file-specific. Agents must not apply one file's
+effective flavor to another file unless wrapper output says the same config
+layer and override matched both files.
+
+The skill must treat malformed config the same way as the LSP. The first
+existing supported project config file is the active project config. If that
+file is unreadable, too large, unsafe, malformed, or invalid after
+normalization, the project-config layer is unavailable and resolution continues
+to non-project signals. The skill must report redacted config status without
+document contents and must not silently parse a later project config file to
+replace the invalid active file.
 
 ## Marketplace Product Requirements
 
