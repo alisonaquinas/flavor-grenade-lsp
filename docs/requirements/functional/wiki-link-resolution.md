@@ -115,7 +115,7 @@ aliases:
 **Scale:** Percentage of completion-candidate lists and definition-result sets that contain zero entries whose file path matches a currently active ignore pattern. Scope: all LSP requests issued after the ignore configuration is applied.
 **Meter:**
 
-1. Configure `ignore_patterns` in `.flavor-grenade.toml` to match a specific subdirectory (e.g., `templates/**`).
+1. Configure `ignore_patterns` in project config to match a specific subdirectory (e.g., `templates/**`).
 2. Place at least 5 markdown documents inside that subdirectory and at least 5 outside.
 3. Trigger `textDocument/completion` at a `[[` position in an un-ignored document.
 4. Inspect all returned `CompletionItem` entries; verify none reference a file inside the ignored subdirectory.

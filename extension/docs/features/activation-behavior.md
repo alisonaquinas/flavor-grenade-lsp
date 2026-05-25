@@ -18,7 +18,7 @@ marker:
 | Signal | User-visible result |
 |---|---|
 | `.obsidian/` | Extension activates and starts vault membership detection. |
-| `.flavor-grenade.toml` | Extension activates and starts vault membership detection. |
+| `Flavor Grenade project config marker` | Extension activates and starts vault membership detection. |
 
 Once the server confirms vault membership, matching Markdown documents keep the
 built-in `markdown` language id and resolve to the `obsidian` Markdown flavor.
@@ -31,9 +31,12 @@ Effective flavor precedence is defined by the root
 ## Idle Startup
 
 If a workspace contains Markdown files but has no `.obsidian/` directory and no
-`.flavor-grenade.toml` file, Flavor Grenade stays idle at startup. The extension
-may be activated by VS Code language events, but it must not start vault
-indexing until a positive vault signal appears.
+`Flavor Grenade project config marker` file, Flavor Grenade stays idle at
+startup. Project config markers include `.flavor-grenade.toml`,
+`.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
+`.flavor-grenade.yml`, and `.editorconfig` files that contain Flavor Grenade
+directives. The extension may be activated by VS Code language events, but it
+must not start vault indexing until a positive vault signal appears.
 
 This means opening a README or other ordinary `.md` file outside a vault keeps
 VS Code's normal Markdown behavior.
@@ -66,7 +69,7 @@ Explicit `flavorGrenade.*` commands can wake the extension from idle:
 
 Command wake should not be read as proof that a vault exists. A command can
 start extension-side handling, but indexing still depends on `.obsidian/`,
-`.flavor-grenade.toml`, or another positive vault signal.
+`Flavor Grenade project config marker`, or another positive vault signal.
 
 ## Trace
 

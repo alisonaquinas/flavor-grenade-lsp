@@ -66,9 +66,35 @@ describe('startup gate marker detection', () => {
     assert.equal(await hasVaultMarkerAncestor(flavorNote), true);
   });
 
+  it('detects alternate project config marker ancestors', async () => {
+    for (const [marker, content] of [
+      ['.flavor-grenade.json', '{"core":{"markdown":{"flavor":"gfm"}}}\n'],
+      ['.flavor-grenade.jsonc', '// comment\n{"core":{"markdown":{"flavor":"gfm"}}}\n'],
+      ['.flavor-grenade.yaml', 'core:\n  markdown:\n    flavor: gfm\n'],
+      ['.flavor-grenade.yml', 'core:\n  markdown:\n    flavor: gfm\n'],
+      ['.editorconfig', '[*.md]\nflavor_grenade_markdown_flavor = gfm\n'],
+    ] as const) {
+      const workspace = await createTempDir();
+      await writeFile(join(workspace, marker), content);
+      const note = join(workspace, 'note.md');
+      await writeFile(note, '# Note\n');
+
+      assert.equal(await hasVaultMarkerAncestor(note), true, `${marker} should wake startup gate`);
+    }
+  });
+
+  it('does not treat ordinary editorconfig as a Flavor Grenade marker', async () => {
+    const workspace = await createTempDir();
+    await writeFile(join(workspace, '.editorconfig'), 'root = true\n[*]\nindent_style = space\n');
+    const note = join(workspace, 'note.md');
+    await writeFile(note, '# Note\n');
+
+    assert.equal(await hasVaultMarkerAncestor(note), false);
+  });
+
   it('detects workspace root marker signals', async () => {
     const flavorVault = await createTempDir();
-    await writeFile(join(flavorVault, '.flavor-grenade.toml'), 'title = "Vault"\n');
+    await writeFile(join(flavorVault, '.flavor-grenade.jsonc'), '// marker\n{}\n');
 
     assert.equal(await workspaceFolderHasVaultMarker({ uri: { fsPath: flavorVault } }), true);
   });

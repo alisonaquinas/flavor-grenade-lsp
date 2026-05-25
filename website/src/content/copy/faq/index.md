@@ -24,7 +24,7 @@ Marksman is a general Markdown language server. Flavor Grenade focuses on flavor
 
 ## Does Obsidian have to be installed?
 
-No. Flavor Grenade reads Markdown files and project markers directly. An Obsidian vault can be detected through `.obsidian/`, but `.flavor-grenade.toml` can also make a non-Obsidian Markdown project explicit.
+No. Flavor Grenade reads Markdown files and project markers directly. An Obsidian vault can be detected through `.obsidian/`, and project config files such as `.flavor-grenade.toml`, `.flavor-grenade.jsonc`, or `.flavor-grenade.yaml` can make a non-Obsidian Markdown project explicit.
 
 ## Does it edit my vault automatically?
 

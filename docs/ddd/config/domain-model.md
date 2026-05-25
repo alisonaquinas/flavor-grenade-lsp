@@ -17,7 +17,7 @@ This document is the authoritative model for the configuration system in `flavor
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/design/markdown-structured-profile-flags]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
-> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge TOML files in the correct priority order, validate Markdown flavor selectors and structured profile selections, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownContext` state: one base flavor plus zero or more structured profile flags.
+> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge project config files in the correct priority order, validate Markdown flavor selectors and structured profile selections, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownContext` state: one base flavor plus zero or more structured profile flags.
 
 ---
 
@@ -39,7 +39,7 @@ text_sync = "full"
 
 # Which detection signal triggers vault mode
 # "obsidian"   — only .obsidian/ directory
-# "toml-only"  — only .flavor-grenade.toml
+# "config-only" — only Flavor Grenade project config markers
 # "both"       — either signal
 vault_detection = "obsidian"
 
@@ -94,7 +94,7 @@ interface FlavorConfig {
   core: {
     markdownFileExtensions: string[]    // default: ["md"]
     textSync:               'full' | 'incremental'
-    vaultDetection:         'obsidian' | 'toml-only' | 'both'
+    vaultDetection:         'obsidian' | 'config-only' | 'both'
     markdownFlavor:         MarkdownFlavorSelection
     markdownStructuredProfiles: StructuredProfileSelection
   }
@@ -192,6 +192,34 @@ interface HostSpecificBoundary {
 }
 ```
 
+### Project Config Formats
+
+Project config discovery uses the first existing file in this order:
+
+1. `.flavor-grenade.toml`
+2. `.flavor-grenade.json`
+3. `.flavor-grenade.jsonc`
+4. `.flavor-grenade.yaml`
+5. `.flavor-grenade.yml`
+6. `.editorconfig` containing Flavor Grenade directives
+
+TOML, JSON, JSONC, and YAML expose the same logical `core.markdown` shape.
+`core.markdown.overrides` is an ordered list of vault-relative directory or
+glob selectors. The most specific matching override supplies document-specific
+`flavor` and `structured_profiles` values; omitted fields inherit from the
+global `core.markdown` section.
+
+`.editorconfig` is treated as a project config marker only for Flavor Grenade
+directives inside matching sections:
+
+```ini
+[docs/**/*.md]
+flavor_grenade_markdown_flavor = gfm
+flavor_grenade_markdown_structured_profiles = keep-a-changelog
+```
+
+Ordinary EditorConfig properties are ignored by Flavor Grenade.
+
 ---
 
 ## Shared Markdown Flavor Contract
@@ -209,7 +237,7 @@ Rules:
 
 - `auto` is allowed only as a `MarkdownFlavorSelection`.
 - `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
-- Unknown ids are invalid in both TOML and LSP configuration payloads.
+- Unknown ids are invalid in both project config and LSP configuration payloads.
 - Structured document profiles are independent flags. `keep-a-changelog`,
   `common-changelog`, and `madr` are valid
   `StructuredMarkdownProfileId` values, not valid `MarkdownFlavorId` values.
@@ -268,9 +296,10 @@ Priority 2 — User config
   Missing file is silently ignored (not an error).
 
 Priority 3 (highest) — Project config
-  Path: {VaultRoot}/.flavor-grenade.toml
+  Path: first existing file in {VaultRoot}/.flavor-grenade.{toml,json,jsonc,yaml,yml},
+        then {VaultRoot}/.editorconfig
   Loaded when a VaultFolder is detected.
-  Reloaded when the file changes (FileWatcher monitors it).
+  Reloaded when the active project config file changes (FileWatcher monitors it).
   Missing file is silently ignored.
 ```
 
@@ -283,7 +312,7 @@ Built-in defaults
   deep merge ◄── User config (~/.config/flavor-grenade/config.toml)
        │
        ▼
-  deep merge ◄── Project config ({VaultRoot}/.flavor-grenade.toml)
+  deep merge ◄── Project config ({VaultRoot}/.flavor-grenade.* or .editorconfig)
        │
        ▼
   FlavorConfig   (fully resolved, typed, immutable)
@@ -312,8 +341,8 @@ Priority 2 — VS Code workspace-folder/workspace setting
   Scope: workspace-folder value wins over workspace value; workspace wins over user/default
   Values: 'auto' or supported MarkdownFlavorId
 
-Priority 3 — Project TOML
-  Source: {VaultRoot}/.flavor-grenade.toml [core].markdown.flavor
+Priority 3 — Project config
+  Source: document-specific core.markdown.flavor from project config
   Values: 'auto' or supported MarkdownFlavorId
 
 Priority 4 — Vault marker
@@ -327,23 +356,23 @@ Priority 5 (lowest) — CommonMark fallback
 Tie-breakers:
 
 - Explicit VS Code override beats every auto-detection and project source.
-- If a VS Code workspace-folder/workspace setting and `.flavor-grenade.toml` both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
+- If a VS Code workspace-folder/workspace setting and project config both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
 - If both VS Code workspace-folder and workspace values exist, workspace-folder wins for documents under that folder.
 - A value of `auto` does not itself become effective state; it delegates to the next lower source.
 - Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownContext`; resolution continues to the next valid lower-priority source.
 - `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
 
 Structured profile flags are resolved after `MarkdownFlavorCascade` and are
-document-specific. Explicit VS Code structured-profile settings beat TOML
-structured-profile settings; TOML beats automatic detection; `none` disables
-all structured profile behavior for the relevant scope.
+document-specific. Explicit VS Code structured-profile settings beat project
+config structured-profile settings; project config beats automatic detection;
+`none` disables all structured profile behavior for the relevant scope.
 
 Example:
 
 ```text
 VS Code explicit override = auto
 VS Code workspace-folder setting = gfm
-.flavor-grenade.toml core.markdown.flavor = obsidian
+project config core.markdown.flavor = obsidian
 .obsidian/ exists
 => EffectiveMarkdownFlavor = gfm
 ```
@@ -356,14 +385,14 @@ VS Code workspace-folder setting = gfm
 |-----|-----------|-------------------|
 | `completion.candidates` | Must be a positive integer (`> 0`) | Log warning at `warn` level; use built-in default (`50`) |
 | `core.text_sync` | Must be `"full"` or `"incremental"` | Log warning; use `"full"` |
-| `core.vault_detection` | Must be `"obsidian"`, `"toml-only"`, or `"both"` | Log warning; use `"obsidian"` |
+| `core.vault_detection` | Must be `"obsidian"`, `"config-only"`, or `"both"` | Log warning; use `"obsidian"` |
 | `core.markdown.flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Log warning; treat this layer as absent for flavor cascade |
 | `core.markdown.structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Log warning; treat this layer as absent for structured-profile resolution |
 | `flavorGrenade.markdownFlavor` from VS Code/LSP | Must be `"auto"` or a supported `MarkdownFlavorId` | Reject payload for flavor mutation; keep previous server state |
 | `flavorGrenade.markdownStructuredProfiles` from VS Code/LSP | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Reject payload for structured-profile mutation; keep previous server state |
 | `completion.wiki.style` | Must be one of the three enum values | Log warning; use `"file-stem"` |
 | `code_action.toc.include` | Each element must be an integer 1–6 | Remove out-of-range values; log warning if list becomes empty → use `[1,2,3,4,5,6]` |
-| Any TOML parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
+| Any project config parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
 
 > [!NOTE]
 > Validation failures never crash the server. Invalid scalar config is replaced by the built-in default for that key, and a diagnostic log entry is emitted. Invalid flavor cascade inputs are treated as absent for that layer so the next valid lower-priority layer can decide. This ensures that malformed config does not prevent the server from serving documents.
@@ -387,9 +416,9 @@ ConfigSource
 |---------|----------|
 | File does not exist | Return `null` (treated as empty partial) |
 | File is not valid UTF-8 | Log `debug`; return `null` |
-| File is valid UTF-8 but not valid TOML | Log `debug`; return `null` |
-| File is valid TOML but contains unknown keys | Unknown keys are ignored; known keys are parsed |
-| File is valid TOML with invalid value types | Per-key validation applies; invalid keys use built-in defaults |
+| File is valid UTF-8 but not valid for its config format | Log `debug`; return `null` |
+| File is valid for its format but contains unknown keys | Unknown keys are ignored; known keys are parsed |
+| File is valid for its format but has invalid value types | Per-key validation applies; invalid keys use built-in defaults |
 
 The phrase "dropped silently (logged at debug level)" means: the operator can see it in debug logs but end users see no error message and the server continues to function.
 
@@ -412,7 +441,7 @@ Consumers:
 **Config reload flow:**
 
 ```text
-1. FileWatcher detects change to {VaultRoot}/.flavor-grenade.toml
+1. FileWatcher detects change to the active project config file under {VaultRoot}
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed
 4. VaultFolder.withConfig(folder, newConfig) → new VaultFolder stored in Workspace
@@ -448,7 +477,7 @@ Consumers:
 
 The following table documents every built-in default value. These are the values used when no config file is present at all.
 
-| Key (TOML path) | Default value |
+| Key (project config path) | Default value |
 |----------------|--------------|
 | `core.markdown.file_extensions` | `["md"]` |
 | `core.text_sync` | `"full"` |

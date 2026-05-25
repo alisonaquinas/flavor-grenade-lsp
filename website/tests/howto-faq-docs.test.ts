@@ -119,6 +119,51 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     }
   });
 
+  it('documents project config formats and directory override shapes', () => {
+    const configurationModel = text('advancedConfigurationModel');
+
+    for (const marker of [
+      '.flavor-grenade.toml',
+      '.flavor-grenade.json',
+      '.flavor-grenade.jsonc',
+      '.flavor-grenade.yaml',
+      '.flavor-grenade.yml',
+      '.editorconfig',
+    ]) {
+      expect(configurationModel).toContain(marker);
+    }
+
+    for (const requiredExample of [
+      'Single project flavor',
+      'One directory override',
+      'Multiple directory overrides',
+      'docs/github',
+      'docs/gitlab',
+      'docs/decisions',
+      'docs/api',
+      'docs/components',
+      'flavor_grenade_markdown_flavor',
+      'flavor_grenade_markdown_structured_profiles',
+    ]) {
+      expect(configurationModel).toContain(requiredExample);
+    }
+  });
+
+  it('keeps direct LSP configuration examples aligned with the server surface', () => {
+    const directLsp = text('advancedDirectLspIntegration');
+
+    expect(directLsp).toContain('"linkStyle": "file-stem"');
+    expect(directLsp).toContain('"completionCandidates": 50');
+    expect(directLsp).toContain('"diagnosticsSuppress": []');
+    expect(directLsp).toContain('"markdownFlavor": "auto"');
+    expect(directLsp).toContain('"markdownStructuredProfiles": ["madr"]');
+    expect(directLsp).toContain('workspace/didChangeConfiguration');
+    expect(directLsp).not.toContain('"markdownFlavor": {');
+    expect(directLsp).not.toContain('"completion": { "candidates": 50 }');
+    expect(directLsp).not.toContain('"diagnostics": { "suppress": [] }');
+    expect(directLsp).not.toContain('"trace": { "server": "off" }');
+  });
+
   it('publishes FAQ questions suitable for FAQPage metadata', () => {
     const faq = page('faq');
 

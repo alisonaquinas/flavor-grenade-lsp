@@ -88,7 +88,7 @@ All commands are pure functions returning a new `VaultFolder`. They do not perfo
 | `VaultFolder.withDoc` | `(folder: VaultFolder, doc: MarkdownDoc, oracle: Oracle) → VaultFolder` | Add or replace a document. Updates `lookup` and triggers `RefGraph.update`. Emits `DocumentAdded` or `DocumentChanged`. |
 | `VaultFolder.withoutDoc` | `(folder: VaultFolder, id: DocId, oracle: Oracle) → VaultFolder` | Remove a document. Updates `lookup` and triggers `RefGraph.update`. Emits `DocumentRemoved`. |
 | `VaultFolder.withConfig` | `(folder: VaultFolder, config: FlavorConfig) → VaultFolder` | Replace the merged config, recompute default effective context, and mark changed docs for reparse. |
-| `VaultFolder.withMarkdownFlavorSelection` | `(folder: VaultFolder, selection: MarkdownFlavorSelection, scope?: DocId) → VaultFolder` | Store a validated selector from VS Code/TOML scope, recompute affected `EffectiveMarkdownContext` values, and mark changed docs for reparse. |
+| `VaultFolder.withMarkdownFlavorSelection` | `(folder: VaultFolder, selection: MarkdownFlavorSelection, scope?: DocId) → VaultFolder` | Store a validated selector from VS Code or project config scope, recompute affected `EffectiveMarkdownContext` values, and mark changed docs for reparse. |
 | `VaultFolder.withStructuredProfileSelection` | `(folder: VaultFolder, selection: StructuredProfileSelection, scope?: DocId) → VaultFolder` | Store a validated structured-profile selector, recompute affected `EffectiveMarkdownContext` values, and mark changed docs for reparse. |
 | `VaultFolder.effectiveFlavorFor` | `(folder: VaultFolder, id: DocId) → EffectiveMarkdownFlavor` | Resolve explicit effective flavor for one document from document selector, folder config, marker, and fallback. |
 | `VaultFolder.effectiveContextFor` | `(folder: VaultFolder, id: DocId) → EffectiveMarkdownContext` | Resolve base effective flavor plus structured profile flags for one document. |
@@ -217,12 +217,12 @@ DocId
 
 ### MarkdownFlavorCascade
 
-`MarkdownFlavorCascade` is executed by BC4 whenever a vault is detected, a project TOML file changes, or BC5 dispatches validated VS Code configuration. It returns the base `EffectiveMarkdownFlavor` for an `EffectiveMarkdownContext`. The normative precedence and resource-specific flow are defined in [[docs/design/markdown-flavor-auto-detection]].
+`MarkdownFlavorCascade` is executed by BC4 whenever a vault is detected, a project config file changes, or BC5 dispatches validated VS Code configuration. It returns the base `EffectiveMarkdownFlavor` for an `EffectiveMarkdownContext`. The normative precedence and resource-specific flow are defined in [[docs/design/markdown-flavor-auto-detection]].
 
 ```text
 1. VS Code explicit override
 2. VS Code workspace-folder/workspace setting
-3. Project TOML core.markdown.flavor
+3. Project config core.markdown.flavor
 4. Vault marker (.obsidian/ → obsidian)
 5. CommonMark fallback
 ```
@@ -230,7 +230,7 @@ DocId
 BC4 tie-breakers:
 
 - Document-scoped selector beats folder/workspace selector.
-- VS Code workspace-folder/workspace setting beats `.flavor-grenade.toml` when both exist.
+- VS Code workspace-folder/workspace setting beats project config when both exist.
 - Workspace-folder beats workspace for docs under that folder.
 - `auto` delegates to the next lower source.
 - Invalid values are never stored by BC4; BC5/Config reject them before mutation.
@@ -245,7 +245,7 @@ selects the base flavor. It returns zero or more compatible
 
 ```text
 1. Explicit VS Code structured-profile setting
-2. Project TOML core.markdown.structured_profiles
+2. Project config core.markdown.structured_profiles
 3. Strong local structured-profile evidence
 4. No structured profile
 ```
@@ -309,7 +309,7 @@ VaultDetector.detect(dir: AbsPath, config: FlavorConfig): VaultDetectionResult
 
 VaultDetectionResult
   | { kind: 'obsidian'; root: VaultRoot }    — .obsidian/ found
-  | { kind: 'toml'; root: VaultRoot }        — .flavor-grenade.toml found
+  | { kind: 'flavor-config'; root: VaultRoot } — Flavor Grenade project config marker found
   | { kind: 'none' }                          — neither found → SingleFileMode
 ```
 
@@ -318,14 +318,14 @@ VaultDetectionResult
 ```text
 1. Check for {dir}/.obsidian/ directory
    → if found AND config.core.vault_detection ∈ ['obsidian', 'both']: return obsidian
-2. Check for {dir}/.flavor-grenade.toml file
-   → if found AND config.core.vault_detection ∈ ['toml-only', 'both']: return toml
+2. Check for Flavor Grenade project config marker files in {dir}
+   → if found AND config.core.vault_detection ∈ ['config-only', 'both']: return flavor-config
 3. Walk up to parent directory (repeat until filesystem root)
 4. If no match found: return none (SingleFileMode)
 ```
 
 > [!NOTE]
-> The `vault_detection` config key controls which detection signals are respected. Default is `"obsidian"` — only `.obsidian/` triggers vault mode. Set to `"both"` in non-Obsidian editors that use `.flavor-grenade.toml`.
+> The `vault_detection` config key controls which detection signals are respected. Default is `"obsidian"` — only `.obsidian/` triggers vault mode. Set to `"both"` in non-Obsidian editors that use Flavor Grenade project config markers.
 
 ### FileWatcher
 
@@ -359,7 +359,7 @@ FileEvent
 
 | Event | Payload | Emitted By |
 |-------|---------|-----------|
-| `VaultDetected` | `{ root: VaultRoot; kind: 'obsidian' \| 'toml' }` | `Workspace.withFolder` |
+| `VaultDetected` | `{ root: VaultRoot; kind: 'obsidian' \| 'flavor-config' }` | `Workspace.withFolder` |
 | `DocumentAdded` | `{ folderId: VaultRoot; id: DocId; version: number \| null }` | `VaultFolder.withDoc` (new doc) |
 | `DocumentChanged` | `{ folderId: VaultRoot; id: DocId; oldVersion: number \| null; newVersion: number \| null }` | `VaultFolder.withDoc` (existing doc) |
 | `DocumentRemoved` | `{ folderId: VaultRoot; id: DocId }` | `VaultFolder.withoutDoc` |

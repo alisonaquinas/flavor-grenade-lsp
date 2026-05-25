@@ -67,8 +67,8 @@ Tags are indexed with their full hierarchical path. A tag `#project/active` is d
 | Language | TypeScript (strict mode) |
 | LSP version | 3.17 |
 | Transport | stdio JSON-RPC (see [[ADR001-stdio-transport]]) |
-| Configuration | `.flavor-grenade.toml` |
-| Vault detection | `.obsidian/` or `.flavor-grenade.toml` (see [[ADR003-vault-detection]]) |
+| Configuration | `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, or Flavor Grenade `.editorconfig` directives |
+| Vault detection | `.obsidian/` or a Flavor Grenade project config marker (see [[ADR003-vault-detection]]) |
 
 ## Project Status
 

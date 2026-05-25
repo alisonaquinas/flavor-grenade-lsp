@@ -50,6 +50,7 @@ import type {
   FlavorGrenadeStatusPresentation,
 } from './status-presentation.js';
 import { describeWorkspaceEnvironment } from './workspace-environment.js';
+import { FLAVOR_GRENADE_PROJECT_CONFIG_GLOBS } from './project-config-files.js';
 
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
@@ -202,7 +203,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
   for (const markerWatcher of [
     workspace.createFileSystemWatcher('**/.obsidian'),
-    workspace.createFileSystemWatcher('**/.flavor-grenade.toml'),
+    ...FLAVOR_GRENADE_PROJECT_CONFIG_GLOBS.map((glob) => workspace.createFileSystemWatcher(glob)),
   ]) {
     context.subscriptions.push(
       markerWatcher,

@@ -1,5 +1,9 @@
 import { stat } from 'node:fs/promises';
 import { dirname, join, parse } from 'node:path';
+import {
+  FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN,
+  FLAVOR_GRENADE_PROJECT_CONFIG_FILES,
+} from './project-config-files.js';
 
 export interface DocumentLike {
   languageId: string;
@@ -26,6 +30,11 @@ export interface StartupGateDecision {
 export const VAULT_MARKER_ACTIVATION_EVENTS = [
   'workspaceContains:.obsidian',
   'workspaceContains:.flavor-grenade.toml',
+  'workspaceContains:.flavor-grenade.json',
+  'workspaceContains:.flavor-grenade.jsonc',
+  'workspaceContains:.flavor-grenade.yaml',
+  'workspaceContains:.flavor-grenade.yml',
+  'workspaceContains:.editorconfig',
 ] as const;
 
 export const COMMAND_ACTIVATION_EVENTS = [
@@ -125,10 +134,21 @@ export async function decideStartupGate(options: {
 }
 
 async function hasVaultMarker(dir: string, statFile: StatFile): Promise<boolean> {
-  return (
-    (await pathExists(join(dir, '.obsidian'), statFile, 'directory')) ||
-    (await pathExists(join(dir, '.flavor-grenade.toml'), statFile, 'file'))
-  );
+  if (await pathExists(join(dir, '.obsidian'), statFile, 'directory')) {
+    return true;
+  }
+
+  for (const marker of FLAVOR_GRENADE_PROJECT_CONFIG_FILES) {
+    const markerPath = join(dir, marker);
+    if (!(await pathExists(markerPath, statFile, 'file'))) {
+      continue;
+    }
+    if (marker !== '.editorconfig' || (await editorconfigHasFlavorGrenadeDirectives(markerPath))) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 async function pathExists(
@@ -139,6 +159,16 @@ async function pathExists(
   try {
     const result = await statFile(path);
     return expectedKind === 'directory' ? result.isDirectory() : result.isFile();
+  } catch {
+    return false;
+  }
+}
+
+async function editorconfigHasFlavorGrenadeDirectives(path: string): Promise<boolean> {
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const content = await readFile(path, 'utf8');
+    return FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN.test(content.slice(0, 8192));
   } catch {
     return false;
   }

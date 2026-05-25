@@ -95,7 +95,10 @@ export const featureHighlights: readonly FeatureHighlight[] = [
       title: 'How Auto Detect keeps generic Markdown generic',
       summary:
         'Flavor Grenade resolves one effective base flavor per document before applying vault behavior or structured profiles.',
-      markdownExample: ['[core.markdown]\nflavor = "gfm"', 'structured_profiles = "auto"'],
+      markdownExample: [
+        '[core.markdown]\nflavor = "commonmark"',
+        '[[core.markdown.overrides]]\npath = "docs/github"\nflavor = "gfm"',
+      ],
       outcome:
         'A root README can stay CommonMark while Obsidian notes, MDX pages, and changelogs get the behavior their evidence supports.',
     },

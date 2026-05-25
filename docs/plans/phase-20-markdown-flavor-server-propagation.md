@@ -39,7 +39,7 @@ flavor context.
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.SemanticTokens.ProfileTokens]] | Refresh semantic-token context from the effective profile after flavor changes |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Rename.ProfileSafety]] | Provide effective profile context to rename safety checks |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]] | Add shared non-local host/conversion boundary classification |
-| [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigTOMLSafety]] | Validate project config evidence before it affects flavor state |
+| [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigSafety]] | Validate project config evidence before it affects flavor state |
 | [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]] | Validate resource-specific propagation payloads before state mutation |
 | [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.flavor-grenade.toml` discovery to the workspace/vault root |
 | [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |

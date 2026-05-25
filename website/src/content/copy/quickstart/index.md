@@ -18,7 +18,7 @@ Use the npm package when you are setting up a direct LSP client. That path fits 
 
 - Use the VS Code extension for the easiest first run.
 - Use the npm package for Neovim, Helix, custom editor clients, or test harnesses that already know how to speak LSP.
-- In both paths, open or point at the folder that contains `.obsidian/` or `.flavor-grenade.toml`.
+- In both paths, open or point at the folder that contains `.obsidian/` or a Flavor Grenade project config file.
 
 ## Option 1: VS Code extension
 
@@ -32,7 +32,7 @@ Install [Flavor Grenade LSP from the Visual Studio Marketplace](https://marketpl
 
 ### Open an Obsidian Vault folder
 
-Use File > Open Folder and choose the folder that contains `.obsidian/` or `.flavor-grenade.toml`.
+Use File > Open Folder and choose the folder that contains `.obsidian/` or project config such as `.flavor-grenade.toml`, `.flavor-grenade.jsonc`, or `.flavor-grenade.yaml`.
 
 ### Confirm flavor activation
 
@@ -45,6 +45,8 @@ MyVault/
   Notes/
     Daily Note.md
 ```
+
+JSON, JSONC, YAML/YML, and Flavor Grenade `.editorconfig` directives can be used instead of TOML when they fit the project better.
 
 ## Option 2: npm language-server package
 

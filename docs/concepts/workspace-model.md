@@ -68,7 +68,7 @@ The returned `symDiff` is also passed to `DiagnosticService` to determine which 
 | Mode | Trigger | RefGraph | FolderLookup | Cross-doc refs |
 |------|---------|----------|--------------|----------------|
 | **SingleFile** | No vault root found for the document | Contains only one `OFMDoc` | Contains only one entry | Always unresolved (no other docs) |
-| **MultiFile** | Vault root found (`.obsidian/` or `.flavor-grenade.toml`) | Contains all vault documents | Full suffix tree | Resolved normally |
+| **MultiFile** | Vault root found (`.obsidian/` or Flavor Grenade project config marker) | Contains all vault documents | Full suffix tree | Resolved normally |
 
 A `VaultFolder` does not transition between modes — a new one is created when the mode changes (e.g., a vault root is discovered for a previously single-file document). The old `VaultFolder` is evicted from `Workspace` and replaced.
 
@@ -170,8 +170,8 @@ Membership is derived from `Workspace` state:
 | Workspace state for URI | Auto-detected flavor |
 |---|---|
 | URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | Obsidian |
-| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` with an explicit flavor | Configured flavor |
-| URI belongs to a multi-file `VaultFolder` detected by `.flavor-grenade.toml` without an explicit flavor | Obsidian-compatible project Markdown |
+| URI belongs to a multi-file `VaultFolder` detected by project config with an explicit flavor | Configured flavor |
+| URI belongs to a multi-file `VaultFolder` detected by project config without an explicit flavor | CommonMark fallback unless syntax/context inference supplies stronger evidence |
 | URI is present in a `VaultFolder.docs` map after indexing | Project Markdown flavor |
 | URI is only in `SingleFileMode` | CommonMark |
 | URI is unknown or outside all vault roots | CommonMark |
@@ -184,7 +184,7 @@ through the Markdown flavor selector per
 
 ### Config Merging
 
-When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges the workspace-level config with the folder's `FlavorConfig` (if a `.flavor-grenade.toml` exists in the vault root). The merged config is attached to the `VaultFolder` and used by all feature services when serving requests for documents in that folder.
+When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges the workspace-level config with the folder's `FlavorConfig` (if a project config file exists in the vault root). The merged config is attached to the `VaultFolder` and used by all feature services when serving requests for documents in that folder.
 
 ---
 

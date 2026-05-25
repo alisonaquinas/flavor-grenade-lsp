@@ -23,7 +23,7 @@ aliases:
 **Scale:** Two sub-scales: (1) percentage of completion responses where the returned item count does not exceed the configured `completion.candidates` value; (2) percentage of responses where the total matching candidates exceed the cap in which `CompletionList.isIncomplete` is set to `true`.
 **Meter:**
 
-1. Configure `completion.candidates` to a value N (e.g., 5) in `.flavor-grenade.toml`.
+1. Configure `completion.candidates` to a value N (e.g., 5) in project config.
 2. Create a test vault with at least N+10 documents whose names all share a common prefix.
 3. Open a document and trigger completion at `[[` with an empty query (all candidates match).
 4. Verify the returned `CompletionList.items` array length equals exactly N.

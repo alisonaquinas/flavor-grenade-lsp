@@ -307,11 +307,11 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 | `VaultFolder`             | Aggregate — one detected vault, owns docs + RefGraph + config                             |
 | `Workspace`               | Aggregate — one per server instance, owns all VaultFolders                                |
 | `VaultIndex`              | Name-lookup index for a vault (used by Oracle implementation)                             |
-| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) received from VS Code settings or TOML |
+| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) received from VS Code settings or project config |
 | `EffectiveMarkdownFlavor` | Explicit base flavor id resolved by BC4 using `MarkdownFlavorCascade`; never `auto` |
 | `EffectiveMarkdownContext` | Document-specific parse context containing one `EffectiveMarkdownFlavor`, the matching `MarkdownFlavorProfile`, and zero or more structured profile flags |
 | `MarkdownFlavorProfile`   | Source-backed profile metadata for the effective flavor, including syntax surfaces and host boundaries |
-| `VaultDetector`           | Domain service — detects `.obsidian/` or `.flavor-grenade.toml`                           |
+| `VaultDetector`           | Domain service — detects `.obsidian/` or Flavor Grenade project config markers            |
 | `FileWatcher`             | Domain service — wraps inotify/fs.watch for `**/*.md` events                              |
 | `GitIgnore`               | Value object — parsed `.gitignore` rules applied to file scanning                         |
 | `FolderLookup`            | Index structure: `stem → DocId[]`, `title → DocId[]`, `alias → DocId[]`                   |

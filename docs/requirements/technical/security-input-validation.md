@@ -77,21 +77,21 @@ aliases:
 
 ---
 
-## Security.Input.ProjectConfigTOMLSafety
+## Security.Input.ProjectConfigSafety
 
-**Tag:** Security.Input.ProjectConfigTOMLSafety
-**Gist:** `.flavor-grenade.toml` must be size-limited, schema-validated, vault-confined by realpath, and parsed without propagating `__proto__`, `constructor`, or `prototype` keys into application configuration.
-**Ambition:** Markdown flavor auto-detection treats project TOML as a flavor signal. That makes the TOML file user-controlled configuration that can affect server analysis. A malicious config must not trigger memory pressure, prototype pollution, unsafe path traversal, or content-bearing logs.
-**Scale:** Percentage of TOML parse attempts that enforce size, schema, path, dangerous-key, and redacted-log guarantees.
+**Tag:** Security.Input.ProjectConfigSafety
+**Gist:** Flavor Grenade project config files (`.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` directives) must be size-limited, schema-validated, vault-confined by realpath, and parsed without propagating `__proto__`, `constructor`, or `prototype` keys into application configuration.
+**Ambition:** Markdown flavor auto-detection treats project config as a flavor signal. That makes the config file user-controlled input that can affect server analysis. A malicious config must not trigger memory pressure, prototype pollution, unsafe path traversal, or content-bearing logs.
+**Scale:** Percentage of project config parse attempts that enforce size, schema, path, dangerous-key, and redacted-log guarantees.
 **Meter:**
 
-1. Create fixtures for oversized TOML, invalid TOML, unknown flavor ids, dangerous keys, symlinked config paths, and traversal attempts.
-2. Verify the server reads TOML only after vault-root realpath confinement passes.
-3. Verify invalid or oversized TOML is treated as absent configuration and cannot corrupt prior flavor state.
+1. Create fixtures for oversized, invalid, unknown-flavor, dangerous-key, symlinked-path, and traversal-attempt config files across TOML, JSON, JSONC, YAML, and `.editorconfig`.
+2. Verify the server reads project config only after vault-root realpath confinement passes.
+3. Verify invalid or oversized project config is treated as absent configuration and cannot corrupt prior flavor state.
 4. Verify dangerous keys are rejected or stripped before merge.
-5. Verify logs contain file path/status only, not TOML content.
-**Fail:** Any unsafe TOML path is read, any oversized/invalid TOML crashes the server, any dangerous key pollutes application objects, or TOML content appears in logs.
-**Goal:** 100% safe TOML handling.
+5. Verify logs contain file path/status only, not config content.
+**Fail:** Any unsafe config path is read, any oversized/invalid config crashes the server, any dangerous key pollutes application objects, or project config content appears in logs.
+**Goal:** 100% safe project config handling.
 **Stakeholders:** Workspace owners, vault authors, server maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/security-vault-confinement]], [[docs/research/security-threat-model]].

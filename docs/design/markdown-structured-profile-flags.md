@@ -22,7 +22,7 @@ must not be added to the Markdown flavor selector list.
   combination.
 - Support low-friction automatic detection through filename, folder placement,
   headings, front matter, and local structure.
-- Support explicit configuration in `.flavor-grenade.toml` and VS Code settings.
+- Support explicit configuration in Flavor Grenade project config files and VS Code settings.
 - Preserve the current explicit Markdown flavor list.
 - Keep base Markdown parsing separate from structured-document validation.
 
@@ -82,7 +82,7 @@ Rules:
 
 ## Configuration
 
-### TOML
+### Project Config
 
 Project configuration may set structured profiles independently of the base
 Markdown flavor:
@@ -106,6 +106,11 @@ structured_profiles = "none"
 structured_profiles = ["madr"]
 ```
 
+JSON, JSONC, and YAML use the same `core.markdown.structured_profiles` field.
+Directory overrides may set `structured_profiles` independently from
+`flavor`, and `.editorconfig` may set
+`flavor_grenade_markdown_structured_profiles` inside matching sections.
+
 ### VS Code
 
 The extension must expose a setting separate from `flavorGrenade.markdownFlavor`:
@@ -117,7 +122,7 @@ The extension must expose a setting separate from `flavorGrenade.markdownFlavor`
 }
 ```
 
-Valid VS Code values mirror TOML:
+Valid VS Code values mirror project config:
 
 - `"auto"`: infer structured profiles from local evidence.
 - `"none"`: disable structured profiles.
@@ -144,7 +149,7 @@ flowchart TD
 Precedence:
 
 1. Explicit VS Code structured-profile setting.
-2. Explicit TOML structured-profile setting.
+2. Explicit project config structured-profile setting.
 3. Automatic inference from bounded local context.
 4. No structured profile.
 
@@ -243,8 +248,8 @@ Structured profiles must not:
 
 ## Test Obligations
 
-- Unit tests validate TOML and VS Code settings for `auto`, `none`, explicit
-  arrays, unknown ids, duplicate ids, and incompatible changelog pairs.
+- Unit tests validate project config and VS Code settings for `auto`, `none`,
+  explicit arrays, unknown ids, duplicate ids, and incompatible changelog pairs.
 - Auto-detection tests cover `CHANGELOG.md`, Keep a Changelog, Common
   Changelog, MADR path/filename/heading evidence, weak-signal fallback, and
   workspace-boundary confinement.

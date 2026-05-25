@@ -66,7 +66,7 @@ This is a **navigation and refactoring domain** over a structured document graph
 
 ### Generic Subdomain: Configuration
 
-**What it is**: TOML parsing, config cascade, config schema validation, default values.
+**What it is**: Project config parsing, config cascade, config schema validation, default values.
 
 **Why it is generic**: Configuration is a solved problem. The only domain-specific aspect is knowing which config keys exist (e.g., `completion.candidates`, `callouts.customTypes`) — and that knowledge lives in the features that consume config, not in `ConfigModule` itself.
 
@@ -78,7 +78,7 @@ The following terms have precise meanings within the `flavor-grenade-lsp` codeba
 
 | Term | Precise Meaning |
 |------|----------------|
-| **Vault** | A directory tree of Markdown notes identified by a `.obsidian/` directory or `.flavor-grenade.toml` file at its root |
+| **Vault** | A directory tree of Markdown notes identified by a `.obsidian/` directory or a Flavor Grenade project config marker at its root |
 | **OFMDoc** | An immutable snapshot of a single Markdown document's text, parsed structure, and symbol index |
 | **DocId** | The pair (LSP URI, vault-relative path) that uniquely identifies a document within a vault |
 | **Slug** | A case-folded, trimmed string derived from a file name stem or heading text; the canonical match key for wiki-links |

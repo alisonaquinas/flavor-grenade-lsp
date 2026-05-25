@@ -28,7 +28,7 @@ Install Flavor Grenade LSP from the Visual Studio Marketplace and reload VS Code
 
 ### Confirm vault open activation
 
-Open the folder that contains `.obsidian/`, `.flavor-grenade.toml`, or the Markdown files you want analyzed. That folder is the boundary Flavor Grenade uses for local links.
+Open the folder that contains `.obsidian/`, a Flavor Grenade project config file, or the Markdown files you want analyzed. That folder is the boundary Flavor Grenade uses for local links.
 
 ### Verify activation
 
@@ -48,4 +48,4 @@ A healthy install should feel uneventful. Completion and diagnostics are the eas
 
 If activation does not happen, VS Code may not trust the workspace, the file may still be plain Markdown, or the opened folder may not be the vault root.
 
-If activation works but suggestions are sparse, double-check that you opened the folder containing `.obsidian/` or `.flavor-grenade.toml`, not a parent folder or one loose file. For generic Markdown without strong evidence, CommonMark fallback is expected.
+If activation works but suggestions are sparse, double-check that you opened the folder containing `.obsidian/` or project config, not a parent folder or one loose file. For generic Markdown without strong evidence, CommonMark fallback is expected.

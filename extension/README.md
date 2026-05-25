@@ -6,7 +6,8 @@ workspaces in Visual Studio Code.
 Flavor Grenade keeps ordinary `.md` files in VS Code's built-in Markdown mode
 while the extension and bundled language server add vault indexing,
 Obsidian-style navigation, Markdown flavor detection, structured-document
-diagnostics, and project-aware completions.
+diagnostics, and project-aware completions. See the current docs at
+[flavor-grenade.dev](https://flavor-grenade.dev/).
 
 ![Flavor Grenade wiki-link completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/wiki-link-completion.png)
 
@@ -27,11 +28,11 @@ diagnostics, and project-aware completions.
 
 ## Screenshots
 
-![OFMarkdown language mode promotion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/ofmarkdown-mode.png)
+![Markdown flavor selector with CommonMark fallback](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/markdown-flavor-selector.png)
 
-Detected vault files can use the OFMarkdown language contribution when that is
-useful, but normal Markdown files stay in VS Code's Markdown mode unless Flavor
-Grenade has project evidence.
+Markdown files stay in VS Code's Markdown mode. The Flavor Grenade selector
+shows the active base flavor and whether it came from explicit settings,
+project configuration, vault markers, syntax inference, or CommonMark fallback.
 
 ![Flavor Grenade status bar indexing](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/status-indexing.png)
 
@@ -66,7 +67,7 @@ Callout completion offers common Obsidian callout types inside quote blocks.
 ## Getting Started
 
 1. Install Flavor Grenade LSP from the Visual Studio Marketplace.
-2. Open an Obsidian vault or a folder containing `.flavor-grenade.toml`.
+2. Open an Obsidian vault or a configured Markdown project.
 3. Open a Markdown file.
 4. Wait for the status bar to report that Flavor Grenade is ready.
 5. Type `[[`, `#`, `> [!`, or a Markdown link target to use completions.
@@ -76,12 +77,57 @@ or you run an explicit Flavor Grenade command.
 
 ## Project Configuration
 
-Use `.flavor-grenade.toml` to pin a project when Auto Detect is not enough:
+Use project configuration to pin a project when Auto Detect is not enough. TOML
+remains supported and is checked first; JSON, JSONC, YAML/YML, and Flavor
+Grenade directives in `.editorconfig` are also supported.
 
 ```toml
-markdown_flavor = "gfm"
+[core.markdown]
+flavor = "gfm"
 structured_profiles = ["keep-a-changelog"]
+
+[[core.markdown.overrides]]
+path = "docs/decisions"
+flavor = "commonmark"
+structured_profiles = ["madr"]
 ```
+
+Equivalent JSONC:
+
+```jsonc
+{
+  "core": {
+    "markdown": {
+      "flavor": "gfm",
+      "structured_profiles": ["keep-a-changelog"],
+      "overrides": [
+        {
+          "path": "docs/decisions",
+          "flavor": "commonmark",
+          "structured_profiles": ["madr"]
+        }
+      ]
+    }
+  }
+}
+```
+
+Equivalent `.editorconfig` directive:
+
+```ini
+[docs/decisions/*.md]
+flavor_grenade_markdown_flavor = commonmark
+flavor_grenade_markdown_structured_profiles = madr
+```
+
+Project config file discovery order:
+
+1. `.flavor-grenade.toml`
+2. `.flavor-grenade.json`
+3. `.flavor-grenade.jsonc`
+4. `.flavor-grenade.yaml`
+5. `.flavor-grenade.yml`
+6. `.editorconfig` with Flavor Grenade directives
 
 Supported `markdown_flavor` values:
 
@@ -142,9 +188,9 @@ Open the Command Palette and search for "Flavor Grenade":
 ## Links
 
 - [Source code](https://github.com/alisonaquinas/flavor-grenade-lsp)
+- [Documentation website](https://flavor-grenade.dev/)
 - [Issue tracker](https://github.com/alisonaquinas/flavor-grenade-lsp/issues)
 - [Changelog](https://github.com/alisonaquinas/flavor-grenade-lsp/blob/main/extension/CHANGELOG.md)
-- [Documentation website](https://www.alisonaquinas.com/flavor-grenade-lsp/)
 
 ## License
 

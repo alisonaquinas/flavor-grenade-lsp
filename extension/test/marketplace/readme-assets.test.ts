@@ -8,6 +8,7 @@ import { describe, it } from 'node:test';
 const testDir = dirname(fileURLToPath(import.meta.url));
 const extensionRoot = resolve(testDir, '..', '..');
 const readmePath = join(extensionRoot, 'README.md');
+const packageJsonPath = join(extensionRoot, 'package.json');
 
 interface RequiredMarketplaceVisual {
   alt: RegExp;
@@ -20,9 +21,9 @@ const mediaAssetBase =
 
 const requiredVisuals: RequiredMarketplaceVisual[] = [
   {
-    id: 'ofmarkdown-mode',
-    alt: /OFMarkdown language mode promotion/i,
-    localPath: 'images/marketplace/ofmarkdown-mode.png',
+    id: 'markdown-flavor-selector',
+    alt: /Markdown flavor selector/i,
+    localPath: 'images/marketplace/markdown-flavor-selector.png',
   },
   {
     id: 'status-indexing',
@@ -84,6 +85,23 @@ describe('Marketplace README assets', () => {
       );
     }
   });
+
+  it('does not embed stale OFMarkdown-mode Marketplace visuals or old website URLs', async () => {
+    const readme = await readFile(readmePath, 'utf8');
+    const links = parseMarkdownLinks(readme);
+
+    assert.doesNotMatch(readme, /ofmarkdown-mode\.png/i);
+    assert.equal(readme.includes('www.alisonaquinas.com/flavor-grenade-lsp'), false);
+    assert.equal(links.some((link) => link.href === 'https://flavor-grenade.dev/'), true);
+  });
+
+  it('points extension homepage metadata at the public documentation site', async () => {
+    const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf8')) as {
+      homepage?: unknown;
+    };
+
+    assert.equal(packageJson.homepage, 'https://flavor-grenade.dev/');
+  });
 });
 
 function parseMarkdownImages(markdown: string): Array<{ alt: string; path: string }> {
@@ -95,4 +113,15 @@ function parseMarkdownImages(markdown: string): Array<{ alt: string; path: strin
   }
 
   return images;
+}
+
+function parseMarkdownLinks(markdown: string): Array<{ href: string; text: string }> {
+  const links: Array<{ href: string; text: string }> = [];
+  const linkPattern = /(?<!!)\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+
+  for (const match of markdown.matchAll(linkPattern)) {
+    links.push({ href: match[2], text: match[1] });
+  }
+
+  return links;
 }
