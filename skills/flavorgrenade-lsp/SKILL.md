@@ -48,5 +48,8 @@ node wrappers/flavorgrenade.mjs variants CHANGELOG.md --json
 node wrappers/flavorgrenade.mjs refs README.md --json
 ```
 
+Position locators use LSP coordinates: zero-based `line` and zero-based
+`character`.
+
 Fallback: if the wrapper cannot run, explain that Flavor Grenade analysis is
 unavailable and make only conservative Markdown edits.

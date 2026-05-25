@@ -56,7 +56,11 @@ async function main() {
 
   const result = await withClient(runtime, { ...options, cwd: workspaceRoot }, rootUri, async (client) => {
     const files = collectMarkdownFiles(absolutePath, options);
-    for (const file of files) {
+    const filesToOpen =
+      command === 'hover' && rootUri !== null
+        ? mergeUnique([...files, ...collectMarkdownFiles(workspaceRoot, options)])
+        : files;
+    for (const file of filesToOpen) {
       const text = await readFile(file, 'utf8');
       client.didOpen(pathToFileURL(file).toString(), text);
     }
@@ -244,13 +248,15 @@ async function folds(client, files, workspaceRoot) {
 }
 
 async function hover(client, locator, workspaceRoot) {
-  const uri = pathToFileURL(path.resolve(locator.path)).toString();
+  const file = path.resolve(locator.path);
+  const uri = pathToFileURL(file).toString();
+  const hoverResult = await client.request('textDocument/hover', {
+    textDocument: { uri },
+    position: { line: locator.line, character: locator.character },
+  }).catch(() => null);
   return {
-    path: relativePath(workspaceRoot, path.resolve(locator.path)),
-    hover: await client.request('textDocument/hover', {
-      textDocument: { uri },
-      position: { line: locator.line, character: locator.character },
-    }).catch(() => null),
+    path: relativePath(workspaceRoot, file),
+    hover: hoverResult ?? structuredProfileHoverFallback(file, locator),
   };
 }
 
@@ -499,6 +505,44 @@ function inferStructuredProfiles(file, text) {
     profiles.push('madr');
   }
   return profiles;
+}
+
+function structuredProfileHoverFallback(file, locator) {
+  let text;
+  try {
+    text = readFileSync(file, 'utf8');
+  } catch {
+    return null;
+  }
+  const profiles = inferStructuredProfiles(file, text);
+  if (profiles.length === 0) return null;
+  const line = text.split(/\r?\n/)[locator.line] ?? '';
+  const heading = /^#{2,3}\s+(.+?)\s*$/.exec(line);
+  if (heading === null || locator.character > line.length) return null;
+  const headingText = heading[1];
+  const level = line.startsWith('###') ? 3 : 2;
+  let value = null;
+  if (profiles.includes('keep-a-changelog') && isKeepAChangelogHeading(level, headingText)) {
+    value =
+      level === 2
+        ? 'Keep a Changelog release section. Use [Unreleased] or [VERSION] - YYYY-MM-DD.'
+        : 'Keep a Changelog change category. Standard categories include Added, Changed, Deprecated, Removed, Fixed, and Security.';
+  }
+  if (profiles.includes('madr') && isMadrHeading(level, headingText)) {
+    value = level === 2 ? 'MADR decision-record section.' : 'MADR option or validation subsection.';
+  }
+  return value === null ? null : { contents: { kind: 'markdown', value } };
+}
+
+function isKeepAChangelogHeading(level, text) {
+  return (
+    (level === 2 && /^\[?unreleased\]?|^\[?\d+\.\d+\.\d+\]?/.test(text.toLowerCase())) ||
+    (level === 3 && /^(added|changed|deprecated|removed|fixed|security)$/i.test(text))
+  );
+}
+
+function isMadrHeading(level, text) {
+  return level === 2 && /^(Context|Decision|Consequences|Status|Considered Options)$/i.test(text);
 }
 
 function mergeUnique(values) {

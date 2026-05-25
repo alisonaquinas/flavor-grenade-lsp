@@ -48,6 +48,13 @@ plugins/
     └── README.md
 ```
 
+Repository-level marketplace catalogs live outside the plugin source:
+
+```text
+.claude-plugin/marketplace.json
+.agents/plugins/marketplace.json
+```
+
 Runtime release archives may flatten this layout if the installer requires it,
 but source specs and tests must preserve the distinction between:
 
@@ -102,6 +109,12 @@ Claude plugin releases must include:
 }
 ```
 
+The repository-level Claude marketplace must live at
+`.claude-plugin/marketplace.json` so GitHub marketplace installation can find
+it. Its `plugins[]` entry for `flavorgrenade-lsp` must use
+`"source": "./plugins/flavorgrenade-lsp"` and must not point at the portable
+skill directory directly.
+
 Claude plugin component discovery is driven by the plugin root layout. The
 manifest must stay limited to fields accepted by the current Claude plugin
 validator. If a validator version accepts explicit component path fields such as
@@ -135,6 +148,12 @@ reference it until validation accepts the field.
 
 The outer plugin directory name and `.codex-plugin/plugin.json` `name` value
 must match the normalized plugin name `flavorgrenade-lsp`.
+
+The repository-level Codex marketplace must live at
+`.agents/plugins/marketplace.json` and use Codex marketplace policy fields. Its
+entry for `flavorgrenade-lsp` must use local source path
+`./plugins/flavorgrenade-lsp`, `policy.installation: "AVAILABLE"`, and
+`policy.authentication: "ON_INSTALL"`.
 
 ## Slash Commands
 
@@ -306,6 +325,10 @@ The skill release must publish plugin-compatible artifacts:
 
 If a single archive is used for both Claude and Codex, it must include both
 plugin manifests, include the embedded LSP runtime, and pass both validators.
+Release archives must also include root `marketplace.json`,
+`.claude-plugin/marketplace.json`, and `.agents/plugins/marketplace.json` so
+the artifact can be inspected as a skill marketplace and as either plugin host
+marketplace.
 
 ## Sources
 

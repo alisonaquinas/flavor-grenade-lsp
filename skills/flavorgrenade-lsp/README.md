@@ -36,6 +36,8 @@ node wrappers/flavorgrenade.mjs refs <path> --json
 ```
 
 All commands default to JSON. Paths are confined to the selected workspace.
+Position locators use LSP coordinates: zero-based `line` and zero-based
+`character`.
 
 ## Configuration
 
