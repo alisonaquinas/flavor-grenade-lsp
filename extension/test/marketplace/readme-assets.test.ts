@@ -88,10 +88,11 @@ describe('Marketplace README assets', () => {
 
   it('does not embed stale OFMarkdown-mode Marketplace visuals or old website URLs', async () => {
     const readme = await readFile(readmePath, 'utf8');
+    const links = parseMarkdownLinks(readme);
 
     assert.doesNotMatch(readme, /ofmarkdown-mode\.png/i);
     assert.equal(readme.includes('www.alisonaquinas.com/flavor-grenade-lsp'), false);
-    assert.equal(readme.includes('https://flavor-grenade.dev/'), true);
+    assert.equal(links.some((link) => link.href === 'https://flavor-grenade.dev/'), true);
   });
 
   it('points extension homepage metadata at the public documentation site', async () => {
@@ -112,4 +113,15 @@ function parseMarkdownImages(markdown: string): Array<{ alt: string; path: strin
   }
 
   return images;
+}
+
+function parseMarkdownLinks(markdown: string): Array<{ href: string; text: string }> {
+  const links: Array<{ href: string; text: string }> = [];
+  const linkPattern = /(?<!!)\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+
+  for (const match of markdown.matchAll(linkPattern)) {
+    links.push({ href: match[2], text: match[1] });
+  }
+
+  return links;
 }
