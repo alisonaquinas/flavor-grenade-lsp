@@ -262,6 +262,7 @@ button {
 .nav-toggle svg,
 .theme-toggle svg,
 .button-icon svg,
+.install-card-icon svg,
 .link-icon svg {
   block-size: 1.05rem;
   fill: none;
@@ -512,6 +513,7 @@ p {
   display: inline-flex;
   height: 2.4rem;
   justify-content: center;
+  overflow: hidden;
   width: 2.4rem;
 }
 
