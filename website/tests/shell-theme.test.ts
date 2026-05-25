@@ -60,6 +60,7 @@ describe('website shell navigation and theme modes', () => {
         'How-To',
         [
           'Use the VS Code Extension',
+          'Use the LLM Skill and Plugin',
           'Configure Markdown Workspaces',
           'Choose a Markdown Flavor',
           'Use Structured Profiles',

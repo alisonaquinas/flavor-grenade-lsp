@@ -9,6 +9,7 @@ export const routeIds = [
   'quickstart',
   'howTo',
   'howToVsCodeExtension',
+  'howToUseLlmSkill',
   'howToConfigureObsidianVaults',
   'howToChooseMarkdownFlavor',
   'howToUseStructuredProfiles',
@@ -85,6 +86,7 @@ export interface WebsiteRoute {
 
 export const howToArticleRouteIds = [
   'howToVsCodeExtension',
+  'howToUseLlmSkill',
   'howToConfigureObsidianVaults',
   'howToChooseMarkdownFlavor',
   'howToUseStructuredProfiles',
@@ -209,11 +211,11 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'quickstart',
     '/quickstart/',
     'Quickstart | Flavor Grenade LSP',
-    'Install Flavor Grenade LSP and verify flavor-aware Markdown features in VS Code or a direct LSP client.',
+    'Install Flavor Grenade LSP for VS Code, a direct LSP client, or an LLM skill workflow.',
     'Quickstart',
     'docs',
     'quickstart',
-    ['howToVsCodeExtension', 'howToChooseMarkdownFlavor', 'faq'],
+    ['howToVsCodeExtension', 'howToUseLlmSkill', 'advancedDirectLspIntegration'],
   ),
   route(
     'howTo',
@@ -234,6 +236,17 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'how-to',
     'how-to',
     ['quickstart', 'howToChooseMarkdownFlavor', 'advancedDirectLspIntegration'],
+    true,
+  ),
+  route(
+    'howToUseLlmSkill',
+    '/how-to/use-llm-skill-plugin/',
+    'Use the LLM Skill and Plugin | Flavor Grenade LSP',
+    'Install the Flavor Grenade LSP skill/plugin so Claude, Codex, and compatible agents can inspect Markdown flavor evidence.',
+    'Use the LLM Skill and Plugin',
+    'how-to',
+    'how-to',
+    ['quickstart', 'advancedDirectLspIntegration', 'conceptMarkdownFlavorModel'],
     true,
   ),
   route(

@@ -7,6 +7,7 @@
     featureHighlights,
     homepageAssetPlacements,
     homepageHero,
+    homepageInstallOptions,
     homepageProof,
     type FeatureSignal,
   } from './home/homepage';
@@ -301,6 +302,27 @@
           </ul>
         </div>
       </aside>
+    </section>
+
+    <section class="install-section" aria-labelledby="install-title">
+      <p class="eyebrow">Install</p>
+      <h2 id="install-title">Choose the package that matches who is using the server</h2>
+      <div class="install-grid">
+        {#each homepageInstallOptions as option (option.title)}
+          <a class="install-card" href={option.href}>
+            <span class="install-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d={getIconPath(option.icon)} />
+              </svg>
+            </span>
+            <span class="install-card-copy">
+              <strong>{option.title}</strong>
+              <span>{option.audience}</span>
+            </span>
+            <code>{option.commands.join('\n')}</code>
+          </a>
+        {/each}
+      </div>
     </section>
 
     <section class="feature-section" aria-labelledby="feature-title">
