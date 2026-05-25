@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { websitePages } from '../src/content/pages';
-import type { RouteId } from '../src/content/routes';
+import { getRouteById, type RouteId } from '../src/content/routes';
 
 interface RichSectionShape {
   heading: string;
@@ -46,6 +46,8 @@ describe('quickstart and VS Code extension docs', () => {
 
     expect(text).toContain('Prerequisites');
     expect(text).toContain('Visual Studio Marketplace');
+    expect(text).toContain('LLM skill/plugin');
+    expect(text).toContain('verify-install --json');
     expect(text).toContain('Open an Obsidian Vault folder');
     expect(text).toContain('OFMarkdown');
     expect(text).toContain('[[Daily Note]]');
@@ -77,5 +79,18 @@ describe('quickstart and VS Code extension docs', () => {
     expect(text).toContain('flavor-grenade-lsp');
     expect(text).toContain('npx');
     expect(text).toContain('rootUri');
+  });
+
+  it('publishes an agent skill install path', () => {
+    const page = routePage('howToUseLlmSkill');
+    const text = pageText('howToUseLlmSkill');
+
+    expect(getRouteById(page.routeId).h1).toBe('Use the LLM Skill and Plugin');
+    expect(text).toContain('npx skill install');
+    expect(text).toContain('flavorgrenade-lsp');
+    expect(text).toContain('verify-install --json');
+    expect(text).toContain('Claude');
+    expect(text).toContain('Codex');
+    expect(text).toContain('detect README.md --json');
   });
 });

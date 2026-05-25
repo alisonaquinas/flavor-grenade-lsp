@@ -12,9 +12,10 @@ Pick a practical guide when you want one Markdown workspace task working in VS C
 
 ## Choose a workflow
 
-Start here when you want to do something concrete: install the extension, choose a Markdown flavor, enable structured profiles, fix a broken link, jump through a wiki link, rename a heading, or understand why an example is being ignored.
+Start here when you want to do something concrete: install the extension, install the LLM skill/plugin, choose a Markdown flavor, enable structured profiles, fix a broken link, jump through a wiki link, rename a heading, or understand why an example is being ignored.
 
 - Install and activate the VS Code extension.
+- Install the LLM skill/plugin for Claude, Codex, or another compatible agent.
 - Choose Auto Detect or an explicit Markdown flavor.
 - Layer Keep a Changelog, Common Changelog, or MADR profiles on top of a base flavor.
 - Complete wiki-links and headings from notes in your vault.
@@ -23,6 +24,7 @@ Start here when you want to do something concrete: install the extension, choose
 - Fix broken links with diagnostics and code actions.
 
 - [Use the VS Code Extension](/how-to/use-vscode-extension/) - Install and activate the Flavor Grenade VS Code extension for Markdown workspace workflows.
+- [Use the LLM Skill and Plugin](/how-to/use-llm-skill-plugin/) - Install the Flavor Grenade LSP skill/plugin so Claude, Codex, and compatible agents can inspect Markdown flavor evidence.
 - [Configure Markdown Workspaces](/how-to/configure-obsidian-vaults/) - Configure root detection, indexing boundaries, explicit flavor markers, and generated-output behavior.
 - [Choose a Markdown Flavor](/how-to/choose-a-markdown-flavor/) - Use Auto Detect, project configuration, and the VS Code selector to choose the right base Markdown flavor.
 - [Use Structured Profiles](/how-to/use-structured-profiles/) - Layer Keep a Changelog, Common Changelog, or MADR structure on top of the selected Markdown flavor.

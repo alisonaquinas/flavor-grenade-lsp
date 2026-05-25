@@ -16,6 +16,7 @@ describe('website route metadata', () => {
       'quickstart',
       'howTo',
       'howToVsCodeExtension',
+      'howToUseLlmSkill',
       'howToConfigureObsidianVaults',
       'howToChooseMarkdownFlavor',
       'howToUseStructuredProfiles',
@@ -61,6 +62,7 @@ describe('website route metadata', () => {
     ]);
     expect(guideArticleGroups.flatMap((group) => group.routeIds)).toEqual([
       'howToVsCodeExtension',
+      'howToUseLlmSkill',
       'howToConfigureObsidianVaults',
       'howToChooseMarkdownFlavor',
       'howToUseStructuredProfiles',

@@ -1,14 +1,14 @@
 ---
 title: "Quickstart | Flavor Grenade LSP"
-description: "Install Flavor Grenade LSP through VS Code or the npm language-server package, then try a small vault workflow."
+description: "Install Flavor Grenade LSP through VS Code, the npm language-server package, or the LLM skill/plugin, then try a small vault workflow."
 h1: "Quickstart"
-summary: "Start with the VS Code extension if you want the smooth path, or use the npm package when you are wiring Flavor Grenade into another LSP-capable editor."
-related: ["howToVsCodeExtension","advancedDirectLspIntegration","faq"]
+summary: "Start with the VS Code extension if you write in VS Code, use the npm package for direct LSP clients, or install the skill/plugin when an LLM agent needs flavor-aware Markdown evidence."
+related: ["howToVsCodeExtension","howToUseLlmSkill","advancedDirectLspIntegration"]
 ---
 
 # Quickstart
 
-Start with the VS Code extension if you want the smooth path, or use the npm package when you are wiring Flavor Grenade into another LSP-capable editor.
+Start with the VS Code extension if you write in VS Code, use the npm package for direct LSP clients, or install the skill/plugin when an LLM agent needs flavor-aware Markdown evidence.
 
 ## Prerequisites
 
@@ -16,9 +16,12 @@ Start with the VS Code extension if you want the smoothest setup. It packages th
 
 Use the npm package when you are setting up a direct LSP client. That path fits editors or tools that can launch a stdio language server, send the normal LSP initialize request, and provide a useful vault root through `rootUri` or workspace folders.
 
+Use the LLM skill/plugin when Claude, Codex, or another compatible agent needs to inspect Markdown flavor, diagnostics, document symbols, folds, hovers, completions, references, and structured changelog or MADR variants before editing files.
+
 - Use the VS Code extension for the easiest first run.
 - Use the npm package for Neovim, Helix, custom editor clients, or test harnesses that already know how to speak LSP.
-- In both paths, open or point at the folder that contains `.obsidian/` or a Flavor Grenade project config file.
+- Use the LLM skill/plugin for agent workflows that should ask Flavor Grenade instead of guessing Markdown behavior.
+- In every path, open or point at the folder that contains `.obsidian/` or a Flavor Grenade project config file.
 
 ## Option 1: VS Code extension
 
@@ -74,6 +77,31 @@ command: flavor-grenade-lsp
 rootUri: file:///Users/alex/MyVault
 ```
 
+## Option 3: LLM skill/plugin
+
+Install the skill/plugin when an LLM agent is editing Markdown and needs structured evidence instead of inferred guesses. The skill wraps the same LSP product with JSON commands for `detect`, `analyze`, `diagnostics`, `symbols`, `folds`, `hover`, `completions`, `variants`, and references.
+
+Compatible installers can discover the repository marketplace metadata and install the `flavorgrenade-lsp` skill. If your installer uses different syntax, point it at `alisonaquinas/flavor-grenade-lsp` and choose the `flavorgrenade-lsp` skill.
+
+### Install with a compatible skill installer
+
+Use a repository-aware installer for Claude, Codex, or another compatible skill/plugin host.
+
+### Verify the installed skill
+
+Run verification before asking the agent to make flavor-sensitive Markdown edits.
+
+### Use wrapper evidence before edits
+
+Use `detect` for one file and `analyze` for a workspace or directory. Treat wrapper output as the source of truth for flavor, structured profiles, boundaries, and diagnostics.
+
+```text
+npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs verify-install --json
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs detect README.md --json
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze docs --json
+```
+
 ## Try one tiny vault workflow
 
 Create or open a note with one real local reference and one intentionally missing reference. This small example shows both sides of the tool: helpful suggestions for things that exist and a broken-link diagnostic for something that does not.
@@ -93,3 +121,5 @@ You do not need a complicated vault to test the basics. A couple of notes are en
 If the VS Code extension does not activate, check workspace trust, the selected language mode, the flavor status, the extension status, and whether you opened the intended workspace root.
 
 If direct npm usage does not behave like vault mode, check that the client is actually launching `flavor-grenade-lsp`, using stdio transport, and sending a `rootUri` or workspace folder that points at the vault. If completion works but diagnostics do not, give the first index a moment to finish and make sure the target file is inside the vault.
+
+If skill/plugin usage fails, run `verify-install --json` from the installed skill directory and check that the selected runtime target matches the current operating system. Do not continue with flavor-sensitive edits if executable digest verification fails.

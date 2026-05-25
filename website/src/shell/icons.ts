@@ -8,8 +8,10 @@ export type IconName =
   | 'menu'
   | 'monitor'
   | 'moon'
+  | 'package'
   | 'store'
-  | 'sun';
+  | 'sun'
+  | 'terminal';
 
 /** Accessible descriptions for decorative icon choices when needed in tests. */
 export const iconLabels: Readonly<Record<IconName, string>> = {
@@ -21,8 +23,10 @@ export const iconLabels: Readonly<Record<IconName, string>> = {
   menu: 'Menu',
   monitor: 'System theme',
   moon: 'Dark theme',
+  package: 'Package',
   store: 'Marketplace',
   sun: 'Light theme',
+  terminal: 'Terminal',
 };
 
 /** Simple stroke icon paths sized for a 24 by 24 viewBox. */
@@ -35,8 +39,10 @@ export const iconPaths: Readonly<Record<IconName, string>> = {
   menu: 'M4 7h16M4 12h16M4 17h16',
   monitor: 'M4 5h16v11H4Zm5 16h6m-3-5v5',
   moon: 'M20 15.5A8.5 8.5 0 0 1 8.5 4 7 7 0 1 0 20 15.5Z',
+  package: 'M21 8 12 3 3 8v8l9 5 9-5ZM3 8l9 5 9-5M12 13v10',
   store: 'M4 10h16l-1-5H5Zm2 0v10h12V10M9 20v-5h6v5',
   sun: 'M12 4V2m0 20v-2m8-8h2M2 12h2m14.5-6.5L20 4M4 20l1.5-1.5m0-13L4 4m16 16-1.5-1.5M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z',
+  terminal: 'M4 5h16v14H4Zm3 4 3 3-3 3m5 0h5',
 };
 
 /** Returns the path data for a supported icon. */
