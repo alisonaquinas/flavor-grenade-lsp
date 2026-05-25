@@ -71,7 +71,7 @@ Each artifact must include `manifest.json`.
     "sigstoreBundle": "bin/linux-x64/flavor-grenade-lsp.sigstore.json",
     "signature": {
       "oidcIssuer": "https://token.actions.githubusercontent.com",
-      "certificateIdentityRegexp": "^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*"
+      "certificateIdentityRegexp": "^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/release.yml@refs/tags/v.*"
     }
   },
   "commands": {
@@ -98,7 +98,9 @@ The runtime resolver must:
     disabled.
 11. Run a minimal LSP `initialize` handshake.
 
-The resolver must never download a replacement binary.
+The resolver must never download a replacement binary. Downloading the latest
+approved server release is a packaging-time responsibility handled before the
+skill archive is assembled.
 
 ## LSP Process Lifecycle
 

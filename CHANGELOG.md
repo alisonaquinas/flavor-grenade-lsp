@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add native executable signing dry runs to CI: pull requests build a candidate
   binary and validate `cosign` tooling without OIDC, while trusted branch CI
   performs a non-public OIDC sign/verify dry run.
+- Verify during LSP release that the plugin packaging path can consume the
+  just-published signed server binaries.
 
 ## [0.5.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...v0.5.0) (2026-05-24)
 

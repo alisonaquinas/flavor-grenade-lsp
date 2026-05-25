@@ -204,10 +204,16 @@ Required artifacts per release:
 - runtime-specific skill archive
 - SHA-256 checksum file
 - Sigstore bundle for each archive
+- signed server release executable embedded inside each archive
 - Sigstore bundle embedded next to the native executable inside each archive
 - manifest for each archive
 - release notes
 - compatibility matrix
+
+The skill release workflow must embed executables from the selected server
+GitHub Release. It must not build a fresh local server executable during skill
+release packaging. The embedded executable signature must verify against the
+server `release.yml` GitHub OIDC identity before archive assembly.
 
 Required release names:
 
@@ -233,6 +239,7 @@ CI must fail when:
   wrong plugin path, or omits required installation/authentication policy
 - package version and manifest version differ
 - release artifact does not include an executable
+- release artifact executable was not fetched from a selected server release
 - release artifact does not include the manifest-declared executable Sigstore
   bundle
 - release artifact includes multiple runtime executables unintentionally

@@ -9,6 +9,10 @@ on:
         description: Build and sign artifacts without publishing a release.
         type: boolean
         default: true
+      server_release:
+        description: Server release tag to embed, or latest.
+        type: string
+        default: latest
 
 permissions:
   contents: read
@@ -25,20 +29,12 @@ jobs:
       matrix:
         include:
           - target: linux-x64
-            bun_target: bun-linux-x64
-            binary_name: flavor-grenade-lsp
             archive_ext: tar.gz
           - target: darwin-arm64
-            bun_target: bun-darwin-arm64
-            binary_name: flavor-grenade-lsp
             archive_ext: tar.gz
           - target: darwin-x64
-            bun_target: bun-darwin-x64
-            binary_name: flavor-grenade-lsp
             archive_ext: tar.gz
           - target: win-x64
-            bun_target: bun-windows-x64
-            binary_name: flavor-grenade-lsp.exe
             archive_ext: zip
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -58,20 +54,21 @@ jobs:
 
       - run: bun run skill:plugin:verify
 
-      - name: Build native LSP runtime
-        run: |
-          node scripts/build-binary.mjs \
-            --target=${{ matrix.bun_target }} \
-            --outfile=dist/${{ matrix.binary_name }}
-
       - name: Install cosign
         uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
 
-      - name: Sign native LSP runtime with GitHub OIDC
+      - name: Fetch signed server runtime
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          cosign sign-blob "dist/${{ matrix.binary_name }}" \
-            --bundle "dist/${{ matrix.binary_name }}.sigstore.json" \
-            --yes
+          server_release="${{ inputs.server_release }}"
+          if [ -z "$server_release" ]; then
+            server_release="latest"
+          fi
+          bun run skill:fetch-runtime -- \
+            --target "${{ matrix.target }}" \
+            --server-release "$server_release" \
+            --repo "${{ github.repository }}"
 
       - name: Package skill artifact
         id: package

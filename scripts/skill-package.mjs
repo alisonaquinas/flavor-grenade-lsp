@@ -16,6 +16,7 @@ const target = valueAfter('--target') ?? currentTarget();
 const manifest = JSON.parse(readFileSync(path.join(SOURCE_SKILL, 'manifest.json'), 'utf8'));
 const executableName = target === 'win-x64' ? 'flavor-grenade-lsp.exe' : 'flavor-grenade-lsp';
 const distExecutable = path.join(ROOT, 'dist', executableName);
+const runtimeProvenance = readRuntimeProvenance(path.join(ROOT, 'dist', `${executableName}.runtime.json`));
 const packageRoot = path.join(OUT_ROOT, `${SKILL_NAME}-skill-v${manifest.version}-${target}`);
 const skillOut = path.join(packageRoot, 'skills', SKILL_NAME);
 const pluginOut = path.join(packageRoot, 'plugins', SKILL_NAME);
@@ -50,7 +51,8 @@ const packagedManifest = {
   ...manifest,
   server: {
     ...manifest.server,
-    commit: gitValue(['rev-parse', 'HEAD']) ?? manifest.server?.commit ?? '',
+    commit: runtimeProvenance?.commit ?? gitValue(['rev-parse', 'HEAD']) ?? manifest.server?.commit ?? '',
+    releaseTag: runtimeProvenance?.releaseTag ?? manifest.server?.releaseTag,
   },
   runtime: {
     target,
@@ -60,7 +62,9 @@ const packagedManifest = {
     signature: {
       oidcIssuer: 'https://token.actions.githubusercontent.com',
       certificateIdentityRegexp:
-        '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
+        runtimeProvenance?.source === 'github-release'
+          ? '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/release.yml@refs/tags/v.*'
+          : '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
     },
   },
 };
@@ -80,6 +84,7 @@ writeFileSync(
       runtimeSource: existsSync(distExecutable)
         ? path.relative(ROOT, distExecutable).replace(/\\/g, '/')
         : null,
+      runtimeProvenance,
       sha256,
     },
     null,
@@ -119,6 +124,15 @@ function sha256File(filePath) {
 function gitValue(args) {
   try {
     return execFileSync('git', args, { encoding: 'utf8' }).trim();
+  } catch {
+    return null;
+  }
+}
+
+function readRuntimeProvenance(filePath) {
+  if (!existsSync(filePath)) return null;
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf8'));
   } catch {
     return null;
   }

@@ -140,12 +140,14 @@ For every runtime artifact:
 2. Validate manifest.
 3. Validate file inventory.
 4. Validate executable digest.
-5. Verify archive signature.
-6. Verify executable signature when available.
-7. Run `verify-install`.
-8. Run one `detect` fixture.
-9. Run one `analyze` fixture.
-10. Confirm no unexpected files are present.
+5. Confirm the executable provenance points to the selected server GitHub
+   Release.
+6. Verify archive signature.
+7. Verify executable signature against the server `release.yml` identity.
+8. Run `verify-install`.
+9. Run one `detect` fixture.
+10. Run one `analyze` fixture.
+11. Confirm no unexpected files are present.
 
 ## CI Commands
 
@@ -153,6 +155,7 @@ Planned commands:
 
 ```bash
 bun run skill:test
+bun run skill:fetch-runtime -- --target <target> --server-release latest
 bun run skill:package -- --dry-run
 bun run skill:verify -- --target current
 bun run skill:marketplace:verify

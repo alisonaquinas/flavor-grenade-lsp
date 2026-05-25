@@ -37,6 +37,12 @@ records which server executable it embeds.
 Skill tags must not trigger server npm publishing, extension publishing, or
 website deployment.
 
+Server release tags must run a post-release plugin consumption check. That
+check downloads the just-published signed server executable for each runtime,
+verifies the server Sigstore bundle, packages the plugin skill artifact, and
+stores provenance evidence. It does not publish a skill release or change the
+skill version.
+
 ## Changelog
 
 The skill changelog lives at:
@@ -86,9 +92,10 @@ Production release:
 1. Create `release/skill-vX.Y.Z` from `develop`.
 2. Update skill changelog.
 3. Update skill manifest version.
-4. Select server release version and commit.
-5. Fetch or build native executable artifacts.
-6. Verify executable checksums and Sigstore bundles.
+4. Select the released server tag to embed.
+5. Fetch native executable artifacts and Sigstore bundles from that server
+   GitHub Release.
+6. Verify executable checksums and Sigstore bundles before packaging.
 7. Assemble runtime-specific skill archives.
 8. Run install smoke tests for each archive.
 9. Run wrapper command smoke tests.
@@ -102,9 +109,10 @@ Production release:
 Dry-run release:
 
 1. Push `skill-vX.Y.Z-test.N`.
-2. Build all artifacts.
+2. Fetch selected server release artifacts; manual dry-runs may use
+   `server_release=latest`.
 3. Run all verification.
-4. Sign artifacts through the release-signing path.
+4. Sign skill archives through the release-signing path.
 5. Create draft prerelease.
 6. Skip all unrelated publishers.
 
@@ -133,6 +141,7 @@ Release CI must verify:
 - every executable digest matches its manifest
 - archive signatures verify
 - executable signatures verify against the manifest-declared Sigstore bundle
+  and the server `release.yml` workflow identity
 - Claude Code install fixture passes
 - Codex install fixture passes
 - Claude plugin manifest validates
@@ -154,7 +163,9 @@ Skill release notes must include:
 
 - skill version
 - server version
-- server commit
+- embedded server release tag
+- embedded server commit
+- embedded server artifact source URL
 - release commit
 - native target list
 - JSON schema version
