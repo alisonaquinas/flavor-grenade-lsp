@@ -39,6 +39,7 @@ behind `--pretty`.
 |---|---|
 | `--json` | Emit machine-readable JSON |
 | `--workspace <path>` | Explicit workspace root |
+| `--config <path>` | Optional explicit Flavor Grenade config file for fixture or CI validation |
 | `--timeout-ms <number>` | Per-command timeout |
 | `--max-files <number>` | File count cap for workspace analysis |
 | `--max-bytes <number>` | Per-file byte cap |
@@ -148,12 +149,37 @@ Errors must not include document contents.
 Detection must distinguish:
 
 - explicit TOML config
+- explicit JSON config
+- explicit JSONC config
+- explicit YAML config
+- `.editorconfig` Flavor Grenade directives
+- directory-scoped project config overrides
 - VS Code settings
 - filename inference
 - folder-placement inference
 - syntax inference
 - structured-profile inference
 - fallback default
+
+When configuration participates in the decision, `detect` and
+`explain-flavor` must include redacted config metadata:
+
+```json
+{
+  "config": {
+    "source": "project-config",
+    "format": "jsonc",
+    "path": ".flavor-grenade.jsonc",
+    "matchedOverride": {
+      "selector": "docs/releases",
+      "inherited": ["structured_profiles"]
+    }
+  }
+}
+```
+
+`path` values must be workspace-relative. Config metadata must not include raw
+file contents or private absolute paths.
 
 ## Explain Flavor Result
 
@@ -170,9 +196,14 @@ rule evaluation and rejected candidates.
   },
   "decisionTree": [
     {
-      "step": "toml-config",
+      "step": "project-config",
       "matched": false,
-      "reason": "No .flavor-grenade.toml found."
+      "reason": "No supported Flavor Grenade project config found."
+    },
+    {
+      "step": "directory-override",
+      "matched": false,
+      "reason": "No project config override matched README.md."
     },
     {
       "step": "syntax-inference",

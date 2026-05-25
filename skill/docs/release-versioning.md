@@ -143,6 +143,8 @@ Release CI must verify:
 - `npx skill` compatibility is either verified with a selected CLI contract or
   explicitly left as an open compatibility target
 - JSON schema snapshots pass
+- config fixture snapshots pass for TOML, JSON, JSONC, YAML, `.editorconfig`,
+  and directory-scoped overrides
 - hostile fixture tests pass
 
 ## Provenance

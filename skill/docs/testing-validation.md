@@ -37,6 +37,12 @@ Integration tests must cover:
 - `verify-install` launches the executable and completes `initialize`
 - `analyze` returns flavor and symbols for CommonMark
 - `detect` honors TOML configuration
+- `detect` honors JSON configuration
+- `detect` honors JSONC configuration
+- `detect` honors YAML configuration
+- `detect` honors Flavor Grenade directives in `.editorconfig`
+- `detect` applies the most specific matching directory override and inherits
+  omitted values from global project config
 - `detect` explains inference when config is absent
 - `explain-flavor` returns ordered decision steps and rejected candidates
 - root `README.md` does not default to OFM without evidence
@@ -53,6 +59,12 @@ Integration tests must cover:
 | `explicit/commonmark` | base flavor from TOML |
 | `explicit/gfm` | base flavor from TOML |
 | `explicit/obsidian` | OFM behavior from TOML or vault marker |
+| `explicit/json-gfm` | base flavor from JSON |
+| `explicit/jsonc-pandoc` | base flavor from JSONC |
+| `explicit/yaml-kramdown` | base flavor from YAML |
+| `explicit/editorconfig-glfm` | base flavor from `.editorconfig` directives |
+| `overrides/multi-directory` | different files resolve to different configured flavors from one config |
+| `overrides/inherit-structured-profiles` | matched override inherits omitted global structured profiles |
 | `inferred/readme-generic` | not OFM by default |
 | `inferred/github-repo` | GFM evidence when signatures exist |
 | `variants/keep-a-changelog` | variant flag, unchanged base flavor |
@@ -140,6 +152,8 @@ Each release must preserve:
 - package file inventory
 - checksum report
 - signature verification report
+- config fixture snapshot report for TOML, JSON, JSONC, YAML, `.editorconfig`,
+  and directory overrides
 - compatibility matrix
 - installer compatibility result
 - hostile fixture result

@@ -156,6 +156,8 @@ Each command must include:
 - when to use it
 - wrapper command to run
 - expected JSON fields
+- a reminder that flavor decisions may come from TOML, JSON, JSONC, YAML,
+  `.editorconfig`, directory overrides, VS Code/LSP settings, or inference
 - safety reminder about no code execution
 - fallback if install verification fails
 
@@ -180,6 +182,7 @@ Recommended hooks:
 | Post edit Markdown check | Markdown file writes/edits | Run `flavorgrenade diagnostics <changed-file> --json` |
 | Pre release-note check | Changelog or MADR files | Run `flavorgrenade variants <changed-file> --json` |
 | Install verification | Plugin install/update | Run `flavorgrenade verify-install --json` |
+| Config-aware Markdown check | Markdown file writes/edits under configured directories | Run `flavorgrenade detect <changed-file> --json` before diagnostics when the changed file may match a directory override |
 
 Hook requirements:
 
@@ -189,6 +192,8 @@ Hook requirements:
 - hooks must have timeouts and output caps
 - hooks must not fail unrelated non-Markdown edits
 - hooks must not execute Markdown code blocks or renderer hooks
+- hooks must not assume `.flavor-grenade.toml` is the only project config
+  marker
 
 Claude hooks use `hooks/hooks.json` when hooks are packaged. Codex hooks may use
 the Codex `hooks` field only if the selected Codex version accepts the field
@@ -276,6 +281,8 @@ CI must validate:
 - every required wrapper command remains available through
   `wrappers/flavorgrenade.mjs`, even when no curated command prompt exists
 - hooks are advisory and Markdown-scoped
+- plugin command and hook fixtures cover at least one non-TOML project config
+  and one directory-scoped override
 
 ## Release Requirements
 

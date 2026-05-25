@@ -90,7 +90,9 @@ Agents should use the skill when:
 3. The repository contains `.flavor-grenade.toml`, `.obsidian/`, VS Code
    flavor settings, changelogs, ADRs, MADR records, MDX, R Markdown, Pandoc,
    GitHub/GitLab syntax, Reddit syntax, Stack Overflow syntax, wiki-links, or
-   embeds.
+   embeds. The same rule applies when the project uses
+   `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
+   `.flavor-grenade.yml`, or Flavor Grenade `.editorconfig` directives.
 4. The user asks for diagnostics, outlines, symbols, folds, links, hovers,
    completions, or flavor detection.
 
@@ -110,6 +112,9 @@ Agents should not use the skill when:
 - do not fetch remote references
 - do not treat host references as local files
 - do not invent flavors
+- do not assume TOML is the only config source
+- do not ignore directory-scoped config overrides when editing multiple
+  Markdown files
 - do not rewrite large document sets from inferred context alone
 - do not hide diagnostics from the user when they affect requested edits
 - do not continue after executable digest verification fails

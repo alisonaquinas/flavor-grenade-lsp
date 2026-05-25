@@ -19,6 +19,9 @@ supply-chain substitution of the embedded executable.
   explicitly disables runtime signature verification.
 - Reject paths outside the selected workspace.
 - Reject unsupported URI schemes.
+- Treat project config files as untrusted input, including TOML, JSON, JSONC,
+  YAML, and `.editorconfig`.
+- Reject dangerous object keys and path escapes in directory override selectors.
 - Do not execute Markdown code blocks.
 - Do not evaluate MDX ESM or JSX.
 - Do not run R chunks.
@@ -132,6 +135,11 @@ Required tests:
 - symlink escape is rejected
 - unsupported URI scheme is rejected
 - shell metacharacters in file names are safe
+- malformed TOML, JSON, JSONC, YAML, and `.editorconfig` files are isolated
+  without crashing the wrapper
+- directory override selectors cannot escape the workspace
+- dangerous keys such as `__proto__`, `prototype`, and `constructor` are
+  rejected or ignored during config normalization
 - corrupted executable digest blocks launch
 - missing executable blocks launch
 - malicious frontmatter is treated as text
