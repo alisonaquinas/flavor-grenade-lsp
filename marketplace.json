@@ -6,7 +6,7 @@
     {
       "name": "flavorgrenade-lsp",
       "package": "flavorgrenade-lsp-skill",
-      "path": "skills/flavorgrenade-lsp",
+      "path": "plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp",
       "description": "Flavor-aware Markdown analysis for LLM agents using Flavor Grenade LSP.",
       "tags": ["markdown", "lsp", "claude-code", "codex"],
       "license": "MIT",

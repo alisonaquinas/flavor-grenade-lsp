@@ -15,17 +15,6 @@ marketplace.json
 .agents/
 └── plugins/
     └── marketplace.json
-skills/
-└── flavorgrenade-lsp/
-    ├── SKILL.md
-    ├── README.md
-    ├── CHANGELOG.md
-    ├── manifest.json
-    ├── package.json
-    ├── bin/
-    ├── wrappers/
-    ├── examples/
-    └── docs/
 skill/
 └── docs/
 plugins/
@@ -33,6 +22,16 @@ plugins/
     ├── .claude-plugin/
     ├── .codex-plugin/
     ├── skills/
+    │   └── flavorgrenade-lsp/
+    │       ├── SKILL.md
+    │       ├── README.md
+    │       ├── CHANGELOG.md
+    │       ├── manifest.json
+    │       ├── package.json
+    │       ├── bin/
+    │       ├── wrappers/
+    │       ├── examples/
+    │       └── docs/
     ├── commands/
     ├── agents/
     ├── hooks/
@@ -44,11 +43,10 @@ plugins/
 `marketplace.json` is the portable skill catalog for repository scanners.
 `.claude-plugin/marketplace.json` is the Claude Code plugin marketplace catalog.
 `.agents/plugins/marketplace.json` is the Codex plugin marketplace catalog.
-`skill/docs/` is the source specification set. `skills/flavorgrenade-lsp/docs/`
-is the packaged user documentation copied into releases.
+`skill/docs/` is the source specification set.
+`plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/` is the canonical
+installable skill source. Its `docs/` directory is copied into releases.
 
-The installable skill source lives under `skills/` because current `add-skill`
-discovery checks that directory before falling back to recursive search.
 `skill/` is reserved for product specifications and non-installable planning
 documentation.
 `plugins/` contains agent-specific plugin packages that surround the portable
@@ -68,7 +66,7 @@ Root `marketplace.json` must describe every skill hosted by this repository.
     {
       "name": "flavorgrenade-lsp",
       "package": "flavorgrenade-lsp-skill",
-      "path": "skills/flavorgrenade-lsp",
+      "path": "plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp",
       "description": "Flavor-aware Markdown analysis for LLM agents using Flavor Grenade LSP.",
       "tags": ["markdown", "lsp", "claude-code", "codex"],
       "license": "MIT",
@@ -80,9 +78,9 @@ Root `marketplace.json` must describe every skill hosted by this repository.
 
 The manifest must be validated in CI.
 
-Root `marketplace.json` is project metadata for this repository. It must not be
-the only discovery mechanism. The installable `SKILL.md` under `skills/` remains
-the compatibility surface for `add-skill` and other repository scanners.
+Root `marketplace.json` is project metadata for this repository. It points to
+the plugin-local installable skill so repository scanners do not need a
+separate root-level `skills/` tree.
 
 Claude and Codex marketplaces are intentionally separate catalogs because the
 host schemas differ:
@@ -100,8 +98,8 @@ and `.codex-plugin/plugin.json`, plus the embedded skill runtime.
 
 ## Skill Entrypoint Metadata
 
-`skills/flavorgrenade-lsp/SKILL.md` must include YAML frontmatter accepted by
-`add-skill` discovery:
+`plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/SKILL.md` must include YAML
+frontmatter accepted by `add-skill` discovery:
 
 ```markdown
 ---
@@ -226,6 +224,7 @@ CI must fail when:
 
 - root `marketplace.json` points to a missing path
 - legacy `skill/marketplace.json` exists
+- legacy root `skills/flavorgrenade-lsp` source tree exists
 - the listed skill has no `SKILL.md`
 - `SKILL.md` has no description metadata
 - `.claude-plugin/marketplace.json` omits `flavorgrenade-lsp` or points to the

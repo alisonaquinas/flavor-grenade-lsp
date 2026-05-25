@@ -8,7 +8,9 @@ const pluginRoot = path.join(ROOT, 'plugins', 'flavorgrenade-lsp');
 const errors = [];
 const codex = readJson(path.join(pluginRoot, '.codex-plugin', 'plugin.json'));
 const claude = readJson(path.join(pluginRoot, '.claude-plugin', 'plugin.json'));
-const skillManifest = readJson(path.join(ROOT, 'skills', 'flavorgrenade-lsp', 'manifest.json'));
+const skillManifest = readJson(
+  path.join(pluginRoot, 'skills', 'flavorgrenade-lsp', 'manifest.json'),
+);
 const lsp = readJson(path.join(pluginRoot, 'lsp', 'servers.json'));
 const hooks = readJson(path.join(pluginRoot, 'hooks', 'hooks.json'));
 const codexHooks = readJson(path.join(pluginRoot, 'codex', 'hooks.json'));

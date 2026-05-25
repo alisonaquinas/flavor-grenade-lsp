@@ -5,15 +5,51 @@ description: Flavor-aware Markdown analysis for LLM agents using Flavor Grenade 
 
 # Flavor Grenade LSP
 
-This source plugin embeds the canonical skill during packaging. In a release
-artifact, this directory is replaced with the full
-`skills/flavorgrenade-lsp/` tree, including wrappers, manifest, docs, examples,
-and the runtime-specific embedded LSP executable.
+Use the local wrapper instead of guessing Markdown behavior when flavor,
+structure, diagnostics, or links matter.
 
-Use:
+## Workflow
+
+1. Run `node wrappers/flavorgrenade.mjs verify-install --json` before first use.
+2. Run `node wrappers/flavorgrenade.mjs detect <path> --json` before
+   flavor-sensitive edits.
+3. Run `node wrappers/flavorgrenade.mjs analyze <path> --json` before broad
+   Markdown rewrites.
+4. Use wrapper `config`, `evidence`, `boundaries`, and `diagnostics` fields as
+   the source of truth.
+5. Treat changelog and MADR results as structured variants layered over a base
+   Markdown flavor.
+
+## Rules
+
+- Do not execute code blocks, MDX JavaScript, R chunks, Pandoc filters, or
+  renderer hooks.
+- Do not fetch remote references.
+- Do not turn host, renderer, conversion, bibliography, MDX/JSX, or execution
+  boundaries into local files.
+- Do not parse `.flavor-grenade.*` or `.editorconfig` yourself to override
+  wrapper output.
+- Do not copy one file's flavor decision to another directory without wrapper
+  evidence.
+- Stop if executable digest verification fails.
+
+## Commands
 
 ```bash
-node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze <path> --json
+node wrappers/flavorgrenade.mjs verify-install --json
+node wrappers/flavorgrenade.mjs detect README.md --json
+node wrappers/flavorgrenade.mjs analyze docs --json
+node wrappers/flavorgrenade.mjs diagnostics CHANGELOG.md --json
+node wrappers/flavorgrenade.mjs symbols docs/adr/0001-record.md --json
+node wrappers/flavorgrenade.mjs folds README.md --json
+node wrappers/flavorgrenade.mjs hover README.md:10:4 --json
+node wrappers/flavorgrenade.mjs completions README.md:10:4 --json
+node wrappers/flavorgrenade.mjs variants CHANGELOG.md --json
+node wrappers/flavorgrenade.mjs refs README.md --json
 ```
 
-Do not parse Markdown flavor config yourself or execute document code.
+Position locators use LSP coordinates: zero-based `line` and zero-based
+`character`.
+
+Fallback: if the wrapper cannot run, explain that Flavor Grenade analysis is
+unavailable and make only conservative Markdown edits.

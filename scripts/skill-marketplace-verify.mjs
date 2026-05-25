@@ -12,6 +12,9 @@ const errors = [];
 if (existsSync(path.join(ROOT, 'skill', 'marketplace.json'))) {
   errors.push('legacy skill/marketplace.json must not exist; use root marketplace.json');
 }
+if (existsSync(path.join(ROOT, 'skills', 'flavorgrenade-lsp'))) {
+  errors.push('legacy root skills/flavorgrenade-lsp must not exist; use plugin-local skill source');
+}
 if (existsSync(path.join(ROOT, '.codex-plugin', 'marketplace.json'))) {
   errors.push('legacy .codex-plugin/marketplace.json must not exist; use .agents/plugins/marketplace.json');
 }

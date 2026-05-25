@@ -3,7 +3,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const skillRoot = path.resolve(valueAfter('--skill-root') ?? path.join(ROOT, 'skills', 'flavorgrenade-lsp'));
+const skillRoot = path.resolve(
+  valueAfter('--skill-root') ??
+    path.join(ROOT, 'plugins', 'flavorgrenade-lsp', 'skills', 'flavorgrenade-lsp'),
+);
 const manifestPath = path.join(skillRoot, 'manifest.json');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
 const executable = path.resolve(skillRoot, manifest.runtime.executable);

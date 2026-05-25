@@ -42,7 +42,7 @@ website deployment.
 The skill changelog lives at:
 
 ```text
-skills/flavorgrenade-lsp/CHANGELOG.md
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/CHANGELOG.md
 ```
 
 It tracks only skill changes:
@@ -63,7 +63,7 @@ copied into the skill changelog.
 Every release must publish:
 
 ```text
-skills/flavorgrenade-lsp/docs/compatibility.md
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/docs/compatibility.md
 ```
 
 Minimum matrix:

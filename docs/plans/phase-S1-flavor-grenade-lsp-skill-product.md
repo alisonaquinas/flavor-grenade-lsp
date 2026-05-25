@@ -86,7 +86,7 @@ The skill ships as a small directory bundle:
 Source layout:
 
 ```text
-skills/flavorgrenade-lsp/
+plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/
 ├── SKILL.md
 ├── README.md
 ├── CHANGELOG.md
@@ -370,8 +370,9 @@ skill-v*.*.*-test*
 Release flow:
 
 1. Create `release/skill-vX.Y.Z` from `develop`.
-2. Update `skills/flavorgrenade-lsp/CHANGELOG.md`.
-3. Set `skills/flavorgrenade-lsp/manifest.json` version.
+2. Update `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/CHANGELOG.md`.
+3. Set `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/manifest.json`
+   version.
 4. Select the server executable release version to embed.
 5. Build or download trusted native executable artifacts from the matching
    server release.
@@ -393,7 +394,7 @@ npm publishing or extension publishing.
 Pull request CI must run:
 
 ```bash
-bun test skills/flavorgrenade-lsp/tests
+bun test plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/tests
 bun run build:binary
 bun run skill:package -- --dry-run
 bun run skill:verify -- --target current
@@ -497,7 +498,7 @@ and not a replacement for the server package.
 
 | Workstream | Deliverable |
 |---|---|
-| Product scaffold | `skills/flavorgrenade-lsp/` source tree, skill manifest, skill changelog, docs |
+| Product scaffold | `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/` source tree, skill manifest, skill changelog, docs |
 | Plugin scaffold | `plugins/flavorgrenade-lsp/` Claude/Codex manifests, commands, hooks, agents, optional MCP metadata, and mandatory embedded-LSP metadata |
 | Runtime resolver | Cross-platform executable selection, digest verification, install verification |
 | LSP adapter | JSON-RPC subprocess client used by wrapper commands |
@@ -531,7 +532,7 @@ and not a replacement for the server package.
 ## Gate Verification
 
 ```bash
-bun test skills/flavorgrenade-lsp/tests
+bun test plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/tests
 bun run skill:package -- --dry-run
 bun run skill:verify -- --target current
 bun run lint
@@ -559,7 +560,7 @@ digest verification, wrapper smoke tests, and release-signing dry-run passing.
 | Decision | Default for S1 | Follow-up trigger |
 |---|---|---|
 | One archive per target vs all targets | One archive per target | Switch only if users need offline multi-platform transfer |
-| Skill source directory name | `skills/flavorgrenade-lsp/` | Revisit if a registry mandates another layout |
+| Skill source directory name | `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/` | Keeps the skill inside the plugin; release archives still emit a top-level `skills/flavorgrenade-lsp/` install tree |
 | Wrapper implementation language | Node `.mjs` scripts | Revisit if agent runtimes cannot rely on Node |
 | Binary source | Embed release-built executable | Revisit if reproducible local build is required |
 | Release destination | GitHub Releases | Revisit when a skill registry is selected |

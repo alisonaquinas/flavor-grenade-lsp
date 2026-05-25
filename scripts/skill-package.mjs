@@ -6,8 +6,8 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const SKILL_NAME = 'flavorgrenade-lsp';
-const SOURCE_SKILL = path.join(ROOT, 'skills', SKILL_NAME);
 const SOURCE_PLUGIN = path.join(ROOT, 'plugins', SKILL_NAME);
+const SOURCE_SKILL = path.join(SOURCE_PLUGIN, 'skills', SKILL_NAME);
 const OUT_ROOT = path.join(ROOT, 'build', 'skill-artifacts');
 const args = new Set(process.argv.slice(2));
 const dryRun = args.has('--dry-run');
