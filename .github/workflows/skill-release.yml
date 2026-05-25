@@ -13,6 +13,10 @@ on:
         description: Server release tag to embed, or latest.
         type: string
         default: latest
+      plugin_version:
+        description: Plugin version for workflow_dispatch runs.
+        type: string
+        default: 0.1.0
 
 permissions:
   contents: read
@@ -47,6 +51,16 @@ jobs:
           no-cache: true
 
       - run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Set plugin version
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          else
+            plugin_version="${{ inputs.plugin_version }}"
+          fi
+          bun run skill:set-version -- "$plugin_version"
 
       - run: bun run skill:test
 

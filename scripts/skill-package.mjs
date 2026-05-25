@@ -57,6 +57,9 @@ const packagedManifest = {
     ...manifest.server,
     commit: runtimeProvenance?.commit ?? gitValue(['rev-parse', 'HEAD']) ?? manifest.server?.commit ?? '',
     releaseTag: runtimeProvenance?.releaseTag ?? manifest.server?.releaseTag,
+    version: runtimeProvenance?.releaseTag
+      ? runtimeProvenance.releaseTag.replace(/^v/, '')
+      : manifest.server?.version,
   },
   runtime: {
     target,
