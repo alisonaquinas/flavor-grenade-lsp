@@ -10,6 +10,9 @@ through wrapper commands and JSON schemas.
 The skill enables LLMs to:
 
 - detect Markdown flavors from configuration and inference
+- respect TOML, JSON, JSONC, YAML, and `.editorconfig` project configuration
+- handle one project config file that assigns different flavors or structured
+  profiles to different directories
 - understand base flavors and structured variants
 - inspect diagnostics, symbols, folds, links, hovers, and completions
 - preserve host, conversion, renderer, bibliography, and execution boundaries
@@ -51,6 +54,9 @@ The first complete skill release must provide:
 - executable digest verification before launch
 - wrapper commands for analysis, detection, diagnostics, symbols, folds,
   hovers, completions, variants, and install verification
+- config-aware detection output that identifies the active project config file,
+  config format, matching directory override, and inherited global values when
+  those signals decide the effective Markdown context
 - stable JSON output schemas
 - smoke fixtures for every supported base flavor family
 - smoke fixtures for Keep a Changelog, Common Changelog, and MADR variants
@@ -94,6 +100,63 @@ Example:
 
 The skill must make this distinction explicit in prompts, docs, and JSON output
 so agents do not invent new base flavors.
+
+## Configuration Requirements
+
+The skill must defer to the embedded LSP for configuration loading and must not
+normalize config files with a separate parser except when validating wrapper
+fixtures. Supported project config inputs are:
+
+- `.flavor-grenade.toml`
+- `.flavor-grenade.json`
+- `.flavor-grenade.jsonc`
+- `.flavor-grenade.yaml`
+- `.flavor-grenade.yml`
+- `.editorconfig` sections containing Flavor Grenade directives
+
+TOML remains a first-class config format. JSON, JSONC, YAML, and
+`.editorconfig` are additive alternatives, not replacements.
+
+All supported config formats must express the same effective configuration
+model. The wrapper contract must describe the normalized result, not the syntax
+used to write it. At minimum, normalized config evidence must cover:
+
+- active base flavor
+- active structured profiles
+- project config file path and format
+- global `core.markdown` keys used
+- matching directory-scoped override, when present
+- override keys that replaced global keys
+- global keys inherited by a matched override
+- `.editorconfig` section directives, when they participate
+- redacted parse or validation errors
+
+The skill must support the server's directory-scoped configuration model. A
+single project config file can define global `core.markdown` defaults and a
+`core.markdown.overrides` list for vault-relative directories or globs. The
+most specific matching override wins; if two matching selectors have equal
+specificity, the later override entry wins.
+For any analyzed file, wrapper output must make clear whether the base flavor
+and structured profiles came from:
+
+- global project config;
+- a matching directory override;
+- inherited global values under a matching override;
+- `.editorconfig` section directives;
+- VS Code or LSP configuration state supplied by the caller;
+- auto-detection fallback.
+
+Directory overrides are file-specific. Agents must not apply one file's
+effective flavor to another file unless wrapper output says the same config
+layer and override matched both files.
+
+The skill must treat malformed config the same way as the LSP. The first
+existing supported project config file is the active project config. If that
+file is unreadable, too large, unsafe, malformed, or invalid after
+normalization, the project-config layer is unavailable and resolution continues
+to non-project signals. The skill must report redacted config status without
+document contents and must not silently parse a later project config file to
+replace the invalid active file.
 
 ## Marketplace Product Requirements
 

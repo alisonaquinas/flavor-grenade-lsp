@@ -27,6 +27,10 @@ Unit tests must cover:
 - symlink escape rejection
 - workspace path confinement
 - unsupported scheme rejection
+- config evidence redaction for TOML, JSON, JSONC, YAML, and `.editorconfig`
+- directory override selector normalization and precedence: most-specific
+  selector wins, and later entries win equal-specificity ties
+- inherited global config keys are reported without raw values
 - stable JSON envelope generation
 - schema snapshot compatibility
 
@@ -37,6 +41,18 @@ Integration tests must cover:
 - `verify-install` launches the executable and completes `initialize`
 - `analyze` returns flavor and symbols for CommonMark
 - `detect` honors TOML configuration
+- `detect` honors JSON configuration
+- `detect` honors JSONC configuration
+- `detect` honors YAML configuration
+- `detect` honors Flavor Grenade directives in `.editorconfig`
+- `detect` applies the most specific matching directory override and inherits
+  omitted values from global project config
+- `detect` reports safe config evidence without raw config values or absolute
+  private paths
+- `detect` treats sibling files in differently configured directories as
+  distinct effective Markdown contexts
+- `explain-flavor` reports invalid active project config with redacted errors
+  and does not claim that a later project config file was used instead
 - `detect` explains inference when config is absent
 - `explain-flavor` returns ordered decision steps and rejected candidates
 - root `README.md` does not default to OFM without evidence
@@ -53,6 +69,16 @@ Integration tests must cover:
 | `explicit/commonmark` | base flavor from TOML |
 | `explicit/gfm` | base flavor from TOML |
 | `explicit/obsidian` | OFM behavior from TOML or vault marker |
+| `explicit/json-gfm` | base flavor from JSON |
+| `explicit/jsonc-pandoc` | base flavor from JSONC |
+| `explicit/yaml-kramdown` | base flavor from YAML |
+| `explicit/editorconfig-glfm` | base flavor from `.editorconfig` directives |
+| `overrides/multi-directory` | different files resolve to different configured flavors from one config |
+| `overrides/inherit-structured-profiles` | matched override inherits omitted global structured profiles |
+| `overrides/glob-specificity` | most specific matching override wins |
+| `overrides/equal-specificity-order` | later override wins equal-specificity ties |
+| `overrides/editorconfig-section` | section directives apply only to matching files |
+| `config/malformed-active` | invalid active config is redacted and project-config evidence is unavailable |
 | `inferred/readme-generic` | not OFM by default |
 | `inferred/github-repo` | GFM evidence when signatures exist |
 | `variants/keep-a-changelog` | variant flag, unchanged base flavor |
@@ -101,6 +127,10 @@ Plugin fixture:
 6. Confirm every plugin artifact includes the target embedded LSP executable,
    runtime manifest, digest metadata, and LSP handshake verification report.
 7. Confirm hooks are advisory, Markdown-scoped, and timeout-bound.
+8. Confirm command prompts and agent prompts mention TOML, JSON, JSONC, YAML,
+   `.editorconfig`, directory overrides, and config evidence handling.
+9. Confirm plugin command and hook fixtures cover at least one non-TOML config
+   file and one directory-scoped override.
 
 ## Release Validation
 
@@ -140,6 +170,9 @@ Each release must preserve:
 - package file inventory
 - checksum report
 - signature verification report
+- config fixture snapshot report for TOML, JSON, JSONC, YAML, `.editorconfig`,
+  and directory overrides
+- config evidence redaction report
 - compatibility matrix
 - installer compatibility result
 - hostile fixture result

@@ -44,6 +44,8 @@ from this repo using compatible skill installers.
 - The skill wraps the LSP; it does not reimplement the parser.
 - The skill is useful to LLMs that cannot speak LSP directly.
 - The skill supports offline local analysis by default.
+- The skill preserves the server configuration model, including TOML, JSON,
+  JSONC, YAML, `.editorconfig` directives, and directory-scoped overrides.
 - The skill treats changelog conventions and MADR as structured variants, not
   new base Markdown flavors.
 - The skill is released independently from the server, extension, and website.

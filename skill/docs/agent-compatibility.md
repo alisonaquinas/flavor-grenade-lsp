@@ -24,6 +24,7 @@ Required sections:
 - available wrapper commands
 - safety rules
 - expected JSON output
+- config evidence interpretation
 - fallback behavior when the executable cannot run
 - examples of agent workflows
 
@@ -90,9 +91,19 @@ Agents should use the skill when:
 3. The repository contains `.flavor-grenade.toml`, `.obsidian/`, VS Code
    flavor settings, changelogs, ADRs, MADR records, MDX, R Markdown, Pandoc,
    GitHub/GitLab syntax, Reddit syntax, Stack Overflow syntax, wiki-links, or
-   embeds.
+   embeds. The same rule applies when the project uses
+   `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
+   `.flavor-grenade.yml`, or Flavor Grenade `.editorconfig` directives.
 4. The user asks for diagnostics, outlines, symbols, folds, links, hovers,
    completions, or flavor detection.
+
+When wrapper output includes `config`, agents must use that object as the
+authoritative explanation of configuration evidence. Agents must not parse
+`.flavor-grenade.*` or `.editorconfig` themselves to override the embedded LSP.
+
+When editing several Markdown files, agents must run `detect` or `analyze` per
+target file or per wrapper-supported batch. Directory overrides mean one
+workspace can contain multiple active base flavors and structured profiles.
 
 Agents should not use the skill when:
 
@@ -110,6 +121,13 @@ Agents should not use the skill when:
 - do not fetch remote references
 - do not treat host references as local files
 - do not invent flavors
+- do not assume TOML is the only config source
+- do not ignore directory-scoped config overrides when editing multiple
+  Markdown files
+- do not copy flavor decisions from one directory to another without wrapper
+  evidence
+- do not expose raw config values or absolute local paths in user-facing
+  summaries
 - do not rewrite large document sets from inferred context alone
 - do not hide diagnostics from the user when they affect requested edits
 - do not continue after executable digest verification fails
