@@ -2,5 +2,28 @@
   "name": "flavorgrenade-lsp",
   "version": "0.1.0",
   "description": "Flavor-aware Markdown analysis for Codex using Flavor Grenade LSP.",
-  "skills": "./skills/"
+  "author": {
+    "name": "Alison Aquinas",
+    "url": "https://github.com/alisonaquinas"
+  },
+  "homepage": "https://flavor-grenade.dev/",
+  "repository": "https://github.com/alisonaquinas/flavor-grenade-lsp",
+  "license": "MIT",
+  "keywords": ["markdown", "lsp", "flavor", "documentation"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Flavor Grenade LSP",
+    "shortDescription": "Flavor-aware Markdown analysis for LLM agents.",
+    "longDescription": "Analyze Markdown files with the embedded Flavor Grenade LSP runtime, including flavor detection, diagnostics, symbols, folds, hovers, completions, structured variants, and boundary evidence.",
+    "developerName": "Alison Aquinas",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://flavor-grenade.dev/",
+    "defaultPrompt": [
+      "Analyze Markdown flavor before editing docs.",
+      "Check changelog and MADR files for variants.",
+      "Review Markdown diagnostics and boundaries."
+    ],
+    "brandColor": "#2563EB"
+  }
 }
