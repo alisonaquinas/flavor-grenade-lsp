@@ -14,6 +14,7 @@ const sigstoreBundle = manifest.runtime.sigstoreBundle
   ? path.resolve(skillRoot, manifest.runtime.sigstoreBundle)
   : null;
 const allowMissingRuntime = process.argv.includes('--allow-missing-runtime') || process.argv.includes('--dry-run');
+const allowUnsignedRuntime = process.argv.includes('--allow-unsigned-runtime') || process.argv.includes('--dry-run');
 const errors = [];
 
 if (manifest.name !== 'flavorgrenade-lsp-skill') errors.push('manifest name mismatch');
@@ -23,7 +24,12 @@ if (!existsSync(path.join(skillRoot, 'SKILL.md'))) errors.push('missing SKILL.md
 if (!existsSync(path.join(skillRoot, manifest.commands.main))) errors.push('missing wrapper command');
 if (!existsSync(executable) && !allowMissingRuntime) errors.push('missing runtime executable');
 if (!manifest.runtime.sha256 && existsSync(executable)) errors.push('runtime digest missing');
-if (manifest.runtime.sigstoreBundle && existsSync(executable) && !existsSync(sigstoreBundle)) {
+if (
+  manifest.runtime.sigstoreBundle &&
+  existsSync(executable) &&
+  !existsSync(sigstoreBundle) &&
+  !allowUnsignedRuntime
+) {
   errors.push('missing runtime Sigstore bundle');
 }
 

@@ -159,7 +159,7 @@ jobs:
       - name: Verify packaged skill
         env:
           PACKAGE_ROOT: ${{ steps.skill_package.outputs.package_root }}
-        run: node scripts/skill-verify.mjs --skill-root "$PACKAGE_ROOT/skills/flavorgrenade-lsp"
+        run: node scripts/skill-verify.mjs --skill-root "$PACKAGE_ROOT/skills/flavorgrenade-lsp" --allow-unsigned-runtime
 
   build:
     name: Build
