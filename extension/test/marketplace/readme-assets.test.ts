@@ -90,8 +90,8 @@ describe('Marketplace README assets', () => {
     const readme = await readFile(readmePath, 'utf8');
 
     assert.doesNotMatch(readme, /ofmarkdown-mode\.png/i);
-    assert.doesNotMatch(readme, /www\.alisonaquinas\.com\/flavor-grenade-lsp/i);
-    assert.match(readme, /https:\/\/flavor-grenade\.dev\//);
+    assert.equal(readme.includes('www.alisonaquinas.com/flavor-grenade-lsp'), false);
+    assert.equal(readme.includes('https://flavor-grenade.dev/'), true);
   });
 
   it('points extension homepage metadata at the public documentation site', async () => {

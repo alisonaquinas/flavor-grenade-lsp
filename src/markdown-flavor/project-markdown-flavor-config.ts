@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import { parse as parseJsonc, type ParseError } from 'jsonc-parser';
+import { parse as parseJsonc, type ParseError } from 'jsonc-parser/lib/esm/main.js';
 import { CORE_SCHEMA, load as yamlLoad } from 'js-yaml';
 import type { MarkdownFlavorSelection } from './markdown-flavor-contract.js';
 import { isMarkdownFlavorSelection } from './markdown-flavor-state.js';
@@ -12,6 +12,7 @@ import {
 } from './structured-profiles.js';
 import {
   confineExistingPathToVaultRoot,
+  confinePathToVaultRoot,
   resolveVaultRelativePath,
 } from '../vault/vault-path-confinement.js';
 
@@ -159,7 +160,7 @@ function normalizeProjectConfigObject(value: unknown): NormalizedProjectMarkdown
   if (!isRecord(value)) {
     return undefined;
   }
-  const markdown = getNestedRecord(value, ['core', 'markdown']);
+  const markdown = getCoreMarkdownRecord(value);
   if (markdown === undefined) {
     return undefined;
   }
@@ -396,33 +397,82 @@ function configPathMatches(pattern: string, relativePath: string): boolean {
 }
 
 function globPatternMatches(pattern: string, relativePath: string): boolean {
-  const patternForRegex = pattern.startsWith('/') ? pattern.slice(1) : pattern;
-  const pathForRegex = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
-  let source = '';
-  for (let index = 0; index < patternForRegex.length; index += 1) {
-    const char = patternForRegex[index];
-    if (char === '*' && patternForRegex[index + 1] === '*') {
-      if (patternForRegex[index + 2] === '/') {
-        source += '(?:.*/)?';
-        index += 2;
-      } else {
-        source += '.*';
-        index += 1;
+  const patternParts = trimPathSlashes(pattern).split('/');
+  const pathParts = trimPathSlashes(relativePath).split('/');
+  return globSegmentsMatch(patternParts, pathParts, 0, 0);
+}
+
+function globSegmentsMatch(
+  patternParts: readonly string[],
+  pathParts: readonly string[],
+  patternIndex: number,
+  pathIndex: number,
+): boolean {
+  if (patternIndex === patternParts.length) {
+    return pathIndex === pathParts.length;
+  }
+
+  const patternPart = patternParts[patternIndex];
+  if (patternPart === '**') {
+    for (let nextPathIndex = pathIndex; nextPathIndex <= pathParts.length; nextPathIndex += 1) {
+      if (globSegmentsMatch(patternParts, pathParts, patternIndex + 1, nextPathIndex)) {
+        return true;
       }
+    }
+    return false;
+  }
+
+  return (
+    pathIndex < pathParts.length &&
+    wildcardSegmentMatches(patternPart, pathParts[pathIndex]) &&
+    globSegmentsMatch(patternParts, pathParts, patternIndex + 1, pathIndex + 1)
+  );
+}
+
+function wildcardSegmentMatches(pattern: string, value: string): boolean {
+  let patternIndex = 0;
+  let valueIndex = 0;
+  let starIndex = -1;
+  let valueAfterStar = 0;
+
+  while (valueIndex < value.length) {
+    if (patternIndex < pattern.length && pattern[patternIndex] === value[valueIndex]) {
+      patternIndex += 1;
+      valueIndex += 1;
       continue;
     }
-    source += char === '*' ? '[^/]*' : escapeRegex(char);
+    if (patternIndex < pattern.length && pattern[patternIndex] === '*') {
+      starIndex = patternIndex;
+      patternIndex += 1;
+      valueAfterStar = valueIndex;
+      continue;
+    }
+    if (starIndex !== -1) {
+      patternIndex = starIndex + 1;
+      valueAfterStar += 1;
+      valueIndex = valueAfterStar;
+      continue;
+    }
+    return false;
   }
-  return new RegExp(`^${source}$`).test(pathForRegex);
+
+  while (patternIndex < pattern.length && pattern[patternIndex] === '*') {
+    patternIndex += 1;
+  }
+  return patternIndex === pattern.length;
+}
+
+function trimPathSlashes(value: string): string {
+  return value.replace(/^\/+|\/+$/g, '');
 }
 
 function toVaultRelativePath(vaultRoot: string, resourcePath: string): string | undefined {
-  const absoluteRoot = path.resolve(vaultRoot);
-  const absoluteResource = path.resolve(resourcePath);
-  const relative = path.relative(absoluteRoot, absoluteResource);
-  if (relative.length === 0 || relative.startsWith('..') || path.isAbsolute(relative)) {
+  const confinedResource = confinePathToVaultRoot(vaultRoot, resourcePath);
+  if (confinedResource === null) {
     return undefined;
   }
+  const relative = path.relative(vaultRoot, confinedResource);
+  if (relative.length === 0) return undefined;
   return normalizeConfigPath(relative);
 }
 
@@ -452,18 +502,15 @@ function parseStringArray(value: string): readonly string[] | undefined {
   return parsed;
 }
 
-function getNestedRecord(
+function getCoreMarkdownRecord(
   value: Record<string, unknown>,
-  keys: readonly string[],
 ): Record<string, unknown> | undefined {
-  let current: unknown = value;
-  for (const key of keys) {
-    if (!isRecord(current)) {
-      return undefined;
-    }
-    current = current[key];
+  const core = Object.getOwnPropertyDescriptor(value, 'core')?.value;
+  if (!isRecord(core)) {
+    return undefined;
   }
-  return isRecord(current) ? current : undefined;
+  const markdown = Object.getOwnPropertyDescriptor(core, 'markdown')?.value;
+  return isRecord(markdown) ? markdown : undefined;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -480,10 +527,6 @@ function stripEditorConfigComment(line: string): string {
   const semicolonIndex = line.indexOf(';');
   const indexes = [hashIndex, semicolonIndex].filter((index) => index >= 0);
   return indexes.length === 0 ? line : line.slice(0, Math.min(...indexes));
-}
-
-function escapeRegex(char: string): string {
-  return /[\\^$+?.()|[\]{}]/.test(char) ? `\\${char}` : char;
 }
 
 function hasDangerousConfigKey(content: string): boolean {
