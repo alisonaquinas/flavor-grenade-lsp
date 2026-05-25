@@ -11,10 +11,10 @@
   --line: #ead8cf;
   --cool: #1f6f8b;
   --green: #2d7a52;
-  --texture-page: oklch(0.58 0.045 44 / 0.075);
-  --texture-coral: oklch(0.61 0.15 34 / 0.16);
-  --texture-cool: oklch(0.54 0.07 210 / 0.12);
-  --texture-quiet: oklch(0.52 0.035 58 / 0.12);
+  --texture-page: oklch(0.56 0.06 42 / 0.14);
+  --texture-coral: oklch(0.57 0.17 34 / 0.3);
+  --texture-cool: oklch(0.5 0.08 210 / 0.22);
+  --texture-quiet: oklch(0.48 0.045 58 / 0.22);
   color: var(--ink);
   background: var(--surface);
   font-family:
@@ -38,10 +38,10 @@
   --line: #4a3430;
   --cool: #8fd3ee;
   --green: #8ed9ad;
-  --texture-page: oklch(0.86 0.035 52 / 0.075);
-  --texture-coral: oklch(0.79 0.12 34 / 0.17);
-  --texture-cool: oklch(0.8 0.08 210 / 0.14);
-  --texture-quiet: oklch(0.83 0.04 58 / 0.11);
+  --texture-page: oklch(0.82 0.055 48 / 0.16);
+  --texture-coral: oklch(0.78 0.15 34 / 0.28);
+  --texture-cool: oklch(0.82 0.09 210 / 0.22);
+  --texture-quiet: oklch(0.82 0.055 58 / 0.18);
 }
 
 * {
@@ -65,10 +65,16 @@ body::before {
   background: var(--texture-page);
   content: "";
   inset: 0;
-  mask-image: url("/assets/markdown-foregrounds/05_scattered_punctuation_foreground.svg");
-  mask-position: top 4rem right -14rem;
+  mask-image:
+    url("/assets/markdown-foregrounds/05_scattered_punctuation_foreground.svg"),
+    url("/assets/markdown-foregrounds/02_code_fence_terminal_foreground.svg");
+  mask-position:
+    top 3rem right -9rem,
+    bottom 2rem left -12rem;
   mask-repeat: no-repeat;
-  mask-size: min(78rem, 150vw) auto;
+  mask-size:
+    min(84rem, 150vw) auto,
+    min(58rem, 130vw) auto;
   opacity: 1;
   pointer-events: none;
   position: fixed;
@@ -295,16 +301,16 @@ button {
 
 .hero-shell::before {
   background: var(--texture-coral);
-  block-size: min(48rem, 78vw);
+  block-size: min(55rem, 88vw);
   content: "";
-  inline-size: min(64rem, 92vw);
-  inset-block-start: clamp(1rem, 7vw, 5rem);
-  inset-inline-end: clamp(-24rem, -22vw, -9rem);
+  inline-size: min(74rem, 105vw);
+  inset-block-start: clamp(-1rem, 4vw, 3rem);
+  inset-inline-end: clamp(-18rem, -15vw, -5rem);
   mask-image: url("/assets/markdown-foregrounds/01_headings_lists_foreground.svg");
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  opacity: 0.9;
+  opacity: 1;
   pointer-events: none;
   position: absolute;
   transform: rotate(-4deg);
@@ -443,16 +449,16 @@ p {
 
 .install-section::before {
   background: var(--texture-cool);
-  block-size: min(34rem, 68vw);
+  block-size: min(42rem, 78vw);
   content: "";
-  inline-size: min(54rem, 92vw);
-  inset-block-start: clamp(1rem, 5vw, 3rem);
-  inset-inline-end: clamp(-21rem, -18vw, -7rem);
+  inline-size: min(66rem, 108vw);
+  inset-block-start: clamp(0rem, 3vw, 2rem);
+  inset-inline-end: clamp(-18rem, -14vw, -5rem);
   mask-image: url("/assets/markdown-foregrounds/03_table_syntax_foreground.svg");
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  opacity: 0.75;
+  opacity: 1;
   pointer-events: none;
   position: absolute;
   transform: rotate(2deg);
@@ -549,16 +555,16 @@ p {
 
 .feature-section::before {
   background: var(--texture-quiet);
-  block-size: min(40rem, 74vw);
+  block-size: min(48rem, 86vw);
   content: "";
-  inline-size: min(58rem, 95vw);
-  inset-block-start: clamp(3rem, 8vw, 7rem);
-  inset-inline-start: clamp(-22rem, -20vw, -8rem);
+  inline-size: min(70rem, 112vw);
+  inset-block-start: clamp(1rem, 5vw, 5rem);
+  inset-inline-start: clamp(-18rem, -15vw, -5rem);
   mask-image: url("/assets/markdown-foregrounds/04_blockquotes_rules_foreground.svg");
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  opacity: 0.82;
+  opacity: 1;
   pointer-events: none;
   position: absolute;
   transform: rotate(-2deg);
@@ -687,16 +693,16 @@ p {
 
 .docs-page::before {
   background: var(--texture-coral);
-  block-size: min(36rem, 72vw);
+  block-size: min(44rem, 82vw);
   content: "";
-  inline-size: min(52rem, 94vw);
-  inset-block-start: clamp(1rem, 5vw, 3rem);
-  inset-inline-end: clamp(-22rem, -22vw, -8rem);
+  inline-size: min(62rem, 104vw);
+  inset-block-start: clamp(-1rem, 3vw, 2rem);
+  inset-inline-end: clamp(-18rem, -16vw, -5rem);
   mask-image: url("/assets/markdown-foregrounds/06_braces_inline_code_foreground.svg");
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  opacity: 0.72;
+  opacity: 1;
   pointer-events: none;
   position: absolute;
   transform: rotate(3deg);
