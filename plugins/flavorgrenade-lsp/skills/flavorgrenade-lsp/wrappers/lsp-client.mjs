@@ -1,6 +1,26 @@
+/**
+ * Minimal JSON-RPC client for one embedded LSP process.
+ *
+ * Provides request/notification framing, initialize/shutdown helpers, and
+ * diagnostic synchronization for the skill wrapper. It intentionally implements
+ * only the LSP surface used by `flavorgrenade.mjs`.
+ *
+ * @module wrappers/lsp-client
+ */
 import { spawn } from 'node:child_process';
 
+/**
+ * Lightweight client for the embedded Flavor Grenade LSP executable.
+ */
 export class LspClient {
+  /**
+   * Start a child LSP process.
+   *
+   * @param {string} executable - Runtime executable path.
+   * @param {object} [options] - Client options.
+   * @param {number} [options.timeoutMs] - Request timeout in milliseconds.
+   * @param {string} [options.cwd] - Working directory for the child process.
+   */
   constructor(executable, options = {}) {
     this.executable = executable;
     this.timeoutMs = options.timeoutMs ?? 30000;
@@ -28,6 +48,12 @@ export class LspClient {
     });
   }
 
+  /**
+   * Send `initialize` and then `initialized`.
+   *
+   * @param {string | null} rootUri - Workspace root URI, or null for single-file mode.
+   * @returns {Promise<unknown>} Initialize result from the server.
+   */
   async initialize(rootUri) {
     const result = await this.request('initialize', {
       processId: null,
@@ -38,6 +64,11 @@ export class LspClient {
     return result;
   }
 
+  /**
+   * Request graceful LSP shutdown and close stdin.
+   *
+   * @returns {Promise<void>}
+   */
   async shutdown() {
     try {
       await this.request('shutdown', null);
@@ -46,6 +77,13 @@ export class LspClient {
     this.child.stdin.end();
   }
 
+  /**
+   * Notify the LSP that a Markdown document is open.
+   *
+   * @param {string} uri - File URI.
+   * @param {string} text - Document text.
+   * @param {string} [languageId] - Language identifier.
+   */
   didOpen(uri, text, languageId = 'markdown') {
     this.notify('textDocument/didOpen', {
       textDocument: {
@@ -57,10 +95,23 @@ export class LspClient {
     });
   }
 
+  /**
+   * Send an LSP notification.
+   *
+   * @param {string} method - LSP method name.
+   * @param {unknown} params - Notification parameters.
+   */
   notify(method, params) {
     this.write({ jsonrpc: '2.0', method, params });
   }
 
+  /**
+   * Send an LSP request and wait for the matching response.
+   *
+   * @param {string} method - LSP method name.
+   * @param {unknown} params - Request parameters.
+   * @returns {Promise<unknown>} Request result.
+   */
   request(method, params) {
     const id = this.nextId++;
     const message = { jsonrpc: '2.0', id, method, params };
@@ -78,6 +129,13 @@ export class LspClient {
     return promise;
   }
 
+  /**
+   * Wait briefly for diagnostics for a document.
+   *
+   * @param {string} uri - File URI.
+   * @param {number} [timeoutMs] - Maximum wait in milliseconds.
+   * @returns {Promise<Array>} Published diagnostics, or an empty array.
+   */
   waitForDiagnostics(uri, timeoutMs = 500) {
     if (this.diagnostics.has(uri)) {
       return Promise.resolve(this.diagnostics.get(uri));
@@ -104,11 +162,21 @@ export class LspClient {
     });
   }
 
+  /**
+   * Write one JSON-RPC message with LSP content-length framing.
+   *
+   * @param {object} message - JSON-RPC message.
+   */
   write(message) {
     const json = JSON.stringify(message);
     this.child.stdin.write(`Content-Length: ${Buffer.byteLength(json, 'utf8')}\r\n\r\n${json}`);
   }
 
+  /**
+   * Buffer stdout chunks and dispatch complete JSON-RPC messages.
+   *
+   * @param {Buffer} chunk - Raw stdout chunk.
+   */
   onData(chunk) {
     this.buffer = Buffer.concat([this.buffer, chunk]);
     while (true) {
@@ -129,6 +197,11 @@ export class LspClient {
     }
   }
 
+  /**
+   * Resolve responses and cache diagnostic notifications.
+   *
+   * @param {object} message - Parsed JSON-RPC message.
+   */
   dispatch(message) {
     if (message.method === 'textDocument/publishDiagnostics') {
       this.diagnostics.set(message.params.uri, message.params.diagnostics ?? []);

@@ -17,9 +17,9 @@ skills/flavorgrenade-lsp/
 ```
 
 This plugin-local source tree is the canonical skill. Release artifacts expose
-it at `skills/flavorgrenade-lsp/` and add the selected runtime target.
+it at the installable skill path and add the selected runtime target.
 
-## Commands
+## Usage
 
 ```bash
 node wrappers/flavorgrenade.mjs verify-install --json
@@ -39,6 +39,12 @@ All commands default to JSON. Paths are confined to the selected workspace.
 Position locators use LSP coordinates: zero-based `line` and zero-based
 `character`.
 
+Use `detect` before a flavor-sensitive edit to inspect the effective base
+Markdown flavor, structured variants, config source, and inference evidence for
+one file. Use `analyze` before broad rewrites so the agent can compare
+diagnostics, symbols, folds, links, variants, and inferred flavor data across a
+workspace or directory.
+
 ## Configuration
 
 The embedded LSP remains authoritative. The wrapper reports config evidence but
@@ -54,3 +60,11 @@ directory-specific evidence is preserved.
 Wrappers do not download runtime binaries, execute Markdown code, run renderer
 plugins, or fetch remote references. Host and renderer references are reported
 as boundaries.
+
+## Maintenance
+
+- [AGENTS.md](./AGENTS.md) defines local editing rules for this skill subtree.
+- [CONCEPTS.md](./CONCEPTS.md) defines the skill-specific vocabulary.
+- [docs/README.md](./docs/README.md) indexes the reference documents.
+- [wrappers/README.md](./wrappers/README.md) explains the command wrapper code.
+- [tests/README.md](./tests/README.md) explains the smoke-test coverage.

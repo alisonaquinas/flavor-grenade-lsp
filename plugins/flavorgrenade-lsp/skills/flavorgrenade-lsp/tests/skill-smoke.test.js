@@ -1,3 +1,12 @@
+/**
+ * Smoke tests for the installable skill wrapper modules.
+ *
+ * These tests use temporary skill roots and prototype clients so they can
+ * verify runtime resolution, digest checks, JSON envelopes, and diagnostic
+ * synchronization without a real packaged LSP binary.
+ *
+ * @module tests/skill-smoke
+ */
 import { afterEach, describe, expect, it } from 'bun:test';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';

@@ -1,4 +1,14 @@
 #!/usr/bin/env node
+/**
+ * Command-line wrapper for the embedded Flavor Grenade LSP runtime.
+ *
+ * Provides stable JSON commands for verification, flavor detection, analysis,
+ * diagnostics, symbols, folds, hovers, completions, variants, and references.
+ * This module owns path confinement and output shaping while delegating flavor
+ * intelligence to the embedded LSP.
+ *
+ * @module wrappers/flavorgrenade
+ */
 import { spawn } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -17,6 +27,12 @@ const CONFIG_FILES = [
   ['.editorconfig', 'editorconfig'],
 ];
 
+/**
+ * Parse CLI input, verify the runtime, run the selected command, and return an
+ * envelope-ready result.
+ *
+ * @returns {Promise<object | undefined>} Command result, or undefined for direct LSP mode.
+ */
 async function main() {
   const { command, positional, options } = parseArgs(process.argv.slice(2));
   const runtime = await resolveRuntime({ target: options.target ?? 'current' });
@@ -91,6 +107,16 @@ async function main() {
   return successEnvelope(runtime, workspace, result);
 }
 
+/**
+ * Start an LSP client, optionally wait for workspace indexing, and run a command
+ * callback against the initialized client.
+ *
+ * @param {object} runtime - Resolved runtime metadata.
+ * @param {object} options - Wrapper options.
+ * @param {string | null} rootUri - Workspace root URI for LSP initialization.
+ * @param {Function} callback - Command callback that receives the client.
+ * @returns {Promise<unknown>} Callback result.
+ */
 async function withClient(runtime, options, rootUri, callback) {
   const client = new LspClient(runtime.executable, {
     timeoutMs: options.timeoutMs,
@@ -109,6 +135,12 @@ async function withClient(runtime, options, rootUri, callback) {
   }
 }
 
+/**
+ * Launch the embedded LSP in pass-through mode for host integrations.
+ *
+ * @param {object} runtime - Resolved runtime metadata.
+ * @returns {Promise<void>}
+ */
 function launchLsp(runtime) {
   return new Promise((resolve, reject) => {
     const child = spawn(runtime.executable, [], {
@@ -126,6 +158,14 @@ function launchLsp(runtime) {
   });
 }
 
+/**
+ * Collect flavor, diagnostics, symbols, folds, and link data for Markdown files.
+ *
+ * @param {LspClient} client - Initialized LSP client.
+ * @param {string[]} files - Absolute Markdown file paths.
+ * @param {string} workspaceRoot - Workspace root path.
+ * @returns {Promise<object>} Analysis summary and per-file results.
+ */
 async function analyze(client, files, workspaceRoot) {
   const analyzed = [];
   for (const file of files) {
@@ -163,6 +203,17 @@ async function analyze(client, files, workspaceRoot) {
   };
 }
 
+/**
+ * Return the flavor decision for a single file, with optional decision-tree
+ * details for agent explanation.
+ *
+ * @param {LspClient} client - Initialized LSP client.
+ * @param {string} file - Absolute Markdown file path.
+ * @param {string} workspaceRoot - Workspace root path.
+ * @param {object} [options] - Detection options.
+ * @param {boolean} [options.explain] - Include decision-tree details.
+ * @returns {Promise<object>} Flavor decision payload.
+ */
 async function detect(client, file, workspaceRoot, options = {}) {
   const decision = await detectFile(client, file, workspaceRoot);
   if (!options.explain) return decision;
@@ -192,6 +243,14 @@ async function detect(client, file, workspaceRoot, options = {}) {
   };
 }
 
+/**
+ * Query the LSP and local filesystem evidence for one file's effective flavor.
+ *
+ * @param {LspClient} client - Initialized LSP client.
+ * @param {string} file - Absolute Markdown file path.
+ * @param {string} workspaceRoot - Workspace root path.
+ * @returns {Promise<object>} Normalized flavor decision.
+ */
 async function detectFile(client, file, workspaceRoot) {
   const uri = pathToFileURL(file).toString();
   const query = await client.request('flavorGrenade/queryOpenDoc', { uri });

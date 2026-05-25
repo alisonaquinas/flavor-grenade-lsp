@@ -1,3 +1,12 @@
+/**
+ * Resolve and verify the embedded Flavor Grenade LSP runtime.
+ *
+ * Provides runtime target detection, manifest loading, digest validation,
+ * optional Sigstore verification, and path confinement helpers for the skill
+ * command wrapper.
+ *
+ * @module wrappers/runtime
+ */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, realpathSync, statSync } from 'node:fs';
@@ -7,6 +16,12 @@ import { fileURLToPath } from 'node:url';
 
 export const SKILL_ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 
+/**
+ * Return the runtime target name for the current platform and CPU.
+ *
+ * @returns {'linux-x64' | 'darwin-arm64' | 'darwin-x64' | 'win-x64'} The skill runtime target.
+ * @throws {Error} When the current platform is not packaged by the skill.
+ */
 export function currentTarget() {
   const platform = process.platform;
   const arch = process.arch;
@@ -20,11 +35,26 @@ export function currentTarget() {
   });
 }
 
+/**
+ * Load the skill manifest from a skill root.
+ *
+ * @param {string} [skillRoot] - Directory containing `manifest.json`.
+ * @returns {Promise<object>} Parsed skill manifest.
+ */
 export async function loadManifest(skillRoot = SKILL_ROOT) {
   const manifestPath = path.join(skillRoot, 'manifest.json');
   return JSON.parse(await readFile(manifestPath, 'utf8'));
 }
 
+/**
+ * Resolve the manifest-declared executable and verify its digest.
+ *
+ * @param {object} [options] - Runtime resolution options.
+ * @param {string} [options.skillRoot] - Alternate skill root for tests or packaged artifacts.
+ * @param {string} [options.target] - Explicit target or `current`.
+ * @returns {Promise<object>} Runtime metadata used by the wrapper commands.
+ * @throws {Error} When the target, path, executable, or digest is invalid.
+ */
 export async function resolveRuntime(options = {}) {
   const skillRoot = options.skillRoot ?? SKILL_ROOT;
   const manifest = await loadManifest(skillRoot);
@@ -72,6 +102,19 @@ export async function resolveRuntime(options = {}) {
   return { manifest, target, executable, sha256, skillRoot };
 }
 
+/**
+ * Verify the executable Sigstore bundle when policy and local tooling allow it.
+ *
+ * Digest verification is mandatory in {@link resolveRuntime}; this function is
+ * the additional keyless signing check. Missing `cosign` or bundle files are
+ * reported as skipped unless the caller requires signatures.
+ *
+ * @param {object} runtime - Runtime metadata from {@link resolveRuntime}.
+ * @param {object} [options] - Signature policy flags.
+ * @param {boolean} [options.noSignatureCheck] - Skip Sigstore verification.
+ * @param {boolean} [options.requireSignature] - Fail closed when verification cannot run.
+ * @returns {object} Signature verification result.
+ */
 export function verifySigstoreIfAvailable(runtime, options = {}) {
   if (options.noSignatureCheck) {
     return { checked: false, reason: 'disabled' };
@@ -133,6 +176,15 @@ export function verifySigstoreIfAvailable(runtime, options = {}) {
   };
 }
 
+/**
+ * Resolve a candidate path and ensure it remains inside an allowed root.
+ *
+ * @param {string} root - Allowed filesystem root.
+ * @param {string} candidate - Path to validate.
+ * @param {string} [code] - Error code to attach on failure.
+ * @returns {string} Real or resolved candidate path.
+ * @throws {Error} When the candidate escapes the root.
+ */
 export function assertInside(root, candidate, code = 'FG_SKILL_PATH_OUTSIDE_WORKSPACE') {
   const rootReal = realpathSync(root);
   const candidateReal = existsSync(candidate)
@@ -148,6 +200,12 @@ export function assertInside(root, candidate, code = 'FG_SKILL_PATH_OUTSIDE_WORK
   });
 }
 
+/**
+ * Compute the SHA-256 digest for a file.
+ *
+ * @param {string} filePath - File to hash.
+ * @returns {Promise<string>} Lowercase hexadecimal SHA-256 digest.
+ */
 export async function sha256File(filePath) {
   const content = await readFile(filePath);
   return createHash('sha256').update(content).digest('hex');
