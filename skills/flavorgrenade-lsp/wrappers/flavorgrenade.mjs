@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -168,7 +168,8 @@ async function detect(client, file, workspaceRoot, options = {}) {
 async function detectFile(client, file, workspaceRoot) {
   const uri = pathToFileURL(file).toString();
   const query = await client.request('flavorGrenade/queryOpenDoc', { uri });
-  const config = findConfigEvidence(workspaceRoot);
+  const text = await readFile(file, 'utf8');
+  const config = findConfigEvidence(workspaceRoot, file);
   const workspaceEvidence = findWorkspaceEvidence(workspaceRoot);
   const rawBaseFlavor = query?.markdownFlavor ?? 'commonmark';
   const baseFlavor =
@@ -178,7 +179,10 @@ async function detectFile(client, file, workspaceRoot) {
       ? 'commonmark'
       : rawBaseFlavor;
   const variantsValue = query?.structuredProfiles;
-  const variants = Array.isArray(variantsValue) ? variantsValue : [];
+  const variants = mergeUnique([
+    ...(Array.isArray(variantsValue) ? variantsValue : []),
+    ...inferStructuredProfiles(file, text),
+  ]);
   return {
     path: relativePath(workspaceRoot, file),
     baseFlavor,
@@ -203,6 +207,9 @@ async function detectFile(client, file, workspaceRoot) {
 }
 
 async function diagnostics(client, files, workspaceRoot) {
+  await Promise.all(
+    files.map((file) => client.waitForDiagnostics(pathToFileURL(file).toString())),
+  );
   return {
     diagnostics: files.flatMap((file) => {
       const uri = pathToFileURL(file).toString();
@@ -332,8 +339,13 @@ function collectMarkdownFiles(target, options) {
   return files;
 }
 
-function findConfigEvidence(workspaceRoot) {
-  return findWorkspaceEvidence(workspaceRoot).config;
+function findConfigEvidence(workspaceRoot, file) {
+  const evidence = findWorkspaceEvidence(workspaceRoot).config;
+  if (evidence.source === 'none' || file === undefined) return evidence;
+  return {
+    ...evidence,
+    matchedOverride: findMatchedOverrideEvidence(workspaceRoot, evidence, file),
+  };
 }
 
 function findWorkspaceEvidence(workspaceRoot) {
@@ -354,6 +366,143 @@ function findWorkspaceEvidence(workspaceRoot) {
     config: { source: 'none', format: 'none', path: null, matchedOverride: null },
     hasObsidianDirectory: existsSync(path.join(workspaceRoot, '.obsidian')),
   };
+}
+
+function findMatchedOverrideEvidence(workspaceRoot, evidence, file) {
+  if (evidence.path === null) return null;
+  const configPath = path.join(workspaceRoot, evidence.path);
+  let overrides = [];
+  try {
+    const content = statSync(configPath).size <= 8192 ? readFileSync(configPath, 'utf8') : '';
+    overrides = parseOverridesForEvidence(evidence.format, content);
+  } catch {
+    return null;
+  }
+  const relative = relativePath(workspaceRoot, file);
+  let best = null;
+  overrides.forEach((override, index) => {
+    if (!override.selector || !configSelectorMatches(override.selector, relative)) return;
+    const specificity = normalizeConfigSelector(override.selector).length;
+    if (
+      best === null ||
+      specificity > best.specificity ||
+      (specificity === best.specificity && index > best.order)
+    ) {
+      best = { ...override, order: index, specificity };
+    }
+  });
+  if (best === null) return null;
+  const provided = [];
+  if (best.flavor) provided.push('baseFlavor');
+  if (best.structuredProfiles) provided.push('structuredProfiles');
+  return {
+    selector: best.selector,
+    selectorKind: best.selector.includes('*') ? 'glob' : 'directory',
+    order: best.order,
+    provided,
+    inherited: ['baseFlavor', 'structuredProfiles'].filter((key) => !provided.includes(key)),
+  };
+}
+
+function parseOverridesForEvidence(format, content) {
+  if (format === 'json' || format === 'jsonc') {
+    try {
+      const value = JSON.parse(stripJsonComments(content));
+      const overrides = value?.core?.markdown?.overrides;
+      return Array.isArray(overrides)
+        ? overrides.map((entry) => ({
+            selector: stringValue(entry?.path),
+            flavor: stringValue(entry?.flavor),
+            structuredProfiles: entry?.structured_profiles ?? entry?.structuredProfiles,
+          }))
+        : [];
+    } catch {
+      return [];
+    }
+  }
+  if (format === 'toml') {
+    return parseTomlOverridesForEvidence(content);
+  }
+  return [];
+}
+
+function parseTomlOverridesForEvidence(content) {
+  const overrides = [];
+  let current = null;
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*/, '').trim();
+    if (line === '[[core.markdown.overrides]]') {
+      current = {};
+      overrides.push(current);
+      continue;
+    }
+    if (current === null) continue;
+    const match = /^([A-Za-z0-9_.-]+)\s*=\s*"([^"]*)"/.exec(line);
+    if (!match) continue;
+    if (match[1] === 'path') current.selector = match[2];
+    if (match[1] === 'flavor') current.flavor = match[2];
+    if (match[1] === 'structured_profiles') current.structuredProfiles = match[2];
+  }
+  return overrides;
+}
+
+function stripJsonComments(content) {
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+
+function stringValue(value) {
+  return typeof value === 'string' ? value : undefined;
+}
+
+function configSelectorMatches(selector, relative) {
+  const normalizedSelector = normalizeConfigSelector(selector);
+  const normalizedPath = normalizeConfigSelector(relative);
+  if (normalizedSelector.includes('*')) {
+    const pattern = new RegExp(
+      `^${normalizedSelector
+        .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+        .replace(/\*\*/g, '.*')
+        .replace(/\*/g, '[^/]*')}$`,
+    );
+    return pattern.test(normalizedPath);
+  }
+  return (
+    normalizedPath === normalizedSelector ||
+    normalizedPath.startsWith(`${normalizedSelector.replace(/\/$/, '')}/`)
+  );
+}
+
+function normalizeConfigSelector(value) {
+  return value.replace(/\\/g, '/').replace(/^\/+/, '').replace(/^\.\//, '');
+}
+
+function inferStructuredProfiles(file, text) {
+  const normalizedPath = file.replace(/\\/g, '/').toLowerCase();
+  const profiles = [];
+  if (
+    /(^|\/)changelog\.md$/.test(normalizedPath) &&
+    /^#\s+changelog\s*$/im.test(text) &&
+    /^##\s+\[?unreleased\]?/im.test(text) &&
+    /^###\s+(added|changed|deprecated|removed|fixed|security)\s*$/im.test(text)
+  ) {
+    profiles.push('keep-a-changelog');
+  }
+  if (
+    /(^|\/)(adr|adrs|decisions)\//.test(normalizedPath) &&
+    /^#\s+.+/m.test(text) &&
+    /^##\s+Context\s*$/im.test(text) &&
+    /^##\s+Decision\s*$/im.test(text) &&
+    /^##\s+Consequences\s*$/im.test(text)
+  ) {
+    profiles.push('madr');
+  }
+  return profiles;
+}
+
+function mergeUnique(values) {
+  return [...new Set(values)];
 }
 
 function relativePath(root, file) {

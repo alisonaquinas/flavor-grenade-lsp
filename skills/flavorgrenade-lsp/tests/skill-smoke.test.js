@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'bun:test';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { LspClient } from '../wrappers/lsp-client.mjs';
 import { currentTarget, resolveRuntime, sha256File } from '../wrappers/runtime.mjs';
 import { errorEnvelope, successEnvelope } from '../wrappers/schema.mjs';
 
@@ -98,10 +99,40 @@ describe('schema envelope', () => {
   });
 });
 
+describe('LSP diagnostics synchronization', () => {
+  it('returns cached diagnostics immediately', async () => {
+    const client = testClient();
+    client.diagnostics.set('file:///note.md', [{ code: 'FG001' }]);
+    await expect(client.waitForDiagnostics('file:///note.md', 1)).resolves.toEqual([
+      { code: 'FG001' },
+    ]);
+  });
+
+  it('resolves when publishDiagnostics arrives after a command starts waiting', async () => {
+    const client = testClient();
+    const pending = client.waitForDiagnostics('file:///note.md', 50);
+    client.dispatch({
+      method: 'textDocument/publishDiagnostics',
+      params: {
+        uri: 'file:///note.md',
+        diagnostics: [{ code: 'FG001' }],
+      },
+    });
+    await expect(pending).resolves.toEqual([{ code: 'FG001' }]);
+  });
+});
+
 function tempSkill() {
   const root = mkdtempSync(path.join(tmpdir(), 'fg-skill-'));
   temps.push(root);
   mkdirSync(path.join(root, 'wrappers'), { recursive: true });
   writeFileSync(path.join(root, 'wrappers', 'flavorgrenade.mjs'), '');
   return root;
+}
+
+function testClient() {
+  const client = Object.create(LspClient.prototype);
+  client.diagnostics = new Map();
+  client.diagnosticWaiters = new Map();
+  return client;
 }

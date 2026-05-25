@@ -8,6 +8,7 @@ export class LspClient {
     this.pending = new Map();
     this.buffer = Buffer.alloc(0);
     this.diagnostics = new Map();
+    this.diagnosticWaiters = new Map();
     this.child = spawn(executable, [], {
       stdio: ['pipe', 'pipe', 'pipe'],
       shell: false,
@@ -77,6 +78,32 @@ export class LspClient {
     return promise;
   }
 
+  waitForDiagnostics(uri, timeoutMs = 500) {
+    if (this.diagnostics.has(uri)) {
+      return Promise.resolve(this.diagnostics.get(uri));
+    }
+    return new Promise((resolve) => {
+      let waiter;
+      const timeout = setTimeout(() => {
+        const waiters = this.diagnosticWaiters.get(uri) ?? [];
+        const remaining = waiters.filter((candidate) => candidate !== waiter);
+        if (remaining.length === 0) {
+          this.diagnosticWaiters.delete(uri);
+        } else {
+          this.diagnosticWaiters.set(uri, remaining);
+        }
+        resolve([]);
+      }, timeoutMs);
+      waiter = (diagnostics) => {
+        clearTimeout(timeout);
+        resolve(diagnostics);
+      };
+      const waiters = this.diagnosticWaiters.get(uri) ?? [];
+      waiters.push(waiter);
+      this.diagnosticWaiters.set(uri, waiters);
+    });
+  }
+
   write(message) {
     const json = JSON.stringify(message);
     this.child.stdin.write(`Content-Length: ${Buffer.byteLength(json, 'utf8')}\r\n\r\n${json}`);
@@ -105,6 +132,11 @@ export class LspClient {
   dispatch(message) {
     if (message.method === 'textDocument/publishDiagnostics') {
       this.diagnostics.set(message.params.uri, message.params.diagnostics ?? []);
+      const waiters = this.diagnosticWaiters.get(message.params.uri) ?? [];
+      this.diagnosticWaiters.delete(message.params.uri);
+      for (const waiter of waiters) {
+        waiter(message.params.diagnostics ?? []);
+      }
       return;
     }
     if (message.id === undefined) return;
