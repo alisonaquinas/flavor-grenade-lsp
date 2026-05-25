@@ -1,9 +1,9 @@
 {
   "requiredVisuals": [
     {
-      "category": "OFMarkdown language mode promotion",
-      "id": "ofmarkdown-mode",
-      "path": "images/marketplace/ofmarkdown-mode.png"
+      "category": "Markdown flavor selector",
+      "id": "markdown-flavor-selector",
+      "path": "images/marketplace/markdown-flavor-selector.png"
     },
     {
       "category": "Status bar indexing",

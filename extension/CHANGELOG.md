@@ -1,11 +1,28 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Recognize `.flavor-grenade.json`, `.flavor-grenade.jsonc`,
+  `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and Flavor Grenade
+  `.editorconfig` directives anywhere TOML project config markers are used.
+- Refresh extension activation, Marketplace README assets, and local flavor
+  evidence when any supported project config marker appears, changes, or is
+  deleted.
+
+### Changed
+
+- Point extension metadata and Marketplace docs to <https://flavor-grenade.dev/>.
+- Replace stale Marketplace imagery that still presented OFMarkdown language
+  promotion as current behavior.
+
 ## [0.3.0] — 2026-05-24
 
 ### Added
 
 - Add syntax and context inference for Markdown flavor auto-detection when
-  project TOML is absent.
+  project config is absent.
 - Add the `flavorGrenade.markdownStructuredProfiles` setting for Auto Detect,
   explicit profile lists, and `none`.
 - Add client-side propagation and smoke-test coverage for Keep a Changelog,

@@ -31,9 +31,12 @@ Effective flavor precedence is defined by the root
 ## Idle Startup
 
 If a workspace contains Markdown files but has no `.obsidian/` directory and no
-`Flavor Grenade project config marker` file, Flavor Grenade stays idle at startup. The extension
-may be activated by VS Code language events, but it must not start vault
-indexing until a positive vault signal appears.
+`Flavor Grenade project config marker` file, Flavor Grenade stays idle at
+startup. Project config markers include `.flavor-grenade.toml`,
+`.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
+`.flavor-grenade.yml`, and `.editorconfig` files that contain Flavor Grenade
+directives. The extension may be activated by VS Code language events, but it
+must not start vault indexing until a positive vault signal appears.
 
 This means opening a README or other ordinary `.md` file outside a vault keeps
 VS Code's normal Markdown behavior.

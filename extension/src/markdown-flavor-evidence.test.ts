@@ -76,7 +76,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
   it('has one configured fixture workspace for every explicit supported flavor', async () => {
     for (const flavor of MARKDOWN_FLAVOR_IDS) {
       const config = await stat(join(fixtureRoot, flavor, '.flavor-grenade.toml'));
-      assert.equal(config.isFile(), true, `${flavor} fixture should declare project TOML`);
+      assert.equal(config.isFile(), true, `${flavor} fixture should declare project config`);
     }
   });
 
@@ -116,13 +116,67 @@ describe('Markdown flavor smoketest fixture evidence', () => {
           kind: 'active',
           selected: 'auto',
           effective: flavor,
-          source: 'project-toml',
+          source: 'project-config',
           structuredProfiles: [],
           structuredProfileSource: 'structured-profile-inference',
         },
-        `${flavor} fixture should drive auto detection through project TOML`,
+        `${flavor} fixture should drive auto detection through project config`,
       );
     }
+  });
+
+  it('detects project config markers across TOML, JSON, JSONC, YAML, YML, and editorconfig', async () => {
+    const cases = [
+      ['.flavor-grenade.toml', '[core.markdown]\nflavor = "gfm"\n'],
+      ['.flavor-grenade.json', '{"core":{"markdown":{"flavor":"glfm"}}}\n'],
+      ['.flavor-grenade.jsonc', '// comment\n{"core":{"markdown":{"flavor":"pandoc"}}}\n'],
+      ['.flavor-grenade.yaml', 'core:\n  markdown:\n    flavor: mdx\n'],
+      ['.flavor-grenade.yml', 'core:\n  markdown:\n    flavor: kramdown\n'],
+      ['.editorconfig', '[*.md]\nflavor_grenade_markdown_flavor = markdown-extra\n'],
+    ] as const;
+
+    for (const [marker, content] of cases) {
+      const root = await mkdtemp(join(tmpdir(), 'fg-config-marker-'));
+      tempDirs.push(root);
+      await writeFile(join(root, marker), content);
+      const notePath = join(root, 'notes.md');
+      await writeFile(notePath, '# Note\n');
+
+      const evidence = await findMarkdownFlavorEvidence(notePath, { searchBoundary: root });
+      assert.equal(evidence.hasFlavorConfigMarker, true, `${marker} should be a config marker`);
+      assert.equal(typeof evidence.projectFlavor, 'string', `${marker} should parse flavor`);
+    }
+  });
+
+  it('keeps TOML first and applies directory-specific config overrides', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-config-overrides-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs', 'api'), { recursive: true });
+    await writeFile(
+      join(root, '.flavor-grenade.toml'),
+      [
+        '[core.markdown]',
+        'flavor = "commonmark"',
+        '',
+        '[[core.markdown.overrides]]',
+        'path = "docs/api"',
+        'flavor = "glfm"',
+        'structured_profiles = ["common-changelog"]',
+      ].join('\n'),
+    );
+    await writeFile(
+      join(root, '.flavor-grenade.json'),
+      '{"core":{"markdown":{"flavor":"obsidian"}}}\n',
+    );
+    const notePath = join(root, 'docs', 'api', 'CHANGELOG.md');
+    await writeFile(notePath, '# Changelog\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      projectFlavor: 'glfm',
+      projectStructuredProfiles: ['common-changelog'],
+    });
   });
 
   it('has inference-only fixtures without project config markers', async () => {
@@ -142,7 +196,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
       await assertStructuredProfileExamples(join(inferenceRoot, fixture), fixture);
       await assert.rejects(
         stat(join(inferenceRoot, fixture, '.flavor-grenade.toml')),
-        `${fixture} inference fixture must not declare project TOML`,
+        `${fixture} inference fixture must not declare project config`,
       );
     }
   });
@@ -240,7 +294,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     });
   });
 
-  it('continues past a nested Obsidian marker to honor workspace TOML precedence', async () => {
+  it('continues past a nested Obsidian marker to honor workspace project config precedence', async () => {
     const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-parent-config-'));
     tempDirs.push(root);
     const vaultRoot = join(root, 'vault');

@@ -28,7 +28,7 @@ Detailed extension test cases live in:
 | Override persistence | Workspace files write flavor overrides to workspace-folder or workspace settings; standalone files write to user settings. |
 | Auto-detection | `.obsidian/` resolves to Obsidian, configured workspaces resolve from workspace-folder or workspace settings, project-config-absent strong syntax/context can infer a flavor, ambiguous shared syntax resolves to CommonMark, and generic Markdown resolves to CommonMark. |
 | Structured profiles | Keep a Changelog, Common Changelog, and MADR are configured and inferred separately from the base Markdown flavor, have smoke fixtures under configured and project-config-absent inference workspaces, and never appear as Markdown flavor selector choices. |
-| Fixture boundary safety | Smoketest root README and other negative controls do not inherit child fixture TOML or repository ancestor TOML outside the active workspace boundary. |
+| Fixture boundary safety | Smoketest root README and other negative controls do not inherit child fixture project config or repository ancestor project config outside the active workspace boundary. |
 | Document selector and activation | Activation events and `LanguageClient.clientOptions.documentSelector` serve file-backed `markdown` and reject stale `ofmarkdown`. |
 | Server propagation | Effective flavor changes refresh server-facing analysis state for every required flavor id, preserve resource-specific state, and recover after server-unavailable paths. |
 | Manual language safety | User-selected non-`markdown` language ids are preserved, including `mdx` language mode. |
@@ -89,7 +89,7 @@ Detailed extension test cases live in:
 | Generic Markdown flow | Open generic Markdown and verify `Auto Detect (CommonMark)` without vault indexing work. |
 | Inference flow | Open project-config-absent inference fixtures and verify strong syntax infers the expected flavor while weak/shared syntax falls back to CommonMark. |
 | Structured profile flow | Open Keep a Changelog, Common Changelog, and MADR fixtures and verify the expected profile flag layers over the containing workspace's configured or inferred base flavor. |
-| Fixture boundary flow | Open root smoketest README and verify it remains generic Markdown despite child fixture TOML and repository ancestor TOML. |
+| Fixture boundary flow | Open root smoketest README and verify it remains generic Markdown despite child fixture project config and repository ancestor project config. |
 
 ### Verification
 
