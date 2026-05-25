@@ -11,12 +11,14 @@ const SOURCE_SKILL = path.join(SOURCE_PLUGIN, 'skills', SKILL_NAME);
 const OUT_ROOT = path.join(ROOT, 'build', 'skill-artifacts');
 const args = new Set(process.argv.slice(2));
 const dryRun = args.has('--dry-run');
+const requireSignedRuntime = args.has('--require-signed-runtime');
 const target = valueAfter('--target') ?? currentTarget();
 
 const manifest = JSON.parse(readFileSync(path.join(SOURCE_SKILL, 'manifest.json'), 'utf8'));
 const executableName = target === 'win-x64' ? 'flavor-grenade-lsp.exe' : 'flavor-grenade-lsp';
 const distExecutable = path.join(ROOT, 'dist', executableName);
 const runtimeProvenance = readRuntimeProvenance(path.join(ROOT, 'dist', `${executableName}.runtime.json`));
+const sourceBundle = `${distExecutable}.sigstore.json`;
 const packageRoot = path.join(OUT_ROOT, `${SKILL_NAME}-skill-v${manifest.version}-${target}`);
 const skillOut = path.join(packageRoot, 'skills', SKILL_NAME);
 const pluginOut = path.join(packageRoot, 'plugins', SKILL_NAME);
@@ -38,13 +40,15 @@ const runtimePath = path.join(runtimeDir, executableName);
 let runtimeAvailable = false;
 let sha256 = '';
 if (existsSync(distExecutable)) {
+  validateSignedRuntime({ distExecutable, sourceBundle, runtimeProvenance, target, requireSignedRuntime });
   copyFileSync(distExecutable, runtimePath);
-  const sourceBundle = `${distExecutable}.sigstore.json`;
   if (existsSync(sourceBundle)) {
     copyFileSync(sourceBundle, `${runtimePath}.sigstore.json`);
   }
   sha256 = sha256File(runtimePath);
   runtimeAvailable = true;
+} else if (requireSignedRuntime) {
+  throw new Error(`Missing signed runtime executable: ${path.relative(ROOT, distExecutable).replace(/\\/g, '/')}`);
 }
 
 const packagedManifest = {
@@ -63,7 +67,7 @@ const packagedManifest = {
       oidcIssuer: 'https://token.actions.githubusercontent.com',
       certificateIdentityRegexp:
         runtimeProvenance?.source === 'github-release'
-          ? '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/release.yml@refs/tags/v.*'
+          ? `^https://github.com/${escapeRegex(runtimeProvenance.repository ?? 'alisonaquinas/flavor-grenade-lsp')}/\\.github/workflows/release\\.yml@refs/tags/v.*$`
           : '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
     },
   },
@@ -78,6 +82,7 @@ writeFileSync(
   `${JSON.stringify(
     {
       dryRun,
+      requireSignedRuntime,
       target,
       packageRoot: path.relative(ROOT, packageRoot).replace(/\\/g, '/'),
       runtimeAvailable,
@@ -136,4 +141,28 @@ function readRuntimeProvenance(filePath) {
   } catch {
     return null;
   }
+}
+
+function validateSignedRuntime({ distExecutable, sourceBundle, runtimeProvenance, target, requireSignedRuntime }) {
+  if (!requireSignedRuntime) return;
+  if (!existsSync(sourceBundle)) {
+    throw new Error(`Missing signed runtime Sigstore bundle: ${path.relative(ROOT, sourceBundle).replace(/\\/g, '/')}`);
+  }
+  if (runtimeProvenance === null) {
+    throw new Error('Missing signed runtime provenance file.');
+  }
+  if (runtimeProvenance.source !== 'github-release' || runtimeProvenance.verified !== true) {
+    throw new Error('Runtime provenance does not describe a verified GitHub release artifact.');
+  }
+  if (runtimeProvenance.target !== target) {
+    throw new Error(`Runtime provenance target ${runtimeProvenance.target} does not match package target ${target}.`);
+  }
+  const actualSha256 = sha256File(distExecutable);
+  if (runtimeProvenance.sha256 !== actualSha256) {
+    throw new Error('Runtime provenance digest does not match executable.');
+  }
+}
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

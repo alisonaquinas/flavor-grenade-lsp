@@ -10,6 +10,9 @@ const skillRoot = path.resolve(
 const manifestPath = path.join(skillRoot, 'manifest.json');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
 const executable = path.resolve(skillRoot, manifest.runtime.executable);
+const sigstoreBundle = manifest.runtime.sigstoreBundle
+  ? path.resolve(skillRoot, manifest.runtime.sigstoreBundle)
+  : null;
 const allowMissingRuntime = process.argv.includes('--allow-missing-runtime') || process.argv.includes('--dry-run');
 const errors = [];
 
@@ -20,6 +23,9 @@ if (!existsSync(path.join(skillRoot, 'SKILL.md'))) errors.push('missing SKILL.md
 if (!existsSync(path.join(skillRoot, manifest.commands.main))) errors.push('missing wrapper command');
 if (!existsSync(executable) && !allowMissingRuntime) errors.push('missing runtime executable');
 if (!manifest.runtime.sha256 && existsSync(executable)) errors.push('runtime digest missing');
+if (manifest.runtime.sigstoreBundle && existsSync(executable) && !existsSync(sigstoreBundle)) {
+  errors.push('missing runtime Sigstore bundle');
+}
 
 if (errors.length > 0) {
   process.stderr.write(`${errors.join('\n')}\n`);

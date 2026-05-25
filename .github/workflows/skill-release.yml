@@ -73,7 +73,7 @@ jobs:
       - name: Package skill artifact
         id: package
         run: |
-          package_root="$(bun run skill:package -- --dry-run --target ${{ matrix.target }} | tail -n 1)"
+          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target ${{ matrix.target }} | tail -n 1)"
           node scripts/skill-verify.mjs --skill-root "$package_root/skills/flavorgrenade-lsp"
           echo "package_root=$package_root" >> "$GITHUB_OUTPUT"
 
@@ -127,4 +127,5 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" skill-release/* \
             --title "$GITHUB_REF_NAME" \
+            --latest=false \
             --notes "Flavor Grenade LSP skill release $GITHUB_REF_NAME"

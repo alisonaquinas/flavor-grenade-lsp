@@ -81,10 +81,36 @@ function readValue(args, index, option) {
 }
 
 function releaseMetadata(repo, release) {
-  const args = ['release', 'view'];
-  if (release !== 'latest') args.push(release);
+  const resolvedRelease = release === 'latest' ? latestServerRelease(repo) : release;
+  const args = ['release', 'view', resolvedRelease];
   args.push('--repo', repo, '--json', 'tagName,targetCommitish,url,assets');
   return JSON.parse(run('gh', args, { encoding: 'utf8' }).stdout);
+}
+
+function latestServerRelease(repo) {
+  const result = JSON.parse(
+    run(
+      'gh',
+      [
+        'release',
+        'list',
+        '--repo',
+        repo,
+        '--limit',
+        '100',
+        '--json',
+        'tagName,isDraft,isPrerelease,publishedAt',
+      ],
+      { encoding: 'utf8' },
+    ).stdout,
+  );
+  const release = result.find(
+    (entry) => !entry.isDraft && !entry.isPrerelease && /^v\d+\.\d+\.\d+(?:[+-].*)?$/.test(entry.tagName),
+  );
+  if (release === undefined) {
+    throw new Error(`No non-draft stable server release found for ${repo}. Pass --server-release with an explicit v* tag.`);
+  }
+  return release.tagName;
 }
 
 function ensureReleaseAssets(metadata, requiredAssets) {
@@ -111,10 +137,14 @@ function verifySignature(binary, bundle, repo) {
     '--bundle',
     bundle,
     '--certificate-identity-regexp',
-    `^https://github.com/${repo}/.github/workflows/release.yml@refs/tags/v.*$`,
+    `^https://github.com/${escapeRegex(repo)}/\\.github/workflows/release\\.yml@refs/tags/v.*$`,
     '--certificate-oidc-issuer',
     'https://token.actions.githubusercontent.com',
   ]);
+}
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function run(command, args, options = {}) {

@@ -84,7 +84,7 @@ describe('skill-fetch-runtime', () => {
       expect(toolLog.map((entry) => entry.command)).toEqual(['gh', 'gh', 'gh', 'cosign']);
       const identity = toolLog[3].args[toolLog[3].args.indexOf('--certificate-identity-regexp') + 1];
       expect(identity).toContain(
-        'https://github.com/example/flavor-grenade-lsp/.github/workflows/release.yml@refs/tags/v.*$',
+        'https://github.com/example/flavor-grenade-lsp/\\.github/workflows/release\\.yml@refs/tags/v.*$',
       );
     } finally {
       rmSync(root, { recursive: true, force: true });
@@ -132,6 +132,51 @@ describe('skill-fetch-runtime', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  it('resolves latest to the newest stable server release instead of repository latest', () => {
+    const root = tempDir('fg-fetch-runtime-latest-server-');
+    try {
+      const assets = path.join(root, 'release-assets');
+      const tools = path.join(root, 'tools');
+      mkdirSync(assets, { recursive: true });
+      mkdirSync(tools, { recursive: true });
+      writeFileSync(path.join(assets, 'flavor-grenade-lsp-linux-x64'), 'runtime');
+      writeFileSync(path.join(assets, 'flavor-grenade-lsp-linux-x64.sigstore.json'), '{}\n');
+      writeFileSync(
+        path.join(root, 'release-list.json'),
+        JSON.stringify([
+          { tagName: 'skill-v0.1.0', isDraft: false, isPrerelease: false },
+          { tagName: 'v2.0.0-test.1', isDraft: false, isPrerelease: true },
+          { tagName: 'v1.2.3', isDraft: false, isPrerelease: false },
+        ]),
+      );
+      writeToolStubs(tools);
+
+      const result = spawnSync(process.execPath, [scriptPath, '--target', 'linux-x64'], {
+        cwd: root,
+        env: {
+          ...process.env,
+          PATH: `${tools}${path.delimiter}${process.env.PATH ?? ''}`,
+          FG_TEST_RELEASE_ASSETS: assets,
+          FG_TEST_RELEASE_LIST: path.join(root, 'release-list.json'),
+          FG_TEST_TOOL_LOG: path.join(root, 'tool-log.jsonl'),
+        },
+        encoding: 'utf8',
+      });
+
+      expect(result.status).toBe(0);
+      const provenance = JSON.parse(readFileSync(path.join(root, 'dist', 'flavor-grenade-lsp.runtime.json'), 'utf8'));
+      expect(provenance.releaseTag).toBe('v1.2.3');
+      const toolLog = readFileSync(path.join(root, 'tool-log.jsonl'), 'utf8')
+        .trim()
+        .split('\n')
+        .map((line) => JSON.parse(line));
+      expect(toolLog[0].args).toContain('list');
+      expect(toolLog[1].args).toContain('v1.2.3');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });
 
 function tempDir(prefix) {
@@ -149,11 +194,19 @@ function writeToolStubs(toolsDir) {
   const cosignStub = path.join(toolsDir, 'cosign-stub.mjs');
   writeFileSync(
     ghStub,
-    `import { copyFileSync, mkdirSync, appendFileSync, readdirSync } from 'node:fs';
+    `import { copyFileSync, mkdirSync, appendFileSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 const args = process.argv.slice(2);
 appendFileSync(process.env.FG_TEST_TOOL_LOG, JSON.stringify({ command: 'gh', args }) + '\\n');
 if (args[0] !== 'release') process.exit(2);
+if (args[1] === 'list') {
+  if (process.env.FG_TEST_RELEASE_LIST) {
+    process.stdout.write(readFileSync(process.env.FG_TEST_RELEASE_LIST, 'utf8'));
+  } else {
+    process.stdout.write(JSON.stringify([{ tagName: 'v1.2.3', isDraft: false, isPrerelease: false }]));
+  }
+  process.exit(0);
+}
 if (args[1] === 'view') {
   const tag = args[2]?.startsWith('--') ? 'v9.9.9' : args[2];
   const repo = args[args.indexOf('--repo') + 1];
@@ -183,7 +236,7 @@ const args = process.argv.slice(2);
 appendFileSync(process.env.FG_TEST_TOOL_LOG, JSON.stringify({ command: 'cosign', args }) + '\\n');
 const bundle = args[args.indexOf('--bundle') + 1];
 const identity = args[args.indexOf('--certificate-identity-regexp') + 1];
-if (!existsSync(bundle) || !identity.includes('/.github/workflows/release.yml@refs/tags/v.')) process.exit(2);
+if (!existsSync(bundle) || !identity.includes('/\\\\.github/workflows/release\\\\.yml@refs/tags/v.')) process.exit(2);
 process.exit(0);
 `,
   );

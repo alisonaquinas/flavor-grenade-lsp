@@ -38,7 +38,7 @@
     "skill:verify": "node scripts/skill-verify.mjs --allow-missing-runtime",
     "skill:marketplace:verify": "node scripts/skill-marketplace-verify.mjs",
     "skill:plugin:verify": "node scripts/skill-plugin-verify.mjs",
-    "skill:release:dry-run": "node scripts/skill-package.mjs --dry-run && node scripts/skill-marketplace-verify.mjs && node scripts/skill-plugin-verify.mjs",
+    "skill:release:dry-run": "node scripts/skill-package.mjs --dry-run --require-signed-runtime && node scripts/skill-marketplace-verify.mjs && node scripts/skill-plugin-verify.mjs",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",
     "typecheck": "tsc --noEmit",

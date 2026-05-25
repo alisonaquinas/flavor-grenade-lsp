@@ -167,7 +167,7 @@ jobs:
 
       - name: Package and verify plugin artifact
         run: |
-          package_root="$(bun run skill:package -- --dry-run --target ${{ matrix.target }} | tail -n 1)"
+          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target ${{ matrix.target }} | tail -n 1)"
           node scripts/skill-verify.mjs --skill-root "$package_root/skills/flavorgrenade-lsp"
           echo "$package_root" > build/skill-artifacts/package-root-${{ matrix.target }}.txt
 
