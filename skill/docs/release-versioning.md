@@ -42,7 +42,7 @@ website deployment.
 The skill changelog lives at:
 
 ```text
-plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/CHANGELOG.md
+plugins/flavorgrenade-lsp/CHANGELOG.md
 ```
 
 It tracks only skill changes:
@@ -56,7 +56,8 @@ It tracks only skill changes:
 - security hardening
 
 Server behavior changes are linked through the compatibility matrix rather than
-copied into the skill changelog.
+copied into the skill changelog. Packaging copies this plugin-root changelog
+into `skills/flavorgrenade-lsp/CHANGELOG.md` inside release artifacts.
 
 ## Compatibility Matrix
 

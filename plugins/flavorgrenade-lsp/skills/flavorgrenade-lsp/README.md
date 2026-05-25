@@ -16,8 +16,8 @@ skills/flavorgrenade-lsp/
 └── bin/<target>/flavor-grenade-lsp[.exe]
 ```
 
-The source tree can be installed by repository skill installers. Release
-artifacts are assembled per runtime target.
+This plugin-local source tree is the canonical skill. Release artifacts expose
+it at `skills/flavorgrenade-lsp/` and add the selected runtime target.
 
 ## Commands
 

@@ -65,6 +65,7 @@ const packagedManifest = {
   },
 };
 writeFileSync(path.join(skillOut, 'manifest.json'), `${JSON.stringify(packagedManifest, null, 2)}\n`);
+copyFileSync(path.join(SOURCE_PLUGIN, 'CHANGELOG.md'), path.join(skillOut, 'CHANGELOG.md'));
 rmSync(path.join(pluginOut, 'skills', SKILL_NAME), { recursive: true, force: true });
 mkdirSync(path.join(pluginOut, 'skills'), { recursive: true });
 copyTree(skillOut, path.join(pluginOut, 'skills', SKILL_NAME));

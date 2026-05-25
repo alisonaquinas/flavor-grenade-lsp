@@ -28,9 +28,21 @@ for (const required of [
   'hooks/hooks.json',
   'codex/hooks.json',
   'lsp/servers.json',
+  'CHANGELOG.md',
   'skills/flavorgrenade-lsp/SKILL.md',
+  'skills/flavorgrenade-lsp/README.md',
+  'skills/flavorgrenade-lsp/manifest.json',
+  'skills/flavorgrenade-lsp/package.json',
+  'skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs',
+  'skills/flavorgrenade-lsp/wrappers/runtime.mjs',
+  'skills/flavorgrenade-lsp/wrappers/lsp-client.mjs',
+  'skills/flavorgrenade-lsp/wrappers/schema.mjs',
+  'skills/flavorgrenade-lsp/docs/compatibility.md',
 ]) {
   if (!existsSync(path.join(pluginRoot, required))) errors.push(`missing plugin path ${required}`);
+}
+if (existsSync(path.join(pluginRoot, 'skills', 'flavorgrenade-lsp', 'CHANGELOG.md'))) {
+  errors.push('skill changelog must live at plugin root, not inside the embedded skill source');
 }
 for (const server of lsp.servers ?? []) {
   if (server.name !== 'flavor-grenade-lsp') continue;
@@ -96,6 +108,9 @@ function validateCommandPrompt(commandFile) {
     errors.push(`${commandFile} does not reference a supported wrapper command`);
   }
   if (!/--json/.test(content)) errors.push(`${commandFile} must request JSON output`);
+  if (!/plugin root/i.test(content)) {
+    errors.push(`${commandFile} must state that commands run from the plugin root`);
+  }
   if (/parse raw config/i.test(content) && !/do not parse raw config/i.test(content)) {
     errors.push(`${commandFile} must not tell agents to parse raw config`);
   }

@@ -370,7 +370,7 @@ skill-v*.*.*-test*
 Release flow:
 
 1. Create `release/skill-vX.Y.Z` from `develop`.
-2. Update `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/CHANGELOG.md`.
+2. Update `plugins/flavorgrenade-lsp/CHANGELOG.md`.
 3. Set `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/manifest.json`
    version.
 4. Select the server executable release version to embed.
@@ -498,7 +498,7 @@ and not a replacement for the server package.
 
 | Workstream | Deliverable |
 |---|---|
-| Product scaffold | `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/` source tree, skill manifest, skill changelog, docs |
+| Product scaffold | `plugins/flavorgrenade-lsp/` plugin source tree, skill manifest, skill changelog, docs |
 | Plugin scaffold | `plugins/flavorgrenade-lsp/` Claude/Codex manifests, commands, hooks, agents, optional MCP metadata, and mandatory embedded-LSP metadata |
 | Runtime resolver | Cross-platform executable selection, digest verification, install verification |
 | LSP adapter | JSON-RPC subprocess client used by wrapper commands |

@@ -34,7 +34,7 @@ from this repo using compatible skill installers.
 | Claude plugin manifest | `plugins/flavorgrenade-lsp/.claude-plugin/plugin.json` |
 | Codex plugin manifest | `plugins/flavorgrenade-lsp/.codex-plugin/plugin.json` |
 | Skill docs | `skill/docs/` |
-| Skill changelog | `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/CHANGELOG.md` |
+| Skill changelog | `plugins/flavorgrenade-lsp/CHANGELOG.md` |
 | Skill tag pattern | `skill-v*.*.*` |
 | Skill test tag pattern | `skill-v*.*.*-test*` |
 
