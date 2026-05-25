@@ -12,7 +12,7 @@ Learn how Flavor Grenade decides which folder is the vault, which files belong t
 
 ## Configuration sources
 
-Flavor Grenade starts with the folder your editor opened. From there, Auto Detect uses project configuration first, then vault markers, then syntax and path context. Generic Markdown falls back to CommonMark instead of being treated as Obsidian content.
+Flavor Grenade starts with the folder your editor opened. From there, root detection looks for vault and project markers, then Auto Detect resolves the document flavor from project configuration, Obsidian vault evidence, syntax, and path context. Generic Markdown falls back to CommonMark instead of being treated as Obsidian content.
 
 The strongest local markers are Flavor Grenade project config files and `.obsidian/`. They matter because not every Markdown folder is an Obsidian vault. If the marker is missing and syntax is ambiguous, Flavor Grenade stays conservative.
 

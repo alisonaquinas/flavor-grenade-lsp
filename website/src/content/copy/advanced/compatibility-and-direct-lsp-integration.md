@@ -40,11 +40,9 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
     { "uri": "file:///Users/alex/MyVault", "name": "MyVault" }
   ],
   "initializationOptions": {
-    "markdownFlavor": {
-      "selected": "auto",
-      "effective": "obsidian",
-      "structuredProfiles": "auto"
-    }
+    "linkStyle": "file-stem",
+    "completionCandidates": 50,
+    "diagnosticsSuppress": []
   },
   "capabilities": {
     "workspace": {
@@ -62,14 +60,13 @@ If your client sends workspace configuration after initialize, use the same publ
   "settings": {
     "flavorGrenade": {
       "markdownFlavor": "auto",
-      "markdownStructuredProfiles": ["madr"],
-      "completion": { "candidates": 50 },
-      "diagnostics": { "suppress": [] },
-      "trace": { "server": "off" }
+      "markdownStructuredProfiles": ["madr"]
     }
   }
 }
 ```
+
+Direct server options such as `linkStyle`, `completionCandidates`, and `diagnosticsSuppress` belong in `initializationOptions`. Flavor and structured-profile state belongs in `workspace/didChangeConfiguration` unless project configuration or Auto Detect can decide it.
 
 For a project-level override, put a Flavor Grenade project config file at the project root. TOML is still supported and is checked first:
 
@@ -123,7 +120,7 @@ watch: Markdown files, .obsidian/, and Flavor Grenade project config markers
 send: didOpen/didChange/didClose for open documents
 ```
 
-The server accepts normal LSP initialize parameters. Flavor-specific initialization data is optional when project configuration or Auto Detect can decide the flavor, but direct clients should send explicit state when they have a selector UI.
+The server accepts normal LSP initialize parameters. Flavor-specific initialization data is not read from initialize options; direct clients with a selector UI should send explicit state with `workspace/didChangeConfiguration`.
 
 ```json
 {
