@@ -29,12 +29,12 @@ from this repo using compatible skill installers.
 |---|---|
 | Package name | `flavorgrenade-lsp-skill` |
 | Install name | `flavorgrenade-lsp` |
-| Skill entrypoint | `skills/flavorgrenade-lsp/SKILL.md` |
+| Skill entrypoint | `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/SKILL.md` |
 | Plugin source | `plugins/flavorgrenade-lsp/` |
 | Claude plugin manifest | `plugins/flavorgrenade-lsp/.claude-plugin/plugin.json` |
 | Codex plugin manifest | `plugins/flavorgrenade-lsp/.codex-plugin/plugin.json` |
 | Skill docs | `skill/docs/` |
-| Skill changelog | `skills/flavorgrenade-lsp/CHANGELOG.md` |
+| Skill changelog | `plugins/flavorgrenade-lsp/CHANGELOG.md` |
 | Skill tag pattern | `skill-v*.*.*` |
 | Skill test tag pattern | `skill-v*.*.*-test*` |
 

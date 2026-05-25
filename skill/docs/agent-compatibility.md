@@ -140,5 +140,7 @@ Each skill release must publish a matrix:
 |---|---|---|---|---|---|
 | `0.1.0` | `0.5.x` | `1.0` | supported | supported | Initial embedded executable release |
 
-The matrix belongs in `skills/flavorgrenade-lsp/docs/compatibility.md` in the
-released artifact.
+The source matrix belongs in
+`plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/docs/compatibility.md` and
+is emitted as `skills/flavorgrenade-lsp/docs/compatibility.md` in the released
+artifact.

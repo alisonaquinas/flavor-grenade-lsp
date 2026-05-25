@@ -129,3 +129,56 @@ jobs:
   # runs after typecheck/lint/test/build pass and uses OIDC trusted publishing.
   # A separate publish step here would race with that job and fail with E403
   # on whichever runs second.
+
+  verify-plugin-runtime-consumption:
+    name: Verify plugin runtime consumption (${{ matrix.target }})
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [linux-x64, darwin-arm64, darwin-x64, win-x64]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Fetch signed runtime from this release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bun run skill:fetch-runtime -- \
+            --target "${{ matrix.target }}" \
+            --server-release "$GITHUB_REF_NAME" \
+            --repo "${{ github.repository }}"
+
+      - name: Set plugin version for consumption check
+        run: bun run skill:set-version -- "0.0.0-runtime-check" --server-version "${GITHUB_REF_NAME#v}" --server-release-tag "$GITHUB_REF_NAME"
+
+      - name: Package and verify plugin artifact
+        run: |
+          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target ${{ matrix.target }} | tail -n 1)"
+          node scripts/skill-verify.mjs --skill-root "$package_root/skills/flavorgrenade-lsp"
+          echo "$package_root" > build/skill-artifacts/package-root-${{ matrix.target }}.txt
+
+      - name: Upload plugin runtime consumption evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: plugin-runtime-consumption-${{ matrix.target }}
+          path: |
+            build/skill-artifacts/package-root-${{ matrix.target }}.txt
+            build/skill-artifacts/*/package-report.json
+          if-no-files-found: error

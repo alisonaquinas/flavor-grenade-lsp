@@ -1,0 +1,24 @@
+{
+  "name": "flavorgrenade-lsp-skill",
+  "version": "0.1.0",
+  "description": "LLM skill wrapping Flavor Grenade LSP for flavor-aware Markdown analysis.",
+  "type": "module",
+  "bin": {
+    "flavorgrenade": "./wrappers/flavorgrenade.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CHANGELOG.md",
+    "CONCEPTS.md",
+    "manifest.json",
+    "agents/",
+    "bin/",
+    "wrappers/",
+    "examples/",
+    "docs/"
+  ],
+  "license": "MIT"
+}

@@ -115,11 +115,18 @@ Each release artifact must include:
 
 - executable SHA-256 digest
 - archive SHA-256 digest
-- executable Sigstore bundle when available
+- executable Sigstore bundle from the selected server release
 - archive Sigstore bundle
 - server commit
+- server release tag
 - skill release commit
 - release workflow identity
+
+Production skill packaging must fetch the embedded executable from a server
+GitHub Release and verify its Sigstore bundle against the server `release.yml`
+GitHub OIDC identity before packaging. Local server builds are allowed for
+development smoke tests only; they must not be used for production skill
+release artifacts.
 
 The wrapper must verify the executable digest every time before launch. Archive
 signature verification is part of install and release validation.
@@ -171,5 +178,6 @@ No skill release is complete until a reviewer can verify:
 - network APIs are absent from wrappers
 - tests cover hostile fixtures
 - release artifacts are signed
+- embedded executables are signed server release artifacts
 - plugin manifests do not reference remote MCP servers, unverified LSP
   executables, or missing hook files
