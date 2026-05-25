@@ -632,13 +632,7 @@ function configSelectorMatches(selector, relative) {
   const normalizedSelector = normalizeConfigSelector(selector);
   const normalizedPath = normalizeConfigSelector(relative);
   if (normalizedSelector.includes('*')) {
-    const pattern = new RegExp(
-      `^${normalizedSelector
-        .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-        .replace(/\*\*/g, '.*')
-        .replace(/\*/g, '[^/]*')}$`,
-    );
-    return pattern.test(normalizedPath);
+    return globSelectorMatches(normalizedSelector, normalizedPath);
   }
   return (
     normalizedPath === normalizedSelector ||
@@ -648,6 +642,73 @@ function configSelectorMatches(selector, relative) {
 
 function normalizeConfigSelector(value) {
   return value.replace(/\\/g, '/').replace(/^\/+/, '').replace(/^\.\//, '');
+}
+
+function globSelectorMatches(selector, relative) {
+  const selectorParts = selector.split('/').filter(Boolean);
+  const relativeParts = relative.split('/').filter(Boolean);
+  return globPartsMatch(selectorParts, relativeParts, 0, 0, new Map());
+}
+
+function globPartsMatch(selectorParts, relativeParts, selectorIndex, relativeIndex, memo) {
+  const memoKey = `${selectorIndex}:${relativeIndex}`;
+  const cached = memo.get(memoKey);
+  if (cached !== undefined) return cached;
+  const matched = globPartsMatchUncached(
+    selectorParts,
+    relativeParts,
+    selectorIndex,
+    relativeIndex,
+    memo,
+  );
+  memo.set(memoKey, matched);
+  return matched;
+}
+
+function globPartsMatchUncached(selectorParts, relativeParts, selectorIndex, relativeIndex, memo) {
+  if (selectorIndex === selectorParts.length) return relativeIndex === relativeParts.length;
+  const selectorHead = selectorParts[selectorIndex];
+  if (selectorHead === '**') {
+    return (
+      globPartsMatch(selectorParts, relativeParts, selectorIndex + 1, relativeIndex, memo) ||
+      (relativeIndex < relativeParts.length &&
+        globPartsMatch(selectorParts, relativeParts, selectorIndex, relativeIndex + 1, memo))
+    );
+  }
+  if (relativeIndex === relativeParts.length) return false;
+  if (!globSegmentMatches(selectorHead, relativeParts[relativeIndex])) return false;
+  return globPartsMatch(selectorParts, relativeParts, selectorIndex + 1, relativeIndex + 1, memo);
+}
+
+function globSegmentMatches(pattern, value) {
+  let patternIndex = 0;
+  let valueIndex = 0;
+  let starIndex = -1;
+  let retryValueIndex = 0;
+
+  while (valueIndex < value.length) {
+    if (patternIndex < pattern.length && pattern[patternIndex] === value[valueIndex]) {
+      patternIndex += 1;
+      valueIndex += 1;
+      continue;
+    }
+    if (patternIndex < pattern.length && pattern[patternIndex] === '*') {
+      starIndex = patternIndex;
+      retryValueIndex = valueIndex;
+      patternIndex += 1;
+      continue;
+    }
+    if (starIndex !== -1) {
+      patternIndex = starIndex + 1;
+      retryValueIndex += 1;
+      valueIndex = retryValueIndex;
+      continue;
+    }
+    return false;
+  }
+
+  while (patternIndex < pattern.length && pattern[patternIndex] === '*') patternIndex += 1;
+  return patternIndex === pattern.length;
 }
 
 function inferStructuredProfiles(file, text) {

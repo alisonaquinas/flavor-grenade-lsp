@@ -50,11 +50,13 @@ jobs:
 
       - name: Set plugin version
         shell: bash
+        env:
+          INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
         run: |
           if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
             plugin_version="${GITHUB_REF_NAME#skill-v}"
           else
-            plugin_version="${{ inputs.plugin_version }}"
+            plugin_version="$INPUT_PLUGIN_VERSION"
           fi
           bun run skill:set-version -- "$plugin_version"
 
@@ -70,25 +72,31 @@ jobs:
       - name: Fetch signed server runtime
         env:
           GH_TOKEN: ${{ github.token }}
+          SERVER_RELEASE: ${{ inputs.server_release }}
+          TARGET: ${{ matrix.target }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          server_release="${{ inputs.server_release }}"
+          server_release="$SERVER_RELEASE"
           if [ -z "$server_release" ]; then
             server_release="latest"
           fi
           bun run skill:fetch-runtime -- \
-            --target "${{ matrix.target }}" \
+            --target "$TARGET" \
             --server-release "$server_release" \
-            --repo "${{ github.repository }}"
+            --repo "$REPOSITORY"
 
       - name: Stamp embedded server version
         shell: bash
+        env:
+          INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
+          TARGET: ${{ matrix.target }}
         run: |
           if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
             plugin_version="${GITHUB_REF_NAME#skill-v}"
           else
-            plugin_version="${{ inputs.plugin_version }}"
+            plugin_version="$INPUT_PLUGIN_VERSION"
           fi
-          if [[ "${{ matrix.target }}" == "win-x64" ]]; then
+          if [[ "$TARGET" == "win-x64" ]]; then
             provenance="dist/flavor-grenade-lsp.exe.runtime.json"
           else
             provenance="dist/flavor-grenade-lsp.runtime.json"
@@ -101,18 +109,23 @@ jobs:
 
       - name: Package skill artifact
         id: package
+        env:
+          TARGET: ${{ matrix.target }}
         run: |
-          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target ${{ matrix.target }} | tail -n 1)"
+          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target "$TARGET" | tail -n 1)"
           node scripts/skill-verify.mjs --skill-root "$package_root/skills/flavorgrenade-lsp"
           echo "package_root=$package_root" >> "$GITHUB_OUTPUT"
 
       - name: Archive skill artifact
         id: archive
+        env:
+          ARCHIVE_EXT: ${{ matrix.archive_ext }}
+          PACKAGE_ROOT: ${{ steps.package.outputs.package_root }}
         run: |
           mkdir -p build/skill-release
-          package_root="${{ steps.package.outputs.package_root }}"
+          package_root="$PACKAGE_ROOT"
           package_name="$(basename "$package_root")"
-          if [ "${{ matrix.archive_ext }}" = "zip" ]; then
+          if [ "$ARCHIVE_EXT" = "zip" ]; then
             (cd "$(dirname "$package_root")" && zip -qr "$GITHUB_WORKSPACE/build/skill-release/$package_name.zip" "$package_name")
             archive_path="build/skill-release/$package_name.zip"
           else
@@ -123,8 +136,10 @@ jobs:
           echo "archive_path=$archive_path" >> "$GITHUB_OUTPUT"
 
       - name: Sign archive with GitHub OIDC
+        env:
+          ARCHIVE_PATH: ${{ steps.archive.outputs.archive_path }}
         run: |
-          archive_path="${{ steps.archive.outputs.archive_path }}"
+          archive_path="$ARCHIVE_PATH"
           cosign sign-blob "$archive_path" \
             --bundle "$archive_path.sigstore.json" \
             --yes

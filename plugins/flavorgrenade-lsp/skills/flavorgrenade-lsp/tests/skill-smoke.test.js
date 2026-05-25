@@ -8,7 +8,7 @@
  * @module tests/skill-smoke
  */
 import { afterEach, describe, expect, it } from 'bun:test';
-import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { LspClient } from '../wrappers/lsp-client.mjs';
@@ -35,6 +35,7 @@ describe('runtime resolver', () => {
     const executable = path.join(root, 'bin', target, executableName);
     mkdirSync(path.dirname(executable), { recursive: true });
     writeFileSync(executable, '#!/usr/bin/env node\n');
+    makeExecutable(executable);
     const digest = await sha256File(executable);
     writeFileSync(
       path.join(root, 'manifest.json'),
@@ -67,6 +68,7 @@ describe('runtime resolver', () => {
     const executable = path.join(root, 'bin', target, executableName);
     mkdirSync(path.dirname(executable), { recursive: true });
     writeFileSync(executable, '#!/usr/bin/env node\n');
+    makeExecutable(executable);
     writeFileSync(
       path.join(root, 'manifest.json'),
       JSON.stringify({
@@ -137,6 +139,10 @@ function tempSkill() {
   mkdirSync(path.join(root, 'wrappers'), { recursive: true });
   writeFileSync(path.join(root, 'wrappers', 'flavorgrenade.mjs'), '');
   return root;
+}
+
+function makeExecutable(filePath) {
+  if (process.platform !== 'win32') chmodSync(filePath, 0o755);
 }
 
 function testClient() {
