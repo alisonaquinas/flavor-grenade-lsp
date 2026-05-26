@@ -880,6 +880,7 @@ p {
 }
 
 .article-link-card {
+  background: color-mix(in srgb, var(--surface-raised) 82%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   display: grid;
@@ -903,11 +904,13 @@ p {
 
 .article-link-card:focus-visible,
 .article-link-card:hover {
-  background: color-mix(in srgb, var(--brand-100) 55%, transparent);
+  background: color-mix(in srgb, var(--brand-100) 58%, var(--surface-raised));
+  border-color: color-mix(in srgb, var(--brand-500) 62%, var(--line));
   outline: 2px solid transparent;
 }
 
 .docs-related {
+  background: color-mix(in srgb, var(--surface-raised) 78%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   display: grid;
