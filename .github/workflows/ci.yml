@@ -13,6 +13,7 @@ permissions:
 
 env:
   BUN_VERSION: '1.3.13'
+  COSIGN_VERSION: '3.0.6'
 
 jobs:
   typecheck:
@@ -190,7 +191,25 @@ jobs:
         run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
 
       - name: Validate signing prerequisites without OIDC
         run: |
@@ -224,7 +243,25 @@ jobs:
         run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
 
       - name: Sign and verify binary with GitHub OIDC
         run: |
@@ -473,7 +510,25 @@ jobs:
           rm -rf "$TMPDIR"
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
 
       - name: Sign npm package with GitHub OIDC
         run: |
@@ -524,7 +579,25 @@ jobs:
           path: signed-npm-package
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
 
       - name: Verify signed npm package evidence
         run: |
