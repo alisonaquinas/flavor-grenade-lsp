@@ -13,6 +13,8 @@
 
 ### Changed
 
+- Rename the Marketplace listing to Multi-flavor Markdown Support.
+- Host Marketplace README screenshots from <https://flavor-grenade.dev/>.
 - Point extension metadata and Marketplace docs to <https://flavor-grenade.dev/>.
 - Replace stale Marketplace imagery that still presented OFMarkdown language
   promotion as current behavior.

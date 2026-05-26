@@ -1,7 +1,7 @@
-# Flavor Grenade LSP
+# Flavor Grenade LSP — Multi-flavor Markdown Support
 
-Markdown language intelligence for Obsidian vaults and flavor-aware Markdown
-workspaces in Visual Studio Code.
+Multi-flavor Markdown support for Obsidian vaults and flavor-aware Markdown
+projects in Visual Studio Code.
 
 Flavor Grenade keeps ordinary `.md` files in VS Code's built-in Markdown mode
 while the extension and bundled language server add vault indexing,
@@ -9,7 +9,7 @@ Obsidian-style navigation, Markdown flavor detection, structured-document
 diagnostics, and project-aware completions. See the current docs at
 [flavor-grenade.dev](https://flavor-grenade.dev/).
 
-![Flavor Grenade wiki-link completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/wiki-link-completion.png)
+![Flavor Grenade wiki-link completion](https://flavor-grenade.dev/assets/marketplace/wiki-link-completion.png)
 
 ## What You Get
 
@@ -28,39 +28,39 @@ diagnostics, and project-aware completions. See the current docs at
 
 ## Screenshots
 
-![Markdown flavor selector with CommonMark fallback](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/markdown-flavor-selector.png)
+![Markdown flavor selector with CommonMark fallback](https://flavor-grenade.dev/assets/marketplace/markdown-flavor-selector.png)
 
 Markdown files stay in VS Code's Markdown mode. The Flavor Grenade selector
 shows the active base flavor and whether it came from explicit settings,
 project configuration, vault markers, syntax inference, or CommonMark fallback.
 
-![Flavor Grenade status bar indexing](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/status-indexing.png)
+![Flavor Grenade status bar indexing](https://flavor-grenade.dev/assets/marketplace/status-indexing.png)
 
 The status bar reports server state and active Markdown flavor. Auto Detect uses
 project config first, then vault markers, then syntax and context inference,
 then CommonMark fallback.
 
-![Flavor Grenade heading and block-anchor completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/heading-block-completion.png)
+![Flavor Grenade heading and block-anchor completion](https://flavor-grenade.dev/assets/marketplace/heading-block-completion.png)
 
 Heading and block-anchor completions make `[[note#heading]]` and
 `[[note#^block]]` links discoverable.
 
-![Flavor Grenade reference code lens](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/reference-code-lens.png)
+![Flavor Grenade reference code lens](https://flavor-grenade.dev/assets/marketplace/reference-code-lens.png)
 
 Reference code lens surfaces incoming-link counts above headings and block
 anchors.
 
-![Flavor Grenade embed diagnostics and hover](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/embed-diagnostics-hover.png)
+![Flavor Grenade embed diagnostics and hover](https://flavor-grenade.dev/assets/marketplace/embed-diagnostics-hover.png)
 
 Embed diagnostics flag missing targets. Hovers show context for resolved notes
 and local attachments.
 
-![Flavor Grenade tag completion and references](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/tag-completion-references.png)
+![Flavor Grenade tag completion and references](https://flavor-grenade.dev/assets/marketplace/tag-completion-references.png)
 
 Tag completion and references use the vault-wide tag index, including nested
 Obsidian tag paths.
 
-![Flavor Grenade callout completion](https://media.githubusercontent.com/media/alisonaquinas/flavor-grenade-lsp/main/extension/images/marketplace/callout-completion.png)
+![Flavor Grenade callout completion](https://flavor-grenade.dev/assets/marketplace/callout-completion.png)
 
 Callout completion offers common Obsidian callout types inside quote blocks.
 

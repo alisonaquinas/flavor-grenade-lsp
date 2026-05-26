@@ -1,7 +1,7 @@
 {
   "name": "flavor-grenade-lsp",
-  "displayName": "Flavor Grenade LSP — Markdown Flavor Intelligence",
-  "description": "Language intelligence for Obsidian, CommonMark, GFM, MDX, Pandoc, changelogs, ADRs, and other Markdown flavors.",
+  "displayName": "Flavor Grenade LSP — Multi-flavor Markdown Support",
+  "description": "Multi-flavor Markdown support for Obsidian, CommonMark, GFM, MDX, Pandoc, changelogs, ADRs, and other Markdown projects.",
   "version": "0.3.0",
   "publisher": "alisonaquinas",
   "license": "MIT",
