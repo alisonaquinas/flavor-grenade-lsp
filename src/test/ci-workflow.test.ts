@@ -245,6 +245,7 @@ describe('CI workflow verification battery', () => {
       'sha256sum "$package_name" > "$package_name.sha256"',
       'Upload signed npm package evidence',
       'npm-package/*.tgz.sha256',
+      'echo "NPM_PACKAGE_PATH=./$package_path" >> "$GITHUB_ENV"',
       'npm publish "$NPM_PACKAGE_PATH" --provenance --access public --ignore-scripts',
       'Verify signed npm package evidence',
       'sha256sum --check "$package_name.sha256"',

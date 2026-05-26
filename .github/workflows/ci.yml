@@ -465,7 +465,7 @@ jobs:
         run: |
           package_path="$(find npm-package -maxdepth 1 -name '*.tgz' -print -quit)"
           test -n "$package_path"
-          echo "NPM_PACKAGE_PATH=$package_path" >> "$GITHUB_ENV"
+          echo "NPM_PACKAGE_PATH=./$package_path" >> "$GITHUB_ENV"
 
       # Node 24 LTS. The Node version used to publish does not affect the LSP
       # artifact — the package is compiled by Bun/tsc; Node is only needed to
