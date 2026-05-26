@@ -2,34 +2,43 @@
 name: Flavor Grenade LSP Website
 description: Public product documentation for an Obsidian Flavored Markdown language server and VS Code extension.
 colors:
-  brand-50: "#FFF4EF"
-  brand-100: "#FFE4DA"
-  brand-200: "#FFCABA"
-  brand-300: "#FFA58F"
-  brand-400: "#FF7C61"
-  brand-500: "#F46043"
-  brand-600: "#DD4C31"
-  brand-700: "#B73A27"
-  brand-800: "#7F2D25"
-  brand-900: "#4A1D1E"
-  brand-950: "#281112"
-  light-bg: "#FFF8F4"
-  light-surface: "#FFFFFC"
-  light-surface-subtle: "#FFF2EA"
-  light-border: "#EAD8CF"
-  light-text: "#17120F"
-  light-text-muted: "#746A66"
-  dark-bg: "#030712"
-  dark-bg-warm: "#14100F"
-  dark-surface: "#1C1614"
-  dark-surface-subtle: "#291F1C"
-  dark-border: "#3D302C"
-  dark-text: "#F7F1EE"
-  dark-text-muted: "#B8ADA8"
-  diagnostic: "#DD4C31"
-  completion: "#227C9D"
-  tag: "#2F855A"
-  warning: "#B7791F"
+  brand-50: "#FFF2F6"
+  brand-100: "#FFE1EA"
+  brand-200: "#FFC1D2"
+  brand-300: "#FF91AC"
+  brand-400: "#FF536E"
+  brand-500: "#F72549"
+  brand-600: "#D91B4D"
+  brand-700: "#A91457"
+  brand-800: "#6F164F"
+  brand-900: "#3E1239"
+  brand-950: "#1F0B24"
+  grenade-red: "#FF243D"
+  shell-magenta: "#D92D83"
+  fuse-purple: "#7B1FA2"
+  deep-plum: "#2A0D3A"
+  ink-black: "#0B0B0D"
+  graphite: "#2F3033"
+  metal: "#8B8F98"
+  spark-yellow: "#FFE85A"
+  enamel-highlight: "#FFF7F1"
+  light-bg: "#FFF7FA"
+  light-surface: "#FFFCF9"
+  light-surface-subtle: "#FFEAF1"
+  light-border: "#E7C9D6"
+  light-text: "#171016"
+  light-text-muted: "#74616B"
+  dark-bg: "#08060B"
+  dark-bg-warm: "#160B16"
+  dark-surface: "#211020"
+  dark-surface-subtle: "#32132F"
+  dark-border: "#4C2945"
+  dark-text: "#FFF3F6"
+  dark-text-muted: "#CDB8C4"
+  diagnostic: "#FF243D"
+  completion: "#7B1FA2"
+  tag: "#D92D83"
+  warning: "#D6A600"
 typography:
   display:
     fontFamily: "Recursive, Atkinson Hyperlegible Next, system-ui, sans-serif"
@@ -108,12 +117,14 @@ The Flavor Grenade website is a warm technical field guide for people who live
 in Obsidian Vaults. It should feel built from real editor states, careful
 examples, and compact explanations rather than decorative product marketing.
 
-The system borrows the coral brand family from Alison Aquinas and the LLM
-Skills Marketplace, but it must stand apart through stronger product evidence:
-wiki-links, vault paths, diagnostics, code actions, and copyable setup commands.
-The visual tone is precise, grounded, and a little punchy. The brand strategy is
-restrained field-guide with one decisive accent: warm neutrals do the reading
-work, coral marks action and identity, and product evidence carries the drama.
+The system takes its color direction from the Flavor Grenade mark: red casing,
+berry-magenta transitions, ultraviolet shadow, black enamel outlines, graphite
+hardware, and tiny yellow-white glints. It must still stand apart through strong
+product evidence: wiki-links, vault paths, diagnostics, code actions, and
+copyable setup commands. The visual tone is precise, grounded, and a little
+punchy. The brand strategy is restrained field-guide with volatile accents:
+quiet surfaces do the reading work, the grenade ramp marks action and identity,
+and product evidence carries the drama.
 
 It explicitly rejects generic SaaS landing-page clichés, purple-blue AI
 gradients, abstract hero illustrations, glassmorphism, and endless identical
@@ -146,42 +157,60 @@ and compact links to Alison's website, GitHub, and LinkedIn.
 
 ## 2. Colors
 
-The palette is warm-neutral with one coral accent ramp and a small set of
-semantic support colors.
+The palette echoes the logo through controlled shade families: explosive red,
+berry magenta, deep plum, enamel black, graphite metal, and small yellow-white
+sparks. It should feel tied to the product mark without turning the interface
+into an illustration.
 
 ### Primary
 
-- **Grenade Coral** (`brand-500`): The main accent for primary actions, active
-  states, and diagnostic identity.
-- **Link Coral** (`brand-600`): The default light-mode link and action color.
-- **Deep Grenade** (`brand-700`): Strong emphasis, borders, and pressed states.
+- **Grenade Red** (`brand-500`, `grenade-red`): The main accent for primary
+  actions, destructive diagnostics, selected states, and high-energy identity.
+- **Berry Fuse** (`brand-600`, `shell-magenta`): The default light-mode link,
+  secondary action, and active navigation color.
+- **Deep Plum** (`brand-800`, `deep-plum`): Strong emphasis, pressed states,
+  dark-mode panels, and dramatic section contrast.
 
 ### Secondary
 
-- **Completion Blue** (`completion`): Completion, navigation, and editor
-  intelligence affordances.
-- **Vault Green** (`tag`): Tags, indexing, readiness, and successful state.
-- **Config Amber** (`warning`): Warnings, setup notes, and configuration
-  attention.
+- **Fuse Purple** (`fuse-purple`): Completion, navigation, and editor
+  intelligence affordances when red would be too urgent.
+- **Graphite Metal** (`graphite`, `metal`): Shell hardware, dividers,
+  secondary chrome, and inactive controls.
+- **Spark Yellow** (`spark-yellow`, `warning`): Warnings, setup notes, hover
+  glints, and tiny attention cues. Use sparingly.
+- **Enamel Highlight** (`enamel-highlight`): Soft highlight fill for badges,
+  selected code lines, and small areas that need logo-like shine without pure
+  white.
 
 ### Neutral
 
-- **Warm Paper** (`light-bg`): Light-mode page background.
-- **Paper Surface** (`light-surface`): Cards, command areas, and top-level
+- **Blush Paper** (`light-bg`): Light-mode page background with a faint red
+  cast.
+- **Enamel Surface** (`light-surface`): Cards, command areas, and top-level
   surfaces.
-- **Soft Paper** (`light-surface-subtle`): Code block and quiet callout
+- **Soft Flare** (`light-surface-subtle`): Code block and quiet callout
   backgrounds.
-- **Warm Ink** (`light-text`): Light-mode primary text.
-- **Night Vault** (`dark-bg`): Dark-mode page background.
-- **Warm Night** (`dark-bg-warm`): Dark-mode section background.
-- **Charred Surface** (`dark-surface`): Dark-mode card and navigation surface.
-- **Ash Text** (`dark-text`): Dark-mode primary text.
+- **Ink Enamel** (`light-text`): Light-mode primary text.
+- **Black Pin** (`dark-bg`, `ink-black`): Dark-mode page background inspired by
+  the logo outline.
+- **Plum Night** (`dark-bg-warm`): Dark-mode section background.
+- **Charred Plum** (`dark-surface`): Dark-mode card and navigation surface.
+- **Highlight Text** (`dark-text`): Dark-mode primary text.
 
 ### Named Rules
 
-**The Coral Rarity Rule.** Coral is the product accent, not the wallpaper. It
-should call attention to actions, links, and diagnostics, not flood every
-surface.
+**The Grenade Heat Rule.** Red and magenta are product heat, not wallpaper.
+They should call attention to actions, links, selected states, and diagnostics,
+not flood every surface.
+
+**The Purple Shadow Rule.** Purple belongs in shadows, dark surfaces,
+completion affordances, and gradients inside controlled assets. It must not
+become a generic AI gradient or the dominant page wash.
+
+**The Spark Rule.** Yellow and enamel highlights are small reflective moments:
+warning icons, hover glints, selected badges, and logo-adjacent details. They
+must stay rare enough to feel intentional.
 
 **The No Pure Neutral Rule.** Pure black and pure white are prohibited. Every
 surface and text neutral must carry a small warm tint.
