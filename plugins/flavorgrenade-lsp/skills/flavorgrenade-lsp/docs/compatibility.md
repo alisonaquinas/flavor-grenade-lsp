@@ -2,7 +2,7 @@
 
 | Skill version | Server version | JSON schema | Claude Code | Codex | Runtime targets |
 |---|---|---|---|---|---|
-| `0.1.0` | `0.5.x` | `1.0` | supported | supported | linux-x64, darwin-arm64, darwin-x64, win-x64 |
+| `0.1.0` | `0.6.x` | `1.0` | supported | supported | linux-x64, darwin-arm64, darwin-x64, win-x64 |
 
 Plugin compatibility:
 
