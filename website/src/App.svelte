@@ -11,12 +11,7 @@
     homepageProof,
     type FeatureSignal,
   } from './home/homepage';
-  import {
-    footerByline,
-    inspirationLinks,
-    profileLinks,
-    projectLinks,
-  } from './shell/footer';
+  import { footerByline, inspirationLinks, profileLinks, projectLinks } from './shell/footer';
   import { iconLabels, iconPath, type IconName } from './shell/icons';
   import { primaryNavigation, type NavigationItem } from './shell/navigation';
   import {
@@ -184,7 +179,7 @@
     <img class="brand-icon" src={productIcon} alt="" aria-hidden="true" />
     <span>
       <strong>Flavor Grenade LSP</strong>
-      <small>Obsidian Flavored Markdown tools</small>
+      <small>Flavored Markdown Support</small>
     </span>
   </a>
 
@@ -230,11 +225,7 @@
         </a>
 
         {#if item.children?.length}
-          <div
-            id={item.menuId}
-            class="nav-dropdown"
-            aria-label={`${item.label} article links`}
-          >
+          <div id={item.menuId} class="nav-dropdown" aria-label={`${item.label} article links`}>
             {#each item.children as article (article.routeId)}
               <a
                 class="nav-dropdown-link"
@@ -330,10 +321,7 @@
       <h2 id="feature-title">Built for vault work that has to stay precise</h2>
       <div class="feature-list">
         {#each featureHighlights as feature (feature.title)}
-          <div
-            class="feature-card"
-            class:selected={selectedFeatureSignal === feature.signal}
-          >
+          <div class="feature-card" class:selected={selectedFeatureSignal === feature.signal}>
             <button
               class={`feature-item ${feature.signal}`}
               class:selected={selectedFeatureSignal === feature.signal}
@@ -488,8 +476,8 @@
   <nav aria-label="Inspiration links">
     <h2>Inspired by</h2>
     <p>
-      Flavor Grenade credits these inspirations as lineage and prior art, not
-      affiliation or endorsement.
+      Flavor Grenade credits these inspirations as lineage and prior art, not affiliation or
+      endorsement.
     </p>
     {#each inspirationLinks as link (link.href)}
       <a href={link.href}>{link.label}</a>

@@ -221,6 +221,8 @@ Useful settings:
 - `flavorGrenade.linkStyle`: wiki-link completion style.
 - `flavorGrenade.completion.candidates`: maximum completion items returned.
 - `flavorGrenade.diagnostics.suppress`: diagnostic codes to suppress.
+- `flavorGrenade.projectConfig.maxBytes`: maximum project configuration file
+  size read for Markdown flavor detection. Default is `8192` bytes.
 - `flavorGrenade.trace.server`: LSP trace level.
 - `flavorGrenade.server.path`: user-level custom server command path; workspace values are ignored for safety.
 

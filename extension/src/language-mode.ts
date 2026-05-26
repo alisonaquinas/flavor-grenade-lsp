@@ -40,6 +40,7 @@ interface LanguageModeApi {
         document: TextDocument,
     ): StructuredProfileSelection | undefined;
     getProjectMarkdownFlavor?(document: TextDocument): MarkdownFlavorSelection | undefined;
+    getProjectConfigMaxBytes?(document: TextDocument): unknown;
     getWorkspaceFolderPath?(document: TextDocument): string | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
@@ -143,6 +144,7 @@ export class LanguageModeController {
         const evidence = document.uri.fsPath
             ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
                   searchBoundary: this.api.getWorkspaceFolderPath?.(document),
+                  projectConfigMaxBytes: this.api.getProjectConfigMaxBytes?.(document),
               })
             : undefined;
         if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {

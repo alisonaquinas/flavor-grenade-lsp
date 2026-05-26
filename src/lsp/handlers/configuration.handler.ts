@@ -18,6 +18,7 @@ interface FlavorGrenadeSettings {
   markdownFlavor?: unknown;
   markdownFlavorResources?: unknown;
   markdownStructuredProfiles?: unknown;
+  projectConfigMaxBytes?: unknown;
 }
 
 @Injectable()
@@ -40,6 +41,9 @@ export class ConfigurationHandler {
       ?.settings?.flavorGrenade;
     if (!settings) {
       return;
+    }
+    if (settings.projectConfigMaxBytes !== undefined) {
+      this.projectConfig?.setMaxProjectConfigBytes(settings.projectConfigMaxBytes);
     }
 
     const config: MarkdownFlavorConfiguration = {};

@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { CapabilityRegistry } from '../services/capability-registry.js';
 import { StatusNotifier } from '../services/status-notifier.js';
 import { LifecycleState } from '../services/lifecycle-state.js';
 import { ServerSettings } from '../services/server-settings.js';
 import { SERVER_VERSION } from '../../version.js';
 import { assertFileUri } from '../file-uri.js';
+import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
 
 /** Result shape returned to the LSP client for `initialize`. */
 interface InitializeResult {
@@ -38,6 +39,7 @@ export class InitializeHandler {
     private readonly notifier: StatusNotifier,
     private readonly lifecycle: LifecycleState,
     private readonly settings: ServerSettings,
+    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
   ) {}
 
   /**
@@ -55,6 +57,10 @@ export class InitializeHandler {
     }
     this.lifecycle.rootUri = rootUri;
     this.settings.applyInitializationOptions(p?.initializationOptions);
+    this.projectConfig?.setMaxProjectConfigBytes(
+      (p?.initializationOptions as { projectConfigMaxBytes?: unknown } | null | undefined)
+        ?.projectConfigMaxBytes,
+    );
 
     const result: InitializeResult = {
       capabilities: this.capabilities.getCapabilities(),
