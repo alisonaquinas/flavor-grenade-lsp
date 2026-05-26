@@ -52,6 +52,15 @@ node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs diagnostics CHANGELOG.m
 node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs symbols docs/adr/0001-record.md --json
 ```
 
+For broad workspace commands, give the wrapper an explicit file budget and path
+filter. `--include` and `--exclude` accept glob selectors, `--max-files` caps
+the number of Markdown files collected, and `--max-bytes` skips oversized
+Markdown files before the agent reads them.
+
+```text
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze docs --include "**/*.md" --exclude "private/**" --max-files 200 --max-bytes 262144 --json
+```
+
 Treat wrapper output as the source of truth. Do not copy one file's flavor decision to another directory without evidence, and do not reinterpret `.flavor-grenade.*` or `.editorconfig` configuration manually.
 
 ## Choose the LSP package instead when building an editor client

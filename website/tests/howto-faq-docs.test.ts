@@ -144,6 +144,7 @@ describe('how-to, advanced usage, and FAQ docs', () => {
       'docs/components',
       'flavor_grenade_markdown_flavor',
       'flavor_grenade_markdown_structured_profiles',
+      'flavorGrenade.projectConfig.maxBytes',
     ]) {
       expect(configurationModel).toContain(requiredExample);
     }
@@ -155,6 +156,7 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     expect(directLsp).toContain('"linkStyle": "file-stem"');
     expect(directLsp).toContain('"completionCandidates": 50');
     expect(directLsp).toContain('"diagnosticsSuppress": []');
+    expect(directLsp).toContain('"projectConfigMaxBytes": 8192');
     expect(directLsp).toContain('"markdownFlavor": "auto"');
     expect(directLsp).toContain('"markdownStructuredProfiles": ["madr"]');
     expect(directLsp).toContain('workspace/didChangeConfiguration');

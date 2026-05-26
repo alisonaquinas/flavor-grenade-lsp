@@ -11,7 +11,7 @@ import {
   type StructuredProfileSelection,
 } from './markdown-flavor.js';
 
-const MAX_PROJECT_CONFIG_BYTES = 8192;
+const DEFAULT_PROJECT_CONFIG_MAX_BYTES = 8192;
 const DANGEROUS_KEY_PATTERN = /(^|[\s.[{])(__proto__|constructor|prototype)(\s*=|\s*\]|\s*\.|\s*\})/;
 
 type StatFn = typeof stat;
@@ -32,6 +32,7 @@ export async function findMarkdownFlavorEvidence(
     realpathFn?: RealpathFn;
     searchBoundary?: string;
     statFn?: StatFn;
+    projectConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorEvidence> {
   const statFn = options.statFn ?? stat;
@@ -79,10 +80,12 @@ export async function findMarkdownFlavorEvidence(
       realBoundary,
       realpathFn,
       statFn,
+      projectConfigMaxBytes: options.projectConfigMaxBytes,
     });
     if (configPath) {
       const config = await readProjectMarkdownConfig(configPath, startPath, {
         readFileFn: options.readFileFn,
+        projectConfigMaxBytes: options.projectConfigMaxBytes,
       });
       return {
         hasFlavorConfigMarker: true,
@@ -149,6 +152,7 @@ export async function readProjectMarkdownFlavor(
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
+    projectConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorSelection | undefined> {
   return (await readProjectMarkdownConfig(configPath, undefined, options)).projectFlavor;
@@ -160,45 +164,53 @@ async function readProjectMarkdownConfig(
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
+    projectConfigMaxBytes?: unknown;
   } = {},
 ): Promise<{
   projectFlavor?: MarkdownFlavorSelection;
   projectStructuredProfiles?: StructuredProfileSelection;
 }> {
+  const maxBytes = normalizeProjectConfigMaxBytes(options.projectConfigMaxBytes);
   const content = options.readFileFn
-    ? await readConfigWithInjectedReader(configPath, options.readFileFn)
-    : await readConfigFromOpenFile(configPath);
+    ? await readConfigWithInjectedReader(configPath, options.readFileFn, maxBytes)
+    : await readConfigFromOpenFile(configPath, maxBytes);
 
   if (content === undefined || hasDangerousTomlKey(content)) {
     return {};
   }
 
-  return parseProjectMarkdownConfig(configPath, content, resourcePath);
+  const relativeResourcePath =
+    resourcePath === undefined ? undefined : relative(dirname(configPath), resourcePath);
+  return parseProjectMarkdownConfig(configPath, content, relativeResourcePath);
 }
 
 async function readConfigWithInjectedReader(
   configPath: string,
   readFileFn: ReadFileFn,
+  maxBytes: number,
 ): Promise<string | undefined> {
   try {
     const content = await readFileFn(configPath, 'utf8');
-    return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? undefined : content;
+    return Buffer.byteLength(content, 'utf8') > maxBytes ? undefined : content;
   } catch {
     return undefined;
   }
 }
 
-async function readConfigFromOpenFile(configPath: string): Promise<string | undefined> {
+async function readConfigFromOpenFile(
+  configPath: string,
+  maxBytes: number,
+): Promise<string | undefined> {
   let file: Awaited<ReturnType<typeof open>> | undefined;
   try {
     file = await open(configPath, 'r');
     const result = await file.stat();
-    if (!result.isFile() || result.size > MAX_PROJECT_CONFIG_BYTES) {
+    if (!result.isFile() || result.size > maxBytes) {
       return undefined;
     }
 
     const content = await file.readFile('utf8');
-    return Buffer.byteLength(content, 'utf8') > MAX_PROJECT_CONFIG_BYTES ? undefined : content;
+    return Buffer.byteLength(content, 'utf8') > maxBytes ? undefined : content;
   } catch {
     return undefined;
   } finally {
@@ -226,8 +238,10 @@ async function findProjectConfigPath(
     realBoundary?: string;
     realpathFn: RealpathFn;
     statFn: StatFn;
+    projectConfigMaxBytes?: unknown;
   },
 ): Promise<string | undefined> {
+  const maxBytes = normalizeProjectConfigMaxBytes(options.projectConfigMaxBytes);
   for (const marker of FLAVOR_GRENADE_PROJECT_CONFIG_FILES) {
     const markerPath = join(dir, marker);
     const exists =
@@ -241,8 +255,8 @@ async function findProjectConfigPath(
       return markerPath;
     }
     const content = options.readFileFn
-      ? await readConfigWithInjectedReader(markerPath, options.readFileFn)
-      : await readConfigFromOpenFile(markerPath);
+      ? await readConfigWithInjectedReader(markerPath, options.readFileFn, maxBytes)
+      : await readConfigFromOpenFile(markerPath, maxBytes);
     if (content !== undefined && FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN.test(content)) {
       return markerPath;
     }
@@ -587,7 +601,7 @@ function configValuesFromRecord(raw: unknown): ProjectConfigOverride {
   }
   const pathValue = raw.path ?? raw.directory ?? raw.dir;
   const flavor = raw.flavor;
-  const profiles = raw.structured_profiles;
+  const profiles = raw.structured_profiles ?? raw.structuredProfiles;
   return {
     path: typeof pathValue === 'string' ? pathValue : '',
     projectFlavor:
@@ -652,16 +666,94 @@ function mostSpecificOverride(
 }
 
 function pathMatchesOverride(resourcePath: string, overridePath: string): boolean {
-  const normalized = overridePath.replaceAll('\\', '/').replace(/^\.\//, '').replace(/\/$/, '');
-  if (normalized.length === 0) {
+  const normalized = normalizeConfigPath(overridePath);
+  const normalizedResource = normalizeConfigPath(resourcePath);
+  if (normalized.length === 0 || normalizedResource.startsWith('../')) {
     return false;
   }
-  const globPrefix = normalized.replace(/\*\*\/\*\.md$/, '').replace(/\*\.md$/, '');
+  if (normalized.includes('*')) {
+    if (!normalized.includes('/')) {
+      const pathName = normalizedResource.split('/').at(-1) ?? '';
+      return wildcardSegmentMatches(normalized, pathName);
+    }
+    return globPathMatches(normalized, normalizedResource);
+  }
   return (
-    resourcePath.includes(`/${normalized}/`) ||
-    resourcePath.endsWith(`/${normalized}`) ||
-    resourcePath.includes(`/${globPrefix}`)
+    normalizedResource === normalized ||
+    normalizedResource.startsWith(`${normalized.replace(/\/$/, '')}/`)
   );
+}
+
+function normalizeConfigPath(value: string): string {
+  return value.replaceAll('\\', '/').replace(/^\/+/, '').replace(/^\.\//, '').replace(/\/$/, '');
+}
+
+function globPathMatches(pattern: string, relativePath: string): boolean {
+  const patternParts = pattern.split('/').filter(Boolean);
+  const pathParts = relativePath.split('/').filter(Boolean);
+  return globPathPartsMatch(patternParts, pathParts, 0, 0);
+}
+
+function globPathPartsMatch(
+  patternParts: readonly string[],
+  pathParts: readonly string[],
+  patternIndex: number,
+  pathIndex: number,
+): boolean {
+  if (patternIndex === patternParts.length) {
+    return pathIndex === pathParts.length;
+  }
+  const patternPart = patternParts[patternIndex];
+  if (patternPart === '**') {
+    for (let nextPathIndex = pathIndex; nextPathIndex <= pathParts.length; nextPathIndex += 1) {
+      if (globPathPartsMatch(patternParts, pathParts, patternIndex + 1, nextPathIndex)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return (
+    pathIndex < pathParts.length &&
+    wildcardSegmentMatches(patternPart, pathParts[pathIndex]) &&
+    globPathPartsMatch(patternParts, pathParts, patternIndex + 1, pathIndex + 1)
+  );
+}
+
+function wildcardSegmentMatches(pattern: string, value: string): boolean {
+  let patternIndex = 0;
+  let valueIndex = 0;
+  let starIndex = -1;
+  let valueAfterStar = 0;
+
+  while (valueIndex < value.length) {
+    if (patternIndex < pattern.length && pattern[patternIndex] === value[valueIndex]) {
+      patternIndex += 1;
+      valueIndex += 1;
+    } else if (patternIndex < pattern.length && pattern[patternIndex] === '*') {
+      starIndex = patternIndex;
+      valueAfterStar = valueIndex;
+      patternIndex += 1;
+    } else if (starIndex !== -1) {
+      patternIndex = starIndex + 1;
+      valueAfterStar += 1;
+      valueIndex = valueAfterStar;
+    } else {
+      return false;
+    }
+  }
+
+  while (patternIndex < pattern.length && pattern[patternIndex] === '*') {
+    patternIndex += 1;
+  }
+  return patternIndex === pattern.length;
+}
+
+function normalizeProjectConfigMaxBytes(value: unknown): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    return DEFAULT_PROJECT_CONFIG_MAX_BYTES;
+  }
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : DEFAULT_PROJECT_CONFIG_MAX_BYTES;
 }
 
 function mergeOverride(

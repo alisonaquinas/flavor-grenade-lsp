@@ -42,7 +42,8 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
   "initializationOptions": {
     "linkStyle": "file-stem",
     "completionCandidates": 50,
-    "diagnosticsSuppress": []
+    "diagnosticsSuppress": [],
+    "projectConfigMaxBytes": 8192
   },
   "capabilities": {
     "workspace": {
@@ -60,13 +61,14 @@ If your client sends workspace configuration after initialize, use the same publ
   "settings": {
     "flavorGrenade": {
       "markdownFlavor": "auto",
-      "markdownStructuredProfiles": ["madr"]
+      "markdownStructuredProfiles": ["madr"],
+      "projectConfigMaxBytes": 8192
     }
   }
 }
 ```
 
-Direct server options such as `linkStyle`, `completionCandidates`, and `diagnosticsSuppress` belong in `initializationOptions`. Flavor and structured-profile state belongs in `workspace/didChangeConfiguration` unless project configuration or Auto Detect can decide it.
+Direct server options such as `linkStyle`, `completionCandidates`, `diagnosticsSuppress`, and the project-config read cap `projectConfigMaxBytes` belong in `initializationOptions`. Flavor and structured-profile state belongs in `workspace/didChangeConfiguration` unless project configuration or Auto Detect can decide it. A client may also send `projectConfigMaxBytes` in `workspace/didChangeConfiguration` when exposing a live settings UI.
 
 For a project-level override, put a Flavor Grenade project config file at the project root. TOML is still supported and is checked first:
 

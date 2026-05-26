@@ -70,6 +70,7 @@ export const MARKDOWN_STRUCTURED_PROFILES_SETTING =
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
 export const MARKDOWN_FLAVOR_SETTING_KEY = 'markdownFlavor';
 export const MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY = 'markdownStructuredProfiles';
+export const PROJECT_CONFIG_MAX_BYTES_SETTING_KEY = 'projectConfig.maxBytes';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR = [
   { scheme: 'file', language: MARKDOWN_LANGUAGE_ID },

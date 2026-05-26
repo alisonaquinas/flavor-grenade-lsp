@@ -9,14 +9,10 @@
     homepageHero,
     homepageInstallOptions,
     homepageProof,
+    homepageSkillInstallCommand,
     type FeatureSignal,
   } from './home/homepage';
-  import {
-    footerByline,
-    inspirationLinks,
-    profileLinks,
-    projectLinks,
-  } from './shell/footer';
+  import { footerByline, inspirationLinks, profileLinks, projectLinks } from './shell/footer';
   import { iconLabels, iconPath, type IconName } from './shell/icons';
   import { primaryNavigation, type NavigationItem } from './shell/navigation';
   import {
@@ -32,6 +28,8 @@
   let activePath = '/';
   let navOpen = false;
   let openDropdownLabel: string | null = null;
+  let skillInstallCopied = false;
+  let skillInstallCopyReset: ReturnType<typeof setTimeout> | undefined;
   let selectedFeatureSignal: FeatureSignal = 'diagnostic';
   $: activePage = getWebsitePageByPath(activePath, websiteRoutes);
   $: activeRoute = getRouteById(activePage.routeId);
@@ -144,6 +142,19 @@
     selectedFeatureSignal = signal;
   }
 
+  async function copySkillInstallCommand(): Promise<void> {
+    await navigator.clipboard.writeText(homepageSkillInstallCommand);
+    skillInstallCopied = true;
+
+    if (skillInstallCopyReset) {
+      clearTimeout(skillInstallCopyReset);
+    }
+
+    skillInstallCopyReset = setTimeout(() => {
+      skillInstallCopied = false;
+    }, 1800);
+  }
+
   function routePath(routeId: string): string {
     return getRouteById(routeId as Parameters<typeof getRouteById>[0]).path;
   }
@@ -184,7 +195,7 @@
     <img class="brand-icon" src={productIcon} alt="" aria-hidden="true" />
     <span>
       <strong>Flavor Grenade LSP</strong>
-      <small>Obsidian Flavored Markdown tools</small>
+      <small>Flavored Markdown Support</small>
     </span>
   </a>
 
@@ -230,11 +241,7 @@
         </a>
 
         {#if item.children?.length}
-          <div
-            id={item.menuId}
-            class="nav-dropdown"
-            aria-label={`${item.label} article links`}
-          >
+          <div id={item.menuId} class="nav-dropdown" aria-label={`${item.label} article links`}>
             {#each item.children as article (article.routeId)}
               <a
                 class="nav-dropdown-link"
@@ -273,17 +280,32 @@
         <p class="eyebrow">{homepageHero.category}</p>
         <h1 id="site-title">{homepageHero.h1}</h1>
         <p class="hero-lede">{homepageHero.value}</p>
-        <div class="hero-actions" aria-label="Primary actions">
-          {#each homepageHero.actions as action (action.label)}
-            <a class={`button-link ${action.kind}`} href={action.href}>
-              <span class="button-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d={getIconPath(action.icon)} />
-                </svg>
-              </span>
-              <span>{action.label}</span>
-            </a>
-          {/each}
+        <div class="hero-action-stack" aria-label="Primary actions and skill install command">
+          <div class="hero-actions">
+            {#each homepageHero.actions as action (action.label)}
+              <a class={`button-link ${action.kind}`} href={action.href}>
+                <span class="button-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d={getIconPath(action.icon)} />
+                  </svg>
+                </span>
+                <span>{action.label}</span>
+              </a>
+            {/each}
+          </div>
+          <div class="hero-command-copy" aria-label="Install the LLM skill plugin">
+            <label for="skill-install-command">Skill plugin</label>
+            <input
+              id="skill-install-command"
+              type="text"
+              readonly
+              value={homepageSkillInstallCommand}
+              on:focus={(event) => event.currentTarget.select()}
+            />
+            <button type="button" on:click={copySkillInstallCommand}>
+              {skillInstallCopied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -330,10 +352,7 @@
       <h2 id="feature-title">Built for vault work that has to stay precise</h2>
       <div class="feature-list">
         {#each featureHighlights as feature (feature.title)}
-          <div
-            class="feature-card"
-            class:selected={selectedFeatureSignal === feature.signal}
-          >
+          <div class="feature-card" class:selected={selectedFeatureSignal === feature.signal}>
             <button
               class={`feature-item ${feature.signal}`}
               class:selected={selectedFeatureSignal === feature.signal}
@@ -488,8 +507,8 @@
   <nav aria-label="Inspiration links">
     <h2>Inspired by</h2>
     <p>
-      Flavor Grenade credits these inspirations as lineage and prior art, not
-      affiliation or endorsement.
+      Flavor Grenade credits these inspirations as lineage and prior art, not affiliation or
+      endorsement.
     </p>
     {#each inspirationLinks as link (link.href)}
       <a href={link.href}>{link.label}</a>

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.4.0] — 2026-05-26
 
 ### Added
 
@@ -18,6 +18,13 @@
 - Point extension metadata and Marketplace docs to <https://flavor-grenade.dev/>.
 - Replace stale Marketplace imagery that still presented OFMarkdown language
   promotion as current behavior.
+
+### Fixed
+
+- Resolve project flavor config profiles consistently across supported config
+  formats.
+- Apply config override matching and scan limits consistently when extension
+  evidence is refreshed.
 
 ## [0.3.0] — 2026-05-24
 

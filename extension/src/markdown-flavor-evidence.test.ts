@@ -179,6 +179,105 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     });
   });
 
+  it('reads camelCase structured profiles from JSON project config', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-json-camel-profiles-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs', 'decisions'), { recursive: true });
+    await writeFile(
+      join(root, '.flavor-grenade.json'),
+      JSON.stringify({
+        core: {
+          markdown: {
+            flavor: 'commonmark',
+            structuredProfiles: ['keep-a-changelog'],
+            overrides: [
+              {
+                path: 'docs/decisions',
+                flavor: 'gfm',
+                structuredProfiles: ['madr'],
+              },
+            ],
+          },
+        },
+      }),
+    );
+    const notePath = join(root, 'docs', 'decisions', '0001-test.md');
+    await writeFile(notePath, '# Decision\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      projectFlavor: 'gfm',
+      projectStructuredProfiles: ['madr'],
+    });
+  });
+
+  it('matches JSON override globs exactly instead of as directory prefixes', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-json-glob-override-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs', 'sub'), { recursive: true });
+    await writeFile(
+      join(root, '.flavor-grenade.json'),
+      JSON.stringify({
+        core: {
+          markdown: {
+            flavor: 'commonmark',
+            structuredProfiles: ['keep-a-changelog'],
+            overrides: [{ path: 'docs/*.md', flavor: 'gfm', structuredProfiles: ['madr'] }],
+          },
+        },
+      }),
+    );
+    const directPath = join(root, 'docs', 'page.md');
+    const nestedPath = join(root, 'docs', 'sub', 'page.md');
+    await writeFile(directPath, '# Direct\n');
+    await writeFile(nestedPath, '# Nested\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(directPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      projectFlavor: 'gfm',
+      projectStructuredProfiles: ['madr'],
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(nestedPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      projectFlavor: 'commonmark',
+      projectStructuredProfiles: ['keep-a-changelog'],
+    });
+  });
+
+  it('honors configured project config byte limits', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-config-byte-limit-'));
+    tempDirs.push(root);
+    const config = '{"core":{"markdown":{"flavor":"gfm"}}}\n';
+    await writeFile(join(root, '.flavor-grenade.json'), config);
+    const notePath = join(root, 'note.md');
+    await writeFile(notePath, '# Note\n');
+
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(notePath, {
+        searchBoundary: root,
+        projectConfigMaxBytes: Buffer.byteLength(config, 'utf8') - 1,
+      }),
+      {
+        hasFlavorConfigMarker: true,
+        hasObsidianMarker: false,
+      },
+    );
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(notePath, {
+        searchBoundary: root,
+        projectConfigMaxBytes: Buffer.byteLength(config, 'utf8'),
+      }),
+      {
+        hasFlavorConfigMarker: true,
+        hasObsidianMarker: false,
+        projectFlavor: 'gfm',
+      },
+    );
+  });
+
   it('has inference-only fixtures without project config markers', async () => {
     const inferenceRoot = join(fixtureRoot, 'inference');
     const entries = await readdir(inferenceRoot, { withFileTypes: true });
