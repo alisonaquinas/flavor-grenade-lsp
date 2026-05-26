@@ -51,5 +51,16 @@ node wrappers/flavorgrenade.mjs refs README.md --json
 Position locators use LSP coordinates: zero-based `line` and zero-based
 `character`.
 
+For workspace scans, prefer explicit limits:
+
+```bash
+node wrappers/flavorgrenade.mjs analyze docs --include "docs/**/*.md" --exclude "docs/private/**" --max-files 200 --max-bytes 262144 --json
+```
+
+Supported scan options: `--include <glob>`, `--exclude <glob>`,
+`--max-files <count>`, and `--max-bytes <bytes>`. `--include` and `--exclude`
+accept comma-separated selectors. Default file cap is `500`; set a lower cap
+for broad repositories.
+
 Fallback: if the wrapper cannot run, explain that Flavor Grenade analysis is
 unavailable and make only conservative Markdown edits.

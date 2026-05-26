@@ -39,6 +39,19 @@ All commands default to JSON. Paths are confined to the selected workspace.
 Position locators use LSP coordinates: zero-based `line` and zero-based
 `character`.
 
+Workspace commands that scan many files accept selection and safety limits:
+
+```bash
+node wrappers/flavorgrenade.mjs analyze docs --include "docs/**/*.md" --exclude "docs/private/**" --max-files 200 --max-bytes 262144 --json
+```
+
+- `--include <glob>`: include only matching Markdown paths; comma-separated
+  selectors are allowed.
+- `--exclude <glob>`: skip matching Markdown paths; comma-separated selectors
+  are allowed.
+- `--max-files <count>`: cap collected Markdown files. Default is `500`.
+- `--max-bytes <bytes>`: skip Markdown files larger than this byte size.
+
 Use `detect` before a flavor-sensitive edit to inspect the effective base
 Markdown flavor, structured variants, config source, and inference evidence for
 one file. Use `analyze` before broad rewrites so the agent can compare

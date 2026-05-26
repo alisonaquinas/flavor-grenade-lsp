@@ -18,6 +18,8 @@ the prompt-facing `SKILL.md`.
 
 - Spawn the LSP with argv arrays and `shell: false`.
 - Keep every user-provided path inside the selected workspace.
+- Honor scan selection flags in `flavorgrenade.mjs`: `--include`,
+  `--exclude`, `--max-files`, and `--max-bytes`.
 - Keep all externally visible output inside the documented JSON envelope.
 - Redact private absolute paths from default errors.
 - Do not add network access or runtime downloads here.
