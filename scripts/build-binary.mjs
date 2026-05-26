@@ -111,11 +111,16 @@ function readValue(rawArgs, index, optionName) {
 }
 
 function runBun(args) {
-  const result =
-    process.platform === 'win32'
-      ? spawnSync('bun.exe', args, { stdio: 'inherit' })
-      : spawnSync('bun', args, { stdio: 'inherit' });
+  const result = spawnSync(resolveBunCommand(), args, { stdio: 'inherit' });
   exitOnFailure(result);
+}
+
+function resolveBunCommand() {
+  const npmExecPath = process.env.npm_execpath;
+  if (npmExecPath !== undefined && /bun(?:\.exe)?$/i.test(npmExecPath) && existsSync(npmExecPath)) {
+    return npmExecPath;
+  }
+  return 'bun';
 }
 
 function runNode(args) {
