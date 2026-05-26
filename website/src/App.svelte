@@ -9,6 +9,7 @@
     homepageHero,
     homepageInstallOptions,
     homepageProof,
+    homepageSkillInstallCommand,
     type FeatureSignal,
   } from './home/homepage';
   import { footerByline, inspirationLinks, profileLinks, projectLinks } from './shell/footer';
@@ -27,6 +28,8 @@
   let activePath = '/';
   let navOpen = false;
   let openDropdownLabel: string | null = null;
+  let skillInstallCopied = false;
+  let skillInstallCopyReset: ReturnType<typeof setTimeout> | undefined;
   let selectedFeatureSignal: FeatureSignal = 'diagnostic';
   $: activePage = getWebsitePageByPath(activePath, websiteRoutes);
   $: activeRoute = getRouteById(activePage.routeId);
@@ -137,6 +140,19 @@
 
   function selectFeature(signal: FeatureSignal): void {
     selectedFeatureSignal = signal;
+  }
+
+  async function copySkillInstallCommand(): Promise<void> {
+    await navigator.clipboard.writeText(homepageSkillInstallCommand);
+    skillInstallCopied = true;
+
+    if (skillInstallCopyReset) {
+      clearTimeout(skillInstallCopyReset);
+    }
+
+    skillInstallCopyReset = setTimeout(() => {
+      skillInstallCopied = false;
+    }, 1800);
   }
 
   function routePath(routeId: string): string {
@@ -264,17 +280,32 @@
         <p class="eyebrow">{homepageHero.category}</p>
         <h1 id="site-title">{homepageHero.h1}</h1>
         <p class="hero-lede">{homepageHero.value}</p>
-        <div class="hero-actions" aria-label="Primary actions">
-          {#each homepageHero.actions as action (action.label)}
-            <a class={`button-link ${action.kind}`} href={action.href}>
-              <span class="button-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d={getIconPath(action.icon)} />
-                </svg>
-              </span>
-              <span>{action.label}</span>
-            </a>
-          {/each}
+        <div class="hero-action-stack" aria-label="Primary actions and skill install command">
+          <div class="hero-actions">
+            {#each homepageHero.actions as action (action.label)}
+              <a class={`button-link ${action.kind}`} href={action.href}>
+                <span class="button-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d={getIconPath(action.icon)} />
+                  </svg>
+                </span>
+                <span>{action.label}</span>
+              </a>
+            {/each}
+          </div>
+          <div class="hero-command-copy" aria-label="Install the LLM skill plugin">
+            <label for="skill-install-command">Skill plugin</label>
+            <input
+              id="skill-install-command"
+              type="text"
+              readonly
+              value={homepageSkillInstallCommand}
+              on:focus={(event) => event.currentTarget.select()}
+            />
+            <button type="button" on:click={copySkillInstallCommand}>
+              {skillInstallCopied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
         </div>
       </div>
 

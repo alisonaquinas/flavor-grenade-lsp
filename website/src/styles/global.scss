@@ -373,10 +373,17 @@ p {
   overflow-wrap: anywhere;
 }
 
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
+.hero-action-stack {
+  --hero-action-grid: max-content max-content max-content;
+  display: grid;
   gap: 0.7rem;
+  grid-template-columns: var(--hero-action-grid);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+}
+
+.hero-actions {
+  display: contents;
 }
 
 .button-link {
@@ -421,6 +428,65 @@ p {
   border-color: color-mix(in srgb, var(--brand-500) 72%, var(--line));
   outline: 2px solid transparent;
   transform: translateY(-1px);
+}
+
+.hero-command-copy {
+  align-items: stretch;
+  background: color-mix(in srgb, var(--surface-raised) 82%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  inline-size: 100%;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.hero-command-copy label {
+  align-items: center;
+  color: var(--brand-700);
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 800;
+  justify-content: center;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 0.75rem;
+  text-transform: uppercase;
+}
+
+.hero-command-copy input {
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  color: var(--ink-strong);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+}
+
+.hero-command-copy button {
+  background: color-mix(in srgb, var(--brand-100) 58%, transparent);
+  border: 0;
+  color: var(--ink-strong);
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0.65rem 0.8rem;
+}
+
+.hero-command-copy:focus-within,
+.hero-command-copy:hover {
+  border-color: color-mix(in srgb, var(--brand-500) 72%, var(--line));
+}
+
+.hero-command-copy button:focus-visible,
+.hero-command-copy button:hover {
+  background: var(--brand-500);
+  color: var(--surface-raised);
+  outline: 2px solid transparent;
 }
 
 .proof-panel {
@@ -1094,14 +1160,34 @@ p {
   }
 
   .hero-actions {
-    align-items: stretch;
-    flex-direction: column;
+    display: grid;
+    gap: 0.7rem;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-action-stack {
+    --hero-action-grid: 1fr;
     inline-size: 100%;
   }
 
   .hero-actions .button-link {
     inline-size: 100%;
     justify-content: flex-start;
+  }
+
+  .hero-command-copy {
+    grid-template-columns: 1fr auto;
+    max-inline-size: none;
+    min-width: 0;
+  }
+
+  .hero-command-copy label {
+    grid-column: 1 / -1;
+    padding-bottom: 0;
+  }
+
+  .hero-command-copy input {
+    border-left: 0;
   }
 
   .feature-detail {

@@ -17,6 +17,10 @@ export interface HomepageHero {
   actions: HomepageAction[];
 }
 
+/** First-viewport command for agent skill/plugin installation. */
+export const homepageSkillInstallCommand =
+  'npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp';
+
 /** Homepage installation path content. */
 export interface HomepageInstallOption {
   title: string;
