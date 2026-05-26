@@ -58,7 +58,7 @@ the number of Markdown files collected, and `--max-bytes` skips oversized
 Markdown files before the agent reads them.
 
 ```text
-node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze docs --include "docs/**/*.md" --exclude "docs/private/**" --max-files 200 --max-bytes 262144 --json
+node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze docs --include "**/*.md" --exclude "private/**" --max-files 200 --max-bytes 262144 --json
 ```
 
 Treat wrapper output as the source of truth. Do not copy one file's flavor decision to another directory without evidence, and do not reinterpret `.flavor-grenade.*` or `.editorconfig` configuration manually.

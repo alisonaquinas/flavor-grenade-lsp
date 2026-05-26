@@ -42,7 +42,7 @@ Position locators use LSP coordinates: zero-based `line` and zero-based
 Workspace commands that scan many files accept selection and safety limits:
 
 ```bash
-node wrappers/flavorgrenade.mjs analyze docs --include "docs/**/*.md" --exclude "docs/private/**" --max-files 200 --max-bytes 262144 --json
+node wrappers/flavorgrenade.mjs analyze docs --include "**/*.md" --exclude "private/**" --max-files 200 --max-bytes 262144 --json
 ```
 
 - `--include <glob>`: include only matching Markdown paths; comma-separated
