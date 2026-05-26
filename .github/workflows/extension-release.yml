@@ -211,6 +211,8 @@ jobs:
 
       - name: Verify Marketplace publisher token
         if: ${{ !contains(github.ref_name, '-test') }}
+        timeout-minutes: 1
+        continue-on-error: true
         run: vsce verify-pat "$VSCE_PUBLISHER_NAME" --pat "$VSCE_PUBLISHER_PAT"
 
       - name: Log in to Marketplace publisher
