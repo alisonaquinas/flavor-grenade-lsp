@@ -24,6 +24,7 @@ export type EffectiveMarkdownFlavor = MarkdownFlavorId;
 export type FlavorResolutionSource =
   | 'explicit-selection'
   | 'resource-propagation'
+  | 'project-config'
   | 'project-toml'
   | 'obsidian-marker'
   | 'syntax-inference'
@@ -49,6 +50,8 @@ export interface ResolveFlavorInput {
   uri: string;
   languageId: string;
   hasObsidianMarker: boolean;
+  projectConfigFlavor?: MarkdownFlavorSelection;
+  projectConfigStructuredProfiles?: StructuredProfileSelection;
   projectTomlFlavor?: MarkdownFlavorSelection;
   projectTomlStructuredProfiles?: StructuredProfileSelection;
   structuredProfileSelection?: StructuredProfileSelection;
@@ -155,13 +158,13 @@ export class MarkdownFlavorState {
       };
     }
 
-    const project = explicitFlavor(input.projectTomlFlavor);
+    const project = explicitFlavor(input.projectConfigFlavor ?? input.projectTomlFlavor);
     if (project) {
       return {
         kind: 'active',
         selected: 'auto',
         effective: project,
-        source: 'project-toml',
+        source: 'project-config',
         ...this.resolveStructuredProfileState(input),
       };
     }
@@ -202,7 +205,8 @@ export class MarkdownFlavorState {
   } {
     return resolveStructuredProfiles({
       selection: input.structuredProfileSelection ?? this.structuredProfileSelection,
-      projectSelection: input.projectTomlStructuredProfiles,
+      projectSelection:
+        input.projectConfigStructuredProfiles ?? input.projectTomlStructuredProfiles,
       uri: input.uri,
       syntaxText: input.syntaxText,
     });
@@ -277,6 +281,7 @@ function isStructuredProfileResolutionSource(
 ): value is StructuredProfileResolutionSource {
   return (
     value === 'explicit-selection' ||
+    value === 'project-config' ||
     value === 'project-toml' ||
     value === 'structured-profile-inference' ||
     value === 'none'
@@ -289,6 +294,7 @@ function isPropagatedFlavorResolutionSource(
   return (
     value === 'explicit-selection' ||
     value === 'resource-propagation' ||
+    value === 'project-config' ||
     value === 'project-toml' ||
     value === 'obsidian-marker' ||
     value === 'syntax-inference' ||

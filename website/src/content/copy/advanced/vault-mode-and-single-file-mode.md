@@ -12,7 +12,7 @@ Vault mode gives Flavor Grenade the whole local picture; single-file mode keeps 
 
 ## Vault mode
 
-Vault mode starts when Flavor Grenade finds `.obsidian/` or `.flavor-grenade.toml` at the opened root or a safe ancestor. It can then scan the vault or project and build the map used by completion, diagnostics, references, and rename.
+Vault mode starts when Flavor Grenade finds `.obsidian/` or a Flavor Grenade project config marker at the opened root or a safe ancestor. It can then scan the vault or project and build the map used by completion, diagnostics, references, and rename.
 
 Use vault mode for normal Obsidian work. It gives the tool enough context to understand notes, inbound links, attachments, tags, and headings across files.
 
@@ -22,6 +22,8 @@ MyVault/
   Notes/
     Home.md
 ```
+
+Configured Markdown projects can use `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, or `.editorconfig` directives as the marker.
 
 ## Single-file mode
 

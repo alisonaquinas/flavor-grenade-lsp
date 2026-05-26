@@ -42,7 +42,7 @@ Diagnostics should also become more precise. A profile-specific warning can say 
 
 ## Configuration boundary
 
-Use `flavorGrenade.markdownStructuredProfiles` in VS Code or `core.markdown.structured_profiles` in `.flavor-grenade.toml`. Values can be `auto`, `none`, or an explicit compatible array. Keep the base flavor in `flavorGrenade.markdownFlavor` or `core.markdown.flavor`.
+Use `flavorGrenade.markdownStructuredProfiles` in VS Code or `core.markdown.structured_profiles` in project config. Values can be `auto`, `none`, or an explicit compatible array. Keep the base flavor in `flavorGrenade.markdownFlavor` or `core.markdown.flavor`.
 
 For example, a repository can set CommonMark as the base and still enable profile inference:
 
@@ -53,3 +53,20 @@ structured_profiles = "auto"
 ```
 
 That file remains CommonMark. Changelog and MADR behavior only appears when a document has enough profile evidence.
+
+Directory overrides let profile flags follow folder conventions:
+
+```json
+{
+  "core": {
+    "markdown": {
+      "flavor": "commonmark",
+      "structured_profiles": "auto",
+      "overrides": [
+        { "path": "docs/releases", "structured_profiles": ["keep-a-changelog"] },
+        { "path": "docs/decisions", "structured_profiles": ["madr"] }
+      ]
+    }
+  }
+}
+```

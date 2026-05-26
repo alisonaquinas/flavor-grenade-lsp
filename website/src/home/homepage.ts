@@ -17,6 +17,15 @@ export interface HomepageHero {
   actions: HomepageAction[];
 }
 
+/** Homepage installation path content. */
+export interface HomepageInstallOption {
+  title: string;
+  audience: string;
+  href: string;
+  icon: IconName;
+  commands: readonly string[];
+}
+
 /** Product proof panel content. */
 export interface HomepageProof {
   title: string;
@@ -55,7 +64,7 @@ export const homepageHero: HomepageHero = {
   h1: 'Flavor Grenade LSP',
   category: 'Obsidian Flavored Markdown and flavor-aware Markdown language server',
   value:
-    'Keep Markdown flavors, Obsidian vault links, structured profiles, headings, embeds, tags, and safe edits clear enough for humans and LSP clients.',
+    'Keep Markdown flavors, Obsidian vault links, structured profiles, headings, embeds, tags, and safe edits clear enough for humans, editor clients, and LLM agents.',
   actions: [
     { label: 'Quickstart', href: getRouteById('quickstart').path, kind: 'primary', icon: 'book-open' },
     {
@@ -72,6 +81,34 @@ export const homepageHero: HomepageHero = {
     },
   ],
 };
+
+/** Front-page installation paths for users and agent operators. */
+export const homepageInstallOptions: readonly HomepageInstallOption[] = [
+  {
+    title: 'VS Code extension',
+    audience: 'Best first install for authors working in VS Code.',
+    href: 'https://marketplace.visualstudio.com/items?itemName=alisonaquinas.flavor-grenade-lsp',
+    icon: 'store',
+    commands: ['Install from the Visual Studio Marketplace', 'Open the vault or configured Markdown project'],
+  },
+  {
+    title: 'LSP package',
+    audience: 'Use when another editor or tool owns the LSP client.',
+    href: getRouteById('advancedDirectLspIntegration').path,
+    icon: 'terminal',
+    commands: ['npm install --save-dev flavor-grenade-lsp', 'npx flavor-grenade-lsp'],
+  },
+  {
+    title: 'LLM skill/plugin',
+    audience: 'Install when Claude, Codex, or another agent needs flavor-aware Markdown evidence.',
+    href: getRouteById('howToUseLlmSkill').path,
+    icon: 'package',
+    commands: [
+      'npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp',
+      'node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs verify-install --json',
+    ],
+  },
+];
 
 /** Inspectable product proof for the homepage hero. */
 export const homepageProof: HomepageProof = {
@@ -95,7 +132,10 @@ export const featureHighlights: readonly FeatureHighlight[] = [
       title: 'How Auto Detect keeps generic Markdown generic',
       summary:
         'Flavor Grenade resolves one effective base flavor per document before applying vault behavior or structured profiles.',
-      markdownExample: ['[core.markdown]\nflavor = "gfm"', 'structured_profiles = "auto"'],
+      markdownExample: [
+        '[core.markdown]\nflavor = "commonmark"',
+        '[[core.markdown.overrides]]\npath = "docs/github"\nflavor = "gfm"',
+      ],
       outcome:
         'A root README can stay CommonMark while Obsidian notes, MDX pages, and changelogs get the behavior their evidence supports.',
     },
@@ -185,6 +225,16 @@ export function validateHomepageContent(): string[] {
 
   if (homepageProof.lines.length < 3) {
     messages.push('Homepage proof must show concrete product behavior.');
+  }
+
+  for (const requiredInstallPath of ['VS Code extension', 'LSP package', 'LLM skill/plugin']) {
+    const option = homepageInstallOptions.find((installPath) => installPath.title === requiredInstallPath);
+
+    if (!option) {
+      messages.push(`Homepage is missing ${requiredInstallPath} install path.`);
+    } else if (option.commands.length < 2) {
+      messages.push(`${requiredInstallPath} install path needs concrete commands.`);
+    }
   }
 
   if (featureHighlights.length < 4) {

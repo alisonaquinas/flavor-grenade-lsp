@@ -5,7 +5,8 @@ asset inventory.
 
 ## Responsibilities
 
-- Verify Marketplace-facing README image references stay local and supported.
+- Verify Marketplace-facing README image references use the public website host
+  and have matching local packaged assets.
 - Verify every required Markdown flavor visual is present in packaged output.
 - Guard against publishing a VSIX whose Marketplace proof is incomplete.
 

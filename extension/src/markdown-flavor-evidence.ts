@@ -1,5 +1,9 @@
 import { open, realpath, stat } from 'node:fs/promises';
-import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path';
+import {
+  FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN,
+  FLAVOR_GRENADE_PROJECT_CONFIG_FILES,
+} from './project-config-files.js';
 import {
   isMarkdownFlavorSelection,
   isStructuredProfileSelection,
@@ -7,8 +11,8 @@ import {
   type StructuredProfileSelection,
 } from './markdown-flavor.js';
 
-const PROJECT_CONFIG_FILE = '.flavor-grenade.toml';
 const MAX_PROJECT_CONFIG_BYTES = 8192;
+const DANGEROUS_KEY_PATTERN = /(^|[\s.[{])(__proto__|constructor|prototype)(\s*=|\s*\]|\s*\.|\s*\})/;
 
 type StatFn = typeof stat;
 type RealpathFn = (path: string) => Promise<string>;
@@ -70,13 +74,14 @@ export async function findMarkdownFlavorEvidence(
         (await realpathIsWithinOrEqual(obsidianPath, realBoundary, realpathFn)));
     foundObsidianMarker ||= hasObsidianMarker;
 
-    const configPath = join(current, PROJECT_CONFIG_FILE);
-    const hasFlavorConfigMarker =
-      (await markerExists(configPath, 'file', statFn)) &&
-      (realBoundary === undefined ||
-        (await realpathIsWithinOrEqual(configPath, realBoundary, realpathFn)));
-    if (hasFlavorConfigMarker) {
-      const config = await readProjectMarkdownConfig(configPath, {
+    const configPath = await findProjectConfigPath(current, {
+      readFileFn: options.readFileFn,
+      realBoundary,
+      realpathFn,
+      statFn,
+    });
+    if (configPath) {
+      const config = await readProjectMarkdownConfig(configPath, startPath, {
         readFileFn: options.readFileFn,
       });
       return {
@@ -146,11 +151,12 @@ export async function readProjectMarkdownFlavor(
     statFn?: StatFn;
   } = {},
 ): Promise<MarkdownFlavorSelection | undefined> {
-  return (await readProjectMarkdownConfig(configPath, options)).projectFlavor;
+  return (await readProjectMarkdownConfig(configPath, undefined, options)).projectFlavor;
 }
 
 async function readProjectMarkdownConfig(
   configPath: string,
+  resourcePath: string | undefined,
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
@@ -167,10 +173,7 @@ async function readProjectMarkdownConfig(
     return {};
   }
 
-  return {
-    projectFlavor: parseProjectFlavor(content),
-    projectStructuredProfiles: parseProjectStructuredProfiles(content),
-  };
+  return parseProjectMarkdownConfig(configPath, content, resourcePath);
 }
 
 async function readConfigWithInjectedReader(
@@ -216,17 +219,80 @@ async function markerExists(
   }
 }
 
-function parseProjectFlavor(content: string): MarkdownFlavorSelection | undefined {
-  const value = parseProjectMarkdownKey(content, 'flavor');
-  return typeof value === 'string' && isMarkdownFlavorSelection(value) ? value : undefined;
+async function findProjectConfigPath(
+  dir: string,
+  options: {
+    readFileFn?: ReadFileFn;
+    realBoundary?: string;
+    realpathFn: RealpathFn;
+    statFn: StatFn;
+  },
+): Promise<string | undefined> {
+  for (const marker of FLAVOR_GRENADE_PROJECT_CONFIG_FILES) {
+    const markerPath = join(dir, marker);
+    const exists =
+      (await markerExists(markerPath, 'file', options.statFn)) &&
+      (options.realBoundary === undefined ||
+        (await realpathIsWithinOrEqual(markerPath, options.realBoundary, options.realpathFn)));
+    if (!exists) {
+      continue;
+    }
+    if (marker !== '.editorconfig') {
+      return markerPath;
+    }
+    const content = options.readFileFn
+      ? await readConfigWithInjectedReader(markerPath, options.readFileFn)
+      : await readConfigFromOpenFile(markerPath);
+    if (content !== undefined && FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN.test(content)) {
+      return markerPath;
+    }
+  }
+  return undefined;
 }
 
-function parseProjectStructuredProfiles(content: string): StructuredProfileSelection | undefined {
-  const value = parseProjectMarkdownKey(content, 'structured_profiles');
-  return isStructuredProfileSelection(value) ? value : undefined;
+function parseProjectMarkdownConfig(
+  configPath: string,
+  content: string,
+  resourcePath: string | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  if (basename(configPath) === '.editorconfig') {
+    return parseEditorConfig(content, resourcePath);
+  }
+  if (configPath.endsWith('.json') || configPath.endsWith('.jsonc')) {
+    return parseObjectConfig(parseJsonLike(content, configPath.endsWith('.jsonc')), resourcePath);
+  }
+  if (configPath.endsWith('.yaml') || configPath.endsWith('.yml')) {
+    return parseYamlConfig(content, resourcePath);
+  }
+  return parseTomlConfig(content, resourcePath);
 }
 
-function parseProjectMarkdownKey(
+function parseTomlConfig(
+  content: string,
+  resourcePath: string | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  const globalFlavor = parseTomlProjectMarkdownKey(content, 'flavor');
+  const globalProfiles = parseTomlProjectMarkdownKey(content, 'structured_profiles');
+  const global = {
+    projectFlavor:
+      typeof globalFlavor === 'string' && isMarkdownFlavorSelection(globalFlavor)
+        ? globalFlavor
+        : undefined,
+    projectStructuredProfiles: isStructuredProfileSelection(globalProfiles)
+      ? globalProfiles
+      : undefined,
+  };
+  const override = mostSpecificOverride(parseTomlOverrides(content), resourcePath);
+  return mergeOverride(global, override);
+}
+
+function parseTomlProjectMarkdownKey(
   content: string,
   key: string,
 ): string | readonly string[] | undefined {
@@ -286,6 +352,182 @@ function parseProjectMarkdownKey(
   return undefined;
 }
 
+interface ProjectConfigOverride {
+  path: string;
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+}
+
+function parseTomlOverrides(content: string): ProjectConfigOverride[] {
+  const overrides: ProjectConfigOverride[] = [];
+  let current: Record<string, string | readonly string[]> | undefined;
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = stripInlineComment(rawLine).trim();
+    if (line.length === 0) {
+      continue;
+    }
+    if (line === '[[core.markdown.overrides]]') {
+      current = {};
+      overrides.push(currentToOverride(current));
+      continue;
+    }
+    if (!current) {
+      continue;
+    }
+    const valueMatch = /^([A-Za-z0-9_.-]+)\s*=\s*(?:"([^"]*)"|\[([^\]]*)\])\s*$/.exec(line);
+    if (!valueMatch) {
+      continue;
+    }
+    current[valueMatch[1] ?? ''] =
+      valueMatch[2] !== undefined ? valueMatch[2] : (parseStringArray(valueMatch[3] ?? '') ?? []);
+    overrides[overrides.length - 1] = currentToOverride(current);
+  }
+
+  return overrides.filter((override) => override.path.length > 0);
+}
+
+function currentToOverride(raw: Record<string, string | readonly string[]>): ProjectConfigOverride {
+  const flavor = raw.flavor;
+  const profiles = raw.structured_profiles;
+  return {
+    path: typeof raw.path === 'string' ? raw.path : '',
+    projectFlavor:
+      typeof flavor === 'string' && isMarkdownFlavorSelection(flavor) ? flavor : undefined,
+    projectStructuredProfiles: isStructuredProfileSelection(profiles) ? profiles : undefined,
+  };
+}
+
+function parseObjectConfig(
+  parsed: unknown,
+  resourcePath: string | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  if (!isPlainRecord(parsed) || hasDangerousObjectKey(parsed)) {
+    return {};
+  }
+  const markdown = getMarkdownObject(parsed);
+  const global = configValuesFromRecord(markdown);
+  const overrides = Array.isArray(markdown?.overrides)
+    ? markdown.overrides.map(configValuesFromRecord).filter((override) => override.path.length > 0)
+    : [];
+  return mergeOverride(global, mostSpecificOverride(overrides, resourcePath));
+}
+
+function parseJsonLike(content: string, jsonc: boolean): unknown {
+  try {
+    return JSON.parse(jsonc ? stripJsonComments(content) : content);
+  } catch {
+    return undefined;
+  }
+}
+
+function parseYamlConfig(
+  content: string,
+  resourcePath: string | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  const lines = content.split(/\r?\n/);
+  let inMarkdown = false;
+  let inOverrides = false;
+  let currentOverride: Record<string, string | readonly string[]> | undefined;
+  const markdown: Record<string, string | readonly string[]> = {};
+  const overrides: ProjectConfigOverride[] = [];
+
+  for (const rawLine of lines) {
+    const line = rawLine.replace(/\s+#.*$/, '');
+    const trimmed = line.trim();
+    if (trimmed.length === 0) {
+      continue;
+    }
+    if (/^markdown:\s*$/.test(trimmed)) {
+      inMarkdown = true;
+      inOverrides = false;
+      continue;
+    }
+    if (!inMarkdown) {
+      continue;
+    }
+    if (/^overrides:\s*$/.test(trimmed)) {
+      inOverrides = true;
+      continue;
+    }
+    if (inOverrides && /^-\s+/.test(trimmed)) {
+      currentOverride = {};
+      overrides.push(currentToOverride(currentOverride));
+      applyYamlKeyValue(trimmed.slice(2), currentOverride);
+      overrides[overrides.length - 1] = currentToOverride(currentOverride);
+      continue;
+    }
+    if (inOverrides && currentOverride) {
+      applyYamlKeyValue(trimmed, currentOverride);
+      overrides[overrides.length - 1] = currentToOverride(currentOverride);
+      continue;
+    }
+    applyYamlKeyValue(trimmed, markdown);
+  }
+
+  return mergeOverride(
+    configValuesFromRecord(markdown),
+    mostSpecificOverride(overrides.filter((override) => override.path.length > 0), resourcePath),
+  );
+}
+
+function parseEditorConfig(
+  content: string,
+  resourcePath: string | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  const sections: ProjectConfigOverride[] = [];
+  let current: ProjectConfigOverride | undefined;
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (line.length === 0 || line.startsWith('#') || line.startsWith(';')) {
+      continue;
+    }
+    const section = /^\[([^\]]+)\]$/.exec(line);
+    if (section) {
+      current = { path: section[1] ?? '' };
+      sections.push(current);
+      continue;
+    }
+    if (!current) {
+      continue;
+    }
+    const match = /^([A-Za-z0-9_.-]+)\s*=\s*(.+)$/.exec(line);
+    if (!match) {
+      continue;
+    }
+    const key = (match[1] ?? '').toLowerCase();
+    const value = (match[2] ?? '').trim();
+    if (
+      (key === 'flavor_grenade_markdown_flavor' ||
+        key === 'flavor_grenade.markdown_flavor') &&
+      isMarkdownFlavorSelection(value)
+    ) {
+      current.projectFlavor = value;
+    }
+    if (
+      key === 'flavor_grenade_markdown_structured_profiles' ||
+      key === 'flavor_grenade.markdown_structured_profiles'
+    ) {
+      const parsed = parseEditorConfigProfiles(value);
+      if (isStructuredProfileSelection(parsed)) {
+        current.projectStructuredProfiles = parsed;
+      }
+    }
+  }
+
+  return mergeOverride({}, mostSpecificOverride(sections, resourcePath));
+}
+
 function parseStringArray(value: string): readonly string[] | undefined {
   if (value.trim().length === 0) {
     return [];
@@ -304,11 +546,146 @@ function parseStringArray(value: string): readonly string[] | undefined {
   return parsed;
 }
 
+function stripJsonComments(content: string): string {
+  return content.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+}
+
+function isPlainRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function hasDangerousObjectKey(value: unknown): boolean {
+  if (!isPlainRecord(value) && !Array.isArray(value)) {
+    return false;
+  }
+  if (Array.isArray(value)) {
+    return value.some(hasDangerousObjectKey);
+  }
+  for (const [key, child] of Object.entries(value)) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      return true;
+    }
+    if (hasDangerousObjectKey(child)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function getMarkdownObject(parsed: Record<string, unknown>): Record<string, unknown> | undefined {
+  const core = parsed.core;
+  if (!isPlainRecord(core)) {
+    return undefined;
+  }
+  const markdown = core.markdown;
+  return isPlainRecord(markdown) ? markdown : undefined;
+}
+
+function configValuesFromRecord(raw: unknown): ProjectConfigOverride {
+  if (!isPlainRecord(raw)) {
+    return { path: '' };
+  }
+  const pathValue = raw.path ?? raw.directory ?? raw.dir;
+  const flavor = raw.flavor;
+  const profiles = raw.structured_profiles;
+  return {
+    path: typeof pathValue === 'string' ? pathValue : '',
+    projectFlavor:
+      typeof flavor === 'string' && isMarkdownFlavorSelection(flavor) ? flavor : undefined,
+    projectStructuredProfiles: isStructuredProfileSelection(profiles) ? profiles : undefined,
+  };
+}
+
+function applyYamlKeyValue(line: string, target: Record<string, string | readonly string[]>): void {
+  const match = /^([A-Za-z0-9_.-]+)\s*:\s*(.*)$/.exec(line);
+  if (!match) {
+    return;
+  }
+  const key = match[1] ?? '';
+  const value = (match[2] ?? '').trim();
+  if (value.startsWith('[') && value.endsWith(']')) {
+    target[key] = parseBareOrQuotedArray(value.slice(1, -1)) ?? [];
+    return;
+  }
+  if (value.length > 0) {
+    target[key] = unquote(value);
+  }
+}
+
+function parseBareOrQuotedArray(value: string): readonly string[] | undefined {
+  if (value.trim().length === 0) {
+    return [];
+  }
+  return value.split(',').map((part) => unquote(part.trim())).filter(Boolean);
+}
+
+function parseEditorConfigProfiles(value: string): StructuredProfileSelection | undefined {
+  if (value === 'none' || value === 'auto') {
+    return value;
+  }
+  const parsed = parseBareOrQuotedArray(value);
+  return isStructuredProfileSelection(parsed) ? parsed : undefined;
+}
+
+function unquote(value: string): string {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
+}
+
+function mostSpecificOverride(
+  overrides: readonly ProjectConfigOverride[],
+  resourcePath: string | undefined,
+): ProjectConfigOverride | undefined {
+  if (!resourcePath) {
+    return undefined;
+  }
+  const normalizedResource = resourcePath.replaceAll('\\', '/');
+  return overrides
+    .filter((override) => pathMatchesOverride(normalizedResource, override.path))
+    .sort((left, right) => right.path.length - left.path.length)[0];
+}
+
+function pathMatchesOverride(resourcePath: string, overridePath: string): boolean {
+  const normalized = overridePath.replaceAll('\\', '/').replace(/^\.\//, '').replace(/\/$/, '');
+  if (normalized.length === 0) {
+    return false;
+  }
+  const globPrefix = normalized.replace(/\*\*\/\*\.md$/, '').replace(/\*\.md$/, '');
+  return (
+    resourcePath.includes(`/${normalized}/`) ||
+    resourcePath.endsWith(`/${normalized}`) ||
+    resourcePath.includes(`/${globPrefix}`)
+  );
+}
+
+function mergeOverride(
+  global: {
+    projectFlavor?: MarkdownFlavorSelection;
+    projectStructuredProfiles?: StructuredProfileSelection;
+  },
+  override: ProjectConfigOverride | undefined,
+): {
+  projectFlavor?: MarkdownFlavorSelection;
+  projectStructuredProfiles?: StructuredProfileSelection;
+} {
+  return {
+    projectFlavor: override?.projectFlavor ?? global.projectFlavor,
+    projectStructuredProfiles:
+      override?.projectStructuredProfiles ?? global.projectStructuredProfiles,
+  };
+}
+
 function stripInlineComment(line: string): string {
   const hashIndex = line.indexOf('#');
   return hashIndex === -1 ? line : line.slice(0, hashIndex);
 }
 
 function hasDangerousTomlKey(content: string): boolean {
-  return /(^|[\s.[{])(__proto__|constructor|prototype)(\s*=|\s*\]|\s*\.|\s*\})/.test(content);
+  return DANGEROUS_KEY_PATTERN.test(content);
 }

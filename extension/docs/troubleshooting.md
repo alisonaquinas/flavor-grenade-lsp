@@ -55,7 +55,7 @@ standalone Markdown to CommonMark.
 
 Actions:
 
-- Confirm the workspace has `.obsidian/` or `.flavor-grenade.toml` at or above
+- Confirm the workspace has `.obsidian/` or `Flavor Grenade project config marker` at or above
   the note.
 - Check `flavorGrenade.markdownFlavor`; use `auto` unless you intentionally set
   a project or user override.

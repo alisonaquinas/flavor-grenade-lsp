@@ -88,6 +88,7 @@ export interface TextDocumentLike {
 
 export type FlavorResolutionSource =
   | 'explicit-selection'
+  | 'project-config'
   | 'project-toml'
   | 'obsidian-marker'
   | 'syntax-inference'
@@ -95,6 +96,7 @@ export type FlavorResolutionSource =
 
 export type StructuredProfileResolutionSource =
   | 'explicit-selection'
+  | 'project-config'
   | 'project-toml'
   | 'structured-profile-inference'
   | 'none';
@@ -273,7 +275,7 @@ export function resolveMarkdownFlavor(input: {
   }
 
   if (isMarkdownFlavorId(input.projectFlavor)) {
-    return activeResolution('auto', input.projectFlavor, 'project-toml', structured);
+    return activeResolution('auto', input.projectFlavor, 'project-config', structured);
   }
 
   if (input.hasObsidianMarker === true) {
@@ -379,6 +381,7 @@ function sourceLabel(source: FlavorResolutionSource): string {
     case 'explicit-selection':
       return 'explicit selection';
     case 'project-toml':
+    case 'project-config':
       return 'project configuration';
     case 'obsidian-marker':
       return 'Obsidian vault marker';
@@ -447,7 +450,7 @@ function resolveStructuredProfiles(input: {
   if (Array.isArray(input.projectSelection)) {
     return {
       structuredProfiles: input.projectSelection,
-      structuredProfileSource: 'project-toml',
+      structuredProfileSource: 'project-config',
     };
   }
   if (input.projectSelection === 'none') {

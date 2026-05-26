@@ -245,7 +245,7 @@ flavor through [[docs/design/markdown-structured-profile-flags]].
 1. Inspect the shared flavor contract and verify `keep-a-changelog`, `common-changelog`, and `madr` are absent from `MarkdownFlavorId`.
 2. Verify a separate `StructuredMarkdownProfileId` contract exists for `keep-a-changelog`, `common-changelog`, and `madr`.
 3. Parse fixtures for `commonmark + keep-a-changelog`, `gfm + common-changelog`, `obsidian + madr`, and at least one additional base-flavor/profile combination.
-4. Verify every configured and TOML-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
+4. Verify every configured and project-config-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
 5. Verify base-flavor syntax remains governed by the effective `MarkdownFlavorId`.
 6. Verify structured diagnostics/symbols/folds apply only to matching changelog or MADR structure.
 7. Verify `keep-a-changelog` and `common-changelog` are mutually exclusive during automatic inference and explicit configuration.

@@ -28,7 +28,7 @@ Leave `flavorGrenade.markdownStructuredProfiles` set to `auto` when a repository
 
 ### Pin profile flags in project configuration
 
-Use `.flavor-grenade.toml` when every maintainer should get the same profile behavior.
+Use project config when every maintainer should get the same profile behavior. TOML, JSON, JSONC, YAML/YML, and Flavor Grenade `.editorconfig` directives can all carry profile selections.
 
 ### Disable profiles for noisy generated output
 
@@ -38,6 +38,23 @@ Use `none` when generated Markdown happens to match profile headings but should 
 [core.markdown]
 flavor = "commonmark"
 structured_profiles = ["keep-a-changelog", "madr"]
+```
+
+For mixed repositories, scope profiles by directory instead of forcing one profile everywhere:
+
+```jsonc
+{
+  "core": {
+    "markdown": {
+      "flavor": "commonmark",
+      "structured_profiles": "auto",
+      "overrides": [
+        { "path": "docs/releases", "structured_profiles": ["common-changelog"] },
+        { "path": "docs/decisions", "structured_profiles": ["madr"] }
+      ]
+    }
+  }
+}
 ```
 
 Example files that can trigger auto inference:

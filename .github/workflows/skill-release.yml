@@ -1,0 +1,175 @@
+name: Skill Release
+
+on:
+  push:
+    tags: ['skill-v*.*.*', 'skill-v*.*.*-test*']
+  workflow_dispatch:
+    inputs:
+      server_release:
+        description: Server release tag to embed, or latest.
+        type: string
+        default: latest
+      plugin_version:
+        description: Plugin version for workflow_dispatch runs.
+        type: string
+        default: 0.1.0
+
+permissions:
+  contents: read
+
+jobs:
+  build-skill-artifacts:
+    name: Build skill artifact (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            archive_ext: tar.gz
+          - target: darwin-arm64
+            archive_ext: tar.gz
+          - target: darwin-x64
+            archive_ext: tar.gz
+          - target: win-x64
+            archive_ext: zip
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Set plugin version
+        shell: bash
+        env:
+          INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          else
+            plugin_version="$INPUT_PLUGIN_VERSION"
+          fi
+          bun run skill:set-version -- "$plugin_version"
+
+      - run: bun run skill:test
+
+      - run: bun run skill:marketplace:verify
+
+      - run: bun run skill:plugin:verify
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Fetch signed server runtime
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SERVER_RELEASE: ${{ inputs.server_release }}
+          TARGET: ${{ matrix.target }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          server_release="$SERVER_RELEASE"
+          if [ -z "$server_release" ]; then
+            server_release="latest"
+          fi
+          bun run skill:fetch-runtime -- \
+            --target "$TARGET" \
+            --server-release "$server_release" \
+            --repo "$REPOSITORY"
+
+      - name: Stamp embedded server version
+        shell: bash
+        env:
+          INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          else
+            plugin_version="$INPUT_PLUGIN_VERSION"
+          fi
+          if [[ "$TARGET" == "win-x64" ]]; then
+            provenance="dist/flavor-grenade-lsp.exe.runtime.json"
+          else
+            provenance="dist/flavor-grenade-lsp.runtime.json"
+          fi
+          server_release_tag="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync(process.argv[1], 'utf8')).releaseTag)" "$provenance")"
+          server_version="${server_release_tag#v}"
+          bun run skill:set-version -- "$plugin_version" \
+            --server-version "$server_version" \
+            --server-release-tag "$server_release_tag"
+
+      - name: Package skill artifact
+        id: package
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          package_root="$(bun run skill:package -- --dry-run --require-signed-runtime --target "$TARGET" | tail -n 1)"
+          node scripts/skill-verify.mjs --skill-root "$package_root/skills/flavorgrenade-lsp"
+          echo "package_root=$package_root" >> "$GITHUB_OUTPUT"
+
+      - name: Archive skill artifact
+        id: archive
+        env:
+          ARCHIVE_EXT: ${{ matrix.archive_ext }}
+          PACKAGE_ROOT: ${{ steps.package.outputs.package_root }}
+        run: |
+          mkdir -p build/skill-release
+          package_root="$PACKAGE_ROOT"
+          package_name="$(basename "$package_root")"
+          if [ "$ARCHIVE_EXT" = "zip" ]; then
+            (cd "$(dirname "$package_root")" && zip -qr "$GITHUB_WORKSPACE/build/skill-release/$package_name.zip" "$package_name")
+            archive_path="build/skill-release/$package_name.zip"
+          else
+            tar -C "$(dirname "$package_root")" -czf "build/skill-release/$package_name.tar.gz" "$package_name"
+            archive_path="build/skill-release/$package_name.tar.gz"
+          fi
+          sha256sum "$archive_path" > "$archive_path.sha256"
+          echo "archive_path=$archive_path" >> "$GITHUB_OUTPUT"
+
+      - name: Sign archive with GitHub OIDC
+        env:
+          ARCHIVE_PATH: ${{ steps.archive.outputs.archive_path }}
+        run: |
+          archive_path="$ARCHIVE_PATH"
+          cosign sign-blob "$archive_path" \
+            --bundle "$archive_path.sigstore.json" \
+            --yes
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: flavorgrenade-lsp-skill-${{ matrix.target }}
+          path: |
+            build/skill-release/*
+          if-no-files-found: error
+
+  create-skill-release:
+    name: Create skill GitHub release
+    runs-on: ubuntu-latest
+    needs: build-skill-artifacts
+    if: startsWith(github.ref, 'refs/tags/skill-v') && !contains(github.ref_name, '-test')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: flavorgrenade-lsp-skill-*
+          path: skill-release
+          merge-multiple: true
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" skill-release/* \
+            --title "$GITHUB_REF_NAME" \
+            --latest=false \
+            --notes "Flavor Grenade LSP skill release $GITHUB_REF_NAME"

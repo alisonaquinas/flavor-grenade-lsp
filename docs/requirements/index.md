@@ -91,7 +91,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Rename.Prepare.Rejection** | `textDocument/prepareRename` must return `null` for non-renameable cursor positions. | [[docs/requirements/functional/rename]] |
 | **Rename.StyleBinding.Consistency** | Rename only updates references bound via the active wiki style. | [[docs/requirements/functional/rename]] |
 | **Workspace.VaultDetection.Primary** | Directories containing `.obsidian/` must be automatically detected as vault roots. | [[workspace]] |
-| **Workspace.VaultDetection.Fallback** | Directories containing `.flavor-grenade.toml` must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
+| **Workspace.VaultDetection.Fallback** | Directories containing a Flavor Grenade project config marker must be detected as vault roots when `.obsidian/` is absent. | [[workspace]] |
 | **Workspace.FileExtension.Filter** | Only files with configured extensions enter the index; others are silently ignored. | [[workspace]] |
 | **Workspace.MultiFolder.Isolation** | Cross-root link resolution must not be performed between distinct vault roots. | [[workspace]] |
 | **Extension.MarkdownLanguage.PreserveDefault** | The VS Code extension must keep `.md` files in the built-in `markdown` language mode. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
@@ -153,7 +153,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.Marketplace.AssetPackaging** | Marketplace screenshots and README assets must be referenced and included in VSIX output. | [[docs/requirements/functional/vscode-extension-parity]] |
 | **Config.Precedence.Layering** | Project config overrides user config overrides built-in defaults. | [[configuration]] |
 | **Config.Validation.Candidates** | `completion.candidates` must be strictly positive; invalid values fall back to the built-in default. | [[configuration]] |
-| **Config.Fault.Isolation** | Malformed TOML must be dropped without crashing the server. | [[configuration]] |
+| **Config.Fault.Isolation** | Malformed project config must be dropped without crashing the server. | [[configuration]] |
 | **Config.TextSync.Default** | Absent `core.text_sync` must default to `"full"`. | [[configuration]] |
 | **Quality.SOLID.SingleResponsibility** | Each class or service must have exactly one reason to change. | [[code-quality]] |
 | **Quality.SOLID.DependencyInversion** | All cross-module dependencies must point toward abstractions, never concrete implementations. | [[code-quality]] |
@@ -199,7 +199,7 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Technical.SBOM.Website** | Website releases must include current source, author, license, static-artifact, and lockfile-derived dependency evidence. | [website SBOM](../../website/docs/requirements/technical/sbom.md) |
 | **Security.Disclosure.LogSanitization** | Server logs never include vault document content; only paths, line numbers, and diagnostic codes permitted. | [[docs/requirements/functional/security-information-disclosure]] |
 | **Security.Disclosure.CompletionFilter** | Completion candidates from frontmatter values under sensitive key names (password, token, secret, api_key) are filtered out. | [[docs/requirements/functional/security-information-disclosure]] |
-| **Security.Config.NoCodeExecution** | `.flavor-grenade.toml` schema never includes command/script/executable fields; vault config never causes process spawning. | [[docs/requirements/functional/security-information-disclosure]] |
+| **Security.Config.NoCodeExecution** | Project config schemas never include command/script/executable fields; vault config never causes process spawning. | [[docs/requirements/functional/security-information-disclosure]] |
 
 ## User Requirements
 

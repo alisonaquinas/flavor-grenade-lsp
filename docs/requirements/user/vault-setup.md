@@ -17,10 +17,10 @@ aliases:
 
 **Tag:** User.Vault.AutoDetectVault
 **Gist:** The server automatically identifies the vault root on startup without any manual path configuration from the author.
-**Ambition:** Detection is reliable for every standard Obsidian vault and for any folder containing a `.flavor-grenade.toml` file, so no author ever needs to specify a vault path explicitly.
+**Ambition:** Detection is reliable for every standard Obsidian vault and for any folder containing a Flavor Grenade project config marker, so no author ever needs to specify a vault path explicitly.
 **Scale:** Percentage of vault-root detection attempts on a representative set of standard Obsidian vaults and custom-config-file vaults that succeed without manual configuration.
-**Meter:** Integration test suite: `bun test tests/integration/workspace/` — initialises the server against a set of test vaults (standard `.obsidian/` present, `.flavor-grenade.toml` present, both present, neither present) and checks that the correct vault root is reported in each case.
-**Fail:** Any standard Obsidian vault or `.flavor-grenade.toml`-marked folder for which the server fails to detect the vault root automatically.
+**Meter:** Integration test suite: `bun test tests/integration/workspace/` — initialises the server against a set of test vaults (standard `.obsidian/` present, project config marker present, both present, neither present) and checks that the correct vault root is reported in each case.
+**Fail:** Any standard Obsidian vault or project-config-marked folder for which the server fails to detect the vault root automatically.
 **Goal:** Have the server automatically find and use the vault root
 **Need:** A vault author opens their Obsidian vault folder in their editor and expects the language server to automatically recognise the vault root without any manual configuration. They expect detection to work for standard Obsidian vaults and for folders marked with the server's own configuration file, with no need to specify the vault path explicitly.
 **Maps to:** Workspace.VaultDetection.Primary, Workspace.VaultDetection.Fallback

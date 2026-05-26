@@ -1,0 +1,12 @@
+{
+  "servers": [
+    {
+      "name": "flavor-grenade-lsp",
+      "command": "node",
+      "args": ["skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs", "lsp"],
+      "transport": "stdio",
+      "runtimeResolver": "skills/flavorgrenade-lsp/wrappers/runtime.mjs",
+      "languages": ["markdown"]
+    }
+  ]
+}

@@ -36,6 +36,42 @@ describe('VaultDetector', () => {
     expect(result.vaultRoot).toBe(path.join(FIXTURES, 'flavor-grenade-vault'));
   });
 
+  it('detects flavor-grenade vaults from JSON, JSONC, YAML, and editorconfig config markers', () => {
+    for (const marker of [
+      '.flavor-grenade.json',
+      '.flavor-grenade.jsonc',
+      '.flavor-grenade.yaml',
+      '.flavor-grenade.yml',
+      '.editorconfig',
+    ]) {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-config-marker-'));
+      try {
+        fs.writeFileSync(
+          path.join(root, marker),
+          marker === '.editorconfig' ? '[*.md]\nflavor_grenade_markdown_flavor = gfm\n' : '',
+        );
+        const result = new VaultDetector().detect(root);
+        expect(result.mode).toBe('flavor-grenade');
+        expect(result.vaultRoot).toBe(root);
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true });
+      }
+    }
+  });
+
+  it('ignores ordinary editorconfig files without Flavor Grenade directives', () => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-plain-editorconfig-'));
+    fs.writeFileSync(
+      path.join(tmpDir, '.editorconfig'),
+      'root = true\n[*]\nindent_style = space\n',
+    );
+
+    const result = detector.detect(tmpDir);
+
+    expect(result.mode).toBe('single-file');
+    expect(result.vaultRoot).toBeNull();
+  });
+
   it('obsidian takes precedence when both markers present', () => {
     const result = detector.detect(path.join(FIXTURES, 'both-markers'));
     expect(result.mode).toBe('obsidian');

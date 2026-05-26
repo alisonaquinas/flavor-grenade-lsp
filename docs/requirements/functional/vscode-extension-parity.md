@@ -28,7 +28,7 @@ requirements.
 
 1. Open a workspace containing `.obsidian/`.
 2. Verify the extension activates and starts membership detection.
-3. Open a workspace containing `.flavor-grenade.toml`.
+3. Open a workspace containing a Flavor Grenade project config marker.
 4. Verify the extension activates and starts membership detection.
 5. Open a generic Markdown workspace with neither marker.
 6. Verify the extension remains idle until a command, Markdown flavor selector interaction, or vault signal requires it.
@@ -74,7 +74,7 @@ requirements.
 **Meter:**
 
 1. Inspect the extension test suite.
-2. Verify at least one test exists for activation in `.obsidian/`, activation in `.flavor-grenade.toml`, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
+2. Verify at least one test exists for activation in `.obsidian/`, activation by Flavor Grenade project config marker, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
 3. Run the extension-host test command in CI or locally.
 4. Compute: (behavior groups with passing tests / required behavior groups) x 100.
 **Fail:** Any required behavior group lacks a passing test.
@@ -164,12 +164,12 @@ flavor/context state without requiring a custom Markdown language id.
 
 **Tag:** Extension.Activation.MarkerEvents
 **User Req:** User.Extension.StartOnlyForVaults
-**Gist:** The extension manifest and activation controller must react to `.obsidian/`, `.flavor-grenade.toml`, `markdown`, flavor selector commands, and explicit command activation signals.
+**Gist:** The extension manifest and activation controller must react to `.obsidian/`, Flavor Grenade project config markers, `markdown`, flavor selector commands, and explicit command activation signals.
 **Ambition:** Vault users should get automatic startup, while generic Markdown users should not pay for vault work without a positive signal.
 **Scale:** Percentage of activation-signal fixtures that produce the expected active or idle state.
 **Meter:**
 
-1. Run extension-host fixtures for `.obsidian/`, `.flavor-grenade.toml`, generic Markdown, flavor selector command activation, and explicit command activation.
+1. Run extension-host fixtures for `.obsidian/`, Flavor Grenade project config markers, generic Markdown, flavor selector command activation, and explicit command activation.
 2. Observe whether the extension activates.
 3. Observe whether vault membership detection starts.
 4. Verify generic Markdown remains idle until a command or vault signal exists.

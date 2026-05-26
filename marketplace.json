@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0",
+  "publisher": "alisonaquinas",
+  "repository": "https://github.com/alisonaquinas/flavor-grenade-lsp",
+  "skills": [
+    {
+      "name": "flavorgrenade-lsp",
+      "package": "flavorgrenade-lsp-skill",
+      "path": "plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp",
+      "description": "Flavor-aware Markdown analysis for LLM agents using Flavor Grenade LSP.",
+      "tags": ["markdown", "lsp", "claude-code", "codex"],
+      "license": "MIT",
+      "version": "0.1.0"
+    }
+  ]
+}

@@ -20,7 +20,18 @@ describe('resolveServerCommandFromOptions', () => {
     assert.equal(command.args, undefined);
   });
 
-  it('falls back to dev node entry when custom path is missing', () => {
+  it('uses bundled server module in development mode when extension compile produced one', () => {
+    const command = resolveServerCommandFromOptions({
+      extensionPath,
+      isDevelopment: true,
+      exists: (candidate) => candidate.replaceAll('\\', '/').endsWith('server/main.js'),
+    });
+
+    assert.equal(command.kind, 'module');
+    assert.ok(command.module.replaceAll('\\', '/').endsWith('server/main.js'));
+  });
+
+  it('falls back to dev node entry when custom path and bundled module are missing', () => {
     const warnings: string[] = [];
     const command = resolveServerCommandFromOptions({
       customPath: 'missing.exe',

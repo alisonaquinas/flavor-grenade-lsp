@@ -41,6 +41,10 @@ export function resolveServerCommandFromOptions(options: ServerCommandOptions): 
   }
 
   if (options.isDevelopment) {
+    const bundledModule = resolve(options.extensionPath, 'server', 'main.js');
+    if (exists(bundledModule)) {
+      return { kind: 'module', module: bundledModule };
+    }
     return {
       kind: 'executable',
       command: 'node',

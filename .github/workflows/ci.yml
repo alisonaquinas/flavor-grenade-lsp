@@ -127,6 +127,40 @@ jobs:
 
       - run: bun run bdd
 
+  skill-checks:
+    name: Skill package checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      - run: bun run skill:test
+
+      - run: bun run skill:marketplace:verify
+
+      - run: bun run skill:plugin:verify
+
+      - run: bun run build:binary
+
+      - name: Package skill dry run
+        id: skill_package
+        run: |
+          package_root="$(bun run skill:package -- --dry-run --target linux-x64 | tail -n 1)"
+          echo "package_root=$package_root" >> "$GITHUB_OUTPUT"
+
+      - name: Verify packaged skill
+        env:
+          PACKAGE_ROOT: ${{ steps.skill_package.outputs.package_root }}
+        run: node scripts/skill-verify.mjs --skill-root "$PACKAGE_ROOT/skills/flavorgrenade-lsp" --allow-unsigned-runtime
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -146,6 +180,84 @@ jobs:
       - run: bun install --frozen-lockfile --ignore-scripts
 
       - run: bun run build
+
+  release-binary-signing-pr-dry-run:
+    name: Release binary signing dry run (PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Build Linux native binary candidate
+        run: bun run build:binary
+
+      - name: Rename binary with release suffix
+        run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Validate signing prerequisites without OIDC
+        run: |
+          test -s dist/flavor-grenade-lsp-linux-x64
+          cosign version
+          cosign sign-blob --help >/dev/null
+          cosign verify-blob --help >/dev/null
+
+  release-binary-signing-oidc-dry-run:
+    name: Release binary signing dry run (OIDC)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_type == 'branch'
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: '1.3.13'
+          no-cache: true
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Build Linux native binary candidate
+        run: bun run build:binary
+
+      - name: Rename binary with release suffix
+        run: mv dist/flavor-grenade-lsp dist/flavor-grenade-lsp-linux-x64
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Sign and verify binary with GitHub OIDC
+        run: |
+          binary_path="dist/flavor-grenade-lsp-linux-x64"
+          bundle_path="${binary_path}.sigstore.json"
+
+          cosign sign-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --tlog-upload=false \
+            --yes
+
+          cosign verify-blob "$binary_path" \
+            --bundle "$bundle_path" \
+            --certificate-identity-regexp "^https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/heads/(main|develop)$" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            --insecure-ignore-tlog
 
   markdown-lint-docs:
     name: Markdown lint (OFM docs — markdownlint-obsidian)
@@ -262,19 +374,26 @@ jobs:
 
       - run: xvfb-run -a npm run test:host
 
-  publish:
-    name: Publish to npm
+  pack-npm-package:
+    name: Pack npm package
     runs-on: ubuntu-latest
-    # Only run on release tag pushes, not branch pushes or PRs.
-    # Test tags use npm's native dry-run mode below.
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [typecheck, lint, dependency-policy, test, bdd, build, markdown-lint-docs, markdown-lint-other, format, website-checks, extension-checks]
-    environment: npm-publish
-    # id-token: write is required for OIDC trusted publishing (keyless).
-    # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
-    # short-lived publish credential. See ADR 008.
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs:
+      [
+        typecheck,
+        lint,
+        dependency-policy,
+        test,
+        bdd,
+        build,
+        markdown-lint-docs,
+        markdown-lint-other,
+        format,
+        skill-checks,
+        website-checks,
+        extension-checks,
+      ]
     permissions:
-      id-token: write
       contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -287,6 +406,54 @@ jobs:
           no-cache: true
 
       - run: bun install --frozen-lockfile --ignore-scripts
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - run: bun run build
+
+      - name: Pack npm package
+        run: |
+          npm pack --ignore-scripts --json > npm-pack.json
+          package_path="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync('npm-pack.json', 'utf8'))[0].filename)")"
+          mkdir -p npm-package
+          mv "$package_path" "npm-package/$package_path"
+
+      - name: Upload npm package candidate
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: npm-package-candidate
+          path: npm-package/*.tgz
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    # Only run on production release tag pushes, not branch pushes, PRs, or
+    # signing-only test tags.
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs: pack-npm-package
+    environment: npm-publish
+    # id-token: write is required for OIDC trusted publishing (keyless).
+    # No NPM_TOKEN secret is needed — npm exchanges the OIDC token for a
+    # short-lived publish credential. See ADR 008.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download npm package candidate
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: npm-package-candidate
+          path: npm-package
+
+      - name: Select npm package candidate
+        run: |
+          package_path="$(find npm-package -maxdepth 1 -name '*.tgz' -print -quit)"
+          test -n "$package_path"
+          echo "NPM_PACKAGE_PATH=$package_path" >> "$GITHUB_ENV"
 
       # Node 24 LTS. The Node version used to publish does not affect the LSP
       # artifact — the package is compiled by Bun/tsc; Node is only needed to
@@ -304,28 +471,112 @@ jobs:
           package-manager-cache: false
 
       # Bootstrap a pinned npm release from the registry tarball instead of using
-      # `npm install -g npm@<version>`. Fetching via curl/jq and running the
-      # extracted CLI directly via `node` avoids depending on the runner image's
-      # bundled npm before npm is installed. npm 9.5.0+ is
-      # required for tokenless OIDC Trusted Publishing.
+      # `npm install -g npm@<version>`. Fetching and running the extracted CLI
+      # directly via `node` avoids depending on the runner image's bundled npm
+      # before npm is installed. npm 9.5.0+ is required for tokenless OIDC
+      # Trusted Publishing.
       - name: Bootstrap npm 11.14.0 (required for tokenless OIDC Trusted Publishing)
         run: |
           TMPDIR=$(mktemp -d)
-          curl -sf "$(curl -sf https://registry.npmjs.org/npm/11.14.0 | jq -r '.dist.tarball')" \
-            | tar -xz --strip-components=1 -C "$TMPDIR"
+          curl -sf https://registry.npmjs.org/npm/11.14.0 -o "$TMPDIR/npm-metadata.json"
+          node -e "const metadata = JSON.parse(require('node:fs').readFileSync(process.argv[1], 'utf8')); console.log(metadata.dist.tarball)" "$TMPDIR/npm-metadata.json" > "$TMPDIR/npm-tarball-url"
+          curl -sf "$(cat "$TMPDIR/npm-tarball-url")" -o "$TMPDIR/npm.tgz"
+          node - "$TMPDIR/npm-metadata.json" "$TMPDIR/npm.tgz" <<'NODE'
+          const { readFileSync } = require('node:fs');
+          const { createHash } = require('node:crypto');
+
+          const metadata = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+          const tarball = readFileSync(process.argv[3]);
+          const [algorithm, expected] = metadata.dist.integrity.split('-', 2);
+          const actual = createHash(algorithm).update(tarball).digest('base64');
+          if (actual !== expected) {
+            throw new Error('npm 11.14.0 tarball integrity mismatch.');
+          }
+          NODE
+          tar -xzf "$TMPDIR/npm.tgz" --strip-components=1 -C "$TMPDIR"
           node "$TMPDIR/bin/npm-cli.js" install -g npm@11.14.0 --ignore-scripts
           rm -rf "$TMPDIR"
 
-      - run: bun run build
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Sign npm package with GitHub OIDC
+        run: |
+          cosign sign-blob "$NPM_PACKAGE_PATH" \
+            --bundle "$NPM_PACKAGE_PATH.sigstore.json" \
+            --yes
+
+          cosign verify-blob "$NPM_PACKAGE_PATH" \
+            --bundle "$NPM_PACKAGE_PATH.sigstore.json" \
+            --certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/tags/${GITHUB_REF_NAME}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+          package_name="$(basename "$NPM_PACKAGE_PATH")"
+          (
+            cd npm-package
+            sha256sum "$package_name" > "$package_name.sha256"
+          )
+
+      - name: Upload signed npm package evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: signed-npm-package
+          path: |
+            npm-package/*.tgz
+            npm-package/*.tgz.sha256
+            npm-package/*.tgz.sigstore.json
+          if-no-files-found: error
 
       - name: Publish to npmjs.com
         # --access public is required for the first publish of a new package;
         # omitting it causes npm to return E404 even for unscoped packages.
         # Bun registry is not targeted — it lacks OIDC support (oven-sh/bun#22423)
         # and packages on npmjs.org are installable via `bun add` regardless.
+        run: npm publish "$NPM_PACKAGE_PATH" --provenance --access public --ignore-scripts
+
+  attach-signed-npm-package:
+    name: Attach signed npm package to GitHub Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs: publish
+    permissions:
+      contents: write
+    steps:
+      - name: Download signed npm package evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: signed-npm-package
+          path: signed-npm-package
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
+
+      - name: Verify signed npm package evidence
         run: |
-          if [[ "$GITHUB_REF_NAME" == *-test* ]]; then
-            npm publish --dry-run --access public
-          else
-            npm publish --provenance --access public
-          fi
+          package_path="$(find signed-npm-package -maxdepth 1 -name '*.tgz' -print -quit)"
+          test -n "$package_path"
+          package_name="$(basename "$package_path")"
+          (
+            cd signed-npm-package
+            sha256sum --check "$package_name.sha256"
+          )
+          cosign verify-blob "$package_path" \
+            --bundle "$package_path.sigstore.json" \
+            --certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/tags/${GITHUB_REF_NAME}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+      - name: Attach signed npm package to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for _ in {1..120}; do
+            if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+              gh release upload "$GITHUB_REF_NAME" signed-npm-package/* --clobber
+              exit 0
+            fi
+
+            sleep 15
+          done
+
+          echo "GitHub Release $GITHUB_REF_NAME was not created in time." >&2
+          exit 1

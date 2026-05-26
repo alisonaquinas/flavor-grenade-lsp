@@ -194,7 +194,7 @@ The client must not use this response to change VS Code's language id away from
 `markdown`; it only informs flavor auto-detection.
 
 The full precedence algorithm for combining selector values, workspace
-settings, project TOML, vault markers, and membership results is specified in
+settings, project config, vault markers, and membership results is specified in
 [[docs/design/markdown-flavor-auto-detection]].
 
 ---

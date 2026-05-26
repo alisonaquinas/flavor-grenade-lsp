@@ -137,7 +137,7 @@ aliases:
 
 1. Open a Markdown file under a `.obsidian/` vault.
 2. Verify `auto` resolves to `obsidian`.
-3. Open a Markdown file under a `.flavor-grenade.toml` workspace with no explicit flavor setting.
+3. Open a Markdown file under a project-config-backed workspace with no explicit flavor setting.
 4. Verify `auto` resolves according to project config if present, including any supported flavor id.
 5. Open a single generic `.md` file outside a workspace.
 6. Verify `auto` resolves to `commonmark` unless future evidence says otherwise.

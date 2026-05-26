@@ -16,7 +16,7 @@ These pages are for readers who need more than the happy path: Configuration mod
 
 Each article explains the boundary in plain English first, then gives a small example you can check in a vault.
 
-- [Configuration Model](/advanced-usage/configuration-model/) - Understand Auto Detect, `.flavor-grenade.toml`, VS Code settings, and direct-client configuration.
+- [Configuration Model](/advanced-usage/configuration-model/) - Understand Auto Detect, TOML/JSON/JSONC/YAML/EditorConfig project config, VS Code settings, and direct-client configuration.
 - [Vault Mode and Single-file Mode](/advanced-usage/vault-mode-and-single-file-mode/) - Compare vault-wide behavior with the CommonMark single-file fallback.
 - [Indexing and Performance](/advanced-usage/indexing-and-performance/) - Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features.
 - [Unsupported URI Schemes and Confinement](/advanced-usage/unsupported-uri-schemes-and-confinement/) - See how local file targets are separated from external URLs, app schemes, and outside paths.

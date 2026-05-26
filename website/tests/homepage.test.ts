@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   featureHighlights,
+  homepageInstallOptions,
   homepageAssetPlacements,
   homepageHero,
   homepageProof,
@@ -37,6 +38,22 @@ describe('homepage content model', () => {
       ]),
     );
     expect(homepageAssetPlacements.every((asset) => asset.source.startsWith('/assets/'))).toBe(true);
+  });
+
+  it('shows install paths for the extension, direct LSP package, and LLM skill', () => {
+    expect(homepageInstallOptions.map((option) => option.title)).toEqual([
+      'VS Code extension',
+      'LSP package',
+      'LLM skill/plugin',
+    ]);
+    expect(homepageInstallOptions.flatMap((option) => option.commands)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('Visual Studio Marketplace'),
+        expect.stringContaining('npm install --save-dev flavor-grenade-lsp'),
+        expect.stringContaining('npx skill install'),
+        expect.stringContaining('verify-install --json'),
+      ]),
+    );
   });
 
   it('gives every feature proof card selectable practical detail', () => {

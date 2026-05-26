@@ -41,19 +41,19 @@ aliases:
 
 **Tag:** Workspace.VaultDetection.Fallback
 **User Req:** User.Vault.AutoDetectVault
-**Gist:** A directory containing a `.flavor-grenade.toml` configuration file must be detected as a vault root when no `.obsidian/` directory is present, enabling use of the server in non-Obsidian markdown environments.
-**Ambition:** The server is designed for Obsidian-Flavored Markdown but is not exclusively tied to Obsidian the application. Developers, technical writers, and teams using OFM syntax in other editors or build pipelines need a way to declare a vault root without creating an Obsidian application directory. `.flavor-grenade.toml` serves as the escape hatch: a lightweight, explicit declaration that activates vault detection for non-Obsidian contexts. The fallback ordering (Obsidian-first) preserves backwards compatibility and prevents the presence of a `.flavor-grenade.toml` inside an Obsidian vault from interfering with primary detection.
-**Scale:** Percentage of directories containing `.flavor-grenade.toml` but no `.obsidian/` subdirectory that are correctly detected as vault roots and indexed by the server.
+**Gist:** A directory containing a Flavor Grenade project config marker must be detected as a vault root when no `.obsidian/` directory is present, enabling use of the server in non-Obsidian markdown environments.
+**Ambition:** The server is designed for Obsidian-Flavored Markdown but is not exclusively tied to Obsidian the application. Developers, technical writers, and teams using OFM syntax in other editors or build pipelines need a way to declare a vault root without creating an Obsidian application directory. `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` files containing Flavor Grenade directives serve as explicit declarations that activate vault detection for non-Obsidian contexts. The fallback ordering (Obsidian-first) preserves backwards compatibility and prevents project config inside an Obsidian vault from interfering with primary detection.
+**Scale:** Percentage of directories containing a Flavor Grenade project config marker but no `.obsidian/` subdirectory that are correctly detected as vault roots and indexed by the server.
 **Meter:**
 
-1. Create 3 directories: each contains `.flavor-grenade.toml` and at least 3 markdown documents, and none contains `.obsidian/`.
-2. Create 1 additional directory containing both `.obsidian/` and `.flavor-grenade.toml` to verify primary detection takes precedence.
-3. Start the server with a workspace root containing all 4 directories.
-4. Verify the 3 fallback-detection directories are indexed as vault roots.
-5. Verify the dual-presence directory is indexed via primary detection (not dependent on `.flavor-grenade.toml`).
-6. Compute: (directories with `.flavor-grenade.toml`-only correctly detected / total such directories) × 100.
-**Fail:** Any directory containing `.flavor-grenade.toml` (without `.obsidian/`) that is not detected as a vault root.
-**Goal:** 100% of `.flavor-grenade.toml`-only directories detected.
+1. Create directories for `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` with Flavor Grenade directives; each contains at least 3 markdown documents, and none contains `.obsidian/`.
+2. Create 1 additional directory containing both `.obsidian/` and a Flavor Grenade project config marker to verify primary detection takes precedence.
+3. Start the server with a workspace root containing all test directories.
+4. Verify the fallback-detection directories are indexed as vault roots.
+5. Verify the dual-presence directory is indexed via primary detection (not dependent on project config).
+6. Compute: (directories with project-config-only markers correctly detected / total such directories) × 100.
+**Fail:** Any directory containing a Flavor Grenade project config marker without `.obsidian/` that is not detected as a vault root.
+**Goal:** 100% of project-config-only directories detected.
 **Stakeholders:** Non-Obsidian OFM users, developers, technical writing teams, CI pipeline operators.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [[configuration]], [[docs/design/domain-layer]], [[docs/architecture/overview]].

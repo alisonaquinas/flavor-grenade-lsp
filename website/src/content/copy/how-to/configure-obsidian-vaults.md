@@ -20,15 +20,15 @@ Most workspace problems start with the root folder. Flavor Grenade reads notes, 
 
 Start with the folder tree before changing configuration.
 
-A single `.obsidian/` folder or `.flavor-grenade.toml` file should identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
+A single `.obsidian/` folder or Flavor Grenade project config file should identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
 
 ### Open the intended root
 
-Open the folder that owns `.obsidian/` or `.flavor-grenade.toml`, not a parent folder that happens to contain several projects.
+Open the folder that owns `.obsidian/` or the project config marker, not a parent folder that happens to contain several projects.
 
 ### Keep markers explicit
 
-Use `.obsidian/` for Obsidian vaults or `.flavor-grenade.toml` for a configured Markdown project.
+Use `.obsidian/` for Obsidian vaults or project config for a configured Markdown project. Supported config marker names are `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` with Flavor Grenade directives.
 
 ### Confirm indexed files
 
@@ -36,7 +36,7 @@ Keep generated output and unrelated assets outside the indexed boundary when the
 
 ```text
 DocsProject/
-  .flavor-grenade.toml
+  .flavor-grenade.yaml
   docs/
     README.md
     decisions/
@@ -44,10 +44,25 @@ DocsProject/
   CHANGELOG.md
 ```
 
+TOML version:
+
 ```toml
 [core.markdown]
 flavor = "auto"
 structured_profiles = "auto"
+```
+
+YAML version:
+
+```yaml
+core:
+  markdown:
+    flavor: auto
+    structured_profiles: auto
+    overrides:
+      - path: docs/decisions
+        flavor: commonmark
+        structured_profiles: [madr]
 ```
 
 ## Expected result

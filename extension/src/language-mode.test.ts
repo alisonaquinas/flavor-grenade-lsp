@@ -170,11 +170,11 @@ describe('language mode helpers', () => {
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('detects a .flavor-grenade.toml ancestor', async () => {
+    it('detects a Flavor Grenade project config ancestor', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.flavor-grenade.toml'), '');
+        await writeFile(join(root, '.flavor-grenade.jsonc'), '// marker\n{}\n');
         const note = join(root, 'notes', 'welcome.md');
 
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
@@ -202,7 +202,7 @@ describe('language mode helpers', () => {
                                 [doc.uri.toString()]: {
                                     selected: 'auto',
                                     effective: 'gfm',
-                                    source: 'project-toml',
+                                    source: 'project-config',
                                     structuredProfiles: [],
                                     structuredProfileSource: 'structured-profile-inference',
                                 },

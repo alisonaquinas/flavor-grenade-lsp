@@ -1,0 +1,4 @@
+# L10 is suppressed because this repository distributes the skill as an npm- and
+# marketplace-compatible package. README.md is part of that package contract and
+# is validated by skill packaging tests.
+L10

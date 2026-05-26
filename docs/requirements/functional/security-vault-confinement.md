@@ -110,7 +110,7 @@ aliases:
 ## Security.Vault.ProjectConfigConfinement
 
 **Tag:** Security.Vault.ProjectConfigConfinement
-**Gist:** Project config discovery for `.flavor-grenade.toml` must canonicalize and realpath the candidate path under the owning workspace or vault root before reading; config files outside that root must be ignored.
+**Gist:** Project config discovery must canonicalize and realpath candidate paths under the owning workspace or vault root before reading; config files outside that root must be ignored.
 **Ambition:** Flavor auto-detection introduces a project-level configuration file. If discovery follows symlinks or traversal outside the workspace/vault root, a document can influence analysis with configuration from an arbitrary filesystem location. Config confinement must match link and rename confinement principles.
 **Scale:** Percentage of config discovery attempts that reject out-of-root, symlink-escaped, absolute, encoded traversal, and unsupported-scheme candidates before file I/O.
 **Meter:**

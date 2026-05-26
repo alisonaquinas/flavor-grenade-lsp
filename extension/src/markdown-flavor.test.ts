@@ -156,7 +156,7 @@ describe('Markdown flavor resolution', () => {
         kind: 'active',
         selected: 'auto',
         effective: 'gfm',
-        source: 'project-toml',
+        source: 'project-config',
         structuredProfiles: [],
         structuredProfileSource: 'structured-profile-inference',
       },
@@ -204,7 +204,7 @@ describe('Markdown flavor resolution', () => {
     );
   });
 
-  it('infers strong TOML-absent syntax before CommonMark fallback', () => {
+  it('infers strong project-config-absent syntax before CommonMark fallback', () => {
     const cases = [
       {
         expected: 'mdx',

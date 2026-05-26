@@ -11,6 +11,10 @@
   --line: #ead8cf;
   --cool: #1f6f8b;
   --green: #2d7a52;
+  --texture-page: oklch(0.56 0.06 42 / 0.14);
+  --texture-coral: oklch(0.57 0.17 34 / 0.3);
+  --texture-cool: oklch(0.5 0.08 210 / 0.22);
+  --texture-quiet: oklch(0.48 0.045 58 / 0.22);
   color: var(--ink);
   background: var(--surface);
   font-family:
@@ -34,6 +38,10 @@
   --line: #4a3430;
   --cool: #8fd3ee;
   --green: #8ed9ad;
+  --texture-page: oklch(0.82 0.055 48 / 0.16);
+  --texture-coral: oklch(0.78 0.15 34 / 0.28);
+  --texture-cool: oklch(0.82 0.09 210 / 0.22);
+  --texture-quiet: oklch(0.82 0.055 58 / 0.18);
 }
 
 * {
@@ -50,6 +58,27 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: clip;
+  position: relative;
+}
+
+body::before {
+  background: var(--texture-page);
+  content: "";
+  inset: 0;
+  mask-image:
+    url("/assets/markdown-foregrounds/05_scattered_punctuation_foreground.svg"),
+    url("/assets/markdown-foregrounds/02_code_fence_terminal_foreground.svg");
+  mask-position:
+    top 3rem right -9rem,
+    bottom 2rem left -12rem;
+  mask-repeat: no-repeat;
+  mask-size:
+    min(84rem, 150vw) auto,
+    min(58rem, 130vw) auto;
+  opacity: 1;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
 }
 
 a {
@@ -86,6 +115,12 @@ button {
   position: sticky;
   top: 0;
   z-index: 5;
+}
+
+.site-main,
+.site-footer {
+  position: relative;
+  z-index: 1;
 }
 
 .visually-hidden {
@@ -227,6 +262,7 @@ button {
 .nav-toggle svg,
 .theme-toggle svg,
 .button-icon svg,
+.install-card-icon svg,
 .link-icon svg {
   block-size: 1.05rem;
   fill: none;
@@ -258,7 +294,33 @@ button {
   grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 0.78fr);
   min-height: 70vh;
   gap: clamp(2rem, 5vw, 4.5rem);
+  isolation: isolate;
+  overflow: hidden;
   padding: clamp(2rem, 6vw, 5rem);
+  position: relative;
+}
+
+.hero-shell::before {
+  background: var(--texture-coral);
+  block-size: min(55rem, 88vw);
+  content: "";
+  inline-size: min(74rem, 105vw);
+  inset-block-start: clamp(-1rem, 4vw, 3rem);
+  inset-inline-end: clamp(-18rem, -15vw, -5rem);
+  mask-image: url("/assets/markdown-foregrounds/01_headings_lists_foreground.svg");
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(-4deg);
+  z-index: 0;
+}
+
+.hero-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-copy {
@@ -376,11 +438,144 @@ p {
   padding-left: 1.1rem;
 }
 
+.install-section {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 1.5rem;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(2rem, 6vw, 5rem);
+  position: relative;
+}
+
+.install-section::before {
+  background: var(--texture-cool);
+  block-size: min(42rem, 78vw);
+  content: "";
+  inline-size: min(66rem, 108vw);
+  inset-block-start: clamp(0rem, 3vw, 2rem);
+  inset-inline-end: clamp(-18rem, -14vw, -5rem);
+  mask-image: url("/assets/markdown-foregrounds/03_table_syntax_foreground.svg");
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(2deg);
+  z-index: 0;
+}
+
+.install-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.install-section h2 {
+  color: var(--ink-strong);
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin: 0;
+  max-width: 18ch;
+}
+
+.install-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.install-card {
+  background: color-mix(in srgb, var(--surface-raised) 86%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: inherit;
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.install-card:focus-visible,
+.install-card:hover {
+  border-color: var(--brand-500);
+  outline: 2px solid transparent;
+}
+
+.install-card-icon {
+  align-items: center;
+  background: color-mix(in srgb, var(--brand-100) 65%, transparent);
+  border-radius: 8px;
+  color: var(--brand-700);
+  display: inline-flex;
+  height: 2.4rem;
+  justify-content: center;
+  overflow: hidden;
+  width: 2.4rem;
+}
+
+.install-card-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.install-card-copy strong {
+  color: var(--ink-strong);
+}
+
+.install-card-copy span {
+  color: var(--muted);
+}
+
+.install-card code {
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-strong);
+  display: block;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.75rem;
+  white-space: pre;
+}
+
 .feature-section {
   border-top: 1px solid var(--line);
   display: grid;
   gap: 1.5rem;
+  isolation: isolate;
+  overflow: hidden;
   padding: clamp(2rem, 6vw, 5rem);
+  position: relative;
+}
+
+.feature-section::before {
+  background: var(--texture-quiet);
+  block-size: min(48rem, 86vw);
+  content: "";
+  inline-size: min(70rem, 112vw);
+  inset-block-start: clamp(1rem, 5vw, 5rem);
+  inset-inline-start: clamp(-18rem, -15vw, -5rem);
+  mask-image: url("/assets/markdown-foregrounds/04_blockquotes_rules_foreground.svg");
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(-2deg);
+  z-index: 0;
+}
+
+.feature-section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .feature-section h2 {
@@ -404,7 +599,7 @@ p {
 }
 
 .feature-item {
-  background: transparent;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   color: inherit;
@@ -489,11 +684,36 @@ p {
 .docs-page {
   display: grid;
   gap: clamp(2rem, 5vw, 4rem);
+  isolation: isolate;
   max-inline-size: 100%;
   min-width: 0;
   overflow-x: clip;
   padding: clamp(2rem, 6vw, 5rem);
+  position: relative;
   width: 100%;
+}
+
+.docs-page::before {
+  background: var(--texture-coral);
+  block-size: min(44rem, 82vw);
+  content: "";
+  inline-size: min(62rem, 104vw);
+  inset-block-start: clamp(-1rem, 3vw, 2rem);
+  inset-inline-end: clamp(-18rem, -16vw, -5rem);
+  mask-image: url("/assets/markdown-foregrounds/06_braces_inline_code_foreground.svg");
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: rotate(3deg);
+  z-index: 0;
+}
+
+.docs-page > * {
+  position: relative;
+  z-index: 1;
 }
 
 .docs-hero {
@@ -765,6 +985,7 @@ p {
   .hero-shell,
   .docs-layout,
   .feature-list,
+  .install-grid,
   .site-footer {
     grid-template-columns: 1fr;
   }
@@ -772,6 +993,25 @@ p {
   .hero-shell {
     overflow: hidden;
     padding-inline: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .hero-shell::before,
+  .install-section::before,
+  .feature-section::before,
+  .docs-page::before {
+    block-size: min(34rem, 120vw);
+    inline-size: min(46rem, 140vw);
+    opacity: 0.58;
+  }
+
+  .hero-shell::before,
+  .install-section::before,
+  .docs-page::before {
+    inset-inline-end: clamp(-24rem, -62vw, -11rem);
+  }
+
+  .feature-section::before {
+    inset-inline-start: clamp(-24rem, -62vw, -11rem);
   }
 
   .eyebrow {

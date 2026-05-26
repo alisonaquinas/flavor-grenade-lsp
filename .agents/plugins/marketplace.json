@@ -1,0 +1,20 @@
+{
+  "name": "flavor-grenade-lsp",
+  "interface": {
+    "displayName": "Flavor Grenade LSP"
+  },
+  "plugins": [
+    {
+      "name": "flavorgrenade-lsp",
+      "source": {
+        "source": "local",
+        "path": "./plugins/flavorgrenade-lsp"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
