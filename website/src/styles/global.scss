@@ -13,6 +13,10 @@
   --green: oklch(0.57 0.18 342);
   --metal: oklch(0.61 0.013 270);
   --spark: oklch(0.83 0.16 88);
+  --signal-diagnostic: var(--brand-500);
+  --signal-completion: var(--cool);
+  --signal-rename: var(--green);
+  --signal-index: var(--spark);
   --texture-page: oklch(0.56 0.06 340 / 0.12);
   --texture-coral: oklch(0.62 0.22 20 / 0.28);
   --texture-cool: oklch(0.48 0.15 312 / 0.22);
@@ -42,6 +46,10 @@
   --green: oklch(0.68 0.17 342);
   --metal: oklch(0.69 0.018 270);
   --spark: oklch(0.88 0.16 88);
+  --signal-diagnostic: var(--brand-500);
+  --signal-completion: var(--cool);
+  --signal-rename: var(--green);
+  --signal-index: var(--spark);
   --texture-page: oklch(0.78 0.07 338 / 0.14);
   --texture-coral: oklch(0.7 0.2 20 / 0.22);
   --texture-cool: oklch(0.74 0.14 312 / 0.2);
@@ -110,8 +118,9 @@ button {
 
 .site-header {
   align-items: center;
-  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  background: color-mix(in srgb, var(--surface) 96%, var(--surface-raised));
   border-bottom: 1px solid var(--line);
+  box-shadow: 0 0.6rem 2rem color-mix(in srgb, var(--ink-strong) 5%, transparent);
   display: grid;
   gap: 1rem;
   grid-template-columns: auto 1fr auto auto;
@@ -147,6 +156,7 @@ button {
 .brand-icon {
   aspect-ratio: 1;
   border-radius: 6px;
+  filter: drop-shadow(0 0.25rem 0.7rem color-mix(in srgb, var(--brand-500) 22%, transparent));
   display: block;
   object-fit: contain;
   width: 2.25rem;
@@ -394,6 +404,7 @@ p {
   background: var(--brand-500);
   border-color: var(--brand-500);
   color: var(--surface-raised);
+  box-shadow: 0 0.75rem 1.8rem color-mix(in srgb, var(--brand-500) 26%, transparent);
 }
 
 .button-link.secondary {
@@ -403,6 +414,13 @@ p {
 
 .button-link.tertiary {
   color: var(--cool);
+}
+
+.button-link:focus-visible,
+.button-link:hover {
+  border-color: color-mix(in srgb, var(--brand-500) 72%, var(--line));
+  outline: 2px solid transparent;
+  transform: translateY(-1px);
 }
 
 .proof-panel {
@@ -416,6 +434,18 @@ p {
   min-width: 0;
   overflow: hidden;
   overflow-wrap: anywhere;
+}
+
+.proof-panel::before {
+  background: linear-gradient(
+    90deg,
+    var(--brand-500),
+    var(--green),
+    var(--cool),
+    var(--spark)
+  );
+  content: "";
+  block-size: 0.28rem;
 }
 
 .proof-panel img {
@@ -506,6 +536,7 @@ p {
 .install-card:focus-visible,
 .install-card:hover {
   border-color: var(--brand-500);
+  background: color-mix(in srgb, var(--brand-50) 78%, var(--surface-raised));
   outline: 2px solid transparent;
 }
 
@@ -636,6 +667,31 @@ p {
 
 .feature-item.selected {
   background: color-mix(in srgb, var(--brand-100) 55%, transparent);
+}
+
+.feature-card:nth-child(1) .feature-item {
+  --signal: var(--signal-diagnostic);
+}
+
+.feature-card:nth-child(2) .feature-item {
+  --signal: var(--signal-completion);
+}
+
+.feature-card:nth-child(3) .feature-item {
+  --signal: var(--signal-rename);
+}
+
+.feature-card:nth-child(4) .feature-item {
+  --signal: var(--signal-index);
+}
+
+.feature-item:is(:focus-visible, :hover, .selected) {
+  border-color: var(--signal, var(--brand-500));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal, var(--brand-500)) 55%, transparent);
+}
+
+.feature-item.selected {
+  background: color-mix(in srgb, var(--signal, var(--brand-500)) 16%, var(--surface-raised));
 }
 
 .feature-detail,
