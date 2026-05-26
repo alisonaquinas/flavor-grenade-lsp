@@ -374,16 +374,18 @@ p {
 }
 
 .hero-action-stack {
-  --hero-action-grid: max-content max-content max-content;
   display: grid;
   gap: 0.7rem;
-  grid-template-columns: var(--hero-action-grid);
-  inline-size: fit-content;
+  grid-template-columns: minmax(0, 1fr);
+  inline-size: min(100%, 43rem);
   max-inline-size: 100%;
 }
 
 .hero-actions {
-  display: contents;
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  min-inline-size: 0;
 }
 
 .button-link {
@@ -437,8 +439,7 @@ p {
   border-radius: 8px;
   display: grid;
   gap: 0;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
   inline-size: 100%;
   min-inline-size: 0;
   overflow: hidden;
@@ -1160,13 +1161,10 @@ p {
   }
 
   .hero-actions {
-    display: grid;
-    gap: 0.7rem;
     grid-template-columns: 1fr;
   }
 
   .hero-action-stack {
-    --hero-action-grid: 1fr;
     inline-size: 100%;
   }
 
