@@ -167,12 +167,23 @@ jobs:
           const { readFileSync } = require('node:fs');
 
           const sitemap = readFileSync('website-dist/sitemap.xml', 'utf8');
-          const routePaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+          const routeKeys = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
             .map((match) => new URL(match[1]).pathname)
-            .filter((pathname) => pathname !== '/' && pathname.endsWith('/'));
+            .filter((pathname) => pathname !== '/' && pathname.endsWith('/'))
+            .flatMap((pathname) => {
+              const key = pathname.slice(1);
+              const firstSlash = key.indexOf('/');
 
-          for (const pathname of routePaths) {
-            process.stdout.write(`${pathname.slice(1)}\n`);
+              if (firstSlash === -1) {
+                return [key];
+              }
+
+              return [key, key.slice(firstSlash + 1)];
+            })
+            .filter((key) => key !== ''));
+
+          for (const key of [...routeKeys].sort()) {
+            process.stdout.write(`${key}\n`);
           }
           NODE
 

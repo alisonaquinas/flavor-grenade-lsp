@@ -32,6 +32,7 @@ describe('AWS S3 website deployment workflow', () => {
     expect(workflow).toContain('aws s3 sync website-dist');
     expect(workflow).toContain('Publish clean URL route objects');
     expect(workflow).toContain('website-dist/sitemap.xml');
+    expect(workflow).toContain('key.slice(firstSlash + 1)');
     expect(workflow).toContain('aws s3api put-object');
     expect(workflow).toContain('--key "$route_key"');
     expect(workflow).toContain('--content-type "text/html"');
