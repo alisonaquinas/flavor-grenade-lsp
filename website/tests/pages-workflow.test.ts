@@ -30,6 +30,12 @@ describe('AWS S3 website deployment workflow', () => {
     expect(workflow).toContain('aws-actions/configure-aws-credentials');
     expect(workflow).toContain('role-to-assume: ${{ vars.AWS_WEBSITE_DEPLOY_ROLE_ARN }}');
     expect(workflow).toContain('aws s3 sync website-dist');
+    expect(workflow).toContain('Publish clean URL route objects');
+    expect(workflow).toContain('website-dist/sitemap.xml');
+    expect(workflow).toContain('aws s3api put-object');
+    expect(workflow).toContain('--key "$route_key"');
+    expect(workflow).toContain('--content-type "text/html"');
+    expect(workflow).toContain('--cache-control "public,max-age=300,must-revalidate"');
     expect(workflow).toContain('aws cloudfront create-invalidation');
     expect(workflow).not.toContain('AWS_ACCESS_KEY_ID');
     expect(workflow).not.toContain('AWS_SECRET_ACCESS_KEY');

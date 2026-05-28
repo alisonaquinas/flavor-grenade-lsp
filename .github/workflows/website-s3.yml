@@ -161,6 +161,33 @@ jobs:
         env:
           AWS_WEBSITE_BUCKET: ${{ vars.AWS_WEBSITE_BUCKET }}
 
+      - name: Publish clean URL route objects
+        run: |
+          node <<'NODE' > /tmp/website-route-objects.txt
+          const { readFileSync } = require('node:fs');
+
+          const sitemap = readFileSync('website-dist/sitemap.xml', 'utf8');
+          const routePaths = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
+            .map((match) => new URL(match[1]).pathname)
+            .filter((pathname) => pathname !== '/' && pathname.endsWith('/'));
+
+          for (const pathname of routePaths) {
+            process.stdout.write(`${pathname.slice(1)}\n`);
+          }
+          NODE
+
+          while IFS= read -r route_key; do
+            aws s3api put-object \
+              --bucket "$AWS_WEBSITE_BUCKET" \
+              --key "$route_key" \
+              --body website-dist/index.html \
+              --content-type "text/html" \
+              --cache-control "public,max-age=300,must-revalidate" \
+              >/dev/null
+          done < /tmp/website-route-objects.txt
+        env:
+          AWS_WEBSITE_BUCKET: ${{ vars.AWS_WEBSITE_BUCKET }}
+
       - name: Invalidate CloudFront
         if: ${{ vars.AWS_CLOUDFRONT_DISTRIBUTION_ID != '' }}
         run: |
