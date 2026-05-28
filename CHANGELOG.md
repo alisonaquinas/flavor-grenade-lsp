@@ -5,12 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.6.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...v0.6.0) (2026-05-26)
+
+### Added
+
+- Add multi-format project config support for `.flavor-grenade.json`,
+  `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and
+  Flavor Grenade `.editorconfig` directives.
+- Add extension activation, marketplace asset refresh, and local flavor evidence
+  updates when any supported project config marker appears, changes, or is
+  deleted.
+- Add the Flavor Grenade skill/plugin package, marketplace/catalog metadata,
+  embedded skill layout, release stamping, validation coverage, and signed
+  runtime provenance checks.
+- Add website skill install guidance, markdown foreground assets, grenade
+  palette design tokens, contact sheets, and a hero command copy control.
+
+### Changed
+
+- Rename the VS Code Marketplace listing from Obsidian Markdown Support to
+  Multi-flavor Markdown Support.
+- Host Marketplace README screenshots from <https://flavor-grenade.dev/>.
+- Refresh the website with the grenade color palette, markdown texture
+  backgrounds, stronger docs surface contrast, and aligned hero install
+  controls.
+- Clarify scan limits, scan option examples, and project flavor config docs.
+
+### Fixed
+
+- Fix project flavor config profile resolution and config override matching for
+  scan limits.
+- Fix website skill install card icon rendering.
+- Resolve scanner, test, and review findings around skill packaging, config
+  docs, and release workflow setup.
 
 ### Security
 
 - Sign Bun native executable release assets with GitHub Actions OIDC-backed
   Sigstore `cosign` bundles and verify them before attaching release artifacts.
+- Sign npm package release tarballs with `cosign` and attach signed package
+  artifacts to GitHub Releases.
 - Add native executable signing dry runs to CI: pull requests build a candidate
   binary and validate `cosign` tooling without OIDC, while trusted branch CI
   performs a non-public OIDC sign/verify dry run.
@@ -18,6 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   just-published signed server binaries.
 - Add a plugin version setter so skill releases stamp plugin, skill,
   marketplace, compatibility, and schema metadata from the release tag.
+- Harden security workflow setup steps and avoid mutable `setup-bun` action
+  downloads in scanner-covered workflows.
 
 ## [0.5.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.4.4...v0.5.0) (2026-05-24)
 

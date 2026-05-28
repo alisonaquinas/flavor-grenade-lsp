@@ -20,9 +20,18 @@
       "homepage": "https://flavor-grenade.dev/",
       "repository": "https://github.com/alisonaquinas/flavor-grenade-lsp",
       "license": "MIT",
-      "keywords": ["markdown", "lsp", "flavor", "documentation"],
+      "keywords": [
+        "markdown",
+        "lsp",
+        "flavor",
+        "documentation"
+      ],
       "category": "development",
-      "tags": ["markdown", "lsp", "claude-code"]
+      "tags": [
+        "markdown",
+        "lsp",
+        "claude-code"
+      ]
     }
   ]
 }
