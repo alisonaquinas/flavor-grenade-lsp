@@ -6,6 +6,30 @@ file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 The website is a private package and publishes from `site-v*` release tags.
 
+## [0.2.0] - 2026-05-29
+
+### Added
+
+- Add full static prerendering for every public route so crawlers receive
+  headings, page content, links, metadata, and structured data before
+  JavaScript runs.
+- Add build-output SEO checks for route HTML, canonical URLs, favicon links,
+  homepage structured data, sitemap output, and robots output.
+- Add stable favicon and Apple touch icon assets generated from the product
+  icon.
+
+### Changed
+
+- Use `https://flavor-grenade.dev` as the canonical website domain across route
+  metadata, sitemap, robots, Open Graph, and Twitter metadata.
+- Move route-specific page metadata and JSON-LD into prerendered head output.
+
+### Fixed
+
+- Fix crawler findings for missing raw HTML H1 content, thin static body
+  content, bad canonical URLs, missing favicon links, and missing structured
+  data.
+
 ## [0.1.0] - 2026-05-26
 
 ### Added
