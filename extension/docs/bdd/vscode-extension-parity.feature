@@ -64,7 +64,7 @@ Feature: VS Code extension parity
   Scenario Outline: Structured profile settings propagate with the effective flavor
     Given a Markdown document is active with language id "markdown"
     And the effective Markdown flavor becomes "<baseFlavor>"
-    When "flavorGrenade.markdownStructuredProfiles" is set to "<selection>"
+    When ".fgattributes" sets "structured_profiles=<selection>" for the active resource
     Then the extension sends structured profile selection "<selection>" to the server with the active resource
     And server diagnostics, completions, navigation, hover, semantic tokens, and rename use expected structured profile state "<profile>"
     And the Markdown flavor selector still shows only base flavor choices
@@ -81,9 +81,11 @@ Feature: VS Code extension parity
   Scenario: Markdown flavor overrides persist at the active document scope
     Given a Markdown document belongs to an open workspace folder
     When the user selects "CommonMark" from the Markdown flavor selector
-    Then "flavorGrenade.markdownFlavor" is written to the workspace-folder or workspace target
+    And the user selects "Selected file" from the scope prompt
+    Then ".fgattributes" receives a file-specific "flavor=commonmark" rule
     When the user opens a standalone Markdown file and selects "Original Markdown"
-    Then "flavorGrenade.markdownFlavor" is written to the user target
+    And the user selects "Selected file" from the scope prompt
+    Then ".fgattributes" beside the standalone file receives a file-specific "flavor=original" rule
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.ServerPropagation
@@ -95,8 +97,9 @@ Feature: VS Code extension parity
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario Outline: Workspace flavor config controls Auto Detect label
-    Given a workspace config declares default Markdown flavor "<id>"
+  Scenario Outline: .fgattributes flavor=auto controls Auto Detect label
+    Given ".fgattributes" sets "flavor=auto" for the active Markdown document
+    And local evidence resolves Auto Detect to "<id>"
     And a Markdown document is active with language id "markdown"
     When Markdown flavor auto-detection runs
     Then the selector shows "Auto Detect (<label>)"

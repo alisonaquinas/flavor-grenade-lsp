@@ -17,7 +17,7 @@ Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
 > [!note] Scope update
 > Historical architecture docs and parser modules may still use OFM-first names.
 > The current requirement is flavor-aware analysis through
-> `flavorGrenade.markdownFlavor`; unsupported syntax for a selected flavor must
+> `.fgattributes`; unsupported syntax for a selected flavor must
 > be treated according to that flavor's documented profile, not silently assumed
 > to be Obsidian syntax. Effective flavor resolution is defined in
 > [[docs/design/markdown-flavor-auto-detection]].
@@ -72,7 +72,9 @@ This transport model means:
 
 ## Single-File Mode
 
-When `flavor-grenade-lsp` opens a document and cannot find either a `.obsidian/` directory or a `.flavor-grenade.toml` file in the document's ancestor directories, it falls back to **single-file mode**.
+When `flavor-grenade-lsp` opens a document and cannot find a `.obsidian/`
+directory or Flavor Grenade config-file context in the document's ancestor
+directories, it falls back to **single-file mode**.
 
 In single-file mode:
 
@@ -92,7 +94,8 @@ Vault detection runs whenever `workspace/didChangeWorkspaceFolders` is received 
 Detection precedence:
 
 1. **`.obsidian/` directory** — Primary signal. Obsidian creates this directory at the vault root. Its presence is authoritative.
-2. **`.flavor-grenade.toml`** — Secondary signal. A user-managed configuration file at the vault root. Useful for non-Obsidian editors or for overriding vault boundaries.
+2. **`.fgignore` / `.fgattributes`** — Secondary signal. User-managed
+   Git-style files that define Flavor Grenade visibility and flavor attributes.
 
 If neither is found by traversing up to the filesystem root, the document is placed in a single-file `VaultFolder`.
 
@@ -107,11 +110,13 @@ the language mode affordance:
 
 1. `.md` files open and remain `markdown`.
 2. The extension derives an effective flavor from `Auto Detect`, using
-   `.obsidian/`, `.flavor-grenade.toml`, and server membership signals.
-3. Users may override the flavor to `original`, `commonmark`, or `obsidian`.
-4. Overrides persist to a workspace/project setting when a folder is open, and
-   to a user setting for standalone-file contexts.
-5. The effective flavor is propagated to the server so diagnostics,
+   `.fgignore`, `.fgattributes`, `.obsidian/`, and server membership signals.
+3. Users may override the flavor to any required explicit flavor.
+4. Overrides persist to `.fgattributes` after the user chooses selected-file or
+   directory scope.
+5. `.fgignore` removes matching files from Flavor Grenade processing and
+   indexing.
+6. The effective flavor is propagated to the server so diagnostics,
    completions, and other features can honor the selected dialect.
 
 The LanguageClient listens to `markdown` documents only. Manual non-Markdown
@@ -155,7 +160,8 @@ host-specific behavior, or opaque text:
 See [[docs/concepts/document-model]] for the 8-stage pipeline,
 [[docs/concepts/ofm-syntax]] for the OFM element taxonomy, and
 [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]]
-for required flavor profiles.
+   for required flavor profiles and
+   [[docs/features/markdown-flavor-config-files]] for configuration files.
 
 ---
 
@@ -186,4 +192,6 @@ src/main.ts
 - [[docs/concepts/connection-graph]] — RefGraph and Oracle patterns
 - [[docs/concepts/workspace-model]] — VaultFolder and Workspace composition
 - [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
+- [[docs/features/markdown-flavor-config-files]] — Git-style flavor config files
 - [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
+- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]] — `.fgignore` and `.fgattributes` decision

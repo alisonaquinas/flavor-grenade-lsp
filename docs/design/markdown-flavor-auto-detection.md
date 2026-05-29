@@ -31,12 +31,13 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
   picker.
 - Resolve Obsidian vault notes to `obsidian` without configuration.
 - Resolve generic Markdown conservatively to `commonmark`.
-- Support project flavor configuration through `.flavor-grenade.toml`,
-  `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
-  `.flavor-grenade.yml`, and `.editorconfig` directives.
-- Allow one project config file to assign different Markdown flavors and
-  structured profiles to different vault-relative directories.
-- When project configuration is absent, infer a likely flavor from strong,
+- Support file and directory flavor configuration through `.fgattributes`.
+- Support file and directory exclusion through `.fgignore`.
+- Allow multiple `.fgignore` and `.fgattributes` files from vault root through
+  nested directories, with Git-style pattern precedence and negation.
+- Preserve Auto Detect as the default for every file in a directory tree when
+  no `.fgignore` or `.fgattributes` file exists.
+- When `.fgattributes` flavor assignment is absent, infer a likely flavor from strong,
   local document syntax and workspace context without treating weak shared
   Markdown features as decisive.
 - Preserve user-selected non-Markdown language modes.
@@ -60,9 +61,9 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
 
 | Owner | Responsibility |
 |---|---|
-| BC6 Editor Client | Displays the selector, persists user choices to the right VS Code configuration scope, preserves manual language choices, and sends flavor state to the server. |
-| BC4 Vault / Workspace | Owns vault membership, project config evidence, and authoritative `EffectiveMarkdownContext` state for server analysis. |
-| Config | Validates flavor ids and merges project/default configuration. It does not resolve document-specific effective state alone. |
+| BC6 Editor Client | Displays the selector, writes scoped `.fgattributes` rules, preserves manual language choices, and sends refresh signals to the server. |
+| BC4 Vault / Workspace | Owns vault membership, `.fgignore` visibility, `.fgattributes` evidence, and authoritative `EffectiveMarkdownContext` state for server analysis. |
+| Config | Validates flavor ids and parses Git-style Flavor Grenade config files. It does not resolve document-specific effective state alone. |
 | BC5 LSP Protocol | Validates incoming flavor payloads and transports resource-specific state. It does not reinterpret flavor syntax. |
 | BC2 Document Lifecycle | Consumes `EffectiveMarkdownContext` through `ParseContext`: one base flavor plus zero or more structured profile flags. |
 
@@ -78,21 +79,20 @@ type ResolveFlavorInput = {
   scheme: string;
   owningWorkspaceFolder?: string;
   searchBoundary?: string;
-  inspectedVSCodeSetting: {
-    folder?: MarkdownFlavorSelection;
-    workspace?: MarkdownFlavorSelection;
-    user?: MarkdownFlavorSelection;
+  fgignore?: {
+    ignored: boolean;
+    matchedPattern?: string;
+    sourceFile?: string;
   };
-  inspectedVSCodeStructuredProfileSetting: {
-    folder?: StructuredProfileSelection;
-    workspace?: StructuredProfileSelection;
-    user?: StructuredProfileSelection;
+  fgattributes?: {
+    flavor?: MarkdownFlavorSelection;
+    structuredProfiles?: StructuredProfileSelection;
+    matchedPattern?: string;
+    sourceFile?: string;
   };
-  projectConfigFlavor?: MarkdownFlavorSelection;
-  projectConfigStructuredProfiles?: StructuredProfileSelection;
   markers: {
     hasObsidianDirectory: boolean;
-    hasFlavorGrenadeProjectConfig: boolean;
+    hasFlavorGrenadeConfigFiles: boolean;
   };
   syntaxInference?: {
     candidates: Array<{
@@ -116,16 +116,17 @@ type ResolveFlavorInput = {
 };
 ```
 
-Invalid selector or project config values are not part of `MarkdownFlavorSelection`. The
-validation layer rejects them before resolution and treats that layer as absent.
+Invalid selector or `.fgattributes` values are not part of
+`MarkdownFlavorSelection`. The validation layer rejects them before resolution
+and treats that layer as absent.
 
 Security invariants:
 
-- Project config files are read only after workspace/vault realpath confinement
+- `.fgignore` and `.fgattributes` files are read only after workspace/vault realpath confinement
   passes.
-- Config size, value types, and dangerous object keys are validated before
+- Config size, pattern syntax, value types, and dangerous object keys are validated before
   merge.
-- Invalid project config is treated as absent configuration and logs status
+- Invalid `.fgattributes` data is treated as absent configuration and logs status
   without logging file contents.
 - Resource keys in server propagation are validated as supported `file://`
   resources owned by the workspace/vault or standalone document context.
@@ -138,10 +139,7 @@ Security invariants:
 
 ```typescript
 type ActiveFlavorSource =
-  | 'workspace-folder-setting'
-  | 'workspace-setting'
-  | 'standalone-user-setting'
-  | 'project-config'
+  | 'fgattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'server-membership'
@@ -162,6 +160,7 @@ type ResolveFlavorResult =
       reason:
         | 'non-markdown-language'
         | 'unsupported-scheme'
+        | 'fgignore'
         | 'virtual-or-restricted-context';
     };
 ```
@@ -169,7 +168,20 @@ type ResolveFlavorResult =
 The `effective` field is the base Markdown flavor only. Structured profiles are
 separate flags in `structuredProfiles`; they never replace the base flavor.
 
-## Decision Flow
+## Effective Flavor Resolution Flow
+
+Effective flavor resolution has three separate stages:
+
+1. Visibility gating decides whether Flavor Grenade may see the file.
+2. Configuration resolution decides whether a concrete flavor is selected or
+   Auto Detect should run.
+3. Auto Detect runs independently of configuration when requested by the
+   previous stage.
+
+`.fgattributes` can trigger Auto Detect by leaving `flavor` absent, clearing it
+with `!flavor`, or setting `flavor=auto`. Auto Detect does not read
+`.fgattributes`; it receives only document, workspace, marker, and syntax/context
+evidence.
 
 ```mermaid
 flowchart TD
@@ -177,23 +189,16 @@ flowchart TD
   B -- "No" --> Z1["inactive: non-markdown-language"]
   B -- "Yes" --> C{"file-backed supported scheme?"}
   C -- "No" --> Z2["inactive: unsupported-scheme or virtual/restricted"]
-  C -- "Yes" --> D{"Folder-backed document?"}
-  D -- "Yes" --> E{"Workspace-folder setting explicit?"}
-  E -- "Yes" --> R1["effective = folder setting"]
-  E -- "No / auto / absent" --> F{"Workspace setting explicit?"}
-  F -- "Yes" --> R2["effective = workspace setting"]
-  F -- "No / auto / absent" --> G{"Project config explicit?"}
-  D -- "No" --> H{"User setting explicit?"}
-  H -- "Yes" --> R3["effective = user setting"]
-  H -- "No / auto / absent" --> G
-  G -- "Yes" --> R4["effective = project config"]
-  G -- "No / auto / absent" --> I{".obsidian/ marker or obsidian membership?"}
+  C -- "Yes" --> D{".fgignore matches?"}
+  D -- "Yes" --> Z3["inactive: fgignore"]
+  D -- "No" --> G{"Resolved config selects concrete flavor?"}
+  G -- "Yes" --> R4["effective = configured flavor"]
+  G -- "No: absent, !flavor, or auto" --> H["Run Auto Detect"]
+  H --> I{".obsidian/ marker or obsidian membership?"}
   I -- "Yes" --> R5["effective = obsidian"]
   I -- "No" --> K{"Strong syntax/context inference?"}
   K -- "Yes" --> R6["effective = inferred flavor"]
-  K -- "No" --> J{"Server membership says flavor-config-vault with explicit project flavor?"}
-  J -- "Yes" --> R7["effective = project flavor"]
-  J -- "No" --> R8["effective = commonmark"]
+  K -- "No" --> R8["effective = commonmark"]
 ```
 
 ## Precedence Rules
@@ -202,35 +207,33 @@ flowchart TD
 |---|---|---|
 | 0 | `languageId` is not `markdown` | `inactive`; do not resolve flavor. |
 | 0 | URI scheme/context cannot be served safely | `inactive`; do not start flavor analysis. |
-| 1 | Folder-backed document has explicit workspace-folder setting | Workspace-folder `flavorGrenade.markdownFlavor`. |
-| 2 | Folder-backed document has explicit workspace setting | Workspace `flavorGrenade.markdownFlavor`. |
-| 3 | Standalone document has explicit user setting | User `flavorGrenade.markdownFlavor`. |
-| 4 | Owning vault/project has explicit project config flavor | The resolved document-specific `core.markdown.flavor` value from Flavor Grenade config or `.editorconfig`. |
-| 5 | `.obsidian/` marker or server membership reason `obsidian-vault` exists | `obsidian`. |
-| 6 | No project config or Obsidian marker exists and syntax/context inference has one strong winner | The inferred flavor. |
-| 7 | Server membership reports a Flavor Grenade vault with explicit project flavor evidence | That explicit project flavor. |
-| 8 | No valid positive signal remains | `commonmark`. |
+| 1 | `.fgignore` matches the document | `inactive`; do not process or index the file. |
+| 2 | Configuration resolution selects a concrete `flavor` value | That document-specific flavor value. |
+| 3 | Configuration resolution selects `auto` or no concrete flavor | Invoke Auto Detect. |
+
+Inside Auto Detect, precedence is independent of configuration:
+
+| Priority | Auto Detect evidence | Value used |
+|---|---|---|
+| A1 | `.obsidian/` marker or server membership reason `obsidian-vault` exists | `obsidian`. |
+| A2 | Syntax/context inference has one strong winner | The inferred flavor. |
+| A3 | No valid positive signal remains | `commonmark`. |
 
 Tie-breakers:
 
-- `auto` delegates to the next lower-priority source.
+- `auto`, `!flavor`, and absent `flavor` all invoke Auto Detect.
 - `auto` never propagates to analysis as the effective flavor.
-- Workspace-folder settings outrank workspace settings for documents inside
-  that folder.
-- User settings are explicit selection sources only for standalone documents.
-  Folder-backed documents use folder/workspace settings or project/vault
-  evidence, so a personal standalone preference does not silently override a
-  team project.
-- `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`,
-  `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` files with
-  Flavor Grenade directives mark a Flavor Grenade vault, but by themselves do
-  not imply Obsidian behavior. They resolve to explicit configured flavor
-  values or fall through to `commonmark`.
-- `.obsidian/` resolves to `obsidian` unless a higher-priority explicit
-  selector/config value overrides it.
-- Syntax inference runs only after explicit settings, project config, and
-  Obsidian marker evidence are absent. It must never override a configured
-  project.
+- `.fgignore` rules are evaluated before `.fgattributes`; ignored files never
+  receive flavor analysis.
+- `.fgattributes` rules are evaluated from vault root to the file's directory.
+  Later rules and deeper files override earlier and ancestor rules for each
+  attribute.
+- VS Code settings are not an active source for file or directory flavor
+  selection.
+- `.obsidian/` resolves to `obsidian` inside Auto Detect unless configuration
+  resolution has already selected a concrete flavor.
+- Syntax inference runs only inside Auto Detect, after Obsidian marker evidence
+  is absent. It must never override a concrete configured attribute.
 - Syntax inference must prefer false negatives over false positives. Weak shared
   constructs such as pipe tables, task lists, fenced code blocks, headings,
   frontmatter, and strikethrough do not decide a flavor by themselves.
@@ -243,88 +246,66 @@ Tie-breakers:
 - Unknown future flavor ids must be rejected until they are added to the shared
   flavor contract.
 
-## Project Config Files
+## Auto Mode Workflow
 
-The server recognizes one project config file at a vault root. Discovery checks
-these names in order:
+Auto Detect remains the default workflow. Configuration can select a concrete
+flavor or request Auto Detect, but configuration is not part of the Auto Detect
+algorithm.
 
-1. `.flavor-grenade.toml`
-2. `.flavor-grenade.json`
-3. `.flavor-grenade.jsonc`
-4. `.flavor-grenade.yaml`
-5. `.flavor-grenade.yml`
-6. `.editorconfig` containing `flavor_grenade_*` or `flavor_grenade.*`
-   directives
+Auto mode is active in three cases:
 
-The first existing file is the active project config for that vault. Its global
-values apply to every Markdown document in the vault unless a more specific
-directory override matches the document path.
+| Case | Meaning |
+|---|---|
+| Defaulted auto | No `.fgattributes` `flavor` applies to the file. This includes the case where no `.fgignore` or `.fgattributes` file exists anywhere in the directory tree. |
+| Selected auto | The user chooses Auto Detect in the selector. The extension removes or resets the matching `.fgattributes` `flavor` assignment at the chosen selected-file or directory scope. |
+| Configured auto | A matching `.fgattributes` rule sets `flavor=auto`. This is an explicit request for this path to run Auto Detect, overriding any earlier explicit flavor assignment in the attributes cascade. |
 
-TOML:
+When auto mode is active for a visible file, resolution continues through the
+same detection stages:
 
-```toml
-[core.markdown]
-flavor = "commonmark"
-structured_profiles = ["madr"]
+1. `.obsidian/` marker or Obsidian vault membership resolves to `obsidian`.
+2. Strong syntax/context inference may resolve to an explicit flavor.
+3. Ambiguous or generic Markdown resolves to `commonmark`.
 
-[[core.markdown.overrides]]
-path = "docs"
-flavor = "gfm"
-structured_profiles = ["keep-a-changelog"]
+`.fgignore` still runs before auto mode. An ignored file is inactive and is not
+Auto Detected.
 
-[[core.markdown.overrides]]
-path = "notes/research"
-flavor = "obsidian"
-structured_profiles = "none"
+`!flavor` and `flavor=auto` both return a matched path to Auto Detect. Use
+`!flavor` when the intent is "remove the inherited attribute"; use
+`flavor=auto` when the intent is "this path is explicitly auto-detected."
+
+## Flavor Grenade Config Files
+
+The server recognizes `.fgignore` and `.fgattributes` in a vault root and in any
+subdirectory under that root. Discovery walks from the vault root to the
+candidate file's parent directory and applies matching files in that order.
+
+`.fgignore` uses Git ignore style wildmatch patterns:
+
+```gitignore
+dist/**/*.md
+!dist/release-notes.md
+private/
 ```
 
-JSON/JSONC/YAML use the same logical shape:
+`.fgattributes` uses the same selector matching model with attribute tokens:
 
-```jsonc
-{
-  "core": {
-    "markdown": {
-      "flavor": "commonmark",
-      "structured_profiles": ["madr"],
-      "overrides": [
-        {
-          "path": "docs",
-          "flavor": "gfm",
-          "structured_profiles": ["keep-a-changelog"]
-        },
-        {
-          "path": "notes/research",
-          "flavor": "obsidian",
-          "structured_profiles": "none"
-        }
-      ]
-    }
-  }
-}
+```gitattributes
+*.md flavor=commonmark
+docs/**/*.md flavor=gfm structured_profiles=keep-a-changelog
+notes/**/*.md flavor=obsidian
+drafts/**/*.md !flavor !structured_profiles
 ```
 
-Override `path` values are vault-relative directory or glob selectors. The most
-specific matching override wins; fields omitted by the matching override inherit
-from the global project config. Invalid flavor ids, invalid structured profile
-ids, duplicate structured profile ids, and incompatible changelog profile pairs
-are ignored at their layer.
+The implementation must support blank lines, comments, escaped leading comment
+or negation characters, `/` anchoring, trailing `/` directory matches, `*`,
+`?`, character classes, `**`, later-rule precedence, and negation as specified
+in [[docs/features/markdown-flavor-config-files]].
 
-`.editorconfig` integration is section-based and only uses Flavor Grenade
-directive keys. It does not reinterpret ordinary EditorConfig properties:
-
-```ini
-[docs/**/*.md]
-flavor_grenade_markdown_flavor = gfm
-flavor_grenade_markdown_structured_profiles = keep-a-changelog
-
-[docs/decisions/*.md]
-flavor_grenade_markdown_flavor = pandoc
-flavor_grenade_markdown_structured_profiles = madr
-```
-
-`flavor_grenade.markdown_flavor` and
-`flavor_grenade.markdown_structured_profiles` are accepted aliases for teams
-that prefer dotted directive names.
+Invalid flavor ids, invalid structured profile ids, duplicate structured
+profile ids, and incompatible changelog profile pairs are ignored at their
+layer. Invalid pattern syntax does not crash the server; the invalid line is
+reported without logging document content.
 
 ## Syntax And Context Inference
 
@@ -350,7 +331,7 @@ specific renderer/host context:
 | `gfm` | GitHub-specific autolinks or task/table/strikethrough clusters may produce only medium evidence because these constructs are widely copied by other flavors. |
 | `obsidian` | Wiki links, embeds, block anchors, callouts, and tags are strong only when paired with vault-like local context. `.obsidian/` remains the preferred signal. |
 | `commonmark` | Chosen as the conservative fallback when no stronger flavor wins. |
-| `original` | Not inferred from syntax; requires explicit setting or project config. |
+| `original` | Not inferred from syntax; requires explicit `.fgattributes` selection. |
 
 Inference must inspect only bounded local text and metadata already available to
 the editor/server. It must not execute code, load remote resources, install
@@ -386,44 +367,46 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
     return { kind: 'inactive', reason: 'unsupported-scheme' };
   }
 
-  const explicit = (value?: MarkdownFlavorSelection): MarkdownFlavorId | undefined =>
-    value && value !== 'auto' ? value : undefined;
-
-  if (input.owningWorkspaceFolder) {
-    const folder = explicit(input.inspectedVSCodeSetting.folder);
-    if (folder) {
-      return active(folder, 'workspace-folder-setting', input, folder);
-    }
-
-    const workspace = explicit(input.inspectedVSCodeSetting.workspace);
-    if (workspace) {
-      return active(workspace, 'workspace-setting', input, workspace);
-    }
-  } else {
-    const user = explicit(input.inspectedVSCodeSetting.user);
-    if (user) {
-      return active(user, 'standalone-user-setting', input, user);
-    }
+  if (input.fgignore?.ignored) {
+    return { kind: 'inactive', reason: 'fgignore' };
   }
 
-  const project = explicit(input.projectConfigFlavor);
-  if (project) {
-    return active(project, 'project-config', input);
+  const configured = resolveConfiguredFlavor(input.fgattributes?.flavor);
+  if (configured.kind === 'explicit') {
+    return active(configured.flavor, 'fgattributes', input, configured.flavor);
   }
 
+  const detected = autoDetectMarkdownFlavor({
+    markers: input.markers,
+    serverMembership: input.serverMembership,
+    syntaxInference: input.syntaxInference,
+  });
+
+  return active(detected.flavor, detected.source, input);
+}
+
+function resolveConfiguredFlavor(
+  value?: MarkdownFlavorSelection,
+): { kind: 'explicit'; flavor: MarkdownFlavorId } | { kind: 'auto' } {
+  return value && value !== 'auto'
+    ? { kind: 'explicit', flavor: value }
+    : { kind: 'auto' };
+}
+
+function autoDetectMarkdownFlavor(input: AutoDetectInput): AutoDetectFlavorResult {
   if (
     input.markers.hasObsidianDirectory ||
     input.serverMembership?.reason === 'obsidian-vault'
   ) {
-    return active('obsidian', 'obsidian-marker', input);
+    return { flavor: 'obsidian', source: 'obsidian-marker' };
   }
 
   const inferred = strongestSyntaxInference(input.syntaxInference);
   if (inferred) {
-    return active(inferred, 'syntax-inference', input);
+    return { flavor: inferred, source: 'syntax-inference' };
   }
 
-  return active('commonmark', 'commonmark-fallback', input);
+  return { flavor: 'commonmark', source: 'commonmark-fallback' };
 }
 
 function active(
@@ -444,21 +427,12 @@ function active(
 }
 
 function resolveStructuredProfiles(input: ResolveFlavorInput): StructuredMarkdownProfileId[] {
-  const vscodeSelection = input.owningWorkspaceFolder
-    ? input.inspectedVSCodeStructuredProfileSetting.folder ??
-      input.inspectedVSCodeStructuredProfileSetting.workspace
-    : input.inspectedVSCodeStructuredProfileSetting.user;
-  const explicitVSCode = normalizeStructuredProfileSelection(vscodeSelection);
-  if (explicitVSCode.kind === 'explicit') {
-    return explicitVSCode.profiles;
+  const attributed = normalizeStructuredProfileSelection(input.fgattributes?.structuredProfiles);
+  if (attributed.kind === 'explicit') {
+    return attributed.profiles;
   }
 
-  const explicitProject = normalizeStructuredProfileSelection(input.projectConfigStructuredProfiles);
-  if (explicitProject.kind === 'explicit') {
-    return explicitProject.profiles;
-  }
-
-  if (explicitVSCode.kind === 'none' || explicitProject.kind === 'none') {
+  if (attributed.kind === 'none') {
     return [];
   }
 
@@ -489,28 +463,27 @@ The supported structured profile ids are:
 - `madr`
 
 These ids are intentionally excluded from `MarkdownFlavorId` and from the
-Markdown flavor selector list. They are configured through separate project
-config fields and VS Code settings with the same workspace-folder/workspace/user
-precedence shape as the base flavor setting. They can also be auto-detected
-from filename, folder placement, front matter, headings, and bounded local
-document structure.
+Markdown flavor selector list. They are configured through `structured_profiles`
+attributes in `.fgattributes` with the same pattern cascade as the base flavor.
+They can also be auto-detected from filename, folder placement, front matter,
+headings, and bounded local document structure.
 
 ## Resource-Specific Propagation
 
 The extension must propagate effective flavor as resource-specific state, not as
 a single global value. This matters when:
 
-- a multi-root workspace contains folders with different flavor settings;
+- a multi-root workspace contains folders with different `.fgattributes` rules;
 - two open Markdown files are in different vaults;
-- a standalone file has a user-level explicit flavor while a workspace file
-  uses project configuration;
+- a standalone file has a local `.fgattributes` rule while a workspace file
+  uses a different rule;
 - an Obsidian vault and a generic Markdown folder are open at the same time.
 
 The server-facing payload must let BC4 derive or receive the effective flavor
 for the specific document being parsed. A valid design can use either:
 
 1. a document-URI keyed effective flavor map in `workspace/didChangeConfiguration`;
-2. workspace-folder keyed settings plus server-side document membership lookup;
+2. `.fgattributes` plus server-side document membership lookup;
 3. initialization options plus configuration change notifications; or
 4. a documented custom request.
 
@@ -546,15 +519,10 @@ change:
 - Markdown file opens;
 - server readiness or membership result changes;
 - `.obsidian/` marker appears or disappears;
-- `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`,
-  `.flavor-grenade.yaml`, `.flavor-grenade.yml`, or `.editorconfig` appears,
-  disappears, or changes;
+- `.fgignore` or `.fgattributes` appears, disappears, or changes;
 - document text changes enough to alter syntax-inference evidence;
 - document text changes enough to alter structured-profile evidence;
 - workspace context files used by syntax inference appear, disappear, or change;
-- `flavorGrenade.markdownFlavor` changes at folder, workspace, or user scope;
-- `flavorGrenade.markdownStructuredProfiles` changes at folder, workspace, or
-  user scope;
 - restricted/virtual workspace state changes.
 - workspace trust state changes.
 
@@ -568,16 +536,18 @@ refresh for affected documents. Refresh decisions compare the full
 Minimum test coverage:
 
 - Unit truth table for every precedence row and tie-breaker.
-- Invalid-value cases at VS Code setting and project config layers.
+- Invalid-value cases in `.fgignore` and `.fgattributes` layers.
 - Multi-root cases with different effective flavors per folder.
-- Standalone user setting case.
+- Standalone `.fgattributes` case.
+- `.fgignore` exclusion, negation, and re-include cases.
 - Obsidian marker case.
 - Syntax-inference cases for every inferable non-CommonMark flavor.
 - Ambiguous syntax cases proving weak/shared features fall back to CommonMark.
 - Original Markdown non-inference case.
 - Generic Markdown fallback case.
 - Manual `plaintext` and `mdx` language-id safety cases.
-- Server propagation case proving resource-specific effective flavor.
+- Server propagation case proving resource-specific effective flavor and
+  ignored-file inactivity.
 - BDD acceptance case for Auto Detect reset and recompute.
 
 ## Fixture Boundary Note
@@ -585,14 +555,14 @@ Minimum test coverage:
 Fixture roots used as negative controls must not inherit markers from ancestor
 directories outside the fixture workspace. For example,
 `extension/test-fixtures/workspaces/smoketest/README.md` is a root-level
-fixture note and should not detect as OFM merely because the repository root has
-`.flavor-grenade.toml`.
+fixture note and should not detect as OFM or inherit flavor attributes merely
+because the repository root has Flavor Grenade config files.
 
 Manual smoke tests should open an isolated copy of the fixture workspace, or the
 resolver must receive an explicit workspace boundary and stop marker/context
 search at that boundary. Child fixture workspaces under `smoketest/` may carry
-their own project config markers; those descendant markers must not make the
-root `smoketest/README.md` a Flavor Grenade vault document.
+their own `.fgignore` or `.fgattributes` files; those descendant files must not
+make the root `smoketest/README.md` a Flavor Grenade vault document.
 
 ## Cross-References
 

@@ -67,8 +67,8 @@ Tags are indexed with their full hierarchical path. A tag `#project/active` is d
 | Language | TypeScript (strict mode) |
 | LSP version | 3.17 |
 | Transport | stdio JSON-RPC (see [[ADR001-stdio-transport]]) |
-| Configuration | `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, or Flavor Grenade `.editorconfig` directives |
-| Vault detection | `.obsidian/` or a Flavor Grenade project config marker (see [[ADR003-vault-detection]]) |
+| Configuration | `.fgignore` for Flavor Grenade visibility; `.fgattributes` for file/directory flavor and structured profile attributes |
+| Vault detection | `.obsidian/` or Flavor Grenade config-file context (`.fgignore` / `.fgattributes`) |
 
 ## Project Status
 
@@ -104,6 +104,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/adr/ADR014-dependency-security-policy]] | Dependency security policy decision |
 | [[docs/adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
 | [[docs/adr/ADR020-markdown-flavor-selection]] | Markdown flavor selector decision |
+| [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]] | Git-style `.fgignore` and `.fgattributes` configuration decision |
 | [[docs/concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[docs/concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
 | [[docs/requirements/functional/workspace]] | Workspace requirements (Planguage) |
@@ -119,6 +120,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/features/hover]] | Hover information |
 | [[docs/features/semantic-tokens]] | Semantic token types table |
 | [[docs/features/ofmarkdown-language-mode]] | VS Code Markdown flavor selector |
+| [[docs/features/markdown-flavor-config-files]] | Git-style Markdown flavor configuration files |
 | [[docs/features/ofmarkdown-parity-roadmap]] | Marksman-inspired OFMarkdown server parity roadmap |
 | [[docs/features/vscode-extension-parity]] | Marksman VSCode-inspired extension parity roadmap |
 | [[docs/requirements/index]] | Master Planguage requirements index |

@@ -55,10 +55,10 @@ standalone Markdown to CommonMark.
 
 Actions:
 
-- Confirm the workspace has `.obsidian/` or `Flavor Grenade project config marker` at or above
-  the note.
-- Check `flavorGrenade.markdownFlavor`; use `auto` unless you intentionally set
-  a project or user override.
+- Confirm the workspace has `.obsidian/`, `.fgignore`, or `.fgattributes` at or
+  above the note when vault indexing is expected.
+- Inspect the nearest applicable `.fgattributes`. If no `flavor` attribute
+  applies, Auto Detect applies from the opened directory tree.
 - For precedence details, see the root
   [Markdown flavor auto-detection algorithm](../../docs/design/markdown-flavor-auto-detection.md).
 - Run **Flavor Grenade: Rebuild Index** if the vault marker or file moved while

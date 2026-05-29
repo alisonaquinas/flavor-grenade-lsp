@@ -12,6 +12,12 @@ aliases:
 
 # ADR 020 — Markdown flavor selector instead of alternate VS Code language mode
 
+> [!NOTE]
+> ADR021 supersedes this ADR's persistence target for file and directory flavor
+> configuration. The selector and "keep `.md` as `markdown`" decisions remain
+> active. Persistent flavor assignment now lives in `.fgattributes`, and file
+> visibility lives in `.fgignore`.
+
 ## Context
 
 ADR016 chose a separate VS Code language id, `ofmarkdown`, for recognized
@@ -24,8 +30,7 @@ The revised product requirement is different:
 - add a second selector for Markdown flavor next to the language mode control;
 - continue auto-detecting flavor where possible;
 - allow users to override the detected flavor;
-- persist folder-backed overrides as project settings;
-- persist standalone-file overrides as user settings;
+- persist overrides through Git-style Flavor Grenade configuration files;
 - support every Markdown flavor currently researched in `docs/research/`, plus
   Obsidian's normative OFM specification source and auto-detection.
 
@@ -81,16 +86,11 @@ Explicit overrides persist by context:
 
 | Context | Persistence target |
 |---|---|
-| Active Markdown file belongs to an open workspace folder | Workspace-folder or workspace setting |
-| Active Markdown file has no workspace folder | User setting |
+| Selected file | `.fgattributes` rule for the active file |
+| All files in the active directory | `.fgattributes` rule for Markdown files in that directory |
 
-The setting name is specified as:
-
-```json
-{
-  "flavorGrenade.markdownFlavor": "auto"
-}
-```
+VS Code settings are no longer a persistence target for file or directory
+flavor selection.
 
 The effective flavor must be propagated to the language server so parser,
 diagnostic, completion, navigation, and semantic-token behavior can become
@@ -109,7 +109,7 @@ non-`markdown` VS Code language id.
 - Users keep VS Code's built-in Markdown mode and extension ecosystem.
 - Flavor selection becomes explicit without abusing language mode as product state.
 - Auto-detection remains low-friction for Obsidian vaults.
-- Override persistence follows user expectations: project when a folder exists, user when only a file exists.
+- Override persistence follows the repository through `.fgattributes`.
 - The model can grow to additional flavors without adding more VS Code language ids.
 - The researched flavor corpus becomes testable product scope instead of
   background research.
@@ -120,6 +120,7 @@ non-`markdown` VS Code language id.
 - Some existing tests and docs that assert `ofmarkdown` promotion must be rewritten.
 - Snippets or keybindings that were intended to be `ofmarkdown`-scoped need a new context key or command precondition.
 - Status bar placement can only approximate "next to the language mode" because VS Code owns the built-in language status item.
+- Existing settings-based flavor overrides require migration to `.fgattributes`.
 
 ## Rejected Options
 
@@ -143,6 +144,8 @@ editor without hunting through settings.
 ## Cross-References
 
 - [[docs/features/ofmarkdown-language-mode]]
+- [[docs/features/markdown-flavor-config-files]]
+- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]]
 - [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/requirements/user/vscode-language-mode]]
 - [[docs/ddd/editor-client/domain-model]]
