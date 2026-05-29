@@ -2,7 +2,7 @@
 id: "TASK-357"
 title: "Refactor effective flavor resolution around config outcome and Auto Detect"
 type: task
-status: red
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -50,3 +50,10 @@ aliases: ["TASK-357"]
 > Status set to `red`. Added didOpen/didChange tests that expect
 > `.fgattributes` rules to set parse context effective flavor. Expected
 > failure: handlers do not yet read `FlavorGrenadeConfigFiles`.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Status set to `green`. `DidOpenHandler`, `DidChangeHandler`, and
+> `ConfigurationHandler` now pass resolved `.fgattributes` outcome to
+> `MarkdownFlavorState`; concrete `.fgattributes` flavors win before Auto
+> Detect, while `flavor=auto` still falls through. Focused handler tests,
+> typecheck, and lint pass.

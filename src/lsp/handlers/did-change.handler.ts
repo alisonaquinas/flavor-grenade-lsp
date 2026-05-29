@@ -9,6 +9,7 @@ import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
 import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
 import type { ParseContext } from '../../parser/types.js';
 
 /** Parameters sent with a `textDocument/didChange` notification. */
@@ -34,6 +35,7 @@ export class DidChangeHandler {
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
     @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
+    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
   ) {}
 
   /**
@@ -74,10 +76,13 @@ export class DidChangeHandler {
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
+    const fgConfig = this.fgConfigFiles?.resolveForFile(detection.vaultRoot ?? fsPath, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri,
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
+      fgAttributesFlavor: fgConfig?.attributes.flavor,
+      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
       projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
       projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
         detection.vaultRoot,

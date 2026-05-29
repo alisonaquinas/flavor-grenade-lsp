@@ -10,6 +10,7 @@ import { StatusNotifier } from './services/status-notifier.js';
 import { ServerSettingsModule } from './services/server-settings.module.js';
 import {
   MarkdownFlavorState,
+  FlavorGrenadeConfigFiles,
   ProjectMarkdownFlavorConfig,
   classifyMarkdownBoundaryReference,
   isMarkdownFlavorId,
@@ -88,6 +89,7 @@ import { assertFileUri } from './file-uri.js';
     DidCloseHandler,
     ConfigurationHandler,
     MarkdownFlavorState,
+    FlavorGrenadeConfigFiles,
     ProjectMarkdownFlavorConfig,
     FileOperationsHandler,
     FileOperationRefreshService,

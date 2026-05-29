@@ -11,6 +11,7 @@ import { toDocId } from '../../vault/doc-id.js';
 import { VaultDetector } from '../../vault/vault-detector.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
 import { DocumentStore } from '../services/document-store.js';
 import type { ParseContext } from '../../parser/types.js';
 
@@ -31,6 +32,7 @@ export class ConfigurationHandler {
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
+    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
   ) {}
 
   async handle(params: unknown): Promise<void> {
@@ -83,10 +85,13 @@ export class ConfigurationHandler {
   private resolveParseContext(doc: TextDocument): ParseContext {
     const fsPath = SingleFileModeGuard.uriToPath(doc.uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
+    const fgConfig = this.fgConfigFiles?.resolveForFile(detection.vaultRoot ?? fsPath, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri: doc.uri,
       languageId: doc.languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
+      fgAttributesFlavor: fgConfig?.attributes.flavor,
+      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
       projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
       projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
         detection.vaultRoot,

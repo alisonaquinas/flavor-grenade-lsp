@@ -24,6 +24,7 @@ export type EffectiveMarkdownFlavor = MarkdownFlavorId;
 export type FlavorResolutionSource =
   | 'explicit-selection'
   | 'resource-propagation'
+  | 'fgattributes'
   | 'project-config'
   | 'project-toml'
   | 'obsidian-marker'
@@ -50,6 +51,8 @@ export interface ResolveFlavorInput {
   uri: string;
   languageId: string;
   hasObsidianMarker: boolean;
+  fgAttributesFlavor?: MarkdownFlavorSelection;
+  fgAttributesStructuredProfiles?: StructuredProfileSelection;
   projectConfigFlavor?: MarkdownFlavorSelection;
   projectConfigStructuredProfiles?: StructuredProfileSelection;
   projectTomlFlavor?: MarkdownFlavorSelection;
@@ -158,6 +161,17 @@ export class MarkdownFlavorState {
       };
     }
 
+    const fgAttributes = explicitFlavor(input.fgAttributesFlavor);
+    if (fgAttributes) {
+      return {
+        kind: 'active',
+        selected: input.fgAttributesFlavor ?? 'auto',
+        effective: fgAttributes,
+        source: 'fgattributes',
+        ...this.resolveStructuredProfileState(input),
+      };
+    }
+
     const project = explicitFlavor(input.projectConfigFlavor ?? input.projectTomlFlavor);
     if (project) {
       return {
@@ -206,7 +220,9 @@ export class MarkdownFlavorState {
     return resolveStructuredProfiles({
       selection: input.structuredProfileSelection ?? this.structuredProfileSelection,
       projectSelection:
-        input.projectConfigStructuredProfiles ?? input.projectTomlStructuredProfiles,
+        input.fgAttributesStructuredProfiles ??
+        input.projectConfigStructuredProfiles ??
+        input.projectTomlStructuredProfiles,
       uri: input.uri,
       syntaxText: input.syntaxText,
     });
@@ -294,6 +310,7 @@ function isPropagatedFlavorResolutionSource(
   return (
     value === 'explicit-selection' ||
     value === 'resource-propagation' ||
+    value === 'fgattributes' ||
     value === 'project-config' ||
     value === 'project-toml' ||
     value === 'obsidian-marker' ||
