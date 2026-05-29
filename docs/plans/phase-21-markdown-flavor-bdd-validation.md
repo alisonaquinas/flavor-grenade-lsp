@@ -60,8 +60,8 @@ after Phase 20 propagation is ready.
 - Add dated validation artifacts for research-to-profile review, product review,
   and validation run evidence.
 - Add validation evidence redaction checks so committed artifacts do not contain
-  user paths, vault content, TOML contents, environment variables, API-like
-  tokens, or raw server output with document content.
+  user paths, vault content, `.fgignore`/`.fgattributes` contents, environment
+  variables, API-like tokens, or raw server output with document content.
 - Add the host-boundary validation artifact path and require later dialect
   phases to fill platform/conversion false-local-resolution evidence before
   they claim LSP-surface validation.
@@ -112,9 +112,9 @@ binary, extension, or platform packaging workflows.
 Legacy `ofmarkdown` feature filenames are historical containers only. Current
 Phase 21 assertions must prove `.md` documents remain in VS Code's built-in
 `markdown` language mode. Real VS Code host proof for documentSelector,
-activation events, settings persistence, host logs, stale `ofmarkdown` host
-test retirement, Marketplace proof, and package-target checks belongs to Phase
-E17 and `extension/docs/tests/**`.
+activation events, `.fgattributes` persistence, `.fgignore` inactive state,
+host logs, stale `ofmarkdown` host test retirement, Marketplace proof, and
+package-target checks belongs to Phase E17 and `extension/docs/tests/**`.
 
 ## Tickets
 

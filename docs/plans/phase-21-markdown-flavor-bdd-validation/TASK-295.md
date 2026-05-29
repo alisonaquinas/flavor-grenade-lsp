@@ -23,14 +23,14 @@ in `ofmarkdown-language-mode.feature`.
 ## Work Scope
 
 - Add steps for selector display and required choices.
-- Add exact workspace-folder, workspace fallback, and user settings-target
-  assertions.
-- Add exact `workspace/didChangeConfiguration` propagation assertions with
-  `flavorGrenade.markdownFlavor` and effective flavor.
-- Add Auto Detect reset behavior.
+- Add exact selected-file and directory `.fgattributes` target assertions.
+- Add exact resource-specific propagation assertions with selected and effective
+  flavor.
+- Add Auto Detect reset behavior for the same `.fgattributes` scope.
+- Add `.fgignore` inactive-state behavior.
 - Add manual language preservation behavior.
 - Replace hard-coded harness selector constants with the extension contribution
-  schema once Phase 19/E15 implement the product setting surface.
+  schema once Phase 19/E15 implement the product selector surface.
 
 ## Linked Requirements
 
@@ -49,8 +49,8 @@ in `ofmarkdown-language-mode.feature`.
 
 - [ ] All scenarios in `ofmarkdown-language-mode.feature` execute.
 - [ ] Required flavor examples map labels to ids.
-- [ ] Settings-target scenarios distinguish workspace-folder, workspace, and
-      user writes.
+- [ ] Scope-target scenarios distinguish selected-file and directory
+      `.fgattributes` writes.
 - [ ] Server propagation checks assert the recorded client notification
       payload.
 - [ ] Manual language safety scenario passes.
@@ -60,11 +60,10 @@ in `ofmarkdown-language-mode.feature`.
 - Primary files: `docs/bdd/features/ofmarkdown-language-mode.feature` and
   `src/test/bdd/step-definitions/extension-harness.steps.ts`.
 - Step contracts: selector labels map to ADR020 flavor ids, overrides write
-  `flavorGrenade.markdownFlavor`, and propagation assertions inspect recorded
-  `workspace/didChangeConfiguration` payloads with configured and effective
-  flavor.
-- Settings targets: workspace-folder, workspace fallback, and user targets stay
-  distinct in the harness state.
+  scoped `.fgattributes` rules, and propagation assertions inspect recorded
+  payloads with selected and effective flavor.
+- Scope targets: selected-file and directory targets stay distinct in the
+  harness state.
 
 ## Workflow Log
 
@@ -73,6 +72,6 @@ in `ofmarkdown-language-mode.feature`.
 
 > [!SUCCESS] Done - 2026-05-13
 > The Markdown flavor selection feature executes through the root BDD harness,
-> including selector enumeration, workspace-folder/workspace/user persistence,
-> auto-detect reset, recorded `workspace/didChangeConfiguration` payloads, and
+> including selector enumeration, selected-file/directory `.fgattributes`
+> persistence, auto-detect reset, recorded resource-specific payloads, and
 > manual non-Markdown language safety.

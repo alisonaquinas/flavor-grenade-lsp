@@ -17,16 +17,17 @@ aliases: ["TASK-288"]
 
 ## Description
 
-Add a server configuration path that accepts `flavorGrenade.markdownFlavor`
-from `workspace/didChangeConfiguration`, validates required ids in BC5, and
+Add a server configuration path that accepts resource-specific
+`EffectiveMarkdownContext` updates, validates required ids in BC5, and
 dispatches valid selector mutations to Config/BC4 while preserving state on
 invalid input.
 
 ## Work Scope
 
-- Handle `workspace/didChangeConfiguration` carrying
-  `flavorGrenade.markdownFlavor`.
-- Validate payload shape: `settings.flavorGrenade.markdownFlavor`.
+- Handle `workspace/didChangeConfiguration` or equivalent notifications
+  carrying resource-specific selected/effective flavor state.
+- Validate payload shape for selected flavor, effective flavor, source, and
+  resource key.
 - Validate resource-specific payload shape when present: selected value,
   effective value, source, and resource key.
 - Reject oversized maps, nested unexpected objects, dangerous object keys,
@@ -49,7 +50,7 @@ invalid input.
 | Test file | Expected coverage |
 |---|---|
 | [[docs/test/markdown-flavor-unit-spec#MF-U-006 - Server Flavor Configuration Validation|MF-U-006]] | Accepts required ids and rejects unknown ids through `workspace/didChangeConfiguration`. |
-| [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Rejects malformed propagation payloads and unsafe TOML evidence before state mutation. |
+| [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] | Rejects malformed propagation payloads and unsafe `.fgignore`/`.fgattributes` evidence before state mutation. |
 
 ## Implementation Notes
 

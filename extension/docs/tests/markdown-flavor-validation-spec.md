@@ -19,7 +19,7 @@ Validation proves the extension behavior matches user-facing product intent.
 | EXT-MF-VA-005 | `extension/docs/tests/evidence/markdown-flavor-package-targets.md` | Marketplace selector proof and package-target verification evidence are present for validation signoff. |
 | EXT-MF-VA-006 | `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | Current extension tests, package activation, client selectors, and host waits no longer assert `ofmarkdown` language promotion. |
 | EXT-MF-VA-007 | `extension/docs/tests/evidence/markdown-flavor-inference-smoke.md` | User-visible Auto Detect behavior is validated for config-absent inference fixtures, ambiguous fallback, and the root smoketest README negative control. |
-| EXT-MF-VA-008 | `extension/docs/tests/evidence/markdown-structured-profile-smoke.md` | User-visible structured profile behavior is validated for Keep a Changelog, Common Changelog, and MADR fixtures in configured and config-absent inference smoke workspaces. |
+| EXT-MF-VA-008 | `extension/docs/tests/evidence/markdown-structured-profile-smoke.md` | User-visible structured profile behavior is validated for Keep a Changelog, Common Changelog, and MADR fixtures in `.fgattributes`-configured and config-absent inference smoke workspaces. |
 
 ## Planned Evidence Artifacts
 
@@ -36,7 +36,7 @@ reviewer or command that produced it, and links the verification output.
 | `extension/docs/tests/evidence/markdown-flavor-research-review.md` | Displayed flavor id and label table traced to `docs/research/` or `docs/ofm-spec/`. |
 | `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md` | Command output or reviewer notes listing allowed historical `ofmarkdown` mentions and proving current activation, document selector, package, contribution, and host tests do not depend on language promotion. |
 | `extension/docs/tests/evidence/markdown-flavor-inference-smoke.md` | Host smoke notes or screenshot paths for config-absent inference fixtures, expected inferred flavor or CommonMark fallback, root README boundary behavior, command output, commit SHA, and pass/fail status. |
-| `extension/docs/tests/evidence/markdown-structured-profile-smoke.md` | Host smoke notes or screenshot paths for Keep a Changelog, Common Changelog, and MADR fixtures under configured and config-absent inference workspaces, expected profile flags, selector non-expansion evidence, command output, commit SHA, and pass/fail status. |
+| `extension/docs/tests/evidence/markdown-structured-profile-smoke.md` | Host smoke notes or screenshot paths for Keep a Changelog, Common Changelog, and MADR fixtures under `.fgattributes`-configured and config-absent inference workspaces, expected profile flags, selector non-expansion evidence, command output, commit SHA, and pass/fail status. |
 
 Evidence artifacts must be sanitized before commit. They must not include note
 body text, frontmatter values, `.fgignore` or `.fgattributes` contents, environment
@@ -55,7 +55,7 @@ redacted excerpts when command output is needed.
 - Inference smoke evidence distinguishes `.fgattributes` configuration from
   syntax/context inference and proves root fixture README remains generic.
 - Structured profile smoke evidence proves both changelog variants and MADR
-  remain separate from base flavor selection across configured and
-  config-absent inference smoke workspaces.
+  remain separate from base flavor selection across `.fgattributes`-configured
+  and config-absent inference smoke workspaces.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.

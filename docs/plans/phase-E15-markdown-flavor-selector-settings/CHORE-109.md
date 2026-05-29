@@ -17,8 +17,8 @@ aliases: ["CHORE-109"]
 
 ## Description
 
-Keep extension docs and traceability synchronized while selector/settings work
-lands.
+Keep extension docs and traceability synchronized while selector/config-file
+work lands.
 
 ## Work Scope
 
@@ -27,15 +27,15 @@ lands.
 - Record any protocol choice for server propagation.
 - Record the final resource-aware server propagation payload shape and link it
   to Phase 20.
-- Record the `.flavor-grenade.toml` ownership decision: extension consumes
-  marker/project-config evidence; BC4/server owns authoritative TOML parsing
-  unless a shared parser/contract is introduced.
+- Record the `.fgignore`/`.fgattributes` ownership decision: extension writes
+  scoped `.fgattributes` rules through the selector, and effective resolution
+  treats Auto Detect as independent from config parsing.
 
 ## Definition of Done
 
 - [x] Docs trace new extension unit tests.
 - [x] Phase plan reflects final protocol choice.
-- [x] Selector/schema/profile compatibility trace is linked from E15 docs.
+- [x] Selector/`.fgattributes`/profile compatibility trace is linked from E15 docs.
 - [x] No completed roadmap phases are modified.
 
 ## Workflow Log
@@ -44,7 +44,7 @@ lands.
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
 > [!SUCCESS] Green - 2026-05-13
-> Extension test index, matrix, unit spec, integration spec, and settings-scope
-> evidence now trace E15 selector/schema/profile compatibility and
-> `workspace/didChangeConfiguration` payload shape.
+> Extension test index, matrix, unit spec, integration spec, and
+> `.fgattributes`-scope evidence now trace E15 selector/schema/profile
+> compatibility and resource-specific propagation payload shape.
 > Status: `green`.

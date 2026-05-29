@@ -1,6 +1,6 @@
 ---
 id: "TASK-303"
-title: "Resolve Auto Detect from workspace and membership signals"
+title: "Resolve Auto Detect after config-file resolution"
 type: task
 status: done
 priority: high
@@ -13,32 +13,28 @@ tags: [tickets/task, "phase/E15", markdown-flavor, vscode]
 aliases: ["TASK-303"]
 ---
 
-# Resolve Auto Detect From Workspace And Membership Signals
+# Resolve Auto Detect After Config-File Resolution
 
 ## Description
 
-Implement extension-side `auto` resolution from marker, settings, and server
-membership/project-config inputs according to
+Implement extension-side `auto` resolution after `.fgattributes` resolution
+requests Auto Detect. Auto Detect uses marker, server membership, and bounded
+syntax/context evidence according to
 [[docs/design/markdown-flavor-auto-detection]].
 
 ## Work Scope
 
-- `.obsidian/` resolves to Obsidian.
-- `.flavor-grenade.toml` project flavor can resolve `auto` to each supported
-  explicit flavor when BC4/server-side workspace evidence reports that flavor.
-  The extension may observe marker presence, but it must not become a second
-  authoritative TOML parser unless a shared parser/contract is introduced.
-- `.flavor-grenade.toml` appear, disappear, and content-change events trigger
-  recomputation from the updated server/project-config evidence.
-- Workspace setting resolution covers every explicit flavor id.
-- Precedence follows [[docs/design/markdown-flavor-auto-detection]]: folder or
-  workspace selector setting, standalone user setting, project TOML evidence,
-  Obsidian marker/server membership, then CommonMark fallback.
-- Invalid configured flavors are rejected or ignored with fallback behavior.
-- Generic Markdown resolves to CommonMark.
-- Explicit settings win over detection.
+- `.fgattributes` concrete flavor values bypass Auto Detect.
+- `.fgattributes flavor=auto`, `!flavor`, and absent config files invoke Auto
+  Detect.
+- `.fgignore` matches make the document inactive before Auto Detect.
+- `.obsidian/` resolves to Obsidian inside Auto Detect.
 - Server membership can contribute vault/context evidence without changing
   language id.
+- Syntax/context inference runs only inside Auto Detect and never overrides a
+  concrete `.fgattributes` flavor.
+- Invalid configured flavors are rejected or ignored with fallback behavior.
+- Generic Markdown resolves to CommonMark.
 
 ## Linked Requirements
 
@@ -50,19 +46,19 @@ membership/project-config inputs according to
 
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
-| `EXT-MF-U-004`, `EXT-MF-U-005` | `extension/src/markdown-flavor.test.ts` | Obsidian, config, membership, and generic fallback detection. |
-| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized project-config evidence and workspace-setting cases resolve `auto` to every required explicit flavor id; invalid values and `.flavor-grenade.toml` appear/disappear/change events fall back or refresh without language promotion. |
+| `EXT-MF-U-004`, `EXT-MF-U-005` | `extension/src/markdown-flavor.test.ts` | `.fgignore`, `.fgattributes`, Obsidian, membership, syntax/context inference, and generic fallback detection. |
+| `EXT-MF-U-004` | `extension/src/markdown-flavor.test.ts` | Parameterized config-resolution cases prove concrete `.fgattributes` values bypass Auto Detect, while `flavor=auto`, `!flavor`, and absent config invoke Auto Detect. Invalid values and `.fgignore`/`.fgattributes` appear/disappear/change events fall back or refresh without language promotion. |
 
 ## Definition of Done
 
-- [x] Auto detection resolves expected effective flavor.
-- [x] Server/project-config evidence from `.flavor-grenade.toml` and workspace
-      settings can resolve `auto` to each required explicit flavor id.
-- [x] `.flavor-grenade.toml` appear/disappear/change events refresh effective
-      flavor from server/project-config evidence.
-- [x] Extension/server ownership for `.flavor-grenade.toml` is recorded:
-      extension consumes marker and project-config evidence; BC4/server owns
-      authoritative TOML parsing unless replaced by a shared parser.
+- [x] Auto Detect resolves expected effective flavor from marker, membership,
+      and syntax/context evidence.
+- [x] `.fgattributes` concrete values can select each required explicit flavor
+      id without invoking Auto Detect.
+- [x] `.fgattributes flavor=auto`, `!flavor`, and absent config invoke Auto
+      Detect.
+- [x] `.fgignore` and `.fgattributes` appear/disappear/change events refresh
+      effective flavor or inactive state.
 - [x] Invalid configured flavor values preserve prior state or fall back to the
       documented default without changing language id.
 - [x] Generic Markdown does not auto-detect as Obsidian.
@@ -74,13 +70,14 @@ membership/project-config inputs according to
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
 > [!WARNING] Red - 2026-05-13
-> RED coverage added for Auto Detect precedence: project flavor evidence,
-> Obsidian marker evidence, then CommonMark fallback, while non-Markdown
-> language ids remain inactive.
+> RED coverage added for config-file resolution and Auto Detect: `.fgignore`
+> inactive state, `.fgattributes` concrete flavor, Auto Detect trigger,
+> Obsidian marker evidence, and CommonMark fallback, while non-Markdown language
+> ids remain inactive.
 > Status: `red`.
 
 > [!SUCCESS] Green - 2026-05-13
-> Auto Detect resolution covers explicit settings, project evidence, Obsidian
-> marker/membership evidence, CommonMark fallback, and inactive non-Markdown
-> documents without language promotion.
+> Effective flavor resolution covers `.fgattributes` concrete selection, Auto
+> Detect trigger, Obsidian marker/membership evidence, CommonMark fallback, and
+> inactive non-Markdown documents without language promotion.
 > Status: `green`.

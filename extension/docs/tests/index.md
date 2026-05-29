@@ -26,9 +26,10 @@ Detailed extension test cases live in:
 | Markdown language preservation | `.md` documents stay in VS Code's built-in `markdown` language mode after activation, auto-detection, and override changes. |
 | Flavor selector | The selector is visible for file-backed Markdown documents and lists `auto` plus every required researched flavor. |
 | Override persistence | Selector writes `.fgattributes` in the active file's directory after the second scope prompt chooses selected-file or directory scope. |
-| Auto-detection | `.obsidian/` resolves to Obsidian, `.fgattributes flavor=auto` runs Auto Detect, absent `.fgignore`/`.fgattributes` applies Auto Detect to the whole opened tree, strong syntax/context can infer a flavor, ambiguous shared syntax resolves to CommonMark, and generic Markdown resolves to CommonMark. |
+| Effective flavor resolution | `.fgignore` makes matching files inactive; `.fgattributes` concrete flavor values select a flavor; `.fgattributes flavor=auto`, `!flavor`, and absent config files invoke Auto Detect for the whole opened tree. |
+| Auto-detection | Auto Detect runs independently of configuration and uses `.obsidian/`, server membership, strong syntax/context evidence, ambiguity fallback, and generic CommonMark fallback. |
 | Ignored files | `.fgignore` matches produce inactive Flavor Grenade state, no diagnostics/completions/selector writes, and return to Auto Detect after negation or removal. |
-| Structured profiles | Keep a Changelog, Common Changelog, and MADR are configured through `.fgattributes` or inferred separately from the base Markdown flavor, have smoke fixtures under configured and inference workspaces, and never appear as Markdown flavor selector choices. |
+| Structured profiles | Keep a Changelog, Common Changelog, and MADR are configured through `.fgattributes` or inferred separately from the base Markdown flavor, have smoke fixtures under `.fgattributes`-configured and config-absent inference workspaces, and never appear as Markdown flavor selector choices. |
 | Fixture boundary safety | Smoketest root README and other negative controls do not inherit child fixture `.fgignore`/`.fgattributes` or repository ancestor config outside the active workspace boundary. |
 | Document selector and activation | Activation events and `LanguageClient.clientOptions.documentSelector` serve file-backed `markdown` and reject stale `ofmarkdown`. |
 | Server propagation | Effective flavor changes refresh server-facing analysis state for every required flavor id, preserve resource-specific state, and recover after server-unavailable paths. |
@@ -58,7 +59,8 @@ Detailed extension test cases live in:
 |---|---|
 | Flavor enum/schema | `auto` plus every researched explicit flavor id is accepted and exposed in stable order. |
 | Selector model | Label, quick-pick rows, effective flavor display, and inactive state for non-`markdown` documents. |
-| Auto-detection resolver | `.obsidian/`, `.fgattributes flavor=auto`, absent config files, membership result, syntax/context inference, ambiguity fallback, fixture-boundary confinement, and generic CommonMark fallback. |
+| Effective flavor resolver | `.fgignore`, `.fgattributes` concrete flavor values, `flavor=auto`, `!flavor`, absent config files, invalid values, and fixture-boundary confinement. |
+| Auto-detection resolver | `.obsidian/`, membership result, syntax/context inference, ambiguity fallback, fixture-boundary confinement, and generic CommonMark fallback. |
 | Structured profile resolver | `.fgattributes structured_profiles` accepts `auto`, `none`, and compatible explicit lists; auto inference detects Keep a Changelog, Common Changelog, and MADR from local evidence without changing the base flavor. |
 | Override persistence | Selected-file and directory `.fgattributes` target selection plus `Auto Detect` clearing/reset behavior. |
 | Ignored files | `.fgignore` matched files are inactive and do not offer active Flavor Grenade writes until re-included. |
@@ -75,7 +77,7 @@ Detailed extension test cases live in:
 | Server refresh wiring | `extension/src/commands.test.ts` proves selector changes trigger the same server refresh path used by rebuild/index-ready changes. |
 | Server propagation payloads | Client-to-server configuration payloads include selected and effective flavor state for every explicit flavor and do not leak between resources. |
 | Inference fixture inventory | `.fgattributes` fixtures, config-absent inference fixtures, ambiguous fallback fixtures, and root README negative controls exist and stay distinct. |
-| Structured profile fixture inventory | Keep a Changelog, Common Changelog, and MADR fixtures exist under configured and config-absent inference smoke workspaces and stay distinct from base flavor selection. |
+| Structured profile fixture inventory | Keep a Changelog, Common Changelog, and MADR fixtures exist under `.fgattributes`-configured and config-absent inference smoke workspaces and stay distinct from base flavor selection. |
 | Unsupported environments | Restricted and virtual workspaces do not spawn or propagate server flavor state from selector changes. |
 | Marketplace/package proof | `extension/test/marketplace/readme-assets.test.ts` and `extension/test/marketplace/vsix-assets.test.ts` include Markdown flavor selector evidence. |
 
@@ -117,7 +119,7 @@ Detailed extension test cases live in:
 | Package evidence | Validation signoff includes `npm run verify:package-targets` output and selector proof asset coverage. |
 | Stale expectation evidence | Historical `ofmarkdown` mentions are allowed only as retired context; current behavior and tests reject promotion assumptions. |
 | Inference smoke evidence | Host/manual proof records config-absent inference results, ambiguity fallback, and root fixture boundary behavior. |
-| Structured profile smoke evidence | Host/manual proof records Keep a Changelog, Common Changelog, and MADR results across configured and config-absent inference smoke workspaces. |
+| Structured profile smoke evidence | Host/manual proof records Keep a Changelog, Common Changelog, and MADR results across `.fgattributes`-configured and config-absent inference smoke workspaces. |
 
 ## Current Gap
 

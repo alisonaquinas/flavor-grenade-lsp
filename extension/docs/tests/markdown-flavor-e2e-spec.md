@@ -28,7 +28,7 @@ E2E fixtures validate user-visible results of the root
 | EXT-MF-E-011 | Smoketest inference fixture | Open config-absent inference samples for MDX, R Markdown, Stack Overflow, Reddit, GLFM, Pandoc, MultiMarkdown, kramdown, Markdown Extra, and ambiguous GFM-like syntax. | Selector/status shows Auto Detect with the inferred strong flavor for unambiguous samples; ambiguous GFM-like syntax shows Auto Detect (CommonMark). |
 | EXT-MF-E-012 | Smoketest boundary fixture | Open the root `smoketest/README.md` in an isolated copy and from a development checkout with repository ancestor config files. | Root README remains `markdown`, does not display OFM/Obsidian/attributed flavor, and does not start vault behavior because of child `.fgignore`/`.fgattributes` files or ancestor markers outside the workspace boundary. |
 | EXT-MF-E-014 | Ignored file fixture | Open a Markdown file matched by `.fgignore`, then remove or negate the ignore rule. | Ignored file shows inactive state with no diagnostics/completions/selector writes, then returns to Auto Detect after refresh. |
-| EXT-MF-E-013 | Structured profile smoketest fixture | Open Keep a Changelog, Common Changelog, and MADR examples from configured and config-absent inference smoke workspaces. | Status/propagation evidence shows the same base flavor result as the containing workspace plus the expected structured profile flag; structured profile ids never appear in the Markdown flavor selector, and opening one changelog variant does not activate the other. |
+| EXT-MF-E-013 | Structured profile smoketest fixture | Open Keep a Changelog, Common Changelog, and MADR examples from `.fgattributes`-configured and config-absent inference smoke workspaces. | Status/propagation evidence shows the same base flavor result as the containing workspace plus the expected structured profile flag; structured profile ids never appear in the Markdown flavor selector, and opening one changelog variant does not activate the other. |
 
 ## Exit Criteria
 
@@ -44,7 +44,8 @@ E2E fixtures validate user-visible results of the root
 - Fixture boundary behavior is proven so the root smoketest README remains a
   negative control.
 - Structured profile behavior is proven for both changelog variants and MADR
-  across configured and config-absent inference smoke workspaces.
+  across `.fgattributes`-configured and config-absent inference smoke
+  workspaces.
 - Selector availability is explicit for supported file-backed Markdown contexts
   and unsupported/virtual/non-Markdown contexts.
 - No E2E flow changes a `.md` document to a custom Markdown language id.
