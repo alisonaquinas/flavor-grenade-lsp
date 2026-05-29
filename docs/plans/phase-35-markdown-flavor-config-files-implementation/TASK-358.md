@@ -2,7 +2,7 @@
 id: "TASK-358"
 title: "Remove legacy file and directory flavor assignment paths"
 type: task
-status: red
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -52,3 +52,9 @@ aliases: ["TASK-358"]
 > `.fgignore` / `.fgattributes` are project markers and legacy
 > `.flavor-grenade.*` / `.editorconfig` files are not flavor markers. Expected
 > failure: detector still uses the legacy marker list.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Status set to `green`. Replaced the server project marker list with
+> `.fgignore` and `.fgattributes`; `VaultDetector` no longer treats legacy
+> `.flavor-grenade.*` or `.editorconfig` flavor directives as project markers.
+> Focused detector/membership tests, typecheck, and lint pass.

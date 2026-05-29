@@ -91,11 +91,7 @@ export class VaultDetector {
 
     for (const fileName of PROJECT_MARKDOWN_CONFIG_FILES) {
       const configPath = resolveVaultRelativePath(dir, fileName);
-      if (
-        configPath !== null &&
-        this.isFile(configPath) &&
-        (fileName !== '.editorconfig' || this.hasFlavorGrenadeEditorConfigDirective(configPath))
-      ) {
+      if (configPath !== null && this.isFile(configPath)) {
         return { mode: 'flavor-grenade', vaultRoot: dir };
       }
     }
@@ -114,15 +110,6 @@ export class VaultDetector {
   private isFile(p: string): boolean {
     try {
       return fs.statSync(p).isFile();
-    } catch {
-      return false;
-    }
-  }
-
-  private hasFlavorGrenadeEditorConfigDirective(p: string): boolean {
-    try {
-      const content = fs.readFileSync(p, 'utf8');
-      return /(^|\r?\n)\s*flavor_grenade[._]markdown_/i.test(content.slice(0, 8192));
     } catch {
       return false;
     }
