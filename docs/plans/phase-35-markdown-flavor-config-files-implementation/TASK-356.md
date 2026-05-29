@@ -1,0 +1,46 @@
+---
+id: "TASK-356"
+title: "Apply .fgignore visibility to vault indexing and LSP surfaces"
+type: task
+status: open
+priority: high
+phase: 35
+parent: "FEAT-061"
+created: "2026-05-29"
+updated: "2026-05-29"
+dependencies: ["TASK-355"]
+tags: [tickets/task, "phase/35", markdown-flavor, vault]
+aliases: ["TASK-356"]
+---
+
+# Apply .fgignore Visibility To Vault Indexing And LSP Surfaces
+
+## Work Scope
+
+- Apply `.fgignore` before vault scanner parse/index work.
+- Ensure ignored open documents remain inactive.
+- Remove ignored documents from `VaultIndex`, `RefGraph`, tag indexes, and
+  feature caches when a config-file change newly ignores them.
+- Suppress diagnostics, completion, navigation, hover, semantic tokens, rename,
+  references, and document symbols for ignored resources.
+- Refresh affected resources when `.fgignore` files appear, change, disappear,
+  or move.
+
+## Planned Source/Test Paths
+
+| Kind | Planned path |
+|---|---|
+| Source | `src/vault/vault-scanner.ts` |
+| Source | `src/vault/vault-index.ts` |
+| Source | `src/vault/file-watcher.ts` |
+| Source | `src/lsp/handlers/did-open.handler.ts` |
+| Test | `src/vault/__tests__/vault-scanner.test.ts` |
+| Test | `src/vault/__tests__/vault-index.test.ts` |
+| Test | `src/test/integration/markdown-flavor.test.ts` |
+
+## Definition of Done
+
+- [ ] Root and nested `.fgignore` patterns change index membership.
+- [ ] Negation re-includes files when traversal permits it.
+- [ ] Ignored open files do not produce Flavor Grenade LSP outputs.
+- [ ] Watcher refresh handles config-file create, update, delete, and rename.
