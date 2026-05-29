@@ -1,11 +1,17 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { jest } from '@jest/globals';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { pathToFileURL } from 'url';
 import { DidOpenHandler } from '../did-open.handler.js';
 import { DocumentStore } from '../../services/document-store.js';
 import { OFMParser } from '../../../parser/ofm-parser.js';
 import { ParseCache } from '../../../parser/parser.module.js';
 import { VaultDetector } from '../../../vault/vault-detector.js';
 import { DiagnosticService } from '../../../resolution/diagnostic-service.js';
+import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
+import { FlavorGrenadeConfigFiles } from '../../../markdown-flavor/fg-config-files.js';
 
 const TEST_URI = 'file:///vault/test.md';
 const TEST_TEXT = '# Hello\n\nSome content.';
@@ -141,5 +147,46 @@ describe('DidOpenHandler', () => {
     expect(vaultRoot).toBe('/vault');
     expect(docId).toBeTruthy();
     expect(docId).not.toBe('');
+  });
+
+  it('uses .fgattributes flavor when parsing an opened document', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-open-'));
+    try {
+      fs.writeFileSync(path.join(root, '.fgattributes'), 'docs/**/*.md flavor=gfm\n');
+      fs.mkdirSync(path.join(root, 'docs'));
+      const note = path.join(root, 'docs', 'guide.md');
+      const uri = pathToFileURL(note).toString();
+      vaultDetector = {
+        detectFresh: jest.fn().mockReturnValue({ mode: 'flavor-grenade', vaultRoot: root }),
+      } as unknown as VaultDetector;
+      const handler = new DidOpenHandler(
+        store,
+        ofmParser,
+        parseCache,
+        vaultDetector,
+        null,
+        new MarkdownFlavorState(),
+        null,
+        new FlavorGrenadeConfigFiles(),
+      );
+
+      await handler.handle({
+        textDocument: {
+          uri,
+          languageId: TEST_LANG,
+          version: TEST_VERSION,
+          text: TEST_TEXT,
+        },
+      });
+
+      expect(ofmParser.parse).toHaveBeenCalledWith(
+        uri,
+        TEST_TEXT,
+        TEST_VERSION,
+        expect.objectContaining({ effectiveFlavor: 'gfm' }),
+      );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
   });
 });

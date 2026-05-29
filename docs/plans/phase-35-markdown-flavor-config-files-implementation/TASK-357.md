@@ -2,7 +2,7 @@
 id: "TASK-357"
 title: "Refactor effective flavor resolution around config outcome and Auto Detect"
 type: task
-status: open
+status: red
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -43,3 +43,10 @@ aliases: ["TASK-357"]
       Detect.
 - [ ] Generic visible Markdown still resolves to `commonmark`.
 - [ ] Structured profile flags can layer over every effective base flavor.
+
+## Workflow Log
+
+> [!FAIL] RED - 2026-05-29
+> Status set to `red`. Added didOpen/didChange tests that expect
+> `.fgattributes` rules to set parse context effective flavor. Expected
+> failure: handlers do not yet read `FlavorGrenadeConfigFiles`.

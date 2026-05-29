@@ -1,11 +1,17 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { jest } from '@jest/globals';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { pathToFileURL } from 'url';
 import { DidChangeHandler } from '../did-change.handler.js';
 import { DocumentStore } from '../../services/document-store.js';
 import { OFMParser } from '../../../parser/ofm-parser.js';
 import { ParseCache } from '../../../parser/parser.module.js';
 import { VaultDetector } from '../../../vault/vault-detector.js';
 import { DiagnosticService } from '../../../resolution/diagnostic-service.js';
+import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
+import { FlavorGrenadeConfigFiles } from '../../../markdown-flavor/fg-config-files.js';
 
 const TEST_URI = 'file:///vault/test.md';
 const TEST_VERSION = 2;
@@ -37,10 +43,20 @@ describe('DidChangeHandler', () => {
   let parseCache: ParseCache;
   let vaultDetector: VaultDetector;
   let diagnosticService: DiagnosticService;
-  let mockTextDoc: { getText: ReturnType<typeof jest.fn> };
+  let mockTextDoc: {
+    uri: string;
+    languageId: string;
+    version: number;
+    getText: ReturnType<typeof jest.fn>;
+  };
 
   beforeEach(() => {
-    mockTextDoc = { getText: jest.fn().mockReturnValue(UPDATED_TEXT) };
+    mockTextDoc = {
+      uri: TEST_URI,
+      languageId: 'markdown',
+      version: TEST_VERSION,
+      getText: jest.fn().mockReturnValue(UPDATED_TEXT),
+    };
     store = {
       open: jest.fn(),
       get: jest.fn().mockReturnValue(mockTextDoc),
@@ -122,5 +138,41 @@ describe('DidChangeHandler', () => {
     expect(ofmParser.parse).not.toHaveBeenCalled();
     expect(parseCache.set).not.toHaveBeenCalled();
     expect(diagnosticService.publishDiagnostics).not.toHaveBeenCalled();
+  });
+
+  it('uses .fgattributes flavor when parsing a changed document', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-change-'));
+    try {
+      fs.writeFileSync(path.join(root, '.fgattributes'), 'docs/**/*.md flavor=pandoc\n');
+      fs.mkdirSync(path.join(root, 'docs'));
+      const note = path.join(root, 'docs', 'guide.md');
+      const uri = pathToFileURL(note).toString();
+      mockTextDoc.uri = uri;
+      store.get = jest.fn().mockReturnValue(mockTextDoc);
+      vaultDetector = {
+        detectFresh: jest.fn().mockReturnValue({ mode: 'flavor-grenade', vaultRoot: root }),
+      } as unknown as VaultDetector;
+      const handler = new DidChangeHandler(
+        store,
+        ofmParser,
+        parseCache,
+        vaultDetector,
+        null,
+        new MarkdownFlavorState(),
+        null,
+        new FlavorGrenadeConfigFiles(),
+      );
+
+      await handler.handle({ textDocument: { uri, version: TEST_VERSION }, contentChanges: [] });
+
+      expect(ofmParser.parse).toHaveBeenCalledWith(
+        uri,
+        UPDATED_TEXT,
+        TEST_VERSION,
+        expect.objectContaining({ effectiveFlavor: 'pandoc' }),
+      );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
   });
 });
