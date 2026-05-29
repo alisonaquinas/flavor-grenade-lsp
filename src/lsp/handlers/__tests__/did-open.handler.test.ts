@@ -66,6 +66,7 @@ describe('DidOpenHandler', () => {
     } as unknown as VaultDetector;
     diagnosticService = {
       publishDiagnostics: jest.fn(),
+      clearDiagnostics: jest.fn(),
     } as unknown as DiagnosticService;
   });
 
@@ -185,6 +186,46 @@ describe('DidOpenHandler', () => {
         TEST_VERSION,
         expect.objectContaining({ effectiveFlavor: 'gfm' }),
       );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('keeps a .fgignore ignored open document inactive', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-open-ignore-'));
+    try {
+      fs.writeFileSync(path.join(root, '.fgignore'), 'docs/**/*.md\n');
+      fs.mkdirSync(path.join(root, 'docs'));
+      const note = path.join(root, 'docs', 'ignored.md');
+      const uri = pathToFileURL(note).toString();
+      vaultDetector = {
+        detectFresh: jest.fn().mockReturnValue({ mode: 'flavor-grenade', vaultRoot: root }),
+      } as unknown as VaultDetector;
+      const handler = new DidOpenHandler(
+        store,
+        ofmParser,
+        parseCache,
+        vaultDetector,
+        diagnosticService,
+        new MarkdownFlavorState(),
+        null,
+        new FlavorGrenadeConfigFiles(),
+      );
+
+      await handler.handle({
+        textDocument: {
+          uri,
+          languageId: TEST_LANG,
+          version: TEST_VERSION,
+          text: TEST_TEXT,
+        },
+      });
+
+      expect(store.open).toHaveBeenCalledWith(uri, TEST_LANG, TEST_VERSION, TEST_TEXT);
+      expect(ofmParser.parse).not.toHaveBeenCalled();
+      expect(parseCache.delete).toHaveBeenCalledWith(uri);
+      expect(diagnosticService.clearDiagnostics).toHaveBeenCalledWith(uri);
+      expect(diagnosticService.publishDiagnostics).not.toHaveBeenCalled();
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }

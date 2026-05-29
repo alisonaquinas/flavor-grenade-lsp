@@ -74,6 +74,7 @@ describe('DidChangeHandler', () => {
     } as unknown as VaultDetector;
     diagnosticService = {
       publishDiagnostics: jest.fn(),
+      clearDiagnostics: jest.fn(),
     } as unknown as DiagnosticService;
   });
 
@@ -171,6 +172,41 @@ describe('DidChangeHandler', () => {
         TEST_VERSION,
         expect.objectContaining({ effectiveFlavor: 'pandoc' }),
       );
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('keeps a .fgignore ignored changed document inactive', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-change-ignore-'));
+    try {
+      fs.writeFileSync(path.join(root, '.fgignore'), 'docs/**/*.md\n');
+      fs.mkdirSync(path.join(root, 'docs'));
+      const note = path.join(root, 'docs', 'ignored.md');
+      const uri = pathToFileURL(note).toString();
+      mockTextDoc.uri = uri;
+      store.get = jest.fn().mockReturnValue(mockTextDoc);
+      vaultDetector = {
+        detectFresh: jest.fn().mockReturnValue({ mode: 'flavor-grenade', vaultRoot: root }),
+      } as unknown as VaultDetector;
+      const handler = new DidChangeHandler(
+        store,
+        ofmParser,
+        parseCache,
+        vaultDetector,
+        diagnosticService,
+        new MarkdownFlavorState(),
+        null,
+        new FlavorGrenadeConfigFiles(),
+      );
+
+      await handler.handle({ textDocument: { uri, version: TEST_VERSION }, contentChanges: [] });
+
+      expect(store.update).toHaveBeenCalledWith(uri, [], TEST_VERSION);
+      expect(ofmParser.parse).not.toHaveBeenCalled();
+      expect(parseCache.delete).toHaveBeenCalledWith(uri);
+      expect(diagnosticService.clearDiagnostics).toHaveBeenCalledWith(uri);
+      expect(diagnosticService.publishDiagnostics).not.toHaveBeenCalled();
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }

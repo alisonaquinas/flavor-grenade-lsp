@@ -42,7 +42,8 @@ aliases: ["TASK-356"]
 
 - [x] Root and nested `.fgignore` patterns change index membership.
 - [x] Negation re-includes files when traversal permits it.
-- [ ] Ignored open files do not produce Flavor Grenade LSP outputs.
+- [x] Ignored open files do not produce Flavor Grenade parse or diagnostic
+      outputs.
 - [ ] Watcher refresh handles config-file create, update, delete, and rename.
 
 ## Workflow Log
@@ -61,3 +62,9 @@ aliases: ["TASK-356"]
 > [!NOTE] PARTIAL - 2026-05-29
 > Status corrected to `partial`. Scanner visibility is green, but open-document
 > LSP inactivity and watcher refresh remain in scope for this ticket.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> `DidOpenHandler` and `DidChangeHandler` now resolve `.fgignore` before
+> parsing open documents. Ignored files stay in the editor document store, but
+> their parse-cache entries are removed and diagnostics are cleared. Focused
+> handler tests, typecheck, and lint pass.
