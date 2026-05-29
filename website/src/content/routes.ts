@@ -1,7 +1,7 @@
 /**
  * Canonical public route metadata for the static website.
  */
-export const siteBaseUrl = 'https://alisonaquinas.github.io/flavor-grenade-lsp';
+export const siteBaseUrl = 'https://flavor-grenade.dev';
 
 /** Stable identifiers for public website routes. */
 export const routeIds = [
