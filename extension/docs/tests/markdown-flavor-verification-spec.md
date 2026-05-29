@@ -21,8 +21,8 @@ Verification proves extension test commands and CI gates include flavor tests.
 | EXT-MF-VF-007 | `npm run verify:package-targets` from `extension/` | Package verification runs `extension/test/package-targets/server-binary.test.ts` and proves the VSIX contains exactly one bundled server module and no native server executable payload. |
 | EXT-MF-VF-008 | `.github/workflows/ci.yml`, `src/test/ci-workflow.test.ts` | CI either runs `npm run test:host` for the Markdown flavor host suite or fails unless a dated blocker and replacement host evidence path are present. |
 | EXT-MF-VF-009 | stale expectation scan | Current extension tests, package activation, client selectors, README/Marketplace proof, and host waits do not assert `ofmarkdown` language promotion; historical docs may mention it only as retired context. |
-| EXT-MF-VF-010 | fixture inventory and host suite checks | CI/local gates protect configured smoketest fixtures, project-config-absent inference fixtures, ambiguous fallback fixtures, and root README boundary-negative behavior from silent removal. |
-| EXT-MF-VF-011 | structured profile fixture inventory checks | CI/local gates protect Keep a Changelog, Common Changelog, and MADR fixture inventory under every configured and project-config-absent inference smoke workspace. |
+| EXT-MF-VF-010 | fixture inventory and host suite checks | CI/local gates protect configured smoketest fixtures, config-absent inference fixtures, ambiguous fallback fixtures, `.fgignore` fixtures, and root README boundary-negative behavior from silent removal. |
+| EXT-MF-VF-011 | structured profile fixture inventory checks | CI/local gates protect Keep a Changelog, Common Changelog, and MADR fixture inventory under every configured and config-absent inference smoke workspace. |
 
 ## CI Host Gate Rule
 

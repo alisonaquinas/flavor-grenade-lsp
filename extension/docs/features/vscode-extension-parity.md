@@ -13,8 +13,8 @@ Code while keeping Markdown flavor intelligence in the language server.
 
 | Area | Requirement |
 |---|---|
-| Activation | Activate for `.obsidian/` and `Flavor Grenade project config marker`; avoid expensive startup for generic Markdown |
-| Markdown flavor | Keep `.md` files in `markdown`; expose Auto Detect and every supported researched Markdown flavor in a separate status-bar selector that reports the effective flavor |
+| Activation | Activate for `.obsidian/`, `.fgignore`, and `.fgattributes`; avoid expensive startup for generic Markdown |
+| Markdown flavor | Keep `.md` files in `markdown`; expose Auto Detect and every supported researched Markdown flavor in a separate status-bar selector that reports the effective flavor, then prompt for selected-file or directory scope before writing `.fgattributes` |
 | Commands | Register restart, rebuild, output, show references, follow link, open embed, backlinks, outlinks, reveal vault, copy diagnostics |
 | Status | Show starting, indexing, ready, disabled, and error states without document counts in the status text; keep document counts in diagnostics and expose useful tooltips and quick actions |
 | Tests | Cover activation, Markdown flavor selection, commands, status, and server path failures in extension-host tests |
@@ -73,6 +73,10 @@ E8 and the `Extension.CommandBridges.NativeUI`,
 
 Markdown flavor Auto Detect behavior follows the root
 [Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+Persistent flavor assignment follows
+[Markdown flavor configuration files](../../../docs/features/markdown-flavor-config-files.md).
+When `.fgignore` and `.fgattributes` are absent, Auto Detect applies to every
+Markdown file in the opened directory tree.
 
 ## Non-Goals
 
