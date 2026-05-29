@@ -1,0 +1,2 @@
+notes/*.md flavor=pandoc
+structured/**/*.md flavor=pandoc

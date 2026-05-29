@@ -63,3 +63,9 @@ aliases: ["TASK-358"]
 > Status corrected to `partial`. Marker replacement is green, but remaining
 > legacy parser, settings, and client resource-payload assignment paths still
 > need removal or quarantine.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Extension startup markers and smoke fixture evidence now use `.fgignore` and
+> `.fgattributes`. Legacy `.flavor-grenade.*` and `.editorconfig` files no
+> longer wake the extension startup gate or produce local flavor evidence.
+> `npm run check-types` and focused extension unit tests pass.

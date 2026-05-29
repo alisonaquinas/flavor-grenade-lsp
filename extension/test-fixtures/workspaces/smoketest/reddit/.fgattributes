@@ -1,0 +1,2 @@
+notes/*.md flavor=reddit
+structured/**/*.md flavor=reddit

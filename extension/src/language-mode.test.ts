@@ -174,17 +174,17 @@ describe('language mode helpers', () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.flavor-grenade.jsonc'), '// marker\n{}\n');
+        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
         const note = join(root, 'notes', 'welcome.md');
 
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('uses project flavor config as local effective flavor evidence', async () => {
+    it('uses .fgattributes as local effective flavor evidence', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+        await writeFile(join(root, '.fgattributes'), 'notes/*.md flavor=gfm\n');
         const doc = document(join(root, 'notes', 'welcome.md'));
         const { controller, notifications } = controllerFor({ documents: [doc] });
 
@@ -217,7 +217,7 @@ describe('language mode helpers', () => {
 
 describe('LanguageModeController', () => {
     it('preserves Markdown language id when server membership is positive', async () => {
-        const doc = document(join('vault', 'note.md'));
+        const doc = document(join(tmpdir(), 'fg-language-mode-membership-note.md'));
         const { controller, requests, promoted } = controllerFor({
             documents: [doc],
             membership: true,
@@ -275,7 +275,7 @@ describe('LanguageModeController', () => {
     });
 
     it('refreshAll checks both markdown and ofmarkdown documents', async () => {
-        const markdown = document(join('vault', 'new.md'));
+        const markdown = document(join(tmpdir(), 'fg-language-mode-refresh-note.md'));
         const plaintext = document(join('old', 'stale.md'), 'plaintext');
         const { controller, requests } = controllerFor({
             documents: [markdown, plaintext],

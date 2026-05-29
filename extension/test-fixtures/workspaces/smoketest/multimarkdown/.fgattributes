@@ -1,0 +1,2 @@
+notes/*.md flavor=multimarkdown
+structured/**/*.md flavor=multimarkdown
