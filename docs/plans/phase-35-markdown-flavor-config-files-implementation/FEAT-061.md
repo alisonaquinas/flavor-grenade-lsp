@@ -28,7 +28,7 @@ resolution requests it.
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[TASK-355]] | Implement `.fgignore` and `.fgattributes` parser/resolver | Task | open |
+| [[TASK-355]] | Implement `.fgignore` and `.fgattributes` parser/resolver | Task | green |
 | [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | open |
 | [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | open |
 | [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | open |

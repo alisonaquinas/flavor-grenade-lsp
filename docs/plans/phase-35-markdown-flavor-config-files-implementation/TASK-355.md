@@ -2,7 +2,7 @@
 id: "TASK-355"
 title: "Implement .fgignore and .fgattributes parser/resolver"
 type: task
-status: red
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -53,3 +53,8 @@ aliases: ["TASK-355"]
 > state, `.fgignore` ignore/re-include behavior, nested rules, `.fgattributes`
 > cascades, invalid values, and vault-boundary rejection. Expected failure:
 > resolver module is not implemented yet.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Status set to `green`. Added `FlavorGrenadeConfigFiles` with confined reads,
+> Git-style pattern matching, `.fgignore` visibility resolution, and
+> `.fgattributes` attribute cascade. Focused tests, typecheck, and lint pass.
