@@ -19,11 +19,12 @@ Feature: Vault root detection
       | fullFeatures | true        |
     And the capability "flavorGrenade.crossFileLinks" is active
 
-  Scenario: .flavor-grenade.toml found — vault mode active with full features
+  @planned
+  Scenario: .fgattributes found — vault mode active with full features
     Given a directory structure at "project/":
-      | path                             | type |
-      | project/.flavor-grenade.toml     | file |
-      | project/docs/README.md           | file |
+      | path                   | type |
+      | project/.fgattributes  | file |
+      | project/docs/README.md | file |
     When the LSP server initializes with rootUri "project/"
     Then the VaultDetector returns:
       | field        | value        |
@@ -32,7 +33,8 @@ Feature: Vault root detection
       | fullFeatures | true         |
     And the capability "flavorGrenade.crossFileLinks" is active
 
-  Scenario Outline: Flavor Grenade project config marker found — vault mode active with full features
+  @planned
+  Scenario Outline: Flavor Grenade config-file marker found — vault mode active with full features
     Given the file "project/<marker>" contains:
       """
       <content>
@@ -49,19 +51,17 @@ Feature: Vault root detection
     And the capability "flavorGrenade.crossFileLinks" is active
 
     Examples:
-      | marker                 | content                                           |
-      | .flavor-grenade.json   | {"core":{"markdown":{"flavor":"gfm"}}}            |
-      | .flavor-grenade.jsonc  | // comment\n{"core":{"markdown":{"flavor":"gfm"}}} |
-      | .flavor-grenade.yaml   | core:\n  markdown:\n    flavor: gfm              |
-      | .flavor-grenade.yml    | core:\n  markdown:\n    flavor: gfm              |
-      | .editorconfig          | [*.md]\nflavor_grenade_markdown_flavor = gfm     |
+      | marker        | content                  |
+      | .fgattributes | *.md flavor=commonmark   |
+      | .fgignore     | generated/**/*.md        |
 
-  Scenario: Both .obsidian/ and .flavor-grenade.toml present — obsidian takes precedence
+  @planned
+  Scenario: Both .obsidian/ and .fgattributes present — obsidian takes precedence for Auto Detect
     Given a directory structure at "mixed/":
-      | path                          | type      |
-      | mixed/.obsidian/              | directory |
-      | mixed/.flavor-grenade.toml    | file      |
-      | mixed/notes/doc.md            | file      |
+      | path                       | type      |
+      | mixed/.obsidian/           | directory |
+      | mixed/.fgattributes        | file      |
+      | mixed/notes/doc.md         | file      |
     When the LSP server initializes with rootUri "mixed/"
     Then the VaultDetector returns:
       | field        | value    |
@@ -70,12 +70,13 @@ Feature: Vault root detection
       | fullFeatures | true     |
     And the VaultDetector preference log records "obsidian marker takes precedence"
 
+  @planned
   Scenario: Neither marker found — single-file mode with cross-file features suppressed
     Given a directory structure at "plain-dir/":
       | path              | type |
       | plain-dir/doc.md  | file |
     And no .obsidian/ directory exists at or above "plain-dir/"
-    And no .flavor-grenade.toml exists at or above "plain-dir/"
+    And no .fgignore or .fgattributes file exists at or above "plain-dir/"
     When the LSP server initializes with rootUri "plain-dir/"
     Then the VaultDetector returns:
       | field        | value       |

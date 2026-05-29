@@ -18,7 +18,7 @@ updated: 2026-05-13
 | Reviewer / command | Codex Phase 21 evidence review |
 | Commit reviewed | `5aad12ce` |
 | Source inputs | `docs/bdd/features/ofmarkdown-language-mode.feature`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/evidence/markdown-flavor-research-trace.md`, `docs/adr/ADR020-markdown-flavor-selection.md`, `docs/test/markdown-flavor-validation-spec.md` |
-| Sanitization | Repository-relative paths only; no note bodies, TOML contents, environment variables, tokens, local user paths, or raw server output included |
+| Sanitization | Repository-relative paths only; no note bodies, `.fgignore`/`.fgattributes` contents, environment variables, tokens, local user paths, or raw server output included |
 
 ## Product Decisions
 

@@ -103,7 +103,7 @@ See also: [[ubiquitous-language]], [[docs/ddd/vault/domain-model]], [[docs/ddd/l
 | BC1 Path & Identity      | BC5 LSP Protocol         | Shared Kernel           | URI ↔ `DocId` conversion lives in BC1 and is called by BC5 directly.                                                                                                                                                                                          |
 | BC2 Document Lifecycle   | BC4 Vault & Workspace    | Customer-Supplier       | BC4 is the customer and owner of effective Markdown context state. BC2 publishes `MarkdownDoc`/current `OFMDoc` commands that consume `ParseContext`; BC4 stores docs in `VaultFolder` and calls document mutation commands with the current `EffectiveMarkdownContext`, including base `EffectiveMarkdownFlavor`, `MarkdownFlavorProfile`, and structured profile flags. |
 | BC3 Reference Resolution | BC4 Vault & Workspace    | Customer-Supplier + ACL | BC4 owns `RefGraph`. `Oracle` is the ACL: it bridges `VaultIndex` (BC4's name) to `Scope`/`Def` (BC3's language) without leaking BC4 types into BC3.                                                                                                          |
-| BC4 Vault & Workspace    | BC5 LSP Protocol         | Customer-Supplier       | BC5 is the customer. `LspServer` validates protocol payloads and calls BC4 workspace/config mutations, including `workspace/didChangeConfiguration` flavor updates. BC4 never imports BC5 types.                                                              |
+| BC4 Vault & Workspace    | BC5 LSP Protocol         | Customer-Supplier       | BC5 is the customer. `LspServer` validates protocol payloads and calls BC4 workspace/config mutations, including resource-specific flavor refresh inputs. BC4 never imports BC5 types.                                                              |
 | LSP 3.17 spec            | BC5 LSP Protocol         | Conformist              | BC5 conforms entirely to the external LSP specification. No deviation, no translation.                                                                                                                                                                        |
 | BC5 LSP Protocol         | BC6 Editor Client        | Open Host Service       | JSON-RPC over stdio — the published protocol. BC6 spawns the resolved server command and communicates exclusively through this channel.                                                                                                                       |
 | LSP 3.17 spec            | BC6 Editor Client        | Conformist              | BC6 conforms to the LSP 3.17 client protocol via `vscode-languageclient@9.x`. No protocol deviations.                                                                                                                                                         |
@@ -307,11 +307,11 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 | `VaultFolder`             | Aggregate — one detected vault, owns docs + RefGraph + config                             |
 | `Workspace`               | Aggregate — one per server instance, owns all VaultFolders                                |
 | `VaultIndex`              | Name-lookup index for a vault (used by Oracle implementation)                             |
-| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) received from VS Code settings or project config |
+| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) resolved from applicable `.fgattributes` rules, including rules written by the selector |
 | `EffectiveMarkdownFlavor` | Explicit base flavor id resolved by BC4 using `MarkdownFlavorCascade`; never `auto` |
 | `EffectiveMarkdownContext` | Document-specific parse context containing one `EffectiveMarkdownFlavor`, the matching `MarkdownFlavorProfile`, and zero or more structured profile flags |
 | `MarkdownFlavorProfile`   | Source-backed profile metadata for the effective flavor, including syntax surfaces and host boundaries |
-| `VaultDetector`           | Domain service — detects `.obsidian/` or Flavor Grenade project config markers            |
+| `VaultDetector`           | Domain service — detects `.obsidian/` or Flavor Grenade config-file markers (`.fgignore` / `.fgattributes`) |
 | `FileWatcher`             | Domain service — wraps inotify/fs.watch for `**/*.md` events                              |
 | `GitIgnore`               | Value object — parsed `.gitignore` rules applied to file scanning                         |
 | `FolderLookup`            | Index structure: `stem → DocId[]`, `title → DocId[]`, `alias → DocId[]`                   |
@@ -366,7 +366,7 @@ See [[docs/ddd/lsp-protocol/domain-model]] for the full method-to-command mappin
 1. `LspServer` is a strict conformist to LSP 3.17. It does not invent protocol deviations.
 2. All BC4 mutations triggered by `LspServer` are synchronous from the perspective of the JSON-RPC response (awaited before responding).
 3. `flavorGrenade/status` is the only custom notification; it uses the `flavorGrenade/` namespace to avoid collisions.
-4. `workspace/didChangeConfiguration` maps `flavorGrenade.markdownFlavor` into a validated `MarkdownFlavorSelection` mutation on BC4/Config; invalid values are rejected without changing server state.
+4. `.fgattributes` changes map `flavor` attributes into validated `MarkdownFlavorSelection` mutations on BC4/Config; invalid values are treated as absent without changing server state.
 
 ---
 
@@ -420,7 +420,9 @@ function resolveServerPath(context: ExtensionContext): string;
 3. Client disposal handles server shutdown via `context.subscriptions` — no orphaned server processes after extension deactivation or VS Code exit.
 4. The client must keep `.md` documents in VS Code's built-in `markdown` language mode.
 5. Manual non-Markdown language selections are authoritative and disable the Markdown flavor selector for that editor.
-6. Flavor and structured-profile overrides persist to VS Code configuration and are propagated to the server as selector inputs. The extension does not compute or store server-authoritative `EffectiveMarkdownContext`.
+6. Flavor and structured-profile overrides persist to `.fgattributes` and are
+   refreshed through server analysis as selector inputs. The extension does not
+   compute or store server-authoritative `EffectiveMarkdownContext`.
 
 ---
 

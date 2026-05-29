@@ -8,8 +8,9 @@ aliases: [Extension Markdown Flavor Unit Tests]
 
 Target file: `extension/src/markdown-flavor.test.ts`.
 
-Auto-detection resolver cases follow the root
+Effective flavor resolver cases follow the root
 [Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md).
+They must keep configuration resolution separate from Auto Detect.
 
 ## Core Unit Cases
 
@@ -18,7 +19,7 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-001 | Flavor constants | `Extension.MarkdownFlavor.RequiredCoverage` | Exported flavor list includes `auto` and every required explicit flavor id in stable display order. |
 | EXT-MF-U-002 | Selector labels | `Extension.MarkdownFlavor.Selector` | Quick-pick labels and status labels match requirements for all flavors. |
 | EXT-MF-U-003 | Language preservation | `Extension.MarkdownLanguage.PreserveDefault` | Refresh logic never calls `setTextDocumentLanguage` for flavor selection. |
-| EXT-MF-U-004 | Auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | The root auto-detection truth table is covered: `.obsidian/`, `.fgattributes flavor=auto`, absent `.fgignore`/`.fgattributes`, server membership, syntax/context inference, invalid values, and CommonMark fallback. |
+| EXT-MF-U-004 | Effective flavor and auto-detection resolver | `Extension.MarkdownFlavor.AutoDetection` | The root truth table is covered in two layers: configuration resolution handles `.fgignore`, concrete `.fgattributes` flavor values, `.fgattributes flavor=auto`, `!flavor`, absent `.fgignore`/`.fgattributes`, and invalid values; Auto Detect itself handles `.obsidian/`, server membership, syntax/context inference, ambiguity, and CommonMark fallback. |
 | EXT-MF-U-005 | Membership fallback | `Extension.MarkdownFlavor.AutoDetection` | Server membership response can resolve Obsidian/Flavor Grenade vault state after startup. |
 | EXT-MF-U-006 | Selected-file override target | `Extension.MarkdownFlavor.OverridePersistence` | Folder-backed active document writes a file-specific `.fgattributes` rule in the active file's directory after the second scope prompt chooses `Selected file`. |
 | EXT-MF-U-007 | Directory override target | `Extension.MarkdownFlavor.OverridePersistence` | The second scope prompt choice `All files in this directory` writes a directory-local Markdown pattern such as `/*.md flavor=<id>` to `.fgattributes`. |
@@ -33,7 +34,7 @@ Auto-detection resolver cases follow the root
 | EXT-MF-U-016 | Fixture boundary guard | `Extension.MarkdownFlavor.AutoDetection`, `Security.Vault.ProjectConfigConfinement` | The smoketest root README is a negative control: it must not detect as OFM or inherit flavor attributes because of child `.fgignore`/`.fgattributes` files or repository ancestor config outside the active workspace boundary. |
 | EXT-MF-U-017 | Structured profile constants and schema | `Extension.MarkdownStructuredProfiles.Configuration`, `FlavorLSP.StructuredProfiles.Flags` | The base flavor selector remains unchanged; `.fgattributes structured_profiles` accepts `auto`, `none`, and unique compatible lists of `keep-a-changelog`, `common-changelog`, and `madr`; invalid ids, duplicates, and incompatible changelog pairs are rejected. |
 | EXT-MF-U-018 | Structured profile auto-detection | `Extension.MarkdownStructuredProfiles.Configuration`, `Extension.MarkdownFlavor.AutoDetection` | `CHANGELOG.md` and `docs/decisions/NNNN-title.md` fixture evidence can infer Keep a Changelog, Common Changelog, and MADR profile flags independently of the base effective flavor; weak evidence returns no profile flag. |
-| EXT-MF-U-019 | Structured profile fixture inventory | `Extension.MarkdownStructuredProfiles.Configuration`, `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownFlavor.AutoDetection` | `extension/test-fixtures/workspaces/smoketest/` contains Keep a Changelog, Common Changelog, and MADR examples under every configured flavor workspace and every config-absent inference workspace, using the expected `structured/` paths and preserving each workspace's base flavor evidence. |
+| EXT-MF-U-019 | Structured profile fixture inventory | `Extension.MarkdownStructuredProfiles.Configuration`, `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownFlavor.AutoDetection` | `extension/test-fixtures/workspaces/smoketest/` contains Keep a Changelog, Common Changelog, and MADR examples under every `.fgattributes`-configured flavor workspace and every config-absent inference workspace, using the expected `structured/` paths and preserving each workspace's base flavor evidence. |
 | EXT-MF-U-020 | Ignore inactive state | `Extension.MarkdownFlavor.IgnoreVisibility` | `.fgignore` matched files report inactive state, receive no selector writes or server feature refreshes, and return to Auto Detect after negation/removal. |
 
 ## Contribution Unit Cases

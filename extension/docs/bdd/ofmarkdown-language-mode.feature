@@ -103,8 +103,8 @@ Feature: Markdown flavor selection
       | pandoc     | none                 | none             | CHANGELOG.md                       |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
-  Scenario Outline: Auto Detect infers structured profiles from document context
-    Given no structured profile override is configured
+  Scenario Outline: Structured profile inference layers over a configured base flavor
+    Given no structured profile attribute applies to "<path>"
     And ".fgattributes" sets "flavor=<baseFlavor>" for "<path>"
     When the user opens "<path>" containing "<evidence>"
     Then the document language id remains "markdown"

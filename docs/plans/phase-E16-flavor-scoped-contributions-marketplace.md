@@ -43,7 +43,8 @@ promotion.
 - `activationEvents` keeps the current lightweight `onLanguage:markdown` wake
   path, removes current `onLanguage:ofmarkdown`, and proves generic Markdown
   wake does startup checks without vault indexing until a positive vault,
-  project-config, selector, or command signal exists.
+  `.obsidian/`, `.fgignore`, `.fgattributes`, selector, or command signal
+  exists.
 - Selector command regression coverage in restricted and virtual contexts, so
   selector activation does not spawn the server where the environment model
   forbids it.
@@ -67,15 +68,15 @@ promotion.
   mention is non-authoritative historical context only.
 - Current activation keeps `onLanguage:markdown` as the built-in language wake
   signal, but generic Markdown language wake remains lightweight and does not
-  spawn indexing without `.obsidian/`, `.flavor-grenade.toml`, explicit selector
-  override, or command intent.
+  spawn indexing without `.obsidian/`, `.fgignore`, `.fgattributes`, explicit
+  selector override, or command intent.
 - `LanguageClient` `clientOptions.documentSelector` is file-backed `markdown`
   only, and tests fail if `ofmarkdown` remains in the current selector.
 - Selector command activation respects restricted and virtual workspace safety:
   command UI may report disabled/error state, but unsupported contexts must not
   spawn the server or send flavor propagation.
 - Selector command activation in untrusted workspaces must not write
-  workspace-folder settings or start server analysis.
+  `.fgattributes` or start server analysis.
 - Generic CommonMark Markdown does not receive Obsidian-only affordances.
 - Marketplace README shows Markdown flavor selector behavior, covered by
   `extension/test/marketplace/readme-assets.test.ts`.

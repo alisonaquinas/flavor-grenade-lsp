@@ -18,18 +18,19 @@ aliases: ["FEAT-043"]
 
 ## Goal
 
-Thread server-owned `EffectiveMarkdownFlavor` through configuration, parsing,
-diagnostics, and spawned-server integration tests without weakening input,
-config, or boundary security gates.
+Thread server-owned `EffectiveMarkdownFlavor` through `.fgignore`/`.fgattributes`
+configuration, parsing, diagnostics, and spawned-server integration tests
+without weakening input, config, or boundary security gates.
 
 ## Scope
 
-- Accept and validate `flavorGrenade.markdownFlavor` from
-  `workspace/didChangeConfiguration` in BC5, then dispatch to BC4/Config.
-- Resolve explicit and `auto` modes in BC4 using `MarkdownFlavorCascade`.
+- Accept and validate resource-specific effective flavor payloads in BC5, then
+  dispatch to BC4/Config.
+- Resolve `.fgignore`, `.fgattributes`, and `auto` modes in BC4 using the
+  effective flavor flow.
 - Validate resource-specific flavor payloads before Config/BC4 mutation.
-- Confine and validate `.flavor-grenade.toml` project evidence before flavor
-  state uses it.
+- Confine and validate `.fgignore`/`.fgattributes` evidence before flavor state
+  uses it.
 - Refresh open documents after flavor changes.
 - Gate initial Original, CommonMark, and Obsidian analysis behavior.
 
@@ -50,7 +51,7 @@ config, or boundary security gates.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] covers
   host/conversion boundary behavior across the spawned server boundary.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] covers
-  malformed flavor payload and unsafe project-config rejection.
+  malformed flavor payload and unsafe `.fgignore`/`.fgattributes` rejection.
 
 ## Child Tasks
 
@@ -75,8 +76,8 @@ config, or boundary security gates.
 - [x] BC4 owns effective flavor state; BC5 only validates protocol payloads.
 - [x] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
       oversized maps, and stale resource keys are rejected before state changes.
-- [x] Project TOML evidence is confined, size-limited, schema-validated, and
-      redacted in logs.
+- [x] `.fgignore`/`.fgattributes` evidence is confined, size-limited,
+      schema-validated, and redacted in logs.
 - [x] Open document diagnostics refresh after flavor changes.
 - [x] Integration tests cover supported and unsupported flavor transitions,
       handler refresh, resource-specific state, and host/conversion boundary
@@ -96,7 +97,7 @@ config, or boundary security gates.
 
 > [!SUCCESS] GREEN - 2026-05-13
 > Implemented server-owned Markdown flavor state, configuration validation,
-> project TOML evidence, parser context propagation, Obsidian-only token gates,
+> config-file evidence, parser context propagation, Obsidian-only token gates,
 > open-document refresh, and shared boundary classification. Focused unit and
 > spawned-server integration gates pass locally.
 
@@ -115,13 +116,13 @@ lifecycle parsing, and the configuration handler.
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | [[BUG-043]] | Bug | Manual LSP unit harnesses lagged behind the new constructor and per-document detection API. | +0.2 h |
-| [[BUG-044]] | Bug | Existing OFM BDD fixtures used empty `.flavor-grenade.toml` markers, while Phase 20 correctly makes empty project TOML fall through to CommonMark. | +0.4 h |
+| [[BUG-044]] | Bug | Existing OFM BDD fixtures relied on legacy empty project markers; under the config-file model, absent `.fgattributes` flavor falls through to Auto Detect and then CommonMark when no stronger evidence exists. | +0.4 h |
 
 ### Process observations
 
 Ticketing findings before fixes kept the broad gate failures traceable. The
-phase scope also clarified that `.flavor-grenade.toml` is a flavor signal only
-when it contains a valid explicit flavor.
+phase scope also clarified that `.fgattributes` is the persistent flavor signal,
+while Auto Detect remains separate from config parsing.
 
 ### Carry-forward actions
 

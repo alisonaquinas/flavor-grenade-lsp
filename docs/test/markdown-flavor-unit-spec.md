@@ -10,8 +10,8 @@ aliases:
 
 # Markdown Flavor Unit Test Specification
 
-Repository-level unit tests cover server-side flavor profile and configuration
-logic. Extension unit tests are specified in
+Repository-level unit tests cover server-side flavor profile, visibility, and
+configuration-file logic. Extension unit tests are specified in
 `extension/docs/tests/markdown-flavor-unit-spec.md`.
 
 ## Scope
@@ -29,9 +29,9 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-003 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Original Markdown profile marks fenced code, pipe tables, task lists, and wiki links as non-core. |
 | MF-U-004 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | CommonMark profile enables fenced code blocks and standardized edge cases while excluding GFM tables/tasks and Obsidian wiki links as core syntax. |
 | MF-U-005 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM and GLFM profiles inherit CommonMark baseline and declare their platform extensions separately. |
-| MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Security.Input.FlavorPropagationPayload` | `workspace/didChangeConfiguration` accepts every required flavor id and rejects unknown ids, malformed resource maps, non-file URI keys, dangerous object keys, stale resources, and `auto` as effective flavor without mutating active flavor state. |
+| MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Security.Input.FlavorPropagationPayload` | The documented resource-specific flavor payload accepts every required flavor id and rejects unknown ids, malformed resource maps, non-file URI keys, dangerous object keys, stale resources, and `auto` as effective flavor without mutating active flavor state. |
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
-| MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | The auto-detection truth table from [[docs/design/markdown-flavor-auto-detection]] is covered: workspace-folder/workspace/user scope, project config, `.obsidian/`, Flavor Grenade config markers, server membership, syntax/context inference, invalid values, and CommonMark fallback. |
+| MF-U-008 | planned effective-flavor resolver unit | `Extension.MarkdownFlavor.AutoDetection` | The effective flavor truth table from [[docs/design/markdown-flavor-auto-detection]] must be covered: `.fgignore` inactive state, `.fgattributes` concrete flavor, `.fgattributes flavor=auto`, `!flavor`, absent config files, `.obsidian/`, server membership, syntax/context inference, invalid values, and CommonMark fallback. Auto Detect must be tested as a separate resolver that receives config outcome and does not read `.fgattributes`. |
 | MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
 | MF-U-010 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | Original Markdown analysis supports historical core constructs, marks Phase 22 LSP surfaces implemented, emits FG101 portability diagnostics for unsupported extensions, and suppresses inactive Obsidian completions. |
 | MF-U-011 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | CommonMark analysis supports fenced code, setext/ATX headings, inline/reference links, autolinks, and implemented surface status while excluding GFM tables/tasks and Obsidian wiki links/callouts as core syntax; FG102 portability warnings and inactive Obsidian completion suppression are covered. |
@@ -47,12 +47,12 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-021 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Reddit Markdown analysis supports Reddit-specific syntax awareness, escaping and line-break behavior, spoilers, and portability diagnostics without calling Reddit services. |
 | MF-U-022 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Stack Overflow Markdown analysis supports tag links, spoilers, syntax highlighting hints, code fence behavior, GFM-style tables, and post-surface constraints. |
 | MF-U-023 | planned syntax-inference classifier unit | `Extension.MarkdownFlavor.AutoDetection`, `Security.Parser.FlavorProfileResourceSafety` | Project-config-absent documents with strong local syntax infer `mdx`, `r-markdown`, `stack-overflow`, `reddit`, `glfm`, `pandoc`, `multimarkdown`, `kramdown`, or `markdown-extra`; weak/shared syntax such as GFM tables/tasks/strikethrough does not infer a flavor by itself; Original Markdown is never inferred from absence of extensions. |
-| MF-U-024 | planned marker-boundary unit | `Extension.MarkdownFlavor.AutoDetection`, `Security.Vault.ProjectConfigConfinement` | Marker and context search stops at the active workspace/vault boundary, so fixture roots or nested workspaces do not inherit Flavor Grenade config markers from ancestor directories outside that boundary. |
-| MF-U-025 | planned structured-profile contract unit | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration` | `keep-a-changelog`, `common-changelog`, and `madr` exist only as `StructuredMarkdownProfileId` values; they are absent from `MarkdownFlavorId`, selector ids, and package flavor enum; TOML/VS Code settings accept `auto`, `none`, and explicit arrays while rejecting unknown ids and duplicate/incompatible changelog flags. |
+| MF-U-024 | planned marker-boundary unit | `Extension.MarkdownFlavor.AutoDetection`, `Security.Vault.ProjectConfigConfinement` | Marker and context search stops at the active workspace/vault boundary, so fixture roots or nested workspaces do not inherit `.fgignore`, `.fgattributes`, `.obsidian/`, or other marker evidence from ancestor directories outside that boundary. |
+| MF-U-025 | planned structured-profile contract unit | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration` | `keep-a-changelog`, `common-changelog`, and `madr` exist only as `StructuredMarkdownProfileId` values; they are absent from `MarkdownFlavorId`, selector ids, and package flavor enum; `.fgattributes structured_profiles` accepts `auto`, `none`, and explicit lists while rejecting unknown ids and duplicate/incompatible changelog flags. |
 | MF-U-026 | planned structured-profile inference unit | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownFlavor.AutoDetection` | Filename/folder/content inference detects Keep a Changelog, Common Changelog, and MADR from strong local evidence; weak headings fall back to no structured profile; structured profile inference respects the active workspace boundary and can combine with every base Markdown flavor. |
-| MF-U-027 | `extension/src/markdown-flavor-evidence.test.ts` | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration`, `Extension.MarkdownFlavor.AutoDetection` | Every configured and project-config-absent inference smoke-test workspace contains Keep a Changelog, Common Changelog, and MADR structured examples under the expected `structured/` paths; each example remains colocated with its base flavor or inference evidence. |
+| MF-U-027 | `extension/src/markdown-flavor-evidence.test.ts` | `FlavorLSP.StructuredProfiles.Flags`, `Extension.MarkdownStructuredProfiles.Configuration`, `Extension.MarkdownFlavor.AutoDetection` | Every `.fgattributes`-configured and config-absent inference smoke-test workspace contains Keep a Changelog, Common Changelog, and MADR structured examples under the expected `structured/` paths; each example remains colocated with its base flavor or inference evidence. |
 | MF-U-028 | planned structured-profile surface units | `FlavorLSP.StructuredProfiles.Flags`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.Hover.ProfileMetadata`, `FlavorLSP.SemanticTokens.ProfileTokens` | Structured profile fixtures drive diagnostics, document symbols, folding ranges, hover metadata, completion snippets, semantic tokens, and negative cases for inactive or incompatible changelog/MADR structures without changing base flavor tokenization. |
-| MF-U-029 | `src/lsp/handlers/__tests__/configuration.handler.test.ts`, `src/vault/__tests__/vault-detector.test.ts` | `Extension.MarkdownFlavor.AutoDetection`, `Security.Input.ProjectConfigSafety`, `Security.Vault.ProjectConfigConfinement` | Project config discovery accepts `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` files with Flavor Grenade directives; one config file can assign document-specific base flavors and structured profiles by vault-relative directory; unsafe, oversized, invalid, or dangerous-key configs are treated as absent configuration. |
+| MF-U-029 | planned config-file discovery and resolver units | `Extension.MarkdownFlavor.AutoDetection`, `Security.Input.ProjectConfigSafety`, `Security.Vault.ProjectConfigConfinement` | `.fgignore` and `.fgattributes` discovery must accept root and nested files under the active workspace/vault boundary; cascaded files can ignore, re-include, assign document-specific base flavors, reset `flavor`, set `flavor=auto`, and assign structured profiles by Git-style path pattern; unsafe, oversized, invalid, or dangerous-key config-file contents are treated as absent configuration. |
 
 ## Per-LSP-Surface Fixture Expectations
 
@@ -72,7 +72,7 @@ deferred lookup or product limitation in validation evidence.
 | MF-REN-001 | `FlavorLSP.Rename.ProfileSafety`, `FlavorLSP.HostBoundary.NonLocalReferences` | `prepareRename` and `rename` success cases for profile-supported local symbols; rejection cases for inactive, host-specific, conversion-bound, renderer-bound, and execution-bound targets. |
 | MF-HOST-001 | `FlavorLSP.HostBoundary.NonLocalReferences`, `Security.Vault.PathConfinement` | Per-platform/conversion fixtures prove host references, conversion directives, JSX/ESM, and executable chunks are never treated as local vault edits, local definitions, or broken vault diagnostics and never trigger network access, process execution, dynamic imports, or out-of-root file reads without configured integration context. |
 | MF-SEC-001 | `Security.Parser.FlavorProfileResourceSafety` | Pathological fixtures for long delimiters, nested constructs, unterminated syntax, large tables/lists/chunks/citations, and unsafe-regex review for every dialect parser change. |
-| MF-SEC-002 | `Security.Input.ProjectConfigSafety`, `Security.Vault.ProjectConfigConfinement` | Oversized, invalid, dangerous-key, symlinked, and out-of-root project config fixtures across TOML, JSON, JSONC, YAML, and `.editorconfig` are treated as absent configuration without logging content or mutating prior flavor state. |
+| MF-SEC-002 | `Security.Input.ProjectConfigSafety`, `Security.Vault.ProjectConfigConfinement` | Oversized, invalid, dangerous-key, symlinked, and out-of-root `.fgignore` or `.fgattributes` fixtures are treated as absent configuration without logging content or mutating prior flavor state. |
 | MF-SP-001 | `FlavorLSP.StructuredProfiles.Flags`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates`, `FlavorLSP.Navigation.ProfileResolution`, `FlavorLSP.Hover.ProfileMetadata`, `FlavorLSP.SemanticTokens.ProfileTokens` | Keep a Changelog, Common Changelog, and MADR fixtures declare expected structured diagnostics, section symbols, folds, hover profile labels, profile-specific completions, semantic tokens, and negative checks for weak evidence or incompatible changelog variants. |
 
 Minimum fixture families:
@@ -90,8 +90,10 @@ Minimum fixture families:
 
 ### MF-U-006 - Server Flavor Configuration Validation
 
-Unit evidence for `workspace/didChangeConfiguration` handling of
-`flavorGrenade.markdownFlavor`.
+Unit evidence for the resource-specific flavor payload
+handling of already-resolved `EffectiveMarkdownContext` payloads. Persistent
+file and directory selection is owned by `.fgattributes`; legacy flavor settings
+are not an active selection source.
 
 ### MF-U-007 - Flavor Change Refresh
 
@@ -100,9 +102,10 @@ Unit evidence for diagnostic and feature refresh after flavor changes.
 ### MF-U-008 - Auto Flavor Resolution
 
 Unit evidence for [[docs/design/markdown-flavor-auto-detection]], including
-Flavor Grenade project config files, workspace settings, precedence,
-standalone user settings, server membership, syntax/context inference, boundary
-confinement, and invalid-value fallback.
+`.fgignore` visibility gating, `.fgattributes` concrete flavor resolution,
+`flavor=auto`, `!flavor`, absent config files, server membership,
+syntax/context inference, boundary confinement, and invalid-value fallback.
+Auto Detect is covered as an independent resolver invoked by config/defaults.
 
 ### MF-U-010 - Original Markdown Parser And Analysis
 
@@ -180,34 +183,36 @@ Unit evidence for Phase 34.
 
 ### MF-U-023 - Syntax And Context Inference
 
-Unit evidence for the no-project-config inference path. Coverage proves strong syntax
-signals select one inferred flavor only when the evidence is unambiguous; weak
-or shared constructs remain CommonMark fallback; no inference path executes
-code, fetches network data, loads renderers, or reads outside the configured
-workspace/vault boundary.
+Unit evidence for the no-applicable-configuration inference path. Coverage
+proves strong syntax signals select one inferred flavor only when the evidence
+is unambiguous; weak or shared constructs remain CommonMark fallback; no
+inference path executes code, fetches network data, loads renderers, or reads
+outside the configured workspace/vault boundary.
 
 ### MF-U-024 - Marker Boundary Confinement
 
 Unit evidence for fixture/workspace boundary safety. Coverage proves a
 workspace root used as a negative control, such as the smoketest root README,
-does not become OFM or inherit project flavor merely because a repository
-ancestor or nested child fixture has a Flavor Grenade config marker.
+does not become OFM or inherit flavor merely because a repository ancestor or
+nested child fixture has `.fgignore`, `.fgattributes`, or `.obsidian/` marker
+evidence.
 
 ## Exit Criteria
 
 - All explicit flavor ids from ADR020 are represented in the profile registry.
 - Configuration validation cannot accept an unresearched flavor id.
-- Auto-detection precedence and invalid configured flavor fallback are covered.
-- Project-config-absent syntax/context inference, ambiguity fallback, and boundary
-  confinement are covered.
+- Effective flavor precedence, `.fgignore` inactive state, `.fgattributes`
+  selection, and invalid configured flavor fallback are covered.
+- Config-absent syntax/context inference, ambiguity fallback, and boundary
+  confinement are covered as Auto Detect behavior.
 - Structured profile flags for Keep a Changelog, Common Changelog, and MADR
   are covered without expanding `MarkdownFlavorId`.
-- Project config coverage proves TOML, JSON, JSONC, YAML, `.editorconfig`,
-  directory overrides, structured profile overrides, marker detection, and
-  unsafe config rejection.
-- Every configured and project-config-absent inference smoke-test workspace has fixture
-  inventory coverage for Keep a Changelog, Common Changelog, and MADR
-  structured examples.
+- `.fgignore` and `.fgattributes` coverage proves root/nested discovery,
+  directory-local patterns, negation/re-inclusion, `!flavor`, `flavor=auto`,
+  structured profile attributes, marker detection, and unsafe config rejection.
+- Every `.fgattributes`-configured and config-absent inference smoke-test
+  workspace has fixture inventory coverage for Keep a Changelog, Common
+  Changelog, and MADR structured examples.
 - Client/server enum drift fails a unit contract test.
 - Unit evidence exists before integration or E2E tests rely on the flavor model.
 - Each Phase 22-34 dialect has a concrete parser/analysis unit spec ID.

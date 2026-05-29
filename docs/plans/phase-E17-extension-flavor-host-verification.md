@@ -20,8 +20,8 @@ updated: 2026-05-13
 ## Objective
 
 Close the extension test and validation gaps by replacing old language-mode host
-expectations with visible selector, settings-scope, refresh, and manual-language
-safety evidence.
+expectations with visible selector, `.fgattributes` scope, `.fgignore` inactive,
+refresh, and manual-language safety evidence.
 
 ## Requirement Trace
 
@@ -46,14 +46,14 @@ safety evidence.
 - Include the new host suite in the extension host runner.
 - Retire or rewrite obsolete `activation-language-mode.test.js` expectations.
 - Add CI checks that run extension flavor tests.
-- Add validation evidence for selector visibility, settings scope, and no
+- Add validation evidence for selector visibility, `.fgattributes` scope, and no
   custom language id transition.
 - Add host or verification coverage for restricted, virtual, WSL, SSH, and Dev
   Container selector behavior. Unsupported environments must not spawn the
   server; supported remote modes must keep selector state and package-target
   evidence aligned.
 - Add untrusted workspace coverage proving selector UI degrades safely without
-  workspace-folder writes, server spawn, or flavor propagation.
+  `.fgattributes` writes, server spawn, or flavor propagation.
 - Add package-target validation evidence for flavor-era VSIX output.
 - Run a stale `ofmarkdown` expectation scan for current host tests and host
   evidence; historical docs may keep historical mentions when classified.
@@ -66,14 +66,14 @@ safety evidence.
 
 ## Acceptance
 
-- `npm run test:host` proves Obsidian, generic, config, standalone, manual
-  language, Auto reset, and environment-mode flows.
+- `npm run test:host` proves Obsidian, generic, `.fgattributes`, `.fgignore`,
+  standalone, manual language, Auto reset, and environment-mode flows.
 - Host logs show no `.md` document changes to `ofmarkdown`.
 - CI and local commands fail if flavor host tests are removed.
 - Package-target evidence proves flavor-era VSIX output is covered by
   `npm run verify:package-targets`.
 - Restricted, virtual, unsupported-scheme, and untrusted contexts never spawn
-  the server or persist workspace-folder flavor settings.
+  the server or persist `.fgattributes` flavor rules.
 - Extension validation docs show current user-visible behavior.
 
 ## Gate Verification
