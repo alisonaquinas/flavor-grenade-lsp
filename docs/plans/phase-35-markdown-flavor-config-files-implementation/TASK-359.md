@@ -2,7 +2,7 @@
 id: "TASK-359"
 title: "Implement extension scope prompt and .fgattributes writes"
 type: task
-status: open
+status: partial
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -42,8 +42,27 @@ aliases: ["TASK-359"]
 
 ## Definition of Done
 
-- [ ] Unit tests cover selected-file, directory, standalone, and Auto Detect
+- [x] Unit tests cover selected-file, directory, standalone, and Auto Detect
       reset writes.
 - [ ] Unit tests cover skipped writes for inactive or unsafe resources.
 - [ ] Selector keeps VS Code language id as `markdown`.
-- [ ] Refresh fires after `.fgattributes` writes.
+- [x] Refresh fires after `.fgattributes` writes.
+
+## Workflow Log
+
+> [!FAIL] RED - 2026-05-29
+> Added extension unit tests for scope quick-pick rows, canonical selected-file
+> and directory `.fgattributes` rules, upsert behavior, and same-scope Auto
+> Detect reset. Expected failure: extension helper API did not exist yet.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Added pure `.fgattributes` rule helpers and wired
+> `flavorGrenade.selectMarkdownFlavor` to show a second scope prompt, write or
+> update `.fgattributes` beside the active file, start the server, and refresh
+> language-mode flavor state. `npm run check-types` and focused extension unit
+> tests pass.
+
+> [!NOTE] PARTIAL - 2026-05-29
+> Command behavior is green for file-backed Markdown documents. Inactive
+> `.fgignore` resources, unsafe-resource write rejection coverage, and host UI
+> proof remain in scope.

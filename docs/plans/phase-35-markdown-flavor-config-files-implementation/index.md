@@ -16,7 +16,7 @@ updated: 2026-05-29
 | [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | `partial` |
 | [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | `partial` |
 | [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | `partial` |
-| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | `open` |
+| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | `partial` |
 | [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | `open` |
 | [[CHORE-146]] | Phase 35 trace and matrix sweep | Chore | `open` |
 | [[CHORE-147]] | Phase 35 security and confinement sweep | Chore | `open` |

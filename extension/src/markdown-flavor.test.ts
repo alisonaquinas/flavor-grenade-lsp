@@ -10,13 +10,16 @@ import {
   MARKDOWN_STRUCTURED_PROFILES_SETTING,
   STRUCTURED_MARKDOWN_PROFILE_IDS,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
+  buildFgAttributesRule,
   buildMarkdownFlavorConfigurationNotification,
   createMarkdownFlavorQuickPickItems,
+  createMarkdownFlavorScopeQuickPickItems,
   formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
   resolveMarkdownFlavor,
   resolveMarkdownFlavorUpdateTarget,
   selectionSettingValue,
+  upsertFgAttributesRule,
 } from './markdown-flavor.js';
 
 const REQUIRED_SELECTIONS = [
@@ -592,6 +595,113 @@ describe('Markdown flavor status presentation', () => {
 });
 
 describe('Markdown flavor setting persistence', () => {
+  it('offers selected-file and directory .fgattributes write scopes', () => {
+    assert.deepEqual(createMarkdownFlavorScopeQuickPickItems(), [
+      {
+        id: 'selected-file',
+        label: 'Selected file',
+      },
+      {
+        id: 'directory',
+        label: 'All Markdown files in this directory',
+        description: 'Writes /*.md in the active file directory',
+      },
+    ]);
+  });
+
+  it('builds canonical .fgattributes rules for selected-file and directory scopes', () => {
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: 'guide.md',
+        scope: 'selected-file',
+        selection: 'gfm',
+      }),
+      'guide.md flavor=gfm',
+    );
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: 'guide.md',
+        scope: 'directory',
+        selection: 'pandoc',
+      }),
+      '/*.md flavor=pandoc',
+    );
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: 'daily note.md',
+        scope: 'selected-file',
+        selection: 'auto',
+      }),
+      'daily\\ note.md !flavor',
+    );
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: '#meeting.md',
+        scope: 'selected-file',
+        selection: 'obsidian',
+      }),
+      '\\#meeting.md flavor=obsidian',
+    );
+  });
+
+  it('upserts .fgattributes rules without widening the selected scope', () => {
+    const content = [
+      '# Team defaults',
+      '*.md flavor=commonmark',
+      'guide.md structured_profiles=madr flavor=gfm',
+      '/*.md flavor=obsidian',
+      '',
+    ].join('\n');
+
+    assert.equal(
+      upsertFgAttributesRule(content, {
+        fileName: 'guide.md',
+        scope: 'selected-file',
+        selection: 'pandoc',
+      }),
+      [
+        '# Team defaults',
+        '*.md flavor=commonmark',
+        'guide.md structured_profiles=madr flavor=pandoc',
+        '/*.md flavor=obsidian',
+        '',
+      ].join('\n'),
+    );
+    assert.equal(
+      upsertFgAttributesRule(content, {
+        fileName: 'guide.md',
+        scope: 'directory',
+        selection: 'glfm',
+      }),
+      [
+        '# Team defaults',
+        '*.md flavor=commonmark',
+        'guide.md structured_profiles=madr flavor=gfm',
+        '/*.md flavor=glfm',
+        '',
+      ].join('\n'),
+    );
+  });
+
+  it('uses !flavor for same-scope Auto Detect resets', () => {
+    assert.equal(
+      upsertFgAttributesRule('', {
+        fileName: 'guide.md',
+        scope: 'selected-file',
+        selection: 'auto',
+      }),
+      'guide.md !flavor\n',
+    );
+    assert.equal(
+      upsertFgAttributesRule('guide.md structured_profiles=madr flavor=gfm\n', {
+        fileName: 'guide.md',
+        scope: 'selected-file',
+        selection: 'auto',
+      }),
+      'guide.md structured_profiles=madr !flavor\n',
+    );
+  });
+
   it('writes explicit overrides to the owning scope and clears auto with undefined', () => {
     assert.equal(selectionSettingValue('obsidian'), 'obsidian');
     assert.equal(selectionSettingValue('auto'), undefined);

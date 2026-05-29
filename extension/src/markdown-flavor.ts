@@ -122,6 +122,14 @@ export interface MarkdownFlavorQuickPickItem {
   description?: string;
 }
 
+export type MarkdownFlavorScope = 'selected-file' | 'directory';
+
+export interface MarkdownFlavorScopeQuickPickItem {
+  id: MarkdownFlavorScope;
+  label: string;
+  description?: string;
+}
+
 export interface MarkdownFlavorStatusPresentation {
   text: string;
   tooltip: string;
@@ -202,6 +210,70 @@ export function createMarkdownFlavorQuickPickItems(): MarkdownFlavorQuickPickIte
     id,
     label: MARKDOWN_FLAVOR_LABELS[id],
   }));
+}
+
+export function createMarkdownFlavorScopeQuickPickItems(): MarkdownFlavorScopeQuickPickItem[] {
+  return [
+    {
+      id: 'selected-file',
+      label: 'Selected file',
+    },
+    {
+      id: 'directory',
+      label: 'All Markdown files in this directory',
+      description: 'Writes /*.md in the active file directory',
+    },
+  ];
+}
+
+export function buildFgAttributesRule(input: {
+  fileName: string;
+  scope: MarkdownFlavorScope;
+  selection: MarkdownFlavorSelection;
+}): string {
+  const pattern = buildFgAttributesPattern(input);
+  const attribute = input.selection === 'auto' ? '!flavor' : `flavor=${input.selection}`;
+  return `${pattern} ${attribute}`;
+}
+
+export function upsertFgAttributesRule(
+  content: string,
+  input: {
+    fileName: string;
+    scope: MarkdownFlavorScope;
+    selection: MarkdownFlavorSelection;
+  },
+): string {
+  const pattern = buildFgAttributesPattern(input);
+  const rule = buildFgAttributesRule(input);
+  if (content.length === 0) {
+    return `${rule}\n`;
+  }
+
+  let replaced = false;
+  const lines = content.replace(/\r\n/g, '\n').split('\n');
+  const updated = lines.map((line, index) => {
+    if (index === lines.length - 1 && line.length === 0 && content.endsWith('\n')) {
+      return line;
+    }
+    const nextLine = updateFgAttributesLine(line, pattern, input.selection);
+    if (nextLine === undefined) {
+      return line;
+    }
+    replaced = true;
+    return nextLine;
+  });
+
+  if (!replaced) {
+    if (content.endsWith('\n')) {
+      updated.splice(updated.length - 1, 0, rule);
+    } else {
+      updated.push(rule);
+    }
+  }
+
+  const result = updated.join('\n');
+  return result.endsWith('\n') ? result : `${result}\n`;
 }
 
 export function formatMarkdownFlavorStatus(
@@ -716,4 +788,74 @@ function isSafeResourceUri(uri: string): boolean {
     !uri.includes('constructor') &&
     !uri.includes('prototype')
   );
+}
+
+function buildFgAttributesPattern(input: {
+  fileName: string;
+  scope: MarkdownFlavorScope;
+}): string {
+  return input.scope === 'directory' ? '/*.md' : escapeFgAttributesPattern(input.fileName);
+}
+
+function updateFgAttributesLine(
+  line: string,
+  pattern: string,
+  selection: MarkdownFlavorSelection,
+): string | undefined {
+  const tokens = splitFgAttributesTokens(line.trim());
+  if (tokens.length < 1 || unescapeFgAttributesPattern(tokens[0]) !== unescapeFgAttributesPattern(pattern)) {
+    return undefined;
+  }
+
+  const preservedAttributes = tokens.slice(1).filter((token) => !isFlavorAttributeToken(token));
+  const flavorAttribute = selection === 'auto' ? '!flavor' : `flavor=${selection}`;
+  return [pattern, ...preservedAttributes, flavorAttribute].join(' ');
+}
+
+function splitFgAttributesTokens(line: string): string[] {
+  const tokens: string[] = [];
+  let current = '';
+  let escaped = false;
+  for (const char of line) {
+    if (escaped) {
+      current += char;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      escaped = true;
+      continue;
+    }
+    if (/\s/u.test(char)) {
+      if (current.length > 0) {
+        tokens.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += char;
+  }
+  if (escaped) {
+    current += '\\';
+  }
+  if (current.length > 0) {
+    tokens.push(current);
+  }
+  return tokens;
+}
+
+function isFlavorAttributeToken(token: string): boolean {
+  return token === '!flavor' || token.startsWith('flavor=');
+}
+
+function escapeFgAttributesPattern(value: string): string {
+  let escaped = '';
+  for (const char of value) {
+    escaped += /[\s#!]/u.test(char) ? `\\${char}` : char;
+  }
+  return escaped;
+}
+
+function unescapeFgAttributesPattern(value: string): string {
+  return value.replace(/\\([#!\s])/gu, '$1');
 }

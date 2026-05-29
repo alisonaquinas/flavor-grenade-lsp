@@ -1,5 +1,6 @@
+import { basename, dirname, join } from 'node:path';
 import {
-  ConfigurationTarget,
+  Uri,
   type ExtensionContext,
   ExtensionMode,
   type StatusBarItem,
@@ -35,12 +36,12 @@ import {
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   PROJECT_CONFIG_MAX_BYTES_SETTING_KEY,
   createMarkdownFlavorQuickPickItems,
+  createMarkdownFlavorScopeQuickPickItems,
   isFlavorEligibleDocument,
   isMarkdownFlavorSelection,
   isStructuredProfileSelection,
   resolveMarkdownFlavor,
-  resolveMarkdownFlavorUpdateTarget,
-  selectionSettingValue,
+  upsertFgAttributesRule,
 } from './markdown-flavor.js';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 import { decideStartupGate } from './activation-gate.js';
@@ -133,22 +134,26 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         return;
       }
 
-      const config = workspace.getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri);
-      const inspect = config.inspect<unknown>(MARKDOWN_FLAVOR_SETTING_KEY);
-      const target = resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: inspect?.workspaceFolderValue !== undefined,
-        hasWorkspaceFolder: workspace.getWorkspaceFolder(editor.document.uri) !== undefined,
-        workspaceFolderCount: workspace.workspaceFolders?.length ?? 0,
+      const scope = await window.showQuickPick(createMarkdownFlavorScopeQuickPickItems(), {
+        matchOnDescription: true,
+        placeHolder: 'Choose where to apply this flavor',
+        title: 'Flavor Grenade Markdown Flavor Scope',
       });
-      await config.update(
-        MARKDOWN_FLAVOR_SETTING_KEY,
-        selectionSettingValue(selected.id),
-        target === 'workspace-folder'
-          ? ConfigurationTarget.WorkspaceFolder
-          : target === 'workspace'
-            ? ConfigurationTarget.Workspace
-            : ConfigurationTarget.Global,
+      if (!scope) {
+        return;
+      }
+
+      const written = await writeMarkdownFlavorAttributes(
+        editor.document.uri.fsPath,
+        scope.id,
+        selected.id,
       );
+      if (!written) {
+        await window.showErrorMessage(
+          'Unable to update .fgattributes for the active Markdown file.',
+        );
+        return;
+      }
 
       await refreshMarkdownFlavorStatus(context);
       await startClient(MARKDOWN_FLAVOR_COMMAND);
@@ -466,6 +471,37 @@ function markdownStructuredProfileSelectionForDocument(document: TextDocument) {
     .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
     .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
   return isStructuredProfileSelection(value) ? value : 'auto';
+}
+
+async function writeMarkdownFlavorAttributes(
+  filePath: string,
+  scope: Parameters<typeof upsertFgAttributesRule>[1]['scope'],
+  selection: Parameters<typeof upsertFgAttributesRule>[1]['selection'],
+): Promise<boolean> {
+  const directory = dirname(filePath);
+  const targetUri = Uri.file(join(directory, '.fgattributes'));
+  const content = await readTextFileIfPresent(targetUri);
+  const nextContent = upsertFgAttributesRule(content, {
+    fileName: basename(filePath),
+    scope,
+    selection,
+  });
+
+  try {
+    await workspace.fs.writeFile(targetUri, Buffer.from(nextContent, 'utf8'));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function readTextFileIfPresent(uri: Uri): Promise<string> {
+  try {
+    const content = await workspace.fs.readFile(uri);
+    return Buffer.from(content).toString('utf8');
+  } catch {
+    return '';
+  }
 }
 
 function ensureStatusBar(context: ExtensionContext): StatusBarItem {
