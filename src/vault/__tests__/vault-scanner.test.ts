@@ -354,6 +354,49 @@ describe('VaultScanner', () => {
     expect(vaultIndex.has(id('note'))).toBe(true);
   });
 
+  it('scan with root .fgignore: matching Markdown files are not indexed', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'notes'));
+    fs.mkdirSync(path.join(tmpDir, 'drafts'));
+    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'drafts/\nprivate/**\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'public.md'), '# Public');
+    fs.writeFileSync(path.join(tmpDir, 'drafts', 'topic.md'), '# Draft');
+    fs.mkdirSync(path.join(tmpDir, 'private'));
+    fs.writeFileSync(path.join(tmpDir, 'private', 'secret.md'), '# Secret');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.has(id('notes/public'))).toBe(true);
+    expect(vaultIndex.has(id('drafts/topic'))).toBe(false);
+    expect(vaultIndex.has(id('private/secret'))).toBe(false);
+    expect(scanner.hasAsset('.fgignore')).toBe(false);
+  });
+
+  it('scan with nested .fgignore: later negation can re-include a Markdown file', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'notes', 'private'), { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'notes/private/**\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', '.fgignore'), '!private/keep.md\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'keep.md'), '# Keep');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'drop.md'), '# Drop');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.has(id('notes/private/keep'))).toBe(true);
+    expect(vaultIndex.has(id('notes/private/drop'))).toBe(false);
+    expect(scanner.hasAsset('notes/.fgignore')).toBe(false);
+  });
+
   // ── 7. Unreadable directory (POSIX only) ─────────────────────────────────
 
   it('unreadable directory: walk continues without throwing', async () => {

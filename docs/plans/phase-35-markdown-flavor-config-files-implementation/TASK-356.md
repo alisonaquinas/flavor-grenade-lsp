@@ -2,7 +2,7 @@
 id: "TASK-356"
 title: "Apply .fgignore visibility to vault indexing and LSP surfaces"
 type: task
-status: open
+status: red
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -44,3 +44,11 @@ aliases: ["TASK-356"]
 - [ ] Negation re-includes files when traversal permits it.
 - [ ] Ignored open files do not produce Flavor Grenade LSP outputs.
 - [ ] Watcher refresh handles config-file create, update, delete, and rename.
+
+## Workflow Log
+
+> [!FAIL] RED - 2026-05-29
+> Status set to `red`. Added scanner tests for root `.fgignore` exclusion,
+> nested `.fgignore` negation, and config files staying out of asset indexing.
+> Expected failure: `VaultScanner` has not been wired to `.fgignore`
+> visibility yet.
