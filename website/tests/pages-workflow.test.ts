@@ -33,6 +33,7 @@ describe('AWS S3 website deployment workflow', () => {
     expect(workflow).toContain('Publish clean URL route objects');
     expect(workflow).toContain('website-dist/sitemap.xml');
     expect(workflow).toContain('process.stdout.write(`${key}\\t${key}/index.html\\n`)');
+    expect(workflow).toContain('process.stdout.write(`${key}/\\t${key}/index.html\\n`)');
     expect(workflow).toContain('Missing prerendered route HTML');
     expect(workflow).toContain('aws s3api put-object');
     expect(workflow).toContain('--key "$route_key"');
