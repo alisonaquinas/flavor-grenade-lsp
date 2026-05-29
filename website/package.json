@@ -1,11 +1,11 @@
 {
   "name": "flavor-grenade-lsp-website",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run content:generate && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build",
+    "build": "npm run content:generate && svelte-check --tsconfig ./tsconfig.json && tsc --project tsconfig.node.json --noEmit && vite build && vite build --ssr src/entry-server.ts --outDir dist/server && tsx src/prerender/prerender.ts && tsx src/prerender/check-build-output-seo.ts",
     "content:generate": "tsx scripts/content/generate.ts",
     "content:check": "tsx scripts/content/check.ts",
     "preview": "vite preview",
@@ -14,7 +14,7 @@
     "test": "npm run content:generate && npm run content:check && vitest run"
   },
   "dependencies": {
-    "commonloom": "0.1.0",
+    "commonloom": "0.1.3",
     "svelte": "5.55.9"
   },
   "devDependencies": {

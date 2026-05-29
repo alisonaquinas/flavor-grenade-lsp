@@ -49,9 +49,24 @@ export function getWebsitePageByPath(
   pathname: string,
   routes: readonly WebsiteRoute[],
 ): WebsitePageContent {
-  const routeRecord = routes.find((route) => route.path === pathname);
+  const normalizedPath = normalizeRoutePath(pathname);
+  const routeRecord = routes.find((route) => route.path === normalizedPath);
 
   return getWebsitePage(routeRecord?.id ?? 'home');
+}
+
+function normalizeRoutePath(pathname: string): string {
+  if (pathname === '') {
+    return '/';
+  }
+
+  if (pathname === '/') {
+    return pathname;
+  }
+
+  const pathWithoutQuery = pathname.split(/[?#]/, 1)[0] ?? '/';
+
+  return pathWithoutQuery.endsWith('/') ? pathWithoutQuery : `${pathWithoutQuery}/`;
 }
 
 /** Returns validation messages for content records and their public links. */
