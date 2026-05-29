@@ -130,8 +130,8 @@ Feature: Markdown flavor selection
       | pandoc     | none                 | none             | CHANGELOG.md                       |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
-  Scenario Outline: Auto Detect infers structured profiles from document context
-    Given no structured profile override is configured
+  Scenario Outline: Structured profile inference layers over a configured base flavor
+    Given no structured profile attribute applies to "<path>"
     And ".fgattributes" selects base flavor "<baseFlavor>" for "<path>"
     When the user opens "<path>" containing "<evidence>"
     Then the document language id remains "markdown"
@@ -222,7 +222,7 @@ Feature: Markdown flavor selection
     When the user selects "Original Markdown" from the Markdown flavor selector
     And the user chooses "Selected file" from the Markdown flavor scope prompt
     Then the document language id remains "markdown"
-    And ".fgattributes" is written beside the standalone file with a file-specific rule "flavor=original"
+    And ".fgattributes" is written beside the standalone file with a file-specific rule "standalone.md flavor=original"
     And the server is refreshed with effective flavor "original"
 
   @planned @req:Extension.MarkdownFlavor.OverridePersistence

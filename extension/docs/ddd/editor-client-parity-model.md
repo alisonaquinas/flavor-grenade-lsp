@@ -40,11 +40,11 @@ server-generated data out of VS Code-specific code until the bridge boundary.
 
 ## Auto-Detection Contract
 
-MarkdownFlavorController follows the root
+MarkdownFlavorController owns selector display, scope prompting, scoped
+`.fgattributes` writes, and refresh requests. BC4 owns the root
 [Markdown flavor auto-detection algorithm](../../../docs/design/markdown-flavor-auto-detection.md)
-for selector display, override scope, and server propagation. The extension
-owns UI and `.fgattributes` writes; it does not compute server-authoritative
-parser semantics beyond sending validated refresh or resource-specific state.
+and runs Auto Detect independently whenever no concrete `.fgattributes`
+`flavor` applies.
 
 When the user chooses a flavor, MarkdownFlavorController opens a second prompt:
 

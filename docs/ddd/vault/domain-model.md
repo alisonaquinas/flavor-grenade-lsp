@@ -153,7 +153,7 @@ VaultFolder          SingleFile
 | I3 | When a `VaultFolder` is added whose `root` encloses a URI in `singleFile`, the single-file entry is evicted (removed from `singleFile`) and the document is added to the new `VaultFolder` via `VaultFolder.withDoc`. |
 | I4 | `VaultFolder` roots are disjoint — no vault root is a subdirectory of another vault root. If a nested vault is detected, the outer vault takes precedence. |
 | I5 | `userConfig` is loaded once at startup and refreshed on `flavorGrenade/reloadConfig` notification. |
-| I6 | Workspace owns the VS Code configuration layer used by `MarkdownFlavorCascade`; BC5 validates and dispatches changes but does not store them. |
+| I6 | Workspace owns resolved `.fgignore` / `.fgattributes` resource state plus `EffectiveMarkdownContext`; BC5 validates and dispatches refresh inputs but does not store them. |
 | I7 | SingleFileMode also has an `EffectiveMarkdownContext`; generic Markdown falls back to base `commonmark` and no structured profiles unless a higher-priority selector or local structured-profile evidence applies. |
 
 ### Workspace Commands
@@ -165,8 +165,8 @@ VaultFolder          SingleFile
 | `Workspace.withSingleFile` | `(ws: Workspace, doc: MarkdownDoc) → Workspace` | Track a document in `SingleFileMode`. No-op if a vault already encloses the URI. |
 | `Workspace.withoutSingleFile` | `(ws: Workspace, uri: string) → Workspace` | Remove a single-file entry (e.g., document closed). |
 | `Workspace.updateDoc` | `(ws: Workspace, id: DocId, doc: MarkdownDoc) → Workspace` | Route a document update to the correct `VaultFolder` (or single-file slot). |
-| `Workspace.withMarkdownFlavorSelection` | `(ws: Workspace, selection: MarkdownFlavorSelection, scope?: VaultRoot \| string) → Workspace` | Store validated VS Code selector state, recompute effective context for affected vault or single-file docs, and schedule reparse/diagnostic refresh for changes. |
-| `Workspace.withStructuredProfileSelection` | `(ws: Workspace, selection: StructuredProfileSelection, scope?: VaultRoot \| string) → Workspace` | Store validated structured-profile selector state, recompute effective context for affected vault or single-file docs, and schedule reparse/diagnostic refresh for changes. |
+| `Workspace.withMarkdownFlavorSelection` | `(ws: Workspace, selection: MarkdownFlavorSelection, scope?: VaultRoot \| string) → Workspace` | Store validated `.fgattributes` flavor state, recompute effective context for affected vault or single-file docs, and schedule reparse/diagnostic refresh for changes. |
+| `Workspace.withStructuredProfileSelection` | `(ws: Workspace, selection: StructuredProfileSelection, scope?: VaultRoot \| string) → Workspace` | Store validated `.fgattributes` structured-profile state, recompute effective context for affected vault or single-file docs, and schedule reparse/diagnostic refresh for changes. |
 | `Workspace.parseContextFor` | `(ws: Workspace, id: DocId, source: 'disk' \| 'lsp') → ParseContext` | Build the BC2 parse context from server-owned effective Markdown context state. |
 
 ---

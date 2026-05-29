@@ -307,7 +307,7 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 | `VaultFolder`             | Aggregate — one detected vault, owns docs + RefGraph + config                             |
 | `Workspace`               | Aggregate — one per server instance, owns all VaultFolders                                |
 | `VaultIndex`              | Name-lookup index for a vault (used by Oracle implementation)                             |
-| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) resolved from `.fgattributes` or selector-written config files |
+| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) resolved from applicable `.fgattributes` rules, including rules written by the selector |
 | `EffectiveMarkdownFlavor` | Explicit base flavor id resolved by BC4 using `MarkdownFlavorCascade`; never `auto` |
 | `EffectiveMarkdownContext` | Document-specific parse context containing one `EffectiveMarkdownFlavor`, the matching `MarkdownFlavorProfile`, and zero or more structured profile flags |
 | `MarkdownFlavorProfile`   | Source-backed profile metadata for the effective flavor, including syntax surfaces and host boundaries |
