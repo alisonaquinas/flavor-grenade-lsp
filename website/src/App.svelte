@@ -12,9 +12,11 @@
     homepageSkillInstallCommand,
     type FeatureSignal,
   } from './home/homepage';
+  import { readInitialRoutePath } from './route-runtime';
   import { footerByline, inspirationLinks, profileLinks, projectLinks } from './shell/footer';
   import { iconLabels, iconPath, type IconName } from './shell/icons';
   import { primaryNavigation, type NavigationItem } from './shell/navigation';
+  import { getSocialImageUrl } from './seo/seo-files';
   import {
     nextThemeMode,
     readStoredTheme,
@@ -25,7 +27,7 @@
 
   let themeMode: ThemeMode = 'system';
   let resolvedTheme = 'light';
-  let activePath = '/';
+  let activePath = readInitialRoutePath();
   let navOpen = false;
   let openDropdownLabel: string | null = null;
   let skillInstallCopied = false;
@@ -45,6 +47,7 @@
   const proofImage =
     homepageAssetPlacements.find((asset) => asset.placement === 'hero')?.source ??
     '/assets/wiki-link-completion-982775b8.png';
+  const socialImageUrl = getSocialImageUrl();
 
   function applyTheme(mode: ThemeMode, prefersDark: boolean): void {
     resolvedTheme = resolveTheme(mode, prefersDark);
@@ -185,7 +188,23 @@
 </script>
 
 <svelte:head>
+  <title>{activeRoute.title}</title>
+  <meta name="description" content={activeRoute.description} />
+  <link rel="canonical" href={activeRoute.canonicalUrl} />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="color-scheme" content={resolvedTheme} />
+  <meta property="og:type" content={isHome ? 'website' : 'article'} />
+  <meta property="og:site_name" content="Flavor Grenade LSP" />
+  <meta property="og:title" content={activeRoute.seo.openGraphTitle} />
+  <meta property="og:description" content={activeRoute.seo.openGraphDescription} />
+  <meta property="og:url" content={activeRoute.canonicalUrl} />
+  <meta property="og:image" content={socialImageUrl} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={activeRoute.seo.twitterTitle} />
+  <meta name="twitter:description" content={activeRoute.seo.twitterDescription} />
+  <meta name="twitter:image" content={socialImageUrl} />
 </svelte:head>
 
 <a class="skip-link" href="#main-content">Skip to main content</a>

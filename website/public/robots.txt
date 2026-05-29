@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alisonaquinas.github.io/flavor-grenade-lsp/sitemap.xml
+Sitemap: https://flavor-grenade.dev/sitemap.xml
