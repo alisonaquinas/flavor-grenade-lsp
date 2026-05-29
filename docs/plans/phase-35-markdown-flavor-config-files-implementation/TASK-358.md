@@ -2,7 +2,7 @@
 id: "TASK-358"
 title: "Remove legacy file and directory flavor assignment paths"
 type: task
-status: open
+status: red
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -44,3 +44,11 @@ aliases: ["TASK-358"]
 - [ ] VS Code settings do not persist file/directory flavor assignments.
 - [ ] Operational config remains available for unrelated server settings.
 - [ ] Stale docs/test references are updated to the new model.
+
+## Workflow Log
+
+> [!FAIL] RED - 2026-05-29
+> Status set to `red`. Updated vault detector and document-membership tests so
+> `.fgignore` / `.fgattributes` are project markers and legacy
+> `.flavor-grenade.*` / `.editorconfig` files are not flavor markers. Expected
+> failure: detector still uses the legacy marker list.
