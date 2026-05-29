@@ -2,7 +2,7 @@
 id: "TASK-355"
 title: "Implement .fgignore and .fgattributes parser/resolver"
 type: task
-status: open
+status: red
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -45,3 +45,11 @@ aliases: ["TASK-355"]
 - [ ] `flavor=auto` is preserved as a configured request for Auto Detect.
 - [ ] Structured profile values accept `auto`, `none`, and compatible profile
       lists.
+
+## Workflow Log
+
+> [!FAIL] RED - 2026-05-29
+> Status set to `red`. Added focused resolver tests for default Auto Detect
+> state, `.fgignore` ignore/re-include behavior, nested rules, `.fgattributes`
+> cascades, invalid values, and vault-boundary rejection. Expected failure:
+> resolver module is not implemented yet.
