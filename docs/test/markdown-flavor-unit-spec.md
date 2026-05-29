@@ -29,7 +29,7 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-003 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | Original Markdown profile marks fenced code, pipe tables, task lists, and wiki links as non-core. |
 | MF-U-004 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | CommonMark profile enables fenced code blocks and standardized edge cases while excluding GFM tables/tasks and Obsidian wiki links as core syntax. |
 | MF-U-005 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM and GLFM profiles inherit CommonMark baseline and declare their platform extensions separately. |
-| MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Security.Input.FlavorPropagationPayload` | `workspace/didChangeConfiguration` accepts every required flavor id and rejects unknown ids, malformed resource maps, non-file URI keys, dangerous object keys, stale resources, and `auto` as effective flavor without mutating active flavor state. |
+| MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Security.Input.FlavorPropagationPayload` | The documented resource-specific flavor payload accepts every required flavor id and rejects unknown ids, malformed resource maps, non-file URI keys, dangerous object keys, stale resources, and `auto` as effective flavor without mutating active flavor state. |
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
 | MF-U-008 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.AutoDetection` | The effective flavor truth table from [[docs/design/markdown-flavor-auto-detection]] is covered: `.fgignore` inactive state, `.fgattributes` concrete flavor, `.fgattributes flavor=auto`, `!flavor`, absent config files, `.obsidian/`, server membership, syntax/context inference, invalid values, and CommonMark fallback. Auto Detect is tested as a separate resolver that does not read `.fgattributes`. |
 | MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
@@ -90,7 +90,7 @@ Minimum fixture families:
 
 ### MF-U-006 - Server Flavor Configuration Validation
 
-Unit evidence for resource-specific `workspace/didChangeConfiguration`
+Unit evidence for the resource-specific flavor payload
 handling of already-resolved `EffectiveMarkdownContext` payloads. Persistent
 file and directory selection is owned by `.fgattributes`; legacy flavor settings
 are not an active selection source.

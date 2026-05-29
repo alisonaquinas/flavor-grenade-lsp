@@ -11,11 +11,11 @@ Feature: VS Code extension parity
     Then the extension activates
     And the LanguageClient starts Markdown flavor detection
 
-  @req:Extension.Activation.MarkerEvents @req:Extension.MarkdownFlavor.Refresh
+  @planned @req:Extension.Activation.MarkerEvents @req:Extension.MarkdownFlavor.Refresh
   Scenario: Extension stays idle for generic Markdown workspaces
     Given a VS Code workspace contains Markdown files
     And the workspace has no ".obsidian/" folder
-    And the workspace has no ".flavor-grenade.toml" file
+    And the workspace has no ".fgignore" or ".fgattributes" file
     When the Flavor Grenade extension host starts
     Then the extension does not perform vault indexing work
     And generic Markdown documents remain in "markdown" mode
@@ -52,12 +52,12 @@ Feature: VS Code extension parity
     And the README includes screenshots or images for status bar indexing
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
-  Scenario: Structured profile settings are separate from Markdown flavor selector UI
+  Scenario: Structured profile attributes are separate from Markdown flavor selector UI
     Given a Markdown document is active with language id "markdown"
     When the user opens the Markdown flavor selector
     Then the selector does not include id "keep-a-changelog"
     And the selector does not include id "common-changelog"
     And the selector does not include id "madr"
-    When "flavorGrenade.markdownStructuredProfiles" is set to "[\"madr\"]"
-    Then the extension sends structured profile "madr" to the server with the active resource
+    When ".fgattributes" sets "structured_profiles=madr" for the active resource
+    Then the extension refreshes structured profile "madr" for the active resource
     And the document language id remains "markdown"

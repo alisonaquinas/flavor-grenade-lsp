@@ -17,7 +17,12 @@ This document is the authoritative model for the configuration system in `flavor
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/design/markdown-flavor-auto-detection]], [[docs/design/markdown-structured-profile-flags]], [[docs/ddd/vault/domain-model]], [[docs/ddd/lsp-protocol/domain-model]].
 
 > [!NOTE]
-> Config is intentionally thin. It does not know about documents, refs, or the LSP wire. Its job is to merge project config files in the correct priority order, validate Markdown flavor selectors and structured profile selections, and expose typed immutable values. BC4 owns the resulting `EffectiveMarkdownContext` state: one base flavor plus zero or more structured profile flags.
+> Config is intentionally thin. It does not know about documents, refs, or the
+> LSP wire. Its job is to merge operational project config files, validate the
+> shared Markdown flavor/profile id contracts, and parse Git-style Flavor
+> Grenade config-file attributes. BC4 owns the resulting
+> `EffectiveMarkdownContext` state: one base flavor plus zero or more structured
+> profile flags.
 
 ---
 
@@ -39,20 +44,9 @@ text_sync = "full"
 
 # Which detection signal triggers vault mode
 # "obsidian"   — only .obsidian/ directory
-# "config-only" — only Flavor Grenade project config markers
+# "config-only" — only Flavor Grenade config-file markers
 # "both"       — either signal
 vault_detection = "obsidian"
-
-# Markdown flavor selector for this project.
-# "auto" means BC4 resolves the effective flavor through MarkdownFlavorCascade.
-# Explicit values must be supported MarkdownFlavorId values.
-markdown.flavor = "auto"
-
-# Optional structured-document profile flags layered over the base flavor.
-# "auto" infers from filename/folder/content, "none" disables flags, and arrays
-# force specific supported StructuredMarkdownProfileId values.
-markdown.structured_profiles = "auto"
-# markdown.structured_profiles = ["keep-a-changelog"]
 
 [completion]
 # Maximum number of completion candidates returned per request
@@ -95,8 +89,6 @@ interface FlavorConfig {
     markdownFileExtensions: string[]    // default: ["md"]
     textSync:               'full' | 'incremental'
     vaultDetection:         'obsidian' | 'config-only' | 'both'
-    markdownFlavor:         MarkdownFlavorSelection
-    markdownStructuredProfiles: StructuredProfileSelection
   }
   completion: {
     candidates:    number               // must be > 0
@@ -194,7 +186,12 @@ interface HostSpecificBoundary {
 
 ### Project Config Formats
 
-Project config discovery uses the first existing file in this order:
+Project config discovery remains for operational server settings. It is not an
+active file or directory Markdown flavor source; persistent file/directory
+flavor assignment lives in `.fgattributes`, and visibility lives in
+`.fgignore`.
+
+Operational project config discovery uses the first existing file in this order:
 
 1. `.flavor-grenade.toml`
 2. `.flavor-grenade.json`
@@ -203,22 +200,16 @@ Project config discovery uses the first existing file in this order:
 5. `.flavor-grenade.yml`
 6. `.editorconfig` containing Flavor Grenade directives
 
-TOML, JSON, JSONC, and YAML expose the same logical `core.markdown` shape.
-`core.markdown.overrides` is an ordered list of vault-relative directory or
-glob selectors. The most specific matching override supplies document-specific
-`flavor` and `structured_profiles` values; omitted fields inherit from the
-global `core.markdown` section.
+TOML, JSON, JSONC, and YAML expose the same logical operational config shape.
+They may configure non-flavor server behavior such as file extensions,
+completion limits, and diagnostics. They must not configure file/directory
+Markdown flavor or structured profile selection.
 
 `.editorconfig` is treated as a project config marker only for Flavor Grenade
 directives inside matching sections:
 
-```ini
-[docs/**/*.md]
-flavor_grenade_markdown_flavor = gfm
-flavor_grenade_markdown_structured_profiles = keep-a-changelog
-```
-
-Ordinary EditorConfig properties are ignored by Flavor Grenade.
+Ordinary EditorConfig properties are ignored by Flavor Grenade, and
+EditorConfig is not a file/directory flavor assignment source.
 
 ---
 
@@ -228,16 +219,16 @@ Ordinary EditorConfig properties are ignored by Flavor Grenade.
 
 Consumers:
 
-- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata to resolve and store `EffectiveMarkdownContext`.
+- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata from `.fgattributes` resolution or Auto Detect to resolve and store `EffectiveMarkdownContext`.
 - BC2 consumes only the explicit base `EffectiveMarkdownFlavor` and structured profile flags in `ParseContext`.
-- BC5 validates LSP configuration payloads against the supported selector set before dispatching to BC4/Config.
-- BC6 displays labels/order from the same contract and sends selector values; it does not define new ids.
+- BC5 validates resource-specific flavor payloads and config-file parse results against the supported selector set before dispatching to BC4/Config.
+- BC6 displays labels/order from the same contract and writes selector values through `.fgattributes`; it does not define new ids.
 
 Rules:
 
 - `auto` is allowed only as a `MarkdownFlavorSelection`.
 - `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
-- Unknown ids are invalid in both project config and LSP configuration payloads.
+- Unknown ids are invalid in `.fgattributes` and LSP resource payloads.
 - Structured document profiles are independent flags. `keep-a-changelog`,
   `common-changelog`, and `madr` are valid
   `StructuredMarkdownProfileId` values, not valid `MarkdownFlavorId` values.
@@ -328,53 +319,56 @@ Built-in defaults
 
 ## MarkdownFlavorCascade
 
-`MarkdownFlavorCascade` is the named server-side resolution order for `EffectiveMarkdownFlavor`. It runs inside BC4, using validated Config values. The full resource-specific algorithm is specified in [[docs/design/markdown-flavor-auto-detection]]; this section records the config-domain view of the same cascade.
+`MarkdownFlavorCascade` is the named server-side resolution order for
+`EffectiveMarkdownFlavor`. It runs inside BC4, using `.fgignore` visibility,
+validated `.fgattributes` values, and Auto Detect evidence. The full
+resource-specific algorithm is specified in
+[[docs/design/markdown-flavor-auto-detection]]; this section records the
+config-domain view of the same cascade.
 
 ```text
-Priority 1 (highest) — VS Code explicit override
-  Source: workspace/didChangeConfiguration settings.flavorGrenade.markdownFlavor
-  Scope: document-specific selector when BC6 writes one, otherwise active folder/user scope
+Priority 0 — .fgignore visibility
+  Source: root-to-leaf .fgignore files
+  Rule: ignored files are inactive and do not reach flavor resolution
+
+Priority 1 — .fgattributes
+  Source: root-to-leaf .fgattributes files
   Values: 'auto' or supported MarkdownFlavorId
 
-Priority 2 — VS Code workspace-folder/workspace setting
-  Source: workspace/didChangeConfiguration settings.flavorGrenade.markdownFlavor
-  Scope: workspace-folder value wins over workspace value; workspace wins over user/default
-  Values: 'auto' or supported MarkdownFlavorId
-
-Priority 3 — Project config
-  Source: document-specific core.markdown.flavor from project config
-  Values: 'auto' or supported MarkdownFlavorId
-
-Priority 4 — Vault marker
+Priority 2 — Vault marker
   Source: VaultDetector result
   Rule: .obsidian/ marker resolves to 'obsidian'
 
-Priority 5 (lowest) — CommonMark fallback
+Priority 3 — Syntax/context inference
+  Source: strong local syntax and bounded workspace context
+
+Priority 4 (lowest) — CommonMark fallback
   Rule: generic Markdown resolves to 'commonmark'
 ```
 
 Tie-breakers:
 
-- Explicit VS Code override beats every auto-detection and project source.
-- If a VS Code workspace-folder/workspace setting and project config both exist, the VS Code setting wins. This lets the active editor/workspace override repository defaults without editing project files.
-- If both VS Code workspace-folder and workspace values exist, workspace-folder wins for documents under that folder.
-- A value of `auto` does not itself become effective state; it delegates to the next lower source.
+- `.fgignore` is evaluated before flavor selection; ignored files are inactive.
+- Deeper `.fgattributes` files and later matching rules override broader earlier
+  rules per attribute.
+- A value of `auto` or `!flavor` does not itself become effective state; it
+  delegates to Auto Detect.
 - Invalid values at any layer are rejected/ignored for that layer and do not mutate current `EffectiveMarkdownContext`; resolution continues to the next valid lower-priority source.
 - `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
 
-Structured profile flags are resolved after `MarkdownFlavorCascade` and are
-document-specific. Explicit VS Code structured-profile settings beat project
-config structured-profile settings; project config beats automatic detection;
-`none` disables all structured profile behavior for the relevant scope.
+Structured profile flags are resolved beside `MarkdownFlavorCascade` and are
+document-specific. `.fgattributes structured_profiles` beats automatic
+detection; `none` disables all structured profile behavior for the matching
+scope.
 
 Example:
 
 ```text
-VS Code explicit override = auto
-VS Code workspace-folder setting = gfm
-project config core.markdown.flavor = obsidian
+.fgattributes in repo root: *.md flavor=gfm
+.fgattributes in docs/: api/*.md flavor=glfm
+document: docs/api/CHANGELOG.md
 .obsidian/ exists
-=> EffectiveMarkdownFlavor = gfm
+=> EffectiveMarkdownFlavor = glfm
 ```
 
 ---
@@ -386,10 +380,8 @@ project config core.markdown.flavor = obsidian
 | `completion.candidates` | Must be a positive integer (`> 0`) | Log warning at `warn` level; use built-in default (`50`) |
 | `core.text_sync` | Must be `"full"` or `"incremental"` | Log warning; use `"full"` |
 | `core.vault_detection` | Must be `"obsidian"`, `"config-only"`, or `"both"` | Log warning; use `"obsidian"` |
-| `core.markdown.flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Log warning; treat this layer as absent for flavor cascade |
-| `core.markdown.structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Log warning; treat this layer as absent for structured-profile resolution |
-| `flavorGrenade.markdownFlavor` from VS Code/LSP | Must be `"auto"` or a supported `MarkdownFlavorId` | Reject payload for flavor mutation; keep previous server state |
-| `flavorGrenade.markdownStructuredProfiles` from VS Code/LSP | Must be `"auto"`, `"none"`, or a unique, compatible array of supported `StructuredMarkdownProfileId` values | Reject payload for structured-profile mutation; keep previous server state |
+| `.fgattributes flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Treat this attribute as absent and continue resolution |
+| `.fgattributes structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible list of supported `StructuredMarkdownProfileId` values | Treat this attribute as absent for structured-profile resolution |
 | `completion.wiki.style` | Must be one of the three enum values | Log warning; use `"file-stem"` |
 | `code_action.toc.include` | Each element must be an integer 1–6 | Remove out-of-range values; log warning if list becomes empty → use `[1,2,3,4,5,6]` |
 | Any project config parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
@@ -433,7 +425,7 @@ ConfigModule
 
 Consumers:
   VaultModule   ← FlavorConfig injected into VaultFolder at detection time; owns EffectiveMarkdownContext
-  LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode); validates didChangeConfiguration payloads
+  LspModule     ← FlavorConfig read by LspServer during initialize (textSync mode); validates resource-specific flavor payloads
   ReferenceModule ← (indirectly via VaultFolder config)
   DocumentModule ← (indirectly via BC4 ParseContext)
 ```
@@ -445,27 +437,24 @@ Consumers:
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed
 4. VaultFolder.withConfig(folder, newConfig) → new VaultFolder stored in Workspace
-5. BC4 re-runs MarkdownFlavorCascade and structured profile resolution for affected docs
+5. BC4 re-runs operational config consumers for affected docs; `.fgignore` and
+   `.fgattributes` changes use the flavor config-file reload flow
 6. If any EffectiveMarkdownContext changed, BC4 schedules reparse/diagnostic refresh
 7. LspServer optionally sends flavorGrenade/status notification to client
 ```
 
-**VS Code/LSP flavor update flow:**
+**Flavor config-file update flow:**
 
 ```text
-1. BC5 receives workspace/didChangeConfiguration
-2. BC5 extracts settings.flavorGrenade.markdownFlavor and
-   settings.flavorGrenade.markdownStructuredProfiles
-3. BC5 validates values against MarkdownFlavorSelection and
-   StructuredProfileSelection
+1. FileWatcher detects `.fgignore` or `.fgattributes` create/change/delete
+2. Config parses Git-style patterns and attributes inside the vault boundary
+3. Config validates MarkdownFlavorSelection and StructuredProfileSelection
 4. Valid value:
-   ConfigModule records the VS Code layer for the relevant workspace/folder scope
-   BC4 Workspace.withMarkdownFlavorSelection(...) and
-   Workspace.withStructuredProfileSelection(...) mutate Workspace/VaultFolder state
-   BC4 recomputes EffectiveMarkdownContext and reparses affected docs if changed
-5. Invalid value:
-   BC5 logs warning; workspace/didChangeConfiguration is a notification, so no error response is sent
-   ConfigModule and BC4 keep previous state
+   BC4 recomputes visibility and EffectiveMarkdownContext for matching docs
+   BC4 reparses or unindexes affected docs if changed
+5. Invalid line/value:
+   Config logs a redacted warning and treats that line or attribute as absent
+   BC4 keeps prior state until a valid effective context replaces it
 ```
 
 > [!TIP]
@@ -482,8 +471,6 @@ The following table documents every built-in default value. These are the values
 | `core.markdown.file_extensions` | `["md"]` |
 | `core.text_sync` | `"full"` |
 | `core.vault_detection` | `"obsidian"` |
-| `core.markdown.flavor` | `"auto"` |
-| `core.markdown.structured_profiles` | `"auto"` |
 | `completion.candidates` | `50` |
 | `completion.wiki.style` | `"file-stem"` |
 | `completion.callout.enabled` | `true` |

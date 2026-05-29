@@ -245,7 +245,7 @@ This matrix maps every Planguage requirement tag to the test files that provide 
 | Planguage Tag | Requirement Gist | Test File(s) | Status | Phase | Notes |
 |---|---|---|---|---|---|
 | `Workspace.VaultDetection.Primary` | Directories with `.obsidian/` auto-detected as vault roots | `tests/unit/lsp/lsp.module.spec.ts` | ⏳ planned | Phase 1 | Module smoke test only; full vault detection in Phase 4 |
-| `Workspace.VaultDetection.Fallback` | Directories with Flavor Grenade config-file markers detected when `.obsidian/` absent | `src/vault/__tests__/vault-detector.test.ts` | ✅ passing | Phase 4 | Covers `.fgignore` and `.fgattributes` marker context for non-Obsidian Markdown roots. |
+| `Workspace.VaultDetection.Fallback` | Directories with Flavor Grenade config-file markers detected when `.obsidian/` absent | planned `src/vault/__tests__/vault-detector.test.ts` update; `docs/bdd/features/vault-detection.feature` | 🔴 needs update | Phase 4 | New coverage must prove `.fgignore` and `.fgattributes` marker context for non-Obsidian Markdown roots. Existing project-config marker coverage is legacy operational config evidence. |
 | `Workspace.FileExtension.Filter` | Only configured-extension files enter the index | `src/vault/__tests__/vault-scanner.test.ts`, `docs/bdd/features/vault-detection.feature` | ✅ passing | Phase 14 | Phase 14 fixes and verifies project-configured document extensions |
 | `Workspace.MultiFolder.Isolation` | Cross-root link resolution not performed between distinct vaults | — | ⬜ not-yet-written | Phase 4 | |
 

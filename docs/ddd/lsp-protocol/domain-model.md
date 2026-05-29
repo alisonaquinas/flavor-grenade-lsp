@@ -316,41 +316,42 @@ LspNotification<DidChangeWatchedFilesParams>
 
 ---
 
-### `workspace/didChangeConfiguration`
+### Resource-Specific Flavor Refresh
 
 ```text
-LspNotification<DidChangeConfigurationParams>
+FlavorRefreshInput
   │
-  ├─ Extract settings.flavorGrenade.markdownFlavor as markdownFlavorSelection
-  ├─ Extract settings.flavorGrenade.markdownStructuredProfiles as structuredProfileSelection
-  ├─ Validate markdownFlavorSelection is 'auto' or supported MarkdownFlavorId when present
-  ├─ Validate structuredProfileSelection is 'auto', 'none', or compatible profile ids when present
-  ├─ If markdownFlavorSelection is present and valid:
-  │    ConfigService.withVSCodeMarkdownFlavorSelection(markdownFlavorSelection, scope)
-  │    Workspace.withMarkdownFlavorSelection(ws, markdownFlavorSelection, scope)
-  ├─ If structuredProfileSelection is present and valid:
-  │    ConfigService.withVSCodeStructuredProfileSelection(structuredProfileSelection, scope)
-  │    Workspace.withStructuredProfileSelection(ws, structuredProfileSelection, scope)
-  ├─ If either valid field was applied:
+  ├─ Parse applicable .fgignore and .fgattributes files inside vault boundary
+  ├─ Validate flavor is 'auto' or supported MarkdownFlavorId when present
+  ├─ Validate structured_profiles is 'auto', 'none', or compatible profile ids when present
+  ├─ If .fgignore matches:
+  │      → mark document inactive
+  │      → remove it from index/reference graph
+  ├─ If valid .fgattributes fields apply:
+  │      ConfigService records matched pattern/source metadata
+  │      Workspace.withMarkdownFlavorSelection(ws, selection, resource)
+  │      Workspace.withStructuredProfileSelection(ws, selection, resource)
+  ├─ If no flavor attribute, !flavor, or flavor=auto applies:
+  │      → BC4 runs Auto Detect independently of config parsing
+  ├─ If effective context changed:
   │      → BC4 recomputes EffectiveMarkdownContext
   │      → affected docs are reparsed with new ParseContext
   │      → diagnostics are refreshed
-  └─ For each invalid present field:
-       log warning
-       keep previous Config/Workspace state for that field
-       do not reparse or refresh diagnostics solely for the invalid value
+  └─ For each invalid present line or value:
+       log redacted warning
+       treat that line/attribute as absent
 ```
 
 **Payload shape:**
 
 ```typescript
-interface DidChangeConfigurationParams {
-  settings?: {
-    flavorGrenade?: {
-      markdownFlavor?: MarkdownFlavorSelection
-      markdownStructuredProfiles?: StructuredProfileSelection
-    }
-  }
+interface ResourceFlavorRefreshInput {
+  resource: string
+  ignored?: boolean
+  markdownFlavor?: MarkdownFlavorSelection
+  structuredProfiles?: StructuredProfileSelection
+  matchedPattern?: string
+  sourceFile?: string
 }
 
 type MarkdownFlavorSelection = 'auto' | MarkdownFlavorId
@@ -359,14 +360,16 @@ type StructuredProfileSelection = 'auto' | 'none' | StructuredMarkdownProfileId[
 
 **Validation behavior:**
 
-- Missing `settings`, missing `flavorGrenade`, or missing both Markdown settings is a no-op.
-- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an explicit base `EffectiveMarkdownFlavor` through [[docs/design/markdown-flavor-auto-detection]].
-- `markdownStructuredProfiles: 'auto'` asks BC4 to infer profile flags; `none` disables structured profile behavior for that scope.
+- Missing flavor/profile attributes are a no-op for explicit configuration and
+  cause BC4 to run Auto Detect when the document is visible.
+- `markdownFlavor: 'auto'` is valid selector input, but BC4 must resolve an
+  explicit base `EffectiveMarkdownFlavor` through
+  [[docs/design/markdown-flavor-auto-detection]].
+- `structuredProfiles: 'auto'` asks BC4 to infer profile flags; `none` disables structured profile behavior for that scope.
 - Explicit structured profile arrays must contain only known ids, must be unique, and must not contain both `keep-a-changelog` and `common-changelog`.
 - Unknown `markdownFlavor` strings such as `asciidoc`, non-strings, arrays, and objects are invalid for `markdownFlavor`.
-- Unknown structured profile strings, bare profile id strings, duplicate arrays, incompatible changelog arrays, and non-string array entries are invalid for `markdownStructuredProfiles`.
-- A valid `markdownFlavor` update is applied even when `markdownStructuredProfiles` is invalid, and a valid `markdownStructuredProfiles` update is applied even when `markdownFlavor` is invalid. Invalid fields preserve their previous state independently.
-- Because this method is an LSP notification, no error response is sent. BC5 logs the invalid payload and leaves server state unchanged.
+- Unknown structured profile strings, bare profile id strings, duplicate arrays, incompatible changelog arrays, and non-string array entries are invalid for `structuredProfiles`.
+- A valid `markdownFlavor` update is applied even when `structuredProfiles` is invalid, and a valid `structuredProfiles` update is applied even when `markdownFlavor` is invalid. Invalid fields preserve their previous state independently.
 
 **Mutation target:** BC5 mutates Config/BC4 only through public application services. BC5 does not store selector state, does not compute `EffectiveMarkdownContext`, and does not call BC2 directly for flavor changes.
 
@@ -376,9 +379,9 @@ BC5 validates the selector and transports it. It does not interpret dialect synt
 
 | Payload / concept | BC5 responsibility | Downstream owner |
 |-------------------|-------------------|------------------|
-| `flavorGrenade.markdownFlavor = auto` | Accept as selector input | BC4 resolves explicit base `EffectiveMarkdownFlavor` |
+| `.fgattributes flavor=auto` or `!flavor` | Accept as selector input | BC4 resolves explicit base `EffectiveMarkdownFlavor` through Auto Detect |
 | Explicit `MarkdownFlavorId` | Validate against Config's supported corpus | BC4 stores selection and builds parse context |
-| `flavorGrenade.markdownStructuredProfiles` | Validate `auto`, `none`, or compatible structured profile ids | BC4 resolves structured profile flags and builds parse context |
+| `.fgattributes structured_profiles` | Validate `auto`, `none`, or compatible structured profile ids | BC4 resolves structured profile flags and builds parse context |
 | Unknown selector value | Log and leave state unchanged | None |
 | Host-specific refs in diagnostics/hover | Marshal LSP data only | BC2 classifies; BC3 resolves only local refs |
 | MDX language id | Respect client selector boundary; do not force Markdown flavor behavior | Dedicated MDX tooling or future integration |

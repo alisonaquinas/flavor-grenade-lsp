@@ -15,22 +15,22 @@ Feature: Markdown flavor selection
     And the document language id remains "markdown"
     And the Markdown flavor selector eventually shows "Auto Detect (Obsidian)"
 
+  @planned @req:Extension.MarkdownFlavor.AutoDetection
   Scenario: Generic markdown remains Markdown and auto-detects CommonMark
     Given a workspace folder with no ".obsidian/" directory
-    And no ".flavor-grenade.toml" file
+    And no ".fgignore" or ".fgattributes" file applies to "README.md"
     And the server does not index "README.md"
     When the user opens "README.md"
     Then the document language id remains "markdown"
     And the Markdown flavor selector shows "Auto Detect (CommonMark)"
 
   @planned @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario Outline: Workspace flavor config sets the Auto Detect default
-    Given a workspace folder containing ".flavor-grenade.toml"
-    And the workspace config declares default Markdown flavor "<id>"
-    And no Markdown flavor override is configured
+  Scenario Outline: .fgattributes selects each required explicit flavor
+    Given a workspace folder containing ".fgattributes"
+    And ".fgattributes" contains "notes/welcome.md flavor=<id>"
     When the user opens "notes/welcome.md"
     Then the document language id remains "markdown"
-    And the Markdown flavor selector shows "Auto Detect (<label>)"
+    And the Markdown flavor selector shows "<label>"
     And the server is refreshed with effective flavor "<id>"
 
     Examples:
@@ -50,31 +50,26 @@ Feature: Markdown flavor selection
       | stack-overflow | Stack Overflow Markdown  |
 
   @planned @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario Outline: Alternate project config formats set the Auto Detect default
-    Given a workspace folder containing "<configFile>"
-    And the workspace config declares default Markdown flavor "gfm"
-    And no Markdown flavor override is configured
+  Scenario Outline: .fgattributes requests Auto Detect instead of selecting a flavor
+    Given a workspace folder containing ".fgattributes"
+    And ".fgattributes" contains "<rule>"
+    And the workspace folder has no ".obsidian/" directory
     When the user opens "docs/README.md"
     Then the document language id remains "markdown"
-    And the Markdown flavor selector shows "Auto Detect (GitHub Flavored Markdown)"
-    And the server is refreshed with effective flavor "gfm"
+    And the Markdown flavor selector shows "Auto Detect (CommonMark)"
+    And the server is refreshed with effective flavor "commonmark"
 
     Examples:
-      | configFile              |
-      | .flavor-grenade.toml    |
-      | .flavor-grenade.json    |
-      | .flavor-grenade.jsonc   |
-      | .flavor-grenade.yaml    |
-      | .flavor-grenade.yml     |
-      | .editorconfig           |
+      | rule                        |
+      | docs/README.md flavor=auto  |
+      | docs/README.md !flavor      |
 
   @planned @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario: One project config file applies directory-specific overrides
-    Given a workspace folder containing ".flavor-grenade.jsonc"
-    And the workspace config declares default Markdown flavor "commonmark"
-    And the workspace config maps "docs/api/" to Markdown flavor "glfm"
-    And the workspace config maps "docs/api/" to structured profile "common-changelog"
-    And the workspace config maps "docs/decisions/" to structured profile "madr"
+  Scenario: .fgattributes applies directory-specific flavor and profile rules
+    Given a workspace folder containing ".fgattributes"
+    And ".fgattributes" contains "*.md flavor=commonmark"
+    And ".fgattributes" contains "docs/api/**/*.md flavor=glfm structured_profiles=common-changelog"
+    And ".fgattributes" contains "docs/decisions/**/*.md structured_profiles=madr"
     When the user opens "docs/api/CHANGELOG.md"
     Then the document language id remains "markdown"
     And the server is refreshed with effective flavor "glfm"
@@ -120,25 +115,24 @@ Feature: Markdown flavor selection
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile configuration propagates with the base flavor
-    Given a workspace folder containing ".flavor-grenade.toml"
-    And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
-    And "flavorGrenade.markdownStructuredProfiles" is set to "<selection>"
+    Given a workspace folder containing ".fgattributes"
+    And ".fgattributes" contains "<path> flavor=<baseFlavor> structured_profiles=<selection>"
     When the user opens "<path>"
     Then the document language id remains "markdown"
     And the server is refreshed with effective flavor "<baseFlavor>"
-    And the client sends a "workspace/didChangeConfiguration" notification with structured profiles "<expectedProfiles>"
+    And the effective structured profile flags include "<expectedProfiles>"
 
     Examples:
       | baseFlavor | selection          | expectedProfiles    | path                                  |
-      | commonmark | ["keep-a-changelog"] | keep-a-changelog | CHANGELOG.md                       |
-      | gfm        | ["common-changelog"] | common-changelog | CHANGELOG.md                       |
-      | obsidian   | ["madr"]             | madr             | docs/decisions/0001-use-profile.md |
+      | commonmark | keep-a-changelog   | keep-a-changelog    | CHANGELOG.md                         |
+      | gfm        | common-changelog   | common-changelog    | CHANGELOG.md                         |
+      | obsidian   | madr               | madr                | docs/decisions/0001-use-profile.md   |
       | pandoc     | none                 | none             | CHANGELOG.md                       |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Auto Detect infers structured profiles from document context
     Given no structured profile override is configured
-    And "flavorGrenade.markdownFlavor" is set to "<baseFlavor>"
+    And ".fgattributes" selects base flavor "<baseFlavor>" for "<path>"
     When the user opens "<path>" containing "<evidence>"
     Then the document language id remains "markdown"
     And the server is refreshed with effective flavor "<baseFlavor>"
@@ -150,31 +144,35 @@ Feature: Markdown flavor selection
       | gfm        | common-changelog | CHANGELOG.md                       | ## 1.0.0 - 2026-05-23             |
       | obsidian   | madr             | docs/decisions/0001-use-profile.md | ## Context and Problem Statement  |
 
-  Scenario: User overrides flavor for a workspace folder target
-    Given a workspace folder containing ".flavor-grenade.toml"
+  @planned @req:Extension.MarkdownFlavor.OverridePersistence
+  Scenario: User overrides flavor for the selected file
+    Given a workspace folder containing ".fgattributes"
     And the user opens "notes/welcome.md"
     When the user selects "CommonMark" from the Markdown flavor selector
+    And the user chooses "Selected file" from the Markdown flavor scope prompt
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace-folder target as "commonmark"
+    And "notes/.fgattributes" receives a file-specific rule "welcome.md flavor=commonmark"
     And the server is refreshed with effective flavor "commonmark"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "commonmark" and effective flavor "commonmark"
 
-  Scenario: User overrides flavor for a workspace fallback target
-    Given a Markdown document belongs to a workspace fallback target
+  @planned @req:Extension.MarkdownFlavor.OverridePersistence
+  Scenario: User overrides flavor for all Markdown files in the active directory
+    Given a workspace folder containing ".fgattributes"
+    And the user opens "notes/welcome.md"
     When the user selects "Obsidian" from the Markdown flavor selector
+    And the user chooses "All files in this directory" from the Markdown flavor scope prompt
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace target as "obsidian"
+    And "notes/.fgattributes" receives a directory rule "/*.md flavor=obsidian"
     And the server is refreshed with effective flavor "obsidian"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "obsidian" and effective flavor "obsidian"
 
+  @planned @req:Extension.MarkdownFlavor.OverridePersistence
   Scenario Outline: User can select any required researched flavor
-    Given a workspace folder containing ".flavor-grenade.toml"
+    Given a workspace folder containing ".fgattributes"
     And the user opens "notes/welcome.md"
     When the user selects "<label>" from the Markdown flavor selector
+    And the user chooses "Selected file" from the Markdown flavor scope prompt
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the workspace-folder target as "<id>"
+    And "notes/.fgattributes" receives a file-specific rule "welcome.md flavor=<id>"
     And the server is refreshed with effective flavor "<id>"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "<id>" and effective flavor "<id>"
 
     Examples:
       | label                    | id             |
@@ -218,22 +216,25 @@ Feature: Markdown flavor selection
       | Reddit Markdown          | reddit         |
       | Stack Overflow Markdown  | stack-overflow |
 
+  @planned @req:Extension.MarkdownFlavor.OverridePersistence
   Scenario: User overrides flavor for a standalone file
     Given the user opens a standalone Markdown file with no workspace folder
     When the user selects "Original Markdown" from the Markdown flavor selector
+    And the user chooses "Selected file" from the Markdown flavor scope prompt
     Then the document language id remains "markdown"
-    And "flavorGrenade.markdownFlavor" is written to the user target as "original"
+    And ".fgattributes" is written beside the standalone file with a file-specific rule "flavor=original"
     And the server is refreshed with effective flavor "original"
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "original" and effective flavor "original"
 
+  @planned @req:Extension.MarkdownFlavor.OverridePersistence
   Scenario: Auto Detect clears the override at the current scope
-    Given a workspace folder has "flavorGrenade.markdownFlavor" set to "commonmark"
+    Given "notes/.fgattributes" contains "welcome.md flavor=commonmark"
     And the user opens "notes/welcome.md"
     When the user selects "Auto Detect" from the Markdown flavor selector
-    Then the workspace-folder target override is cleared or reset to "auto"
-    And the effective flavor is recomputed from workspace and vault signals
-    And the client sends a "workspace/didChangeConfiguration" notification with Markdown flavor "auto" and effective flavor "commonmark"
+    And the user chooses "Selected file" from the Markdown flavor scope prompt
+    Then the matching ".fgattributes" flavor assignment is removed or reset with "!flavor"
+    And the effective flavor is recomputed from Auto Detect signals
 
+  @planned @req:Extension.MarkdownFlavor.ManualLanguageSafety
   Scenario Outline: Manual language mode selection is preserved
     Given a workspace folder containing a ".obsidian/" directory
     And the user opens "notes/welcome.md"
@@ -241,8 +242,8 @@ Feature: Markdown flavor selection
     When the user selects "Obsidian" from the Markdown flavor selector
     Then the document language id remains "<languageId>"
     And no Markdown flavor override is applied to that document
-    And no Markdown flavor override write is recorded
-    And no workspace/didChangeConfiguration notification is sent to the server
+    And no ".fgattributes" write is recorded
+    And no server flavor refresh is sent for that selector attempt
 
     Examples:
       | languageId |
@@ -255,5 +256,5 @@ Feature: Markdown flavor selection
     And the document language id is "mdx"
     When Markdown flavor auto-detection runs
     Then the document language id remains "mdx"
-    And no "flavorGrenade.markdownFlavor" override is applied to that document
-    And no workspace/didChangeConfiguration notification is sent to the server
+    And no ".fgattributes" override is applied to that document
+    And no server flavor refresh is sent for that selector attempt

@@ -27,23 +27,25 @@ Feature: Vault and workspace management
     And cross-file features are active
     And the document index contains "vault/notes/first.md" and "vault/notes/second.md"
 
-  Scenario: Vault detected via .flavor-grenade.toml when no .obsidian/ present
+  @planned
+  Scenario: Vault detected via .fgattributes when no .obsidian/ present
     Given a directory structure:
-      | path                           | type |
-      | project/.flavor-grenade.toml   | file |
-      | project/docs/note-a.md         | file |
-      | project/docs/note-b.md         | file |
+      | path                    | type |
+      | project/.fgattributes   | file |
+      | project/docs/note-a.md  | file |
+      | project/docs/note-b.md  | file |
     When the LSP server initializes with rootUri pointing to "project/"
     Then the VaultDetector reports vaultMode = "flavor-grenade"
     And the vault root is "project/"
     And cross-file features are active
 
-  Scenario: Single-file mode when neither .obsidian/ nor .flavor-grenade.toml is found
+  @planned
+  Scenario: Single-file mode when neither .obsidian/ nor Flavor Grenade config-file marker is found
     Given a directory structure:
       | path              | type |
       | workspace/doc.md  | file |
     And no .obsidian/ directory exists anywhere in the path
-    And no .flavor-grenade.toml file exists anywhere in the path
+    And no .fgignore or .fgattributes file exists anywhere in the path
     When the LSP server initializes with rootUri pointing to "workspace/"
     Then the VaultDetector reports vaultMode = "single-file"
     And cross-file features are suppressed
