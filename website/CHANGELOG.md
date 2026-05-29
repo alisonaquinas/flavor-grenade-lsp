@@ -6,6 +6,14 @@ file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 The website is a private package and publishes from `site-v*` release tags.
 
+## [0.2.1] - 2026-05-29
+
+### Fixed
+
+- Publish trailing-slash clean URL route objects to S3 so routes like
+  `/quickstart/` and `/docs/` resolve through CloudFront instead of returning
+  access denied responses.
+
 ## [0.2.0] - 2026-05-29
 
 ### Added
