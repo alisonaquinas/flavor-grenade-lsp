@@ -18,6 +18,7 @@ import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { SERVER_VERSION } from '../version.js';
+import { FlavorGrenadeConfigFiles } from '../markdown-flavor/fg-config-files.js';
 
 export const VAULT_SCAN_FILE_LIMIT = Symbol('VAULT_SCAN_FILE_LIMIT');
 
@@ -42,6 +43,7 @@ export class VaultScanner {
   private scannedFileCount = 0;
   private scanFileLimitReached = false;
   private readonly maxScanFiles: number;
+  private readonly fgConfigFiles = new FlavorGrenadeConfigFiles();
 
   constructor(
     private readonly vaultDetector: VaultDetector,
@@ -146,6 +148,8 @@ export class VaultScanner {
         if (this.scanFileLimitReached) {
           return;
         }
+      } else if (entry.isFile() && this.shouldSkipVisibleFile(vaultRoot, fullPath, relPath)) {
+        continue;
       } else if (entry.isFile() && documentExtensions.has(path.extname(entry.name).toLowerCase())) {
         if (!this.reserveFileBudget()) {
           return;
@@ -165,6 +169,13 @@ export class VaultScanner {
         await this.indexAttachment(fullPath, relPath);
       }
     }
+  }
+
+  private shouldSkipVisibleFile(vaultRoot: string, fullPath: string, relPath: string): boolean {
+    if (isFlavorGrenadeConfigFile(relPath)) {
+      return true;
+    }
+    return this.fgConfigFiles.resolveForFile(vaultRoot, fullPath).ignored;
   }
 
   private reserveFileBudget(): boolean {
@@ -291,4 +302,9 @@ export class VaultScanner {
       // Skip unreadable files silently.
     }
   }
+}
+
+function isFlavorGrenadeConfigFile(vaultRelativePath: string): boolean {
+  const basename = path.basename(vaultRelativePath);
+  return basename === '.fgignore' || basename === '.fgattributes';
 }

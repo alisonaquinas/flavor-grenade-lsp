@@ -2,7 +2,7 @@
 id: "TASK-356"
 title: "Apply .fgignore visibility to vault indexing and LSP surfaces"
 type: task
-status: red
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -52,3 +52,8 @@ aliases: ["TASK-356"]
 > nested `.fgignore` negation, and config files staying out of asset indexing.
 > Expected failure: `VaultScanner` has not been wired to `.fgignore`
 > visibility yet.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Status set to `green`. `VaultScanner` now applies `.fgignore` before
+> document or asset indexing and skips `.fgignore` / `.fgattributes` files as
+> assets. Focused scanner tests, typecheck, and lint pass.
