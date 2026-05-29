@@ -2,7 +2,7 @@
 id: "TASK-358"
 title: "Remove legacy file and directory flavor assignment paths"
 type: task
-status: green
+status: partial
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -58,3 +58,8 @@ aliases: ["TASK-358"]
 > `.fgignore` and `.fgattributes`; `VaultDetector` no longer treats legacy
 > `.flavor-grenade.*` or `.editorconfig` flavor directives as project markers.
 > Focused detector/membership tests, typecheck, and lint pass.
+
+> [!NOTE] PARTIAL - 2026-05-29
+> Status corrected to `partial`. Marker replacement is green, but remaining
+> legacy parser, settings, and client resource-payload assignment paths still
+> need removal or quarantine.

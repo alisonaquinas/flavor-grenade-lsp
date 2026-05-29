@@ -2,7 +2,7 @@
 id: "TASK-356"
 title: "Apply .fgignore visibility to vault indexing and LSP surfaces"
 type: task
-status: green
+status: partial
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -40,8 +40,8 @@ aliases: ["TASK-356"]
 
 ## Definition of Done
 
-- [ ] Root and nested `.fgignore` patterns change index membership.
-- [ ] Negation re-includes files when traversal permits it.
+- [x] Root and nested `.fgignore` patterns change index membership.
+- [x] Negation re-includes files when traversal permits it.
 - [ ] Ignored open files do not produce Flavor Grenade LSP outputs.
 - [ ] Watcher refresh handles config-file create, update, delete, and rename.
 
@@ -57,3 +57,7 @@ aliases: ["TASK-356"]
 > Status set to `green`. `VaultScanner` now applies `.fgignore` before
 > document or asset indexing and skips `.fgignore` / `.fgattributes` files as
 > assets. Focused scanner tests, typecheck, and lint pass.
+
+> [!NOTE] PARTIAL - 2026-05-29
+> Status corrected to `partial`. Scanner visibility is green, but open-document
+> LSP inactivity and watcher refresh remain in scope for this ticket.

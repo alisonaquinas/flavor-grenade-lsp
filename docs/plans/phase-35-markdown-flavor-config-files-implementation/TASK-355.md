@@ -39,11 +39,11 @@ aliases: ["TASK-355"]
 
 ## Definition of Done
 
-- [ ] RED tests cover root, nested, negated, anchored, directory, and reset
+- [x] RED tests cover root, nested, negated, anchored, directory, and reset
       patterns.
-- [ ] Invalid values are treated as absent configuration.
-- [ ] `flavor=auto` is preserved as a configured request for Auto Detect.
-- [ ] Structured profile values accept `auto`, `none`, and compatible profile
+- [x] Invalid values are treated as absent configuration.
+- [x] `flavor=auto` is preserved as a configured request for Auto Detect.
+- [x] Structured profile values accept `auto`, `none`, and compatible profile
       lists.
 
 ## Workflow Log

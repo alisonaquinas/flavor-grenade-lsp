@@ -1,7 +1,7 @@
 ---
 title: Phase 35 Markdown Flavor Config Files Implementation Tickets
 phase: 35
-status: planned
+status: active
 tags: [plans/phase-35, tickets/index, markdown-flavor, configuration]
 aliases: ["Phase 35 Tickets"]
 updated: 2026-05-29
@@ -11,11 +11,11 @@ updated: 2026-05-29
 
 | Ticket | Title | Type | Status |
 |---|---|---|---|
-| [[FEAT-061]] | Markdown Flavor Config Files Implementation | Feature | `draft` |
+| [[FEAT-061]] | Markdown Flavor Config Files Implementation | Feature | `active` |
 | [[TASK-355]] | Implement `.fgignore` and `.fgattributes` parser/resolver | Task | `green` |
-| [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | `green` |
-| [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | `green` |
-| [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | `green` |
+| [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | `partial` |
+| [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | `partial` |
+| [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | `partial` |
 | [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | `open` |
 | [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | `open` |
 | [[CHORE-146]] | Phase 35 trace and matrix sweep | Chore | `open` |

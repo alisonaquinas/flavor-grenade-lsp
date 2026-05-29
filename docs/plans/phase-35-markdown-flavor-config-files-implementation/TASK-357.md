@@ -2,7 +2,7 @@
 id: "TASK-357"
 title: "Refactor effective flavor resolution around config outcome and Auto Detect"
 type: task
-status: green
+status: partial
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -39,9 +39,9 @@ aliases: ["TASK-357"]
 ## Definition of Done
 
 - [ ] Auto Detect tests prove it does not parse or inspect `.fgattributes`.
-- [ ] Obsidian marker still resolves to `obsidian` when config requests Auto
+- [x] Obsidian marker still resolves to `obsidian` when config requests Auto
       Detect.
-- [ ] Generic visible Markdown still resolves to `commonmark`.
+- [x] Generic visible Markdown still resolves to `commonmark`.
 - [ ] Structured profile flags can layer over every effective base flavor.
 
 ## Workflow Log
@@ -57,3 +57,8 @@ aliases: ["TASK-357"]
 > `MarkdownFlavorState`; concrete `.fgattributes` flavors win before Auto
 > Detect, while `flavor=auto` still falls through. Focused handler tests,
 > typecheck, and lint pass.
+
+> [!NOTE] PARTIAL - 2026-05-29
+> Status corrected to `partial`. Parse-context wiring is green, but explicit
+> proof that Auto Detect does not inspect `.fgattributes` and full
+> structured-profile layering coverage remain in scope.

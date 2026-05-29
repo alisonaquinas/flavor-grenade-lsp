@@ -2,7 +2,7 @@
 id: "FEAT-061"
 title: "Markdown Flavor Config Files Implementation"
 type: feature
-status: draft
+status: active
 priority: high
 phase: 35
 created: "2026-05-29"
@@ -63,6 +63,13 @@ resolution requests it.
       pass.
 
 ## Workflow Log
+
+> [!NOTE] ACTIVE - 2026-05-29
+> Phase implementation started on `feature/fg-config-implementation`.
+> Parser/resolver, scanner visibility, `.fgattributes` parse-context wiring,
+> and config-marker replacement have passing focused tests. Remaining slices:
+> ignored-open-document inactivity, watcher refresh, legacy assignment removal,
+> extension `.fgattributes` writes, and end-to-end acceptance coverage.
 
 > [!INFO] Drafted - 2026-05-29
 > Status set to `draft`. Feature ticket created to document implementation plan

@@ -1,7 +1,7 @@
 ---
 title: "Phase 35: Markdown Flavor Config Files Implementation"
 phase: 35
-status: planned
+status: active
 tags: [plans, markdown-flavor, configuration, fgignore, fgattributes]
 aliases: [Phase 35, Markdown Flavor Config Files Implementation]
 updated: 2026-05-29
@@ -13,7 +13,7 @@ updated: 2026-05-29
 |---|---|
 | Phase | 35 |
 | Title | Markdown Flavor Config Files Implementation |
-| Status | planned |
+| Status | active |
 | Gate | `.fgignore` and `.fgattributes` drive visibility and effective Markdown context end to end |
 | Depends on | Phase 20, Phase E15, PR #157 specification updates |
 
@@ -33,22 +33,24 @@ Implementation work will run on `feature/fg-config-implementation` and target
 
 ## Current-State Assessment
 
-The repository has partial flavor plumbing, but it still reflects the older
-configuration model:
+The branch has partial implementation in place, but it is not complete. The
+current state is:
 
-- `src/markdown-flavor/project-markdown-config-files.ts` still lists
-  `.flavor-grenade.*` and `.editorconfig` as Markdown flavor config files.
-- `src/markdown-flavor/project-markdown-flavor-config.ts` still parses legacy
-  TOML, JSON, YAML, and EditorConfig flavor assignment data.
-- `src/markdown-flavor/markdown-flavor-state.ts` still accepts global selector
-  state and client-propagated resource maps as active assignment inputs.
-- `extension/src/markdown-flavor.ts` still builds
-  `workspace/didChangeConfiguration` resource payloads instead of writing
-  `.fgattributes` as the persistence path.
-- `src/vault/ignore-filter.ts`, `src/vault/vault-scanner.ts`, and
-  `src/vault/vault-index.ts` need `.fgignore` visibility integrated before
-  parsing, indexing, diagnostics, completion, navigation, hover, semantic
-  tokens, rename, and reference graph updates.
+- `src/markdown-flavor/fg-config-files.ts` provides confined `.fgignore` and
+  `.fgattributes` loading, Git-style pattern matching, visibility resolution,
+  and attribute cascade.
+- `src/vault/vault-scanner.ts` skips ignored Markdown files and excludes
+  `.fgignore` / `.fgattributes` from asset indexing.
+- `src/markdown-flavor/markdown-flavor-state.ts` accepts `.fgattributes`
+  outcomes before Auto Detect while preserving Auto Detect for absent,
+  reset, or `flavor=auto` outcomes.
+- `src/markdown-flavor/project-markdown-config-files.ts` and
+  `src/vault/vault-detector.ts` now treat `.fgignore` and `.fgattributes` as
+  Flavor Grenade config markers instead of legacy `.flavor-grenade.*` or
+  `.editorconfig` markers.
+- Remaining work includes ignored-open-document inactivity, watcher refresh,
+  removal/quarantine of remaining legacy assignment payloads, extension
+  scope-prompt `.fgattributes` writes, and end-to-end acceptance coverage.
 
 ## Requirement Trace
 
