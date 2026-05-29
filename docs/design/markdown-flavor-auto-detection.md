@@ -168,7 +168,20 @@ type ResolveFlavorResult =
 The `effective` field is the base Markdown flavor only. Structured profiles are
 separate flags in `structuredProfiles`; they never replace the base flavor.
 
-## Decision Flow
+## Effective Flavor Resolution Flow
+
+Effective flavor resolution has three separate stages:
+
+1. Visibility gating decides whether Flavor Grenade may see the file.
+2. Configuration resolution decides whether a concrete flavor is selected or
+   Auto Detect should run.
+3. Auto Detect runs independently of configuration when requested by the
+   previous stage.
+
+`.fgattributes` can trigger Auto Detect by leaving `flavor` absent, clearing it
+with `!flavor`, or setting `flavor=auto`. Auto Detect does not read
+`.fgattributes`; it receives only document, workspace, marker, and syntax/context
+evidence.
 
 ```mermaid
 flowchart TD
@@ -178,9 +191,10 @@ flowchart TD
   C -- "No" --> Z2["inactive: unsupported-scheme or virtual/restricted"]
   C -- "Yes" --> D{".fgignore matches?"}
   D -- "Yes" --> Z3["inactive: fgignore"]
-  D -- "No" --> G{".fgattributes flavor explicit?"}
-  G -- "Yes" --> R4["effective = .fgattributes flavor"]
-  G -- "No / auto / absent" --> I{".obsidian/ marker or obsidian membership?"}
+  D -- "No" --> G{"Resolved config selects concrete flavor?"}
+  G -- "Yes" --> R4["effective = configured flavor"]
+  G -- "No: absent, !flavor, or auto" --> H["Run Auto Detect"]
+  H --> I{".obsidian/ marker or obsidian membership?"}
   I -- "Yes" --> R5["effective = obsidian"]
   I -- "No" --> K{"Strong syntax/context inference?"}
   K -- "Yes" --> R6["effective = inferred flavor"]
@@ -194,14 +208,20 @@ flowchart TD
 | 0 | `languageId` is not `markdown` | `inactive`; do not resolve flavor. |
 | 0 | URI scheme/context cannot be served safely | `inactive`; do not start flavor analysis. |
 | 1 | `.fgignore` matches the document | `inactive`; do not process or index the file. |
-| 2 | `.fgattributes` resolves an explicit `flavor` attribute | That document-specific flavor value. |
-| 3 | `.obsidian/` marker or server membership reason `obsidian-vault` exists | `obsidian`. |
-| 4 | No `.fgattributes` flavor or Obsidian marker exists and syntax/context inference has one strong winner | The inferred flavor. |
-| 5 | No valid positive signal remains | `commonmark`. |
+| 2 | Configuration resolution selects a concrete `flavor` value | That document-specific flavor value. |
+| 3 | Configuration resolution selects `auto` or no concrete flavor | Invoke Auto Detect. |
+
+Inside Auto Detect, precedence is independent of configuration:
+
+| Priority | Auto Detect evidence | Value used |
+|---|---|---|
+| A1 | `.obsidian/` marker or server membership reason `obsidian-vault` exists | `obsidian`. |
+| A2 | Syntax/context inference has one strong winner | The inferred flavor. |
+| A3 | No valid positive signal remains | `commonmark`. |
 
 Tie-breakers:
 
-- `auto` delegates to the next lower-priority source.
+- `auto`, `!flavor`, and absent `flavor` all invoke Auto Detect.
 - `auto` never propagates to analysis as the effective flavor.
 - `.fgignore` rules are evaluated before `.fgattributes`; ignored files never
   receive flavor analysis.
@@ -210,11 +230,10 @@ Tie-breakers:
   attribute.
 - VS Code settings are not an active source for file or directory flavor
   selection.
-- `.obsidian/` resolves to `obsidian` unless a higher-priority explicit
-  selector/config value overrides it.
-- Syntax inference runs only after `.fgattributes` and
-  Obsidian marker evidence are absent. It must never override a configured
-  attribute.
+- `.obsidian/` resolves to `obsidian` inside Auto Detect unless configuration
+  resolution has already selected a concrete flavor.
+- Syntax inference runs only inside Auto Detect, after Obsidian marker evidence
+  is absent. It must never override a concrete configured attribute.
 - Syntax inference must prefer false negatives over false positives. Weak shared
   constructs such as pipe tables, task lists, fenced code blocks, headings,
   frontmatter, and strikethrough do not decide a flavor by themselves.
@@ -229,8 +248,9 @@ Tie-breakers:
 
 ## Auto Mode Workflow
 
-Auto Detect remains the default workflow. `.fgignore` and `.fgattributes`
-constrain it; they do not replace it.
+Auto Detect remains the default workflow. Configuration can select a concrete
+flavor or request Auto Detect, but configuration is not part of the Auto Detect
+algorithm.
 
 Auto mode is active in three cases:
 
@@ -351,27 +371,42 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
     return { kind: 'inactive', reason: 'fgignore' };
   }
 
-  const explicit = (value?: MarkdownFlavorSelection): MarkdownFlavorId | undefined =>
-    value && value !== 'auto' ? value : undefined;
-
-  const attributed = explicit(input.fgattributes?.flavor);
-  if (attributed) {
-    return active(attributed, 'fgattributes', input, attributed);
+  const configured = resolveConfiguredFlavor(input.fgattributes?.flavor);
+  if (configured.kind === 'explicit') {
+    return active(configured.flavor, 'fgattributes', input, configured.flavor);
   }
 
+  const detected = autoDetectMarkdownFlavor({
+    markers: input.markers,
+    serverMembership: input.serverMembership,
+    syntaxInference: input.syntaxInference,
+  });
+
+  return active(detected.flavor, detected.source, input);
+}
+
+function resolveConfiguredFlavor(
+  value?: MarkdownFlavorSelection,
+): { kind: 'explicit'; flavor: MarkdownFlavorId } | { kind: 'auto' } {
+  return value && value !== 'auto'
+    ? { kind: 'explicit', flavor: value }
+    : { kind: 'auto' };
+}
+
+function autoDetectMarkdownFlavor(input: AutoDetectInput): AutoDetectFlavorResult {
   if (
     input.markers.hasObsidianDirectory ||
     input.serverMembership?.reason === 'obsidian-vault'
   ) {
-    return active('obsidian', 'obsidian-marker', input);
+    return { flavor: 'obsidian', source: 'obsidian-marker' };
   }
 
   const inferred = strongestSyntaxInference(input.syntaxInference);
   if (inferred) {
-    return active(inferred, 'syntax-inference', input);
+    return { flavor: inferred, source: 'syntax-inference' };
   }
 
-  return active('commonmark', 'commonmark-fallback', input);
+  return { flavor: 'commonmark', source: 'commonmark-fallback' };
 }
 
 function active(
