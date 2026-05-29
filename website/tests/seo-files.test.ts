@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { websitePages } from '../src/content/pages';
 import { websiteRoutes } from '../src/content/routes';
 import {
+  generateJsonLdForRoute,
   generateJsonLd,
   generateRobotsTxt,
   generateSitemap,
@@ -28,6 +29,7 @@ describe('website SEO files', () => {
     expect(getHomeMetadata()).toMatchObject({
       'og:type': 'website',
       'og:title': 'Flavor Grenade LSP | Flavor-Aware Markdown Tools',
+      'og:url': 'https://flavor-grenade.dev/',
       'twitter:card': 'summary_large_image',
       'twitter:title': 'Flavor Grenade LSP | Flavor-Aware Markdown Tools',
     });
@@ -43,5 +45,29 @@ describe('website SEO files', () => {
       'HowTo',
       'BreadcrumbList',
     ]);
+  });
+
+  it('generates page-appropriate JSON-LD schema types', () => {
+    expect(
+      generateJsonLdForRoute(websiteRoutes[0]!, websiteRoutes, websitePages).map(
+        (entry) => entry['@type'],
+      ),
+    ).toEqual(['WebSite', 'SoftwareApplication', 'BreadcrumbList']);
+
+    expect(
+      generateJsonLdForRoute(
+        websiteRoutes.find((route) => route.id === 'faq')!,
+        websiteRoutes,
+        websitePages,
+      ).map((entry) => entry['@type']),
+    ).toEqual(['FAQPage', 'BreadcrumbList']);
+
+    expect(
+      generateJsonLdForRoute(
+        websiteRoutes.find((route) => route.id === 'howToVsCodeExtension')!,
+        websiteRoutes,
+        websitePages,
+      ).map((entry) => entry['@type']),
+    ).toEqual(['HowTo', 'BreadcrumbList']);
   });
 });
