@@ -111,7 +111,9 @@ interface ParseContext {
 }
 ```
 
-BC4 creates `ParseContext` from `EffectiveMarkdownContext`. BC2 must not read VS Code settings, TOML, vault markers, `MarkdownFlavorSelection`, or structured-profile selector inputs directly.
+BC4 creates `ParseContext` from `EffectiveMarkdownContext`. BC2 must not read
+VS Code settings, TOML, `.fgignore`, `.fgattributes`, vault markers,
+`MarkdownFlavorSelection`, or structured-profile selector inputs directly.
 
 > [!NOTE]
 > `applyLspChange` validates that `params.textDocument.version > doc.version` before applying. If the new version is not greater, the command logs a warning and returns the original `MarkdownDoc` unchanged. This protects against out-of-order LSP notifications.

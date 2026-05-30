@@ -1,6 +1,6 @@
 ---
 id: "TASK-302"
-title: "Persist flavor overrides at the correct settings scope"
+title: "Persist flavor overrides through .fgattributes scopes"
 type: task
 status: done
 priority: high
@@ -13,32 +13,28 @@ tags: [tickets/task, "phase/E15", markdown-flavor, vscode]
 aliases: ["TASK-302"]
 ---
 
-# Persist Flavor Overrides At The Correct Settings Scope
+# Persist Flavor Overrides Through .fgattributes Scopes
 
 ## Description
 
-Write flavor overrides to workspace-folder or workspace settings for
-folder-owned documents and user settings for standalone files.
+Write flavor overrides to `.fgattributes` for selected-file or directory scope.
+Standalone files use the same selected-file `.fgattributes` rule beside the
+file.
 
 ## Work Scope
 
-- Resolve owning workspace folder for active Markdown document.
-- Read and write resource-scoped configuration through
-  `workspace.getConfiguration("flavorGrenade", document.uri)` so multi-root
-  workspaces resolve the correct folder-specific effective value.
-- If the active Markdown document belongs to a workspace folder and VS Code has
-  more than one workspace folder, write explicit flavor overrides with
-  `ConfigurationTarget.WorkspaceFolder` for that document resource.
-- If the active Markdown document belongs to a workspace folder and there is
-  only one workspace folder, write explicit flavor overrides with
-  `ConfigurationTarget.Workspace` unless an existing folder-level value already
-  applies to that resource; in that case update `WorkspaceFolder`.
-- If the active Markdown document has no owning workspace folder, write
-  explicit flavor overrides with `ConfigurationTarget.Global` for the standalone
-  user setting. Do not create workspace settings for standalone files.
-- When Auto Detect is selected, clear the same target that the active explicit
-  override came from by updating that key to `undefined`; if no explicit
-  override exists, leave settings unchanged and recompute the effective flavor.
+- Resolve the active Markdown document directory.
+- After flavor selection, show a second prompt with `Selected file` and
+  `All files in this directory`.
+- For `Selected file`, write or update a file-specific `.fgattributes` rule in
+  the active file's directory.
+- For `All files in this directory`, write or update an anchored `/*.md`
+  `.fgattributes` rule in the active file's directory.
+- If the active Markdown document has no owning workspace folder, write the
+  selected-file `.fgattributes` rule beside the standalone file.
+- When Auto Detect is selected, clear/reset the matching `.fgattributes`
+  `flavor` at the chosen scope with `!flavor` or rule removal, then recompute
+  the effective flavor.
 
 ## Linked Requirements
 
@@ -50,15 +46,15 @@ folder-owned documents and user settings for standalone files.
 
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
-| `EXT-MF-U-006`, `EXT-MF-U-007`, `EXT-MF-U-008` | `extension/src/markdown-flavor.test.ts` | Workspace, standalone, and Auto reset targets. |
+| `EXT-MF-U-006`, `EXT-MF-U-007`, `EXT-MF-U-008` | `extension/src/markdown-flavor.test.ts` | Selected-file, directory, standalone, and Auto reset targets. |
 
 ## Definition of Done
 
-- [x] Workspace files write workspace-folder or workspace scope.
-- [x] Standalone files write user scope.
-- [x] Multi-root writes use the active document resource URI.
-- [x] Auto clears the same active scope by writing `undefined` and does not
-      replace it with a literal `auto` override.
+- [x] Workspace files write selected-file or directory `.fgattributes` scope.
+- [x] Standalone files write selected-file `.fgattributes` beside the file.
+- [x] Multi-root writes use the active document directory.
+- [x] Auto clears/resets the same active `.fgattributes` scope and does not
+      replace it with an effective flavor.
 
 ## Workflow Log
 
@@ -66,11 +62,12 @@ folder-owned documents and user settings for standalone files.
 > Status set to `open`. Ticket created and ready for lifecycle transition.
 
 > [!WARNING] Red - 2026-05-13
-> RED coverage added for workspace-folder/workspace/global override target
-> selection and Auto Detect clearing through `undefined`.
+> RED coverage added for selected-file/directory `.fgattributes` target
+> selection and Auto Detect clearing/reset.
 > Status: `red`.
 
 > [!SUCCESS] Green - 2026-05-13
-> Selector persistence chooses workspace-folder, workspace, or global targets
-> from the active Markdown resource and clears Auto Detect with `undefined`.
+> Selector persistence chooses selected-file or directory `.fgattributes`
+> targets from the active Markdown resource and clears/resets Auto Detect at the
+> same scope.
 > Status: `green`.

@@ -6,6 +6,24 @@ file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 The website is a private package and publishes from `site-v*` release tags.
 
+## [0.3.0] - 2026-05-30
+
+### Added
+
+- Add public guidance for `.fgignore` and `.fgattributes`, including examples
+  that show nested files, negated patterns, directory-scoped rules, and Auto
+  Detect fallback.
+- Add website content for the updated server, extension, and skill workflows
+  around Git-style Flavor Grenade configuration files.
+
+### Changed
+
+- Refresh quickstart, advanced usage, how-to, FAQ, and skill installation copy
+  so explicit flavor configuration points to `.fgattributes` instead of legacy
+  project config files.
+- Clarify that Auto Detect remains the default when no `.fgignore` or
+  `.fgattributes` file applies to a Markdown document.
+
 ## [0.2.1] - 2026-05-29
 
 ### Fixed

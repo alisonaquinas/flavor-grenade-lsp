@@ -70,6 +70,13 @@ export class DiagnosticService {
     });
   }
 
+  clearDiagnostics(uri: string): void {
+    this.dispatcher.sendNotification('textDocument/publishDiagnostics', {
+      uri,
+      diagnostics: [],
+    });
+  }
+
   private buildDiagnostics(docId: DocId, doc: OFMDoc, vaultRoot: string): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
 

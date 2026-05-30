@@ -10,7 +10,12 @@ aliases:
 # Configuration Requirements
 
 > [!NOTE] Scope
-> These requirements govern the configuration system for `flavor-grenade-lsp`: the layering and precedence rules for the three-tier config stack (built-in defaults, user config, project config), validation of individual config values, fault isolation when config files are malformed, and default values for required keys. Configuration keys referenced here are the authoritative source of truth for their defaults; all other feature files defer to this file for config-related specifications. Project config supports TOML, JSON, JSONC, YAML, and Flavor Grenade directives in `.editorconfig`, parsed at server startup and on file-change notifications.
+> These requirements govern non-flavor operational configuration for
+> `flavor-grenade-lsp`: layering and precedence rules, validation of individual
+> config values, fault isolation when config files are malformed, and default
+> values for required keys. File visibility and file/directory Markdown flavor
+> assignment are no longer configured here; they are governed by `.fgignore` and
+> `.fgattributes` in [[docs/features/markdown-flavor-config-files]].
 
 ---
 

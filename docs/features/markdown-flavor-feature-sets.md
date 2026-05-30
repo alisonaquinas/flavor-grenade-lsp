@@ -36,7 +36,8 @@ when that flavor is the effective Markdown flavor.
 Every flavor feature set must:
 
 - keep `.md` files in VS Code's built-in `markdown` language mode;
-- be selected through `flavorGrenade.markdownFlavor`;
+- be selected through `.fgattributes` or Auto Detect, with the VS Code selector
+  writing selected-file or directory-scope `.fgattributes` rules;
 - describe which syntax surfaces become active, inert, or host-specific;
 - declare expected LSP feature behavior for diagnostics, completion, hover,
   navigation, document symbols, folding, semantic tokens, and rename;

@@ -29,7 +29,7 @@ requirements.
 
 1. Open a workspace containing `.obsidian/`.
 2. Verify the extension activates and starts membership detection.
-3. Open a workspace containing `Flavor Grenade project config marker`.
+3. Open a workspace containing `.fgignore` or `.fgattributes`.
 4. Verify the extension activates and starts membership detection.
 5. Open a generic Markdown workspace with neither marker.
 6. Verify the extension remains idle until a command, Markdown flavor selector interaction, or vault signal requires it.
@@ -75,7 +75,7 @@ requirements.
 **Meter:**
 
 1. Inspect the extension test suite.
-2. Verify at least one test exists for activation in `.obsidian/`, activation in `Flavor Grenade project config marker`, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
+2. Verify at least one test exists for activation in `.obsidian/`, activation by `.fgignore` or `.fgattributes`, generic Markdown isolation, required Markdown flavor selection, command registration, status transition, and missing server path failure.
 3. Run the extension-host test command in CI or locally.
 4. Compute: (behavior groups with passing tests / required behavior groups) x 100.
 **Fail:** Any required behavior group lacks a passing test.
@@ -165,12 +165,12 @@ flavor/context state without requiring a custom Markdown language id.
 
 **Tag:** Extension.Activation.MarkerEvents
 **User Req:** User.Extension.StartOnlyForVaults
-**Gist:** The extension manifest and activation controller must react to `.obsidian/`, `Flavor Grenade project config marker`, `markdown`, flavor selector commands, and explicit command activation signals.
+**Gist:** The extension manifest and activation controller must react to `.obsidian/`, `.fgignore`, `.fgattributes`, `markdown`, flavor selector commands, and explicit command activation signals.
 **Ambition:** Vault users should get automatic startup, while generic Markdown users should not pay for vault work without a positive signal.
 **Scale:** Percentage of activation-signal fixtures that produce the expected active or idle state.
 **Meter:**
 
-1. Run extension-host fixtures for `.obsidian/`, `Flavor Grenade project config marker`, generic Markdown, flavor selector command activation, and explicit command activation.
+1. Run extension-host fixtures for `.obsidian/`, `.fgignore`, `.fgattributes`, generic Markdown, flavor selector command activation, and explicit command activation.
 2. Observe whether the extension activates.
 3. Observe whether vault membership detection starts.
 4. Inspect `LanguageClient` `clientOptions.documentSelector`.
@@ -288,10 +288,11 @@ flavor/context state without requiring a custom Markdown language id.
 1. Open file-backed Markdown documents in workspace-folder, workspace-only, vault, generic Markdown, and standalone-file contexts.
 2. Verify a Flavor Grenade Markdown flavor selector is visible in the status bar or command-accessible without opening the VS Code language picker.
 3. Select `Auto Detect` and each explicit flavor.
-4. Verify the selector state changes and the active document remains `languageId = markdown`.
-5. Verify the status-bar selector reports the current effective flavor for the active Markdown document.
-6. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
-7. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
+4. Verify the second prompt offers `Selected file` and `All files in this directory`.
+5. Verify the selector writes or resets `.fgattributes` for the chosen scope and the active document remains `languageId = markdown`.
+6. Verify the status-bar selector reports the current effective flavor for the active Markdown document.
+7. Verify documents manually set to non-`markdown` language ids do not show active flavor behavior for that document.
+8. Compute: (selector contexts passing / total supported Markdown contexts) x 100.
 **Fail:** The user must use the VS Code language picker for flavor selection, the selector is unavailable for supported Markdown contexts, or selecting a flavor changes the document away from `markdown`.
 **Goal:** 100% selector availability for supported file-backed Markdown contexts.
 **Stakeholders:** VS Code users, Markdown authors, extension maintainers.
@@ -312,7 +313,7 @@ flavor/context state without requiring a custom Markdown language id.
 1. Open a file-backed `.md` document whose `languageId` is `markdown`.
 2. Open the Flavor Grenade Markdown flavor selector.
 3. Verify the selector exposes exactly the required choices in the table below.
-4. Select each explicit flavor and verify `flavorGrenade.markdownFlavor` accepts the corresponding id.
+4. Select each explicit flavor and verify `.fgattributes` accepts the corresponding `flavor=<id>` value.
 5. Verify the active document remains `languageId = markdown` after each selection.
 6. Verify `Auto Detect` is available as the reversible non-explicit choice.
 7. Compute: (required selector choices present and valid / 14) x 100.
@@ -345,25 +346,48 @@ flavor/context state without requiring a custom Markdown language id.
 
 **Tag:** Extension.MarkdownFlavor.OverridePersistence
 **User Req:** User.Extension.OverrideMarkdownFlavor
-**Gist:** Markdown flavor overrides made from the extension UI must persist to folder settings when a workspace folder owns the active Markdown file and to user settings when the context is only a standalone file.
-**Ambition:** The same selector should behave predictably in project and single-file contexts. Project choices belong with the folder; standalone-file choices cannot be written to a project and should follow the user.
-**Scale:** Percentage of selector write and clear operations that target the correct VS Code configuration scope.
+**Gist:** Markdown flavor overrides made from the extension UI must persist to `.fgattributes` at selected-file or active-directory scope.
+**Ambition:** The same selector should behave predictably in project and single-file contexts. Choices belong in Git-style config next to the files they affect so the server, extension, and other clients share one model.
+**Scale:** Percentage of selector write and clear operations that target the correct `.fgattributes` file, pattern, and attribute.
 **Meter:**
 
 1. Open a Markdown file inside a workspace folder.
 2. Select each explicit flavor from the selector.
-3. Verify `flavorGrenade.markdownFlavor` is written to the owning workspace folder or workspace setting, not only to user settings.
+3. Choose `Selected file` and verify `.fgattributes` in the active file's directory contains a file-specific rule.
 4. Select `Auto Detect`.
-5. Verify the override is cleared or reset at the same folder/workspace scope.
-6. Open a standalone Markdown file with no owning workspace folder.
-7. Select an explicit flavor and verify `flavorGrenade.markdownFlavor` is written to user settings.
-8. Select `Auto Detect` and verify the user-scope override is cleared or reset.
-9. Compute: (correct configuration-scope operations / total write and clear operations) x 100.
-**Fail:** A folder-backed override is written only to user settings, a standalone-file override attempts to write a project setting, `Auto Detect` clears a different scope from the explicit override scope, or the setting accepts a value outside the required flavor set.
-**Goal:** 100% correct override persistence scope.
-**Stakeholders:** VS Code users, teams sharing workspace settings, extension maintainers.
+5. Verify the override is cleared or reset at the same selected-file scope.
+6. Select another explicit flavor and choose `All files in this directory`.
+7. Verify `.fgattributes` contains a directory-local Markdown pattern such as `/*.md flavor=<id>`.
+8. Open a standalone Markdown file with no owning workspace folder and verify the same `.fgattributes` rules are written beside that file.
+9. Compute: (correct `.fgattributes` operations / total write and clear operations) x 100.
+**Fail:** A selector override is written to `flavorGrenade.markdownFlavor`, the wrong `.fgattributes` file, a broader pattern than requested, or an unsupported flavor id.
+**Goal:** 100% correct `.fgattributes` persistence scope.
+**Stakeholders:** VS Code users, teams sharing repository config, extension maintainers.
 **Owner:** flavor-grenade-lsp contributors.
 **Source:** [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [Markdown flavor selection feature](../../../../docs/features/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
+
+---
+
+## Extension.MarkdownFlavor.IgnoreVisibility
+
+**Tag:** Extension.MarkdownFlavor.IgnoreVisibility
+**User Req:** User.ExtensionFlavor.IgnoreFiles
+**Gist:** The extension must surface `.fgignore` matches as inactive Flavor Grenade documents and must not request active language behavior for ignored files.
+**Ambition:** Users should understand why Flavor Grenade is not acting on an ignored Markdown file, and ignored files should not receive diagnostics or edits through the extension.
+**Scale:** Percentage of ignored-file extension contexts that show inactive state and avoid server feature requests.
+**Meter:**
+
+1. Open Markdown files matched by root and nested `.fgignore` patterns.
+2. Verify the selector or status surface reports ignored or inactive state for those files.
+3. Verify ignored files remain in VS Code's `markdown` language mode.
+4. Verify the extension does not offer active flavor selector writes for ignored files unless the user edits `.fgignore` first.
+5. Remove or negate the ignore rule and verify the file returns to Auto Detect or `.fgattributes` behavior after refresh.
+6. Compute: (correct ignored-file extension outcomes / total ignored-file extension outcomes) x 100.
+**Fail:** Any ignored file receives active Flavor Grenade UI/actions, or the extension hides the reason the file is inactive.
+**Goal:** 100% ignored-file extension handling.
+**Stakeholders:** VS Code users, extension maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [Markdown flavor configuration files](../../../../docs/features/markdown-flavor-config-files.md), [Markdown flavor selection requirements](../../../../docs/requirements/functional/ofmarkdown-language-mode.md), [VS Code extension parity](../../features/vscode-extension-parity.md).
 
 ---
 
@@ -371,18 +395,18 @@ flavor/context state without requiring a custom Markdown language id.
 
 **Tag:** Extension.MarkdownFlavor.AutoDetection
 **User Req:** User.Extension.AutoDetectFlavor
-**Gist:** In `auto` mode, the extension UI must display and propagate the effective Markdown flavor inferred from vault, project, workspace, and standalone-file context while allowing explicit user overrides to take precedence.
+**Gist:** In `auto` mode, the extension UI must display and propagate the effective Markdown flavor inferred from vault, `.fgattributes`, and standalone-file context while allowing explicit user overrides to take precedence.
 **Ambition:** Auto detection should preserve zero-config Obsidian vault behavior and conservative generic Markdown behavior, while still making the effective flavor visible enough for users to trust and override.
 **Scale:** Percentage of documented editor contexts where the selector, configuration state, and server-facing flavor state agree.
 **Meter:**
 
-1. Open a Markdown document under a `.obsidian/` folder with `flavorGrenade.markdownFlavor` set to `auto`.
+1. Open a Markdown document under a `.obsidian/` folder with no matching `.fgattributes` flavor.
 2. Verify the status-bar selector reports `Auto Detect` with effective flavor `obsidian`.
-3. Open a Markdown document in a Flavor Grenade workspace with explicit project flavor config or workspace setting.
-4. Verify `auto` resolves to that configured supported flavor id.
-5. Open a standalone generic `.md` file with no vault or config signal.
-6. Verify `auto` resolves to `commonmark`.
-7. Override the active context to each explicit required flavor and verify the override takes precedence over auto detection until cleared.
+3. Open a Markdown document matched by `.fgattributes` `flavor=auto`.
+4. Verify the selector reports Auto Detect and the effective flavor comes from an Obsidian marker, strong syntax evidence, or CommonMark fallback.
+5. Open a directory tree with no `.fgignore` or `.fgattributes`.
+6. Verify every Markdown file in that tree defaults to Auto Detect and generic Markdown resolves to `commonmark`.
+7. Override the active context to each explicit required flavor and verify the `.fgattributes` override takes precedence over auto detection until cleared.
 8. Manually change a `.md` document to a non-`markdown` language id and verify flavor state is inactive for that document.
 9. Compute: (correct effective-state outcomes / total documented contexts) x 100.
 **Fail:** Generic Markdown is auto-detected as Obsidian without a positive signal, Obsidian vault notes fail to resolve to Obsidian in `auto`, explicit overrides are ignored, or non-`markdown` documents receive active flavor behavior.
@@ -397,18 +421,18 @@ flavor/context state without requiring a custom Markdown language id.
 
 **Tag:** Extension.MarkdownStructuredProfiles.Configuration
 **User Req:** User.ExtensionFlavor.ConfigureStructuredProfiles
-**Gist:** The extension must configure structured Markdown profile flags separately from `flavorGrenade.markdownFlavor`.
+**Gist:** The extension must configure structured Markdown profile flags separately from the Markdown flavor selector.
 **Ambition:** Users should be able to keep the base Markdown flavor selector focused on Markdown dialects while applying Keep a Changelog, Common Changelog, or MADR as independent document-structure flags.
 **Scale:** Percentage of supported structured-profile settings and auto-detection contexts that produce correct resource-specific profile flags without expanding the Markdown flavor list.
 **Meter:**
 
-1. Inspect `package.json` and verify `flavorGrenade.markdownFlavor` still contains only `auto` plus required base flavor ids.
-2. Verify a separate `flavorGrenade.markdownStructuredProfiles` setting accepts `"auto"`, `"none"`, or a unique compatible array using `keep-a-changelog`, `common-changelog`, and `madr`.
+1. Inspect the selector and verify it still contains only `auto` plus required base flavor ids.
+2. Verify `.fgattributes` `structured_profiles` accepts `auto`, `none`, or a unique compatible list using `keep-a-changelog`, `common-changelog`, and `madr`.
 3. Open `CHANGELOG.md` fixtures for Keep a Changelog and Common Changelog under different base flavor settings and verify profile flags are inferred independently of base flavor.
 4. Open MADR fixtures under `docs/decisions/` and verify `madr` is inferred from path, filename, metadata, and headings.
-5. Verify every configured and project-config-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
-6. Verify explicit VS Code structured-profile settings override automatic inference and propagate to the server with the active document resource.
-7. Verify workspace-folder/workspace/user scope rules mirror `flavorGrenade.markdownFlavor`.
+5. Verify every configured and config-absent inference smoke-test workspace has colocated `structured/keep-a-changelog/CHANGELOG.md`, `structured/common-changelog/CHANGELOG.md`, and `structured/madr/docs/decisions/NNNN-*.md` examples under the same workspace as the base flavor or inference evidence.
+6. Verify explicit `.fgattributes` structured-profile values override automatic inference and propagate to the server with the active document resource.
+7. Verify selected-file and directory scope rules mirror `.fgattributes` `flavor`.
 8. Compute: (correct structured-profile extension outcomes / total structured-profile extension outcomes) x 100.
 **Fail:** Any structured profile appears as a base Markdown flavor choice, any explicit structured profile setting is ignored, or any inferred structured profile leaks across workspace folders or unrelated documents.
 **Goal:** 100% structured profile configuration correctness.

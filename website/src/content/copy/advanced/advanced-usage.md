@@ -16,7 +16,7 @@ These pages are for readers who need more than the happy path: Configuration mod
 
 Each article explains the boundary in plain English first, then gives a small example you can check in a vault.
 
-- [Configuration Model](/advanced-usage/configuration-model/) - Understand Auto Detect, TOML/JSON/JSONC/YAML/EditorConfig project config, VS Code settings, and direct-client configuration.
+- [Configuration Model](/advanced-usage/configuration-model/) - Understand Auto Detect, `.fgignore`, `.fgattributes`, VS Code extension behavior, and direct-client configuration.
 - [Vault Mode and Single-file Mode](/advanced-usage/vault-mode-and-single-file-mode/) - Compare vault-wide behavior with the CommonMark single-file fallback.
 - [Indexing and Performance](/advanced-usage/indexing-and-performance/) - Learn how scanning, parsing, ignore rules, watchers, and rebuilds affect vault features.
 - [Unsupported URI Schemes and Confinement](/advanced-usage/unsupported-uri-schemes-and-confinement/) - See how local file targets are separated from external URLs, app schemes, and outside paths.
@@ -25,7 +25,7 @@ Each article explains the boundary in plain English first, then gives a small ex
 
 ## Current behavior and planned behavior
 
-Current behavior is strongest in the VS Code extension and local language server. The extension ships a bundled JavaScript server module, opens local file-system workspaces, and sends the server the active Markdown flavor state. Auto Detect uses project configuration first, then vault markers, then syntax and context inference, then CommonMark fallback.
+Current behavior is strongest in the VS Code extension and local language server. The extension ships a bundled JavaScript server module, opens local file-system workspaces, writes selected file or directory flavor choices to `.fgattributes`, and refreshes when `.fgignore` or `.fgattributes` changes. Auto Detect runs independently when no concrete `.fgattributes` flavor applies, then uses Obsidian markers, strong syntax evidence, and CommonMark fallback.
 
 When a page describes direct LSP clients, read it as integration guidance. The server speaks LSP over stdio, but non-VS-Code clients still own launch, root selection, transport, configuration payloads, and file watching.
 

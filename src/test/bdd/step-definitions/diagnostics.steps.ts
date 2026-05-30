@@ -7,7 +7,7 @@ import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Diagnostics-specific steps ─────────────────────────────────────────────
 
-const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
 
 /**
  * Write a file where the heading's space after '#' is replaced with U+00A0 (non-breaking space).
@@ -20,10 +20,7 @@ Given(
     const nbspHeading = heading.replace(/^(#+) /, '$1\u00A0');
     this.writeVaultFile(relPath, nbspHeading);
     if (!this.singleFileMode) {
-      writeFileIfMissing(
-        path.join(this.vaultDir, '.flavor-grenade.toml'),
-        LEGACY_OFM_PROJECT_CONFIG,
-      );
+      writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
     }
   },
 );

@@ -18,17 +18,15 @@ aliases: ["TASK-304"]
 ## Description
 
 Send effective flavor changes to the server through
-`workspace/didChangeConfiguration` carrying `flavorGrenade.markdownFlavor` and
-resource-specific selected/effective flavor state, then trigger refresh for
-open Markdown documents.
+resource-specific selected/effective flavor state, then trigger refresh for open
+Markdown documents.
 
 ## Work Scope
 
-- Use `workspace/didChangeConfiguration` with `flavorGrenade.markdownFlavor`
-  and resource-specific selected/effective flavor state, matching the Phase 20
+- Use resource-specific selected/effective flavor state matching the Phase 20
   server contract.
 - Define and test the payload shape for multi-root, standalone, and multiple
-  open-document contexts. The payload must include the selected setting value
+  open-document contexts. The payload must include the selected value
   (`auto` or explicit flavor), the resolved effective flavor, the source, and a
   resource key such as document URI or workspace folder URI. `auto` must never
   be sent as the effective flavor.
@@ -43,8 +41,8 @@ open Markdown documents.
   changes.
 - Recompute and propagate affected open-document state after selector changes,
   workspace-folder changes, visible editor changes, file opens, server
-  readiness or membership changes, `.obsidian/` marker changes,
-  `.flavor-grenade.toml` appear/disappear/change events, and settings changes.
+  readiness or membership changes, `.obsidian/` marker changes, and
+  `.fgignore`/`.fgattributes` appear/disappear/change events.
 - Exclude open documents whose current VS Code language id is not `markdown`
   from flavor propagation and refresh.
 - Handle server unavailable state without losing selector state.
@@ -62,7 +60,7 @@ open Markdown documents.
 | Spec IDs | Test file | Expected coverage |
 |---|---|---|
 | `EXT-MF-U-009`, `EXT-MF-U-010` | `extension/src/markdown-flavor.test.ts` | Propagation call and refresh trigger behavior. |
-| `EXT-MF-U-009` | `extension/src/markdown-flavor.test.ts` | Parameterized `workspace/didChangeConfiguration` payloads for `flavorGrenade.markdownFlavor`, resource key, selected value, source, every required explicit flavor id, `auto` resolution, and standalone `original`. |
+| `EXT-MF-U-009` | `extension/src/markdown-flavor.test.ts` | Parameterized resource-specific payloads for resource key, selected value, source, every required explicit flavor id, `auto` resolution, and standalone `original`. |
 | `EXT-MF-U-011` | `extension/src/markdown-flavor.test.ts` | No propagation or reanalysis is sent for `.md` documents whose language id is `plaintext`, `mdx`, or another non-`markdown` value. |
 | `EXT-MF-I-004` | `extension/src/commands.test.ts` | Rebuild-index completion and other refresh triggers recompute effective flavor for open Markdown editors without leaking one resource's flavor to another. |
 | `EXT-MF-I-008` | `extension/src/markdown-flavor.test.ts` or `extension/src/commands.test.ts` | Client stub records exact resource-specific outbound payload shape for every required explicit flavor. |
@@ -70,8 +68,7 @@ open Markdown documents.
 
 ## Definition of Done
 
-- [x] Flavor changes notify the server through `workspace/didChangeConfiguration`
-      carrying `flavorGrenade.markdownFlavor` plus resource-specific selected,
+- [x] Flavor changes notify the server with resource-specific selected,
       effective, source, and resource-key data.
 - [x] Multi-root and standalone tests prove one document's override does not
       change another document's effective flavor.
@@ -80,9 +77,9 @@ open Markdown documents.
       propagate state.
 - [x] Every required explicit flavor id is covered by propagation tests.
 - [x] Standalone `original` is propagated and reanalyzed correctly.
-- [x] Open Markdown refresh path runs after selector, workspace-folder, visible
+- [x] Open Markdown refresh path runs after selector, `.fgattributes`, visible
       editor, file-open, server-readiness, membership, marker,
-      `.flavor-grenade.toml` appear/disappear/change, and settings changes.
+      and `.fgignore`/`.fgattributes` appear/disappear/change events.
 - [x] Integration coverage proves outbound payload shape and server-unavailable
       replay/recompute behavior.
 - [x] Non-`markdown` documents are excluded from refresh and propagation.

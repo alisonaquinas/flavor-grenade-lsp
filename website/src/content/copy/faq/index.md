@@ -24,7 +24,7 @@ Marksman is a general Markdown language server. Flavor Grenade focuses on flavor
 
 ## Does Obsidian have to be installed?
 
-No. Flavor Grenade reads Markdown files and project markers directly. An Obsidian vault can be detected through `.obsidian/`, and project config files such as `.flavor-grenade.toml`, `.flavor-grenade.jsonc`, or `.flavor-grenade.yaml` can make a non-Obsidian Markdown project explicit.
+No. Flavor Grenade reads Markdown files and project markers directly. An Obsidian vault can be detected through `.obsidian/`, and non-Obsidian Markdown projects can use `.fgattributes` for flavor rules or `.fgignore` for visibility rules.
 
 ## Does it edit my vault automatically?
 
@@ -32,7 +32,7 @@ No. Diagnostics, hovers, symbols, folds, semantic tokens, and completions do not
 
 ## Which Markdown flavors are supported?
 
-Flavor Grenade can work with `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`. Auto Detect resolves to one of those effective flavors from configuration, markers, syntax, context, or CommonMark fallback.
+Flavor Grenade can work with `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`. `.fgattributes` can pin one of those flavors, and Auto Detect resolves to one effective flavor from Obsidian markers, strong syntax evidence, or CommonMark fallback when no concrete rule applies.
 
 ## What are structured profiles?
 

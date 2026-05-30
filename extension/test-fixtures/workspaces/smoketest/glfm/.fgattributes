@@ -1,0 +1,2 @@
+notes/*.md flavor=glfm
+structured/**/*.md flavor=glfm

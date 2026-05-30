@@ -1,24 +1,23 @@
 import { Injectable, Optional } from '@nestjs/common';
+import { dirname } from 'node:path';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import {
-  MarkdownFlavorState,
-  type MarkdownFlavorConfiguration,
-} from '../../markdown-flavor/markdown-flavor-state.js';
+import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
 import { OFMParser } from '../../parser/ofm-parser.js';
 import { ParseCache } from '../../parser/parser.module.js';
 import { SingleFileModeGuard } from '../../vault/single-file-mode.js';
 import { toDocId } from '../../vault/doc-id.js';
 import { VaultDetector } from '../../vault/vault-detector.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
-import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import {
+  FlavorGrenadeConfigFiles,
+  type FgConfigResolution,
+} from '../../markdown-flavor/fg-config-files.js';
 import { DocumentStore } from '../services/document-store.js';
 import type { ParseContext } from '../../parser/types.js';
+import { InitializedHandler } from './initialized.handler.js';
 
 interface FlavorGrenadeSettings {
-  markdownFlavor?: unknown;
-  markdownFlavorResources?: unknown;
-  markdownStructuredProfiles?: unknown;
-  projectConfigMaxBytes?: unknown;
+  fgConfigMaxBytes?: unknown;
 }
 
 @Injectable()
@@ -30,7 +29,8 @@ export class ConfigurationHandler {
     private readonly parseCache: ParseCache,
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
-    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
+    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
+    @Optional() private readonly initializedHandler: InitializedHandler | null = null,
   ) {}
 
   async handle(params: unknown): Promise<void> {
@@ -42,34 +42,23 @@ export class ConfigurationHandler {
     if (!settings) {
       return;
     }
-    if (settings.projectConfigMaxBytes !== undefined) {
-      this.projectConfig?.setMaxProjectConfigBytes(settings.projectConfigMaxBytes);
+    if (settings.fgConfigMaxBytes !== undefined) {
+      this.fgConfigFiles?.setMaxConfigBytes(settings.fgConfigMaxBytes);
     }
-
-    const config: MarkdownFlavorConfiguration = {};
-    if (settings.markdownFlavor !== undefined) {
-      config.selection = settings.markdownFlavor as MarkdownFlavorConfiguration['selection'];
-    }
-    if (settings.markdownStructuredProfiles !== undefined) {
-      config.structuredProfileSelection =
-        settings.markdownStructuredProfiles as MarkdownFlavorConfiguration['structuredProfileSelection'];
-    }
-    if (settings.markdownFlavorResources !== undefined) {
-      if (isRecord(settings.markdownFlavorResources)) {
-        config.resources =
-          settings.markdownFlavorResources as MarkdownFlavorConfiguration['resources'];
-      }
-    }
-
-    const changed = this.flavorState.applyConfiguration(config, new Set(this.store.uris()));
-    if (changed) {
-      this.refreshOpenDocuments();
+    this.refreshOpenDocuments();
+    if (settings.fgConfigMaxBytes !== undefined) {
+      await this.initializedHandler?.handle({});
     }
   }
 
   private refreshOpenDocuments(): void {
     for (const doc of this.store.all()) {
       if (doc.languageId !== 'markdown') {
+        continue;
+      }
+      if (this.isIgnored(doc.uri)) {
+        this.parseCache.delete(doc.uri);
+        this.diagnosticService?.clearDiagnostics(doc.uri);
         continue;
       }
       const parsed = this.parser.parse(doc.uri, doc.getText(), doc.version, {
@@ -83,15 +72,13 @@ export class ConfigurationHandler {
   private resolveParseContext(doc: TextDocument): ParseContext {
     const fsPath = SingleFileModeGuard.uriToPath(doc.uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
+    const fgConfig = this.resolveFgConfig(detection.vaultRoot, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri: doc.uri,
       languageId: doc.languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
-      projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
-      projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
-        detection.vaultRoot,
-        fsPath,
-      ),
+      fgAttributesFlavor: fgConfig?.attributes.flavor,
+      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
       syntaxText: doc.getText(),
     });
     return result.kind === 'active'
@@ -117,6 +104,22 @@ export class ConfigurationHandler {
       doc,
       detection.vaultRoot,
     );
+  }
+
+  private isIgnored(uri: string): boolean {
+    if (this.fgConfigFiles === null) {
+      return false;
+    }
+    const fsPath = SingleFileModeGuard.uriToPath(uri);
+    const detection = this.vaultDetector.detectFresh(fsPath);
+    return this.resolveFgConfig(detection.vaultRoot, fsPath)?.ignored === true;
+  }
+
+  private resolveFgConfig(
+    vaultRoot: string | null,
+    fsPath: string,
+  ): FgConfigResolution | undefined {
+    return this.fgConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
   }
 }
 

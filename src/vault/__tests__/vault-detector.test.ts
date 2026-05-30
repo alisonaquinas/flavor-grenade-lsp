@@ -30,29 +30,43 @@ describe('VaultDetector', () => {
     expect(result.vaultRoot).toBe(path.join(FIXTURES, 'obsidian-vault'));
   });
 
-  it('detects flavor-grenade vault when .flavor-grenade.toml exists', () => {
-    const result = detector.detect(path.join(FIXTURES, 'flavor-grenade-vault'));
-    expect(result.mode).toBe('flavor-grenade');
-    expect(result.vaultRoot).toBe(path.join(FIXTURES, 'flavor-grenade-vault'));
+  it('detects flavor-grenade vaults from .fgignore and .fgattributes markers', () => {
+    for (const marker of ['.fgignore', '.fgattributes']) {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-config-marker-'));
+      try {
+        fs.writeFileSync(
+          path.join(root, marker),
+          marker === '.fgignore' ? 'private/\n' : '*.md flavor=gfm\n',
+        );
+        const result = new VaultDetector().detect(root);
+        expect(result.mode).toBe('flavor-grenade');
+        expect(result.vaultRoot).toBe(root);
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true });
+      }
+    }
   });
 
-  it('detects flavor-grenade vaults from JSON, JSONC, YAML, and editorconfig config markers', () => {
+  it('ignores legacy flavor config files as vault markers', () => {
     for (const marker of [
+      '.flavor-grenade.toml',
       '.flavor-grenade.json',
       '.flavor-grenade.jsonc',
       '.flavor-grenade.yaml',
       '.flavor-grenade.yml',
       '.editorconfig',
     ]) {
-      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-config-marker-'));
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-legacy-marker-'));
       try {
         fs.writeFileSync(
           path.join(root, marker),
-          marker === '.editorconfig' ? '[*.md]\nflavor_grenade_markdown_flavor = gfm\n' : '',
+          marker === '.editorconfig'
+            ? '[*.md]\nflavor_grenade_markdown_flavor = gfm\n'
+            : 'core.markdown.flavor = "gfm"\n',
         );
         const result = new VaultDetector().detect(root);
-        expect(result.mode).toBe('flavor-grenade');
-        expect(result.vaultRoot).toBe(root);
+        expect(result.mode).toBe('single-file');
+        expect(result.vaultRoot).toBeNull();
       } finally {
         fs.rmSync(root, { recursive: true, force: true });
       }
@@ -65,7 +79,6 @@ describe('VaultDetector', () => {
       path.join(tmpDir, '.editorconfig'),
       'root = true\n[*]\nindent_style = space\n',
     );
-
     const result = detector.detect(tmpDir);
 
     expect(result.mode).toBe('single-file');

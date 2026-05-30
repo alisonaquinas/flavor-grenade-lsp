@@ -205,7 +205,7 @@ close, and file-watcher events.
 The outcome of vault detection:
 
 - `obsidian`: a `.obsidian/` directory was found
-- `flavor-grenade`: a `.flavor-grenade.toml` file was found
+- `flavor-grenade`: a `.fgignore` or `.fgattributes` marker file was found
 - `single-file`: no vault marker was found
 
 Single-file mode keeps local parsing features available and suppresses

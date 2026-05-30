@@ -73,10 +73,14 @@ async function assertStructuredProfileExamples(workspaceRoot: string, fixtureNam
 describe('Markdown flavor smoketest fixture evidence', () => {
   const fixtureRoot = resolve('test-fixtures', 'workspaces', 'smoketest');
 
-  it('has one configured fixture workspace for every explicit supported flavor', async () => {
+  it('has one .fgattributes fixture workspace for every explicit supported flavor', async () => {
     for (const flavor of MARKDOWN_FLAVOR_IDS) {
-      const config = await stat(join(fixtureRoot, flavor, '.flavor-grenade.toml'));
-      assert.equal(config.isFile(), true, `${flavor} fixture should declare project config`);
+      const config = await stat(join(fixtureRoot, flavor, '.fgattributes'));
+      assert.equal(config.isFile(), true, `${flavor} fixture should declare .fgattributes`);
+      await assert.rejects(
+        stat(join(fixtureRoot, flavor, '.flavor-grenade.toml')),
+        `${flavor} fixture must not use legacy project config`,
+      );
     }
   });
 
@@ -86,11 +90,12 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     }
   });
 
-  it('detects each flavor from its project config marker', async () => {
+  it('detects each flavor from .fgattributes', async () => {
     for (const flavor of MARKDOWN_FLAVOR_IDS) {
-      const notePath = join(fixtureRoot, flavor, 'notes', 'sample.md');
+      const root = join(fixtureRoot, flavor);
+      const notePath = join(root, 'notes', 'sample.md');
       const sample = await readFile(notePath, 'utf8');
-      const evidence = await findMarkdownFlavorEvidence(notePath);
+      const evidence = await findMarkdownFlavorEvidence(notePath, { searchBoundary: root });
 
       assert.ok(sample.trim().length > 0, `${flavor} sample must not be empty`);
       assert.deepEqual(
@@ -98,15 +103,15 @@ describe('Markdown flavor smoketest fixture evidence', () => {
         {
           hasFlavorConfigMarker: true,
           hasObsidianMarker: false,
-          projectFlavor: flavor,
+          fgAttributesFlavor: flavor,
         },
-        `${flavor} fixture should resolve its declared project flavor`,
+        `${flavor} fixture should resolve its .fgattributes flavor`,
       );
 
       const resolution = resolveMarkdownFlavor({
         document: document(notePath),
         selected: 'auto',
-        projectFlavor: evidence.projectFlavor as MarkdownFlavorId,
+        fgAttributesFlavor: evidence.fgAttributesFlavor as MarkdownFlavorId,
         hasObsidianMarker: evidence.hasObsidianMarker,
       });
 
@@ -116,149 +121,173 @@ describe('Markdown flavor smoketest fixture evidence', () => {
           kind: 'active',
           selected: 'auto',
           effective: flavor,
-          source: 'project-config',
+          source: 'fgattributes',
           structuredProfiles: [],
           structuredProfileSource: 'structured-profile-inference',
         },
-        `${flavor} fixture should drive auto detection through project config`,
+        `${flavor} fixture should drive auto resolution through .fgattributes`,
       );
     }
   });
 
-  it('detects project config markers across TOML, JSON, JSONC, YAML, YML, and editorconfig', async () => {
-    const cases = [
+  it('applies root and nested .fgattributes cascades with reset attributes', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-cascade-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs', 'api'), { recursive: true });
+    await mkdir(join(root, 'docs', 'drafts'), { recursive: true });
+    await mkdir(join(root, 'docs', 'private'), { recursive: true });
+    await writeFile(
+      join(root, '.fgattributes'),
+      [
+        '*.md flavor=commonmark structured_profiles=keep-a-changelog',
+        'docs/**/*.md flavor=gfm structured_profiles=madr',
+        'docs/drafts/*.md !flavor !structured_profiles',
+        '!docs/private/*.md',
+      ].join('\n'),
+    );
+    await writeFile(join(root, 'docs', '.fgattributes'), '/api/*.md flavor=glfm');
+    const apiPath = join(root, 'docs', 'api', 'CHANGELOG.md');
+    const draftPath = join(root, 'docs', 'drafts', 'idea.md');
+    const privatePath = join(root, 'docs', 'private', 'notes.md');
+    await writeFile(apiPath, '# Changelog\n');
+    await writeFile(draftPath, '# Idea\n');
+    await writeFile(privatePath, '# Private\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(apiPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'glfm',
+      fgAttributesStructuredProfiles: ['madr'],
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(draftPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(privatePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+    });
+  });
+
+  it('limits negated .fgattributes selectors to rules in the same file', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-negated-selector-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs'), { recursive: true });
+    await writeFile(join(root, '.fgattributes'), '*.md flavor=commonmark\n');
+    await writeFile(join(root, 'docs', '.fgattributes'), '*.md flavor=gfm\n!private.md\n');
+    const privatePath = join(root, 'docs', 'private.md');
+    const guidePath = join(root, 'docs', 'guide.md');
+    await writeFile(privatePath, '# Private\n');
+    await writeFile(guidePath, '# Guide\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(guidePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(privatePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'commonmark',
+    });
+  });
+
+  it('supports character classes and escaped wildcard literals in .fgattributes patterns', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-patterns-'));
+    tempDirs.push(root);
+    const notePath = join(root, 'Note.md');
+    const draftPath = join(root, 'draft?.md');
+    await writeFile(join(root, '.fgattributes'), '[Nn]ote.md flavor=gfm\ndraft\\?.md flavor=pandoc\n');
+    await writeFile(notePath, '# Note\n');
+
+    const fakeRealpath = async (path: string) => resolve(path);
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(draftPath, {
+        realpathFn: fakeRealpath,
+        searchBoundary: root,
+      }),
+      {
+        hasFlavorConfigMarker: true,
+        hasObsidianMarker: false,
+        fgAttributesFlavor: 'pandoc',
+      },
+    );
+  });
+
+  it('applies .fgignore rules with negation before reporting .fgattributes evidence', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgignore-marker-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'drafts'), { recursive: true });
+    await writeFile(join(root, '.fgignore'), ['drafts/', '!drafts/keep.md'].join('\n'));
+    await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
+    const ignoredPath = join(root, 'drafts', 'idea.md');
+    const keptPath = join(root, 'drafts', 'keep.md');
+    const notePath = join(root, 'note.md');
+    await writeFile(ignoredPath, '# Idea\n');
+    await writeFile(keptPath, '# Keep\n');
+    await writeFile(notePath, '# Note\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(ignoredPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      ignored: true,
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(keptPath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+  });
+
+  it('does not treat legacy project config files as flavor evidence', async () => {
+    for (const [marker, content] of [
       ['.flavor-grenade.toml', '[core.markdown]\nflavor = "gfm"\n'],
       ['.flavor-grenade.json', '{"core":{"markdown":{"flavor":"glfm"}}}\n'],
       ['.flavor-grenade.jsonc', '// comment\n{"core":{"markdown":{"flavor":"pandoc"}}}\n'],
       ['.flavor-grenade.yaml', 'core:\n  markdown:\n    flavor: mdx\n'],
       ['.flavor-grenade.yml', 'core:\n  markdown:\n    flavor: kramdown\n'],
       ['.editorconfig', '[*.md]\nflavor_grenade_markdown_flavor = markdown-extra\n'],
-    ] as const;
-
-    for (const [marker, content] of cases) {
-      const root = await mkdtemp(join(tmpdir(), 'fg-config-marker-'));
+    ] as const) {
+      const root = await mkdtemp(join(tmpdir(), 'fg-legacy-config-'));
       tempDirs.push(root);
       await writeFile(join(root, marker), content);
       const notePath = join(root, 'notes.md');
       await writeFile(notePath, '# Note\n');
 
-      const evidence = await findMarkdownFlavorEvidence(notePath, { searchBoundary: root });
-      assert.equal(evidence.hasFlavorConfigMarker, true, `${marker} should be a config marker`);
-      assert.equal(typeof evidence.projectFlavor, 'string', `${marker} should parse flavor`);
+      assert.deepEqual(
+        await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }),
+        {
+          hasFlavorConfigMarker: false,
+          hasObsidianMarker: false,
+        },
+        `${marker} should not configure Markdown flavor`,
+      );
     }
   });
 
-  it('keeps TOML first and applies directory-specific config overrides', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'fg-config-overrides-'));
+  it('honors configured .fgattributes byte limits', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-byte-limit-'));
     tempDirs.push(root);
-    await mkdir(join(root, 'docs', 'api'), { recursive: true });
-    await writeFile(
-      join(root, '.flavor-grenade.toml'),
-      [
-        '[core.markdown]',
-        'flavor = "commonmark"',
-        '',
-        '[[core.markdown.overrides]]',
-        'path = "docs/api"',
-        'flavor = "glfm"',
-        'structured_profiles = ["common-changelog"]',
-      ].join('\n'),
-    );
-    await writeFile(
-      join(root, '.flavor-grenade.json'),
-      '{"core":{"markdown":{"flavor":"obsidian"}}}\n',
-    );
-    const notePath = join(root, 'docs', 'api', 'CHANGELOG.md');
-    await writeFile(notePath, '# Changelog\n');
-
-    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
-      hasFlavorConfigMarker: true,
-      hasObsidianMarker: false,
-      projectFlavor: 'glfm',
-      projectStructuredProfiles: ['common-changelog'],
-    });
-  });
-
-  it('reads camelCase structured profiles from JSON project config', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'fg-json-camel-profiles-'));
-    tempDirs.push(root);
-    await mkdir(join(root, 'docs', 'decisions'), { recursive: true });
-    await writeFile(
-      join(root, '.flavor-grenade.json'),
-      JSON.stringify({
-        core: {
-          markdown: {
-            flavor: 'commonmark',
-            structuredProfiles: ['keep-a-changelog'],
-            overrides: [
-              {
-                path: 'docs/decisions',
-                flavor: 'gfm',
-                structuredProfiles: ['madr'],
-              },
-            ],
-          },
-        },
-      }),
-    );
-    const notePath = join(root, 'docs', 'decisions', '0001-test.md');
-    await writeFile(notePath, '# Decision\n');
-
-    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
-      hasFlavorConfigMarker: true,
-      hasObsidianMarker: false,
-      projectFlavor: 'gfm',
-      projectStructuredProfiles: ['madr'],
-    });
-  });
-
-  it('matches JSON override globs exactly instead of as directory prefixes', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'fg-json-glob-override-'));
-    tempDirs.push(root);
-    await mkdir(join(root, 'docs', 'sub'), { recursive: true });
-    await writeFile(
-      join(root, '.flavor-grenade.json'),
-      JSON.stringify({
-        core: {
-          markdown: {
-            flavor: 'commonmark',
-            structuredProfiles: ['keep-a-changelog'],
-            overrides: [{ path: 'docs/*.md', flavor: 'gfm', structuredProfiles: ['madr'] }],
-          },
-        },
-      }),
-    );
-    const directPath = join(root, 'docs', 'page.md');
-    const nestedPath = join(root, 'docs', 'sub', 'page.md');
-    await writeFile(directPath, '# Direct\n');
-    await writeFile(nestedPath, '# Nested\n');
-
-    assert.deepEqual(await findMarkdownFlavorEvidence(directPath, { searchBoundary: root }), {
-      hasFlavorConfigMarker: true,
-      hasObsidianMarker: false,
-      projectFlavor: 'gfm',
-      projectStructuredProfiles: ['madr'],
-    });
-    assert.deepEqual(await findMarkdownFlavorEvidence(nestedPath, { searchBoundary: root }), {
-      hasFlavorConfigMarker: true,
-      hasObsidianMarker: false,
-      projectFlavor: 'commonmark',
-      projectStructuredProfiles: ['keep-a-changelog'],
-    });
-  });
-
-  it('honors configured project config byte limits', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'fg-config-byte-limit-'));
-    tempDirs.push(root);
-    const config = '{"core":{"markdown":{"flavor":"gfm"}}}\n';
-    await writeFile(join(root, '.flavor-grenade.json'), config);
+    const config = '*.md flavor=gfm\n';
+    await writeFile(join(root, '.fgattributes'), config);
     const notePath = join(root, 'note.md');
     await writeFile(notePath, '# Note\n');
 
     assert.deepEqual(
       await findMarkdownFlavorEvidence(notePath, {
         searchBoundary: root,
-        projectConfigMaxBytes: Buffer.byteLength(config, 'utf8') - 1,
+        fgConfigMaxBytes: Buffer.byteLength(config, 'utf8') - 1,
       }),
       {
         hasFlavorConfigMarker: true,
@@ -268,17 +297,17 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     assert.deepEqual(
       await findMarkdownFlavorEvidence(notePath, {
         searchBoundary: root,
-        projectConfigMaxBytes: Buffer.byteLength(config, 'utf8'),
+        fgConfigMaxBytes: Buffer.byteLength(config, 'utf8'),
       }),
       {
         hasFlavorConfigMarker: true,
         hasObsidianMarker: false,
-        projectFlavor: 'gfm',
+        fgAttributesFlavor: 'gfm',
       },
     );
   });
 
-  it('has inference-only fixtures without project config markers', async () => {
+  it('has inference-only fixtures without config markers', async () => {
     const inferenceRoot = join(fixtureRoot, 'inference');
     const entries = await readdir(inferenceRoot, { withFileTypes: true });
     const fixtureNames = entries
@@ -294,18 +323,18 @@ describe('Markdown flavor smoketest fixture evidence', () => {
       assert.ok(sample.trim().length > 0, `${fixture} inference sample must not be empty`);
       await assertStructuredProfileExamples(join(inferenceRoot, fixture), fixture);
       await assert.rejects(
-        stat(join(inferenceRoot, fixture, '.flavor-grenade.toml')),
-        `${fixture} inference fixture must not declare project config`,
+        stat(join(inferenceRoot, fixture, '.fgattributes')),
+        `${fixture} inference fixture must not declare .fgattributes`,
       );
     }
   });
 
-  it('does not inherit project markers from outside the active workspace boundary', async () => {
+  it('does not inherit markers from outside the active workspace boundary', async () => {
     const parent = await mkdtemp(join(tmpdir(), 'fg-parent-marker-'));
     tempDirs.push(parent);
     const workspaceRoot = join(parent, 'smoketest');
     await mkdir(workspaceRoot);
-    await writeFile(join(parent, '.flavor-grenade.toml'), 'core.markdown.flavor = "obsidian"\n');
+    await writeFile(join(parent, '.fgattributes'), '*.md flavor=obsidian\n');
     const readmePath = join(workspaceRoot, 'README.md');
     await writeFile(readmePath, '# Smoketest root\n');
 
@@ -325,7 +354,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     const outsideRoot = join(parent, 'outside');
     await mkdir(workspaceRoot);
     await mkdir(outsideRoot);
-    await writeFile(join(outsideRoot, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+    await writeFile(join(outsideRoot, '.fgattributes'), '*.md flavor=gfm\n');
     const notePath = join(outsideRoot, 'note.md');
     await writeFile(notePath, '# Outside\n');
 
@@ -343,7 +372,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     const outsideRoot = join(parent, 'outside');
     await mkdir(linkedRoot, { recursive: true });
     await mkdir(outsideRoot);
-    await writeFile(join(linkedRoot, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+    await writeFile(join(linkedRoot, '.fgattributes'), '*.md flavor=gfm\n');
     const notePath = join(linkedRoot, 'note.md');
     await writeFile(notePath, '# Linked\n');
 
@@ -367,45 +396,59 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     );
   });
 
-  it('reads flavor config from an Obsidian vault root without losing the Obsidian marker', async () => {
+  it('rejects config-file realpaths outside the supplied workspace boundary', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-config-symlink-boundary-'));
+    tempDirs.push(root);
+    const notePath = join(root, 'note.md');
+    const escapedRoot = join(tmpdir(), 'fg-config-outside');
+    await writeFile(notePath, '# Note\n');
+
+    const fakeRealpath = async (path: string) => {
+      const resolved = resolve(path);
+      return resolved.endsWith('.fgattributes')
+        ? join(escapedRoot, '.fgattributes')
+        : resolved;
+    };
+
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(notePath, {
+        readFileFn: async () => '*.md flavor=gfm\n',
+        realpathFn: fakeRealpath,
+        searchBoundary: root,
+      }),
+      {
+        hasFlavorConfigMarker: false,
+        hasObsidianMarker: false,
+      },
+    );
+  });
+
+  it('reads .fgattributes from an Obsidian vault root without losing the marker', async () => {
     const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-config-'));
     tempDirs.push(root);
     await mkdir(join(root, '.obsidian'));
     await mkdir(join(root, 'notes'));
-    await writeFile(
-      join(root, '.flavor-grenade.toml'),
-      [
-        '[core.markdown]',
-        'flavor = "obsidian"',
-        'structured_profiles = [',
-        '  "madr",',
-        ']',
-      ].join('\n'),
-    );
+    await writeFile(join(root, '.fgattributes'), '*.md flavor=obsidian structured_profiles=madr\n');
     const notePath = join(root, 'notes', 'welcome.md');
     await writeFile(notePath, '# Welcome\n');
 
     assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
       hasFlavorConfigMarker: true,
       hasObsidianMarker: true,
-      projectFlavor: 'obsidian',
-      projectStructuredProfiles: ['madr'],
+      fgAttributesFlavor: 'obsidian',
+      fgAttributesStructuredProfiles: ['madr'],
     });
   });
 
-  it('continues past a nested Obsidian marker to honor workspace project config precedence', async () => {
+  it('continues past a nested Obsidian marker to honor workspace .fgattributes', async () => {
     const root = await mkdtemp(join(tmpdir(), 'fg-obsidian-parent-config-'));
     tempDirs.push(root);
     const vaultRoot = join(root, 'vault');
     await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
     await mkdir(join(vaultRoot, 'notes'));
     await writeFile(
-      join(root, '.flavor-grenade.toml'),
-      [
-        '[core.markdown]',
-        'flavor = "gfm"',
-        'structured_profiles = ["keep-a-changelog"]',
-      ].join('\n'),
+      join(root, '.fgattributes'),
+      '*.md flavor=gfm structured_profiles=keep-a-changelog\n',
     );
     const notePath = join(vaultRoot, 'notes', 'welcome.md');
     await writeFile(notePath, '# Welcome\n');
@@ -413,8 +456,8 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
       hasFlavorConfigMarker: true,
       hasObsidianMarker: true,
-      projectFlavor: 'gfm',
-      projectStructuredProfiles: ['keep-a-changelog'],
+      fgAttributesFlavor: 'gfm',
+      fgAttributesStructuredProfiles: ['keep-a-changelog'],
     });
   });
 
@@ -424,14 +467,7 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     const vaultRoot = join(root, 'vault');
     await mkdir(join(vaultRoot, '.obsidian'), { recursive: true });
     await mkdir(join(vaultRoot, 'notes'));
-    await writeFile(
-      join(root, '.flavor-grenade.toml'),
-      [
-        '[core.markdown]',
-        'flavor = "gfm"',
-        'structured_profiles = ["keep-a-changelog"]',
-      ].join('\n'),
-    );
+    await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
     const notePath = join(vaultRoot, 'notes', 'welcome.md');
     await writeFile(notePath, '# Welcome\n');
 

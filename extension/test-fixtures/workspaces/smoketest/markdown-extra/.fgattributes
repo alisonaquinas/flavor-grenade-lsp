@@ -1,0 +1,2 @@
+notes/*.md flavor=markdown-extra
+structured/**/*.md flavor=markdown-extra

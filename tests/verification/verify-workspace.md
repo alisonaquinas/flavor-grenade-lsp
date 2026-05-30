@@ -15,7 +15,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 | Planguage Tag | Gist | Phase |
 |---|---|---|
 | `Workspace.VaultDetection.Primary` | Directories with `.obsidian/` are automatically detected and indexed | Phase 1 |
-| `Workspace.VaultDetection.Fallback` | Directories with `.flavor-grenade.toml` (no `.obsidian/`) are detected as vault roots | Phase 1 |
+| `Workspace.VaultDetection.Fallback` | Directories with `.fgignore` or `.fgattributes` (no `.obsidian/`) are detected as vault roots | Phase 1 |
 | `Workspace.FileExtension.Filter` | Only configured-extension files enter VaultIndex; all others are silently ignored | Phase 1 |
 | `Workspace.MultiFolder.Isolation` | Link resolution never crosses vault root boundaries in a multi-root session | Phase 1 |
 
@@ -62,38 +62,40 @@ And the capability "flavorGrenade.crossFileLinks" is active for all 5 detected v
 ### TC-VER-WS-002 — Workspace.VaultDetection.Fallback
 
 **Planguage Tag:** `Workspace.VaultDetection.Fallback`
-**Gist:** A directory containing `.flavor-grenade.toml` but no `.obsidian/` must be detected as a vault root; when both markers coexist, `.obsidian/` takes precedence.
+**Gist:** A directory containing `.fgignore` or `.fgattributes` but no `.obsidian/` must be detected as a vault root; when markers coexist, `.obsidian/` takes precedence.
 **Type:** Both
-**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .flavor-grenade.toml when no .obsidian/ present`; \[\[bdd/features/vault-detection]] — `.flavor-grenade.toml found — vault mode active with full features` and `Both .obsidian/ and .flavor-grenade.toml present — obsidian takes precedence`
+**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .fgignore or .fgattributes when no .obsidian/ present`; \[\[bdd/features/vault-detection]] — `.fgattributes found — vault mode active with full features` and `Both .obsidian/ and .fgattributes present — obsidian takes precedence`
 **Phase:** Phase 1
 
-**Setup:** Create 3 directories each containing `.flavor-grenade.toml` and at least 3 `.md` files, with no `.obsidian/` present. Create a fourth directory containing both `.obsidian/` and `.flavor-grenade.toml`. Start the server with all 4 directories as workspace roots.
+**Setup:** Create directories containing `.fgignore` and `.fgattributes` markers and at least 3 `.md` files, with no `.obsidian/` present. Create a third directory containing both `.obsidian/` and `.fgattributes`. Start the server with all 3 directories as workspace roots.
 
 **Scripted steps:**
 
 ```gherkin
-Given 3 directories each containing ".flavor-grenade.toml" and 3 markdown files with no ".obsidian/" present
-And 1 directory containing both ".obsidian/" and ".flavor-grenade.toml" and 3 markdown files
-When the LSP server initializes with a workspace root containing all 4 directories
+Given 1 directory containing ".fgignore" and 3 markdown files with no ".obsidian/" present
+And 1 directory containing ".fgattributes" and 3 markdown files with no ".obsidian/" present
+And 1 directory containing both ".obsidian/" and ".fgattributes" and 3 markdown files
+When the LSP server initializes with a workspace root containing all 3 directories
 And the server completes initial indexing
-Then the VaultDetector reports vaultMode = "flavor-grenade" for the 3 toml-only directories
-And cross-file features are active in all 3 toml-only directories
+Then the VaultDetector reports vaultMode = "flavor-grenade" for the 2 marker-only directories
+And cross-file features are active in both marker-only directories
 And the VaultDetector reports vaultMode = "obsidian" for the dual-marker directory
 And the VaultDetector preference log records "obsidian marker takes precedence" for the dual-marker directory
 ```
 
 **Agent-driven steps:**
 
-1. Create `fg-01/`, `fg-02/`, `fg-03/`, each with `.flavor-grenade.toml` (minimal valid TOML: `[vault]`) and three `.md` files. Confirm no `.obsidian/` exists in any.
-2. Create `dual/` containing both `.obsidian/` (as a directory) and `.flavor-grenade.toml`, plus three `.md` files.
-3. Start the LSP server. Wait for indexing to complete.
-4. Verify `fg-01`, `fg-02`, `fg-03` each appear in the server's vault-root list with mode `flavor-grenade`.
-5. Verify `dual` appears in the vault-root list with mode `obsidian`, not `flavor-grenade`.
-6. Check the server log for the precedence message on `dual`.
-7. Compute: (3 toml-only detected / 3 toml-only directories) = 100%.
+1. Create `fg-ignore/` with `.fgignore` and three `.md` files. Confirm no `.obsidian/` exists.
+2. Create `fg-attributes/` with `.fgattributes` and three `.md` files. Confirm no `.obsidian/` exists.
+3. Create `dual/` containing both `.obsidian/` (as a directory) and `.fgattributes`, plus three `.md` files.
+4. Start the LSP server. Wait for indexing to complete.
+5. Verify `fg-ignore` and `fg-attributes` each appear in the server's vault-root list with mode `flavor-grenade`.
+6. Verify `dual` appears in the vault-root list with mode `obsidian`, not `flavor-grenade`.
+7. Check the server log for the precedence message on `dual`.
+8. Compute: (2 marker-only detected / 2 marker-only directories) = 100%.
 
-**Pass criterion:** 100% of `.flavor-grenade.toml`-only directories detected as vault roots; the dual-marker directory is reported as `obsidian` mode.
-**Fail criterion:** Any `.flavor-grenade.toml`-only directory not detected; the dual-marker directory reported as `flavor-grenade` instead of `obsidian`.
+**Pass criterion:** 100% of marker-only directories detected as vault roots; the dual-marker directory is reported as `obsidian` mode.
+**Fail criterion:** Any marker-only directory not detected; the dual-marker directory reported as `flavor-grenade` instead of `obsidian`.
 
 ---
 
@@ -102,7 +104,7 @@ And the VaultDetector preference log records "obsidian marker takes precedence" 
 **Planguage Tag:** `Workspace.FileExtension.Filter`
 **Gist:** Only files whose extension appears in the configured extensions list (default `["md"]`) must be included in the VaultIndex; all other files are silently ignored with no warnings emitted.
 **Type:** Both
-**BDD Reference:** [[docs/requirements/workspace]] — `Non-.md files are ignored with default extension filter`; \[\[bdd/features/vault-detection]] — `.flavor-grenade.toml configures custom extension list`
+**BDD Reference:** [[docs/requirements/workspace]] — `Non-.md files are ignored with default extension filter`; \[\[bdd/features/vault-detection]] — extension configuration updates custom extension list
 **Phase:** Phase 1
 
 **Setup:** Create a vault containing exactly 10 `.md` files, 3 `.png` files, 3 `.pdf` files, 2 `.txt` files, and 2 `.mdx` files. Start the server with default extension configuration (`["md"]`). Then reconfigure to `["md", "mdx"]` and restart.
@@ -127,7 +129,7 @@ And the document index still does NOT contain any ".txt", ".png", or ".pdf" entr
 2. Start the server with default config (no explicit extension override, so `["md"]` applies).
 3. Query the server for all indexed document URIs; assert every URI ends in `.md`.
 4. Grep the server log for any `WARN` or `ERROR` entries mentioning `.png`, `.pdf`, `.txt`, or `.mdx`; assert zero matches.
-5. Write a `.flavor-grenade.toml` with `[vault]\nextensions = [".md", ".mdx"]` and restart the server.
+5. Apply the supported server extension configuration for `["md", "mdx"]` and restart the server.
 6. Re-query indexed URIs; assert `.md` and `.mdx` files appear, `.txt` files do not.
 7. Compute: (20 non-configured-extension files with zero index entries and zero warnings / 20) = 100% for step 3 run.
 

@@ -14,7 +14,7 @@ Flavor Grenade LSP helps editors and agents understand Markdown flavor, project 
 
 Use it when Markdown is more than plain text: a workspace may contain Obsidian notes, GitHub documentation, CommonMark READMEs, MDX pages, changelogs, and MADR decision records. Flavor Grenade turns those relationships into editor features like detection, completion, navigation, references, hovers, document symbols, folds, semantic tokens, rename, code actions, and broken-link warnings.
 
-Auto Detect uses explicit project configuration first, then vault markers, syntax, and path context. When there is no strong signal, generic Markdown falls back to CommonMark instead of being treated as Obsidian content.
+`.fgattributes` can pin flavor or structured-profile rules, `.fgignore` hides files from processing, and Auto Detect runs whenever no concrete flavor rule applies. When there is no strong signal, generic Markdown falls back to CommonMark instead of being treated as Obsidian content.
 
 ## Install paths
 

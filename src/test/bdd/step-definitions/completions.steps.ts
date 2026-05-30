@@ -7,7 +7,7 @@ import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── completions.feature step definitions ──────────────────────────────────
 
-const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
 
 // ── Background: vault with 10 documents and 5 tags ────────────────────────
 
@@ -19,7 +19,7 @@ const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
  * - Each heading becomes a `# heading` (first) or `## heading` (rest)
  * - Each anchor becomes `Body text ^anchor` in the body
  * - Each tag becomes `#tag` in the body
- * Also writes .flavor-grenade.toml marker.
+ * Also writes a .fgattributes marker.
  */
 Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTable: DataTable) {
   if (!this.vaultDir) this.createVaultDir();
@@ -72,7 +72,7 @@ Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTabl
   }
 
   // Ensure vault marker
-  writeFileIfMissing(path.join(this.vaultDir, '.flavor-grenade.toml'), LEGACY_OFM_PROJECT_CONFIG);
+  writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
 });
 
 // ── When: completion request ───────────────────────────────────────────────

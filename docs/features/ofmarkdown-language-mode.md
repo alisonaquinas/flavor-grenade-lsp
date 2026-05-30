@@ -28,7 +28,9 @@ When a user opens a Markdown document in VS Code:
 | Document context | VS Code language mode | Default flavor behavior |
 |---|---|---|
 | Inside a directory with `.obsidian/` | `markdown` | `Auto Detect` resolves to `Obsidian` |
-| Inside a Flavor Grenade workspace with explicit flavor config | `markdown` | `Auto Detect` resolves from project config |
+| Matched by `.fgattributes` | `markdown` | Explicit flavor resolves from the matching attribute |
+| Matched by `.fgignore` | `markdown` | Flavor Grenade is inactive; the file is not processed or indexed |
+| No `.fgignore` or `.fgattributes` applies | `markdown` | `Auto Detect` applies to the directory tree |
 | Generic Markdown outside any vault/config | `markdown` | `Auto Detect` resolves to `CommonMark` |
 | User manually selected another language id | user-selected mode | Flavor selector is inactive for that document |
 
@@ -40,7 +42,7 @@ Required selector choices:
 
 | Selector label | Flavor id | Meaning |
 |---|---|---|
-| Auto Detect | `auto` | Infer the effective flavor from vault/config/context signals. |
+| Auto Detect | `auto` | Run the Auto Detect workflow from Obsidian vault evidence, syntax signals, and CommonMark fallback. |
 | Original Markdown | `original` | Interpret source using the historical Gruber Markdown baseline where supported. |
 | CommonMark | `commonmark` | Interpret source using CommonMark semantics where supported. |
 | Obsidian | `obsidian` | Interpret source using Obsidian Flavored Markdown semantics. |
@@ -116,21 +118,22 @@ Clicking the selector opens a quick-pick menu:
 13. Reddit Markdown
 14. Stack Overflow Markdown
 
-Selecting an item changes Flavor Grenade's effective flavor state. It must not
-call `vscode.languages.setTextDocumentLanguage` and must not use the VS Code
-language picker.
+Selecting an item opens a second quick-pick for scope:
+
+1. Selected file
+2. All Markdown files in this directory
+
+The extension writes or updates `.fgattributes` in the active file's directory
+for the selected scope. It must not call
+`vscode.languages.setTextDocumentLanguage` and must not use the VS Code language
+picker.
 
 ## Configuration Model
 
-The selector writes a single setting:
+Persistent file and directory flavor configuration is stored only in
+`.fgattributes`. File visibility is stored only in `.fgignore`.
 
-```json
-{
-  "flavorGrenade.markdownFlavor": "auto"
-}
-```
-
-Allowed values:
+Allowed flavor values:
 
 ```typescript
 type MarkdownFlavor =
@@ -150,17 +153,27 @@ type MarkdownFlavor =
   | 'stack-overflow';
 ```
 
-Persistence rules:
+`.fgattributes` examples:
+
+```gitattributes
+*.md flavor=commonmark
+docs/**/*.md flavor=gfm structured_profiles=keep-a-changelog
+notes/**/*.md flavor=obsidian
+drafts/**/*.md !flavor !structured_profiles
+```
+
+Selector persistence rules:
 
 | Context | Override target |
 |---|---|
-| A workspace folder is open and owns the active Markdown file | Workspace-folder or workspace setting |
-| Multiple workspace folders are open | The active file's owning workspace folder |
-| Only a standalone Markdown file is open | User setting |
+| Selected file | `.fgattributes` rule for the active file name |
+| All files in the directory | `.fgattributes` rule for `/*.md` in the active file's directory |
+| Multiple workspace folders are open | The `.fgattributes` file in the active file's own directory |
+| Only a standalone Markdown file is open | `.fgattributes` beside that standalone file |
 | Active document is not `markdown` | No flavor override is written for that document |
 
-Choosing `Auto Detect` clears or resets the override at the same scope where an
-explicit override would be stored.
+Choosing `Auto Detect` clears or resets the matching `flavor` attribute at the
+same scope where an explicit override would be stored.
 
 ## Detection Signals
 
@@ -171,13 +184,18 @@ multi-root behavior, and resource-specific propagation.
 
 Flavor detection uses positive signals:
 
-1. `.obsidian/` ancestor: effective flavor `obsidian`.
-2. Project config: effective flavor from `.flavor-grenade.toml` or VS Code workspace setting when present.
-3. Server membership: server can confirm a document belongs to a Flavor Grenade vault/index.
-4. No vault/config signal: effective flavor `commonmark`.
+1. `.fgignore`: matching files are inactive and stop here.
+2. `.fgattributes`: explicit `flavor` attribute when present.
+3. `.obsidian/` ancestor: Auto Detect resolves to `obsidian`.
+4. Syntax evidence: Auto Detect can select a stronger non-Obsidian flavor when syntax clearly identifies it.
+5. No vault/config signal: effective flavor `commonmark`.
 
-The extension may still ask the server for membership, but membership no longer
-causes a VS Code language id change.
+If no `.fgignore` or `.fgattributes` file exists for a directory and its
+subdirectories, Auto Detect covers that whole subtree by default.
+
+The extension may still ask the server for status and indexed-file state, but
+server membership is not a flavor-selection input and does not cause a VS Code
+language id change.
 
 ## Server Propagation
 
@@ -188,8 +206,10 @@ behavior is:
 
 - open documents are analyzed with the current effective flavor;
 - changing the selector refreshes diagnostics and feature behavior;
-- folder overrides apply to every Markdown document in that folder scope;
-- user overrides apply only when no workspace folder owns the document.
+- `.fgignore` changes remove or restore documents from analysis and indexing;
+- `.fgattributes` changes refresh every affected Markdown document;
+- file and directory scoped overrides are derived from `.fgattributes`, not VS
+  Code settings.
 
 ## LanguageClient Selector
 
@@ -217,15 +237,17 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 - A separate Markdown flavor selector is visible for Markdown documents.
 - Selector choices cover every required researched flavor: Original Markdown, CommonMark, Obsidian, GFM, GLFM, Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 - Auto detection still resolves Obsidian vault files as Obsidian.
-- Explicit overrides persist to project settings when a folder is open.
-- Explicit overrides persist to user settings for standalone-file context.
+- Explicit overrides persist to `.fgattributes` at selected-file or directory scope.
+- `.fgignore` removes matching files from all Flavor Grenade processing and indexing.
 - Flavor changes propagate to server analysis.
 - Manual non-Markdown language selections are preserved.
 
 ## Related
 
+- [[docs/features/markdown-flavor-config-files]]
 - [[docs/features/markdown-flavor-feature-sets]]
 - [[docs/design/markdown-flavor-auto-detection]]
+- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]]
 - [[docs/adr/ADR020-markdown-flavor-selection]]
 - [[docs/adr/ADR016-ofmarkdown-language-mode]]
 - [[docs/requirements/functional/ofmarkdown-language-mode]]

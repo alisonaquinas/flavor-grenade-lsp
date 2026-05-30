@@ -20,9 +20,36 @@ Required explicit flavors: `original`, `commonmark`, `obsidian`, `gfm`, `glfm`,
 `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`,
 `reddit`, and `stack-overflow`.
 
+Persistent file and directory flavor assignment is provided by `.fgattributes`.
+File visibility is provided by `.fgignore`. Files ignored by `.fgignore` are
+outside server analysis scope.
+
 Structured profiles are separate flags, not required explicit flavors. Keep a
 Changelog, Common Changelog, and MADR may be layered onto any required explicit
 flavor through [[docs/design/markdown-structured-profile-flags]].
+
+---
+
+## FlavorLSP.ConfigFiles.VisibilityAndAttributes
+
+**Tag:** FlavorLSP.ConfigFiles.VisibilityAndAttributes
+**User Req:** User.Extension.TrustFlavorBehavior
+**Gist:** The server must resolve `.fgignore` and `.fgattributes` before parsing or indexing a Markdown file.
+**Ambition:** Flavor configuration should be deterministic and shared by every editor client. Ignored files must not leak into `VaultIndex`, `RefGraph`, diagnostics, completion, navigation, semantic tokens, hover, or rename. Attributed files must parse under the configured flavor before any language feature runs.
+**Scale:** Percentage of config-file fixtures whose visibility and effective flavor match the Git-style cascade.
+**Meter:**
+
+1. Create fixture vaults with root and nested `.fgignore` and `.fgattributes` files.
+2. Cover anchored patterns, unanchored patterns, directory patterns, `*`, `?`, character classes, `**`, comments, escaped comment/negation characters, later-rule precedence, nested-file precedence, and negation.
+3. Verify ignored Markdown files are not parsed, indexed, diagnosed, completed, navigated, semantically tokenized, hovered, renamed, or used as reference targets.
+4. Verify visible files receive the expected `EffectiveMarkdownContext` from `.fgattributes`.
+5. Verify invalid patterns or values are isolated to their line and do not crash the server.
+6. Compute: (correct config-file outcomes / total config-file outcomes) x 100.
+**Fail:** Any ignored file enters server analysis, any attributed file uses the wrong flavor, or any invalid config line crashes the server.
+**Goal:** 100% config-file resolution correctness.
+**Stakeholders:** Markdown authors, vault authors, server maintainers.
+**Owner:** flavor-grenade-lsp contributors.
+**Source:** [[docs/features/markdown-flavor-config-files]], [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]], [[docs/design/markdown-flavor-auto-detection]].
 
 ---
 

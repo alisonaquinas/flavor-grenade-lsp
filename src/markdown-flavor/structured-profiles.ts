@@ -9,8 +9,7 @@ export type StructuredProfileSelection = 'auto' | 'none' | readonly StructuredMa
 
 export type StructuredProfileResolutionSource =
   | 'explicit-selection'
-  | 'project-config'
-  | 'project-toml'
+  | 'fgattributes'
   | 'structured-profile-inference'
   | 'none';
 
@@ -51,7 +50,7 @@ export function isValidStructuredProfileList(
 
 export function resolveStructuredProfiles(input: {
   selection?: StructuredProfileSelection;
-  projectSelection?: StructuredProfileSelection;
+  fgAttributesSelection?: StructuredProfileSelection;
   uri: string;
   syntaxText?: string;
 }): {
@@ -68,13 +67,13 @@ export function resolveStructuredProfiles(input: {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
 
-  if (Array.isArray(input.projectSelection)) {
+  if (Array.isArray(input.fgAttributesSelection)) {
     return {
-      structuredProfiles: input.projectSelection,
-      structuredProfileSource: 'project-config',
+      structuredProfiles: input.fgAttributesSelection,
+      structuredProfileSource: 'fgattributes',
     };
   }
-  if (input.projectSelection === 'none') {
+  if (input.fgAttributesSelection === 'none') {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
 

@@ -170,21 +170,21 @@ describe('language mode helpers', () => {
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('detects a Flavor Grenade project config ancestor', async () => {
+    it('detects a Flavor Grenade config-file ancestor', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.flavor-grenade.jsonc'), '// marker\n{}\n');
+        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
         const note = join(root, 'notes', 'welcome.md');
 
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('uses project flavor config as local effective flavor evidence', async () => {
+    it('uses .fgattributes as local effective flavor evidence', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.flavor-grenade.toml'), 'core.markdown.flavor = "gfm"\n');
+        await writeFile(join(root, '.fgattributes'), 'notes/*.md flavor=gfm\n');
         const doc = document(join(root, 'notes', 'welcome.md'));
         const { controller, notifications } = controllerFor({ documents: [doc] });
 
@@ -195,29 +195,36 @@ describe('language mode helpers', () => {
                 method: 'workspace/didChangeConfiguration',
                 params: {
                     settings: {
-                        flavorGrenade: {
-                            markdownFlavor: 'auto',
-                            markdownStructuredProfiles: 'auto',
-                            markdownFlavorResources: {
-                                [doc.uri.toString()]: {
-                                    selected: 'auto',
-                                    effective: 'gfm',
-                                    source: 'project-config',
-                                    structuredProfiles: [],
-                                    structuredProfileSource: 'structured-profile-inference',
-                                },
-                            },
-                        },
+                        flavorGrenade: {},
                     },
                 },
             },
         ]);
     });
+
+    it('keeps .fgignored Markdown inactive during local refresh', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, 'drafts'), { recursive: true });
+        await writeFile(join(root, '.fgignore'), 'drafts/\n');
+        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
+        const doc = document(join(root, 'drafts', 'idea.md'));
+        const { controller, notifications, requests } = controllerFor({ documents: [doc] });
+
+        await controller.maybePromote(doc as never);
+
+        assert.deepEqual(notifications, []);
+        assert.deepEqual(requests, []);
+        assert.deepEqual(await controller.resolveMarkdownFlavorForDocument(doc as never), {
+            kind: 'inactive',
+            reason: 'fgignore',
+        });
+    });
 });
 
 describe('LanguageModeController', () => {
     it('preserves Markdown language id when server membership is positive', async () => {
-        const doc = document(join('vault', 'note.md'));
+        const doc = document(join(tmpdir(), 'fg-language-mode-membership-note.md'));
         const { controller, requests, promoted } = controllerFor({
             documents: [doc],
             membership: true,
@@ -275,7 +282,7 @@ describe('LanguageModeController', () => {
     });
 
     it('refreshAll checks both markdown and ofmarkdown documents', async () => {
-        const markdown = document(join('vault', 'new.md'));
+        const markdown = document(join(tmpdir(), 'fg-language-mode-refresh-note.md'));
         const plaintext = document(join('old', 'stale.md'), 'plaintext');
         const { controller, requests } = controllerFor({
             documents: [markdown, plaintext],

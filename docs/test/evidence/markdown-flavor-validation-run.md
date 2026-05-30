@@ -18,7 +18,7 @@ updated: 2026-05-13
 | Runner / command | Codex local Phase 34 gate execution |
 | Commit under test | `834b92f1` |
 | Source inputs | `src/parser/__tests__/markdown-flavor-profiles.test.ts`, `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts`, `src/handlers/__tests__/document-symbol.handler.test.ts`, `src/handlers/__tests__/folding-range.handler.test.ts`, `src/handlers/__tests__/semantic-tokens.handler.test.ts`, `src/test/integration/markdown-flavor.test.ts`, `docs/bdd/features/markdown-flavor-dialects.feature`, `docs/test/markdown-flavor-unit-spec.md`, `docs/test/markdown-flavor-integration-spec.md`, `docs/test/evidence/markdown-flavor-host-boundary-review.md`, `docs/test/evidence/markdown-flavor-research-trace.md` |
-| Output policy | Summaries only; no vault note content, TOML contents, environment variables, API-like tokens, local user paths, or raw server output included |
+| Output policy | Summaries only; no vault note content, `.fgignore`/`.fgattributes` contents, environment variables, API-like tokens, local user paths, or raw server output included |
 
 ## Command Evidence
 

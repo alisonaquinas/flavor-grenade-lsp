@@ -1,9 +1,6 @@
 import { stat } from 'node:fs/promises';
 import { dirname, join, parse } from 'node:path';
-import {
-  FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN,
-  FLAVOR_GRENADE_PROJECT_CONFIG_FILES,
-} from './project-config-files.js';
+import { FLAVOR_GRENADE_CONFIG_FILES } from './fg-config-files.js';
 
 export interface DocumentLike {
   languageId: string;
@@ -29,12 +26,8 @@ export interface StartupGateDecision {
 
 export const VAULT_MARKER_ACTIVATION_EVENTS = [
   'workspaceContains:.obsidian',
-  'workspaceContains:.flavor-grenade.toml',
-  'workspaceContains:.flavor-grenade.json',
-  'workspaceContains:.flavor-grenade.jsonc',
-  'workspaceContains:.flavor-grenade.yaml',
-  'workspaceContains:.flavor-grenade.yml',
-  'workspaceContains:.editorconfig',
+  'workspaceContains:.fgignore',
+  'workspaceContains:.fgattributes',
 ] as const;
 
 export const COMMAND_ACTIVATION_EVENTS = [
@@ -138,12 +131,9 @@ async function hasVaultMarker(dir: string, statFile: StatFile): Promise<boolean>
     return true;
   }
 
-  for (const marker of FLAVOR_GRENADE_PROJECT_CONFIG_FILES) {
+  for (const marker of FLAVOR_GRENADE_CONFIG_FILES) {
     const markerPath = join(dir, marker);
-    if (!(await pathExists(markerPath, statFile, 'file'))) {
-      continue;
-    }
-    if (marker !== '.editorconfig' || (await editorconfigHasFlavorGrenadeDirectives(markerPath))) {
+    if (await pathExists(markerPath, statFile, 'file')) {
       return true;
     }
   }
@@ -159,16 +149,6 @@ async function pathExists(
   try {
     const result = await statFile(path);
     return expectedKind === 'directory' ? result.isDirectory() : result.isFile();
-  } catch {
-    return false;
-  }
-}
-
-async function editorconfigHasFlavorGrenadeDirectives(path: string): Promise<boolean> {
-  try {
-    const { readFile } = await import('node:fs/promises');
-    const content = await readFile(path, 'utf8');
-    return FLAVOR_GRENADE_EDITORCONFIG_DIRECTIVE_PATTERN.test(content.slice(0, 8192));
   } catch {
     return false;
   }

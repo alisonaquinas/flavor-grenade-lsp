@@ -16,7 +16,7 @@ updated: 2026-05-13
 | Reviewer / command | Codex Phase 21 evidence review |
 | Commit reviewed | `5aad12ce` |
 | Source inputs | `docs/research/*.md`, `docs/features/*markdown-flavor.md`, `docs/ofm-spec/index.md`, `docs/bdd/features/markdown-flavor-dialects.feature` |
-| Sanitization | Repository-relative paths and source slugs only; no note bodies, TOML contents, environment variables, tokens, local user paths, or raw server output included |
+| Sanitization | Repository-relative paths and source slugs only; no note bodies, `.fgignore`/`.fgattributes` contents, environment variables, tokens, local user paths, or raw server output included |
 
 Phase 19 records profile scope only. Later Phase 22-34 tickets replace planned
 surface entries with implemented, deferred, or not-applicable behavior evidence.

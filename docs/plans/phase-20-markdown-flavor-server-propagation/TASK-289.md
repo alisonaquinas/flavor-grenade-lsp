@@ -17,20 +17,18 @@ aliases: ["TASK-289"]
 
 ## Description
 
-Implement BC4-owned effective flavor resolution for explicit settings and
-`auto` detection using vault/config/context signals.
+Implement BC4-owned effective flavor resolution for `.fgignore`,
+`.fgattributes`, and `auto` detection using marker, membership, and
+syntax/context signals.
 
 ## Work Scope
 
-- Use the named `MarkdownFlavorCascade`: VS Code explicit override, VS Code
-  workspace-folder/workspace setting, project TOML, vault marker, CommonMark
-  fallback.
-- `.obsidian/` resolves to `obsidian`.
+- `.fgignore` matches return inactive before parsing or indexing.
+- `.fgattributes` concrete flavor values resolve to that explicit flavor.
+- `.fgattributes flavor=auto`, `!flavor`, and absent config files invoke Auto
+  Detect.
+- `.obsidian/` resolves to `obsidian` inside Auto Detect.
 - Generic single-file Markdown resolves to `commonmark`.
-- `.flavor-grenade.toml` can contribute configured project flavor when present.
-- Workspace settings can contribute configured project flavor when present.
-- VS Code workspace-folder/workspace setting wins over `.flavor-grenade.toml`
-  when both exist; workspace-folder wins over workspace.
 - Invalid configured flavor values are rejected or ignored without mutating the
   active effective flavor.
 
@@ -44,23 +42,25 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 | Test file | Expected coverage |
 |---|---|
-| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves explicit, Obsidian auto, `.flavor-grenade.toml`, workspace setting, precedence, invalid configured flavor, and CommonMark fallback. |
-| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.flavor-grenade.toml` and workspace-setting cases resolve `auto` to every required explicit flavor id. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves `.fgignore` inactive state, `.fgattributes` concrete values, Obsidian Auto Detect, syntax/context inference, invalid configured flavor, and CommonMark fallback. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.fgattributes` cases prove concrete values bypass Auto Detect, while `flavor=auto`, `!flavor`, and absent config invoke Auto Detect. |
 
 ## Implementation Notes
 
 - Implement `resolveEffectiveFlavor(input)` in `src/markdown-flavor/markdown-flavor-state.ts`.
 - Use `MarkdownFlavorSelection` and `MarkdownFlavorId` from the Phase 19 contract.
 - Return `inactive` for non-Markdown language ids or non-file schemes.
-- Resolve explicit selector first, then project TOML/resource evidence, Obsidian marker/membership, then CommonMark fallback.
+- Resolve visibility first, then concrete `.fgattributes` flavor, then Auto
+  Detect through Obsidian marker/membership, syntax/context inference, and
+  CommonMark fallback.
 
 ## Definition of Done
 
 - [x] Resolver outputs an explicit effective flavor.
 - [x] Auto detection does not infer Obsidian for generic Markdown.
-- [x] `.flavor-grenade.toml` and workspace setting resolution cover every
-      required explicit flavor id.
-- [x] VS Code setting vs TOML tie-breakers and invalid-value fallback behavior are tested.
+- [x] `.fgattributes` resolution covers every required explicit flavor id.
+- [x] `.fgignore`, `.fgattributes` precedence, `flavor=auto`, `!flavor`, and
+      invalid-value fallback behavior are tested.
 - [x] Existing vault detection inputs are reused where appropriate.
 
 ## Workflow Log
@@ -76,4 +76,4 @@ Implement BC4-owned effective flavor resolution for explicit settings and
 
 > [!SUCCESS] GREEN - 2026-05-13
 > `MarkdownFlavorState` resolves explicit selections, resource propagation,
-> project TOML, Obsidian markers, and CommonMark fallback.
+> `.fgattributes`, Obsidian markers, and CommonMark fallback.

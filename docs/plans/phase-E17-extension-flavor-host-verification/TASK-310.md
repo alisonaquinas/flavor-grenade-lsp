@@ -22,14 +22,15 @@ flavor behavior in the VS Code Extension Development Host.
 
 ## Work Scope
 
-- Cover Obsidian auto, generic CommonMark fallback, config overrides,
-  standalone user-scope override, manual language safety, and Auto reset.
+- Cover Obsidian Auto Detect, generic CommonMark fallback, `.fgattributes`
+  overrides, `.fgignore` inactive state, standalone selected-file override,
+  manual language safety, and Auto reset.
 - Cover workspace-folder, workspace-only, vault, generic Markdown, standalone,
   non-`markdown`, untitled/unsupported, restricted, virtual, WSL, SSH, and Dev
   Container contexts where automation is available. Unsupported contexts must
   assert selector inactive/disabled behavior and no server spawn/propagation.
 - Cover untrusted workspace behavior where automation is available: no
-  workspace-folder setting writes, no server spawn, and no propagation.
+  `.fgattributes` writes, no server spawn, and no propagation.
 - Open the selector and assert all required ids and labels are present:
   `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`,
   `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`,
@@ -37,7 +38,7 @@ flavor behavior in the VS Code Extension Development Host.
 - Select each required explicit flavor and confirm the active document language
   id remains `markdown`.
 - Include the suite in `extension/src/test/suite/index.js`.
-- Prefer visible behavior and settings checks over private state.
+- Prefer visible behavior and `.fgattributes` checks over private state.
 
 ## Linked Requirements
 
@@ -59,7 +60,7 @@ flavor behavior in the VS Code Extension Development Host.
 
 - [ ] Host suite covers all extension e2e flavor scenarios.
 - [ ] Host suite explicitly covers EXT-MF-E-007 through EXT-MF-E-010 for
-      workspace fallback persistence, invalid/precedence behavior, selector
+      directory-scope persistence, invalid/precedence behavior, selector
       availability across unsupported contexts, and host propagation fixtures.
 - [ ] Host or verification evidence covers selector availability/inactive state
       across supported, unsupported, restricted, virtual, and remote contexts.

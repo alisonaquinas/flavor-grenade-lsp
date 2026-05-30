@@ -24,37 +24,28 @@ Use explicit configuration when inference would be ambiguous. Do not enable both
 
 ### Keep Auto Detect on for mixed projects
 
-Leave `flavorGrenade.markdownStructuredProfiles` set to `auto` when a repository contains ordinary docs, changelogs, and ADRs in different folders.
+Leave profile selection on `auto` when a repository contains ordinary docs, changelogs, and ADRs in different folders. In `.fgattributes`, that means omitting `structured_profiles` or setting `structured_profiles=auto`.
 
-### Pin profile flags in project configuration
+### Pin profile flags in .fgattributes
 
-Use project config when every maintainer should get the same profile behavior. TOML, JSON, JSONC, YAML/YML, and Flavor Grenade `.editorconfig` directives can all carry profile selections.
+Use `.fgattributes` when every maintainer should get the same profile behavior.
 
 ### Disable profiles for noisy generated output
 
 Use `none` when generated Markdown happens to match profile headings but should not receive profile-specific diagnostics or headings.
 
-```toml
-[core.markdown]
-flavor = "commonmark"
-structured_profiles = ["keep-a-changelog", "madr"]
+```gitattributes
+*.md flavor=auto structured_profiles=auto
+CHANGELOG.md structured_profiles=keep-a-changelog
+docs/decisions/*.md structured_profiles=madr
 ```
 
 For mixed repositories, scope profiles by directory instead of forcing one profile everywhere:
 
-```jsonc
-{
-  "core": {
-    "markdown": {
-      "flavor": "commonmark",
-      "structured_profiles": "auto",
-      "overrides": [
-        { "path": "docs/releases", "structured_profiles": ["common-changelog"] },
-        { "path": "docs/decisions", "structured_profiles": ["madr"] }
-      ]
-    }
-  }
-}
+```gitattributes
+docs/releases/*.md structured_profiles=common-changelog
+docs/decisions/*.md structured_profiles=madr
+generated/*.md structured_profiles=none
 ```
 
 Example files that can trigger auto inference:
@@ -71,6 +62,6 @@ In a mixed workspace, one file might resolve as `gfm` plus `keep-a-changelog`, a
 
 ## Common failure mode
 
-The common mistake is trying to make a profile act like a Markdown flavor. `keep-a-changelog`, `common-changelog`, and `madr` should not appear in `flavorGrenade.markdownFlavor`, and they should not be offered by the flavor selector.
+The common mistake is trying to make a profile act like a Markdown flavor. `keep-a-changelog`, `common-changelog`, and `madr` should not appear as `flavor` values, and they should not be offered by the flavor selector.
 
 Another failure is forcing one changelog profile across a repository that contains both styles. If a project has imported historical changelogs, keep profiles on `auto` until the files are normalized, or set profile flags only in the folder where the convention is reliable.

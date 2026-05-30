@@ -50,7 +50,7 @@ aliases:
 
 **Tag:** User.ExtensionFlavor.UseAutoDetection
 **Goal:** Let the extension infer the flavor from vault or workspace context
-**Need:** A vault user wants Obsidian vault notes to behave as Obsidian flavored Markdown by default, while generic Markdown files keep a conservative default unless a workspace or user choice says otherwise.
+**Need:** A vault user wants Obsidian vault notes to behave as Obsidian flavored Markdown by default, while generic Markdown files keep a conservative default. When `.fgignore` and `.fgattributes` are absent, Auto Detect should apply to the whole directory tree.
 **Feature docs:** [activation behavior](../../features/activation-behavior.md), [VS Code extension parity](../../features/vscode-extension-parity.md)
 **Maps to:** Extension.MarkdownFlavor.AutoDetection, Extension.MarkdownFlavor.Refresh
 
@@ -59,10 +59,20 @@ aliases:
 ## User.ExtensionFlavor.PersistChoice
 
 **Tag:** User.ExtensionFlavor.PersistChoice
-**Goal:** Keep a manual flavor choice at the right VS Code settings scope
-**Need:** A team wants a project flavor choice to stay with the workspace, while a standalone-file user wants their personal choice remembered without creating project configuration.
-**Feature docs:** [VS Code extension parity](../../features/vscode-extension-parity.md)
+**Goal:** Keep a manual flavor choice in `.fgattributes`
+**Need:** A team wants a project flavor choice to stay in repository-visible config, while a standalone-file user wants a nearby file-scoped rule instead of hidden VS Code setting state.
+**Feature docs:** [VS Code extension parity](../../features/vscode-extension-parity.md), [Markdown flavor configuration files](../../../../docs/features/markdown-flavor-config-files.md)
 **Maps to:** Extension.MarkdownFlavor.OverridePersistence
+
+---
+
+## User.ExtensionFlavor.IgnoreFiles
+
+**Tag:** User.ExtensionFlavor.IgnoreFiles
+**Goal:** Hide files from Flavor Grenade with `.fgignore`
+**Need:** A user wants generated, private, vendored, or irrelevant Markdown files to be invisible to Flavor Grenade so they are never indexed, diagnosed, completed, navigated, or renamed.
+**Feature docs:** [Markdown flavor configuration files](../../../../docs/features/markdown-flavor-config-files.md), [VS Code extension parity](../../features/vscode-extension-parity.md)
+**Maps to:** Extension.MarkdownFlavor.IgnoreVisibility
 
 ---
 
@@ -70,7 +80,7 @@ aliases:
 
 **Tag:** User.ExtensionFlavor.ConfigureStructuredProfiles
 **Goal:** Configure structured profile flags separately from Markdown flavor
-**Need:** A VS Code user wants Keep a Changelog, Common Changelog, and MADR support to auto-detect from file naming and folders, while still being configurable in VS Code settings without adding them to the Markdown flavor selector.
+**Need:** A VS Code user wants Keep a Changelog, Common Changelog, and MADR support to auto-detect from file naming and folders, while still being configurable through `.fgattributes` without adding them to the Markdown flavor selector.
 **Feature docs:** [Markdown structured profile flags](../../../../docs/design/markdown-structured-profile-flags.md), [VS Code extension parity](../../features/vscode-extension-parity.md)
 **Maps to:** Extension.MarkdownStructuredProfiles.Configuration, Extension.MarkdownFlavor.AutoDetection
 

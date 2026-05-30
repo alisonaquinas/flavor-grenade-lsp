@@ -1,0 +1,2 @@
+notes/*.md flavor=commonmark
+structured/**/*.md flavor=commonmark

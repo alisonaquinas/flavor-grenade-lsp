@@ -23,9 +23,10 @@ Run extension compile/unit/docs checks and prepare E15 for review.
 
 - Run `npm run compile` and `npm test` from `extension/`.
 - Run docs lint for changed documentation.
-- Record E15 selector/settings validation evidence in
-  `extension/docs/tests/evidence/markdown-flavor-settings-scope.md`, including
-  workspace-folder/workspace/user target behavior.
+- Record E15 selector/`.fgattributes` validation evidence in
+  `extension/docs/tests/evidence/markdown-flavor-fgattributes-scope.md`,
+  including selected-file, directory, standalone, and Auto Detect reset
+  behavior.
 - Link any remaining user-visible validation evidence to Phase E17 when it
   requires an Extension Development Host screenshot or log.
 - Classify stale `ofmarkdown` test failures found during E15 verification:
