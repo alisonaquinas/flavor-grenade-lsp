@@ -71,9 +71,9 @@ Feature: VS Code extension parity
 
     Examples:
       | baseFlavor | selection             | profile           |
-      | commonmark | ["keep-a-changelog"]  | keep-a-changelog  |
-      | gfm        | ["common-changelog"]  | common-changelog  |
-      | obsidian   | ["madr"]              | madr              |
+      | commonmark | keep-a-changelog      | keep-a-changelog  |
+      | gfm        | common-changelog      | common-changelog  |
+      | obsidian   | madr                  | madr              |
       | pandoc     | none                  | none              |
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
@@ -107,7 +107,6 @@ Feature: VS Code extension parity
 
     Examples:
       | id             | label                    |
-      | original       | Original Markdown        |
       | commonmark     | CommonMark               |
       | obsidian       | Obsidian                 |
       | gfm            | GitHub Flavored Markdown |

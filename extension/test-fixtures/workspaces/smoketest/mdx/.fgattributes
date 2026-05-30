@@ -1,0 +1,2 @@
+notes/*.md flavor=mdx
+structured/**/*.md flavor=mdx

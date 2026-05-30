@@ -104,6 +104,7 @@ Feature: Vault root detection
       [vault]
       extensions = [".md", ".markdown", ".txt"]
       """
+    And the file "custom/.fgattributes" contains "*.md flavor=auto"
     And a directory structure at "custom/":
       | path                   | type |
       | custom/notes/note.md   | file |

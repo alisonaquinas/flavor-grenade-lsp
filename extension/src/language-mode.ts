@@ -3,9 +3,7 @@ import type { Disposable, TextDocument, TextEditor } from 'vscode';
 import {
     buildMarkdownFlavorConfigurationNotification,
     resolveMarkdownFlavor,
-    type MarkdownFlavorSelection,
     type MarkdownFlavorResolution,
-    type StructuredProfileSelection,
 } from './markdown-flavor.js';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 
@@ -35,12 +33,7 @@ interface LanguageModeApi {
     getOpenDocuments(): readonly TextDocument[];
     getVisibleEditors(): readonly TextEditor[];
     setTextDocumentLanguage(document: TextDocument, languageId: string): Thenable<TextDocument>;
-    getMarkdownFlavorSelection?(document: TextDocument): MarkdownFlavorSelection | undefined;
-    getMarkdownStructuredProfileSelection?(
-        document: TextDocument,
-    ): StructuredProfileSelection | undefined;
-    getProjectMarkdownFlavor?(document: TextDocument): MarkdownFlavorSelection | undefined;
-    getProjectConfigMaxBytes?(document: TextDocument): unknown;
+    getFgConfigMaxBytes?(document: TextDocument): unknown;
     getWorkspaceFolderPath?(document: TextDocument): string | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
@@ -134,27 +127,25 @@ export class LanguageModeController {
     }
 
     async resolveMarkdownFlavorForDocument(document: TextDocument): Promise<MarkdownFlavorResolution> {
-        const selected = this.api.getMarkdownFlavorSelection?.(document) ?? 'auto';
-        const structuredProfileSelection =
-            this.api.getMarkdownStructuredProfileSelection?.(document) ?? 'auto';
         if (!isManagedFileDocument(document)) {
-            return resolveMarkdownFlavor({ document, selected });
+            return resolveMarkdownFlavor({ document, selected: 'auto' });
         }
 
         const evidence = document.uri.fsPath
             ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
                   searchBoundary: this.api.getWorkspaceFolderPath?.(document),
-                  projectConfigMaxBytes: this.api.getProjectConfigMaxBytes?.(document),
+                  fgConfigMaxBytes: this.api.getFgConfigMaxBytes?.(document),
               })
             : undefined;
         if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {
             return resolveMarkdownFlavor({
                 document,
                 hasObsidianMarker: evidence.hasObsidianMarker,
-                projectFlavor: evidence.projectFlavor,
-                projectStructuredProfiles: evidence.projectStructuredProfiles,
-                selected,
-                structuredProfileSelection,
+                ignored: evidence.ignored,
+                fgAttributesFlavor: evidence.fgAttributesFlavor,
+                fgAttributesStructuredProfiles: evidence.fgAttributesStructuredProfiles,
+                selected: 'auto',
+                structuredProfileSelection: 'auto',
                 syntaxText: document.getText?.(),
             });
         }
@@ -163,9 +154,8 @@ export class LanguageModeController {
         return resolveMarkdownFlavor({
             document,
             hasObsidianMarker: serverMembership?.reason === 'obsidian-vault',
-            projectFlavor: this.api.getProjectMarkdownFlavor?.(document),
-            selected,
-            structuredProfileSelection,
+            selected: 'auto',
+            structuredProfileSelection: 'auto',
             syntaxText: document.getText?.(),
         });
     }

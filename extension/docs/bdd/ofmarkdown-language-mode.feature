@@ -37,7 +37,6 @@ Feature: Markdown flavor selection
 
     Examples:
       | id             | label                    |
-      | original       | Original Markdown        |
       | commonmark     | CommonMark               |
       | obsidian       | Obsidian                 |
       | gfm            | GitHub Flavored Markdown |
@@ -96,11 +95,11 @@ Feature: Markdown flavor selection
     And the client sends structured profiles "<expectedProfiles>" to the server with the active resource
 
     Examples:
-      | baseFlavor | selection          | expectedProfiles    | path                               |
-      | commonmark | ["keep-a-changelog"] | keep-a-changelog | CHANGELOG.md                       |
-      | gfm        | ["common-changelog"] | common-changelog | CHANGELOG.md                       |
-      | obsidian   | ["madr"]             | madr             | docs/decisions/0001-use-profile.md |
-      | pandoc     | none                 | none             | CHANGELOG.md                       |
+      | baseFlavor | selection        | expectedProfiles | path                                |
+      | commonmark | keep-a-changelog | keep-a-changelog | CHANGELOG.md                        |
+      | gfm        | common-changelog | common-changelog | CHANGELOG.md                        |
+      | obsidian   | madr             | madr             | docs/decisions/0001-use-profile.md |
+      | pandoc     | none             | none             | CHANGELOG.md                        |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile inference layers over a configured base flavor

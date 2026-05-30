@@ -50,6 +50,7 @@ This ledger tracks the status of every implementation phase for `flavor-grenade-
 | 32    | R Markdown Language Support | 🔎 in-review | R Markdown metadata and chunk syntax without code execution | 2026-05-13 | [PR #83](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/83) |
 | 33    | Reddit Markdown Language Support | 🔎 in-review | Reddit platform Markdown syntax awareness and portability diagnostics | 2026-05-13 | [PR #84](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/84) |
 | 34    | Stack Overflow Markdown Language Support | 🔎 in-review | Stack Overflow technical-writing Markdown and platform syntax awareness | 2026-05-13 | [PR #85](https://github.com/alisonaquinas/flavor-grenade-lsp/pull/85) |
+| 35    | Markdown Flavor Config Files Implementation | 🚧 active | `.fgignore` and `.fgattributes` drive visibility and effective Markdown context end to end | — | `feature/fg-config-implementation` |
 | R     | Publishing Research      | ✅ complete    | Research report written and committed              | 2026-04-21 | 2026-04-21 |
 | E1    | Extension Scaffold       | ✅ complete    | `npm run build:extension` exits 0; `dist/extension.js` produced | 2026-04-22 | 2026-04-22 |
 | E2    | LanguageClient Core      | ✅ complete    | Extension activates and spawns server in Extension Development Host | 2026-04-22 | 2026-04-22 |

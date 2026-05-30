@@ -1,5 +1,7 @@
+import { lstat, realpath } from 'node:fs/promises';
+import { basename, dirname, isAbsolute, join, relative } from 'node:path';
 import {
-  ConfigurationTarget,
+  Uri,
   type ExtensionContext,
   ExtensionMode,
   type StatusBarItem,
@@ -30,17 +32,13 @@ import { LanguageModeController } from './language-mode.js';
 import {
   MARKDOWN_FLAVOR_COMMAND,
   MARKDOWN_FLAVOR_SECTION,
-  MARKDOWN_FLAVOR_SETTING_KEY,
-  MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
-  PROJECT_CONFIG_MAX_BYTES_SETTING_KEY,
+  FG_CONFIG_MAX_BYTES_SETTING_KEY,
   createMarkdownFlavorQuickPickItems,
+  createMarkdownFlavorScopeQuickPickItems,
   isFlavorEligibleDocument,
-  isMarkdownFlavorSelection,
-  isStructuredProfileSelection,
   resolveMarkdownFlavor,
-  resolveMarkdownFlavorUpdateTarget,
-  selectionSettingValue,
+  upsertFgAttributesRule,
 } from './markdown-flavor.js';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 import { decideStartupGate } from './activation-gate.js';
@@ -51,7 +49,7 @@ import type {
   FlavorGrenadeStatusPresentation,
 } from './status-presentation.js';
 import { describeWorkspaceEnvironment } from './workspace-environment.js';
-import { FLAVOR_GRENADE_PROJECT_CONFIG_GLOBS } from './project-config-files.js';
+import { FLAVOR_GRENADE_CONFIG_GLOBS } from './fg-config-files.js';
 
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
@@ -123,6 +121,18 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         );
         return;
       }
+      const evidence = await findMarkdownFlavorEvidence(editor.document.uri.fsPath, {
+        searchBoundary: workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath,
+        fgConfigMaxBytes: workspace
+          .getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri)
+          .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
+      });
+      if (evidence.ignored) {
+        await window.showWarningMessage(
+          'Markdown flavor is inactive for this document because it matches .fgignore.',
+        );
+        return;
+      }
 
       const selected = await window.showQuickPick(createMarkdownFlavorQuickPickItems(), {
         matchOnDescription: true,
@@ -133,22 +143,27 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         return;
       }
 
-      const config = workspace.getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri);
-      const inspect = config.inspect<unknown>(MARKDOWN_FLAVOR_SETTING_KEY);
-      const target = resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: inspect?.workspaceFolderValue !== undefined,
-        hasWorkspaceFolder: workspace.getWorkspaceFolder(editor.document.uri) !== undefined,
-        workspaceFolderCount: workspace.workspaceFolders?.length ?? 0,
+      const scope = await window.showQuickPick(createMarkdownFlavorScopeQuickPickItems(), {
+        matchOnDescription: true,
+        placeHolder: 'Choose where to apply this flavor',
+        title: 'Flavor Grenade Markdown Flavor Scope',
       });
-      await config.update(
-        MARKDOWN_FLAVOR_SETTING_KEY,
-        selectionSettingValue(selected.id),
-        target === 'workspace-folder'
-          ? ConfigurationTarget.WorkspaceFolder
-          : target === 'workspace'
-            ? ConfigurationTarget.Workspace
-            : ConfigurationTarget.Global,
+      if (!scope) {
+        return;
+      }
+
+      const written = await writeMarkdownFlavorAttributes(
+        editor.document.uri.fsPath,
+        scope.id,
+        selected.id,
+        workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath,
       );
+      if (!written) {
+        await window.showErrorMessage(
+          'Unable to update .fgattributes for the active Markdown file.',
+        );
+        return;
+      }
 
       await refreshMarkdownFlavorStatus(context);
       await startClient(MARKDOWN_FLAVOR_COMMAND);
@@ -163,7 +178,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
         await client.restart();
       }
-      if (e.affectsConfiguration(`flavorGrenade.${PROJECT_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
+      if (e.affectsConfiguration(`flavorGrenade.${FG_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
         await client.restart();
       }
       const activeDocument = window.activeTextEditor?.document;
@@ -207,22 +222,18 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
   for (const markerWatcher of [
     workspace.createFileSystemWatcher('**/.obsidian'),
-    ...FLAVOR_GRENADE_PROJECT_CONFIG_GLOBS.map((glob) => workspace.createFileSystemWatcher(glob)),
+    ...FLAVOR_GRENADE_CONFIG_GLOBS.map((glob) => workspace.createFileSystemWatcher(glob)),
   ]) {
+    const refreshAfterMarkerChange = () => {
+      void maybeStartClient();
+      void languageModeController?.refreshAll();
+      void refreshMarkdownFlavorStatus(context);
+    };
     context.subscriptions.push(
       markerWatcher,
-      markerWatcher.onDidCreate(() => {
-        void maybeStartClient();
-        void refreshMarkdownFlavorStatus(context);
-      }),
-      markerWatcher.onDidChange(() => {
-        void maybeStartClient();
-        void refreshMarkdownFlavorStatus(context);
-      }),
-      markerWatcher.onDidDelete(() => {
-        void maybeStartClient();
-        void refreshMarkdownFlavorStatus(context);
-      }),
+      markerWatcher.onDidCreate(refreshAfterMarkerChange),
+      markerWatcher.onDidChange(refreshAfterMarkerChange),
+      markerWatcher.onDidDelete(refreshAfterMarkerChange),
     );
   }
 
@@ -280,7 +291,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
       linkStyle: config.get('linkStyle'),
       completionCandidates: config.get('completion.candidates'),
       diagnosticsSuppress: config.get('diagnostics.suppress'),
-      projectConfigMaxBytes: config.get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
+      fgConfigMaxBytes: config.get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
     },
   };
 
@@ -342,22 +353,10 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     getOpenDocuments: () => workspace.textDocuments,
     getVisibleEditors: () => window.visibleTextEditors,
     setTextDocumentLanguage: (document) => Promise.resolve(document),
-    getMarkdownFlavorSelection: (document) => {
-      const value = workspace
-        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-        .get(MARKDOWN_FLAVOR_SETTING_KEY);
-      return isMarkdownFlavorSelection(value) ? value : 'auto';
-    },
-    getMarkdownStructuredProfileSelection: (document) => {
-      const value = workspace
-        .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-        .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
-      return isStructuredProfileSelection(value) ? value : 'auto';
-    },
-    getProjectConfigMaxBytes: (document) =>
+    getFgConfigMaxBytes: (document) =>
       workspace
         .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-        .get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
+        .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
     getWorkspaceFolderPath: (document) => workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
@@ -430,42 +429,113 @@ async function refreshMarkdownFlavorStatus(context: ExtensionContext): Promise<v
 }
 
 async function resolveLocalMarkdownFlavor(document: TextDocument) {
-  const selected = markdownFlavorSelectionForDocument(document);
   if (!isFlavorEligibleDocument(document)) {
-    return resolveMarkdownFlavor({ document, selected });
+    return resolveMarkdownFlavor({ document, selected: 'auto' });
   }
 
   const evidence = document.uri.fsPath
     ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
         searchBoundary: workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
-        projectConfigMaxBytes: workspace
+        fgConfigMaxBytes: workspace
           .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-          .get(PROJECT_CONFIG_MAX_BYTES_SETTING_KEY),
+          .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
       })
     : undefined;
   return resolveMarkdownFlavor({
     document,
     hasObsidianMarker: evidence?.hasObsidianMarker,
-    projectFlavor: evidence?.projectFlavor,
-    projectStructuredProfiles: evidence?.projectStructuredProfiles,
-    selected,
-    structuredProfileSelection: markdownStructuredProfileSelectionForDocument(document),
+    ignored: evidence?.ignored,
+    fgAttributesFlavor: evidence?.fgAttributesFlavor,
+    fgAttributesStructuredProfiles: evidence?.fgAttributesStructuredProfiles,
+    selected: 'auto',
+    structuredProfileSelection: 'auto',
     syntaxText: document.getText(),
   });
 }
 
-function markdownFlavorSelectionForDocument(document: TextDocument) {
-  const value = workspace
-    .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-    .get(MARKDOWN_FLAVOR_SETTING_KEY);
-  return isMarkdownFlavorSelection(value) ? value : 'auto';
+async function writeMarkdownFlavorAttributes(
+  filePath: string,
+  scope: Parameters<typeof upsertFgAttributesRule>[1]['scope'],
+  selection: Parameters<typeof upsertFgAttributesRule>[1]['selection'],
+  workspaceRoot?: string,
+): Promise<boolean> {
+  const directory = dirname(filePath);
+  const targetPath = join(directory, '.fgattributes');
+  if (!(await canUseFgAttributesTarget(targetPath, directory, workspaceRoot))) {
+    return false;
+  }
+  const targetUri = Uri.file(targetPath);
+  const content = await readTextFileIfPresent(targetUri, { directory, workspaceRoot });
+  const nextContent = upsertFgAttributesRule(content, {
+    fileName: basename(filePath),
+    scope,
+    selection,
+  });
+
+  try {
+    await workspace.fs.writeFile(targetUri, Buffer.from(nextContent, 'utf8'));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-function markdownStructuredProfileSelectionForDocument(document: TextDocument) {
-  const value = workspace
-    .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-    .get(MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY);
-  return isStructuredProfileSelection(value) ? value : 'auto';
+async function readTextFileIfPresent(
+  uri: Uri,
+  options?: { directory: string; workspaceRoot?: string },
+): Promise<string> {
+  if (
+    options !== undefined &&
+    !(await canUseFgAttributesTarget(uri.fsPath, options.directory, options.workspaceRoot))
+  ) {
+    return '';
+  }
+  try {
+    const content = await workspace.fs.readFile(uri);
+    return Buffer.from(content).toString('utf8');
+  } catch {
+    return '';
+  }
+}
+
+async function canUseFgAttributesTarget(
+  targetPath: string,
+  directory: string,
+  workspaceRoot: string | undefined,
+): Promise<boolean> {
+  let realDirectory: string;
+  try {
+    realDirectory = await realpath(directory);
+  } catch {
+    return false;
+  }
+
+  if (workspaceRoot !== undefined) {
+    try {
+      const realWorkspaceRoot = await realpath(workspaceRoot);
+      if (!isPathWithinOrEqual(realDirectory, realWorkspaceRoot)) {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  try {
+    const targetStat = await lstat(targetPath);
+    if (!targetStat.isSymbolicLink()) {
+      return true;
+    }
+    const realTarget = await realpath(targetPath);
+    return isPathWithinOrEqual(realTarget, realDirectory);
+  } catch {
+    return true;
+  }
+}
+
+function isPathWithinOrEqual(childPath: string, parentPath: string): boolean {
+  const relativePath = relative(parentPath, childPath);
+  return relativePath === '' || (!relativePath.startsWith('..') && !isAbsolute(relativePath));
 }
 
 function ensureStatusBar(context: ExtensionContext): StatusBarItem {

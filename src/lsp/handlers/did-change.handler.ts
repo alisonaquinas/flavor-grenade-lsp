@@ -1,4 +1,5 @@
 import { Injectable, Optional } from '@nestjs/common';
+import { dirname } from 'node:path';
 import { TextDocumentContentChangeEvent } from 'vscode-languageserver-textdocument';
 import { DocumentStore } from '../services/document-store.js';
 import { OFMParser } from '../../parser/ofm-parser.js';
@@ -8,7 +9,10 @@ import { SingleFileModeGuard } from '../../vault/single-file-mode.js';
 import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
-import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import {
+  FlavorGrenadeConfigFiles,
+  type FgConfigResolution,
+} from '../../markdown-flavor/fg-config-files.js';
 import type { ParseContext } from '../../parser/types.js';
 
 /** Parameters sent with a `textDocument/didChange` notification. */
@@ -33,7 +37,7 @@ export class DidChangeHandler {
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
-    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
+    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
   ) {}
 
   /**
@@ -46,6 +50,11 @@ export class DidChangeHandler {
     this.store.update(textDocument.uri, contentChanges, textDocument.version);
     const updated = this.store.get(textDocument.uri);
     if (updated) {
+      if (this.isIgnored(textDocument.uri)) {
+        this.parseCache.delete(textDocument.uri);
+        this.diagnosticService?.clearDiagnostics(textDocument.uri);
+        return;
+      }
       const doc = this.ofmParser.parse(textDocument.uri, updated.getText(), textDocument.version, {
         ...this.resolveParseContext(textDocument.uri, updated.languageId, updated.getText()),
       });
@@ -74,15 +83,13 @@ export class DidChangeHandler {
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
+    const fgConfig = this.resolveFgConfig(detection.vaultRoot, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri,
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
-      projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
-      projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
-        detection.vaultRoot,
-        fsPath,
-      ),
+      fgAttributesFlavor: fgConfig?.attributes.flavor,
+      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
       syntaxText,
     });
     return result.kind === 'active'
@@ -91,5 +98,21 @@ export class DidChangeHandler {
           structuredProfiles: result.structuredProfiles,
         }
       : { effectiveFlavor: 'commonmark', structuredProfiles: [] };
+  }
+
+  private isIgnored(uri: string): boolean {
+    if (this.fgConfigFiles === null) {
+      return false;
+    }
+    const fsPath = SingleFileModeGuard.uriToPath(uri);
+    const detection = this.vaultDetector.detectFresh(fsPath);
+    return this.resolveFgConfig(detection.vaultRoot, fsPath)?.ignored === true;
+  }
+
+  private resolveFgConfig(
+    vaultRoot: string | null,
+    fsPath: string,
+  ): FgConfigResolution | undefined {
+    return this.fgConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
   }
 }

@@ -1,0 +1,2 @@
+notes/*.md flavor=r-markdown
+structured/**/*.md flavor=r-markdown

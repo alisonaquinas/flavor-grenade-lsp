@@ -218,7 +218,7 @@ Given(
   'a Markdown document belongs to a workspace folder settings target',
   function (this: FGWorld) {
     const s = state(this);
-    s.workspaceMarkers?.add('.flavor-grenade.toml');
+    s.workspaceMarkers?.add('.fgattributes');
     s.preferredSettingScope = 'workspace-folder';
     s.settingScope = 'workspace-folder';
     s.languageId = 'markdown';
@@ -645,7 +645,7 @@ Given(
 
 Given('a Markdown document belongs to an open workspace folder', function (this: FGWorld) {
   const s = state(this);
-  s.workspaceMarkers?.add('.flavor-grenade.toml');
+  s.workspaceMarkers?.add('.fgattributes');
   s.languageId = 'markdown';
   s.settingScope = 'workspace';
   refreshFlavorState(s);
