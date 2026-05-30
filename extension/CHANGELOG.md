@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.5.0] — 2026-05-30
+
+### Added
+
+- Recognize `.fgignore` and `.fgattributes` as Flavor Grenade workspace markers
+  for activation, file watching, and local flavor evidence refreshes.
+- Add selector support for writing `.fgattributes` entries that apply to either
+  the selected Markdown file or every Markdown file in the selected file's
+  directory.
+- Add extension-host coverage for `.fgignore` and `.fgattributes` refresh and
+  selection workflows.
+
+### Changed
+
+- Prefer `.fgattributes` over legacy project flavor config files for explicit
+  file and directory flavor configuration.
+- Preserve Auto Detect as the default extension behavior when no
+  `.fgattributes` rule applies.
+- Update Marketplace and extension docs for the `.fgignore` and `.fgattributes`
+  configuration workflow.
+
+### Fixed
+
+- Refresh local flavor evidence correctly when `.fgignore` or `.fgattributes`
+  files are created, changed, or removed.
+
 ## [0.4.0] — 2026-05-26
 
 ### Added

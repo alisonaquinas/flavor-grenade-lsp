@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.0] - 2026-05-30
+
+### Added in 0.2.0
+
+- Document `.fgignore` and `.fgattributes` workflows for skill users, including
+  nested configuration files, negated patterns, directory-scoped flavor rules,
+  and Auto Detect fallback.
+- Stamp the skill manifest, marketplace metadata, and compatibility docs for
+  Flavor Grenade LSP `0.7.x`.
+
+### Changed in 0.2.0
+
+- Update skill guidance so explicit flavor configuration uses `.fgattributes`
+  and ignored files are excluded with `.fgignore`.
+- Align command examples and JSON schema notes with the `0.2.0` skill and
+  `0.7.0` server release pairing.
+
 ## [0.1.0] - 2026-05-26
 
 ### Added
