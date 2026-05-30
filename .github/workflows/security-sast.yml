@@ -46,6 +46,35 @@ jobs:
             --exclude website/dist \
             .
 
+      - name: Print Semgrep findings
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          sarif_path = Path('semgrep.sarif')
+          if not sarif_path.exists():
+              print('semgrep.sarif was not produced')
+              raise SystemExit(0)
+
+          sarif = json.loads(sarif_path.read_text(encoding='utf-8'))
+          results = sarif.get('runs', [{}])[0].get('results', [])
+          if not results:
+              print('No Semgrep SARIF results found')
+              raise SystemExit(0)
+
+          for result in results:
+              location = result.get('locations', [{}])[0].get('physicalLocation', {})
+              artifact = location.get('artifactLocation', {})
+              region = location.get('region', {})
+              message = result.get('message', {}).get('text', '').replace('\n', ' ')
+              print(
+                  f"{artifact.get('uri', '<unknown>')}:{region.get('startLine', '?')}: "
+                  f"{result.get('ruleId', '<unknown-rule>')}: {message}"
+              )
+          PY
+
       - name: Upload Semgrep SARIF
         if: always()
         uses: github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba # v4.35.5
