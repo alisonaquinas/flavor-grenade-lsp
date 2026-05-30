@@ -25,6 +25,22 @@ interface AttributeRule {
   assignments: AttributeAssignment[];
 }
 
+type SegmentToken =
+  | { kind: 'literal'; value: string }
+  | { kind: 'any' }
+  | { kind: 'star' }
+  | {
+      kind: 'class';
+      negated: boolean;
+      characters: readonly string[];
+      ranges: readonly CharRange[];
+    };
+
+interface CharRange {
+  start: string;
+  end: string;
+}
+
 type AttributeAssignment =
   | { kind: 'reset'; key: 'flavor' | 'structuredProfiles' }
   | { kind: 'set'; key: 'flavor'; value: MarkdownFlavorSelection }
@@ -57,7 +73,9 @@ export async function findMarkdownFlavorEvidence(
   }
 
   const realBoundary =
-    searchBoundary === undefined ? undefined : await realpathOrUndefined(searchBoundary, realpathFn);
+    searchBoundary === undefined
+      ? undefined
+      : await realpathOrUndefined(searchBoundary, realpathFn);
   if (searchBoundary !== undefined && realBoundary === undefined) {
     return emptyEvidence();
   }
@@ -84,7 +102,11 @@ export async function findMarkdownFlavorEvidence(
   } = {};
 
   for (const directory of directories) {
-    hasObsidianMarker ||= await markerExists(join(directory.directory, '.obsidian'), 'directory', statFn);
+    hasObsidianMarker ||= await markerExists(
+      join(directory.directory, '.obsidian'),
+      'directory',
+      statFn,
+    );
     hasFlavorConfigMarker ||=
       (await markerExists(join(directory.directory, '.fgignore'), 'file', statFn)) ||
       (await markerExists(join(directory.directory, '.fgattributes'), 'file', statFn));
@@ -180,11 +202,10 @@ export async function readFgAttributesMarkdownFlavor(
     return undefined;
   }
   const attributes: { flavor?: MarkdownFlavorSelection } = {};
-  applyAttributeRules(
-    attributes,
-    parseAttributeRules(content),
-    { directory: dirname(configPath), relativeTargetPath: '' },
-  );
+  applyAttributeRules(attributes, parseAttributeRules(content), {
+    directory: dirname(configPath),
+    relativeTargetPath: '',
+  });
   return attributes.flavor;
 }
 
@@ -467,43 +488,43 @@ function globSegmentsMatch(
 }
 
 function wildcardSegmentMatches(pattern: string, value: string): boolean {
-  return wildcardSegmentRegex(pattern).test(value);
+  return segmentTokensMatch(parseSegmentTokens(pattern), [...value], 0, 0, new Set());
 }
 
-function wildcardSegmentRegex(pattern: string): RegExp {
-  let source = '^';
+function parseSegmentTokens(pattern: string): SegmentToken[] {
+  const tokens: SegmentToken[] = [];
   for (let index = 0; index < pattern.length; index += 1) {
     const char = pattern[index];
     if (char === '\\') {
       index += 1;
-      source += escapeRegex(pattern[index] ?? '\\');
+      tokens.push({ kind: 'literal', value: pattern[index] ?? '\\' });
       continue;
     }
     if (char === '*') {
-      source += '[^/]*';
+      tokens.push({ kind: 'star' });
       continue;
     }
     if (char === '?') {
-      source += '[^/]';
+      tokens.push({ kind: 'any' });
       continue;
     }
     if (char === '[') {
       const characterClass = parseCharacterClass(pattern, index);
       if (characterClass !== null) {
-        source += characterClass.source;
+        tokens.push(characterClass.token);
         index = characterClass.end;
         continue;
       }
     }
-    source += escapeRegex(char);
+    tokens.push({ kind: 'literal', value: char });
   }
-  return new RegExp(`${source}$`, 'u');
+  return tokens;
 }
 
 function parseCharacterClass(
   pattern: string,
   start: number,
-): { source: string; end: number } | null {
+): { token: SegmentToken; end: number } | null {
   let end = start + 1;
   if (pattern[end] === '!' || pattern[end] === '^') {
     end += 1;
@@ -524,14 +545,93 @@ function parseCharacterClass(
   }
   const negated = raw.startsWith('!') || raw.startsWith('^');
   const body = negated ? raw.slice(1) : raw;
+  const parsed = parseCharacterClassBody(body);
   return {
-    source: `[${negated ? '^' : ''}${body.replace(/\\/g, '\\\\')}]`,
+    token: { kind: 'class', negated, characters: parsed.characters, ranges: parsed.ranges },
     end,
   };
 }
 
-function escapeRegex(value: string): string {
-  return value.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+function parseCharacterClassBody(body: string): {
+  characters: readonly string[];
+  ranges: readonly CharRange[];
+} {
+  const characters: string[] = [];
+  const ranges: CharRange[] = [];
+  const parts: string[] = [];
+
+  for (let index = 0; index < body.length; index += 1) {
+    if (body[index] === '\\' && index + 1 < body.length) {
+      index += 1;
+    }
+    parts.push(body[index]);
+  }
+
+  for (let index = 0; index < parts.length; index += 1) {
+    if (index + 2 < parts.length && parts[index + 1] === '-') {
+      ranges.push({ start: parts[index], end: parts[index + 2] });
+      index += 2;
+    } else {
+      characters.push(parts[index]);
+    }
+  }
+
+  return { characters, ranges };
+}
+
+function segmentTokensMatch(
+  tokens: readonly SegmentToken[],
+  value: readonly string[],
+  tokenIndex: number,
+  valueIndex: number,
+  seen: Set<string>,
+): boolean {
+  const key = `${tokenIndex}:${valueIndex}`;
+  if (seen.has(key)) {
+    return false;
+  }
+  seen.add(key);
+
+  if (tokenIndex === tokens.length) {
+    return valueIndex === value.length;
+  }
+
+  const token = tokens[tokenIndex];
+  if (token.kind === 'star') {
+    for (let nextValueIndex = valueIndex; nextValueIndex <= value.length; nextValueIndex += 1) {
+      if (segmentTokensMatch(tokens, value, tokenIndex + 1, nextValueIndex, seen)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return (
+    valueIndex < value.length &&
+    segmentTokenMatches(token, value[valueIndex]) &&
+    segmentTokensMatch(tokens, value, tokenIndex + 1, valueIndex + 1, seen)
+  );
+}
+
+function segmentTokenMatches(token: SegmentToken, value: string): boolean {
+  if (token.kind === 'literal') {
+    return token.value === value;
+  }
+  if (token.kind === 'any') {
+    return true;
+  }
+  if (token.kind === 'class') {
+    const codePoint = value.codePointAt(0) ?? 0;
+    const matched =
+      token.characters.includes(value) ||
+      token.ranges.some(
+        (range) =>
+          codePoint >= (range.start.codePointAt(0) ?? 0) &&
+          codePoint <= (range.end.codePointAt(0) ?? 0),
+      );
+    return token.negated ? !matched : matched;
+  }
+  return false;
 }
 
 function normalizeConfigLine(rawLine: string): string {
