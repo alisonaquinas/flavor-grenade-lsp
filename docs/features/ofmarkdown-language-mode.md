@@ -42,7 +42,7 @@ Required selector choices:
 
 | Selector label | Flavor id | Meaning |
 |---|---|---|
-| Auto Detect | `auto` | Infer the effective flavor from vault/config/context signals. |
+| Auto Detect | `auto` | Run the Auto Detect workflow from Obsidian vault evidence, syntax signals, and CommonMark fallback. |
 | Original Markdown | `original` | Interpret source using the historical Gruber Markdown baseline where supported. |
 | CommonMark | `commonmark` | Interpret source using CommonMark semantics where supported. |
 | Obsidian | `obsidian` | Interpret source using Obsidian Flavored Markdown semantics. |
@@ -187,14 +187,15 @@ Flavor detection uses positive signals:
 1. `.fgignore`: matching files are inactive and stop here.
 2. `.fgattributes`: explicit `flavor` attribute when present.
 3. `.obsidian/` ancestor: Auto Detect resolves to `obsidian`.
-4. Server membership: server can confirm a document belongs to a Flavor Grenade vault/index.
+4. Syntax evidence: Auto Detect can select a stronger non-Obsidian flavor when syntax clearly identifies it.
 5. No vault/config signal: effective flavor `commonmark`.
 
 If no `.fgignore` or `.fgattributes` file exists for a directory and its
 subdirectories, Auto Detect covers that whole subtree by default.
 
-The extension may still ask the server for membership, but membership no longer
-causes a VS Code language id change.
+The extension may still ask the server for status and indexed-file state, but
+server membership is not a flavor-selection input and does not cause a VS Code
+language id change.
 
 ## Server Propagation
 

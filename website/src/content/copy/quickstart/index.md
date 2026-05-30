@@ -21,7 +21,7 @@ Use the LLM skill/plugin when Claude, Codex, or another compatible agent needs t
 - Use the VS Code extension for the easiest first run.
 - Use the npm package for Neovim, Helix, custom editor clients, or test harnesses that already know how to speak LSP.
 - Use the LLM skill/plugin for agent workflows that should ask Flavor Grenade instead of guessing Markdown behavior.
-- In every path, open or point at the folder that contains `.obsidian/` or a Flavor Grenade project config file.
+- In every path, open or point at the folder that contains `.obsidian/`, `.fgignore`, `.fgattributes`, or the Markdown files you want analyzed.
 
 ## Option 1: VS Code extension
 
@@ -35,7 +35,7 @@ Install [Flavor Grenade LSP from the Visual Studio Marketplace](https://marketpl
 
 ### Open an Obsidian Vault folder
 
-Use File > Open Folder and choose the folder that contains `.obsidian/` or project config such as `.flavor-grenade.toml`, `.flavor-grenade.jsonc`, or `.flavor-grenade.yaml`.
+Use File > Open Folder and choose the folder that contains `.obsidian/`, `.fgignore`, `.fgattributes`, or the Markdown files you want analyzed.
 
 ### Confirm flavor activation
 
@@ -44,12 +44,27 @@ Open a Markdown note in the vault. The Flavor Grenade status should show the eff
 ```text
 MyVault/
   .obsidian/
-  .flavor-grenade.toml
+  .fgattributes
+  .fgignore
   Notes/
     Daily Note.md
 ```
 
-JSON, JSONC, YAML/YML, and Flavor Grenade `.editorconfig` directives can be used instead of TOML when they fit the project better.
+Use `.fgattributes` when a flavor choice should travel with the repository, and `.fgignore` when generated or private Markdown should not be indexed.
+
+```gitattributes
+# .fgattributes
+*.md flavor=auto
+docs/github/*.md flavor=gfm
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
+```
+
+```gitignore
+# .fgignore
+generated/
+private/
+!private/README.md
+```
 
 ## Option 2: npm language-server package
 
@@ -93,7 +108,7 @@ Run verification before asking the agent to make flavor-sensitive Markdown edits
 
 ### Use wrapper evidence before edits
 
-Use `detect` for one file and `analyze` for a workspace or directory. Treat wrapper output as the source of truth for flavor, structured profiles, boundaries, and diagnostics.
+Use `detect` for one file and `analyze` for a workspace or directory. Treat wrapper output as the source of truth for flavor, structured profiles, and diagnostics. The `boundaries` field is reserved and may be empty in current wrapper output.
 
 ```text
 npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp

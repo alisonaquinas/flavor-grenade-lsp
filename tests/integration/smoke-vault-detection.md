@@ -76,7 +76,7 @@ And the document index contains "notes/first.md" and "notes/second.md"
 **Phase gate:** Phase 1
 
 **Setup:**
-A temporary directory containing a single markdown file with a broken wiki-link. No `.obsidian/` and no `.flavor-grenade.toml` anywhere in the path. This directly tests that the VaultDetector correctly falls back to `single-file` mode and that FG001 is suppressed.
+A temporary directory containing a single markdown file with a broken wiki-link. No `.obsidian/`, `.fgignore`, or `.fgattributes` anywhere in the path. This directly tests that the VaultDetector correctly falls back to `single-file` mode and that FG001 is suppressed.
 
 **Scripted steps:**
 
@@ -84,7 +84,7 @@ A temporary directory containing a single markdown file with a broken wiki-link.
 Given a directory "/tmp/fg-smoke-004/" containing only "doc.md"
 And "doc.md" contains "[[nonexistent-target]]"
 And no ".obsidian/" exists at or above "/tmp/fg-smoke-004/"
-And no ".flavor-grenade.toml" exists at or above "/tmp/fg-smoke-004/"
+And no ".fgignore" or ".fgattributes" exists at or above "/tmp/fg-smoke-004/"
 When the LSP server initializes with rootUri "file:///tmp/fg-smoke-004/"
 Then the VaultDetector returns mode "single-file"
 And the capability "flavorGrenade.crossFileLinks" is inactive
@@ -103,7 +103,7 @@ And no FG005 diagnostic is published for "doc.md"
    echo '[[nonexistent-target]] and ![[also-missing]]' > /tmp/fg-smoke-004/doc.md
    ```
 
-2. Agent verifies no `.obsidian/` or `.flavor-grenade.toml` exists in `/tmp/fg-smoke-004` or its parents (up to `/tmp/`)
+2. Agent verifies no `.obsidian/`, `.fgignore`, or `.fgattributes` exists in `/tmp/fg-smoke-004` or its parents (up to `/tmp/`)
 3. Agent spawns the LSP server: `bun run start 2>/dev/null &`
 4. Agent sends `initialize` with `rootUri: "file:///tmp/fg-smoke-004/"`:
 

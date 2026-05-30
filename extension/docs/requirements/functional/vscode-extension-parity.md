@@ -403,7 +403,7 @@ flavor/context state without requiring a custom Markdown language id.
 1. Open a Markdown document under a `.obsidian/` folder with no matching `.fgattributes` flavor.
 2. Verify the status-bar selector reports `Auto Detect` with effective flavor `obsidian`.
 3. Open a Markdown document matched by `.fgattributes` `flavor=auto`.
-4. Verify the selector reports Auto Detect and the effective flavor comes from marker or syntax/context inference.
+4. Verify the selector reports Auto Detect and the effective flavor comes from an Obsidian marker, strong syntax evidence, or CommonMark fallback.
 5. Open a directory tree with no `.fgignore` or `.fgattributes`.
 6. Verify every Markdown file in that tree defaults to Auto Detect and generic Markdown resolves to `commonmark`.
 7. Override the active context to each explicit required flavor and verify the `.fgattributes` override takes precedence over auto detection until cleared.

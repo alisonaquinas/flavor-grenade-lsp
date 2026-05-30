@@ -39,8 +39,8 @@ Core Obsidian-style Markdown support:
 
 Flavor-aware Markdown support:
 
-- Auto-detection from project config, vault markers, file syntax, and document
-  context
+- Auto-detection from Obsidian vault markers, file syntax, and CommonMark
+  fallback whenever no concrete `.fgattributes` flavor rule applies
 - Explicit base flavors for Original Markdown, CommonMark, Obsidian, GFM, GLFM,
   Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and
   Stack Overflow Markdown
@@ -66,21 +66,39 @@ Flavor-aware Markdown support:
 Flavor Grenade detects a project by walking upward from an opened Markdown file.
 The strongest signals are:
 
-- `.flavor-grenade.toml`
 - `.obsidian/`
+- `.fgignore`
+- `.fgattributes`
 
-When no marker exists, Flavor Grenade can infer the active Markdown flavor from
-syntax and path context. Generic Markdown falls back to CommonMark instead of
-being treated as Obsidian content.
+`.fgignore` hides matching Markdown from Flavor Grenade entirely. Hidden files
+are not processed, indexed, completed, diagnosed, navigated, renamed, or used as
+references unless a later negated rule re-includes them.
 
-Example project config:
+`.fgattributes` stores repository-tracked flavor and structured-profile rules
+using Git-style pattern matching. Rules cascade through subdirectories; later
+matching rules win; `!flavor` clears the effective flavor selected so far; and
+`flavor=auto` explicitly asks Auto Detect to run.
 
-```toml
-markdown_flavor = "gfm"
-structured_profiles = ["keep-a-changelog"]
+Example `.fgattributes`:
+
+```gitattributes
+*.md flavor=auto
+docs/github/*.md flavor=gfm
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
+CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
 ```
 
-Use `structured_profiles = "none"` to disable structured profile behavior.
+Example `.fgignore`:
+
+```gitignore
+generated/
+private/
+!private/README.md
+```
+
+When no `.fgignore` or `.fgattributes` applies, Auto Detect remains the default
+for the opened directory and all subdirectories. It uses Obsidian vault evidence
+and syntax signals, then falls back to CommonMark for generic Markdown.
 
 ## Security Model
 

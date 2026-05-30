@@ -39,7 +39,7 @@ E2E fixtures validate user-visible results of the root
 - Same-scope Auto Detect clearing/reset passes for `.fgattributes`.
 - Invalid `.fgattributes` fallback and precedence are proven in at least one real host
   fixture.
-- Syntax/context inference and ambiguous fallback are proven in real host
+- Syntax inference and ambiguous fallback are proven in real host
   fixtures without config files.
 - Fixture boundary behavior is proven so the root smoketest README remains a
   negative control.

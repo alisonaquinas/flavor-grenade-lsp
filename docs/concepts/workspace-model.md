@@ -68,7 +68,7 @@ The returned `symDiff` is also passed to `DiagnosticService` to determine which 
 | Mode | Trigger | RefGraph | FolderLookup | Cross-doc refs |
 |------|---------|----------|--------------|----------------|
 | **SingleFile** | No vault root found for the document | Contains only one `OFMDoc` | Contains only one entry | Always unresolved (no other docs) |
-| **MultiFile** | Vault root found (`.obsidian/` or Flavor Grenade project config marker) | Contains all vault documents | Full suffix tree | Resolved normally |
+| **MultiFile** | Vault root found (`.obsidian/`, `.fgignore`, or `.fgattributes`) | Contains all visible vault documents | Full suffix tree | Resolved normally |
 
 A `VaultFolder` does not transition between modes — a new one is created when the mode changes (e.g., a vault root is discovered for a previously single-file document). The old `VaultFolder` is evicted from `Workspace` and replaced.
 
@@ -158,23 +158,22 @@ class Workspace {
 
 `Workspace` is itself immutable — every operation returns a new `Workspace` value. The `LspModule` holds the current `Workspace` reference and replaces it on each update.
 
-### Document Membership for Editor Clients
+### Document State for Editor Clients
 
 Editor clients sometimes need a simple answer to "does this URI belong to
 Flavor Grenade's indexed Markdown world?" without exposing `VaultFolder`,
-`DocId`, or `RefGraph` internals. The VS Code extension uses this to derive the
-effective Markdown flavor when its selector is set to `Auto Detect`.
+`DocId`, or `RefGraph` internals. This state is useful for status displays and
+refresh behavior. It is not itself an Auto Detect input.
 
-Membership is derived from `Workspace` state:
+Visibility and indexed state are derived from `Workspace` state:
 
-| Workspace state for URI | Auto-detected flavor |
+| Workspace state for URI | Client-visible state |
 |---|---|
-| URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | Obsidian |
-| URI belongs to a multi-file `VaultFolder` detected by project config with an explicit flavor | Configured flavor |
-| URI belongs to a multi-file `VaultFolder` detected by project config without an explicit flavor | CommonMark fallback unless syntax/context inference supplies stronger evidence |
-| URI is present in a `VaultFolder.docs` map after indexing | Project Markdown flavor |
-| URI is only in `SingleFileMode` | CommonMark |
-| URI is unknown or outside all vault roots | CommonMark |
+| URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | Indexed vault document; Auto Detect may resolve Obsidian |
+| URI belongs to a multi-file `VaultFolder` detected by `.fgignore` or `.fgattributes` | Indexed configured-project document if not ignored |
+| URI matches `.fgignore` | Inactive; not indexed or processed |
+| URI is only in `SingleFileMode` | Standalone Markdown; Auto Detect falls back to CommonMark unless syntax evidence is stronger |
+| URI is unknown or outside all vault roots | Outside Flavor Grenade scope |
 
 This membership view is intentionally narrower than parsing capability. The
 server can still parse a standalone OFM file in single-file mode, but VS Code
@@ -184,7 +183,10 @@ through the Markdown flavor selector per
 
 ### Config Merging
 
-When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges the workspace-level config with the folder's `FlavorConfig` (if a project config file exists in the vault root). The merged config is attached to the `VaultFolder` and used by all feature services when serving requests for documents in that folder.
+When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges operational
+server config with built-in defaults, then applies `.fgignore` visibility and
+`.fgattributes` flavor attributes per document. Flavor and structured-profile
+persistence comes from `.fgattributes`, not workspace or user settings.
 
 ---
 
@@ -196,8 +198,7 @@ When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges the workspac
 |-----------|------|
 | `.obsidian/` directory | All files under `<root>/.obsidian/` are skipped entirely |
 | `.git/` directory | All files under `<root>/.git/` are skipped |
-| `.gitignore` patterns | Files matching `.gitignore` rules are excluded (uses `ignore` npm package) |
-| `.ignore` patterns | Same as `.gitignore` but in a `.ignore` file |
+| `.fgignore` patterns | Files matching `.fgignore` rules are excluded from Flavor Grenade visibility unless a later negated rule re-includes them |
 | Non-`.md` files | Only `.md` files contribute `OFMDoc` values; other file extensions are tracked by `VaultIndex` for embed resolution (existence check only) |
 
 > [!note] `.obsidian/` exclusion detail

@@ -32,7 +32,7 @@
     "lint:dependencies": "node scripts/check-exact-dependencies.mjs",
     "lint:installed-packages": "node scripts/check-installed-packages.mjs",
     "lint:docs": "markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./docs \"docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./website/docs \"website/docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./extension/docs \"extension/docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./skill \"skill/docs/**/*.md\" && markdownlint-obsidian --config .obsidian-linter.jsonc --vault-root ./plugins \"plugins/**/*.md\"",
-    "skill:test": "bun test ./plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/tests/skill-smoke.test.js",
+    "skill:test": "node --test ./plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/tests/wrapper-options.test.js && bun test ./plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/tests/skill-smoke.test.js",
     "skill:set-version": "node scripts/set-plugin-version.mjs",
     "skill:fetch-runtime": "node scripts/skill-fetch-runtime.mjs",
     "skill:package": "node scripts/skill-package.mjs",

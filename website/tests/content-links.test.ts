@@ -35,7 +35,9 @@ describe('website content and public links', () => {
       const examples = pageRecord?.sections.flatMap((section) => section.code ?? []) ?? [];
 
       expect(examples.length).toBeGreaterThan(0);
-      expect(examples.join('\n')).toMatch(/\.obsidian|\.flavor-grenade|rootUri|\[\[|#|npm|npx|```|!?\[/);
+      expect(examples.join('\n')).toMatch(
+        /\.obsidian|\.fgignore|\.fgattributes|rootUri|\[\[|#|npm|npx|```|!?\[|flavor=|structured_profiles=/,
+      );
     }
   });
 

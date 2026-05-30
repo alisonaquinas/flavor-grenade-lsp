@@ -37,9 +37,9 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
   nested directories, with Git-style pattern precedence and negation.
 - Preserve Auto Detect as the default for every file in a directory tree when
   no `.fgignore` or `.fgattributes` file exists.
-- When `.fgattributes` flavor assignment is absent, infer a likely flavor from strong,
-  local document syntax and workspace context without treating weak shared
-  Markdown features as decisive.
+- When `.fgattributes` flavor assignment is absent, infer a likely flavor from
+  strong local document syntax without treating weak shared Markdown features as
+  decisive.
 - Preserve user-selected non-Markdown language modes.
 - Produce resource-specific effective flavor state for multi-root workspaces,
   standalone files, and multiple open documents.
@@ -108,11 +108,6 @@ type ResolveFlavorInput = {
       evidence: string[];
     }>;
   };
-  serverMembership?: {
-    indexed: boolean;
-    vaultRoot?: string;
-    reason: 'obsidian-vault' | 'flavor-config-vault' | 'single-file' | 'not-indexed';
-  };
 };
 ```
 
@@ -142,7 +137,6 @@ type ActiveFlavorSource =
   | 'fgattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
-  | 'server-membership'
   | 'commonmark-fallback';
 
 type ResolveFlavorResult =
@@ -180,7 +174,7 @@ Effective flavor resolution has three separate stages:
 
 `.fgattributes` can trigger Auto Detect by leaving `flavor` absent, clearing it
 with `!flavor`, or setting `flavor=auto`. Auto Detect does not read
-`.fgattributes`; it receives only document, workspace, marker, and syntax/context
+`.fgattributes`; it receives only document, Obsidian marker, and syntax
 evidence.
 
 ```mermaid
@@ -194,9 +188,9 @@ flowchart TD
   D -- "No" --> G{"Resolved config selects concrete flavor?"}
   G -- "Yes" --> R4["effective = configured flavor"]
   G -- "No: absent, !flavor, or auto" --> H["Run Auto Detect"]
-  H --> I{".obsidian/ marker or obsidian membership?"}
+  H --> I{".obsidian/ marker?"}
   I -- "Yes" --> R5["effective = obsidian"]
-  I -- "No" --> K{"Strong syntax/context inference?"}
+  I -- "No" --> K{"Strong syntax inference?"}
   K -- "Yes" --> R6["effective = inferred flavor"]
   K -- "No" --> R8["effective = commonmark"]
 ```
@@ -215,8 +209,8 @@ Inside Auto Detect, precedence is independent of configuration:
 
 | Priority | Auto Detect evidence | Value used |
 |---|---|---|
-| A1 | `.obsidian/` marker or server membership reason `obsidian-vault` exists | `obsidian`. |
-| A2 | Syntax/context inference has one strong winner | The inferred flavor. |
+| A1 | `.obsidian/` marker exists | `obsidian`. |
+| A2 | Syntax inference has one strong winner | The inferred flavor. |
 | A3 | No valid positive signal remains | `commonmark`. |
 
 Tie-breakers:
@@ -238,7 +232,7 @@ Tie-breakers:
   constructs such as pipe tables, task lists, fenced code blocks, headings,
   frontmatter, and strikethrough do not decide a flavor by themselves.
 - If two or more flavors have equally strong evidence, resolution falls through
-  to `commonmark` unless a deterministic host/workspace context breaks the tie.
+  to `commonmark`.
 - Original Markdown is not inferred from "only old Markdown syntax"; that input
   is ambiguous with CommonMark and resolves to `commonmark` unless explicitly
   selected or configured.
@@ -263,8 +257,8 @@ Auto mode is active in three cases:
 When auto mode is active for a visible file, resolution continues through the
 same detection stages:
 
-1. `.obsidian/` marker or Obsidian vault membership resolves to `obsidian`.
-2. Strong syntax/context inference may resolve to an explicit flavor.
+1. `.obsidian/` marker resolves to `obsidian`.
+2. Strong syntax inference may resolve to an explicit flavor.
 3. Ambiguous or generic Markdown resolves to `commonmark`.
 
 `.fgignore` still runs before auto mode. An ignored file is inactive and is not
@@ -307,9 +301,9 @@ profile ids, and incompatible changelog profile pairs are ignored at their
 layer. Invalid pattern syntax does not crash the server; the invalid line is
 reported without logging document content.
 
-## Syntax And Context Inference
+## Syntax Inference
 
-Inference is a best-effort classifier for the no-project-config,
+Inference is a best-effort classifier for the no-concrete-configuration,
 no-Obsidian-marker path.
 It produces candidates with evidence and confidence, then applies the tie-break
 rules above.
@@ -319,8 +313,8 @@ specific renderer/host context:
 
 | Flavor | Strong inference evidence |
 |---|---|
-| `mdx` | Top-level ESM import/export plus JSX elements or MDX expressions in a Markdown document; workspace files such as `mdx-components.*` or MDX tooling can strengthen the candidate. |
-| `r-markdown` | R Markdown chunk fences with info strings such as `{r setup}` or inline R expressions such as `` `r expr` ``; `.Rmd` file names strengthen the candidate when VS Code still reports `markdown`. |
+| `mdx` | Top-level ESM import/export plus JSX elements or MDX expressions in a Markdown document. |
+| `r-markdown` | R Markdown chunk fences with info strings such as `{r setup}` or inline R expressions such as `` `r expr` ``. |
 | `stack-overflow` | Stack Exchange tag links (`[tag:name]`, `[meta-tag:name]`), `<!-- language-all: ... -->`, `<!-- language: ... -->`, Stack Overflow spoiler blocks, or `lang-*` fence info strings. |
 | `reddit` | Reddit host references (`r/name`, `u/name`) plus Reddit spoiler or superscript syntax. |
 | `glfm` | GitLab host references (`#123`, `!456`, `&789`, `group/project#42`), `[[_TOC_]]`, or `[~]` inapplicable task items. |
@@ -329,7 +323,7 @@ specific renderer/host context:
 | `kramdown` | kramdown inline/block attribute lists (`{: .class}`), kramdown math blocks, or kramdown-style definition-list and attribute combinations. |
 | `markdown-extra` | Markdown Extra abbreviation definitions, attribute blocks, fenced-code attributes, footnotes, and definition lists together. |
 | `gfm` | GitHub-specific autolinks or task/table/strikethrough clusters may produce only medium evidence because these constructs are widely copied by other flavors. |
-| `obsidian` | Wiki links, embeds, block anchors, callouts, and tags are strong only when paired with vault-like local context. `.obsidian/` remains the preferred signal. |
+| `obsidian` | Wiki links, embeds, block anchors, callouts, and tags are strong only when unambiguous in the local document. `.obsidian/` remains the preferred signal. |
 | `commonmark` | Chosen as the conservative fallback when no stronger flavor wins. |
 | `original` | Not inferred from syntax; requires explicit `.fgattributes` selection. |
 
@@ -340,16 +334,11 @@ packages, run renderers, or follow host links.
 ### Inference Decision Rules
 
 1. Collect local syntax evidence from the open document.
-2. Add bounded workspace context evidence such as file extension, nearby config
-   filenames, and known workspace folder, without crossing the active
-   workspace/vault boundary.
-3. Discard weak candidates when no strong candidate exists.
-4. If exactly one strong candidate remains, use that flavor with source
+2. Discard weak candidates when no strong candidate exists.
+3. If exactly one strong candidate remains, use that flavor with source
    `syntax-inference`.
-5. If multiple strong candidates remain, use deterministic context tie-breakers
-   only when they are unambiguous. Example: `.Rmd` can break a tie toward
-   `r-markdown`; `package.json` MDX dependencies can break a tie toward `mdx`.
-6. If no winner remains, fall through to `commonmark`.
+4. If multiple strong candidates remain, fall through to `commonmark`.
+5. If no winner remains, fall through to `commonmark`.
 
 The classifier should expose its evidence for status/tooling diagnostics. The
 server-facing base flavor remains a single selected id, with structured
@@ -378,7 +367,6 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
 
   const detected = autoDetectMarkdownFlavor({
     markers: input.markers,
-    serverMembership: input.serverMembership,
     syntaxInference: input.syntaxInference,
   });
 
@@ -394,10 +382,7 @@ function resolveConfiguredFlavor(
 }
 
 function autoDetectMarkdownFlavor(input: AutoDetectInput): AutoDetectFlavorResult {
-  if (
-    input.markers.hasObsidianDirectory ||
-    input.serverMembership?.reason === 'obsidian-vault'
-  ) {
+  if (input.markers.hasObsidianDirectory) {
     return { flavor: 'obsidian', source: 'obsidian-marker' };
   }
 
@@ -422,7 +407,7 @@ function active(
     structuredProfiles: resolveStructuredProfiles(input),
     source,
     workspaceFolder: input.owningWorkspaceFolder,
-    vaultRoot: input.serverMembership?.vaultRoot,
+    vaultRoot: input.owningWorkspaceFolder,
   };
 }
 
@@ -483,7 +468,7 @@ The server-facing payload must let BC4 derive or receive the effective flavor
 for the specific document being parsed. A valid design can use either:
 
 1. a document-URI keyed effective flavor map in `workspace/didChangeConfiguration`;
-2. `.fgattributes` plus server-side document membership lookup;
+2. `.fgattributes` plus server-side document visibility lookup;
 3. initialization options plus configuration change notifications; or
 4. a documented custom request.
 
@@ -517,12 +502,11 @@ change:
 - workspace folder is added, removed, or renamed;
 - active/visible editor changes;
 - Markdown file opens;
-- server readiness or membership result changes;
+- server readiness changes;
 - `.obsidian/` marker appears or disappears;
 - `.fgignore` or `.fgattributes` appears, disappears, or changes;
 - document text changes enough to alter syntax-inference evidence;
 - document text changes enough to alter structured-profile evidence;
-- workspace context files used by syntax inference appear, disappear, or change;
 - restricted/virtual workspace state changes.
 - workspace trust state changes.
 

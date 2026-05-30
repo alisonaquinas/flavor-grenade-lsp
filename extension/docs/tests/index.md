@@ -27,7 +27,7 @@ Detailed extension test cases live in:
 | Flavor selector | The selector is visible for file-backed Markdown documents and lists `auto` plus every required researched flavor. |
 | Override persistence | Selector writes `.fgattributes` in the active file's directory after the second scope prompt chooses selected-file or directory scope. |
 | Effective flavor resolution | `.fgignore` makes matching files inactive; `.fgattributes` concrete flavor values select a flavor; `.fgattributes flavor=auto`, `!flavor`, and absent config files invoke Auto Detect for the whole opened tree. |
-| Auto-detection | Auto Detect runs independently of configuration and uses `.obsidian/`, server membership, strong syntax/context evidence, ambiguity fallback, and generic CommonMark fallback. |
+| Auto-detection | Auto Detect runs independently of configuration and uses `.obsidian/`, strong syntax evidence, ambiguity fallback, and generic CommonMark fallback. |
 | Ignored files | `.fgignore` matches produce inactive Flavor Grenade state, no diagnostics/completions/selector writes, and return to Auto Detect after negation or removal. |
 | Structured profiles | Keep a Changelog, Common Changelog, and MADR are configured through `.fgattributes` or inferred separately from the base Markdown flavor, have smoke fixtures under `.fgattributes`-configured and config-absent inference workspaces, and never appear as Markdown flavor selector choices. |
 | Fixture boundary safety | Smoketest root README and other negative controls do not inherit child fixture `.fgignore`/`.fgattributes` or repository ancestor config outside the active workspace boundary. |
@@ -60,7 +60,7 @@ Detailed extension test cases live in:
 | Flavor enum/schema | `auto` plus every researched explicit flavor id is accepted and exposed in stable order. |
 | Selector model | Label, quick-pick rows, effective flavor display, and inactive state for non-`markdown` documents. |
 | Effective flavor resolver | `.fgignore`, `.fgattributes` concrete flavor values, `flavor=auto`, `!flavor`, absent config files, invalid values, and fixture-boundary confinement. |
-| Auto-detection resolver | `.obsidian/`, membership result, syntax/context inference, ambiguity fallback, fixture-boundary confinement, and generic CommonMark fallback. |
+| Auto-detection resolver | `.obsidian/`, strong syntax evidence, ambiguity fallback, fixture-boundary confinement, and generic CommonMark fallback. |
 | Structured profile resolver | `.fgattributes structured_profiles` accepts `auto`, `none`, and compatible explicit lists; auto inference detects Keep a Changelog, Common Changelog, and MADR from local evidence without changing the base flavor. |
 | Override persistence | Selected-file and directory `.fgattributes` target selection plus `Auto Detect` clearing/reset behavior. |
 | Ignored files | `.fgignore` matched files are inactive and do not offer active Flavor Grenade writes until re-included. |

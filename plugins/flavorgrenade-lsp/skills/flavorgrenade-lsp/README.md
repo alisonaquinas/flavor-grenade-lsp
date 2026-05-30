@@ -61,18 +61,46 @@ workspace or directory.
 ## Configuration
 
 The embedded LSP remains authoritative. The wrapper reports config evidence but
-does not reinterpret config files itself. Supported project config inputs are
-TOML, JSON, JSONC, YAML, and Flavor Grenade `.editorconfig` directives.
+does not invent flavor decisions. Supported project flavor config files are
+`.fgignore` and `.fgattributes`.
 
-One config file may assign different flavors or structured profiles to
-different directories. Run analysis per target file or workspace path so
-directory-specific evidence is preserved.
+`.fgignore` controls Flavor Grenade visibility. Matching Markdown files are
+inactive, skipped by wrapper scans, and should not be edited with
+flavor-sensitive assumptions unless a later negated rule re-includes them.
+
+```gitignore
+# .fgignore
+drafts/
+!drafts/keep.md
+generated/**/*.md
+```
+
+`.fgattributes` controls explicit flavor and structured-profile attributes.
+Rules cascade from the workspace root to the target file's directory. Later
+matching rules override earlier rules. Negated selectors affect only matching
+rules in the same `.fgattributes` file; `!flavor` clears the effective flavor
+selected so far for matching files so Auto Detect can run unless a later
+matching rule sets another flavor; `flavor=auto` explicitly requests Auto
+Detect.
+
+```gitattributes
+# .fgattributes
+*.md flavor=commonmark
+docs/**/*.md flavor=gfm structured_profiles=madr
+docs/private.md !flavor
+CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
+```
+
+When these files do not exist or no concrete flavor applies, Auto Detect is the
+default for the target directory and descendants. Legacy `.flavor-grenade.*`
+files and `.editorconfig` directives are not flavor assignment sources.
 
 ## Safety
 
 Wrappers do not download runtime binaries, execute Markdown code, run renderer
-plugins, or fetch remote references. Host and renderer references are reported
-as boundaries.
+plugins, or fetch remote references. The JSON schema reserves `boundaries` for
+future host and renderer boundary evidence; current wrapper output may return
+empty boundary arrays.
 
 ## Maintenance
 

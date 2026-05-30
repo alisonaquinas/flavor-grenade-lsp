@@ -28,7 +28,7 @@ This validation plan confirms that vault authors never have to manually tell the
 **Verification coverage:** TC-VER-WS-001, TC-VER-WS-002
 
 **Scenario (user perspective):**
-As a vault author, I open a folder in my editor and expect the language server to recognise it as a vault and activate all features without me doing anything extra. I have two common setups: one where the folder was already used with Obsidian directly (it has the `.obsidian` configuration folder inside it), and one where I set up a fresh workspace just for flavor-grenade-lsp editing (it has a `.flavor-grenade.toml` file but no `.obsidian` folder). In both cases I expect completions, link resolution, and diagnostics to be live as soon as my first note opens.
+As a vault author, I open a folder in my editor and expect the language server to recognise it as a vault and activate all features without me doing anything extra. I have two common setups: one where the folder was already used with Obsidian directly (it has the `.obsidian` configuration folder inside it), and one where I set up a fresh workspace just for flavor-grenade-lsp editing (it has a `.fgattributes` or `.fgignore` file but no `.obsidian` folder). In both cases I expect completions, link resolution, and diagnostics to be live as soon as my first note opens.
 
 **Sub-scenario A — folder previously used with Obsidian:**
 
@@ -53,10 +53,10 @@ Feature: Server detects a standard Obsidian vault automatically
 ```gherkin
 Feature: Server detects a flavor-grenade-lsp workspace automatically
 
-  Scenario: Author opens a non-Obsidian folder with a config file and features activate
+  Scenario: Author opens a non-Obsidian folder with an .fgattributes marker and features activate
     Given a folder "Technical Docs/" containing:
-      | path                               | type |
-      | Technical Docs/.flavor-grenade.toml | file |
+      | path                                  | type |
+      | Technical Docs/.fgattributes           | file |
       | Technical Docs/architecture/overview.md | file |
       | Technical Docs/architecture/decisions.md | file |
     And "Technical Docs/.obsidian/" does NOT exist
@@ -72,7 +72,7 @@ Feature: Server detects a flavor-grenade-lsp workspace automatically
 
    Directory A — `Personal Knowledge Base/`: contains `.obsidian/` (as a directory with a minimal `app.json`), `Daily Notes/2026-04-17.md`, and `Projects/obsidian-stack.md`.
 
-   Directory B — `Technical Docs/`: contains `.flavor-grenade.toml` (minimal valid TOML: `[vault]`) but no `.obsidian/`, plus `architecture/overview.md` and `architecture/decisions.md`.
+   Directory B — `Technical Docs/`: contains `.fgattributes` with `*.md flavor=auto` but no `.obsidian/`, plus `architecture/overview.md` and `architecture/decisions.md`.
 
 2. Agent starts the server with `Personal Knowledge Base/` as the workspace root and waits for the indexing progress signal.
 3. Agent opens `Daily Notes/2026-04-17.md` and triggers a completion request after `[[`. Agent confirms that `obsidian-stack` appears in the candidates, confirming cross-file indexing is active.
@@ -82,7 +82,7 @@ Feature: Server detects a flavor-grenade-lsp workspace automatically
 7. Agent confirms the server's internal vault-mode report is `flavor-grenade`.
 8. Agent verifies that in neither scenario did the vault author provide any path or configuration beyond opening the folder.
 
-**Pass:** In sub-scenario A, a folder with `.obsidian/` activates vault mode and makes cross-file completions available immediately. In sub-scenario B, a folder with only `.flavor-grenade.toml` does the same. No manual path configuration is required in either case.
+**Pass:** In sub-scenario A, a folder with `.obsidian/` activates vault mode and makes cross-file completions available immediately. In sub-scenario B, a folder with only `.fgattributes` does the same. No manual path configuration is required in either case.
 **Fail:** Either folder fails to be recognised as a vault; cross-file completions are absent or empty; the server requires the author to set a vault path manually; the server reports the wrong vault mode.
 
 ---

@@ -31,7 +31,7 @@ flavors only. Auto-detection precedence tests follow
 | MF-U-005 | `src/parser/__tests__/markdown-flavor-profiles.test.ts` | `Extension.MarkdownFlavor.DialectProfiles` | GFM and GLFM profiles inherit CommonMark baseline and declare their platform extensions separately. |
 | MF-U-006 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Security.Input.FlavorPropagationPayload` | The documented resource-specific flavor payload accepts every required flavor id and rejects unknown ids, malformed resource maps, non-file URI keys, dangerous object keys, stale resources, and `auto` as effective flavor without mutating active flavor state. |
 | MF-U-007 | `src/lsp/handlers/__tests__/configuration.handler.test.ts` | `Extension.MarkdownFlavor.ServerPropagation`, `Extension.MarkdownFlavor.Refresh` | Flavor changes mark affected open documents for diagnostics and feature refresh. |
-| MF-U-008 | planned effective-flavor resolver unit | `Extension.MarkdownFlavor.AutoDetection` | The effective flavor truth table from [[docs/design/markdown-flavor-auto-detection]] must be covered: `.fgignore` inactive state, `.fgattributes` concrete flavor, `.fgattributes flavor=auto`, `!flavor`, absent config files, `.obsidian/`, server membership, syntax/context inference, invalid values, and CommonMark fallback. Auto Detect must be tested as a separate resolver that receives config outcome and does not read `.fgattributes`. |
+| MF-U-008 | planned effective-flavor resolver unit | `Extension.MarkdownFlavor.AutoDetection` | The effective flavor truth table from [[docs/design/markdown-flavor-auto-detection]] must be covered: `.fgignore` inactive state, `.fgattributes` concrete flavor, `.fgattributes flavor=auto`, `!flavor`, absent config files, `.obsidian/`, syntax inference, invalid values, and CommonMark fallback. Auto Detect must be tested as a separate resolver that receives config outcome and does not read `.fgattributes`. |
 | MF-U-009 | shared flavor contract fixture | `Extension.MarkdownFlavor.RequiredCoverage` | Server accepted ids, extension constants, package schema enum, and selector ids match exactly. |
 | MF-U-010 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | Original Markdown analysis supports historical core constructs, marks Phase 22 LSP surfaces implemented, emits FG101 portability diagnostics for unsupported extensions, and suppresses inactive Obsidian completions. |
 | MF-U-011 | `src/parser/__tests__/markdown-flavor-parser-analysis.test.ts`, `src/resolution/__tests__/diagnostic-service.test.ts`, `src/completion/__tests__/completion-router.test.ts` | `Extension.MarkdownFlavor.DialectProfiles`, `FlavorLSP.Parser.ProfileDispatch`, `FlavorLSP.Diagnostics.ProfileRules`, `FlavorLSP.Completion.ProfileCandidates` | CommonMark analysis supports fenced code, setext/ATX headings, inline/reference links, autolinks, and implemented surface status while excluding GFM tables/tasks and Obsidian wiki links/callouts as core syntax; FG102 portability warnings and inactive Obsidian completion suppression are covered. |
@@ -103,8 +103,8 @@ Unit evidence for diagnostic and feature refresh after flavor changes.
 
 Unit evidence for [[docs/design/markdown-flavor-auto-detection]], including
 `.fgignore` visibility gating, `.fgattributes` concrete flavor resolution,
-`flavor=auto`, `!flavor`, absent config files, server membership,
-syntax/context inference, boundary confinement, and invalid-value fallback.
+`flavor=auto`, `!flavor`, absent config files, syntax inference, boundary
+confinement, and invalid-value fallback.
 Auto Detect is covered as an independent resolver invoked by config/defaults.
 
 ### MF-U-010 - Original Markdown Parser And Analysis
@@ -203,7 +203,7 @@ evidence.
 - Configuration validation cannot accept an unresearched flavor id.
 - Effective flavor precedence, `.fgignore` inactive state, `.fgattributes`
   selection, and invalid configured flavor fallback are covered.
-- Config-absent syntax/context inference, ambiguity fallback, and boundary
+- Config-absent syntax inference, ambiguity fallback, and boundary
   confinement are covered as Auto Detect behavior.
 - Structured profile flags for Keep a Changelog, Common Changelog, and MADR
   are covered without expanding `MarkdownFlavorId`.

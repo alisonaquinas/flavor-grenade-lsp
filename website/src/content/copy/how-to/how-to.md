@@ -26,7 +26,7 @@ Start here when you want to do something concrete: install the extension, instal
 - [Use the VS Code Extension](/how-to/use-vscode-extension/) - Install and activate the Flavor Grenade VS Code extension for Markdown workspace workflows.
 - [Use the LLM Skill and Plugin](/how-to/use-llm-skill-plugin/) - Install the Flavor Grenade LSP skill/plugin so Claude, Codex, and compatible agents can inspect Markdown flavor evidence.
 - [Configure Markdown Workspaces](/how-to/configure-obsidian-vaults/) - Configure root detection, indexing boundaries, explicit flavor markers, and generated-output behavior.
-- [Choose a Markdown Flavor](/how-to/choose-a-markdown-flavor/) - Use Auto Detect, project configuration, and the VS Code selector to choose the right base Markdown flavor.
+- [Choose a Markdown Flavor](/how-to/choose-a-markdown-flavor/) - Use Auto Detect, `.fgattributes`, and the VS Code selector to choose the right base Markdown flavor.
 - [Use Structured Profiles](/how-to/use-structured-profiles/) - Layer Keep a Changelog, Common Changelog, or MADR structure on top of the selected Markdown flavor.
 - [Fix Broken Links](/how-to/fix-broken-links/) - Use diagnostics to repair missing notes, headings, embeds, images, and attachments.
 - [Use Code Actions](/how-to/use-code-actions/) - Apply Flavor Grenade quick fixes for missing files, table of contents updates, tags, and non-breaking spaces.

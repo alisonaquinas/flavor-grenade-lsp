@@ -1,6 +1,6 @@
 ---
 title: "Configure Markdown Workspaces | Flavor Grenade LSP"
-description: "Configure root detection, indexing boundaries, explicit flavor markers, and generated-output behavior."
+description: "Configure root detection, .fgignore visibility, .fgattributes flavor rules, and generated-output behavior."
 h1: "Configure Markdown Workspaces"
 summary: "Help Flavor Grenade find the right project root so flavor detection, links, tags, and attachments line up."
 related: ["howToChooseMarkdownFlavor","conceptVaultIndex","advancedConfigurationModel"]
@@ -20,15 +20,15 @@ Most workspace problems start with the root folder. Flavor Grenade reads notes, 
 
 Start with the folder tree before changing configuration.
 
-A single `.obsidian/` folder or Flavor Grenade project config file should identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
+A single `.obsidian/` folder, `.fgignore`, or `.fgattributes` file can identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
 
 ### Open the intended root
 
-Open the folder that owns `.obsidian/` or the project config marker, not a parent folder that happens to contain several projects.
+Open the folder that owns `.obsidian/`, `.fgignore`, or `.fgattributes`, not a parent folder that happens to contain several projects.
 
 ### Keep markers explicit
 
-Use `.obsidian/` for Obsidian vaults or project config for a configured Markdown project. Supported config marker names are `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and `.editorconfig` with Flavor Grenade directives.
+Use `.obsidian/` for Obsidian vaults, `.fgattributes` for repository-tracked flavor rules, and `.fgignore` for Markdown that should not be processed or indexed.
 
 ### Confirm indexed files
 
@@ -36,7 +36,8 @@ Keep generated output and unrelated assets outside the indexed boundary when the
 
 ```text
 DocsProject/
-  .flavor-grenade.yaml
+  .fgattributes
+  .fgignore
   docs/
     README.md
     decisions/
@@ -44,25 +45,20 @@ DocsProject/
   CHANGELOG.md
 ```
 
-TOML version:
+`.fgattributes` example:
 
-```toml
-[core.markdown]
-flavor = "auto"
-structured_profiles = "auto"
+```gitattributes
+*.md flavor=auto
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
+CHANGELOG.md flavor=gfm structured_profiles=keep-a-changelog
 ```
 
-YAML version:
+`.fgignore` example:
 
-```yaml
-core:
-  markdown:
-    flavor: auto
-    structured_profiles: auto
-    overrides:
-      - path: docs/decisions
-        flavor: commonmark
-        structured_profiles: [madr]
+```gitignore
+generated/
+private/
+!private/README.md
 ```
 
 ## Expected result

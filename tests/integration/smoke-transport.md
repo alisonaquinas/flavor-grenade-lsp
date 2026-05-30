@@ -68,14 +68,14 @@ And "capabilities" is a JSON object (may be empty but must be present)
 **Phase gate:** Phase 1
 
 **Setup:**
-A temporary directory containing a single `.md` file but no `.obsidian/` directory and no `.flavor-grenade.toml`. This tests the server's behaviour when vault detection fails.
+A temporary directory containing a single `.md` file but no `.obsidian/` directory and no `.fgignore` or `.fgattributes`. This tests the server's behaviour when vault detection fails.
 
 **Scripted steps:**
 
 ```gherkin
 Given a temporary directory "/tmp/fg-smoke-002" containing only "orphan.md"
 And no ".obsidian/" directory exists anywhere in "/tmp/fg-smoke-002"
-And no ".flavor-grenade.toml" file exists anywhere in "/tmp/fg-smoke-002"
+And no ".fgignore" or ".fgattributes" file exists anywhere in "/tmp/fg-smoke-002"
 When the LSP server is spawned and receives an "initialize" request with rootUri "/tmp/fg-smoke-002"
 Then the server responds with a valid InitializeResult
 And the server does NOT return an error response

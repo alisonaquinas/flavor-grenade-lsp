@@ -21,7 +21,7 @@ and affects analysis without requiring VS Code UI.
 | MF-I-002 | `src/test/integration/markdown-flavor.test.ts` | Change the matching `.fgattributes` rule from `commonmark` to `obsidian` with an open document containing `[[Target]]`. | Server refreshes the open document and Obsidian profile enables wiki-link diagnostics/navigation. |
 | MF-I-003 | `src/test/integration/markdown-flavor.test.ts` | Iterate every required explicit flavor id through `.fgattributes` updates and resource-specific propagation payloads. | Server accepts each id and publishes or exposes a refresh state without process restart. |
 | MF-I-004 | `src/test/integration/markdown-flavor.test.ts` | Use unsupported `.fgattributes` flavor id `asciidoc`. | Server reports configuration validation failure or ignores the invalid line and keeps previous effective flavor. |
-| MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with root and nested `.fgignore`/`.fgattributes`, standalone file context, syntax-inference candidates, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: visibility gating, `.fgattributes` concrete selection, Auto Detect triggered by absent `flavor`, `!flavor`, or `flavor=auto`, Obsidian marker/membership evidence, syntax/context inference, then CommonMark fallback. |
+| MF-I-005 | `src/test/integration/markdown-flavor.test.ts` | Start temp workspaces with root and nested `.fgignore`/`.fgattributes`, standalone file context, syntax-inference candidates, and invalid configured values. | Effective flavor follows [[docs/design/markdown-flavor-auto-detection]]: visibility gating, `.fgattributes` concrete selection, Auto Detect triggered by absent `flavor`, `!flavor`, or `flavor=auto`, Obsidian marker evidence, syntax inference, then CommonMark fallback. |
 | MF-I-006 | `src/test/integration/markdown-flavor.test.ts` | Change effective flavor with an open fixture containing diagnostics, completion, navigation, hover, semantic-token, and rename trigger points. | Each handler consumes the refreshed effective flavor and returns flavor-specific results without requiring server restart. |
 | MF-I-007 | `src/test/integration/markdown-flavor.test.ts` | Open two documents in different workspace roots or vault contexts with different effective flavors. | Diagnostics, completion, navigation/documentLink, hover, semantic tokens, and rename requests remain resource-specific; one document's override does not leak into the other. |
 | MF-I-008 | `src/test/integration/markdown-flavor.test.ts` | Analyze host-boundary fixtures for GFM, GLFM, Pandoc, MultiMarkdown, MDX, R Markdown, Reddit, and Stack Overflow. | Host, conversion, renderer, and execution-bound references are classified without local navigation, local rename edits, broken-vault diagnostics, network access, process execution, dynamic imports, or out-of-root file reads. |
@@ -51,7 +51,7 @@ and affects analysis without requiring VS Code UI.
 
 Spawned-server temp workspace evidence for
 [[docs/design/markdown-flavor-auto-detection]], `.fgignore`, `.fgattributes`,
-`flavor=auto`, `!flavor`, absent configuration, syntax/context inference,
+`flavor=auto`, `!flavor`, absent configuration, syntax inference,
 invalid configured values, and fallback precedence.
 
 ### MF-I-006 - Handler Refresh Coverage

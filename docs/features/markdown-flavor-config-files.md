@@ -20,7 +20,7 @@ When neither `.fgignore` nor `.fgattributes` exists for a directory tree,
 Flavor Grenade applies Auto Detect to the entire directory and all
 subdirectories. In that default state, `.obsidian/` still resolves Markdown
 files to `obsidian`; otherwise generic Markdown falls back to `commonmark`
-unless strong syntax/context evidence selects another flavor.
+unless strong syntax evidence selects another flavor.
 
 ## User-Visible Behavior
 
@@ -137,8 +137,9 @@ Supported initial attributes:
 | `flavor` | `auto`, `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, `stack-overflow` |
 | `structured_profiles` | `auto`, `none`, `keep-a-changelog`, `common-changelog`, `madr`, or a comma-separated compatible list |
 
-`!flavor` and `!structured_profiles` reset those attributes for matching paths.
-The file then falls through to lower-priority rules or Auto Detect.
+`!flavor` and `!structured_profiles` clear the effective attribute selected so
+far for matching paths. The file then uses Auto Detect unless a later matching
+rule sets the attribute again.
 
 For symmetry with `.fgignore`, a leading `!` selector may cancel earlier
 `.fgattributes` selectors in the same file for matching paths. Attribute reset
@@ -185,7 +186,7 @@ Interpretation:
 | `docs/guide.md` | `flavor=gfm` | Later `docs/**/*.md` rule overrides `*.md`. |
 | `docs/changelog.md` | `flavor=gfm`, `structured_profiles=keep-a-changelog` | GFM plus Keep a Changelog structure. |
 | `notes/today.md` | `flavor=obsidian` | Notes rule overrides root CommonMark. |
-| `notes/drafts/idea.md` | no explicit flavor/profile | `!flavor` and `!structured_profiles` reset attributes; Auto Detect runs. |
+| `notes/drafts/idea.md` | no explicit flavor/profile | `!flavor` and `!structured_profiles` clear the accumulated attributes; Auto Detect runs. |
 | `experiments/test.md` | `flavor=auto` | Auto Detect runs because auto is a configured request, not an effective flavor. |
 
 Rules are interpreted per attribute. A later rule can change `flavor` while

@@ -18,7 +18,7 @@ This file defines scripted and agent-driven verification test cases for the five
 | `Link.Wiki.AliasResolution` | YAML `aliases:` values must be treated as valid link targets equivalent to the document's primary name. | Phase 1 |
 | `Link.Resolution.ModeScope` | Single-file mode must suppress all cross-file link resolution and return no cross-file results. | Phase 1 |
 | `Link.Inline.URLSkip` | Non-markdown inline link URLs must produce no FG001 diagnostic. | Phase 1 |
-| `Link.Resolution.IgnoreGlob` | Files matching configured ignore patterns must be absent from all completion candidates and definition results. | Phase 2 |
+| `Link.Resolution.IgnoreGlob` | Files matching `.fgignore` patterns must be absent from all completion candidates and definition results. | Phase 2 |
 
 ## Test Cases
 
@@ -217,33 +217,34 @@ And the count of FG001 diagnostics overlapping non-markdown inline link URLs equ
 ### TC-VER-WIKI-005 — Link.Resolution.IgnoreGlob
 
 **Planguage Tag:** `Link.Resolution.IgnoreGlob`
-**Gist:** Files matching `.gitignore`-style glob patterns in the server configuration must be absent from all completion candidates and go-to-definition results.
+**Gist:** Files matching `.fgignore` Git-style glob patterns must be absent from all completion candidates and go-to-definition results.
 **Type:** Both
 **BDD Reference:** **BDD gap** — no scenario covers this requirement
 **Phase:** Phase 2
 
 **Setup:**
-Configure `ignore_patterns` in `.flavor-grenade.toml` to match a specific subdirectory (e.g., `templates/**`). Place at least 5 markdown documents inside that subdirectory and at least 5 outside it. The server is initialised against the vault root with the ignore configuration active.
+Configure `.fgignore` to match a specific subdirectory (e.g., `templates/`). Place at least 5 markdown documents inside that subdirectory and at least 5 outside it. The server is initialised against the vault root with the ignore configuration active.
 
 **Scripted steps:**
 
 ```gherkin
-Given a vault with "ignore_patterns = ['templates/**']" in .flavor-grenade.toml
+Given a vault with ".fgignore" containing "templates/"
 And at least 5 markdown documents exist under "templates/" and at least 5 under other directories
 When completion is triggered at a "[[" position in an un-ignored document
 Then no CompletionItem in the response references a file whose path matches "templates/**"
 And when textDocument/definition is invoked on a "[[link]]" whose resolved path is inside "templates/"
 Then the definition response is null or empty
+And the ignored file produces no diagnostics, symbols, references, or rename edits
 And (requests with no ignored-file results / total requests tested) × 100 equals 100
 ```
 
 **Agent-driven steps:**
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
-2. Agent writes `.flavor-grenade.toml` with:
+2. Agent writes `.fgignore` with:
 
-   ```toml
-   ignore_patterns = ["templates/**"]
+   ```gitignore
+   templates/
    ```
 
 3. Agent writes 5 markdown documents under `templates/` (e.g., `templates/daily.md`, `templates/meeting.md`, …).
@@ -253,9 +254,10 @@ And (requests with no ignored-file results / total requests tested) × 100 equal
 7. Agent sends `initialize` + `initialized` JSON-RPC.
 8. Agent sends `textDocument/didOpen` for `notes/index.md`; sends `textDocument/completion` at a `[[` position; collects all `CompletionItem` entries; asserts none reference a path under `templates/`.
 9. Agent sends `textDocument/definition` for the range of `[[templates/daily]]`; asserts the response is `null` or an empty array.
-10. Agent computes (requests with no ignored-file results / total requests tested) × 100.
-11. Agent records measurement against Fail/Goal thresholds.
-12. Agent sends `shutdown` + `exit`.
+10. Agent verifies ignored files do not produce diagnostics, document symbols, references, rename edits, or completion candidates.
+11. Agent computes (requests with no ignored-file results / total requests tested) × 100.
+12. Agent records measurement against Fail/Goal thresholds.
+13. Agent sends `shutdown` + `exit`.
 
 **Pass criterion:** 0 ignored-file entries in any completion or definition response.
 **Fail criterion:** Any completion candidate or definition result whose resolved file path matches an active ignore pattern.

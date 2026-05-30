@@ -15,8 +15,10 @@ structure, diagnostics, or links matter.
    flavor-sensitive edits.
 3. Run `node wrappers/flavorgrenade.mjs analyze <path> --json` before broad
    Markdown rewrites.
-4. Use wrapper `config`, `evidence`, `boundaries`, and `diagnostics` fields as
-   the source of truth.
+4. Use wrapper `config`, `evidence`, and `diagnostics` fields as the source of
+   truth. The `boundaries` field is reserved and may be empty in current
+   wrapper output. `.fgignore` hides files from analysis; `.fgattributes`
+   supplies explicit flavor and structured-profile attributes.
 5. Treat changelog and MADR results as structured variants layered over a base
    Markdown flavor.
 
@@ -29,8 +31,13 @@ structure, diagnostics, or links matter.
   boundaries into local files.
 - Do not parse `.flavor-grenade.*` or `.editorconfig` yourself to override
   wrapper output.
+- Do not treat `.flavor-grenade.*` or `.editorconfig` as flavor assignment
+  sources. Persistent flavor assignment comes from `.fgattributes`; hidden files
+  come from `.fgignore`.
 - Do not copy one file's flavor decision to another directory without wrapper
   evidence.
+- Do not analyze or edit a Markdown file when wrapper output reports
+  `"active": false` or `config.ignored: true`.
 - Stop if executable digest verification fails.
 
 ## Commands
@@ -61,6 +68,32 @@ Supported scan options: `--include <glob>`, `--exclude <glob>`,
 `--max-files <count>`, and `--max-bytes <bytes>`. `--include` and `--exclude`
 accept comma-separated selectors. Default file cap is `500`; set a lower cap
 for broad repositories.
+
+Flavor Grenade config files follow Git-style cascading rules:
+
+```gitignore
+# .fgignore
+drafts/
+!drafts/keep.md
+build/**/*.md
+```
+
+```gitattributes
+# .fgattributes
+*.md flavor=commonmark
+docs/**/*.md flavor=gfm structured_profiles=madr
+docs/private.md !flavor
+changelog/CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
+```
+
+Read `.fgignore` as visibility first: matching files are inactive and excluded
+from wrapper scans unless a later negated rule re-includes them. Read
+`.fgattributes` from the workspace root toward the file's directory; later
+matching rules override earlier rules, `!flavor` clears the effective flavor
+selected so far for matching files, and `flavor=auto` means run Auto Detect.
+When no `.fgignore` or
+`.fgattributes` applies, Auto Detect remains the default for the target
+directory and descendants.
 
 Fallback: if the wrapper cannot run, explain that Flavor Grenade analysis is
 unavailable and make only conservative Markdown edits.
