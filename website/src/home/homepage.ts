@@ -130,15 +130,15 @@ export const homepageProof: HomepageProof = {
 export const featureHighlights: readonly FeatureHighlight[] = [
   {
     title: 'Detect the right Markdown flavor',
-    description: 'Auto Detect uses config, vault markers, syntax, context, and CommonMark fallback.',
+    description: 'Auto Detect uses vault markers, syntax, context, and CommonMark fallback unless .fgattributes pins flavor.',
     signal: 'diagnostic',
     detail: {
       title: 'How Auto Detect keeps generic Markdown generic',
       summary:
         'Flavor Grenade resolves one effective base flavor per document before applying vault behavior or structured profiles.',
       markdownExample: [
-        '[core.markdown]\nflavor = "commonmark"',
-        '[[core.markdown.overrides]]\npath = "docs/github"\nflavor = "gfm"',
+        '*.md flavor=auto',
+        'docs/github/*.md flavor=gfm',
       ],
       outcome:
         'A root README can stay CommonMark while Obsidian notes, MDX pages, and changelogs get the behavior their evidence supports.',

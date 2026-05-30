@@ -31,7 +31,7 @@ npx flavor-grenade-lsp
 
 Direct clients must launch the server, provide a usable file `rootUri`, send configuration, and handle file watching.
 
-The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/` or a Flavor Grenade project config marker, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
+The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/`, `.fgignore`, or `.fgattributes`, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
 
 ```json
 {
@@ -43,7 +43,7 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
     "linkStyle": "file-stem",
     "completionCandidates": 50,
     "diagnosticsSuppress": [],
-    "projectConfigMaxBytes": 8192
+    "fgConfigMaxBytes": 8192
   },
   "capabilities": {
     "workspace": {
@@ -60,55 +60,32 @@ If your client sends workspace configuration after initialize, use the same publ
 {
   "settings": {
     "flavorGrenade": {
-      "markdownFlavor": "auto",
-      "markdownStructuredProfiles": ["madr"],
-      "projectConfigMaxBytes": 8192
+      "fgConfigMaxBytes": 8192
     }
   }
 }
 ```
 
-Direct server options such as `linkStyle`, `completionCandidates`, `diagnosticsSuppress`, and the project-config read cap `projectConfigMaxBytes` belong in `initializationOptions`. Flavor and structured-profile state belongs in `workspace/didChangeConfiguration` unless project configuration or Auto Detect can decide it. A client may also send `projectConfigMaxBytes` in `workspace/didChangeConfiguration` when exposing a live settings UI.
+Direct server options such as `linkStyle`, `completionCandidates`, `diagnosticsSuppress`, and the `.fgignore` / `.fgattributes` read cap `fgConfigMaxBytes` belong in `initializationOptions`. Flavor and structured-profile persistence belongs in `.fgattributes`. A client may also send `fgConfigMaxBytes` in `workspace/didChangeConfiguration` when exposing a live settings UI.
 
-For a project-level override, put a Flavor Grenade project config file at the project root. TOML is still supported and is checked first:
+For a project-level override, put `.fgattributes` at the project root:
 
-```toml
-[core.markdown]
-flavor = "gfm"
-structured_profiles = ["keep-a-changelog"]
+```gitattributes
+*.md flavor=commonmark
+docs/api/*.md flavor=pandoc
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
+CHANGELOG.md flavor=gfm structured_profiles=keep-a-changelog
 ```
 
-JSONC and YAML use the same logical shape:
+Use `.fgignore` for Markdown that should not enter the index:
 
-```jsonc
-{
-  "core": {
-    "markdown": {
-      "flavor": "commonmark",
-      "structured_profiles": "auto",
-      "overrides": [
-        { "path": "docs/api", "flavor": "pandoc" },
-        { "path": "docs/decisions", "flavor": "commonmark", "structured_profiles": ["madr"] }
-      ]
-    }
-  }
-}
+```gitignore
+generated/
+private/
+!private/README.md
 ```
 
-```yaml
-core:
-  markdown:
-    flavor: commonmark
-    structured_profiles: auto
-    overrides:
-      - path: docs/api
-        flavor: pandoc
-      - path: docs/decisions
-        flavor: commonmark
-        structured_profiles: [madr]
-```
-
-Use `structured_profiles = "none"` or `structured_profiles: none` when a repository should not apply structured-document behavior.
+Use `structured_profiles=none` when a repository should not apply structured-document behavior.
 
 ## Initialize shape
 
@@ -118,11 +95,11 @@ A minimal direct-client flow is:
 spawn: npx flavor-grenade-lsp
 send: initialize with file rootUri and workspaceFolders
 send: initialized
-watch: Markdown files, .obsidian/, and Flavor Grenade project config markers
+watch: Markdown files, .obsidian/, .fgignore, and .fgattributes
 send: didOpen/didChange/didClose for open documents
 ```
 
-The server accepts normal LSP initialize parameters. Flavor-specific initialization data is not read from initialize options; direct clients with a selector UI should send explicit state with `workspace/didChangeConfiguration`.
+The server accepts normal LSP initialize parameters. Flavor-specific initialization data is not read from initialize options; direct clients with a selector UI should write `.fgattributes` or ask the user to edit it.
 
 ```json
 {

@@ -1,6 +1,6 @@
 ---
 title: "Markdown Flavor Model | Flavor Grenade LSP"
-description: "Understand base Markdown flavors, explicit configuration, inference, and CommonMark fallback."
+description: "Understand base Markdown flavors, .fgattributes rules, Auto Detect, inference, and CommonMark fallback."
 h1: "Markdown Flavor Model"
 summary: "The Markdown flavor model separates base grammar selection from project structure and editor features."
 related: ["conceptObsidianFlavoredMarkdown","conceptStructuredProfiles","advancedConfigurationModel"]
@@ -16,19 +16,19 @@ Flavor Grenade chooses one effective base flavor for each Markdown document. Tha
 
 The supported base flavor ids are `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`. Auto Detect is a selection mode, not a flavor. It resolves to one effective flavor for the active file.
 
-```toml
-[core.markdown]
-flavor = "pandoc"
-structured_profiles = "auto"
+```gitattributes
+# .fgattributes
+docs/api/*.md flavor=pandoc
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
 ```
 
 ## Detection order
 
-The strongest signal is explicit configuration. VS Code settings can choose `flavorGrenade.markdownFlavor`, and project config can declare `core.markdown.flavor` for the repository. Supported project config files are `.flavor-grenade.toml`, `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`, `.flavor-grenade.yml`, and Flavor Grenade directives in `.editorconfig`. Those signals beat inference because they are intentional.
+The strongest signal is explicit `.fgattributes` configuration. A matching rule can declare `flavor=gfm`, `flavor=obsidian`, or any other supported base flavor for a file or directory. Those signals beat inference because they are intentional.
 
-When explicit project config is absent, Flavor Grenade looks for context. An `.obsidian/` folder is strong evidence for Obsidian Markdown. MDX component syntax, R Markdown chunks, platform-specific tables, footnotes, attributes, and other syntax can also point to a flavor. If signals remain weak or ambiguous, the safe fallback is CommonMark.
+When `.fgattributes` is absent, sets `flavor=auto`, or resets flavor with `!flavor`, Auto Detect looks for context. An `.obsidian/` folder is strong evidence for Obsidian Markdown. MDX component syntax, R Markdown chunks, platform-specific tables, footnotes, attributes, and other syntax can also point to a flavor. If signals remain weak or ambiguous, the safe fallback is CommonMark.
 
-Project config can also be document-specific. One repository can default to CommonMark while `docs/github/` uses GFM and `docs/decisions/` enables the MADR profile.
+`.fgattributes` can also be document-specific. One repository can default to Auto Detect while `docs/github/` uses GFM and `docs/decisions/` enables the MADR profile.
 
 ## Why fallback matters
 

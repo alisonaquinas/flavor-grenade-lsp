@@ -16,10 +16,9 @@ Flavor Grenade uses base flavors for Markdown syntax and structured profiles for
 
 That distinction matters in mixed projects. A MADR decision record can still be CommonMark, GFM, Pandoc, or Obsidian Markdown. The MADR profile helps symbols, folds, hovers, completions, and diagnostics understand ADR structure without pretending MADR is a separate Markdown dialect.
 
-```toml
-[core.markdown]
-flavor = "obsidian"
-structured_profiles = ["madr"]
+```gitattributes
+# .fgattributes
+docs/decisions/*.md flavor=obsidian structured_profiles=madr
 ```
 
 ## Supported profile flags
@@ -42,31 +41,20 @@ Diagnostics should also become more precise. A profile-specific warning can say 
 
 ## Configuration boundary
 
-Use `flavorGrenade.markdownStructuredProfiles` in VS Code or `core.markdown.structured_profiles` in project config. Values can be `auto`, `none`, or an explicit compatible array. Keep the base flavor in `flavorGrenade.markdownFlavor` or `core.markdown.flavor`.
+Use `structured_profiles` in `.fgattributes`. Values can be `auto`, `none`, or an explicit profile such as `madr` or `keep-a-changelog`. Keep the base flavor in the separate `flavor` attribute.
 
 For example, a repository can set CommonMark as the base and still enable profile inference:
 
-```toml
-[core.markdown]
-flavor = "commonmark"
-structured_profiles = "auto"
+```gitattributes
+# .fgattributes
+*.md flavor=commonmark structured_profiles=auto
 ```
 
 That file remains CommonMark. Changelog and MADR behavior only appears when a document has enough profile evidence.
 
 Directory overrides let profile flags follow folder conventions:
 
-```json
-{
-  "core": {
-    "markdown": {
-      "flavor": "commonmark",
-      "structured_profiles": "auto",
-      "overrides": [
-        { "path": "docs/releases", "structured_profiles": ["keep-a-changelog"] },
-        { "path": "docs/decisions", "structured_profiles": ["madr"] }
-      ]
-    }
-  }
-}
+```gitattributes
+docs/releases/*.md structured_profiles=keep-a-changelog
+docs/decisions/*.md structured_profiles=madr
 ```

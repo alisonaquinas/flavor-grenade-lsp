@@ -114,40 +114,33 @@ describe('how-to, advanced usage, and FAQ docs', () => {
       const pageText = text(routeId);
 
       expect(page(routeId).sections.length).toBeGreaterThanOrEqual(3);
-      expect(pageText).toMatch(/```|\.obsidian|\.flavor-grenade|rootUri|unsupported URI|opaque/i);
+      expect(pageText).toMatch(/```|\.obsidian|\.fgignore|\.fgattributes|rootUri|unsupported URI|opaque/i);
       expect(page(routeId).links.some((link) => link.kind === 'route')).toBe(true);
     }
   });
 
-  it('documents project config formats and directory override shapes', () => {
+  it('documents fg config files and directory override shapes', () => {
     const configurationModel = text('advancedConfigurationModel');
 
-    for (const marker of [
-      '.flavor-grenade.toml',
-      '.flavor-grenade.json',
-      '.flavor-grenade.jsonc',
-      '.flavor-grenade.yaml',
-      '.flavor-grenade.yml',
-      '.editorconfig',
-    ]) {
+    for (const marker of ['.fgignore', '.fgattributes', '.obsidian/']) {
       expect(configurationModel).toContain(marker);
     }
 
     for (const requiredExample of [
-      'Single project flavor',
-      'One directory override',
-      'Multiple directory overrides',
+      'Visibility with .fgignore',
+      'Flavor attributes with .fgattributes',
+      'Extension selector',
       'docs/github',
-      'docs/gitlab',
       'docs/decisions',
-      'docs/api',
-      'docs/components',
-      'flavor_grenade_markdown_flavor',
-      'flavor_grenade_markdown_structured_profiles',
-      'flavorGrenade.projectConfig.maxBytes',
+      'docs/private.md !flavor',
+      'flavor=auto',
+      'structured_profiles=madr',
+      'flavorGrenade.fgConfig.maxBytes',
     ]) {
       expect(configurationModel).toContain(requiredExample);
     }
+
+    expect(configurationModel).toContain('not flavor assignment sources');
   });
 
   it('keeps direct LSP configuration examples aligned with the server surface', () => {
@@ -156,11 +149,14 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     expect(directLsp).toContain('"linkStyle": "file-stem"');
     expect(directLsp).toContain('"completionCandidates": 50');
     expect(directLsp).toContain('"diagnosticsSuppress": []');
-    expect(directLsp).toContain('"projectConfigMaxBytes": 8192');
-    expect(directLsp).toContain('"markdownFlavor": "auto"');
-    expect(directLsp).toContain('"markdownStructuredProfiles": ["madr"]');
-    expect(directLsp).toContain('workspace/didChangeConfiguration');
+    expect(directLsp).toContain('"fgConfigMaxBytes": 8192');
+    expect(directLsp).toContain('*.md flavor=commonmark');
+    expect(directLsp).toContain('docs/decisions/*.md flavor=commonmark structured_profiles=madr');
+    expect(directLsp).toContain('watch: Markdown files, .obsidian/, .fgignore, and .fgattributes');
     expect(directLsp).not.toContain('"markdownFlavor": {');
+    expect(directLsp).not.toContain('"markdownFlavor": "auto"');
+    expect(directLsp).not.toContain('"markdownStructuredProfiles": ["madr"]');
+    expect(directLsp).not.toContain('"projectConfigMaxBytes": 8192');
     expect(directLsp).not.toContain('"completion": { "candidates": 50 }');
     expect(directLsp).not.toContain('"diagnostics": { "suppress": [] }');
     expect(directLsp).not.toContain('"trace": { "server": "off" }');

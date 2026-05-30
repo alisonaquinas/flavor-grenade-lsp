@@ -264,7 +264,7 @@ export const websiteRoutes: readonly WebsiteRoute[] = [
     'howToChooseMarkdownFlavor',
     '/how-to/choose-a-markdown-flavor/',
     'Choose a Markdown Flavor | Flavor Grenade LSP',
-    'Use Auto Detect, project configuration, and the VS Code selector to choose the right base Markdown flavor.',
+    'Use Auto Detect, .fgattributes, and the VS Code selector to choose the right base Markdown flavor.',
     'Choose a Markdown Flavor',
     'how-to',
     'how-to',
