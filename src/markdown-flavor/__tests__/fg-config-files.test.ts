@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { FlavorGrenadeConfigFiles } from '../fg-config-files.js';
+import { resolveVaultRelativePath } from '../../vault/vault-path-confinement.js';
 
 describe('FlavorGrenadeConfigFiles', () => {
   let vaultRoot: string;
@@ -156,7 +157,11 @@ describe('FlavorGrenadeConfigFiles', () => {
   });
 
   function abs(relativePath: string): string {
-    return path.join(vaultRoot, relativePath);
+    const target = resolveVaultRelativePath(vaultRoot, relativePath);
+    if (target === null) {
+      throw new Error(`Expected a vault-relative test path: ${relativePath}`);
+    }
+    return target;
   }
 
   function writeFile(relativePath: string, content: string): void {

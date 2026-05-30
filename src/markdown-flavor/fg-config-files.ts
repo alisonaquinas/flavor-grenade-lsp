@@ -10,6 +10,7 @@ import {
 import {
   confineExistingPathToVaultRoot,
   confinePathToVaultRoot,
+  resolveVaultRelativePath,
 } from '../vault/vault-path-confinement.js';
 
 const DEFAULT_FG_CONFIG_MAX_BYTES = 8192;
@@ -115,7 +116,10 @@ export class FlavorGrenadeConfigFiles {
     directory: string,
     fileName: '.fgignore' | '.fgattributes',
   ): string | undefined {
-    const candidate = path.join(directory, fileName);
+    const candidate = configFilePath(vaultRoot, directory, fileName);
+    if (candidate === null) {
+      return undefined;
+    }
     const confined = confineExistingPathToVaultRoot(vaultRoot, candidate);
     if (confined === null) {
       return undefined;
@@ -150,13 +154,29 @@ function configDirectoriesFor(vaultRoot: string, resourcePath: string): ConfigDi
 
   for (let index = 0; index <= parts.length; index += 1) {
     const relativeDir = parts.slice(0, index).join('/');
-    const directory = relativeDir.length === 0 ? vaultRoot : path.join(vaultRoot, relativeDir);
+    const directory =
+      relativeDir.length === 0 ? vaultRoot : resolveVaultRelativePath(vaultRoot, relativeDir);
+    if (directory === null) {
+      continue;
+    }
     const relativeTargetPath =
       relativeDir.length === 0 ? relativeResource : toPosix(path.relative(directory, resourcePath));
     result.push({ directory, relativeTargetPath });
   }
 
   return result;
+}
+
+function configFilePath(
+  vaultRoot: string,
+  directory: string,
+  fileName: '.fgignore' | '.fgattributes',
+): string | null {
+  const relativeDirectory = toPosix(path.relative(vaultRoot, directory));
+  if (relativeDirectory === '' || relativeDirectory === '.') {
+    return resolveVaultRelativePath(vaultRoot, fileName);
+  }
+  return resolveVaultRelativePath(vaultRoot, `${relativeDirectory}/${fileName}`);
 }
 
 function parseIgnoreRules(content: string): IgnoreRule[] {
