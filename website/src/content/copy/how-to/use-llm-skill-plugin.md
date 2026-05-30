@@ -43,7 +43,7 @@ If verification fails, reinstall the skill or choose an artifact for the current
 
 The common failure mode is letting an agent guess Markdown behavior or parse Flavor Grenade configuration by itself. Ask the agent to run `detect` before flavor-sensitive edits and `analyze` before broad rewrites.
 
-The wrapper reports the effective base flavor, structured profiles such as Keep a Changelog or MADR, configuration source, inference evidence, diagnostics, symbols, folds, hovers, completions, and boundaries.
+The wrapper reports the effective base flavor, structured profiles such as Keep a Changelog or MADR, `.fgignore` visibility, `.fgattributes` evidence, inference evidence, diagnostics, symbols, folds, hovers, completions, and boundaries.
 
 ```text
 node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs detect README.md --json
@@ -62,6 +62,27 @@ node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs analyze docs --include 
 ```
 
 Treat wrapper output as the source of truth. Do not copy one file's flavor decision to another directory without evidence, and do not reinterpret `.flavor-grenade.*` or `.editorconfig` configuration manually.
+
+Flavor configuration uses Git-style files. `.fgignore` controls whether Flavor Grenade sees a file at all; matching files are inactive and skipped by broad analysis unless a later negated rule re-includes them.
+
+```gitignore
+# .fgignore
+drafts/
+!drafts/keep.md
+generated/**/*.md
+```
+
+`.fgattributes` controls explicit flavor and structured-profile attributes. Rules cascade from the workspace root toward the file's directory. Later matching rules override earlier rules, `!flavor` resets the local flavor attribute, and `flavor=auto` asks the LSP to run Auto Detect.
+
+```gitattributes
+# .fgattributes
+*.md flavor=commonmark
+docs/**/*.md flavor=gfm structured_profiles=madr
+docs/private.md !flavor
+CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
+```
+
+When `.fgignore` and `.fgattributes` are absent or no concrete flavor applies, Auto Detect remains the default for the selected directory and descendants. Legacy `.flavor-grenade.*` files and `.editorconfig` directives are not flavor assignment sources.
 
 ## Choose the LSP package instead when building an editor client
 

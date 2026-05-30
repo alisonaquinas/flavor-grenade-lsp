@@ -29,5 +29,47 @@ Failures return:
 ```
 
 `analyze.files[]` and `detect` results include per-file flavor decisions,
-structured variants, safe evidence, and redacted config metadata when config
-participates.
+structured variants, safe evidence, and redacted config metadata when
+`.fgignore` or `.fgattributes` participates.
+
+Active files report:
+
+```json
+{
+  "path": "docs/guide.md",
+  "active": true,
+  "baseFlavor": "gfm",
+  "variants": ["madr"],
+  "source": "fgattributes",
+  "config": {
+    "source": "fgattributes",
+    "format": "fg-config",
+    "configFiles": [".fgattributes", "docs/.fgattributes"],
+    "ignored": false,
+    "attributes": {
+      "flavor": "gfm",
+      "structuredProfiles": ["madr"]
+    }
+  }
+}
+```
+
+Ignored files report inactive status instead of a flavor decision:
+
+```json
+{
+  "path": "drafts/skip.md",
+  "active": false,
+  "baseFlavor": null,
+  "source": "fgignore",
+  "config": {
+    "source": "fgignore",
+    "ignored": true,
+    "inactiveReason": "fgignore"
+  }
+}
+```
+
+When `.fgattributes` is absent, resets `flavor` with `!flavor`, or sets
+`flavor=auto`, `source` is `lsp-auto-detect` and the LSP Auto Detect workflow
+selects the effective flavor.

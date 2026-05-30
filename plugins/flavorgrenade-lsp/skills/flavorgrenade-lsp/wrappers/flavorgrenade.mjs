@@ -18,14 +18,25 @@ import { LspClient } from './lsp-client.mjs';
 import { assertInside, resolveRuntime, verifySigstoreIfAvailable } from './runtime.mjs';
 import { errorEnvelope, successEnvelope } from './schema.mjs';
 
-const CONFIG_FILES = [
-  ['.flavor-grenade.toml', 'toml'],
-  ['.flavor-grenade.json', 'json'],
-  ['.flavor-grenade.jsonc', 'jsonc'],
-  ['.flavor-grenade.yaml', 'yaml'],
-  ['.flavor-grenade.yml', 'yaml'],
-  ['.editorconfig', 'editorconfig'],
-];
+const FG_CONFIG_MAX_BYTES = 8192;
+const PROJECT_MARKERS = ['.fgignore', '.fgattributes', '.obsidian'];
+const MARKDOWN_FLAVORS = new Set([
+  'auto',
+  'original',
+  'commonmark',
+  'obsidian',
+  'gfm',
+  'glfm',
+  'pandoc',
+  'multimarkdown',
+  'mdx',
+  'kramdown',
+  'markdown-extra',
+  'r-markdown',
+  'reddit',
+  'stack-overflow',
+]);
+const STRUCTURED_PROFILES = new Set(['keep-a-changelog', 'common-changelog', 'madr']);
 
 /**
  * Parse CLI input, verify the runtime, run the selected command, and return an
@@ -72,7 +83,7 @@ async function main() {
   };
   const workspaceEvidence = findWorkspaceEvidence(workspaceRoot);
   const rootUri =
-    workspaceEvidence.config.source !== 'none' || workspaceEvidence.hasObsidianDirectory
+    workspaceEvidence.configFilesSeen || workspaceEvidence.hasObsidianDirectory
       ? pathToFileURL(workspaceRoot).toString()
       : null;
 
@@ -227,15 +238,25 @@ async function detect(client, file, workspaceRoot, options = {}) {
     config: decision.config,
     decisionTree: [
       {
-        step: 'project-config',
-        matched: decision.config.source !== 'none',
-        reason: decision.config.source === 'none'
-          ? 'No supported Flavor Grenade project config found.'
-          : `Using ${decision.config.format} project config evidence.`,
+        step: 'visibility',
+        matched: decision.config.ignored === true,
+        reason:
+          decision.config.ignored === true
+            ? 'A matching .fgignore rule makes the document inactive.'
+            : 'No matching .fgignore rule hides this document.',
       },
       {
-        step: 'lsp-effective-context',
+        step: 'fgattributes',
+        matched: decision.config.source === 'fgattributes',
+        reason:
+          decision.config.source === 'fgattributes'
+            ? 'A concrete .fgattributes flavor selected the base flavor.'
+            : 'No concrete .fgattributes flavor selected the base flavor.',
+      },
+      {
+        step: 'auto-detect',
         matched: true,
+        reason: 'Auto Detect runs when .fgattributes is absent, resets flavor, or requests flavor=auto.',
         evidence: decision.evidence.map((entry) => entry.kind),
       },
     ],
@@ -253,38 +274,43 @@ async function detect(client, file, workspaceRoot, options = {}) {
  */
 async function detectFile(client, file, workspaceRoot) {
   const uri = pathToFileURL(file).toString();
-  const query = await client.request('flavorGrenade/queryOpenDoc', { uri });
   const text = await readFile(file, 'utf8');
   const config = findConfigEvidence(workspaceRoot, file);
-  const workspaceEvidence = findWorkspaceEvidence(workspaceRoot);
+  if (config.ignored) {
+    return {
+      path: relativePath(workspaceRoot, file),
+      active: false,
+      baseFlavor: null,
+      variants: [],
+      confidence: 'high',
+      source: 'fgignore',
+      evidence: [{ kind: 'fgignore', value: config.matchedIgnore?.pattern ?? null, weight: 'strong' }],
+      config,
+      overrides: [],
+    };
+  }
+  const query = await client.request('flavorGrenade/queryOpenDoc', { uri });
   const rawBaseFlavor = query?.markdownFlavor ?? 'commonmark';
-  const baseFlavor =
-    rawBaseFlavor === 'obsidian' &&
-    config.source === 'none' &&
-    !workspaceEvidence.hasObsidianDirectory
-      ? 'commonmark'
-      : rawBaseFlavor;
+  const baseFlavor = rawBaseFlavor;
   const variantsValue = query?.structuredProfiles;
   const variants = mergeUnique([
     ...(Array.isArray(variantsValue) ? variantsValue : []),
     ...inferStructuredProfiles(file, text),
   ]);
+  const concreteFgAttributesFlavor =
+    config.attributes.flavor !== undefined && config.attributes.flavor !== 'auto';
   return {
     path: relativePath(workspaceRoot, file),
+    active: true,
     baseFlavor,
     variants,
-    confidence: config.source === 'none' ? 'medium' : 'high',
-    source: config.source === 'none' ? 'lsp-inference' : config.source,
+    confidence: concreteFgAttributesFlavor ? 'high' : 'medium',
+    source: concreteFgAttributesFlavor ? 'fgattributes' : 'lsp-auto-detect',
     evidence: [
       {
-        kind:
-          rawBaseFlavor !== baseFlavor
-            ? 'workspace-boundary'
-            : config.source === 'none'
-              ? 'lsp-effective-context'
-              : 'project-config',
-        value: config.format,
-        weight: config.source === 'none' ? 'medium' : 'strong',
+        kind: concreteFgAttributesFlavor ? 'fgattributes' : 'lsp-effective-context',
+        value: concreteFgAttributesFlavor ? config.attributes.flavor : baseFlavor,
+        weight: concreteFgAttributesFlavor ? 'strong' : 'medium',
       },
     ],
     config,
@@ -408,7 +434,8 @@ function resolveWorkspace(workspaceOption, targetPath) {
   const resolved = path.resolve(targetPath);
   if (!existsSync(resolved)) return process.cwd();
   const stat = statSync(resolved);
-  return stat.isDirectory() ? resolved : path.dirname(resolved);
+  const start = stat.isDirectory() ? resolved : path.dirname(resolved);
+  return findMarkedWorkspaceRoot(start) ?? start;
 }
 
 function collectMarkdownFiles(target, options, workspaceRoot = undefined) {
@@ -437,6 +464,7 @@ function shouldCollectFile(file, root, options, knownStat = undefined) {
   const relative = relativePath(root, file);
   if (!matchesAnySelector(options.include, relative, true)) return false;
   if (matchesAnySelector(options.exclude, relative, false)) return false;
+  if (findConfigEvidence(root, file).ignored) return false;
   const maxBytes = positiveIntegerOrDefault(options.maxBytes, Number.POSITIVE_INFINITY);
   if (Number.isFinite(maxBytes)) {
     const stat = knownStat ?? statSync(file);
@@ -467,288 +495,462 @@ function positiveIntegerOrDefault(value, defaultValue) {
 }
 
 function findConfigEvidence(workspaceRoot, file) {
-  const evidence = findWorkspaceEvidence(workspaceRoot).config;
-  if (evidence.source === 'none' || file === undefined) return evidence;
-  return {
-    ...evidence,
-    matchedOverride: findMatchedOverrideEvidence(workspaceRoot, evidence, file),
-  };
+  if (file === undefined) return findWorkspaceEvidence(workspaceRoot).config;
+  return resolveFgConfigForFile(workspaceRoot, file);
 }
 
 function findWorkspaceEvidence(workspaceRoot) {
-  for (const [fileName, format] of CONFIG_FILES) {
-    if (existsSync(path.join(workspaceRoot, fileName))) {
-      return {
-        config: {
-          source: format === 'editorconfig' ? 'editorconfig' : 'project-config',
-          format,
-          path: fileName,
-          matchedOverride: null,
-        },
-        hasObsidianDirectory: existsSync(path.join(workspaceRoot, '.obsidian')),
-      };
-    }
-  }
   return {
-    config: { source: 'none', format: 'none', path: null, matchedOverride: null },
+    config: resolveFgConfigForFile(workspaceRoot),
+    configFilesSeen:
+      existsSync(path.join(workspaceRoot, '.fgignore')) ||
+      existsSync(path.join(workspaceRoot, '.fgattributes')),
     hasObsidianDirectory: existsSync(path.join(workspaceRoot, '.obsidian')),
   };
 }
 
-function findMatchedOverrideEvidence(workspaceRoot, evidence, file) {
-  if (evidence.path === null) return null;
-  const configPath = path.join(workspaceRoot, evidence.path);
-  let overrides = [];
-  try {
-    const content = readFileSync(configPath, 'utf8');
-    if (content.length > 8192) return null;
-    overrides = parseOverridesForEvidence(evidence.format, content);
-  } catch {
-    return null;
-  }
-  const relative = relativePath(workspaceRoot, file);
-  let best = null;
-  overrides.forEach((override, index) => {
-    if (!override.selector || !configSelectorMatches(override.selector, relative)) return;
-    const specificity = normalizeConfigSelector(override.selector).length;
-    if (
-      best === null ||
-      specificity > best.specificity ||
-      (specificity === best.specificity && index > best.order)
-    ) {
-      best = { ...override, order: index, specificity };
+function findMarkedWorkspaceRoot(start) {
+  let current = start;
+  let marked = null;
+  const boundary = path.resolve(process.cwd());
+  while (true) {
+    try {
+      assertInside(boundary, current);
+    } catch {
+      break;
     }
-  });
-  if (best === null) return null;
-  const provided = [];
-  if (best.flavor) provided.push('baseFlavor');
-  if (best.structuredProfiles) provided.push('structuredProfiles');
+    if (PROJECT_MARKERS.some((marker) => existsSync(path.join(current, marker)))) {
+      marked = current;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return marked;
+}
+
+function resolveFgConfigForFile(workspaceRoot, file = undefined) {
+  const configFiles = [];
+  const attributes = {};
+  let ignored = false;
+  let matchedIgnore = null;
+  let matchedAttributes = null;
+
+  const directories =
+    file === undefined
+      ? [{ directory: workspaceRoot, relativeTargetPath: '' }]
+      : configDirectoriesFor(workspaceRoot, file);
+
+  for (const directory of directories) {
+    const ignorePath = path.join(directory.directory, '.fgignore');
+    const ignoreContent = readConfigIfPresent(ignorePath);
+    if (ignoreContent !== undefined) {
+      configFiles.push(relativePath(workspaceRoot, ignorePath));
+      const result = applyIgnoreRules(
+        ignored,
+        parseIgnoreRules(ignoreContent),
+        directory.relativeTargetPath,
+        relativePath(workspaceRoot, ignorePath),
+      );
+      ignored = result.ignored;
+      matchedIgnore = result.matched ?? matchedIgnore;
+    }
+
+    const attributesPath = path.join(directory.directory, '.fgattributes');
+    const attributesContent = readConfigIfPresent(attributesPath);
+    if (attributesContent !== undefined) {
+      configFiles.push(relativePath(workspaceRoot, attributesPath));
+      const result = applyAttributeRules(
+        attributes,
+        parseAttributeRules(attributesContent),
+        directory.relativeTargetPath,
+        relativePath(workspaceRoot, attributesPath),
+      );
+      matchedAttributes = result.matched ?? matchedAttributes;
+    }
+  }
+
+  const source = ignored
+    ? 'fgignore'
+    : attributes.flavor !== undefined && attributes.flavor !== 'auto'
+      ? 'fgattributes'
+      : 'none';
+
   return {
-    selector: best.selector,
-    selectorKind: best.selector.includes('*') ? 'glob' : 'directory',
-    order: best.order,
-    provided,
-    inherited: ['baseFlavor', 'structuredProfiles'].filter((key) => !provided.includes(key)),
+    source,
+    format: configFiles.length === 0 ? 'none' : 'fg-config',
+    path: matchedAttributes?.path ?? matchedIgnore?.path ?? configFiles[configFiles.length - 1] ?? null,
+    configFiles,
+    ignored,
+    inactiveReason: ignored ? 'fgignore' : null,
+    attributes,
+    matchedIgnore,
+    matchedOverride: matchedAttributes,
   };
 }
 
-function parseOverridesForEvidence(format, content) {
-  if (format === 'json' || format === 'jsonc') {
-    try {
-      const value = JSON.parse(stripJsonComments(content));
-      const overrides = value?.core?.markdown?.overrides;
-      return Array.isArray(overrides)
-        ? overrides.map((entry) => ({
-            selector: stringValue(entry?.path),
-            flavor: stringValue(entry?.flavor),
-            structuredProfiles: entry?.structured_profiles ?? entry?.structuredProfiles,
-          }))
-        : [];
-    } catch {
-      return [];
+function configDirectoriesFor(workspaceRoot, file) {
+  const fileDirectory = path.dirname(file);
+  const relativeDirectory = relativePath(workspaceRoot, fileDirectory);
+  const parts = relativeDirectory === '.' || relativeDirectory === '' ? [] : relativeDirectory.split('/');
+  const result = [];
+  for (let index = 0; index <= parts.length; index += 1) {
+    const relativeDir = parts.slice(0, index).join('/');
+    const directory = relativeDir.length === 0 ? workspaceRoot : path.join(workspaceRoot, relativeDir);
+    result.push({
+      directory,
+      relativeTargetPath:
+        relativeDir.length === 0 ? relativePath(workspaceRoot, file) : relativePath(directory, file),
+    });
+  }
+  return result;
+}
+
+function readConfigIfPresent(file) {
+  try {
+    const stat = statSync(file);
+    if (!stat.isFile() || stat.size > FG_CONFIG_MAX_BYTES) return undefined;
+    const content = readFileSync(file, 'utf8');
+    return Buffer.byteLength(content, 'utf8') > FG_CONFIG_MAX_BYTES ? undefined : content;
+  } catch {
+    return undefined;
+  }
+}
+
+function parseIgnoreRules(content) {
+  const rules = [];
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = normalizeConfigLine(rawLine);
+    if (line.length === 0) continue;
+    const negated = line.startsWith('!');
+    const pattern = unescapePattern(negated ? line.slice(1) : line);
+    if (pattern.length > 0) rules.push({ pattern, negated });
+  }
+  return rules;
+}
+
+function parseAttributeRules(content) {
+  const rules = [];
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = normalizeConfigLine(rawLine);
+    if (line.length === 0) continue;
+    const tokens = splitConfigTokens(line);
+    if (tokens.length === 0) continue;
+    const rawPattern = tokens[0];
+    const negated = rawPattern.startsWith('!');
+    const pattern = unescapePattern(negated ? rawPattern.slice(1) : rawPattern);
+    const assignments = tokens.slice(1).flatMap(parseAttributeToken);
+    if (pattern.length > 0 && (negated || assignments.length > 0)) {
+      rules.push({ pattern, negated, assignments });
     }
   }
-  if (format === 'toml') {
-    return parseTomlOverridesForEvidence(content);
+  return rules;
+}
+
+function applyIgnoreRules(initialIgnored, rules, relativeTargetPath, configPath) {
+  let ignored = initialIgnored;
+  let matched = null;
+  for (const [order, rule] of rules.entries()) {
+    if (!patternMatches(rule.pattern, relativeTargetPath)) continue;
+    ignored = !rule.negated;
+    matched = { path: configPath, pattern: rule.pattern, negated: rule.negated, order };
   }
-  if (format === 'yaml') {
-    return parseYamlOverridesForEvidence(content);
+  return { ignored, matched };
+}
+
+function applyAttributeRules(attributes, rules, relativeTargetPath, configPath) {
+  const local = {};
+  const localResets = new Set();
+  let matched = null;
+
+  for (const [order, rule] of rules.entries()) {
+    if (!patternMatches(rule.pattern, relativeTargetPath)) continue;
+    if (rule.negated) {
+      delete local.flavor;
+      delete local.structuredProfiles;
+      localResets.delete('flavor');
+      localResets.delete('structuredProfiles');
+      matched = attributeEvidence(configPath, rule, order);
+      continue;
+    }
+    for (const assignment of rule.assignments) {
+      if (assignment.kind === 'reset') {
+        delete local[assignment.key];
+        localResets.add(assignment.key);
+      } else {
+        local[assignment.key] = assignment.value;
+        localResets.delete(assignment.key);
+      }
+    }
+    matched = attributeEvidence(configPath, rule, order);
   }
-  if (format === 'editorconfig') {
-    return parseEditorConfigOverridesForEvidence(content);
+
+  if (localResets.has('flavor')) delete attributes.flavor;
+  else if (local.flavor !== undefined) attributes.flavor = local.flavor;
+  if (localResets.has('structuredProfiles')) delete attributes.structuredProfiles;
+  else if (local.structuredProfiles !== undefined) {
+    attributes.structuredProfiles = local.structuredProfiles;
+  }
+
+  return { matched };
+}
+
+function attributeEvidence(configPath, rule, order) {
+  const provided = [
+    ...new Set(rule.assignments.map((assignment) => assignment.key)),
+  ];
+  return {
+    path: configPath,
+    selector: rule.pattern,
+    selectorKind: rule.pattern.includes('*') || rule.pattern.includes('?') ? 'glob' : 'path',
+    negated: rule.negated,
+    order,
+    provided,
+    inherited: ['flavor', 'structuredProfiles'].filter((key) => !provided.includes(key)),
+  };
+}
+
+function parseAttributeToken(token) {
+  const resetMatch = /^!(flavor|structured_profiles|structuredProfiles)$/.exec(token);
+  if (resetMatch) {
+    return [{ kind: 'reset', key: normalizeAttributeKey(resetMatch[1]) }];
+  }
+  const [rawKey, ...rawValueParts] = token.split('=');
+  if (rawValueParts.length === 0) return [];
+  const key = normalizeAttributeKey(rawKey);
+  const rawValue = rawValueParts.join('=');
+  if (key === 'flavor' && MARKDOWN_FLAVORS.has(rawValue)) {
+    return [{ kind: 'set', key, value: rawValue }];
+  }
+  if (key === 'structuredProfiles' || key === 'structured_profiles') {
+    const value = normalizeStructuredProfilesValue(rawValue);
+    return value === undefined ? [] : [{ kind: 'set', key: 'structuredProfiles', value }];
   }
   return [];
 }
 
-function parseTomlOverridesForEvidence(content) {
-  const overrides = [];
-  let current = null;
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = rawLine.replace(/#.*/, '').trim();
-    if (line === '[[core.markdown.overrides]]') {
-      current = {};
-      overrides.push(current);
-      continue;
-    }
-    if (current === null) continue;
-    const match = /^([A-Za-z0-9_.-]+)\s*=\s*"([^"]*)"/.exec(line);
-    if (!match) continue;
-    if (match[1] === 'path') current.selector = match[2];
-    if (match[1] === 'flavor') current.flavor = match[2];
-    if (match[1] === 'structured_profiles') current.structuredProfiles = match[2];
-  }
-  return overrides;
+function normalizeAttributeKey(value) {
+  if (value === 'flavor') return 'flavor';
+  if (value === 'structured_profiles' || value === 'structuredProfiles') return 'structuredProfiles';
+  return undefined;
 }
 
-function parseYamlOverridesForEvidence(content) {
-  const overrides = [];
-  let inOverrides = false;
-  let current = null;
-  let pendingArrayKey = null;
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = rawLine.replace(/#.*/, '');
-    const trimmed = line.trim();
-    if (trimmed.length === 0) continue;
-    if (/^overrides:\s*$/.test(trimmed)) {
-      inOverrides = true;
-      continue;
-    }
-    if (!inOverrides) continue;
-    const itemMatch = /^-\s*(.*)$/.exec(trimmed);
-    if (itemMatch) {
-      if (current !== null && pendingArrayKey !== null && !itemMatch[1].includes(':')) {
-        current[pendingArrayKey] = true;
-        continue;
-      }
-      current = {};
-      overrides.push(current);
-      pendingArrayKey = assignYamlEvidence(current, itemMatch[1]);
-      continue;
-    }
-    if (current !== null) pendingArrayKey = assignYamlEvidence(current, trimmed);
-  }
-  return overrides;
-}
-
-function assignYamlEvidence(target, value) {
-  const match = /^([A-Za-z0-9_.-]+):\s*(?:"([^"]*)"|'([^']*)'|([^#]*?))\s*$/.exec(value);
-  if (!match) return;
-  const key = match[1];
-  const raw = (match[2] ?? match[3] ?? match[4] ?? '').trim();
-  if (key === 'path' || key === 'directory' || key === 'dir') target.selector = raw;
-  if (key === 'flavor') target.flavor = raw;
-  if (key === 'structured_profiles' || key === 'structuredProfiles') {
-    target.structuredProfiles = raw || true;
-    return 'structuredProfiles';
-  }
-  return null;
-}
-
-function parseEditorConfigOverridesForEvidence(content) {
-  const overrides = [];
-  let section = '';
-  let current = {};
-  const flush = () => {
-    if (section.length === 0) {
-      current = {};
-      return;
-    }
-    const flavor = current.flavor_grenade_markdown_flavor ?? current['flavor_grenade.markdown_flavor'];
-    const structuredProfiles =
-      current.flavor_grenade_markdown_structured_profiles ??
-      current['flavor_grenade.markdown_structured_profiles'];
-    if (flavor !== undefined || structuredProfiles !== undefined) {
-      overrides.push({ selector: section, flavor, structuredProfiles });
-    }
-    current = {};
-  };
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = rawLine.replace(/[;#].*$/, '').trim();
-    if (line.length === 0) continue;
-    const sectionMatch = /^\[([^\]]+)\]$/.exec(line);
-    if (sectionMatch) {
-      flush();
-      section = sectionMatch[1];
-      continue;
-    }
-    const entryMatch = /^([^=:\s]+)\s*[=:]\s*(.*?)\s*$/.exec(line);
-    if (entryMatch) current[entryMatch[1].toLowerCase()] = entryMatch[2];
-  }
-  flush();
-  return overrides;
-}
-
-function stripJsonComments(content) {
-  return content
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/(^|[^:])\/\/.*$/gm, '$1');
-}
-
-function stringValue(value) {
-  return typeof value === 'string' ? value : undefined;
+function normalizeStructuredProfilesValue(value) {
+  if (value === 'auto' || value === 'none') return value;
+  const profiles = value.split(',').map((part) => part.trim()).filter(Boolean);
+  return profiles.every((profile) => STRUCTURED_PROFILES.has(profile)) ? profiles : undefined;
 }
 
 function configSelectorMatches(selector, relative) {
-  const normalizedSelector = normalizeConfigSelector(selector);
-  const normalizedPath = normalizeConfigSelector(relative);
-  if (normalizedSelector.includes('*')) {
-    return globSelectorMatches(normalizedSelector, normalizedPath);
+  return patternMatches(selector, relative);
+}
+
+function patternMatches(rawPattern, rawRelativePath) {
+  const pattern = normalizePattern(rawPattern);
+  const relative = trimSlashes(toPosix(rawRelativePath));
+  if (pattern.length === 0 || relative.length === 0) return false;
+
+  const anchored = pattern.startsWith('/');
+  const directoryOnly = pattern.endsWith('/');
+  const normalizedPattern = trimSlashes(pattern);
+  const candidatePattern = directoryOnly ? `${normalizedPattern}/**` : normalizedPattern;
+
+  if (anchored || candidatePattern.includes('/')) {
+    return globPatternMatches(candidatePattern, relative);
+  }
+
+  return relative.split('/').some((segment) => wildcardSegmentMatches(candidatePattern, segment));
+}
+
+function globPatternMatches(pattern, relative) {
+  const patternParts = trimSlashes(pattern).split('/');
+  const relativeParts = trimSlashes(relative).split('/');
+  return globSegmentsMatch(patternParts, relativeParts, 0, 0);
+}
+
+function globSegmentsMatch(patternParts, relativeParts, patternIndex, relativeIndex) {
+  if (patternIndex === patternParts.length) return relativeIndex === relativeParts.length;
+  const patternPart = patternParts[patternIndex];
+  if (patternPart === '**') {
+    for (let nextIndex = relativeIndex; nextIndex <= relativeParts.length; nextIndex += 1) {
+      if (globSegmentsMatch(patternParts, relativeParts, patternIndex + 1, nextIndex)) {
+        return true;
+      }
+    }
+    return false;
   }
   return (
-    normalizedPath === normalizedSelector ||
-    normalizedPath.startsWith(`${normalizedSelector.replace(/\/$/, '')}/`)
+    relativeIndex < relativeParts.length &&
+    wildcardSegmentMatches(patternPart, relativeParts[relativeIndex]) &&
+    globSegmentsMatch(patternParts, relativeParts, patternIndex + 1, relativeIndex + 1)
   );
 }
 
-function normalizeConfigSelector(value) {
-  return value.replace(/\\/g, '/').replace(/^\/+/, '').replace(/^\.\//, '');
+function wildcardSegmentMatches(pattern, value) {
+  return segmentTokensMatch(parseSegmentTokens(pattern), [...value], 0, 0, new Set());
 }
 
-function globSelectorMatches(selector, relative) {
-  const selectorParts = selector.split('/').filter(Boolean);
-  const relativeParts = relative.split('/').filter(Boolean);
-  return globPartsMatch(selectorParts, relativeParts, 0, 0, new Map());
-}
-
-function globPartsMatch(selectorParts, relativeParts, selectorIndex, relativeIndex, memo) {
-  const memoKey = `${selectorIndex}:${relativeIndex}`;
-  const cached = memo.get(memoKey);
-  if (cached !== undefined) return cached;
-  const matched = globPartsMatchUncached(
-    selectorParts,
-    relativeParts,
-    selectorIndex,
-    relativeIndex,
-    memo,
-  );
-  memo.set(memoKey, matched);
-  return matched;
-}
-
-function globPartsMatchUncached(selectorParts, relativeParts, selectorIndex, relativeIndex, memo) {
-  if (selectorIndex === selectorParts.length) return relativeIndex === relativeParts.length;
-  const selectorHead = selectorParts[selectorIndex];
-  if (selectorHead === '**') {
-    return (
-      globPartsMatch(selectorParts, relativeParts, selectorIndex + 1, relativeIndex, memo) ||
-      (relativeIndex < relativeParts.length &&
-        globPartsMatch(selectorParts, relativeParts, selectorIndex, relativeIndex + 1, memo))
-    );
+function parseSegmentTokens(pattern) {
+  const tokens = [];
+  for (let index = 0; index < pattern.length; index += 1) {
+    const char = pattern[index];
+    if (char === '\\') {
+      index += 1;
+      tokens.push({ kind: 'literal', value: pattern[index] ?? '\\' });
+      continue;
+    }
+    if (char === '*') {
+      tokens.push({ kind: 'star' });
+      continue;
+    }
+    if (char === '?') {
+      tokens.push({ kind: 'any' });
+      continue;
+    }
+    if (char === '[') {
+      const characterClass = parseCharacterClass(pattern, index);
+      if (characterClass !== null) {
+        tokens.push(characterClass.token);
+        index = characterClass.end;
+        continue;
+      }
+    }
+    tokens.push({ kind: 'literal', value: char });
   }
-  if (relativeIndex === relativeParts.length) return false;
-  if (!globSegmentMatches(selectorHead, relativeParts[relativeIndex])) return false;
-  return globPartsMatch(selectorParts, relativeParts, selectorIndex + 1, relativeIndex + 1, memo);
+  return tokens;
 }
 
-function globSegmentMatches(pattern, value) {
-  let patternIndex = 0;
-  let valueIndex = 0;
-  let starIndex = -1;
-  let retryValueIndex = 0;
+function parseCharacterClass(pattern, start) {
+  let end = start + 1;
+  if (pattern[end] === '!' || pattern[end] === '^') end += 1;
+  if (pattern[end] === ']') end += 1;
+  while (end < pattern.length && pattern[end] !== ']') {
+    end += pattern[end] === '\\' ? 2 : 1;
+  }
+  if (end >= pattern.length) return null;
 
-  while (valueIndex < value.length) {
-    if (patternIndex < pattern.length && pattern[patternIndex] === value[valueIndex]) {
-      patternIndex += 1;
-      valueIndex += 1;
-      continue;
+  const raw = pattern.slice(start + 1, end);
+  if (raw.length === 0 || raw === '!' || raw === '^') return null;
+  const negated = raw.startsWith('!') || raw.startsWith('^');
+  const body = negated ? raw.slice(1) : raw;
+  const parsed = parseCharacterClassBody(body);
+  return {
+    token: { kind: 'class', negated, characters: parsed.characters, ranges: parsed.ranges },
+    end,
+  };
+}
+
+function parseCharacterClassBody(body) {
+  const characters = [];
+  const ranges = [];
+  const parts = [];
+
+  for (let index = 0; index < body.length; index += 1) {
+    if (body[index] === '\\' && index + 1 < body.length) index += 1;
+    parts.push(body[index]);
+  }
+
+  for (let index = 0; index < parts.length; index += 1) {
+    if (index + 2 < parts.length && parts[index + 1] === '-') {
+      ranges.push({ start: parts[index], end: parts[index + 2] });
+      index += 2;
+    } else {
+      characters.push(parts[index]);
     }
-    if (patternIndex < pattern.length && pattern[patternIndex] === '*') {
-      starIndex = patternIndex;
-      retryValueIndex = valueIndex;
-      patternIndex += 1;
-      continue;
-    }
-    if (starIndex !== -1) {
-      patternIndex = starIndex + 1;
-      retryValueIndex += 1;
-      valueIndex = retryValueIndex;
-      continue;
+  }
+
+  return { characters, ranges };
+}
+
+function segmentTokensMatch(tokens, value, tokenIndex, valueIndex, seen) {
+  const key = `${tokenIndex}:${valueIndex}`;
+  if (seen.has(key)) return false;
+  seen.add(key);
+
+  if (tokenIndex === tokens.length) return valueIndex === value.length;
+
+  const token = tokens[tokenIndex];
+  if (token.kind === 'star') {
+    for (let nextValueIndex = valueIndex; nextValueIndex <= value.length; nextValueIndex += 1) {
+      if (segmentTokensMatch(tokens, value, tokenIndex + 1, nextValueIndex, seen)) {
+        return true;
+      }
     }
     return false;
   }
 
-  while (patternIndex < pattern.length && pattern[patternIndex] === '*') patternIndex += 1;
-  return patternIndex === pattern.length;
+  return (
+    valueIndex < value.length &&
+    segmentTokenMatches(token, value[valueIndex]) &&
+    segmentTokensMatch(tokens, value, tokenIndex + 1, valueIndex + 1, seen)
+  );
+}
+
+function segmentTokenMatches(token, value) {
+  if (token.kind === 'literal') return token.value === value;
+  if (token.kind === 'any') return true;
+  if (token.kind === 'class') {
+    const codePoint = value.codePointAt(0) ?? 0;
+    const matched =
+      token.characters.includes(value) ||
+      token.ranges.some(
+        (range) =>
+          codePoint >= (range.start.codePointAt(0) ?? 0) &&
+          codePoint <= (range.end.codePointAt(0) ?? 0),
+      );
+    return token.negated ? !matched : matched;
+  }
+  return false;
+}
+
+function normalizeConfigLine(rawLine) {
+  const trimmedRight = rawLine.replace(/\s+$/u, '');
+  if (/^\s*(#|$)/.test(trimmedRight)) return '';
+  return trimmedRight.trimStart();
+}
+
+function splitConfigTokens(line) {
+  const tokens = [];
+  let current = '';
+  let escaped = false;
+  for (const char of line) {
+    if (escaped) {
+      current += /[\s#!]/u.test(char) ? char : `\\${char}`;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      escaped = true;
+      continue;
+    }
+    if (/\s/u.test(char)) {
+      if (current.length > 0) {
+        tokens.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += char;
+  }
+  if (escaped) current += '\\';
+  if (current.length > 0) tokens.push(current);
+  return tokens;
+}
+
+function normalizePattern(value) {
+  return unescapePattern(value.trim());
+}
+
+function unescapePattern(value) {
+  return value.replace(/\\([#! ])/g, '$1');
+}
+
+function trimSlashes(value) {
+  return value.replace(/^\/+|\/+$/g, '');
+}
+
+function toPosix(value) {
+  return value.replace(/\\/g, '/');
 }
 
 function inferStructuredProfiles(file, text) {
@@ -820,7 +1022,7 @@ function relativePath(root, file) {
   return path.relative(root, file).replace(/\\/g, '/') || path.basename(file);
 }
 
-export { collectMarkdownFiles, configSelectorMatches, parseArgs };
+export { collectMarkdownFiles, configSelectorMatches, findConfigEvidence, parseArgs };
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   main()
