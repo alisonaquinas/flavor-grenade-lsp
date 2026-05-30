@@ -154,11 +154,14 @@ export class VaultScanner {
       }
 
       if (entry.isDirectory()) {
+        if (this.fgConfigFiles.shouldPruneDirectory(vaultRoot, fullPath)) {
+          continue;
+        }
         await this.walkAndIndex(vaultRoot, fullPath, documentExtensions, hasObsidianMarker);
         if (this.scanFileLimitReached) {
           return;
         }
-      } else if (entry.isFile() && this.shouldSkipVisibleFile(vaultRoot, fullPath, relPath)) {
+      } else if (entry.isFile() && this.shouldSkipVisiblePath(vaultRoot, fullPath, relPath)) {
         continue;
       } else if (entry.isFile() && documentExtensions.has(path.extname(entry.name).toLowerCase())) {
         if (!this.reserveFileBudget()) {
@@ -181,7 +184,7 @@ export class VaultScanner {
     }
   }
 
-  private shouldSkipVisibleFile(vaultRoot: string, fullPath: string, relPath: string): boolean {
+  private shouldSkipVisiblePath(vaultRoot: string, fullPath: string, relPath: string): boolean {
     if (isFlavorGrenadeConfigFile(relPath)) {
       return true;
     }

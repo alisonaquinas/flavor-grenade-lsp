@@ -169,6 +169,57 @@ describe('Markdown flavor smoketest fixture evidence', () => {
     });
   });
 
+  it('limits negated .fgattributes selectors to rules in the same file', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-negated-selector-'));
+    tempDirs.push(root);
+    await mkdir(join(root, 'docs'), { recursive: true });
+    await writeFile(join(root, '.fgattributes'), '*.md flavor=commonmark\n');
+    await writeFile(join(root, 'docs', '.fgattributes'), '*.md flavor=gfm\n!private.md\n');
+    const privatePath = join(root, 'docs', 'private.md');
+    const guidePath = join(root, 'docs', 'guide.md');
+    await writeFile(privatePath, '# Private\n');
+    await writeFile(guidePath, '# Guide\n');
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(guidePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+    assert.deepEqual(await findMarkdownFlavorEvidence(privatePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'commonmark',
+    });
+  });
+
+  it('supports character classes and escaped wildcard literals in .fgattributes patterns', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fgattributes-patterns-'));
+    tempDirs.push(root);
+    const notePath = join(root, 'Note.md');
+    const draftPath = join(root, 'draft?.md');
+    await writeFile(join(root, '.fgattributes'), '[Nn]ote.md flavor=gfm\ndraft\\?.md flavor=pandoc\n');
+    await writeFile(notePath, '# Note\n');
+
+    const fakeRealpath = async (path: string) => resolve(path);
+
+    assert.deepEqual(await findMarkdownFlavorEvidence(notePath, { searchBoundary: root }), {
+      hasFlavorConfigMarker: true,
+      hasObsidianMarker: false,
+      fgAttributesFlavor: 'gfm',
+    });
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(draftPath, {
+        realpathFn: fakeRealpath,
+        searchBoundary: root,
+      }),
+      {
+        hasFlavorConfigMarker: true,
+        hasObsidianMarker: false,
+        fgAttributesFlavor: 'pandoc',
+      },
+    );
+  });
+
   it('applies .fgignore rules with negation before reporting .fgattributes evidence', async () => {
     const root = await mkdtemp(join(tmpdir(), 'fgignore-marker-'));
     tempDirs.push(root);
@@ -337,6 +388,33 @@ describe('Markdown flavor smoketest fixture evidence', () => {
       await findMarkdownFlavorEvidence(notePath, {
         realpathFn: fakeRealpath,
         searchBoundary: workspaceRoot,
+      }),
+      {
+        hasFlavorConfigMarker: false,
+        hasObsidianMarker: false,
+      },
+    );
+  });
+
+  it('rejects config-file realpaths outside the supplied workspace boundary', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'fg-config-symlink-boundary-'));
+    tempDirs.push(root);
+    const notePath = join(root, 'note.md');
+    const escapedRoot = join(tmpdir(), 'fg-config-outside');
+    await writeFile(notePath, '# Note\n');
+
+    const fakeRealpath = async (path: string) => {
+      const resolved = resolve(path);
+      return resolved.endsWith('.fgattributes')
+        ? join(escapedRoot, '.fgattributes')
+        : resolved;
+    };
+
+    assert.deepEqual(
+      await findMarkdownFlavorEvidence(notePath, {
+        readFileFn: async () => '*.md flavor=gfm\n',
+        realpathFn: fakeRealpath,
+        searchBoundary: root,
       }),
       {
         hasFlavorConfigMarker: false,

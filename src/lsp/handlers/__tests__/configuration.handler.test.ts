@@ -118,6 +118,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
       });
 
       expect(harness.parseCache.get(uri)?.markdownFlavor).toBe('commonmark');
+      expect(harness.rescanIndex).toHaveBeenCalledTimes(1);
 
       await harness.handler.handle({
         settings: {
@@ -126,6 +127,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
       });
 
       expect(harness.parseCache.get(uri)?.markdownFlavor).toBe('gfm');
+      expect(harness.rescanIndex).toHaveBeenCalledTimes(2);
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }
@@ -139,12 +141,14 @@ function createHarness(root: string): {
   handler: ConfigurationHandler;
   publishDiagnostics: jest.Mock;
   clearDiagnostics: jest.Mock;
+  rescanIndex: jest.Mock<() => Promise<void>>;
 } {
   const store = new DocumentStore();
   const parseCache = new ParseCache();
   const state = new MarkdownFlavorState();
   const publishDiagnostics = jest.fn();
   const clearDiagnostics = jest.fn();
+  const rescanIndex = jest.fn<() => Promise<void>>().mockResolvedValue(undefined);
   const diagnosticService = { publishDiagnostics, clearDiagnostics };
   const vaultDetector = {
     detectFresh: (): { mode: 'flavor-grenade'; vaultRoot: string } => ({
@@ -159,6 +163,7 @@ function createHarness(root: string): {
     state,
     publishDiagnostics,
     clearDiagnostics,
+    rescanIndex,
     handler: new ConfigurationHandler(
       state,
       store,
@@ -167,6 +172,7 @@ function createHarness(root: string): {
       vaultDetector,
       diagnosticService,
       new FlavorGrenadeConfigFiles(),
+      { handle: rescanIndex } as never,
     ),
   };
 }

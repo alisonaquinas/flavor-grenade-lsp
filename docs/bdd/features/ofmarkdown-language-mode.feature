@@ -123,11 +123,11 @@ Feature: Markdown flavor selection
     And the effective structured profile flags include "<expectedProfiles>"
 
     Examples:
-      | baseFlavor | selection          | expectedProfiles    | path                                  |
-      | commonmark | keep-a-changelog   | keep-a-changelog    | CHANGELOG.md                         |
-      | gfm        | common-changelog   | common-changelog    | CHANGELOG.md                         |
-      | obsidian   | madr               | madr                | docs/decisions/0001-use-profile.md   |
-      | pandoc     | none                 | none             | CHANGELOG.md                       |
+      | baseFlavor | selection        | expectedProfiles | path                                |
+      | commonmark | keep-a-changelog | keep-a-changelog | CHANGELOG.md                        |
+      | gfm        | common-changelog | common-changelog | CHANGELOG.md                        |
+      | obsidian   | madr             | madr             | docs/decisions/0001-use-profile.md |
+      | pandoc     | none             | none             | CHANGELOG.md                        |
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile inference layers over a configured base flavor

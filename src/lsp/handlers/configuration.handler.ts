@@ -14,6 +14,7 @@ import {
 } from '../../markdown-flavor/fg-config-files.js';
 import { DocumentStore } from '../services/document-store.js';
 import type { ParseContext } from '../../parser/types.js';
+import { InitializedHandler } from './initialized.handler.js';
 
 interface FlavorGrenadeSettings {
   fgConfigMaxBytes?: unknown;
@@ -29,6 +30,7 @@ export class ConfigurationHandler {
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
+    @Optional() private readonly initializedHandler: InitializedHandler | null = null,
   ) {}
 
   async handle(params: unknown): Promise<void> {
@@ -44,6 +46,9 @@ export class ConfigurationHandler {
       this.fgConfigFiles?.setMaxConfigBytes(settings.fgConfigMaxBytes);
     }
     this.refreshOpenDocuments();
+    if (settings.fgConfigMaxBytes !== undefined) {
+      await this.initializedHandler?.handle({});
+    }
   }
 
   private refreshOpenDocuments(): void {

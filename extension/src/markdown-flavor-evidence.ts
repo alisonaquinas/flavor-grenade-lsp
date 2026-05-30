@@ -92,6 +92,8 @@ export async function findMarkdownFlavorEvidence(
     const ignoreContent = await readConfigIfPresent(join(directory.directory, '.fgignore'), {
       readFileFn: options.readFileFn,
       fgConfigMaxBytes: options.fgConfigMaxBytes,
+      realBoundary,
+      realpathFn,
       statFn,
     });
     if (ignoreContent !== undefined) {
@@ -101,6 +103,8 @@ export async function findMarkdownFlavorEvidence(
     const content = await readConfigIfPresent(join(directory.directory, '.fgattributes'), {
       readFileFn: options.readFileFn,
       fgConfigMaxBytes: options.fgConfigMaxBytes,
+      realBoundary,
+      realpathFn,
       statFn,
     });
     if (content !== undefined) {
@@ -224,11 +228,22 @@ async function readConfigIfPresent(
   configPath: string,
   options: {
     readFileFn?: ReadFileFn;
+    realBoundary?: string;
+    realpathFn?: RealpathFn;
     statFn?: StatFn;
     fgConfigMaxBytes?: unknown;
   },
 ): Promise<string | undefined> {
   const maxBytes = normalizeFgConfigMaxBytes(options.fgConfigMaxBytes);
+  if (options.realBoundary !== undefined && options.realpathFn !== undefined) {
+    const realConfigPath = await realpathOrUndefined(configPath, options.realpathFn);
+    if (
+      realConfigPath === undefined ||
+      !isPathWithinOrEqual(realConfigPath, options.realBoundary)
+    ) {
+      return undefined;
+    }
+  }
   if (options.readFileFn) {
     try {
       const content = await options.readFileFn(configPath, 'utf8');
@@ -284,24 +299,46 @@ function applyAttributeRules(
   rules: readonly AttributeRule[],
   directory: ConfigDirectory,
 ): void {
+  const local: {
+    flavor?: MarkdownFlavorSelection;
+    structuredProfiles?: StructuredProfileSelection;
+  } = {};
+  const localResets = new Set<'flavor' | 'structuredProfiles'>();
+
   for (const rule of rules) {
     if (!patternMatches(rule.pattern, directory.relativeTargetPath)) {
       continue;
     }
     if (rule.negated) {
-      delete attributes.flavor;
-      delete attributes.structuredProfiles;
+      delete local.flavor;
+      delete local.structuredProfiles;
+      localResets.delete('flavor');
+      localResets.delete('structuredProfiles');
       continue;
     }
     for (const assignment of rule.assignments) {
       if (assignment.kind === 'reset') {
-        resetAttribute(attributes, assignment.key);
+        resetAttribute(local, assignment.key);
+        localResets.add(assignment.key);
       } else if (assignment.key === 'flavor') {
-        attributes.flavor = assignment.value;
+        local.flavor = assignment.value;
+        localResets.delete('flavor');
       } else {
-        attributes.structuredProfiles = assignment.value;
+        local.structuredProfiles = assignment.value;
+        localResets.delete('structuredProfiles');
       }
     }
+  }
+
+  if (localResets.has('flavor')) {
+    delete attributes.flavor;
+  } else if (local.flavor !== undefined) {
+    attributes.flavor = local.flavor;
+  }
+  if (localResets.has('structuredProfiles')) {
+    delete attributes.structuredProfiles;
+  } else if (local.structuredProfiles !== undefined) {
+    attributes.structuredProfiles = local.structuredProfiles;
   }
 }
 
@@ -430,39 +467,71 @@ function globSegmentsMatch(
 }
 
 function wildcardSegmentMatches(pattern: string, value: string): boolean {
-  let patternIndex = 0;
-  let valueIndex = 0;
-  let starIndex = -1;
-  let valueAfterStar = 0;
+  return wildcardSegmentRegex(pattern).test(value);
+}
 
-  while (valueIndex < value.length) {
-    if (
-      patternIndex < pattern.length &&
-      (pattern[patternIndex] === '?' || pattern[patternIndex] === value[valueIndex])
-    ) {
-      patternIndex += 1;
-      valueIndex += 1;
+function wildcardSegmentRegex(pattern: string): RegExp {
+  let source = '^';
+  for (let index = 0; index < pattern.length; index += 1) {
+    const char = pattern[index];
+    if (char === '\\') {
+      index += 1;
+      source += escapeRegex(pattern[index] ?? '\\');
       continue;
     }
-    if (patternIndex < pattern.length && pattern[patternIndex] === '*') {
-      starIndex = patternIndex;
-      patternIndex += 1;
-      valueAfterStar = valueIndex;
+    if (char === '*') {
+      source += '[^/]*';
       continue;
     }
-    if (starIndex !== -1) {
-      patternIndex = starIndex + 1;
-      valueAfterStar += 1;
-      valueIndex = valueAfterStar;
+    if (char === '?') {
+      source += '[^/]';
       continue;
     }
-    return false;
+    if (char === '[') {
+      const characterClass = parseCharacterClass(pattern, index);
+      if (characterClass !== null) {
+        source += characterClass.source;
+        index = characterClass.end;
+        continue;
+      }
+    }
+    source += escapeRegex(char);
+  }
+  return new RegExp(`${source}$`, 'u');
+}
+
+function parseCharacterClass(
+  pattern: string,
+  start: number,
+): { source: string; end: number } | null {
+  let end = start + 1;
+  if (pattern[end] === '!' || pattern[end] === '^') {
+    end += 1;
+  }
+  if (pattern[end] === ']') {
+    end += 1;
+  }
+  while (end < pattern.length && pattern[end] !== ']') {
+    end += pattern[end] === '\\' ? 2 : 1;
+  }
+  if (end >= pattern.length) {
+    return null;
   }
 
-  while (patternIndex < pattern.length && pattern[patternIndex] === '*') {
-    patternIndex += 1;
+  const raw = pattern.slice(start + 1, end);
+  if (raw.length === 0 || raw === '!' || raw === '^') {
+    return null;
   }
-  return patternIndex === pattern.length;
+  const negated = raw.startsWith('!') || raw.startsWith('^');
+  const body = negated ? raw.slice(1) : raw;
+  return {
+    source: `[${negated ? '^' : ''}${body.replace(/\\/g, '\\\\')}]`,
+    end,
+  };
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
 }
 
 function normalizeConfigLine(rawLine: string): string {
@@ -479,7 +548,7 @@ function splitConfigTokens(line: string): string[] {
   let escaped = false;
   for (const char of line) {
     if (escaped) {
-      current += char;
+      current += /[\s#!]/u.test(char) ? char : `\\${char}`;
       escaped = false;
       continue;
     }
@@ -506,7 +575,7 @@ function splitConfigTokens(line: string): string[] {
 }
 
 function normalizePattern(value: string): string {
-  return unescapePattern(toPosix(value.trim()));
+  return unescapePattern(value.trim());
 }
 
 function unescapePattern(value: string): string {

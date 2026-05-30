@@ -403,6 +403,26 @@ describe('VaultScanner', () => {
     expect(scanner.hasAsset('notes/.fgignore')).toBe(false);
   });
 
+  it('scan with directory .fgignore: prunes the subtree before nested negation', async () => {
+    fs.mkdirSync(path.join(tmpDir, 'notes', 'private'), { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'notes/private/\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', '.fgignore'), '!keep.md\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'keep.md'), '# Keep');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'drop.md'), '# Drop');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.has(id('notes/private/keep'))).toBe(false);
+    expect(vaultIndex.has(id('notes/private/drop'))).toBe(false);
+    expect(scanner.hasAsset('notes/private/.fgignore')).toBe(false);
+  });
+
   it('scan with .fgattributes: parses indexed Markdown with resolved effective flavor', async () => {
     fs.writeFileSync(path.join(tmpDir, '.fgattributes'), '*.md flavor=gfm\n');
     fs.writeFileSync(path.join(tmpDir, 'note.md'), '- [x] task\n');

@@ -63,6 +63,32 @@ describe('FlavorGrenadeConfigFiles', () => {
     expect(resolver.resolveForFile(vaultRoot, abs('notes/private/drop.md')).ignored).toBe(true);
   });
 
+  it('supports git-style character classes and escaped wildcard literals', () => {
+    writeFile('.fgignore', '[Rr][Ee][Aa][Dd][Mm][Ee].md\nliteral\\?.md\n');
+    writeFile('.fgattributes', '[Nn]ote.md flavor=gfm\nliteral\\*.md flavor=pandoc\n');
+    writeFile('README.md', '# Readme\n');
+    writeFile('readme.md', '# Readme\n');
+    writeFile('literalx.md', '# Literal x\n');
+    writeFile('Note.md', '# Note\n');
+    writeFile('note.md', '# Note\n');
+    writeFile('literalA.md', '# Literal a\n');
+
+    expect(resolver.resolveForFile(vaultRoot, abs('README.md')).ignored).toBe(true);
+    expect(resolver.resolveForFile(vaultRoot, abs('readme.md')).ignored).toBe(true);
+    expect(resolver.resolveForFile(vaultRoot, abs('literal?.md')).ignored).toBe(true);
+    expect(resolver.resolveForFile(vaultRoot, abs('literalx.md')).ignored).toBe(false);
+    expect(resolver.resolveForFile(vaultRoot, abs('Note.md')).attributes).toEqual({
+      flavor: 'gfm',
+    });
+    expect(resolver.resolveForFile(vaultRoot, abs('note.md')).attributes).toEqual({
+      flavor: 'gfm',
+    });
+    expect(resolver.resolveForFile(vaultRoot, abs('literal*.md')).attributes).toEqual({
+      flavor: 'pandoc',
+    });
+    expect(resolver.resolveForFile(vaultRoot, abs('literalA.md')).attributes).toEqual({});
+  });
+
   it('resolves .fgattributes through root-to-leaf attribute cascade', () => {
     writeFile(
       '.fgattributes',
@@ -104,6 +130,20 @@ describe('FlavorGrenadeConfigFiles', () => {
     expect(resolver.resolveForFile(vaultRoot, abs('notes/drafts/idea.md')).attributes).toEqual({});
     expect(resolver.resolveForFile(vaultRoot, abs('experiments/test.md')).attributes).toEqual({
       flavor: 'auto',
+    });
+  });
+
+  it('limits negated .fgattributes selectors to rules in the same file', () => {
+    writeFile('.fgattributes', '*.md flavor=commonmark\n');
+    writeFile('docs/.fgattributes', '*.md flavor=gfm\n!private.md\n');
+    writeFile('docs/guide.md', '# Guide\n');
+    writeFile('docs/private.md', '# Private\n');
+
+    expect(resolver.resolveForFile(vaultRoot, abs('docs/guide.md')).attributes).toEqual({
+      flavor: 'gfm',
+    });
+    expect(resolver.resolveForFile(vaultRoot, abs('docs/private.md')).attributes).toEqual({
+      flavor: 'commonmark',
     });
   });
 

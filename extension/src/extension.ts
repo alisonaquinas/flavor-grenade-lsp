@@ -1,4 +1,5 @@
-import { basename, dirname, join } from 'node:path';
+import { lstat, realpath } from 'node:fs/promises';
+import { basename, dirname, isAbsolute, join, relative } from 'node:path';
 import {
   Uri,
   type ExtensionContext,
@@ -155,6 +156,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         editor.document.uri.fsPath,
         scope.id,
         selected.id,
+        workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath,
       );
       if (!written) {
         await window.showErrorMessage(
@@ -455,10 +457,15 @@ async function writeMarkdownFlavorAttributes(
   filePath: string,
   scope: Parameters<typeof upsertFgAttributesRule>[1]['scope'],
   selection: Parameters<typeof upsertFgAttributesRule>[1]['selection'],
+  workspaceRoot?: string,
 ): Promise<boolean> {
   const directory = dirname(filePath);
-  const targetUri = Uri.file(join(directory, '.fgattributes'));
-  const content = await readTextFileIfPresent(targetUri);
+  const targetPath = join(directory, '.fgattributes');
+  if (!(await canUseFgAttributesTarget(targetPath, directory, workspaceRoot))) {
+    return false;
+  }
+  const targetUri = Uri.file(targetPath);
+  const content = await readTextFileIfPresent(targetUri, { directory, workspaceRoot });
   const nextContent = upsertFgAttributesRule(content, {
     fileName: basename(filePath),
     scope,
@@ -473,13 +480,62 @@ async function writeMarkdownFlavorAttributes(
   }
 }
 
-async function readTextFileIfPresent(uri: Uri): Promise<string> {
+async function readTextFileIfPresent(
+  uri: Uri,
+  options?: { directory: string; workspaceRoot?: string },
+): Promise<string> {
+  if (
+    options !== undefined &&
+    !(await canUseFgAttributesTarget(uri.fsPath, options.directory, options.workspaceRoot))
+  ) {
+    return '';
+  }
   try {
     const content = await workspace.fs.readFile(uri);
     return Buffer.from(content).toString('utf8');
   } catch {
     return '';
   }
+}
+
+async function canUseFgAttributesTarget(
+  targetPath: string,
+  directory: string,
+  workspaceRoot: string | undefined,
+): Promise<boolean> {
+  let realDirectory: string;
+  try {
+    realDirectory = await realpath(directory);
+  } catch {
+    return false;
+  }
+
+  if (workspaceRoot !== undefined) {
+    try {
+      const realWorkspaceRoot = await realpath(workspaceRoot);
+      if (!isPathWithinOrEqual(realDirectory, realWorkspaceRoot)) {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  try {
+    const targetStat = await lstat(targetPath);
+    if (!targetStat.isSymbolicLink()) {
+      return true;
+    }
+    const realTarget = await realpath(targetPath);
+    return isPathWithinOrEqual(realTarget, realDirectory);
+  } catch {
+    return true;
+  }
+}
+
+function isPathWithinOrEqual(childPath: string, parentPath: string): boolean {
+  const relativePath = relative(parentPath, childPath);
+  return relativePath === '' || (!relativePath.startsWith('..') && !isAbsolute(relativePath));
 }
 
 function ensureStatusBar(context: ExtensionContext): StatusBarItem {

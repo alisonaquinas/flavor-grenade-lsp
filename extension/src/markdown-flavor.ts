@@ -717,7 +717,7 @@ function splitFgAttributesTokens(line: string): string[] {
   let escaped = false;
   for (const char of line) {
     if (escaped) {
-      current += char;
+      current += /[\s#!]/u.test(char) ? char : `\\${char}`;
       escaped = false;
       continue;
     }
@@ -750,11 +750,11 @@ function isFlavorAttributeToken(token: string): boolean {
 function escapeFgAttributesPattern(value: string): string {
   let escaped = '';
   for (const char of value) {
-    escaped += /[\s#!]/u.test(char) ? `\\${char}` : char;
+    escaped += /[\s#!*?[\]\\]/u.test(char) ? `\\${char}` : char;
   }
   return escaped;
 }
 
 function unescapeFgAttributesPattern(value: string): string {
-  return value.replace(/\\([#!\s])/gu, '$1');
+  return value.replace(/\\([#!\s*?[\]\\])/gu, '$1');
 }

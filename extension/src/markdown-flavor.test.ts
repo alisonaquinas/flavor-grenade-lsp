@@ -653,6 +653,22 @@ describe('Markdown flavor setting persistence', () => {
       }),
       '\\#meeting.md flavor=obsidian',
     );
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: 'draft?.md',
+        scope: 'selected-file',
+        selection: 'gfm',
+      }),
+      'draft\\?.md flavor=gfm',
+    );
+    assert.equal(
+      buildFgAttributesRule({
+        fileName: 'a*b[1].md',
+        scope: 'selected-file',
+        selection: 'pandoc',
+      }),
+      'a\\*b\\[1\\].md flavor=pandoc',
+    );
   });
 
   it('upserts .fgattributes rules without widening the selected scope', () => {
