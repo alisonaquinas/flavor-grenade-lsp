@@ -6,14 +6,14 @@ consume the effective flavor state and the static profile registry defined here.
 
 ## Files
 
-| File                                | Responsibility                                                                                          |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `markdown-flavor-contract.ts`       | Supported flavor ids, selector values, labels, and id guards.                                           |
-| `fg-config-files.ts`                | Resolves `.fgignore` visibility and `.fgattributes` attributes inside a confined vault root.             |
-| `markdown-flavor-profiles.ts`       | Source-backed profile registry for every explicit flavor.                                               |
-| `markdown-flavor-state.ts`          | Effective flavor resolution from `.fgattributes`, Auto Detect evidence, and fallback state.              |
-| `non-local-boundary-classifier.ts`  | Classifies non-local or host-boundary references so unsupported targets do not become vault operations. |
-| `project-markdown-config-files.ts`  | Lists config-file markers used for Flavor Grenade vault detection.                                      |
+| File                               | Responsibility                                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `markdown-flavor-contract.ts`      | Supported flavor ids, selector values, labels, and id guards.                                           |
+| `fg-config-files.ts`               | Resolves `.fgignore` visibility and `.fgattributes` attributes inside a confined vault root.            |
+| `markdown-flavor-profiles.ts`      | Source-backed profile registry for every explicit flavor.                                               |
+| `markdown-flavor-state.ts`         | Effective flavor resolution from `.fgattributes`, Auto Detect evidence, and fallback state.             |
+| `non-local-boundary-classifier.ts` | Classifies non-local or host-boundary references so unsupported targets do not become vault operations. |
+| `project-markdown-config-files.ts` | Lists config-file markers used for Flavor Grenade vault detection.                                      |
 
 ## Invariants
 
