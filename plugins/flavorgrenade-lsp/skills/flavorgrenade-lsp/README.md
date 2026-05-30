@@ -78,8 +78,10 @@ generated/**/*.md
 `.fgattributes` controls explicit flavor and structured-profile attributes.
 Rules cascade from the workspace root to the target file's directory. Later
 matching rules override earlier rules. Negated selectors affect only matching
-rules in the same `.fgattributes` file; `!flavor` resets flavor so Auto Detect
-can run; `flavor=auto` explicitly requests Auto Detect.
+rules in the same `.fgattributes` file; `!flavor` clears the effective flavor
+selected so far for matching files so Auto Detect can run unless a later
+matching rule sets another flavor; `flavor=auto` explicitly requests Auto
+Detect.
 
 ```gitattributes
 # .fgattributes
@@ -96,8 +98,9 @@ files and `.editorconfig` directives are not flavor assignment sources.
 ## Safety
 
 Wrappers do not download runtime binaries, execute Markdown code, run renderer
-plugins, or fetch remote references. Host and renderer references are reported
-as boundaries.
+plugins, or fetch remote references. The JSON schema reserves `boundaries` for
+future host and renderer boundary evidence; current wrapper output may return
+empty boundary arrays.
 
 ## Maintenance
 

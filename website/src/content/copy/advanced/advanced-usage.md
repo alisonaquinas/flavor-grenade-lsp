@@ -25,7 +25,7 @@ Each article explains the boundary in plain English first, then gives a small ex
 
 ## Current behavior and planned behavior
 
-Current behavior is strongest in the VS Code extension and local language server. The extension ships a bundled JavaScript server module, opens local file-system workspaces, writes selected file or directory flavor choices to `.fgattributes`, and refreshes when `.fgignore` or `.fgattributes` changes. Auto Detect runs independently when no concrete `.fgattributes` flavor applies, then uses vault markers, syntax and context inference, and CommonMark fallback.
+Current behavior is strongest in the VS Code extension and local language server. The extension ships a bundled JavaScript server module, opens local file-system workspaces, writes selected file or directory flavor choices to `.fgattributes`, and refreshes when `.fgignore` or `.fgattributes` changes. Auto Detect runs independently when no concrete `.fgattributes` flavor applies, then uses Obsidian markers, strong syntax evidence, and CommonMark fallback.
 
 When a page describes direct LSP clients, read it as integration guidance. The server speaks LSP over stdio, but non-VS-Code clients still own launch, root selection, transport, configuration payloads, and file watching.
 

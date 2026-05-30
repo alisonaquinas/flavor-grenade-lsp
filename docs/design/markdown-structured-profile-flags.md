@@ -22,7 +22,8 @@ must not be added to the Markdown flavor selector list.
   combination.
 - Support low-friction automatic detection through filename, folder placement,
   headings, front matter, and local structure.
-- Support explicit configuration in Flavor Grenade project config files and VS Code settings.
+- Support explicit configuration in `.fgattributes` while preserving automatic
+  profile detection when the attribute is absent, reset, or set to `auto`.
 - Preserve the current explicit Markdown flavor list.
 - Keep base Markdown parsing separate from structured-document validation.
 
@@ -82,54 +83,31 @@ Rules:
 
 ## Configuration
 
-### Project Config
+### `.fgattributes`
 
-Project configuration may set structured profiles independently of the base
-Markdown flavor:
+`.fgattributes` may set structured profiles independently of the base Markdown
+flavor:
 
-```toml
-[core.markdown]
-flavor = "gfm"
-structured_profiles = ["keep-a-changelog"]
+```gitattributes
+*.md flavor=gfm structured_profiles=keep-a-changelog
 ```
 
 Valid values:
 
-```toml
+```gitattributes
 # Run automatic filename/folder/content inference.
-structured_profiles = "auto"
+CHANGELOG.md structured_profiles=auto
 
 # Disable all structured profile behavior in this project.
-structured_profiles = "none"
+docs/legacy/*.md structured_profiles=none
 
 # Force one or more compatible flags.
-structured_profiles = ["madr"]
+docs/decisions/*.md structured_profiles=madr
 ```
 
-JSON, JSONC, and YAML use the same `core.markdown.structured_profiles` field.
-Directory overrides may set `structured_profiles` independently from
-`flavor`, and `.editorconfig` may set
-`flavor_grenade_markdown_structured_profiles` inside matching sections.
-
-### VS Code
-
-The extension must expose a setting separate from `flavorGrenade.markdownFlavor`:
-
-```json
-{
-  "flavorGrenade.markdownFlavor": "gfm",
-  "flavorGrenade.markdownStructuredProfiles": ["keep-a-changelog"]
-}
-```
-
-Valid VS Code values mirror project config:
-
-- `"auto"`: infer structured profiles from local evidence.
-- `"none"`: disable structured profiles.
-- array of unique, compatible profile ids: force the listed profiles.
-
-Scope behavior follows `flavorGrenade.markdownFlavor`: workspace-folder or
-workspace scope for folder-backed documents, user scope for standalone files.
+Directory-scoped rules may set `structured_profiles` independently from
+`flavor`. Legacy `.flavor-grenade.*` files, `.editorconfig` directives, and VS
+Code settings are not structured-profile assignment sources.
 
 ## Resolution
 
@@ -138,9 +116,9 @@ Structured profile resolution runs after the base Markdown flavor is resolved:
 ```mermaid
 flowchart TD
   A["Resolve base Markdown flavor"] --> B{"Structured profile setting?"}
-  B -- "explicit list" --> C["Use explicit profile flags"]
-  B -- "none" --> D["Use no structured profiles"]
-  B -- "auto / absent" --> E["Infer from path, filename, metadata, and headings"]
+  B -- "explicit .fgattributes list" --> C["Use explicit profile flags"]
+  B -- ".fgattributes none" --> D["Use no structured profiles"]
+  B -- "auto / absent / reset" --> E["Infer from path, filename, metadata, and headings"]
   E --> F{"One unambiguous profile or compatible set?"}
   F -- "Yes" --> G["Apply inferred profile flags"]
   F -- "No" --> D
@@ -148,15 +126,14 @@ flowchart TD
 
 Precedence:
 
-1. Explicit VS Code structured-profile setting.
-2. Explicit project config structured-profile setting.
-3. Automatic inference from bounded local context.
-4. No structured profile.
+1. Matching `.fgattributes` structured-profile setting.
+2. Automatic inference from bounded local context.
+3. No structured profile.
 
 The structured-profile result is propagated alongside the base effective flavor.
 It must not replace the effective flavor.
 
-Invalid explicit structured-profile arrays are rejected at the configuration
+Invalid explicit structured-profile lists are rejected at the configuration
 layer. Invalid arrays include unknown ids, duplicate ids, and arrays containing
 both `keep-a-changelog` and `common-changelog`.
 
@@ -248,8 +225,8 @@ Structured profiles must not:
 
 ## Test Obligations
 
-- Unit tests validate project config and VS Code settings for `auto`, `none`,
-  explicit arrays, unknown ids, duplicate ids, and incompatible changelog pairs.
+- Unit tests validate `.fgattributes` values for `auto`, `none`, explicit
+  lists, unknown ids, duplicate ids, and incompatible changelog pairs.
 - Auto-detection tests cover `CHANGELOG.md`, Keep a Changelog, Common
   Changelog, MADR path/filename/heading evidence, weak-signal fallback, and
   workspace-boundary confinement.

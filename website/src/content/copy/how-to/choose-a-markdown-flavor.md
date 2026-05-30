@@ -14,7 +14,7 @@ Choose the base Markdown flavor that matches the file before adding vault or str
 
 Use this page when a Markdown file is being treated like the wrong kind of document, or when a generic repository contains several Markdown styles side by side. The goal is to make the effective flavor explicit enough that diagnostics, completions, hovers, symbols, folds, semantic tokens, and rename all read the same grammar.
 
-Auto Detect is the normal starting point. It runs when `.fgattributes` is absent, requests `flavor=auto`, or resets flavor with `!flavor`. Auto Detect then checks vault markers, syntax, and path context. If those signals do not identify a stronger flavor, Flavor Grenade falls back to CommonMark instead of assuming Obsidian syntax for every root-level README.
+Auto Detect is the normal starting point. It runs when `.fgattributes` is absent, requests `flavor=auto`, or clears flavor with `!flavor`. Auto Detect then checks Obsidian markers and strong syntax evidence. If those signals do not identify a stronger flavor, Flavor Grenade falls back to CommonMark instead of assuming Obsidian syntax for every root-level README.
 
 ## Steps
 

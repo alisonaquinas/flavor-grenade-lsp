@@ -108,7 +108,7 @@ Run verification before asking the agent to make flavor-sensitive Markdown edits
 
 ### Use wrapper evidence before edits
 
-Use `detect` for one file and `analyze` for a workspace or directory. Treat wrapper output as the source of truth for flavor, structured profiles, boundaries, and diagnostics.
+Use `detect` for one file and `analyze` for a workspace or directory. Treat wrapper output as the source of truth for flavor, structured profiles, and diagnostics. The `boundaries` field is reserved and may be empty in current wrapper output.
 
 ```text
 npx skill install alisonaquinas/flavor-grenade-lsp --skill flavorgrenade-lsp

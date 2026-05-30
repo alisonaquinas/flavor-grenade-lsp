@@ -15,8 +15,9 @@ structure, diagnostics, or links matter.
    flavor-sensitive edits.
 3. Run `node wrappers/flavorgrenade.mjs analyze <path> --json` before broad
    Markdown rewrites.
-4. Use wrapper `config`, `evidence`, `boundaries`, and `diagnostics` fields as
-   the source of truth. `.fgignore` hides files from analysis; `.fgattributes`
+4. Use wrapper `config`, `evidence`, and `diagnostics` fields as the source of
+   truth. The `boundaries` field is reserved and may be empty in current
+   wrapper output. `.fgignore` hides files from analysis; `.fgattributes`
    supplies explicit flavor and structured-profile attributes.
 5. Treat changelog and MADR results as structured variants layered over a base
    Markdown flavor.
@@ -88,8 +89,9 @@ changelog/CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
 Read `.fgignore` as visibility first: matching files are inactive and excluded
 from wrapper scans unless a later negated rule re-includes them. Read
 `.fgattributes` from the workspace root toward the file's directory; later
-matching rules override earlier rules, `!flavor` resets the local flavor
-attribute, and `flavor=auto` means run Auto Detect. When no `.fgignore` or
+matching rules override earlier rules, `!flavor` clears the effective flavor
+selected so far for matching files, and `flavor=auto` means run Auto Detect.
+When no `.fgignore` or
 `.fgattributes` applies, Auto Detect remains the default for the target
 directory and descendants.
 

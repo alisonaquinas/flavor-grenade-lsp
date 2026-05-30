@@ -110,19 +110,20 @@ aliases:
 
 **Tag:** Link.Resolution.IgnoreGlob
 **User Req:** User.Author.CompleteWikiLink
-**Gist:** Files matching `.gitignore`-style glob patterns in the server configuration must be absent from all completion candidates and go-to-definition results.
+**Gist:** Files matching `.fgignore` Git-style patterns must be absent from all completion candidates and go-to-definition results.
 **Ambition:** Vaults often contain generated files, template directories, or attachment folders that should be invisible to the link-resolution layer. Exposing ignored files in completions degrades user experience with irrelevant candidates and may leak private or auto-generated content into links that are then committed to version control.
 **Scale:** Percentage of completion-candidate lists and definition-result sets that contain zero entries whose file path matches a currently active ignore pattern. Scope: all LSP requests issued after the ignore configuration is applied.
 **Meter:**
 
-1. Configure `ignore_patterns` in project config to match a specific subdirectory (e.g., `templates/**`).
+1. Configure `.fgignore` to match a specific subdirectory (e.g., `templates/`).
 2. Place at least 5 markdown documents inside that subdirectory and at least 5 outside.
 3. Trigger `textDocument/completion` at a `[[` position in an un-ignored document.
 4. Inspect all returned `CompletionItem` entries; verify none reference a file inside the ignored subdirectory.
 5. Create a `[[link]]` pointing to an ignored file; invoke `textDocument/definition`; verify the response is `null` or empty.
-6. Compute: (requests with no ignored-file results / total requests tested) × 100.
+6. Verify the ignored file produces no diagnostics, symbols, references, or rename edits and is not used to satisfy references from visible files.
+7. Compute: (requests with no ignored-file results / total requests tested) × 100.
 **Fail:** Any completion candidate or definition result whose resolved file path matches an active ignore pattern.
 **Goal:** 0 ignored-file entries in any completion or definition response.
 **Stakeholders:** Vault authors with template folders, teams using generated documentation, developers with build-output directories inside the vault.
 **Owner:** flavor-grenade-lsp contributors.
-**Source:** [[docs/design/domain-layer]], [[configuration]], [[docs/architecture/overview]].
+**Source:** [[docs/design/domain-layer]], [[docs/features/markdown-flavor-config-files]], [[docs/architecture/overview]].

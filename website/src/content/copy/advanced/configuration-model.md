@@ -12,9 +12,9 @@ Learn how Flavor Grenade decides which folder is the vault, which files are visi
 
 ## Configuration sources
 
-Flavor Grenade starts with the folder your editor opened. Root detection looks for `.obsidian/`, `.fgignore`, and `.fgattributes` markers. Visibility is resolved first from `.fgignore`; hidden files are not processed or indexed. Flavor attributes are then resolved from `.fgattributes`. If no concrete flavor applies, Auto Detect runs from Obsidian vault evidence, syntax, path context, and CommonMark fallback.
+Flavor Grenade starts with the folder your editor opened. Root detection looks for `.obsidian/`, `.fgignore`, and `.fgattributes` markers. Visibility is resolved first from `.fgignore`; hidden files are not processed or indexed. Flavor attributes are then resolved from `.fgattributes`. If no concrete flavor applies, Auto Detect runs from Obsidian vault evidence, strong syntax evidence, and CommonMark fallback.
 
-Auto Detect is independent of configuration. Configuration can request Auto Detect with `flavor=auto`, reset a local flavor with `!flavor`, or be absent entirely. In all three cases the server still runs the same Auto Detect workflow.
+Auto Detect is independent of configuration. Configuration can request Auto Detect with `flavor=auto`, clear the effective flavor with `!flavor`, or be absent entirely. In all three cases the server still runs the same Auto Detect workflow.
 
 Legacy `.flavor-grenade.*` files and `.editorconfig` directives are not flavor assignment sources. `.flavor-grenade.toml` can still carry non-flavor operational settings where supported, but Markdown flavor assignment belongs in `.fgattributes`.
 
@@ -49,7 +49,7 @@ Supported attributes:
 
 - `flavor=<id>` sets the base flavor for matching files.
 - `flavor=auto` explicitly asks Auto Detect to choose the base flavor.
-- `!flavor` resets a same-scope flavor attribute so inherited or automatic behavior can apply.
+- `!flavor` clears the effective flavor selected so far for matching files, causing Auto Detect unless a later matching rule sets a flavor.
 - `structured_profiles=auto`, `structured_profiles=none`, or `structured_profiles=<profile>` controls structured-profile behavior.
 
 Supported base flavor ids are `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`.

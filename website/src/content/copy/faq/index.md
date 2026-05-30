@@ -32,7 +32,7 @@ No. Diagnostics, hovers, symbols, folds, semantic tokens, and completions do not
 
 ## Which Markdown flavors are supported?
 
-Flavor Grenade can work with `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`. `.fgattributes` can pin one of those flavors, and Auto Detect resolves to one effective flavor from markers, syntax, context, or CommonMark fallback when no concrete rule applies.
+Flavor Grenade can work with `original`, `commonmark`, `obsidian`, `gfm`, `glfm`, `pandoc`, `multimarkdown`, `mdx`, `kramdown`, `markdown-extra`, `r-markdown`, `reddit`, and `stack-overflow`. `.fgattributes` can pin one of those flavors, and Auto Detect resolves to one effective flavor from Obsidian markers, strong syntax evidence, or CommonMark fallback when no concrete rule applies.
 
 ## What are structured profiles?
 

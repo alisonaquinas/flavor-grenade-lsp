@@ -53,7 +53,7 @@ redacted excerpts when command output is needed.
 - Stale `ofmarkdown` expectation evidence distinguishes historical docs from
   current extension behavior and tests.
 - Inference smoke evidence distinguishes `.fgattributes` configuration from
-  syntax/context inference and proves root fixture README remains generic.
+  syntax inference and proves root fixture README remains generic.
 - Structured profile smoke evidence proves both changelog variants and MADR
   remain separate from base flavor selection across `.fgattributes`-configured
   and config-absent inference smoke workspaces.

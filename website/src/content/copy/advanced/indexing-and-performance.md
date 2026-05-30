@@ -17,7 +17,7 @@ Indexing starts by scanning the detected vault or project, reading Markdown file
 A healthy lifecycle should feel boring: scan, parse with the active flavor and structured profiles, store facts, refresh when files change, then let every feature read the same state.
 
 ```text
-.obsidian/ or .fgattributes -> .fgignore visibility -> scan -> parse -> VaultIndex -> diagnostics/completions/references
+.obsidian/ or .fgignore/.fgattributes marker -> .fgignore visibility -> scan visible files -> parse -> VaultIndex -> diagnostics/completions/references
 ```
 
 ## Large vaults

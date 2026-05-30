@@ -43,7 +43,7 @@ If verification fails, reinstall the skill or choose an artifact for the current
 
 The common failure mode is letting an agent guess Markdown behavior or parse Flavor Grenade configuration by itself. Ask the agent to run `detect` before flavor-sensitive edits and `analyze` before broad rewrites.
 
-The wrapper reports the effective base flavor, structured profiles such as Keep a Changelog or MADR, `.fgignore` visibility, `.fgattributes` evidence, inference evidence, diagnostics, symbols, folds, hovers, completions, and boundaries.
+The wrapper reports the effective base flavor, structured profiles such as Keep a Changelog or MADR, `.fgignore` visibility, `.fgattributes` evidence, inference evidence, diagnostics, symbols, folds, hovers, and completions. The `boundaries` field is reserved and may be empty in current wrapper output.
 
 ```text
 node skills/flavorgrenade-lsp/wrappers/flavorgrenade.mjs detect README.md --json
@@ -72,7 +72,7 @@ drafts/
 generated/**/*.md
 ```
 
-`.fgattributes` controls explicit flavor and structured-profile attributes. Rules cascade from the workspace root toward the file's directory. Later matching rules override earlier rules, `!flavor` resets the local flavor attribute, and `flavor=auto` asks the LSP to run Auto Detect.
+`.fgattributes` controls explicit flavor and structured-profile attributes. Rules cascade from the workspace root toward the file's directory. Later matching rules override earlier rules, `!flavor` clears the effective flavor selected so far for matching files, and `flavor=auto` asks the LSP to run Auto Detect.
 
 ```gitattributes
 # .fgattributes

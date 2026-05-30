@@ -28,9 +28,11 @@ Failures return:
 }
 ```
 
-`analyze.files[]` and `detect` results include per-file flavor decisions,
+`analyze.files[]` and direct `detect` results include per-file flavor decisions,
 structured variants, safe evidence, and redacted config metadata when
-`.fgignore` or `.fgattributes` participates.
+`.fgignore` or `.fgattributes` participates. Broad scan commands omit files
+hidden by `.fgignore`; direct file detection can report inactive status for an
+ignored target.
 
 Active files report:
 
@@ -54,7 +56,8 @@ Active files report:
 }
 ```
 
-Ignored files report inactive status instead of a flavor decision:
+Direct detection of an ignored file reports inactive status instead of a flavor
+decision:
 
 ```json
 {

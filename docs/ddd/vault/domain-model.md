@@ -228,7 +228,7 @@ resource-specific flow are defined in
 1. `.fgignore` visibility gate
 2. `.fgattributes` `flavor` attribute
 3. Vault marker (`.obsidian/` -> obsidian)
-4. Syntax/context inference
+4. Syntax inference
 5. CommonMark fallback
 ```
 

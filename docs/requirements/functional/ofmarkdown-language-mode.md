@@ -131,7 +131,7 @@ aliases:
 
 **Tag:** Extension.MarkdownFlavor.AutoDetection
 **User Req:** User.Extension.AutoDetectFlavor
-**Gist:** In `auto` mode, the extension and server should continue to infer the effective flavor from vault and workspace signals.
+**Gist:** In `auto` mode, the extension and server should continue to infer the effective flavor when configuration is absent, reset, or explicitly set to `auto`.
 **Ambition:** Existing vault users should not have to configure anything. Obsidian vaults should behave as Obsidian flavored Markdown, plain Markdown files should default conservatively, and future detection can expand without changing the UI model.
 **Scale:** Percentage of documented contexts where `auto` resolves to the expected effective flavor.
 **Meter:**

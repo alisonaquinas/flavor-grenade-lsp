@@ -255,8 +255,11 @@ async function detect(client, file, workspaceRoot, options = {}) {
       },
       {
         step: 'auto-detect',
-        matched: true,
-        reason: 'Auto Detect runs when .fgattributes is absent, resets flavor, or requests flavor=auto.',
+        matched: decision.source === 'lsp-auto-detect',
+        reason:
+          decision.source === 'lsp-auto-detect'
+            ? 'Auto Detect ran because .fgattributes is absent, resets flavor, or requests flavor=auto.'
+            : 'Auto Detect did not run because a concrete .fgattributes flavor selected the base flavor.',
         evidence: decision.evidence.map((entry) => entry.kind),
       },
     ],

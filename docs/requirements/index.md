@@ -98,8 +98,8 @@ Target levels (Fail and Goal) are set **only when the source material provides e
 | **Extension.MarkdownFlavor.Selector** | The VS Code extension must expose Markdown flavor through a separate selector. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.RequiredCoverage** | The selector, setting schema, and server-facing flavor model must include every researched Markdown flavor. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.DialectProfiles** | Every supported explicit flavor must have a documented dialect profile derived from research. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor from vault and workspace signals. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
-| **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to project settings for folder contexts and user settings for standalone files. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.AutoDetection** | Auto Detect must infer flavor when configuration is absent, reset, or explicitly set to `auto`. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
+| **Extension.MarkdownFlavor.OverridePersistence** | Flavor overrides must persist to `.fgattributes` for selected-file and directory scopes. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.ServerPropagation** | The effective Markdown flavor must propagate to server analysis. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **Extension.MarkdownFlavor.ManualLanguageSafety** | The selector must not override manual non-Markdown language mode selections. | [[docs/requirements/functional/ofmarkdown-language-mode]] |
 | **FlavorLSP.Profile.SignatureCoverage** | Every explicit Markdown flavor must have a server profile declaring active, inert, and host-specific syntax. | [[docs/requirements/functional/markdown-flavor-lsp]] |

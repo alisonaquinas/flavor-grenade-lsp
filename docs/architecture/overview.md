@@ -109,8 +109,10 @@ Flavor behavior is selected by a client-side Markdown flavor control next to
 the language mode affordance:
 
 1. `.md` files open and remain `markdown`.
-2. The extension derives an effective flavor from `Auto Detect`, using
-   `.fgignore`, `.fgattributes`, `.obsidian/`, and server membership signals.
+2. The extension derives an effective flavor from configuration resolution and
+   Auto Detect: `.fgignore` controls visibility, `.fgattributes` may select or
+   request Auto Detect, and Auto Detect uses `.obsidian/`, strong syntax
+   evidence, and CommonMark fallback.
 3. Users may override the flavor to any required explicit flavor.
 4. Overrides persist to `.fgattributes` after the user chooses selected-file or
    directory scope.

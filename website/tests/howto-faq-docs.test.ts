@@ -150,6 +150,8 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     expect(directLsp).toContain('"completionCandidates": 50');
     expect(directLsp).toContain('"diagnosticsSuppress": []');
     expect(directLsp).toContain('"fgConfigMaxBytes": 8192');
+    expect(directLsp).toContain('server notification shape');
+    expect(directLsp).toContain('VS Code exposes the public setting as `flavorGrenade.fgConfig.maxBytes`');
     expect(directLsp).toContain('*.md flavor=commonmark');
     expect(directLsp).toContain('docs/decisions/*.md flavor=commonmark structured_profiles=madr');
     expect(directLsp).toContain('watch: Markdown files, .obsidian/, .fgignore, and .fgattributes');

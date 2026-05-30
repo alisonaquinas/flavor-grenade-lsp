@@ -8,7 +8,7 @@ for agents and humans, not exhaustive server test fixtures.
 
 | Path | Purpose |
 | --- | --- |
-| [inferred-flavors/README.md](./inferred-flavors/README.md) | Markdown that depends on syntax and context inference |
+| [inferred-flavors/README.md](./inferred-flavors/README.md) | Markdown that depends on syntax inference |
 | [mixed-flavors/README.md](./mixed-flavors/README.md) | Markdown intended to demonstrate directory-specific flavor context |
 | [structured-variants/CHANGELOG.md](./structured-variants/CHANGELOG.md) | Changelog structure as a variant over a base flavor |
 

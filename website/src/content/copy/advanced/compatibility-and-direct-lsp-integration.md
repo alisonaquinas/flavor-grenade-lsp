@@ -54,7 +54,7 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
 }
 ```
 
-If your client sends workspace configuration after initialize, use the same public setting names as the VS Code extension:
+If your client sends workspace configuration after initialize, use the server notification shape. VS Code exposes the public setting as `flavorGrenade.fgConfig.maxBytes`; direct clients send the server-facing `fgConfigMaxBytes` value:
 
 ```json
 {

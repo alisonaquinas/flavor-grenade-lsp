@@ -29,7 +29,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 | 1 | Project Scaffold | complete | NestJS + Bun initialised; repo structure; CI skeleton; `src/main.ts` stdio entry point | 2026-04-17 |
 | 2 | LSP Transport | complete | JSON-RPC Content-Length framing; capability negotiation; `initialize` / `initialized` / `shutdown` / `exit` handshake | 2026-04-17 |
 | 3 | OFM Parser | complete | Full OFM AST: wiki-links, embeds, block refs, tags, callouts, frontmatter, math, Obsidian comments | 2026-04-17 |
-| 4 | Vault Index | complete | Vault detection (`.obsidian/` + `.flavor-grenade.toml`); file watcher; DocId; FolderLookup; single-file mode | 2026-04-17 |
+| 4 | Vault Index | complete | Vault detection (`.obsidian/` + Flavor Grenade markers); file watcher; DocId; FolderLookup; single-file mode | 2026-04-17 |
 | 5 | Wiki-Link Resolution | complete | Diagnostics FG001–FG003; go-to-def; find-refs; wiki-link completion (file-stem default) | 2026-04-17 |
 | 6 | Tags | complete | Tag indexing with hierarchy; tag completion; tag find-references; tag-to-yaml code action | 2026-04-17 |
 | 7 | Embeds | complete | Embed resolution; FG004 broken-embed diagnostic; hover preview for `.md` embeds | 2026-04-17 |
@@ -493,8 +493,8 @@ Implementation plan: [[docs/plans/phase-E6-ofmarkdown-language-mode]]
 #### Phase E7 — Activation Precision And Startup Gating
 
 Match Marksman VSCode's project-scoped activation while using OFMarkdown-native
-workspace signals. The extension activates for `.obsidian/`,
-`.flavor-grenade.toml`, `markdown`, `ofmarkdown`, and explicit commands, but it
+workspace signals. The extension activates for `.obsidian/`, `.fgignore`,
+`.fgattributes`, `markdown`, `ofmarkdown`, and explicit commands, but it
 defers vault work until a positive vault signal exists. Gate: extension-host
 fixtures prove vault workspaces activate, generic Markdown remains idle, and
 commands can still wake the extension intentionally.
@@ -594,16 +594,17 @@ Implementation plan: [[docs/plans/phase-E14-membership-refresh-compatibility-gua
 #### Phase E15 — Markdown Flavor Selector And Settings
 
 Replace the retired language-mode promotion design with a separate Markdown
-flavor selector and setting. This phase keeps `.md` documents in VS Code's
-built-in `markdown` language mode, adds `flavorGrenade.markdownFlavor`, resolves
-Auto Detect from markers/settings/membership inputs, persists overrides to the
-correct project or user scope, and propagates resource-specific effective flavor
-to the server using [[docs/design/markdown-flavor-auto-detection]]. E15 also
+flavor selector backed by `.fgattributes`. This phase keeps `.md` documents in
+VS Code's built-in `markdown` language mode, resolves Auto Detect when
+configuration is absent, reset, or explicitly set to `auto`, persists overrides
+to selected-file or directory scope in `.fgattributes`, and propagates
+resource-specific effective flavor to the server using
+[[docs/design/markdown-flavor-auto-detection]]. E15 also
 owns stale unit-test blockers for the old language-mode promotion path.
 
 Requirement links: [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]]
 
-Test trace: [EXT-MF-U-001 through EXT-MF-U-014](../extension/docs/tests/markdown-flavor-unit-spec.md), plus [EXT-MF-I-004, EXT-MF-I-008, and EXT-MF-I-009](../extension/docs/tests/markdown-flavor-integration-spec.md) for rebuild-triggered refresh, outbound payload shape, and server-unavailable replay/recompute after selector overrides. Client-to-server propagation uses `workspace/didChangeConfiguration` or an equivalent documented contract carrying `flavorGrenade.markdownFlavor` and resource-specific effective flavor.
+Test trace: [EXT-MF-U-001 through EXT-MF-U-014](../extension/docs/tests/markdown-flavor-unit-spec.md), plus [EXT-MF-I-004, EXT-MF-I-008, and EXT-MF-I-009](../extension/docs/tests/markdown-flavor-integration-spec.md) for rebuild-triggered refresh, outbound payload shape, and server-unavailable replay/recompute after selector overrides. Selector persistence writes `.fgattributes`; client-to-server propagation uses watched `.fgignore` and `.fgattributes` changes plus any documented resource-specific status refresh contract.
 
 Implementation plan: [[docs/plans/phase-E15-markdown-flavor-selector-settings]]
 

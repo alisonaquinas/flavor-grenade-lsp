@@ -339,8 +339,8 @@ Priority 2 — Vault marker
   Source: VaultDetector result
   Rule: .obsidian/ marker resolves to 'obsidian'
 
-Priority 3 — Syntax/context inference
-  Source: strong local syntax and bounded workspace context
+Priority 3 — Syntax inference
+  Source: strong local syntax evidence
 
 Priority 4 (lowest) — CommonMark fallback
   Rule: generic Markdown resolves to 'commonmark'

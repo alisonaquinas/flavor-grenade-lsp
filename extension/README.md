@@ -31,14 +31,15 @@ diagnostics, and project-aware completions. See the current docs at
 ![Markdown flavor selector with CommonMark fallback](https://flavor-grenade.dev/assets/marketplace/markdown-flavor-selector.png)
 
 Markdown files stay in VS Code's Markdown mode. The Flavor Grenade selector
-shows the active base flavor and whether it came from explicit settings,
-project configuration, vault markers, syntax inference, or CommonMark fallback.
+shows the active base flavor and whether it came from `.fgattributes`, Auto
+Detect, an Obsidian vault marker, syntax inference, or CommonMark fallback.
 
 ![Flavor Grenade status bar indexing](https://flavor-grenade.dev/assets/marketplace/status-indexing.png)
 
 The status bar reports server state and active Markdown flavor. Auto Detect uses
-project config first, then vault markers, then syntax and context inference,
-then CommonMark fallback.
+Obsidian vault evidence and syntax signals, then CommonMark fallback. It runs
+when no concrete `.fgattributes` flavor applies, when `flavor=auto` matches, or
+when `!flavor` clears the effective flavor selected so far.
 
 ![Flavor Grenade heading and block-anchor completion](https://flavor-grenade.dev/assets/marketplace/heading-block-completion.png)
 
@@ -77,59 +78,39 @@ or you run an explicit Flavor Grenade command.
 
 ## Project Configuration
 
-Use project configuration to pin a project when Auto Detect is not enough. TOML
-remains supported and is checked first; JSON, JSONC, YAML/YML, and Flavor
-Grenade directives in `.editorconfig` are also supported.
+Flavor configuration lives in Git-style files that can appear at the workspace
+root or in subdirectories:
 
-```toml
-[core.markdown]
-flavor = "gfm"
-structured_profiles = ["keep-a-changelog"]
+- `.fgignore` controls Flavor Grenade visibility. Matching files are inactive
+  and are not processed, indexed, completed, diagnosed, navigated, renamed, or
+  used as references unless a later negated rule re-includes them.
+- `.fgattributes` controls explicit base flavor and structured-profile
+  attributes. Rules cascade from the root toward the active file's directory.
+  Later matching rules win. Negated selectors cancel matching rules from the
+  same `.fgattributes` file, `!flavor` clears the effective flavor selected so
+  far, and `flavor=auto` asks Auto Detect to run.
 
-[[core.markdown.overrides]]
-path = "docs/decisions"
-flavor = "commonmark"
-structured_profiles = ["madr"]
+Example `.fgattributes`:
+
+```gitattributes
+*.md flavor=auto
+docs/github/*.md flavor=gfm
+docs/decisions/*.md flavor=commonmark structured_profiles=madr
+CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
 ```
 
-Equivalent JSONC:
+Example `.fgignore`:
 
-```jsonc
-{
-  "core": {
-    "markdown": {
-      "flavor": "gfm",
-      "structured_profiles": ["keep-a-changelog"],
-      "overrides": [
-        {
-          "path": "docs/decisions",
-          "flavor": "commonmark",
-          "structured_profiles": ["madr"]
-        }
-      ]
-    }
-  }
-}
+```gitignore
+generated/
+private/
+!private/README.md
 ```
 
-Equivalent `.editorconfig` directive:
+When these files are absent, Auto Detect applies to the opened directory and
+all subdirectories by default.
 
-```ini
-[docs/decisions/*.md]
-flavor_grenade_markdown_flavor = commonmark
-flavor_grenade_markdown_structured_profiles = madr
-```
-
-Project config file discovery order:
-
-1. `.flavor-grenade.toml`
-2. `.flavor-grenade.json`
-3. `.flavor-grenade.jsonc`
-4. `.flavor-grenade.yaml`
-5. `.flavor-grenade.yml`
-6. `.editorconfig` with Flavor Grenade directives
-
-Supported `markdown_flavor` values:
+Supported `flavor` values:
 
 - `original`
 - `commonmark`
@@ -155,17 +136,25 @@ Supported `structured_profiles` values:
 Keep a Changelog and Common Changelog are mutually exclusive. MADR can combine
 with either changelog profile when the document context supports it.
 
+The Markdown flavor selector writes `.fgattributes`. After you select a flavor,
+the extension asks whether the rule applies to the selected file or all
+Markdown files in that directory. Choosing Auto Detect removes or resets the
+matching scoped `flavor` assignment instead of writing a legacy workspace
+setting.
+
 ## VS Code Settings
 
-- `flavorGrenade.markdownFlavor`: `auto` or an explicit base Markdown flavor
-- `flavorGrenade.markdownStructuredProfiles`: `auto`, `none`, or an array of
-  structured profile ids
 - `flavorGrenade.linkStyle`: wiki-link completion style, one of `file-stem`,
   `title-slug`, or `file-path-stem`
 - `flavorGrenade.completion.candidates`: maximum completion items returned
 - `flavorGrenade.diagnostics.suppress`: diagnostic codes to suppress
+- `flavorGrenade.fgConfig.maxBytes`: maximum `.fgignore` or `.fgattributes`
+  file size read for flavor configuration
 - `flavorGrenade.trace.server`: LSP trace level
 - `flavorGrenade.server.path`: user-level custom language-server command path
+
+Flavor and structured-profile persistence belongs in `.fgattributes`, not VS
+Code workspace settings.
 
 ## Commands
 
