@@ -10,7 +10,7 @@
  * @module wrappers/flavorgrenade
  */
 import { spawn } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { closeSync, existsSync, fstatSync, openSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -607,13 +607,17 @@ function configDirectoriesFor(workspaceRoot, file) {
 }
 
 function readConfigIfPresent(file) {
+  let fd;
   try {
-    const stat = statSync(file);
+    fd = openSync(file, 'r');
+    const stat = fstatSync(fd);
     if (!stat.isFile() || stat.size > FG_CONFIG_MAX_BYTES) return undefined;
-    const content = readFileSync(file, 'utf8');
+    const content = readFileSync(fd, 'utf8');
     return Buffer.byteLength(content, 'utf8') > FG_CONFIG_MAX_BYTES ? undefined : content;
   } catch {
     return undefined;
+  } finally {
+    if (fd !== undefined) closeSync(fd);
   }
 }
 
