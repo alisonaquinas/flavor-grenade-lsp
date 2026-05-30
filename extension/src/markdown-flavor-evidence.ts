@@ -8,6 +8,7 @@ import {
 } from './markdown-flavor.js';
 
 const DEFAULT_FG_CONFIG_MAX_BYTES = 8192;
+const DANGEROUS_ATTRIBUTE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 type StatFn = typeof stat;
 type RealpathFn = (path: string) => Promise<string>;
@@ -294,7 +295,7 @@ function applyAttributeRules(
     }
     for (const assignment of rule.assignments) {
       if (assignment.kind === 'reset') {
-        delete attributes[assignment.key];
+        resetAttribute(attributes, assignment.key);
       } else if (assignment.key === 'flavor') {
         attributes.flavor = assignment.value;
       } else {
@@ -313,6 +314,9 @@ function parseAttributeToken(token: string): AttributeAssignment[] {
 
   const [rawKey, ...rawValueParts] = token.split('=');
   if (rawValueParts.length === 0) {
+    return [];
+  }
+  if (DANGEROUS_ATTRIBUTE_KEYS.has(rawKey)) {
     return [];
   }
   const key = normalizeAttributeKey(rawKey);
@@ -335,6 +339,20 @@ function normalizeAttributeKey(value: string): 'flavor' | 'structuredProfiles' |
     return 'structuredProfiles';
   }
   return undefined;
+}
+
+function resetAttribute(
+  attributes: {
+    flavor?: MarkdownFlavorSelection;
+    structuredProfiles?: StructuredProfileSelection;
+  },
+  key: 'flavor' | 'structuredProfiles',
+): void {
+  if (key === 'flavor') {
+    delete attributes.flavor;
+  } else {
+    delete attributes.structuredProfiles;
+  }
 }
 
 function normalizeStructuredProfilesValue(value: string): StructuredProfileSelection | undefined {

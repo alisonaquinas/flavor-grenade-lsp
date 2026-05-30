@@ -230,7 +230,7 @@ function applyAttributeRules(
     }
     for (const assignment of rule.assignments) {
       if (assignment.kind === 'reset') {
-        delete attributes[assignment.key];
+        resetAttribute(attributes, assignment.key);
       } else if (assignment.key === 'flavor') {
         attributes.flavor = assignment.value;
       } else {
@@ -282,6 +282,14 @@ function normalizeAttributeKey(value: string): 'flavor' | 'structuredProfiles' |
     return 'structuredProfiles';
   }
   return undefined;
+}
+
+function resetAttribute(attributes: FgAttributes, key: 'flavor' | 'structuredProfiles'): void {
+  if (key === 'flavor') {
+    delete attributes.flavor;
+  } else {
+    delete attributes.structuredProfiles;
+  }
 }
 
 function normalizeStructuredProfilesValue(value: string): StructuredProfileSelection | undefined {
