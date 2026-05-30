@@ -160,7 +160,6 @@ describe('DidChangeHandler', () => {
         vaultDetector,
         null,
         new MarkdownFlavorState(),
-        null,
         new FlavorGrenadeConfigFiles(),
       );
 
@@ -196,7 +195,6 @@ describe('DidChangeHandler', () => {
         vaultDetector,
         diagnosticService,
         new MarkdownFlavorState(),
-        null,
         new FlavorGrenadeConfigFiles(),
       );
 

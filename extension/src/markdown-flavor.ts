@@ -64,19 +64,12 @@ export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, strin
 };
 
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
-export const MARKDOWN_FLAVOR_SETTING = 'flavorGrenade.markdownFlavor';
-export const MARKDOWN_STRUCTURED_PROFILES_SETTING =
-  'flavorGrenade.markdownStructuredProfiles';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
-export const MARKDOWN_FLAVOR_SETTING_KEY = 'markdownFlavor';
-export const MARKDOWN_STRUCTURED_PROFILES_SETTING_KEY = 'markdownStructuredProfiles';
-export const PROJECT_CONFIG_MAX_BYTES_SETTING_KEY = 'projectConfig.maxBytes';
+export const FG_CONFIG_MAX_BYTES_SETTING_KEY = 'fgConfig.maxBytes';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR = [
   { scheme: 'file', language: MARKDOWN_LANGUAGE_ID },
 ] as const;
-
-const MAX_PROPAGATED_RESOURCES = 100;
 
 export interface TextDocumentLike {
   languageId: string;
@@ -89,16 +82,14 @@ export interface TextDocumentLike {
 
 export type FlavorResolutionSource =
   | 'explicit-selection'
-  | 'project-config'
-  | 'project-toml'
+  | 'fgattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'commonmark-fallback';
 
 export type StructuredProfileResolutionSource =
   | 'explicit-selection'
-  | 'project-config'
-  | 'project-toml'
+  | 'fgattributes'
   | 'structured-profile-inference'
   | 'none';
 
@@ -113,7 +104,7 @@ export type MarkdownFlavorResolution =
     }
   | {
       kind: 'inactive';
-      reason: 'non-markdown-language' | 'unsupported-scheme';
+      reason: 'fgignore' | 'non-markdown-language' | 'unsupported-scheme';
     };
 
 export interface MarkdownFlavorQuickPickItem {
@@ -144,25 +135,10 @@ export interface MarkdownFlavorConfigurationNotification {
   method: 'workspace/didChangeConfiguration';
   params: {
     settings: {
-      flavorGrenade: {
-        markdownFlavor: MarkdownFlavorSelection;
-        markdownStructuredProfiles: StructuredProfileSelection;
-        markdownFlavorResources: Record<
-          string,
-          {
-            selected: MarkdownFlavorSelection;
-            effective: MarkdownFlavorId;
-            source: FlavorResolutionSource;
-            structuredProfiles: readonly StructuredMarkdownProfileId[];
-            structuredProfileSource: StructuredProfileResolutionSource;
-          }
-        >;
-      };
+      flavorGrenade: Record<string, never>;
     };
   };
 }
-
-export type MarkdownFlavorUpdateTarget = 'workspace-folder' | 'workspace' | 'global';
 
 export function isMarkdownFlavorId(value: unknown): value is MarkdownFlavorId {
   return typeof value === 'string' && MARKDOWN_FLAVOR_IDS.includes(value as MarkdownFlavorId);
@@ -321,8 +297,9 @@ export function isFlavorEligibleDocument(document: TextDocumentLike): boolean {
 export function resolveMarkdownFlavor(input: {
   document: TextDocumentLike;
   hasObsidianMarker?: boolean;
-  projectFlavor?: unknown;
-  projectStructuredProfiles?: unknown;
+  ignored?: boolean;
+  fgAttributesFlavor?: unknown;
+  fgAttributesStructuredProfiles?: unknown;
   selected: unknown;
   structuredProfileSelection?: unknown;
   syntaxText?: string;
@@ -331,14 +308,17 @@ export function resolveMarkdownFlavor(input: {
   if (inactive) {
     return inactive;
   }
+  if (input.ignored === true) {
+    return { kind: 'inactive', reason: 'fgignore' };
+  }
 
   const selected = isMarkdownFlavorSelection(input.selected) ? input.selected : 'auto';
   const structured = resolveStructuredProfiles({
     selection: isStructuredProfileSelection(input.structuredProfileSelection)
       ? input.structuredProfileSelection
       : 'auto',
-    projectSelection: isStructuredProfileSelection(input.projectStructuredProfiles)
-      ? input.projectStructuredProfiles
+    fgAttributesSelection: isStructuredProfileSelection(input.fgAttributesStructuredProfiles)
+      ? input.fgAttributesStructuredProfiles
       : undefined,
     uri: input.document.uri.toString(),
     syntaxText: input.syntaxText ?? input.document.getText?.(),
@@ -347,8 +327,8 @@ export function resolveMarkdownFlavor(input: {
     return activeResolution(selected, selected, 'explicit-selection', structured);
   }
 
-  if (isMarkdownFlavorId(input.projectFlavor)) {
-    return activeResolution('auto', input.projectFlavor, 'project-config', structured);
+  if (isMarkdownFlavorId(input.fgAttributesFlavor)) {
+    return activeResolution('auto', input.fgAttributesFlavor, 'fgattributes', structured);
   }
 
   if (input.hasObsidianMarker === true) {
@@ -363,26 +343,6 @@ export function resolveMarkdownFlavor(input: {
   return activeResolution('auto', 'commonmark', 'commonmark-fallback', structured);
 }
 
-export function selectionSettingValue(
-  selection: MarkdownFlavorSelection,
-): MarkdownFlavorId | undefined {
-  return selection === 'auto' ? undefined : selection;
-}
-
-export function resolveMarkdownFlavorUpdateTarget(input: {
-  hasFolderOverride: boolean;
-  hasWorkspaceFolder: boolean;
-  workspaceFolderCount: number;
-}): MarkdownFlavorUpdateTarget {
-  if (!input.hasWorkspaceFolder) {
-    return 'global';
-  }
-  if (input.hasFolderOverride || input.workspaceFolderCount > 1) {
-    return 'workspace-folder';
-  }
-  return 'workspace';
-}
-
 export function buildMarkdownFlavorConfigurationNotification(input: {
   restricted?: boolean;
   states: readonly MarkdownFlavorStateForDocument[];
@@ -391,8 +351,7 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     return undefined;
   }
 
-  const payload = collectPropagatedResources(input.states);
-  if (!payload || Object.keys(payload.resources).length > MAX_PROPAGATED_RESOURCES) {
+  if (!input.states.some((state) => isRefreshableMarkdownState(state))) {
     return undefined;
   }
 
@@ -400,11 +359,7 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     method: 'workspace/didChangeConfiguration',
     params: {
       settings: {
-        flavorGrenade: {
-          markdownFlavor: payload.markdownFlavor,
-          markdownStructuredProfiles: payload.markdownStructuredProfiles,
-          markdownFlavorResources: payload.resources,
-        },
+        flavorGrenade: {},
       },
     },
   };
@@ -442,6 +397,8 @@ function inactiveReasonLabel(
   reason: Extract<MarkdownFlavorResolution, { kind: 'inactive' }>['reason'],
 ): string {
   switch (reason) {
+    case 'fgignore':
+      return '.fgignore';
     case 'non-markdown-language':
       return 'non-Markdown language';
     case 'unsupported-scheme':
@@ -453,9 +410,8 @@ function sourceLabel(source: FlavorResolutionSource): string {
   switch (source) {
     case 'explicit-selection':
       return 'explicit selection';
-    case 'project-toml':
-    case 'project-config':
-      return 'project configuration';
+    case 'fgattributes':
+      return '.fgattributes';
     case 'obsidian-marker':
       return 'Obsidian vault marker';
     case 'syntax-inference':
@@ -504,7 +460,7 @@ function inferMarkdownFlavorFromSyntax(text: string | undefined): MarkdownFlavor
 
 function resolveStructuredProfiles(input: {
   selection: StructuredProfileSelection;
-  projectSelection?: StructuredProfileSelection;
+  fgAttributesSelection?: StructuredProfileSelection;
   uri: string;
   syntaxText?: string;
 }): {
@@ -520,13 +476,13 @@ function resolveStructuredProfiles(input: {
   if (input.selection === 'none') {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
-  if (Array.isArray(input.projectSelection)) {
+  if (Array.isArray(input.fgAttributesSelection)) {
     return {
-      structuredProfiles: input.projectSelection,
-      structuredProfileSource: 'project-config',
+      structuredProfiles: input.fgAttributesSelection,
+      structuredProfileSource: 'fgattributes',
     };
   }
-  if (input.projectSelection === 'none') {
+  if (input.fgAttributesSelection === 'none') {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
   return {
@@ -716,69 +672,12 @@ function hasMarkdownExtraEvidence(text: string): boolean {
   return /^\*\[[^\]]+\]:\s+\S/m.test(text) && /(^|\n)\s*\{#[^}]+\}/.test(text);
 }
 
-function collectPropagatedResources(states: readonly MarkdownFlavorStateForDocument[]):
-  | {
-      markdownFlavor: MarkdownFlavorSelection;
-      markdownStructuredProfiles: StructuredProfileSelection;
-      resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'];
-    }
-  | undefined {
-  const resources: MarkdownFlavorConfigurationNotification['params']['settings']['flavorGrenade']['markdownFlavorResources'] =
-    {};
-  let markdownFlavor: MarkdownFlavorSelection | undefined;
-  let markdownStructuredProfiles: StructuredProfileSelection | undefined;
-
-  for (const state of states) {
-    const resource = propagatedResourceForState(state);
-    if (!resource) {
-      continue;
-    }
-    markdownFlavor ??= resource.selected;
-    markdownStructuredProfiles ??= resource.structuredProfileSelection;
-    resources[resource.uri] = resource.value;
-  }
-
-  return markdownFlavor && Object.keys(resources).length > 0
-    ? { markdownFlavor, markdownStructuredProfiles: markdownStructuredProfiles ?? 'auto', resources }
-    : undefined;
-}
-
-function propagatedResourceForState(state: MarkdownFlavorStateForDocument):
-  | {
-      selected: MarkdownFlavorSelection;
-      uri: string;
-      value: {
-        selected: MarkdownFlavorSelection;
-        effective: MarkdownFlavorId;
-        source: FlavorResolutionSource;
-        structuredProfiles: readonly StructuredMarkdownProfileId[];
-        structuredProfileSource: StructuredProfileResolutionSource;
-      };
-      structuredProfileSelection: StructuredProfileSelection;
-    }
-  | undefined {
+function isRefreshableMarkdownState(state: MarkdownFlavorStateForDocument): boolean {
   if (state.resolution.kind !== 'active' || !isFlavorEligibleDocument(state.document)) {
-    return undefined;
+    return false;
   }
   const uri = state.document.uri.toString();
-  if (!isSafeResourceUri(uri)) {
-    return undefined;
-  }
-  return {
-    selected: state.resolution.selected,
-    uri,
-    value: {
-      selected: state.resolution.selected,
-      effective: state.resolution.effective,
-      source: state.resolution.source,
-      structuredProfiles: state.resolution.structuredProfiles,
-      structuredProfileSource: state.resolution.structuredProfileSource,
-    },
-    structuredProfileSelection:
-      state.resolution.structuredProfileSource === 'explicit-selection'
-        ? state.resolution.structuredProfiles
-        : 'auto',
-  };
+  return isSafeResourceUri(uri);
 }
 
 function isSafeResourceUri(uri: string): boolean {

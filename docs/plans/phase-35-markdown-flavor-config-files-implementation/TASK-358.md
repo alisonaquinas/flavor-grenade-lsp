@@ -2,7 +2,7 @@
 id: "TASK-358"
 title: "Remove legacy file and directory flavor assignment paths"
 type: task
-status: partial
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -31,8 +31,8 @@ aliases: ["TASK-358"]
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/markdown-flavor/project-markdown-config-files.ts` |
-| Source | `src/markdown-flavor/project-markdown-flavor-config.ts` |
+| Source | `src/markdown-flavor/fg-config-files.ts` |
+| Source | `src/markdown-flavor/markdown-flavor-state.ts` |
 | Source | `src/lsp/handlers/configuration.handler.ts` |
 | Source | `extension/src/markdown-flavor.ts` |
 | Test | `src/lsp/handlers/__tests__/configuration.handler.test.ts` |
@@ -40,10 +40,10 @@ aliases: ["TASK-358"]
 
 ## Definition of Done
 
-- [ ] Legacy flavor config files no longer change effective flavor.
-- [ ] VS Code settings do not persist file/directory flavor assignments.
-- [ ] Operational config remains available for unrelated server settings.
-- [ ] Stale docs/test references are updated to the new model.
+- [x] Legacy flavor config files no longer change effective flavor.
+- [x] VS Code settings do not persist file/directory flavor assignments.
+- [x] Operational config remains available for unrelated server settings.
+- [x] Stale docs/test references are updated to the new model.
 
 ## Workflow Log
 
@@ -69,3 +69,12 @@ aliases: ["TASK-358"]
 > `.fgattributes`. Legacy `.flavor-grenade.*` and `.editorconfig` files no
 > longer wake the extension startup gate or produce local flavor evidence.
 > `npm run check-types` and focused extension unit tests pass.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Removed the server legacy flavor assignment path
+> `src/markdown-flavor/project-markdown-flavor-config.ts` and quarantined
+> `workspace/didChangeConfiguration` to refresh-only payloads plus
+> `fgConfigMaxBytes`. `.flavor-grenade.toml` remains available only for
+> non-flavor operational scanner settings such as custom vault extensions.
+> Integration tests prove legacy `markdownFlavor` payloads no longer override
+> `.fgattributes`.

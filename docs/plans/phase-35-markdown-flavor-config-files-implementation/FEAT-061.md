@@ -14,7 +14,7 @@ aliases: ["FEAT-061"]
 
 # Markdown Flavor Config Files Implementation
 
-> [!INFO] FEAT-061 - Feature - Phase 35 - Status: draft
+> [!INFO] FEAT-061 - Feature - Phase 35 - Status: active
 
 ## Description
 
@@ -32,8 +32,8 @@ resolution requests it.
 | [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | green |
 | [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | green |
 | [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | green |
-| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | open |
-| [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | open |
+| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | green |
+| [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | green |
 | [[CHORE-146]] | Phase 35 trace and matrix sweep | Chore | open |
 | [[CHORE-147]] | Phase 35 security and confinement sweep | Chore | open |
 | [[CHORE-148]] | Phase 35 verification and closeout sweep | Chore | open |
@@ -52,25 +52,34 @@ resolution requests it.
 
 ## Definition of Done
 
-- [ ] `.fgignore` excludes matching files from all Flavor Grenade indexing and
+- [x] `.fgignore` excludes matching files from all Flavor Grenade indexing and
       LSP behavior.
-- [ ] `.fgattributes` resolves visible files through Git-style pattern cascade.
-- [ ] Auto Detect is preserved as an independent resolver.
-- [ ] Legacy file/directory flavor assignment paths no longer affect effective
+- [x] `.fgattributes` resolves visible files through Git-style pattern cascade.
+- [x] Auto Detect is preserved as an independent resolver.
+- [x] Legacy file/directory flavor assignment paths no longer affect effective
       flavor.
-- [ ] Extension selector writes `.fgattributes` through a second scope prompt.
-- [ ] Unit, integration, BDD, docs, extension compile, and extension unit gates
+- [x] Extension selector writes `.fgattributes` through a second scope prompt.
+- [x] Unit, integration, BDD, docs, extension compile, and extension unit gates
       pass.
 
 ## Workflow Log
 
 > [!NOTE] ACTIVE - 2026-05-29
-> Phase implementation started on `feature/fg-config-implementation`.
+> Phase implementation started on `feature/fg-config-implementation`. Initial
+> state:
 > Parser/resolver, scanner visibility, `.fgattributes` parse-context wiring,
-> and config-marker replacement have passing focused tests. Remaining slices:
+> and config-marker replacement have passing focused tests. Remaining slices at
+> that point:
 > ignored-open-document inactivity, watcher refresh, legacy assignment removal,
 > extension `.fgattributes` writes, and end-to-end acceptance coverage.
 
 > [!INFO] Drafted - 2026-05-29
 > Status set to `draft`. Feature ticket created to document implementation plan
 > before code changes.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> Phase implementation is green on `feature/fg-config-implementation`.
+> `.fgignore` visibility, `.fgattributes` cascades, Auto Detect independence,
+> legacy flavor assignment removal, extension scope writes, integration
+> refresh, BDD acceptance, and extension unit/type gates all have direct
+> evidence in the linked task tickets.

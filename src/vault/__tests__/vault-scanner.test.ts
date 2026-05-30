@@ -13,6 +13,8 @@ import type { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
 import type { TagRegistry } from '../../tags/tag-registry.js';
 import type { DocId } from '../doc-id.js';
 import { SERVER_VERSION } from '../../version.js';
+import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
+import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
 
 function id(s: string): DocId {
   return s as DocId;
@@ -88,6 +90,8 @@ function makeScanner(opts: {
   const ignoreFilter = new IgnoreFilter();
   const ofmParser = new OFMParser();
   const tagRegistry = opts.tagRegistry ?? makeTagRegistry();
+  const flavorState = new MarkdownFlavorState();
+  const fgConfigFiles = new FlavorGrenadeConfigFiles();
 
   const scanner = new VaultScanner(
     opts.vaultDetector,
@@ -97,6 +101,8 @@ function makeScanner(opts: {
     ofmParser,
     opts.dispatcher,
     tagRegistry,
+    flavorState,
+    fgConfigFiles,
     opts.maxFiles,
   );
 
@@ -395,6 +401,21 @@ describe('VaultScanner', () => {
     expect(vaultIndex.has(id('notes/private/keep'))).toBe(true);
     expect(vaultIndex.has(id('notes/private/drop'))).toBe(false);
     expect(scanner.hasAsset('notes/.fgignore')).toBe(false);
+  });
+
+  it('scan with .fgattributes: parses indexed Markdown with resolved effective flavor', async () => {
+    fs.writeFileSync(path.join(tmpDir, '.fgattributes'), '*.md flavor=gfm\n');
+    fs.writeFileSync(path.join(tmpDir, 'note.md'), '- [x] task\n');
+
+    const { dispatcher } = makeDispatcher();
+    const { scanner, vaultIndex } = makeScanner({
+      vaultDetector: makeVaultDetector(tmpDir),
+      dispatcher,
+    });
+
+    await scanner.scan(toFileUri(tmpDir));
+
+    expect(vaultIndex.get(id('note'))?.markdownFlavor).toBe('gfm');
   });
 
   // ── 7. Unreadable directory (POSIX only) ─────────────────────────────────

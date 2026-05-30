@@ -170,7 +170,7 @@ describe('language mode helpers', () => {
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('detects a Flavor Grenade project config ancestor', async () => {
+    it('detects a Flavor Grenade config-file ancestor', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
@@ -195,23 +195,30 @@ describe('language mode helpers', () => {
                 method: 'workspace/didChangeConfiguration',
                 params: {
                     settings: {
-                        flavorGrenade: {
-                            markdownFlavor: 'auto',
-                            markdownStructuredProfiles: 'auto',
-                            markdownFlavorResources: {
-                                [doc.uri.toString()]: {
-                                    selected: 'auto',
-                                    effective: 'gfm',
-                                    source: 'project-config',
-                                    structuredProfiles: [],
-                                    structuredProfileSource: 'structured-profile-inference',
-                                },
-                            },
-                        },
+                        flavorGrenade: {},
                     },
                 },
             },
         ]);
+    });
+
+    it('keeps .fgignored Markdown inactive during local refresh', async () => {
+        const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
+        tempDirs.push(root);
+        await mkdir(join(root, 'drafts'), { recursive: true });
+        await writeFile(join(root, '.fgignore'), 'drafts/\n');
+        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
+        const doc = document(join(root, 'drafts', 'idea.md'));
+        const { controller, notifications, requests } = controllerFor({ documents: [doc] });
+
+        await controller.maybePromote(doc as never);
+
+        assert.deepEqual(notifications, []);
+        assert.deepEqual(requests, []);
+        assert.deepEqual(await controller.resolveMarkdownFlavorForDocument(doc as never), {
+            kind: 'inactive',
+            reason: 'fgignore',
+        });
     });
 });
 

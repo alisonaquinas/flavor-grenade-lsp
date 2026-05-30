@@ -1,6 +1,6 @@
 import { stat } from 'node:fs/promises';
 import { dirname, join, parse } from 'node:path';
-import { FLAVOR_GRENADE_PROJECT_CONFIG_FILES } from './project-config-files.js';
+import { FLAVOR_GRENADE_CONFIG_FILES } from './fg-config-files.js';
 
 export interface DocumentLike {
   languageId: string;
@@ -131,7 +131,7 @@ async function hasVaultMarker(dir: string, statFile: StatFile): Promise<boolean>
     return true;
   }
 
-  for (const marker of FLAVOR_GRENADE_PROJECT_CONFIG_FILES) {
+  for (const marker of FLAVOR_GRENADE_CONFIG_FILES) {
     const markerPath = join(dir, marker);
     if (await pathExists(markerPath, statFile, 'file')) {
       return true;

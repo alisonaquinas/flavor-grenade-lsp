@@ -16,7 +16,7 @@ interface StructuralState {
 
 type StructuralWorld = FGWorld & { structuralState?: StructuralState };
 
-const LEGACY_OFM_PROJECT_CONFIG = 'core.markdown.flavor = "obsidian"\n';
+const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
 
 function findPosition(content: string, target: string): { line: number; character: number } {
   const idx = content.indexOf(target);
@@ -69,7 +69,7 @@ Given('a vault with notes and attachments:', function (this: FGWorld, dataTable:
     }
   }
 
-  this.writeVaultFile('.flavor-grenade.toml', LEGACY_OFM_PROJECT_CONFIG);
+  this.writeVaultFile('.fgattributes', DEFAULT_OFM_FGATTRIBUTES);
 });
 
 Given(

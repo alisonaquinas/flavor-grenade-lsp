@@ -7,7 +7,7 @@ import {
   type StructuredProfileSelection,
 } from './markdown-flavor.js';
 
-const DEFAULT_PROJECT_CONFIG_MAX_BYTES = 8192;
+const DEFAULT_FG_CONFIG_MAX_BYTES = 8192;
 
 type StatFn = typeof stat;
 type RealpathFn = (path: string) => Promise<string>;
@@ -20,6 +20,7 @@ interface ConfigDirectory {
 
 interface AttributeRule {
   pattern: string;
+  negated: boolean;
   assignments: AttributeAssignment[];
 }
 
@@ -31,8 +32,9 @@ type AttributeAssignment =
 export interface MarkdownFlavorEvidence {
   hasFlavorConfigMarker: boolean;
   hasObsidianMarker: boolean;
-  projectFlavor?: MarkdownFlavorSelection;
-  projectStructuredProfiles?: StructuredProfileSelection;
+  ignored?: boolean;
+  fgAttributesFlavor?: MarkdownFlavorSelection;
+  fgAttributesStructuredProfiles?: StructuredProfileSelection;
 }
 
 export async function findMarkdownFlavorEvidence(
@@ -42,7 +44,7 @@ export async function findMarkdownFlavorEvidence(
     realpathFn?: RealpathFn;
     searchBoundary?: string;
     statFn?: StatFn;
-    projectConfigMaxBytes?: unknown;
+    fgConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorEvidence> {
   const statFn = options.statFn ?? stat;
@@ -74,6 +76,7 @@ export async function findMarkdownFlavorEvidence(
   });
   let hasFlavorConfigMarker = false;
   let hasObsidianMarker = false;
+  let ignored = false;
   const attributes: {
     flavor?: MarkdownFlavorSelection;
     structuredProfiles?: StructuredProfileSelection;
@@ -85,9 +88,18 @@ export async function findMarkdownFlavorEvidence(
       (await markerExists(join(directory.directory, '.fgignore'), 'file', statFn)) ||
       (await markerExists(join(directory.directory, '.fgattributes'), 'file', statFn));
 
+    const ignoreContent = await readConfigIfPresent(join(directory.directory, '.fgignore'), {
+      readFileFn: options.readFileFn,
+      fgConfigMaxBytes: options.fgConfigMaxBytes,
+      statFn,
+    });
+    if (ignoreContent !== undefined) {
+      ignored = applyIgnoreRules(ignored, parseIgnoreRules(ignoreContent), directory);
+    }
+
     const content = await readConfigIfPresent(join(directory.directory, '.fgattributes'), {
       readFileFn: options.readFileFn,
-      projectConfigMaxBytes: options.projectConfigMaxBytes,
+      fgConfigMaxBytes: options.fgConfigMaxBytes,
       statFn,
     });
     if (content !== undefined) {
@@ -95,22 +107,67 @@ export async function findMarkdownFlavorEvidence(
     }
   }
 
+  return buildEvidence({ hasFlavorConfigMarker, hasObsidianMarker, ignored, attributes });
+}
+
+function parseIgnoreRules(content: string): Array<{ pattern: string; negated: boolean }> {
+  const rules: Array<{ pattern: string; negated: boolean }> = [];
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = normalizeConfigLine(rawLine);
+    if (line.length === 0) {
+      continue;
+    }
+    const negated = line.startsWith('!');
+    const pattern = unescapePattern(negated ? line.slice(1) : line);
+    if (pattern.length > 0) {
+      rules.push({ pattern, negated });
+    }
+  }
+  return rules;
+}
+
+function applyIgnoreRules(
+  initialIgnored: boolean,
+  rules: readonly { pattern: string; negated: boolean }[],
+  directory: ConfigDirectory,
+): boolean {
+  let ignored = initialIgnored;
+  for (const rule of rules) {
+    if (patternMatches(rule.pattern, directory.relativeTargetPath)) {
+      ignored = !rule.negated;
+    }
+  }
+  return ignored;
+}
+
+function buildEvidence(input: {
+  hasFlavorConfigMarker: boolean;
+  hasObsidianMarker: boolean;
+  ignored: boolean;
+  attributes: {
+    flavor?: MarkdownFlavorSelection;
+    structuredProfiles?: StructuredProfileSelection;
+  };
+}): MarkdownFlavorEvidence {
   return {
-    hasFlavorConfigMarker,
-    hasObsidianMarker,
-    ...(attributes.flavor !== undefined && { projectFlavor: attributes.flavor }),
-    ...(attributes.structuredProfiles !== undefined && {
-      projectStructuredProfiles: attributes.structuredProfiles,
-    }),
+    hasFlavorConfigMarker: input.hasFlavorConfigMarker,
+    hasObsidianMarker: input.hasObsidianMarker,
+    ...(input.ignored && { ignored: true }),
+    ...(!input.ignored &&
+      input.attributes.flavor !== undefined && { fgAttributesFlavor: input.attributes.flavor }),
+    ...(!input.ignored &&
+      input.attributes.structuredProfiles !== undefined && {
+        fgAttributesStructuredProfiles: input.attributes.structuredProfiles,
+      }),
   };
 }
 
-export async function readProjectMarkdownFlavor(
+export async function readFgAttributesMarkdownFlavor(
   configPath: string,
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
-    projectConfigMaxBytes?: unknown;
+    fgConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorSelection | undefined> {
   const content = await readConfigIfPresent(configPath, options);
@@ -167,10 +224,10 @@ async function readConfigIfPresent(
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
-    projectConfigMaxBytes?: unknown;
+    fgConfigMaxBytes?: unknown;
   },
 ): Promise<string | undefined> {
-  const maxBytes = normalizeProjectConfigMaxBytes(options.projectConfigMaxBytes);
+  const maxBytes = normalizeFgConfigMaxBytes(options.fgConfigMaxBytes);
   if (options.readFileFn) {
     try {
       const content = await options.readFileFn(configPath, 'utf8');
@@ -204,13 +261,15 @@ function parseAttributeRules(content: string): AttributeRule[] {
       continue;
     }
     const tokens = splitConfigTokens(line);
-    if (tokens.length < 2) {
+    if (tokens.length < 1) {
       continue;
     }
-    const pattern = unescapePattern(tokens[0]);
+    const rawPattern = tokens[0] ?? '';
+    const negated = rawPattern.startsWith('!');
+    const pattern = unescapePattern(negated ? rawPattern.slice(1) : rawPattern);
     const assignments = tokens.slice(1).flatMap(parseAttributeToken);
-    if (pattern.length > 0 && assignments.length > 0) {
-      rules.push({ pattern, assignments });
+    if (pattern.length > 0 && (negated || assignments.length > 0)) {
+      rules.push({ pattern, negated, assignments });
     }
   }
   return rules;
@@ -226,6 +285,11 @@ function applyAttributeRules(
 ): void {
   for (const rule of rules) {
     if (!patternMatches(rule.pattern, directory.relativeTargetPath)) {
+      continue;
+    }
+    if (rule.negated) {
+      delete attributes.flavor;
+      delete attributes.structuredProfiles;
       continue;
     }
     for (const assignment of rule.assignments) {
@@ -455,12 +519,12 @@ async function realpathOrUndefined(
   }
 }
 
-function normalizeProjectConfigMaxBytes(value: unknown): number {
+function normalizeFgConfigMaxBytes(value: unknown): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
-    return DEFAULT_PROJECT_CONFIG_MAX_BYTES;
+    return DEFAULT_FG_CONFIG_MAX_BYTES;
   }
   const normalized = Math.floor(value);
-  return normalized > 0 ? normalized : DEFAULT_PROJECT_CONFIG_MAX_BYTES;
+  return normalized > 0 ? normalized : DEFAULT_FG_CONFIG_MAX_BYTES;
 }
 
 function emptyEvidence(): MarkdownFlavorEvidence {

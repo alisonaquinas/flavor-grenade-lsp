@@ -9,7 +9,6 @@ import { SingleFileModeGuard } from '../../vault/single-file-mode.js';
 import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
-import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
 import {
   FlavorGrenadeConfigFiles,
   type FgConfigResolution,
@@ -38,7 +37,6 @@ export class DidChangeHandler {
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
-    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
     @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
   ) {}
 
@@ -92,11 +90,6 @@ export class DidChangeHandler {
       hasObsidianMarker: detection.mode === 'obsidian',
       fgAttributesFlavor: fgConfig?.attributes.flavor,
       fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
-      projectConfigFlavor: this.projectConfig?.resolveFlavor(detection.vaultRoot, fsPath),
-      projectConfigStructuredProfiles: this.projectConfig?.resolveStructuredProfiles(
-        detection.vaultRoot,
-        fsPath,
-      ),
       syntaxText,
     });
     return result.kind === 'active'

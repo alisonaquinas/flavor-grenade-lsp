@@ -13,11 +13,11 @@ updated: 2026-05-29
 |---|---|---|---|
 | [[FEAT-061]] | Markdown Flavor Config Files Implementation | Feature | `active` |
 | [[TASK-355]] | Implement `.fgignore` and `.fgattributes` parser/resolver | Task | `green` |
-| [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | `partial` |
-| [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | `partial` |
-| [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | `partial` |
-| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | `partial` |
-| [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | `open` |
+| [[TASK-356]] | Apply `.fgignore` visibility to vault indexing and LSP surfaces | Task | `green` |
+| [[TASK-357]] | Refactor effective flavor resolution around config outcome and Auto Detect | Task | `green` |
+| [[TASK-358]] | Remove legacy file and directory flavor assignment paths | Task | `green` |
+| [[TASK-359]] | Implement extension scope prompt and `.fgattributes` writes | Task | `green` |
+| [[TASK-360]] | Add end-to-end config-file acceptance coverage | Task | `green` |
 | [[CHORE-146]] | Phase 35 trace and matrix sweep | Chore | `open` |
 | [[CHORE-147]] | Phase 35 security and confinement sweep | Chore | `open` |
 | [[CHORE-148]] | Phase 35 verification and closeout sweep | Chore | `open` |

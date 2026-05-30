@@ -6,8 +6,6 @@ import {
   MARKDOWN_FLAVOR_COMMAND,
   MARKDOWN_FLAVOR_LABELS,
   MARKDOWN_FLAVOR_SELECTIONS,
-  MARKDOWN_FLAVOR_SETTING,
-  MARKDOWN_STRUCTURED_PROFILES_SETTING,
   STRUCTURED_MARKDOWN_PROFILE_IDS,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   buildFgAttributesRule,
@@ -17,8 +15,6 @@ import {
   formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
   resolveMarkdownFlavor,
-  resolveMarkdownFlavorUpdateTarget,
-  selectionSettingValue,
   upsertFgAttributesRule,
 } from './markdown-flavor.js';
 
@@ -72,33 +68,21 @@ describe('Markdown flavor selector schema', () => {
       };
     };
 
-    const schema = manifest.contributes?.configuration?.properties?.[MARKDOWN_FLAVOR_SETTING];
-    const structuredSchema =
-      manifest.contributes?.configuration?.properties?.[MARKDOWN_STRUCTURED_PROFILES_SETTING];
-
     assert.deepEqual(MARKDOWN_FLAVOR_SELECTIONS, REQUIRED_SELECTIONS);
-    assert.deepEqual(schema?.enum, [...REQUIRED_SELECTIONS]);
-    assert.equal(schema?.default, 'auto');
     assert.deepEqual(STRUCTURED_MARKDOWN_PROFILE_IDS, [
       'keep-a-changelog',
       'common-changelog',
       'madr',
     ]);
-    assert.equal(structuredSchema?.default, 'auto');
-    assert.ok(
-      structuredSchema?.oneOf?.some((entry: { enum?: string[] }) =>
-        entry.enum?.includes('auto'),
-      ),
+    assert.equal(
+      manifest.contributes?.configuration?.properties?.['flavorGrenade.markdownFlavor'],
+      undefined,
     );
-    assert.ok(
-      structuredSchema?.oneOf?.some((entry: { items?: { enum?: string[] } }) =>
-        entry.items?.enum?.includes('madr'),
-      ),
-    );
-    assert.ok(
-      structuredSchema?.oneOf?.some(
-        (entry: { not?: { allOf?: unknown[] } }) => entry.not?.allOf !== undefined,
-      ),
+    assert.equal(
+      manifest.contributes?.configuration?.properties?.[
+        'flavorGrenade.markdownStructuredProfiles'
+      ],
+      undefined,
     );
     assert.ok(manifest.activationEvents?.includes(`onCommand:${MARKDOWN_FLAVOR_COMMAND}`));
     assert.ok(
@@ -133,7 +117,7 @@ describe('Markdown flavor document scope', () => {
 });
 
 describe('Markdown flavor resolution', () => {
-  it('resolves auto from project evidence, Obsidian markers, then CommonMark fallback', () => {
+  it('resolves auto from .fgattributes evidence, Obsidian markers, then CommonMark fallback', () => {
     assert.deepEqual(
       resolveMarkdownFlavor({
         document: document('file:///workspace/readme.md'),
@@ -152,14 +136,14 @@ describe('Markdown flavor resolution', () => {
     assert.deepEqual(
       resolveMarkdownFlavor({
         document: document('file:///workspace/readme.md'),
-        projectFlavor: 'gfm',
+        fgAttributesFlavor: 'gfm',
         selected: 'auto',
       }),
       {
         kind: 'active',
         selected: 'auto',
         effective: 'gfm',
-        source: 'project-config',
+        source: 'fgattributes',
         structuredProfiles: [],
         structuredProfileSource: 'structured-profile-inference',
       },
@@ -207,7 +191,20 @@ describe('Markdown flavor resolution', () => {
     );
   });
 
-  it('infers strong project-config-absent syntax before CommonMark fallback', () => {
+  it('marks .fgignore matches inactive before applying flavor evidence', () => {
+    assert.deepEqual(
+      resolveMarkdownFlavor({
+        document: document('file:///workspace/drafts/idea.md'),
+        ignored: true,
+        fgAttributesFlavor: 'gfm',
+        hasObsidianMarker: true,
+        selected: 'auto',
+      }),
+      { kind: 'inactive', reason: 'fgignore' },
+    );
+  });
+
+  it('infers strong fgattributes-absent syntax before CommonMark fallback', () => {
     const cases = [
       {
         expected: 'mdx',
@@ -592,6 +589,20 @@ describe('Markdown flavor status presentation', () => {
       },
     );
   });
+
+  it('explains .fgignore inactive status', () => {
+    assert.deepEqual(
+      formatMarkdownFlavorStatus({
+        kind: 'inactive',
+        reason: 'fgignore',
+      }),
+      {
+        text: '$(symbol-misc) Markdown: Inactive',
+        tooltip:
+          'Markdown Flavor: inactive for this document\nReason: .fgignore\nOpen a file-backed Markdown document to select a Markdown flavor.',
+      },
+    );
+  });
 });
 
 describe('Markdown flavor setting persistence', () => {
@@ -701,48 +712,10 @@ describe('Markdown flavor setting persistence', () => {
       'guide.md structured_profiles=madr !flavor\n',
     );
   });
-
-  it('writes explicit overrides to the owning scope and clears auto with undefined', () => {
-    assert.equal(selectionSettingValue('obsidian'), 'obsidian');
-    assert.equal(selectionSettingValue('auto'), undefined);
-
-    assert.equal(
-      resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: false,
-        hasWorkspaceFolder: true,
-        workspaceFolderCount: 2,
-      }),
-      'workspace-folder',
-    );
-    assert.equal(
-      resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: false,
-        hasWorkspaceFolder: true,
-        workspaceFolderCount: 1,
-      }),
-      'workspace',
-    );
-    assert.equal(
-      resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: true,
-        hasWorkspaceFolder: true,
-        workspaceFolderCount: 1,
-      }),
-      'workspace-folder',
-    );
-    assert.equal(
-      resolveMarkdownFlavorUpdateTarget({
-        hasFolderOverride: false,
-        hasWorkspaceFolder: false,
-        workspaceFolderCount: 0,
-      }),
-      'global',
-    );
-  });
 });
 
 describe('Markdown flavor server propagation', () => {
-  it('sends resource-specific didChangeConfiguration payloads for every explicit flavor', () => {
+  it('sends a refresh-only didChangeConfiguration payload without resource assignments', () => {
     for (const flavor of REQUIRED_SELECTIONS.filter((id) => id !== 'auto')) {
       const note = document(`file:///workspace/${flavor}.md`);
       const resolved = resolveMarkdownFlavor({ document: note, selected: flavor });
@@ -756,19 +729,7 @@ describe('Markdown flavor server propagation', () => {
           method: 'workspace/didChangeConfiguration',
           params: {
             settings: {
-              flavorGrenade: {
-                markdownFlavor: flavor,
-                markdownStructuredProfiles: 'auto',
-                markdownFlavorResources: {
-                  [note.uri.toString()]: {
-                    selected: flavor,
-                    effective: flavor,
-                    source: 'explicit-selection',
-                    structuredProfiles: [],
-                    structuredProfileSource: 'structured-profile-inference',
-                  },
-                },
-              },
+              flavorGrenade: {},
             },
           },
         },
@@ -776,7 +737,7 @@ describe('Markdown flavor server propagation', () => {
     }
   });
 
-  it('propagates explicit structured profile selections with resource state', () => {
+  it('does not propagate explicit structured profile resource assignments', () => {
     const note = document('file:///workspace/adr.md');
     const resolved = resolveMarkdownFlavor({
       document: note,
@@ -793,19 +754,7 @@ describe('Markdown flavor server propagation', () => {
         method: 'workspace/didChangeConfiguration',
         params: {
           settings: {
-            flavorGrenade: {
-              markdownFlavor: 'commonmark',
-              markdownStructuredProfiles: ['madr'],
-              markdownFlavorResources: {
-                [note.uri.toString()]: {
-                  selected: 'commonmark',
-                  effective: 'commonmark',
-                  source: 'explicit-selection',
-                  structuredProfiles: ['madr'],
-                  structuredProfileSource: 'explicit-selection',
-                },
-              },
-            },
+            flavorGrenade: {},
           },
         },
       },

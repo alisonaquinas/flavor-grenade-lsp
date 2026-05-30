@@ -167,7 +167,6 @@ describe('DidOpenHandler', () => {
         vaultDetector,
         null,
         new MarkdownFlavorState(),
-        null,
         new FlavorGrenadeConfigFiles(),
       );
 
@@ -208,7 +207,6 @@ describe('DidOpenHandler', () => {
         vaultDetector,
         diagnosticService,
         new MarkdownFlavorState(),
-        null,
         new FlavorGrenadeConfigFiles(),
       );
 

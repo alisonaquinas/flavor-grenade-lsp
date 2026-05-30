@@ -2,7 +2,7 @@
 id: "TASK-356"
 title: "Apply .fgignore visibility to vault indexing and LSP surfaces"
 type: task
-status: partial
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -44,7 +44,7 @@ aliases: ["TASK-356"]
 - [x] Negation re-includes files when traversal permits it.
 - [x] Ignored open files do not produce Flavor Grenade parse or diagnostic
       outputs.
-- [ ] Watcher refresh handles config-file create, update, delete, and rename.
+- [x] Watcher refresh handles config-file create, update, delete, and rename.
 
 ## Workflow Log
 
@@ -68,3 +68,10 @@ aliases: ["TASK-356"]
 > parsing open documents. Ignored files stay in the editor document store, but
 > their parse-cache entries are removed and diagnostics are cleared. Focused
 > handler tests, typecheck, and lint pass.
+
+> [!SUCCESS] GREEN - 2026-05-29
+> `FileWatcher` now triggers a full vault rescan when `.fgignore` or
+> `.fgattributes` is created, updated, deleted, or renamed. Watched Markdown
+> files are removed from `VaultIndex` when newly ignored and parse with
+> `.fgattributes` context when visible. Focused watcher/scanner tests,
+> integration tests, BDD, typecheck, and lint pass.

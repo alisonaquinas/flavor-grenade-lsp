@@ -8,13 +8,8 @@ import { LifecycleState } from './services/lifecycle-state.js';
 import { CapabilityRegistry } from './services/capability-registry.js';
 import { StatusNotifier } from './services/status-notifier.js';
 import { ServerSettingsModule } from './services/server-settings.module.js';
-import {
-  MarkdownFlavorState,
-  FlavorGrenadeConfigFiles,
-  ProjectMarkdownFlavorConfig,
-  classifyMarkdownBoundaryReference,
-  isMarkdownFlavorId,
-} from '../markdown-flavor/index.js';
+import { classifyMarkdownBoundaryReference, isMarkdownFlavorId } from '../markdown-flavor/index.js';
+import { MarkdownFlavorModule } from '../markdown-flavor/markdown-flavor.module.js';
 import { InitializeHandler } from './handlers/initialize.handler.js';
 import { InitializedHandler } from './handlers/initialized.handler.js';
 import { ShutdownHandler } from './handlers/shutdown.handler.js';
@@ -68,6 +63,7 @@ import { assertFileUri } from './file-uri.js';
     TransportModule,
     ParserModule,
     VaultModule,
+    MarkdownFlavorModule,
     ResolutionModule,
     CompletionModule,
     NavigationModule,
@@ -88,9 +84,6 @@ import { assertFileUri } from './file-uri.js';
     DidChangeHandler,
     DidCloseHandler,
     ConfigurationHandler,
-    MarkdownFlavorState,
-    FlavorGrenadeConfigFiles,
-    ProjectMarkdownFlavorConfig,
     FileOperationsHandler,
     FileOperationRefreshService,
     WorkspaceSymbolHandler,

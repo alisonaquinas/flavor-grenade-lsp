@@ -19,6 +19,8 @@ import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { SERVER_VERSION } from '../version.js';
 import { FlavorGrenadeConfigFiles } from '../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorState } from '../markdown-flavor/markdown-flavor-state.js';
+import type { ParseContext } from '../parser/types.js';
 
 export const VAULT_SCAN_FILE_LIMIT = Symbol('VAULT_SCAN_FILE_LIMIT');
 
@@ -43,7 +45,6 @@ export class VaultScanner {
   private scannedFileCount = 0;
   private scanFileLimitReached = false;
   private readonly maxScanFiles: number;
-  private readonly fgConfigFiles = new FlavorGrenadeConfigFiles();
 
   constructor(
     private readonly vaultDetector: VaultDetector,
@@ -53,6 +54,8 @@ export class VaultScanner {
     private readonly ofmParser: OFMParser,
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
+    private readonly flavorState: MarkdownFlavorState,
+    private readonly fgConfigFiles: FlavorGrenadeConfigFiles,
     @Optional() @Inject(VAULT_SCAN_FILE_LIMIT) maxScanFiles?: number,
   ) {
     this.maxScanFiles = maxScanFiles ?? VaultScanner.DEFAULT_MAX_SCAN_FILES;
@@ -93,7 +96,8 @@ export class VaultScanner {
       return;
     }
 
-    const vaultRoot = this.vaultDetector.detect(SingleFileModeGuard.uriToPath(rootUri)).vaultRoot!;
+    const detection = this.vaultDetector.detect(SingleFileModeGuard.uriToPath(rootUri));
+    const vaultRoot = detection.vaultRoot!;
 
     this.ignoreFilter.load(vaultRoot);
     this.assetIndex = new Set();
@@ -102,7 +106,12 @@ export class VaultScanner {
     this.vaultIndex.clear();
     const documentExtensions = await this.loadDocumentExtensions(vaultRoot);
     this.vaultIndex.setAttachmentFolderHint(await this.loadObsidianAttachmentFolderHint(vaultRoot));
-    await this.walkAndIndex(vaultRoot, vaultRoot, documentExtensions);
+    await this.walkAndIndex(
+      vaultRoot,
+      vaultRoot,
+      documentExtensions,
+      detection.mode === 'obsidian',
+    );
     if (this.scanFileLimitReached) {
       this.dispatcher.sendNotification('window/showMessage', {
         type: 2,
@@ -123,6 +132,7 @@ export class VaultScanner {
     vaultRoot: string,
     dir: string,
     documentExtensions: ReadonlySet<string>,
+    hasObsidianMarker: boolean,
   ): Promise<void> {
     let entries: fs.Dirent[];
     try {
@@ -144,7 +154,7 @@ export class VaultScanner {
       }
 
       if (entry.isDirectory()) {
-        await this.walkAndIndex(vaultRoot, fullPath, documentExtensions);
+        await this.walkAndIndex(vaultRoot, fullPath, documentExtensions, hasObsidianMarker);
         if (this.scanFileLimitReached) {
           return;
         }
@@ -157,7 +167,7 @@ export class VaultScanner {
         if (confineExistingPathToVaultRoot(vaultRoot, fullPath) === null) {
           continue;
         }
-        await this.indexFile(vaultRoot, fullPath);
+        await this.indexFile(vaultRoot, fullPath, hasObsidianMarker);
       } else if (entry.isFile()) {
         if (!this.reserveFileBudget()) {
           return;
@@ -291,16 +301,49 @@ export class VaultScanner {
     return normalized.length > 0 && normalized !== '.' ? normalized : undefined;
   }
 
-  private async indexFile(vaultRoot: string, filePath: string): Promise<void> {
+  private async indexFile(
+    vaultRoot: string,
+    filePath: string,
+    hasObsidianMarker: boolean,
+  ): Promise<void> {
     try {
       const text = await fs.promises.readFile(filePath, 'utf8');
       const uri = pathToFileURL(filePath).toString();
-      const doc = this.ofmParser.parse(uri, text, 0);
+      const doc = this.ofmParser.parse(
+        uri,
+        text,
+        0,
+        this.resolveParseContext(vaultRoot, filePath, uri, text, hasObsidianMarker),
+      );
       const id = toDocId(vaultRoot, filePath);
       this.vaultIndex.set(id, doc);
     } catch {
       // Skip unreadable files silently.
     }
+  }
+
+  private resolveParseContext(
+    vaultRoot: string,
+    filePath: string,
+    uri: string,
+    text: string,
+    hasObsidianMarker: boolean,
+  ): ParseContext {
+    const fgConfig = this.fgConfigFiles.resolveForFile(vaultRoot, filePath);
+    const result = this.flavorState.resolveForDocument({
+      uri,
+      languageId: 'markdown',
+      hasObsidianMarker,
+      fgAttributesFlavor: fgConfig.attributes.flavor,
+      fgAttributesStructuredProfiles: fgConfig.attributes.structuredProfiles,
+      syntaxText: text,
+    });
+    return result.kind === 'active'
+      ? {
+          effectiveFlavor: result.effective,
+          structuredProfiles: result.structuredProfiles,
+        }
+      : { effectiveFlavor: 'commonmark', structuredProfiles: [] };
   }
 }
 

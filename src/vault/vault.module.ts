@@ -13,6 +13,7 @@ import { AwaitIndexReadyHandler } from './handlers/await-index-ready.handler.js'
 import { TagRegistry } from '../tags/tag-registry.js';
 import { DocumentMembershipService } from './document-membership.js';
 import { FileOperationPlanner } from './file-operation-planner.js';
+import { MarkdownFlavorModule } from '../markdown-flavor/markdown-flavor.module.js';
 
 /**
  * NestJS module that wires all vault indexing services.
@@ -23,7 +24,7 @@ import { FileOperationPlanner } from './file-operation-planner.js';
  * - `flavorGrenade/queryDoc` — debug: returns the full OFM index for a document URI
  */
 @Module({
-  imports: [ParserModule, TransportModule],
+  imports: [ParserModule, TransportModule, MarkdownFlavorModule],
   providers: [
     VaultDetector,
     VaultIndex,

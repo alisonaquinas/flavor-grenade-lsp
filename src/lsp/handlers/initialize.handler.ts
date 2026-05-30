@@ -5,7 +5,7 @@ import { LifecycleState } from '../services/lifecycle-state.js';
 import { ServerSettings } from '../services/server-settings.js';
 import { SERVER_VERSION } from '../../version.js';
 import { assertFileUri } from '../file-uri.js';
-import { ProjectMarkdownFlavorConfig } from '../../markdown-flavor/project-markdown-flavor-config.js';
+import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
 
 /** Result shape returned to the LSP client for `initialize`. */
 interface InitializeResult {
@@ -39,7 +39,7 @@ export class InitializeHandler {
     private readonly notifier: StatusNotifier,
     private readonly lifecycle: LifecycleState,
     private readonly settings: ServerSettings,
-    @Optional() private readonly projectConfig: ProjectMarkdownFlavorConfig | null = null,
+    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
   ) {}
 
   /**
@@ -57,9 +57,9 @@ export class InitializeHandler {
     }
     this.lifecycle.rootUri = rootUri;
     this.settings.applyInitializationOptions(p?.initializationOptions);
-    this.projectConfig?.setMaxProjectConfigBytes(
-      (p?.initializationOptions as { projectConfigMaxBytes?: unknown } | null | undefined)
-        ?.projectConfigMaxBytes,
+    this.fgConfigFiles?.setMaxConfigBytes(
+      (p?.initializationOptions as { fgConfigMaxBytes?: unknown } | null | undefined)
+        ?.fgConfigMaxBytes,
     );
 
     const result: InitializeResult = {

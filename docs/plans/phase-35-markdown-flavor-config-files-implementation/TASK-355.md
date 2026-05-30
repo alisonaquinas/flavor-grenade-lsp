@@ -34,7 +34,6 @@ aliases: ["TASK-355"]
 |---|---|
 | Source | `src/markdown-flavor/fg-config-files.ts` |
 | Source | `src/markdown-flavor/project-markdown-config-files.ts` |
-| Source | `src/markdown-flavor/project-markdown-flavor-config.ts` |
 | Test | `src/markdown-flavor/__tests__/fg-config-files.test.ts` |
 
 ## Definition of Done

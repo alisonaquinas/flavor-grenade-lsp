@@ -2,7 +2,7 @@
 id: "TASK-360"
 title: "Add end-to-end config-file acceptance coverage"
 type: task
-status: open
+status: green
 priority: high
 phase: 35
 parent: "FEAT-061"
@@ -37,8 +37,21 @@ aliases: ["TASK-360"]
 
 ## Definition of Done
 
-- [ ] BDD proves ignored files are inactive.
-- [ ] BDD proves `.fgattributes` selected-file and directory behavior.
-- [ ] Integration tests prove config-file refresh affects effective context.
-- [ ] Extension tests prove selector writes and refreshes.
-- [ ] Evidence rows no longer mark implemented behavior as planned.
+- [x] BDD proves ignored files are inactive.
+- [x] BDD proves `.fgattributes` selected-file and directory behavior.
+- [x] Integration tests prove config-file refresh affects effective context.
+- [x] Extension tests prove selector writes and refreshes.
+- [x] Evidence rows no longer mark implemented behavior as planned.
+
+## Workflow Log
+
+> [!SUCCESS] GREEN - 2026-05-29
+> BDD coverage in `docs/bdd/features/workspace.feature` proves root and nested
+> `.fgignore` behavior, re-inclusion, and ignored-open-document inactivity.
+> `docs/bdd/features/ofmarkdown-language-mode.feature` covers selected-file and
+> directory `.fgattributes` writes. `src/test/integration/markdown-flavor.test.ts`
+> proves spawned-server refresh after `.fgattributes` changes and rejection of
+> legacy flavor payload overrides. Extension tests cover selector rule creation,
+> refresh-only server propagation, `.fgignore` inactive status, and local
+> evidence cascades. `bun run bdd`, focused integration tests, and extension
+> tests pass.
