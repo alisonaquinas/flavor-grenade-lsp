@@ -11,10 +11,10 @@ Only the latest published release line receives security fixes.
 
 | Component | Supported version | Status |
 |---|---:|---|
-| LSP server | `0.4.x` | Supported |
-| VS Code extension | `0.2.x` | Supported |
-| Older server releases | `< 0.4.2` | Unsupported |
-| Older extension releases | `< 0.2.2` | Unsupported |
+| LSP server | `0.7.x` | Supported |
+| VS Code extension | `0.5.x` | Supported |
+| Older server releases | `< 0.7.1` | Unsupported |
+| Older extension releases | `< 0.5.0` | Unsupported |
 
 > [!IMPORTANT]
 > Once a patched version is published, earlier releases are no longer supported.

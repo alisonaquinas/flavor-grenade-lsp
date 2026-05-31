@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.0...v0.7.1) (2026-05-31)
+
+### Fixed
+
+- Fix the tag CI release-asset attach job so signed npm package evidence is
+  uploaded to GitHub Releases with explicit repository context.
+- Update the CI workflow self-test to cover the repository-qualified release
+  upload command and prevent this regression from returning.
+
 ## [0.7.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.6.0...v0.7.0) (2026-05-30)
 
 ### Added
