@@ -2,9 +2,9 @@
 title: flavor-grenade-lsp — Feature Roadmap
 tags: [meta, roadmap, phases]
 aliases: [roadmap, release plan, phase plan]
-updated: 2026-05-23
-current-version: 0.4.2
-current-extension-version: 0.2.2
+updated: 2026-05-31
+current-version: 0.7.1
+current-extension-version: 0.5.0
 ---
 
 # flavor-grenade-lsp — Feature Roadmap
@@ -13,7 +13,7 @@ This file tracks the phase-by-phase delivery plan for flavor-grenade-lsp from in
 
 > [!NOTE]
 > Status values: `planned` | `in-progress` | `in-review` | `complete` | `blocked`
-> All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.4.2**.
+> All v1 phases (0–13) are **complete** as of 2026-04-17. Current server version: **0.7.1**.
 > All extension phases (R, E1–E5) are **complete** as of 2026-04-22. VS Code extension ready for Marketplace publishing.
 > Extension phase E14 is **complete** as of 2026-05-07. All planned extension parity hardening phases E7-E14 are now complete.
 > Security hardening Phase 18 is **in-progress** from the 2026-05-08 deep audit of `develop`.

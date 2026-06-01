@@ -5,8 +5,8 @@ artifacts:
 
 | Artifact | Location | Current version |
 |---|---:|---:|
-| LSP server | repository root | `0.4.2` |
-| VS Code extension | `extension/` | `0.2.2` |
+| LSP server | repository root | `0.7.1` |
+| VS Code extension | `extension/` | `0.5.0` |
 
 > [!IMPORTANT]
 > Open feature and fix pull requests against `develop`. Open release pull
