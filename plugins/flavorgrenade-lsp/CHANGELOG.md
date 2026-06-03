@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.2] - 2026-06-03
+
+### Changed in 0.2.2
+
+- Stamp skill, plugin, marketplace, compatibility, and JSON schema metadata for
+  the Flavor Grenade LSP `0.7.2` server patch release.
+- Keep the skill package version aligned with the server dependency and CI
+  tooling maintenance release.
+
 ## [0.2.1] - 2026-05-31
 
 ### Changed in 0.2.1
