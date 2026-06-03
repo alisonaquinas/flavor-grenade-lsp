@@ -130,7 +130,7 @@ describe('CI workflow verification battery', () => {
       '--lockfile bun.lock',
       '--lockfile extension/package-lock.json',
       '--lockfile website/package-lock.json',
-      'github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba',
+      'github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa',
     ]) {
       expect(securitySastWorkflow).toContain(command);
     }
