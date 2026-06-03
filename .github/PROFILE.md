@@ -13,8 +13,8 @@
 
 | Area | Current status |
 |---|---|
-| Server release metadata | `0.4.2` |
-| VS Code extension metadata | `0.2.2` |
+| Server release metadata | `0.7.1` |
+| VS Code extension metadata | `0.5.0` |
 | Primary integration branch | `develop` |
 | Release branch target | `main` |
 | Package publish target | npm with trusted publishing |
