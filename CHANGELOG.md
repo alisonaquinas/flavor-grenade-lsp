@@ -284,6 +284,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Refresh CI and development tooling dependency pins: `actions/download-artifact`
+  to `v8.0.1`, `aws-actions/configure-aws-credentials` to `v6.1.1`,
+  `github/codeql-action` to `v4.36.0`, and `lefthook` to `2.1.8`.
+
 ## [0.1.0] - 2026-04-20
 
 ### Added
@@ -317,5 +323,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.1...HEAD
 [0.1.0]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.1.0
