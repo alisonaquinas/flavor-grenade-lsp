@@ -50,7 +50,7 @@
   "dependencies": {
     "@nestjs/common": "11.1.23",
     "@nestjs/core": "11.1.23",
-    "@nestjs/platform-express": "11.1.23",
+    "@nestjs/platform-express": "11.1.24",
     "@types/js-yaml": "4.0.9",
     "js-yaml": "4.1.1",
     "jsonc-parser": "3.3.1",
