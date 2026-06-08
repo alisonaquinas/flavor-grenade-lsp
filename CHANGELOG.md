@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.7.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.1...v0.7.2) (2026-06-03)
+## [0.7.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.1...v0.7.2) (2026-06-07)
 
 ### Changed
 
-- Refresh CI and development tooling dependency pins: `actions/download-artifact`
-  to `v8.0.1`, `aws-actions/configure-aws-credentials` to `v6.1.1`,
-  `github/codeql-action` to `v4.36.0`, and `lefthook` to `2.1.8`.
+- Refresh CI and development dependency pins: `actions/download-artifact` to
+  `v8.0.1`, `aws-actions/configure-aws-credentials` to `v6.1.3`,
+  `github/codeql-action` to `v4.36.0`, `@nestjs/common` and
+  `@nestjs/platform-express` to `11.1.24`, `eslint` to `10.4.1`,
+  `@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` to
+  `8.60.0`, `lefthook` to `2.1.8`, and website `svelte` to `5.56.0` and
+  `eslint-plugin-svelte` to `3.19.0`.
 
 ### Fixed
 
