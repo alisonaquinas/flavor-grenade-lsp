@@ -5,7 +5,7 @@ artifacts:
 
 | Artifact | Location | Current version |
 |---|---:|---:|
-| LSP server | repository root | `0.7.1` |
+| LSP server | repository root | `0.7.2` |
 | VS Code extension | `extension/` | `0.5.0` |
 
 > [!IMPORTANT]

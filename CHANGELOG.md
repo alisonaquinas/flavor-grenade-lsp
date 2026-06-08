@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.7.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.1...v0.7.2) (2026-06-07)
+
+### Changed
+
+- Refresh CI and development dependency pins: `actions/download-artifact` to
+  `v8.0.1`, `aws-actions/configure-aws-credentials` to `v6.1.3`,
+  `github/codeql-action` to `v4.36.0`, `@nestjs/common` and
+  `@nestjs/platform-express` to `11.1.24`, `eslint` to `10.4.1`,
+  `@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` to
+  `8.60.0`, `lefthook` to `2.1.8`, and website `svelte` to `5.56.0` and
+  `eslint-plugin-svelte` to `3.19.0`.
+
+### Fixed
+
+- Align the CI workflow verification test with the updated
+  `github/codeql-action/upload-sarif` pin.
+
 ## [0.7.1](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.0...v0.7.1) (2026-05-31)
 
 ### Fixed
@@ -282,8 +301,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ci:** migrate release-please to googleapis action and fix config ([e976963](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/e97696377a748db8eca28c8c552f9387d3a7ee5c))
 - **package:** add repository field for npm provenance validation ([ca691dd](https://github.com/alisonaquinas/flavor-grenade-lsp/commit/ca691dd6f2c121c828cbf58eae9aee3a375f4528))
 
-## [Unreleased]
-
 ## [0.1.0] - 2026-04-20
 
 ### Added
@@ -317,5 +334,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.2...HEAD
 [0.1.0]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.1.0

@@ -5,14 +5,14 @@
     "url": "https://github.com/alisonaquinas"
   },
   "description": "Flavor-aware Markdown and LSP tools for Claude Code.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "plugins": [
     {
       "name": "flavorgrenade-lsp",
       "displayName": "Flavor Grenade LSP",
       "source": "./plugins/flavorgrenade-lsp",
       "description": "Analyze Markdown flavor, diagnostics, symbols, folds, hovers, completions, changelogs, and MADR files with an embedded LSP runtime.",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "author": {
         "name": "Alison Aquinas",
         "url": "https://github.com/alisonaquinas"
