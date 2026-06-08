@@ -1,0 +1,362 @@
+---
+tags: [plans, markdown-flavor, shared-library, fgignore, fgattributes]
+created: 2026-06-08
+updated: 2026-06-08
+---
+
+# Shared Markdown Flavor Library Plan
+
+## Goal
+
+Extract the Markdown flavor selection and Flavor Grenade config-file behavior
+from the LSP into a reusable package that can also be consumed by the
+`obsidian-markdownlint` package.
+
+The shared package should provide:
+
+- supported Markdown flavor ids, labels, selector values, and guards;
+- syntax-based Auto Detect inference;
+- structured profile inference and selection;
+- `.fgignore` parsing and matching;
+- `.fgattributes` parsing and matching for `flavor` and
+  `structured_profiles`;
+- a filesystem-backed resolver for assigning effective flavor metadata to a
+  file path.
+
+## Non-Goals
+
+- Do not extract LSP transport, NestJS modules, vault indexing, diagnostics,
+  parser AST types, completions, code actions, or editor protocol behavior.
+- Do not make the shared package depend on NestJS, VS Code, LSP types, Bun
+  runtime APIs, or Obsidian-specific editor state.
+- Do not inspect or modify sibling repositories in this LSP repository task.
+  The `obsidian-markdownlint` integration should happen in a separate checkout
+  or PR after the package API exists.
+
+## Current Source
+
+The code to extract currently lives in:
+
+| Area | Current file |
+|---|---|
+| Flavor ids, labels, selectors | `src/markdown-flavor/markdown-flavor-contract.ts` |
+| Syntax Auto Detect | `src/markdown-flavor/syntax-inference.ts` |
+| Effective flavor resolution | `src/markdown-flavor/markdown-flavor-state.ts` |
+| Structured profile selection | `src/markdown-flavor/structured-profiles.ts` |
+| `.fgignore` / `.fgattributes` parsing and matching | `src/markdown-flavor/fg-config-files.ts` |
+
+`src/markdown-flavor/fg-config-files.ts` currently mixes three concerns that
+should be split during extraction:
+
+- pure parsing of `.fgignore` and `.fgattributes`;
+- pure pattern matching and cascading rule application;
+- Node filesystem reads plus vault path confinement.
+
+## Proposed Package
+
+Create a workspace package:
+
+```text
+packages/markdown-flavor/
+├── package.json
+├── tsconfig.json
+├── src/
+│   ├── index.ts
+│   ├── flavors.ts
+│   ├── structured-profiles.ts
+│   ├── syntax-inference.ts
+│   ├── flavor-resolution.ts
+│   ├── fgignore.ts
+│   ├── fgattributes.ts
+│   ├── fg-config-resolution.ts
+│   └── node.ts
+└── test/
+    ├── syntax-inference.test.ts
+    ├── flavor-resolution.test.ts
+    ├── fgignore.test.ts
+    ├── fgattributes.test.ts
+    └── node-resolution.test.ts
+```
+
+Recommended package name:
+
+```text
+@flavor-grenade/markdown-flavor
+```
+
+If scoped npm publishing is not wanted yet, use
+`flavor-grenade-markdown-flavor`. Scoped naming is cleaner because this is a
+library under the Flavor Grenade product family.
+
+## Public API
+
+Expose the stable shared concepts from `src/index.ts`:
+
+```ts
+export {
+  MARKDOWN_FLAVOR_IDS,
+  MARKDOWN_FLAVOR_SELECTIONS,
+  MARKDOWN_FLAVOR_LABELS,
+  isMarkdownFlavorId,
+  isMarkdownFlavorSelection,
+  type MarkdownFlavorId,
+  type MarkdownFlavorSelection,
+} from './flavors.js';
+
+export {
+  STRUCTURED_MARKDOWN_PROFILE_IDS,
+  isStructuredMarkdownProfileId,
+  isStructuredProfileSelection,
+  resolveStructuredProfiles,
+  type StructuredMarkdownProfileId,
+  type StructuredProfileSelection,
+} from './structured-profiles.js';
+
+export {
+  inferMarkdownFlavorFromSyntax,
+  resolveMarkdownFlavor,
+  type ResolveMarkdownFlavorInput,
+  type MarkdownFlavorResolution,
+} from './flavor-resolution.js';
+
+export {
+  parseFgIgnore,
+  matchFgIgnore,
+  shouldPruneDirectoryByFgIgnore,
+  type FgIgnoreRule,
+} from './fgignore.js';
+
+export {
+  parseFgAttributes,
+  applyFgAttributes,
+  type FgAttributes,
+  type FgAttributeRule,
+} from './fgattributes.js';
+
+export {
+  resolveFlavorConfig,
+  type FlavorConfigResolution,
+  type FlavorConfigFileReader,
+} from './fg-config-resolution.js';
+```
+
+Expose Node-only filesystem helpers from a separate export path:
+
+```ts
+export {
+  NodeFlavorConfigResolver,
+  type NodeFlavorConfigResolverOptions,
+} from './node.js';
+```
+
+`package.json` should make the split explicit:
+
+```json
+{
+  "name": "@flavor-grenade/markdown-flavor",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./node": "./dist/node.js"
+  },
+  "types": "./dist/index.d.ts",
+  "files": ["dist/", "README.md", "LICENSE"]
+}
+```
+
+## Core API Shape
+
+Use path-based inputs for shared consumers. The LSP can adapt from URI to path;
+markdownlint consumers usually already operate on paths.
+
+```ts
+export interface ResolveMarkdownFlavorInput {
+  path: string;
+  languageId?: string;
+  hasObsidianMarker?: boolean;
+  fgAttributesFlavor?: MarkdownFlavorSelection;
+  fgAttributesStructuredProfiles?: StructuredProfileSelection;
+  syntaxText?: string;
+}
+
+export type MarkdownFlavorResolution =
+  | {
+      kind: 'active';
+      selected: MarkdownFlavorSelection;
+      effective: MarkdownFlavorId;
+      source:
+        | 'fgattributes'
+        | 'obsidian-marker'
+        | 'syntax-inference'
+        | 'commonmark-fallback';
+      structuredProfiles: readonly StructuredMarkdownProfileId[];
+      structuredProfileSource:
+        | 'explicit-selection'
+        | 'fgattributes'
+        | 'structured-profile-inference'
+        | 'none';
+    }
+  | {
+      kind: 'inactive';
+      reason: 'non-markdown-language' | 'unsupported-path' | 'fgignore';
+    };
+```
+
+For `.fgignore` and `.fgattributes`, keep parsing independent from filesystem:
+
+```ts
+const ignoreRules = parseFgIgnore(content);
+const ignored = matchFgIgnore(ignoreRules, 'docs/private/note.md');
+
+const attributeRules = parseFgAttributes(content);
+const attributes = applyFgAttributes(attributeRules, 'docs/guide.md');
+```
+
+Then provide cascading config resolution for real trees:
+
+```ts
+const config = resolveFlavorConfig({
+  root: '/vault',
+  path: '/vault/docs/guide.md',
+  readFile: async (absolutePath) => fs.promises.readFile(absolutePath, 'utf8'),
+  stat: async (absolutePath) => fs.promises.stat(absolutePath),
+  maxConfigBytes: 8192,
+});
+```
+
+The Node adapter can preserve the current LSP convenience:
+
+```ts
+const resolver = new NodeFlavorConfigResolver({ maxConfigBytes: 8192 });
+const config = await resolver.resolveForFile(vaultRoot, filePath);
+const prune = await resolver.shouldPruneDirectory(vaultRoot, directoryPath);
+```
+
+## LSP Migration
+
+1. Add the workspace package and move pure code first.
+2. Keep compatibility wrappers in `src/markdown-flavor/` so LSP call sites
+   change gradually.
+3. Replace `MarkdownFlavorState` internals with calls to
+   `resolveMarkdownFlavor`.
+4. Replace `FlavorGrenadeConfigFiles` internals with `NodeFlavorConfigResolver`
+   or a small LSP wrapper around it.
+5. Update imports in:
+   - `src/vault/vault-scanner.ts`
+   - `src/vault/file-watcher.ts`
+   - `src/lsp/handlers/configuration.handler.ts`
+   - `src/lsp/handlers/did-open.handler.ts`
+   - `src/lsp/handlers/did-change.handler.ts`
+6. Keep `src/markdown-flavor/markdown-flavor.module.ts` as NestJS wiring only.
+   It should provide LSP services, not own shared algorithm code.
+
+## Consumer Migration
+
+For `obsidian-markdownlint`, target this usage pattern:
+
+```ts
+import {
+  resolveMarkdownFlavor,
+  NodeFlavorConfigResolver,
+} from '@flavor-grenade/markdown-flavor/node';
+
+const config = await resolver.resolveForFile(vaultRoot, filePath);
+if (config.ignored) return;
+
+const flavor = resolveMarkdownFlavor({
+  path: filePath,
+  fgAttributesFlavor: config.attributes.flavor,
+  fgAttributesStructuredProfiles: config.attributes.structuredProfiles,
+  syntaxText: markdownText,
+  hasObsidianMarker,
+});
+```
+
+The markdownlint package should not need LSP URI handling, document stores,
+VaultIndex, or parser objects to answer: "is this file ignored, and what
+Markdown flavor should lint rules assume?"
+
+## Compatibility Rules
+
+- Preserve current `.fgignore` behavior exactly:
+  - nested `.fgignore` files cascade from root to target directory;
+  - `!` negation re-includes;
+  - directory pruning remains available;
+  - config files larger than `maxConfigBytes` are ignored.
+- Preserve current `.fgattributes` behavior exactly:
+  - nested `.fgattributes` files cascade root to target directory;
+  - later matching rules override earlier local rules;
+  - nested directories can override parent attributes;
+  - `!flavor` and `!structured_profiles` reset inherited attributes;
+  - dangerous keys `__proto__`, `constructor`, and `prototype` are ignored;
+  - `structured_profiles` and `structuredProfiles` both work.
+- Preserve Auto Detect order:
+  1. explicit `.fgattributes` flavor;
+  2. Obsidian marker;
+  3. syntax inference;
+  4. CommonMark fallback.
+
+## Tests
+
+Move or duplicate current tests into the shared package:
+
+| Current tests | New package tests |
+|---|---|
+| `src/markdown-flavor/__tests__/fg-config-files.test.ts` | `packages/markdown-flavor/test/fgignore.test.ts`, `fgattributes.test.ts`, `node-resolution.test.ts` |
+| `src/markdown-flavor/__tests__/markdown-flavor-state.test.ts` | `packages/markdown-flavor/test/flavor-resolution.test.ts` |
+| syntax inference assertions | `packages/markdown-flavor/test/syntax-inference.test.ts` |
+| structured profile assertions | `packages/markdown-flavor/test/structured-profiles.test.ts` |
+
+Keep LSP integration tests in place. They should prove the LSP still uses the
+shared package correctly, not retest every matcher rule.
+
+Required verification after extraction:
+
+```bash
+bun run build
+bun run lint
+bun run typecheck
+bun test
+bun run bdd
+```
+
+For package-level CI, add:
+
+```bash
+bun test packages/markdown-flavor
+tsc --project packages/markdown-flavor/tsconfig.json
+```
+
+## Release Plan
+
+1. Land extraction behind compatibility wrappers.
+2. Publish `@flavor-grenade/markdown-flavor@0.1.0`.
+3. Update `flavor-grenade-lsp` to depend on the workspace package.
+4. In a separate repository task, update `obsidian-markdownlint` to consume the
+   shared package.
+5. After both consumers are stable, remove any duplicate flavor/config logic
+   left in the LSP.
+
+## Risks
+
+| Risk | Mitigation |
+|---|---|
+| Behavior drift in `.fgignore` / `.fgattributes` matching | Move existing test fixtures first; run before and after extraction. |
+| Shared package accidentally imports NestJS or LSP types | Enforce package-local `tsconfig`, dependency lint, and import boundaries. |
+| Path semantics differ between LSP and markdownlint | Public API uses paths; LSP does URI-to-path conversion outside the package. |
+| Config resolver reads outside vault root | Keep confinement checks in Node adapter and add traversal/symlink tests. |
+| Package API becomes too LSP-specific | Keep inputs small: path, content, marker flags, config attributes. |
+
+## Suggested Work Breakdown
+
+1. Create `packages/markdown-flavor` with package metadata, build config, and
+   test config.
+2. Move flavor contracts, syntax inference, and structured profile inference.
+3. Split `.fgignore` and `.fgattributes` into pure parser/matcher modules.
+4. Add generic cascading config resolution with injected filesystem reads.
+5. Add Node filesystem adapter with vault confinement and size limits.
+6. Wire LSP compatibility wrappers to the shared package.
+7. Move unit tests and keep LSP integration coverage.
+8. Add CI/package checks.
+9. Publish package and use it from the LSP.
+10. Integrate `obsidian-markdownlint` in a separate task.
