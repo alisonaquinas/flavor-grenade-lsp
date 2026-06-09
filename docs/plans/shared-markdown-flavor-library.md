@@ -1,7 +1,7 @@
 ---
 tags: [plans, markdown-flavor, shared-library, fgignore, fgattributes]
 created: 2026-06-08
-updated: 2026-06-08
+updated: 2026-06-09
 ---
 
 # Shared Markdown Flavor Library Plan
@@ -81,12 +81,11 @@ packages/markdown-flavor/
 Recommended package name:
 
 ```text
-@flavor-grenade/markdown-flavor
+markdown-flavor-detection
 ```
 
-If scoped npm publishing is not wanted yet, use
-`flavor-grenade-markdown-flavor`. Scoped naming is cleaner because this is a
-library under the Flavor Grenade product family.
+Use the unscoped npm package name because `markdown-flavor-detection` is
+available and directly describes the shared library behavior.
 
 ## Public API
 
@@ -153,7 +152,7 @@ export {
 
 ```json
 {
-  "name": "@flavor-grenade/markdown-flavor",
+  "name": "markdown-flavor-detection",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
@@ -215,7 +214,7 @@ const attributes = applyFgAttributes(attributeRules, 'docs/guide.md');
 Then provide cascading config resolution for real trees:
 
 ```ts
-const config = resolveFlavorConfig({
+const config = await resolveFlavorConfig({
   root: '/vault',
   path: '/vault/docs/guide.md',
   readFile: async (absolutePath) => fs.promises.readFile(absolutePath, 'utf8'),
@@ -258,7 +257,7 @@ For `obsidian-markdownlint`, target this usage pattern:
 import {
   resolveMarkdownFlavor,
   NodeFlavorConfigResolver,
-} from '@flavor-grenade/markdown-flavor/node';
+} from 'markdown-flavor-detection/node';
 
 const config = await resolver.resolveForFile(vaultRoot, filePath);
 if (config.ignored) return;
@@ -323,14 +322,21 @@ bun run bdd
 For package-level CI, add:
 
 ```bash
-bun test packages/markdown-flavor
-tsc --project packages/markdown-flavor/tsconfig.json
+bun run test:markdown-flavor
+bun run --cwd packages/markdown-flavor typecheck
 ```
+
+Publishing uses the same `v*.*.*` release tag as the LSP server. CI validates
+that the tag version, root `package.json` version, and
+`packages/markdown-flavor/package.json` version all match before packing either
+npm package. The shared package publishes as a separate npm artifact, but its
+version remains linked to the server package to avoid parallel version streams.
 
 ## Release Plan
 
 1. Land extraction behind compatibility wrappers.
-2. Publish `@flavor-grenade/markdown-flavor@0.1.0`.
+2. Publish `markdown-flavor-detection` from the same `v*.*.*` tag used for
+   `flavor-grenade-lsp`.
 3. Update `flavor-grenade-lsp` to depend on the workspace package.
 4. In a separate repository task, update `obsidian-markdownlint` to consume the
    shared package.

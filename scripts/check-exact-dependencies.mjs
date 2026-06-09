@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const MANIFESTS = ['package.json', 'extension/package.json'];
+const MANIFESTS = ['package.json', 'extension/package.json', 'packages/markdown-flavor/package.json'];
 const DEPENDENCY_SECTIONS = [
   'dependencies',
   'devDependencies',

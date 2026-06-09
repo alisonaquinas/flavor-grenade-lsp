@@ -11,7 +11,19 @@ const securitySastWorkflow = readFileSync('.github/workflows/security-sast.yml',
 const extensionReleaseWorkflow = readFileSync('.github/workflows/extension-release.yml', 'utf8');
 const websiteS3Workflow = readFileSync('.github/workflows/website-s3.yml', 'utf8');
 const rootPackage = JSON.parse(readFileSync('package.json', 'utf8')) as {
+  dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
+  scripts?: Record<string, string>;
+  version?: string;
+};
+const markdownFlavorPackage = JSON.parse(
+  readFileSync('packages/markdown-flavor/package.json', 'utf8'),
+) as {
+  name?: string;
+  version?: string;
+  publishConfig?: {
+    access?: string;
+  };
   scripts?: Record<string, string>;
 };
 const rootEslintConfig = readFileSync('eslint.config.js', 'utf8');
@@ -78,6 +90,7 @@ describe('CI workflow verification battery', () => {
       'bun run lint:docs',
       'bun run build',
       'bun test --coverage',
+      'bun run test:markdown-flavor',
       'bun run bdd',
     ]) {
       expect(workflow).toContain(command);
@@ -227,6 +240,10 @@ describe('CI workflow verification battery', () => {
 
   test('signs the npm package tarball before release and publish', () => {
     expect(releaseWorkflow).toContain("- 'v*.*.*'");
+    expect(workflow).toContain("tags: ['v*.*.*']");
+    expect(workflow).toContain(
+      "if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')",
+    );
     expect(releaseWorkflow).not.toContain("'v[0-9]+.[0-9]+.[0-9]+'");
     expect(releaseWorkflow).not.toContain('Build and sign npm package');
     expect(releaseWorkflow).not.toContain('dist/*.tgz');
@@ -266,6 +283,77 @@ describe('CI workflow verification battery', () => {
       'npm pack --ignore-scripts --json',
       'Sign npm package with GitHub OIDC',
       'Publish to npmjs.com',
+    ]);
+  });
+
+  test('publishes the markdown flavor package from the server release tag', () => {
+    expect(markdownFlavorPackage.name).toBe('markdown-flavor-detection');
+    expect(markdownFlavorPackage.version).toBe(rootPackage.version);
+    expect(rootPackage.dependencies?.['markdown-flavor-detection']).toBe(rootPackage.version);
+    expect(markdownFlavorPackage.publishConfig?.access).toBe('public');
+    expect(markdownFlavorPackage.scripts?.build).toBe('tsc --project tsconfig.json');
+    expect(rootPackage.scripts?.['test:markdown-flavor']).toBe(
+      'bun run --cwd packages/markdown-flavor test',
+    );
+    expect(rootPackage.scripts?.['lint:installed-packages']).toContain('packages/markdown-flavor');
+
+    const packJob = workflow.slice(
+      workflow.indexOf('pack-markdown-flavor-package:'),
+      workflow.indexOf('publish-markdown-flavor-package:'),
+    );
+
+    for (const command of [
+      "tags: ['v*.*.*']",
+      'Markdown flavor package checks',
+      'bun run test:markdown-flavor',
+      'bun run --cwd packages/markdown-flavor typecheck',
+      'bun run --cwd packages/markdown-flavor build',
+      'npm pack --ignore-scripts --dry-run',
+      'Pack markdown flavor npm package',
+      "if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')",
+      'needs: pack-markdown-flavor-package',
+      'tag_version="${GITHUB_REF_NAME#v}"',
+      "readFileSync('package.json', 'utf8')",
+      "readFileSync('packages/markdown-flavor/package.json', 'utf8')",
+      'test "$tag_version" = "$server_version"',
+      'test "$tag_version" = "$package_version"',
+      'markdown-flavor-npm-package-candidate',
+      'MARKDOWN_FLAVOR_NPM_PACKAGE_PATH',
+      'signed-markdown-flavor-npm-package',
+      'npm publish "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH" --provenance --access public --ignore-scripts',
+      'Attach signed markdown flavor npm package to GitHub Release',
+      'gh release upload "$GITHUB_REF_NAME" signed-markdown-flavor-npm-package/* --repo "$GITHUB_REPOSITORY" --clobber',
+    ]) {
+      expect(workflow).toContain(command);
+    }
+
+    for (const releaseGate of [
+      'typecheck',
+      'lint',
+      'dependency-policy',
+      'test',
+      'bdd',
+      'build',
+      'markdown-flavor-package-checks',
+      'markdown-lint-docs',
+      'markdown-lint-other',
+      'format',
+      'skill-checks',
+      'website-checks',
+      'extension-checks',
+    ]) {
+      expect(packJob).toContain(releaseGate);
+    }
+
+    expectStepOrder(workflow, [
+      'Markdown flavor package checks',
+      'Pack markdown flavor npm package',
+      'Validate markdown flavor release tag',
+      'Upload markdown flavor npm package candidate',
+      'Publish markdown flavor package to npm',
+      'Sign markdown flavor npm package with GitHub OIDC',
+      'Publish markdown flavor package to npmjs.com',
+      'Attach signed markdown flavor npm package to GitHub Release',
     ]);
   });
 

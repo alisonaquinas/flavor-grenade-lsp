@@ -63,7 +63,7 @@ jobs:
 
       - run: bun run lint:dependencies
 
-      - run: bun run lint:installed-packages -- .
+      - run: bun run lint:installed-packages
 
   format:
     name: Format check (Prettier)
@@ -96,6 +96,8 @@ jobs:
 
       # --coverage writes to coverage/ which is uploaded as an artifact below.
       - run: bun test --coverage
+
+      - run: bun run test:markdown-flavor
 
       # Upload coverage even on failure so we can inspect partial results.
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -168,6 +170,35 @@ jobs:
       - run: bun install --frozen-lockfile --ignore-scripts
 
       - run: bun run build
+
+  markdown-flavor-package-checks:
+    name: Markdown flavor package checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Install Bun
+        run: npm install --global bun@${{ env.BUN_VERSION }}
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      - run: bun run test:markdown-flavor
+
+      - run: bun run --cwd packages/markdown-flavor typecheck
+
+      - run: bun run --cwd packages/markdown-flavor build
+
+      - name: Pack markdown flavor package dry run
+        run: |
+          cd packages/markdown-flavor
+          npm pack --ignore-scripts --dry-run --pack-destination "$RUNNER_TEMP"
 
   release-binary-signing-pr-dry-run:
     name: Release binary signing dry run (PR)
@@ -439,6 +470,236 @@ jobs:
           name: npm-package-candidate
           path: npm-package/*.tgz
           if-no-files-found: error
+
+  pack-markdown-flavor-package:
+    name: Pack markdown flavor npm package
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs:
+      [
+        typecheck,
+        lint,
+        dependency-policy,
+        test,
+        bdd,
+        build,
+        markdown-flavor-package-checks,
+        markdown-lint-docs,
+        markdown-lint-other,
+        format,
+        skill-checks,
+        website-checks,
+        extension-checks,
+      ]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Install Bun
+        run: npm install --global bun@${{ env.BUN_VERSION }}
+
+      - run: bun install --frozen-lockfile --ignore-scripts
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Validate markdown flavor release tag
+        run: |
+          tag_version="${GITHUB_REF_NAME#v}"
+          server_version="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync('package.json', 'utf8')).version)")"
+          package_version="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync('packages/markdown-flavor/package.json', 'utf8')).version)")"
+          test "$tag_version" = "$server_version"
+          test "$tag_version" = "$package_version"
+
+      - run: bun run --cwd packages/markdown-flavor build
+
+      - name: Pack markdown flavor npm package
+        run: |
+          (
+            cd packages/markdown-flavor
+            npm pack --ignore-scripts --json > "$GITHUB_WORKSPACE/markdown-flavor-npm-pack.json"
+          )
+          package_path="$(node -e "console.log(JSON.parse(require('node:fs').readFileSync('markdown-flavor-npm-pack.json', 'utf8'))[0].filename)")"
+          mkdir -p markdown-flavor-npm-package
+          mv "packages/markdown-flavor/$package_path" "markdown-flavor-npm-package/$package_path"
+
+      - name: Upload markdown flavor npm package candidate
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: markdown-flavor-npm-package-candidate
+          path: markdown-flavor-npm-package/*.tgz
+          if-no-files-found: error
+
+  publish-markdown-flavor-package:
+    name: Publish markdown flavor package to npm
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs: pack-markdown-flavor-package
+    environment: npm-publish
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download markdown flavor npm package candidate
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: markdown-flavor-npm-package-candidate
+          path: markdown-flavor-npm-package
+
+      - name: Select markdown flavor npm package candidate
+        run: |
+          package_path="$(find markdown-flavor-npm-package -maxdepth 1 -name '*.tgz' -print -quit)"
+          test -n "$package_path"
+          echo "MARKDOWN_FLAVOR_NPM_PACKAGE_PATH=./$package_path" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Bootstrap npm 11.14.0 (required for tokenless OIDC Trusted Publishing)
+        run: |
+          TMPDIR=$(mktemp -d)
+          curl -sf https://registry.npmjs.org/npm/11.14.0 -o "$TMPDIR/npm-metadata.json"
+          node -e "const metadata = JSON.parse(require('node:fs').readFileSync(process.argv[1], 'utf8')); console.log(metadata.dist.tarball)" "$TMPDIR/npm-metadata.json" > "$TMPDIR/npm-tarball-url"
+          curl -sf "$(cat "$TMPDIR/npm-tarball-url")" -o "$TMPDIR/npm.tgz"
+          node - "$TMPDIR/npm-metadata.json" "$TMPDIR/npm.tgz" <<'NODE'
+          const { readFileSync } = require('node:fs');
+          const { createHash } = require('node:crypto');
+
+          const metadata = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+          const tarball = readFileSync(process.argv[3]);
+          const [algorithm, expected] = metadata.dist.integrity.split('-', 2);
+          const actual = createHash(algorithm).update(tarball).digest('base64');
+          if (actual !== expected) {
+            throw new Error('npm 11.14.0 tarball integrity mismatch.');
+          }
+          NODE
+          tar -xzf "$TMPDIR/npm.tgz" --strip-components=1 -C "$TMPDIR"
+          node "$TMPDIR/bin/npm-cli.js" install -g npm@11.14.0 --ignore-scripts
+          rm -rf "$TMPDIR"
+
+      - name: Install cosign
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
+
+      - name: Sign markdown flavor npm package with GitHub OIDC
+        run: |
+          cosign sign-blob "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH" \
+            --bundle "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH.sigstore.json" \
+            --yes
+
+          cosign verify-blob "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH" \
+            --bundle "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH.sigstore.json" \
+            --certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/tags/${GITHUB_REF_NAME}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+          package_name="$(basename "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH")"
+          (
+            cd markdown-flavor-npm-package
+            sha256sum "$package_name" > "$package_name.sha256"
+          )
+
+      - name: Upload signed markdown flavor npm package evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: signed-markdown-flavor-npm-package
+          path: |
+            markdown-flavor-npm-package/*.tgz
+            markdown-flavor-npm-package/*.tgz.sha256
+            markdown-flavor-npm-package/*.tgz.sigstore.json
+          if-no-files-found: error
+
+      - name: Publish markdown flavor package to npmjs.com
+        run: npm publish "$MARKDOWN_FLAVOR_NPM_PACKAGE_PATH" --provenance --access public --ignore-scripts
+
+  attach-signed-markdown-flavor-npm-package:
+    name: Attach signed markdown flavor npm package to GitHub Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
+    needs: publish-markdown-flavor-package
+    permissions:
+      contents: write
+    steps:
+      - name: Download signed markdown flavor npm package evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: signed-markdown-flavor-npm-package
+          path: signed-markdown-flavor-npm-package
+
+      - name: Install cosign
+        shell: bash
+        run: |
+          case "${RUNNER_OS}-${RUNNER_ARCH}" in
+            Linux-X64) asset="cosign-linux-amd64"; binary="cosign" ;;
+            macOS-X64) asset="cosign-darwin-amd64"; binary="cosign" ;;
+            macOS-ARM64) asset="cosign-darwin-arm64"; binary="cosign" ;;
+            Windows-X64) asset="cosign-windows-amd64.exe"; binary="cosign.exe" ;;
+            *) echo "::error::Unsupported runner ${RUNNER_OS}-${RUNNER_ARCH}"; exit 1 ;;
+          esac
+          install_dir="${RUNNER_TEMP}/cosign"
+          mkdir -p "$install_dir"
+          base_url="https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}"
+          curl -fsSLo "${install_dir}/${binary}" "${base_url}/${asset}"
+          curl -fsSLo "${install_dir}/cosign_checksums.txt" "${base_url}/cosign_checksums.txt"
+          expected_sha256="$(grep "  ${asset}$" "${install_dir}/cosign_checksums.txt" | awk '{print $1}')"
+          actual_sha256="$(COSIGN_BINARY="${install_dir}/${binary}" node -e 'const crypto = require("node:crypto"); const fs = require("node:fs"); console.log(crypto.createHash("sha256").update(fs.readFileSync(process.env.COSIGN_BINARY)).digest("hex"));')"
+          test "$expected_sha256" = "$actual_sha256"
+          chmod +x "${install_dir}/${binary}"
+          echo "$install_dir" >> "$GITHUB_PATH"
+
+      - name: Verify signed markdown flavor npm package evidence
+        run: |
+          package_path="$(find signed-markdown-flavor-npm-package -maxdepth 1 -name '*.tgz' -print -quit)"
+          test -n "$package_path"
+          package_name="$(basename "$package_path")"
+          (
+            cd signed-markdown-flavor-npm-package
+            sha256sum --check "$package_name.sha256"
+          )
+          cosign verify-blob "$package_path" \
+            --bundle "$package_path.sigstore.json" \
+            --certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/ci.yml@refs/tags/${GITHUB_REF_NAME}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+      - name: Attach signed markdown flavor npm package to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for _ in {1..120}; do
+            if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              gh release upload "$GITHUB_REF_NAME" signed-markdown-flavor-npm-package/* --repo "$GITHUB_REPOSITORY" --clobber
+              exit 0
+            fi
+
+            sleep 15
+          done
+
+          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
+          echo "GitHub Release $GITHUB_REF_NAME was not created in time." >&2
+          exit 1
 
   publish:
     name: Publish to npm

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { fileURLToPath } from 'node:url';
+import { resolveMarkdownFlavor } from '@flavor-grenade/markdown-flavor';
 import {
-  MARKDOWN_FLAVOR_SELECTIONS,
+  isMarkdownFlavorSelection,
   type MarkdownFlavorId,
   type MarkdownFlavorSelection,
 } from './markdown-flavor-contract.js';
-import { inferMarkdownFlavorFromSyntax } from './syntax-inference.js';
 import {
-  resolveStructuredProfiles,
   type StructuredMarkdownProfileId,
   type StructuredProfileResolutionSource,
   type StructuredProfileSelection,
@@ -34,7 +34,7 @@ export type FlavorResolutionResult =
     }
   | {
       kind: 'inactive';
-      reason: 'non-markdown-language' | 'unsupported-scheme';
+      reason: 'non-markdown-language' | 'unsupported-scheme' | 'fgignore';
     };
 
 /** Inputs available when resolving a document's Markdown flavor. */
@@ -84,67 +84,31 @@ export class MarkdownFlavorState {
       return { kind: 'inactive', reason: 'unsupported-scheme' };
     }
 
-    const fgAttributes = explicitFlavor(input.fgAttributesFlavor);
-    if (fgAttributes) {
-      return {
-        kind: 'active',
-        selected: input.fgAttributesFlavor ?? 'auto',
-        effective: fgAttributes,
-        source: 'fgattributes',
-        ...this.resolveStructuredProfileState(input),
-      };
-    }
-
-    if (input.hasObsidianMarker) {
-      return {
-        kind: 'active',
-        selected: 'auto',
-        effective: 'obsidian',
-        source: 'obsidian-marker',
-        ...this.resolveStructuredProfileState(input),
-      };
-    }
-
-    const inferred = inferMarkdownFlavorFromSyntax(input.syntaxText);
-    if (inferred) {
-      return {
-        kind: 'active',
-        selected: 'auto',
-        effective: inferred,
-        source: 'syntax-inference',
-        ...this.resolveStructuredProfileState(input),
-      };
-    }
-
-    return {
-      kind: 'active',
-      selected: 'auto',
-      effective: 'commonmark',
-      source: 'commonmark-fallback',
-      ...this.resolveStructuredProfileState(input),
-    };
-  }
-
-  private resolveStructuredProfileState(input: ResolveFlavorInput): {
-    structuredProfiles: readonly StructuredMarkdownProfileId[];
-    structuredProfileSource: StructuredProfileResolutionSource;
-  } {
-    return resolveStructuredProfiles({
-      selection: 'auto',
-      fgAttributesSelection: input.fgAttributesStructuredProfiles,
-      uri: input.uri,
+    const result = resolveMarkdownFlavor({
+      path: pathFromFileUri(input.uri),
+      languageId: input.languageId,
+      hasObsidianMarker: input.hasObsidianMarker,
+      fgAttributesFlavor: input.fgAttributesFlavor,
+      fgAttributesStructuredProfiles: input.fgAttributesStructuredProfiles,
       syntaxText: input.syntaxText,
     });
+
+    if (result.kind === 'inactive') {
+      if (result.reason === 'unsupported-path') {
+        return { kind: 'inactive', reason: 'unsupported-scheme' };
+      }
+      return { kind: 'inactive', reason: result.reason };
+    }
+    return result;
   }
 }
 
-/** True when a value is a supported selector value, including `auto`. */
-export function isMarkdownFlavorSelection(value: unknown): value is MarkdownFlavorSelection {
-  return (
-    typeof value === 'string' && (MARKDOWN_FLAVOR_SELECTIONS as readonly string[]).includes(value)
-  );
-}
+export { isMarkdownFlavorSelection };
 
-function explicitFlavor(value: MarkdownFlavorSelection | undefined): MarkdownFlavorId | undefined {
-  return value && value !== 'auto' ? value : undefined;
+function pathFromFileUri(uri: string): string {
+  try {
+    return fileURLToPath(uri);
+  } catch {
+    return uri;
+  }
 }
