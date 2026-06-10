@@ -19,16 +19,16 @@ Feature: Markdown flavor selection
 
   Scenario: Generic markdown remains Markdown and auto-detects CommonMark
     Given a workspace folder with no ".obsidian/" directory
-    And no ".fgignore" or ".fgattributes" file applies
+    And no ".mdfignore" or ".mdfattributes" file applies
     And the server does not index "README.md"
     When the user opens "README.md"
     Then the document language id remains "markdown"
     And the Markdown flavor selector shows "Auto Detect (CommonMark)"
 
   @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario Outline: .fgattributes can explicitly return a path to Auto Detect
-    Given a workspace folder containing ".fgattributes"
-    And ".fgattributes" contains "docs/**/*.md flavor=auto"
+  Scenario Outline: .mdfattributes can explicitly return a path to Auto Detect
+    Given a workspace folder containing ".mdfattributes"
+    And ".mdfattributes" contains "docs/**/*.md flavor=auto"
     And the workspace has evidence for Markdown flavor "<id>"
     When the user opens "docs/welcome.md"
     Then the document language id remains "markdown"
@@ -86,9 +86,9 @@ Feature: Markdown flavor selection
 
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile configuration propagates with the base flavor
-    Given a workspace folder containing ".fgattributes"
-    And ".fgattributes" sets "flavor=<baseFlavor>" for "<path>"
-    And ".fgattributes" sets "structured_profiles=<selection>" for "<path>"
+    Given a workspace folder containing ".mdfattributes"
+    And ".mdfattributes" sets "flavor=<baseFlavor>" for "<path>"
+    And ".mdfattributes" sets "structured_profiles=<selection>" for "<path>"
     When the user opens "<path>"
     Then the document language id remains "markdown"
     And the server is refreshed with effective flavor "<baseFlavor>"
@@ -104,7 +104,7 @@ Feature: Markdown flavor selection
   @planned @structured-profile @req:Extension.MarkdownStructuredProfiles.Configuration
   Scenario Outline: Structured profile inference layers over a configured base flavor
     Given no structured profile attribute applies to "<path>"
-    And ".fgattributes" sets "flavor=<baseFlavor>" for "<path>"
+    And ".mdfattributes" sets "flavor=<baseFlavor>" for "<path>"
     When the user opens "<path>" containing "<evidence>"
     Then the document language id remains "markdown"
     And the server is refreshed with effective flavor "<baseFlavor>"
@@ -117,12 +117,12 @@ Feature: Markdown flavor selection
       | obsidian   | madr             | docs/decisions/0001-use-profile.md | ## Context and Problem Statement |
 
   Scenario: User overrides flavor for a selected file
-    Given a workspace folder containing ".fgattributes"
+    Given a workspace folder containing ".mdfattributes"
     And the user opens "notes/welcome.md"
     When the user selects "CommonMark" from the Markdown flavor selector
     And the user selects "Selected file" from the scope prompt
     Then the document language id remains "markdown"
-    And ".fgattributes" beside "notes/welcome.md" contains "welcome.md flavor=commonmark"
+    And ".mdfattributes" beside "notes/welcome.md" contains "welcome.md flavor=commonmark"
     And the server is refreshed with effective flavor "commonmark"
     And the client sends Markdown flavor "commonmark" and effective flavor "commonmark" to the server
 
@@ -131,17 +131,17 @@ Feature: Markdown flavor selection
     When the user selects "Obsidian" from the Markdown flavor selector
     And the user selects "All files in this directory" from the scope prompt
     Then the document language id remains "markdown"
-    And ".fgattributes" in the active file's directory contains "/*.md flavor=obsidian"
+    And ".mdfattributes" in the active file's directory contains "/*.md flavor=obsidian"
     And the server is refreshed with effective flavor "obsidian"
     And the client sends Markdown flavor "obsidian" and effective flavor "obsidian" to the server
 
   Scenario Outline: User can select any required researched flavor
-    Given a workspace folder containing ".fgattributes"
+    Given a workspace folder containing ".mdfattributes"
     And the user opens "notes/welcome.md"
     When the user selects "<label>" from the Markdown flavor selector
     And the user selects "Selected file" from the scope prompt
     Then the document language id remains "markdown"
-    And ".fgattributes" beside "notes/welcome.md" contains "welcome.md flavor=<id>"
+    And ".mdfattributes" beside "notes/welcome.md" contains "welcome.md flavor=<id>"
     And the server is refreshed with effective flavor "<id>"
     And the client sends Markdown flavor "<id>" and effective flavor "<id>" to the server
 
@@ -193,12 +193,12 @@ Feature: Markdown flavor selection
     When the user selects "Original Markdown" from the Markdown flavor selector
     And the user selects "Selected file" from the scope prompt
     Then the document language id remains "markdown"
-    And ".fgattributes" beside the standalone file contains a file-specific "flavor=original" rule
+    And ".mdfattributes" beside the standalone file contains a file-specific "flavor=original" rule
     And the server is refreshed with effective flavor "original"
     And the client sends Markdown flavor "original" and effective flavor "original" to the server
 
   Scenario: Auto Detect clears the override at the selected scope
-    Given ".fgattributes" has "welcome.md flavor=commonmark"
+    Given ".mdfattributes" has "welcome.md flavor=commonmark"
     And the user opens "notes/welcome.md"
     When the user selects "Auto Detect" from the Markdown flavor selector
     And the user selects "Selected file" from the scope prompt

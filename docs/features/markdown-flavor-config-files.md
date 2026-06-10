@@ -3,8 +3,8 @@ title: Feature - Markdown Flavor Configuration Files
 tags: [features/, markdown-flavor, configuration]
 aliases:
   - Markdown flavor configuration files
-  - .fgignore
-  - .fgattributes
+  - .mdfignore
+  - .mdfattributes
 ---
 
 # Feature - Markdown Flavor Configuration Files
@@ -16,7 +16,7 @@ This feature replaces file and directory flavor configuration through VS Code
 settings, `.flavor-grenade.*` project flavor config, and `.editorconfig`
 Flavor Grenade flavor directives. It does not replace Auto Detect.
 
-When neither `.fgignore` nor `.fgattributes` exists for a directory tree,
+When neither `.mdfignore` nor `.mdfattributes` exists for a directory tree,
 Flavor Grenade applies Auto Detect to the entire directory and all
 subdirectories. In that default state, `.obsidian/` still resolves Markdown
 files to `obsidian`; otherwise generic Markdown falls back to `commonmark`
@@ -26,8 +26,8 @@ unless strong syntax evidence selects another flavor.
 
 | File | User effect |
 |---|---|
-| `.fgignore` | Matching files disappear from Flavor Grenade analysis. They are not indexed and receive no diagnostics, completion, navigation, hover, semantic tokens, rename edits, or reference graph entries. |
-| `.fgattributes` | Matching files receive attributes such as Markdown flavor and structured profile flags. |
+| `.mdfignore` | Matching files disappear from Flavor Grenade analysis. They are not indexed and receive no diagnostics, completion, navigation, hover, semantic tokens, rename edits, or reference graph entries. |
+| `.mdfattributes` | Matching files receive attributes such as Markdown flavor and structured profile flags. |
 
 Both files may appear in a vault root and in nested directories. Configuration
 applies from the vault root down to the active file's directory, with deeper
@@ -55,11 +55,11 @@ Interpretation:
 
 Auto Detect applies to every Markdown file under `project/`. If `project/`
 contains `.obsidian/`, all three files resolve to `obsidian` unless a future
-`.fgattributes` rule overrides them.
+`.mdfattributes` rule overrides them.
 
-## .fgignore
+## .mdfignore
 
-`.fgignore` follows Git ignore style path matching:
+`.mdfignore` follows Git ignore style path matching:
 
 ```gitignore
 # Ignore generated Markdown.
@@ -80,11 +80,11 @@ Negation follows Git's traversal caveat: a file can be re-included only if its
 parent directories are still traversable. Prefer `private/*` plus
 `!private/keep.md` when a child needs to remain visible.
 
-### .fgignore Interpretation Example
+### .mdfignore Interpretation Example
 
 ```text
 project/
-  .fgignore
+  .mdfignore
   README.md
   dist/generated.md
   dist/release-notes.md
@@ -116,9 +116,9 @@ Interpretation:
 
 Ignored files stop before flavor resolution. They are not Auto Detected.
 
-## .fgattributes
+## .mdfattributes
 
-`.fgattributes` assigns attributes to visible files:
+`.mdfattributes` assigns attributes to visible files:
 
 ```gitattributes
 *.md flavor=commonmark
@@ -141,15 +141,15 @@ Supported initial attributes:
 far for matching paths. The file then uses Auto Detect unless a later matching
 rule sets the attribute again.
 
-For symmetry with `.fgignore`, a leading `!` selector may cancel earlier
-`.fgattributes` selectors in the same file for matching paths. Attribute reset
+For symmetry with `.mdfignore`, a leading `!` selector may cancel earlier
+`.mdfattributes` selectors in the same file for matching paths. Attribute reset
 tokens are preferred when only one attribute should fall through.
 
-### .fgattributes Interpretation Example
+### .mdfattributes Interpretation Example
 
 ```text
 project/
-  .fgattributes
+  .mdfattributes
   README.md
   docs/guide.md
   docs/changelog.md
@@ -197,25 +197,25 @@ leaving `structured_profiles` inherited, or reset only one attribute with
 absent means no rule selected a flavor; `flavor=auto` means a rule deliberately
 returns matching files to Auto Detect.
 
-### Nested .fgattributes Example
+### Nested .mdfattributes Example
 
 ```text
 project/
-  .fgattributes
+  .mdfattributes
   docs/
-    .fgattributes
+    .mdfattributes
     guide.md
     api/reference.md
 ```
 
-Root `.fgattributes`:
+Root `.mdfattributes`:
 
 ```gitattributes
 *.md flavor=commonmark
 docs/**/*.md flavor=gfm
 ```
 
-`docs/.fgattributes`:
+`docs/.mdfattributes`:
 
 ```gitattributes
 # Paths are relative to docs/ because this file lives there.
@@ -237,7 +237,7 @@ user chooses a flavor, a second quick-pick asks for the write scope:
 1. Selected file
 2. All Markdown files in this directory
 
-The extension writes or updates `.fgattributes` in the active file's directory.
+The extension writes or updates `.mdfattributes` in the active file's directory.
 
 Example writes for a file `docs/guide.md`:
 
@@ -250,7 +250,7 @@ guide.md flavor=gfm
 ```
 
 Because `/` anchors the pattern to the directory containing this
-`.fgattributes`, `/*.md` matches Markdown files directly beside that file and
+`.mdfattributes`, `/*.md` matches Markdown files directly beside that file and
 does not match subdirectories. Use `**/*.md` only when the intended scope is the
 directory and all descendants.
 
@@ -262,32 +262,32 @@ selected scope when possible.
 For each file:
 
 1. Non-file URI schemes and non-`markdown` editor language ids are inactive.
-2. `.fgignore` decides whether the file is visible.
-3. `.fgattributes` supplies explicit `flavor` and structured profile values.
+2. `.mdfignore` decides whether the file is visible.
+3. `.mdfattributes` supplies explicit `flavor` and structured profile values.
 4. `flavor=auto` or an absent flavor runs Auto Detect.
 5. `.obsidian/` is an Auto Detect signal for `obsidian`.
 6. Generic Markdown falls back to `commonmark`.
 
-If no `.fgignore` or `.fgattributes` file exists anywhere between the vault root
+If no `.mdfignore` or `.mdfattributes` file exists anywhere between the vault root
 and a file's directory, step 4 applies immediately: Auto Detect covers that file
 and every other file in the unconfigured subtree.
 
 ## Acceptance Summary
 
-- `.fgignore` and `.fgattributes` are discovered from vault root to file
+- `.mdfignore` and `.mdfattributes` are discovered from vault root to file
   directory.
 - Git-style wildmatch patterns, comments, escaping, directory anchors, `**`,
   and negation are supported where specified.
-- `.fgignore` removes files from indexing and all language features.
-- `.fgattributes` is the only persistent file/directory flavor assignment
+- `.mdfignore` removes files from indexing and all language features.
+- `.mdfattributes` is the only persistent file/directory flavor assignment
   mechanism.
-- The extension selector writes `.fgattributes` after a second scope prompt.
+- The extension selector writes `.mdfattributes` after a second scope prompt.
 - Legacy flavor assignment through VS Code settings and `.flavor-grenade.*`
   project config is retired.
 
 ## Related
 
-- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]]
+- [[docs/adr/ADR021-mdfignore-mdfattributes-flavor-configuration]]
 - [[docs/features/ofmarkdown-language-mode]]
 - [[docs/design/markdown-flavor-auto-detection]]
 - [[docs/requirements/functional/ofmarkdown-language-mode]]

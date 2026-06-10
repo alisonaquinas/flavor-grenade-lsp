@@ -21,7 +21,7 @@ Use the LLM skill/plugin when Claude, Codex, or another compatible agent needs t
 - Use the VS Code extension for the easiest first run.
 - Use the npm package for Neovim, Helix, custom editor clients, or test harnesses that already know how to speak LSP.
 - Use the LLM skill/plugin for agent workflows that should ask Flavor Grenade instead of guessing Markdown behavior.
-- In every path, open or point at the folder that contains `.obsidian/`, `.fgignore`, `.fgattributes`, or the Markdown files you want analyzed.
+- In every path, open or point at the folder that contains `.obsidian/`, `.mdfignore`, `.mdfattributes`, or the Markdown files you want analyzed.
 
 ## Option 1: VS Code extension
 
@@ -35,7 +35,7 @@ Install [Flavor Grenade LSP from the Visual Studio Marketplace](https://marketpl
 
 ### Open an Obsidian Vault folder
 
-Use File > Open Folder and choose the folder that contains `.obsidian/`, `.fgignore`, `.fgattributes`, or the Markdown files you want analyzed.
+Use File > Open Folder and choose the folder that contains `.obsidian/`, `.mdfignore`, `.mdfattributes`, or the Markdown files you want analyzed.
 
 ### Confirm flavor activation
 
@@ -44,23 +44,23 @@ Open a Markdown note in the vault. The Flavor Grenade status should show the eff
 ```text
 MyVault/
   .obsidian/
-  .fgattributes
-  .fgignore
+  .mdfattributes
+  .mdfignore
   Notes/
     Daily Note.md
 ```
 
-Use `.fgattributes` when a flavor choice should travel with the repository, and `.fgignore` when generated or private Markdown should not be indexed.
+Use `.mdfattributes` when a flavor choice should travel with the repository, and `.mdfignore` when generated or private Markdown should not be indexed.
 
 ```gitattributes
-# .fgattributes
+# .mdfattributes
 *.md flavor=auto
 docs/github/*.md flavor=gfm
 docs/decisions/*.md flavor=commonmark structured_profiles=madr
 ```
 
 ```gitignore
-# .fgignore
+# .mdfignore
 generated/
 private/
 !private/README.md

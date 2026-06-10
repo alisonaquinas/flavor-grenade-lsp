@@ -80,7 +80,7 @@ it('detect() walks multiple ancestor levels to find .obsidian/', () => {
 
 ---
 
-### TC-UNIT-VAULT-003 — VaultDetector.detect: only .fgattributes present returns that directory as vault root
+### TC-UNIT-VAULT-003 — VaultDetector.detect: only .mdfattributes present returns that directory as vault root
 
 **Class / Service:** `VaultDetector`
 **Spec file:** `tests/unit/vault/vault-detector.spec.ts`
@@ -90,10 +90,10 @@ it('detect() walks multiple ancestor levels to find .obsidian/', () => {
 **RED — Failing test:**
 
 ```typescript
-it('detect() accepts .fgattributes as a secondary vault marker', () => {
+it('detect() accepts .mdfattributes as a secondary vault marker', () => {
   // arrange — no .obsidian/, only the secondary marker
   const mockFs = MockFs.fromTree({
-    '/project/.fgattributes': { type: 'file' },
+    '/project/.mdfattributes': { type: 'file' },
     '/project/notes/page.md': { type: 'file' },
   })
   const detector = new VaultDetector(mockFs)
@@ -108,11 +108,11 @@ it('detect() accepts .fgattributes as a secondary vault marker', () => {
 
 **GREEN — Implementation satisfies when:**
 
-- `.fgattributes` is recognized as a valid (secondary) vault marker when no `.obsidian/` is present
+- `.mdfattributes` is recognized as a valid (secondary) vault marker when no `.obsidian/` is present
 
 ---
 
-### TC-UNIT-VAULT-004 — VaultDetector.detect: .obsidian/ beats .fgattributes at same level
+### TC-UNIT-VAULT-004 — VaultDetector.detect: .obsidian/ beats .mdfattributes at same level
 
 **Class / Service:** `VaultDetector`
 **Spec file:** `tests/unit/vault/vault-detector.spec.ts`
@@ -122,11 +122,11 @@ it('detect() accepts .fgattributes as a secondary vault marker', () => {
 **RED — Failing test:**
 
 ```typescript
-it('detect() prefers .obsidian/ over .fgattributes when both are present', () => {
+it('detect() prefers .obsidian/ over .mdfattributes when both are present', () => {
   // arrange — both markers in same directory
   const mockFs = MockFs.fromTree({
     '/vault/.obsidian': { type: 'dir' },
-    '/vault/.fgattributes': { type: 'file' },
+    '/vault/.mdfattributes': { type: 'file' },
     '/vault/note.md': { type: 'file' },
   })
   const detector = new VaultDetector(mockFs)
@@ -142,7 +142,7 @@ it('detect() prefers .obsidian/ over .fgattributes when both are present', () =>
 
 **GREEN — Implementation satisfies when:**
 
-- When a directory contains both `.obsidian/` and `.fgattributes`, the detection logic treats `.obsidian/` as the authoritative marker
+- When a directory contains both `.obsidian/` and `.mdfattributes`, the detection logic treats `.obsidian/` as the authoritative marker
 - The same root is returned whether determined by primary or secondary marker, but callers can distinguish via any exposed `detectionMarker` metadata field
 
 **REFACTOR notes:** See [[docs/adr/ADR003-vault-detection]] §precedence for the ordering rule.

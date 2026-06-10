@@ -8,7 +8,7 @@ import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
-const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
+const DEFAULT_OFM_mdfattributes = '*.md flavor=obsidian\n';
 
 function findPosition(content: string, target: string): { line: number; character: number } {
   const idx = content.indexOf(target);
@@ -120,7 +120,7 @@ Given(
     this.writeVaultFile('notes/_tag-seed.md', `# Tag Seed\n${content}`);
 
     // Ensure vault marker
-    writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
+    writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), DEFAULT_OFM_mdfattributes);
 
     if (!this.proc) {
       await this.startServer(this.vaultUri());

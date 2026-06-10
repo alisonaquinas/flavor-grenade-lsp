@@ -18,27 +18,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add Git-style `.fgignore` support so ignored Markdown files are hidden from
+- Add Git-style `.mdfignore` support so ignored Markdown files are hidden from
   Flavor Grenade scans, indexing, diagnostics, and processing even when they
   are open in the editor.
-- Add Git-style `.fgattributes` flavor selection with nested configuration
+- Add Git-style `.mdfattributes` flavor selection with nested configuration
   files, directory-scoped pattern matching, negated patterns, and attribute
   resets for Markdown flavor assignment.
-- Add extension support for `.fgignore` and `.fgattributes` as project markers,
+- Add extension support for `.mdfignore` and `.mdfattributes` as project markers,
   including file watcher refreshes and selector writes that can apply to the
   current file or the containing directory.
 - Add resolver, scanner, parser-context, extension-host, and smoke-test coverage
-  for `.fgignore` and `.fgattributes` behavior.
+  for `.mdfignore` and `.mdfattributes` behavior.
 
 ### Changed
 
-- Replace the prior project flavor configuration workflow with `.fgattributes`
+- Replace the prior project flavor configuration workflow with `.mdfattributes`
   for explicit flavor configuration while preserving Auto Detect as the default
-  when no `.fgattributes` rule applies.
+  when no `.mdfattributes` rule applies.
 - Update server, extension, skill, website, design, BDD, DDD, and markdown test
   plan documentation for the new flavor configuration model.
 - Refresh the Flavor Grenade skill and website content so installation and
-  usage guidance describe `.fgignore`, `.fgattributes`, and Auto Detect
+  usage guidance describe `.mdfignore`, `.mdfattributes`, and Auto Detect
   fallback consistently.
 
 ### Fixed
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keep Auto Detect independent from flavor configuration so defaulted,
   selected, or configured Auto mode still follows the documented auto-detection
   workflow.
-- Harden `.fgattributes` reset handling, config path construction, and matcher
+- Harden `.mdfattributes` reset handling, config path construction, and matcher
   implementation against review and security findings.
 
 ## [0.6.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...v0.6.0) (2026-05-26)

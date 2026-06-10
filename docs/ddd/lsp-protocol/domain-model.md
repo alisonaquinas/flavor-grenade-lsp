@@ -321,13 +321,13 @@ LspNotification<DidChangeWatchedFilesParams>
 ```text
 FlavorRefreshInput
   │
-  ├─ Parse applicable .fgignore and .fgattributes files inside vault boundary
+  ├─ Parse applicable .mdfignore and .mdfattributes files inside vault boundary
   ├─ Validate flavor is 'auto' or supported MarkdownFlavorId when present
   ├─ Validate structured_profiles is 'auto', 'none', or compatible profile ids when present
-  ├─ If .fgignore matches:
+  ├─ If .mdfignore matches:
   │      → mark document inactive
   │      → remove it from index/reference graph
-  ├─ If valid .fgattributes fields apply:
+  ├─ If valid .mdfattributes fields apply:
   │      ConfigService records matched pattern/source metadata
   │      Workspace.withMarkdownFlavorSelection(ws, selection, resource)
   │      Workspace.withStructuredProfileSelection(ws, selection, resource)
@@ -379,9 +379,9 @@ BC5 validates the selector and transports it. It does not interpret dialect synt
 
 | Payload / concept | BC5 responsibility | Downstream owner |
 |-------------------|-------------------|------------------|
-| `.fgattributes flavor=auto` or `!flavor` | Accept as selector input | BC4 resolves explicit base `EffectiveMarkdownFlavor` through Auto Detect |
+| `.mdfattributes flavor=auto` or `!flavor` | Accept as selector input | BC4 resolves explicit base `EffectiveMarkdownFlavor` through Auto Detect |
 | Explicit `MarkdownFlavorId` | Validate against Config's supported corpus | BC4 stores selection and builds parse context |
-| `.fgattributes structured_profiles` | Validate `auto`, `none`, or compatible structured profile ids | BC4 resolves structured profile flags and builds parse context |
+| `.mdfattributes structured_profiles` | Validate `auto`, `none`, or compatible structured profile ids | BC4 resolves structured profile flags and builds parse context |
 | Unknown selector value | Log and leave state unchanged | None |
 | Host-specific refs in diagnostics/hover | Marshal LSP data only | BC2 classifies; BC3 resolves only local refs |
 | MDX language id | Respect client selector boundary; do not force Markdown flavor behavior | Dedicated MDX tooling or future integration |

@@ -9,15 +9,15 @@ import { toDocId } from '../../vault/doc-id.js';
 import { VaultDetector } from '../../vault/vault-detector.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import {
-  FlavorGrenadeConfigFiles,
-  type FgConfigResolution,
-} from '../../markdown-flavor/fg-config-files.js';
+  MarkdownFlavorConfigFiles,
+  type MdfConfigResolution,
+} from '../../markdown-flavor/mdf-config-files.js';
 import { DocumentStore } from '../services/document-store.js';
 import type { ParseContext } from '../../parser/types.js';
 import { InitializedHandler } from './initialized.handler.js';
 
 interface FlavorGrenadeSettings {
-  fgConfigMaxBytes?: unknown;
+  mdfConfigMaxBytes?: unknown;
 }
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ConfigurationHandler {
     private readonly parseCache: ParseCache,
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
-    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
+    @Optional() private readonly mdfConfigFiles: MarkdownFlavorConfigFiles | null = null,
     @Optional() private readonly initializedHandler: InitializedHandler | null = null,
   ) {}
 
@@ -42,11 +42,11 @@ export class ConfigurationHandler {
     if (!settings) {
       return;
     }
-    if (settings.fgConfigMaxBytes !== undefined) {
-      this.fgConfigFiles?.setMaxConfigBytes(settings.fgConfigMaxBytes);
+    if (settings.mdfConfigMaxBytes !== undefined) {
+      this.mdfConfigFiles?.setMaxConfigBytes(settings.mdfConfigMaxBytes);
     }
     this.refreshOpenDocuments();
-    if (settings.fgConfigMaxBytes !== undefined) {
+    if (settings.mdfConfigMaxBytes !== undefined) {
       await this.initializedHandler?.handle({});
     }
   }
@@ -72,13 +72,13 @@ export class ConfigurationHandler {
   private resolveParseContext(doc: TextDocument): ParseContext {
     const fsPath = SingleFileModeGuard.uriToPath(doc.uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
-    const fgConfig = this.resolveFgConfig(detection.vaultRoot, fsPath);
+    const mdfConfig = this.resolveMdfConfig(detection.vaultRoot, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri: doc.uri,
       languageId: doc.languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
-      fgAttributesFlavor: fgConfig?.attributes.flavor,
-      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
+      mdfAttributesFlavor: mdfConfig?.attributes.flavor,
+      mdfAttributesStructuredProfiles: mdfConfig?.attributes.structuredProfiles,
       syntaxText: doc.getText(),
     });
     return result.kind === 'active'
@@ -107,19 +107,19 @@ export class ConfigurationHandler {
   }
 
   private isIgnored(uri: string): boolean {
-    if (this.fgConfigFiles === null) {
+    if (this.mdfConfigFiles === null) {
       return false;
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
-    return this.resolveFgConfig(detection.vaultRoot, fsPath)?.ignored === true;
+    return this.resolveMdfConfig(detection.vaultRoot, fsPath)?.ignored === true;
   }
 
-  private resolveFgConfig(
+  private resolveMdfConfig(
     vaultRoot: string | null,
     fsPath: string,
-  ): FgConfigResolution | undefined {
-    return this.fgConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
+  ): MdfConfigResolution | undefined {
+    return this.mdfConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
   }
 }
 

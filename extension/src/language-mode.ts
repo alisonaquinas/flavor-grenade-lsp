@@ -33,7 +33,7 @@ interface LanguageModeApi {
     getOpenDocuments(): readonly TextDocument[];
     getVisibleEditors(): readonly TextEditor[];
     setTextDocumentLanguage(document: TextDocument, languageId: string): Thenable<TextDocument>;
-    getFgConfigMaxBytes?(document: TextDocument): unknown;
+    getMdfConfigMaxBytes?(document: TextDocument): unknown;
     getWorkspaceFolderPath?(document: TextDocument): string | undefined;
     onDidOpenTextDocument(listener: (document: TextDocument) => void): Disposable;
     onDidChangeVisibleTextEditors(listener: (editors: readonly TextEditor[]) => void): Disposable;
@@ -134,7 +134,7 @@ export class LanguageModeController {
         const evidence = document.uri.fsPath
             ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
                   searchBoundary: this.api.getWorkspaceFolderPath?.(document),
-                  fgConfigMaxBytes: this.api.getFgConfigMaxBytes?.(document),
+                  mdfConfigMaxBytes: this.api.getMdfConfigMaxBytes?.(document),
               })
             : undefined;
         if (evidence?.hasObsidianMarker || evidence?.hasFlavorConfigMarker) {
@@ -142,8 +142,8 @@ export class LanguageModeController {
                 document,
                 hasObsidianMarker: evidence.hasObsidianMarker,
                 ignored: evidence.ignored,
-                fgAttributesFlavor: evidence.fgAttributesFlavor,
-                fgAttributesStructuredProfiles: evidence.fgAttributesStructuredProfiles,
+                mdfAttributesFlavor: evidence.mdfAttributesFlavor,
+                mdfAttributesStructuredProfiles: evidence.mdfAttributesStructuredProfiles,
                 selected: 'auto',
                 structuredProfileSelection: 'auto',
                 syntaxText: document.getText?.(),

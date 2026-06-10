@@ -13,7 +13,7 @@
 
 ### Added in 0.2.0
 
-- Document `.fgignore` and `.fgattributes` workflows for skill users, including
+- Document `.mdfignore` and `.mdfattributes` workflows for skill users, including
   nested configuration files, negated patterns, directory-scoped flavor rules,
   and Auto Detect fallback.
 - Stamp the skill manifest, marketplace metadata, and compatibility docs for
@@ -21,8 +21,8 @@
 
 ### Changed in 0.2.0
 
-- Update skill guidance so explicit flavor configuration uses `.fgattributes`
-  and ignored files are excluded with `.fgignore`.
+- Update skill guidance so explicit flavor configuration uses `.mdfattributes`
+  and ignored files are excluded with `.mdfignore`.
 - Align command examples and JSON schema notes with the `0.2.0` skill and
   `0.7.0` server release pairing.
 

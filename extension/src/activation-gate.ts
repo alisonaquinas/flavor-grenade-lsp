@@ -1,6 +1,6 @@
 import { stat } from 'node:fs/promises';
 import { dirname, join, parse } from 'node:path';
-import { FLAVOR_GRENADE_CONFIG_FILES } from './fg-config-files.js';
+import { MARKDOWN_FLAVOR_CONFIG_FILES } from './mdf-config-files.js';
 
 export interface DocumentLike {
   languageId: string;
@@ -26,8 +26,8 @@ export interface StartupGateDecision {
 
 export const VAULT_MARKER_ACTIVATION_EVENTS = [
   'workspaceContains:.obsidian',
-  'workspaceContains:.fgignore',
-  'workspaceContains:.fgattributes',
+  'workspaceContains:.mdfignore',
+  'workspaceContains:.mdfattributes',
 ] as const;
 
 export const COMMAND_ACTIVATION_EVENTS = [
@@ -131,7 +131,7 @@ async function hasVaultMarker(dir: string, statFile: StatFile): Promise<boolean>
     return true;
   }
 
-  for (const marker of FLAVOR_GRENADE_CONFIG_FILES) {
+  for (const marker of MARKDOWN_FLAVOR_CONFIG_FILES) {
     const markerPath = join(dir, marker);
     if (await pathExists(markerPath, statFile, 'file')) {
       return true;

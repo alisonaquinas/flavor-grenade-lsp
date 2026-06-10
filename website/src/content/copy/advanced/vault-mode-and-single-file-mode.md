@@ -12,7 +12,7 @@ Vault mode gives Flavor Grenade the whole local picture; single-file mode keeps 
 
 ## Vault mode
 
-Vault mode starts when Flavor Grenade finds `.obsidian/`, `.fgignore`, or `.fgattributes` at the opened root or a safe ancestor. It can then scan the vault or project and build the map used by completion, diagnostics, references, and rename.
+Vault mode starts when Flavor Grenade finds `.obsidian/`, `.mdfignore`, or `.mdfattributes` at the opened root or a safe ancestor. It can then scan the vault or project and build the map used by completion, diagnostics, references, and rename.
 
 Use vault mode for normal Obsidian work. It gives the tool enough context to understand notes, inbound links, attachments, tags, and headings across files.
 
@@ -23,7 +23,7 @@ MyVault/
     Home.md
 ```
 
-Configured Markdown projects use `.fgattributes` for flavor rules and `.fgignore` for visibility rules. Legacy `.flavor-grenade.*` files and `.editorconfig` directives are not flavor assignment markers.
+Configured Markdown projects use `.mdfattributes` for flavor rules and `.mdfignore` for visibility rules. Legacy `.flavor-grenade.*` files and `.editorconfig` directives are not flavor assignment markers.
 
 ## Single-file mode
 

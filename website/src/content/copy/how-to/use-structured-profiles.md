@@ -24,11 +24,11 @@ Use explicit configuration when inference would be ambiguous. Do not enable both
 
 ### Keep Auto Detect on for mixed projects
 
-Leave profile selection on `auto` when a repository contains ordinary docs, changelogs, and ADRs in different folders. In `.fgattributes`, that means omitting `structured_profiles` or setting `structured_profiles=auto`.
+Leave profile selection on `auto` when a repository contains ordinary docs, changelogs, and ADRs in different folders. In `.mdfattributes`, that means omitting `structured_profiles` or setting `structured_profiles=auto`.
 
-### Pin profile flags in .fgattributes
+### Pin profile flags in .mdfattributes
 
-Use `.fgattributes` when every maintainer should get the same profile behavior.
+Use `.mdfattributes` when every maintainer should get the same profile behavior.
 
 ### Disable profiles for noisy generated output
 

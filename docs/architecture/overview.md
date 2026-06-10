@@ -17,7 +17,7 @@ Extra, R Markdown, Reddit Markdown, and Stack Overflow Markdown.
 > [!note] Scope update
 > Historical architecture docs and parser modules may still use OFM-first names.
 > The current requirement is flavor-aware analysis through
-> `.fgattributes`; unsupported syntax for a selected flavor must
+> `.mdfattributes`; unsupported syntax for a selected flavor must
 > be treated according to that flavor's documented profile, not silently assumed
 > to be Obsidian syntax. Effective flavor resolution is defined in
 > [[docs/design/markdown-flavor-auto-detection]].
@@ -73,7 +73,7 @@ This transport model means:
 ## Single-File Mode
 
 When `flavor-grenade-lsp` opens a document and cannot find a `.obsidian/`
-directory or Flavor Grenade config-file context in the document's ancestor
+directory or Markdown flavor config-file context in the document's ancestor
 directories, it falls back to **single-file mode**.
 
 In single-file mode:
@@ -94,7 +94,7 @@ Vault detection runs whenever `workspace/didChangeWorkspaceFolders` is received 
 Detection precedence:
 
 1. **`.obsidian/` directory** — Primary signal. Obsidian creates this directory at the vault root. Its presence is authoritative.
-2. **`.fgignore` / `.fgattributes`** — Secondary signal. User-managed
+2. **`.mdfignore` / `.mdfattributes`** — Secondary signal. User-managed
    Git-style files that define Flavor Grenade visibility and flavor attributes.
 
 If neither is found by traversing up to the filesystem root, the document is placed in a single-file `VaultFolder`.
@@ -110,13 +110,13 @@ the language mode affordance:
 
 1. `.md` files open and remain `markdown`.
 2. The extension derives an effective flavor from configuration resolution and
-   Auto Detect: `.fgignore` controls visibility, `.fgattributes` may select or
+   Auto Detect: `.mdfignore` controls visibility, `.mdfattributes` may select or
    request Auto Detect, and Auto Detect uses `.obsidian/`, strong syntax
    evidence, and CommonMark fallback.
 3. Users may override the flavor to any required explicit flavor.
-4. Overrides persist to `.fgattributes` after the user chooses selected-file or
+4. Overrides persist to `.mdfattributes` after the user chooses selected-file or
    directory scope.
-5. `.fgignore` removes matching files from Flavor Grenade processing and
+5. `.mdfignore` removes matching files from Flavor Grenade processing and
    indexing.
 6. The effective flavor is propagated to the server so diagnostics,
    completions, and other features can honor the selected dialect.
@@ -196,4 +196,4 @@ src/main.ts
 - [[docs/features/ofmarkdown-language-mode]] — VS Code Markdown flavor selector
 - [[docs/features/markdown-flavor-config-files]] — Git-style flavor config files
 - [[docs/adr/ADR020-markdown-flavor-selection]] — Markdown flavor selector decision
-- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]] — `.fgignore` and `.fgattributes` decision
+- [[docs/adr/ADR021-mdfignore-mdfattributes-flavor-configuration]] — `.mdfignore` and `.mdfattributes` decision

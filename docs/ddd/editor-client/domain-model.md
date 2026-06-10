@@ -13,7 +13,7 @@ aliases:
 
 # BC6 — Editor Client Domain Model
 
-This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server command, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus `.fgattributes` writes to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
+This document is the authoritative domain model for **Bounded Context 6: Editor Client**. BC6 is a Generic Support subdomain. It contains no language intelligence or domain logic of its own — it is a thin wrapper that resolves the server command, manages the `LanguageClient` lifecycle, wires up status bar widgets and Command Palette commands, and maps server vault/index membership plus `.mdfattributes` writes to a Markdown flavor selector. All Markdown flavor intelligence lives in the server (BC2–BC5).
 
 See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol/domain-model]], [[docs/design/api-layer]], [[docs/superpowers/specs/2026-04-21-vscode-extension-design]].
 
@@ -46,7 +46,7 @@ See also: [[bounded-contexts]], [[ubiquitous-language]], [[docs/ddd/lsp-protocol
 2. Construct and start a `LanguageClient` with `Executable` server options over stdio.
 3. Wire the `StatusBarWidget` to listen for `flavorGrenade/status` notifications.
 4. Register Command Palette commands (`restartServer`, `rebuildIndex`, `showOutput`).
-  5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while writing scoped `.fgattributes` rules and refreshing server analysis.
+  5. Register `MarkdownFlavorController` so Markdown documents keep VS Code's built-in `markdown` language id while writing scoped `.mdfattributes` rules and refreshing server analysis.
 6. Push all disposables to `context.subscriptions` for automatic cleanup.
 
 ### Lifecycle
@@ -88,7 +88,7 @@ activate(context: ExtensionContext)
   │    early check: ancestor .obsidian/ exists
   │    server check: flavorGrenade/documentMembership
   │    selector: Auto Detect plus supported Markdown flavor ids
-  │    persistence: selected-file or directory `.fgattributes` rule
+  │    persistence: selected-file or directory `.mdfattributes` rule
   │    propagation: refresh server analysis with effective Markdown flavor
   │
   └─ Push to context.subscriptions: [client, statusBarItem, ...commands]
@@ -215,13 +215,13 @@ selector to the authoritative `EffectiveMarkdownContext`, commonly base
 precedence algorithm is specified in
 [[docs/design/markdown-flavor-auto-detection]].
 
-**Explicit override rule:** the selector writes a scoped `.fgattributes` rule
+**Explicit override rule:** the selector writes a scoped `.mdfattributes` rule
 for any supported Markdown flavor id. Folder-backed and standalone documents use
 the same two scope choices: selected file, or all Markdown files in the active
 directory.
 
 **Structured profile rule:** structured-document support is configured through
-the `structured_profiles` attribute in `.fgattributes` or inferred by BC4, not
+the `structured_profiles` attribute in `.mdfattributes` or inferred by BC4, not
 through the Markdown flavor selector. Supported explicit flags are
 `keep-a-changelog`, `common-changelog`, and `madr`; BC4 remains authoritative for
 the effective structured profile flags.
@@ -231,7 +231,7 @@ the effective structured profile flags.
 - Never apply Markdown flavor behavior to a document whose language id is not `markdown`.
 - Do not use VS Code language mode as flavor state.
 - Do not restart the LanguageClient solely because the selector changed.
-- Write selector changes to `.fgattributes` and trigger a server refresh; the
+- Write selector changes to `.mdfattributes` and trigger a server refresh; the
   server resolves the authoritative `EffectiveMarkdownContext`.
 - Do not write file or directory flavor assignments to VS Code settings.
 - If a document language id is `mdx`, `r`, `quarto`, or any non-`markdown`
@@ -280,7 +280,7 @@ type StructuredProfileSelection =
 Structured profile ids are not shown in the Markdown flavor selector. They are
 separate flags that can be inferred from `CHANGELOG.md` and
 `docs/decisions/NNNN-title.md` documents or explicitly configured through
-`.fgattributes`.
+`.mdfattributes`.
 
 ---
 
@@ -366,7 +366,7 @@ server command as a child process and communicates via stdin/stdout pipes.
 **Crash recovery:** `LanguageClient` uses its default error handler, which restarts the server up to 4 times within 3 minutes. No custom handler is needed.
 
 **Config propagation:** Markdown flavor selector changes are persisted through
-`.fgattributes` writes and must not restart the LanguageClient. Other
+`.mdfattributes` writes and must not restart the LanguageClient. Other
 startup-only settings may still flow through `initializationOptions` when the
 implementation requires it.
 
@@ -383,8 +383,8 @@ implementation requires it.
 4. **Markdown language mode is stable.** `MarkdownFlavorController` must keep `.md` documents in VS Code's built-in `markdown` language mode and must not apply Markdown flavor behavior to user-selected non-Markdown language modes.
 
 5. **Markdown flavor and structured-profile selector state is scoped.** File and
-   directory overrides are written to `.fgattributes`; ignored files are gated
-   by `.fgignore`. The server owns `EffectiveMarkdownContext` state after
+   directory overrides are written to `.mdfattributes`; ignored files are gated
+   by `.mdfignore`. The server owns `EffectiveMarkdownContext` state after
    reading config-file inputs.
 
 6. **LanguageClient document selector is Markdown-only for current flavor behavior.** `clientOptions.documentSelector` must include file-backed `markdown` documents and must not include `ofmarkdown`. Any `ofmarkdown` selector entry is historical E6/E12 behavior superseded by ADR020 and must fail current E15/E16 parity tests.

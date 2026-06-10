@@ -12,7 +12,7 @@ import type { TagRegistry } from '../../tags/tag-registry.js';
 import type { VaultScanner } from '../vault-scanner.js';
 import type { DocId } from '../doc-id.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
-import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../../markdown-flavor/mdf-config-files.js';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -84,7 +84,7 @@ describe('FileWatcher', () => {
       tagRegistry,
       vaultScanner,
       new MarkdownFlavorState(),
-      new FlavorGrenadeConfigFiles(),
+      new MarkdownFlavorConfigFiles(),
     );
     watcher.start(vaultRoot);
   });
@@ -150,12 +150,12 @@ describe('FileWatcher', () => {
     expect(vaultIndex.has(id('note'))).toBe(true);
   });
 
-  it("handleEvent 'change' on .md matched by .fgignore removes the document", async () => {
+  it("handleEvent 'change' on .md matched by .mdfignore removes the document", async () => {
     const ofmParser = new OFMParser();
     const absPath = path.join(vaultRoot, 'note.md');
     const uri = `file://${absPath.split(path.sep).join('/')}`;
     vaultIndex.set(id('note'), ofmParser.parse(uri, '# Hello', 0));
-    fs.writeFileSync(path.join(vaultRoot, '.fgignore'), 'note.md\n');
+    fs.writeFileSync(path.join(vaultRoot, '.mdfignore'), 'note.md\n');
     fs.writeFileSync(absPath, '# Hello');
 
     await callHandleEvent(watcher, 'change', 'note.md');
@@ -163,8 +163,8 @@ describe('FileWatcher', () => {
     expect(vaultIndex.has(id('note'))).toBe(false);
   });
 
-  it("handleEvent 'change' on .md parses with .fgattributes flavor", async () => {
-    fs.writeFileSync(path.join(vaultRoot, '.fgattributes'), '*.md flavor=gfm\n');
+  it("handleEvent 'change' on .md parses with .mdfattributes flavor", async () => {
+    fs.writeFileSync(path.join(vaultRoot, '.mdfattributes'), '*.md flavor=gfm\n');
     fs.writeFileSync(path.join(vaultRoot, 'note.md'), '- [x] task');
 
     await callHandleEvent(watcher, 'change', 'note.md');
@@ -172,14 +172,14 @@ describe('FileWatcher', () => {
     expect(vaultIndex.get(id('note'))?.markdownFlavor).toBe('gfm');
   });
 
-  it('handleEvent on .fgignore or .fgattributes create, update, delete, or rename triggers a vault rescan', async () => {
+  it('handleEvent on .mdfignore or .mdfattributes create, update, delete, or rename triggers a vault rescan', async () => {
     const cases = [
-      { event: 'rename', file: '.fgignore', present: true },
-      { event: 'change', file: '.fgignore', present: true },
-      { event: 'rename', file: '.fgignore', present: false },
-      { event: 'rename', file: '.fgattributes', present: true },
-      { event: 'change', file: '.fgattributes', present: true },
-      { event: 'rename', file: '.fgattributes', present: false },
+      { event: 'rename', file: '.mdfignore', present: true },
+      { event: 'change', file: '.mdfignore', present: true },
+      { event: 'rename', file: '.mdfignore', present: false },
+      { event: 'rename', file: '.mdfattributes', present: true },
+      { event: 'change', file: '.mdfattributes', present: true },
+      { event: 'rename', file: '.mdfattributes', present: false },
     ] as const;
 
     for (const testCase of cases) {
@@ -188,7 +188,7 @@ describe('FileWatcher', () => {
       if (testCase.present) {
         fs.writeFileSync(
           configPath,
-          testCase.file === '.fgignore' ? 'drafts/\n' : '*.md flavor=gfm\n',
+          testCase.file === '.mdfignore' ? 'drafts/\n' : '*.md flavor=gfm\n',
         );
       } else {
         fs.rmSync(configPath, { force: true });

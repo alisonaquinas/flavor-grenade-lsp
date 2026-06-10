@@ -18,7 +18,7 @@ This file defines scripted and agent-driven verification test cases for the five
 | `Link.Wiki.AliasResolution` | YAML `aliases:` values must be treated as valid link targets equivalent to the document's primary name. | Phase 1 |
 | `Link.Resolution.ModeScope` | Single-file mode must suppress all cross-file link resolution and return no cross-file results. | Phase 1 |
 | `Link.Inline.URLSkip` | Non-markdown inline link URLs must produce no FG001 diagnostic. | Phase 1 |
-| `Link.Resolution.IgnoreGlob` | Files matching `.fgignore` patterns must be absent from all completion candidates and definition results. | Phase 2 |
+| `Link.Resolution.IgnoreGlob` | Files matching `.mdfignore` patterns must be absent from all completion candidates and definition results. | Phase 2 |
 
 ## Test Cases
 
@@ -217,18 +217,18 @@ And the count of FG001 diagnostics overlapping non-markdown inline link URLs equ
 ### TC-VER-WIKI-005 — Link.Resolution.IgnoreGlob
 
 **Planguage Tag:** `Link.Resolution.IgnoreGlob`
-**Gist:** Files matching `.fgignore` Git-style glob patterns must be absent from all completion candidates and go-to-definition results.
+**Gist:** Files matching `.mdfignore` Git-style glob patterns must be absent from all completion candidates and go-to-definition results.
 **Type:** Both
 **BDD Reference:** **BDD gap** — no scenario covers this requirement
 **Phase:** Phase 2
 
 **Setup:**
-Configure `.fgignore` to match a specific subdirectory (e.g., `templates/`). Place at least 5 markdown documents inside that subdirectory and at least 5 outside it. The server is initialised against the vault root with the ignore configuration active.
+Configure `.mdfignore` to match a specific subdirectory (e.g., `templates/`). Place at least 5 markdown documents inside that subdirectory and at least 5 outside it. The server is initialised against the vault root with the ignore configuration active.
 
 **Scripted steps:**
 
 ```gherkin
-Given a vault with ".fgignore" containing "templates/"
+Given a vault with ".mdfignore" containing "templates/"
 And at least 5 markdown documents exist under "templates/" and at least 5 under other directories
 When completion is triggered at a "[[" position in an un-ignored document
 Then no CompletionItem in the response references a file whose path matches "templates/**"
@@ -241,7 +241,7 @@ And (requests with no ignored-file results / total requests tested) × 100 equal
 **Agent-driven steps:**
 
 1. Agent creates temp vault directory with `.obsidian/` marker.
-2. Agent writes `.fgignore` with:
+2. Agent writes `.mdfignore` with:
 
    ```gitignore
    templates/

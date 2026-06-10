@@ -1,11 +1,11 @@
 import * as fs from 'node:fs';
 import {
-  DEFAULT_FG_CONFIG_MAX_BYTES,
+  DEFAULT_MDF_CONFIG_MAX_BYTES,
   resolveFlavorConfigSync,
   shouldPruneDirectoryByFlavorConfigSync,
   type FlavorConfigResolution,
   type SyncFlavorConfigFileReader,
-} from './fg-config-resolution.js';
+} from './mdf-config-resolution.js';
 
 export * from './index.js';
 
@@ -14,7 +14,7 @@ export interface NodeFlavorConfigResolverOptions {
 }
 
 export class NodeFlavorConfigResolver {
-  private maxConfigBytes = DEFAULT_FG_CONFIG_MAX_BYTES;
+  private maxConfigBytes = DEFAULT_MDF_CONFIG_MAX_BYTES;
 
   constructor(options: NodeFlavorConfigResolverOptions = {}) {
     if (options.maxConfigBytes !== undefined) {
@@ -24,11 +24,11 @@ export class NodeFlavorConfigResolver {
 
   setMaxConfigBytes(value: unknown): void {
     if (typeof value !== 'number' || !Number.isFinite(value)) {
-      this.maxConfigBytes = DEFAULT_FG_CONFIG_MAX_BYTES;
+      this.maxConfigBytes = DEFAULT_MDF_CONFIG_MAX_BYTES;
       return;
     }
     const normalized = Math.floor(value);
-    this.maxConfigBytes = normalized > 0 ? normalized : DEFAULT_FG_CONFIG_MAX_BYTES;
+    this.maxConfigBytes = normalized > 0 ? normalized : DEFAULT_MDF_CONFIG_MAX_BYTES;
   }
 
   resolveForFile(root: string, resourcePath: string): FlavorConfigResolution {

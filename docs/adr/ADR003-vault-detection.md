@@ -8,8 +8,8 @@ date: 2026-04-16
 # ADR 003 — Vault detection via .obsidian/ directory with Flavor Grenade marker fallback
 
 > [!NOTE]
-> Superseded by [[ADR021-fgignore-fgattributes-flavor-configuration]]. The current
-> secondary vault markers are `.fgignore` and `.fgattributes`; legacy
+> Superseded by [[ADR021-mdfignore-mdfattributes-flavor-configuration]]. The current
+> secondary vault markers are `.mdfignore` and `.mdfattributes`; legacy
 > `.flavor-grenade.*` files and `.editorconfig` directives are not Markdown
 > flavor assignment sources.
 
@@ -32,19 +32,19 @@ The LSP `initialize` request provides a `rootUri` (or `workspaceFolders`). Detec
 ## Decision
 
 **Primary detection:** presence of a `.obsidian/` directory in or above `rootUri`.
-**Secondary detection:** presence of a `.fgignore` or `.fgattributes` file in or above `rootUri`.
+**Secondary detection:** presence of a `.mdfignore` or `.mdfattributes` file in or above `rootUri`.
 **Either signal** triggers vault mode. **Neither signal** → single-file mode.
 
-The directory that contains the detected signal is the vault root. The vault index (see [[docs/plans/phase-04-vault-index]]) is built from all visible `.md` files recursively under the vault root, respecting visibility patterns defined in `.fgignore`.
+The directory that contains the detected signal is the vault root. The vault index (see [[docs/plans/phase-04-vault-index]]) is built from all visible `.md` files recursively under the vault root, respecting visibility patterns defined in `.mdfignore`.
 
-Flavor attributes from `.fgattributes` are applied per file after `.fgignore` visibility. If `.fgattributes` is absent or does not set a concrete flavor, Auto Detect applies.
+Flavor attributes from `.mdfattributes` are applied per file after `.mdfignore` visibility. If `.mdfattributes` is absent or does not set a concrete flavor, Auto Detect applies.
 
 ## Consequences
 
 **Positive:**
 
 - Obsidian users get vault mode with zero configuration. Opening the vault folder in their editor is sufficient.
-- Non-Obsidian OFM users (Foam, Logseq export workflows, custom toolchains) can opt in by creating `.fgignore` or `.fgattributes`.
+- Non-Obsidian OFM users (Foam, Logseq export workflows, custom toolchains) can opt in by creating `.mdfignore` or `.mdfattributes`.
 - Single-file mode is a safe, usable fallback: diagnostics that require cross-file resolution are suppressed per [[docs/features/diagnostics]] rather than producing false positives.
 - Detection is deterministic and stateless — no heuristics, no content sampling.
 
@@ -55,7 +55,7 @@ Flavor attributes from `.fgattributes` are applied per file after `.fgignore` vi
 
 **Neutral:**
 
-- `.fgattributes` and `.fgignore` also define flavor configuration and visibility. Their presence as vault-detection signals is a useful side-effect of requiring users to create them for configured Markdown projects.
+- `.mdfattributes` and `.mdfignore` also define flavor configuration and visibility. Their presence as vault-detection signals is a useful side-effect of requiring users to create them for configured Markdown projects.
 
 ## Related
 

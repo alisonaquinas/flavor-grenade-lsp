@@ -27,15 +27,15 @@ work lands.
 - Record any protocol choice for server propagation.
 - Record the final resource-aware server propagation payload shape and link it
   to Phase 20.
-- Record the `.fgignore`/`.fgattributes` ownership decision: extension writes
-  scoped `.fgattributes` rules through the selector, and effective resolution
+- Record the `.mdfignore`/`.mdfattributes` ownership decision: extension writes
+  scoped `.mdfattributes` rules through the selector, and effective resolution
   treats Auto Detect as independent from config parsing.
 
 ## Definition of Done
 
 - [x] Docs trace new extension unit tests.
 - [x] Phase plan reflects final protocol choice.
-- [x] Selector/`.fgattributes`/profile compatibility trace is linked from E15 docs.
+- [x] Selector/`.mdfattributes`/profile compatibility trace is linked from E15 docs.
 - [x] No completed roadmap phases are modified.
 
 ## Workflow Log
@@ -45,6 +45,6 @@ work lands.
 
 > [!SUCCESS] Green - 2026-05-13
 > Extension test index, matrix, unit spec, integration spec, and
-> `.fgattributes`-scope evidence now trace E15 selector/schema/profile
+> `.mdfattributes`-scope evidence now trace E15 selector/schema/profile
 > compatibility and resource-specific propagation payload shape.
 > Status: `green`.

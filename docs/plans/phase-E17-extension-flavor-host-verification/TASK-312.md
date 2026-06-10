@@ -24,8 +24,8 @@ using VS Code's language picker.
 
 - Add smoke record or screenshot reference for selector behavior at
   `extension/docs/tests/evidence/markdown-flavor-selector-smoke.md`.
-- Record `.fgattributes` scope evidence at
-  `extension/docs/tests/evidence/markdown-flavor-fgattributes-scope.md`.
+- Record `.mdfattributes` scope evidence at
+  `extension/docs/tests/evidence/markdown-flavor-mdfattributes-scope.md`.
 - Record host log evidence at
   `extension/docs/tests/evidence/markdown-flavor-host-log.md` showing no `.md`
   document changes to `ofmarkdown`.
@@ -37,10 +37,10 @@ using VS Code's language picker.
 - Record stale `ofmarkdown` scan evidence at
   `extension/docs/tests/evidence/markdown-flavor-stale-ofmarkdown-scan.md`, or
   link to [[TASK-313]] as the artifact owner when the scan is produced there.
-- Split validation evidence so extension work proves selector/`.fgattributes`/profile
+- Split validation evidence so extension work proves selector/`.mdfattributes`/profile
   compatibility while server dialect phases prove parser/profile semantics.
 - Redact local usernames, absolute home paths, vault text,
-  `.fgignore`/`.fgattributes` contents, environment variables, API-like tokens,
+  `.mdfignore`/`.mdfattributes` contents, environment variables, API-like tokens,
   and raw server output before evidence files are committed.
 
 ## Linked Requirements
@@ -64,7 +64,7 @@ using VS Code's language picker.
 
 - [ ] Validation evidence exists.
 - [ ] Evidence is linked from extension docs.
-- [ ] Manual-language and `.fgattributes` scope evidence are included.
+- [ ] Manual-language and `.mdfattributes` scope evidence are included.
 - [ ] Package-target evidence is included at
       `extension/docs/tests/evidence/markdown-flavor-package-targets.md`.
 - [ ] Stale `ofmarkdown` scan evidence is included at

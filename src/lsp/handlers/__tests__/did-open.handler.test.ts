@@ -11,7 +11,7 @@ import { ParseCache } from '../../../parser/parser.module.js';
 import { VaultDetector } from '../../../vault/vault-detector.js';
 import { DiagnosticService } from '../../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
-import { FlavorGrenadeConfigFiles } from '../../../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../../../markdown-flavor/mdf-config-files.js';
 
 const TEST_URI = 'file:///vault/test.md';
 const TEST_TEXT = '# Hello\n\nSome content.';
@@ -150,10 +150,10 @@ describe('DidOpenHandler', () => {
     expect(docId).not.toBe('');
   });
 
-  it('uses .fgattributes flavor when parsing an opened document', async () => {
+  it('uses .mdfattributes flavor when parsing an opened document', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-open-'));
     try {
-      fs.writeFileSync(path.join(root, '.fgattributes'), 'docs/**/*.md flavor=gfm\n');
+      fs.writeFileSync(path.join(root, '.mdfattributes'), 'docs/**/*.md flavor=gfm\n');
       fs.mkdirSync(path.join(root, 'docs'));
       const note = path.join(root, 'docs', 'guide.md');
       const uri = pathToFileURL(note).toString();
@@ -167,7 +167,7 @@ describe('DidOpenHandler', () => {
         vaultDetector,
         null,
         new MarkdownFlavorState(),
-        new FlavorGrenadeConfigFiles(),
+        new MarkdownFlavorConfigFiles(),
       );
 
       await handler.handle({
@@ -190,10 +190,10 @@ describe('DidOpenHandler', () => {
     }
   });
 
-  it('keeps a .fgignore ignored open document inactive', async () => {
+  it('keeps a .mdfignore ignored open document inactive', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-did-open-ignore-'));
     try {
-      fs.writeFileSync(path.join(root, '.fgignore'), 'docs/**/*.md\n');
+      fs.writeFileSync(path.join(root, '.mdfignore'), 'docs/**/*.md\n');
       fs.mkdirSync(path.join(root, 'docs'));
       const note = path.join(root, 'docs', 'ignored.md');
       const uri = pathToFileURL(note).toString();
@@ -207,7 +207,7 @@ describe('DidOpenHandler', () => {
         vaultDetector,
         diagnosticService,
         new MarkdownFlavorState(),
-        new FlavorGrenadeConfigFiles(),
+        new MarkdownFlavorConfigFiles(),
       );
 
       await handler.handle({

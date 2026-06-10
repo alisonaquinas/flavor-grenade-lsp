@@ -14,7 +14,7 @@ Feature: Markdown flavor dialect behavior
     And a Markdown document is open with language id "markdown"
 
   Scenario: Original Markdown override uses the historical baseline
-    Given ".fgattributes" selects Markdown flavor "original" for the document
+    Given ".mdfattributes" selects Markdown flavor "original" for the document
     And the document contains:
       """
       # Title
@@ -40,14 +40,14 @@ Feature: Markdown flavor dialect behavior
     And fenced code blocks, pipe tables, and wiki links are treated as non-core Original Markdown constructs
 
   Scenario: Original Markdown auto-detect can be restored after an override
-    Given ".fgattributes" selects Markdown flavor "original" for the document
+    Given ".mdfattributes" selects Markdown flavor "original" for the document
     When the user selects "Auto Detect" from the Markdown flavor selector
-    Then the matching ".fgattributes" flavor assignment is removed or reset with "!flavor"
+    Then the matching ".mdfattributes" flavor assignment is removed or reset with "!flavor"
     And Flavor Grenade recomputes the effective flavor from Auto Detect signals
     And the document language id remains "markdown"
 
   Scenario: CommonMark override enables CommonMark core syntax
-    Given ".fgattributes" selects Markdown flavor "commonmark" for the document
+    Given ".mdfattributes" selects Markdown flavor "commonmark" for the document
     And the document contains:
       """
       # Title
@@ -69,7 +69,7 @@ Feature: Markdown flavor dialect behavior
 
   Scenario: CommonMark is the fallback for generic Markdown
     Given the workspace has no ".obsidian/" directory
-    And no ".fgignore" or ".fgattributes" file applies to "README.md"
+    And no ".mdfignore" or ".mdfattributes" file applies to "README.md"
     When the user opens "README.md"
     Then the Markdown flavor selector shows "Auto Detect (CommonMark)"
     And the server is refreshed with effective flavor "commonmark"
@@ -77,7 +77,7 @@ Feature: Markdown flavor dialect behavior
 
   @req:FlavorLSP.Profile.SignatureCoverage
   Scenario Outline: Planned researched flavors have source-backed dialect profile contracts
-    Given ".fgattributes" selects Markdown flavor "<id>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<id>" for the document
     When Flavor Grenade analyzes the document
     Then the effective Markdown flavor is "<id>"
     And the dialect profile for "<id>" traces to "<source>"
@@ -102,7 +102,7 @@ Feature: Markdown flavor dialect behavior
 
   @planned @structured-profile @req:FlavorLSP.StructuredProfiles.Flags
   Scenario Outline: Structured profiles layer over any base Markdown flavor
-    Given ".fgattributes" selects Markdown flavor "<baseFlavor>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<baseFlavor>" for the document
     And the document path is "<path>"
     And the document contains:
       """
@@ -126,7 +126,7 @@ Feature: Markdown flavor dialect behavior
   @req:FlavorLSP.Navigation.ProfileResolution @req:FlavorLSP.Hover.ProfileMetadata
   @req:FlavorLSP.SemanticTokens.ProfileTokens @req:FlavorLSP.Rename.ProfileSafety
   Scenario Outline: Structured profiles define document-structure LSP behavior
-    Given ".fgattributes" selects Markdown flavor "<baseFlavor>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<baseFlavor>" for the document
     And the effective structured profile flags include "<profile>"
     And the document contains "<sample>"
     When Flavor Grenade analyzes the document
@@ -146,7 +146,7 @@ Feature: Markdown flavor dialect behavior
 
   @req:FlavorLSP.Parser.ProfileDispatch
   Scenario Outline: Planned flavor signatures define observable parser behavior
-    Given ".fgattributes" selects Markdown flavor "<id>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<id>" for the document
     And the document contains:
       """
       <markdown>
@@ -174,7 +174,7 @@ Feature: Markdown flavor dialect behavior
 
   @req:FlavorLSP.Parser.ProfileDispatch
   Scenario Outline: Flavor profiles classify active and inactive syntax
-    Given ".fgattributes" selects Markdown flavor "<id>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<id>" for the document
     And the document contains:
       """
       <markdown>
@@ -206,7 +206,7 @@ Feature: Markdown flavor dialect behavior
   @req:FlavorLSP.Navigation.ProfileResolution @req:FlavorLSP.Hover.ProfileMetadata
   @req:FlavorLSP.SemanticTokens.ProfileTokens @req:FlavorLSP.Rename.ProfileSafety
   Scenario Outline: Flavor profiles define LSP surface behavior
-    Given ".fgattributes" selects Markdown flavor "<id>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<id>" for the document
     And the document contains "<sample>"
     When Flavor Grenade analyzes the document
     Then diagnostics for "<id>" include "<diagnostics>"
@@ -235,7 +235,7 @@ Feature: Markdown flavor dialect behavior
 
   @req:FlavorLSP.HostBoundary.NonLocalReferences
   Scenario Outline: Host conversion and execution boundaries stay non-local
-    Given ".fgattributes" selects Markdown flavor "<id>" for the document
+    Given ".mdfattributes" selects Markdown flavor "<id>" for the document
     And the document contains "<reference>"
     When Flavor Grenade analyzes the document
     Then "<reference>" is classified as "<classification>"

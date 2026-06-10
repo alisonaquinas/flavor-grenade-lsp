@@ -39,11 +39,11 @@ describe('structured profile inference', () => {
     ).toEqual(['madr']);
   });
 
-  it('prefers explicit and .fgattributes selections over inference', () => {
+  it('prefers explicit and .mdfattributes selections over inference', () => {
     expect(
       resolveStructuredProfiles({
         selection: ['common-changelog'],
-        fgAttributesSelection: ['madr'],
+        mdfAttributesSelection: ['madr'],
         path: '/repo/CHANGELOG.md',
         syntaxText: '# Changelog\n\n## [Unreleased]\n\n### Added\n\n### Fixed',
       }),

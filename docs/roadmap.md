@@ -493,8 +493,8 @@ Implementation plan: [[docs/plans/phase-E6-ofmarkdown-language-mode]]
 #### Phase E7 — Activation Precision And Startup Gating
 
 Match Marksman VSCode's project-scoped activation while using OFMarkdown-native
-workspace signals. The extension activates for `.obsidian/`, `.fgignore`,
-`.fgattributes`, `markdown`, `ofmarkdown`, and explicit commands, but it
+workspace signals. The extension activates for `.obsidian/`, `.mdfignore`,
+`.mdfattributes`, `markdown`, `ofmarkdown`, and explicit commands, but it
 defers vault work until a positive vault signal exists. Gate: extension-host
 fixtures prove vault workspaces activate, generic Markdown remains idle, and
 commands can still wake the extension intentionally.
@@ -594,17 +594,17 @@ Implementation plan: [[docs/plans/phase-E14-membership-refresh-compatibility-gua
 #### Phase E15 — Markdown Flavor Selector And Settings
 
 Replace the retired language-mode promotion design with a separate Markdown
-flavor selector backed by `.fgattributes`. This phase keeps `.md` documents in
+flavor selector backed by `.mdfattributes`. This phase keeps `.md` documents in
 VS Code's built-in `markdown` language mode, resolves Auto Detect when
 configuration is absent, reset, or explicitly set to `auto`, persists overrides
-to selected-file or directory scope in `.fgattributes`, and propagates
+to selected-file or directory scope in `.mdfattributes`, and propagates
 resource-specific effective flavor to the server using
 [[docs/design/markdown-flavor-auto-detection]]. E15 also
 owns stale unit-test blockers for the old language-mode promotion path.
 
 Requirement links: [[docs/design/markdown-flavor-auto-detection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]], [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]]
 
-Test trace: [EXT-MF-U-001 through EXT-MF-U-014](../extension/docs/tests/markdown-flavor-unit-spec.md), plus [EXT-MF-I-004, EXT-MF-I-008, and EXT-MF-I-009](../extension/docs/tests/markdown-flavor-integration-spec.md) for rebuild-triggered refresh, outbound payload shape, and server-unavailable replay/recompute after selector overrides. Selector persistence writes `.fgattributes`; client-to-server propagation uses watched `.fgignore` and `.fgattributes` changes plus any documented resource-specific status refresh contract.
+Test trace: [EXT-MF-U-001 through EXT-MF-U-014](../extension/docs/tests/markdown-flavor-unit-spec.md), plus [EXT-MF-I-004, EXT-MF-I-008, and EXT-MF-I-009](../extension/docs/tests/markdown-flavor-integration-spec.md) for rebuild-triggered refresh, outbound payload shape, and server-unavailable replay/recompute after selector overrides. Selector persistence writes `.mdfattributes`; client-to-server propagation uses watched `.mdfignore` and `.mdfattributes` changes plus any documented resource-specific status refresh contract.
 
 Implementation plan: [[docs/plans/phase-E15-markdown-flavor-selector-settings]]
 

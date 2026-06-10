@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import {
   NodeFlavorConfigResolver,
-  type FgAttributes,
+  type MdfAttributes,
   type FlavorConfigResolution,
 } from 'markdown-flavor-detection/node';
 
-export type { FgAttributes };
-export type FgConfigResolution = FlavorConfigResolution;
+export type { MdfAttributes };
+export type MdfConfigResolution = FlavorConfigResolution;
 
 @Injectable()
-export class FlavorGrenadeConfigFiles {
+export class MarkdownFlavorConfigFiles {
   private readonly resolver = new NodeFlavorConfigResolver();
 
   setMaxConfigBytes(value: unknown): void {
     this.resolver.setMaxConfigBytes(value);
   }
 
-  resolveForFile(vaultRoot: string, resourcePath: string): FgConfigResolution {
+  resolveForFile(vaultRoot: string, resourcePath: string): MdfConfigResolution {
     return this.resolver.resolveForFile(vaultRoot, resourcePath);
   }
 

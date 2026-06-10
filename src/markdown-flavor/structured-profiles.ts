@@ -24,13 +24,13 @@ export interface StructuredProfileInferenceInput {
 
 export function resolveStructuredProfiles(input: {
   selection?: StructuredProfileSelection;
-  fgAttributesSelection?: StructuredProfileSelection;
+  mdfAttributesSelection?: StructuredProfileSelection;
   uri: string;
   syntaxText?: string;
 }): ReturnType<typeof resolveStructuredProfilesForPath> {
   return resolveStructuredProfilesForPath({
     selection: input.selection,
-    fgAttributesSelection: input.fgAttributesSelection,
+    mdfAttributesSelection: input.mdfAttributesSelection,
     path: pathFromFileUri(input.uri),
     syntaxText: input.syntaxText,
   });

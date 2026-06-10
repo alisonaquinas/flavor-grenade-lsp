@@ -17,7 +17,7 @@ aliases: ["TASK-360"]
 
 ## Work Scope
 
-- Convert planned BDD scenarios for `.fgignore` and `.fgattributes` into
+- Convert planned BDD scenarios for `.mdfignore` and `.mdfattributes` into
   executable scenarios.
 - Add integration coverage proving spawned-server behavior sees config-file
   changes.
@@ -38,7 +38,7 @@ aliases: ["TASK-360"]
 ## Definition of Done
 
 - [x] BDD proves ignored files are inactive.
-- [x] BDD proves `.fgattributes` selected-file and directory behavior.
+- [x] BDD proves `.mdfattributes` selected-file and directory behavior.
 - [x] Integration tests prove config-file refresh affects effective context.
 - [x] Extension tests prove selector writes and refreshes.
 - [x] Evidence rows no longer mark implemented behavior as planned.
@@ -47,11 +47,11 @@ aliases: ["TASK-360"]
 
 > [!SUCCESS] GREEN - 2026-05-29
 > BDD coverage in `docs/bdd/features/workspace.feature` proves root and nested
-> `.fgignore` behavior, re-inclusion, and ignored-open-document inactivity.
+> `.mdfignore` behavior, re-inclusion, and ignored-open-document inactivity.
 > `docs/bdd/features/ofmarkdown-language-mode.feature` covers selected-file and
-> directory `.fgattributes` writes. `src/test/integration/markdown-flavor.test.ts`
-> proves spawned-server refresh after `.fgattributes` changes and rejection of
+> directory `.mdfattributes` writes. `src/test/integration/markdown-flavor.test.ts`
+> proves spawned-server refresh after `.mdfattributes` changes and rejection of
 > legacy flavor payload overrides. Extension tests cover selector rule creation,
-> refresh-only server propagation, `.fgignore` inactive status, and local
+> refresh-only server propagation, `.mdfignore` inactive status, and local
 > evidence cascades. `bun run bdd`, focused integration tests, and extension
 > tests pass.

@@ -18,7 +18,7 @@ marker:
 | Signal | User-visible result |
 |---|---|
 | `.obsidian/` | Extension activates and starts vault membership detection. |
-| `.fgignore` or `.fgattributes` | Extension activates and starts vault membership detection. |
+| `.mdfignore` or `.mdfattributes` | Extension activates and starts vault membership detection. |
 
 Once the server confirms vault membership, matching Markdown documents keep the
 built-in `markdown` language id and resolve to the `obsidian` Markdown flavor.
@@ -30,8 +30,8 @@ Effective flavor precedence is defined by the root
 
 ## Idle Startup
 
-If a workspace contains Markdown files but has no `.obsidian/`, `.fgignore`, or
-`.fgattributes`, Flavor Grenade stays idle at startup. The extension may be
+If a workspace contains Markdown files but has no `.obsidian/`, `.mdfignore`, or
+`.mdfattributes`, Flavor Grenade stays idle at startup. The extension may be
 activated by VS Code language events, but it must not start vault indexing until
 a positive vault signal appears.
 
@@ -66,7 +66,7 @@ Explicit `flavorGrenade.*` commands can wake the extension from idle:
 
 Command wake should not be read as proof that a vault exists. A command can
 start extension-side handling, but indexing still depends on `.obsidian/`,
-`.fgignore`, `.fgattributes`, or another positive vault signal.
+`.mdfignore`, `.mdfattributes`, or another positive vault signal.
 
 ## Trace
 

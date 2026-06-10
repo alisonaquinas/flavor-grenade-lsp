@@ -20,7 +20,7 @@ updated: 2026-05-13
 ## Objective
 
 Make Markdown flavor real server state. This phase accepts resource-specific
-effective flavor payloads, resolves `.fgignore`/`.fgattributes` evidence,
+effective flavor payloads, resolves `.mdfignore`/`.mdfattributes` evidence,
 keeps Auto Detect independent from configuration parsing, refreshes open
 documents on changes, and gives parser, diagnostic, completion, navigation, and
 semantic-token services an effective flavor context.
@@ -40,9 +40,9 @@ semantic-token services an effective flavor context.
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.SemanticTokens.ProfileTokens]] | Refresh semantic-token context from the effective profile after flavor changes |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.Rename.ProfileSafety]] | Provide effective profile context to rename safety checks |
 | [[docs/requirements/functional/markdown-flavor-lsp#FlavorLSP.HostBoundary.NonLocalReferences]] | Add shared non-local host/conversion boundary classification |
-| [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigSafety]] | Validate `.fgignore`/`.fgattributes` evidence before it affects flavor state |
+| [[docs/requirements/technical/security-input-validation#Security.Input.ProjectConfigSafety]] | Validate `.mdfignore`/`.mdfattributes` evidence before it affects flavor state |
 | [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]] | Validate resource-specific propagation payloads before state mutation |
-| [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.fgignore`/`.fgattributes` discovery to the workspace/vault root |
+| [[docs/requirements/functional/security-vault-confinement#Security.Vault.ProjectConfigConfinement]] | Confine `.mdfignore`/`.mdfattributes` discovery to the workspace/vault root |
 | [[docs/test/markdown-flavor-unit-spec]] | Add configuration handler unit tests |
 | [[docs/test/markdown-flavor-integration-spec]] | Add spawned-server flavor propagation tests |
 | [GAP-S-003](../gaps/markdown-flavor-gap-analysis.md) | Close missing server flavor configuration gap |
@@ -56,9 +56,9 @@ semantic-token services an effective flavor context.
   for resource-specific `EffectiveMarkdownContext` payloads.
 - Payload schema validation for resource-specific flavor maps, including size,
   enum, URI scheme, dangerous-key, resource ownership, and stale-entry checks.
-- Confined, size-limited, schema-validated `.fgignore`/`.fgattributes`
+- Confined, size-limited, schema-validated `.mdfignore`/`.mdfattributes`
   evidence.
-- Effective flavor resolver for `.fgignore`, `.fgattributes` concrete flavors,
+- Effective flavor resolver for `.mdfignore`, `.mdfattributes` concrete flavors,
   `flavor=auto`, `!flavor`, and config-absent Auto Detect.
 - Flavor-bearing parse or analysis context.
 - Initial profile gates for Original Markdown, CommonMark, and Obsidian.
@@ -67,8 +67,8 @@ semantic-token services an effective flavor context.
   bibliography-bound, MDX/JSX, and execution-bound references before
   diagnostics, navigation, or rename treat a target as local.
 - Spawned LSP integration tests for supported and unsupported flavor ids.
-- Security fixtures for malformed propagation payloads and unsafe `.fgignore`
-  or `.fgattributes` evidence.
+- Security fixtures for malformed propagation payloads and unsafe `.mdfignore`
+  or `.mdfattributes` evidence.
 
 ### Out of Scope
 
@@ -80,8 +80,8 @@ semantic-token services an effective flavor context.
 
 - Supported flavor ids are accepted without server restart.
 - Unsupported flavor ids are rejected without mutating active state.
-- `.fgignore` matched files are inactive and do not enter parsing or indexing.
-- `.fgattributes` concrete flavor values override Auto Detect for matching
+- `.mdfignore` matched files are inactive and do not enter parsing or indexing.
+- `.mdfattributes` concrete flavor values override Auto Detect for matching
   visible files.
 - Generic Markdown resolves to CommonMark in `auto`.
 - Obsidian vault Markdown resolves to Obsidian in `auto`.
@@ -90,7 +90,7 @@ semantic-token services an effective flavor context.
 - Spawned-server integration evidence proves handler refresh, resource-specific
   effective flavor state, and host/conversion boundary classification across
   the process boundary.
-- Invalid payloads, unsafe resource keys, unsafe `.fgignore`/`.fgattributes`
+- Invalid payloads, unsafe resource keys, unsafe `.mdfignore`/`.mdfattributes`
   evidence, and dangerous object keys are rejected before flavor state changes.
 
 ## Gate Verification

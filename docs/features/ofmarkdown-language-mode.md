@@ -28,9 +28,9 @@ When a user opens a Markdown document in VS Code:
 | Document context | VS Code language mode | Default flavor behavior |
 |---|---|---|
 | Inside a directory with `.obsidian/` | `markdown` | `Auto Detect` resolves to `Obsidian` |
-| Matched by `.fgattributes` | `markdown` | Explicit flavor resolves from the matching attribute |
-| Matched by `.fgignore` | `markdown` | Flavor Grenade is inactive; the file is not processed or indexed |
-| No `.fgignore` or `.fgattributes` applies | `markdown` | `Auto Detect` applies to the directory tree |
+| Matched by `.mdfattributes` | `markdown` | Explicit flavor resolves from the matching attribute |
+| Matched by `.mdfignore` | `markdown` | Flavor Grenade is inactive; the file is not processed or indexed |
+| No `.mdfignore` or `.mdfattributes` applies | `markdown` | `Auto Detect` applies to the directory tree |
 | Generic Markdown outside any vault/config | `markdown` | `Auto Detect` resolves to `CommonMark` |
 | User manually selected another language id | user-selected mode | Flavor selector is inactive for that document |
 
@@ -123,7 +123,7 @@ Selecting an item opens a second quick-pick for scope:
 1. Selected file
 2. All Markdown files in this directory
 
-The extension writes or updates `.fgattributes` in the active file's directory
+The extension writes or updates `.mdfattributes` in the active file's directory
 for the selected scope. It must not call
 `vscode.languages.setTextDocumentLanguage` and must not use the VS Code language
 picker.
@@ -131,7 +131,7 @@ picker.
 ## Configuration Model
 
 Persistent file and directory flavor configuration is stored only in
-`.fgattributes`. File visibility is stored only in `.fgignore`.
+`.mdfattributes`. File visibility is stored only in `.mdfignore`.
 
 Allowed flavor values:
 
@@ -153,7 +153,7 @@ type MarkdownFlavor =
   | 'stack-overflow';
 ```
 
-`.fgattributes` examples:
+`.mdfattributes` examples:
 
 ```gitattributes
 *.md flavor=commonmark
@@ -166,10 +166,10 @@ Selector persistence rules:
 
 | Context | Override target |
 |---|---|
-| Selected file | `.fgattributes` rule for the active file name |
-| All files in the directory | `.fgattributes` rule for `/*.md` in the active file's directory |
-| Multiple workspace folders are open | The `.fgattributes` file in the active file's own directory |
-| Only a standalone Markdown file is open | `.fgattributes` beside that standalone file |
+| Selected file | `.mdfattributes` rule for the active file name |
+| All files in the directory | `.mdfattributes` rule for `/*.md` in the active file's directory |
+| Multiple workspace folders are open | The `.mdfattributes` file in the active file's own directory |
+| Only a standalone Markdown file is open | `.mdfattributes` beside that standalone file |
 | Active document is not `markdown` | No flavor override is written for that document |
 
 Choosing `Auto Detect` clears or resets the matching `flavor` attribute at the
@@ -184,13 +184,13 @@ multi-root behavior, and resource-specific propagation.
 
 Flavor detection uses positive signals:
 
-1. `.fgignore`: matching files are inactive and stop here.
-2. `.fgattributes`: explicit `flavor` attribute when present.
+1. `.mdfignore`: matching files are inactive and stop here.
+2. `.mdfattributes`: explicit `flavor` attribute when present.
 3. `.obsidian/` ancestor: Auto Detect resolves to `obsidian`.
 4. Syntax evidence: Auto Detect can select a stronger non-Obsidian flavor when syntax clearly identifies it.
 5. No vault/config signal: effective flavor `commonmark`.
 
-If no `.fgignore` or `.fgattributes` file exists for a directory and its
+If no `.mdfignore` or `.mdfattributes` file exists for a directory and its
 subdirectories, Auto Detect covers that whole subtree by default.
 
 The extension may still ask the server for status and indexed-file state, but
@@ -206,9 +206,9 @@ behavior is:
 
 - open documents are analyzed with the current effective flavor;
 - changing the selector refreshes diagnostics and feature behavior;
-- `.fgignore` changes remove or restore documents from analysis and indexing;
-- `.fgattributes` changes refresh every affected Markdown document;
-- file and directory scoped overrides are derived from `.fgattributes`, not VS
+- `.mdfignore` changes remove or restore documents from analysis and indexing;
+- `.mdfattributes` changes refresh every affected Markdown document;
+- file and directory scoped overrides are derived from `.mdfattributes`, not VS
   Code settings.
 
 ## LanguageClient Selector
@@ -237,8 +237,8 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 - A separate Markdown flavor selector is visible for Markdown documents.
 - Selector choices cover every required researched flavor: Original Markdown, CommonMark, Obsidian, GFM, GLFM, Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and Stack Overflow.
 - Auto detection still resolves Obsidian vault files as Obsidian.
-- Explicit overrides persist to `.fgattributes` at selected-file or directory scope.
-- `.fgignore` removes matching files from all Flavor Grenade processing and indexing.
+- Explicit overrides persist to `.mdfattributes` at selected-file or directory scope.
+- `.mdfignore` removes matching files from all Flavor Grenade processing and indexing.
 - Flavor changes propagate to server analysis.
 - Manual non-Markdown language selections are preserved.
 
@@ -247,7 +247,7 @@ choices such as `plaintext`, `mdx`, or another extension-provided language.
 - [[docs/features/markdown-flavor-config-files]]
 - [[docs/features/markdown-flavor-feature-sets]]
 - [[docs/design/markdown-flavor-auto-detection]]
-- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]]
+- [[docs/adr/ADR021-mdfignore-mdfattributes-flavor-configuration]]
 - [[docs/adr/ADR020-markdown-flavor-selection]]
 - [[docs/adr/ADR016-ofmarkdown-language-mode]]
 - [[docs/requirements/functional/ofmarkdown-language-mode]]

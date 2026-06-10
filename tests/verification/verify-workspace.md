@@ -15,7 +15,7 @@ This document covers scripted and agent-driven test cases that verify the four P
 | Planguage Tag | Gist | Phase |
 |---|---|---|
 | `Workspace.VaultDetection.Primary` | Directories with `.obsidian/` are automatically detected and indexed | Phase 1 |
-| `Workspace.VaultDetection.Fallback` | Directories with `.fgignore` or `.fgattributes` (no `.obsidian/`) are detected as vault roots | Phase 1 |
+| `Workspace.VaultDetection.Fallback` | Directories with `.mdfignore` or `.mdfattributes` (no `.obsidian/`) are detected as vault roots | Phase 1 |
 | `Workspace.FileExtension.Filter` | Only configured-extension files enter VaultIndex; all others are silently ignored | Phase 1 |
 | `Workspace.MultiFolder.Isolation` | Link resolution never crosses vault root boundaries in a multi-root session | Phase 1 |
 
@@ -62,19 +62,19 @@ And the capability "flavorGrenade.crossFileLinks" is active for all 5 detected v
 ### TC-VER-WS-002 — Workspace.VaultDetection.Fallback
 
 **Planguage Tag:** `Workspace.VaultDetection.Fallback`
-**Gist:** A directory containing `.fgignore` or `.fgattributes` but no `.obsidian/` must be detected as a vault root; when markers coexist, `.obsidian/` takes precedence.
+**Gist:** A directory containing `.mdfignore` or `.mdfattributes` but no `.obsidian/` must be detected as a vault root; when markers coexist, `.obsidian/` takes precedence.
 **Type:** Both
-**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .fgignore or .fgattributes when no .obsidian/ present`; \[\[bdd/features/vault-detection]] — `.fgattributes found — vault mode active with full features` and `Both .obsidian/ and .fgattributes present — obsidian takes precedence`
+**BDD Reference:** [[docs/requirements/workspace]] — `Vault detected via .mdfignore or .mdfattributes when no .obsidian/ present`; \[\[bdd/features/vault-detection]] — `.mdfattributes found — vault mode active with full features` and `Both .obsidian/ and .mdfattributes present — obsidian takes precedence`
 **Phase:** Phase 1
 
-**Setup:** Create directories containing `.fgignore` and `.fgattributes` markers and at least 3 `.md` files, with no `.obsidian/` present. Create a third directory containing both `.obsidian/` and `.fgattributes`. Start the server with all 3 directories as workspace roots.
+**Setup:** Create directories containing `.mdfignore` and `.mdfattributes` markers and at least 3 `.md` files, with no `.obsidian/` present. Create a third directory containing both `.obsidian/` and `.mdfattributes`. Start the server with all 3 directories as workspace roots.
 
 **Scripted steps:**
 
 ```gherkin
-Given 1 directory containing ".fgignore" and 3 markdown files with no ".obsidian/" present
-And 1 directory containing ".fgattributes" and 3 markdown files with no ".obsidian/" present
-And 1 directory containing both ".obsidian/" and ".fgattributes" and 3 markdown files
+Given 1 directory containing ".mdfignore" and 3 markdown files with no ".obsidian/" present
+And 1 directory containing ".mdfattributes" and 3 markdown files with no ".obsidian/" present
+And 1 directory containing both ".obsidian/" and ".mdfattributes" and 3 markdown files
 When the LSP server initializes with a workspace root containing all 3 directories
 And the server completes initial indexing
 Then the VaultDetector reports vaultMode = "flavor-grenade" for the 2 marker-only directories
@@ -85,9 +85,9 @@ And the VaultDetector preference log records "obsidian marker takes precedence" 
 
 **Agent-driven steps:**
 
-1. Create `fg-ignore/` with `.fgignore` and three `.md` files. Confirm no `.obsidian/` exists.
-2. Create `fg-attributes/` with `.fgattributes` and three `.md` files. Confirm no `.obsidian/` exists.
-3. Create `dual/` containing both `.obsidian/` (as a directory) and `.fgattributes`, plus three `.md` files.
+1. Create `fg-ignore/` with `.mdfignore` and three `.md` files. Confirm no `.obsidian/` exists.
+2. Create `fg-attributes/` with `.mdfattributes` and three `.md` files. Confirm no `.obsidian/` exists.
+3. Create `dual/` containing both `.obsidian/` (as a directory) and `.mdfattributes`, plus three `.md` files.
 4. Start the LSP server. Wait for indexing to complete.
 5. Verify `fg-ignore` and `fg-attributes` each appear in the server's vault-root list with mode `flavor-grenade`.
 6. Verify `dual` appears in the vault-root list with mode `obsidian`, not `flavor-grenade`.

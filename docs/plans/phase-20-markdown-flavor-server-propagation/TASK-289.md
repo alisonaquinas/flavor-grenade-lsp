@@ -17,15 +17,15 @@ aliases: ["TASK-289"]
 
 ## Description
 
-Implement BC4-owned effective flavor resolution for `.fgignore`,
-`.fgattributes`, and `auto` detection using marker, membership, and
+Implement BC4-owned effective flavor resolution for `.mdfignore`,
+`.mdfattributes`, and `auto` detection using marker, membership, and
 syntax/context signals.
 
 ## Work Scope
 
-- `.fgignore` matches return inactive before parsing or indexing.
-- `.fgattributes` concrete flavor values resolve to that explicit flavor.
-- `.fgattributes flavor=auto`, `!flavor`, and absent config files invoke Auto
+- `.mdfignore` matches return inactive before parsing or indexing.
+- `.mdfattributes` concrete flavor values resolve to that explicit flavor.
+- `.mdfattributes flavor=auto`, `!flavor`, and absent config files invoke Auto
   Detect.
 - `.obsidian/` resolves to `obsidian` inside Auto Detect.
 - Generic single-file Markdown resolves to `commonmark`.
@@ -42,15 +42,15 @@ syntax/context signals.
 
 | Test file | Expected coverage |
 |---|---|
-| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves `.fgignore` inactive state, `.fgattributes` concrete values, Obsidian Auto Detect, syntax/context inference, invalid configured flavor, and CommonMark fallback. |
-| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.fgattributes` cases prove concrete values bypass Auto Detect, while `flavor=auto`, `!flavor`, and absent config invoke Auto Detect. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Resolves `.mdfignore` inactive state, `.mdfattributes` concrete values, Obsidian Auto Detect, syntax/context inference, invalid configured flavor, and CommonMark fallback. |
+| [[docs/test/markdown-flavor-unit-spec#MF-U-008 - Auto Flavor Resolution|MF-U-008]] | Parameterized `.mdfattributes` cases prove concrete values bypass Auto Detect, while `flavor=auto`, `!flavor`, and absent config invoke Auto Detect. |
 
 ## Implementation Notes
 
 - Implement `resolveEffectiveFlavor(input)` in `src/markdown-flavor/markdown-flavor-state.ts`.
 - Use `MarkdownFlavorSelection` and `MarkdownFlavorId` from the Phase 19 contract.
 - Return `inactive` for non-Markdown language ids or non-file schemes.
-- Resolve visibility first, then concrete `.fgattributes` flavor, then Auto
+- Resolve visibility first, then concrete `.mdfattributes` flavor, then Auto
   Detect through Obsidian marker/membership, syntax/context inference, and
   CommonMark fallback.
 
@@ -58,8 +58,8 @@ syntax/context signals.
 
 - [x] Resolver outputs an explicit effective flavor.
 - [x] Auto detection does not infer Obsidian for generic Markdown.
-- [x] `.fgattributes` resolution covers every required explicit flavor id.
-- [x] `.fgignore`, `.fgattributes` precedence, `flavor=auto`, `!flavor`, and
+- [x] `.mdfattributes` resolution covers every required explicit flavor id.
+- [x] `.mdfignore`, `.mdfattributes` precedence, `flavor=auto`, `!flavor`, and
       invalid-value fallback behavior are tested.
 - [x] Existing vault detection inputs are reused where appropriate.
 
@@ -76,4 +76,4 @@ syntax/context signals.
 
 > [!SUCCESS] GREEN - 2026-05-13
 > `MarkdownFlavorState` resolves explicit selections, resource propagation,
-> `.fgattributes`, Obsidian markers, and CommonMark fallback.
+> `.mdfattributes`, Obsidian markers, and CommonMark fallback.

@@ -1,5 +1,5 @@
 import { type MarkdownFlavorId, type MarkdownFlavorSelection } from './flavors.js';
-import { type FgAttributes } from './fgattributes.js';
+import { type MdfAttributes } from './mdfattributes.js';
 import { inferMarkdownFlavorFromSyntax } from './syntax-inference.js';
 import {
   resolveStructuredProfiles,
@@ -11,12 +11,12 @@ import {
 export type EffectiveMarkdownFlavor = MarkdownFlavorId;
 
 export type FlavorResolutionSource =
-  | 'fgattributes'
+  | 'mdfattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'commonmark-fallback';
 
-export type InactiveFlavorReason = 'non-markdown-language' | 'unsupported-path' | 'fgignore';
+export type InactiveFlavorReason = 'non-markdown-language' | 'unsupported-path' | 'mdfignore';
 
 export type MarkdownFlavorResolution =
   | {
@@ -39,9 +39,9 @@ export interface ResolveMarkdownFlavorInput {
   languageId?: string;
   ignored?: boolean;
   hasObsidianMarker?: boolean;
-  fgAttributes?: FgAttributes;
-  fgAttributesFlavor?: MarkdownFlavorSelection;
-  fgAttributesStructuredProfiles?: StructuredProfileSelection;
+  mdfAttributes?: MdfAttributes;
+  mdfAttributesFlavor?: MarkdownFlavorSelection;
+  mdfAttributesStructuredProfiles?: StructuredProfileSelection;
   flavorSelection?: MarkdownFlavorSelection;
   structuredProfileSelection?: StructuredProfileSelection;
   syntaxText?: string;
@@ -52,17 +52,17 @@ export function resolveMarkdownFlavor(input: ResolveMarkdownFlavorInput): Markdo
     return { kind: 'inactive', reason: 'non-markdown-language' };
   }
   if (input.ignored === true) {
-    return { kind: 'inactive', reason: 'fgignore' };
+    return { kind: 'inactive', reason: 'mdfignore' };
   }
 
-  const fgAttributesFlavor = input.fgAttributesFlavor ?? input.fgAttributes?.flavor;
-  const fgAttributesStructuredProfiles =
-    input.fgAttributesStructuredProfiles ?? input.fgAttributes?.structuredProfiles;
-  const selected = input.flavorSelection ?? fgAttributesFlavor ?? 'auto';
+  const mdfAttributesFlavor = input.mdfAttributesFlavor ?? input.mdfAttributes?.flavor;
+  const mdfAttributesStructuredProfiles =
+    input.mdfAttributesStructuredProfiles ?? input.mdfAttributes?.structuredProfiles;
+  const selected = input.flavorSelection ?? mdfAttributesFlavor ?? 'auto';
   const explicitSelection = selected !== 'auto' ? selected : undefined;
   const structuredProfileState = resolveStructuredProfiles({
     selection: input.structuredProfileSelection ?? 'auto',
-    fgAttributesSelection: fgAttributesStructuredProfiles,
+    mdfAttributesSelection: mdfAttributesStructuredProfiles,
     path: input.path,
     syntaxText: input.syntaxText,
   });
@@ -72,7 +72,7 @@ export function resolveMarkdownFlavor(input: ResolveMarkdownFlavorInput): Markdo
       kind: 'active',
       selected,
       effective: explicitSelection,
-      source: 'fgattributes',
+      source: 'mdfattributes',
       ...structuredProfileState,
     };
   }

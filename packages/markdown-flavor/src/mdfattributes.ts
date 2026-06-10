@@ -14,24 +14,24 @@ import {
 
 const DANGEROUS_ATTRIBUTE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
-export interface FgAttributes {
+export interface MdfAttributes {
   flavor?: MarkdownFlavorSelection;
   structuredProfiles?: StructuredProfileSelection;
 }
 
-export interface FgAttributeRule {
+export interface MdfAttributeRule {
   pattern: string;
   negated: boolean;
-  assignments: readonly FgAttributeAssignment[];
+  assignments: readonly MdfAttributeAssignment[];
 }
 
-export type FgAttributeAssignment =
+export type MdfAttributeAssignment =
   | { kind: 'set'; key: 'flavor'; value: MarkdownFlavorSelection }
   | { kind: 'set'; key: 'structuredProfiles'; value: StructuredProfileSelection }
   | { kind: 'reset'; key: 'flavor' | 'structuredProfiles' };
 
-export function parseFgAttributes(content: string): FgAttributeRule[] {
-  const rules: FgAttributeRule[] = [];
+export function parseMdfAttributes(content: string): MdfAttributeRule[] {
+  const rules: MdfAttributeRule[] = [];
   for (const rawLine of content.split(/\r?\n/)) {
     const line = normalizeConfigLine(rawLine);
     if (line.length === 0) {
@@ -47,7 +47,7 @@ export function parseFgAttributes(content: string): FgAttributeRule[] {
     if (pattern.length === 0) {
       continue;
     }
-    const assignments = tokens.slice(1).flatMap(parseFgAttributeToken);
+    const assignments = tokens.slice(1).flatMap(parseMdfAttributeToken);
     if (negated || assignments.length > 0) {
       rules.push({ pattern, negated, assignments });
     }
@@ -55,14 +55,14 @@ export function parseFgAttributes(content: string): FgAttributeRule[] {
   return rules;
 }
 
-export function applyFgAttributes(
-  rules: readonly FgAttributeRule[],
+export function applyMdfAttributes(
+  rules: readonly MdfAttributeRule[],
   relativePath: string,
-  inherited: FgAttributes = {},
-): FgAttributes {
-  const attributes: FgAttributes = { ...inherited };
-  const local: FgAttributes = {};
-  const localResets = new Set<keyof FgAttributes>();
+  inherited: MdfAttributes = {},
+): MdfAttributes {
+  const attributes: MdfAttributes = { ...inherited };
+  const local: MdfAttributes = {};
+  const localResets = new Set<keyof MdfAttributes>();
 
   for (const rule of rules) {
     if (!patternMatches(rule.pattern, toPosix(relativePath))) {
@@ -103,7 +103,7 @@ export function applyFgAttributes(
   return attributes;
 }
 
-function parseFgAttributeToken(token: string): FgAttributeAssignment[] {
+function parseMdfAttributeToken(token: string): MdfAttributeAssignment[] {
   const resetMatch = /^!(flavor|structured_profiles|structuredProfiles)$/.exec(token);
   if (resetMatch) {
     const key = normalizeAttributeKey(resetMatch[1]);
@@ -139,7 +139,7 @@ function normalizeAttributeKey(value: string): 'flavor' | 'structuredProfiles' |
   return undefined;
 }
 
-function resetAttribute(attributes: FgAttributes, key: 'flavor' | 'structuredProfiles'): void {
+function resetAttribute(attributes: MdfAttributes, key: 'flavor' | 'structuredProfiles'): void {
   if (key === 'flavor') {
     delete attributes.flavor;
   } else {

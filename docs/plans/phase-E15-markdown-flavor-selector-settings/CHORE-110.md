@@ -23,8 +23,8 @@ Run extension compile/unit/docs checks and prepare E15 for review.
 
 - Run `npm run compile` and `npm test` from `extension/`.
 - Run docs lint for changed documentation.
-- Record E15 selector/`.fgattributes` validation evidence in
-  `extension/docs/tests/evidence/markdown-flavor-fgattributes-scope.md`,
+- Record E15 selector/`.mdfattributes` validation evidence in
+  `extension/docs/tests/evidence/markdown-flavor-mdfattributes-scope.md`,
   including selected-file, directory, standalone, and Auto Detect reset
   behavior.
 - Link any remaining user-visible validation evidence to Phase E17 when it

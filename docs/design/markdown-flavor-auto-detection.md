@@ -31,13 +31,13 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
   picker.
 - Resolve Obsidian vault notes to `obsidian` without configuration.
 - Resolve generic Markdown conservatively to `commonmark`.
-- Support file and directory flavor configuration through `.fgattributes`.
-- Support file and directory exclusion through `.fgignore`.
-- Allow multiple `.fgignore` and `.fgattributes` files from vault root through
+- Support file and directory flavor configuration through `.mdfattributes`.
+- Support file and directory exclusion through `.mdfignore`.
+- Allow multiple `.mdfignore` and `.mdfattributes` files from vault root through
   nested directories, with Git-style pattern precedence and negation.
 - Preserve Auto Detect as the default for every file in a directory tree when
-  no `.fgignore` or `.fgattributes` file exists.
-- When `.fgattributes` flavor assignment is absent, infer a likely flavor from
+  no `.mdfignore` or `.mdfattributes` file exists.
+- When `.mdfattributes` flavor assignment is absent, infer a likely flavor from
   strong local document syntax without treating weak shared Markdown features as
   decisive.
 - Preserve user-selected non-Markdown language modes.
@@ -61,8 +61,8 @@ effective Markdown flavor and must not expand the `MarkdownFlavorId` list. See
 
 | Owner | Responsibility |
 |---|---|
-| BC6 Editor Client | Displays the selector, writes scoped `.fgattributes` rules, preserves manual language choices, and sends refresh signals to the server. |
-| BC4 Vault / Workspace | Owns vault membership, `.fgignore` visibility, `.fgattributes` evidence, and authoritative `EffectiveMarkdownContext` state for server analysis. |
+| BC6 Editor Client | Displays the selector, writes scoped `.mdfattributes` rules, preserves manual language choices, and sends refresh signals to the server. |
+| BC4 Vault / Workspace | Owns vault membership, `.mdfignore` visibility, `.mdfattributes` evidence, and authoritative `EffectiveMarkdownContext` state for server analysis. |
 | Config | Validates flavor ids and parses Git-style Flavor Grenade config files. It does not resolve document-specific effective state alone. |
 | BC5 LSP Protocol | Validates incoming flavor payloads and transports resource-specific state. It does not reinterpret flavor syntax. |
 | BC2 Document Lifecycle | Consumes `EffectiveMarkdownContext` through `ParseContext`: one base flavor plus zero or more structured profile flags. |
@@ -79,12 +79,12 @@ type ResolveFlavorInput = {
   scheme: string;
   owningWorkspaceFolder?: string;
   searchBoundary?: string;
-  fgignore?: {
+  mdfignore?: {
     ignored: boolean;
     matchedPattern?: string;
     sourceFile?: string;
   };
-  fgattributes?: {
+  mdfattributes?: {
     flavor?: MarkdownFlavorSelection;
     structuredProfiles?: StructuredProfileSelection;
     matchedPattern?: string;
@@ -92,7 +92,7 @@ type ResolveFlavorInput = {
   };
   markers: {
     hasObsidianDirectory: boolean;
-    hasFlavorGrenadeConfigFiles: boolean;
+    hasMarkdownFlavorConfigFiles: boolean;
   };
   syntaxInference?: {
     candidates: Array<{
@@ -111,17 +111,17 @@ type ResolveFlavorInput = {
 };
 ```
 
-Invalid selector or `.fgattributes` values are not part of
+Invalid selector or `.mdfattributes` values are not part of
 `MarkdownFlavorSelection`. The validation layer rejects them before resolution
 and treats that layer as absent.
 
 Security invariants:
 
-- `.fgignore` and `.fgattributes` files are read only after workspace/vault realpath confinement
+- `.mdfignore` and `.mdfattributes` files are read only after workspace/vault realpath confinement
   passes.
 - Config size, pattern syntax, value types, and dangerous object keys are validated before
   merge.
-- Invalid `.fgattributes` data is treated as absent configuration and logs status
+- Invalid `.mdfattributes` data is treated as absent configuration and logs status
   without logging file contents.
 - Resource keys in server propagation are validated as supported `file://`
   resources owned by the workspace/vault or standalone document context.
@@ -134,7 +134,7 @@ Security invariants:
 
 ```typescript
 type ActiveFlavorSource =
-  | 'fgattributes'
+  | 'mdfattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'commonmark-fallback';
@@ -154,7 +154,7 @@ type ResolveFlavorResult =
       reason:
         | 'non-markdown-language'
         | 'unsupported-scheme'
-        | 'fgignore'
+        | 'mdfignore'
         | 'virtual-or-restricted-context';
     };
 ```
@@ -172,9 +172,9 @@ Effective flavor resolution has three separate stages:
 3. Auto Detect runs independently of configuration when requested by the
    previous stage.
 
-`.fgattributes` can trigger Auto Detect by leaving `flavor` absent, clearing it
+`.mdfattributes` can trigger Auto Detect by leaving `flavor` absent, clearing it
 with `!flavor`, or setting `flavor=auto`. Auto Detect does not read
-`.fgattributes`; it receives only document, Obsidian marker, and syntax
+`.mdfattributes`; it receives only document, Obsidian marker, and syntax
 evidence.
 
 ```mermaid
@@ -183,8 +183,8 @@ flowchart TD
   B -- "No" --> Z1["inactive: non-markdown-language"]
   B -- "Yes" --> C{"file-backed supported scheme?"}
   C -- "No" --> Z2["inactive: unsupported-scheme or virtual/restricted"]
-  C -- "Yes" --> D{".fgignore matches?"}
-  D -- "Yes" --> Z3["inactive: fgignore"]
+  C -- "Yes" --> D{".mdfignore matches?"}
+  D -- "Yes" --> Z3["inactive: mdfignore"]
   D -- "No" --> G{"Resolved config selects concrete flavor?"}
   G -- "Yes" --> R4["effective = configured flavor"]
   G -- "No: absent, !flavor, or auto" --> H["Run Auto Detect"]
@@ -201,7 +201,7 @@ flowchart TD
 |---|---|---|
 | 0 | `languageId` is not `markdown` | `inactive`; do not resolve flavor. |
 | 0 | URI scheme/context cannot be served safely | `inactive`; do not start flavor analysis. |
-| 1 | `.fgignore` matches the document | `inactive`; do not process or index the file. |
+| 1 | `.mdfignore` matches the document | `inactive`; do not process or index the file. |
 | 2 | Configuration resolution selects a concrete `flavor` value | That document-specific flavor value. |
 | 3 | Configuration resolution selects `auto` or no concrete flavor | Invoke Auto Detect. |
 
@@ -217,9 +217,9 @@ Tie-breakers:
 
 - `auto`, `!flavor`, and absent `flavor` all invoke Auto Detect.
 - `auto` never propagates to analysis as the effective flavor.
-- `.fgignore` rules are evaluated before `.fgattributes`; ignored files never
+- `.mdfignore` rules are evaluated before `.mdfattributes`; ignored files never
   receive flavor analysis.
-- `.fgattributes` rules are evaluated from vault root to the file's directory.
+- `.mdfattributes` rules are evaluated from vault root to the file's directory.
   Later rules and deeper files override earlier and ancestor rules for each
   attribute.
 - VS Code settings are not an active source for file or directory flavor
@@ -250,9 +250,9 @@ Auto mode is active in three cases:
 
 | Case | Meaning |
 |---|---|
-| Defaulted auto | No `.fgattributes` `flavor` applies to the file. This includes the case where no `.fgignore` or `.fgattributes` file exists anywhere in the directory tree. |
-| Selected auto | The user chooses Auto Detect in the selector. The extension removes or resets the matching `.fgattributes` `flavor` assignment at the chosen selected-file or directory scope. |
-| Configured auto | A matching `.fgattributes` rule sets `flavor=auto`. This is an explicit request for this path to run Auto Detect, overriding any earlier explicit flavor assignment in the attributes cascade. |
+| Defaulted auto | No `.mdfattributes` `flavor` applies to the file. This includes the case where no `.mdfignore` or `.mdfattributes` file exists anywhere in the directory tree. |
+| Selected auto | The user chooses Auto Detect in the selector. The extension removes or resets the matching `.mdfattributes` `flavor` assignment at the chosen selected-file or directory scope. |
+| Configured auto | A matching `.mdfattributes` rule sets `flavor=auto`. This is an explicit request for this path to run Auto Detect, overriding any earlier explicit flavor assignment in the attributes cascade. |
 
 When auto mode is active for a visible file, resolution continues through the
 same detection stages:
@@ -261,7 +261,7 @@ same detection stages:
 2. Strong syntax inference may resolve to an explicit flavor.
 3. Ambiguous or generic Markdown resolves to `commonmark`.
 
-`.fgignore` still runs before auto mode. An ignored file is inactive and is not
+`.mdfignore` still runs before auto mode. An ignored file is inactive and is not
 Auto Detected.
 
 `!flavor` and `flavor=auto` both return a matched path to Auto Detect. Use
@@ -270,11 +270,11 @@ Auto Detected.
 
 ## Flavor Grenade Config Files
 
-The server recognizes `.fgignore` and `.fgattributes` in a vault root and in any
+The server recognizes `.mdfignore` and `.mdfattributes` in a vault root and in any
 subdirectory under that root. Discovery walks from the vault root to the
 candidate file's parent directory and applies matching files in that order.
 
-`.fgignore` uses Git ignore style wildmatch patterns:
+`.mdfignore` uses Git ignore style wildmatch patterns:
 
 ```gitignore
 dist/**/*.md
@@ -282,7 +282,7 @@ dist/**/*.md
 private/
 ```
 
-`.fgattributes` uses the same selector matching model with attribute tokens:
+`.mdfattributes` uses the same selector matching model with attribute tokens:
 
 ```gitattributes
 *.md flavor=commonmark
@@ -325,7 +325,7 @@ specific renderer/host context:
 | `gfm` | GitHub-specific autolinks or task/table/strikethrough clusters may produce only medium evidence because these constructs are widely copied by other flavors. |
 | `obsidian` | Wiki links, embeds, block anchors, callouts, and tags are strong only when unambiguous in the local document. `.obsidian/` remains the preferred signal. |
 | `commonmark` | Chosen as the conservative fallback when no stronger flavor wins. |
-| `original` | Not inferred from syntax; requires explicit `.fgattributes` selection. |
+| `original` | Not inferred from syntax; requires explicit `.mdfattributes` selection. |
 
 Inference must inspect only bounded local text and metadata already available to
 the editor/server. It must not execute code, load remote resources, install
@@ -356,13 +356,13 @@ function resolveEffectiveMarkdownFlavor(input: ResolveFlavorInput): ResolveFlavo
     return { kind: 'inactive', reason: 'unsupported-scheme' };
   }
 
-  if (input.fgignore?.ignored) {
-    return { kind: 'inactive', reason: 'fgignore' };
+  if (input.mdfignore?.ignored) {
+    return { kind: 'inactive', reason: 'mdfignore' };
   }
 
-  const configured = resolveConfiguredFlavor(input.fgattributes?.flavor);
+  const configured = resolveConfiguredFlavor(input.mdfattributes?.flavor);
   if (configured.kind === 'explicit') {
-    return active(configured.flavor, 'fgattributes', input, configured.flavor);
+    return active(configured.flavor, 'mdfattributes', input, configured.flavor);
   }
 
   const detected = autoDetectMarkdownFlavor({
@@ -412,7 +412,7 @@ function active(
 }
 
 function resolveStructuredProfiles(input: ResolveFlavorInput): StructuredMarkdownProfileId[] {
-  const attributed = normalizeStructuredProfileSelection(input.fgattributes?.structuredProfiles);
+  const attributed = normalizeStructuredProfileSelection(input.mdfattributes?.structuredProfiles);
   if (attributed.kind === 'explicit') {
     return attributed.profiles;
   }
@@ -449,7 +449,7 @@ The supported structured profile ids are:
 
 These ids are intentionally excluded from `MarkdownFlavorId` and from the
 Markdown flavor selector list. They are configured through `structured_profiles`
-attributes in `.fgattributes` with the same pattern cascade as the base flavor.
+attributes in `.mdfattributes` with the same pattern cascade as the base flavor.
 They can also be auto-detected from filename, folder placement, front matter,
 headings, and bounded local document structure.
 
@@ -458,9 +458,9 @@ headings, and bounded local document structure.
 The extension must propagate effective flavor as resource-specific state, not as
 a single global value. This matters when:
 
-- a multi-root workspace contains folders with different `.fgattributes` rules;
+- a multi-root workspace contains folders with different `.mdfattributes` rules;
 - two open Markdown files are in different vaults;
-- a standalone file has a local `.fgattributes` rule while a workspace file
+- a standalone file has a local `.mdfattributes` rule while a workspace file
   uses a different rule;
 - an Obsidian vault and a generic Markdown folder are open at the same time.
 
@@ -468,7 +468,7 @@ The server-facing payload must let BC4 derive or receive the effective flavor
 for the specific document being parsed. A valid design can use either:
 
 1. a document-URI keyed effective flavor map in `workspace/didChangeConfiguration`;
-2. `.fgattributes` plus server-side document visibility lookup;
+2. `.mdfattributes` plus server-side document visibility lookup;
 3. initialization options plus configuration change notifications; or
 4. a documented custom request.
 
@@ -504,7 +504,7 @@ change:
 - Markdown file opens;
 - server readiness changes;
 - `.obsidian/` marker appears or disappears;
-- `.fgignore` or `.fgattributes` appears, disappears, or changes;
+- `.mdfignore` or `.mdfattributes` appears, disappears, or changes;
 - document text changes enough to alter syntax-inference evidence;
 - document text changes enough to alter structured-profile evidence;
 - restricted/virtual workspace state changes.
@@ -520,10 +520,10 @@ refresh for affected documents. Refresh decisions compare the full
 Minimum test coverage:
 
 - Unit truth table for every precedence row and tie-breaker.
-- Invalid-value cases in `.fgignore` and `.fgattributes` layers.
+- Invalid-value cases in `.mdfignore` and `.mdfattributes` layers.
 - Multi-root cases with different effective flavors per folder.
-- Standalone `.fgattributes` case.
-- `.fgignore` exclusion, negation, and re-include cases.
+- Standalone `.mdfattributes` case.
+- `.mdfignore` exclusion, negation, and re-include cases.
 - Obsidian marker case.
 - Syntax-inference cases for every inferable non-CommonMark flavor.
 - Ambiguous syntax cases proving weak/shared features fall back to CommonMark.
@@ -545,7 +545,7 @@ because the repository root has Flavor Grenade config files.
 Manual smoke tests should open an isolated copy of the fixture workspace, or the
 resolver must receive an explicit workspace boundary and stop marker/context
 search at that boundary. Child fixture workspaces under `smoketest/` may carry
-their own `.fgignore` or `.fgattributes` files; those descendant files must not
+their own `.mdfignore` or `.mdfattributes` files; those descendant files must not
 make the root `smoketest/README.md` a Flavor Grenade vault document.
 
 ## Cross-References
