@@ -1,15 +1,16 @@
 # Release And Versioning
 
-## Independent Semver
+## Linked Semver
 
-The skill uses its own semantic version:
+The skill uses the same semantic version as the LSP server release it embeds:
 
 ```text
-skill-v0.1.0
+v0.7.1
 ```
 
-It does not inherit the server, extension, or website version. A skill release
-records which server executable it embeds.
+The skill still records which server executable it embeds, but the public skill
+version, plugin version, marketplace version, and embedded server version stay
+linked to avoid confusion.
 
 ## Version Rules
 
@@ -31,17 +32,17 @@ records which server executable it embeds.
 
 | Tag | Purpose |
 |---|---|
-| `skill-v*.*.*` | Production skill release |
-| `skill-v*.*.*-test*` | Draft prerelease or release dry-run |
+| `v*.*.*` | Production server and skill release |
+| `v*.*.*-test*` | Draft prerelease or release dry-run |
 
-Skill tags must not trigger server npm publishing, extension publishing, or
-website deployment.
+Server/skill tags may trigger server npm publishing and skill packaging. Skill
+artifacts must attach to the same GitHub Release as the server runtime
+artifacts.
 
-Server release tags must run a post-release plugin consumption check. That
-check downloads the just-published signed server executable for each runtime,
-verifies the server Sigstore bundle, packages the plugin skill artifact, and
-stores provenance evidence. It does not publish a skill release or change the
-skill version.
+Server release tags must run a skill packaging check. That check downloads the
+just-published signed server executable for each runtime, verifies the server
+Sigstore bundle, packages the plugin skill artifact with the same version, and
+stores provenance evidence.
 
 ## Changelog
 
@@ -77,22 +78,23 @@ Minimum matrix:
 
 | Skill | Server | JSON schema | Claude Code | Codex | Runtime targets |
 |---|---|---|---|---|---|
-| `0.1.0` | `0.5.x` | `1.0` | supported | supported | linux-x64, darwin-arm64, darwin-x64, win-x64 |
+| `0.7.1` | `0.7.x` | `1.0` | supported | supported | linux-x64, darwin-arm64, darwin-x64, win-x64 |
 
 The matrix must also record plugin compatibility:
 
 | Skill | Claude plugin schema | Codex plugin schema | Commands | Hooks | Agents | MCP | LSP |
 |---|---|---|---|---|---|---|---|
-| `0.1.0` | supported | supported fields only | Claude required, Codex validated/deferred | advisory | Claude required, Codex validated/deferred | optional | required in artifact; manifest field validated/deferred by agent |
+| `0.7.1` | supported | supported fields only | Claude required, Codex validated/deferred | advisory | Claude required, Codex validated/deferred | optional | required in artifact; manifest field validated/deferred by agent |
 
 ## Release Workflow
 
 Production release:
 
-1. Create `release/skill-vX.Y.Z` from `develop`.
-2. Update skill changelog.
-3. Update skill manifest version.
-4. Select the released server tag to embed.
+1. Create `release/vX.Y.Z` from `develop`.
+2. Update server and skill changelogs.
+3. Update server, package, extension, website, skill, plugin, and marketplace
+   versions to `X.Y.Z`.
+4. Select the matching server tag `vX.Y.Z` to embed.
 5. Fetch native executable artifacts and Sigstore bundles from that server
    GitHub Release.
 6. Verify executable checksums and Sigstore bundles before packaging.
@@ -101,14 +103,14 @@ Production release:
 9. Run wrapper command smoke tests.
 10. Generate checksums.
 11. Sign archives with GitHub OIDC Sigstore.
-12. Create GitHub Release for `skill-vX.Y.Z`.
+12. Create or update the GitHub Release for `vX.Y.Z`.
 13. Attach archives, checksums, signature bundles, compatibility matrix, and
-    release notes.
+    release notes to the same release as the server artifacts.
 14. Merge release branch by git-flow process.
 
 Dry-run release:
 
-1. Push `skill-vX.Y.Z-test.N`.
+1. Push `vX.Y.Z-test.N`.
 2. Fetch selected server release artifacts; manual dry-runs may use
    `server_release=latest`.
 3. Run all verification.
@@ -119,14 +121,14 @@ Dry-run release:
 ## Artifact Names
 
 ```text
-flavorgrenade-lsp-skill-v0.1.0-linux-x64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-linux-x64.tar.gz.sigstore.json
-flavorgrenade-lsp-skill-v0.1.0-darwin-arm64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-darwin-arm64.tar.gz.sigstore.json
-flavorgrenade-lsp-skill-v0.1.0-darwin-x64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-darwin-x64.tar.gz.sigstore.json
-flavorgrenade-lsp-skill-v0.1.0-win-x64.zip
-flavorgrenade-lsp-skill-v0.1.0-win-x64.zip.sigstore.json
+flavorgrenade-lsp-skill-v0.7.1-linux-x64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-linux-x64.tar.gz.sigstore.json
+flavorgrenade-lsp-skill-v0.7.1-darwin-arm64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-darwin-arm64.tar.gz.sigstore.json
+flavorgrenade-lsp-skill-v0.7.1-darwin-x64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-darwin-x64.tar.gz.sigstore.json
+flavorgrenade-lsp-skill-v0.7.1-win-x64.zip
+flavorgrenade-lsp-skill-v0.7.1-win-x64.zip.sigstore.json
 checksums.txt
 compatibility.md
 ```
@@ -153,8 +155,8 @@ Release CI must verify:
 - `npx skill` compatibility is either verified with a selected CLI contract or
   explicitly left as an open compatibility target
 - JSON schema snapshots pass
-- config fixture snapshots pass for TOML, JSON, JSONC, YAML, `.editorconfig`,
-  and directory-scoped overrides
+- config fixture snapshots pass for `.mdfignore`, nested `.mdfattributes`,
+  `!flavor`, and `flavor=auto`
 - hostile fixture tests pass
 
 ## Provenance

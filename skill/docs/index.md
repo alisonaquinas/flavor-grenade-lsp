@@ -1,9 +1,9 @@
 # Flavor Grenade LSP Skill Specification
 
-This directory specifies the separately versioned `flavorgrenade-lsp-skill`
-product. The skill packages agent instructions, command wrappers, schemas,
-examples, and an embedded Flavor Grenade LSP native executable so LLM agents can
-use the server's Markdown intelligence without depending on VS Code.
+This directory specifies the `flavorgrenade-lsp-skill` product. The skill
+packages agent instructions, command wrappers, schemas, examples, and an
+embedded Flavor Grenade LSP native executable so LLM agents can use the
+server's Markdown intelligence without depending on VS Code.
 
 The repository acts as the skill marketplace source. Users install from this
 repo, list available skills from this repo, and select the Flavor Grenade skill
@@ -19,7 +19,7 @@ from this repo using compatible skill installers.
 | [distribution-marketplace](distribution-marketplace.md) | Repo marketplace layout, `npx add-skill` / `npx skill` compatibility, install modes |
 | [plugin-compatibility](plugin-compatibility.md) | Claude and Codex plugin manifests, commands, hooks, agents, MCP, and mandatory embedded-LSP metadata |
 | [commands-and-json](commands-and-json.md) | Wrapper command surface and stable JSON output schemas |
-| [release-versioning](release-versioning.md) | Independent semver, changelog, tags, artifact signing, compatibility matrix |
+| [release-versioning](release-versioning.md) | Linked LSP/skill versioning, release tags, artifact signing, compatibility matrix |
 | [security](security.md) | Wrapper and embedded-binary security requirements |
 | [testing-validation](testing-validation.md) | Unit, integration, smoke, compatibility, and release validation |
 
@@ -35,8 +35,8 @@ from this repo using compatible skill installers.
 | Codex plugin manifest | `plugins/flavorgrenade-lsp/.codex-plugin/plugin.json` |
 | Skill docs | `skill/docs/` |
 | Skill changelog | `plugins/flavorgrenade-lsp/CHANGELOG.md` |
-| Skill tag pattern | `skill-v*.*.*` |
-| Skill test tag pattern | `skill-v*.*.*-test*` |
+| Release tag pattern | `v*.*.*` |
+| Test tag pattern | `v*.*.*-test*` |
 
 ## Design Principles
 
@@ -44,11 +44,12 @@ from this repo using compatible skill installers.
 - The skill wraps the LSP; it does not reimplement the parser.
 - The skill is useful to LLMs that cannot speak LSP directly.
 - The skill supports offline local analysis by default.
-- The skill preserves the server configuration model, including TOML, JSON,
-  JSONC, YAML, `.editorconfig` directives, and directory-scoped overrides.
+- The skill preserves the server Markdown-flavor configuration model:
+  `.mdfignore` for visibility and `.mdfattributes` for explicit flavor and
+  structured-profile assignment.
 - The skill treats changelog conventions and MADR as structured variants, not
   new base Markdown flavors.
-- The skill is released independently from the server, extension, and website.
+- The skill version is linked to the server version to avoid release ambiguity.
 - The repo can host more skills later, but S1 delivers only
   `flavorgrenade-lsp`.
 

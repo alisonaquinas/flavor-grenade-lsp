@@ -88,22 +88,22 @@ Agents should use the skill when:
 
 1. The task touches Markdown.
 2. The requested edit may depend on a Markdown flavor or host convention.
-3. The repository contains `.flavor-grenade.toml`, `.obsidian/`, VS Code
-   flavor settings, changelogs, ADRs, MADR records, MDX, R Markdown, Pandoc,
-   GitHub/GitLab syntax, Reddit syntax, Stack Overflow syntax, wiki-links, or
-   embeds. The same rule applies when the project uses
-   `.flavor-grenade.json`, `.flavor-grenade.jsonc`, `.flavor-grenade.yaml`,
-   `.flavor-grenade.yml`, or Flavor Grenade `.editorconfig` directives.
+3. The repository contains `.mdfignore`, `.mdfattributes`, `.obsidian/`, VS
+   Code flavor settings, changelogs, ADRs, MADR records, MDX, R Markdown,
+   Pandoc, GitHub/GitLab syntax, Reddit syntax, Stack Overflow syntax,
+   wiki-links, or embeds.
 4. The user asks for diagnostics, outlines, symbols, folds, links, hovers,
    completions, or flavor detection.
 
 When wrapper output includes `config`, agents must use that object as the
 authoritative explanation of configuration evidence. Agents must not parse
-`.flavor-grenade.*` or `.editorconfig` themselves to override the embedded LSP.
+`.mdfignore`, `.mdfattributes`, legacy `.flavor-grenade.*`, or `.editorconfig`
+themselves to override the embedded LSP.
 
 When editing several Markdown files, agents must run `detect` or `analyze` per
-target file or per wrapper-supported batch. Directory overrides mean one
-workspace can contain multiple active base flavors and structured profiles.
+target file or per wrapper-supported batch. Cascading `.mdfattributes` files
+mean one workspace can contain multiple active base flavors and structured
+profiles.
 
 Agents should not use the skill when:
 
@@ -121,9 +121,10 @@ Agents should not use the skill when:
 - do not fetch remote references
 - do not treat host references as local files
 - do not invent flavors
-- do not assume TOML is the only config source
-- do not ignore directory-scoped config overrides when editing multiple
-  Markdown files
+- do not treat legacy `.flavor-grenade.*` or `.editorconfig` files as flavor
+  assignment sources
+- do not ignore cascading `.mdfattributes` rules when editing multiple Markdown
+  files
 - do not copy flavor decisions from one directory to another without wrapper
   evidence
 - do not expose raw config values or absolute local paths in user-facing
@@ -138,7 +139,7 @@ Each skill release must publish a matrix:
 
 | Skill version | Server version | JSON schema | Claude Code | Codex | Notes |
 |---|---|---|---|---|---|
-| `0.1.0` | `0.5.x` | `1.0` | supported | supported | Initial embedded executable release |
+| `0.7.1` | `0.7.x` | `1.0` | supported | supported | Linked skill/server release with `.mdfignore` and `.mdfattributes` config |
 
 The source matrix belongs in
 `plugins/flavorgrenade-lsp/skills/flavorgrenade-lsp/docs/compatibility.md` and
