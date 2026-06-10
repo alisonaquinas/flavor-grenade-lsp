@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { checkReleaseVersions } from './check-release-versions.mjs';
+import { checkReleaseVersions, defaultTagName } from './check-release-versions.mjs';
 
 describe('check-release-versions', () => {
   it('accepts linked server and markdown flavor release versions', () => {
@@ -34,6 +34,13 @@ describe('check-release-versions', () => {
       'root dependency markdown-flavor-detection@1.2.2 does not match root package version 1.2.3',
       'release tag v1.2.4 resolves to 1.2.4, but root package version is 1.2.3',
     ]);
+  });
+
+  it('does not treat pull request refs as release tags', () => {
+    expect(defaultTagName({ GITHUB_REF_TYPE: 'branch', GITHUB_REF_NAME: '180/merge' })).toBe(
+      undefined,
+    );
+    expect(defaultTagName({ GITHUB_REF_TYPE: 'tag', GITHUB_REF_NAME: 'v1.2.3' })).toBe('v1.2.3');
   });
 });
 

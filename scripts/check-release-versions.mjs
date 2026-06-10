@@ -102,8 +102,14 @@ function readJson(path) {
   return JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 }
 
+export function defaultTagName(env = process.env) {
+  return env.GITHUB_REF_TYPE === 'tag' ? env.GITHUB_REF_NAME : undefined;
+}
+
 function parseArgs(args) {
-  const parsed = { tagName: process.env.GITHUB_REF_NAME };
+  const parsed = {
+    tagName: defaultTagName(),
+  };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === '--tag') {
