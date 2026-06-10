@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { fileURLToPath } from 'node:url';
-import { resolveMarkdownFlavor } from '@flavor-grenade/markdown-flavor';
+import { resolveMarkdownFlavor } from 'markdown-flavor-detection';
 import {
   isMarkdownFlavorSelection,
   type MarkdownFlavorId,

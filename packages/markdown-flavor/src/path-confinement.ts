@@ -101,7 +101,7 @@ function isSafeRelativePath(value: string): boolean {
 }
 
 function joinPath(root: string, relativePath: string): string {
-  return relativePath.length === 0 ? root : `${root.replace(/\/+$/u, '')}/${relativePath}`;
+  return relativePath.length === 0 ? root : `${trimTrailingSlashes(root)}/${relativePath}`;
 }
 
 function normalizeSeparators(value: string): string {
@@ -109,7 +109,7 @@ function normalizeSeparators(value: string): string {
 }
 
 function absolutePrefix(value: string): string | null {
-  if (/^[A-Za-z]:\//.test(value)) {
+  if (isWindowsDriveAbsolute(value)) {
     return value.slice(0, 3);
   }
   if (value.startsWith('//')) {
@@ -125,9 +125,25 @@ function trimRootPrefix(prefix: string): string {
   if (prefix === '/') {
     return '/';
   }
-  return prefix.replace(/\/+$/u, '');
+  return trimTrailingSlashes(prefix);
 }
 
 function normalizeForCompare(value: string): string {
-  return /^[A-Za-z]:\//.test(value) || value.startsWith('//') ? value.toLowerCase() : value;
+  return isWindowsDriveAbsolute(value) || value.startsWith('//') ? value.toLowerCase() : value;
+}
+
+function trimTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value[end - 1] === '/') {
+    end -= 1;
+  }
+  return value.slice(0, end);
+}
+
+function isWindowsDriveAbsolute(value: string): boolean {
+  if (value.length < 3 || value[1] !== ':' || value[2] !== '/') {
+    return false;
+  }
+  const code = value.charCodeAt(0);
+  return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
 }

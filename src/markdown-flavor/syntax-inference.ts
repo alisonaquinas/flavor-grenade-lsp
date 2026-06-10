@@ -1,1 +1,1 @@
-export { inferMarkdownFlavorFromSyntax } from '@flavor-grenade/markdown-flavor';
+export { inferMarkdownFlavorFromSyntax } from 'markdown-flavor-detection';

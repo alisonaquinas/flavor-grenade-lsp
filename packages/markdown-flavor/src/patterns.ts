@@ -62,11 +62,12 @@ export function patternMatchesDirectory(rawPattern: string, rawRelativePath: str
 }
 
 export function normalizeConfigLine(rawLine: string): string {
-  const trimmedRight = rawLine.replace(/\s+$/u, '');
-  if (/^\s*(#|$)/.test(trimmedRight)) {
+  const trimmedRight = trimEndWhitespace(rawLine);
+  const firstNonWhitespace = firstNonWhitespaceIndex(trimmedRight);
+  if (firstNonWhitespace === trimmedRight.length || trimmedRight[firstNonWhitespace] === '#') {
     return '';
   }
-  return trimmedRight.trimStart();
+  return trimmedRight.slice(firstNonWhitespace);
 }
 
 export function splitConfigTokens(line: string): string[] {
@@ -75,7 +76,7 @@ export function splitConfigTokens(line: string): string[] {
   let escaped = false;
   for (const char of line) {
     if (escaped) {
-      current += /[\s#!]/u.test(char) ? char : `\\${char}`;
+      current += isEscapableConfigCharacter(char) ? char : `\\${char}`;
       escaped = false;
       continue;
     }
@@ -83,7 +84,7 @@ export function splitConfigTokens(line: string): string[] {
       escaped = true;
       continue;
     }
-    if (/\s/u.test(char)) {
+    if (isWhitespace(char)) {
       if (current.length > 0) {
         tokens.push(current);
         current = '';
@@ -102,7 +103,18 @@ export function splitConfigTokens(line: string): string[] {
 }
 
 export function unescapePattern(value: string): string {
-  return value.replace(/\\([#! ])/g, '$1');
+  let result = '';
+  for (let index = 0; index < value.length; index += 1) {
+    const char = value[index];
+    const next = value[index + 1];
+    if (char === '\\' && next !== undefined && isEscapablePatternCharacter(next)) {
+      result += next;
+      index += 1;
+    } else {
+      result += char;
+    }
+  }
+  return result;
 }
 
 export function toPosix(value: string): string {
@@ -294,5 +306,41 @@ function normalizePattern(value: string): string {
 }
 
 function trimSlashes(value: string): string {
-  return value.replace(/^\/+|\/+$/g, '');
+  let start = 0;
+  let end = value.length;
+  while (start < end && value[start] === '/') {
+    start += 1;
+  }
+  while (end > start && value[end - 1] === '/') {
+    end -= 1;
+  }
+  return value.slice(start, end);
+}
+
+function trimEndWhitespace(value: string): string {
+  let end = value.length;
+  while (end > 0 && isWhitespace(value[end - 1])) {
+    end -= 1;
+  }
+  return value.slice(0, end);
+}
+
+function firstNonWhitespaceIndex(value: string): number {
+  let index = 0;
+  while (index < value.length && isWhitespace(value[index])) {
+    index += 1;
+  }
+  return index;
+}
+
+function isEscapableConfigCharacter(value: string): boolean {
+  return isWhitespace(value) || value === '#' || value === '!';
+}
+
+function isEscapablePatternCharacter(value: string): boolean {
+  return value === '#' || value === '!' || value === ' ';
+}
+
+function isWhitespace(value: string): boolean {
+  return value === ' ' || value === '\t' || value === '\n' || value === '\r' || value === '\f';
 }

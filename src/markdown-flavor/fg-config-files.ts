@@ -3,7 +3,7 @@ import {
   NodeFlavorConfigResolver,
   type FgAttributes,
   type FlavorConfigResolution,
-} from '@flavor-grenade/markdown-flavor/node';
+} from 'markdown-flavor-detection/node';
 
 export type { FgAttributes };
 export type FgConfigResolution = FlavorConfigResolution;

@@ -2,7 +2,7 @@ import {
   inferStructuredProfiles as inferStructuredProfilesForPath,
   resolveStructuredProfiles as resolveStructuredProfilesForPath,
   type StructuredProfileSelection,
-} from '@flavor-grenade/markdown-flavor';
+} from 'markdown-flavor-detection';
 import { fileURLToPath } from 'node:url';
 
 export {
@@ -10,12 +10,12 @@ export {
   isStructuredMarkdownProfileId,
   isStructuredProfileSelection,
   isValidStructuredProfileList,
-} from '@flavor-grenade/markdown-flavor';
+} from 'markdown-flavor-detection';
 export type {
   StructuredMarkdownProfileId,
   StructuredProfileResolutionSource,
   StructuredProfileSelection,
-} from '@flavor-grenade/markdown-flavor';
+} from 'markdown-flavor-detection';
 
 export interface StructuredProfileInferenceInput {
   uri: string;

@@ -4,5 +4,5 @@ export {
   MARKDOWN_FLAVOR_SELECTIONS,
   isMarkdownFlavorId,
   isMarkdownFlavorSelection,
-} from '@flavor-grenade/markdown-flavor';
-export type { MarkdownFlavorId, MarkdownFlavorSelection } from '@flavor-grenade/markdown-flavor';
+} from 'markdown-flavor-detection';
+export type { MarkdownFlavorId, MarkdownFlavorSelection } from 'markdown-flavor-detection';
