@@ -87,6 +87,7 @@ describe('CI workflow verification battery', () => {
       'bun run format:check',
       'bun run lint:dependencies',
       'bun run lint:installed-packages',
+      'node scripts/check-release-versions.mjs',
       'bun run lint:docs',
       'bun run build',
       'bun test --coverage',
@@ -251,9 +252,11 @@ describe('CI workflow verification battery', () => {
 
     for (const command of [
       'Pack npm package',
+      'Validate release versions',
+      'node scripts/check-release-versions.mjs --tag "$GITHUB_REF_NAME"',
       'npm pack --ignore-scripts --json',
       'Upload npm package candidate',
-      'needs: pack-npm-package',
+      'needs: [pack-npm-package, publish-markdown-flavor-package]',
       'node - "$TMPDIR/npm-metadata.json" "$TMPDIR/npm.tgz" <<',
       'npm 11.14.0 tarball integrity mismatch',
       'cosign sign-blob "$NPM_PACKAGE_PATH"',
@@ -280,6 +283,7 @@ describe('CI workflow verification battery', () => {
 
     expectStepOrder(workflow, [
       'bun run build',
+      'Validate release versions',
       'npm pack --ignore-scripts --json',
       'Sign npm package with GitHub OIDC',
       'Publish to npmjs.com',
@@ -312,11 +316,8 @@ describe('CI workflow verification battery', () => {
       'Pack markdown flavor npm package',
       "if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')",
       'needs: pack-markdown-flavor-package',
-      'tag_version="${GITHUB_REF_NAME#v}"',
-      "readFileSync('package.json', 'utf8')",
-      "readFileSync('packages/markdown-flavor/package.json', 'utf8')",
-      'test "$tag_version" = "$server_version"',
-      'test "$tag_version" = "$package_version"',
+      'Validate release versions',
+      'node scripts/check-release-versions.mjs --tag "$GITHUB_REF_NAME"',
       'markdown-flavor-npm-package-candidate',
       'MARKDOWN_FLAVOR_NPM_PACKAGE_PATH',
       'signed-markdown-flavor-npm-package',
@@ -345,10 +346,13 @@ describe('CI workflow verification battery', () => {
       expect(packJob).toContain(releaseGate);
     }
 
-    expectStepOrder(workflow, [
-      'Markdown flavor package checks',
+    expectStepOrder(packJob, [
       'Pack markdown flavor npm package',
-      'Validate markdown flavor release tag',
+      'Validate release versions',
+      'Upload markdown flavor npm package candidate',
+    ]);
+
+    expectStepOrder(workflow, [
       'Upload markdown flavor npm package candidate',
       'Publish markdown flavor package to npm',
       'Sign markdown flavor npm package with GitHub OIDC',

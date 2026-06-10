@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set-version.sh — Bump the version field in package.json.
+# set-version.sh — Bump linked package versions.
 #
 # Usage:   ./scripts/set-version.sh <new-version>
 # Example: ./scripts/set-version.sh 1.2.3
@@ -56,31 +56,51 @@ if ! command -v jq &>/dev/null; then
 fi
 
 # ---------------------------------------------------------------------------
-# Resolve package.json (must run from repo root)
+# Resolve package manifests (must run from repo root)
 # ---------------------------------------------------------------------------
 
 PACKAGE_JSON="package.json"
+MARKDOWN_FLAVOR_PACKAGE_JSON="packages/markdown-flavor/package.json"
+MARKDOWN_FLAVOR_PACKAGE_NAME="markdown-flavor-detection"
 
 if [[ ! -f "$PACKAGE_JSON" ]]; then
   die "package.json not found. Run this script from the repository root."
 fi
 
+if [[ ! -f "$MARKDOWN_FLAVOR_PACKAGE_JSON" ]]; then
+  die "$MARKDOWN_FLAVOR_PACKAGE_JSON not found. Run this script from the repository root."
+fi
+
 # ---------------------------------------------------------------------------
-# Read current version and write new version
+# Read current versions and write new version
 # ---------------------------------------------------------------------------
 
 OLD_VERSION="$(jq -r '.version' "$PACKAGE_JSON")"
+OLD_MARKDOWN_FLAVOR_VERSION="$(jq -r '.version' "$MARKDOWN_FLAVOR_PACKAGE_JSON")"
 
 if [[ "$OLD_VERSION" == "null" || -z "$OLD_VERSION" ]]; then
   die "Could not read .version from $PACKAGE_JSON."
 fi
 
-# Use a temp file for atomic replacement (avoids truncating the file on error).
-TMP_FILE="$(mktemp)"
-# Ensure the temp file is cleaned up on exit, even on error.
-trap 'rm -f "$TMP_FILE"' EXIT
+if [[ "$OLD_MARKDOWN_FLAVOR_VERSION" == "null" || -z "$OLD_MARKDOWN_FLAVOR_VERSION" ]]; then
+  die "Could not read .version from $MARKDOWN_FLAVOR_PACKAGE_JSON."
+fi
 
-jq --arg v "$NEW_VERSION" '.version = $v' "$PACKAGE_JSON" > "$TMP_FILE"
-mv "$TMP_FILE" "$PACKAGE_JSON"
+TMP_ROOT="$(mktemp)"
+TMP_MARKDOWN_FLAVOR="$(mktemp)"
+trap 'rm -f "$TMP_ROOT" "$TMP_MARKDOWN_FLAVOR"' EXIT
+
+jq \
+  --arg v "$NEW_VERSION" \
+  --arg packageName "$MARKDOWN_FLAVOR_PACKAGE_NAME" \
+  '.version = $v | .dependencies[$packageName] = $v' \
+  "$PACKAGE_JSON" > "$TMP_ROOT"
+jq --arg v "$NEW_VERSION" '.version = $v' "$MARKDOWN_FLAVOR_PACKAGE_JSON" > "$TMP_MARKDOWN_FLAVOR"
+
+mv "$TMP_ROOT" "$PACKAGE_JSON"
+mv "$TMP_MARKDOWN_FLAVOR" "$MARKDOWN_FLAVOR_PACKAGE_JSON"
+
+node scripts/check-release-versions.mjs --tag "v$NEW_VERSION" >/dev/null
 
 echo "Version updated: $OLD_VERSION -> $NEW_VERSION"
+echo "Markdown flavor package version updated: $OLD_MARKDOWN_FLAVOR_VERSION -> $NEW_VERSION"

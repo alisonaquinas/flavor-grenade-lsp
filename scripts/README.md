@@ -6,15 +6,16 @@ Automation scripts that act on the repository. These scripts are **not** linked 
 
 ## Scripts
 
-| Script                 | Description                                                                                                                                     |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `set-version.sh`       | Bump the version field in `package.json` to a new semver string.                                                                                |
-| `build-binary.mjs`     | Compile native server binaries with Bun for local experiments and server GitHub Release artifacts.                                             |
-| `check-exact-dependencies.mjs` | Enforce exact dependency versions in root package metadata.                                                                           |
-| `copy-binary.mjs`      | Copy a compiled server binary from `dist/` into `extension/server/`.                                                                            |
-| `lint-all.sh`          | Run all linters sequentially (TypeScript, ESLint, Prettier, markdownlint-obsidian, markdownlint-cli2) and print a per-linter PASS/FAIL summary. |
-| `validate-docs.sh`     | Run only the Markdown linters — useful for doc-only changes.                                                                                    |
-| `update-test-index.sh` | Reserved command for future test index generation; currently exits with a not-implemented message.                                             |
+| Script                         | Description                                                                                                                                     |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `set-version.sh`               | Bump linked root and `markdown-flavor-detection` package versions to a new semver string.                                                       |
+| `build-binary.mjs`             | Compile native server binaries with Bun for local experiments and server GitHub Release artifacts.                                              |
+| `check-exact-dependencies.mjs` | Enforce exact dependency versions in root package metadata.                                                                                     |
+| `check-release-versions.mjs`   | Verify root version, `markdown-flavor-detection` version, dependency specifier, and optional release tag stay aligned.                          |
+| `copy-binary.mjs`              | Copy a compiled server binary from `dist/` into `extension/server/`.                                                                            |
+| `lint-all.sh`                  | Run all linters sequentially (TypeScript, ESLint, Prettier, markdownlint-obsidian, markdownlint-cli2) and print a per-linter PASS/FAIL summary. |
+| `validate-docs.sh`             | Run only the Markdown linters — useful for doc-only changes.                                                                                    |
+| `update-test-index.sh`         | Reserved command for future test index generation; currently exits with a not-implemented message.                                              |
 
 ---
 
