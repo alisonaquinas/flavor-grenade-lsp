@@ -1,6 +1,6 @@
 ---
 id: "TASK-355"
-title: "Implement .fgignore and .fgattributes parser/resolver"
+title: "Implement .mdfignore and .mdfattributes parser/resolver"
 type: task
 status: green
 priority: high
@@ -13,11 +13,11 @@ tags: [tickets/task, "phase/35", markdown-flavor, configuration]
 aliases: ["TASK-355"]
 ---
 
-# Implement .fgignore And .fgattributes Parser/Resolver
+# Implement .mdfignore And .mdfattributes Parser/Resolver
 
 ## Work Scope
 
-- Create a server-side config-file resolver for `.fgignore` and `.fgattributes`.
+- Create a server-side config-file resolver for `.mdfignore` and `.mdfattributes`.
 - Discover config files from vault root to the target file's directory.
 - Confine each candidate realpath to the active vault/workspace boundary before
   reading it.
@@ -25,16 +25,16 @@ aliases: ["TASK-355"]
   logging file contents.
 - Support Git-style comments, escaping, anchored patterns, unanchored patterns,
   directory patterns, `*`, `?`, `**`, and negation.
-- Resolve `.fgattributes` attributes per key: `flavor`,
+- Resolve `.mdfattributes` attributes per key: `flavor`,
   `structured_profiles`, `!flavor`, and `!structured_profiles`.
 
 ## Planned Source/Test Paths
 
 | Kind | Planned path |
 |---|---|
-| Source | `src/markdown-flavor/fg-config-files.ts` |
+| Source | `src/markdown-flavor/mdf-config-files.ts` |
 | Source | `src/markdown-flavor/project-markdown-config-files.ts` |
-| Test | `src/markdown-flavor/__tests__/fg-config-files.test.ts` |
+| Test | `src/markdown-flavor/__tests__/mdf-config-files.test.ts` |
 
 ## Definition of Done
 
@@ -49,11 +49,11 @@ aliases: ["TASK-355"]
 
 > [!FAIL] RED - 2026-05-29
 > Status set to `red`. Added focused resolver tests for default Auto Detect
-> state, `.fgignore` ignore/re-include behavior, nested rules, `.fgattributes`
+> state, `.mdfignore` ignore/re-include behavior, nested rules, `.mdfattributes`
 > cascades, invalid values, and vault-boundary rejection. Expected failure:
 > resolver module is not implemented yet.
 
 > [!SUCCESS] GREEN - 2026-05-29
-> Status set to `green`. Added `FlavorGrenadeConfigFiles` with confined reads,
-> Git-style pattern matching, `.fgignore` visibility resolution, and
-> `.fgattributes` attribute cascade. Focused tests, typecheck, and lint pass.
+> Status set to `green`. Added `MarkdownFlavorConfigFiles` with confined reads,
+> Git-style pattern matching, `.mdfignore` visibility resolution, and
+> `.mdfattributes` attribute cascade. Focused tests, typecheck, and lint pass.

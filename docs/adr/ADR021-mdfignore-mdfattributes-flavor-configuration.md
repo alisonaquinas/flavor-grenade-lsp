@@ -1,16 +1,16 @@
 ---
 adr: "021"
-title: Git-style .fgignore and .fgattributes flavor configuration
+title: Git-style .mdfignore and .mdfattributes flavor configuration
 status: accepted
 date: 2026-05-29
 tags: [adr, ADR021, markdown-flavor, configuration]
 aliases:
   - ADR021
-  - .fgignore and .fgattributes
+  - .mdfignore and .mdfattributes
   - Flavor configuration files
 ---
 
-# ADR 021 - Git-style .fgignore and .fgattributes flavor configuration
+# ADR 021 - Git-style .mdfignore and .mdfattributes flavor configuration
 
 ## Context
 
@@ -20,8 +20,8 @@ Code settings and Flavor Grenade project config files.
 
 The revised product requirement is a Git-style file configuration model:
 
-- `.fgignore` excludes files from all Flavor Grenade processing and indexing.
-- `.fgattributes` assigns Markdown flavor and structured profile attributes to
+- `.mdfignore` excludes files from all Flavor Grenade processing and indexing.
+- `.mdfattributes` assigns Markdown flavor and structured profile attributes to
   files by path pattern.
 - both files may appear at the vault root and in subdirectories;
 - later and nearer rules override earlier and broader rules;
@@ -34,11 +34,11 @@ regular expressions. Flavor Grenade follows that model.
 
 ## Decision
 
-Flavor Grenade will use `.fgignore` and `.fgattributes` as the only persistent
+Flavor Grenade will use `.mdfignore` and `.mdfattributes` as the only persistent
 file and directory configuration mechanism for Markdown flavor membership and
 flavor assignment.
 
-This does not supersede Auto Detect. If no `.fgignore` or `.fgattributes` file
+This does not supersede Auto Detect. If no `.mdfignore` or `.mdfattributes` file
 exists for a directory tree, Flavor Grenade applies Auto Detect to every
 Markdown file in that directory and all subdirectories.
 
@@ -46,40 +46,40 @@ The accepted configuration files are:
 
 | File | Purpose |
 |---|---|
-| `.fgignore` | Removes matching files and directories from Flavor Grenade visibility. Ignored files are not scanned, parsed, indexed, diagnosed, completed, renamed, or used as references. |
-| `.fgattributes` | Assigns per-path attributes such as `flavor=<MarkdownFlavorId>` and structured profile flags. |
+| `.mdfignore` | Removes matching files and directories from Flavor Grenade visibility. Ignored files are not scanned, parsed, indexed, diagnosed, completed, renamed, or used as references. |
+| `.mdfattributes` | Assigns per-path attributes such as `flavor=<MarkdownFlavorId>` and structured profile flags. |
 
 Legacy Flavor Grenade project config files and VS Code settings must not be
 used for file or directory flavor selection after this decision is implemented.
 They may remain only for non-flavor operational settings during migration.
 
-The VS Code extension selector remains, but it writes `.fgattributes` instead
+The VS Code extension selector remains, but it writes `.mdfattributes` instead
 of VS Code flavor settings. After choosing a flavor, the extension prompts for
 scope:
 
 | Scope choice | Write behavior |
 |---|---|
-| Selected file | Add or update a `.fgattributes` rule for the active Markdown file. |
-| All files in the directory | Add or update a `.fgattributes` `/*.md` rule for Markdown files directly in the active file's directory. |
+| Selected file | Add or update a `.mdfattributes` rule for the active Markdown file. |
+| All files in the directory | Add or update a `.mdfattributes` `/*.md` rule for Markdown files directly in the active file's directory. |
 
-Choosing Auto Detect removes or resets the matching `.fgattributes` assignment
+Choosing Auto Detect removes or resets the matching `.mdfattributes` assignment
 at the same scope when possible, so the document falls through to lower
 priority rules or automatic detection.
 
 ## Pattern Semantics
 
-`.fgignore` uses Git ignore style wildmatch semantics:
+`.mdfignore` uses Git ignore style wildmatch semantics:
 
 - blank lines are ignored;
 - `#` starts a comment unless escaped;
-- `/` anchors a pattern to the directory containing the `.fgignore`;
+- `/` anchors a pattern to the directory containing the `.mdfignore`;
 - trailing `/` matches directories;
 - `*`, `?`, character classes, and `**` follow Git-style glob behavior;
 - `!` negates a previous ignore match;
 - later rules in the same file win;
 - rules in deeper directories win over ancestor rules.
 
-`.fgattributes` uses the same selector matching model with attribute tokens
+`.mdfattributes` uses the same selector matching model with attribute tokens
 inspired by `.gitattributes`:
 
 ```gitattributes
@@ -89,10 +89,10 @@ notes/**/*.md flavor=obsidian
 scratch/**/*.md !flavor !structured_profiles
 ```
 
-For `.fgattributes`, `!attribute` resets that attribute to unspecified for the
+For `.mdfattributes`, `!attribute` resets that attribute to unspecified for the
 matched path, allowing lower-priority automatic detection or defaults to apply.
 Flavor Grenade also accepts a leading `!` selector to cancel earlier attribute
-rules in the same file for matching paths, mirroring the `.fgignore` mental
+rules in the same file for matching paths, mirroring the `.mdfignore` mental
 model where a broad rule can be narrowed later.
 
 ## Effective Order
@@ -100,9 +100,9 @@ model where a broad rule can be narrowed later.
 For any candidate file, Flavor Grenade resolves configuration in this order:
 
 1. Reject unsupported URI schemes and non-Markdown editor language ids.
-2. Apply `.fgignore` from vault root to the file's directory.
+2. Apply `.mdfignore` from vault root to the file's directory.
 3. If ignored, return `inactive` and do not process or index the file.
-4. Apply `.fgattributes` from vault root to the file's directory.
+4. Apply `.mdfattributes` from vault root to the file's directory.
 5. Use the resulting `flavor` attribute when present.
 6. If no `flavor` attribute applies, run Auto Detect.
 7. If Auto Detect has no stronger signal, use `commonmark`.

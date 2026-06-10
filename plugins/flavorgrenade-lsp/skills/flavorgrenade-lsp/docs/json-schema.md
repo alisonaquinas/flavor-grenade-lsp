@@ -30,8 +30,8 @@ Failures return:
 
 `analyze.files[]` and direct `detect` results include per-file flavor decisions,
 structured variants, safe evidence, and redacted config metadata when
-`.fgignore` or `.fgattributes` participates. Broad scan commands omit files
-hidden by `.fgignore`; direct file detection can report inactive status for an
+`.mdfignore` or `.mdfattributes` participates. Broad scan commands omit files
+hidden by `.mdfignore`; direct file detection can report inactive status for an
 ignored target.
 
 Active files report:
@@ -42,11 +42,11 @@ Active files report:
   "active": true,
   "baseFlavor": "gfm",
   "variants": ["madr"],
-  "source": "fgattributes",
+  "source": "mdfattributes",
   "config": {
-    "source": "fgattributes",
-    "format": "fg-config",
-    "configFiles": [".fgattributes", "docs/.fgattributes"],
+    "source": "mdfattributes",
+    "format": "mdf-config",
+    "configFiles": [".mdfattributes", "docs/.mdfattributes"],
     "ignored": false,
     "attributes": {
       "flavor": "gfm",
@@ -64,15 +64,15 @@ decision:
   "path": "drafts/skip.md",
   "active": false,
   "baseFlavor": null,
-  "source": "fgignore",
+  "source": "mdfignore",
   "config": {
-    "source": "fgignore",
+    "source": "mdfignore",
     "ignored": true,
-    "inactiveReason": "fgignore"
+    "inactiveReason": "mdfignore"
   }
 }
 ```
 
-When `.fgattributes` is absent, resets `flavor` with `!flavor`, or sets
+When `.mdfattributes` is absent, resets `flavor` with `!flavor`, or sets
 `flavor=auto`, `source` is `lsp-auto-detect` and the LSP Auto Detect workflow
 selects the effective flavor.

@@ -34,7 +34,7 @@ current compatibility behavior.
 - Preserve `onLanguage:markdown` as the lightweight language wake path for the
   built-in Markdown language.
 - Prove generic Markdown language wake performs startup checks only and does not
-  spawn indexing without `.obsidian/`, `.fgignore`, `.fgattributes`, explicit
+  spawn indexing without `.obsidian/`, `.mdfignore`, `.mdfattributes`, explicit
   selector override, or command intent.
 - Keep `LanguageClient` `clientOptions.documentSelector` scoped to file-backed
   `markdown` documents only; fail tests if `ofmarkdown` remains in the current
@@ -68,8 +68,8 @@ current compatibility behavior.
       extension.
 - [ ] Startup gate does not require `onLanguage:ofmarkdown`.
 - [ ] Manifest retains `onLanguage:markdown` and tests prove generic Markdown
-      wake remains lightweight until positive vault, `.fgignore`,
-      `.fgattributes`, selector, or command intent exists.
+      wake remains lightweight until positive vault, `.mdfignore`,
+      `.mdfattributes`, selector, or command intent exists.
 - [ ] Current `documentSelector` contains no `ofmarkdown` entry.
 - [ ] Restricted and virtual selector command paths preserve disabled/no-server
       behavior.

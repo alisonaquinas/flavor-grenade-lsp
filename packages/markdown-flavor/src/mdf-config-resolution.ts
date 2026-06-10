@@ -1,5 +1,5 @@
-import { applyFgAttributes, type FgAttributes, parseFgAttributes } from './fgattributes.js';
-import { matchFgIgnore, parseFgIgnore, shouldPruneDirectoryByFgIgnore } from './fgignore.js';
+import { applyMdfAttributes, type MdfAttributes, parseMdfAttributes } from './mdfattributes.js';
+import { matchMdfIgnore, parseMdfIgnore, shouldPruneDirectoryByMdfIgnore } from './mdfignore.js';
 import {
   confinePathToRoot,
   normalizeRootPath,
@@ -7,7 +7,7 @@ import {
   rootRelativePath,
 } from './path-confinement.js';
 
-export const DEFAULT_FG_CONFIG_MAX_BYTES = 8192;
+export const DEFAULT_MDF_CONFIG_MAX_BYTES = 8192;
 
 export interface FlavorConfigFileStat {
   isFile(): boolean;
@@ -28,9 +28,9 @@ export interface SyncFlavorConfigFileReader {
 
 export interface FlavorConfigResolution {
   ignored: boolean;
-  inactiveReason?: 'fgignore' | 'outside-vault';
+  inactiveReason?: 'mdfignore' | 'outside-vault';
   configFilesSeen: boolean;
-  attributes: FgAttributes;
+  attributes: MdfAttributes;
 }
 
 export type ResolveFlavorConfigInput = {
@@ -62,30 +62,34 @@ export async function resolveFlavorConfig(
   const directories = configDirectoriesFor(input.root, confinedResource);
   let configFilesSeen = false;
   let ignored = false;
-  let attributes: FgAttributes = {};
+  let attributes: MdfAttributes = {};
 
   for (const directory of directories) {
     const ignoreContent = await readConfigIfPresent(
       input,
       directory.directory,
-      '.fgignore',
+      '.mdfignore',
       maxConfigBytes,
     );
     if (ignoreContent !== undefined) {
       configFilesSeen = true;
-      ignored = matchFgIgnore(parseFgIgnore(ignoreContent), directory.relativeTargetPath, ignored);
+      ignored = matchMdfIgnore(
+        parseMdfIgnore(ignoreContent),
+        directory.relativeTargetPath,
+        ignored,
+      );
     }
 
     const attributesContent = await readConfigIfPresent(
       input,
       directory.directory,
-      '.fgattributes',
+      '.mdfattributes',
       maxConfigBytes,
     );
     if (attributesContent !== undefined) {
       configFilesSeen = true;
-      attributes = applyFgAttributes(
-        parseFgAttributes(attributesContent),
+      attributes = applyMdfAttributes(
+        parseMdfAttributes(attributesContent),
         directory.relativeTargetPath,
         attributes,
       );
@@ -107,30 +111,34 @@ export function resolveFlavorConfigSync(
   const directories = configDirectoriesFor(input.root, confinedResource);
   let configFilesSeen = false;
   let ignored = false;
-  let attributes: FgAttributes = {};
+  let attributes: MdfAttributes = {};
 
   for (const directory of directories) {
     const ignoreContent = readConfigIfPresentSync(
       input,
       directory.directory,
-      '.fgignore',
+      '.mdfignore',
       maxConfigBytes,
     );
     if (ignoreContent !== undefined) {
       configFilesSeen = true;
-      ignored = matchFgIgnore(parseFgIgnore(ignoreContent), directory.relativeTargetPath, ignored);
+      ignored = matchMdfIgnore(
+        parseMdfIgnore(ignoreContent),
+        directory.relativeTargetPath,
+        ignored,
+      );
     }
 
     const attributesContent = readConfigIfPresentSync(
       input,
       directory.directory,
-      '.fgattributes',
+      '.mdfattributes',
       maxConfigBytes,
     );
     if (attributesContent !== undefined) {
       configFilesSeen = true;
-      attributes = applyFgAttributes(
-        parseFgAttributes(attributesContent),
+      attributes = applyMdfAttributes(
+        parseMdfAttributes(attributesContent),
         directory.relativeTargetPath,
         attributes,
       );
@@ -156,12 +164,12 @@ export async function shouldPruneDirectoryByFlavorConfig(
     const ignoreContent = await readConfigIfPresent(
       input,
       directory.directory,
-      '.fgignore',
+      '.mdfignore',
       maxConfigBytes,
     );
     if (ignoreContent !== undefined) {
-      ignored = shouldPruneDirectoryByFgIgnore(
-        parseFgIgnore(ignoreContent),
+      ignored = shouldPruneDirectoryByMdfIgnore(
+        parseMdfIgnore(ignoreContent),
         directory.relativeTargetPath,
         ignored,
       );
@@ -187,12 +195,12 @@ export function shouldPruneDirectoryByFlavorConfigSync(
     const ignoreContent = readConfigIfPresentSync(
       input,
       directory.directory,
-      '.fgignore',
+      '.mdfignore',
       maxConfigBytes,
     );
     if (ignoreContent !== undefined) {
-      ignored = shouldPruneDirectoryByFgIgnore(
-        parseFgIgnore(ignoreContent),
+      ignored = shouldPruneDirectoryByMdfIgnore(
+        parseMdfIgnore(ignoreContent),
         directory.relativeTargetPath,
         ignored,
       );
@@ -205,7 +213,7 @@ export function shouldPruneDirectoryByFlavorConfigSync(
 async function readConfigIfPresent(
   input: ResolveFlavorConfigInput,
   directory: string,
-  fileName: '.fgignore' | '.fgattributes',
+  fileName: '.mdfignore' | '.mdfattributes',
   maxConfigBytes: number,
 ): Promise<string | undefined> {
   const candidate = configFilePath(input.root, directory, fileName);
@@ -233,7 +241,7 @@ async function readConfigIfPresent(
 function readConfigIfPresentSync(
   input: ResolveFlavorConfigSyncInput,
   directory: string,
-  fileName: '.fgignore' | '.fgattributes',
+  fileName: '.mdfignore' | '.mdfattributes',
   maxConfigBytes: number,
 ): string | undefined {
   const candidate = configFilePath(input.root, directory, fileName);
@@ -289,7 +297,7 @@ function configDirectoriesFor(root: string, resourcePath: string): ConfigDirecto
 function configFilePath(
   root: string,
   directory: string,
-  fileName: '.fgignore' | '.fgattributes',
+  fileName: '.mdfignore' | '.mdfattributes',
 ): string | null {
   const relativeDirectory = rootRelativePath(root, directory);
   if (relativeDirectory === null) {
@@ -303,10 +311,10 @@ function configFilePath(
 
 function normalizeMaxConfigBytes(value: number | undefined): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
-    return DEFAULT_FG_CONFIG_MAX_BYTES;
+    return DEFAULT_MDF_CONFIG_MAX_BYTES;
   }
   const normalized = Math.floor(value);
-  return normalized > 0 ? normalized : DEFAULT_FG_CONFIG_MAX_BYTES;
+  return normalized > 0 ? normalized : DEFAULT_MDF_CONFIG_MAX_BYTES;
 }
 
 function configFileReader(input: ResolveFlavorConfigInput): FlavorConfigFileReader {
@@ -320,12 +328,12 @@ function syncConfigFileReader(input: ResolveFlavorConfigSyncInput): SyncFlavorCo
 function flavorConfigResult(
   ignored: boolean,
   configFilesSeen: boolean,
-  attributes: FgAttributes,
+  attributes: MdfAttributes,
 ): FlavorConfigResolution {
   if (ignored) {
     return {
       ignored: true,
-      inactiveReason: 'fgignore',
+      inactiveReason: 'mdfignore',
       configFilesSeen,
       attributes: {},
     };

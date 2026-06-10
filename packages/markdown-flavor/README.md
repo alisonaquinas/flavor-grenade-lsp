@@ -23,15 +23,15 @@ bun add markdown-flavor-detection
 - detects strong syntax evidence for MDX, R Markdown, GitLab Flavored Markdown,
   Pandoc Markdown, MultiMarkdown, kramdown, Markdown Extra, Reddit Markdown, and
   Stack Overflow Markdown;
-- resolves effective flavor state from explicit selections, `.fgattributes`,
+- resolves effective flavor state from explicit selections, `.mdfattributes`,
   Obsidian markers, syntax inference, and CommonMark fallback;
-- parses and applies `.fgignore`;
-- parses and applies `.fgattributes` assignments for `flavor` and
+- parses and applies `.mdfignore`;
+- parses and applies `.mdfattributes` assignments for `flavor` and
   `structured_profiles`;
 - infers structured profiles such as Keep a Changelog, Common Changelog, and
   MADR;
-- provides a Node filesystem adapter for cascading `.fgignore` and
-  `.fgattributes` lookup.
+- provides a Node filesystem adapter for cascading `.mdfignore` and
+  `.mdfattributes` lookup.
 
 ## Supported Flavors
 
@@ -81,7 +81,7 @@ if (result.kind === 'active') {
 
 Resolution order is:
 
-1. explicit `flavorSelection` or `.fgattributes` flavor;
+1. explicit `flavorSelection` or `.mdfattributes` flavor;
 2. Obsidian marker;
 3. strong syntax inference;
 4. CommonMark fallback.
@@ -95,21 +95,21 @@ const result = resolveMarkdownFlavor({
   ignored: true,
 });
 
-// { kind: 'inactive', reason: 'fgignore' }
+// { kind: 'inactive', reason: 'mdfignore' }
 ```
 
-## Parse `.fgattributes`
+## Parse `.mdfattributes`
 
 ```ts
-import { applyFgAttributes, parseFgAttributes } from 'markdown-flavor-detection';
+import { applyMdfAttributes, parseMdfAttributes } from 'markdown-flavor-detection';
 
-const rules = parseFgAttributes(`
+const rules = parseMdfAttributes(`
 docs/**/*.md flavor=obsidian
 docs/adr/*.md structured_profiles=madr
 CHANGELOG.md structured_profiles=keep-a-changelog
 `);
 
-const attributes = applyFgAttributes(rules, 'docs/adr/0001-example.md');
+const attributes = applyMdfAttributes(rules, 'docs/adr/0001-example.md');
 ```
 
 Supported assignment keys:
@@ -127,18 +127,18 @@ Supported reset tokens:
 `structured_profiles` accepts `auto`, `none`, or a comma-separated list of
 structured profile ids.
 
-## Parse `.fgignore`
+## Parse `.mdfignore`
 
 ```ts
-import { matchFgIgnore, parseFgIgnore } from 'markdown-flavor-detection';
+import { matchMdfIgnore, parseMdfIgnore } from 'markdown-flavor-detection';
 
-const rules = parseFgIgnore(`
+const rules = parseMdfIgnore(`
 private/**
 !private/public.md
 `);
 
-console.log(matchFgIgnore(rules, 'private/draft.md')); // true
-console.log(matchFgIgnore(rules, 'private/public.md')); // false
+console.log(matchMdfIgnore(rules, 'private/draft.md')); // true
+console.log(matchMdfIgnore(rules, 'private/public.md')); // false
 ```
 
 Ignore and attribute patterns are path-based and use POSIX-style separators.
@@ -147,8 +147,8 @@ expect vault-relative paths.
 
 ## Resolve Config Files From Disk
 
-Use the `./node` export when you want the package to read `.fgignore` and
-`.fgattributes` files from a real directory tree.
+Use the `./node` export when you want the package to read `.mdfignore` and
+`.mdfattributes` files from a real directory tree.
 
 ```ts
 import { NodeFlavorConfigResolver, resolveMarkdownFlavor } from 'markdown-flavor-detection/node';
@@ -160,7 +160,7 @@ const flavor = resolveMarkdownFlavor({
   path: '/path/to/vault/docs/example.md',
   languageId: 'markdown',
   ignored: config.ignored,
-  fgAttributes: config.attributes,
+  mdfAttributes: config.attributes,
   syntaxText: markdownSource,
 });
 ```
@@ -168,8 +168,8 @@ const flavor = resolveMarkdownFlavor({
 The resolver:
 
 - walks from the vault root to the target file's directory;
-- applies nested `.fgignore` files in order;
-- applies nested `.fgattributes` files in order;
+- applies nested `.mdfignore` files in order;
+- applies nested `.mdfattributes` files in order;
 - rejects paths outside the configured root;
 - ignores config files larger than `maxConfigBytes`.
 

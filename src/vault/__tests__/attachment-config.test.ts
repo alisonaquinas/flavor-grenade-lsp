@@ -8,7 +8,7 @@ import { VaultIndex } from '../vault-index.js';
 import { FolderLookup } from '../folder-lookup.js';
 import { IgnoreFilter } from '../ignore-filter.js';
 import { OFMParser } from '../../parser/ofm-parser.js';
-import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../../markdown-flavor/mdf-config-files.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
 import type { VaultDetector } from '../vault-detector.js';
 import type { JsonRpcDispatcher } from '../../transport/json-rpc-dispatcher.js';
@@ -44,7 +44,7 @@ function makeScanner(vaultRoot: string): { scanner: VaultScanner; vaultIndex: Va
     { sendNotification: () => {} } as unknown as JsonRpcDispatcher,
     { rebuild: () => {}, removeDoc: () => {}, addDoc: () => {} } as unknown as TagRegistry,
     new MarkdownFlavorState(),
-    new FlavorGrenadeConfigFiles(),
+    new MarkdownFlavorConfigFiles(),
   );
 
   return { scanner, vaultIndex };

@@ -62,29 +62,29 @@ workspace or directory.
 
 The embedded LSP remains authoritative. The wrapper reports config evidence but
 does not invent flavor decisions. Supported project flavor config files are
-`.fgignore` and `.fgattributes`.
+`.mdfignore` and `.mdfattributes`.
 
-`.fgignore` controls Flavor Grenade visibility. Matching Markdown files are
+`.mdfignore` controls Flavor Grenade visibility. Matching Markdown files are
 inactive, skipped by wrapper scans, and should not be edited with
 flavor-sensitive assumptions unless a later negated rule re-includes them.
 
 ```gitignore
-# .fgignore
+# .mdfignore
 drafts/
 !drafts/keep.md
 generated/**/*.md
 ```
 
-`.fgattributes` controls explicit flavor and structured-profile attributes.
+`.mdfattributes` controls explicit flavor and structured-profile attributes.
 Rules cascade from the workspace root to the target file's directory. Later
 matching rules override earlier rules. Negated selectors affect only matching
-rules in the same `.fgattributes` file; `!flavor` clears the effective flavor
+rules in the same `.mdfattributes` file; `!flavor` clears the effective flavor
 selected so far for matching files so Auto Detect can run unless a later
 matching rule sets another flavor; `flavor=auto` explicitly requests Auto
 Detect.
 
 ```gitattributes
-# .fgattributes
+# .mdfattributes
 *.md flavor=commonmark
 docs/**/*.md flavor=gfm structured_profiles=madr
 docs/private.md !flavor

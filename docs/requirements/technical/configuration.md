@@ -14,8 +14,8 @@ aliases:
 > `flavor-grenade-lsp`: layering and precedence rules, validation of individual
 > config values, fault isolation when config files are malformed, and default
 > values for required keys. File visibility and file/directory Markdown flavor
-> assignment are no longer configured here; they are governed by `.fgignore` and
-> `.fgattributes` in [[docs/features/markdown-flavor-config-files]].
+> assignment are no longer configured here; they are governed by `.mdfignore` and
+> `.mdfattributes` in [[docs/features/markdown-flavor-config-files]].
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Configure Markdown Workspaces | Flavor Grenade LSP"
-description: "Configure root detection, .fgignore visibility, .fgattributes flavor rules, and generated-output behavior."
+description: "Configure root detection, .mdfignore visibility, .mdfattributes flavor rules, and generated-output behavior."
 h1: "Configure Markdown Workspaces"
 summary: "Help Flavor Grenade find the right project root so flavor detection, links, tags, and attachments line up."
 related: ["howToChooseMarkdownFlavor","conceptVaultIndex","advancedConfigurationModel"]
@@ -20,15 +20,15 @@ Most workspace problems start with the root folder. Flavor Grenade reads notes, 
 
 Start with the folder tree before changing configuration.
 
-A single `.obsidian/` folder, `.fgignore`, or `.fgattributes` file can identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
+A single `.obsidian/` folder, `.mdfignore`, or `.mdfattributes` file can identify the content you want indexed. Keep generated output and unrelated repositories outside that active workspace when they should not affect your notes or docs.
 
 ### Open the intended root
 
-Open the folder that owns `.obsidian/`, `.fgignore`, or `.fgattributes`, not a parent folder that happens to contain several projects.
+Open the folder that owns `.obsidian/`, `.mdfignore`, or `.mdfattributes`, not a parent folder that happens to contain several projects.
 
 ### Keep markers explicit
 
-Use `.obsidian/` for Obsidian vaults, `.fgattributes` for repository-tracked flavor rules, and `.fgignore` for Markdown that should not be processed or indexed.
+Use `.obsidian/` for Obsidian vaults, `.mdfattributes` for repository-tracked flavor rules, and `.mdfignore` for Markdown that should not be processed or indexed.
 
 ### Confirm indexed files
 
@@ -36,8 +36,8 @@ Keep generated output and unrelated assets outside the indexed boundary when the
 
 ```text
 DocsProject/
-  .fgattributes
-  .fgignore
+  .mdfattributes
+  .mdfignore
   docs/
     README.md
     decisions/
@@ -45,7 +45,7 @@ DocsProject/
   CHANGELOG.md
 ```
 
-`.fgattributes` example:
+`.mdfattributes` example:
 
 ```gitattributes
 *.md flavor=auto
@@ -53,7 +53,7 @@ docs/decisions/*.md flavor=commonmark structured_profiles=madr
 CHANGELOG.md flavor=gfm structured_profiles=keep-a-changelog
 ```
 
-`.fgignore` example:
+`.mdfignore` example:
 
 ```gitignore
 generated/

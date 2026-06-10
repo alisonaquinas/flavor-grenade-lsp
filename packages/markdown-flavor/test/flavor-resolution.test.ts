@@ -2,20 +2,20 @@ import { describe, expect, it } from '@jest/globals';
 import { resolveMarkdownFlavor } from '../src/index.js';
 
 describe('resolveMarkdownFlavor', () => {
-  it('uses explicit .fgattributes flavor before auto-detect evidence', () => {
+  it('uses explicit .mdfattributes flavor before auto-detect evidence', () => {
     expect(
       resolveMarkdownFlavor({
         path: '/vault/note.md',
         languageId: 'markdown',
         hasObsidianMarker: true,
-        fgAttributes: { flavor: 'gfm' },
+        mdfAttributes: { flavor: 'gfm' },
         syntaxText: '[[Target]]',
       }),
     ).toMatchObject({
       kind: 'active',
       selected: 'gfm',
       effective: 'gfm',
-      source: 'fgattributes',
+      source: 'mdfattributes',
     });
   });
 
@@ -25,7 +25,7 @@ describe('resolveMarkdownFlavor', () => {
         path: '/vault/note.md',
         languageId: 'markdown',
         hasObsidianMarker: true,
-        fgAttributes: { flavor: 'auto' },
+        mdfAttributes: { flavor: 'auto' },
         syntaxText: '# Note',
       }),
     ).toMatchObject({
@@ -61,7 +61,7 @@ describe('resolveMarkdownFlavor', () => {
         languageId: 'markdown',
         ignored: true,
       }),
-    ).toEqual({ kind: 'inactive', reason: 'fgignore' });
+    ).toEqual({ kind: 'inactive', reason: 'mdfignore' });
   });
 
   it('layers structured profiles independently from base flavor', () => {
@@ -69,7 +69,7 @@ describe('resolveMarkdownFlavor', () => {
       resolveMarkdownFlavor({
         path: '/vault/docs/decisions/0001-use-context.md',
         languageId: 'markdown',
-        fgAttributes: {
+        mdfAttributes: {
           flavor: 'gfm',
           structuredProfiles: ['madr'],
         },
@@ -79,16 +79,16 @@ describe('resolveMarkdownFlavor', () => {
       kind: 'active',
       effective: 'gfm',
       structuredProfiles: ['madr'],
-      structuredProfileSource: 'fgattributes',
+      structuredProfileSource: 'mdfattributes',
     });
   });
 
-  it('supports the documented top-level .fgattributes consumer fields', () => {
+  it('supports the documented top-level .mdfattributes consumer fields', () => {
     expect(
       resolveMarkdownFlavor({
         path: '/vault/CHANGELOG.md',
-        fgAttributesFlavor: 'gfm',
-        fgAttributesStructuredProfiles: ['keep-a-changelog'],
+        mdfAttributesFlavor: 'gfm',
+        mdfAttributesStructuredProfiles: ['keep-a-changelog'],
         syntaxText: '# Changelog\n\n## [Unreleased]\n\n### Added\n\n### Fixed\n',
       }),
     ).toMatchObject({
@@ -96,7 +96,7 @@ describe('resolveMarkdownFlavor', () => {
       selected: 'gfm',
       effective: 'gfm',
       structuredProfiles: ['keep-a-changelog'],
-      structuredProfileSource: 'fgattributes',
+      structuredProfileSource: 'mdfattributes',
     });
   });
 });

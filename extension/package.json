@@ -32,8 +32,8 @@
   "icon": "images/icon.png",
     "activationEvents": [
       "workspaceContains:.obsidian",
-      "workspaceContains:.fgignore",
-      "workspaceContains:.fgattributes",
+      "workspaceContains:.mdfignore",
+      "workspaceContains:.mdfattributes",
     "onCommand:flavorGrenade.restartServer",
     "onCommand:flavorGrenade.rebuildIndex",
     "onCommand:flavorGrenade.showOutput",
@@ -167,11 +167,11 @@
           "default": "file-stem",
           "description": "Wiki-link completion style."
         },
-        "flavorGrenade.fgConfig.maxBytes": {
+        "flavorGrenade.mdfConfig.maxBytes": {
           "type": "number",
           "default": 8192,
           "minimum": 1,
-          "description": "Maximum .fgignore or .fgattributes file size, in bytes, read for Markdown flavor detection."
+          "description": "Maximum .mdfignore or .mdfattributes file size, in bytes, read for Markdown flavor detection."
         },
         "flavorGrenade.completion.candidates": {
           "type": "number",

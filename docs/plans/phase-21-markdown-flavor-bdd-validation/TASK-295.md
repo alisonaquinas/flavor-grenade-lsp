@@ -23,11 +23,11 @@ in `ofmarkdown-language-mode.feature`.
 ## Work Scope
 
 - Add steps for selector display and required choices.
-- Add exact selected-file and directory `.fgattributes` target assertions.
+- Add exact selected-file and directory `.mdfattributes` target assertions.
 - Add exact resource-specific propagation assertions with selected and effective
   flavor.
-- Add Auto Detect reset behavior for the same `.fgattributes` scope.
-- Add `.fgignore` inactive-state behavior.
+- Add Auto Detect reset behavior for the same `.mdfattributes` scope.
+- Add `.mdfignore` inactive-state behavior.
 - Add manual language preservation behavior.
 - Replace hard-coded harness selector constants with the extension contribution
   schema once Phase 19/E15 implement the product selector surface.
@@ -50,7 +50,7 @@ in `ofmarkdown-language-mode.feature`.
 - [ ] All scenarios in `ofmarkdown-language-mode.feature` execute.
 - [ ] Required flavor examples map labels to ids.
 - [ ] Scope-target scenarios distinguish selected-file and directory
-      `.fgattributes` writes.
+      `.mdfattributes` writes.
 - [ ] Server propagation checks assert the recorded client notification
       payload.
 - [ ] Manual language safety scenario passes.
@@ -60,7 +60,7 @@ in `ofmarkdown-language-mode.feature`.
 - Primary files: `docs/bdd/features/ofmarkdown-language-mode.feature` and
   `src/test/bdd/step-definitions/extension-harness.steps.ts`.
 - Step contracts: selector labels map to ADR020 flavor ids, overrides write
-  scoped `.fgattributes` rules, and propagation assertions inspect recorded
+  scoped `.mdfattributes` rules, and propagation assertions inspect recorded
   payloads with selected and effective flavor.
 - Scope targets: selected-file and directory targets stay distinct in the
   harness state.
@@ -72,6 +72,6 @@ in `ofmarkdown-language-mode.feature`.
 
 > [!SUCCESS] Done - 2026-05-13
 > The Markdown flavor selection feature executes through the root BDD harness,
-> including selector enumeration, selected-file/directory `.fgattributes`
+> including selector enumeration, selected-file/directory `.mdfattributes`
 > persistence, auto-detect reset, recorded resource-specific payloads, and
 > manual non-Markdown language safety.

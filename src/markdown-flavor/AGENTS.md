@@ -8,7 +8,7 @@ effective flavor state live here.
 ```text
 src/markdown-flavor/
 ├── index.ts                         # Barrel exports for flavor services and contracts
-├── fg-config-files.ts               # Confined .fgignore/.fgattributes resolver
+├── mdf-config-files.ts               # Confined .mdfignore/.mdfattributes resolver
 ├── markdown-flavor-contract.ts      # Flavor ids, selector values, labels, and guards
 ├── markdown-flavor-profiles.ts      # Static profile registry for explicit flavors
 ├── markdown-flavor-state.ts         # Effective flavor resolution from config outcome and Auto Detect
@@ -32,7 +32,7 @@ src/markdown-flavor/
 ### Changing flavor resolution
 
 1. Update `markdown-flavor-state.ts` and keep resource keys URI-specific.
-2. Update `fg-config-files.ts` only if `.fgignore` / `.fgattributes`
+2. Update `mdf-config-files.ts` only if `.mdfignore` / `.mdfattributes`
    interpretation changes.
 3. Add unit coverage for explicit, auto, standalone, and vault cases.
 4. Run the Markdown flavor BDD and spawned integration tests.
@@ -43,7 +43,7 @@ src/markdown-flavor/
   flavor before handlers use it.
 - Resource-specific state must not leak between vaults, workspace folders, or
   standalone documents.
-- `.fgignore` and `.fgattributes` reads must stay bounded and confined to the
+- `.mdfignore` and `.mdfattributes` reads must stay bounded and confined to the
   vault root.
 - Unsupported host or non-local references must be classified before resolution
   or rename code can create diagnostics or edits.

@@ -59,17 +59,17 @@ describe('startup gate marker detection', () => {
     assert.equal(await hasVaultMarkerAncestor(note), true);
 
     const flavorVault = await createTempDir();
-    await writeFile(join(flavorVault, '.fgattributes'), '*.md flavor=gfm\n');
+    await writeFile(join(flavorVault, '.mdfattributes'), '*.md flavor=gfm\n');
     const flavorNote = join(flavorVault, 'draft.md');
     await writeFile(flavorNote, '# Draft\n');
 
     assert.equal(await hasVaultMarkerAncestor(flavorNote), true);
   });
 
-  it('detects .fgignore and .fgattributes marker ancestors', async () => {
+  it('detects .mdfignore and .mdfattributes marker ancestors', async () => {
     for (const [marker, content] of [
-      ['.fgignore', 'drafts/\n'],
-      ['.fgattributes', '*.md flavor=gfm\n'],
+      ['.mdfignore', 'drafts/\n'],
+      ['.mdfattributes', '*.md flavor=gfm\n'],
     ] as const) {
       const workspace = await createTempDir();
       await writeFile(join(workspace, marker), content);
@@ -100,7 +100,7 @@ describe('startup gate marker detection', () => {
 
   it('detects workspace root marker signals', async () => {
     const flavorVault = await createTempDir();
-    await writeFile(join(flavorVault, '.fgignore'), 'tmp/\n');
+    await writeFile(join(flavorVault, '.mdfignore'), 'tmp/\n');
 
     assert.equal(await workspaceFolderHasVaultMarker({ uri: { fsPath: flavorVault } }), true);
   });

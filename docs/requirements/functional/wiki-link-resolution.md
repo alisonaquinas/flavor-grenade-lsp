@@ -110,12 +110,12 @@ aliases:
 
 **Tag:** Link.Resolution.IgnoreGlob
 **User Req:** User.Author.CompleteWikiLink
-**Gist:** Files matching `.fgignore` Git-style patterns must be absent from all completion candidates and go-to-definition results.
+**Gist:** Files matching `.mdfignore` Git-style patterns must be absent from all completion candidates and go-to-definition results.
 **Ambition:** Vaults often contain generated files, template directories, or attachment folders that should be invisible to the link-resolution layer. Exposing ignored files in completions degrades user experience with irrelevant candidates and may leak private or auto-generated content into links that are then committed to version control.
 **Scale:** Percentage of completion-candidate lists and definition-result sets that contain zero entries whose file path matches a currently active ignore pattern. Scope: all LSP requests issued after the ignore configuration is applied.
 **Meter:**
 
-1. Configure `.fgignore` to match a specific subdirectory (e.g., `templates/`).
+1. Configure `.mdfignore` to match a specific subdirectory (e.g., `templates/`).
 2. Place at least 5 markdown documents inside that subdirectory and at least 5 outside.
 3. Trigger `textDocument/completion` at a `[[` position in an un-ignored document.
 4. Inspect all returned `CompletionItem` entries; verify none reference a file inside the ignored subdirectory.

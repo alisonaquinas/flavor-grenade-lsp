@@ -130,7 +130,7 @@ export const homepageProof: HomepageProof = {
 export const featureHighlights: readonly FeatureHighlight[] = [
   {
     title: 'Detect the right Markdown flavor',
-    description: 'Auto Detect uses Obsidian markers, strong syntax evidence, and CommonMark fallback unless .fgattributes pins flavor.',
+    description: 'Auto Detect uses Obsidian markers, strong syntax evidence, and CommonMark fallback unless .mdfattributes pins flavor.',
     signal: 'diagnostic',
     detail: {
       title: 'How Auto Detect keeps generic Markdown generic',

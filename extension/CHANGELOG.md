@@ -4,26 +4,26 @@
 
 ### Added
 
-- Recognize `.fgignore` and `.fgattributes` as Flavor Grenade workspace markers
+- Recognize `.mdfignore` and `.mdfattributes` as Flavor Grenade workspace markers
   for activation, file watching, and local flavor evidence refreshes.
-- Add selector support for writing `.fgattributes` entries that apply to either
+- Add selector support for writing `.mdfattributes` entries that apply to either
   the selected Markdown file or every Markdown file in the selected file's
   directory.
-- Add extension-host coverage for `.fgignore` and `.fgattributes` refresh and
+- Add extension-host coverage for `.mdfignore` and `.mdfattributes` refresh and
   selection workflows.
 
 ### Changed
 
-- Prefer `.fgattributes` over legacy project flavor config files for explicit
+- Prefer `.mdfattributes` over legacy project flavor config files for explicit
   file and directory flavor configuration.
 - Preserve Auto Detect as the default extension behavior when no
-  `.fgattributes` rule applies.
-- Update Marketplace and extension docs for the `.fgignore` and `.fgattributes`
+  `.mdfattributes` rule applies.
+- Update Marketplace and extension docs for the `.mdfignore` and `.mdfattributes`
   configuration workflow.
 
 ### Fixed
 
-- Refresh local flavor evidence correctly when `.fgignore` or `.fgattributes`
+- Refresh local flavor evidence correctly when `.mdfignore` or `.mdfattributes`
   files are created, changed, or removed.
 
 ## [0.4.0] — 2026-05-26

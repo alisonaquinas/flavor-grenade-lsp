@@ -68,7 +68,7 @@ The returned `symDiff` is also passed to `DiagnosticService` to determine which 
 | Mode | Trigger | RefGraph | FolderLookup | Cross-doc refs |
 |------|---------|----------|--------------|----------------|
 | **SingleFile** | No vault root found for the document | Contains only one `OFMDoc` | Contains only one entry | Always unresolved (no other docs) |
-| **MultiFile** | Vault root found (`.obsidian/`, `.fgignore`, or `.fgattributes`) | Contains all visible vault documents | Full suffix tree | Resolved normally |
+| **MultiFile** | Vault root found (`.obsidian/`, `.mdfignore`, or `.mdfattributes`) | Contains all visible vault documents | Full suffix tree | Resolved normally |
 
 A `VaultFolder` does not transition between modes — a new one is created when the mode changes (e.g., a vault root is discovered for a previously single-file document). The old `VaultFolder` is evicted from `Workspace` and replaced.
 
@@ -170,8 +170,8 @@ Visibility and indexed state are derived from `Workspace` state:
 | Workspace state for URI | Client-visible state |
 |---|---|
 | URI belongs to a multi-file `VaultFolder` detected by `.obsidian/` | Indexed vault document; Auto Detect may resolve Obsidian |
-| URI belongs to a multi-file `VaultFolder` detected by `.fgignore` or `.fgattributes` | Indexed configured-project document if not ignored |
-| URI matches `.fgignore` | Inactive; not indexed or processed |
+| URI belongs to a multi-file `VaultFolder` detected by `.mdfignore` or `.mdfattributes` | Indexed configured-project document if not ignored |
+| URI matches `.mdfignore` | Inactive; not indexed or processed |
 | URI is only in `SingleFileMode` | Standalone Markdown; Auto Detect falls back to CommonMark unless syntax evidence is stronger |
 | URI is unknown or outside all vault roots | Outside Flavor Grenade scope |
 
@@ -184,9 +184,9 @@ through the Markdown flavor selector per
 ### Config Merging
 
 When a `VaultFolder` is added to `Workspace`, `ConfigModule` merges operational
-server config with built-in defaults, then applies `.fgignore` visibility and
-`.fgattributes` flavor attributes per document. Flavor and structured-profile
-persistence comes from `.fgattributes`, not workspace or user settings.
+server config with built-in defaults, then applies `.mdfignore` visibility and
+`.mdfattributes` flavor attributes per document. Flavor and structured-profile
+persistence comes from `.mdfattributes`, not workspace or user settings.
 
 ---
 
@@ -198,7 +198,7 @@ persistence comes from `.fgattributes`, not workspace or user settings.
 |-----------|------|
 | `.obsidian/` directory | All files under `<root>/.obsidian/` are skipped entirely |
 | `.git/` directory | All files under `<root>/.git/` are skipped |
-| `.fgignore` patterns | Files matching `.fgignore` rules are excluded from Flavor Grenade visibility unless a later negated rule re-includes them |
+| `.mdfignore` patterns | Files matching `.mdfignore` rules are excluded from Flavor Grenade visibility unless a later negated rule re-includes them |
 | Non-`.md` files | Only `.md` files contribute `OFMDoc` values; other file extensions are tracked by `VaultIndex` for embed resolution (existence check only) |
 
 > [!note] `.obsidian/` exclusion detail

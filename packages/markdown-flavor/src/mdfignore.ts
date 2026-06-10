@@ -6,13 +6,13 @@ import {
   unescapePattern,
 } from './patterns.js';
 
-export interface FgIgnoreRule {
+export interface MdfIgnoreRule {
   pattern: string;
   negated: boolean;
 }
 
-export function parseFgIgnore(content: string): FgIgnoreRule[] {
-  const rules: FgIgnoreRule[] = [];
+export function parseMdfIgnore(content: string): MdfIgnoreRule[] {
+  const rules: MdfIgnoreRule[] = [];
   for (const rawLine of content.split(/\r?\n/)) {
     const line = normalizeConfigLine(rawLine);
     if (line.length === 0) {
@@ -27,8 +27,8 @@ export function parseFgIgnore(content: string): FgIgnoreRule[] {
   return rules;
 }
 
-export function matchFgIgnore(
-  rules: readonly FgIgnoreRule[],
+export function matchMdfIgnore(
+  rules: readonly MdfIgnoreRule[],
   relativePath: string,
   initialIgnored = false,
 ): boolean {
@@ -41,8 +41,8 @@ export function matchFgIgnore(
   return ignored;
 }
 
-export function shouldPruneDirectoryByFgIgnore(
-  rules: readonly FgIgnoreRule[],
+export function shouldPruneDirectoryByMdfIgnore(
+  rules: readonly MdfIgnoreRule[],
   relativePath: string,
   initialIgnored = false,
 ): boolean {

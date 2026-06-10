@@ -17,7 +17,7 @@ export type EffectiveMarkdownFlavor = MarkdownFlavorId;
 
 /** Evidence source that selected a document's effective Markdown flavor. */
 export type FlavorResolutionSource =
-  | 'fgattributes'
+  | 'mdfattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'commonmark-fallback';
@@ -34,7 +34,7 @@ export type FlavorResolutionResult =
     }
   | {
       kind: 'inactive';
-      reason: 'non-markdown-language' | 'unsupported-scheme' | 'fgignore';
+      reason: 'non-markdown-language' | 'unsupported-scheme' | 'mdfignore';
     };
 
 /** Inputs available when resolving a document's Markdown flavor. */
@@ -42,8 +42,8 @@ export interface ResolveFlavorInput {
   uri: string;
   languageId: string;
   hasObsidianMarker: boolean;
-  fgAttributesFlavor?: MarkdownFlavorSelection;
-  fgAttributesStructuredProfiles?: StructuredProfileSelection;
+  mdfAttributesFlavor?: MarkdownFlavorSelection;
+  mdfAttributesStructuredProfiles?: StructuredProfileSelection;
   syntaxText?: string;
 }
 
@@ -51,7 +51,7 @@ export interface ResolveFlavorInput {
 /**
  * Resolves server-side Markdown flavor context for visible Markdown files.
  *
- * Persistent file and directory configuration comes only from `.fgattributes`;
+ * Persistent file and directory configuration comes only from `.mdfattributes`;
  * otherwise Auto Detect resolves from vault and syntax evidence.
  */
 export class MarkdownFlavorState {
@@ -88,8 +88,8 @@ export class MarkdownFlavorState {
       path: pathFromFileUri(input.uri),
       languageId: input.languageId,
       hasObsidianMarker: input.hasObsidianMarker,
-      fgAttributesFlavor: input.fgAttributesFlavor,
-      fgAttributesStructuredProfiles: input.fgAttributesStructuredProfiles,
+      mdfAttributesFlavor: input.mdfAttributesFlavor,
+      mdfAttributesStructuredProfiles: input.mdfAttributesStructuredProfiles,
       syntaxText: input.syntaxText,
     });
 

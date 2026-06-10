@@ -40,7 +40,7 @@ Core Obsidian-style Markdown support:
 Flavor-aware Markdown support:
 
 - Auto-detection from Obsidian vault markers, file syntax, and CommonMark
-  fallback whenever no concrete `.fgattributes` flavor rule applies
+  fallback whenever no concrete `.mdfattributes` flavor rule applies
 - Explicit base flavors for Original Markdown, CommonMark, Obsidian, GFM, GLFM,
   Pandoc, MultiMarkdown, MDX, kramdown, Markdown Extra, R Markdown, Reddit, and
   Stack Overflow Markdown
@@ -67,19 +67,19 @@ Flavor Grenade detects a project by walking upward from an opened Markdown file.
 The strongest signals are:
 
 - `.obsidian/`
-- `.fgignore`
-- `.fgattributes`
+- `.mdfignore`
+- `.mdfattributes`
 
-`.fgignore` hides matching Markdown from Flavor Grenade entirely. Hidden files
+`.mdfignore` hides matching Markdown from Flavor Grenade entirely. Hidden files
 are not processed, indexed, completed, diagnosed, navigated, renamed, or used as
 references unless a later negated rule re-includes them.
 
-`.fgattributes` stores repository-tracked flavor and structured-profile rules
+`.mdfattributes` stores repository-tracked flavor and structured-profile rules
 using Git-style pattern matching. Rules cascade through subdirectories; later
 matching rules win; `!flavor` clears the effective flavor selected so far; and
 `flavor=auto` explicitly asks Auto Detect to run.
 
-Example `.fgattributes`:
+Example `.mdfattributes`:
 
 ```gitattributes
 *.md flavor=auto
@@ -88,7 +88,7 @@ docs/decisions/*.md flavor=commonmark structured_profiles=madr
 CHANGELOG.md flavor=auto structured_profiles=keep-a-changelog
 ```
 
-Example `.fgignore`:
+Example `.mdfignore`:
 
 ```gitignore
 generated/
@@ -96,7 +96,7 @@ private/
 !private/README.md
 ```
 
-When no `.fgignore` or `.fgattributes` applies, Auto Detect remains the default
+When no `.mdfignore` or `.mdfattributes` applies, Auto Detect remains the default
 for the opened directory and all subdirectories. It uses Obsidian vault evidence
 and syntax signals, then falls back to CommonMark for generic Markdown.
 

@@ -14,7 +14,7 @@ import type { TagRegistry } from '../../tags/tag-registry.js';
 import type { DocId } from '../doc-id.js';
 import { SERVER_VERSION } from '../../version.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
-import { FlavorGrenadeConfigFiles } from '../../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../../markdown-flavor/mdf-config-files.js';
 
 function id(s: string): DocId {
   return s as DocId;
@@ -91,7 +91,7 @@ function makeScanner(opts: {
   const ofmParser = new OFMParser();
   const tagRegistry = opts.tagRegistry ?? makeTagRegistry();
   const flavorState = new MarkdownFlavorState();
-  const fgConfigFiles = new FlavorGrenadeConfigFiles();
+  const mdfConfigFiles = new MarkdownFlavorConfigFiles();
 
   const scanner = new VaultScanner(
     opts.vaultDetector,
@@ -102,7 +102,7 @@ function makeScanner(opts: {
     opts.dispatcher,
     tagRegistry,
     flavorState,
-    fgConfigFiles,
+    mdfConfigFiles,
     opts.maxFiles,
   );
 
@@ -360,10 +360,10 @@ describe('VaultScanner', () => {
     expect(vaultIndex.has(id('note'))).toBe(true);
   });
 
-  it('scan with root .fgignore: matching Markdown files are not indexed', async () => {
+  it('scan with root .mdfignore: matching Markdown files are not indexed', async () => {
     fs.mkdirSync(path.join(tmpDir, 'notes'));
     fs.mkdirSync(path.join(tmpDir, 'drafts'));
-    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'drafts/\nprivate/**\n');
+    fs.writeFileSync(path.join(tmpDir, '.mdfignore'), 'drafts/\nprivate/**\n');
     fs.writeFileSync(path.join(tmpDir, 'notes', 'public.md'), '# Public');
     fs.writeFileSync(path.join(tmpDir, 'drafts', 'topic.md'), '# Draft');
     fs.mkdirSync(path.join(tmpDir, 'private'));
@@ -380,13 +380,13 @@ describe('VaultScanner', () => {
     expect(vaultIndex.has(id('notes/public'))).toBe(true);
     expect(vaultIndex.has(id('drafts/topic'))).toBe(false);
     expect(vaultIndex.has(id('private/secret'))).toBe(false);
-    expect(scanner.hasAsset('.fgignore')).toBe(false);
+    expect(scanner.hasAsset('.mdfignore')).toBe(false);
   });
 
-  it('scan with nested .fgignore: later negation can re-include a Markdown file', async () => {
+  it('scan with nested .mdfignore: later negation can re-include a Markdown file', async () => {
     fs.mkdirSync(path.join(tmpDir, 'notes', 'private'), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'notes/private/**\n');
-    fs.writeFileSync(path.join(tmpDir, 'notes', '.fgignore'), '!private/keep.md\n');
+    fs.writeFileSync(path.join(tmpDir, '.mdfignore'), 'notes/private/**\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', '.mdfignore'), '!private/keep.md\n');
     fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'keep.md'), '# Keep');
     fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'drop.md'), '# Drop');
 
@@ -400,13 +400,13 @@ describe('VaultScanner', () => {
 
     expect(vaultIndex.has(id('notes/private/keep'))).toBe(true);
     expect(vaultIndex.has(id('notes/private/drop'))).toBe(false);
-    expect(scanner.hasAsset('notes/.fgignore')).toBe(false);
+    expect(scanner.hasAsset('notes/.mdfignore')).toBe(false);
   });
 
-  it('scan with directory .fgignore: prunes the subtree before nested negation', async () => {
+  it('scan with directory .mdfignore: prunes the subtree before nested negation', async () => {
     fs.mkdirSync(path.join(tmpDir, 'notes', 'private'), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, '.fgignore'), 'notes/private/\n');
-    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', '.fgignore'), '!keep.md\n');
+    fs.writeFileSync(path.join(tmpDir, '.mdfignore'), 'notes/private/\n');
+    fs.writeFileSync(path.join(tmpDir, 'notes', 'private', '.mdfignore'), '!keep.md\n');
     fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'keep.md'), '# Keep');
     fs.writeFileSync(path.join(tmpDir, 'notes', 'private', 'drop.md'), '# Drop');
 
@@ -420,11 +420,11 @@ describe('VaultScanner', () => {
 
     expect(vaultIndex.has(id('notes/private/keep'))).toBe(false);
     expect(vaultIndex.has(id('notes/private/drop'))).toBe(false);
-    expect(scanner.hasAsset('notes/private/.fgignore')).toBe(false);
+    expect(scanner.hasAsset('notes/private/.mdfignore')).toBe(false);
   });
 
-  it('scan with .fgattributes: parses indexed Markdown with resolved effective flavor', async () => {
-    fs.writeFileSync(path.join(tmpDir, '.fgattributes'), '*.md flavor=gfm\n');
+  it('scan with .mdfAttributes: parses indexed Markdown with resolved effective flavor', async () => {
+    fs.writeFileSync(path.join(tmpDir, '.mdfattributes'), '*.md flavor=gfm\n');
     fs.writeFileSync(path.join(tmpDir, 'note.md'), '- [x] task\n');
 
     const { dispatcher } = makeDispatcher();

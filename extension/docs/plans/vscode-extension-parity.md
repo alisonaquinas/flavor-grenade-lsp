@@ -18,7 +18,7 @@ aliases: [Extension Parity Plan]
 | E12 OFMarkdown contributions | Legacy complete: `ofmarkdown` contribution scoping was implemented before ADR020; Markdown flavor/context contribution scoping is superseded by E16 |
 | E13 Workspace environments | Complete: restricted, virtual, remote, WSL, SSH, and Dev Container behavior is classified and smoke-tested for `Extension.Workspace.EnvironmentModes` |
 | E14 Membership refresh and compatibility | Legacy complete: language-mode membership refresh was implemented before ADR020; Markdown flavor refresh is superseded by E15/E17 |
-| E15 Markdown flavor selector and config files | Planned: add selector, `.fgattributes` persistence, `.fgignore` inactive state, auto-detect, manual-language safety, and server propagation |
+| E15 Markdown flavor selector and config files | Planned: add selector, `.mdfattributes` persistence, `.mdfignore` inactive state, auto-detect, manual-language safety, and server propagation |
 | E16 Flavor-scoped contributions and Marketplace | Planned: replace `ofmarkdown` contribution scoping and Marketplace proof with Markdown flavor selector/context evidence |
 | E17 Extension flavor host verification | Planned: close `EXT-MF-VF-001` through `EXT-MF-VF-006`, including unit, compile, host, Marketplace, CI, and extension docs lint gates |
 

@@ -31,7 +31,7 @@ npx flavor-grenade-lsp
 
 Direct clients must launch the server, provide a usable file `rootUri`, send configuration, and handle file watching.
 
-The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/`, `.fgignore`, or `.fgattributes`, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
+The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsidian/`, `.mdfignore`, or `.mdfattributes`, build a vault index, confine local paths, and provide vault-wide features such as note completion, references, and rename.
 
 ```json
 {
@@ -43,7 +43,7 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
     "linkStyle": "file-stem",
     "completionCandidates": 50,
     "diagnosticsSuppress": [],
-    "fgConfigMaxBytes": 8192
+    "mdfConfigMaxBytes": 8192
   },
   "capabilities": {
     "workspace": {
@@ -54,21 +54,21 @@ The root URI is not cosmetic. It decides whether Flavor Grenade can find `.obsid
 }
 ```
 
-If your client sends workspace configuration after initialize, use the server notification shape. VS Code exposes the public setting as `flavorGrenade.fgConfig.maxBytes`; direct clients send the server-facing `fgConfigMaxBytes` value:
+If your client sends workspace configuration after initialize, use the server notification shape. VS Code exposes the public setting as `flavorGrenade.mdfConfig.maxBytes`; direct clients send the server-facing `mdfConfigMaxBytes` value:
 
 ```json
 {
   "settings": {
     "flavorGrenade": {
-      "fgConfigMaxBytes": 8192
+      "mdfConfigMaxBytes": 8192
     }
   }
 }
 ```
 
-Direct server options such as `linkStyle`, `completionCandidates`, `diagnosticsSuppress`, and the `.fgignore` / `.fgattributes` read cap `fgConfigMaxBytes` belong in `initializationOptions`. Flavor and structured-profile persistence belongs in `.fgattributes`. A client may also send `fgConfigMaxBytes` in `workspace/didChangeConfiguration` when exposing a live settings UI.
+Direct server options such as `linkStyle`, `completionCandidates`, `diagnosticsSuppress`, and the `.mdfignore` / `.mdfattributes` read cap `mdfConfigMaxBytes` belong in `initializationOptions`. Flavor and structured-profile persistence belongs in `.mdfattributes`. A client may also send `mdfConfigMaxBytes` in `workspace/didChangeConfiguration` when exposing a live settings UI.
 
-For a project-level override, put `.fgattributes` at the project root:
+For a project-level override, put `.mdfattributes` at the project root:
 
 ```gitattributes
 *.md flavor=commonmark
@@ -77,7 +77,7 @@ docs/decisions/*.md flavor=commonmark structured_profiles=madr
 CHANGELOG.md flavor=gfm structured_profiles=keep-a-changelog
 ```
 
-Use `.fgignore` for Markdown that should not enter the index:
+Use `.mdfignore` for Markdown that should not enter the index:
 
 ```gitignore
 generated/
@@ -95,11 +95,11 @@ A minimal direct-client flow is:
 spawn: npx flavor-grenade-lsp
 send: initialize with file rootUri and workspaceFolders
 send: initialized
-watch: Markdown files, .obsidian/, .fgignore, and .fgattributes
+watch: Markdown files, .obsidian/, .mdfignore, and .mdfattributes
 send: didOpen/didChange/didClose for open documents
 ```
 
-The server accepts normal LSP initialize parameters. Flavor-specific initialization data is not read from initialize options; direct clients with a selector UI should write `.fgattributes` or ask the user to edit it.
+The server accepts normal LSP initialize parameters. Flavor-specific initialization data is not read from initialize options; direct clients with a selector UI should write `.mdfattributes` or ask the user to edit it.
 
 ```json
 {

@@ -112,7 +112,7 @@ interface ParseContext {
 ```
 
 BC4 creates `ParseContext` from `EffectiveMarkdownContext`. BC2 must not read
-VS Code settings, TOML, `.fgignore`, `.fgattributes`, vault markers,
+VS Code settings, TOML, `.mdfignore`, `.mdfattributes`, vault markers,
 `MarkdownFlavorSelection`, or structured-profile selector inputs directly.
 
 > [!NOTE]

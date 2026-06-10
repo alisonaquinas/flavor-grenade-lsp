@@ -17,7 +17,7 @@ Flavor Grenade uses base flavors for Markdown syntax and structured profiles for
 That distinction matters in mixed projects. A MADR decision record can still be CommonMark, GFM, Pandoc, or Obsidian Markdown. The MADR profile helps symbols, folds, hovers, completions, and diagnostics understand ADR structure without pretending MADR is a separate Markdown dialect.
 
 ```gitattributes
-# .fgattributes
+# .mdfattributes
 docs/decisions/*.md flavor=obsidian structured_profiles=madr
 ```
 
@@ -41,12 +41,12 @@ Diagnostics should also become more precise. A profile-specific warning can say 
 
 ## Configuration boundary
 
-Use `structured_profiles` in `.fgattributes`. Values can be `auto`, `none`, or an explicit profile such as `madr` or `keep-a-changelog`. Keep the base flavor in the separate `flavor` attribute.
+Use `structured_profiles` in `.mdfattributes`. Values can be `auto`, `none`, or an explicit profile such as `madr` or `keep-a-changelog`. Keep the base flavor in the separate `flavor` attribute.
 
 For example, a repository can set CommonMark as the base and still enable profile inference:
 
 ```gitattributes
-# .fgattributes
+# .mdfattributes
 *.md flavor=commonmark structured_profiles=auto
 ```
 

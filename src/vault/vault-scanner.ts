@@ -18,7 +18,7 @@ import { OFMParser } from '../parser/ofm-parser.js';
 import { JsonRpcDispatcher } from '../transport/json-rpc-dispatcher.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { SERVER_VERSION } from '../version.js';
-import { FlavorGrenadeConfigFiles } from '../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../markdown-flavor/mdf-config-files.js';
 import { MarkdownFlavorState } from '../markdown-flavor/markdown-flavor-state.js';
 import type { ParseContext } from '../parser/types.js';
 
@@ -55,7 +55,7 @@ export class VaultScanner {
     private readonly dispatcher: JsonRpcDispatcher,
     private readonly tagRegistry: TagRegistry,
     private readonly flavorState: MarkdownFlavorState,
-    private readonly fgConfigFiles: FlavorGrenadeConfigFiles,
+    private readonly mdfConfigFiles: MarkdownFlavorConfigFiles,
     @Optional() @Inject(VAULT_SCAN_FILE_LIMIT) maxScanFiles?: number,
   ) {
     this.maxScanFiles = maxScanFiles ?? VaultScanner.DEFAULT_MAX_SCAN_FILES;
@@ -154,7 +154,7 @@ export class VaultScanner {
       }
 
       if (entry.isDirectory()) {
-        if (this.fgConfigFiles.shouldPruneDirectory(vaultRoot, fullPath)) {
+        if (this.mdfConfigFiles.shouldPruneDirectory(vaultRoot, fullPath)) {
           continue;
         }
         await this.walkAndIndex(vaultRoot, fullPath, documentExtensions, hasObsidianMarker);
@@ -188,7 +188,7 @@ export class VaultScanner {
     if (isFlavorGrenadeConfigFile(relPath)) {
       return true;
     }
-    return this.fgConfigFiles.resolveForFile(vaultRoot, fullPath).ignored;
+    return this.mdfConfigFiles.resolveForFile(vaultRoot, fullPath).ignored;
   }
 
   private reserveFileBudget(): boolean {
@@ -332,13 +332,13 @@ export class VaultScanner {
     text: string,
     hasObsidianMarker: boolean,
   ): ParseContext {
-    const fgConfig = this.fgConfigFiles.resolveForFile(vaultRoot, filePath);
+    const mdfConfig = this.mdfConfigFiles.resolveForFile(vaultRoot, filePath);
     const result = this.flavorState.resolveForDocument({
       uri,
       languageId: 'markdown',
       hasObsidianMarker,
-      fgAttributesFlavor: fgConfig.attributes.flavor,
-      fgAttributesStructuredProfiles: fgConfig.attributes.structuredProfiles,
+      mdfAttributesFlavor: mdfConfig.attributes.flavor,
+      mdfAttributesStructuredProfiles: mdfConfig.attributes.structuredProfiles,
       syntaxText: text,
     });
     return result.kind === 'active'
@@ -352,5 +352,5 @@ export class VaultScanner {
 
 function isFlavorGrenadeConfigFile(vaultRelativePath: string): boolean {
   const basename = path.basename(vaultRelativePath);
-  return basename === '.fgignore' || basename === '.fgattributes';
+  return basename === '.mdfignore' || basename === '.mdfattributes';
 }

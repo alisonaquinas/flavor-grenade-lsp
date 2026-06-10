@@ -7,7 +7,7 @@ import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── completions.feature step definitions ──────────────────────────────────
 
-const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
+const DEFAULT_OFM_mdfattributes = '*.md flavor=obsidian\n';
 
 // ── Background: vault with 10 documents and 5 tags ────────────────────────
 
@@ -19,7 +19,7 @@ const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
  * - Each heading becomes a `# heading` (first) or `## heading` (rest)
  * - Each anchor becomes `Body text ^anchor` in the body
  * - Each tag becomes `#tag` in the body
- * Also writes a .fgattributes marker.
+ * Also writes a .mdfattributes marker.
  */
 Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTable: DataTable) {
   if (!this.vaultDir) this.createVaultDir();
@@ -72,7 +72,7 @@ Given('a vault with 10 documents and 5 tags:', function (this: FGWorld, dataTabl
   }
 
   // Ensure vault marker
-  writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
+  writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), DEFAULT_OFM_mdfattributes);
 });
 
 // ── When: completion request ───────────────────────────────────────────────

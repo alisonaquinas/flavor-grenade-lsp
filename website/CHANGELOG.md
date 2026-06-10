@@ -10,7 +10,7 @@ The website is a private package and publishes from `site-v*` release tags.
 
 ### Added
 
-- Add public guidance for `.fgignore` and `.fgattributes`, including examples
+- Add public guidance for `.mdfignore` and `.mdfattributes`, including examples
   that show nested files, negated patterns, directory-scoped rules, and Auto
   Detect fallback.
 - Add website content for the updated server, extension, and skill workflows
@@ -19,10 +19,10 @@ The website is a private package and publishes from `site-v*` release tags.
 ### Changed
 
 - Refresh quickstart, advanced usage, how-to, FAQ, and skill installation copy
-  so explicit flavor configuration points to `.fgattributes` instead of legacy
+  so explicit flavor configuration points to `.mdfattributes` instead of legacy
   project config files.
-- Clarify that Auto Detect remains the default when no `.fgignore` or
-  `.fgattributes` file applies to a Markdown document.
+- Clarify that Auto Detect remains the default when no `.mdfignore` or
+  `.mdfattributes` file applies to a Markdown document.
 
 ## [0.2.1] - 2026-05-29
 

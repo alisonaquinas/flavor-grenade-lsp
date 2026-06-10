@@ -30,13 +30,13 @@ describe('VaultDetector', () => {
     expect(result.vaultRoot).toBe(path.join(FIXTURES, 'obsidian-vault'));
   });
 
-  it('detects flavor-grenade vaults from .fgignore and .fgattributes markers', () => {
-    for (const marker of ['.fgignore', '.fgattributes']) {
+  it('detects flavor-grenade vaults from .mdfignore and .mdfattributes markers', () => {
+    for (const marker of ['.mdfignore', '.mdfattributes']) {
       const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-lsp-config-marker-'));
       try {
         fs.writeFileSync(
           path.join(root, marker),
-          marker === '.fgignore' ? 'private/\n' : '*.md flavor=gfm\n',
+          marker === '.mdfignore' ? 'private/\n' : '*.md flavor=gfm\n',
         );
         const result = new VaultDetector().detect(root);
         expect(result.mode).toBe('flavor-grenade');

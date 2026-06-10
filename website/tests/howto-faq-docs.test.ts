@@ -114,7 +114,7 @@ describe('how-to, advanced usage, and FAQ docs', () => {
       const pageText = text(routeId);
 
       expect(page(routeId).sections.length).toBeGreaterThanOrEqual(3);
-      expect(pageText).toMatch(/```|\.obsidian|\.fgignore|\.fgattributes|rootUri|unsupported URI|opaque/i);
+      expect(pageText).toMatch(/```|\.obsidian|\.mdfignore|\.mdfattributes|rootUri|unsupported URI|opaque/i);
       expect(page(routeId).links.some((link) => link.kind === 'route')).toBe(true);
     }
   });
@@ -122,20 +122,20 @@ describe('how-to, advanced usage, and FAQ docs', () => {
   it('documents fg config files and directory override shapes', () => {
     const configurationModel = text('advancedConfigurationModel');
 
-    for (const marker of ['.fgignore', '.fgattributes', '.obsidian/']) {
+    for (const marker of ['.mdfignore', '.mdfattributes', '.obsidian/']) {
       expect(configurationModel).toContain(marker);
     }
 
     for (const requiredExample of [
-      'Visibility with .fgignore',
-      'Flavor attributes with .fgattributes',
+      'Visibility with .mdfignore',
+      'Flavor attributes with .mdfattributes',
       'Extension selector',
       'docs/github',
       'docs/decisions',
       'docs/private.md !flavor',
       'flavor=auto',
       'structured_profiles=madr',
-      'flavorGrenade.fgConfig.maxBytes',
+      'flavorGrenade.mdfConfig.maxBytes',
     ]) {
       expect(configurationModel).toContain(requiredExample);
     }
@@ -149,12 +149,12 @@ describe('how-to, advanced usage, and FAQ docs', () => {
     expect(directLsp).toContain('"linkStyle": "file-stem"');
     expect(directLsp).toContain('"completionCandidates": 50');
     expect(directLsp).toContain('"diagnosticsSuppress": []');
-    expect(directLsp).toContain('"fgConfigMaxBytes": 8192');
+    expect(directLsp).toContain('"mdfConfigMaxBytes": 8192');
     expect(directLsp).toContain('server notification shape');
-    expect(directLsp).toContain('VS Code exposes the public setting as `flavorGrenade.fgConfig.maxBytes`');
+    expect(directLsp).toContain('VS Code exposes the public setting as `flavorGrenade.mdfConfig.maxBytes`');
     expect(directLsp).toContain('*.md flavor=commonmark');
     expect(directLsp).toContain('docs/decisions/*.md flavor=commonmark structured_profiles=madr');
-    expect(directLsp).toContain('watch: Markdown files, .obsidian/, .fgignore, and .fgattributes');
+    expect(directLsp).toContain('watch: Markdown files, .obsidian/, .mdfignore, and .mdfattributes');
     expect(directLsp).not.toContain('"markdownFlavor": {');
     expect(directLsp).not.toContain('"markdownFlavor": "auto"');
     expect(directLsp).not.toContain('"markdownStructuredProfiles": ["madr"]');

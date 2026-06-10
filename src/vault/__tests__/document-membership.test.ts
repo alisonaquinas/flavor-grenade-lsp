@@ -42,7 +42,7 @@ describe('DocumentMembershipService', () => {
   });
 
   it('reports Flavor Grenade config vault Markdown as OFMarkdown', () => {
-    fs.writeFileSync(path.join(tmpDir, '.fgattributes'), '*.md flavor=gfm\n');
+    fs.writeFileSync(path.join(tmpDir, '.mdfattributes'), '*.md flavor=gfm\n');
     const note = path.join(tmpDir, 'note.md');
     fs.writeFileSync(note, '# Note\n');
 

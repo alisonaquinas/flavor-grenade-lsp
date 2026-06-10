@@ -20,9 +20,9 @@ the prompt-facing `SKILL.md`.
 - Keep every user-provided path inside the selected workspace.
 - Honor scan selection flags in `flavorgrenade.mjs`: `--include`,
   `--exclude`, `--max-files`, and `--max-bytes`.
-- Resolve `.fgignore` before collecting files so ignored Markdown is not sent
+- Resolve `.mdfignore` before collecting files so ignored Markdown is not sent
   to the embedded LSP for broad analysis.
-- Report `.fgattributes` evidence without treating legacy `.flavor-grenade.*`
+- Report `.mdfattributes` evidence without treating legacy `.flavor-grenade.*`
   files or `.editorconfig` directives as flavor assignment sources.
 - Keep all externally visible output inside the documented JSON envelope.
 - Redact private absolute paths from default errors.

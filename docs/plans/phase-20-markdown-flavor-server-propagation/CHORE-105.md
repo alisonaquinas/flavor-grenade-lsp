@@ -41,5 +41,5 @@ Keep implementation traceability current as server flavor propagation lands.
 
 > [!SUCCESS] Done - 2026-05-13
 > Updated Phase 20 tickets, test index, matrix, and host-boundary evidence for
-> server propagation, `.fgignore`/`.fgattributes`, refresh, and
+> server propagation, `.mdfignore`/`.mdfattributes`, refresh, and
 > boundary-classification work.

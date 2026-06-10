@@ -20,7 +20,7 @@ updated: 2026-05-13
 ## Objective
 
 Replace the retired language-mode promotion design with a Markdown flavor
-selector, `.fgattributes` persistence, `.fgignore` inactive handling,
+selector, `.mdfattributes` persistence, `.mdfignore` inactive handling,
 auto-detection resolver, and server propagation calls. The auto-detection
 resolver follows
 [[docs/design/markdown-flavor-auto-detection]].
@@ -31,11 +31,11 @@ resolver follows
 |---|---|
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownLanguage.PreserveDefault]] | Stop changing `.md` language ids for flavor |
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.Selector]] | Add visible flavor selector and quick-pick choices |
-| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector and `.fgattributes` enum |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.RequiredCoverage]] | Add full selector and `.mdfattributes` enum |
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.DialectProfiles]] | Keep selector/schema/profile ids compatible with the shared dialect profile contract |
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.AutoDetection]] | Resolve Obsidian/CommonMark/default context |
 | [[docs/design/markdown-flavor-auto-detection]] | Implement the unified precedence and resource-specific detection flow |
-| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write selected-file and directory `.fgattributes` rules |
+| [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.OverridePersistence]] | Write selected-file and directory `.mdfattributes` rules |
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ServerPropagation]] | Notify server of effective flavor |
 | [[docs/requirements/functional/ofmarkdown-language-mode#Extension.MarkdownFlavor.ManualLanguageSafety]] | Keep non-`markdown` manual language selections out of flavor scope |
 | [[docs/requirements/technical/security-input-validation#Security.Input.FlavorPropagationPayload]] | Send only bounded, resource-owned flavor payloads |
@@ -46,21 +46,21 @@ resolver follows
 
 ### In Scope
 
-- Extension flavor constants, labels, and `.fgattributes` values.
+- Extension flavor constants, labels, and `.mdfattributes` values.
 - Markdown flavor controller replacing language promotion behavior.
 - Selector status item or equivalent command surface.
-- Selected-file and directory override target selection for `.fgattributes`.
-- `.fgignore` inactive-state handling for selector and propagation decisions.
-- Configuration resolution from `.fgattributes`; `flavor=auto`, `!flavor`, and
+- Selected-file and directory override target selection for `.mdfattributes`.
+- `.mdfignore` inactive-state handling for selector and propagation decisions.
+- Configuration resolution from `.mdfattributes`; `flavor=auto`, `!flavor`, and
   absent config files invoke Auto Detect.
 - Auto Detect from `.obsidian/`, server membership, and syntax/context evidence.
-  Auto Detect must not parse `.fgattributes`.
-- Refresh detection when `.fgignore` or `.fgattributes` appears, disappears, or
+  Auto Detect must not parse `.mdfattributes`.
+- Refresh detection when `.mdfignore` or `.mdfattributes` appears, disappears, or
   changes.
 - Client-to-server propagation using resource-specific selected/effective
   flavor state, matching the Phase 20 contract.
 - Restricted, virtual, unsupported-scheme, and untrusted contexts must not write
-  `.fgattributes`, spawn the server, or propagate flavor state.
+  `.mdfattributes`, spawn the server, or propagate flavor state.
 - Unit tests in `extension/src/markdown-flavor.test.ts`.
 
 ### Out of Scope
@@ -78,10 +78,10 @@ resolver follows
   `ofmarkdown`.
 - Selector includes Auto Detect and every required explicit flavor.
 - Folder-backed overrides write selected-file or directory-scope
-  `.fgattributes` rules.
-- Standalone-file overrides write a selected-file `.fgattributes` rule beside
+  `.mdfattributes` rules.
+- Standalone-file overrides write a selected-file `.mdfattributes` rule beside
   the standalone file.
-- Auto Detect clears/resets the matching `.fgattributes` `flavor` at the chosen
+- Auto Detect clears/resets the matching `.mdfattributes` `flavor` at the chosen
   scope and recomputes through Auto Detect.
 - Effective flavor is sent to the server as resource-specific selected/effective
   flavor state keyed by document URI or workspace folder, so multi-root and
@@ -91,7 +91,7 @@ resolver follows
 - Propagation is skipped for restricted, virtual, unsupported-scheme, and
   untrusted contexts; selector UI reports inactive/disabled state instead.
 - Propagation and active selector writes are skipped for files matched by
-  `.fgignore`.
+  `.mdfignore`.
 
 ## Gate Ordering Notes
 
