@@ -1,6 +1,6 @@
 {
   "name": "flavorgrenade-lsp",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Flavor-aware Markdown analysis for Codex using Flavor Grenade LSP.",
   "author": {
     "name": "Alison Aquinas",

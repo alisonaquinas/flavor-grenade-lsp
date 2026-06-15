@@ -1,13 +1,13 @@
 {
   "name": "flavorgrenade-lsp-skill",
   "installName": "flavorgrenade-lsp",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "schemaVersion": "1.0",
   "server": {
     "name": "flavor-grenade-lsp",
-    "version": "0.7.2",
+    "version": "0.7.3",
     "commit": "",
-    "releaseTag": "v0.7.2"
+    "releaseTag": "v0.7.3"
   },
   "runtime": {
     "target": "win-x64",
