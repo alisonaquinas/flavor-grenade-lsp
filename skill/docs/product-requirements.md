@@ -10,9 +10,9 @@ through wrapper commands and JSON schemas.
 The skill enables LLMs to:
 
 - detect Markdown flavors from configuration and inference
-- respect TOML, JSON, JSONC, YAML, and `.editorconfig` project configuration
-- handle one project config file that assigns different flavors or structured
-  profiles to different directories
+- respect `.mdfignore` visibility rules and `.mdfattributes` flavor assignment
+- handle nested `.mdfattributes` files that assign different flavors or
+  structured profiles to different directories
 - understand base flavors and structured variants
 - inspect diagnostics, symbols, folds, links, hovers, and completions
 - preserve host, conversion, renderer, bibliography, and execution boundaries
@@ -30,8 +30,9 @@ The skill is separate from these existing products:
 | Website | Provides public documentation and marketing |
 | Skill product | Provides LLM-facing instructions, wrappers, schemas, embedded executable, and installer compatibility |
 
-The skill may consume the server's release artifacts, but it has an independent
-version, changelog, release notes, and release workflow.
+The skill consumes the server's release artifacts and uses the same semantic
+version as the embedded server. It keeps a skill-specific changelog and release
+notes so wrapper and agent-facing changes remain visible.
 
 ## Users
 
@@ -54,9 +55,10 @@ The first complete skill release must provide:
 - executable digest verification before launch
 - wrapper commands for analysis, detection, diagnostics, symbols, folds,
   hovers, completions, variants, and install verification
-- config-aware detection output that identifies the active project config file,
-  config format, matching directory override, and inherited global values when
-  those signals decide the effective Markdown context
+- config-aware detection output that identifies matched `.mdfignore` and
+  `.mdfattributes` files, ignored status, explicit flavor attributes, and
+  structured-profile attributes when those signals decide the effective
+  Markdown context
 - stable JSON output schemas
 - smoke fixtures for every supported base flavor family
 - smoke fixtures for Keep a Changelog, Common Changelog, and MADR variants
@@ -103,60 +105,46 @@ so agents do not invent new base flavors.
 
 ## Configuration Requirements
 
-The skill must defer to the embedded LSP for configuration loading and must not
-normalize config files with a separate parser except when validating wrapper
-fixtures. Supported project config inputs are:
+The skill must defer to the embedded LSP for Markdown flavor behavior and must
+not normalize legacy Flavor Grenade project config files with a separate parser.
+Supported Markdown flavor config inputs are:
 
-- `.flavor-grenade.toml`
-- `.flavor-grenade.json`
-- `.flavor-grenade.jsonc`
-- `.flavor-grenade.yaml`
-- `.flavor-grenade.yml`
-- `.editorconfig` sections containing Flavor Grenade directives
+- `.mdfignore`
+- `.mdfattributes`
 
-TOML remains a first-class config format. JSON, JSONC, YAML, and
-`.editorconfig` are additive alternatives, not replacements.
+Legacy `.flavor-grenade.*` files and Flavor Grenade `.editorconfig` directives
+are not flavor assignment sources.
 
-All supported config formats must express the same effective configuration
-model. The wrapper contract must describe the normalized result, not the syntax
-used to write it. At minimum, normalized config evidence must cover:
+The wrapper contract must describe the normalized result of the Git-style
+configuration files. At minimum, normalized config evidence must cover:
 
 - active base flavor
 - active structured profiles
-- project config file path and format
-- global `core.markdown` keys used
-- matching directory-scoped override, when present
-- override keys that replaced global keys
-- global keys inherited by a matched override
-- `.editorconfig` section directives, when they participate
-- redacted parse or validation errors
+- matched `.mdfignore` files, patterns, negation state, and ignored status
+- matched `.mdfattributes` files, selectors, negation state, and assigned keys
+- workspace-relative config file paths
+- redacted parse or validation status
 
-The skill must support the server's directory-scoped configuration model. A
-single project config file can define global `core.markdown` defaults and a
-`core.markdown.overrides` list for vault-relative directories or globs. The
-most specific matching override wins; if two matching selectors have equal
-specificity, the later override entry wins.
+The skill must support the server's cascading configuration model. Root
+`.mdfignore` and `.mdfattributes` files apply first, then matching files in
+descendant directories. Later matching rules override earlier rules according
+to the LSP and `markdown-flavor-detection` package.
+
 For any analyzed file, wrapper output must make clear whether the base flavor
 and structured profiles came from:
 
-- global project config;
-- a matching directory override;
-- inherited global values under a matching override;
-- `.editorconfig` section directives;
+- `.mdfattributes`;
 - VS Code or LSP configuration state supplied by the caller;
 - auto-detection fallback.
 
-Directory overrides are file-specific. Agents must not apply one file's
-effective flavor to another file unless wrapper output says the same config
-layer and override matched both files.
+Config decisions are file-specific. Agents must not apply one file's effective
+flavor to another file unless wrapper output says the same `.mdfattributes`
+rules matched both files.
 
-The skill must treat malformed config the same way as the LSP. The first
-existing supported project config file is the active project config. If that
+The skill must treat malformed config the same way as the LSP. If a config
 file is unreadable, too large, unsafe, malformed, or invalid after
-normalization, the project-config layer is unavailable and resolution continues
-to non-project signals. The skill must report redacted config status without
-document contents and must not silently parse a later project config file to
-replace the invalid active file.
+normalization, the skill must report redacted config status without document
+contents and must not invent a flavor assignment.
 
 ## Marketplace Product Requirements
 
@@ -179,5 +167,5 @@ The repository must be usable as a skill marketplace:
 - The embedded executable is verified before use.
 - Analysis output is stable enough for agent prompts and tests.
 - Release notes make server compatibility clear.
-- The skill can evolve without forcing a server, extension, or website version
-  bump.
+- The skill can evolve with the server while keeping skill-specific changes
+  visible in the skill changelog.

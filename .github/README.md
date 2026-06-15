@@ -16,7 +16,7 @@
 
 | Component | Version | Notes |
 |---|---:|---|
-| Server | `0.7.1` | LSP package release branch targets `main` |
+| Server | `0.7.2` | LSP package release branch targets `main` |
 | VS Code extension | `0.5.0` | `.mdfignore`/`.mdfattributes` activation, watching, and selector UX |
 | CI runtime | Bun `1.3.13` | Matched across typecheck, lint, test, build, and publish jobs |
 

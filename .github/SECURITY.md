@@ -13,7 +13,7 @@ Only the latest published release line receives security fixes.
 |---|---:|---|
 | LSP server | `0.7.x` | Supported |
 | VS Code extension | `0.5.x` | Supported |
-| Older server releases | `< 0.7.1` | Unsupported |
+| Older server releases | `< 0.7.2` | Unsupported |
 | Older extension releases | `< 0.5.0` | Unsupported |
 
 > [!IMPORTANT]

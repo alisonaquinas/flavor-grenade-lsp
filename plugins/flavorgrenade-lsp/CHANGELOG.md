@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.7.2] - 2026-06-03
+
+### Changed in 0.7.2
+
+- Stamp skill, plugin, marketplace, compatibility, and JSON schema metadata for
+  the Flavor Grenade LSP `0.7.2` server patch release.
+- Keep the skill package version aligned with the server dependency and CI
+  tooling maintenance release.
+
+## [0.7.1] - 2026-06-10
+
+### Changed in 0.7.1
+
+- Align skill, plugin, marketplace, compatibility, and JSON schema metadata
+  with the Flavor Grenade LSP `0.7.1` server version.
+- Update skill specifications and plugin command prompts so `.mdfignore` and
+  `.mdfattributes` are the documented flavor configuration sources instead of
+  legacy `.flavor-grenade.*` or `.editorconfig` project config.
+- Document linked server/skill versioning for release artifacts.
+
 ## [0.2.1] - 2026-05-31
 
 ### Changed in 0.2.1
