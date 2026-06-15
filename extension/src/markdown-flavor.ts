@@ -64,6 +64,7 @@ export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, strin
 };
 
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
+export const MARKDOWN_FLAVOR_ACTIVE_CONTEXT = 'flavorGrenade.markdownFlavorActive';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
 export const MDF_CONFIG_MAX_BYTES_SETTING_KEY = 'mdfConfig.maxBytes';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
@@ -135,7 +136,9 @@ export interface MarkdownFlavorConfigurationNotification {
   method: 'workspace/didChangeConfiguration';
   params: {
     settings: {
-      flavorGrenade: Record<string, never>;
+      flavorGrenade: {
+        mdfConfigMaxBytes?: unknown;
+      };
     };
   };
 }
@@ -290,6 +293,12 @@ export function formatMarkdownFlavorStatus(
   };
 }
 
+export function isMarkdownFlavorContributionContextActive(
+  resolution?: MarkdownFlavorResolution,
+): boolean {
+  return resolution?.kind === 'active' && resolution.source !== 'commonmark-fallback';
+}
+
 export function isFlavorEligibleDocument(document: TextDocumentLike): boolean {
   return document.uri.scheme === 'file' && document.languageId === MARKDOWN_LANGUAGE_ID;
 }
@@ -344,6 +353,7 @@ export function resolveMarkdownFlavor(input: {
 }
 
 export function buildMarkdownFlavorConfigurationNotification(input: {
+  mdfConfigMaxBytes?: unknown;
   restricted?: boolean;
   states: readonly MarkdownFlavorStateForDocument[];
 }): MarkdownFlavorConfigurationNotification | undefined {
@@ -351,7 +361,10 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     return undefined;
   }
 
-  if (!input.states.some((state) => isRefreshableMarkdownState(state))) {
+  if (
+    input.mdfConfigMaxBytes === undefined &&
+    !input.states.some((state) => isRefreshableMarkdownState(state))
+  ) {
     return undefined;
   }
 
@@ -359,7 +372,10 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     method: 'workspace/didChangeConfiguration',
     params: {
       settings: {
-        flavorGrenade: {},
+        flavorGrenade:
+          input.mdfConfigMaxBytes === undefined
+            ? {}
+            : { mdfConfigMaxBytes: input.mdfConfigMaxBytes },
       },
     },
   };

@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Multi-flavor Markdown Support",
   "description": "Multi-flavor Markdown support for Obsidian, CommonMark, GFM, MDX, Pandoc, changelogs, ADRs, and other Markdown projects.",
-  "version": "0.5.0",
+  "version": "0.7.3",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {
@@ -133,19 +133,19 @@
         "command": "flavorGrenade.rebuildIndex",
         "key": "ctrl+alt+g ctrl+alt+r",
         "mac": "cmd+alt+g cmd+alt+r",
-        "when": "editorTextFocus && editorLangId == ofmarkdown"
+        "when": "editorTextFocus && editorLangId == markdown && flavorGrenade.markdownFlavorActive"
       },
       {
         "command": "flavorGrenade.showStatusActions",
         "key": "ctrl+alt+g ctrl+alt+s",
         "mac": "cmd+alt+g cmd+alt+s",
-        "when": "editorTextFocus && editorLangId == ofmarkdown"
+        "when": "editorTextFocus && editorLangId == markdown && flavorGrenade.markdownFlavorActive"
       },
       {
         "command": "flavorGrenade.showOutput",
         "key": "ctrl+alt+g ctrl+alt+o",
         "mac": "cmd+alt+g cmd+alt+o",
-        "when": "editorTextFocus && editorLangId == ofmarkdown"
+        "when": "editorTextFocus && editorLangId == markdown && flavorGrenade.markdownFlavorActive"
       }
     ],
     "configuration": {

@@ -14,6 +14,7 @@ import {
   createMarkdownFlavorScopeQuickPickItems,
   formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
+  isMarkdownFlavorContributionContextActive,
   resolveMarkdownFlavor,
   upsertMdfAttributesRule,
 } from './markdown-flavor.js';
@@ -605,6 +606,37 @@ describe('Markdown flavor status presentation', () => {
   });
 });
 
+describe('Markdown flavor contribution context', () => {
+  it('enables flavor-scoped contributions only for non-fallback Markdown flavor evidence', () => {
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({
+        kind: 'active',
+        selected: 'auto',
+        effective: 'commonmark',
+        source: 'commonmark-fallback',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      }),
+      false,
+    );
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({
+        kind: 'active',
+        selected: 'auto',
+        effective: 'obsidian',
+        source: 'obsidian-marker',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      }),
+      true,
+    );
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({ kind: 'inactive', reason: 'mdfignore' }),
+      false,
+    );
+  });
+});
+
 describe('Markdown flavor setting persistence', () => {
   it('offers selected-file and directory .mdfattributes write scopes', () => {
     assert.deepEqual(createMarkdownFlavorScopeQuickPickItems(), [
@@ -751,6 +783,48 @@ describe('Markdown flavor server propagation', () => {
         },
       );
     }
+  });
+
+  it('sends current mdfConfigMaxBytes with live configuration refreshes', () => {
+    const note = document('file:///workspace/readme.md');
+    const resolved = resolveMarkdownFlavor({ document: note, selected: 'auto' });
+
+    assert.equal(resolved.kind, 'active');
+    assert.deepEqual(
+      buildMarkdownFlavorConfigurationNotification({
+        mdfConfigMaxBytes: 4096,
+        states: [{ document: note, resolution: resolved }],
+      }),
+      {
+        method: 'workspace/didChangeConfiguration',
+        params: {
+          settings: {
+            flavorGrenade: {
+              mdfConfigMaxBytes: 4096,
+            },
+          },
+        },
+      },
+    );
+  });
+
+  it('can send mdfConfigMaxBytes even when no Markdown document is refreshable', () => {
+    assert.deepEqual(
+      buildMarkdownFlavorConfigurationNotification({
+        mdfConfigMaxBytes: 4096,
+        states: [],
+      }),
+      {
+        method: 'workspace/didChangeConfiguration',
+        params: {
+          settings: {
+            flavorGrenade: {
+              mdfConfigMaxBytes: 4096,
+            },
+          },
+        },
+      },
+    );
   });
 
   it('does not propagate explicit structured profile resource assignments', () => {
