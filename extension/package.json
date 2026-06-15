@@ -2,7 +2,7 @@
   "name": "flavor-grenade-lsp",
   "displayName": "Flavor Grenade LSP — Multi-flavor Markdown Support",
   "description": "Multi-flavor Markdown support for Obsidian, CommonMark, GFM, MDX, Pandoc, changelogs, ADRs, and other Markdown projects.",
-  "version": "0.5.0",
+  "version": "0.7.3",
   "publisher": "alisonaquinas",
   "license": "MIT",
   "repository": {

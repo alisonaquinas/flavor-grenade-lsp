@@ -34,6 +34,7 @@ import {
   MARKDOWN_FLAVOR_SECTION,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   MDF_CONFIG_MAX_BYTES_SETTING_KEY,
+  buildMarkdownFlavorConfigurationNotification,
   createMarkdownFlavorQuickPickItems,
   createMarkdownFlavorScopeQuickPickItems,
   isFlavorEligibleDocument,
@@ -179,7 +180,21 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
         await client.restart();
       }
       if (e.affectsConfiguration(`flavorGrenade.${MDF_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
-        await client.restart();
+        await client.sendNotification(
+          'workspace/didChangeConfiguration',
+          buildMarkdownFlavorConfigurationNotification({
+            mdfConfigMaxBytes: workspace
+              .getConfiguration(MARKDOWN_FLAVOR_SECTION)
+              .get(MDF_CONFIG_MAX_BYTES_SETTING_KEY),
+            states: [
+              ...workspace.textDocuments.map((document) => ({
+                document,
+                resolution: resolveMarkdownFlavor({ document, selected: 'auto' }),
+              })),
+            ],
+          })?.params ?? { settings: { flavorGrenade: {} } },
+        );
+        await languageModeController?.refreshAll();
       }
       const activeDocument = window.activeTextEditor?.document;
       if (activeDocument && e.affectsConfiguration(MARKDOWN_FLAVOR_SECTION, activeDocument.uri)) {

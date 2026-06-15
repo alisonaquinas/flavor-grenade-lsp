@@ -23,4 +23,26 @@ describe('extension startup disabled guard', () => {
       'disabled-environment guard must run before startLanguageClient(context)',
     );
   });
+
+  it('sends live mdfConfig.maxBytes updates instead of restarting the server', async () => {
+    const extensionSource = await readFile(resolve('src', 'extension.ts'), 'utf8');
+    const settingGuard = "e.affectsConfiguration(`flavorGrenade.${MDF_CONFIG_MAX_BYTES_SETTING_KEY}`)";
+    const guardStart = extensionSource.indexOf(settingGuard);
+    const guardEnd = extensionSource.indexOf(
+      'const activeDocument = window.activeTextEditor?.document;',
+      guardStart,
+    );
+
+    assert.notEqual(guardStart, -1, 'mdfConfig.maxBytes change guard should exist');
+    assert.notEqual(guardEnd, -1, 'active-document refresh should follow the config guard');
+
+    const guardSource = extensionSource.slice(guardStart, guardEnd);
+    assert.match(guardSource, /sendNotification\(\s*'workspace\/didChangeConfiguration'/);
+    assert.match(guardSource, /mdfConfigMaxBytes/);
+    assert.equal(
+      guardSource.includes('client.restart()'),
+      false,
+      'mdfConfig.maxBytes changes should not restart the server',
+    );
+  });
 });

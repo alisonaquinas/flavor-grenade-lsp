@@ -753,6 +753,48 @@ describe('Markdown flavor server propagation', () => {
     }
   });
 
+  it('sends current mdfConfigMaxBytes with live configuration refreshes', () => {
+    const note = document('file:///workspace/readme.md');
+    const resolved = resolveMarkdownFlavor({ document: note, selected: 'auto' });
+
+    assert.equal(resolved.kind, 'active');
+    assert.deepEqual(
+      buildMarkdownFlavorConfigurationNotification({
+        mdfConfigMaxBytes: 4096,
+        states: [{ document: note, resolution: resolved }],
+      }),
+      {
+        method: 'workspace/didChangeConfiguration',
+        params: {
+          settings: {
+            flavorGrenade: {
+              mdfConfigMaxBytes: 4096,
+            },
+          },
+        },
+      },
+    );
+  });
+
+  it('can send mdfConfigMaxBytes even when no Markdown document is refreshable', () => {
+    assert.deepEqual(
+      buildMarkdownFlavorConfigurationNotification({
+        mdfConfigMaxBytes: 4096,
+        states: [],
+      }),
+      {
+        method: 'workspace/didChangeConfiguration',
+        params: {
+          settings: {
+            flavorGrenade: {
+              mdfConfigMaxBytes: 4096,
+            },
+          },
+        },
+      },
+    );
+  });
+
   it('does not propagate explicit structured profile resource assignments', () => {
     const note = document('file:///workspace/adr.md');
     const resolved = resolveMarkdownFlavor({

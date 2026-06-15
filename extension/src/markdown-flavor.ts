@@ -135,7 +135,9 @@ export interface MarkdownFlavorConfigurationNotification {
   method: 'workspace/didChangeConfiguration';
   params: {
     settings: {
-      flavorGrenade: Record<string, never>;
+      flavorGrenade: {
+        mdfConfigMaxBytes?: unknown;
+      };
     };
   };
 }
@@ -344,6 +346,7 @@ export function resolveMarkdownFlavor(input: {
 }
 
 export function buildMarkdownFlavorConfigurationNotification(input: {
+  mdfConfigMaxBytes?: unknown;
   restricted?: boolean;
   states: readonly MarkdownFlavorStateForDocument[];
 }): MarkdownFlavorConfigurationNotification | undefined {
@@ -351,7 +354,10 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     return undefined;
   }
 
-  if (!input.states.some((state) => isRefreshableMarkdownState(state))) {
+  if (
+    input.mdfConfigMaxBytes === undefined &&
+    !input.states.some((state) => isRefreshableMarkdownState(state))
+  ) {
     return undefined;
   }
 
@@ -359,7 +365,10 @@ export function buildMarkdownFlavorConfigurationNotification(input: {
     method: 'workspace/didChangeConfiguration',
     params: {
       settings: {
-        flavorGrenade: {},
+        flavorGrenade:
+          input.mdfConfigMaxBytes === undefined
+            ? {}
+            : { mdfConfigMaxBytes: input.mdfConfigMaxBytes },
       },
     },
   };
