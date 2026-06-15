@@ -2,14 +2,14 @@ import { describe, expect, it } from '@jest/globals';
 import { MarkdownFlavorState } from '../markdown-flavor-state.js';
 
 describe('MarkdownFlavorState', () => {
-  it('uses concrete .fgattributes flavor before Auto Detect evidence', () => {
+  it('uses concrete .mdfattributes flavor before Auto Detect evidence', () => {
     const state = new MarkdownFlavorState();
 
     const result = state.resolveForDocument({
       uri: 'file:///vault/note.md',
       languageId: 'markdown',
       hasObsidianMarker: true,
-      fgAttributesFlavor: 'gfm',
+      mdfAttributesFlavor: 'gfm',
       syntaxText: '[[Target]]',
     });
 
@@ -17,11 +17,11 @@ describe('MarkdownFlavorState', () => {
       kind: 'active',
       selected: 'gfm',
       effective: 'gfm',
-      source: 'fgattributes',
+      source: 'mdfattributes',
     });
   });
 
-  it('runs Auto Detect when .fgattributes requests auto or has no flavor', () => {
+  it('runs Auto Detect when .mdfattributes requests auto or has no flavor', () => {
     const state = new MarkdownFlavorState();
 
     expect(
@@ -29,7 +29,7 @@ describe('MarkdownFlavorState', () => {
         uri: 'file:///vault/note.md',
         languageId: 'markdown',
         hasObsidianMarker: true,
-        fgAttributesFlavor: 'auto',
+        mdfAttributesFlavor: 'auto',
         syntaxText: '# Note',
       }),
     ).toMatchObject({
@@ -52,15 +52,15 @@ describe('MarkdownFlavorState', () => {
     });
   });
 
-  it('layers .fgattributes structured profiles independently from base flavor', () => {
+  it('layers .mdfattributes structured profiles independently from base flavor', () => {
     const state = new MarkdownFlavorState();
 
     const result = state.resolveForDocument({
       uri: 'file:///vault/docs/decisions/0001-use-context.md',
       languageId: 'markdown',
       hasObsidianMarker: false,
-      fgAttributesFlavor: 'gfm',
-      fgAttributesStructuredProfiles: ['madr'],
+      mdfAttributesFlavor: 'gfm',
+      mdfAttributesStructuredProfiles: ['madr'],
       syntaxText: '## Context and Problem Statement\n\n## Decision Outcome',
     });
 
@@ -68,7 +68,7 @@ describe('MarkdownFlavorState', () => {
       kind: 'active',
       effective: 'gfm',
       structuredProfiles: ['madr'],
-      structuredProfileSource: 'fgattributes',
+      structuredProfileSource: 'mdfattributes',
     });
   });
 });

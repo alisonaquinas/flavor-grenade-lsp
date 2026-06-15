@@ -71,7 +71,7 @@ const packagedManifest = {
       certificateIdentityRegexp:
         runtimeProvenance?.source === 'github-release'
           ? `^https://github.com/${escapeRegex(runtimeProvenance.repository ?? 'alisonaquinas/flavor-grenade-lsp')}/\\.github/workflows/release\\.yml@refs/tags/v.*$`
-          : '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
+          : '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/v.*',
     },
   },
 };

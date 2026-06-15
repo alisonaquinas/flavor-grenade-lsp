@@ -2,16 +2,16 @@ import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { FlavorGrenadeConfigFiles } from '../fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../mdf-config-files.js';
 import { resolveVaultRelativePath } from '../../vault/vault-path-confinement.js';
 
-describe('FlavorGrenadeConfigFiles', () => {
+describe('MarkdownFlavorConfigFiles', () => {
   let vaultRoot: string;
-  let resolver: FlavorGrenadeConfigFiles;
+  let resolver: MarkdownFlavorConfigFiles;
 
   beforeEach(() => {
-    vaultRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-config-files-'));
-    resolver = new FlavorGrenadeConfigFiles();
+    vaultRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdf-config-files-'));
+    resolver = new MarkdownFlavorConfigFiles();
   });
 
   afterEach(() => {
@@ -30,9 +30,9 @@ describe('FlavorGrenadeConfigFiles', () => {
     });
   });
 
-  it('applies root .fgignore patterns and later negation', () => {
+  it('applies root .mdfignore patterns and later negation', () => {
     writeFile(
-      '.fgignore',
+      '.mdfignore',
       [
         '# generated docs',
         'dist/**/*.md',
@@ -53,9 +53,9 @@ describe('FlavorGrenadeConfigFiles', () => {
     expect(resolver.resolveForFile(vaultRoot, abs('private/shared.md')).ignored).toBe(false);
   });
 
-  it('lets nested .fgignore rules override parent rules for descendant files', () => {
-    writeFile('.fgignore', 'notes/private/**\n');
-    writeFile('notes/.fgignore', '!private/keep.md\n');
+  it('lets nested .mdfignore rules override parent rules for descendant files', () => {
+    writeFile('.mdfignore', 'notes/private/**\n');
+    writeFile('notes/.mdfignore', '!private/keep.md\n');
     writeFile('notes/private/keep.md', '# Keep\n');
     writeFile('notes/private/drop.md', '# Drop\n');
 
@@ -64,8 +64,8 @@ describe('FlavorGrenadeConfigFiles', () => {
   });
 
   it('supports git-style character classes and escaped wildcard literals', () => {
-    writeFile('.fgignore', '[Rr][Ee][Aa][Dd][Mm][Ee].md\nliteral\\?.md\n');
-    writeFile('.fgattributes', '[Nn]ote.md flavor=gfm\nliteral\\*.md flavor=pandoc\n');
+    writeFile('.mdfignore', '[Rr][Ee][Aa][Dd][Mm][Ee].md\nliteral\\?.md\n');
+    writeFile('.mdfattributes', '[Nn]ote.md flavor=gfm\nliteral\\*.md flavor=pandoc\n');
     writeFile('README.md', '# Readme\n');
     writeFile('readme.md', '# Readme\n');
     writeFile('literalx.md', '# Literal x\n');
@@ -89,9 +89,9 @@ describe('FlavorGrenadeConfigFiles', () => {
     expect(resolver.resolveForFile(vaultRoot, abs('literalA.md')).attributes).toEqual({});
   });
 
-  it('resolves .fgattributes through root-to-leaf attribute cascade', () => {
+  it('resolves .mdfattributes through root-to-leaf attribute cascade', () => {
     writeFile(
-      '.fgattributes',
+      '.mdfattributes',
       [
         '*.md flavor=commonmark',
         'docs/**/*.md flavor=gfm',
@@ -102,7 +102,7 @@ describe('FlavorGrenadeConfigFiles', () => {
         '',
       ].join('\n'),
     );
-    writeFile('docs/.fgattributes', 'api/**/*.md flavor=pandoc\n');
+    writeFile('docs/.mdfattributes', 'api/**/*.md flavor=pandoc\n');
     writeFile('README.md', '# Readme\n');
     writeFile('docs/guide.md', '# Guide\n');
     writeFile('docs/changelog.md', '# Changelog\n');
@@ -133,9 +133,9 @@ describe('FlavorGrenadeConfigFiles', () => {
     });
   });
 
-  it('limits negated .fgattributes selectors to rules in the same file', () => {
-    writeFile('.fgattributes', '*.md flavor=commonmark\n');
-    writeFile('docs/.fgattributes', '*.md flavor=gfm\n!private.md\n');
+  it('limits negated .mdfattributes selectors to rules in the same file', () => {
+    writeFile('.mdfattributes', '*.md flavor=commonmark\n');
+    writeFile('docs/.mdfattributes', '*.md flavor=gfm\n!private.md\n');
     writeFile('docs/guide.md', '# Guide\n');
     writeFile('docs/private.md', '# Private\n');
 
@@ -147,9 +147,9 @@ describe('FlavorGrenadeConfigFiles', () => {
     });
   });
 
-  it('ignores unsafe and invalid .fgattributes values without dropping valid rules', () => {
+  it('ignores unsafe and invalid .mdfattributes values without dropping valid rules', () => {
     writeFile(
-      '.fgattributes',
+      '.mdfattributes',
       [
         '*.md flavor=commonmark',
         'bad.md flavor=unknown',

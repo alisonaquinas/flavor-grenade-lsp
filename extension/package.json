@@ -32,8 +32,8 @@
   "icon": "images/icon.png",
     "activationEvents": [
       "workspaceContains:.obsidian",
-      "workspaceContains:.fgignore",
-      "workspaceContains:.fgattributes",
+      "workspaceContains:.mdfignore",
+      "workspaceContains:.mdfattributes",
     "onCommand:flavorGrenade.restartServer",
     "onCommand:flavorGrenade.rebuildIndex",
     "onCommand:flavorGrenade.showOutput",
@@ -167,11 +167,11 @@
           "default": "file-stem",
           "description": "Wiki-link completion style."
         },
-        "flavorGrenade.fgConfig.maxBytes": {
+        "flavorGrenade.mdfConfig.maxBytes": {
           "type": "number",
           "default": 8192,
           "minimum": 1,
-          "description": "Maximum .fgignore or .fgattributes file size, in bytes, read for Markdown flavor detection."
+          "description": "Maximum .mdfignore or .mdfattributes file size, in bytes, read for Markdown flavor detection."
         },
         "flavorGrenade.completion.candidates": {
           "type": "number",
@@ -223,15 +223,15 @@
     "verify:package-targets": "node --import tsx --test \"test/package-targets/server-binary.test.ts\""
   },
   "dependencies": {
-    "vscode-languageclient": "9.0.1"
+    "vscode-languageclient": "10.0.0"
   },
   "devDependencies": {
-    "@types/node": "25.9.1",
+    "@types/node": "25.9.2",
     "@types/vscode": "1.120.0",
     "@vscode/test-electron": "2.5.2",
-    "@vscode/vsce": "3.9.1",
-    "esbuild": "0.28.0",
-    "tsx": "4.22.3",
+    "@vscode/vsce": "3.9.2",
+    "esbuild": "0.28.1",
+    "tsx": "4.22.4",
     "typescript": "6.0.3"
   }
 }

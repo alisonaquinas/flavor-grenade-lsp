@@ -44,7 +44,7 @@ text_sync = "full"
 
 # Which detection signal triggers vault mode
 # "obsidian"   — only .obsidian/ directory
-# "config-only" — only Flavor Grenade config-file markers
+# "config-only" — only Markdown flavor config-file markers
 # "both"       — either signal
 vault_detection = "obsidian"
 
@@ -188,8 +188,8 @@ interface HostSpecificBoundary {
 
 Project config discovery remains for operational server settings. It is not an
 active file or directory Markdown flavor source; persistent file/directory
-flavor assignment lives in `.fgattributes`, and visibility lives in
-`.fgignore`.
+flavor assignment lives in `.mdfattributes`, and visibility lives in
+`.mdfignore`.
 
 Operational project config discovery uses the first existing file in this order:
 
@@ -219,16 +219,16 @@ EditorConfig is not a file/directory flavor assignment source.
 
 Consumers:
 
-- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata from `.fgattributes` resolution or Auto Detect to resolve and store `EffectiveMarkdownContext`.
+- BC4 uses `MarkdownFlavorSelection`, `MarkdownFlavorProfile`, and structured profile metadata from `.mdfattributes` resolution or Auto Detect to resolve and store `EffectiveMarkdownContext`.
 - BC2 consumes only the explicit base `EffectiveMarkdownFlavor` and structured profile flags in `ParseContext`.
 - BC5 validates resource-specific flavor payloads and config-file parse results against the supported selector set before dispatching to BC4/Config.
-- BC6 displays labels/order from the same contract and writes selector values through `.fgattributes`; it does not define new ids.
+- BC6 displays labels/order from the same contract and writes selector values through `.mdfattributes`; it does not define new ids.
 
 Rules:
 
 - `auto` is allowed only as a `MarkdownFlavorSelection`.
 - `auto` is not a `MarkdownFlavorId` and has no `MarkdownFlavorProfile`.
-- Unknown ids are invalid in `.fgattributes` and LSP resource payloads.
+- Unknown ids are invalid in `.mdfattributes` and LSP resource payloads.
 - Structured document profiles are independent flags. `keep-a-changelog`,
   `common-changelog`, and `madr` are valid
   `StructuredMarkdownProfileId` values, not valid `MarkdownFlavorId` values.
@@ -320,19 +320,19 @@ Built-in defaults
 ## MarkdownFlavorCascade
 
 `MarkdownFlavorCascade` is the named server-side resolution order for
-`EffectiveMarkdownFlavor`. It runs inside BC4, using `.fgignore` visibility,
-validated `.fgattributes` values, and Auto Detect evidence. The full
+`EffectiveMarkdownFlavor`. It runs inside BC4, using `.mdfignore` visibility,
+validated `.mdfattributes` values, and Auto Detect evidence. The full
 resource-specific algorithm is specified in
 [[docs/design/markdown-flavor-auto-detection]]; this section records the
 config-domain view of the same cascade.
 
 ```text
-Priority 0 — .fgignore visibility
-  Source: root-to-leaf .fgignore files
+Priority 0 — .mdfignore visibility
+  Source: root-to-leaf .mdfignore files
   Rule: ignored files are inactive and do not reach flavor resolution
 
-Priority 1 — .fgattributes
-  Source: root-to-leaf .fgattributes files
+Priority 1 — .mdfattributes
+  Source: root-to-leaf .mdfattributes files
   Values: 'auto' or supported MarkdownFlavorId
 
 Priority 2 — Vault marker
@@ -348,8 +348,8 @@ Priority 4 (lowest) — CommonMark fallback
 
 Tie-breakers:
 
-- `.fgignore` is evaluated before flavor selection; ignored files are inactive.
-- Deeper `.fgattributes` files and later matching rules override broader earlier
+- `.mdfignore` is evaluated before flavor selection; ignored files are inactive.
+- Deeper `.mdfattributes` files and later matching rules override broader earlier
   rules per attribute.
 - A value of `auto` or `!flavor` does not itself become effective state; it
   delegates to Auto Detect.
@@ -357,15 +357,15 @@ Tie-breakers:
 - `EffectiveMarkdownFlavor` is always an explicit `MarkdownFlavorId`, never `auto`.
 
 Structured profile flags are resolved beside `MarkdownFlavorCascade` and are
-document-specific. `.fgattributes structured_profiles` beats automatic
+document-specific. `.mdfattributes structured_profiles` beats automatic
 detection; `none` disables all structured profile behavior for the matching
 scope.
 
 Example:
 
 ```text
-.fgattributes in repo root: *.md flavor=gfm
-.fgattributes in docs/: api/*.md flavor=glfm
+.mdfattributes in repo root: *.md flavor=gfm
+.mdfattributes in docs/: api/*.md flavor=glfm
 document: docs/api/CHANGELOG.md
 .obsidian/ exists
 => EffectiveMarkdownFlavor = glfm
@@ -380,8 +380,8 @@ document: docs/api/CHANGELOG.md
 | `completion.candidates` | Must be a positive integer (`> 0`) | Log warning at `warn` level; use built-in default (`50`) |
 | `core.text_sync` | Must be `"full"` or `"incremental"` | Log warning; use `"full"` |
 | `core.vault_detection` | Must be `"obsidian"`, `"config-only"`, or `"both"` | Log warning; use `"obsidian"` |
-| `.fgattributes flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Treat this attribute as absent and continue resolution |
-| `.fgattributes structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible list of supported `StructuredMarkdownProfileId` values | Treat this attribute as absent for structured-profile resolution |
+| `.mdfattributes flavor` | Must be `"auto"` or a supported `MarkdownFlavorId` | Treat this attribute as absent and continue resolution |
+| `.mdfattributes structured_profiles` | Must be `"auto"`, `"none"`, or a unique, compatible list of supported `StructuredMarkdownProfileId` values | Treat this attribute as absent for structured-profile resolution |
 | `completion.wiki.style` | Must be one of the three enum values | Log warning; use `"file-stem"` |
 | `code_action.toc.include` | Each element must be an integer 1–6 | Remove out-of-range values; log warning if list becomes empty → use `[1,2,3,4,5,6]` |
 | Any project config parse error | Entire file is unparseable | Log at `debug` level; treat entire file as absent (do not crash) |
@@ -437,8 +437,8 @@ Consumers:
 2. VaultModule calls ConfigCascadeService.reload(vaultRoot)
 3. New FlavorConfig computed
 4. VaultFolder.withConfig(folder, newConfig) → new VaultFolder stored in Workspace
-5. BC4 re-runs operational config consumers for affected docs; `.fgignore` and
-   `.fgattributes` changes use the flavor config-file reload flow
+5. BC4 re-runs operational config consumers for affected docs; `.mdfignore` and
+   `.mdfattributes` changes use the flavor config-file reload flow
 6. If any EffectiveMarkdownContext changed, BC4 schedules reparse/diagnostic refresh
 7. LspServer optionally sends flavorGrenade/status notification to client
 ```
@@ -446,7 +446,7 @@ Consumers:
 **Flavor config-file update flow:**
 
 ```text
-1. FileWatcher detects `.fgignore` or `.fgattributes` create/change/delete
+1. FileWatcher detects `.mdfignore` or `.mdfattributes` create/change/delete
 2. Config parses Git-style patterns and attributes inside the vault boundary
 3. Config validates MarkdownFlavorSelection and StructuredProfileSelection
 4. Valid value:

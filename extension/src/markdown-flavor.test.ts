@@ -8,14 +8,14 @@ import {
   MARKDOWN_FLAVOR_SELECTIONS,
   STRUCTURED_MARKDOWN_PROFILE_IDS,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
-  buildFgAttributesRule,
+  buildMdfAttributesRule,
   buildMarkdownFlavorConfigurationNotification,
   createMarkdownFlavorQuickPickItems,
   createMarkdownFlavorScopeQuickPickItems,
   formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
   resolveMarkdownFlavor,
-  upsertFgAttributesRule,
+  upsertMdfAttributesRule,
 } from './markdown-flavor.js';
 
 const REQUIRED_SELECTIONS = [
@@ -117,7 +117,7 @@ describe('Markdown flavor document scope', () => {
 });
 
 describe('Markdown flavor resolution', () => {
-  it('resolves auto from .fgattributes evidence, Obsidian markers, then CommonMark fallback', () => {
+  it('resolves auto from .mdfattributes evidence, Obsidian markers, then CommonMark fallback', () => {
     assert.deepEqual(
       resolveMarkdownFlavor({
         document: document('file:///workspace/readme.md'),
@@ -136,14 +136,14 @@ describe('Markdown flavor resolution', () => {
     assert.deepEqual(
       resolveMarkdownFlavor({
         document: document('file:///workspace/readme.md'),
-        fgAttributesFlavor: 'gfm',
+        mdfAttributesFlavor: 'gfm',
         selected: 'auto',
       }),
       {
         kind: 'active',
         selected: 'auto',
         effective: 'gfm',
-        source: 'fgattributes',
+        source: 'mdfattributes',
         structuredProfiles: [],
         structuredProfileSource: 'structured-profile-inference',
       },
@@ -191,20 +191,20 @@ describe('Markdown flavor resolution', () => {
     );
   });
 
-  it('marks .fgignore matches inactive before applying flavor evidence', () => {
+  it('marks .mdfignore matches inactive before applying flavor evidence', () => {
     assert.deepEqual(
       resolveMarkdownFlavor({
         document: document('file:///workspace/drafts/idea.md'),
         ignored: true,
-        fgAttributesFlavor: 'gfm',
+        mdfAttributesFlavor: 'gfm',
         hasObsidianMarker: true,
         selected: 'auto',
       }),
-      { kind: 'inactive', reason: 'fgignore' },
+      { kind: 'inactive', reason: 'mdfignore' },
     );
   });
 
-  it('infers strong fgattributes-absent syntax before CommonMark fallback', () => {
+  it('infers strong mdfattributes-absent syntax before CommonMark fallback', () => {
     const cases = [
       {
         expected: 'mdx',
@@ -590,23 +590,23 @@ describe('Markdown flavor status presentation', () => {
     );
   });
 
-  it('explains .fgignore inactive status', () => {
+  it('explains .mdfignore inactive status', () => {
     assert.deepEqual(
       formatMarkdownFlavorStatus({
         kind: 'inactive',
-        reason: 'fgignore',
+        reason: 'mdfignore',
       }),
       {
         text: '$(symbol-misc) Markdown: Inactive',
         tooltip:
-          'Markdown Flavor: inactive for this document\nReason: .fgignore\nOpen a file-backed Markdown document to select a Markdown flavor.',
+          'Markdown Flavor: inactive for this document\nReason: .mdfignore\nOpen a file-backed Markdown document to select a Markdown flavor.',
       },
     );
   });
 });
 
 describe('Markdown flavor setting persistence', () => {
-  it('offers selected-file and directory .fgattributes write scopes', () => {
+  it('offers selected-file and directory .mdfattributes write scopes', () => {
     assert.deepEqual(createMarkdownFlavorScopeQuickPickItems(), [
       {
         id: 'selected-file',
@@ -620,9 +620,9 @@ describe('Markdown flavor setting persistence', () => {
     ]);
   });
 
-  it('builds canonical .fgattributes rules for selected-file and directory scopes', () => {
+  it('builds canonical .mdfattributes rules for selected-file and directory scopes', () => {
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: 'guide.md',
         scope: 'selected-file',
         selection: 'gfm',
@@ -630,7 +630,7 @@ describe('Markdown flavor setting persistence', () => {
       'guide.md flavor=gfm',
     );
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: 'guide.md',
         scope: 'directory',
         selection: 'pandoc',
@@ -638,7 +638,7 @@ describe('Markdown flavor setting persistence', () => {
       '/*.md flavor=pandoc',
     );
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: 'daily note.md',
         scope: 'selected-file',
         selection: 'auto',
@@ -646,7 +646,7 @@ describe('Markdown flavor setting persistence', () => {
       'daily\\ note.md !flavor',
     );
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: '#meeting.md',
         scope: 'selected-file',
         selection: 'obsidian',
@@ -654,7 +654,7 @@ describe('Markdown flavor setting persistence', () => {
       '\\#meeting.md flavor=obsidian',
     );
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: 'draft?.md',
         scope: 'selected-file',
         selection: 'gfm',
@@ -662,7 +662,7 @@ describe('Markdown flavor setting persistence', () => {
       'draft\\?.md flavor=gfm',
     );
     assert.equal(
-      buildFgAttributesRule({
+      buildMdfAttributesRule({
         fileName: 'a*b[1].md',
         scope: 'selected-file',
         selection: 'pandoc',
@@ -671,7 +671,7 @@ describe('Markdown flavor setting persistence', () => {
     );
   });
 
-  it('upserts .fgattributes rules without widening the selected scope', () => {
+  it('upserts .mdfattributes rules without widening the selected scope', () => {
     const content = [
       '# Team defaults',
       '*.md flavor=commonmark',
@@ -681,7 +681,7 @@ describe('Markdown flavor setting persistence', () => {
     ].join('\n');
 
     assert.equal(
-      upsertFgAttributesRule(content, {
+      upsertMdfAttributesRule(content, {
         fileName: 'guide.md',
         scope: 'selected-file',
         selection: 'pandoc',
@@ -695,7 +695,7 @@ describe('Markdown flavor setting persistence', () => {
       ].join('\n'),
     );
     assert.equal(
-      upsertFgAttributesRule(content, {
+      upsertMdfAttributesRule(content, {
         fileName: 'guide.md',
         scope: 'directory',
         selection: 'glfm',
@@ -712,7 +712,7 @@ describe('Markdown flavor setting persistence', () => {
 
   it('uses !flavor for same-scope Auto Detect resets', () => {
     assert.equal(
-      upsertFgAttributesRule('', {
+      upsertMdfAttributesRule('', {
         fileName: 'guide.md',
         scope: 'selected-file',
         selection: 'auto',
@@ -720,7 +720,7 @@ describe('Markdown flavor setting persistence', () => {
       'guide.md !flavor\n',
     );
     assert.equal(
-      upsertFgAttributesRule('guide.md structured_profiles=madr flavor=gfm\n', {
+      upsertMdfAttributesRule('guide.md structured_profiles=madr flavor=gfm\n', {
         fileName: 'guide.md',
         scope: 'selected-file',
         selection: 'auto',

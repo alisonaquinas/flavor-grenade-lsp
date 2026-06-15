@@ -36,7 +36,7 @@ describe('website content and public links', () => {
 
       expect(examples.length).toBeGreaterThan(0);
       expect(examples.join('\n')).toMatch(
-        /\.obsidian|\.fgignore|\.fgattributes|rootUri|\[\[|#|npm|npx|```|!?\[|flavor=|structured_profiles=/,
+        /\.obsidian|\.mdfignore|\.mdfattributes|rootUri|\[\[|#|npm|npx|```|!?\[|flavor=|structured_profiles=/,
       );
     }
   });

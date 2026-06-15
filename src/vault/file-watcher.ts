@@ -13,7 +13,7 @@ import { normalizeAbsolutePath, resolveVaultRelativePath } from './vault-path-co
 import { OFMParser } from '../parser/ofm-parser.js';
 import { TagRegistry } from '../tags/tag-registry.js';
 import { MarkdownFlavorState } from '../markdown-flavor/markdown-flavor-state.js';
-import { FlavorGrenadeConfigFiles } from '../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../markdown-flavor/mdf-config-files.js';
 import type { ParseContext } from '../parser/types.js';
 
 /**
@@ -36,7 +36,7 @@ export class FileWatcher {
     private readonly tagRegistry: TagRegistry,
     private readonly vaultScanner: VaultScanner,
     @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
-    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
+    @Optional() private readonly mdfConfigFiles: MarkdownFlavorConfigFiles | null = null,
   ) {}
 
   /**
@@ -87,7 +87,7 @@ export class FileWatcher {
       // Track non-markdown files in the asset index.
       if (eventType === 'rename') {
         const stat = await this.fileStat(absPath);
-        if (stat !== null && !this.isFgIgnored(absPath)) {
+        if (stat !== null && !this.ismdfignored(absPath)) {
           this.vaultScanner.getAssetIndex().add(relPath);
           this.vaultIndex.setAttachment(await buildAttachmentEntry(absPath, relPath, stat));
         } else {
@@ -112,7 +112,7 @@ export class FileWatcher {
 
   private async upsertFile(absPath: string): Promise<void> {
     try {
-      if (this.isFgIgnored(absPath)) {
+      if (this.ismdfignored(absPath)) {
         this.deleteFile(absPath);
         return;
       }
@@ -152,21 +152,21 @@ export class FileWatcher {
     await this.vaultScanner.scan(pathToFileURL(this.resolvedRoot).toString());
   }
 
-  private isFgIgnored(absPath: string): boolean {
-    return this.fgConfigFiles?.resolveForFile(this.resolvedRoot, absPath).ignored === true;
+  private ismdfignored(absPath: string): boolean {
+    return this.mdfConfigFiles?.resolveForFile(this.resolvedRoot, absPath).ignored === true;
   }
 
   private resolveParseContext(absPath: string, uri: string, text: string): ParseContext {
-    if (this.flavorState === null || this.fgConfigFiles === null) {
+    if (this.flavorState === null || this.mdfConfigFiles === null) {
       return { effectiveFlavor: 'obsidian', structuredProfiles: [] };
     }
-    const fgConfig = this.fgConfigFiles.resolveForFile(this.resolvedRoot, absPath);
+    const mdfConfig = this.mdfConfigFiles.resolveForFile(this.resolvedRoot, absPath);
     const result = this.flavorState.resolveForDocument({
       uri,
       languageId: 'markdown',
       hasObsidianMarker: this.hasObsidianMarker(),
-      fgAttributesFlavor: fgConfig.attributes.flavor,
-      fgAttributesStructuredProfiles: fgConfig.attributes.structuredProfiles,
+      mdfAttributesFlavor: mdfConfig.attributes.flavor,
+      mdfAttributesStructuredProfiles: mdfConfig.attributes.structuredProfiles,
       syntaxText: text,
     });
     return result.kind === 'active'
@@ -192,5 +192,5 @@ export class FileWatcher {
 
 function isFlavorGrenadeConfigFile(vaultRelativePath: string): boolean {
   const basename = path.basename(vaultRelativePath);
-  return basename === '.fgignore' || basename === '.fgattributes';
+  return basename === '.mdfignore' || basename === '.mdfattributes';
 }

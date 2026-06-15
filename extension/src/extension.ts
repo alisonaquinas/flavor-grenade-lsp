@@ -33,12 +33,12 @@ import {
   MARKDOWN_FLAVOR_COMMAND,
   MARKDOWN_FLAVOR_SECTION,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
-  FG_CONFIG_MAX_BYTES_SETTING_KEY,
+  MDF_CONFIG_MAX_BYTES_SETTING_KEY,
   createMarkdownFlavorQuickPickItems,
   createMarkdownFlavorScopeQuickPickItems,
   isFlavorEligibleDocument,
   resolveMarkdownFlavor,
-  upsertFgAttributesRule,
+  upsertMdfAttributesRule,
 } from './markdown-flavor.js';
 import { findMarkdownFlavorEvidence } from './markdown-flavor-evidence.js';
 import { decideStartupGate } from './activation-gate.js';
@@ -49,7 +49,7 @@ import type {
   FlavorGrenadeStatusPresentation,
 } from './status-presentation.js';
 import { describeWorkspaceEnvironment } from './workspace-environment.js';
-import { FLAVOR_GRENADE_CONFIG_GLOBS } from './fg-config-files.js';
+import { MARKDOWN_FLAVOR_CONFIG_GLOBS } from './mdf-config-files.js';
 
 let client: LanguageClient | undefined;
 let startClientPromise: Promise<LanguageClient> | undefined;
@@ -123,13 +123,13 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       }
       const evidence = await findMarkdownFlavorEvidence(editor.document.uri.fsPath, {
         searchBoundary: workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath,
-        fgConfigMaxBytes: workspace
+        mdfConfigMaxBytes: workspace
           .getConfiguration(MARKDOWN_FLAVOR_SECTION, editor.document.uri)
-          .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
+          .get(MDF_CONFIG_MAX_BYTES_SETTING_KEY),
       });
       if (evidence.ignored) {
         await window.showWarningMessage(
-          'Markdown flavor is inactive for this document because it matches .fgignore.',
+          'Markdown flavor is inactive for this document because it matches .mdfignore.',
         );
         return;
       }
@@ -160,7 +160,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       );
       if (!written) {
         await window.showErrorMessage(
-          'Unable to update .fgattributes for the active Markdown file.',
+          'Unable to update .mdfattributes for the active Markdown file.',
         );
         return;
       }
@@ -178,7 +178,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
       if (e.affectsConfiguration('flavorGrenade.server.path') && client) {
         await client.restart();
       }
-      if (e.affectsConfiguration(`flavorGrenade.${FG_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
+      if (e.affectsConfiguration(`flavorGrenade.${MDF_CONFIG_MAX_BYTES_SETTING_KEY}`) && client) {
         await client.restart();
       }
       const activeDocument = window.activeTextEditor?.document;
@@ -222,7 +222,7 @@ export async function activate(context: ExtensionContext): Promise<FlavorGrenade
 
   for (const markerWatcher of [
     workspace.createFileSystemWatcher('**/.obsidian'),
-    ...FLAVOR_GRENADE_CONFIG_GLOBS.map((glob) => workspace.createFileSystemWatcher(glob)),
+    ...MARKDOWN_FLAVOR_CONFIG_GLOBS.map((glob) => workspace.createFileSystemWatcher(glob)),
   ]) {
     const refreshAfterMarkerChange = () => {
       void maybeStartClient();
@@ -291,7 +291,7 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
       linkStyle: config.get('linkStyle'),
       completionCandidates: config.get('completion.candidates'),
       diagnosticsSuppress: config.get('diagnostics.suppress'),
-      fgConfigMaxBytes: config.get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
+      mdfConfigMaxBytes: config.get(MDF_CONFIG_MAX_BYTES_SETTING_KEY),
     },
   };
 
@@ -353,10 +353,10 @@ async function startLanguageClient(context: ExtensionContext): Promise<LanguageC
     getOpenDocuments: () => workspace.textDocuments,
     getVisibleEditors: () => window.visibleTextEditors,
     setTextDocumentLanguage: (document) => Promise.resolve(document),
-    getFgConfigMaxBytes: (document) =>
+    getMdfConfigMaxBytes: (document) =>
       workspace
         .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-        .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
+        .get(MDF_CONFIG_MAX_BYTES_SETTING_KEY),
     getWorkspaceFolderPath: (document) => workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
     onDidOpenTextDocument: (listener) => workspace.onDidOpenTextDocument(listener),
     onDidChangeVisibleTextEditors: (listener) => window.onDidChangeVisibleTextEditors(listener),
@@ -436,17 +436,17 @@ async function resolveLocalMarkdownFlavor(document: TextDocument) {
   const evidence = document.uri.fsPath
     ? await findMarkdownFlavorEvidence(document.uri.fsPath, {
         searchBoundary: workspace.getWorkspaceFolder(document.uri)?.uri.fsPath,
-        fgConfigMaxBytes: workspace
+        mdfConfigMaxBytes: workspace
           .getConfiguration(MARKDOWN_FLAVOR_SECTION, document.uri)
-          .get(FG_CONFIG_MAX_BYTES_SETTING_KEY),
+          .get(MDF_CONFIG_MAX_BYTES_SETTING_KEY),
       })
     : undefined;
   return resolveMarkdownFlavor({
     document,
     hasObsidianMarker: evidence?.hasObsidianMarker,
     ignored: evidence?.ignored,
-    fgAttributesFlavor: evidence?.fgAttributesFlavor,
-    fgAttributesStructuredProfiles: evidence?.fgAttributesStructuredProfiles,
+    mdfAttributesFlavor: evidence?.mdfAttributesFlavor,
+    mdfAttributesStructuredProfiles: evidence?.mdfAttributesStructuredProfiles,
     selected: 'auto',
     structuredProfileSelection: 'auto',
     syntaxText: document.getText(),
@@ -455,18 +455,18 @@ async function resolveLocalMarkdownFlavor(document: TextDocument) {
 
 async function writeMarkdownFlavorAttributes(
   filePath: string,
-  scope: Parameters<typeof upsertFgAttributesRule>[1]['scope'],
-  selection: Parameters<typeof upsertFgAttributesRule>[1]['selection'],
+  scope: Parameters<typeof upsertMdfAttributesRule>[1]['scope'],
+  selection: Parameters<typeof upsertMdfAttributesRule>[1]['selection'],
   workspaceRoot?: string,
 ): Promise<boolean> {
   const directory = dirname(filePath);
-  const targetPath = join(directory, '.fgattributes');
-  if (!(await canUseFgAttributesTarget(targetPath, directory, workspaceRoot))) {
+  const targetPath = join(directory, '.mdfattributes');
+  if (!(await canUsemdfattributesTarget(targetPath, directory, workspaceRoot))) {
     return false;
   }
   const targetUri = Uri.file(targetPath);
   const content = await readTextFileIfPresent(targetUri, { directory, workspaceRoot });
-  const nextContent = upsertFgAttributesRule(content, {
+  const nextContent = upsertMdfAttributesRule(content, {
     fileName: basename(filePath),
     scope,
     selection,
@@ -486,7 +486,7 @@ async function readTextFileIfPresent(
 ): Promise<string> {
   if (
     options !== undefined &&
-    !(await canUseFgAttributesTarget(uri.fsPath, options.directory, options.workspaceRoot))
+    !(await canUsemdfattributesTarget(uri.fsPath, options.directory, options.workspaceRoot))
   ) {
     return '';
   }
@@ -498,7 +498,7 @@ async function readTextFileIfPresent(
   }
 }
 
-async function canUseFgAttributesTarget(
+async function canUsemdfattributesTarget(
   targetPath: string,
   directory: string,
   workspaceRoot: string | undefined,

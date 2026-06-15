@@ -156,7 +156,7 @@ export function verifySigstoreIfAvailable(runtime, options = {}) {
     verifyArgs.push(
       '--certificate-identity-regexp',
       signature.certificateIdentityRegexp ??
-        '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/skill-v.*',
+        '^https://github.com/alisonaquinas/flavor-grenade-lsp/.github/workflows/skill-release.yml@refs/tags/v.*',
     );
   }
   const verification = spawnSync('cosign', verifyArgs, {

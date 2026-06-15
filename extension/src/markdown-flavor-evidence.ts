@@ -7,7 +7,7 @@ import {
   type StructuredProfileSelection,
 } from './markdown-flavor.js';
 
-const DEFAULT_FG_CONFIG_MAX_BYTES = 8192;
+const DEFAULT_MDF_CONFIG_MAX_BYTES = 8192;
 const DANGEROUS_ATTRIBUTE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 type StatFn = typeof stat;
@@ -50,8 +50,8 @@ export interface MarkdownFlavorEvidence {
   hasFlavorConfigMarker: boolean;
   hasObsidianMarker: boolean;
   ignored?: boolean;
-  fgAttributesFlavor?: MarkdownFlavorSelection;
-  fgAttributesStructuredProfiles?: StructuredProfileSelection;
+  mdfAttributesFlavor?: MarkdownFlavorSelection;
+  mdfAttributesStructuredProfiles?: StructuredProfileSelection;
 }
 
 export async function findMarkdownFlavorEvidence(
@@ -61,7 +61,7 @@ export async function findMarkdownFlavorEvidence(
     realpathFn?: RealpathFn;
     searchBoundary?: string;
     statFn?: StatFn;
-    fgConfigMaxBytes?: unknown;
+    mdfConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorEvidence> {
   const statFn = options.statFn ?? stat;
@@ -108,12 +108,12 @@ export async function findMarkdownFlavorEvidence(
       statFn,
     );
     hasFlavorConfigMarker ||=
-      (await markerExists(join(directory.directory, '.fgignore'), 'file', statFn)) ||
-      (await markerExists(join(directory.directory, '.fgattributes'), 'file', statFn));
+      (await markerExists(join(directory.directory, '.mdfignore'), 'file', statFn)) ||
+      (await markerExists(join(directory.directory, '.mdfattributes'), 'file', statFn));
 
-    const ignoreContent = await readConfigIfPresent(join(directory.directory, '.fgignore'), {
+    const ignoreContent = await readConfigIfPresent(join(directory.directory, '.mdfignore'), {
       readFileFn: options.readFileFn,
-      fgConfigMaxBytes: options.fgConfigMaxBytes,
+      mdfConfigMaxBytes: options.mdfConfigMaxBytes,
       realBoundary,
       realpathFn,
       statFn,
@@ -122,9 +122,9 @@ export async function findMarkdownFlavorEvidence(
       ignored = applyIgnoreRules(ignored, parseIgnoreRules(ignoreContent), directory);
     }
 
-    const content = await readConfigIfPresent(join(directory.directory, '.fgattributes'), {
+    const content = await readConfigIfPresent(join(directory.directory, '.mdfattributes'), {
       readFileFn: options.readFileFn,
-      fgConfigMaxBytes: options.fgConfigMaxBytes,
+      mdfConfigMaxBytes: options.mdfConfigMaxBytes,
       realBoundary,
       realpathFn,
       statFn,
@@ -181,20 +181,20 @@ function buildEvidence(input: {
     hasObsidianMarker: input.hasObsidianMarker,
     ...(input.ignored && { ignored: true }),
     ...(!input.ignored &&
-      input.attributes.flavor !== undefined && { fgAttributesFlavor: input.attributes.flavor }),
+      input.attributes.flavor !== undefined && { mdfAttributesFlavor: input.attributes.flavor }),
     ...(!input.ignored &&
       input.attributes.structuredProfiles !== undefined && {
-        fgAttributesStructuredProfiles: input.attributes.structuredProfiles,
+        mdfAttributesStructuredProfiles: input.attributes.structuredProfiles,
       }),
   };
 }
 
-export async function readFgAttributesMarkdownFlavor(
+export async function readMdfAttributesMarkdownFlavor(
   configPath: string,
   options: {
     readFileFn?: ReadFileFn;
     statFn?: StatFn;
-    fgConfigMaxBytes?: unknown;
+    mdfConfigMaxBytes?: unknown;
   } = {},
 ): Promise<MarkdownFlavorSelection | undefined> {
   const content = await readConfigIfPresent(configPath, options);
@@ -252,10 +252,10 @@ async function readConfigIfPresent(
     realBoundary?: string;
     realpathFn?: RealpathFn;
     statFn?: StatFn;
-    fgConfigMaxBytes?: unknown;
+    mdfConfigMaxBytes?: unknown;
   },
 ): Promise<string | undefined> {
-  const maxBytes = normalizeFgConfigMaxBytes(options.fgConfigMaxBytes);
+  const maxBytes = normalizeMdfConfigMaxBytes(options.mdfConfigMaxBytes);
   if (options.realBoundary !== undefined && options.realpathFn !== undefined) {
     const realConfigPath = await realpathOrUndefined(configPath, options.realpathFn);
     if (
@@ -706,12 +706,12 @@ async function realpathOrUndefined(
   }
 }
 
-function normalizeFgConfigMaxBytes(value: unknown): number {
+function normalizeMdfConfigMaxBytes(value: unknown): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
-    return DEFAULT_FG_CONFIG_MAX_BYTES;
+    return DEFAULT_MDF_CONFIG_MAX_BYTES;
   }
   const normalized = Math.floor(value);
-  return normalized > 0 ? normalized : DEFAULT_FG_CONFIG_MAX_BYTES;
+  return normalized > 0 ? normalized : DEFAULT_MDF_CONFIG_MAX_BYTES;
 }
 
 function emptyEvidence(): MarkdownFlavorEvidence {

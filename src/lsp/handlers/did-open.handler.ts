@@ -9,9 +9,9 @@ import { toDocId } from '../../vault/doc-id.js';
 import { DiagnosticService } from '../../resolution/diagnostic-service.js';
 import { MarkdownFlavorState } from '../../markdown-flavor/markdown-flavor-state.js';
 import {
-  FlavorGrenadeConfigFiles,
-  type FgConfigResolution,
-} from '../../markdown-flavor/fg-config-files.js';
+  MarkdownFlavorConfigFiles,
+  type MdfConfigResolution,
+} from '../../markdown-flavor/mdf-config-files.js';
 import type { ParseContext } from '../../parser/types.js';
 
 /** Parameters sent with a `textDocument/didOpen` notification. */
@@ -40,7 +40,7 @@ export class DidOpenHandler {
     private readonly vaultDetector: VaultDetector,
     @Optional() private readonly diagnosticService: DiagnosticService | null = null,
     @Optional() private readonly flavorState: MarkdownFlavorState | null = null,
-    @Optional() private readonly fgConfigFiles: FlavorGrenadeConfigFiles | null = null,
+    @Optional() private readonly mdfConfigFiles: MarkdownFlavorConfigFiles | null = null,
   ) {}
 
   /**
@@ -88,13 +88,13 @@ export class DidOpenHandler {
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
-    const fgConfig = this.resolveFgConfig(detection.vaultRoot, fsPath);
+    const mdfConfig = this.resolveMdfConfig(detection.vaultRoot, fsPath);
     const result = this.flavorState.resolveForDocument({
       uri,
       languageId,
       hasObsidianMarker: detection.mode === 'obsidian',
-      fgAttributesFlavor: fgConfig?.attributes.flavor,
-      fgAttributesStructuredProfiles: fgConfig?.attributes.structuredProfiles,
+      mdfAttributesFlavor: mdfConfig?.attributes.flavor,
+      mdfAttributesStructuredProfiles: mdfConfig?.attributes.structuredProfiles,
       syntaxText,
     });
     return result.kind === 'active'
@@ -106,18 +106,18 @@ export class DidOpenHandler {
   }
 
   private isIgnored(uri: string): boolean {
-    if (this.fgConfigFiles === null) {
+    if (this.mdfConfigFiles === null) {
       return false;
     }
     const fsPath = SingleFileModeGuard.uriToPath(uri);
     const detection = this.vaultDetector.detectFresh(fsPath);
-    return this.resolveFgConfig(detection.vaultRoot, fsPath)?.ignored === true;
+    return this.resolveMdfConfig(detection.vaultRoot, fsPath)?.ignored === true;
   }
 
-  private resolveFgConfig(
+  private resolveMdfConfig(
     vaultRoot: string | null,
     fsPath: string,
-  ): FgConfigResolution | undefined {
-    return this.fgConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
+  ): MdfConfigResolution | undefined {
+    return this.mdfConfigFiles?.resolveForFile(vaultRoot ?? dirname(fsPath), fsPath);
   }
 }

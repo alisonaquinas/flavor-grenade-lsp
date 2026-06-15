@@ -307,11 +307,11 @@ RefGraph.backlinks(graph: RefGraph, doc: DocId): Ref[]
 | `VaultFolder`             | Aggregate — one detected vault, owns docs + RefGraph + config                             |
 | `Workspace`               | Aggregate — one per server instance, owns all VaultFolders                                |
 | `VaultIndex`              | Name-lookup index for a vault (used by Oracle implementation)                             |
-| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) resolved from applicable `.fgattributes` rules, including rules written by the selector |
+| `MarkdownFlavorSelection` | Configured selector (`auto` or explicit flavor id) resolved from applicable `.mdfattributes` rules, including rules written by the selector |
 | `EffectiveMarkdownFlavor` | Explicit base flavor id resolved by BC4 using `MarkdownFlavorCascade`; never `auto` |
 | `EffectiveMarkdownContext` | Document-specific parse context containing one `EffectiveMarkdownFlavor`, the matching `MarkdownFlavorProfile`, and zero or more structured profile flags |
 | `MarkdownFlavorProfile`   | Source-backed profile metadata for the effective flavor, including syntax surfaces and host boundaries |
-| `VaultDetector`           | Domain service — detects `.obsidian/` or Flavor Grenade config-file markers (`.fgignore` / `.fgattributes`) |
+| `VaultDetector`           | Domain service — detects `.obsidian/` or Markdown flavor config-file markers (`.mdfignore` / `.mdfattributes`) |
 | `FileWatcher`             | Domain service — wraps inotify/fs.watch for `**/*.md` events                              |
 | `GitIgnore`               | Value object — parsed `.gitignore` rules applied to file scanning                         |
 | `FolderLookup`            | Index structure: `stem → DocId[]`, `title → DocId[]`, `alias → DocId[]`                   |
@@ -366,7 +366,7 @@ See [[docs/ddd/lsp-protocol/domain-model]] for the full method-to-command mappin
 1. `LspServer` is a strict conformist to LSP 3.17. It does not invent protocol deviations.
 2. All BC4 mutations triggered by `LspServer` are synchronous from the perspective of the JSON-RPC response (awaited before responding).
 3. `flavorGrenade/status` is the only custom notification; it uses the `flavorGrenade/` namespace to avoid collisions.
-4. `.fgattributes` changes map `flavor` attributes into validated `MarkdownFlavorSelection` mutations on BC4/Config; invalid values are treated as absent without changing server state.
+4. `.mdfattributes` changes map `flavor` attributes into validated `MarkdownFlavorSelection` mutations on BC4/Config; invalid values are treated as absent without changing server state.
 
 ---
 
@@ -420,7 +420,7 @@ function resolveServerPath(context: ExtensionContext): string;
 3. Client disposal handles server shutdown via `context.subscriptions` — no orphaned server processes after extension deactivation or VS Code exit.
 4. The client must keep `.md` documents in VS Code's built-in `markdown` language mode.
 5. Manual non-Markdown language selections are authoritative and disable the Markdown flavor selector for that editor.
-6. Flavor and structured-profile overrides persist to `.fgattributes` and are
+6. Flavor and structured-profile overrides persist to `.mdfattributes` and are
    refreshed through server analysis as selector inputs. The extension does not
    compute or store server-authoritative `EffectiveMarkdownContext`.
 

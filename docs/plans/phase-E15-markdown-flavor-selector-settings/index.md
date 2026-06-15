@@ -12,10 +12,10 @@ updated: 2026-05-13
 | Ticket | Title | Type | Status |
 |---|---|---|---|
 | [[FEAT-045]] | Markdown Flavor Selector And Config Files | Feature | `in-review` |
-| [[TASK-299]] | Add extension flavor constants and `.fgattributes` schema | Task | `done` |
+| [[TASK-299]] | Add extension flavor constants and `.mdfattributes` schema | Task | `done` |
 | [[TASK-300]] | Replace language promotion with Markdown flavor controller | Task | `done` |
 | [[TASK-301]] | Add Markdown flavor selector UI and quick pick | Task | `done` |
-| [[TASK-302]] | Persist flavor overrides through `.fgattributes` scopes | Task | `done` |
+| [[TASK-302]] | Persist flavor overrides through `.mdfattributes` scopes | Task | `done` |
 | [[TASK-303]] | Resolve Auto Detect after config-file resolution | Task | `done` |
 | [[TASK-304]] | Propagate effective flavor from extension to server | Task | `done` |
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | Chore | `done` |

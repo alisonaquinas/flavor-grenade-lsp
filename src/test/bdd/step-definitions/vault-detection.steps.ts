@@ -419,7 +419,7 @@ Given(
       }
     }
     // Ensure Flavor Grenade marker exists.
-    writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), '*.md flavor=auto\n');
+    writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), '*.md flavor=auto\n');
   },
 );
 
@@ -447,7 +447,7 @@ Given(
     const content = normalizeIgnorePattern(pattern1) + nl + normalizeIgnorePattern(pattern2) + nl;
     this.writeVaultFile('.gitignore', content);
     // Ensure Flavor Grenade marker exists.
-    writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), '*.md flavor=auto\n');
+    writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), '*.md flavor=auto\n');
   },
 );
 
@@ -505,7 +505,7 @@ Then('links in vault-b do not resolve to documents in vault-a', function (this: 
 Given('a running LSP server with an indexed vault', async function (this: FGWorld) {
   if (!this.vaultDir) this.createVaultDir();
   // Ensure Flavor Grenade marker.
-  writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), '*.md flavor=obsidian\n');
+  writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), '*.md flavor=obsidian\n');
   if (!this.proc) {
     await this.startServer(this.vaultUri());
   }

@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.3](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.2...v0.7.3) (2026-06-15)
+
+### Changed
+
+- Refresh LSP runtime and parser dependencies for the release line:
+  `vscode-languageserver-protocol` and `vscode-languageserver-types` to
+  `3.18.0`, `@nestjs/core` to `11.1.24`, `js-yaml` to `4.2.0`, and
+  `@typescript-eslint/eslint-plugin` to `8.60.1`.
+- Update the website content pipeline to `commonloom@0.1.4` and refresh website
+  tooling with `svelte@5.56.2`, `svelte-check@4.6.0`,
+  `typescript-eslint@8.60.1`, `@types/node@25.9.2`, and `tsx@4.22.4`.
+- Refresh extension client packaging and host-test tooling with
+  `vscode-languageclient@10.0.0`, `@vscode/vsce@3.9.2`,
+  `@types/node@25.9.2`, `tsx@4.22.4`, and `esbuild@0.28.1`.
+- Update CI action pins for the release branch, including
+  `actions/checkout@6.0.3`, `aws-actions/configure-aws-credentials@6.2.0`, and
+  `github/codeql-action@4.36.2`.
+- Align skill, plugin, marketplace, compatibility, and JSON schema metadata with
+  the current LSP server release line.
+
+### Fixed
+
+- Handle `MarkupContent` diagnostic messages introduced by newer LSP type
+  definitions without breaking the create-missing-file quick fix.
+- Restore extension TypeScript compilation by explicitly loading Node and VS Code
+  ambient types in the extension project.
+- Align the CI workflow self-test with the updated CodeQL SARIF upload action
+  pin.
+- Keep the `markdown-flavor-detection` workspace package and root dependency
+  version synchronized with the LSP release version.
+
 ## [0.7.2](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.1...v0.7.2) (2026-06-07)
 
 ### Changed
@@ -37,27 +68,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add Git-style `.fgignore` support so ignored Markdown files are hidden from
+- Add Git-style `.mdfignore` support so ignored Markdown files are hidden from
   Flavor Grenade scans, indexing, diagnostics, and processing even when they
   are open in the editor.
-- Add Git-style `.fgattributes` flavor selection with nested configuration
+- Add Git-style `.mdfattributes` flavor selection with nested configuration
   files, directory-scoped pattern matching, negated patterns, and attribute
   resets for Markdown flavor assignment.
-- Add extension support for `.fgignore` and `.fgattributes` as project markers,
+- Add extension support for `.mdfignore` and `.mdfattributes` as project markers,
   including file watcher refreshes and selector writes that can apply to the
   current file or the containing directory.
 - Add resolver, scanner, parser-context, extension-host, and smoke-test coverage
-  for `.fgignore` and `.fgattributes` behavior.
+  for `.mdfignore` and `.mdfattributes` behavior.
 
 ### Changed
 
-- Replace the prior project flavor configuration workflow with `.fgattributes`
+- Replace the prior project flavor configuration workflow with `.mdfattributes`
   for explicit flavor configuration while preserving Auto Detect as the default
-  when no `.fgattributes` rule applies.
+  when no `.mdfattributes` rule applies.
 - Update server, extension, skill, website, design, BDD, DDD, and markdown test
   plan documentation for the new flavor configuration model.
 - Refresh the Flavor Grenade skill and website content so installation and
-  usage guidance describe `.fgignore`, `.fgattributes`, and Auto Detect
+  usage guidance describe `.mdfignore`, `.mdfattributes`, and Auto Detect
   fallback consistently.
 
 ### Fixed
@@ -65,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keep Auto Detect independent from flavor configuration so defaulted,
   selected, or configured Auto mode still follows the documented auto-detection
   workflow.
-- Harden `.fgattributes` reset handling, config path construction, and matcher
+- Harden `.mdfattributes` reset handling, config path construction, and matcher
   implementation against review and security findings.
 
 ## [0.6.0](https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.5.0...v0.6.0) (2026-05-26)
@@ -334,5 +365,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/alisonaquinas/flavor-grenade-lsp/compare/v0.7.3...HEAD
+[0.7.3]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.7.3
 [0.1.0]: https://github.com/alisonaquinas/flavor-grenade-lsp/releases/tag/v0.1.0

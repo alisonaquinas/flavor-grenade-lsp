@@ -65,7 +65,7 @@ export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, strin
 
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
-export const FG_CONFIG_MAX_BYTES_SETTING_KEY = 'fgConfig.maxBytes';
+export const MDF_CONFIG_MAX_BYTES_SETTING_KEY = 'mdfConfig.maxBytes';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
 export const MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR = [
   { scheme: 'file', language: MARKDOWN_LANGUAGE_ID },
@@ -82,14 +82,14 @@ export interface TextDocumentLike {
 
 export type FlavorResolutionSource =
   | 'explicit-selection'
-  | 'fgattributes'
+  | 'mdfattributes'
   | 'obsidian-marker'
   | 'syntax-inference'
   | 'commonmark-fallback';
 
 export type StructuredProfileResolutionSource =
   | 'explicit-selection'
-  | 'fgattributes'
+  | 'mdfattributes'
   | 'structured-profile-inference'
   | 'none';
 
@@ -104,7 +104,7 @@ export type MarkdownFlavorResolution =
     }
   | {
       kind: 'inactive';
-      reason: 'fgignore' | 'non-markdown-language' | 'unsupported-scheme';
+      reason: 'mdfignore' | 'non-markdown-language' | 'unsupported-scheme';
     };
 
 export interface MarkdownFlavorQuickPickItem {
@@ -202,17 +202,17 @@ export function createMarkdownFlavorScopeQuickPickItems(): MarkdownFlavorScopeQu
   ];
 }
 
-export function buildFgAttributesRule(input: {
+export function buildMdfAttributesRule(input: {
   fileName: string;
   scope: MarkdownFlavorScope;
   selection: MarkdownFlavorSelection;
 }): string {
-  const pattern = buildFgAttributesPattern(input);
+  const pattern = buildMdfAttributesPattern(input);
   const attribute = input.selection === 'auto' ? '!flavor' : `flavor=${input.selection}`;
   return `${pattern} ${attribute}`;
 }
 
-export function upsertFgAttributesRule(
+export function upsertMdfAttributesRule(
   content: string,
   input: {
     fileName: string;
@@ -220,8 +220,8 @@ export function upsertFgAttributesRule(
     selection: MarkdownFlavorSelection;
   },
 ): string {
-  const pattern = buildFgAttributesPattern(input);
-  const rule = buildFgAttributesRule(input);
+  const pattern = buildMdfAttributesPattern(input);
+  const rule = buildMdfAttributesRule(input);
   if (content.length === 0) {
     return `${rule}\n`;
   }
@@ -232,7 +232,7 @@ export function upsertFgAttributesRule(
     if (index === lines.length - 1 && line.length === 0 && content.endsWith('\n')) {
       return line;
     }
-    const nextLine = updateFgAttributesLine(line, pattern, input.selection);
+    const nextLine = updateMdfAttributesLine(line, pattern, input.selection);
     if (nextLine === undefined) {
       return line;
     }
@@ -298,8 +298,8 @@ export function resolveMarkdownFlavor(input: {
   document: TextDocumentLike;
   hasObsidianMarker?: boolean;
   ignored?: boolean;
-  fgAttributesFlavor?: unknown;
-  fgAttributesStructuredProfiles?: unknown;
+  mdfAttributesFlavor?: unknown;
+  mdfAttributesStructuredProfiles?: unknown;
   selected: unknown;
   structuredProfileSelection?: unknown;
   syntaxText?: string;
@@ -309,7 +309,7 @@ export function resolveMarkdownFlavor(input: {
     return inactive;
   }
   if (input.ignored === true) {
-    return { kind: 'inactive', reason: 'fgignore' };
+    return { kind: 'inactive', reason: 'mdfignore' };
   }
 
   const selected = isMarkdownFlavorSelection(input.selected) ? input.selected : 'auto';
@@ -317,8 +317,8 @@ export function resolveMarkdownFlavor(input: {
     selection: isStructuredProfileSelection(input.structuredProfileSelection)
       ? input.structuredProfileSelection
       : 'auto',
-    fgAttributesSelection: isStructuredProfileSelection(input.fgAttributesStructuredProfiles)
-      ? input.fgAttributesStructuredProfiles
+    mdfAttributesSelection: isStructuredProfileSelection(input.mdfAttributesStructuredProfiles)
+      ? input.mdfAttributesStructuredProfiles
       : undefined,
     uri: input.document.uri.toString(),
     syntaxText: input.syntaxText ?? input.document.getText?.(),
@@ -327,8 +327,8 @@ export function resolveMarkdownFlavor(input: {
     return activeResolution(selected, selected, 'explicit-selection', structured);
   }
 
-  if (isMarkdownFlavorId(input.fgAttributesFlavor)) {
-    return activeResolution('auto', input.fgAttributesFlavor, 'fgattributes', structured);
+  if (isMarkdownFlavorId(input.mdfAttributesFlavor)) {
+    return activeResolution('auto', input.mdfAttributesFlavor, 'mdfattributes', structured);
   }
 
   if (input.hasObsidianMarker === true) {
@@ -397,8 +397,8 @@ function inactiveReasonLabel(
   reason: Extract<MarkdownFlavorResolution, { kind: 'inactive' }>['reason'],
 ): string {
   switch (reason) {
-    case 'fgignore':
-      return '.fgignore';
+    case 'mdfignore':
+      return '.mdfignore';
     case 'non-markdown-language':
       return 'non-Markdown language';
     case 'unsupported-scheme':
@@ -410,8 +410,8 @@ function sourceLabel(source: FlavorResolutionSource): string {
   switch (source) {
     case 'explicit-selection':
       return 'explicit selection';
-    case 'fgattributes':
-      return '.fgattributes';
+    case 'mdfattributes':
+      return '.mdfattributes';
     case 'obsidian-marker':
       return 'Obsidian vault marker';
     case 'syntax-inference':
@@ -460,7 +460,7 @@ function inferMarkdownFlavorFromSyntax(text: string | undefined): MarkdownFlavor
 
 function resolveStructuredProfiles(input: {
   selection: StructuredProfileSelection;
-  fgAttributesSelection?: StructuredProfileSelection;
+  mdfAttributesSelection?: StructuredProfileSelection;
   uri: string;
   syntaxText?: string;
 }): {
@@ -476,13 +476,13 @@ function resolveStructuredProfiles(input: {
   if (input.selection === 'none') {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
-  if (Array.isArray(input.fgAttributesSelection)) {
+  if (Array.isArray(input.mdfAttributesSelection)) {
     return {
-      structuredProfiles: input.fgAttributesSelection,
-      structuredProfileSource: 'fgattributes',
+      structuredProfiles: input.mdfAttributesSelection,
+      structuredProfileSource: 'mdfattributes',
     };
   }
-  if (input.fgAttributesSelection === 'none') {
+  if (input.mdfAttributesSelection === 'none') {
     return { structuredProfiles: [], structuredProfileSource: 'none' };
   }
   return {
@@ -689,20 +689,20 @@ function isSafeResourceUri(uri: string): boolean {
   );
 }
 
-function buildFgAttributesPattern(input: {
+function buildMdfAttributesPattern(input: {
   fileName: string;
   scope: MarkdownFlavorScope;
 }): string {
-  return input.scope === 'directory' ? '/*.md' : escapeFgAttributesPattern(input.fileName);
+  return input.scope === 'directory' ? '/*.md' : escapeMdfAttributesPattern(input.fileName);
 }
 
-function updateFgAttributesLine(
+function updateMdfAttributesLine(
   line: string,
   pattern: string,
   selection: MarkdownFlavorSelection,
 ): string | undefined {
-  const tokens = splitFgAttributesTokens(line.trim());
-  if (tokens.length < 1 || unescapeFgAttributesPattern(tokens[0]) !== unescapeFgAttributesPattern(pattern)) {
+  const tokens = splitMdfAttributesTokens(line.trim());
+  if (tokens.length < 1 || unescapeMdfAttributesPattern(tokens[0]) !== unescapeMdfAttributesPattern(pattern)) {
     return undefined;
   }
 
@@ -711,7 +711,7 @@ function updateFgAttributesLine(
   return [pattern, ...preservedAttributes, flavorAttribute].join(' ');
 }
 
-function splitFgAttributesTokens(line: string): string[] {
+function splitMdfAttributesTokens(line: string): string[] {
   const tokens: string[] = [];
   let current = '';
   let escaped = false;
@@ -747,7 +747,7 @@ function isFlavorAttributeToken(token: string): boolean {
   return token === '!flavor' || token.startsWith('flavor=');
 }
 
-function escapeFgAttributesPattern(value: string): string {
+function escapeMdfAttributesPattern(value: string): string {
   let escaped = '';
   for (const char of value) {
     escaped += /[\s#!*?[\]\\]/u.test(char) ? `\\${char}` : char;
@@ -755,6 +755,6 @@ function escapeFgAttributesPattern(value: string): string {
   return escaped;
 }
 
-function unescapeFgAttributesPattern(value: string): string {
+function unescapeMdfAttributesPattern(value: string): string {
   return value.replace(/\\([#!\s*?[\]\\])/gu, '$1');
 }

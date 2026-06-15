@@ -23,7 +23,7 @@ research corpus.
 | MF-VA-004 | `docs/test/evidence/markdown-flavor-product-review.md` | Reviewer confirms `mdx` as a flavor does not authorize changing the VS Code language id away from `markdown`. |
 | MF-VA-005 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Reviewer confirms platform, conversion, renderer, and execution-bound references have non-local fixture coverage or an explicit deferred lookup disposition. |
 | MF-VA-006 | `docs/test/evidence/markdown-flavor-inference-review.md` | Reviewer confirms syntax inference uses only strong local evidence, documents ambiguous fallback to CommonMark, and does not infer Original Markdown by absence of extensions. |
-| MF-VA-007 | `docs/test/evidence/markdown-structured-profile-review.md` | Reviewer confirms Keep a Changelog, Common Changelog, and MADR remain structured profile flags, have smoke fixtures in every `.fgattributes`-configured and config-absent inference workspace, and are backed by research sources. |
+| MF-VA-007 | `docs/test/evidence/markdown-structured-profile-review.md` | Reviewer confirms Keep a Changelog, Common Changelog, and MADR remain structured profile flags, have smoke fixtures in every `.mdfattributes`-configured and config-absent inference workspace, and are backed by research sources. |
 
 ## Planned Evidence Artifacts
 
@@ -48,7 +48,7 @@ supports the result. The validation run artifact must include `bun run bdd`,
 set from [[docs/plans/phase-21-markdown-flavor-bdd-validation]].
 
 Evidence artifacts must be sanitized before commit. They must not include note
-body text, frontmatter values, `.fgignore` or `.fgattributes` contents,
+body text, frontmatter values, `.mdfignore` or `.mdfattributes` contents,
 environment variables, API-like tokens, local usernames, home-directory paths,
 or raw server stderr/stdout that contains vault content. Use
 repository-relative paths and redacted excerpts when command output is needed.
@@ -66,7 +66,7 @@ repository-relative paths and redacted excerpts when command output is needed.
   not inherit ancestor or child markers.
 - Structured profiles cannot count as validated unless evidence proves both
   changelog variants and MADR remain profile flags and have fixture coverage in
-  `.fgattributes`-configured and config-absent inference smoke workspaces.
+  `.mdfattributes`-configured and config-absent inference smoke workspaces.
 - Planned evidence artifacts exist at the paths above before validation rows
   move from planned/failing to passing.
 - Phase 21 release readiness is limited to root/server PR evidence unless the

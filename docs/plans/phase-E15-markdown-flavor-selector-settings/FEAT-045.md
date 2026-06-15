@@ -19,15 +19,15 @@ aliases: ["FEAT-045"]
 ## Goal
 
 Keep `.md` documents in VS Code's built-in Markdown language mode while a
-separate selector and `.fgattributes` rules control effective Markdown flavor.
+separate selector and `.mdfattributes` rules control effective Markdown flavor.
 
 ## Scope
 
-- Add extension flavor constants and `.fgattributes` enum support.
+- Add extension flavor constants and `.mdfattributes` enum support.
 - Replace language promotion with a flavor controller.
-- Add selector UI, quick-pick choices, second scope prompt, and `.fgattributes`
+- Add selector UI, quick-pick choices, second scope prompt, and `.mdfattributes`
   persistence.
-- Treat `.fgignore` matches as inactive Flavor Grenade visibility.
+- Treat `.mdfignore` matches as inactive Flavor Grenade visibility.
 - Propagate effective flavor to the server using resource-specific
   selected/effective flavor state, matching the Phase 20 contract.
 
@@ -35,10 +35,10 @@ separate selector and `.fgattributes` rules control effective Markdown flavor.
 
 | Ticket | Title | Status |
 |---|---|---|
-| [[TASK-299]] | Add extension flavor constants and `.fgattributes` schema | `done` |
+| [[TASK-299]] | Add extension flavor constants and `.mdfattributes` schema | `done` |
 | [[TASK-300]] | Replace language promotion with Markdown flavor controller | `done` |
 | [[TASK-301]] | Add Markdown flavor selector UI and quick pick | `done` |
-| [[TASK-302]] | Persist flavor overrides through `.fgattributes` scopes | `done` |
+| [[TASK-302]] | Persist flavor overrides through `.mdfattributes` scopes | `done` |
 | [[TASK-303]] | Resolve Auto Detect after config-file resolution | `done` |
 | [[TASK-304]] | Propagate effective flavor from extension to server | `done` |
 | [[CHORE-109]] | Phase E15 extension trace and docs sweep | `done` |
@@ -50,10 +50,10 @@ separate selector and `.fgattributes` rules control effective Markdown flavor.
 
 - [x] Vault Markdown remains `markdown`.
 - [x] Selector contains every required flavor id and label.
-- [x] Selector constants, `.fgattributes` ids, quick-pick ids, and shared dialect
+- [x] Selector constants, `.mdfattributes` ids, quick-pick ids, and shared dialect
       profile ids stay compatible.
-- [x] Overrides persist to selected-file or directory `.fgattributes` targets.
-- [x] Auto Detect clears/resets the matching `.fgattributes` scope instead of
+- [x] Overrides persist to selected-file or directory `.mdfattributes` targets.
+- [x] Auto Detect clears/resets the matching `.mdfattributes` scope instead of
       storing an effective flavor.
 - [x] Server refresh receives resource-specific selected/effective flavor state
       for every required explicit flavor id, including standalone `original`.
@@ -68,7 +68,7 @@ separate selector and `.fgattributes` rules control effective Markdown flavor.
 
 > [!INFO] Started - 2026-05-13
 > Phase E15 started after Phase 23 because Phase 24 depends on the
-> selector/`.fgattributes` contract. Execution order updated in
+> selector/`.mdfattributes` contract. Execution order updated in
 > [[docs/plans/execution-ledger]] so Obsidian flavor language support resumes
 > after E15 is CI-green.
 
@@ -77,7 +77,7 @@ separate selector and `.fgattributes` rules control effective Markdown flavor.
 > helpers that exceeded the checklist's function-size guideline.
 
 > [!SUCCESS] Local gate - 2026-05-13
-> E15 selector/`.fgattributes` implementation passed `npm test`, `npm run compile`,
+> E15 selector/`.mdfattributes` implementation passed `npm test`, `npm run compile`,
 > root docs lint, root lint/typecheck, `bun audit`, `bun test src/`,
 > `bun test src/test/integration/`, and `bun run bdd`. No
 > `src/test/verification` or `src/test/validation` directories exist.
@@ -97,7 +97,7 @@ separate selector and `.fgattributes` rules control effective Markdown flavor.
 ### What went as planned
 
 The selector/config-file surface fits cleanly into pure extension unit tests:
-constants, `.fgattributes` ids, quick-pick rows, selected-file/directory target
+constants, `.mdfattributes` ids, quick-pick rows, selected-file/directory target
 choice, Auto Detect triggers, language preservation, and propagation payloads
 are covered without requiring Extension Development Host proof in E15.
 
@@ -117,7 +117,7 @@ screenshots in this phase.
 
 ### Carry-forward actions
 
-- [ ] In Phase 24, reuse the E15 selector/`.fgattributes` contract and do not create
+- [ ] In Phase 24, reuse the E15 selector/`.mdfattributes` contract and do not create
       another flavor-selection path.
 - [ ] In Phase E16, remove or retarget retired `ofmarkdown` contribution
       activation and Marketplace proof.

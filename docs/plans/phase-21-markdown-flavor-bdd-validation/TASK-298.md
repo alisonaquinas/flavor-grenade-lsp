@@ -65,7 +65,7 @@ product intent and research sources.
   `docs/test/evidence/markdown-flavor-research-trace.md`, and
   `docs/test/evidence/markdown-flavor-host-boundary-review.md`.
 - Artifacts must use repository-relative paths and must not include local user
-  paths, note content, `.fgignore`/`.fgattributes` contents, environment
+  paths, note content, `.mdfignore`/`.mdfattributes` contents, environment
   variables, API-like tokens, or raw server output containing document content.
 - Product review must distinguish `auto` as a detection state from explicit
   dialect profiles and confirm `mdx` flavor does not authorize VS Code language

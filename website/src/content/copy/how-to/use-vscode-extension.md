@@ -28,7 +28,7 @@ Install Flavor Grenade LSP from the Visual Studio Marketplace and reload VS Code
 
 ### Confirm vault open activation
 
-Open the folder that contains `.obsidian/`, `.fgignore`, `.fgattributes`, or the Markdown files you want analyzed. That folder is the boundary Flavor Grenade uses for local links.
+Open the folder that contains `.obsidian/`, `.mdfignore`, `.mdfattributes`, or the Markdown files you want analyzed. That folder is the boundary Flavor Grenade uses for local links.
 
 ### Verify activation
 
@@ -48,6 +48,6 @@ A healthy install should feel uneventful. Completion and diagnostics are the eas
 
 If activation does not happen, VS Code may not trust the workspace, the file may still be plain Markdown, or the opened folder may not be the vault root.
 
-If activation works but suggestions are sparse, double-check that you opened the folder containing `.obsidian/`, `.fgignore`, or `.fgattributes`, not a parent folder or one loose file. For generic Markdown without strong evidence, CommonMark fallback is expected.
+If activation works but suggestions are sparse, double-check that you opened the folder containing `.obsidian/`, `.mdfignore`, or `.mdfattributes`, not a parent folder or one loose file. For generic Markdown without strong evidence, CommonMark fallback is expected.
 
-If a file shows inactive flavor status, check whether it matches `.fgignore`. Ignored Markdown is intentionally hidden from indexing and flavor configuration until a negated rule re-includes it.
+If a file shows inactive flavor status, check whether it matches `.mdfignore`. Ignored Markdown is intentionally hidden from indexing and flavor configuration until a negated rule re-includes it.

@@ -67,8 +67,8 @@ Tags are indexed with their full hierarchical path. A tag `#project/active` is d
 | Language | TypeScript (strict mode) |
 | LSP version | 3.17 |
 | Transport | stdio JSON-RPC (see [[ADR001-stdio-transport]]) |
-| Configuration | `.fgignore` for Flavor Grenade visibility; `.fgattributes` for file/directory flavor and structured profile attributes |
-| Vault detection | `.obsidian/` or Flavor Grenade config-file context (`.fgignore` / `.fgattributes`) |
+| Configuration | `.mdfignore` for Flavor Grenade visibility; `.mdfattributes` for file/directory flavor and structured profile attributes |
+| Vault detection | `.obsidian/` or Markdown flavor config-file context (`.mdfignore` / `.mdfattributes`) |
 
 ## Project Status
 
@@ -104,7 +104,7 @@ is in progress, and extension parity continuation phases E7-E14 are planned in
 | [[docs/adr/ADR014-dependency-security-policy]] | Dependency security policy decision |
 | [[docs/adr/ADR015-platform-specific-vsix]] | Platform-specific VSIX distribution decision |
 | [[docs/adr/ADR020-markdown-flavor-selection]] | Markdown flavor selector decision |
-| [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]] | Git-style `.fgignore` and `.fgattributes` configuration decision |
+| [[docs/adr/ADR021-mdfignore-mdfattributes-flavor-configuration]] | Git-style `.mdfignore` and `.mdfattributes` configuration decision |
 | [[docs/concepts/workspace-model]] | Vault, single-file mode, DocId, FolderLookup |
 | [[docs/concepts/symbol-model]] | Def, Ref, RefGraph, OFMIndex |
 | [[docs/requirements/functional/workspace]] | Workspace requirements (Planguage) |

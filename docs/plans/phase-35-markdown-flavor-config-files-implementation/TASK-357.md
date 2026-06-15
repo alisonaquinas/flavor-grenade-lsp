@@ -19,7 +19,7 @@ aliases: ["TASK-357"]
 
 - Split effective flavor resolution into visibility, configuration resolution,
   and Auto Detect stages.
-- Treat `.fgattributes` concrete `flavor` values as effective flavor inputs.
+- Treat `.mdfattributes` concrete `flavor` values as effective flavor inputs.
 - Treat `flavor=auto`, `!flavor`, and absent flavor as requests to run Auto
   Detect.
 - Keep Auto Detect inputs limited to document, workspace, marker,
@@ -38,7 +38,7 @@ aliases: ["TASK-357"]
 
 ## Definition of Done
 
-- [x] Auto Detect tests prove it does not parse or inspect `.fgattributes`.
+- [x] Auto Detect tests prove it does not parse or inspect `.mdfattributes`.
 - [x] Obsidian marker still resolves to `obsidian` when config requests Auto
       Detect.
 - [x] Generic visible Markdown still resolves to `commonmark`.
@@ -48,24 +48,24 @@ aliases: ["TASK-357"]
 
 > [!FAIL] RED - 2026-05-29
 > Status set to `red`. Added didOpen/didChange tests that expect
-> `.fgattributes` rules to set parse context effective flavor. Expected
-> failure: handlers do not yet read `FlavorGrenadeConfigFiles`.
+> `.mdfattributes` rules to set parse context effective flavor. Expected
+> failure: handlers do not yet read `MarkdownFlavorConfigFiles`.
 
 > [!SUCCESS] GREEN - 2026-05-29
 > Status set to `green`. `DidOpenHandler`, `DidChangeHandler`, and
-> `ConfigurationHandler` now pass resolved `.fgattributes` outcome to
-> `MarkdownFlavorState`; concrete `.fgattributes` flavors win before Auto
+> `ConfigurationHandler` now pass resolved `.mdfattributes` outcome to
+> `MarkdownFlavorState`; concrete `.mdfattributes` flavors win before Auto
 > Detect, while `flavor=auto` still falls through. Focused handler tests,
 > typecheck, and lint pass.
 
 > [!NOTE] PARTIAL - 2026-05-29
 > Status corrected to `partial`. Parse-context wiring is green, but explicit
-> proof that Auto Detect does not inspect `.fgattributes` and full
+> proof that Auto Detect does not inspect `.mdfattributes` and full
 > structured-profile layering coverage remain in scope.
 
 > [!SUCCESS] GREEN - 2026-05-29
 > Added `src/markdown-flavor/__tests__/markdown-flavor-state.test.ts` coverage
-> proving concrete `.fgattributes` values are resolved before Auto Detect while
+> proving concrete `.mdfattributes` values are resolved before Auto Detect while
 > `flavor=auto`, `!flavor`, and absent config enter the independent Auto Detect
 > path. Extension and server evidence tests cover structured profile flags
 > layering independently of base flavor. Focused unit, integration, BDD, type,

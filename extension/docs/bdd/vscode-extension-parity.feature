@@ -64,7 +64,7 @@ Feature: VS Code extension parity
   Scenario Outline: Structured profile settings propagate with the effective flavor
     Given a Markdown document is active with language id "markdown"
     And the effective Markdown flavor becomes "<baseFlavor>"
-    When ".fgattributes" sets "structured_profiles=<selection>" for the active resource
+    When ".mdfattributes" sets "structured_profiles=<selection>" for the active resource
     Then the extension sends structured profile selection "<selection>" to the server with the active resource
     And server diagnostics, completions, navigation, hover, semantic tokens, and rename use expected structured profile state "<profile>"
     And the Markdown flavor selector still shows only base flavor choices
@@ -82,10 +82,10 @@ Feature: VS Code extension parity
     Given a Markdown document belongs to an open workspace folder
     When the user selects "CommonMark" from the Markdown flavor selector
     And the user selects "Selected file" from the scope prompt
-    Then ".fgattributes" receives a file-specific "flavor=commonmark" rule
+    Then ".mdfattributes" receives a file-specific "flavor=commonmark" rule
     When the user opens a standalone Markdown file and selects "Original Markdown"
     And the user selects "Selected file" from the scope prompt
-    Then ".fgattributes" beside the standalone file receives a file-specific "flavor=original" rule
+    Then ".mdfattributes" beside the standalone file receives a file-specific "flavor=original" rule
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.ServerPropagation
@@ -97,8 +97,8 @@ Feature: VS Code extension parity
 
   # Source: docs/bdd/features/ofmarkdown-language-mode.feature
   @req:Extension.MarkdownFlavor.AutoDetection
-  Scenario Outline: .fgattributes flavor=auto controls Auto Detect label
-    Given ".fgattributes" sets "flavor=auto" for the active Markdown document
+  Scenario Outline: .mdfattributes flavor=auto controls Auto Detect label
+    Given ".mdfattributes" sets "flavor=auto" for the active Markdown document
     And local evidence resolves Auto Detect to "<id>"
     And a Markdown document is active with language id "markdown"
     When Markdown flavor auto-detection runs

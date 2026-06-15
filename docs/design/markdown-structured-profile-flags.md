@@ -22,7 +22,7 @@ must not be added to the Markdown flavor selector list.
   combination.
 - Support low-friction automatic detection through filename, folder placement,
   headings, front matter, and local structure.
-- Support explicit configuration in `.fgattributes` while preserving automatic
+- Support explicit configuration in `.mdfattributes` while preserving automatic
   profile detection when the attribute is absent, reset, or set to `auto`.
 - Preserve the current explicit Markdown flavor list.
 - Keep base Markdown parsing separate from structured-document validation.
@@ -83,9 +83,9 @@ Rules:
 
 ## Configuration
 
-### `.fgattributes`
+### `.mdfattributes`
 
-`.fgattributes` may set structured profiles independently of the base Markdown
+`.mdfattributes` may set structured profiles independently of the base Markdown
 flavor:
 
 ```gitattributes
@@ -116,8 +116,8 @@ Structured profile resolution runs after the base Markdown flavor is resolved:
 ```mermaid
 flowchart TD
   A["Resolve base Markdown flavor"] --> B{"Structured profile setting?"}
-  B -- "explicit .fgattributes list" --> C["Use explicit profile flags"]
-  B -- ".fgattributes none" --> D["Use no structured profiles"]
+  B -- "explicit .mdfattributes list" --> C["Use explicit profile flags"]
+  B -- ".mdfattributes none" --> D["Use no structured profiles"]
   B -- "auto / absent / reset" --> E["Infer from path, filename, metadata, and headings"]
   E --> F{"One unambiguous profile or compatible set?"}
   F -- "Yes" --> G["Apply inferred profile flags"]
@@ -126,7 +126,7 @@ flowchart TD
 
 Precedence:
 
-1. Matching `.fgattributes` structured-profile setting.
+1. Matching `.mdfattributes` structured-profile setting.
 2. Automatic inference from bounded local context.
 3. No structured profile.
 
@@ -225,7 +225,7 @@ Structured profiles must not:
 
 ## Test Obligations
 
-- Unit tests validate `.fgattributes` values for `auto`, `none`, explicit
+- Unit tests validate `.mdfattributes` values for `auto`, `none`, explicit
   lists, unknown ids, duplicate ids, and incompatible changelog pairs.
 - Auto-detection tests cover `CHANGELOG.md`, Keep a Changelog, Common
   Changelog, MADR path/filename/heading evidence, weak-signal fallback, and

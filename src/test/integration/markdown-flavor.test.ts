@@ -20,7 +20,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'flavor.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md !flavor\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md !flavor\n');
     fs.writeFileSync(notePath, '[[Target]]\n# Heading\n');
     const noteUri = pathToFileURL(notePath).href;
 
@@ -49,7 +49,7 @@ describe('Markdown flavor spawned-server propagation', () => {
       headings: 1,
     });
 
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=obsidian\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=obsidian\n');
     client.notify('workspace/didChangeConfiguration', { settings: { flavorGrenade: {} } });
 
     query = await client.request('flavorGrenade/queryOpenDoc', {
@@ -75,11 +75,11 @@ describe('Markdown flavor spawned-server propagation', () => {
     await client.close();
   }, 15000);
 
-  it('applies confined .fgattributes flavor evidence before Obsidian fallback', async () => {
+  it('applies confined .mdfattributes flavor evidence before Obsidian fallback', async () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'flavor.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=gfm\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=gfm\n');
     fs.writeFileSync(notePath, '[[Target]]\n# Heading\n');
     const noteUri = pathToFileURL(notePath).href;
 
@@ -113,7 +113,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'original.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=original\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=original\n');
     fs.writeFileSync(
       notePath,
       [
@@ -181,7 +181,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'commonmark.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=commonmark\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=commonmark\n');
     fs.writeFileSync(
       notePath,
       [
@@ -258,7 +258,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     fs.mkdirSync(path.join(vault, 'assets'), { recursive: true });
     const targetPath = path.join(vault, 'Target.md');
     const notePath = path.join(vault, 'obsidian.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=obsidian\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=obsidian\n');
     fs.writeFileSync(targetPath, '# Heading\n\n^block\n');
     fs.writeFileSync(
       notePath,
@@ -323,7 +323,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'gfm.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=gfm\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=gfm\n');
     fs.writeFileSync(
       notePath,
       [
@@ -382,7 +382,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'glfm.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=glfm\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=glfm\n');
     fs.writeFileSync(
       notePath,
       [
@@ -452,7 +452,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'pandoc.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=pandoc\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=pandoc\n');
     fs.writeFileSync(
       notePath,
       [
@@ -522,7 +522,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'multimarkdown.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=multimarkdown\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=multimarkdown\n');
     fs.writeFileSync(
       notePath,
       [
@@ -595,7 +595,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'mdx.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=mdx\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=mdx\n');
     fs.writeFileSync(
       notePath,
       [
@@ -659,7 +659,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'kramdown.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=kramdown\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=kramdown\n');
     fs.writeFileSync(
       notePath,
       [
@@ -731,7 +731,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'markdown-extra.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=markdown-extra\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=markdown-extra\n');
     fs.writeFileSync(
       notePath,
       [
@@ -805,7 +805,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'report.Rmd');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=r-markdown\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=r-markdown\n');
     fs.writeFileSync(
       notePath,
       [
@@ -878,7 +878,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'reddit.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=reddit\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=reddit\n');
     fs.writeFileSync(
       notePath,
       [
@@ -949,7 +949,7 @@ describe('Markdown flavor spawned-server propagation', () => {
     const vault = createRepoTempVault();
     tempRoots.push(vault);
     const notePath = path.join(vault, 'stackoverflow.md');
-    fs.writeFileSync(path.join(vault, '.fgattributes'), '*.md flavor=stack-overflow\n');
+    fs.writeFileSync(path.join(vault, '.mdfattributes'), '*.md flavor=stack-overflow\n');
     fs.writeFileSync(
       notePath,
       [

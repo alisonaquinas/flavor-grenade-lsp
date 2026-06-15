@@ -15,8 +15,8 @@ aliases:
 > [!NOTE]
 > ADR021 supersedes this ADR's persistence target for file and directory flavor
 > configuration. The selector and "keep `.md` as `markdown`" decisions remain
-> active. Persistent flavor assignment now lives in `.fgattributes`, and file
-> visibility lives in `.fgignore`.
+> active. Persistent flavor assignment now lives in `.mdfattributes`, and file
+> visibility lives in `.mdfignore`.
 
 ## Context
 
@@ -86,8 +86,8 @@ Explicit overrides persist by context:
 
 | Context | Persistence target |
 |---|---|
-| Selected file | `.fgattributes` rule for the active file |
-| All files in the active directory | `.fgattributes` rule for Markdown files in that directory |
+| Selected file | `.mdfattributes` rule for the active file |
+| All files in the active directory | `.mdfattributes` rule for Markdown files in that directory |
 
 VS Code settings are no longer a persistence target for file or directory
 flavor selection.
@@ -109,7 +109,7 @@ non-`markdown` VS Code language id.
 - Users keep VS Code's built-in Markdown mode and extension ecosystem.
 - Flavor selection becomes explicit without abusing language mode as product state.
 - Auto-detection remains low-friction for Obsidian vaults.
-- Override persistence follows the repository through `.fgattributes`.
+- Override persistence follows the repository through `.mdfattributes`.
 - The model can grow to additional flavors without adding more VS Code language ids.
 - The researched flavor corpus becomes testable product scope instead of
   background research.
@@ -120,7 +120,7 @@ non-`markdown` VS Code language id.
 - Some existing tests and docs that assert `ofmarkdown` promotion must be rewritten.
 - Snippets or keybindings that were intended to be `ofmarkdown`-scoped need a new context key or command precondition.
 - Status bar placement can only approximate "next to the language mode" because VS Code owns the built-in language status item.
-- Existing settings-based flavor overrides require migration to `.fgattributes`.
+- Existing settings-based flavor overrides require migration to `.mdfattributes`.
 
 ## Rejected Options
 
@@ -145,7 +145,7 @@ editor without hunting through settings.
 
 - [[docs/features/ofmarkdown-language-mode]]
 - [[docs/features/markdown-flavor-config-files]]
-- [[docs/adr/ADR021-fgignore-fgattributes-flavor-configuration]]
+- [[docs/adr/ADR021-mdfignore-mdfattributes-flavor-configuration]]
 - [[docs/requirements/functional/ofmarkdown-language-mode]]
 - [[docs/requirements/user/vscode-language-mode]]
 - [[docs/ddd/editor-client/domain-model]]

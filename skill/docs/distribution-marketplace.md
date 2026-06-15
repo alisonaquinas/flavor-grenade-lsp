@@ -218,10 +218,10 @@ server `release.yml` GitHub OIDC identity before archive assembly.
 Required release names:
 
 ```text
-flavorgrenade-lsp-skill-v0.1.0-linux-x64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-darwin-arm64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-darwin-x64.tar.gz
-flavorgrenade-lsp-skill-v0.1.0-win-x64.zip
+flavorgrenade-lsp-skill-v0.7.1-linux-x64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-darwin-arm64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-darwin-x64.tar.gz
+flavorgrenade-lsp-skill-v0.7.1-win-x64.zip
 ```
 
 ## Marketplace Quality Gates

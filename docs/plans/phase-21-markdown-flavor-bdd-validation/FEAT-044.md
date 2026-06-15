@@ -26,7 +26,7 @@ Markdown flavor state rather than stale `ofmarkdown` language simulations.
 - Rewrite BDD extension harness state.
 - Implement flavor selection and dialect profile steps.
 - Treat hard-coded harness flavor lists as planned executable contracts only.
-- Require replacement with the product registry, `.fgattributes` schema, and
+- Require replacement with the product registry, `.mdfattributes` schema, and
   server configuration analysis after Phase 19/E15 deliver those surfaces.
 - Add CI/file-presence verification for flavor test layers.
 - Add validation evidence tying profile claims to research.

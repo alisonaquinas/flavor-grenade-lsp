@@ -42,7 +42,7 @@ Markdown documents.
 - Recompute and propagate affected open-document state after selector changes,
   workspace-folder changes, visible editor changes, file opens, server
   readiness or membership changes, `.obsidian/` marker changes, and
-  `.fgignore`/`.fgattributes` appear/disappear/change events.
+  `.mdfignore`/`.mdfattributes` appear/disappear/change events.
 - Exclude open documents whose current VS Code language id is not `markdown`
   from flavor propagation and refresh.
 - Handle server unavailable state without losing selector state.
@@ -77,9 +77,9 @@ Markdown documents.
       propagate state.
 - [x] Every required explicit flavor id is covered by propagation tests.
 - [x] Standalone `original` is propagated and reanalyzed correctly.
-- [x] Open Markdown refresh path runs after selector, `.fgattributes`, visible
+- [x] Open Markdown refresh path runs after selector, `.mdfattributes`, visible
       editor, file-open, server-readiness, membership, marker,
-      and `.fgignore`/`.fgattributes` appear/disappear/change events.
+      and `.mdfignore`/`.mdfattributes` appear/disappear/change events.
 - [x] Integration coverage proves outbound payload shape and server-unavailable
       replay/recompute behavior.
 - [x] Non-`markdown` documents are excluded from refresh and propagation.

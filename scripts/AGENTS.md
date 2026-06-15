@@ -9,9 +9,10 @@ are not imported by the LSP server.
 scripts/
 ├── build-binary.mjs              # Build native server binaries for local/server release use
 ├── check-exact-dependencies.mjs  # Enforce exact dependency versions
+├── check-release-versions.mjs    # Enforce linked server/package release versions
 ├── copy-binary.mjs               # Copy native binary output into extension/server/
 ├── lint-all.sh                   # Run local lint battery
-├── set-version.sh                # Update root package version
+├── set-version.sh                # Update linked root and package versions
 ├── update-test-index.sh          # Reserved test-index command
 ├── validate-docs.sh              # Run Markdown documentation checks
 └── README.md                     # Human-facing script reference

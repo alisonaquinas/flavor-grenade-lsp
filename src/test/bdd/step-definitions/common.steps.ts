@@ -13,7 +13,7 @@ import { writeFileIfMissing } from '../file-helpers.js';
 
 // ── Helper functions ───────────────────────────────────────────────────────
 
-const DEFAULT_OFM_FGATTRIBUTES = '*.md flavor=obsidian\n';
+const DEFAULT_OFM_mdfattributes = '*.md flavor=obsidian\n';
 
 function severityToNumber(severity: string): number {
   switch (severity.toLowerCase()) {
@@ -61,7 +61,7 @@ Given('a vault containing:', async function (this: FGWorld, dataTable: DataTable
   }
   // Ensure vault is detectable by VaultDetector (needs a marker file)
   if (!this.singleFileMode) {
-    writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
+    writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), DEFAULT_OFM_mdfattributes);
   }
 });
 
@@ -70,7 +70,7 @@ Given(
   function (this: FGWorld, relPath: string, content: string) {
     this.writeVaultFile(relPath, content);
     if (!this.singleFileMode) {
-      writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
+      writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), DEFAULT_OFM_mdfattributes);
     }
   },
 );
@@ -78,7 +78,7 @@ Given(
 Given('the file {string} contains:', function (this: FGWorld, relPath: string, docString: string) {
   this.writeVaultFile(relPath, docString);
   if (!this.singleFileMode) {
-    writeFileIfMissing(path.join(this.vaultDir, '.fgattributes'), DEFAULT_OFM_FGATTRIBUTES);
+    writeFileIfMissing(path.join(this.vaultDir, '.mdfattributes'), DEFAULT_OFM_mdfattributes);
   }
 });
 

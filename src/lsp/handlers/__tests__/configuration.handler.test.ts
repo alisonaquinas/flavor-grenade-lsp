@@ -11,7 +11,7 @@ import {
   isMarkdownFlavorId,
 } from '../../../markdown-flavor/index.js';
 import { MarkdownFlavorState } from '../../../markdown-flavor/markdown-flavor-state.js';
-import { FlavorGrenadeConfigFiles } from '../../../markdown-flavor/fg-config-files.js';
+import { MarkdownFlavorConfigFiles } from '../../../markdown-flavor/mdf-config-files.js';
 import { DocumentStore } from '../../services/document-store.js';
 import { ConfigurationHandler } from '../configuration.handler.js';
 
@@ -28,10 +28,10 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
     }
   });
 
-  it('refreshes open Markdown from .fgattributes without accepting resource payload assignment', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-config-handler-'));
+  it('refreshes open Markdown from .mdfattributes without accepting resource payload assignment', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'mdf-config-handler-'));
     try {
-      fs.writeFileSync(path.join(root, '.fgattributes'), '*.md flavor=gfm\n');
+      fs.writeFileSync(path.join(root, '.mdfattributes'), '*.md flavor=gfm\n');
       const notePath = path.join(root, 'note.md');
       const uri = pathToFileURL(notePath).toString();
       const harness = createHarness(root);
@@ -66,9 +66,9 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
   });
 
   it('clears parse cache and diagnostics when refresh sees an ignored open Markdown file', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-config-ignore-'));
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'mdf-config-ignore-'));
     try {
-      fs.writeFileSync(path.join(root, '.fgignore'), '*.md\n');
+      fs.writeFileSync(path.join(root, '.mdfignore'), '*.md\n');
       const notePath = path.join(root, 'note.md');
       const uri = pathToFileURL(notePath).toString();
       const harness = createHarness(root);
@@ -94,18 +94,18 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
       cursor.next = next;
       cursor = next;
     }
-    cursor.settings = { flavorGrenade: { fgConfigMaxBytes: 1 } };
+    cursor.settings = { flavorGrenade: { mdfConfigMaxBytes: 1 } };
 
     await expect(harness.handler.handle(root)).resolves.toBeUndefined();
 
     expect(harness.publishDiagnostics).not.toHaveBeenCalled();
   });
 
-  it('uses fgConfigMaxBytes as the .fgattributes size cap', async () => {
-    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-config-size-'));
+  it('uses mdfConfigMaxBytes as the .mdfattributes size cap', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'mdf-config-size-'));
     try {
       const config = '*.md flavor=gfm\n';
-      fs.writeFileSync(path.join(root, '.fgattributes'), config);
+      fs.writeFileSync(path.join(root, '.mdfattributes'), config);
       const notePath = path.join(root, 'note.md');
       const uri = pathToFileURL(notePath).toString();
       const harness = createHarness(root);
@@ -113,7 +113,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
 
       await harness.handler.handle({
         settings: {
-          flavorGrenade: { fgConfigMaxBytes: Buffer.byteLength(config, 'utf8') - 1 },
+          flavorGrenade: { mdfConfigMaxBytes: Buffer.byteLength(config, 'utf8') - 1 },
         },
       });
 
@@ -122,7 +122,7 @@ describe('workspace/didChangeConfiguration markdown flavor handling', () => {
 
       await harness.handler.handle({
         settings: {
-          flavorGrenade: { fgConfigMaxBytes: Buffer.byteLength(config, 'utf8') },
+          flavorGrenade: { mdfConfigMaxBytes: Buffer.byteLength(config, 'utf8') },
         },
       });
 
@@ -171,7 +171,7 @@ function createHarness(root: string): {
       parseCache,
       vaultDetector,
       diagnosticService,
-      new FlavorGrenadeConfigFiles(),
+      new MarkdownFlavorConfigFiles(),
       { handle: rescanIndex } as never,
     ),
   };

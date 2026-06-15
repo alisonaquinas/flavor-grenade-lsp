@@ -18,7 +18,7 @@ aliases: ["FEAT-043"]
 
 ## Goal
 
-Thread server-owned `EffectiveMarkdownFlavor` through `.fgignore`/`.fgattributes`
+Thread server-owned `EffectiveMarkdownFlavor` through `.mdfignore`/`.mdfattributes`
 configuration, parsing, diagnostics, and spawned-server integration tests
 without weakening input, config, or boundary security gates.
 
@@ -26,10 +26,10 @@ without weakening input, config, or boundary security gates.
 
 - Accept and validate resource-specific effective flavor payloads in BC5, then
   dispatch to BC4/Config.
-- Resolve `.fgignore`, `.fgattributes`, and `auto` modes in BC4 using the
+- Resolve `.mdfignore`, `.mdfattributes`, and `auto` modes in BC4 using the
   effective flavor flow.
 - Validate resource-specific flavor payloads before Config/BC4 mutation.
-- Confine and validate `.fgignore`/`.fgattributes` evidence before flavor state
+- Confine and validate `.mdfignore`/`.mdfattributes` evidence before flavor state
   uses it.
 - Refresh open documents after flavor changes.
 - Gate initial Original, CommonMark, and Obsidian analysis behavior.
@@ -51,7 +51,7 @@ without weakening input, config, or boundary security gates.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-008 - Host Boundary Integration|MF-I-008]] covers
   host/conversion boundary behavior across the spawned server boundary.
 - [[docs/test/markdown-flavor-integration-spec#MF-I-009 - Flavor Security Input Validation|MF-I-009]] covers
-  malformed flavor payload and unsafe `.fgignore`/`.fgattributes` rejection.
+  malformed flavor payload and unsafe `.mdfignore`/`.mdfattributes` rejection.
 
 ## Child Tasks
 
@@ -76,7 +76,7 @@ without weakening input, config, or boundary security gates.
 - [x] BC4 owns effective flavor state; BC5 only validates protocol payloads.
 - [x] Invalid flavor payloads, dangerous keys, unsupported URI schemes,
       oversized maps, and stale resource keys are rejected before state changes.
-- [x] `.fgignore`/`.fgattributes` evidence is confined, size-limited,
+- [x] `.mdfignore`/`.mdfattributes` evidence is confined, size-limited,
       schema-validated, and redacted in logs.
 - [x] Open document diagnostics refresh after flavor changes.
 - [x] Integration tests cover supported and unsupported flavor transitions,
@@ -116,12 +116,12 @@ lifecycle parsing, and the configuration handler.
 | Ticket | Type | Root cause | Time impact |
 |---|---|---|---|
 | [[BUG-043]] | Bug | Manual LSP unit harnesses lagged behind the new constructor and per-document detection API. | +0.2 h |
-| [[BUG-044]] | Bug | Existing OFM BDD fixtures relied on legacy empty project markers; under the config-file model, absent `.fgattributes` flavor falls through to Auto Detect and then CommonMark when no stronger evidence exists. | +0.4 h |
+| [[BUG-044]] | Bug | Existing OFM BDD fixtures relied on legacy empty project markers; under the config-file model, absent `.mdfattributes` flavor falls through to Auto Detect and then CommonMark when no stronger evidence exists. | +0.4 h |
 
 ### Process observations
 
 Ticketing findings before fixes kept the broad gate failures traceable. The
-phase scope also clarified that `.fgattributes` is the persistent flavor signal,
+phase scope also clarified that `.mdfattributes` is the persistent flavor signal,
 while Auto Detect remains separate from config parsing.
 
 ### Carry-forward actions

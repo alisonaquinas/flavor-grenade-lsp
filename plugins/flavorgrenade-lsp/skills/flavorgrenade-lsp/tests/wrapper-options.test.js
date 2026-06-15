@@ -79,10 +79,10 @@ describe('flavorgrenade wrapper options', () => {
     assert.equal(configSelectorMatches('docs/**/*.md', 'docs/sub/page.md'), true);
   });
 
-  it('applies .fgignore negation before collecting Markdown files', () => {
+  it('applies .mdfignore negation before collecting Markdown files', () => {
     const root = tempRoot();
     mkdirSync(path.join(root, 'drafts'), { recursive: true });
-    writeFileSync(path.join(root, '.fgignore'), 'drafts/\n!drafts/keep.md\n');
+    writeFileSync(path.join(root, '.mdfignore'), 'drafts/\n!drafts/keep.md\n');
     writeFileSync(path.join(root, 'drafts', 'skip.md'), '# Skip\n');
     writeFileSync(path.join(root, 'drafts', 'keep.md'), '# Keep\n');
 
@@ -94,29 +94,29 @@ describe('flavorgrenade wrapper options', () => {
     assert.equal(findConfigEvidence(root, path.join(root, 'drafts', 'skip.md')).ignored, true);
   });
 
-  it('applies cascading .fgattributes with local negated selectors', () => {
+  it('applies cascading .mdfattributes with local negated selectors', () => {
     const root = tempRoot();
     mkdirSync(path.join(root, 'docs'), { recursive: true });
-    writeFileSync(path.join(root, '.fgattributes'), '*.md flavor=commonmark\n');
-    writeFileSync(path.join(root, 'docs', '.fgattributes'), '*.md flavor=gfm\n!private.md\n');
+    writeFileSync(path.join(root, '.mdfattributes'), '*.md flavor=commonmark\n');
+    writeFileSync(path.join(root, 'docs', '.mdfattributes'), '*.md flavor=gfm\n!private.md\n');
     writeFileSync(path.join(root, 'docs', 'guide.md'), '# Guide\n');
     writeFileSync(path.join(root, 'docs', 'private.md'), '# Private\n');
 
     const guide = findConfigEvidence(root, path.join(root, 'docs', 'guide.md'));
     const privateNote = findConfigEvidence(root, path.join(root, 'docs', 'private.md'));
 
-    assert.equal(guide.source, 'fgattributes');
+    assert.equal(guide.source, 'mdfattributes');
     assert.equal(guide.attributes.flavor, 'gfm');
-    assert.equal(privateNote.source, 'fgattributes');
+    assert.equal(privateNote.source, 'mdfattributes');
     assert.equal(privateNote.attributes.flavor, 'commonmark');
   });
 
   it('clears effective flavor with !flavor and requests Auto Detect with flavor=auto', () => {
     const root = tempRoot();
     mkdirSync(path.join(root, 'docs'), { recursive: true });
-    writeFileSync(path.join(root, '.fgattributes'), '*.md flavor=commonmark\n');
+    writeFileSync(path.join(root, '.mdfattributes'), '*.md flavor=commonmark\n');
     writeFileSync(
-      path.join(root, 'docs', '.fgattributes'),
+      path.join(root, 'docs', '.mdfattributes'),
       'private.md !flavor\nauto.md flavor=auto\n',
     );
     writeFileSync(path.join(root, 'docs', 'private.md'), '# Private\n');
@@ -131,10 +131,10 @@ describe('flavorgrenade wrapper options', () => {
     assert.equal(autoNote.attributes.flavor, 'auto');
   });
 
-  it('supports .fgattributes character classes and escaped token characters', () => {
+  it('supports .mdfattributes character classes and escaped token characters', () => {
     const root = tempRoot();
     writeFileSync(
-      path.join(root, '.fgattributes'),
+      path.join(root, '.mdfattributes'),
       '[Nn]ote.md flavor=gfm\nliteral\\ space.md flavor=pandoc\n',
     );
     writeFileSync(path.join(root, 'Note.md'), '# Note\n');

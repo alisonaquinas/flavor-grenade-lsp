@@ -28,10 +28,10 @@ Feature: Vault and workspace management
     And the document index contains "vault/notes/first.md" and "vault/notes/second.md"
 
   @planned
-  Scenario: Vault detected via .fgattributes when no .obsidian/ present
+  Scenario: Vault detected via .mdfattributes when no .obsidian/ present
     Given a directory structure:
       | path                    | type |
-      | project/.fgattributes   | file |
+      | project/.mdfattributes   | file |
       | project/docs/note-a.md  | file |
       | project/docs/note-b.md  | file |
     When the LSP server initializes with rootUri pointing to "project/"
@@ -40,12 +40,12 @@ Feature: Vault and workspace management
     And cross-file features are active
 
   @planned
-  Scenario: Single-file mode when neither .obsidian/ nor Flavor Grenade config-file marker is found
+  Scenario: Single-file mode when neither .obsidian/ nor Markdown flavor config-file marker is found
     Given a directory structure:
       | path              | type |
       | workspace/doc.md  | file |
     And no .obsidian/ directory exists anywhere in the path
-    And no .fgignore or .fgattributes file exists anywhere in the path
+    And no .mdfignore or .mdfattributes file exists anywhere in the path
     When the LSP server initializes with rootUri pointing to "workspace/"
     Then the VaultDetector reports vaultMode = "single-file"
     And cross-file features are suppressed
@@ -76,8 +76,8 @@ Feature: Vault and workspace management
     And the document index does NOT contain "vault/private/secret.md"
 
   @planned @req:Extension.MarkdownFlavor.IgnoreVisibility
-  Scenario: Root .fgignore hides matching Markdown files from the index
-    Given a vault with a .fgignore containing "drafts/" and "private/**"
+  Scenario: Root .mdfignore hides matching Markdown files from the index
+    Given a vault with a .mdfignore containing "drafts/" and "private/**"
     And the vault contains:
       | path                          | type |
       | vault/notes/public.md         | file |
@@ -89,9 +89,9 @@ Feature: Vault and workspace management
     And the document index does NOT contain "vault/private/secret.md"
 
   @planned @req:Extension.MarkdownFlavor.IgnoreVisibility
-  Scenario: Nested .fgignore can re-include a Markdown file
-    Given "vault/.fgignore" contains "notes/private/**"
-    And "vault/notes/.fgignore" contains "!private/keep.md"
+  Scenario: Nested .mdfignore can re-include a Markdown file
+    Given "vault/.mdfignore" contains "notes/private/**"
+    And "vault/notes/.mdfignore" contains "!private/keep.md"
     And the vault contains:
       | path                          | type |
       | vault/notes/private/keep.md   | file |
@@ -101,8 +101,8 @@ Feature: Vault and workspace management
     And the document index does NOT contain "vault/notes/private/drop.md"
 
   @planned @req:Extension.MarkdownFlavor.IgnoreVisibility
-  Scenario: Open files ignored by .fgignore remain inactive
-    Given "vault/.fgignore" contains "private/**"
+  Scenario: Open files ignored by .mdfignore remain inactive
+    Given "vault/.mdfignore" contains "private/**"
     And the user opens "vault/private/secret.md"
     When the LSP server receives diagnostics and completion requests for "vault/private/secret.md"
     Then the document index does NOT contain "vault/private/secret.md"

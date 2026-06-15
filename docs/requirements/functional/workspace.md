@@ -42,17 +42,17 @@ aliases:
 **Tag:** Workspace.VaultDetection.Fallback
 **User Req:** User.Vault.AutoDetectVault
 **Gist:** A directory containing a Flavor Grenade marker file must be detected as a vault root when no `.obsidian/` directory is present, enabling use of the server in non-Obsidian markdown environments.
-**Ambition:** The server is designed for Obsidian-Flavored Markdown but is not exclusively tied to Obsidian the application. Developers, technical writers, and teams using OFM syntax in other editors or build pipelines need a way to declare a vault root without creating an Obsidian application directory. `.fgignore` and `.fgattributes` serve as explicit declarations that activate vault detection for non-Obsidian contexts. The fallback ordering (Obsidian-first) preserves backwards compatibility and prevents config markers inside an Obsidian vault from interfering with primary detection.
+**Ambition:** The server is designed for Obsidian-Flavored Markdown but is not exclusively tied to Obsidian the application. Developers, technical writers, and teams using OFM syntax in other editors or build pipelines need a way to declare a vault root without creating an Obsidian application directory. `.mdfignore` and `.mdfattributes` serve as explicit declarations that activate vault detection for non-Obsidian contexts. The fallback ordering (Obsidian-first) preserves backwards compatibility and prevents config markers inside an Obsidian vault from interfering with primary detection.
 **Scale:** Percentage of directories containing a Flavor Grenade marker file but no `.obsidian/` subdirectory that are correctly detected as vault roots and indexed by the server.
 **Meter:**
 
-1. Create one directory containing `.fgignore` and one directory containing `.fgattributes`; each contains at least 3 markdown documents, and neither contains `.obsidian/`.
+1. Create one directory containing `.mdfignore` and one directory containing `.mdfattributes`; each contains at least 3 markdown documents, and neither contains `.obsidian/`.
 2. Create 1 additional directory containing both `.obsidian/` and a Flavor Grenade marker file to verify primary detection takes precedence.
 3. Start the server with a workspace root containing all test directories.
 4. Verify the fallback-detection directories are indexed as vault roots.
 5. Verify the dual-presence directory is indexed via primary detection (not dependent on the Flavor Grenade marker).
 6. Compute: (directories with marker-only roots correctly detected / total such directories) × 100.
-**Fail:** Any directory containing a `.fgignore` or `.fgattributes` marker without `.obsidian/` that is not detected as a vault root.
+**Fail:** Any directory containing a `.mdfignore` or `.mdfattributes` marker without `.obsidian/` that is not detected as a vault root.
 **Goal:** 100% of marker-only directories detected.
 **Stakeholders:** Non-Obsidian OFM users, developers, technical writing teams, CI pipeline operators.
 **Owner:** flavor-grenade-lsp contributors.

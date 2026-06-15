@@ -39,7 +39,6 @@ behind `--pretty`.
 |---|---|
 | `--json` | Emit machine-readable JSON |
 | `--workspace <path>` | Explicit workspace root |
-| `--config <path>` | Optional explicit Flavor Grenade config file for fixture or CI validation; must be inside the workspace |
 | `--timeout-ms <number>` | Per-command timeout |
 | `--max-files <number>` | File count cap for workspace analysis |
 | `--max-bytes <number>` | Per-file byte cap |
@@ -51,12 +50,10 @@ behind `--pretty`.
 
 No option may require interactive input.
 
-`--config` is not a general precedence override for normal agent use. It exists
-for deterministic fixtures, CI, and release validation. When supplied, wrappers
-must pass the selected workspace and config path to the embedded LSP so the LSP
-still performs parsing, validation, directory override matching, and fault
-isolation. The wrapper must reject `--config` paths outside the workspace and
-must not parse the config independently to decide flavor behavior.
+Explicit config override options are not part of normal agent use. Flavor
+visibility comes from `.mdfignore`; explicit flavor and structured-profile
+assignment comes from `.mdfattributes`; Auto Detect remains the fallback when no
+concrete flavor attribute applies.
 
 ## Result Envelope
 
@@ -112,19 +109,24 @@ Errors must not include document contents.
       "baseFlavor": "gfm",
       "variants": [],
       "confidence": "medium",
-      "source": "project-config",
+      "source": "mdfattributes",
       "evidence": [
         {
-          "kind": "config-format",
-          "value": "toml",
+          "kind": "mdfattributes",
+          "value": "gfm",
           "weight": "strong"
         }
       ],
       "config": {
-        "source": "project-config",
-        "format": "toml",
-        "path": ".flavor-grenade.toml",
-        "matchedOverride": null
+        "source": "mdfattributes",
+        "format": "mdf-config",
+        "path": ".mdfattributes",
+        "configFiles": [".mdfattributes"],
+        "ignored": false,
+        "attributes": {
+          "flavor": "gfm",
+          "structuredProfiles": []
+        }
       },
       "diagnostics": [],
       "symbols": [],
@@ -174,13 +176,11 @@ avoid losing directory-specific config evidence before broad edits.
 
 Detection must distinguish:
 
-- explicit TOML config
-- explicit JSON config
-- explicit JSONC config
-- explicit YAML config
-- `.editorconfig` Flavor Grenade directives
-- directory-scoped project config overrides
-- explicit `--config` fixture selection
+- `.mdfignore` visibility matches
+- `.mdfattributes` explicit flavor matches
+- `.mdfattributes` structured-profile matches
+- `.mdfattributes` `!flavor` reset rules
+- `.mdfattributes` `flavor=auto` rules
 - VS Code settings
 - filename inference
 - folder-placement inference
@@ -189,8 +189,8 @@ Detection must distinguish:
 - fallback default
 
 When multiple Markdown files are analyzed, callers must treat `detect` as
-file-specific. A project can resolve one file through global config and another
-through a directory override from the same config file.
+file-specific. A project can resolve one file through a root `.mdfattributes`
+rule and another through a nested `.mdfattributes` rule.
 
 When configuration participates in the decision, `detect` and
 `explain-flavor` must include redacted config metadata:
@@ -198,16 +198,16 @@ When configuration participates in the decision, `detect` and
 ```json
 {
   "config": {
-    "source": "project-config",
-    "format": "jsonc",
-    "path": ".flavor-grenade.jsonc",
-    "section": "core.markdown",
-    "matchedOverride": {
-      "selector": "docs/releases",
-      "selectorKind": "directory",
-      "order": 2,
-      "provided": ["baseFlavor"],
-      "inherited": ["structuredProfiles"]
+    "source": "mdfattributes",
+    "format": "mdf-config",
+    "path": "docs/.mdfattributes",
+    "configFiles": [".mdfattributes", "docs/.mdfattributes"],
+    "ignored": false,
+    "matchedAttributes": {
+      "selector": "*.md",
+      "selectorKind": "glob",
+      "order": 1,
+      "provided": ["flavor", "structuredProfiles"]
     }
   }
 }
@@ -220,12 +220,11 @@ paths.
 Config evidence must use stable, safe facts:
 
 - config file format and workspace-relative path
-- normalized source layer, such as `project-config`, `editorconfig`, or
-  `lsp-settings`
-- matched config section or override selector
-- selector kind, such as directory, glob, or `.editorconfig` section
+- normalized source layer, such as `mdfignore`, `mdfattributes`,
+  `lsp-settings`, or `none`
+- matched `.mdfignore` pattern or `.mdfattributes` selector
+- selector kind, such as path or glob
 - list of normalized keys that participated in the decision
-- list of keys inherited from global config by a matched override
 - parse or validation status with redacted error codes
 
 Config evidence must not expose:
@@ -236,49 +235,25 @@ Config evidence must not expose:
 - absolute filesystem paths
 - unredacted parser excerpts
 
-For directory-scoped overrides, output must identify the effective override and
-the inherited global keys. It must not require agents to recompute precedence
-from raw config.
-
 Config metadata uses these stable enum values:
 
 | Field | Values |
 |---|---|
-| `config.source` | `project-config`, `explicit-config-option`, `editorconfig`, `lsp-settings`, `none` |
-| `config.format` | `toml`, `json`, `jsonc`, `yaml`, `editorconfig`, `none` |
-| `config.matchedOverride` | `null` or an object describing the winning directory/glob selector |
+| `config.source` | `mdfignore`, `mdfattributes`, `lsp-settings`, `none` |
+| `config.format` | `mdf-config`, `none` |
+| `config.matchedAttributes` | `null` or an object describing the matched `.mdfattributes` selector |
 
-The active project config discovery order must mirror the LSP:
+The active Markdown flavor config discovery must mirror the LSP:
 
-1. `.flavor-grenade.toml`
-2. `.flavor-grenade.json`
-3. `.flavor-grenade.jsonc`
-4. `.flavor-grenade.yaml`
-5. `.flavor-grenade.yml`
-6. `.editorconfig` containing Flavor Grenade directives
+1. `.mdfignore` files from workspace root to the target directory.
+2. `.mdfattributes` files from workspace root to the target directory.
+3. LSP or editor state supplied by the caller.
+4. Auto Detect.
 
-The first existing supported project config is the active project config. If
-that file is unreadable, too large, unsafe, malformed, or invalid after
-normalization, the project-config layer is unavailable and resolution continues
-to non-project signals. The wrapper must not fall through to a later
-`.flavor-grenade.*` or `.editorconfig` file in the same discovery pass.
-
-Directory override precedence must mirror the LSP: the most specific matching
-directory or glob selector wins, measured by normalized selector length. If two
-matching selectors have equal specificity, the later override entry wins.
-`matchedOverride.order` is evidence metadata only; it is not the primary
-precedence rule.
-
-`.editorconfig` directives are section-based. A matching section can set:
-
-- `flavor_grenade_markdown_flavor`
-- `flavor_grenade.markdown_flavor`
-- `flavor_grenade_markdown_structured_profiles`
-- `flavor_grenade.markdown_structured_profiles`
-
-Structured profile directives accept `auto`, `none`, or a comma-separated list
-of supported structured profile ids. Ordinary EditorConfig properties are not
-Flavor Grenade config.
+`.mdfignore` is resolved first. Matching ignored files are inactive unless a
+later negated rule re-includes them. `.mdfattributes` then supplies `flavor` and
+`structured_profiles` attributes. `!flavor` clears the effective flavor selected
+so far, and `flavor=auto` explicitly requests Auto Detect.
 
 ## Explain Flavor Result
 
@@ -295,14 +270,14 @@ rule evaluation and rejected candidates.
   },
   "decisionTree": [
     {
-      "step": "project-config",
+      "step": "mdfignore",
       "matched": false,
-      "reason": "No supported Flavor Grenade project config found."
+      "reason": "No matching .mdfignore rule hides this document."
     },
     {
-      "step": "directory-override",
+      "step": "mdfattributes",
       "matched": false,
-      "reason": "No project config override matched README.md."
+      "reason": "No concrete .mdfattributes flavor selected the base flavor."
     },
     {
       "step": "syntax-inference",
@@ -320,12 +295,9 @@ rule evaluation and rejected candidates.
 ```
 
 When config exists, `decisionTree` must show accepted and rejected config
-layers in order. Examples include active project config invalid, project-config
-layer unavailable, non-matching override skipped, matching override applied,
-inherited global profile applied, and fallback inference suppressed by explicit
-config. Because the active project config is the first existing supported file,
-invalid active project config does not cause fallback to later project config
-files in discovery order.
+layers in order. Examples include ignored file inactive, `.mdfattributes`
+matched, `!flavor` reset applied, `flavor=auto` requested, and fallback
+inference suppressed by an explicit concrete `flavor` attribute.
 
 ## Diagnostics Result
 

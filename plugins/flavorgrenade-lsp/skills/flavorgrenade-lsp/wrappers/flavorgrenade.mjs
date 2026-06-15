@@ -18,8 +18,8 @@ import { LspClient } from './lsp-client.mjs';
 import { assertInside, resolveRuntime, verifySigstoreIfAvailable } from './runtime.mjs';
 import { errorEnvelope, successEnvelope } from './schema.mjs';
 
-const FG_CONFIG_MAX_BYTES = 8192;
-const PROJECT_MARKERS = ['.fgignore', '.fgattributes', '.obsidian'];
+const MDF_CONFIG_MAX_BYTES = 8192;
+const PROJECT_MARKERS = ['.mdfignore', '.mdfattributes', '.obsidian'];
 const MARKDOWN_FLAVORS = new Set([
   'auto',
   'original',
@@ -242,24 +242,24 @@ async function detect(client, file, workspaceRoot, options = {}) {
         matched: decision.config.ignored === true,
         reason:
           decision.config.ignored === true
-            ? 'A matching .fgignore rule makes the document inactive.'
-            : 'No matching .fgignore rule hides this document.',
+            ? 'A matching .mdfignore rule makes the document inactive.'
+            : 'No matching .mdfignore rule hides this document.',
       },
       {
-        step: 'fgattributes',
-        matched: decision.config.source === 'fgattributes',
+        step: 'mdfattributes',
+        matched: decision.config.source === 'mdfattributes',
         reason:
-          decision.config.source === 'fgattributes'
-            ? 'A concrete .fgattributes flavor selected the base flavor.'
-            : 'No concrete .fgattributes flavor selected the base flavor.',
+          decision.config.source === 'mdfattributes'
+            ? 'A concrete .mdfattributes flavor selected the base flavor.'
+            : 'No concrete .mdfattributes flavor selected the base flavor.',
       },
       {
         step: 'auto-detect',
         matched: decision.source === 'lsp-auto-detect',
         reason:
           decision.source === 'lsp-auto-detect'
-            ? 'Auto Detect ran because .fgattributes is absent, resets flavor, or requests flavor=auto.'
-            : 'Auto Detect did not run because a concrete .fgattributes flavor selected the base flavor.',
+            ? 'Auto Detect ran because .mdfattributes is absent, resets flavor, or requests flavor=auto.'
+            : 'Auto Detect did not run because a concrete .mdfattributes flavor selected the base flavor.',
         evidence: decision.evidence.map((entry) => entry.kind),
       },
     ],
@@ -286,8 +286,8 @@ async function detectFile(client, file, workspaceRoot) {
       baseFlavor: null,
       variants: [],
       confidence: 'high',
-      source: 'fgignore',
-      evidence: [{ kind: 'fgignore', value: config.matchedIgnore?.pattern ?? null, weight: 'strong' }],
+      source: 'mdfignore',
+      evidence: [{ kind: 'mdfignore', value: config.matchedIgnore?.pattern ?? null, weight: 'strong' }],
       config,
       overrides: [],
     };
@@ -300,20 +300,20 @@ async function detectFile(client, file, workspaceRoot) {
     ...(Array.isArray(variantsValue) ? variantsValue : []),
     ...inferStructuredProfiles(file, text),
   ]);
-  const concreteFgAttributesFlavor =
+  const concreteMdfAttributesFlavor =
     config.attributes.flavor !== undefined && config.attributes.flavor !== 'auto';
   return {
     path: relativePath(workspaceRoot, file),
     active: true,
     baseFlavor,
     variants,
-    confidence: concreteFgAttributesFlavor ? 'high' : 'medium',
-    source: concreteFgAttributesFlavor ? 'fgattributes' : 'lsp-auto-detect',
+    confidence: concreteMdfAttributesFlavor ? 'high' : 'medium',
+    source: concreteMdfAttributesFlavor ? 'mdfattributes' : 'lsp-auto-detect',
     evidence: [
       {
-        kind: concreteFgAttributesFlavor ? 'fgattributes' : 'lsp-effective-context',
-        value: concreteFgAttributesFlavor ? config.attributes.flavor : baseFlavor,
-        weight: concreteFgAttributesFlavor ? 'strong' : 'medium',
+        kind: concreteMdfAttributesFlavor ? 'mdfattributes' : 'lsp-effective-context',
+        value: concreteMdfAttributesFlavor ? config.attributes.flavor : baseFlavor,
+        weight: concreteMdfAttributesFlavor ? 'strong' : 'medium',
       },
     ],
     config,
@@ -499,15 +499,15 @@ function positiveIntegerOrDefault(value, defaultValue) {
 
 function findConfigEvidence(workspaceRoot, file) {
   if (file === undefined) return findWorkspaceEvidence(workspaceRoot).config;
-  return resolveFgConfigForFile(workspaceRoot, file);
+  return resolveMdfConfigForFile(workspaceRoot, file);
 }
 
 function findWorkspaceEvidence(workspaceRoot) {
   return {
-    config: resolveFgConfigForFile(workspaceRoot),
+    config: resolveMdfConfigForFile(workspaceRoot),
     configFilesSeen:
-      existsSync(path.join(workspaceRoot, '.fgignore')) ||
-      existsSync(path.join(workspaceRoot, '.fgattributes')),
+      existsSync(path.join(workspaceRoot, '.mdfignore')) ||
+      existsSync(path.join(workspaceRoot, '.mdfattributes')),
     hasObsidianDirectory: existsSync(path.join(workspaceRoot, '.obsidian')),
   };
 }
@@ -532,7 +532,7 @@ function findMarkedWorkspaceRoot(start) {
   return marked;
 }
 
-function resolveFgConfigForFile(workspaceRoot, file = undefined) {
+function resolveMdfConfigForFile(workspaceRoot, file = undefined) {
   const configFiles = [];
   const attributes = {};
   let ignored = false;
@@ -545,7 +545,7 @@ function resolveFgConfigForFile(workspaceRoot, file = undefined) {
       : configDirectoriesFor(workspaceRoot, file);
 
   for (const directory of directories) {
-    const ignorePath = path.join(directory.directory, '.fgignore');
+    const ignorePath = path.join(directory.directory, '.mdfignore');
     const ignoreContent = readConfigIfPresent(ignorePath);
     if (ignoreContent !== undefined) {
       configFiles.push(relativePath(workspaceRoot, ignorePath));
@@ -559,7 +559,7 @@ function resolveFgConfigForFile(workspaceRoot, file = undefined) {
       matchedIgnore = result.matched ?? matchedIgnore;
     }
 
-    const attributesPath = path.join(directory.directory, '.fgattributes');
+    const attributesPath = path.join(directory.directory, '.mdfattributes');
     const attributesContent = readConfigIfPresent(attributesPath);
     if (attributesContent !== undefined) {
       configFiles.push(relativePath(workspaceRoot, attributesPath));
@@ -574,18 +574,18 @@ function resolveFgConfigForFile(workspaceRoot, file = undefined) {
   }
 
   const source = ignored
-    ? 'fgignore'
+    ? 'mdfignore'
     : attributes.flavor !== undefined && attributes.flavor !== 'auto'
-      ? 'fgattributes'
+      ? 'mdfattributes'
       : 'none';
 
   return {
     source,
-    format: configFiles.length === 0 ? 'none' : 'fg-config',
+    format: configFiles.length === 0 ? 'none' : 'mdf-config',
     path: matchedAttributes?.path ?? matchedIgnore?.path ?? configFiles[configFiles.length - 1] ?? null,
     configFiles,
     ignored,
-    inactiveReason: ignored ? 'fgignore' : null,
+    inactiveReason: ignored ? 'mdfignore' : null,
     attributes,
     matchedIgnore,
     matchedOverride: matchedAttributes,
@@ -614,9 +614,9 @@ function readConfigIfPresent(file) {
   try {
     fd = openSync(file, 'r');
     const stat = fstatSync(fd);
-    if (!stat.isFile() || stat.size > FG_CONFIG_MAX_BYTES) return undefined;
+    if (!stat.isFile() || stat.size > MDF_CONFIG_MAX_BYTES) return undefined;
     const content = readFileSync(fd, 'utf8');
-    return Buffer.byteLength(content, 'utf8') > FG_CONFIG_MAX_BYTES ? undefined : content;
+    return Buffer.byteLength(content, 'utf8') > MDF_CONFIG_MAX_BYTES ? undefined : content;
   } catch {
     return undefined;
   } finally {

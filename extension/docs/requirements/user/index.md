@@ -33,7 +33,7 @@ and root Markdown flavor requirements.
 | User.ExtensionFlavor.ChooseFlavor | Choose the active Markdown flavor from Flavor Grenade UI | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.Selector, Extension.MarkdownFlavor.RequiredCoverage |
 | User.ExtensionFlavor.SeeSupportedChoices | See every planned Markdown flavor as a supported choice | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.RequiredCoverage |
 | User.ExtensionFlavor.UseAutoDetection | Let the extension infer the flavor from vault or workspace context | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.AutoDetection, Extension.MarkdownFlavor.Refresh |
-| User.ExtensionFlavor.PersistChoice | Keep a manual flavor choice in `.fgattributes` | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.OverridePersistence |
+| User.ExtensionFlavor.PersistChoice | Keep a manual flavor choice in `.mdfattributes` | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.OverridePersistence |
 | User.ExtensionFlavor.TrustSelectedBehavior | Have selected flavor affect language intelligence | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.ServerPropagation, Extension.MarkdownFlavor.DialectProfiles, Extension.MarkdownFlavor.Refresh |
 | User.ExtensionFlavor.PreserveManualLanguage | Preserve manual non-Markdown language mode choices | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.ManualLanguageSafety |
 | User.ExtensionFlavor.AuthorOriginal | Use Original Markdown rules in Markdown mode | [markdown-flavors](markdown-flavors.md) | Extension.MarkdownFlavor.RequiredCoverage, Extension.MarkdownFlavor.DialectProfiles |

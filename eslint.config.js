@@ -15,7 +15,7 @@ const securityRules = {
 
 export default [
   {
-    files: ['src/**/*.ts'],
+    files: ['src/**/*.ts', 'packages/**/*.ts'],
     languageOptions: { parser: tsparser },
     plugins: { '@typescript-eslint': tseslint, security },
     rules: {

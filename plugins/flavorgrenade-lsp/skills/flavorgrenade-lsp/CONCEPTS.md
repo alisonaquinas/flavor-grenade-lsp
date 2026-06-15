@@ -22,7 +22,7 @@ before launch.
 
 A flavor decision is the wrapper's JSON summary of the effective Markdown base
 flavor, structured variants, confidence, config source, and evidence for a
-file. `.fgattributes` can provide an explicit flavor or structured profile;
+file. `.mdfattributes` can provide an explicit flavor or structured profile;
 otherwise Auto Detect remains responsible for selecting the base flavor. The
 LSP provides the core decision; the wrapper formats it and adds safe filesystem
 context.
@@ -32,7 +32,7 @@ context.
 ## Flavor Visibility
 
 Flavor visibility determines whether Flavor Grenade should process a Markdown
-file at all. `.fgignore` uses Git-style patterns and negation. A matching
+file at all. `.mdfignore` uses Git-style patterns and negation. A matching
 ignored file is inactive in wrapper output and excluded from broad scans.
 
 **See also:** [Skill README](./README.md), [JSON schema](./docs/json-schema.md)

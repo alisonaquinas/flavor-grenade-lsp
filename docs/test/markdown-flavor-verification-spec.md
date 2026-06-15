@@ -23,8 +23,8 @@ Verification proves the required checks are wired into local and CI gates.
 | MF-VF-005 | `src/test/ci-workflow.test.ts` | Gate-removal checks protect exact flavor feature files, root flavor spec files, extension flavor spec files, and the extension marketplace selector-proof handoff through E16/TASK-309. |
 | MF-VF-006 | `docs/test/matrix.md` and `src/test/ci-workflow.test.ts` | Every `FlavorLSP.*` tag has a matrix row and gate-removal checks protect root flavor specs plus planned `docs/test/evidence/*.md` validation artifacts. |
 | MF-VF-007 | `docs/test/evidence/markdown-flavor-host-boundary-review.md` | Host-boundary evidence exists before any platform/conversion flavor phase claims complete LSP validation. |
-| MF-VF-008 | `src/test/ci-workflow.test.ts`, `docs/test/matrix.md`, and fixture inventory tests | Gate-removal checks protect syntax inference specs, inference fixture directories with no concrete `.fgattributes` flavor, ambiguity fallback fixtures, and boundary-negative fixtures such as the smoketest root README. |
-| MF-VF-009 | `extension/src/markdown-flavor-evidence.test.ts`, `docs/test/matrix.md`, and fixture inventory tests | Gate-removal checks protect Keep a Changelog, Common Changelog, and MADR structured-profile fixture inventory across `.fgattributes`-configured and config-absent inference smoke workspaces. |
+| MF-VF-008 | `src/test/ci-workflow.test.ts`, `docs/test/matrix.md`, and fixture inventory tests | Gate-removal checks protect syntax inference specs, inference fixture directories with no concrete `.mdfattributes` flavor, ambiguity fallback fixtures, and boundary-negative fixtures such as the smoketest root README. |
+| MF-VF-009 | `extension/src/markdown-flavor-evidence.test.ts`, `docs/test/matrix.md`, and fixture inventory tests | Gate-removal checks protect Keep a Changelog, Common Changelog, and MADR structured-profile fixture inventory across `.mdfattributes`-configured and config-absent inference smoke workspaces. |
 
 ## Exit Criteria
 

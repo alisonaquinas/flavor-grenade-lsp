@@ -15,7 +15,7 @@ Feature: VS Code extension parity
   Scenario: Extension stays idle for generic Markdown workspaces
     Given a VS Code workspace contains Markdown files
     And the workspace has no ".obsidian/" folder
-    And the workspace has no ".fgignore" or ".fgattributes" file
+    And the workspace has no ".mdfignore" or ".mdfattributes" file
     When the Flavor Grenade extension host starts
     Then the extension does not perform vault indexing work
     And generic Markdown documents remain in "markdown" mode
@@ -58,6 +58,6 @@ Feature: VS Code extension parity
     Then the selector does not include id "keep-a-changelog"
     And the selector does not include id "common-changelog"
     And the selector does not include id "madr"
-    When ".fgattributes" sets "structured_profiles=madr" for the active resource
+    When ".mdfattributes" sets "structured_profiles=madr" for the active resource
     Then the extension refreshes structured profile "madr" for the active resource
     And the document language id remains "markdown"

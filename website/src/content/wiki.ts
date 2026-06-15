@@ -65,9 +65,9 @@ export const conceptWikiPages: readonly ConceptWikiPage[] = [
     title: 'Markdown Flavor Model',
     question: 'How does Auto Detect choose a base Markdown flavor?',
     answer:
-      'Auto Detect resolves one effective base flavor from Obsidian markers, strong syntax evidence, or CommonMark fallback when no concrete .fgattributes rule applies.',
+      'Auto Detect resolves one effective base flavor from Obsidian markers, strong syntax evidence, or CommonMark fallback when no concrete .mdfattributes rule applies.',
     example:
-      '.fgattributes can set docs/github/*.md flavor=gfm while a root README without stronger evidence falls back to CommonMark.',
+      '.mdfattributes can set docs/github/*.md flavor=gfm while a root README without stronger evidence falls back to CommonMark.',
     relatedConceptIds: ['obsidian-flavored-markdown', 'structured-profiles'],
     relatedRouteIds: ['conceptMarkdownFlavorModel', 'howToChooseMarkdownFlavor'],
     sourceLinks: [],

@@ -170,21 +170,21 @@ describe('language mode helpers', () => {
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('detects a Flavor Grenade config-file ancestor', async () => {
+    it('detects a Markdown flavor config-file ancestor', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
+        await writeFile(join(root, '.mdfattributes'), '*.md flavor=gfm\n');
         const note = join(root, 'notes', 'welcome.md');
 
         assert.equal(await hasOfMarkdownMarkerAncestor(note), true);
     });
 
-    it('uses .fgattributes as local effective flavor evidence', async () => {
+    it('uses .mdfattributes as local effective flavor evidence', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'notes'));
-        await writeFile(join(root, '.fgattributes'), 'notes/*.md flavor=gfm\n');
+        await writeFile(join(root, '.mdfattributes'), 'notes/*.md flavor=gfm\n');
         const doc = document(join(root, 'notes', 'welcome.md'));
         const { controller, notifications } = controllerFor({ documents: [doc] });
 
@@ -202,12 +202,12 @@ describe('language mode helpers', () => {
         ]);
     });
 
-    it('keeps .fgignored Markdown inactive during local refresh', async () => {
+    it('keeps .mdfignored Markdown inactive during local refresh', async () => {
         const root = await mkdtemp(join(tmpdir(), 'fg-ofmarkdown-'));
         tempDirs.push(root);
         await mkdir(join(root, 'drafts'), { recursive: true });
-        await writeFile(join(root, '.fgignore'), 'drafts/\n');
-        await writeFile(join(root, '.fgattributes'), '*.md flavor=gfm\n');
+        await writeFile(join(root, '.mdfignore'), 'drafts/\n');
+        await writeFile(join(root, '.mdfattributes'), '*.md flavor=gfm\n');
         const doc = document(join(root, 'drafts', 'idea.md'));
         const { controller, notifications, requests } = controllerFor({ documents: [doc] });
 
@@ -217,7 +217,7 @@ describe('language mode helpers', () => {
         assert.deepEqual(requests, []);
         assert.deepEqual(await controller.resolveMarkdownFlavorForDocument(doc as never), {
             kind: 'inactive',
-            reason: 'fgignore',
+            reason: 'mdfignore',
         });
     });
 });
