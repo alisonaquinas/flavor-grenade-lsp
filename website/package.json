@@ -14,7 +14,7 @@
     "test": "npm run content:generate && npm run content:check && vitest run"
   },
   "dependencies": {
-    "commonloom": "0.1.3",
+    "commonloom": "0.1.4",
     "svelte": "5.56.0"
   },
   "devDependencies": {
