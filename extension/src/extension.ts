@@ -31,6 +31,7 @@ import { registerCommands } from './commands.js';
 import { LanguageModeController } from './language-mode.js';
 import {
   MARKDOWN_FLAVOR_COMMAND,
+  MARKDOWN_FLAVOR_ACTIVE_CONTEXT,
   MARKDOWN_FLAVOR_SECTION,
   MARKDOWN_LANGUAGE_DOCUMENT_SELECTOR,
   MDF_CONFIG_MAX_BYTES_SETTING_KEY,
@@ -38,6 +39,7 @@ import {
   createMarkdownFlavorQuickPickItems,
   createMarkdownFlavorScopeQuickPickItems,
   isFlavorEligibleDocument,
+  isMarkdownFlavorContributionContextActive,
   resolveMarkdownFlavor,
   upsertMdfAttributesRule,
 } from './markdown-flavor.js';
@@ -429,18 +431,31 @@ async function refreshMarkdownFlavorStatus(context: ExtensionContext): Promise<v
   const document = window.activeTextEditor?.document;
   if (!document) {
     applyMarkdownFlavorStatus(statusBar);
+    await commands.executeCommand('setContext', MARKDOWN_FLAVOR_ACTIVE_CONTEXT, false);
     return;
   }
 
   if (languageModeController) {
+    const resolution = await languageModeController.resolveMarkdownFlavorForDocument(document);
+    await commands.executeCommand(
+      'setContext',
+      MARKDOWN_FLAVOR_ACTIVE_CONTEXT,
+      isMarkdownFlavorContributionContextActive(resolution),
+    );
     applyMarkdownFlavorStatus(
       statusBar,
-      await languageModeController.resolveMarkdownFlavorForDocument(document),
+      resolution,
     );
     return;
   }
 
-  applyMarkdownFlavorStatus(statusBar, await resolveLocalMarkdownFlavor(document));
+  const resolution = await resolveLocalMarkdownFlavor(document);
+  await commands.executeCommand(
+    'setContext',
+    MARKDOWN_FLAVOR_ACTIVE_CONTEXT,
+    isMarkdownFlavorContributionContextActive(resolution),
+  );
+  applyMarkdownFlavorStatus(statusBar, resolution);
 }
 
 async function resolveLocalMarkdownFlavor(document: TextDocument) {

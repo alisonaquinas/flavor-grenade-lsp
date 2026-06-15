@@ -8,8 +8,8 @@ const expectedCommands = new Set([
   'flavorGrenade.showStatusActions',
 ]);
 
-describe('OFMarkdown keybinding contributions', () => {
-  it('adds guarded keybindings only for payload-free Flavor Grenade commands', async () => {
+describe('Markdown flavor keybinding contributions', () => {
+  it('adds context-guarded keybindings only for payload-free Flavor Grenade commands', async () => {
     const manifest = await readManifest();
     const keybindings = manifest.contributes?.keybindings ?? [];
 
@@ -19,7 +19,9 @@ describe('OFMarkdown keybinding contributions', () => {
       assert.ok(keybinding.command, 'keybinding command is required');
       assert.ok(expectedCommands.has(keybinding.command), `${keybinding.command} must be a payload-free command`);
       assert.match(keybinding.when ?? '', /\beditorTextFocus\b/);
-      assert.match(keybinding.when ?? '', /\beditorLangId\s*==\s*ofmarkdown\b/);
+      assert.match(keybinding.when ?? '', /\beditorLangId\s*==\s*markdown\b/);
+      assert.match(keybinding.when ?? '', /\bflavorGrenade\.markdownFlavorActive\b/);
+      assert.doesNotMatch(keybinding.when ?? '', /\beditorLangId\s*==\s*ofmarkdown\b/);
       assert.ok(keybinding.key, `${keybinding.command} must define a default key`);
     }
   });

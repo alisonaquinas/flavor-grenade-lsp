@@ -64,6 +64,7 @@ export const MARKDOWN_FLAVOR_SHORT_LABELS: Record<MarkdownFlavorSelection, strin
 };
 
 export const MARKDOWN_FLAVOR_COMMAND = 'flavorGrenade.selectMarkdownFlavor';
+export const MARKDOWN_FLAVOR_ACTIVE_CONTEXT = 'flavorGrenade.markdownFlavorActive';
 export const MARKDOWN_FLAVOR_SECTION = 'flavorGrenade';
 export const MDF_CONFIG_MAX_BYTES_SETTING_KEY = 'mdfConfig.maxBytes';
 export const MARKDOWN_LANGUAGE_ID = 'markdown';
@@ -290,6 +291,12 @@ export function formatMarkdownFlavorStatus(
       'Click to select Markdown flavor.',
     ].join('\n'),
   };
+}
+
+export function isMarkdownFlavorContributionContextActive(
+  resolution?: MarkdownFlavorResolution,
+): boolean {
+  return resolution?.kind === 'active' && resolution.source !== 'commonmark-fallback';
 }
 
 export function isFlavorEligibleDocument(document: TextDocumentLike): boolean {

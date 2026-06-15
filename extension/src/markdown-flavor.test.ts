@@ -14,6 +14,7 @@ import {
   createMarkdownFlavorScopeQuickPickItems,
   formatMarkdownFlavorStatus,
   isFlavorEligibleDocument,
+  isMarkdownFlavorContributionContextActive,
   resolveMarkdownFlavor,
   upsertMdfAttributesRule,
 } from './markdown-flavor.js';
@@ -601,6 +602,37 @@ describe('Markdown flavor status presentation', () => {
         tooltip:
           'Markdown Flavor: inactive for this document\nReason: .mdfignore\nOpen a file-backed Markdown document to select a Markdown flavor.',
       },
+    );
+  });
+});
+
+describe('Markdown flavor contribution context', () => {
+  it('enables flavor-scoped contributions only for non-fallback Markdown flavor evidence', () => {
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({
+        kind: 'active',
+        selected: 'auto',
+        effective: 'commonmark',
+        source: 'commonmark-fallback',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      }),
+      false,
+    );
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({
+        kind: 'active',
+        selected: 'auto',
+        effective: 'obsidian',
+        source: 'obsidian-marker',
+        structuredProfiles: [],
+        structuredProfileSource: 'structured-profile-inference',
+      }),
+      true,
+    );
+    assert.equal(
+      isMarkdownFlavorContributionContextActive({ kind: 'inactive', reason: 'mdfignore' }),
+      false,
     );
   });
 });
