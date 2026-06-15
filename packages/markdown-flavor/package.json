@@ -4,6 +4,11 @@
   "type": "module",
   "description": "Shared Markdown flavor detection and Flavor Grenade config resolution",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alisonaquinas/flavor-grenade-lsp",
+    "directory": "packages/markdown-flavor"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
