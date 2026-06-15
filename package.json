@@ -1,6 +1,6 @@
 {
   "name": "flavor-grenade-lsp",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "type": "module",
   "description": "Language Server Protocol server for Obsidian Flavored Markdown",
   "workspaces": [
@@ -53,7 +53,7 @@
     "gate:2": "bun test src/test/integration/transport.test.ts"
   },
   "dependencies": {
-    "markdown-flavor-detection": "0.7.2",
+    "markdown-flavor-detection": "0.7.3",
     "@nestjs/common": "11.1.24",
     "@nestjs/core": "11.1.24",
     "@nestjs/platform-express": "11.1.24",

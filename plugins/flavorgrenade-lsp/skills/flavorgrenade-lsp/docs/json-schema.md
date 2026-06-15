@@ -6,8 +6,8 @@ Every command returns a stable envelope:
 {
   "ok": true,
   "schemaVersion": "1.0",
-  "skill": { "name": "flavorgrenade-lsp-skill", "version": "0.7.2" },
-  "server": { "name": "flavor-grenade-lsp", "version": "0.7.2" },
+  "skill": { "name": "flavorgrenade-lsp-skill", "version": "0.7.3" },
+  "server": { "name": "flavor-grenade-lsp", "version": "0.7.3" },
   "runtime": { "target": "win-x64" },
   "workspace": { "root": ".", "mode": "single-file" },
   "result": {}
