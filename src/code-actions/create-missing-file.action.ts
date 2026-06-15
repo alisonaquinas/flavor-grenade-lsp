@@ -92,6 +92,8 @@ export class CreateMissingFileAction {
   }
 
   private targetFromDiagnostic(diag: Diagnostic, entry: WikiLinkEntry): string | null {
+    if (typeof diag.message !== 'string') return null;
+
     const match = FG001_TARGET_RE.exec(diag.message);
     if (match === null || match[1] !== entry.target) return null;
     return entry.target;

@@ -1,6 +1,6 @@
 {
   "name": "markdown-flavor-detection",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "type": "module",
   "description": "Shared Markdown flavor detection and Flavor Grenade config resolution",
   "license": "MIT",
