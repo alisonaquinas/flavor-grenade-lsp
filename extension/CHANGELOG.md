@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.7.3] — 2026-06-15
+
+### Changed
+
+- Align the Marketplace extension version with the bundled `flavor-grenade-lsp`
+  server version.
+- Send `flavorGrenade.mdfConfig.maxBytes` changes to the running language
+  server with `workspace/didChangeConfiguration` instead of restarting the
+  LanguageClient.
+- Scope command keybindings to VS Code's built-in `markdown` language plus the
+  `flavorGrenade.markdownFlavorActive` context key instead of the retired
+  `ofmarkdown` language id.
+
+### Fixed
+
+- Keep Flavor Grenade command keybindings available for active flavor-aware
+  `.md` documents while leaving generic CommonMark-fallback Markdown files
+  unclaimed.
+
 ## [0.5.0] — 2026-05-30
 
 ### Added

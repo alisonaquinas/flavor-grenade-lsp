@@ -38,6 +38,10 @@ a positive vault signal appears.
 This means opening a README or other ordinary `.md` file outside a vault keeps
 VS Code's normal Markdown behavior.
 
+Flavor Grenade keybindings remain disabled for this generic CommonMark fallback
+state. They become available for file-backed `markdown` documents only after
+the extension resolves non-fallback flavor evidence.
+
 ## Language Wake
 
 Opening `markdown` files can wake the extension so it can run

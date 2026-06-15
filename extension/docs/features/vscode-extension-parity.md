@@ -19,7 +19,7 @@ Code while keeping Markdown flavor intelligence in the language server.
 | Status | Show starting, indexing, ready, disabled, and error states without document counts in the status text; keep document counts in diagnostics and expose useful tooltips and quick actions |
 | Tests | Cover activation, Markdown flavor selection, commands, status, and server path failures in extension-host tests |
 | Marketplace | Show current Markdown flavor and OFM feature screenshots in README and packaged assets |
-| Contributions | Add snippets and command affordances gated by flavor/context rather than a custom language id |
+| Contributions | Add command affordances gated by VS Code's built-in `markdown` language plus `flavorGrenade.markdownFlavorActive`; keep snippets/language configuration isolated from generic Markdown until they have equivalent flavor/context gating |
 
 ## Functional Requirement Trace
 
@@ -77,6 +77,11 @@ Persistent flavor assignment follows
 [Markdown flavor configuration files](../../../docs/features/markdown-flavor-config-files.md).
 When `.mdfignore` and `.mdfattributes` are absent, Auto Detect applies to every
 Markdown file in the opened directory tree.
+
+The extension sets `flavorGrenade.markdownFlavorActive` for the active editor
+when flavor evidence is stronger than CommonMark fallback. Keyboard shortcuts
+for rebuild, status actions, and output use that context key with VS Code's
+built-in `markdown` language id.
 
 ## Non-Goals
 

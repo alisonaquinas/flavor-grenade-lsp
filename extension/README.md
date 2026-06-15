@@ -149,7 +149,8 @@ setting.
 - `flavorGrenade.completion.candidates`: maximum completion items returned
 - `flavorGrenade.diagnostics.suppress`: diagnostic codes to suppress
 - `flavorGrenade.mdfConfig.maxBytes`: maximum `.mdfignore` or `.mdfattributes`
-  file size read for flavor configuration
+  file size read for flavor configuration; changes are sent to the running
+  server without a restart
 - `flavorGrenade.trace.server`: LSP trace level
 - `flavorGrenade.server.path`: user-level custom language-server command path
 
@@ -166,6 +167,10 @@ Open the Command Palette and search for "Flavor Grenade":
 - Show Status Actions
 - Select Markdown Flavor
 - Open Troubleshooting
+
+Default command keybindings are active in file-backed Markdown documents only
+when Flavor Grenade has non-fallback flavor evidence, such as `.obsidian/`,
+`.mdfattributes`, or strong syntax inference.
 
 ## Requirements
 

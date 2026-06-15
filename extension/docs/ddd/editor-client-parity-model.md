@@ -32,6 +32,11 @@ server-generated data out of VS Code-specific code until the bridge boundary.
 - Command bridge payloads are JSON-serializable.
 - The server never imports VS Code APIs.
 - Markdown flavor changes do not restart the LanguageClient.
+- `.mdfignore` and `.mdfattributes` byte-limit changes are sent to the running
+  server with `workspace/didChangeConfiguration`.
+- Flavor-scoped command keybindings depend on
+  `flavorGrenade.markdownFlavorActive`, not on an `ofmarkdown` editor language
+  id.
 - MarkdownFlavorController owns selector display and `.mdfattributes` writes only; server BC4 owns authoritative `EffectiveMarkdownContext` state. StatusBarWidget owns server and vault state. Shared status bar placement does not merge the state machines.
 - Structured profile ids are not Markdown flavor selector choices. They are configured through `structured_profiles` in `.mdfattributes` or inferred from document naming and folder context.
 - LanguageClient `clientOptions.documentSelector` is file-backed `markdown` only for current flavor behavior; `ofmarkdown` must not remain in the current selector.
