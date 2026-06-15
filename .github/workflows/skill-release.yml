@@ -2,7 +2,7 @@ name: Skill Release
 
 on:
   push:
-    tags: ['skill-v*.*.*', 'skill-v*.*.*-test*']
+    tags: ['v*.*.*', 'v*.*.*-test*']
   workflow_dispatch:
     inputs:
       server_release:
@@ -12,7 +12,7 @@ on:
       plugin_version:
         description: Plugin version for workflow_dispatch runs.
         type: string
-        default: 0.1.0
+        default: 0.7.1
 
 permissions:
   contents: read
@@ -55,8 +55,8 @@ jobs:
         env:
           INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
-            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#v}"
           else
             plugin_version="$INPUT_PLUGIN_VERSION"
           fi
@@ -96,10 +96,27 @@ jobs:
           TARGET: ${{ matrix.target }}
           REPOSITORY: ${{ github.repository }}
         run: |
-          server_release="$SERVER_RELEASE"
-          if [ -z "$server_release" ]; then
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            server_release="$GITHUB_REF_NAME"
+          else
+            server_release="$SERVER_RELEASE"
+          fi
+          if [[ -z "$server_release" ]]; then
             server_release="latest"
           fi
+
+          for attempt in {1..120}; do
+            if bun run skill:fetch-runtime -- \
+              --target "$TARGET" \
+              --server-release "$server_release" \
+              --repo "$REPOSITORY"; then
+              exit 0
+            fi
+
+            echo "Signed server runtime for ${server_release}/${TARGET} is not available yet; retry ${attempt}/120."
+            sleep 15
+          done
+
           bun run skill:fetch-runtime -- \
             --target "$TARGET" \
             --server-release "$server_release" \
@@ -111,8 +128,8 @@ jobs:
           INPUT_PLUGIN_VERSION: ${{ inputs.plugin_version }}
           TARGET: ${{ matrix.target }}
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/skill-v* ]]; then
-            plugin_version="${GITHUB_REF_NAME#skill-v}"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            plugin_version="${GITHUB_REF_NAME#v}"
           else
             plugin_version="$INPUT_PLUGIN_VERSION"
           fi
@@ -172,10 +189,10 @@ jobs:
           if-no-files-found: error
 
   create-skill-release:
-    name: Create skill GitHub release
+    name: Attach skill artifacts to GitHub release
     runs-on: ubuntu-latest
     needs: build-skill-artifacts
-    if: startsWith(github.ref, 'refs/tags/skill-v') && !contains(github.ref_name, '-test')
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-test')
     permissions:
       contents: write
     steps:
@@ -185,12 +202,19 @@ jobs:
           path: skill-release
           merge-multiple: true
 
-      - name: Create release
+      - name: Attach skill artifacts
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release create "$GITHUB_REF_NAME" skill-release/* \
-            --title "$GITHUB_REF_NAME" \
-            --latest=false \
-            --notes "Flavor Grenade LSP skill release $GITHUB_REF_NAME"
+          for attempt in {1..120}; do
+            if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+              gh release upload "$GITHUB_REF_NAME" skill-release/* --clobber
+              exit 0
+            fi
+
+            echo "GitHub Release ${GITHUB_REF_NAME} is not available yet; retry ${attempt}/120."
+            sleep 15
+          done
+
+          gh release view "$GITHUB_REF_NAME"

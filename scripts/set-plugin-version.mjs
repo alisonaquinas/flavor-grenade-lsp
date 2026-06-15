@@ -73,7 +73,7 @@ function usage() {
   process.stderr.write(
     [
       'Usage: node scripts/set-plugin-version.mjs <version> [--server-version <version>] [--server-release-tag <tag>] [--root <path>]',
-      'Version may be X.Y.Z, X.Y.Z-prerelease, skill-vX.Y.Z, or skill-vX.Y.Z-prerelease.',
+      'Version may be X.Y.Z, X.Y.Z-prerelease, vX.Y.Z, or vX.Y.Z-prerelease.',
       '',
     ].join('\n'),
   );
