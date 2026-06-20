@@ -55,7 +55,7 @@
   "dependencies": {
     "markdown-flavor-detection": "0.7.3",
     "@nestjs/common": "11.1.24",
-    "@nestjs/core": "11.1.24",
+    "@nestjs/core": "11.1.26",
     "@nestjs/platform-express": "11.1.24",
     "@types/js-yaml": "4.0.9",
     "ignore": "7.0.5",
