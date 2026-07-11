@@ -223,7 +223,7 @@
     "verify:package-targets": "node --import tsx --test \"test/package-targets/server-binary.test.ts\""
   },
   "dependencies": {
-    "vscode-languageclient": "10.0.0"
+    "vscode-languageclient": "10.1.0"
   },
   "devDependencies": {
     "@types/node": "25.9.2",
